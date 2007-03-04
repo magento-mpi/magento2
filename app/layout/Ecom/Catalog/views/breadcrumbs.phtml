@@ -1,0 +1,15 @@
+<?if($this->crumbs && is_array($this->crumbs)): ?>
+<div class="breadcrumbs">
+    <ul>
+    <?foreach($this->crumbs as $_crumbName=>$_crumbInfo):?>
+        <li class="<?=$_crumbName?>">
+        <?if($_crumbInfo['link']):?>
+            <a href="<?=$_crumbInfo['link']?>" title="<?=$_crumbInfo['title']?>"><?=$_crumbInfo['label']?></a>
+        <?else:?>
+        <?=$_crumbInfo['label']?>
+        <?endif;?>
+        </li>
+    <?endforeach;?>
+    </ul>
+</div>
+<?endif;?>

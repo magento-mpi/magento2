@@ -1,0 +1,64 @@
+/**************************************
+ * Base elements
+ **************************************/
+body {
+    background:url(images/bg_body.gif) repeat 0 0 #587f83;
+    color:#000;
+    font:11px/1.55em 'Lucida Grande', Verdana, san-serif;
+}
+body, div, ul, ol, li, p, dt, dd, dl, h1, h2, h3, h4, h5, form, fieldset, tr, td, legend  { 
+    margin:0; 
+    padding:0; 
+    font:11px/1.55em 'Lucida Grande', Verdana, san-serif;
+}
+h1 { font-size:1.6em; }
+h2 { font-size:1.3em; }
+h3 { font-size:1.2em; }
+h4 { font-size:1.05em; }
+h5 { font-size:1em; }
+h1, h2, h3, h4 { 
+    line-height:1.4em; 
+    font-weight:bold; 
+    margin-bottom:.6em; 
+}
+
+th, td { vertical-align:top; }
+th { font-weight:bold;}
+p, address { margin-bottom:1em; }
+address { font-style:normal; }
+li { list-style-type:none; }
+
+a { color:#152a4e;text-decoration:none; }
+a:hover { color:#152a4e; text-decoration:underline; }
+
+
+/**************************************
+ * In-line elements
+ **************************************/
+h1 span, h2 span, h3 span { display:none; }
+input, select { vertical-align:middle; }
+a img { border:0; }
+
+/**************************************
+ * Forms
+ **************************************/
+fieldset { border:none; }
+legend {display:none;}
+label { color:#999; }
+.input-text, textarea, select {
+    padding:2px; 
+    border-width:1px; 
+    border-style:solid; 
+    border-color:#979797 #e0e0e0 #e0e0e0 #979797;
+    font:11px/1.55em Verdana, Helvetica, sans-serif;
+}
+.input-left { width:50%; float:left; }    /* Column left of two column form */
+.input-right { width:50%; float:right; }    /* Column right of two column form */
+.input-button { 
+    padding:4px; 
+    background-color:#c23b0b; 
+    border:none; 
+    color:#fff; 
+    font:bold 11px Verdana, sans-serif; 
+    cursor:pointer;
+}

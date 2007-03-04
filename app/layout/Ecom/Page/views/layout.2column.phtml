@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <?=$this->head?>
+</head>
+<body>
+    <div class="page">
+        <!-- [start] header -->
+        <div class="header">
+            <div class="header-info">
+                <div class="account">
+                    <ul>
+                        <?=$this->topLinks?>
+                    </ul>
+                </div>
+            </div>
+            <div class="top-menu-line">
+                <ul class="nav">
+                    <?=$this->topMenu?>
+                </ul>
+                <?=$this->topForms?>
+            </div>
+        </div>
+        <!-- [end] header -->
+        <!-- [start] content -->
+        <div class="container">
+            <!-- [start] column-left -->
+            <div class="column-left">
+                <?=$this->left?>
+            </div>
+            <!-- [end] column-left -->
+            <!-- [start] column-right -->
+            <div class="column-right">
+                <?=$this->content?>
+            </div>
+            <!-- [end] column-right -->
+            <div class="clearfix"></div>
+        </div>
+        <!-- [end] content -->
+        <!-- [start] footer -->
+        <div class="footer">
+            <ul>
+                <?=$this->bottomLinks?>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <!-- [end] footer -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<form action="<?=Ecom::getModuleInfo('Ecom_Page')->getBaseUrl()?>/newsletter/subscribe/" method="post" id="newsletter-validate">
+    <fieldset class="newsletter">
+        <legend>Newsletter</legend>
+        <h3><span>Newsletter</span></h3>
+            <p>Subscribe to our newsletter to receive special offers</p>
+            <label for="newsletter"><strong>Enter your email:</strong></label>
+        <input name="email" id="newsletter" type="text" class="required-entry validate-email input-text"/>
+        <input type="image" src="<?=$this->moduleImagesUrl?>/btn_subscribe.gif" alt="Subscribe" class="input-button"/>
+    </fieldset>
+</form>

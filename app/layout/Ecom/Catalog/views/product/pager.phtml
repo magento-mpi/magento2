@@ -1,0 +1,32 @@
+<?if($this->productCollection->getSize()):?>
+<div class="category-pager">
+    <ul>
+        <?if ($this->productCollection->getCurPage() != 1):?>
+        <li class="previous">
+            <a href="#"><img src="<?=$this->moduleImagesUrl?>/arrow_pager_previous.gif" alt="Previous"/></a>
+            <a href="<?=$this->pageUrl->setParam('p', $this->productCollection->getCurPage(-1))->buildUrl()?>">Previous</a>
+        </li>
+        <?endif?>
+        <li><strong>Page</strong></li>
+        <?for($i=$this->productCollection->getCurPage(-3); $i <= $this->productCollection->getCurPage(+3); $i++):?>
+        <?if ($i == $this->productCollection->getCurPage()):?>
+            <li><strong><?=$i?></strong>&nbsp;|</li>
+        <?else:?>
+            <li><a href="<?=$this->pageUrl->setParam('p', $i)->buildUrl()?>"><?=$i?></a>&nbsp;|</li>
+        <?endif?>
+        <?endfor?>
+        <?if ($this->productCollection->getCurPage() < $this->productCollection->getLastPageNumber()):?>
+        <li class="next">
+            <a href="<?=$this->pageUrl->setParam('p', $this->productCollection->getCurPage(1))->buildUrl()?>">Next</a>
+            <a href="#"><img src="<?=$this->moduleImagesUrl?>/arrow_pager_next.gif" alt="Next"/></a>
+        </li>
+        <?endif?>
+    </ul>
+    <span class="sort-by">Sort by <select name="sort" onchange="location.href=this.options[this.selectedIndex].label">
+        <option value="name_desc" label="<?=$this->sortUrl->setParam('order', 'name')->buildUrl()?>" <?=$this->sortValue=='name_desc'?'selected':''?>>Name</option>
+        <option value="price_asc" label="<?=$this->sortUrl->setParam('order', 'price')->buildUrl()?>" <?=$this->sortValue=='price_asc'?'selected':''?>>Price Low-High</option>
+        <option value="price_desc" label="<?=$this->sortUrl->setParam('order', 'price')->setParam('dir', 'desc')->buildUrl()?>" <?=$this->sortValue=='price_desc'?'selected':''?>>Price High-Low</option>
+        </select></span>
+    <div class="clearfix"></div>
+</div>
+<?endif?>

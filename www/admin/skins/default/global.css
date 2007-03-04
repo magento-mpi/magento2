@@ -1,0 +1,45 @@
+.clear-both{clear:both;line-height:1px;}
+.bg-white{background:#fff;}
+.nodisplay{display:none}
+.novisible{visibility:hidden}
+.fullwidth{width:100%}
+
+h1.info-caption {
+    background:#527C8A;
+    color:#fff;
+    padding:10px 10px;
+    font-weight:normal
+}
+.caption-right-box{
+	position:absolute;
+	width:450px;
+	margin:12px 0px 0px 350px;
+	text-align:right;
+}
+.col-left h2{
+	margin:1px;
+	padding:3px 3px 3px 12px;
+	color:#222;
+	background:#fff;
+}
+
+.input-text, textarea, select {
+	margin:0px;
+	padding:2px; 
+	border-width:1px;
+	border-style: solid;
+	border-color:#979797 #E0E0E2 #E0E0E2 #979797;
+	font-size:9pt Arial, Verdana, sans-serif;
+	background:#fff;
+}
+
+.input-button { 
+	padding:4px 10px; 
+	background-color:#D54101; 
+	border:none; 
+	color:#fff; 
+	font:bold 11px Verdana, sans-serif; 
+	cursor:pointer;
+	width:auto;
+	overflow:visible;
+}

@@ -1,0 +1,29 @@
+<?if ($this->curentBlock->getAttribute('isFormFramed')):?>
+<form <?=$this->formAttributes?>>
+<?endif?>
+<?$_processedElements=array()?>
+<?if($_hiddenElements=$this->curentBlock->getElementsIdByType('hidden')):?>
+    <?foreach($_hiddenElements as $_element):?>
+        <?=$this->$_element?>
+        <?$_processedElements[]=$_element?>
+    <?endforeach?>
+<?endif?>
+    <fieldset>
+    <?if($_formLegend=$this->curentBlock->getAttribute('legend')):?>
+        <legend><?=$_formLegend?></legend>
+        <?if($_elementsGroup=$this->curentBlock->getGroup()):?>
+        <?endif?>
+    <?endif?>
+    <?$_formFields=$this->curentBlock->getFields()?>
+    <?foreach($_formFields as $_field):?>
+        <?if(!in_array($_field, $_processedElements)):?>
+        <div>
+            <?=$this->$_field?>
+            <?$_processedElements[]=$_field?>
+        </div>
+        <?endif?>
+    <?endforeach?>
+    </fieldset>
+<?if ($this->curentBlock->getAttribute('isFormFramed')):?>
+</form>
+<?endif?>

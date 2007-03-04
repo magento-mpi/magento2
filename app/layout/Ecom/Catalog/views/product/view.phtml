@@ -1,0 +1,62 @@
+<?=$this->breadcrumbs?>
+<script src="<?=$this->moduleSkinUrl?>/js/product.js" type="text/javascript"></script>
+<div class="product-image">
+    <a href="#" onclick="openLargeImageWin('<?=$this->product->getLargeImageLink()?>', 400, 400);return false;"><img src="<?=$this->moduleImagesUrl?>/placeholder_product_main.jpg" alt="<?=$this->product->getName()?>" width="245"/></a>
+    <div style="margin-top:10px;">
+        <span class="product-look-inside">
+            <a href="#"><img src="<?=$this->moduleImagesUrl?>/magnifying.png" alt="Look Inside"/></a> 
+            <a href="#" title="Look Inside">Look Inside</a>
+        </span>
+        <span class="product-zoom">
+            <a href="#" onclick="openLargeImageWin('<?=$this->product->getLargeImageLink()?>', 400, 400);return false;"><img src="<?=$this->moduleImagesUrl?>/icon_zoom.gif" alt="Larger View" class="vmiddle"/></a>&nbsp;
+            <a href="#" onclick="openLargeImageWin('<?=$this->product->getLargeImageLink()?>', 400, 400);return false;">Larger View</a>
+        </span>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="product-info">
+        <h1 class="page-heading"><?=$this->product->getName()?></h1>
+        <div class="product-description"><?=$this->product->getDescription()?></div>
+        <table cellspacing="0" width="100%" class="qty-list">
+            <thead>
+                <tr>
+                    <th style="width:78px;" class="top-left">Quantity</th>
+                    <th style="width:80px;">Price Each</th>
+                    <th class="top-right price">Total</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="bottom">
+                        <div><a href="#"><img src="<?=$this->moduleImagesUrl?>/icon_shipping_costs.png" alt="View Shipping Costs" class="vmiddle"/></a> 
+                        <a href="#"><strong>View Shipping Costs</strong></a></div></td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>$<?=$this->product->getPrice()?></td>
+                    <td class="price">$<?=$this->product->getPrice()?></td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="image" src="<?=$this->moduleImagesUrl?>/btn_add_to_cart.gif" alt="Add to Cart" class="float-left"/>
+        <ul class="product-options">
+            <li>
+                <a href="#" title="Request a Sample"><img src="<?=$this->moduleImagesUrl?>/icon_request_sample.gif" alt="Request a Sample"/></a>
+                <a href="#" title="Request a Sample"><strong>Request a Sample</strong></a></li>
+            <li>
+                <a href="#" title="Tell-a-Friend"><img src="<?=$this->moduleImagesUrl?>/icon_tell_friend.gif" alt="Request a Sample"/></a>
+                <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a></li>
+            <li>
+                <a href="#"><img src="<?=$this->moduleImagesUrl?>/icon_add_favorites.gif" alt="Add to Favorite"/></a>
+                <a href="#"><strong>Add to Favorites</strong></a>
+            </li>
+        </ul>
+    <div class="dotted-separator"></div>
+    <h3 class="red">Satisfaction Guaranteed</h3>
+    <p>If you are not completely satisfied with your order return it for a full refund!</p>
+    <div class="dotted-separator"></div>
+    <img src="<?=$this->moduleImagesUrl?>/icon_made_in_america.gif" alt="Made in USA"/>
+</div>
+<div class="clearfix" style="height: 20px;">&nbsp;</div>
