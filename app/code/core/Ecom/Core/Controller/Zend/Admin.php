@@ -109,7 +109,7 @@ class Ecom_Core_Controller_Zend_Admin {
 
         $view = Zend::registry('view');
         $view->setScriptPath(Ecom::getRoot('layout').DS.'Admin');
-        $view->addHelperPath(Ecom::getModuleInfo('Ecom_Core')->getRoot().DS.'View'.DS.'Helper', 'Ecom_Core_View_Helper_');
+        $view->addHelperPath(Ecom::getModuleInfo('Ecom_Core')->getRoot().DS.'View'.DS.'Helper', 'Ecom_Core_View_Zend_Helper_');
 
         $view->assign('BASE_URL', Ecom::getBaseUrl());
         $view->assign('SKIN_URL',Ecom::getBaseUrl('skin'));

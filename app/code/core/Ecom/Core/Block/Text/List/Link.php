@@ -11,7 +11,7 @@
  * @date       Thu Feb 08 05:56:43 EET 2007
  */
 
-class Ecom_Core_Block_Text_ListLink extends Ecom_Core_Block_Text
+class Ecom_Core_Block_Text_List_Link extends Ecom_Core_Block_Text
 {
 	function setLink($liParams, $aParams, $innerText, $afterText='&nbsp;|')
 	{

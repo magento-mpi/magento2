@@ -185,24 +185,30 @@ class Ecom_Core_Module_Info
     
     public function processConfig()
     {
-        $sections = Ecom::getConfigSection();
         $config = $this->getConfig();
-        foreach ($sections as $name=>$callback) {
-            if (isset($config->$name)) {
-                call_user_func($callback, $config->$name);
+        if (isset($config->configSections)) {
+            foreach ($config->configSections as $section=>$handler) {
+                $callback = explode('::', $handler);
+                Ecom::addConfigSection($section, $callback);
             }
         }
+        
+        $sections = Ecom::getConfigSection();
+        foreach ($config as $sectionName=>$sectionData) {
+            if (isset($sections[$sectionName])) {
+                call_user_func($sections[$sectionName], $sectionData);
+            }
+        }
+        
+        Ecom_Core_Controller::loadModuleConfig($this);
     }
     
-    public function checkDepends()
+    static public function checkDepends($config)
     {
-        if ($depends = $this->getConfig('depends')) {
-            foreach ($depends as $depModule=>$dummy) {
-                if (!Ecom::getModuleInfo($depModule)) {
-                    Ecom::exception('Module '.$name.' is missing required dependancy '.$depModule);
-                }
+        foreach ($config as $depModule=>$dummy) {
+            if (!Ecom::getModuleInfo($depModule)) {
+                Ecom::exception('Module '.$name.' is missing required dependancy '.$depModule);
             }
         }
-
     }
 }
