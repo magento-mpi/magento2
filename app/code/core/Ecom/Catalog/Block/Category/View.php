@@ -1,6 +1,6 @@
 <?php
 
-#include_once "Ecom/Core/Block/Template.php";
+
 
 /**
  * Category View block

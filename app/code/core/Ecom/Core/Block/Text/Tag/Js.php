@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Block/Text/Tag.php';
+
 
 /**
  * Base html block

@@ -1,5 +1,5 @@
 <?php
-#include_once "Ecom/Core/Controller/Zend/Admin/Action.php";
+
 
 /**
  * Page Index Controller

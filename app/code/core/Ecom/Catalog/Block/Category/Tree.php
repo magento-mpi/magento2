@@ -1,7 +1,7 @@
 <?php
 
-#include_once 'Ecom/Core/Block/Abstract.php';
-#include_once 'Varien/Widget/HTMLTree.php';
+
+
 
 /**
  *  Catalog Category Tree block

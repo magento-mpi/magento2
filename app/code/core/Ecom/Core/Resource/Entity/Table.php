@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Ecom/Core/Resource/Entity/Abstract.php';
-
 /**
  * Class describing db table resource entity
  *

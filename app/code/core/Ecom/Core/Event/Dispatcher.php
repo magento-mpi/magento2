@@ -57,8 +57,12 @@ class Ecom_Core_Event_Dispatcher
 	public function dispatch(array $arguments=array())
 	{
 		foreach ($this->_observers as $observer) {
-		    if ($observer->getCallback()) {
-		      call_user_func_array($observer->getCallback(), $arguments);
+		    if ($callback = $observer->getCallback()) {
+		      $args = $arguments;
+		      if ($observer->getArguments()) {
+		          $args = $observer->getArguments();
+		      }
+		      call_user_func_array($callback, $args);
 		    }
 		}
 	}

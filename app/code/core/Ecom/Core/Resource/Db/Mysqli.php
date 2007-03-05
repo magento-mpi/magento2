@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Ecom/Core/Resource/Db.php';
-
 /**
  * Mysqi Resource
  * 

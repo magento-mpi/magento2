@@ -1,16 +1,5 @@
 <?php
 
-#include_once 'Zend/Controller/Front.php';
-#include_once 'Zend/Controller/Router/Rewrite.php';
-#include_once 'Zend/Controller/Router/Route.php';
-#include_once 'Zend/View.php';
-//include_once 'Varien/Controller/Dispatcher/Standard.php';
-#include_once 'Zend/Controller/Dispatcher/Standard.php';
-#include_once 'Ecom/Core/View/Zend.php';
-//include_once 'Varien/Controller/Plugin/NotFound.php';
-#include_once 'Ecom/Core/Controller/Zend/Request.php';
-
-
 /**
  * Zend Controller
  *
@@ -46,7 +35,9 @@ class Ecom_Core_Controller_Zend_Admin {
      * @var Zend_Controller_Router_Rewrite
      */
     private $_router;
-
+    
+    private $_defaultModule;
+    
     /**
      * Controller constructor
      *
@@ -104,8 +95,6 @@ class Ecom_Core_Controller_Zend_Admin {
     {
         $default = Ecom::getModuleInfo('Ecom_Core')->getRoot('controllers').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
-
-        $mod_name = Ecom::getDefaultModule();
 
         $view = Zend::registry('view');
         $view->setScriptPath(Ecom::getRoot('layout').DS.'Admin');

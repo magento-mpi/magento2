@@ -367,7 +367,6 @@ final class Ecom {
 	public static function exception($message, $code=0, $module='Ecom_Core')
 	{
 	    $className = $module.'_Exception';
-	    #self::loadClass($className);
 	    throw new $className($message, $code);
 	}
 	
@@ -426,9 +425,9 @@ final class Ecom {
     {
         try {
             self::init($appRoot);
-            Ecom_Core_Profiler::setTimer('zend_controller');
+            #Ecom_Core_Profiler::setTimer('zend_controller');
             Ecom_Core_Controller::setController(new Ecom_Core_Controller_Zend());
-            Ecom_Core_Profiler::setTimer('zend_controller', true);
+            #Ecom_Core_Profiler::setTimer('zend_controller', true);
             self::loadActiveModules();
             Ecom_Core_Controller::getController()->run();
             

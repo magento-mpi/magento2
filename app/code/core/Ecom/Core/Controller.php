@@ -59,4 +59,9 @@ class Ecom_Core_Controller
 
         return $url;
     }
+    
+    public static function renderLayout()
+    {
+        Ecom::getController()->getFront()->getResponse()->setBody(Ecom::getBlock('root')->toHtml());
+    }
 }

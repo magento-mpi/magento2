@@ -1,6 +1,6 @@
 <?php
 
-#include_once "Varien/DataObject.php";
+
 
 class Ecom_Catalog_Model_Mysql4_Product extends Varien_DataObject 
 {

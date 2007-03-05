@@ -1,7 +1,7 @@
 <?php
 
 #Ecom::loadInterface('Ecom_Core_Event_Interface');
-#include_once 'Ecom/Core/Event/Abstract.php';
+
 
 /**
  * Event class
@@ -110,6 +110,24 @@ class Ecom_Core_Event
             if (preg_match('#'.$regex.'#i', $name)) {
                 call_user_func_array($callback, $args);
             }
+        }
+    }
+    
+    public static function loadObserversConfig($config)
+    {
+        foreach ($config as $eventName=>$observer) {
+            $callback = explode('::', $observer->callback);
+            $args = array();
+            $observerName = '';
+            
+            if (isset($observer->arg)) {
+                $args = $observer->arg->asArray();
+            }
+            if (isset($observer->name)) {
+                $observerName = $observer->name;
+            }
+
+            self::addObserver($eventName, $callback, $args, $observerName);
         }
     }
 }

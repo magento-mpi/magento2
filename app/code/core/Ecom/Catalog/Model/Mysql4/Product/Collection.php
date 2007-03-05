@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Model/Collection.php';
+
 
 class Ecom_Catalog_Model_Mysql4_Product_Collection extends Ecom_Core_Model_Collection 
 {

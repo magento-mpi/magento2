@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Block/Abstract.php';
+
 
 /**
  * Immediate flush block. To be used only as root

@@ -21,12 +21,12 @@ class Ecom_Test_Setup extends Ecom_Core_Setup_Abstract
     
     public function loadFront()
     {
-        Ecom::addObserver('initLayout.after', array($this, 'updateLayout'));
+        Ecom::addObserver('initLayout', array($this, 'initLayout'));
     }
     
-    public function updateLayout()
+    public function initLayout()
     {
-        $updateLayout = array(':test.layout.update',
+        $updateLayout = array(':test.initLayout',
             array('#catalog.leftnav.byproduct', array('>setViewName', 'Ecom_Test', 'list')),
         );
         Ecom_Core_Block::loadArray($updateLayout);

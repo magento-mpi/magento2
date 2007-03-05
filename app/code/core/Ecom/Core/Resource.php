@@ -35,7 +35,6 @@ class Ecom_Core_Resource
     static public function loadResource($name, array $config=null)
     {
         if ($class = self::getType($config['type'])) {
-            #Ecom::loadClass($class);
             $resource = self::setResource($name, new $class($config));
         } else {
             $resource = null;

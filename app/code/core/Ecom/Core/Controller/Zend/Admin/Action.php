@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Zend/Controller/Action.php';
-
 abstract class Ecom_Core_Controller_Zend_Admin_Action extends Zend_Controller_Action
 {
     /**

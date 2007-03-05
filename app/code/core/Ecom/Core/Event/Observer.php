@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Ecom/Core/Event/Observer/Abstract.php';
-
 /**
  * Enter description here...
  *

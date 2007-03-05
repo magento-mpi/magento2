@@ -1,7 +1,7 @@
 <?php
 
 
-#include_once 'Ecom/Core/Controller/Zend/Action.php';
+
 
 class Ecom_Catalog_CategoryController extends Ecom_Core_Controller_Action {
 

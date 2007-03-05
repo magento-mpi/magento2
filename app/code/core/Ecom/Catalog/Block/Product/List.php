@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Block/Template/List.php';
+
 
 /**
  * Product List block

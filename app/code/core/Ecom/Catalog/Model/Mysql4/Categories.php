@@ -1,6 +1,6 @@
 <?php
-#include_once 'Ecom/Core/Model/Mysql4.php';
-#include_once 'Varien/Db/Tree.php';
+
+
 
 class Ecom_Catalog_Model_Mysql4_Categories extends Ecom_Core_Model_Mysql4
 {

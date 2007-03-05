@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Controller/Zend/Action.php';
+
 
 class Ecom_Catalog_IndexController extends Ecom_Core_Controller_Action {
 

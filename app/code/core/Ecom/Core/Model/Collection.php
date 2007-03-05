@@ -1,7 +1,5 @@
 <?php
 
-#include_once('Varien/DataObject.php');
-
 /**
  * Base items collection class 
  *
@@ -191,7 +189,6 @@ class Ecom_Core_Model_Collection implements Iterator
      */
     function setItemObjectClass($className)
     {
-        #Ecom::loadClass($className);
     	if (!is_subclass_of($className, 'Varien_DataObject')) {
     		Ecom::exception($className.' does not extends from Varien_DataObject', 0, 'Ecom_Core');
     	}

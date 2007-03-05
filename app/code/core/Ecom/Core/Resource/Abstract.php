@@ -1,5 +1,4 @@
 <?php
-#include_once 'Ecom/Core/Resource/Entity/Abstract.php';
 
 abstract class Ecom_Core_Resource_Abstract
 {
@@ -58,7 +57,6 @@ abstract class Ecom_Core_Resource_Abstract
     public function loadEntitiesArray($config)
     {
         $className = $this->_defaultEntityClass;
-        #Ecom::loadClass($className);
         
         foreach ($config as $name=>$config) {
             $entity = new $className($config->asArray());

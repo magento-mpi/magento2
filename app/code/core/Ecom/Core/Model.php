@@ -27,9 +27,7 @@ class Ecom_Core_Model
 		if (''!==$class) {
 			$className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($class))));
 		}
-		
-		#Ecom::loadClass($className);
-		
+
 		return new $className($arguments);
 	}
 }

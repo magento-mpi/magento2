@@ -1,5 +1,5 @@
 <?php
-#include_once "Ecom/Core/Controller/Zend/Admin/Action.php";
+
 
 class Ecom_Catalog_ProductController extends Ecom_Core_Controller_Zend_Admin_Action 
 {
@@ -12,8 +12,6 @@ class Ecom_Catalog_ProductController extends Ecom_Core_Controller_Zend_Admin_Act
     
     public function gridDataAction()
     {
-        #Ecom::loadClass('Zend_Json');
-        
         $prodCollection = Ecom::getModel('catalog','product_collection');
         $prodCollection->setPageSize(20);
         $prodCollection->addFilter('website_id', Ecom::getCurentWebsite(), 'and');

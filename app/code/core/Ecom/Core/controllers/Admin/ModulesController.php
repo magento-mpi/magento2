@@ -1,9 +1,9 @@
 <?php
-#include_once "Ecom/Core/Controller/Zend/Admin/Action.php";
 
 class ModulesController extends Ecom_Core_Controller_Zend_Admin_Action
 {
-     function listAction() {
+     
+    function listAction() {
         $blocks = "({'totalRecords':'8',
                     'modules':[{'name':'Module1','module_id':'1','descr':'The layout manager will automatically create'},
                         {'name':'Module2','module_id':'2','descr':'The layout manager will automatically create'},

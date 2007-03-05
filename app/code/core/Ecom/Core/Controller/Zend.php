@@ -1,16 +1,5 @@
 <?php
 
-#include_once 'Zend/Controller/Front.php';
-#include_once 'Zend/Controller/Router/Rewrite.php';
-#include_once 'Zend/Controller/Router/Route.php';
-#include_once 'Zend/Controller/Router/Route/Module.php';
-#include_once 'Varien/Controller/Dispatcher/Standard.php';
-#include_once 'Zend/Controller/Dispatcher/Standard.php';
-#include_once 'Ecom/Core/View/Zend.php';
-#include_once 'Varien/Controller/Plugin/NotFound.php';
-#include_once 'Ecom/Core/Controller/Zend/Request.php';
-
-
 /**
  * Zend Controller
  *
@@ -91,9 +80,9 @@ class Ecom_Core_Controller_Zend {
             $this->_front->getRouter()->addRoute($name, $route);
         }
         
-        if (($class = $modInfo->getSetupClass()) && is_callable(array($class, 'loadFront'))) {
-            $class->loadFront();
-        }
+//        if (($class = $modInfo->getSetupClass()) && is_callable(array($class, 'loadFront'))) {
+//            $class->loadFront();
+//        }
     }
     
     public function getRequest()
@@ -135,6 +124,8 @@ class Ecom_Core_Controller_Zend {
         if (!empty($this->_defaultModule)) {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
+        
+        Ecom_Core_Event::dispatchEvent('initLayout');
         
         $this->_front->dispatch($this->_request);
     }

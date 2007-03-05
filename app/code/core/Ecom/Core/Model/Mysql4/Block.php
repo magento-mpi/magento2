@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Ecom/Core/Model/Mysql4.php';
-
 class Ecom_Core_Model_Mysql4_Block extends Ecom_Core_Model_Mysql4
 {    
     function loadGroup($groupName)

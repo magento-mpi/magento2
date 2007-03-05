@@ -1,7 +1,7 @@
 <?php
 
-#include_once "Ecom/Core/Controller/Zend/Admin/Action.php";
-#include_once 'Varien/Widget/HTMLTree.php';
+
+
 
 class Ecom_Catalog_IndexController extends Ecom_Core_Controller_Zend_Admin_Action 
 {

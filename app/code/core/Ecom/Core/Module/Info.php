@@ -75,7 +75,7 @@ class Ecom_Core_Module_Info
     
     public function getDbVersion()
     {
-        return Ecom::getModel('core', 'Module')->getDbVersion($this -> getName());
+        return Ecom::getModel('core', 'Module')->getDbVersion($this->getName());
     }
     
     public function getCodeVersion()
@@ -153,11 +153,11 @@ class Ecom_Core_Module_Info
         $sections = Ecom::getConfigSection();
         foreach ($config as $sectionName=>$sectionData) {
             if (isset($sections[$sectionName])) {
-                call_user_func($sections[$sectionName], $sectionData);
+                call_user_func($sections[$sectionName], $sectionData, $this);
             }
         }
         
-        $this->getSetupClass()->applyDbUpdates();
+        #$this->getSetupClass()->applyDbUpdates();
         
         Ecom_Core_Controller::loadModuleConfig($this);
     }

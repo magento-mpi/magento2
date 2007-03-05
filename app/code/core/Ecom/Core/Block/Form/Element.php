@@ -21,8 +21,7 @@ class Ecom_Core_Block_Form_Element
         $module = isset($attriutes['module']) ? ucfirst(strtolower($attributes['module'])) : 'Core';
         
         $className = 'Ecom_'.$module.'_Block_Form_Element_' . $elementType;
-        #Ecom::loadClass($className);
 
-        return  new $className($attributes);
+        return new $className($attributes);
     }
 }

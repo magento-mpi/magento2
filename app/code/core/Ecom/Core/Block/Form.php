@@ -1,7 +1,7 @@
 <?php
 
-#include_once('Ecom/Core/Block/Template.php');
-#include_once('Ecom/Core/Block/Form/Element.php');
+
+
 /**
  * Form widget
  *

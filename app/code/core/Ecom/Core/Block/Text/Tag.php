@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Block/Text.php';
+
 
 /**
  * Base html block

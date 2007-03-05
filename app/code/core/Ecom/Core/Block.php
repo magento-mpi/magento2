@@ -83,7 +83,6 @@ class Ecom_Core_Block
        	}
 
    	    $className = self::$_blockTypes[$type];
-	    #Ecom::loadClass($className);
 	    $block = new $className();
 	    
        	if (empty($name) || '.'===$name{0}) {
@@ -203,6 +202,7 @@ class Ecom_Core_Block
         switch ($type) {
             
             case ':': 
+                #echo "<pre>".$entity.': '.json_encode($arr)."</pre>";
                 // declare layoutUpdate name and check for dependancies
                 $blocks = array();
                 foreach ($arr as $block) {
@@ -253,5 +253,30 @@ class Ecom_Core_Block
         
         return $result;
     }
-    
+
+    static public function loadJsonFile($fileName, $moduleName='')
+    {
+        #Ecom_Core_Profiler::setTimer('loadJson');
+        
+        $baseUrl = Ecom::getBaseUrl();
+        $baseSkinUrl = Ecom::getBaseUrl('skin');
+        if (''!==$moduleName) {
+            $baseModuleUrl = Ecom::getModuleInfo($moduleName)->getBaseUrl();
+        } else {
+            $baseModuleUrl = '';
+        }
+        
+        if ('/'!==$fileName{0}) {
+            $fileName = Ecom::getRoot('layout').DS.$fileName;
+        }
+        
+        $json = file_get_contents($fileName, true);
+        eval('$json = "'.addslashes($json).'";');
+
+        #Ecom_Core_Profiler::setTimer('loadJson', true);
+
+        #Ecom_Core_Profiler::setTimer('loadArray');
+        self::loadArray(json_decode($json));
+        #Ecom_Core_Profiler::setTimer('loadArray', true);
+    }
 }// Class Ecom_Home_ContentBlock END

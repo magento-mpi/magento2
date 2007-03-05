@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Core/Controller/Zend/Action.php';
+
 
 /**
  * Catalog Search Controller

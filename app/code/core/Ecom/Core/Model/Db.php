@@ -1,5 +1,4 @@
 <?php
-#include_once 'Ecom/Core/Model/Abstract.php';
 
 abstract class Ecom_Core_Model_Db extends Ecom_Core_Model_Abstract
 {

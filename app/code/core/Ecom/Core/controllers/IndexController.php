@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Ecom/Core/Controller/Zend/Action.php';
-
 class IndexController extends Ecom_Core_Controller_Action {
 
     function indexAction()

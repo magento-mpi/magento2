@@ -1,7 +1,5 @@
 <?php
 
-#include_once 'Zend/Controller/Request/Http.php';
-
 class Ecom_Core_Controller_Zend_Request extends Zend_Controller_Request_Http 
 {
     public function buildUrl()

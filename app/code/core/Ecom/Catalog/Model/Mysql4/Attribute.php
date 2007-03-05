@@ -1,6 +1,6 @@
 <?php
 
-#include_once 'Ecom/Catalog/Model/Mysql4.php';
+
 
 class Ecom_Catalog_Model_Mysql4_Attribute extends Ecom_Catalog_Model_Mysql4
 {
