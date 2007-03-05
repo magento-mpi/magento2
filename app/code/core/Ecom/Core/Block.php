@@ -237,7 +237,7 @@ class Ecom_Core_Block
                 $result = $block;
                 break;
                 
-            case '>': 
+            case '.': 
                 // run action method for $block
                 if (empty($block)) {
                     $result = false;
