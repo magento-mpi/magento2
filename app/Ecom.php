@@ -5,15 +5,15 @@
  */
 define ('DS', DIRECTORY_SEPARATOR);
 
-include_once "code/core/Ecom/Core/Profiler.php";
+include "code/core/Ecom/Core/Profiler.php";
 
 function __autoload($class)
 {
     #echo $class."<hr>";
-    Ecom_Core_Profiler::setTimer('autoload');
+    #Ecom_Core_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
-    include_once $classFile;
-    Ecom_Core_Profiler::setTimer('autoload', true);
+    include $classFile;
+    #Ecom_Core_Profiler::setTimer('autoload', true);
 }
 
 /**
@@ -51,9 +51,6 @@ final class Ecom {
      * @var array
      */
     static private $_moduleInfo = array();
-
-    
-    static private $_defaultModuleName;
 
     /**
      * Set application root absolute path
@@ -353,23 +350,6 @@ final class Ecom {
 	public static function getModel($model, $class='', array $arguments=array())
 	{
 	    return Ecom_Core_Model::getModelClass($model, $class, $arguments);
-	}
-
-	/**
-	 * Set default module name for default page
-	 * 
-	 */
-	public static function setDefaultModule($module) {
-        self::$_defaultModuleName = $module;
-	}
-	
-	/**
-	 * Get default module name for default page
-	 *
-	 * @return string
-	 */
-	public static function getDefaultModule() {
-        return self::$_defaultModuleName;
 	}
 
 	public static function getCurentWebsite()

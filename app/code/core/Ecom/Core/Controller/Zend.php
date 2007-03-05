@@ -46,6 +46,8 @@ class Ecom_Core_Controller_Zend {
      * @var Zend_Controller_Router_Rewrite
      */
     private $_router;
+    
+    private $_defaultModule;
 
     /**
      * Controller constructor
@@ -77,6 +79,11 @@ class Ecom_Core_Controller_Zend {
         
         $name = $modInfo->getName();
         $this->_front->addControllerDirectory($modInfo->getRoot('controllers'), strtolower($name));
+        
+        
+        if (isset($modInfo->getConfig('controller')->default) && true==$modInfo->getConfig('controller')->default) {
+            $this->_defaultModule = strtolower($name);
+        }
         
         if (strcasecmp($modInfo->getFrontName(), $name)!==0) {
             $routeMatch = $modInfo->getFrontName().'/:controller/:action/*';
@@ -125,9 +132,8 @@ class Ecom_Core_Controller_Zend {
 
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
-        $mod_name = Ecom::getDefaultModule();
-        if (!empty($mod_name) && Ecom::getModuleInfo($mod_name)) {
-            $this->_dispatcher->setDefaultModuleName($mod_name);
+        if (!empty($this->_defaultModule)) {
+            $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
         
         $this->_front->dispatch($this->_request);

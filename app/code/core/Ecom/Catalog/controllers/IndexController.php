@@ -12,8 +12,6 @@ class Ecom_Catalog_IndexController extends Ecom_Core_Controller_Action {
      */
     function indexAction() 
     {
-        Ecom::applyDbUpdates();
-
         $breadcrumbs = Ecom::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>'Home'));
         Ecom::getBlock('content')->append($breadcrumbs);
