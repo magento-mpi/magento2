@@ -83,6 +83,10 @@ class Ecom_Core_Controller_Zend {
             $route = new Zend_Controller_Router_Route($routeMatch, array('module'=>strtolower($name), 'controller'=>'index', 'action'=>'index'));
             $this->_front->getRouter()->addRoute($name, $route);
         }
+        
+        if (($class = $modInfo->getSetupClass()) && is_callable(array($class, 'loadFront'))) {
+            $class->loadFront();
+        }
     }
     
     public function getRequest()
@@ -120,7 +124,8 @@ class Ecom_Core_Controller_Zend {
         $this->_front->addControllerDirectory($default, 'default');
 
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
-        $mod_name = Ecom::getModuleConfig('Ecom_Core', 'controller')->default;
+        
+        $mod_name = Ecom::getDefaultModule();
         if (!empty($mod_name) && Ecom::getModuleInfo($mod_name)) {
             $this->_dispatcher->setDefaultModuleName($mod_name);
         }

@@ -9,7 +9,7 @@
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Ecom_Catalog_ProductController extends Ecom_Core_Controller_Zend_Action
+class Ecom_Catalog_ProductController extends Ecom_Core_Controller_Action
 {
     function __construct(Zend_Controller_Request_Abstract $request,Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {

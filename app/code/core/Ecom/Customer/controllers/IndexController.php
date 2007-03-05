@@ -10,7 +10,7 @@
  * @date       Wed Feb 07 04:25:14 EET 2007
  */
 
-class Ecom_Customer_IndexController extends Ecom_Core_Controller_Zend_Action
+class Ecom_Customer_IndexController extends Ecom_Core_Controller_Action
 {
     function indexAction() 
     {

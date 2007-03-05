@@ -1,6 +1,6 @@
 <?php
 
-abstract class Ecom_Core_Event_Abstract
+class Ecom_Core_Event_Dispatcher
 {
     protected $_observers = array();
     protected $_data = null;
@@ -26,7 +26,7 @@ abstract class Ecom_Core_Event_Abstract
 	 * @param Varien_Event_Observer_Abstract $observer
 	 * @param string $observerName
 	 */
-	public function addObserver(Ecom_Core_Event_Observer_Abstract $observer, $observerName='')
+	public function addObserver(Ecom_Core_Event_Observer $observer, $observerName='')
 	{
 	    if (!empty($observerName)) {
 		    $this->_observers[$observerName] = $observer;

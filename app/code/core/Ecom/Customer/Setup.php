@@ -2,21 +2,11 @@
 
 #include_once 'Ecom/Core/Module/Abstract.php';
 
-class Ecom_Customer_Module extends Ecom_Core_Module_Abstract
+class Ecom_Customer_Setup extends Ecom_Core_Setup_Abstract
 {
-    protected $_info = array(
-        'name'=>'Ecom_Customer',
-        'version'=>'0.1.0a2',
-    );
-
-    function load()
+    function loadFront()
     {
         Ecom::addObserver('initLayout.after', array($this, 'updateLayout'));
-    }
-    
-    function run()
-    {
-        Ecom::dispatchEvent(__METHOD__);
     }
     
     function updateLayout()

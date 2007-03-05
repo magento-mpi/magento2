@@ -105,7 +105,7 @@ class Ecom_Core_Controller_Zend_Admin {
         $default = Ecom::getModuleInfo('Ecom_Core')->getRoot('controllers').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
 
-        $mod_name = Ecom::getModuleConfig('Ecom_Core', 'controller')->default;
+        $mod_name = Ecom::getDefaultModule();
 
         $view = Zend::registry('view');
         $view->setScriptPath(Ecom::getRoot('layout').DS.'Admin');

@@ -17,7 +17,8 @@ class Ecom_Core_Controller
      */
     public static function setController($controller)
     {
-        self::$_controller  = $controller;
+        self::$_controller = $controller;
+        return self::$_controller;
     }
 
     /**
@@ -31,21 +32,31 @@ class Ecom_Core_Controller
     {
     	return self::$_controller;
     }
-
-    public static function init()
-    {
-        #include_once 'Ecom/Core/Controller/Zend.php';
-        Ecom_Core_Controller::setController(new Ecom_Core_Controller_Zend());
-    }
-    
-    public static function initAdmin()
-    {
-        #include_once 'Ecom/Core/Controller/Zend.php';
-        Ecom_Core_Controller::setController(new Ecom_Core_Controller_Zend_Admin());
-    }
     
     public static function loadModuleConfig($modInfo)
     {
         self::getController()->loadModule($modInfo);
+    }
+    /**
+     * Get base URL path by type
+     *
+     * @param string $type
+     * @return string
+     */
+    public static function getBaseUrl($type='')
+    {
+        $url = self::getController()->getRequest()->getBaseUrl();
+
+        switch ($type) {
+            case 'skin':
+                $url .= '/skins/default';
+                break;
+
+            case 'js':
+                $url .= '/js';
+                break;
+        }
+
+        return $url;
     }
 }

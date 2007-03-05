@@ -9,7 +9,7 @@
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Ecom_Catalog_SearchController extends Ecom_Core_Controller_Zend_Action
+class Ecom_Catalog_SearchController extends Ecom_Core_Controller_Action
 {
     public function resultAction() 
     {

@@ -2,14 +2,9 @@
 #include_once 'Ecom/Core/Module/Abstract.php';
 #include_once 'Ecom/Catalog/Price/Rule.php';
 
-class Ecom_Catalog_Module extends Ecom_Core_Module_Abstract
+class Ecom_Catalog_Setup extends Ecom_Core_Setup_Abstract
 {
-    protected $_info = array(
-        'name'=>'Ecom_Catalog',
-        'version'=>'0.1.0a8',
-    );
-
-    function load()
+    function loadFront()
     {
         Ecom::addObserver('initLayout.after', array($this, 'updateLayout'));
     }
@@ -26,11 +21,5 @@ class Ecom_Catalog_Module extends Ecom_Core_Module_Abstract
         );
         
         Ecom_Core_Block::loadArray($updateLayout);
-    }
-    
-    protected function _addConfigSections()
-    {
-        Ecom::addConfigSection('priceRuleConditionTypes', array('Ecom_Catalog_Price_Rule', 'loadConditionTypesConfig'));
-        Ecom::addConfigSection('priceRuleActionTypes', array('Ecom_Catalog_Price_Rule', 'loadActionTypesConfig'));
     }
 }

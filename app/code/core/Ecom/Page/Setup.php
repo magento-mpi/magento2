@@ -9,18 +9,8 @@
  * @date       Wed Feb 07 04:06:00 EET 2007
  */
 
-class Ecom_Page_Module extends Ecom_Core_Module_Abstract 
+class Ecom_Page_Setup extends Ecom_Core_Setup_Abstract 
 {
-    /**
-     * Module info
-     *
-     * @var    array
-     */
-    protected $_info = array(
-        'name'      => 'Ecom_Page',
-        'version'   => '0.1.0a1',
-    );
-    
     /**
      * Load Module
      * 
@@ -29,7 +19,7 @@ class Ecom_Page_Module extends Ecom_Core_Module_Abstract
      * @author	  Soroka Dmitriy <dmitriy@varien.com>
      */
     
-    public function load()
+    public function loadFront()
     {
         Ecom::addObserver('controllerAction.noRoute', array($this, 'noRoute'));
 
@@ -39,19 +29,6 @@ class Ecom_Page_Module extends Ecom_Core_Module_Abstract
         Ecom::addObserver('initLayout.after', array($this, 'updateLayout'));
     }
     
-    /**
-     * Run module
-     * 
-     * @param     none
-     * @return	  none
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
-     */
-    
-    public function run()
-    {
-    	Ecom::dispatchEvent(__METHOD__);
-    }
-
     public function initLayout()
     {
         Ecom::dispatchEvent('initLayout.before');
@@ -73,25 +50,7 @@ class Ecom_Page_Module extends Ecom_Core_Module_Abstract
         );
 
         Ecom_Core_Block::loadArray($rootLayout);
-/*
-#include_once 'Zend/Json.php';
 
-Ecom::setTimer('enc');
-echo "<table border=1><tr><th>method</th><th>encode</th><th>decode</th></tr>";
-for ($i=0; $i<1000; $i++) $json = json_encode($rootLayout);
-echo "<tr><th>pecl_json</th><td>".Ecom::setTimer('enc');
-for ($i=0; $i<1000; $i++) $test = json_decode($json);
-echo "</td><td>".Ecom::setTimer('enc');
-for ($i=0; $i<1000; $i++) $ser = serialize($rootLayout);
-echo "</td></tr><tr><th>serialize</th><td>".Ecom::setTimer('enc');
-for ($i=0; $i<1000; $i++) $test = unserialize($ser);
-echo "</td><td>".Ecom::setTimer('enc');
-for ($i=0; $i<1000; $i++) $json = Zend_Json::encode($rootLayout);
-echo "</td></tr><tr><th>Zend_Json::encode</th><td>".Ecom::setTimer('enc');
-for ($i=0; $i<1000; $i++) $test = Zend_Json::decode($json);
-echo "</td><td>".Ecom::setTimer('enc');
-echo "</td></tr></table>";
-*/
         Ecom::dispatchEvent('initLayout.after');
     }
     
@@ -126,4 +85,4 @@ echo "</td></tr></table>";
     {
         Ecom::getBlock('content')->append(Ecom::createBlock('text')->setText('<br>Page not found.'));
     }
-}// Class Ecom_Page_Module END
+}// Class Ecom_Page_Setup END

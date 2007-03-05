@@ -2,7 +2,7 @@
 
 #include_once 'Ecom/Core/Controller/Zend/Action.php';
 
-class Ecom_Catalog_IndexController extends Ecom_Core_Controller_Zend_Action {
+class Ecom_Catalog_IndexController extends Ecom_Core_Controller_Action {
 
     /**
      * Index action

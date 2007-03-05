@@ -5,25 +5,16 @@
  */
 define ('DS', DIRECTORY_SEPARATOR);
 
+include_once "code/core/Ecom/Core/Profiler.php";
+
 function __autoload($class)
 {
     #echo $class."<hr>";
-    #Ecom::setTimer('autoload');
+    Ecom_Core_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
     include_once $classFile;
-    #Ecom::setTimer('autoload', true);
+    Ecom_Core_Profiler::setTimer('autoload', true);
 }
-
-/**
- * Our main library is Zend
- */
-#require_once 'Zend.php';
-
-/**
- * Our configuration format of choice is .ini file
- * for performance and flexibility
- */
-#require_once 'Zend/Config/Ini.php';
 
 /**
  * Main Ecom hub class
@@ -61,47 +52,8 @@ final class Ecom {
      */
     static private $_moduleInfo = array();
 
-    /**
-     * Collection of events objects
-     *
-     * @var array
-     */
-    static private $_events = array();
-
-    /**
-     * Collection of observers to watch for multiple events by regex
-     *
-     * @var unknown_type
-     */
-    static private $_multiObservers = array();
-
-    /**
-     * Controller
-     *
-     * @var    Ecom_Core_Controller_Varien
-     */
-    static private $_controller;
-
-    /**
-     * Timers for code profiling
-     *
-     * @var array
-     */
-    static private $_timers;
     
-    /**
-     * Cumulative timers
-     * 
-     * @var array
-     */
-    static private $_cumulativeTimers;
-
-    /**
-     * Layout name
-     *
-     * @var string
-     */
-    static private $_layout;
+    static private $_defaultModuleName;
 
     /**
      * Set application root absolute path
@@ -208,17 +160,6 @@ final class Ecom {
     }
 
     /**
-     * Retrieve module main class object
-     *
-     * @param string $module
-     * @return Ecom_Core_Module_Abstract
-     */
-    public static function getModuleClass($module)
-    {
-        return self::getModuleInfo($module)->getClass();
-    }
-
-    /**
      * Get module configuration, loaded from config files
      *
      * @param string $module
@@ -267,12 +208,7 @@ final class Ecom {
      */
     public static function getEvent($name)
     {
-        $name = strtolower($name);
-
-        if (isset(self::$_events[$name])) {
-            return self::$_events[$name];
-        }
-        return false;
+        return Ecom_Core_Event::getEvent($name);
     }
 
     /**
@@ -282,11 +218,7 @@ final class Ecom {
      */
     public static function addEvent($name)
     {
-        $name = strtolower($name);
-
-        if (!self::getEvent($name)) {
-            self::$_events[$name] = new Ecom_Core_Event(array('name'=>$name));
-        }
+        return Ecom_Core_Event::addEvent($name);
     }
 
     /**
@@ -299,11 +231,7 @@ final class Ecom {
      */
     public static function addObserver($eventName, $callback, array $arguments=array(), $observerName='')
     {
-        if (!self::getEvent($eventName)) {
-            self::addEvent($eventName);
-        }
-        $observer = new Ecom_Core_Event_Observer($callback, $arguments);
-        self::getEvent($eventName)->addObserver($observer, $observerName);
+        return Ecom_Core_Event::addObserver($eventName, $callback, $arguments, $observerName);
     }
 
     /**
@@ -314,7 +242,7 @@ final class Ecom {
      */
     public static function addMultiObserver($eventRegex, $callback, $observerName='')
     {
-        $this->_multiObservers[$eventRegex] = $callback;
+        return Ecom_Core_Event::addMultiObserver($eventRegex, $callback, $observerName);
     }
 
     /**
@@ -328,119 +256,14 @@ final class Ecom {
      */
     public static function dispatchEvent($name, array $args=array())
     {
-        $event = self::getEvent($name);
-        if ($event && $event->getObservers()) {
-            $event->dispatch($args);
-        }
-
-        $args['_eventName'] = $name;
-        foreach (self::$_multiObservers as $regex=>$callback) {
-            if (preg_match('#'.$regex.'#i', $name)) {
-                call_user_func_array($callback, $args);
-            }
-        }
+        return Ecom_Core_Event::dispatchEvent($name, $args);
     }
-
-    /**
-     * Load required classes, run right after set_include_path
-     *
-     */
-    private static function loadRequiredClasses()
+    
+    public static function getController()
     {
-        #include_once 'Ecom/Core/Exception.php';
-        #include_once 'Ecom/Core/Module/Info.php';
-        #include_once 'Ecom/Core/Event.php';
-        #include_once 'Ecom/Core/Event/Observer.php';
-        #include_once 'Ecom/Core/Resource.php';
-        #include_once 'Ecom/Core/Model.php';
-        #include_once 'Ecom/Core/Block.php';
-        #include_once 'Ecom/Core/Website.php';
+        return Ecom_Core_Controller::getController();
     }
 
-    /**
-     * Initialize Ecom
-     *
-     * @param string $appRoot
-     */
-    private static function init($appRoot='')
-    {
-        // set application root path
-        self::setAppRoot($appRoot);
-
-        // load core config file
-        $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'core.ini', null, true);
-
-        // set default layout name
-        self::setLayout($coreConfig->layout->name);
-
-        // load codepools
-        foreach ($coreConfig->codepools as $pool=>$active) {
-            if ($active) {
-                self::addCodePool($pool, self::getRoot('code').DS.$pool);
-            }
-        }
-
-        // set include path constructed from codepools and previous include path
-        $include_path = get_include_path();
-        $include_path = str_replace('.'.PATH_SEPARATOR, '', $include_path);
-        $include_path = '.'.PATH_SEPARATOR
-            .join(PATH_SEPARATOR, self::getCodePools())
-            .PATH_SEPARATOR.$include_path;
-        set_include_path($include_path);
-
-        // load classes that have to be loaded from start
-        self::loadRequiredClasses();
-
-        // load modules list
-        $modulesConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'modules.ini', null, true);
-
-        // add module information classes for each module from the list
-        foreach($modulesConfig as $ns=>$modules) {
-            foreach($modules as $name=>$data) {
-                if ($data->active) {
-                    $data->name = $ns.'_'.$name;
-                    self::addModule($data);
-                }
-            }
-        }
-
-        // load default controller
-        #include_once 'Ecom/Core/Controller/Zend.php';
-        self::setController(new Ecom_Core_Controller_Zend());
-    }
-
-    /**
-     * Load class
-     *
-     * @param string $class
-     * @param array $dirs
-     */
-    public static function loadClass($class, $dirs = null)
-    {
-        static $_classes = array();
-        return false;
-/*
-        if (is_null($dirs)) {
-            $dirs = self::$_classDirs;
-        }
-*/
-        #Ecom::setTimer(__METHOD__);
-        
-       
-        if (!isset($_classes[$class])) {
-            $classFile = str_replace('_', DS, $class).'.php';
-            try {
-                #include_once $classFile;
-            } catch (Exception $e) {
-                throw Ecom::exception('Failed to load class '.$class);
-            }
-            $_classes[$class] = $classFile;
-        }
-        
-        #Ecom::setTimer(__METHOD__, true);
-    }
 
     /**
      * Retrieve active modules
@@ -458,145 +281,12 @@ final class Ecom {
      */
     public static function loadActiveModules()
     {
-        foreach (self::getActiveModules() as $moduleName=>$moduleInfo) {
-            self::getModuleClass($moduleName);
+        $modules = self::getActiveModules();
+        foreach ($modules as $modName=>$modInfo) {
+            $modInfo->loadConfig('load');
+            $modInfo->loadConfig('*user*');
+            $modInfo->processConfig();
         }
-    }
-
-    /**
-     * Apply db updates to all active modules
-     *
-     */
-	public static function applyDbUpdates()
-	{
-        #include_once 'Ecom/Core/Module/Setup.php';
-
-	    $modules = self::getActiveModules();
-	    foreach ($modules as $name=>$info) {
-            $setup = new Ecom_Core_Module_Setup(self::getModuleClass($name));
-            $setup->applyDbUpdates();
-	    }
-	}
-
-	/**
-     * Ecom main entry point
-     *
-     * @param string $appRoot
-     */
-    public static function run($appRoot='')
-    {
-        try {
-
-            Ecom::setTimer('app');
-
-            self::init($appRoot);
-
-            self::loadActiveModules();
-
-            self::applyDbUpdates();
-
-            self::getModuleClass('Ecom_Core')->run();
-
-            Ecom::getTimer('app', true);
-
-            Ecom::getSqlProfiler();
-
-        } catch (Zend_Exception $e) {
-
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-
-        } catch (PDOException $e) {
-
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-
-        }
-    }
-
-    private static function initAdmin($appRoot='')
-    {
-        // set application root path
-        self::setAppRoot($appRoot);
-
-        // load core config file
-        $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'core.ini', null, true);
-
-        // load codepools
-        foreach ($coreConfig->codepools as $pool=>$active) {
-            if ($active) {
-                self::addCodePool($pool, self::getRoot('code').DS.$pool);
-            }
-        }
-
-        // set include path constructed from codepools and previous include path
-        $include_path = get_include_path();
-        $include_path = str_replace('.'.PATH_SEPARATOR, '', $include_path);
-        $include_path = '.'.PATH_SEPARATOR
-            .join(PATH_SEPARATOR, self::getCodePools())
-            .PATH_SEPARATOR.$include_path;
-        set_include_path($include_path);
-
-        // load classes that have to be loaded from start
-        self::loadRequiredClasses();
-
-        // load modules list
-        $modulesConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'modules.ini', null, true);
-
-        // add module information classes for each module from the list
-        foreach($modulesConfig as $ns=>$modules) {
-            foreach($modules as $name=>$data) {
-                if ($data->active) {
-                    $data->name = $ns.'_'.$name;
-                    self::addModule($data);
-                }
-            }
-        }
-
-        //load default controller
-        #include_once 'Ecom/Core/Controller/Zend/Admin.php';
-        self::setController(new Ecom_Core_Controller_Zend_Admin());
-    }
-
-
-    public static function runAdmin($appRoot='')
-    {
-        // temp (for test)
-        session_start();
-        try {
-            //Ecom::setTimer('app');
-            self::initAdmin($appRoot);
-            self::loadActiveModules();
-            self::getModuleClass('Ecom_Core')->run();
-            //Ecom::getTimer('app', true);
-          //  Ecom::getSqlProfiler();
-        } catch (Zend_Exception $e) {
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-        } catch (PDOException $e) {
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-        }
-    }
-
-    /**
-     * Set default controller
-     *
-     * @param Ecom_Core_Controller_Zend $controller
-     */
-    public static function setController($controller)
-    {
-        self::$_controller  = $controller;
-    }
-
-    /**
-     * Get Controller
-     *
-     * @param     none
-     * @return	  Ecom_Core_Controller_Zend
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
-     */
-    public static function getController()
-    {
-    	return self::$_controller;
     }
 
     /**
@@ -648,73 +338,9 @@ final class Ecom {
      */
     public static function getBaseUrl($type='')
     {
-        $url = self::getController()->getRequest()->getBaseUrl();
-
-        switch ($type) {
-            case 'skin':
-                $url .= '/skins/default';
-                break;
-
-            case 'js':
-                $url .= '/js';
-                break;
-        }
-
-        return $url;
+        return Ecom_Core_Controller::getBaseUrl($type);
     }
-
-	/**
-	 * Set timer to current microtime and return delta from previous timer value
-	 *
-	 * @param string $timerName
-	 * @return float
-	 */
-	public static function setTimer($timerName, $cumulative=false)
-	{
-	    if (!$cumulative) {
-    		$oldTimer = isset(self::$_timers[$timerName]) ? self::$_timers[$timerName] : false;
-    		self::$_timers[$timerName] = microtime(true);
-    		return self::$_timers[$timerName]-$oldTimer;
-	    } else {
-	        if (!isset(self::$_cumulativeTimers[$timerName])) {
-	           self::$_cumulativeTimers[$timerName] = array(0, 0);
-	       }
-	       self::$_cumulativeTimers[$timerName][0] += self::getTimer($timerName);
-	       self::$_cumulativeTimers[$timerName][1] ++;
-	    }
-	}
-
-	/**
-	 * Get delta from previous timer value and print if requested
-	 *
-	 * @param string $timerName
-	 * @param boolean $print
-	 * @return float
-	 */
-	public static function getTimer($timerName, $print=false)
-	{
-		if (!isset(self::$_timers[$timerName])) {
-			return false;
-		}
-		$delta = microtime(true)-self::$_timers[$timerName];
-		if ($print) {
-    		echo "<hr>$timerName execution time: $delta<hr>";
-		}
-		return $delta;
-	}
-	
-	public static function getCumulativeTimer($timerName='')
-	{
-	    if (''===$timerName) {
-	        return self::$_cumulativeTimers;
-	    }
-	    
-		if (!isset(self::$_cumulativeTimers[$timerName])) {
-			return false;
-		}
-		return self::$_cumulativeTimers[$timerName];
-	}
-
+    
 	/**
 	 * Get model class
 	 *
@@ -730,12 +356,25 @@ final class Ecom {
 	}
 
 	/**
+	 * Set default module name for default page
+	 * 
+	 */
+	public static function setDefaultModule($module) {
+        self::$_defaultModuleName = $module;
+	}
+	
+	/**
 	 * Get default module name for default page
 	 *
 	 * @return string
 	 */
 	public static function getDefaultModule() {
-        return $this->_defaultModuleName;
+        return self::$_defaultModuleName;
+	}
+
+	public static function getCurentWebsite()
+	{
+		return Ecom_Core_Website::getWebsiteId();
 	}
 
 	/**
@@ -751,57 +390,93 @@ final class Ecom {
 	    #self::loadClass($className);
 	    throw new $className($message, $code);
 	}
+	
+    /**
+     * Initialize Ecom
+     *
+     * @param string $appRoot
+     */
+    private static function init($appRoot='')
+    {
+        // set application root path
+        self::setAppRoot($appRoot);
 
-	/**
-	 * Set default layout
-	 *
-	 * @param string $layout
-	 */
-	public static function setLayout($layout)
-	{
-		self::$_layout = $layout;
-	}
+        // load core config file
+        $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
+            .DS.'core.ini', null, true);
 
-	/**
-	 * Get default layout
-	 *
-	 * @return string
-	 */
-	public static function getLayout()
-	{
-		return self::$_layout;
-	}
-
-	/**
-	 * Output SQl Zend_Db_Profiler
-	 *
-	 */
-	public static  function getSqlProfiler() {
-	    $res = Ecom_Core_Resource::getResource('dev_write')->getConnection();
-	    $profiler = $res->getProfiler();
-        $totalTime    = $profiler->getTotalElapsedSecs();
-        $queryCount   = $profiler->getTotalNumQueries();
-        $longestTime  = 0;
-        $longestQuery = null;
-
-        foreach ($profiler->getQueryProfiles() as $query) {
-            if ($query->getElapsedSecs() > $longestTime) {
-                $longestTime  = $query->getElapsedSecs();
-                $longestQuery = $query->getQuery();
+        // load codepools
+        foreach ($coreConfig->codepools as $pool=>$active) {
+            if ($active) {
+                self::addCodePool($pool, self::getRoot('code').DS.$pool);
             }
         }
 
-        echo 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br>";
-        echo 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br>";
-        echo 'Queries per second: ' . $queryCount / $totalTime . "<br>";
-        echo 'Longest query length: ' . $longestTime . "<br>";
-        echo 'Longest query: <br>' . $longestQuery . "<hr>";
-        
-        echo '<pre>cumulative: '.print_r(Ecom::getCumulativeTimer(),1).'</pre>';
-	}
+        // set include path constructed from codepools and previous include path
+        $include_path = get_include_path();
+        $include_path = str_replace('.'.PATH_SEPARATOR, '', $include_path);
+        $include_path = '.'.PATH_SEPARATOR
+            .join(PATH_SEPARATOR, self::getCodePools())
+            .PATH_SEPARATOR.$include_path;
+        set_include_path($include_path);
 
-	public static function getCurentWebsite()
-	{
-		return Ecom_Core_Website::getWebsiteId();
-	}
+        Ecom_Core_Profiler::setTimer('app');
+
+        // load modules list
+        $modulesConfig = new Zend_Config_Ini(self::getRoot('etc')
+            .DS.'modules.ini', null, true);
+
+        // add module information classes for each module from the list
+        foreach($modulesConfig as $ns=>$modules) {
+            foreach($modules as $name=>$data) {
+                if ($data->active) {
+                    $data->name = $ns.'_'.$name;
+                    self::addModule($data);
+                }
+            }
+        }
+    }
+
+    /**
+     * Ecom main entry point
+     *
+     * @param string $appRoot
+     */
+    public static function run($appRoot='')
+    {
+        try {
+            self::init($appRoot);
+            Ecom_Core_Profiler::setTimer('zend_controller');
+            Ecom_Core_Controller::setController(new Ecom_Core_Controller_Zend());
+            Ecom_Core_Profiler::setTimer('zend_controller', true);
+            self::loadActiveModules();
+            Ecom_Core_Controller::getController()->run();
+            
+            Ecom_Core_Profiler::getTimer('app', true);
+            Ecom_Core_Profiler::getSqlProfiler();
+        } catch (Zend_Exception $e) {
+            echo $e->getMessage()."<pre>".$e->getTraceAsString();
+        } catch (PDOException $e) {
+            echo $e->getMessage()."<pre>".$e->getTraceAsString();
+        }
+    }
+    
+    public static function runAdmin($appRoot='')
+    {
+        // temp (for test)
+        session_start();
+        try {            
+            self::init($appRoot);
+            Ecom_Core_Controller::setController(new Ecom_Core_Controller_Zend_Admin());
+            self::loadActiveModules();
+            Ecom_Core_Controller::getController()->run();
+            
+            //Ecom_Core_Profiler::getTimer('app', true);
+          //  Ecom_Core_Profiler::getSqlProfiler();
+        } catch (Zend_Exception $e) {
+            echo $e->getMessage()."<pre>".$e->getTraceAsString();
+        } catch (PDOException $e) {
+            echo $e->getMessage()."<pre>".$e->getTraceAsString();
+        }
+    }
 }

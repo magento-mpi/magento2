@@ -17,9 +17,9 @@ abstract class Ecom_Core_Setup_Abstract
 
     protected $_moduleInfo = null;
     
-    public function __construct(Ecom_Core_Module_Abstract $module)
+    public function __construct($modInfo)
     {
-        $this->_moduleInfo = $module->getModuleInfo();
+        $this->_moduleInfo = $modInfo;
     }
 
     public function getInfo($key='')
@@ -29,6 +29,11 @@ abstract class Ecom_Core_Setup_Abstract
         } else {
             return $this->_info[$key];
         }
+    }
+    
+    public function getModuleInfo()
+    {
+        return $this->_moduleInfo;
     }
 
     public function applyDbUpdates()

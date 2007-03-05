@@ -2,15 +2,12 @@
 class Ecom_Core_Module_Info 
 {
     protected $_config = null;
-    protected $_moduleClass = null;
+    protected $_setupClass = null;
     
     public function __construct(Zend_Config $config) 
     {
         if (!isset($config->active)) {
             $config->active = false;
-        }
-        if (!isset($config->mainClass)) {
-            $config->mainClass = 'Module';
         }
         if (!isset($config->codePool)) {
             $config->codePool = 'core';
@@ -52,33 +49,19 @@ class Ecom_Core_Module_Info
     {
         return $this->getConfig('active') ? true : false;
     }
-
-    public function setClass($class)
-    {
-        $this->_moduleClass = $class;
-        return $this->_moduleClass;
-    }
     
-    public function getClass()
+    public function getSetupClass()
     {
-        if (empty($this->_moduleClass)) {
-            $this->loadClass();
+        if (is_null($this->_setupClass)) {
+            $setupClassName = $this->getName().'_Setup';
+            $this->_setupClass = new $setupClassName($this);
         }
-        return $this->_moduleClass;
+        return $this->_setupClass;
     }
     
     public function getName()
     {
         return $this->getConfig('name');
-    }
-    
-    public function getClassName() 
-    {
-        if ($this->getConfig('mainClass')) {
-            return $this->getName().'_'.$this->getConfig('mainClass');
-        } else {
-            return false;
-        }
     }
 
     public function getFrontName() 
@@ -97,7 +80,7 @@ class Ecom_Core_Module_Info
     
     public function getCodeVersion()
     {
-        return $this->getClass()->getInfo('version');
+        return $this->getConfig('setup')->version;
     }
     
     public function getRoot($type='') 
@@ -134,32 +117,6 @@ class Ecom_Core_Module_Info
     			break;
     	}
     	return $url;
-    }
-    
-    /**
-     * Load module main class
-     *
-     * @return Ecom_Core_Module_Abstract
-     */
-    public function loadClass()
-    {
-        if (!$this->isActive()) {
-            Ecom::exception('Module '.$this->getName().' is inactive');
-        }
-
-        if (!($className = $this->getClassName())) {
-            Ecom::exception('Class name not set for module '.$this->getName().'.');
-        }
-
-        #Ecom::loadClass($className);
-
-        if (!class_exists(strtolower($className))) {
-            Ecom::exception('Class '.$className.' was not loaded');
-        }
-
-        $this->setClass(new $className());
-
-        return $this->getClass();
     }
     
     public function loadConfig($name)
@@ -199,6 +156,8 @@ class Ecom_Core_Module_Info
                 call_user_func($sections[$sectionName], $sectionData);
             }
         }
+        
+        $this->getSetupClass()->applyDbUpdates();
         
         Ecom_Core_Controller::loadModuleConfig($this);
     }
