@@ -1,0 +1,3 @@
+[':test.initLayout',
+    ['#catalog.leftnav.byproduct', ['.setViewName', 'Ecom_Test', 'list']]
+]
