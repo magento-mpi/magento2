@@ -1,0 +1,8 @@
+[":catalog.initLayout",
+    ["#head",[">append",["+tag_css",[">setHref","/catalog/style.css"]]]],
+    ["#top.forms",[">append",["+tpl","#search.form.mini",[">setViewName","Ecom_Catalog","search.form.mini"]]]],
+    ["#left",[">insert",["+tpl","#catalog.leftnav",[">setViewName","Ecom_Catalog","leftnav"],
+        [">setChild","bytopic",["+catalog_category_list","#.bytopic",[">loadCategories",2]]],
+        [">setChild","byproduct",["+catalog_category_list","#.byproduct",[">loadCategories",13]]]
+    ]]]
+]
