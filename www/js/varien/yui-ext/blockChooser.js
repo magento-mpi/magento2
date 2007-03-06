@@ -1,37 +1,34 @@
 Ext.Varien.BlockChooser = function(config){
     // create the dialog from scratch
     var dlg = new Ext.LayoutDialog(config.id || Ext.id(), {
+        tabPosition: 'top',
 		autoCreate : true,
 		minWidth:400,
 		minHeight:300,
 		syncHeightBeforeShow: true,
 		shadow:true,
         fixedcenter:true,
-        center:{autoScroll:false},
-		east:{split:true,initialSize:150,minSize:150,maxSize:250}
+        center:{autoScroll:true}
 	});
+	
 	dlg.setTitle('Choose a Block');
+	
 	dlg.getEl().addClass('x-chooser-dlg');
 	dlg.addKeyListener(27, dlg.hide, dlg);
     
     // add some buttons
     this.ok = dlg.addButton('OK', this.doCallback, this);
     this.ok.disable();
+    
     dlg.setDefaultButton(dlg.addButton('Cancel', dlg.hide, dlg));
     dlg.on('show', this.load, this);
+    
 	this.dlg = dlg;
+	
 	var layout = dlg.getLayout();
 	
 	// filter/sorting toolbar
 	this.tb = new Ext.Toolbar(this.dlg.body.createChild({tag:'div'}));
-	this.sortSelect = Ext.DomHelper.append(this.dlg.body.dom, {
-		tag:'select', children: [
-			{tag: 'option', value:'name', selected: 'true', html:'Name'},
-			{tag: 'option', value:'size', html:'File Size'},
-			{tag: 'option', value:'lastmod', html:'Last Modified'}
-		]
-	}, true);
-	this.sortSelect.on('change', this.sortImages, this, true);
 	
 	this.txtFilter = Ext.DomHelper.append(this.dlg.body.dom, {
 		tag:'input', type:'text', size:'12'}, true);
@@ -39,24 +36,29 @@ Ext.Varien.BlockChooser = function(config){
 	this.txtFilter.on('focus', function(){this.dom.select();});
 	this.txtFilter.on('keyup', this.filter, this, {buffer:500});
 	
-	this.tb.add('Filter:', this.txtFilter.dom, 'separator', 'Sort By:', this.sortSelect.dom);
+	this.tb.add('Filter:', this.txtFilter.dom);
 	
 	// add the panels to the layout
 	layout.beginUpdate();
+	
 	var vp = layout.add('center', new Ext.ContentPanel(Ext.id(), {
 		autoCreate : true,
 		toolbar: this.tb,
-		fitToFrame:true
+		fitToFrame:true,
+		title: 'by Module Name'
 	}));
-	var dp = layout.add('east', new Ext.ContentPanel(Ext.id(), {
+	
+	var dp = layout.add('center', new Ext.ContentPanel(Ext.id(), {
+		toolbar: this.tb,
 		autoCreate : true,
-		fitToFrame:true
+		fitToFrame:true,
+		title: 'By Category'
 	}));
     layout.endUpdate();
 	
 	var bodyEl = vp.getEl();
 	bodyEl.appendChild(this.tb.getEl());
-	var viewBody = bodyEl.createChild({tag:'div', cls:'ychooser-view'});
+	var viewBody = bodyEl.createChild({tag:'div', cls:'x-chooser-view'});
 	vp.resizeEl = viewBody;
 	
 	this.detailEl = dp.getEl();

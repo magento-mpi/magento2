@@ -18,6 +18,7 @@
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/layouts.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/misc.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/blockChooser.js"></script>
+	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/blockChooser2.js"></script>
 	
 	<script>
 	var BASE_URL = '<?=$this->BASE_URL?>';
