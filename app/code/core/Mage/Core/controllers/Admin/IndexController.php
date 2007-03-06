@@ -6,7 +6,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction()
     {
-        $this->getResponse()->setBody($this->_view->render('layout.php'));
+        $this->getResponse()->setBody($this->_view->render('layout2.php'));
     }
     
     function treeSwitchAction()
