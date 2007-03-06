@@ -36,32 +36,70 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
          */
         $db = Mage_Core_Resource::getResource('catalog_write')->getConnection();
 
-        for ($i=1;$i<10000;$i++) {
+        for ($i=1;$i<1000;$i++) {
             $base = array();
             $base['category_id']   = rand(3,23);
-            $base['weight']        = rand(1, 1000);
-            $base['price']         = rand(10, 200);
-            $base['base_prop1']    = rand(100, 500);
-            $base['base_prop2']    = rand(500, 1000);
 
             $db->insert('catalog_product', $base);
             $product_id = $db->lastInsertId();
 
-            for ($j=1;$j<=5;$j++) {
-                $ext = array();
-                $ext['product_id']     = $product_id;
-                $ext['website_id']     = $j;
-                $ext['name']           = 'Product ' . $j . '_' . $product_id;
-                $ext['description']    = $j . '_' . $product_id . ' - Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam fringilla. In hac habitasse platea dictumst. Pellentesque erat sapien, condimentum ac, dictum in, faucibus sit amet, augue. Pellentesque convallis. Duis in mauris id metus ornare mattis. Vestibulum placerat. Pellentesque quam risus, venenatis fermentum, molestie eu, feugiat sit amet, metus. Suspendisse eleifend nulla eu elit. Vivamus eu mauris. Pellentesque sed odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;';
-                $ext['ext_prop1']      = 'text of property 1 :' . $j . '_' . $product_id;
-                $ext['ext_prop2']      = date('Y-m-d');
-                $ext['ext_prop3']      = date('Y-m-d H:i:s');
-                $ext['ext_prop4']      = 'text of property 4 :' . $j . '_' . $product_id;
-                $ext['ext_prop5']      = 'text of property 5 :' . $j . '_' . $product_id;
-                $ext['ext_prop6']      = rand(1, 10000);
-                $ext['ext_prop7']      = 'text of property 7 :' . $j . '_' . $product_id;
-                $ext['ext_prop8']      = rand(1, 10000);
-                $db->insert('catalog_product_extension', $ext);
+            for ($website=1;$website<=5;$website++) {
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 1;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= 'Product #' . $product_id;
+                $db->insert('catalog_product_attribute_varchar', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 2;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= 'Product #' . $product_id . ' description';
+                $db->insert('catalog_product_attribute_text', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 3;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(1,10000);
+                $db->insert('catalog_product_attribute_decimal', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 4;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(1,10000);
+                $db->insert('catalog_product_attribute_decimal', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 5;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(1,100);
+                $db->insert('catalog_product_attribute_int', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 6;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= 'Product #' . $product_id;
+                $db->insert('catalog_product_attribute_varchar', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 7;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= 200;
+                $db->insert('catalog_product_attribute_int', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 8;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= 300;
+                $db->insert('catalog_product_attribute_int', $attr);
+
             }
         }
     }
