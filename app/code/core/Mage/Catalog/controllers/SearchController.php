@@ -5,7 +5,7 @@
 /**
  * Catalog Search Controller
  *
- * @package    Ecom
+ * @package    Mage
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */

@@ -44,7 +44,7 @@ Ext.onReady(function(){
         		text: 'Version 0.1',
         		handler: Ext.Varien.Menu.Message
         	}, '-' , {
-        		text: 'About Pepper',
+        		text: 'About Magenta Commerce',
         		handler: Ext.Varien.Menu.Message
         	}
 		]

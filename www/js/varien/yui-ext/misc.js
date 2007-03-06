@@ -486,7 +486,7 @@ Ext.Varien.TreeSwitcher.ControlsRenderer.prototype = {
         	{        
         		text: 'Version 0.1'
         	}, '-' , {
-        		text: 'About Pepper'
+        		text: 'About Magenta Commerce'
         	}
 		]
     });

@@ -3,7 +3,7 @@
 /**
  * Base widget class
  *
- * @package    Ecom
+ * @package    Mage
  * @module     module
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

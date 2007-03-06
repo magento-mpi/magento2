@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Ecom website
+ * Mage website
  *
- * @package    Ecom
+ * @package    Mage
  * @module     Core
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */

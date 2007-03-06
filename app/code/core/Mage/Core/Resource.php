@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manages Ecom global resources
+ * Manages Mage global resources
  * 
  * @todo refactor to use extendable objects as resources
  * @author Moshe Gurvich <moshe@varien.com>

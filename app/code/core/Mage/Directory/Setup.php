@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ecom Directory Module
+ * Mage Directory Module
  *
  * @copyright  Varien, 2007
  * @version    1.0 

@@ -5,7 +5,7 @@
  */
 define ('DS', DIRECTORY_SEPARATOR);
 
-include "code/core/Ecom/Core/Profiler.php";
+include "code/core/Mage/Core/Profiler.php";
 
 function __autoload($class)
 {
@@ -17,12 +17,12 @@ function __autoload($class)
 }
 
 /**
- * Main Ecom hub class
+ * Main Mage hub class
  *
  * @author Moshe Gurvich <moshe@varien.com>
  * @author Andrey Korolyov <andrey@varien.com>
  */
-final class Ecom {
+final class Mage {
 
     static private $_configSections = array();
 
@@ -60,7 +60,7 @@ final class Ecom {
     public static function setAppRoot($appRoot='')
     {
     	if (''===$appRoot) {
-    	    // automagically find application root by dirname of Ecom.php
+    	    // automagically find application root by dirname of Mage.php
     		$appRoot = dirname(__FILE__);
     	}
 
@@ -371,7 +371,7 @@ final class Ecom {
 	}
 	
     /**
-     * Initialize Ecom
+     * Initialize Mage
      *
      * @param string $appRoot
      */
@@ -417,7 +417,7 @@ final class Ecom {
     }
 
     /**
-     * Ecom main entry point
+     * Mage main entry point
      *
      * @param string $appRoot
      */

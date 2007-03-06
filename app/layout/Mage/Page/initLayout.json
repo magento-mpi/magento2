@@ -1,7 +1,7 @@
 [":page.initLayout",
-    ["+tpl","#root",[".setViewName","Ecom_Page","layout.2column"],[".assign","imagesUrl","{$baseSkinUrl}/default/page/images"],
+    ["+tpl","#root",[".setViewName","Mage_Page","layout.2column"],[".assign","imagesUrl","{$baseSkinUrl}/default/page/images"],
         [".setChild","head",["+list","#head",
-            [".append",["+tag","#.title",[".setTagName","title"],[".setContents","Pepper Commerce"]]],
+            [".append",["+tag","#.title",[".setTagName","title"],[".setContents","Magenta Commerce"]]],
             [".append",["+tag_js",[".setSrc","/prototype.js"]]],
             [".append",["+tag_css",[".setHref","/page/style.css"]]]
         ]],

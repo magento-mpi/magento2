@@ -3,7 +3,7 @@
 /**
  * Base items collection class 
  *
- * @package    Ecom
+ * @package    Mage
  * @module     Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @author     Andrey Korolyov

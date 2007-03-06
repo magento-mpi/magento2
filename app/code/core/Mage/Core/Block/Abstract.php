@@ -6,7 +6,7 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Core
  * @copyright  Varien, 2007
  * @version    1.0 

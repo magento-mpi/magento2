@@ -1,5 +1,5 @@
 <?php
-#require_once 'Ecom/Core/Model/Mysql4.php';
+#require_once 'Mage/Core/Model/Mysql4.php';
 
 /**
  * Mysql Model for module

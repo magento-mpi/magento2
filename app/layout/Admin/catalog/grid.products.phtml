@@ -31,7 +31,7 @@ var ProductGrid = {
 
         // create the Data Store
         this.ds = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: '<?=Ecom::getBaseUrl()?>/ecom_catalog/product/gridData/category/<?=$this->category?>/'}),
+            proxy: new Ext.data.HttpProxy({url: '<?=Mage::getBaseUrl()?>/mage_catalog/product/gridData/category/<?=$this->category?>/'}),
             reader: reader,
             remoteSort: true
         });
@@ -121,7 +121,7 @@ var ProductGrid = {
                 closable: true, 
                 title:'Product # ' + productId, 
                 fitToFrame: true, 
-                url:BASE_URL + '/ecom_catalog/product/view/product/'+productId, 
+                url:BASE_URL + '/mage_catalog/product/view/product/'+productId, 
                 loadOnce: true 
             }));
         mainLayout.endUpdate();

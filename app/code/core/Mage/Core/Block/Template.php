@@ -5,7 +5,7 @@
 /**
  * Base html block 
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Core
  * @copyright  Varien, 2007
  * @version    1.0 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ecom Page Module
+ * Mage Page Module
  *
  * @copyright  Varien, 2007
  * @version    1.0 

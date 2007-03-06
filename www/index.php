@@ -1,5 +1,5 @@
 <?php
 
-require '../app/Ecom.php';
+require '../app/Mage.php';
 Mage::run();
     

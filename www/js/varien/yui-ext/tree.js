@@ -2,7 +2,7 @@ Ext.onReady(function(){
   
     var tree = new Ext.tree.TreePanel('west:center:div:tree', {
         animate:true, 
-        loader: new Ext.tree.TreeLoader({dataUrl:BASE_URL+'/ecom_catalog/index/content/'}),
+        loader: new Ext.tree.TreeLoader({dataUrl:BASE_URL+'/mage_catalog/index/content/'}),
         enableDD:true,
         containerScroll: true
     });

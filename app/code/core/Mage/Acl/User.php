@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ecom application User
+ * Mage application User
  *
  * @copyright  Varien, 2007
  * @version    1.0 
@@ -26,7 +26,7 @@ class Mage_Acl_User
     protected $_groups;
     
 	/**
-	 * Class constructor. Ecom application User
+	 * Class constructor. Mage application User
 	 * 
 	 * @param      none
 	 * @return     void
