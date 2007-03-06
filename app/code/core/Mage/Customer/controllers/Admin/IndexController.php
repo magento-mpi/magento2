@@ -10,7 +10,7 @@
  * @date       Wed Feb 07 04:25:14 EET 2007
  */
 
-class Mage_Customer_IndexController extends Mage_Core_Controller_Zend_Admin_Action
+class Mage_Customer_IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction() 
     {

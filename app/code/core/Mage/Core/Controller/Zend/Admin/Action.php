@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Core_Controller_Zend_Admin_Action extends Zend_Controller_Action
+abstract class Mage_Core_Controller_Admin_Action extends Zend_Controller_Action
 {
     /**
      * Enter description here...

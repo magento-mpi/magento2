@@ -125,7 +125,7 @@ class Mage_Core_Controller_Zend {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
         
-        Mage_Core_Event::dispatchEvent('initLayout');
+        Mage_Core_Event::dispatchEvent('front_initLayout');
         
         $this->_front->dispatch($this->_request);
     }

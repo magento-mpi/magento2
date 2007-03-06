@@ -1,7 +1,7 @@
 <?php
 
 
-class Mage_Catalog_CategoryController extends Mage_Core_Controller_Zend_Admin_Action 
+class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action 
 {
   
     public function saveAction() 

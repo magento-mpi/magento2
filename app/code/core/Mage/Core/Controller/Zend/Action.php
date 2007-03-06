@@ -41,46 +41,5 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return $this;
      }
 
-	/**
-     * Dispatches event before action
-     */
-    function preDispatch()
-    {
-        if ($this->getFlag('', 'no-preDispatch')) {
-            return;
-        }
-
-        Mage::dispatchEvent('controllerAction_preDispatch');
-
-        Mage::dispatchEvent('controllerAction_'.
-            $this->getRequest()->getModuleName().'_'.
-            $this->getRequest()->getControllerName().'_'.
-            $this->getRequest()->getActionName().'_before'
-        );
-    }
-
-    /**
-     * Dispatches event after action
-     */
-    function postDispatch()
-    {
-        if ($this->getFlag('', 'no-postDispatch')) {
-            return;
-        }
-
-        Mage::dispatchEvent('controllerAction_'.
-            $this->getRequest()->getModuleName().'_'.
-            $this->getRequest()->getControllerName().'_'.
-            $this->getRequest()->getActionName().'_after'
-        );
-
-        Mage::dispatchEvent('controllerAction_postDispatch');
-    }
-
-    function norouteAction()
-    {
-        //$this->getResponse()->setHeader('HTTP/1.0 404 Not Found');
-        Mage::dispatchEvent('controllerAction_noRoute');
-    }
 
 }

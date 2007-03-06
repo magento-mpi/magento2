@@ -3,7 +3,7 @@
 
 
 
-class Mage_Catalog_TreeController extends Mage_Core_Controller_Zend_Admin_Action 
+class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action 
 {
 
     /**

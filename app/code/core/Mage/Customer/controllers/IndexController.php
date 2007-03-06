@@ -10,7 +10,7 @@
  * @date       Wed Feb 07 04:25:14 EET 2007
  */
 
-class Mage_Customer_IndexController extends Mage_Core_Controller_Action
+class Mage_Customer_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction() 
     {

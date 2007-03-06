@@ -3,7 +3,7 @@
 
 
 
-class Mage_Catalog_CategoryController extends Mage_Core_Controller_Action {
+class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action {
 
     function indexAction() 
     {

@@ -2,7 +2,7 @@
 
 include_once "Mage/Core/Controller/Zend/Admin/Action.php";
 
-class IndexController extends Mage_Core_Controller_Zend_Admin_Action
+class IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction()
     {

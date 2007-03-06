@@ -9,7 +9,7 @@
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_SearchController extends Mage_Core_Controller_Action
+class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
 {
     public function resultAction() 
     {
