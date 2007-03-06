@@ -18438,11 +18438,10 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>customer_id</a:Code>
 <a:CreationDate>1172871693</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1172871709</a:ModificationDate>
+<a:ModificationDate>1173145057</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DataType>int(11) unsigned</a:DataType>
 <a:Length>11</a:Length>
-<a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o583">
 <a:ObjectID>C9C0317D-E6A6-42BF-BB66-74080F824D96</a:ObjectID>
@@ -21067,11 +21066,11 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>ORDER_CUSTOMER</a:Code>
 <a:CreationDate>1172871693</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173128758</a:ModificationDate>
+<a:ModificationDate>1173145066</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
-<a:DeleteConstraint>4</a:DeleteConstraint>
+<a:DeleteConstraint>3</a:DeleteConstraint>
 <c:Object1>
 <o:Shortcut Ref="o544"/>
 </c:Object1>
@@ -24217,7 +24216,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <o:ReferenceSymbol Id="o802">
 <a:CreationDate>1172875371</a:CreationDate>
 <a:ModificationDate>1172875371</a:ModificationDate>
-<a:Rect>((-22780,19698), (-14006,26459))</a:Rect>
+<a:Rect>((-22789,19698), (-14015,26459))</a:Rect>
 <a:ListOfPoints>((-18403,19698),(-18403,26459))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>
@@ -27315,7 +27314,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173124284</a:ModificationDate>
 <a:SourceTextOffset>(417, -121)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-417, 121)</a:DestinationTextOffset>
-<a:Rect>((-5596,375), (4754,6318))</a:Rect>
+<a:Rect>((-5558,375), (4716,6318))</a:Rect>
 <a:ListOfPoints>((-696,375),(-101,6318))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>

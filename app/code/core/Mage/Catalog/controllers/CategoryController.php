@@ -36,7 +36,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
          */
         $db = Mage_Core_Resource::getResource('catalog_write')->getConnection();
 
-        for ($i=1;$i<1000;$i++) {
+        for ($i=1;$i<10000;$i++) {
             $base = array();
             $base['category_id']   = rand(3,23);
 

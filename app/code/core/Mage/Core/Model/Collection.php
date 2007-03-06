@@ -33,43 +33,43 @@ class Mage_Core_Model_Collection implements Iterator
     // ITERATOR
     protected $_counter = 0;
     
-	public function __construct(Mage_Core_Model_Db $db) 
-	{
-		$this->_dbModel = $db;
+    public function __construct(Mage_Core_Model_Db $db) 
+    {
+        $this->_dbModel = $db;
 
-		if (!$this->_dbModel->getReadConnection() instanceof Zend_Db_Adapter_Abstract) {
-			Mage::exception('dbModel read resource does not implement Zend_Db_Adapter_Abstract', 0, 'Mage_Core');
-		}
-		$this->_sqlSelect = $this->_dbModel->getReadConnection()->select();
-	}
-	
-	/**
-	 * Add collection filter
-	 *
-	 * @param string $field
-	 * @param string $value
-	 * @param string $type and|or|string
-	 */
-	public function addFilter($field, $value, $type = 'and')
-	{
-	    $filter = array();
-	    $filter['field']   = $field;
-	    $filter['value']   = $value;
-	    $filter['type']    = strtolower($type);
-	    
-	    $this->_filters[] = $filter;
-	    $this->_isFiltersRendered = false;
-		return $this;
-	}
-	
-	/**
-	 * Get current collection page
-	 *
-	 * @param  int $displacement
-	 * @return int
-	 */
-	public function getCurPage($displacement = 0)
-	{
+        if (!$this->_dbModel->getReadConnection() instanceof Zend_Db_Adapter_Abstract) {
+            Mage::exception('dbModel read resource does not implement Zend_Db_Adapter_Abstract', 0, 'Mage_Core');
+        }
+        $this->_sqlSelect = $this->_dbModel->getReadConnection()->select();
+    }
+    
+    /**
+     * Add collection filter
+     *
+     * @param string $field
+     * @param string $value
+     * @param string $type and|or|string
+     */
+    public function addFilter($field, $value, $type = 'and')
+    {
+        $filter = array();
+        $filter['field']   = $field;
+        $filter['value']   = $value;
+        $filter['type']    = strtolower($type);
+        
+        $this->_filters[] = $filter;
+        $this->_isFiltersRendered = false;
+        return $this;
+    }
+    
+    /**
+     * Get current collection page
+     *
+     * @param  int $displacement
+     * @return int
+     */
+    public function getCurPage($displacement = 0)
+    {
         if ($this->_curPage + $displacement < 1) {
             return 1;
         }
@@ -78,13 +78,13 @@ class Mage_Core_Model_Collection implements Iterator
         } else {
             return $this->_curPage + $displacement;
         }
-	}
+    }
     
-	/**
-	 * Get last page number
-	 *
-	 * @return int
-	 */
+    /**
+     * Get last page number
+     *
+     * @return int
+     */
     public function getLastPageNumber()
     {
         $collectionSize = $this->getSize();
@@ -117,16 +117,16 @@ class Mage_Core_Model_Collection implements Iterator
     public function getSelectCountSql()
     {
         $this->_renderFilters();
-    	
+        
         $countSelect = clone $this->_sqlSelect;
-    	$countSelect->reset(Zend_Db_Select::ORDER);
-    	$countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-    	$countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-    	
-    	// TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
-    	$sql = $countSelect->__toString();
-    	$sql = preg_replace('/^(.*)from/is', 'select count(*) from', $sql);
-    	return $sql;
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        
+        // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
+        $sql = $countSelect->__toString();
+        $sql = preg_replace('/^(.*)from/is', 'select count(*) from', $sql);
+        return $sql;
     }
     
     /**
@@ -137,10 +137,10 @@ class Mage_Core_Model_Collection implements Iterator
      */
     function getSelectSql($stringMode = false)
     {
-    	if ($stringMode) {
-    		return $this->_sqlSelect->__toString();
-    	}
-    	return $this->_sqlSelect;
+        if ($stringMode) {
+            return $this->_sqlSelect->__toString();
+        }
+        return $this->_sqlSelect;
     }
     
     /**
@@ -178,7 +178,7 @@ class Mage_Core_Model_Collection implements Iterator
     {
         $direction = (strtoupper($direction)=='ASC') ? 'ASC' : 'DESC';
         $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
-    	return $this;
+        return $this;
     }
     
     /**
@@ -189,11 +189,11 @@ class Mage_Core_Model_Collection implements Iterator
      */
     function setItemObjectClass($className)
     {
-    	if (!is_subclass_of($className, 'Varien_DataObject')) {
-    		Mage::exception($className.' does not extends from Varien_DataObject', 0, 'Mage_Core');
-    	}
-    	$this->_itemObjectClass = $className;
-    	return $this;
+        if (!is_subclass_of($className, 'Varien_DataObject')) {
+            Mage::exception($className.' does not extends from Varien_DataObject', 0, 'Mage_Core');
+        }
+        $this->_itemObjectClass = $className;
+        return $this;
     }
     
     /**
@@ -204,7 +204,7 @@ class Mage_Core_Model_Collection implements Iterator
     protected function _renderFilters()
     {
         if ($this->_isFiltersRendered) {
-        	return $this;
+            return $this;
         }
         
         foreach ($this->_filters as $filter) {
@@ -221,7 +221,7 @@ class Mage_Core_Model_Collection implements Iterator
                     $this->_sqlSelect->where($condition);
             }
         }
-    	return $this;
+        return $this;
     }
     
     /**
@@ -231,10 +231,10 @@ class Mage_Core_Model_Collection implements Iterator
      */
     protected function _renderOrders()
     {
-    	foreach ($this->_orders as $orderExpr) {
-    		$this->_sqlSelect->order($orderExpr);
-    	}
-    	return $this;
+        foreach ($this->_orders as $orderExpr) {
+            $this->_sqlSelect->order($orderExpr);
+        }
+        return $this;
     }
     
     /**
@@ -244,12 +244,12 @@ class Mage_Core_Model_Collection implements Iterator
      */
     protected function _renderLimit()
     {
-    	if ($this->_curPage<1) {
-    		$this->_curPage=1;
-    	}
-    	
-    	$this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
-    	return $this;
+        if ($this->_curPage<1) {
+            $this->_curPage=1;
+        }
+        
+        $this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
+        return $this;
     }
     
     /**
@@ -259,22 +259,23 @@ class Mage_Core_Model_Collection implements Iterator
      */
     public function loadData()
     {
-    	$this->_renderFilters()
-    	     ->_renderOrders()
-    	     ->_renderLimit();
-    	     
-    	$data = $this->_dbModel->getReadConnection()->fetchAll($this->_sqlSelect);
-    	if (is_array($data)) {
-    		foreach ($data as $item) {
-    			$this->_items[] = new $this->_itemObjectClass($item);
-    		}
-    	}
-    	return $this;
+        $this->_renderFilters()
+             ->_renderOrders()
+             ->_renderLimit();
+
+        //echo $this->_sqlSelect->__toString(); 
+        $data = $this->_dbModel->getReadConnection()->fetchAll($this->_sqlSelect);
+        if (is_array($data)) {
+            foreach ($data as $item) {
+                $this->_items[] = new $this->_itemObjectClass($item);
+            }
+        }
+        return $this;
     }
     
     public function load()
     {
-    	return $this->loadData();
+        return $this->loadData();
     }
     
     /**
@@ -284,17 +285,17 @@ class Mage_Core_Model_Collection implements Iterator
      */
     public function __toXml()
     {
-    	$xml = '<?xml version="1.0" encoding="UTF-8"?>
-    	<collection>
-    	   <totalRecords>'.$this->_totalRecords.'</totalRecords>
-    	   <items>';
-    	
-    	foreach ($this->_items as $index => $item) {
-    		$xml.=$item->__toXml();
-    	}
-    	$xml.= '</items>
-    	</collection>';
-    	return $xml;
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+        <collection>
+           <totalRecords>'.$this->_totalRecords.'</totalRecords>
+           <items>';
+        
+        foreach ($this->_items as $index => $item) {
+            $xml.=$item->__toXml();
+        }
+        $xml.= '</items>
+        </collection>';
+        return $xml;
     }
     
     /**
@@ -304,14 +305,14 @@ class Mage_Core_Model_Collection implements Iterator
      */
     public function __toArray($arrRequiredFields = array())
     {
-    	$arrItems = array();
-    	$arrItems['totalRecords'] = $this->getSize();
-    	
-    	$arrItems['items'] = array();    	
-    	foreach ($this->_items as $index => $item) {
-    		$arrItems['items'][] = $item->__toArray($arrRequiredFields);
-    	}
-    	return $arrItems;
+        $arrItems = array();
+        $arrItems['totalRecords'] = $this->getSize();
+        
+        $arrItems['items'] = array();       
+        foreach ($this->_items as $index => $item) {
+            $arrItems['items'][] = $item->__toArray($arrRequiredFields);
+        }
+        return $arrItems;
     }
     
     /**

@@ -1,23 +1,34 @@
 <?php
 
-
-
+/**
+ * Products collection
+ *
+ * @package    Ecom
+ * @subpackage Catalog
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Collection 
 {
+    protected $_productTable;
+    protected $_attributeTable;
+    protected $_attributeTables;
+    
     function __construct($config = array())
     {
         parent::__construct(Mage::getModel('catalog'));
 
-        $productTable   = $this->_dbModel->getTableName('catalog_read', 'product');
-        $varcharTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute_varchar');
-        $textTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute_text');
-        $decimalTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute_decimal');
-        $intTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute_int');
+        $this->_productTable   = $this->_dbModel->getTableName('catalog_read', 'product');
+        $this->_attributeTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute');
+        $this->_attributeTables['varchar']  = $this->_dbModel->getTableName('catalog_read', 'product_attribute_varchar');
+        $this->_attributeTables['text']     = $this->_dbModel->getTableName('catalog_read', 'product_attribute_text');
+        $this->_attributeTables['decimal']  = $this->_dbModel->getTableName('catalog_read', 'product_attribute_decimal');
+        $this->_attributeTables['int']      = $this->_dbModel->getTableName('catalog_read', 'product_attribute_int');
+        $this->_attributeTables['date']     = $this->_dbModel->getTableName('catalog_read', 'product_attribute_date');
 
-        $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $productTable.*");
-        $this->_sqlSelect->from($productTable, $productColumns);
-        $this->_sqlSelect->join($varcharTable, "$varcharTable.product_id = $productTable.product_id");
-        
+        $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
+        $this->_sqlSelect->from($this->_productTable, $productColumns);
+       
         $this->setPageSize(9);
         $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');
     }
@@ -55,5 +66,19 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     public function getSelectCountSql()
     {
     	return 'SELECT FOUND_ROWS()';
+    }
+    
+    function addAttributeToSelect($attributeName, $attributeType)
+    {
+        if (!isset($this->_attributeTables[$attributeType])) {
+            Mage::exception('Wrong attribute type:'.$attributeType, 0, 'Mage_Catalog');
+        }
+        $attributeId = $this->_dbModel->getReadConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_name=?", $attributeName);
+        $tableAlias= $attributeName . '_' . $attributeType;
+        //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
+        $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;
+        
+        $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId AND $tableAlias.website_id=1";
+        $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeName"));
     }
 }

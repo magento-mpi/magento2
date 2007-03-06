@@ -8496,8 +8496,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137682</a:ModificationDate>
 <a:SourceTextOffset>(-14, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(14, -1)</a:DestinationTextOffset>
-<a:Rect>((40452,25335), (53876,35760))</a:Rect>
-<a:ListOfPoints>((47164,35760),(47164,25335))</a:ListOfPoints>
+<a:Rect>((40203,25335), (53627,35760))</a:Rect>
+<a:ListOfPoints>((46915,35760),(46915,25335))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8540,7 +8540,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139167</a:ModificationDate>
 <a:SourceTextOffset>(-1029, 583)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-172, 617)</a:DestinationTextOffset>
-<a:Rect>((6347,24024), (23989,46208))</a:Rect>
+<a:Rect>((6347,24024), (24777,46208))</a:Rect>
 <a:ListOfPoints>((21102,46208),(21102,24611),(6347,24611))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8563,7 +8563,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137899</a:ModificationDate>
 <a:SourceTextOffset>(-1107, 738)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-93, 462)</a:DestinationTextOffset>
-<a:Rect>((6272,21794), (22796,35797))</a:Rect>
+<a:Rect>((6272,21794), (24784,35797))</a:Rect>
 <a:ListOfPoints>((19909,35797),(19909,22381),(6272,22381))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8609,7 +8609,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137902</a:ModificationDate>
 <a:SourceTextOffset>(-1142, -833)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-58, -367)</a:DestinationTextOffset>
-<a:Rect>((6347,17354), (24732,22659))</a:Rect>
+<a:Rect>((6347,17354), (25857,22659))</a:Rect>
 <a:ListOfPoints>((21845,17354),(21845,22072),(6347,22072))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8632,8 +8632,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137916</a:ModificationDate>
 <a:SourceTextOffset>(952, 470)</a:SourceTextOffset>
 <a:DestinationTextOffset>(248, 730)</a:DestinationTextOffset>
-<a:Rect>((29086,26634), (46237,46258))</a:Rect>
-<a:ListOfPoints>((32123,46258),(32123,27221),(46237,27221))</a:ListOfPoints>
+<a:Rect>((28298,26634), (45678,46258))</a:Rect>
+<a:ListOfPoints>((32123,46258),(32123,27221),(45678,27221))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8655,8 +8655,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137917</a:ModificationDate>
 <a:SourceTextOffset>(1132, 805)</a:SourceTextOffset>
 <a:DestinationTextOffset>(68, 395)</a:DestinationTextOffset>
-<a:Rect>((29820,25059), (44127,34755))</a:Rect>
-<a:ListOfPoints>((32857,34755),(32857,25646),(44127,25646))</a:ListOfPoints>
+<a:Rect>((27832,25059), (43425,34755))</a:Rect>
+<a:ListOfPoints>((32857,34755),(32857,25646),(43425,25646))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8678,8 +8678,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139232</a:ModificationDate>
 <a:SourceTextOffset>(-2, 63)</a:SourceTextOffset>
 <a:DestinationTextOffset>(2, -63)</a:DestinationTextOffset>
-<a:Rect>((33435,22651), (44218,24172))</a:Rect>
-<a:ListOfPoints>((33435,22876),(44218,22876))</a:ListOfPoints>
+<a:Rect>((33435,22651), (44080,24122))</a:Rect>
+<a:ListOfPoints>((33435,22876),(43522,22876))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8701,8 +8701,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139181</a:ModificationDate>
 <a:SourceTextOffset>(973, -499)</a:SourceTextOffset>
 <a:DestinationTextOffset>(227, -701)</a:DestinationTextOffset>
-<a:Rect>((30811,17621), (44384,20921))</a:Rect>
-<a:ListOfPoints>((33848,17621),(33848,20921),(44384,20921))</a:ListOfPoints>
+<a:Rect>((29686,17621), (43699,20921))</a:Rect>
+<a:ListOfPoints>((33848,17621),(33848,20921),(43699,20921))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8724,7 +8724,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137992</a:ModificationDate>
 <a:SourceTextOffset>(-32, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(32, -1)</a:DestinationTextOffset>
-<a:Rect>((26198,884), (31672,15721))</a:Rect>
+<a:Rect>((25073,884), (32797,15721))</a:Rect>
 <a:ListOfPoints>((28314,15721),(28314,7805),(29556,7805),(29556,884))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8747,7 +8747,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139146</a:ModificationDate>
 <a:SourceTextOffset>(-1250, -1198)</a:SourceTextOffset>
 <a:DestinationTextOffset>(50, -2)</a:DestinationTextOffset>
-<a:Rect>((33718,434), (39192,24379))</a:Rect>
+<a:Rect>((31655,434), (41255,24379))</a:Rect>
 <a:ListOfPoints>((34477,23792),(36455,23792),(36455,434))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8770,7 +8770,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173137943</a:ModificationDate>
 <a:SourceTextOffset>(33, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-33, -1)</a:DestinationTextOffset>
-<a:Rect>((29417,883), (34891,34208))</a:Rect>
+<a:Rect>((27429,883), (36879,34208))</a:Rect>
 <a:ListOfPoints>((32154,34208),(32154,883))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8793,7 +8793,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139147</a:ModificationDate>
 <a:SourceTextOffset>(2, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-2, -1)</a:DestinationTextOffset>
-<a:Rect>((30455,-934), (35929,45120))</a:Rect>
+<a:Rect>((29667,-934), (36717,45120))</a:Rect>
 <a:ListOfPoints>((31545,45120),(31545,20255),(34839,20255),(34839,-934))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8816,7 +8816,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173138962</a:ModificationDate>
 <a:SourceTextOffset>(-1018, -567)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-182, -633)</a:DestinationTextOffset>
-<a:Rect>((6047,10327), (24151,22428))</a:Rect>
+<a:Rect>((6047,10327), (25389,22428))</a:Rect>
 <a:ListOfPoints>((21264,10327),(21264,21841),(6047,21841))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8839,8 +8839,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173138964</a:ModificationDate>
 <a:SourceTextOffset>(861, -365)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-861, 365)</a:DestinationTextOffset>
-<a:Rect>((32931,10436), (44229,23383))</a:Rect>
-<a:ListOfPoints>((32931,10436),(32931,16213),(44229,16213),(44229,23383))</a:ListOfPoints>
+<a:Rect>((32931,10436), (43533,23383))</a:Rect>
+<a:ListOfPoints>((32931,10436),(32931,16213),(43533,16213),(43533,23383))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8862,7 +8862,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139151</a:ModificationDate>
 <a:SourceTextOffset>(-44, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(44, -1)</a:DestinationTextOffset>
-<a:Rect>((30008,733), (35482,7361))</a:Rect>
+<a:Rect>((28770,733), (36720,7361))</a:Rect>
 <a:ListOfPoints>((32745,7361),(32745,733))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8885,8 +8885,8 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1173139351</a:ModificationDate>
 <a:SourceTextOffset>(-326, 821)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-24, 235)</a:DestinationTextOffset>
-<a:Rect>((64235,22560), (75819,25799))</a:Rect>
-<a:ListOfPoints>((64870,22560),(71057,22560),(71057,25799),(64235,25799))</a:ListOfPoints>
+<a:Rect>((64895,22560), (75819,25799))</a:Rect>
+<a:ListOfPoints>((65573,22560),(71057,22560),(71057,25799),(64895,25799))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -9053,7 +9053,7 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <o:TableSymbol Id="o179">
 <a:CreationDate>1172144647</a:CreationDate>
 <a:ModificationDate>1173139335</a:ModificationDate>
-<a:Rect>((43086,19822), (65898,28562))</a:Rect>
+<a:Rect>((42313,19822), (66671,28562))</a:Rect>
 <a:ShadowStyle>3</a:ShadowStyle>
 <a:LineColor>0</a:LineColor>
 <a:LineWidth>1</a:LineWidth>
@@ -9607,11 +9607,12 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>website_id</a:Code>
 <a:CreationDate>1171584190</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1171584190</a:ModificationDate>
+<a:ModificationDate>1173142736</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DefaultValue>0</a:DefaultValue>
 <a:DataType>smallint(6) unsigned</a:DataType>
 <a:Length>6</a:Length>
+<a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o239">
 <a:ObjectID>86FAC00F-5936-4C1E-A41C-C91ED27CD943</a:ObjectID>
@@ -10262,9 +10263,9 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>data_type</a:Code>
 <a:CreationDate>1172144868</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173138956</a:ModificationDate>
+<a:ModificationDate>1173141512</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
-<a:DataType>enum(int,decimal,varchar,text,date)</a:DataType>
+<a:DataType>enum(&#39;int&#39;,&#39;decimal&#39;,&#39;varchar&#39;,&#39;text&#39;,&#39;date&#39;)</a:DataType>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o283">
@@ -11046,11 +11047,11 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>CATALOG_WEBSITE</a:Code>
 <a:CreationDate>1171584190</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1171584850</a:ModificationDate>
+<a:ModificationDate>1173142875</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
-<a:UpdateConstraint>2</a:UpdateConstraint>
-<a:DeleteConstraint>2</a:DeleteConstraint>
+<a:UpdateConstraint>1</a:UpdateConstraint>
+<a:DeleteConstraint>1</a:DeleteConstraint>
 <c:Object1>
 <o:Shortcut Ref="o223"/>
 </c:Object1>
@@ -11402,11 +11403,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o186">
 <a:ObjectID>B28A0189-4617-487A-8451-2AEFBCFC9DDD</a:ObjectID>
-<a:Name>PRODUCT</a:Name>
-<a:Code>PRODUCT</a:Code>
+<a:Name>PRODUCT_INT</a:Name>
+<a:Code>PRODUCT_INT</a:Code>
 <a:CreationDate>1173137897</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139113</a:ModificationDate>
+<a:ModificationDate>1173142466</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11438,11 +11439,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o189">
 <a:ObjectID>A6881083-7784-4E4F-9B13-40C9FA57E239</a:ObjectID>
-<a:Name>PRODUCT</a:Name>
-<a:Code>PRODUCT</a:Code>
+<a:Name>PRODUCT_DECIMAL</a:Name>
+<a:Code>PRODUCT_DECIMAL</a:Code>
 <a:CreationDate>1173137899</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139090</a:ModificationDate>
+<a:ModificationDate>1173142474</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11474,11 +11475,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o192">
 <a:ObjectID>107E0688-99D5-4C48-9F61-D1A2BC1A5B4C</a:ObjectID>
-<a:Name>PRODUCT</a:Name>
-<a:Code>PRODUCT</a:Code>
+<a:Name>PRODUCT_VARCHAR</a:Name>
+<a:Code>PRODUCT_VARCHAR</a:Code>
 <a:CreationDate>1173137901</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139097</a:ModificationDate>
+<a:ModificationDate>1173142484</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11510,11 +11511,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o195">
 <a:ObjectID>9D20CDB5-524E-4B29-BBCF-71EBFC4DDA7C</a:ObjectID>
-<a:Name>PRODUCT</a:Name>
-<a:Code>PRODUCT</a:Code>
+<a:Name>PRODUCT_TEXT</a:Name>
+<a:Code>PRODUCT_TEXT</a:Code>
 <a:CreationDate>1173137902</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139083</a:ModificationDate>
+<a:ModificationDate>1173142491</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11546,11 +11547,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o197">
 <a:ObjectID>22F2B2A1-C0D2-4789-9B93-D1AA752CFCE2</a:ObjectID>
-<a:Name>ATTRIBUTE</a:Name>
-<a:Code>ATTRIBUTE</a:Code>
+<a:Name>ATTRIBUTE_INT</a:Name>
+<a:Code>ATTRIBUTE_INT</a:Code>
 <a:CreationDate>1173137916</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139213</a:ModificationDate>
+<a:ModificationDate>1173142420</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11582,11 +11583,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o199">
 <a:ObjectID>1D05FD19-0379-4CF0-A8FE-B765DD316E3D</a:ObjectID>
-<a:Name>ATTRIBUTE</a:Name>
-<a:Code>ATTRIBUTE</a:Code>
+<a:Name>ATTRIBUTE_DECIMAL</a:Name>
+<a:Code>ATTRIBUTE_DECIMAL</a:Code>
 <a:CreationDate>1173137917</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139207</a:ModificationDate>
+<a:ModificationDate>1173142440</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11618,11 +11619,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o201">
 <a:ObjectID>A763D4EB-BB7B-4F0A-A07B-7AEB4A2B1D3C</a:ObjectID>
-<a:Name>ATTRIBUTE</a:Name>
-<a:Code>ATTRIBUTE</a:Code>
+<a:Name>ATTRIBUTE_VARCHAR</a:Name>
+<a:Code>ATTRIBUTE_VARCHAR</a:Code>
 <a:CreationDate>1173137919</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139201</a:ModificationDate>
+<a:ModificationDate>1173142431</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11654,11 +11655,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o203">
 <a:ObjectID>E6EF5A2A-D925-4339-B270-74ED1C70B23E</a:ObjectID>
-<a:Name>ATTRIBUTE</a:Name>
-<a:Code>ATTRIBUTE</a:Code>
+<a:Name>ATTRIBUTE_TEXT</a:Name>
+<a:Code>ATTRIBUTE_TEXT</a:Code>
 <a:CreationDate>1173137920</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139194</a:ModificationDate>
+<a:ModificationDate>1173142448</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11690,11 +11691,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o205">
 <a:ObjectID>CE537DFA-D2D1-46E7-9D29-E43070FB3D37</a:ObjectID>
-<a:Name>WEBSITE</a:Name>
-<a:Code>WEBSITE</a:Code>
+<a:Name>WEBSITE_TEXT</a:Name>
+<a:Code>WEBSITE_TEXT</a:Code>
 <a:CreationDate>1173137937</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139142</a:ModificationDate>
+<a:ModificationDate>1173142504</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11726,11 +11727,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o207">
 <a:ObjectID>24825C2D-2B28-4E6F-B85C-70D0AAC2FCCD</a:ObjectID>
-<a:Name>WEBSITE</a:Name>
-<a:Code>WEBSITE</a:Code>
+<a:Name>WEBSITE_VARCHAR</a:Name>
+<a:Code>WEBSITE_VARCHAR</a:Code>
 <a:CreationDate>1173137939</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139121</a:ModificationDate>
+<a:ModificationDate>1173142511</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11762,11 +11763,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o209">
 <a:ObjectID>E8EE0950-A7A5-4EAA-8D63-ADE4767541FA</a:ObjectID>
-<a:Name>WEBSITE</a:Name>
-<a:Code>WEBSITE</a:Code>
+<a:Name>WEBSITE_DECIMAL</a:Name>
+<a:Code>WEBSITE_DECIMAL</a:Code>
 <a:CreationDate>1173137943</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139158</a:ModificationDate>
+<a:ModificationDate>1173142517</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11798,11 +11799,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o211">
 <a:ObjectID>BBD0D3DD-1DAB-483B-A8E8-DF2CE43FFCF5</a:ObjectID>
-<a:Name>WEBSITE</a:Name>
-<a:Code>WEBSITE</a:Code>
+<a:Name>WEBSITE_INT</a:Name>
+<a:Code>WEBSITE_INT</a:Code>
 <a:CreationDate>1173137946</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139127</a:ModificationDate>
+<a:ModificationDate>1173142522</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11834,11 +11835,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o214">
 <a:ObjectID>C87A80B8-C34D-4D64-A486-EC7FF7106506</a:ObjectID>
-<a:Name>PRODUCT</a:Name>
-<a:Code>PRODUCT</a:Code>
+<a:Name>PRODUCT_DATE</a:Name>
+<a:Code>PRODUCT_DATE</a:Code>
 <a:CreationDate>1173138962</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139075</a:ModificationDate>
+<a:ModificationDate>1173142497</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11870,11 +11871,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o216">
 <a:ObjectID>7DFCB05E-E0F4-4804-88CF-8BB411F0CA0E</a:ObjectID>
-<a:Name>ATTRIBUTE</a:Name>
-<a:Code>ATTRIBUTE</a:Code>
+<a:Name>ATTRIBUTE_DATE</a:Name>
+<a:Code>ATTRIBUTE_DATE</a:Code>
 <a:CreationDate>1173138964</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139189</a:ModificationDate>
+<a:ModificationDate>1173142454</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -11906,11 +11907,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Reference>
 <o:Reference Id="o218">
 <a:ObjectID>F47C3E1A-9B44-45AB-BF5D-970290351929</a:ObjectID>
-<a:Name>WEBSITE</a:Name>
-<a:Code>WEBSITE</a:Code>
+<a:Name>WEBSITE_DATE</a:Name>
+<a:Code>WEBSITE_DATE</a:Code>
 <a:CreationDate>1173138966</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173139136</a:ModificationDate>
+<a:ModificationDate>1173142530</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>2</a:UpdateConstraint>
@@ -16823,7 +16824,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:ModificationDate>1172886113</a:ModificationDate>
 <a:SourceTextOffset>(1209, -163)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-1209, 163)</a:DestinationTextOffset>
-<a:Rect>((14398,3677), (23322,11343))</a:Rect>
+<a:Rect>((14360,3677), (23360,11343))</a:Rect>
 <a:ListOfPoints>((20437,3677),(17198,11343))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>
@@ -16890,7 +16891,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:CenterTextOffset>(11, 0)</a:CenterTextOffset>
 <a:SourceTextOffset>(23, 1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-23, -1)</a:DestinationTextOffset>
-<a:Rect>((-12901,54836), (-4877,63413))</a:Rect>
+<a:Rect>((-12900,54836), (-4876,63413))</a:Rect>
 <a:ListOfPoints>((-8816,54836),(-8985,63413))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>
@@ -17443,7 +17444,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:CenterTextOffset>(0, 27)</a:CenterTextOffset>
 <a:SourceTextOffset>(28, -1)</a:SourceTextOffset>
 <a:DestinationTextOffset>(-27, 1)</a:DestinationTextOffset>
-<a:Rect>((-21615,-7962), (-9691,1499))</a:Rect>
+<a:Rect>((-21653,-7962), (-9653,1499))</a:Rect>
 <a:ListOfPoints>((-15531,1499),(-15751,-7962))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>
@@ -17464,7 +17465,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:CreationDate>1172893374</a:CreationDate>
 <a:ModificationDate>1172893374</a:ModificationDate>
 <a:CenterTextOffset>(2, 2)</a:CenterTextOffset>
-<a:Rect>((-19249,-17905), (-10850,-11138))</a:Rect>
+<a:Rect>((-19286,-17905), (-10812,-11138))</a:Rect>
 <a:ListOfPoints>((-15054,-11138),(-15054,-17905))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>16711680</a:LineColor>
@@ -18412,11 +18413,11 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>order_id</a:Code>
 <a:CreationDate>1171590505</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1172871913</a:ModificationDate>
+<a:ModificationDate>1173143621</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
-<a:DefaultValue>0</a:DefaultValue>
 <a:DataType>int(11) unsigned</a:DataType>
 <a:Length>11</a:Length>
+<a:Identity>1</a:Identity>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o581">
@@ -18460,10 +18461,11 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>website_id</a:Code>
 <a:CreationDate>1172888584</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1172888584</a:ModificationDate>
+<a:ModificationDate>1173143590</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DataType>smallint(6) unsigned</a:DataType>
 <a:Length>6</a:Length>
+<a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o585">
 <a:ObjectID>6E92A742-CC94-4E90-8DDC-834773C884FD</a:ObjectID>
@@ -18548,10 +18550,9 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>order_id</a:Code>
 <a:CreationDate>1171590505</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1172871995</a:ModificationDate>
+<a:ModificationDate>1173144765</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
-<a:DefaultValue>0</a:DefaultValue>
-<a:DataType>int(11)</a:DataType>
+<a:DataType>int(11) unsigned</a:DataType>
 <a:Length>11</a:Length>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
@@ -18856,9 +18857,8 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>order_id</a:Code>
 <a:CreationDate>1172872328</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1172872335</a:ModificationDate>
+<a:ModificationDate>1173144797</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
-<a:DefaultValue>0</a:DefaultValue>
 <a:DataType>int(11) unsigned</a:DataType>
 <a:Length>11</a:Length>
 <a:Mandatory>1</a:Mandatory>
@@ -21787,11 +21787,11 @@ TableTriggers 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>ORDER_WEBSITE</a:Code>
 <a:CreationDate>1172888584</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173128820</a:ModificationDate>
+<a:ModificationDate>1173143590</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:Cardinality>0..*</a:Cardinality>
 <a:UpdateConstraint>1</a:UpdateConstraint>
-<a:DeleteConstraint>3</a:DeleteConstraint>
+<a:DeleteConstraint>1</a:DeleteConstraint>
 <c:Object1>
 <o:Shortcut Ref="o561"/>
 </c:Object1>

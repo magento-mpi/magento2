@@ -30,15 +30,18 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function loadData(Zend_Controller_Request_Http $request)
     {
         $this->currentCategory = $this->getAttribute('category');
-
+        
+        // Breadcrumbs
         $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>'Home','title'=>'Go to home page','link'=>Mage::getBaseUrl().'/'));
         $breadcrumbs->addCrumb('category', array('label'=>$this->currentCategory->getData('name')));
         $this->setChild('breadcrumbs', $breadcrumbs);
-
+        
+        // Init collection
         $this->prodCollection = Mage::getModel('catalog','product_collection');
-
-        $this->prodCollection->addFilter('website_id', Mage::getCurentWebsite(), 'and');
+        $this->prodCollection->addAttributeToSelect('name', 'varchar');
+        $this->prodCollection->addAttributeToSelect('price', 'decimal');
+        
         $this->prodCollection->addFilter('category_id', $this->currentCategory->getId() , 'and');
 
         Mage::getBlock('catalog.leftnav.bytopic')->assign('currentCategoryId',$this->currentCategory->getId());
