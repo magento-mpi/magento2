@@ -110,13 +110,13 @@ class Mage_Core_Module_Info
     
     public function getBaseUrl($type='')
     {
-    	$url = '';
-    	switch ($type) {
-    		default:
-    		    $url = Mage::getBaseUrl($type) . '/' . $this->getFrontName();
-    			break;
-    	}
-    	return $url;
+        $url = '';
+        switch ($type) {
+            default:
+                $url = Mage::getBaseUrl($type) . '/' . $this->getFrontName();
+                break;
+        }
+        return $url;
     }
     
     public function loadConfig($name)
@@ -157,7 +157,7 @@ class Mage_Core_Module_Info
             }
         }
         
-        #$this->getSetupClass()->applyDbUpdates();
+        $this->getSetupClass()->applyDbUpdates();
         
         Mage_Core_Controller::loadModuleConfig($this);
     }

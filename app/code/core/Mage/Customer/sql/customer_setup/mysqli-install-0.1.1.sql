@@ -1,6 +1,6 @@
 /*
 SQLyog Enterprise - MySQL GUI v5.13
-Host - 4.1.21-community-nt : Database - pepper_dev
+Host - 4.1.21-community-nt : Database - pepper
 *********************************************************************
 Server version : 4.1.21-community-nt
 */
@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `customer`;
 
 CREATE TABLE `customer` (
   `customer_id` int(11) unsigned NOT NULL auto_increment,
-  `customer_type_id` tinyint(3) unsigned default NULL,
+  `customer_type_id` tinyint(3) unsigned NOT NULL default '0',
   `customer_name` varchar(64) NOT NULL default '',
   `customer_email` varchar(128) NOT NULL default '',
   `customer_pass` varchar(32) NOT NULL default '',
@@ -26,7 +26,7 @@ CREATE TABLE `customer` (
   PRIMARY KEY  (`customer_id`),
   KEY `FK_CUSTOMER_TYPE` (`customer_type_id`),
   CONSTRAINT `FK_CUSTOMER_TYPE` FOREIGN KEY (`customer_type_id`) REFERENCES `customer_type` (`customer_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=cp1251 COMMENT='Base customers information';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Base customers information';
 
 /*Data for the table `customer` */
 
@@ -37,13 +37,24 @@ DROP TABLE IF EXISTS `customer_address`;
 CREATE TABLE `customer_address` (
   `address_id` int(11) unsigned NOT NULL auto_increment,
   `customer_id` int(11) unsigned NOT NULL default '0',
-  `company` varchar(128) NOT NULL default '',
   `firstname` varchar(128) NOT NULL default '',
   `lastname` varchar(128) NOT NULL default '',
+  `post_code` varchar(16) NOT NULL default '',
+  `street` varchar(128) NOT NULL default '',
+  `city` varchar(64) NOT NULL default '',
+  `region_id` mediumint(8) unsigned NOT NULL default '0',
+  `country_id` smallint(6) NOT NULL default '0',
+  `company` varchar(128) NOT NULL default '',
+  `telephone` varchar(32) default NULL,
+  `fax` varchar(32) default NULL,
   PRIMARY KEY  (`address_id`),
+  KEY `FK_ADDRESS_COUNTRY` (`country_id`),
   KEY `FK_ADDRESS_CUSTOMER` (`customer_id`),
+  KEY `FK_ADDRESS_REGION` (`region_id`),
+  CONSTRAINT `FK_ADDRESS_REGION` FOREIGN KEY (`region_id`) REFERENCES `directory_country_region` (`region_id`),
+  CONSTRAINT `FK_ADDRESS_COUNTRY` FOREIGN KEY (`country_id`) REFERENCES `directory_country` (`country_id`),
   CONSTRAINT `FK_ADDRESS_CUSTOMER` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=cp1251 COMMENT='Customer addresses books';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Customer addresses books';
 
 /*Data for the table `customer_address` */
 
@@ -59,7 +70,7 @@ CREATE TABLE `customer_payment` (
   KEY `FK_CUSTOMER_PAYMENT_METHOD` (`payment_method_id`),
   CONSTRAINT `FK_PAYMENT_METHOD_CUSTOMER` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_PAYMENT_METHOD` FOREIGN KEY (`payment_method_id`) REFERENCES `customer_payment_method` (`payment_method_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=cp1251 COMMENT='Payment methods per customers';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Payment methods per customers';
 
 /*Data for the table `customer_payment` */
 
@@ -71,7 +82,7 @@ CREATE TABLE `customer_payment_method` (
   `payment_method_id` tinyint(3) unsigned NOT NULL auto_increment,
   `payment_method_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`payment_method_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=cp1251 COMMENT='Customers payment methods (Credit card, etc.)';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Customers payment methods (Credit card, etc.)';
 
 /*Data for the table `customer_payment_method` */
 
@@ -83,7 +94,7 @@ CREATE TABLE `customer_type` (
   `customer_type_id` tinyint(3) unsigned NOT NULL auto_increment,
   `customer_type_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`customer_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=cp1251 COMMENT='Customers type';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Customers type';
 
 /*Data for the table `customer_type` */
 

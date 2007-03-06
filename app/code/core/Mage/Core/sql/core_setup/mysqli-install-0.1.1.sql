@@ -3,8 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.21-community-nt : Database - pepper
 *********************************************************************
 Server version : 4.1.21-community-nt
-*/
-
+*/
 
 SET NAMES utf8;
 
@@ -57,7 +56,7 @@ CREATE TABLE `core_custom_field` (
   PRIMARY KEY  (`custom_field_id`),
   KEY `FK_CUSTOM_FIELD_TABLE` (`table_id`),
   CONSTRAINT `FK_CUSTOM_FIELD_TABLE` FOREIGN KEY (`table_id`) REFERENCES `core_table` (`table_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='MySQL table';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Custom table fields';
 
 /*Data for the table `core_custom_field` */
 
@@ -75,7 +74,7 @@ CREATE TABLE `core_custom_field_data` (
   PRIMARY KEY  (`custom_field_data_id`),
   KEY `FK_CUSTOM_FIELD_DATA_FIELD` (`custom_field_id`),
   CONSTRAINT `FK_CUSTOM_FIELD_DATA_FIELD` FOREIGN KEY (`custom_field_id`) REFERENCES `core_custom_field` (`custom_field_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='MySQL table';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Data from custom fields';
 
 /*Data for the table `core_custom_field_data` */
 
@@ -91,8 +90,6 @@ CREATE TABLE `core_domain` (
 
 /*Data for the table `core_domain` */
 
-insert into `core_domain` (`domain_id`,`domain_name`) values (1,'default');
-
 /*Table structure for table `core_domain_setting` */
 
 DROP TABLE IF EXISTS `core_domain_setting`;
@@ -105,11 +102,9 @@ CREATE TABLE `core_domain_setting` (
   KEY `FK_DOMAIN_SETTING` (`setting_id`),
   CONSTRAINT `FK_SETTING_DOMAIN` FOREIGN KEY (`domain_id`) REFERENCES `core_domain` (`domain_id`),
   CONSTRAINT `FK_DOMAIN_SETTING` FOREIGN KEY (`setting_id`) REFERENCES `core_setting` (`setting_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Domain settings';
 
 /*Data for the table `core_domain_setting` */
-
-insert into `core_domain_setting` (`domain_id`,`setting_id`,`setting_value`) values (1,1,'');
 
 /*Table structure for table `core_domain_website` */
 
@@ -125,8 +120,6 @@ CREATE TABLE `core_domain_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Domain websites';
 
 /*Data for the table `core_domain_website` */
-
-insert into `core_domain_website` (`domain_id`,`website_id`) values (1,1);
 
 /*Table structure for table `core_language` */
 
@@ -167,8 +160,6 @@ CREATE TABLE `core_setting` (
 
 /*Data for the table `core_setting` */
 
-insert into `core_setting` (`setting_id`,`setting_name`) values (1,'skin');
-
 /*Table structure for table `core_table` */
 
 DROP TABLE IF EXISTS `core_table`;
@@ -182,7 +173,7 @@ CREATE TABLE `core_table` (
   PRIMARY KEY  (`table_id`),
   KEY `FK_TABLE_MODULE` (`module_id`),
   CONSTRAINT `FK_TABLE_MODULE` FOREIGN KEY (`module_id`) REFERENCES `core_module` (`module_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='MySQL table';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables configuration';
 
 /*Data for the table `core_table` */
 
@@ -197,11 +188,9 @@ CREATE TABLE `core_website` (
   PRIMARY KEY  (`website_id`),
   KEY `FK_WEBSITE_LANGUAGE` (`language_code`),
   CONSTRAINT `FK_WEBSITE_LANGUAGE` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='MySQL table';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Websites';
 
 /*Data for the table `core_website` */
-
-insert into `core_website` (`website_id`,`language_code`,`website_code`) values (1,'en','Pepper eCommerce');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
