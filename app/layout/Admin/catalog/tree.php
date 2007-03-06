@@ -25,21 +25,21 @@ ProductNavigation = {
             text: 'Recent Products',
             allowDrag: false,
             id:'products-recent',
-            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_catalog/tree/recentProducts/'})
+            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_catalog/tree/recentProducts/'})
         });
         
         var recentSearches = new Ext.tree.AsyncTreeNode({
             text: 'Recent Searches',
             allowDrag: false,
             id:'products-recent-searches',
-            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_catalog/tree/recentSearches/'})
+            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_catalog/tree/recentSearches/'})
         });    
        
         var savedSearches = new Ext.tree.AsyncTreeNode({
             text: 'Saved Searches',
             allowDrag: false,
             id:'products-saved-searches',
-            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_catalog/tree/savedSearches/'})
+            loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_catalog/tree/savedSearches/'})
         });
 
         this.tree.setRootNode(root);
@@ -74,7 +74,7 @@ ProductNavigation = {
                             closable: true, 
                             title: node.text, 
                             fitToFrame: true, 
-                            url:BASE_URL + '/ecom_catalog/product/view/product/'+productId, 
+                            url:BASE_URL + '/mage_catalog/product/view/product/'+productId, 
                             loadOnce: true 
                          }
                     )
@@ -105,7 +105,7 @@ Ext.onReady(function(){
     
     var tree = new Tree.TreePanel('catalog-tree-categories-div', {
         animate:true, 
-        loader: new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_catalog/tree/categories/'}),
+        loader: new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_catalog/tree/categories/'}),
         enableDD:true,
         containerScroll: true
     });
@@ -138,7 +138,7 @@ Ext.onReady(function(){
             divHolder.id = 'catalog_productsGrid_category_'+node.id;
             document.body.appendChild(divHolder);
         }
-        mainLayout.add('center', new Ext.ContentPanel('catalog_productsGrid_category_'+node.id, {closable: true, title:'Grid - ' + node.text, fitToFrame: true, url:BASE_URL + '/ecom_catalog/product/grid/category/'+node.id, loadOnce: true }));
+        mainLayout.add('center', new Ext.ContentPanel('catalog_productsGrid_category_'+node.id, {closable: true, title:'Grid - ' + node.text, fitToFrame: true, url:BASE_URL + '/mage_catalog/product/grid/category/'+node.id, loadOnce: true }));
         mainLayout.endUpdate();
     }
     

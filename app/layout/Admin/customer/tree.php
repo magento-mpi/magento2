@@ -5,7 +5,7 @@ Ext.onReady(function(){
     
     var tree = new Ext.tree.TreePanel('customers-tree-div', {
         animate: true, 
-//        loader: new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_customer/tree/searches/'}),
+//        loader: new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_customer/tree/searches/'}),
         enableDD: false,
         containerScroll: true
     });
@@ -21,21 +21,21 @@ Ext.onReady(function(){
         text: 'Recent Customers',
         allowDrag: false,
         id:'customers-recent',
-    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_customer/tree/recentCustomers/'})
+    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_customer/tree/recentCustomers/'})
     });
     
     var recentSearches = new Ext.tree.AsyncTreeNode({
         text: 'Recent Searches',
         allowDrag: false,
         id:'customers-recent-searches',
-    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_customer/tree/recentSearches/'})
+    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_customer/tree/recentSearches/'})
     });    
    
     var savedSearches = new Ext.tree.AsyncTreeNode({
         text: 'Saved Searches',
         allowDrag: false,
         id:'customers-saved-searches',
-    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/ecom_customer/tree/savedSearches/'})
+    	loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/mage_customer/tree/savedSearches/'})
     });
     
     tree.setRootNode(root);

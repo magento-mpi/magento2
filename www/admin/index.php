@@ -1,5 +1,5 @@
 <?php
 
 require '../../app/Ecom.php';
-Ecom::runAdmin();
+Mage::runAdmin();
 
