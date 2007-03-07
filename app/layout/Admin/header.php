@@ -12,12 +12,18 @@
 	<script src="<?=$this->BASE_URL?>/../js/yui-ext/ext-all-debug.js"></script>
 
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta.js"></script>
-	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/panels.js"></script>
+	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/menu.js"></script>
+	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/toolbar.js"></script>
+	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/panels.js"></script>	
+	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/interface.js"></script>
 	
+
+	
+
+
+	
+	<!--
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/layout2.js"></script>
-	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/toolbar.js"></script>
-	
-	<!--  	
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/misc.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/blocks.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/contex_toolbars.js"></script>
