@@ -31,6 +31,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     function fillAction()
     {
         set_time_limit(0);
+        return false;
         /**
          * @var $db Zend_Db_Adapter_Abstract
          */
@@ -43,7 +44,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             $db->insert('catalog_product', $base);
             $product_id = $db->lastInsertId();
 
-            for ($website=1;$website<=5;$website++) {
+            for ($website=1;$website<=2;$website++) {
                 $attr = array();
                 $attr['product_id']     = $product_id;
                 $attr['attribute_id']   = 1;
