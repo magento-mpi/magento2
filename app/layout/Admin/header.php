@@ -12,11 +12,12 @@
 	<script src="<?=$this->BASE_URL?>/../js/yui-ext/ext-all-debug.js"></script>
 
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta.js"></script>
+	<!--  
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/menu.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/toolbar.js"></script>
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/panels.js"></script>	
 	<script src="<?=$this->BASE_URL?>/../js/varien/yui-ext/magenta/interface.js"></script>
-	
+	 -->
 
 	
 

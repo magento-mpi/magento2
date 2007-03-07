@@ -1,7 +1,9 @@
 Ext.Mage.Panels = {
     
         loadPanel : function() {
+            
             this.layout.beginUpdate(); 
+            
             var innerLayout = new Ext.BorderLayout(Ext.DomHelper.append(this.layout.getEl(), {tag:'div'}, true), {
                 west: {
                     split:true,
