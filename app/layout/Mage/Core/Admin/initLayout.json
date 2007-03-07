@@ -58,7 +58,7 @@
         [".addText",{"text":"New Customer"}]
     ],
     
-    ["+admin_menu", "#top_menu_customers",
+    ["+admin_menu", "#top_menu_system",
         [".addText",{"text":"Manage Blocks & Layouts"}]
     ],
     
