@@ -1,0 +1,73 @@
+[":admin_core_initLayout",
+    ["+tpl","#root",[".setViewName","Mage_Core","Admin/layout"],
+        [".assign","baseUrl","{$baseUrl}"],
+        [".assign","baseSkinUrl","{$baseUrl}/admin/skins/default"],
+        
+        [".setChild","head",["+list","#head",
+            [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
+            [".append",["+tag_css",[".setHref","../js/yui-ext/resources/css/ext-all.css"]]]
+            [".append",["+tag_css",[".setHref","/newadmin.css"]]]
+            [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js"]]],
+            [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js"]]],
+            [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js"]]],
+            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]],
+        ]],
+        
+        [".setChild","layout",["+admin_layout_border","#layout",
+            [".construct","document.body",{
+				"hideOnLayout": true,
+	            "north": {"split":false,"titlebar":false,"collapsible":false},
+	            "center": {"resizeTabs":true,"alwaysShowTabs":true,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
+		        "south": {"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false}
+            }],
+            [".addPanel","north",
+                ["+admin_layout_content","#admin_north",[".construct","",{"title":"North"}]]
+            ],
+            [".addPanel","center",
+                ["+admin_layout_content","#admin_default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
+            ],
+            [".addPanel","center",
+                ["+admin_layout_nested","#admin_blocks",[".construct","",{"title":"Blocks and Layouts"}],
+                    [".addPanel","west",
+                        ["+admin_layout_nested","#admin_blocks_west",
+                            [".construct","",{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true}],
+                            [".addPanel","center",["+admin_layout_content","#admin_blocks_west_center"]],
+                            [".addPanel","south",["+admin_layout_content","#admin_blocks_west_south"]]
+                        ]
+                    ],
+                    [".addPanel","center",
+                        ["+admin_layout_content","#admin_blocks_center"]
+                    ]
+                ]
+            ],
+            [".addPanel","south",
+                ["+admin_layout_content","#admin_south"]
+            ]
+        ]]
+    ],
+    
+    ["+admin_menu", "#top_menu_catalog",
+        [".addText",{"text":"View Products"}],
+        [".addSeparator"],
+        [".addText",{"text":"New Product"}]
+    ],
+    
+    ["+admin_menu", "#top_menu_customers",
+        [".addText",{"text":"View Customers & Orders"}],
+        [".addSeparator"],
+        [".addText",{"text":"New Customer"}]
+    ],
+    
+    ["+admin_menu", "#top_menu_customers",
+        [".addText",{"text":"Manage Blocks & Layouts"}]
+    ],
+    
+    ["+admin_toolbar", "#top_menu",
+        [".construct", "admin_north"]
+        [".addMenu", "cls":"bmenu","text":"Catalog","menu":"Ext.Mage.top_menu_catalog"],
+        [".addMenu", "cls":"bmenu","text":"Customers","menu":"Ext.Mage.top_menu_customers"],
+        [".addMenu", "cls":"bmenu","text":"System","menu":"Ext.Mage.top_menu_system"],
+        [".addButton", "text":"User"]
+    ],
+    
+]

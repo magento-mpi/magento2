@@ -13,7 +13,7 @@
 
 class Mage_Core_Block_Text_List extends Mage_Core_Block_Text 
 {
-	function toHtml()
+	function toString()
 	{
 	    $list = $this->getAttribute('sortedChildrenList');
 	    if (!empty($list)) {
@@ -22,9 +22,9 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
     	        if (!$block) {
     	            Mage::exception('Invalid block: '.$name);
     	        }
-    	        $this->addText($block->toHtml());
+    	        $this->addText($block->toString());
     	    }
 	    }
-	    return parent::toHtml();
+	    return parent::toString();
 	}
 }// Class Mage_Core_Block_List END

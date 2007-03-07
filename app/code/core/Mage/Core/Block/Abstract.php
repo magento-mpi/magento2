@@ -323,6 +323,6 @@ abstract class Mage_Core_Block_Abstract
     	return implode($separator, $arrValues);
     }
     	
-	abstract public function toHtml();
+	abstract public function toString();
 	
 }// Class Mage_Home_ContentBlock END

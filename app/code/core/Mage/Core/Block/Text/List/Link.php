@@ -22,7 +22,7 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
 	    return $this;
 	}
 
-	function toHtml()
+	function toString()
 	{
 	    $this->setText('<li');
 	    $params = $this->getAttribute('liParams');
@@ -46,6 +46,6 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
 
 	    $this->addText('>'.$this->getAttribute('innerText').'</a>'.$this->getAttribute('afterText').'</li>'."\r\n");
 	    
-	    return parent::toHtml();
+	    return parent::toString();
 	}
 }// Class Mage_Core_Block_List END

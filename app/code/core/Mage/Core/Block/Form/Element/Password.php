@@ -15,7 +15,7 @@ class Mage_Core_Block_Form_Element_Password extends Mage_Core_Block_Form_Element
         parent::__construct($attributes);
     }
     
-    public function toHtml()
+    public function toString()
     {
         $html = $this->renderElementLabel();
         $html.= '<input type="password" ';

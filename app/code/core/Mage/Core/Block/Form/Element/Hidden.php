@@ -14,7 +14,7 @@ class Mage_Core_Block_Form_Element_Hidden extends Mage_Core_Block_Abstract
 		parent::__construct($attributes);
 	}
 	
-	function toHtml()
+	function toString()
 	{
 	    if (is_null($this->getAttribute('name'))) {
 	    	Mage::exception('Hidden form element must have "name" attribute');

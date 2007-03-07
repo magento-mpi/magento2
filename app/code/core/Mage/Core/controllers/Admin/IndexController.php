@@ -1,7 +1,5 @@
 <?php
 
-include_once "Mage/Core/Controller/Zend/Admin/Action.php";
-
 class IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction()

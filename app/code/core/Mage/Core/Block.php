@@ -265,6 +265,7 @@ class Mage_Core_Block
         } else {
             $baseModuleUrl = '';
         }
+        $baseJsUrl = Mage::getBaseUrl('js');
         
         if ('/'!==$fileName{0}) {
             $fileName = Mage::getRoot('layout').DS.$fileName;

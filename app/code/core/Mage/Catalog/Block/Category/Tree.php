@@ -13,7 +13,7 @@
 
 class Mage_Catalog_Block_Category_Tree extends Mage_Core_Block_Abstract
 {
-	function toHtml()
+	function toString()
 	{
 	    if ($parent = $this->getAttribute('treeParentId')) {
 	        $data = Mage::getModel('catalog', 'category')->getTree($parent);

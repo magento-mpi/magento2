@@ -14,7 +14,7 @@
 
 class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 {
-	function toHtml()
+	function toString()
 	{
 	    ob_implicit_flush();
 	    
@@ -25,7 +25,7 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
     	        if (!$block) {
     	            Mage::exception('Invalid block: '.$name);
     	        }
-    	        echo $block->toHtml();
+    	        echo $block->toString();
     	    }
 	    }
 	}

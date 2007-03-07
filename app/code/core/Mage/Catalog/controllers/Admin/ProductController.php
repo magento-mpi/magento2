@@ -75,7 +75,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $productFormBlock->addField('text11', 'button', array('name'=>'text8', 'id'=>'text8', 'value'=>11));
         $productFormBlock->addField('text12', 'note', array('name'=>'text8', 'id'=>'text8', 'value'=>11));
         
-        $this->getResponse()->setBody($productFormBlock->toHtml());
+        $this->getResponse()->setBody($productFormBlock->toString());
     }
     
     public function saveAction() 

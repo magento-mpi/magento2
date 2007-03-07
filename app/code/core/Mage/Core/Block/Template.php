@@ -111,7 +111,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      *
      * @return string
      */
-    public function toHtml()
+    public function toString()
     {
         $this->setView();
 
@@ -119,7 +119,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             // Render child elements
             foreach ($this->_children as $name=>$block) {
                 if ($block instanceof Mage_Core_Block_Abstract) {
-                   $childHtml = $block->toHtml();
+                   $childHtml = $block->toString();
                 } elseif (is_string($block)) {
                    $childHtml = $block;
                 }

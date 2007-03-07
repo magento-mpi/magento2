@@ -53,8 +53,8 @@ class Mage_Core_Controller
                 break;
 
             case 'js':
-                $url .= '/js';
-                break;
+                $url .= preg_replace('#/admin$#', '', $url).'/js';
+                break;                
         }
 
         return $url;
@@ -62,6 +62,6 @@ class Mage_Core_Controller
     
     public static function renderLayout()
     {
-        Mage::getController()->getFront()->getResponse()->setBody(Mage::getBlock('root')->toHtml());
+        Mage::getController()->getFront()->getResponse()->setBody(Mage::getBlock('root')->toString());
     }
 }

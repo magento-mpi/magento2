@@ -1,3 +1,7 @@
+Ext.UpdateManager.defaults.loadScripts  = true;
+Ext.UpdateManager.defaults.disableCaching  = true;
+
+
 Ext.Mage = new Object();
 
 Ext.Mage.Menu = {
