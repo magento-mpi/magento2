@@ -21,6 +21,9 @@
             <a href="#"><img src="<?=$this->moduleImagesUrl?>/arrow_pager_next.gif" alt="Next"/></a>
         </li>
         <?endif?>
+        <li>
+         Total: <?=$this->productCollection->getSize()?> items
+        </li>
     </ul>
     <span class="sort-by">Sort by <select name="sort" onchange="location.href=this.options[this.selectedIndex].label">
         <option value="name_desc" label="<?=$this->sortUrl->setParam('order', 'name')->buildUrl()?>" <?=$this->sortValue=='name_desc'?'selected':''?>>Name</option>

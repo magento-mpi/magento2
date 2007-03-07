@@ -12,7 +12,7 @@
 <a:Code>Pepper</a:Code>
 <a:CreationDate>1171576299</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173222049</a:ModificationDate>
+<a:ModificationDate>1173228349</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:PackageOptionsText>[FolderOptions]
 
@@ -192,7 +192,7 @@ GenRefrCmmt=Yes
 GenIndxCrea=Yes
 GenIndxOut=Yes
 GenIndxPkey=No
-GenIndxFkey=No
+GenIndxFkey=Yes
 GenIndxAkey=No
 GenIndxClus=No
 GenIndxOthr=No
@@ -8497,7 +8497,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:CenterTextOffset>(0, 1)</a:CenterTextOffset>
 <a:SourceTextOffset>(-896, 402)</a:SourceTextOffset>
 <a:DestinationTextOffset>(2095, 798)</a:DestinationTextOffset>
-<a:Rect>((1016,-2413), (41253,9947))</a:Rect>
+<a:Rect>((1016,-2412), (41253,9947))</a:Rect>
 <a:ListOfPoints>((5778,9947),(5778,-1828),(41253,-1828))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -8569,7 +8569,7 @@ CARD 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:CenterTextOffset>(-338, 20)</a:CenterTextOffset>
 <a:SourceTextOffset>(-2221, -627)</a:SourceTextOffset>
 <a:DestinationTextOffset>(2221, 627)</a:DestinationTextOffset>
-<a:Rect>((-85,-4714), (34966,-3222))</a:Rect>
+<a:Rect>((-85,-4714), (34966,-3221))</a:Rect>
 <a:ListOfPoints>((-85,-4489),(34966,-4489))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>
@@ -10553,11 +10553,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Column>
 <o:Column Id="o304">
 <a:ObjectID>FB114F1E-D8A9-40BA-A0BC-998000C457AA</a:ObjectID>
-<a:Name>data_storage</a:Name>
-<a:Code>data_storage</a:Code>
+<a:Name>data_saver</a:Name>
+<a:Code>data_saver</a:Code>
 <a:CreationDate>1172144868</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173225856</a:ModificationDate>
+<a:ModificationDate>1173232528</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DataType>varchar(32)</a:DataType>
 <a:Length>32</a:Length>
@@ -10743,10 +10743,11 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>product_set_id</a:Code>
 <a:CreationDate>1173225325</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173227333</a:ModificationDate>
+<a:ModificationDate>1173234662</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DataType>smallint(6) unsigned</a:DataType>
 <a:Length>6</a:Length>
+<a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o318">
 <a:ObjectID>FC872013-3767-4ACA-9653-04BF8ABF6EC4</a:ObjectID>
@@ -11356,11 +11357,11 @@ Shadow=0</a:DisplayPreferences>
 </o:Column>
 <o:Column Id="o359">
 <a:ObjectID>689D185B-D8FA-4DF6-9060-C249322A2844</a:ObjectID>
-<a:Name>data_storage</a:Name>
-<a:Code>data_storage</a:Code>
+<a:Name>data_saver</a:Name>
+<a:Code>data_saver</a:Code>
 <a:CreationDate>1173226953</a:CreationDate>
 <a:Creator>moby</a:Creator>
-<a:ModificationDate>1173226953</a:ModificationDate>
+<a:ModificationDate>1173232514</a:ModificationDate>
 <a:Modifier>moby</a:Modifier>
 <a:DataType>varchar(32)</a:DataType>
 <a:Length>32</a:Length>

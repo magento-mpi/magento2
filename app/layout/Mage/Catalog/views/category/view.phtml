@@ -14,7 +14,7 @@
     <div class="item">
         <a href="<?=$product->getLink()?>"><img src="<?=$this->moduleImagesUrl?>/placeholder_product_small.gif" alt="product name" width="175" height="175"/></a>
         <p><a href="<?=$product->getLink()?>"><?=$product->getName()?></a></p>
-        <p>As low as <strong><?=$product->getPrice()?></strong> (<?=$product->getBase_Prop1()?> Qty)</p>
+        <p>As low as <strong><?=$product->getPrice()?></strong> (<?=$product->getQty()?> Qty)</p>
     </div>
     <?endforeach?>
     <div class="clearfix"></div>

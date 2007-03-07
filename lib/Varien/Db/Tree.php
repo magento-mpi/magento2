@@ -7,8 +7,8 @@
  * @package
  * @copyright  Copyright (c) 2007 Varien Inc.
  * @license    New BSD License
- * @author 	   Andrey Korolyov
- * @author 	   Dmitriy Soroka
+ * @author     Andrey Korolyov
+ * @author     Dmitriy Soroka
  */
 
 
@@ -275,17 +275,17 @@ class Varien_Db_Tree
     
     public function addTable($tableName, $joinCondition, $fields='*')
     {
-    	$this->_extTables[$tableName] = array(
-    	   'joinCondition' => $joinCondition,
-    	   'fields'        => $fields
-    	);
+        $this->_extTables[$tableName] = array(
+           'joinCondition' => $joinCondition,
+           'fields'        => $fields
+        );
     }
     
     protected function _addExtTablesToSelect(Zend_Db_Select &$select)
     {
-    	foreach ($this->_extTables as $tableName=>$info) {
-    		$select->joinInner($tableName, $info['joinCondition'], $info['fields']);
-    	}
+        foreach ($this->_extTables as $tableName=>$info) {
+            $select->joinInner($tableName, $info['joinCondition'], $info['fields']);
+        }
     }
     
     function getChildren($ID, $start_level = 0, $end_level = 0) 
@@ -298,7 +298,7 @@ class Varien_Db_Tree
             ->where($this->_right . ' <= :right')
             ->order($this->_left);
         
-    	$this->_addExtTablesToSelect($dbSelect);
+        $this->_addExtTablesToSelect($dbSelect);
         
         $data = array();
         $data['left'] = $info[$this->_left];
@@ -309,6 +309,7 @@ class Varien_Db_Tree
             $data['minLevel'] = $info[$this->_level] + $start_level;
         }
 
+        //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
         $nodeSet = new Varien_Db_Tree_NodeSet();
@@ -320,13 +321,13 @@ class Varien_Db_Tree
     
     function getNode($nodeId)
     {
-    	$dbSelect = new Zend_Db_Select($this->_db);
+        $dbSelect = new Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
             ->where($this->_table.'.'.$this->_id  . ' >= :id');
         
-    	$this->_addExtTablesToSelect($dbSelect);
-    	
-    	$data = array();
+        $this->_addExtTablesToSelect($dbSelect);
+        
+        $data = array();
         $data['id'] = $nodeId;
         
         $data = $this->_db->fetchRow($dbSelect, $data);

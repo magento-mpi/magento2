@@ -7,7 +7,7 @@
  *
  * @copyright  Varien, 2007
  * @version    1.0
- * @author	   Moshe Gurvich <moshe@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 
 class Mage_Catalog_Block_Category_List extends Mage_Core_Block_Template
@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Category_List extends Mage_Core_Block_Template
         $data  = array();
         foreach ($categories as $item) {
             $data[] = array(
-                'title' => $item->getData('name'),
+                'title' => $item->getData('attribute_value'),
                 'id'    => $item->getId(),
             );
         }

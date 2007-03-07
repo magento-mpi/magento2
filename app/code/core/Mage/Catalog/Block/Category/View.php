@@ -42,7 +42,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->prodCollection->addAttributeToSelect('name', 'varchar');
         $this->prodCollection->addAttributeToSelect('price', 'decimal');
         
-        $this->prodCollection->addFilter('category_id', $this->currentCategory->getId() , 'and');
+        $this->prodCollection->addCategoryFilter($this->currentCategory->getId());
 
         Mage::getBlock('catalog.leftnav.bytopic')->assign('currentCategoryId',$this->currentCategory->getId());
         Mage::getBlock('catalog.leftnav.byproduct')->assign('currentCategoryId',$this->currentCategory->getId());

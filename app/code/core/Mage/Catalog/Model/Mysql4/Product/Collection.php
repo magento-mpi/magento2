@@ -13,12 +13,14 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     protected $_productTable;
     protected $_attributeTable;
     protected $_attributeTables;
+    protected $_categoryProductTable;
     
     function __construct($config = array())
     {
         parent::__construct(Mage::getModel('catalog'));
 
         $this->_productTable   = $this->_dbModel->getTableName('catalog_read', 'product');
+        $this->_categoryProductTable = $this->_dbModel->getTableName('catalog_read', 'category_product');
         $this->_attributeTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute');
         $this->_attributeTables['varchar']  = $this->_dbModel->getTableName('catalog_read', 'product_attribute_varchar');
         $this->_attributeTables['text']     = $this->_dbModel->getTableName('catalog_read', 'product_attribute_text');
@@ -28,10 +30,17 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
+        $this->_sqlSelect->join($this->_categoryProductTable, new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"));
        
         $this->setPageSize(9);
         $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');
     }
+
+    function addCategoryFilter($category_id)
+    {
+        $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id=?",$category_id);
+        $this->addFilter('category', $condition, 'string');
+    } 
     
     function addSearchFilter($query)
     {
@@ -53,9 +62,9 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     public function setOrder($field, $direction = 'desc')
     {
         if ($field == 'product_id') {
-        	$field = $this->_dbModel->getTableName('catalog_read', 'product').'.'.$field;
+            $field = $this->_dbModel->getTableName('catalog_read', 'product').'.'.$field;
         }
-    	return parent::setOrder($field, $direction);
+        return parent::setOrder($field, $direction);
     }
         
     /**
@@ -65,20 +74,20 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
      */
     public function getSelectCountSql()
     {
-    	return 'SELECT FOUND_ROWS()';
+        return 'SELECT FOUND_ROWS()';
     }
     
-    function addAttributeToSelect($attributeName, $attributeType)
+    function addAttributeToSelect($attributeCode, $attributeType)
     {
         if (!isset($this->_attributeTables[$attributeType])) {
             Mage::exception('Wrong attribute type:'.$attributeType, 0, 'Mage_Catalog');
         }
-        $attributeId = $this->_dbModel->getReadConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_name=?", $attributeName);
-        $tableAlias= $attributeName . '_' . $attributeType;
+        $attributeId = $this->_dbModel->getReadConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_code=?", $attributeCode);
+        $tableAlias= $attributeCode . '_' . $attributeType;
         //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
         $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;
         
         $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId AND $tableAlias.website_id=1";
-        $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeName"));
+        $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeCode"));
     }
 }
