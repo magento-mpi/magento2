@@ -38,17 +38,8 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $config = Zend_Json::encode($this->getAttribute('config'));
 
         $out = '';
-        #$out .= "$layout.beginUpdate();\n";
         $out .= "$jsName = new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$config);\n";
-        $this->getHandlersJs($config);
-        #$out .= "$layout.endUpdate();\n";
-        /*
-        if (!empty($config['items']) && is_array($config['items'])) {
-            foreach ($config['items'] as $item) {
-                $itemConfig = Zend_Json::encode($item);
-                $out .= "$jsName.add($itemConfig);\n";
-            }
-        }*/
+        $out .= $this->getHandlersJs($config);
         return $out;
     }
 }
