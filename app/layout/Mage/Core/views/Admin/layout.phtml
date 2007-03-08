@@ -8,11 +8,12 @@
 
     <?=$this->head?>
 
-    <script type="type/javascript" language="Javascript">
+    <script type="text/javascript" language="Javascript">
         Ext.UpdateManager.defaults.loadScripts  = true;
         Ext.UpdateManager.defaults.disableCaching  = true;
 
-        Ext.Mage = new Object();
+        Ext.Mage = {};
+        Ext.Mage.Collection = {};
     </script>
 </head>
 <body>
