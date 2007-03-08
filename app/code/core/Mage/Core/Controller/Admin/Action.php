@@ -42,7 +42,7 @@ class Mage_Core_Controller_Admin_Action extends Mage_Core_Controller_Zend_Action
             return;
         }
 
-        Mage::dispatchEvent('admin_action_postDispatch'.
+        Mage::dispatchEvent('admin_action_postDispatch_'.
             $this->getRequest()->getModuleName().'_'.
             $this->getRequest()->getControllerName().'_'.
             $this->getRequest()->getActionName()
