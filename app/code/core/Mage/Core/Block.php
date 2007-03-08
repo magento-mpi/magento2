@@ -277,7 +277,7 @@ class Mage_Core_Block
         #Mage_Core_Profiler::setTimer('loadJson', true);
 
         #Mage_Core_Profiler::setTimer('loadArray');
-        self::loadArray(json_decode($json));
+        self::loadArray(Zend_Json::decode($json));
         #Mage_Core_Profiler::setTimer('loadArray', true);
     }
 }// Class Mage_Home_ContentBlock END

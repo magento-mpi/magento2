@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Block_Admin_Js_Layout_Nested extends Mage_Core_Block_Admin_Js_Layout_Content
+class Mage_Core_Block_Admin_Js_Layout_Panel_Nested extends Mage_Core_Block_Admin_Js_Layout_Panel
 {
     function construct($container, $config)
     {

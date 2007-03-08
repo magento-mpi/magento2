@@ -21,34 +21,34 @@
 		        "south": {"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false}
             }],
             [".addPanel","north",
-                ["+admin_layout_content","#admin_north",[".construct","",{"title":"North"}]]
+                ["+admin_layout_panel","#admin_north",[".construct","",{"title":"North"}]]
             ],
             [".addPanel","center",
-                ["+admin_layout_content","#admin_default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
+                ["+admin_layout_panel","#admin_default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
             ],
             [".addPanel","center",
-                ["+admin_layout_nested","#admin_blocks",[".construct",["+admin_layout_border","#admin_blocks_border",
+                ["+admin_layout_panel_nested","#admin_blocks",[".construct",["+admin_layout_border","#admin_blocks_border",
                     [".construct", "", {
                         "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
             	        "center":{"autoScroll":true}
                     }],
                     [".addPanel","west",
-                        ["+admin_layout_nested","#admin_blocks_west",[".construct",["+admin_layout_border", "#admin_blocks_west_border",
+                        ["+admin_layout_panel_nested","#admin_blocks_west",[".construct",["+admin_layout_border", "#admin_blocks_west_border",
                             [".construct","",{
                                 "center":{"autoScroll":true,"titlebar":false},
                                 "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
                             }],
-                            [".addPanel","center",["+admin_layout_content","#admin_blocks_west_center"]],
-                            [".addPanel","south",["+admin_layout_content","#admin_blocks_west_south"]]
+                            [".addPanel","center",["+admin_layout_panel","#admin_blocks_west_center"]],
+                            [".addPanel","south",["+admin_layout_panel","#admin_blocks_west_south"]]
                         ]]
                     ],
                     [".addPanel","center",
-                        ["+admin_layout_content","#admin_blocks_center"]
+                        ["+admin_layout_panel","#admin_blocks_center"]
                     ]]
                 ],{"title":"Blocks and Layouts"}]
             ],
             [".addPanel","south",
-                ["+admin_layout_content","#admin_south"]
+                ["+admin_layout_panel","#admin_south"]
             ]
         ]]
     ],
@@ -77,4 +77,10 @@
         [".addButton",{"text":"User"}]
     ],
     
+]
+
+[":admin_update_customers_order_history",
+    ["#admin_customers_edit",
+        [".addPanel", "center", ["+admin_layout_grid", "#admin_customers_orders_history"]]
+    ]
 ]
