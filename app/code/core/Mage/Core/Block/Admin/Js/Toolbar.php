@@ -8,6 +8,27 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $this->setAttribute('config', $config);
     }
     
+    function getHandlersJs($items) 
+    {
+        $out = '';
+        foreach ($items as $item) {
+            if (isset($item['on'])) {
+                $id = $item['id'];
+                foreach ($item['on'] as $event=>$handlers) {
+                    foreach ($handlers as $handler) {
+                        $function = $handler[0];
+                        $arguments = Zend_Json::encode($handler[1]);
+                        $out .= "Ext.EventManager.on(Ext.getEl('$id'), '$event', $function, $arguments);\n";
+                    }
+                }
+            }
+            if (isset($item['menu'])) {
+                $out .= $this->getHandlersJs($item['menu']['items']);
+            }
+        }
+        return $out;
+    }
+    
     function toJs()
     {
         $jsName = $this->getObjectNameJs();
