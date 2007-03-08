@@ -2,10 +2,11 @@
 
 class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_Layout
 {    
-    function construct($container, $config)
+    function construct($container, $config=array())
     {
         $this->setAttribute('container', $container);
         $this->setAttribute('config', $config);
+
         $this->setAttribute('jsClassName', 'Ext.BorderLayout');
     }
     
@@ -13,26 +14,59 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     {
         $regions = $this->getAttribute('regions');
         
-        $regions[$target][] = $panel;
+        if ($panel instanceof Mage_Core_Block_Admin_Js_Layout_Panel) {
+            $block = $panel;
+            $name = $panel->getInfo('name');
+        } else {
+            $block = Mage_Core_Block::getBlockByName($panel);
+            $name = $panel;
+        }
+        $this->setChild($name, $block);
+        
+        $regions[$target][] = $block->getObjectNameJs();
         
         $this->setAttribute('regions', $regions);
     }
     
     function toJs()
     {
-        $name = $this->_getObjectNameJs();
+        $name = $this->getInfo('name');
+        $jsName = $this->getObjectNameJs();
         $regions  = $this->getAttribute('regions');
         
-        $out = parent::toJs();
+        $out = '';
         
-        $out .= "$name.beginUpdate();\n";
+        $parent = $this->getInfo('parent');
+        if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
+            $container = $this->getObjectNameJs($this->getAttribute('container')).'.getEl()';
+            $container = "Ext.DomHelper.append($container, {tag:'div'}, true)";
+            $this->setAttribute('container', $container);
+        }
+        
+        $out .= $this->getNewObjectJs();
+
+        $children = $this->getChild();
+        foreach ($children as $block) {
+            $out .= $block->toJs();
+        }
+        
+        $out .= "$jsName.beginUpdate();\n";
         foreach ($regions as $target=>$panels) {
             foreach ($panels as $panel) {
-                $out .= "$name.add('$target', $panel);\n";
+                $out .= "$jsName.add('$target', $panel);\n";
             }
         }
-        $out .= "$name.endUpdate();\n";
+        $out .= "$jsName.endUpdate();\n";
         
         return $out;
+    }
+    
+    function toString()
+    {
+        if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
+            return parent::toString();
+        } else {
+            return "<script type=\"text/javascript\" language=\"Javascript\">\n".$this->toJs()."</script>\n";
+        }
     }
 }

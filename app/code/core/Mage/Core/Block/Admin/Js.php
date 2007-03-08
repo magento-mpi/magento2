@@ -2,12 +2,12 @@
 
 abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
 {
-    function _getNewObjectJs()
+    function getNewObjectJs()
     {
         return '';    
     }
 
-    function _getObjectNameJs($name='')
+    function getObjectNameJs($name='')
     {
         if (''===$name) {
             $name = $this->getInfo('name');
@@ -22,6 +22,6 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
     
     function toString()
     {
-        return $this->_getObjectNameJs();
+        return $this->getObjectNameJs();
     }
 }

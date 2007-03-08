@@ -5,12 +5,12 @@
         
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
-            [".append",["+tag_css",[".setHref","../js/yui-ext/resources/css/ext-all.css"]]]
-            [".append",["+tag_css",[".setHref","/newadmin.css"]]]
+            [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ext-all.css"]]],
+            [".append",["+tag_css",[".setHref","/newadmin.css"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js"]]],
-            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]],
+            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]]
         ]],
         
         [".setChild","layout",["+admin_layout_border","#layout",
@@ -26,61 +26,27 @@
             [".addPanel","center",
                 ["+admin_layout_panel","#admin_default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
             ],
+            [".addPanel","south",["+admin_layout_panel","#admin_south",[".construct"]]],
+            
             [".addPanel","center",
                 ["+admin_layout_panel_nested","#admin_blocks",[".construct",["+admin_layout_border","#admin_blocks_border",
-                    [".construct", "", {
+                    [".construct", "layout", {
                         "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
             	        "center":{"autoScroll":true}
                     }],
                     [".addPanel","west",
                         ["+admin_layout_panel_nested","#admin_blocks_west",[".construct",["+admin_layout_border", "#admin_blocks_west_border",
-                            [".construct","",{
+                            [".construct","layout",{
                                 "center":{"autoScroll":true,"titlebar":false},
                                 "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
                             }],
-                            [".addPanel","center",["+admin_layout_panel","#admin_blocks_west_center"]],
-                            [".addPanel","south",["+admin_layout_panel","#admin_blocks_west_south"]]
-                        ]]
+                            [".addPanel","center",["+admin_layout_panel","#admin_blocks_west_center",[".construct"]]],
+                            [".addPanel","south",["+admin_layout_panel","#admin_blocks_west_south",[".construct"]]]
+                        ]]]
                     ],
-                    [".addPanel","center",
-                        ["+admin_layout_panel","#admin_blocks_center"]
-                    ]]
-                ],{"title":"Blocks and Layouts"}]
-            ],
-            [".addPanel","south",
-                ["+admin_layout_panel","#admin_south"]
+                    [".addPanel","center",["+admin_layout_panel","#admin_blocks_center",[".construct"]]]
+                ],{"title":"Blocks and Layouts"}]]
             ]
         ]]
-    ],
-    
-    ["+admin_menu", "#top_menu_catalog",
-        [".addText",{"text":"View Products"}],
-        [".addSeparator"],
-        [".addText",{"text":"New Product"}]
-    ],
-    
-    ["+admin_menu", "#top_menu_customers",
-        [".addText",{"text":"View Customers & Orders"}],
-        [".addSeparator"],
-        [".addText",{"text":"New Customer"}]
-    ],
-    
-    ["+admin_menu", "#top_menu_system",
-        [".addText",{"text":"Manage Blocks & Layouts"}]
-    ],
-    
-    ["+admin_toolbar", "#top_menu",
-        [".construct","admin_north"],
-        [".addMenu",{"text":"Catalog","cls":"bmenu","menu":"Ext.Mage.top_menu_catalog"}],
-        [".addMenu",{"text":"Customers","cls":"bmenu","menu":"Ext.Mage.top_menu_customers"}],
-        [".addMenu",{"text":"System","cls":"bmenu","menu":"Ext.Mage.top_menu_system"}],
-        [".addButton",{"text":"User"}]
-    ],
-    
-]
-
-[":admin_update_customers_order_history",
-    ["#admin_customers_edit",
-        [".addPanel", "center", ["+admin_layout_grid", "#admin_customers_orders_history"]]
     ]
 ]

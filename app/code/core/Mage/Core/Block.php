@@ -273,11 +273,14 @@ class Mage_Core_Block
         
         $json = file_get_contents($fileName, true);
         eval('$json = "'.addslashes($json).'";');
+        
+        $arr = Zend_Json::decode($json);
+        #echo "TEST:"; print_r($arr);
 
         #Mage_Core_Profiler::setTimer('loadJson', true);
 
         #Mage_Core_Profiler::setTimer('loadArray');
-        self::loadArray(Zend_Json::decode($json));
+        self::loadArray($arr);
         #Mage_Core_Profiler::setTimer('loadArray', true);
     }
 }// Class Mage_Home_ContentBlock END

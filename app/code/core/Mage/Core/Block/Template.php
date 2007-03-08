@@ -114,7 +114,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function toString()
     {
         $this->setView();
-
         if (!empty($this->_children)) {
             // Render child elements
             foreach ($this->_children as $name=>$block) {

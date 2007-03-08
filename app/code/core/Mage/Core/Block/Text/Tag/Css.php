@@ -25,6 +25,7 @@ class Mage_Core_Block_Text_Tag_Css extends Mage_Core_Block_Text_Tag
 	
 	function setHref($href)
 	{
-	    return $this->setTagParam('href', Mage::getBaseUrl('skin').$href);
+	    $url = Mage::getBaseUrl('skin').$href;
+	    return $this->setTagParam('href', $url);
 	}
 }// Class Mage_Core_Block_List END

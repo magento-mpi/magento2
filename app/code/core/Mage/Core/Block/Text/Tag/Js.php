@@ -25,6 +25,7 @@ class Mage_Core_Block_Text_Tag_Js extends Mage_Core_Block_Text_Tag
 	
 	function setSrc($src)
 	{
-	    return $this->setTagParam('src', Mage::getBaseUrl('js').$src);
+	    $url = Mage::getBaseUrl('js').$src;
+	    return $this->setTagParam('src', $url);
 	}
 }// Class Mage_Core_Block_List END
