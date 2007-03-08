@@ -36,7 +36,7 @@
                         ["+admin_layout_nested","#admin_blocks_west",[".construct",["+admin_layout_border", "#admin_blocks_west_border",
                             [".construct","",{
                                 "center":{"autoScroll":true,"titlebar":false},
-                                "south":{"split":true,"initialSize": 200,"minSize": 50,"maxSize": 400,"autoScroll":true,"collapsible":true}
+                                "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
                             }],
                             [".addPanel","center",["+admin_layout_content","#admin_blocks_west_center"]],
                             [".addPanel","south",["+admin_layout_content","#admin_blocks_west_south"]]
@@ -70,11 +70,11 @@
     ],
     
     ["+admin_toolbar", "#top_menu",
-        [".construct", "admin_north"],
-        [".addMenu", {"text":"Catalog","cls":"bmenu","menu":"Ext.Mage.top_menu_catalog"}],
-        [".addMenu", {"text":"Customers","cls":"bmenu","menu":"Ext.Mage.top_menu_customers"}],
-        [".addMenu", {"text":"System","cls":"bmenu","menu":"Ext.Mage.top_menu_system"}],
-        [".addButton", {"text":"User"}]
+        [".construct","admin_north"],
+        [".addMenu",{"text":"Catalog","cls":"bmenu","menu":"Ext.Mage.top_menu_catalog"}],
+        [".addMenu",{"text":"Customers","cls":"bmenu","menu":"Ext.Mage.top_menu_customers"}],
+        [".addMenu",{"text":"System","cls":"bmenu","menu":"Ext.Mage.top_menu_system"}],
+        [".addButton",{"text":"User"}]
     ],
     
 ]
