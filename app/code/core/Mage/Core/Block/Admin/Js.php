@@ -12,7 +12,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
         if (''===$name) {
             $name = $this->getInfo('name');
         }
-        return "Ext.Mage['$name']";
+        return "Ext.Mage.Objects['$name']";
     }
     
     function toJs()
