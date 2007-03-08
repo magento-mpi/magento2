@@ -48,5 +48,23 @@
                 ],{"title":"Blocks and Layouts"}]]
             ]
         ]]
+    ],
+    ["#layout", 
+        [".addToolbar","north",["+admin_toolbar","#top_menu",[".construct","layout",[
+            {"text":"Catalog","cls":"bmenu","menu":{"items":[
+                {"text":"View Products"},
+                "-",
+                {"text":"New Product"}
+            ]}},
+            {"text":"Customers","cls":"bmenu","menu":{"items":[
+                {"text":"View Customers and Orders"},
+                "-",
+                {"text":"New Customer"}
+            ]}},
+            {"text":"System","cls":"bmenu","menu":{"items":[
+                {"text":"Manage Blocks and Layouts"}
+            ]}},
+            {"text":"User"}
+        ]]]]
     ]
 ]

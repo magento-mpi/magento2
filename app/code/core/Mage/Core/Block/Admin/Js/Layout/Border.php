@@ -28,6 +28,20 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $this->setAttribute('regions', $regions);
     }
     
+    function addToolbar($target, $toolbar)
+    {
+        if ($toolbar instanceof Mage_Core_Block_Admin_Js_Toolbar) {
+            $block = $toolbar;
+            $name = $toolbar->getInfo('name');
+        } else {
+            $block = Mage_Core_Block::getBlockByName($toolbar);
+            $name = $toolbar;
+        }
+        $this->setChild($name, $block);
+        $block->setAttribute('region', $target);
+        $block->setAttribute('outAfterParent', true);
+    }
+    
     function toJs()
     {
         $name = $this->getInfo('name');
@@ -47,15 +61,26 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
 
         $children = $this->getChild();
         foreach ($children as $block) {
-            $out .= $block->toJs();
+            if (!$block->getAttribute('outAfterParent')) {
+                $out .= $block->toJs();
+            }
         }
         
         $out .= "$jsName.beginUpdate();\n";
-        foreach ($regions as $target=>$panels) {
-            foreach ($panels as $panel) {
-                $out .= "$jsName.add('$target', $panel);\n";
+        if (!empty($regions) && is_array($regions)) {
+            foreach ($regions as $target=>$panels) {
+                foreach ($panels as $panel) {
+                    $out .= "$jsName.add('$target', $panel);\n";
+                }
             }
         }
+
+        foreach ($children as $block) {
+            if ($block->getAttribute('outAfterParent')) {
+                $out .= $block->toJs();
+            }
+        }
+        
         $out .= "$jsName.endUpdate();\n";
         
         return $out;

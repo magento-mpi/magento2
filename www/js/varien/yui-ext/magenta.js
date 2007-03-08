@@ -84,7 +84,6 @@ Ext.Mage.Panels = {
     
         loadPanel : function() {
             
-            this.layout.beginUpdate(); 
             
             var innerLayout = new Ext.BorderLayout(Ext.DomHelper.append(this.layout.getEl(), {tag:'div'}, true), {
                 west: {
@@ -120,7 +119,6 @@ Ext.Mage.Panels = {
             innerLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true}));
             
             this.layout.add('center', new Ext.NestedLayoutPanel(innerLayout, {title: 'Blocks and Layouts'}));
-            this.layout.endUpdate();
         
         },
     
@@ -167,8 +165,23 @@ Ext.Mage.Interface.prototype = {
             this.layout.add('north', new Ext.ContentPanel('admin-north', {title: 'North'}));
 	        this.layout.add('center', new Ext.ContentPanel('admin-center',  {title: 'CenterContent', fitToFrame:true, closable: true}));
 	   		this.layout.add('south', new Ext.ContentPanel('admin-south'));
-	   		Ext.Mage.Toolbar.assignTo(this.layout.getRegion('north'));
+/*
+Ext.Mage['top_menu'] = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.layout.getRegion('north').getEl(),{tag:'div'},true),[
+{"text":"Catalog","cls":"bmenu","menu":{"items":[{"text":"View Products"},"-",{"text":"New Product"}]}},
+{"text":"Customers","cls":"bmenu","menu":{"items":[{"text":"View Customers and Orders"},"-",{"text":"New Customer"}]}},
+{"text":"System","cls":"bmenu","menu":{"items":[{"text":"Manage Blocks and Layouts"}]}},
+{"text":"User"}
+]);
+*/
+	   		//Ext.Mage.Toolbar.assignTo(this.layout.getRegion('north'));
 	   		Ext.Mage.Panels.init({layout: this.layout});
+	   		new Ext.Toolbar(Ext.DomHelper.insertFirst(this.layout.getRegion('north').getEl(),{tag:'div'},true),[
+{"text":"Catalog","cls":"bmenu","menu":{"items":[{"text":"View Products"},"-",{"text":"New Product"}]}},
+{"text":"Customers","cls":"bmenu","menu":{"items":[{"text":"View Customers and Orders"},"-",{"text":"New Customer"}]}},
+{"text":"System","cls":"bmenu","menu":{"items":[{"text":"Manage Blocks and Layouts"}]}},
+{"text":"User"}]);
+
+	   		
             this.layout.endUpdate();			
         },
 };

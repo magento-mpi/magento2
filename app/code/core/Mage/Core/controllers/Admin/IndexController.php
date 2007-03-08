@@ -5,9 +5,15 @@ class IndexController extends Mage_Core_Controller_Admin_Action
     function indexAction()
     {
         #echo "<pre>"; print_r(Mage_Core_Block::getAllBlocks());
-        #Mage_Core_Block::loadJsonFile('Mage/Core/Admin/initLayout.json');
+        Mage_Core_Block::loadJsonFile('Mage/Core/Admin/initLayout.json');
+        Mage_Core_Controller::renderLayout();
         #$this->getResponse()->setBody($this->_view->render('layout2.php'));
         
+    }
+    
+    function staticAction()
+    {
+        $this->getResponse()->setBody($this->_view->render('layout2.php'));
     }
     
     function treeSwitchAction()

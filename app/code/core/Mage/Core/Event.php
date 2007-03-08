@@ -115,19 +115,17 @@ class Mage_Core_Event
     
     public static function loadObserversConfig($config)
     {
-        foreach ($config as $eventName=>$observer) {
-            $callback = explode('::', $observer->callback);
-            $args = array();
-            $observerName = '';
-            
-            if (isset($observer->arg)) {
-                $args = $observer->arg->asArray();
+        foreach ($config as $eventName=>$observers) {
+            foreach ($observers as $observerName=>$observerInfo) {
+                $callback = explode('::', $observerInfo->callback);
+                $args = array();
+    
+                if (isset($observerInfo->arg)) {
+                    $args = $observerInfo->arg->asArray();
+                }
+    
+                self::addObserver($eventName, $callback, $args, $observerName);
             }
-            if (isset($observer->name)) {
-                $observerName = $observer->name;
-            }
-
-            self::addObserver($eventName, $callback, $args, $observerName);
         }
     }
 }
