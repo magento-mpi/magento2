@@ -13,7 +13,7 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $jsName = $this->getObjectNameJs();
         $layout = $this->getObjectNameJs($this->getAttribute('container'));
         $region = $this->getAttribute('region');
-        $container = "$layout.getRegion('$region').getEl()";
+        $container = "$layout.getRegion('$region').getEl().dom";
         $config = Zend_Json::encode($this->getAttribute('config'));
         
         $out = '';
