@@ -15,7 +15,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
             'loadOnce' => true
         ));
         $block = Mage::getBlock('layout')->addPanel('center', $newBlock);
-        $block = Mage::getBlock('lyaout')->addToolbar();
+        //$block = Mage::getBlock('lyaout')->addToolbar();
         // block types ? where is it - in load.ini
 
         Mage_Core_Controller::renderLayout();
