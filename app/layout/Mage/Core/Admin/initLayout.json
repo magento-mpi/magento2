@@ -54,7 +54,20 @@
     ["#layout",
         [".addToolbar","north",["+admin_toolbar","#top_menu",[".construct","layout",[
             {"text":"Catalog","cls":"bmenu","menu":{"items":[
-                {"text":"View Products"},
+                {
+               		"text":"View Products", 
+               		"handler": {
+               			"click" : [
+               				{"function":"Ext.Mage.MenuHandler", 
+               				 "action" : "click", 
+               				 "params" : {
+               				 	"url":"test",
+               				 	"param1":"paramval"
+               				 }
+               				}
+               			]
+               		}
+               	},
                 "-",
                 {"text":"New Product"}
             ]}},
