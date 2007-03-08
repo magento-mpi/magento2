@@ -9,11 +9,6 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $this->setAttribute('jsClassName', 'Ext.BorderLayout');
     }
     
-    function addRegion()
-    {
-        
-    }
-    
     function addPanel($target, $panel)
     {
         $regions = $this->getAttribute('regions');
@@ -25,15 +20,18 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     
     function toJs()
     {
+        $name = $this->_getObjectNameJs();
+        $regions  = $this->getAttribute('regions');
+        
         $out = parent::toJs();
         
-        $out .= "Ext.Mage['$name'].beginUpdate();\n";
+        $out .= "$name.beginUpdate();\n";
         foreach ($regions as $target=>$panels) {
             foreach ($panels as $panel) {
-                $out .= "Ext.Mage['$name'].add('$target', $panel);\n";
+                $out .= "$name.add('$target', $panel);\n";
             }
         }
-        $out .= "Ext.Mage['$name'].endUpdate();\n";
+        $out .= "$name.endUpdate();\n";
         
         return $out;
     }
