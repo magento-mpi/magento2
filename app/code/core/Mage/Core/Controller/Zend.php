@@ -99,15 +99,15 @@ class Mage_Core_Controller_Zend {
      * Test
      *
      * @param     none
-     * @return	  none
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    none
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     public function test()
     {
-/*    	echo( "<PRE>" );
-    	print_r( $this->_front->getControllerDirectory() );
-    	echo( "</PRE></BR>" );
+/*      echo( "<PRE>" );
+        print_r( $this->_front->getControllerDirectory() );
+        echo( "</PRE></BR>" );
 */    }
 
     /**
@@ -125,7 +125,7 @@ class Mage_Core_Controller_Zend {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
         
-        Mage_Core_Event::dispatchEvent('front_initLayout');
+        Mage_Core_Event::dispatchEvent('initLayout');
         
         $this->_front->dispatch($this->_request);
     }

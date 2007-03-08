@@ -11,9 +11,9 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Zend_Action
             return;
         }
 
-        Mage::dispatchEvent('front_action_preDispatch');
+        Mage::dispatchEvent('action_preDispatch');
 
-        Mage::dispatchEvent('front_action_preDispatch_'.
+        Mage::dispatchEvent('action_preDispatch_'.
             $this->getRequest()->getModuleName().'_'.
             $this->getRequest()->getControllerName().'_'.
             $this->getRequest()->getActionName()
@@ -29,19 +29,19 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Zend_Action
             return;
         }
 
-        Mage::dispatchEvent('front_action_postDispatch'.
+        Mage::dispatchEvent('action_postDispatch'.
             $this->getRequest()->getModuleName().'_'.
             $this->getRequest()->getControllerName().'_'.
             $this->getRequest()->getActionName()
         );
 
-        Mage::dispatchEvent('front_action_postDispatch');
+        Mage::dispatchEvent('action_postDispatch');
     }
 
     function norouteAction()
     {
         //$this->getResponse()->setHeader('HTTP/1.0 404 Not Found');
-        Mage::dispatchEvent('front_action_noRoute');
+        Mage::dispatchEvent('action_noRoute');
     }
 
 }

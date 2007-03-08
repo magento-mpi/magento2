@@ -96,12 +96,12 @@ class Mage_Core_Controller_Zend_Admin {
         $default = Mage::getModuleInfo('Mage_Core')->getRoot('controllers').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
 
-        $view = Zend::registry('view');
-        $view->setScriptPath(Mage::getRoot('layout').DS.'Admin');
-        $view->addHelperPath(Mage::getModuleInfo('Mage_Core')->getRoot().DS.'View'.DS.'Helper', 'Mage_Core_View_Zend_Helper_');
+        //$view = Zend::registry('view');
+        //$view->setScriptPath(Mage::getRoot('layout').DS.'Admin');
+        //$view->addHelperPath(Mage::getModuleInfo('Mage_Core')->getRoot().DS.'View'.DS.'Helper', 'Mage_Core_View_Zend_Helper_');
 
-        $view->assign('BASE_URL', Mage::getBaseUrl());
-        $view->assign('SKIN_URL',Mage::getBaseUrl('skin'));
+        //$view->assign('BASE_URL', Mage::getBaseUrl());
+        //$view->assign('SKIN_URL',Mage::getBaseUrl('skin'));
 
         $this->_front->dispatch($this->_request);
     }
