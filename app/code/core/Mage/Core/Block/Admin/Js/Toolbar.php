@@ -15,7 +15,7 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $region = $this->getAttribute('region');
         $container = "$layout.getRegion('$region').getEl().dom";
         $config = Zend_Json::encode($this->getAttribute('config'));
-        
+
         $out = '';
         #$out .= "$layout.beginUpdate();\n";
         $out .= "$jsName = new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$config);\n";
