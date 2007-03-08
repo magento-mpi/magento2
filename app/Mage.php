@@ -274,14 +274,25 @@ final class Mage {
 
     /**
      * Load active modules
-     *
+     * 
+     * @param   mixed $configs
      */
-    public static function loadActiveModules()
+    public static function loadActiveModules($configs = '')
     {
         $modules = self::getActiveModules();
         foreach ($modules as $modName=>$modInfo) {
             $modInfo->loadConfig('load');
             $modInfo->loadConfig('*user*');
+            if (!empty($configs)) {
+                if (is_array($configs)) {
+                    foreach ($configs as $config) {
+                        $modInfo->loadConfig($config);
+                    }
+                }
+                else {
+                    $modInfo->loadConfig($configs);
+                }
+            }
             $modInfo->processConfig();
         }
     }
@@ -428,7 +439,7 @@ final class Mage {
             #Mage_Core_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
             #Mage_Core_Profiler::setTimer('zend_controller', true);
-            self::loadActiveModules();
+            self::loadActiveModules('front_load');
             Mage_Core_Controller::getController()->run();
             
             Mage_Core_Profiler::getTimer('app', true);
@@ -447,7 +458,7 @@ final class Mage {
         try {            
             self::init($appRoot);
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
-            self::loadActiveModules();
+            self::loadActiveModules('admin_load');
             Mage_Core_Controller::getController()->run();
             
             //Mage_Core_Profiler::getTimer('app', true);
