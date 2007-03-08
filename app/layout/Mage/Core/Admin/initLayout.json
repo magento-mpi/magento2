@@ -16,9 +16,10 @@
         [".setChild","layout",["+admin_layout_border","#layout",
             [".construct","document.body",{
 				"hideOnLayout": true,
-	            "north": {"split":false,"titlebar":false,"collapsible":false},
-	            "center": {"resizeTabs":true,"alwaysShowTabs":true,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
-		        "south": {"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false}
+	            "north":{"split":false,"titlebar":false,"collapsible":false},
+	            "center":{"resizeTabs":true,"alwaysShowTabs":true,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
+		        "south":{"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false},
+		        "east":{"split":true,"initialSize":150,"autoScroll":true,"collapsible":true,"titlebar":true}
             }],
             [".addPanel","north",
                 ["+admin_layout_panel","#admin_north",[".construct","",{"title":"North"}]]
@@ -27,6 +28,7 @@
                 ["+admin_layout_panel","#admin_default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
             ],
             [".addPanel","south",["+admin_layout_panel","#admin_south",[".construct"]]],
+            [".addPanel","east",["+admin_layout_panel","#admin_east",[".construct","",{"title":"My Tasks"}]]],
             
             [".addPanel","center",
                 ["+admin_layout_panel_nested","#admin_blocks",[".construct",["+admin_layout_border","#admin_blocks_border",
