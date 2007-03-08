@@ -14,7 +14,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     {
         // Valid category id
         if ($categoryId = $this->_getId()) {
-            $category = Mage::getModel('catalog', 'categories')->getNode($categoryId);
+            $category = Mage::getModel('catalog', 'category_tree')->getNode($categoryId);
 
             $productInfoBlock = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
             $productInfoBlock->loadData($this->getRequest());
@@ -37,7 +37,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
          */
         $db = Mage_Core_Resource::getResource('catalog_write')->getConnection();
 
-        for ($i=1;$i<100;$i++) {
+        for ($i=1;$i<10000;$i++) {
             $base = array();
             $base['create_date'] = new Zend_Db_Expr('NOW()');
 
