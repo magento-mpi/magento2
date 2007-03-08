@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Core_Setup_Abstract
+class Mage_Core_Module_Setup
 {
     const VERSION_COMPARE_EQUAL  = 0;
     const VERSION_COMPARE_LOWER  = -1;

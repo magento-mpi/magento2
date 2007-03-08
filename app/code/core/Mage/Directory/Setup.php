@@ -9,7 +9,7 @@
  * @date       Wed Feb 07 04:06:00 EET 2007
  */
 
-class Mage_Directory_Setup extends Mage_Core_Setup_Abstract 
+class Mage_Directory_Setup extends Mage_Core_Module_Setup 
 {
 
 }

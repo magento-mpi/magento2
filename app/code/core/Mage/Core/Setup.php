@@ -6,7 +6,7 @@
  *
  * @author Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Core_Setup extends Mage_Core_Setup_Abstract
+class Mage_Core_Setup extends Mage_Core_Module_Setup
 {
 
 }
