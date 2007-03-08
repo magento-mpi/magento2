@@ -2,16 +2,17 @@
     ["+tpl","#root",[".setViewName","Mage_Core","Admin/layout"],
         [".assign","baseUrl","{$baseUrl}"],
         [".assign","baseSkinUrl","{$baseUrl}/admin/skins/default"],
-        
+
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
             [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ext-all.css"]]],
             [".append",["+tag_css",[".setHref","/newadmin.css"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js"]]],
-            [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js"]]]
+            [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js"]]],
+            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]]
         ]],
-        
+
         [".setChild","layout",["+admin_layout_border","#layout",
             [".construct","document.body",{
 				"hideOnLayout": true,
@@ -28,7 +29,7 @@
             ],
             [".addPanel","south",["+admin_layout_panel","#admin_south",[".construct"]]],
             [".addPanel","east",["+admin_layout_panel","#admin_east",[".construct","",{"title":"My Tasks"}]]],
-            
+
             [".addPanel","center",
                 ["+admin_layout_panel_nested","#admin_blocks",[".construct",["+admin_layout_border","#admin_blocks_border",
                     [".construct", "layout", {
@@ -50,7 +51,7 @@
             ]
         ]]
     ],
-    ["#layout", 
+    ["#layout",
         [".addToolbar","north",["+admin_toolbar","#top_menu",[".construct","layout",[
             {"text":"Catalog","cls":"bmenu","menu":{"items":[
                 {"text":"View Products"},

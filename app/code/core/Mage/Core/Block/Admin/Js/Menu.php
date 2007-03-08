@@ -12,6 +12,10 @@ class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
         
     }
     
+    function addItem(Mage_Core_Block_Admin_Js_MenuItem $item) {
+        
+    }
+    
     function addSeparator()
     {
         
