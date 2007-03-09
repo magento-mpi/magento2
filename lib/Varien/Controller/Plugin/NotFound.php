@@ -1,6 +1,6 @@
 <?php
 
-Zend::loadClass('Zend_Controller_Plugin_Abstract');
+Zend_Loader::loadClass('Zend_Controller_Plugin_Abstract');
 
 class Varien_Controller_Plugin_NotFound extends Zend_Controller_Plugin_Abstract
 {

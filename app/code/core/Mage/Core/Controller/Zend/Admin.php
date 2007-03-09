@@ -56,7 +56,7 @@ class Mage_Core_Controller_Zend_Admin {
 
 //        $this->_dispatcher = new Zend_Controller_Dispatcher_Standard();
 //        $this->_front->setDispatcher($this->_dispatcher);
-        Zend::register('view', new Zend_View());
+       // Zend_Registry::set('view', new Zend_View());
     }
 
     public function loadModule($modInfo)

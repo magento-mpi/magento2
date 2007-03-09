@@ -13,9 +13,9 @@
 
 
 require_once 'Varien/Db/Tree/Exception.php';
-Zend::loadClass('Zend_Db_Select');
-Zend::loadClass('Varien_Db_Tree_Node');
-Zend::loadClass('Varien_Db_Tree_NodeSet');
+Zend_Loader::loadClass('Zend_Db_Select');
+Zend_Loader::loadClass('Varien_Db_Tree_Node');
+Zend_Loader::loadClass('Varien_Db_Tree_NodeSet');
 
 class Varien_Db_Tree
 {
