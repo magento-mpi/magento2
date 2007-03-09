@@ -10,7 +10,6 @@ Mage.MenuHandler = {
             var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
             var failure = function(o) { Ext.dump(o.statusText); }
             var con = new Ext.lib.Ajax.request('GET', data.url, {success:success,failure:failure});  
-            return function(){};            
         },
         
         loadPanel : function(node, e, data) {
@@ -28,7 +27,7 @@ Mage.MenuHandler = {
             if (activePanel) {
                 la.showPanel(activePanel);
             } else {
-                if (data.isStub) {
+                if (data.loadScript) {
                     this.loadScript(node, data);
                 } else {
                     this.createPanel(node, data);
