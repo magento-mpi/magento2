@@ -1,4 +1,4 @@
-[":catalog_initCatalogLayout",
+[":catalog_initLayout",
     ["#layout",
         [".addPanel","center",
             ["+layout_panel_nested","#view_prducts_panel",
@@ -31,19 +31,6 @@
                     {"title":"View Products"}
                 ]
             ]
-        ],
-        [".addMenu",
-            ["+menu","#top_menu_catalog",
-                [".construct"],
-                [".addItem",
-                    {
-                        "text":"View Products",
-                        "id":"catalog_view_products", 
-                        "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"{$baseUrl}/mage_catalog/","title":"View Products"}]]}
-                    }
-                ]
-            ]
         ]
-    ],
-    ["#top_menu",[".addItem",{"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}]]
+    ]
 ]
