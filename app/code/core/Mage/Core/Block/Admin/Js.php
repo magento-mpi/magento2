@@ -54,8 +54,19 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
                         if (is_array($handlers)) {
                             foreach ($handlers as $handler) {
                                 $function = $handler[0];
-                                $arguments = Zend_Json::encode($handler[1]);
-                                $out .= $this->getObjectJs($item['id']).".on('$event', $function, $arguments);\n";
+                                
+                                if (!empty($handler[1])) {
+                                    $scope = $handler[1];
+                                } else {
+                                    $scope = "this";
+                                }
+                                
+                                if (!empty($handler[2])) {
+                                    $arguments = Zend_Json::encode($handler[2]);
+                                } else {
+                                    $arguments = "[]";
+                                }
+                                $out .= $this->getObjectJs($item['id']).".on('$event', $function.createDelegate($scope, $arguments, true));\n";
                             }
                         }
                     }
