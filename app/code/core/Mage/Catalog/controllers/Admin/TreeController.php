@@ -14,14 +14,16 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
      */
     function indexAction() 
     {
-        $this->getResponse()->appendBody($this->_view->render('catalog/tree.php'));
+        $this->_view->setScriptPath(Mage::getRoot('layout').'/Admin');
+        $this->getResponse()->appendBody($this->_view->render('/catalog/tree.php'));
     }
     
     function categoriesAction() 
     {
-        $tree = Mage::getModel('catalog','Categories');
+        $tree = Mage::getModel('catalog','category_tree');
 
-        $data = $tree->getLevel($this->getRequest()->getPost('node'));
+        $data = $tree->getLevel($this->getRequest()->getPost('node',1));
+
         $json = array();
         foreach ($data as $node) {
             $tmp = array();
@@ -42,18 +44,18 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
     {
         // TODO: create system storage
         if (!is_array($_SESSION['OPEN_PRODUCTS'])) {
-        	$_SESSION['OPEN_PRODUCTS'] = array();
+            $_SESSION['OPEN_PRODUCTS'] = array();
         }
         
         $json = array();
         
         foreach ($_SESSION['OPEN_PRODUCTS'] as $productId) {
-        	$json[] = array(
-        	           'text'=>'Product #'.$productId, 
-        	           'id'=>'recent-product-'.$productId, 
-        	           'cls'=>'product', 
-        	           'leaf'=>'true'
-        	          );
+            $json[] = array(
+                       'text'=>'Product #'.$productId, 
+                       'id'=>'recent-product-'.$productId, 
+                       'cls'=>'product', 
+                       'leaf'=>'true'
+                      );
         }
 
         $this->getResponse()->setBody(json_encode($json));

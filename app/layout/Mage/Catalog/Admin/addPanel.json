@@ -20,7 +20,22 @@
                                                 "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
                                             }
                                         ],
-                                        [".addPanel","center",["+layout_panel","#view_products_left_panel_tree",[".construct"]]],
+                                        [".addPanel","center",
+                                            ["+layout_panel","#view_products_left_panel_tree",
+                                                [".construct",
+                                                    ["+tree", "#catalog_category_tree",
+                                                        [".construct", "catalog-category-tree-div", "{$baseUrl}/mage_catalog/tree/categories/",
+                                                            {
+                                                                "animate":true,
+                                                                "enableDD":true,
+                                                                "containerScroll":true
+                                                            }
+                                                        ],
+                                                        [".setRootNode", {"text":"Catalog Categories","draggable":false}]
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
                                         [".addPanel","south",["+layout_panel","#view_products_left_panel_property",[".construct"]]]
                                     ]
                                 ]
