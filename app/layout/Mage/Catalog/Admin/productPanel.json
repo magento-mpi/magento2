@@ -1,8 +1,36 @@
 [":catalog_initViewProducts",
-    ["#layout"],
-        [".addPanel", "center", 
-            ["+layout_panel", "product_controll_panel", 
-                [".construct", "", {"autoCreate":"true","title":"View Products", "closable":"true", "url":"/","loadOnce":"true"}]
+    ["#layout",
+        [".addPanel","center",
+            ["+layout_panel_nested","#view_prducts_panel",
+                [".construct",
+                    ["+layout_border","#view_prducts_panel_border",
+                        [".construct", "layout", 
+                            {
+                                "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
+                                "center":{"autoScroll":true}
+                            }
+                        ],
+                        [".addPanel","west",
+                            ["+layout_panel_nested","#view_prducts_left_panel",
+                                [".construct",
+                                    ["+layout_border", "#view_prducts_left_panel_border",
+                                        [".construct","layout",
+                                            {
+                                                "center":{"autoScroll":true,"titlebar":false},
+                                                "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
+                                            }
+                                        ],
+                                        [".addPanel","center",["+layout_panel","#view_prducts_left_panel_tree",[".construct"]]],
+                                        [".addPanel","south",["+layout_panel","#view_prducts_left_panel_property",[".construct"]]]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [".addPanel","center",["+layout_panel","#view_prducts_content",[".construct"]]]
+                    ],
+                    {"title":"View Products"}
+                ]
             ]
         ]
+    ]
 ]

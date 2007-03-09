@@ -30,25 +30,6 @@
             [".addPanel","south",["+layout_panel","#south",[".construct"]]],
             [".addPanel","east",["+layout_panel","#east",[".construct","",{"title":"My Tasks"}]]],
 
-            [".addPanel","center",
-                ["+layout_panel_nested","#blocks",[".construct",["+layout_border","#blocks_border",
-                    [".construct", "layout", {
-                        "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
-                        "center":{"autoScroll":true}
-                    }],
-                    [".addPanel","west",
-                        ["+layout_panel_nested","#blocks_west",[".construct",["+layout_border", "#blocks_west_border",
-                            [".construct","layout",{
-                                "center":{"autoScroll":true,"titlebar":false},
-                                "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
-                            }],
-                            [".addPanel","center",["+layout_panel","#blocks_west_center",[".construct"]]],
-                            [".addPanel","south",["+layout_panel","#blocks_west_south",[".construct"]]]
-                        ]]]
-                    ],
-                    [".addPanel","center",["+layout_panel","#blocks_center",[".construct"]]]
-                ],{"title":"Blocks and Layouts"}]]
-            ],
             [".addMenu",["+menu","#top_menu_catalog",[".construct"],
                 [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"test","param1":"paramval"}]]}}]
             ]],
