@@ -160,7 +160,7 @@ class Varien_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher_A
         $fileSpec    = $this->classToFilename($className);
         $dispatchDir = $this->getDispatchDirectory();
         $test        = $dispatchDir . DIRECTORY_SEPARATOR . $fileSpec;
-        return Zend::isReadable($test);
+        return Zend_Loader::isReadable($test);
     }
 
     /**
