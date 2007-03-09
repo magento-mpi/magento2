@@ -9,7 +9,7 @@ class BlockController extends Mage_Core_Controller_Admin_Action
     
     function loadPanelAction()
     {
-        $this->renderLayout('layout', 'toJs');
+        #$this->renderLayout('layout', 'toJs');
     }
     
     function loadTreeAction() {

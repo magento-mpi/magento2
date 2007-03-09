@@ -22,7 +22,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
     
     function loadMainPanelAction()
     {
-       $this->renderLayout('layout', 'toJs');
+       #$this->renderLayout('layout', 'toJs');
     }
 
     function __call($method, $args) 

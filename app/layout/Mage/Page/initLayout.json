@@ -1,4 +1,4 @@
-[":page.initLayout",
+[":page.initLayout", {"output":[["root"]]},
     ["+tpl","#root",[".setViewName","Mage_Page","layout.2column"],[".assign","imagesUrl","{$baseSkinUrl}/default/page/images"],
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","Magenta Commerce"]]],

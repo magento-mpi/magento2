@@ -1,4 +1,4 @@
-[":core_initLayout",
+[":core_initLayout", {"output":[["root"]]},
     ["+tpl","#root",[".setViewName","Mage_Core","Admin/layout"],
         [".assign","baseUrl","{$baseUrl}"],
         [".assign","baseSkinUrl","{$baseUrl}/admin/skins/default"],

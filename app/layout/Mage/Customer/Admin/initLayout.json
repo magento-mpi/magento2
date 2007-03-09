@@ -1,4 +1,4 @@
-[":customers_initLayout",
+[":customers_initLayout", {},
     ["#layout",
         [".addMenu",
             ["+menu","#top_menu_customers",

@@ -57,19 +57,23 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function renderLayout($name='root', $method='toString')
      {
-        Mage::dispatchEvent('beforeRenderLayout');
-        Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
-        
-        $this->getResponse()->setBody(Mage::getBlock($name)->$method());
+         self::renderLayoutStatic($name, $method);
      }
      
      static function renderLayoutStatic($name='root', $method='toString')
      {
-        $request = Mage::getController()->getRequest();
-        Mage::dispatchEvent('beforeRenderLayout');
-        Mage::dispatchEvent('beforeRenderLayout_'.$request->getModuleName().'_'.$request->getControllerName().'_'.$request->getActionName());
-        
-        Mage::getController()->getFront()->getResponse()->setBody(Mage::getBlock($name)->$method());
+         $request = Mage::getController()->getRequest();
+         $response = Mage::getController()->getFront()->getResponse();
+         $blocks = Mage_Core_Block::getOutputBlocks();
+         
+         Mage::dispatchEvent('beforeRenderLayout');
+         Mage::dispatchEvent('beforeRenderLayout_'.$request->getModuleName().'_'.$request->getControllerName().'_'.$request->getActionName());
+         
+         if (!empty($blocks)) {
+            foreach ($blocks as $callback) {
+                $response->appendBody(Mage::getBlock($callback[0])->$callback[1]());
+            }
+         }
      }
      
     /**

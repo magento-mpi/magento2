@@ -57,7 +57,7 @@ final class Mage {
      *
      * @param string $appRoot
      */
-    public static function setAppRoot($appRoot='')
+    public static function setRoot($appRoot='')
     {
     	if (''===$appRoot) {
     	    // automagically find application root by dirname of Mage.php
@@ -389,7 +389,7 @@ final class Mage {
     private static function init($appRoot='')
     {
         // set application root path
-        self::setAppRoot($appRoot);
+        self::setRoot($appRoot);
 
         // load core config file
         $coreConfig = new Zend_Config_Ini(self::getRoot('etc')

@@ -30,6 +30,8 @@ class Mage_Core_Event
      * @var unknown_type
      */
     static private $_multiObservers = array();
+    
+    static private $_stopDispatchFlag = false;
 
     /**
      * Retrieve event object
@@ -57,7 +59,8 @@ class Mage_Core_Event
         $name = strtolower($name);
 
         if (!self::getEvent($name)) {
-            self::$_events[$name] = new Mage_Core_Event_Dispatcher(array('name'=>$name));
+            #self::$_events[$name] = new Mage_Core_Event_Dispatcher(array('name'=>$name));
+            self::$_events[$name] = array();
         }
     }
 
@@ -74,8 +77,16 @@ class Mage_Core_Event
         if (!self::getEvent($eventName)) {
             self::addEvent($eventName);
         }
-        $observer = new Mage_Core_Event_Observer($callback, $arguments);
-        self::getEvent($eventName)->addObserver($observer, $observerName);
+        
+        #$observer = new Mage_Core_Event_Observer($callback, $arguments);
+        $observer = array($callback, $arguments);
+        
+        #self::getEvent($eventName)->addObserver($observer, $observerName);
+        if (''===$observerName) {
+            self::$_events[$eventName][] = $observer;
+        } else {
+            self::$_events[$eventName][$observerName] = $observer;
+        }
     }
 
     /**
@@ -98,19 +109,44 @@ class Mage_Core_Event
      * @param string $name
      * @param array $args
      */
-    public static function dispatchEvent($name, array $args=array())
+    public static function dispatchEvent($eventName, array $eventArgs=array())
     {
-        $event = self::getEvent($name);
-        if ($event && $event->getObservers()) {
-            $event->dispatch($args);
+        #$event = self::getEvent($name);
+        #if ($event && $event->getObservers()) {
+        #    $event->dispatch($args);
+        #}
+        if (!isset(self::$_events[$eventName])) {
+            return false;
         }
+        
+        $observers = self::$_events[$eventName];
+        foreach ($observers as $observer) {
+            $arguments = $eventArgs;
+            if (!empty($observer[1])) {
+                $arguments = $observer[1];
+            }
+		    call_user_func_array($observer[0], $observer[1]);
+		    if (self::$_stopDispatchFlag) {
+		        self::$_stopDispatchFlag = false;
+		        break;
+		    }
+		}
 
-        $args['_eventName'] = $name;
+        $args['_eventName'] = $eventName;
         foreach (self::$_multiObservers as $regex=>$callback) {
-            if (preg_match('#'.$regex.'#i', $name)) {
-                call_user_func_array($callback, $args);
+            if (preg_match('#'.$regex.'#i', $eventName)) {
+                call_user_func_array($callback, $eventArgs);
+    		    if (self::$_stopDispatchFlag) {
+    		        self::$_stopDispatchFlag = false;
+    		        break;
+    		    }
             }
         }
+    }
+    
+    public static function stopDispatch()
+    {
+        $this->_stopDispatchFlag = true;
     }
     
     public static function loadObserversConfig($config)

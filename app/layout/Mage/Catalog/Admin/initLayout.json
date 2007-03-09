@@ -1,4 +1,4 @@
-[":catalog_initLayout",
+[":catalog_initLayout", {},
     ["#layout",
         [".addMenu",
             ["+menu","#top_menu_catalog",

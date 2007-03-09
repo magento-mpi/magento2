@@ -19,28 +19,28 @@ class Mage_Core_Block
      *
      * @var    array
      */
-    private static $_blockTypes;
+    private static $_blockTypes = array();
     
     /**
      * Block templates
      *
      * @var array
      */
-    private static $_blockTemplates;
+    private static $_blockTemplates = array();
     
     /**
      * Blocks registry
      *
      * @var array
      */
-    private static $_blocks;
+    private static $_blocks = array();
     
     /**
-     * Block groups for saving and retrieving
+     * Cache of block callbacks to output during rendering
      *
      * @var array
      */
-    private static $_groups;
+    private static $_output = array();
     
     /**
      * Save block in blocks registry
@@ -142,6 +142,11 @@ class Mage_Core_Block
         return $blocks;
     }
     
+    public static function getOutputBlocks()
+    {
+        return self::$_output;
+    }
+    
     /**
      * Load module block info
      * 
@@ -202,8 +207,22 @@ class Mage_Core_Block
         switch ($type) {
             
             case ':': 
-                #echo "<pre>".$entity.': '.json_encode($arr)."</pre>";
                 // declare layoutUpdate name and check for dependancies
+                $config = array_shift($arr);
+                if (!empty($config) && is_array($config)) {
+                    foreach ($config as $key=>$value) {
+                        switch ($key) {
+                            case "output":
+                                foreach ($value as $callback) {
+                                    $blockName = $callback[0];
+                                    $method = isset($callback[1]) ? $callback[1] : 'toString';
+                                    self::$_output[] = array($blockName, $method);
+                                }
+                                break;
+                        }
+                    }
+                }
+                
                 $blocks = array();
                 foreach ($arr as $block) {
                     $blocks[] = self::loadArray($block);

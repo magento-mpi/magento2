@@ -1,4 +1,4 @@
-[":customer.initLayout",
+[":customer.initLayout", {},
     ["#head",[".append",["+tag_css",[".setHref","/customer/style.css"]]]],
     ["#left",[".append",["+tpl","#.newsletter",[".setViewName","Mage_Customer","newsletter.form.mini"]]]],
     ["#top.links",

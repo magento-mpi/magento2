@@ -1,4 +1,4 @@
-[":block_addPanel",
+[":block_addPanel", {"output":[["layout","toJs"]]},
     ["+layout_border","#layout",[".construct","",{"isStub":true,"useExistingPanels":true}],
         [".addPanel","center",
             ["+layout_panel_nested","#block_main_panel",
