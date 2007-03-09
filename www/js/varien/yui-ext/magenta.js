@@ -7,18 +7,29 @@ Mage.Collection = new Ext.util.MixedCollection;
 
 Mage.MenuHandler = {
 
+    loadScriptSuccess : function (response) {
+        try {
+            eval(response.responseText);
+        } catch (e) {
+            alert(e);
+        }
+    },
+    
+    loadScriptFailure : function () {
+        alert('ftest');
+        Ext.dump(this);
+    },
+    
     loadScript : function (node, e) {
         var data = this;
-        var con = new YAHOO.util.Connect.asyncRequest('GET', BASE_URL + '/mage_catalog/index/addPanel/', this.loadScriptCallback);  
-    },
-    
-    loadScriptCallback : {
-        success : this.loadScriptSuccess,
-        failure : this.loadScriptFailure
-    },
-    
-    loadScriptSuccess : function () {
-        Ext.dump(this);
+        
+        var cb = {
+            success : Mage.MenuHandler.loadScriptSuccess,
+            failure : Mage.MenuHandler.loadScriptFailure,
+            argument : this
+            
+        }
+        var con = new Ext.lib.Ajax.request('GET', BASE_URL + '/mage_catalog/index/addPanel/', cb);  
     },
 
     loadPanel : function(node, e) {
