@@ -60,6 +60,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $name = $this->getInfo('name');
         $jsGetObject = $this->getObjectJs();
         $regions  = $this->getAttribute('regions');
+        $config = $this->getAttribute('config');
         
         $out = '';
         
@@ -70,7 +71,9 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             $this->setAttribute('container', $container);
         }
         
-        $out .= $this->getNewObjectJs();
+        if (empty($config['isStub'])) {
+            $out .= $this->getNewObjectJs();
+        }
 
         $children = $this->getChild();
         foreach ($children as $block) {

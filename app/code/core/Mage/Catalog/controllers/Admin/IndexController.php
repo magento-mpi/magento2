@@ -26,6 +26,12 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
         //$this->getResponse()->appendBody('<script src="'.Mage::getBaseUrl('skin').'/catalog/js/tree.js"></script>');
         $this->getResponse()->appendBody($tree->render());
     }
+    
+    function addPanelAction()
+    {
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/addPanel.json');
+        echo Mage::getBlock('layout')->toJs();
+    }
 
     function __call($method, $args) 
     {
