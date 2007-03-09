@@ -49,7 +49,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
                             foreach ($handlers as $handler) {
                                 $function = $handler[0];
                                 $arguments = Zend_Json::encode($handler[1]);
-                                #$out .= "$itemJsName.on('$event', $function, $arguments);\n";
+                                $out .= "$itemJsName.on('$event', $function, $arguments);\n";
                             }
                         }
                     }
