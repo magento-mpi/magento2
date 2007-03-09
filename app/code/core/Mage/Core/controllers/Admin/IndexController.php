@@ -6,6 +6,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
     {
         Mage_Core_Block::loadJsonFile('Mage/Core/Admin/initLayout.json');
 
+        /*
         $newBlock = Mage::createBlock('layout_panel', 'my_block');
         $newBlock->construct('', array(
             'autoCreate' => true,
@@ -14,7 +15,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
             'url' => '/',
             'loadOnce' => true
         ));
-        $block = Mage::getBlock('layout')->addPanel('center', $newBlock);
+        $block = Mage::getBlock('layout')->addPanel('center', $newBlock);*/
         //$block = Mage::getBlock('lyaout')->addToolbar();
         // block types ? where is it - in load.ini
 

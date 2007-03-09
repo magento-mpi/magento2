@@ -1,0 +1,8 @@
+[":catalog_initViewProducts",
+    ["#layout"],
+        [".addPanel", "center", 
+            ["+layout_panel", "product_controll_panel", 
+                [".construct", "", {"autoCreate":"true","title":"View Products", "closable":"true", "url":"/","loadOnce":"true"}]
+            ]
+        ]
+]

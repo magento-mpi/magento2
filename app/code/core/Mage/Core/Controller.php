@@ -25,12 +25,12 @@ class Mage_Core_Controller
      * Get Controller
      *
      * @param     none
-     * @return	  Mage_Core_Controller_Zend
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    Mage_Core_Controller_Zend
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
     public static function getController()
     {
-    	return self::$_controller;
+        return self::$_controller;
     }
     
     public static function loadModuleConfig($modInfo)
@@ -62,6 +62,7 @@ class Mage_Core_Controller
     
     public static function renderLayout()
     {
+        Mage::dispatchEvent('beforeSetRespoceBody');
         Mage::getController()->getFront()->getResponse()->setBody(Mage::getBlock('root')->toString());
     }
 }
