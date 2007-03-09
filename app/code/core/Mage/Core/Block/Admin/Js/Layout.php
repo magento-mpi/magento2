@@ -17,13 +17,16 @@ abstract class Mage_Core_Block_Admin_Js_Layout extends Mage_Core_Block_Admin_Js
     {
         $out = '';
         
+        $config = $this->getAttribute('config');
         $children = $this->getChild();
         
         foreach ($children as $block) {
             $out .= $block->toJs();
         }
         
-        $out .= $this->getNewObjectJs();
+        if (!isset($config['isStub'])) {
+            $out .= $this->getNewObjectJs();
+        }
             
         return $out;
     }

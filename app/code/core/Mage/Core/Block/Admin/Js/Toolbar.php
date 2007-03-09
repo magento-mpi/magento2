@@ -23,7 +23,9 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $jsonConfig = Zend_Json::encode($this->stripItems($config));
 
         $out = '';
-        $out .= $this->setObjectJs('', "new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$jsonConfig)");
+        if (!isset($config['isStub'])) {
+            $out .= $this->setObjectJs('', "new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$jsonConfig)");
+        }
 
         return $out;
     }

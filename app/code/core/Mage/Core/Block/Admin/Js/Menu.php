@@ -24,7 +24,9 @@ class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
 
 
         $out = '';
-        $out .= $this->setObjectJs('', "new Ext.menu.Menu($jsConfig)");
+        if (!isset($config['isStub'])) {
+            $out .= $this->setObjectJs('', "new Ext.menu.Menu($jsConfig)");
+        }
         
         if (isset($config['items'])) {
             $out .= $this->getItemsJs($config['items']);
