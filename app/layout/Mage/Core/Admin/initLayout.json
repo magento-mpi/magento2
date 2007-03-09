@@ -50,7 +50,7 @@
                 ],{"title":"Blocks and Layouts"}]]
             ],
             [".addMenu",["+menu","#top_menu_catalog",[".construct"],
-                [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler",{"url":"test","param1":"paramval"}]]}}]
+                [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"test","param1":"paramval"}]]}}]
             ]],
             [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout",[
                 {"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}

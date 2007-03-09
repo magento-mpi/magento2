@@ -23,6 +23,7 @@ class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
         $config = $this->getAttribute('config');
         $jsConfig = Zend_Json::encode($this->stripItems($config));
 
+
         $out = '';
         $out .= "$jsName = new Ext.menu.Menu($jsConfig);\n";
         
