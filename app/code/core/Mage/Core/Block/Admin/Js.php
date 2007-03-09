@@ -36,7 +36,9 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
                     continue;
                 }
                 $itemJsName = $this->getObjectNameJs($item['id']);
-                $jsConfig = Zend_Json::encode($item);
+                $config = $item;
+                unset($config['on']);
+                $jsConfig = Zend_Json::encode($config);
                 
                 $out .= "$itemJsName = $jsName.add($jsConfig);\n";
                 
