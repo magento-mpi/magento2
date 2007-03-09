@@ -44,5 +44,6 @@
                 ]
             ]
         ]
-    ]
+    ],
+    ["#top_menu",[".addItem",{"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}]]
 ]

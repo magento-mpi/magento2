@@ -19,7 +19,7 @@
                 "north":{"split":false,"titlebar":false,"collapsible":false},
                 "center":{"resizeTabs":true,"alwaysShowTabs":true,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
                 "south":{"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false},
-                "east":{"split":true,"initialSize":150,"autoScroll":true,"collapsible":true,"titlebar":true}
+                "east":{"split":true,"initialSize":150,"autoScroll":true,"collapsible":true,"titlebar":true,"animate":false}
             }],
             [".addPanel","north",
                 ["+layout_panel","#north",[".construct","",{"title":"North"}]]
@@ -30,9 +30,7 @@
             [".addPanel","south",["+layout_panel","#south",[".construct"]]],
             [".addPanel","east",["+layout_panel","#east",[".construct","",{"title":"My Tasks"}]]],
 
-            [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout",[
-                {"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}
-            ]]]]
+            [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout"]]]
         ]]
     ]
 ]

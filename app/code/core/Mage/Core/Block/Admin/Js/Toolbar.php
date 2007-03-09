@@ -8,6 +8,12 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $this->setAttribute('config', $config);
     }
     
+    function addItem($item) {
+        $config = $this->getAttribute('config');
+        $config[] = $item;
+        $this->setAttribute('config', $config);
+    }
+
     function toJs()
     {
         $layout = $this->getObjectJs($this->getAttribute('container'));
@@ -18,10 +24,7 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
 
         $out = '';
         $out .= $this->setObjectJs('', "new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$jsonConfig)");
-        
-        if (isset($config['items'])) {
-            $out .= $this->getItemsJs($config['items']);
-        }
+
         return $out;
     }
 }
