@@ -6,31 +6,13 @@ Mage = new Object();
 Mage.Collection = new Ext.util.MixedCollection;
 
 Mage.MenuHandler = {
-
-    loadScriptSuccess : function (response) {
-        try {
-            eval(response.responseText);
-        } catch (e) {
-            alert(e);
-        }
-    },
-    
-    loadScriptFailure : function (response) {
-        Ext.dump(response);
-    },
     
     loadScript : function (node, e) {
-        var data = this;
-        
-        var cb = {
-            success : Mage.MenuHandler.loadScriptSuccess,
-            failure : Mage.MenuHandler.loadScriptFailure,
-            argument : this
-            
-        }
-        var con = new Ext.lib.Ajax.request('GET', BASE_URL + '/mage_catalog/index/addPanel/', cb);  
-    },
-
+        var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
+        var failure = function(o) { Ext.dump(o.statusText); }
+        var con = new Ext.lib.Ajax.request('GET', this.url, {success:success,failure:failure});  
+    }
+    
     loadPanel : function(node, e) {
 
         var la = Mage.Collection.get('layout');
