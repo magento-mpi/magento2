@@ -7,6 +7,20 @@ Mage.Collection = new Ext.util.MixedCollection;
 
 Mage.MenuHandler = {
 
+    loadScript : function (node, e) {
+        var data = this;
+        var con = new YAHOO.util.Connect.asyncRequest('GET', BASE_URL + '/mage_catalog/index/addPanel/', this.loadScriptCallback);  
+    },
+    
+    loadScriptCallback : {
+        success : this.loadScriptSuccess,
+        failure : this.loadScriptFailure
+    },
+    
+    loadScriptSuccess : function () {
+        Ext.dump(this);
+    },
+
     loadPanel : function(node, e) {
 
         var la = Mage.Collection.get('layout');

@@ -9,6 +9,13 @@
                         "id":"catalog_view_products", 
                         "on":{"click":[["Mage.MenuHandler.loadPanel",{"url":"{$baseUrl}/mage_catalog/","title":"View Products"}]]}
                     }
+                ],
+                [".addItem",
+                    {
+                        "text":"View Products Script",
+                        "id":"catalog_view_products_script", 
+                        "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_catalog/index/addPanel","title":"View Products"}]]}
+                    }
                 ]
             ]
         ]
