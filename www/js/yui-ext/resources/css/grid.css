@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -183,13 +183,43 @@
 }
 
 /* Editor font matches grid */
-.xgrid-editor .x-form-field {
+.x-grid-editor .x-form-field {
     font:normal 11px arial, tahoma, helvetica, sans-serif;
 }
-.xgrid-editor .x-form-num-field {
-    text-align:right;
+.x-grid-editor .x-form-text {
+    height:20px;
+    line-height:16px;
+    vertical-align:middle;
+}
+.ext-ie .x-grid-editor .x-form-text {
+    margin-top:-1px; /* ie bogus margin bug */
+    margin-bottom:-1px;
+    height:20px; /* ie quirks */
+    line-height:16px;
+}
+.ext-strict .x-grid-editor .x-form-text {
+    height:16px;
 }
 
+.ext-ie .x-grid-editor .x-form-text {
+    height:20px;
+    line-height:16px;
+}
+.ext-border-box .x-grid-editor .x-form-text {
+    height:20px;
+}
+
+.x-grid-editor .x-form-select-one {
+    height:20px;
+    line-height:16px;
+    vertical-align:middle;
+}
+.x-grid-editor .x-form-num-field {
+    text-align:right;
+}
+.x-grid-editor .x-form-field-wrap .x-form-trigger{
+    height:19px;
+}
 /* Selection Styles */
 .x-grid-row-selected td, .x-grid-locked .x-grid-row-selected td{
 	background-color: #316ac5 !important;
@@ -228,31 +258,22 @@
 	border-top:1px solid #a9bfd3;
 }
 /* Props Grid Styles */
-
-.x-props-grid .x-grid-col-1{
-	 background-color: #f1efe2;
+.x-props-grid .x-grid-cell-selected .x-grid-cell-text{
+	 background-color: #316ac5 !important;
 }
-.x-props-grid .x-grid-col-1 .x-grid-cell-text{
-	 background-color: white;
+.x-props-grid .x-grid-col-value .x-grid-cell-text{
+	background-color: white;
 }
-.x-props-grid .x-grid-col-0{
-	 background-color: #f1efe2;
+.x-props-grid .x-grid-col-name{
+	 background-color: #c3daf9;
 }
-.x-props-grid .x-grid-col-0 .x-grid-cell-text{
-	 background-color: white;
-	 margin-left:10px;
+.x-props-grid .x-grid-col-name .x-grid-cell-text{
+	background-color: white;
+    margin-left:10px;
 }
-.x-props-grid .x-grid-prop-edting .x-grid-col-0 .x-grid-cell-text{
-	 background-color: #316ac5;
-	 color: white;
+.x-props-grid .x-grid-split-value {
+    visibility:hidden;
 }
-.x-props-grid .x-grid-prop-edting .x-grid-col-0{
-	 color: white;
-}
-.x-props-grid .x-grid-num-editor{
-	text-align:left;
-}
-
 /* header menu */
 .xg-hmenu-sort-asc .x-menu-item-icon{
 	background-image: url(../images/default/grid/hmenu-asc.gif);

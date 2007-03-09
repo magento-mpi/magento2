@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -35,6 +35,9 @@
 	background:transparent url(../images/default/tree/leaf.gif);
 }
 
+.x-tree-noicon .x-tree-node-icon{
+	width:0; height:0;
+}
 /* loading icon */
 .x-tree-node-loading .x-tree-node-icon{
 	background:transparent url(../images/default/tree/loading.gif) !important;
@@ -93,7 +96,10 @@
 .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus{
 	cursor:pointer;
 }
-
+.ext-ie ul.x-tree-node-ct{
+    font-size:0;
+    line-height:0;
+}
 .x-tree-node{
 	color: black;
 	font: normal 11px arial, helvetica, sans-serif;
@@ -102,8 +108,12 @@
 .x-tree-node a, .x-dd-drag-ghost a{
 	text-decoration:none;
 	color:black;
-	-khtml-user-select:normal;
-	-moz-user-select:normal;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+    -kthml-user-focus:normal;
+    -moz-user-focus:normal;
+    -moz-outline: 0 none;
+    outline:0 none;
 }
 .x-tree-node a span, .x-dd-drag-ghost a span{
 	text-decoration:none;

@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -24,14 +24,14 @@
 	white-space: nowrap;
     font:normal 11px tahoma, arial, helvetica, sans-serif;
 }
-.x-toolbar .ytb-item-disabled {
+.x-toolbar .x-item-disabled {
 	color:gray;
 	cursor:default;
 	opacity:.6;
 	-moz-opacity:.6;
 	filter:alpha(opacity=60);
 }
-.x-toolbar .ytb-item-disabled * {
+.x-toolbar .x-item-disabled * {
 	color:gray;
 	cursor:default;
 }
@@ -56,12 +56,15 @@
 }
 .x-toolbar .x-btn-menu-arrow-wrap .x-btn-center button {
     width:12px;
+    background:transparent url(../images/default/toolbar/btn-arrow.gif) no-repeat 0 0;
+}
+.x-toolbar .x-btn-text-icon .x-btn-menu-arrow-wrap .x-btn-center button {
+    width:12px;
     background:transparent url(../images/default/toolbar/btn-arrow.gif) no-repeat 0 3px;
 }
 .x-toolbar .x-btn-over .x-btn-menu-arrow-wrap .x-btn-center button {
 	background-position: 0 -47px;
 }
-
 .x-toolbar .x-btn-over .x-btn-left{
 	background:url(../images/default/toolbar/tb-btn-sprite.gif) no-repeat 0 0;
 }
@@ -125,18 +128,24 @@
 .x-grid-page-prev .x-btn-text{
 	background-image: url(../images/default/grid/page-prev.gif);
 }
-.ytb-item-disabled .x-grid-loading .x-btn-text{
+.x-item-disabled .x-grid-loading .x-btn-text{
 	background-image: url(../images/default/grid/loading.gif);
 }
-.ytb-item-disabled .x-grid-page-first .x-btn-text{
+.x-item-disabled .x-grid-page-first .x-btn-text{
 	background-image: url(../images/default/grid/page-first-disabled.gif);
 }
-.ytb-item-disabled .x-grid-page-last .x-btn-text{
+.x-item-disabled .x-grid-page-last .x-btn-text{
 	background-image: url(../images/default/grid/page-last-disabled.gif);
 }
-.ytb-item-disabled .x-grid-page-next .x-btn-text{
+.x-item-disabled .x-grid-page-next .x-btn-text{
 	background-image: url(../images/default/grid/page-next-disabled.gif);
 }
-.ytb-item-disabled .x-grid-page-prev .x-btn-text{
+.x-item-disabled .x-grid-page-prev .x-btn-text{
 	background-image: url(../images/default/grid/page-prev-disabled.gif);
+}
+.x-paging-info {
+    position:absolute;
+    top:8px;
+    right: 8px;
+    color:#15428b;
 }

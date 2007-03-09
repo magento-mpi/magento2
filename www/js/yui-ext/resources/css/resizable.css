@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -126,7 +126,7 @@
     overflow:hidden;
     visibility:hidden;
 	 left:0;top:0;
-    z-index:1001;
+    z-index:50000;
 }
 .x-resizable-overlay{
     width:100%;

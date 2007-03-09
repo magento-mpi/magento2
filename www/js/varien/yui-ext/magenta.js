@@ -13,7 +13,13 @@ Mage.MenuHandler = {
         var con = new Ext.lib.Ajax.request('GET', this.url, {success:success,failure:failure});  
     },
     
-    loadPanel : function(node, e) {
+    
+    loadPanel : function(node, a) {
+        Ext.dump(this);    
+        Ext.dump(node);    
+    },
+    
+    createPanel : function(node, e) {
 
         var la = Mage.Collection.get('layout');
 

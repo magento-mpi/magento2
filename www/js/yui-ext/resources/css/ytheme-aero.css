@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -452,7 +452,8 @@ body.x-masked #x-msg-box .x-dlg-bd, body.x-body-masked #x-msg-box .x-dlg-bd{
 }
 /** Toolbar */
 .x-toolbar{
-	padding:3px 2px 3px 2px;
+	padding:2px 2px 2px 2px;
+    background:#d0def0 url(../images/default/toolbar/tb-bg.gif) repeat-x;
 }
 
 .x-toolbar .ytb-sep{

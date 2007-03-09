@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -35,6 +35,7 @@
 .x-box-ml {
 	background: transparent url(../images/default/box/l.gif) repeat-y left;
 	padding-left: 4px;
+	overflow: hidden;
 }
 
 .x-box-mc {
@@ -54,6 +55,7 @@
 .x-box-mr {
 	background: transparent url(../images/default/box/r.gif) repeat-y right;
 	padding-right: 4px;
+	overflow: hidden;
 }
 
 .x-box-bl {
@@ -72,10 +74,12 @@
 
 .x-box-tl, .x-box-bl {
 	padding-left: 8px;
+	overflow: hidden;
 }
 
 .x-box-tr, .x-box-br {
 	padding-right: 8px;
+	overflow: hidden;
 }
 
 .x-box-blue .x-box-bl, .x-box-blue .x-box-br, .x-box-blue .x-box-tl, .x-box-blue .x-box-tr {

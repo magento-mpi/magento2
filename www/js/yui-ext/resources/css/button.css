@@ -1,5 +1,5 @@
 /*
- * Ext - JS Library 1.0 Alpha 2
+ * Ext - JS Library 1.0 Alpha 3 - Rev 1
  * Copyright(c) 2006-2007, Jack Slocum.
  * jack.slocum@yahoo.com
  * 
@@ -21,6 +21,8 @@
     margin:0;
     overflow:visible;
     width:auto;
+    -moz-outline:0 none;
+    outline:0 none;
 }
 * html .ext-ie .x-btn button {
     width:1px;
@@ -95,6 +97,15 @@
 	cursor:pointer;
 	white-space:nowrap;
 }
+.x-btn-focus .x-btn-left{
+	background-position:0 -126px;
+}
+.x-btn-focus .x-btn-right{
+	background-position:0 -147px;
+}
+.x-btn-focus .x-btn-center{
+	background-position:0 -168px;
+}
 .x-btn-over .x-btn-left{
 	background-position:0 -63px;
 }
@@ -131,6 +142,12 @@
     padding-right:2px !important;
 }
 .x-btn-with-menu  .x-btn-center em {
+    display:block;
+    background:transparent url(../images/default/toolbar/btn-arrow.gif) no-repeat right 0;
+	padding-right:10px;
+}
+
+.x-btn-text-icon .x-btn-with-menu .x-btn-center em {
     display:block;
     background:transparent url(../images/default/toolbar/btn-arrow.gif) no-repeat right 3px;
 	padding-right:10px;
