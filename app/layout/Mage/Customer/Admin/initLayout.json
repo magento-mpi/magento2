@@ -1,0 +1,26 @@
+[":customers_initLayout",
+    ["#layout",
+        [".addMenu",
+            ["+menu","#top_menu_customers",
+                [".construct"],
+                [".addItem",{
+                    "text":"Customers and Sales",
+                    "id":"customers_main", 
+                    "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_customer/index/addPanel"}]]}
+                }],
+                [".addItem","-"],
+                [".addItem",{
+                    "text":"New Customer",
+                    "id":"customers_new_customer", 
+                    "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_customer/customer/new"}]]}
+                }],
+                [".addItem",{
+                    "text":"New Order",
+                    "id":"customers_new_order", 
+                    "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_customer/order/new"}]]}
+                }]
+            ]
+        ]
+    ],
+    ["#top_menu",[".addItem",{"text":"Customers","cls":"bmenu","menu":"top_menu_customers"}]]
+]

@@ -5,13 +5,6 @@
 
 class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action 
 {
-
-    /**
-     * Index action
-     *
-     * Display categories home page
-     *
-     */
     function indexAction() 
     {
 
@@ -27,10 +20,9 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->appendBody($tree->render());
     }
     
-    function addPanelAction()
+    function loadMainPanelAction()
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/addPanel.json');
-        echo Mage::getBlock('layout')->toJs();
+       $this->renderLayout('layout', 'toJs');
     }
 
     function __call($method, $args) 

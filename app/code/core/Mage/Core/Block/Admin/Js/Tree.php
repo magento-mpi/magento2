@@ -38,7 +38,7 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         
         if (!empty($root)) {
             $out.= $this->setObjectJs($this->getInfo('name').'_root', $root);
-            $out.= $this->getObjectJs().'.setRootNode('.$this->setObjectJs($this->getInfo('name').'_root').')';
+            $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getInfo('name').'_root').')';
         }
         return $out;
     }

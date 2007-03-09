@@ -1,0 +1,40 @@
+[":catalog_addPanel",
+    ["+layout_border","#layout",[".construct","",{"isStub":true,"useExistingPanels":true}],
+        [".addPanel","center",
+            ["+layout_panel_nested","#catalog_main_panel",
+                [".construct",
+                    ["+layout_border","#catalog_main_panel_border",
+                        [".construct", "layout", 
+                            {
+                                "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
+                                "center":{"autoScroll":true}
+                            }
+                        ],
+                        [".addPanel","west",
+                            ["+layout_panel_nested","#catalog_main_left_panel",
+                                [".construct",
+                                    ["+layout_border", "#catalog_main_left_border",
+                                        [".construct","layout",
+                                            {
+                                                "center":{"autoScroll":true,"titlebar":false},
+                                                "south":{"split":true,"initialSize":200,"minSize":50,"maxSize":400,"autoScroll":true,"collapsible":true}
+                                            }
+                                        ],
+                                        [".addPanel","center",
+                                            ["+layout_panel","#catalog_main_left_tree_panel",
+                                                [".construct", "", {"url":"{$baseUrl}/mage_catalog/tree/"}]
+                                            ]
+                                        ],
+                                        [".addPanel","south",["+layout_panel","#catalog_main_left_preview_panel",[".construct"]]]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [".addPanel","center",["+layout_panel","#catalog_main_content_panel",[".construct"]]]
+                    ],
+                    {"title":"Products and Categories","closable":true}
+                ]
+            ]
+        ]
+    ]
+]

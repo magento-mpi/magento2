@@ -23,7 +23,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         }
         $this->setChild($name, $block);
         
-        $regions[$target][] = $block->getObjectJs();
+        $regions[$target][] = $block;
         
         $this->setAttribute('regions', $regions);
     }
@@ -55,12 +55,26 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $this->setAttribute('outAfterParent', true);
     }
     
+    function getUseExistingPanelJs($name, $js, $show=false)
+    {        
+        $getJs = $this->getObjectJs();
+        
+        if ($show) {
+            $out = "if (!$getJs.showPanel('$name')) {\n$js\n}\n";
+        } else {
+            $out = "if (!$getJs.findPanel('$name')) {\n$js\n}\n";
+        }
+        
+        return $out;
+    }
+    
     function toJs()
     {
         $name = $this->getInfo('name');
         $jsGetObject = $this->getObjectJs();
         $regions  = $this->getAttribute('regions');
         $config = $this->getAttribute('config');
+        $uep = empty($config['useExistingPanels']) ? false : true;
         
         $out = '';
         
@@ -78,15 +92,24 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $children = $this->getChild();
         foreach ($children as $block) {
             if (!$block->getAttribute('outAfterParent')) {
-                $out .= $block->toJs();
+                $js = $block->toJs();
+                if ($uep) {
+                    $js = $this->getUseExistingPanelJs($block->getInfo('name'), $js, true);
+                }
+                $out .= $js;
             }
         }
         
         $out .= "$jsGetObject.beginUpdate();\n";
         if (!empty($regions) && is_array($regions)) {
             foreach ($regions as $target=>$panels) {
-                foreach ($panels as $panel) {
-                    $out .= "$jsGetObject.add('$target', $panel);\n";
+                foreach ($panels as $block) {
+                    $panelJs = $block->getObjectJs();
+                    $js = "$jsGetObject.add('$target', $panelJs);\n";
+                    if ($uep) {
+                        $js = $this->getUseExistingPanelJs($block->getInfo('name'), $js);
+                    }
+                    $out .= $js;
                 }
             }
         }
@@ -104,6 +127,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     
     function toString()
     {
+        $parent = $this->getInfo('parent');
         if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
             return parent::toString();
         } else {

@@ -59,16 +59,4 @@ class Mage_Core_Controller
 
         return $url;
     }
-    
-    public static function renderLayout()
-    {
-        Mage::dispatchEvent('beforeSetResponseBody');
-        Mage::dispatchEvent('beforeSetResponseBody_'.
-            self::getController()->getRequest()->getModuleName().'_'.
-            self::getController()->getRequest()->getControllerName().'_'.
-            self::getController()->getRequest()->getActionName()
-        );
-
-        Mage::getController()->getFront()->getResponse()->setBody(Mage::getBlock('root')->toString());
-    }
 }

@@ -6,17 +6,20 @@ abstract class Mage_Core_Block_Admin_Js_Layout extends Mage_Core_Block_Admin_Js
     {
         $class = $this->getAttribute('jsClassName');
         $container = $this->getAttribute('container');
-        $config = Zend_Json::encode($this->getAttribute('config'));
+        $config = $this->getAttribute('config');
+        $jsConfig = Zend_Json::encode($config);
         
-        $js = $this->setObjectJs('', "new $class($container, $config)");
+        $out = '';
+
+        $out .= $this->setObjectJs('', "new $class($container, $jsConfig)");
         
-        return $js;
+        return $out;
     }
     
     function toJs()
     {
         $out = '';
-        
+
         $config = $this->getAttribute('config');
         $children = $this->getChild();
         
@@ -27,7 +30,7 @@ abstract class Mage_Core_Block_Admin_Js_Layout extends Mage_Core_Block_Admin_Js
         if (!isset($config['isStub'])) {
             $out .= $this->getNewObjectJs();
         }
-            
+
         return $out;
     }
 }

@@ -25,7 +25,7 @@
                 ["+layout_panel","#north",[".construct","",{"title":"North"}]]
             ],
             [".addPanel","center",
-                ["+layout_panel","#default",[".construct","",{"title":"Center Content","fitToFrame":true,"closable":true}]]
+                ["+layout_panel","#default",[".construct","",{"title":"Dashboard","fitToFrame":true,"url":"{$baseUrl}/index/dashboard"}]]
             ],
             [".addPanel","south",["+layout_panel","#south",[".construct"]]],
             [".addPanel","east",["+layout_panel","#east",[".construct","",{"title":"My Tasks"}]]],
