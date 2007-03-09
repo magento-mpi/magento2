@@ -31,7 +31,7 @@
             [".addPanel","east",["+layout_panel","#east",[".construct","",{"title":"My Tasks"}]]],
 
             [".addMenu",["+menu","#top_menu_catalog",[".construct"],
-                [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"test","param1":"paramval"}]]}}]
+                [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"test","title":"View Products"}]]}}]
             ]],
             [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout",[
                 {"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}
