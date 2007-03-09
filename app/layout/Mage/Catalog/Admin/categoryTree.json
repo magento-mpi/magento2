@@ -1,0 +1,10 @@
+                                                    ["+tree", "#catalog_category_tree",
+                                                        [".construct", "catalog-category-tree-div", "{$baseUrl}/mage_catalog/tree/categories/",
+                                                            {
+                                                                "animate":true,
+                                                                "enableDD":true,
+                                                                "containerScroll":true
+                                                            }
+                                                        ],
+                                                        [".setRootNode", {"text":"Catalog Categories","draggable":false}]
+                                                    ]
