@@ -42,6 +42,19 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $block->setAttribute('outAfterParent', true);
     }
     
+    function addMenu($menu)
+    {
+        if ($menu instanceof Mage_Core_Block_Admin_Js_Menu) {
+            $block = $menu;
+            $name = $menu->getInfo('name');
+        } else {
+            $block = Mage_Core_Block::getBlockByName($menu);
+            $name = $menu;
+        }
+        $this->setChild($name, $block);
+        $this->setAttribute('outAfterParent', true);
+    }
+    
     function toJs()
     {
         $name = $this->getInfo('name');

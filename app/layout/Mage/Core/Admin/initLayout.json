@@ -48,25 +48,13 @@
                     ],
                     [".addPanel","center",["+layout_panel","#blocks_center",[".construct"]]]
                 ],{"title":"Blocks and Layouts"}]]
-            ]
+            ],
+            [".addMenu",["+menu","#top_menu_catalog",[".construct"],
+                [".addItem",{"text":"View Products","id":"top_menu_catalog_main", "on":{"click":[["Ext.Mage.MenuHandler",{"url":"test","param1":"paramval"}]]}}]
+            ]],
+            [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout",[
+                {"text":"Catalog","cls":"bmenu","menu":"top_menu_catalog"}
+            ]]]]
         ]]
-    ],
-    ["#layout",
-        [".addToolbar","north",["+toolbar","#top_menu",[".construct","layout",[
-            {"text":"Catalog","cls":"bmenu","menu":{"items":[
-                {"id":"menu_1", "text":"View Products","on":{"click":[["Ext.Mage.MenuHandler",{"url":"test","param1":"paramval"}]]}},
-                "-",
-                {"text":"New Product"}
-            ]}},
-            {"text":"Customers","cls":"bmenu","menu":{"items":[
-                {"text":"View Customers and Orders"},
-                "-",
-                {"text":"New Customer"}
-            ]}},
-            {"text":"System","cls":"bmenu","menu":{"items":[
-                {"text":"Manage Blocks and Layouts"}
-            ]}},
-            {"text":"User"}
-        ]]]]
     ]
 ]

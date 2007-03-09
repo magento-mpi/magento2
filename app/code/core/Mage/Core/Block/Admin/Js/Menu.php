@@ -2,32 +2,38 @@
 
 class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
 {
-    function construct()
+    function construct($config=array())
     {
-        
-    }
-
-    function addText()
-    {
-        
+        if (!isset($config['items'])) {
+            $config['items'] = array();
+        }
+        $this->setAttribute('config', $config);
     }
     
     function addItem($item) {
-        $this->items[] = $item;
-    }
-    
-    function addSeparator()
-    {
-        
+        $config = $this->getAttribute('config');
+        $config['items'][] = $item;
+        $this->setAttribute('config', $config);
     }
     
     function toJs()
     {
         $jsName = $this->getObjectNameJs();
-        $config = Zend_Json::encode($this->getAttribute('config'));
+        $config = $this->getAttribute('config');
+        $jsConfig = Zend_Json::encode($this->stripItems($config));
 
-        $out = "$jsName = new Ext.menu.Menu($config);\n";
+        $out = '';
+        $out .= "$jsName = new Ext.menu.Menu($jsConfig);\n";
+        
+        if (isset($config['items'])) {
+            $out .= $this->getItemsJs($config['items']);
+        }
         
         return $out;
+    }
+    
+    function toString()
+    {
+        return $this->toJs();
     }
 }

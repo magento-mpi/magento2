@@ -8,42 +8,21 @@ class Mage_Core_Block_Admin_Js_Toolbar extends Mage_Core_Block_Admin_Js
         $this->setAttribute('config', $config);
     }
     
-    function getHandlersJs($items) 
-    {
-        $out = '';
-        if (is_array($items)) {
-            foreach ($items as $item) {
-                if (isset($item['on']) && is_array($item['on'])) {
-                    $id = $item['id'];
-                    foreach ($item['on'] as $event=>$handlers) {
-                        if (is_array($handlers)) {
-                            foreach ($handlers as $handler) {
-                                $function = $handler[0];
-                                $arguments = Zend_Json::encode($handler[1]);
-                                $out .= "Ext.EventManager.on(Ext.getEl('$id'), '$event', $function, $arguments);\n";
-                            }
-                        }
-                    }
-                }
-                if (isset($item['menu'])) {
-                    $out .= $this->getHandlersJs($item['menu']['items']);
-                }
-            }
-        }
-        return $out;
-    }
-    
     function toJs()
     {
         $jsName = $this->getObjectNameJs();
         $layout = $this->getObjectNameJs($this->getAttribute('container'));
         $region = $this->getAttribute('region');
         $container = "$layout.getRegion('$region').getEl().dom";
-        $config = Zend_Json::encode($this->getAttribute('config'));
+        $config = $this->getAttribute('config');
+        $jsonConfig = Zend_Json::encode($this->stripItems($config));
 
         $out = '';
-        $out .= "$jsName = new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$config);\n";
-        $out .= $this->getHandlersJs($config);
+        $out .= "$jsName = new Ext.Toolbar(Ext.DomHelper.insertFirst($container,{tag:'div'},true),$jsonConfig);\n";
+        
+        if (isset($config['items'])) {
+            $out .= $this->getItemsJs($config['items']);
+        }
         return $out;
     }
 }
