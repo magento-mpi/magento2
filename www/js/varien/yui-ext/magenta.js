@@ -11,7 +11,7 @@ Mage.MenuHandler = {
         var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
         var failure = function(o) { Ext.dump(o.statusText); }
         var con = new Ext.lib.Ajax.request('GET', this.url, {success:success,failure:failure});  
-    }
+    },
     
     loadPanel : function(node, e) {
 
