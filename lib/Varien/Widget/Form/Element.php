@@ -10,7 +10,7 @@ class Varien_Widget_Form_Element
         }
 
         $className = 'Varien_Widget_Form_Element_' . $elementType;
-        Zend::loadClass($className);
+        Zend_Loader::loadClass($className);
 
         return  new $className($config);
     }

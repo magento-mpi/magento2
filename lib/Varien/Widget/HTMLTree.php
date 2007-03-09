@@ -1,6 +1,6 @@
 <?php
 
-Zend::loadClass('Varien_Widget_Abstract');
+Zend_Loader::loadClass('Varien_Widget_Abstract');
 
 class Varien_Widget_HTMLTree extends Varien_Widget_Abstract
 {
