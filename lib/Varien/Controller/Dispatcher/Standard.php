@@ -244,7 +244,7 @@ class Varien_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher_A
         $loadFile    = $dispatchDir . DIRECTORY_SEPARATOR . $this->classToFilename($className);
         $dir         = dirname($loadFile);
         $file        = basename($loadFile);
-        Zend::loadFile($file, $dir, true);
+        Zend_loader::loadFile($file, $dir, true);
 
         if ('default' != $this->_curModule) {
             $className = $this->formatModuleName($this->_curModule) . '_' . $className;
@@ -327,7 +327,7 @@ class Varien_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher_A
         if ($this->isValidModule($module)) {
             $moduleDir = $controllerDirs[$module];
             $fileSpec  = $moduleDir . DIRECTORY_SEPARATOR . $this->classToFilename($default);
-            if (Zend::isReadable($fileSpec)) {
+            if (Zend_loader::isReadable($fileSpec)) {
                 $this->_curModule    = $this->formatModuleName($module);
                 $this->_curDirectory = $moduleDir;
             }
