@@ -23,7 +23,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         }
         $this->setChild($name, $block);
         
-        $regions[$target][] = $block->getObjectNameJs();
+        $regions[$target][] = $block->getObjectJs();
         
         $this->setAttribute('regions', $regions);
     }
@@ -58,14 +58,14 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     function toJs()
     {
         $name = $this->getInfo('name');
-        $jsName = $this->getObjectNameJs();
+        $jsGetObject = $this->getObjectJs();
         $regions  = $this->getAttribute('regions');
         
         $out = '';
         
         $parent = $this->getInfo('parent');
         if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
-            $container = $this->getObjectNameJs($this->getAttribute('container')).'.getEl()';
+            $container = $this->getObjectJs($this->getAttribute('container')).'.getEl()';
             $container = "Ext.DomHelper.append($container, {tag:'div'}, true)";
             $this->setAttribute('container', $container);
         }
@@ -79,11 +79,11 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             }
         }
         
-        $out .= "$jsName.beginUpdate();\n";
+        $out .= "$jsGetObject.beginUpdate();\n";
         if (!empty($regions) && is_array($regions)) {
             foreach ($regions as $target=>$panels) {
                 foreach ($panels as $panel) {
-                    $out .= "$jsName.add('$target', $panel);\n";
+                    $out .= "$jsGetObject.add('$target', $panel);\n";
                 }
             }
         }
@@ -94,7 +94,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             }
         }
         
-        $out .= "$jsName.endUpdate();\n";
+        $out .= "$jsGetObject.endUpdate();\n";
         
         return $out;
     }
