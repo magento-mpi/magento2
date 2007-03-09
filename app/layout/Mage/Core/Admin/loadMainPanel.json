@@ -35,7 +35,7 @@
         	        [".construct"],
             	    [".addItem",{
 	                    "text":"View Blocks",
-    	                "id":"block_main_url", 
+    	                "id":"block_main", 
         	            "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/block/loadPanel"}]]}
 	                }]
 	            ]
