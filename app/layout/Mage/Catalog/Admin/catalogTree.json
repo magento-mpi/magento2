@@ -1,0 +1,13 @@
+[":catalog_TreeLayout", {"output":[["root"]]},
+    ["+tree", "#catalog_tree",
+        [".construct", "catalog-category-tree-div", "{$baseUrl}/mage_catalog/tree/categories/",
+            {
+                "animate":true,
+                "enableDD":true,
+                "containerScroll":true
+            }
+        ],
+        [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog-tree-root"}],
+        [".appendChild","products",{"text":"Products"}]
+    ]
+]
