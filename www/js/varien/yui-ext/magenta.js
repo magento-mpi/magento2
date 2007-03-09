@@ -15,9 +15,8 @@ Mage.MenuHandler = {
         }
     },
     
-    loadScriptFailure : function () {
-        alert('ftest');
-        Ext.dump(this);
+    loadScriptFailure : function (response) {
+        Ext.dump(response);
     },
     
     loadScript : function (node, e) {
