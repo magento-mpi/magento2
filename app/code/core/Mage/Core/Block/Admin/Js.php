@@ -12,7 +12,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
         if (''===$name) {
             $name = $this->getInfo('name');
         }
-        return "Ext.Mage.Collection.add('$name', $value);\n";
+        return "Mage.Collection.add('$name', $value);\n";
     }
     
     function getObjectJs($name='')
@@ -20,7 +20,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
         if (''===$name) {
             $name = $this->getInfo('name');
         }
-        return "Ext.Mage.Collection.get('$name')";
+        return "Mage.Collection.get('$name')";
     }
     
     function toJs()

@@ -1,15 +1,15 @@
 Ext.UpdateManager.defaults.loadScripts  = true;
 Ext.UpdateManager.defaults.disableCaching  = true;
 
-Ext.Mage = new Object();
+Mage = new Object();
 
-Ext.Mage.Collection = new Ext.util.MixedCollection;
+Mage.Collection = new Ext.util.MixedCollection;
 
-Ext.Mage.MenuHandler = {
+Mage.MenuHandler = {
 
     loadPanel : function(node, e) {
 
-        var la = Ext.Mage.Collection.get('layout');
+        var la = Mage.Collection.get('layout');
 
 		// PanelId for new panel (node.id - id of clicked button)
 		var	panelName = node.id + '_panel';

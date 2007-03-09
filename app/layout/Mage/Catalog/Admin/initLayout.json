@@ -7,7 +7,7 @@
                     {
                         "text":"View Products",
                         "id":"catalog_view_products", 
-                        "on":{"click":[["Ext.Mage.MenuHandler.loadPanel",{"url":"{$baseUrl}/mage_catalog/","title":"View Products"}]]}
+                        "on":{"click":[["Mage.MenuHandler.loadPanel",{"url":"{$baseUrl}/mage_catalog/","title":"View Products"}]]}
                     }
                 ]
             ]
