@@ -42,7 +42,7 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
     {
         $nodes = $this->getAttribute('nodes');
         if (isset($nodes['root']) && is_array($nodes['root'])) {
-            $nodes['root']['config'] = $config;
+           $nodes['root']['config'] = $config;
         }
         else {
             $nodes['root'] = array();
@@ -54,9 +54,6 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         $nodes['root']['async']     = isset($config['async']) ? $config['async'] : true;
 
         $this->setAttribute('nodes', $nodes);       
-/*        $config = Zend_Json::encode($config);
-        $root = "new Ext.tree.AsyncTreeNode($config)";
-        $this->setAttribute('rootNode', $root);*/
     }
     
     public function appendChild($childName, $config, $parentName='root')
@@ -73,10 +70,6 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         }
         
         $this->setAttribute('nodes', $nodes);
-/*        $children = $this->getAttribute('childrenNode');
-        $config = Zend_Json::encode($config);
-        $children[$childName]= "new Ext.tree.AsyncTreeNode($config);";
-        $this->setAttribute('childrenNode', $children);*/
     }
     
     protected function _addNode($nodes, $nodeName, $config, $parentName)
@@ -143,6 +136,9 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
             $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getInfo('name').'_root').');';
         }
         
+        // TODO: object init in json
+        $out = preg_replace("#\"\{\{(.*?)\}\}\"#", "\\1", $out);
+        $out = stripslashes($out);
         $out.= $this->getObjectJs().'.render();';
         $out.= $this->_expandNodesStr;
         return $out;

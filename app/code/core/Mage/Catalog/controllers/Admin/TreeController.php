@@ -23,11 +23,12 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
         $tree = Mage::getModel('catalog','category_tree');
 
         $data = $tree->getLevel($this->getRequest()->getPost('node',1));
+        //$data = $tree->getLevel(1);
 
         $json = array();
         foreach ($data as $node) {
             $tmp = array();
-            $tmp['text'] = $node->getData('name').':'.$node->getId();
+            $tmp['text'] = $node->getData('attribute_value').':'.$node->getId();
             $tmp['id'] = $node->getId();
             $tmp['cls'] = 'folder';
             if (!$node->isParent()) {

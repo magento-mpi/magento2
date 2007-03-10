@@ -35,12 +35,12 @@
             ],
         [".appendChild","category",
             {
-                "text":"Catalog categories && products",
+                "text":"Categories",
                 "draggable":false,
-                "id":"catalog_category_tree_root",
-                "expanded":true,
+                "id":"1",
+                "expanded":false,
                 "async":true,
-                "loader":["new Ext.tree.TreeLoader",{"dataUrl":"{$baseUrl}/mage_catalog/tree/categories/"}]
+                "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/categories/\"})}}"
             }
         ]
     ]
