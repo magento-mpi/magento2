@@ -436,6 +436,7 @@ final class Mage {
     {
         try {
             self::init($appRoot);
+
             #Mage_Core_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
             #Mage_Core_Profiler::setTimer('zend_controller', true);
@@ -468,5 +469,15 @@ final class Mage {
         } catch (PDOException $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         }
+    }
+    
+    public static function test()
+    {
+        self::init();
+
+        Mage_Core_Config::loadFile('load.xml');
+        #echo "<pre><hr>"; print_r(Mage_Core_Config::getConfig());
+        Mage_Core_Config::loadFile('load.xml', 'Mage_Core');
+        echo "<xmp><hr>"; print_r(Mage_Core_Config::getConfig());
     }
 }
