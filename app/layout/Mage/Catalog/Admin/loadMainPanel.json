@@ -12,7 +12,7 @@
                         ],
                         [".addPanel","west",
                             ["+layout_panel_nested","#catalog_main_left_panel",
-                                [".construct",
+                                [".construct", 
                                     ["+layout_border", "#catalog_main_left_border",
                                         [".construct","layout",
                                             {
@@ -22,7 +22,7 @@
                                         ],
                                         [".addPanel","center",
                                             ["+layout_panel","#catalog_main_left_tree_panel",
-                                                [".construct", "", {"url":"{$baseUrl}/mage_catalog/tree/"}]
+                                                [".construct", "", {"url":"{$baseUrl}/mage_catalog/index/catalogTree"}]
                                             ]
                                         ],
                                         [".addPanel","south",["+layout_panel","#catalog_main_left_preview_panel",[".construct"]]]

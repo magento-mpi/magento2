@@ -1,13 +1,47 @@
-[":catalog_TreeLayout", {"output":[["root"]]},
+[":catalog_TreeLayout", {"output":[["catalog_tree"]]},
     ["+tree", "#catalog_tree",
-        [".construct", "catalog-category-tree-div", "{$baseUrl}/mage_catalog/tree/categories/",
+        [".construct", "catalog-category-tree-div", 
             {
                 "animate":true,
                 "enableDD":true,
                 "containerScroll":true
             }
         ],
-        [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog-tree-root"}],
-        [".appendChild","products",{"text":"Products"}]
+        [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog_tree_root","async":false}],
+        [".appendChild","products",{"text":"Products","draggable":false,"id":"catalog_product_tree_root","expanded":true,"async":false}],
+            [".appendChild","recent_products",
+                {
+                    "text":"Recent Products",
+                    "allowDrag":false,
+                    "id":"catalog_recent_products_tree",
+                    "expanded":false
+                },"products"
+            ],
+            [".appendChild","recent_searches",
+                {
+                    "text":"Recent Searches",
+                    "allowDrag":false,
+                    "id":"catalog_recent_searches_tree",
+                    "expanded":false
+                },"products"
+            ],
+            [".appendChild","saved_searches",
+                {
+                    "text":"Saved Searches",
+                    "allowDrag":false,
+                    "id":"catalog_saved_searches_tree",
+                    "expanded":false
+                },"products"
+            ],
+        [".appendChild","category",
+            {
+                "text":"Catalog categories && products",
+                "draggable":false,
+                "id":"catalog_category_tree_root",
+                "expanded":true,
+                "async":true,
+                "loader":["new Ext.tree.TreeLoader",{"dataUrl":"{$baseUrl}/mage_catalog/tree/categories/"}]
+            }
+        ]
     ]
 ]

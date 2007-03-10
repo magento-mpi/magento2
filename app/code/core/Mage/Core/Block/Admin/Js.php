@@ -30,7 +30,8 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
     
     function toString()
     {
-        return $this->getObjectNameJs();
+        //return $this->getObjectNameJs();
+        return "<script type=\"text/javascript\" language=\"Javascript\">\n".$this->toJs()."</script>\n";
     }
     
     function getItemsJs($items)

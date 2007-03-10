@@ -9,7 +9,7 @@
  * @copyright  Varien, 2007
  * @version    1.0 
  * @author     Moshe Gurvich <moshe@varien.com>
- * @author	   Soroka Dmitriy <dmitriy@varien.com>
+ * @author     Soroka Dmitriy <dmitriy@varien.com>
  */
 
 class Mage_Core_Block
@@ -70,50 +70,50 @@ class Mage_Core_Block
      * @param     string $type
      * @param     string $blockName
      * @param     array $attributes
-     * @return	  Mage_Core_Block_Abtract
+     * @return    Mage_Core_Block_Abtract
      * @author    Moshe Gurvich <moshe@varien.com>
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
     public static function createBlock($type, $name='', array $attributes = array())
     {
         #Mage::setTimer(__METHOD__);
 
-       	if (empty(self::$_blockTypes[$type])) {
-       	    Mage::exception('Invalid block type ' . $type);
-       	}
+        if (empty(self::$_blockTypes[$type])) {
+            Mage::exception('Invalid block type ' . $type);
+        }
 
-   	    $className = self::$_blockTypes[$type];
-	    $block = new $className();
-	    
-       	if (empty($name) || '.'===$name{0}) {
-       	    $block->setInfo('anonymous', true);
-   	        if (!empty($name)) {
-   	            $block->setInfo('anonSuffix', substr($name, 1));
-   	        }
-   	        $name = 'ANONYMOUS_'.sizeof(self::$_blocks);
-   	    }
-   	    
-	    $block->setInfo(array('type'=>$type, 'name'=>$name));
-	    $block->setAttribute($attributes);
-	    
-	    self::$_blocks[$name] = $block;
-	    
+        $className = self::$_blockTypes[$type];
+        $block = new $className();
+        
+        if (empty($name) || '.'===$name{0}) {
+            $block->setInfo('anonymous', true);
+            if (!empty($name)) {
+                $block->setInfo('anonSuffix', substr($name, 1));
+            }
+            $name = 'ANONYMOUS_'.sizeof(self::$_blocks);
+        }
+        
+        $block->setInfo(array('type'=>$type, 'name'=>$name));
+        $block->setAttribute($attributes);
+        
+        self::$_blocks[$name] = $block;
+        
         #Mage::setTimer(__METHOD__, true);
 
-		return self::$_blocks[$name];
+        return self::$_blocks[$name];
     }
     
     public static function createBlockLike($template, $name='', array $attributes = array())
     {
-       	if (empty(self::$_blockTemplates[$template])) {
-       	    Mage::exception('Invalid block template ' . $template);
-       	}
-       	
-       	$tpl = array_merge_recursive(self::$_blockTemplates[$template], $attributes);
-       	
-       	$block = self::createBlock($tpl['type'], $name, $tpl);
-       	$block->setInfo(array('template'=>$template));
-       	
+        if (empty(self::$_blockTemplates[$template])) {
+            Mage::exception('Invalid block template ' . $template);
+        }
+        
+        $tpl = array_merge_recursive(self::$_blockTemplates[$template], $attributes);
+        
+        $block = self::createBlock($tpl['type'], $name, $tpl);
+        $block->setInfo(array('template'=>$template));
+        
         return $block;
     }
     
@@ -151,8 +151,8 @@ class Mage_Core_Block
      * Load module block info
      * 
      * @param     none
-     * @return	  none
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    none
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
     
     public static function loadTypesConfig($config)
@@ -163,12 +163,12 @@ class Mage_Core_Block
         
         $arrBlocks = $config->asArray();
         if (is_array($arrBlocks)) {
-        	foreach ($arrBlocks as $blockType => $blockClass) {
-        		if(isset(self::$_blockTypes[$blockType])){
-        		    Mage::exception('Block type ' . $blockType . ' already exist');
-        		}
-        		self::$_blockTypes[$blockType] = $blockClass;
-        	}
+            foreach ($arrBlocks as $blockType => $blockClass) {
+                if(isset(self::$_blockTypes[$blockType])){
+                    Mage::exception('Block type ' . $blockType . ' already exist');
+                }
+                self::$_blockTypes[$blockType] = $blockClass;
+            }
         }
     }
     
@@ -180,12 +180,12 @@ class Mage_Core_Block
         
         $arrBlocks = $config->asArray();
         if (is_array($arrBlocks)) {
-        	foreach ($arrBlocks as $blockTemplate => $attributes) {
-        		if(isset(self::$_blockTemplates[$blockTemplate])){
-        		    Mage::exception('Block template ' . $blockTemplate . ' already exist');
-        		}
-        		self::$_blockTemplates[$blockTemplate] = $attributes;
-        	}
+            foreach ($arrBlocks as $blockTemplate => $attributes) {
+                if(isset(self::$_blockTemplates[$blockTemplate])){
+                    Mage::exception('Block template ' . $blockTemplate . ' already exist');
+                }
+                self::$_blockTemplates[$blockTemplate] = $attributes;
+            }
         }
     }
     
