@@ -1,0 +1,17 @@
+<script type="text/javascript" language="javascript">
+function showCategoryTreeContectMenu(node)
+{
+    var menuC = new Ext.menu.Menu({
+        id : 'mainContext',
+        items: [{
+                text: 'Show Products'
+            }, '-',  {
+                text: 'Edit'
+            }, {
+                text: 'Delete'
+            }]
+    });
+    menuC.show(node.ui.getEl());
+}
+Mage.Collection.get('catalog_tree').addListener('contextmenu',showCategoryTreeContectMenu);
+</script>

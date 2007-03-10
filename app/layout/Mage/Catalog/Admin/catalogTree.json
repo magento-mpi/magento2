@@ -1,8 +1,8 @@
-[":catalog_TreeLayout", {"output":[["catalog_tree"]]},
+[":catalog_TreeLayout", {"output":[["catalog_tree"],["catalog_tree_js"]]},
     ["+tree", "#catalog_tree",
         [".construct", "catalog-category-tree-div", 
             {
-                "animate":true,
+                "animate":false,
                 "enableDD":true,
                 "containerScroll":true
             }
@@ -43,5 +43,6 @@
                 "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/categories/\"})}}"
             }
         ]
-    ]
+    ],
+    ["+tpl","#catalog_tree_js",[".setViewName","Mage_Catalog","Admin/js/catalog_tree"]]
 ]
