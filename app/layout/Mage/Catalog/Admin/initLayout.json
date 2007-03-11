@@ -11,18 +11,18 @@
                 [".addItem",{
                         "text":"Products and Categories (Script)",
                         "id":"catalog_main", 
-                        "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_catalog/index/loadMainPanel"}]]}
+                        "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/index/loadMainPanel"}]]}
                 }],
                 [".addItem","-"],
                 [".addItem",{
                     "text":"New Product",
                     "id":"catalog_new_product", 
-                    "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_catalog/product/new"}]]}
+                    "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/product/new"}]]}
                 }],
                 [".addItem",{
                     "text":"New Category",
                     "id":"catalog_new_category", 
-                    "on":{"click":[["Mage.MenuHandler.loadScript",{"url":"{$baseUrl}/mage_catalog/category/new"}]]}
+                    "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/category/new"}]]}
                 }]
             ]
         ]
