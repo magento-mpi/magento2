@@ -5,8 +5,12 @@
     	var BASE_URL = '<?=$this->baseUrl?>';
     	var SKIN_URL = '<?=$this->baseSkinUrl?>';
     </script>
-
     <?=$this->head?>
+    <script>
+        Ext.BLANK_IMAGE_URL = '<?=$this->baseUrl?>/../js/yui-ext/resources/images/s.gif';
+        Ext.UpdateManager.defaults.loadScripts = true;
+        Ext.UpdateManager.defaults.disableCachingL = true;
+    </script>
 </head>
 <body>
     <?=$this->layout?>

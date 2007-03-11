@@ -37,6 +37,7 @@
 	<script>
 	var BASE_URL = '<?=$this->BASE_URL?>';
 	var SKIN_URL = '<?=$this->SKIN_URL?>';
+	Ext.BLANK_IMAGE_URL = <?=$this->BASE_URL?>'/../yui-ext/resources/images/s.gif';
 	Ext.UpdateManager.defaults.loadScripts  = true;
 	Ext.UpdateManager.defaults.disableCaching  = true;
 	</script>		

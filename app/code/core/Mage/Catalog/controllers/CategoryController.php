@@ -27,7 +27,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     }
     
     function appendAction() {
-        Mage::getModel('catalog', 'category_tree')->appendChild(1);
+        if (intval($_GET['id'])) {
+            Mage::getModel('catalog', 'category_tree')->appendChild($_GET['id']);
+        }
     }
     
     function checkTreeAction() {

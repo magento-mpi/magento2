@@ -309,14 +309,12 @@ class Varien_Db_Tree
                 // UPDATE my_tree SET left_key = IF(left_key > $left_key, left_key – ($right_key - $left_key + 1), left_key), right_key = right_key – ($right_key - $left_key + 1) WHERE right_key > $right_key
                 $sql = 'UPDATE '.$this->_table.' 
 					SET 
-						'.$this->_left.' = IF('.$this->_left.' > '.$info[$this->_left].', '.$this->_left.' – ('. $info[$this->_right] - $info[$this->_left] + 1 .'), '.$this->_left.'), 
-						'.$this->_right.' = '.$this->_right.' – ('. $info[$this->_right] - $info[$this->_left] + 1 .')
-                	WHERE 
+						'.$this->_left.' = IF('.$this->_left.' > '.$info[$this->_left].', '.$this->_left.' - '.($info[$this->_right] - $info[$this->_left] + 1).', '.$this->_left.'), 
+						'.$this->_right.' = '.$this->_right.' - '.($info[$this->_right] - $info[$this->_left] + 1).' 
+					WHERE 
 						'.$this->_right.' > '.$info[$this->_right];
-                
-               
+                $this->_db->query($sql);
                 $this->_db->commit();
-                 var_dump($sql);
                 return new Varien_Db_Tree_Node($info, $this->getKeys());;
             } catch (Exception $e) {
                 $this->_db->rollBack();
