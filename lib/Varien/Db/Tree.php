@@ -247,16 +247,20 @@ class Varien_Db_Tree
                     . ' `'.$this->_right.'` = IF( `'.$this->_right.'`>= :right, `'.$this->_right.'`+2, `'.$this->_right.'`)'
                     . ' WHERE `'.$this->_right.'` >= :right';
                 
-                $this->_db->query($sql, array('table'=>$this->_table, 'left'=>$info[$this->_left], 'right'=>$info[$this->_right]));
+                $this->_db->query($sql, array('left'=>$info[$this->_left], 'right'=>$info[$this->_right]));
                 
                 $this->_db->insert($this->_table, $data);
                 $this->_db->commit();
+            } catch (PDOException $p) {
+                $this->_db->rollBack();
+                echo $p->getMessage();
+                exit();
             } catch (Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
                 echo $sql;
                 var_dump($data);
-                exit();    
+                exit();
             }
             // TODO: change to ZEND LIBRARY
             $res =  $this->_db->fetchOne('select last_insert_id()');
