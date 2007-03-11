@@ -24,8 +24,24 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         else { // TODO: forvard to error action
             echo 'Category id is not defined';
         }
-
-
+    }
+    
+    function appendAction() {
+        Mage::getModel('catalog', 'category_tree')->appendChild(1);
+    }
+    
+    function checkTreeAction() {
+        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        $res = $obj->checkNodes();
+        $dump = Zend_Debug::dump($res, 'Broken Nodes', false);
+        echo $dump;
+    }
+    
+    function removeAction() {
+        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        if (intval($_GET['id'])) {
+            $obj->removeNode($_GET['id']);
+        }
     }
 
     function fillAction()

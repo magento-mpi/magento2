@@ -216,7 +216,7 @@ class Varien_Db_Tree
 
     function getNodeInfo($ID) {
         if (empty($this->_nodesInfo[$ID])) {
-            $sql = 'SELECT `'.$this->_left.'`, `'.$this->_right.'`, `'.$this->_level.'` FROM '.$this->_table.' WHERE '.$this->_id.'=:id';
+            $sql = 'SELECT `'.$this->_left.'`, `'.$this->_right.'`, `'.$this->_level.'` , `'.$this->_pid.'` , `'.$this->_id.'` FROM '.$this->_table.' WHERE '.$this->_id.'=:id';
             $res = $this->_db->query($sql, array('id' => $ID));
             $data = $res->fetch();
             $this->_nodesInfo[$ID] = $data;
@@ -226,14 +226,12 @@ class Varien_Db_Tree
         return $data;
     }
 
-
-
     function appendChild($ID, $data) {
 
         if (!$info = $this->getNodeInfo($ID)) {
             return false;
         }
-
+    
         $data[$this->_left]  = $info[$this->_right];
         $data[$this->_right] = $info[$this->_right] + 1;
         $data[$this->_level] = $info[$this->_level] + 1;
@@ -254,22 +252,68 @@ class Varien_Db_Tree
                 $this->_db->rollBack();
                 echo $e->getMessage();
             }
-            return $this->_db->lastInsertId();
+            // TODO: change to ZEND LIBRARY
+            return $this->_db->fetchOne('select last_insert_id()');
+            //return $this->_db->lastInsertId();
         }
-
         return  false;
     }
 
+    public function checkNodes() {
+        $sql = $this->_db->select();
 
-    function insertBefore($ID, $data) {
+        $sql->from(array('t1'=>$this->_table), array('t1.'.$this->_id, new Zend_Db_Expr('COUNT(t1.'.$this->_id.') AS rep')))
+        ->from(array('t2'=>$this->_table))
+        ->from(array('t3'=>$this->_table), new Zend_Db_Expr('MAX(t3.'.$this->_right.') AS max_right'));
+
+
+        $sql->where('t1.'.$this->_left.' <> t2.'.$this->_left)
+        ->where('t1.'.$this->_left.' <> t2.'.$this->_right)
+        ->where('t1.'.$this->_right.' <> t2.'.$this->_right);
+
+        $sql->group('t1.'.$this->_id);
+        $sql->having('max_right <> SQRT(4 * rep + 1) + 1');
+
+         
+        return $this->_db->fetchAll($sql);
+    }
+
+    public function insertBefore($ID, $data) {
 
     }
 
-    function removeChild($ID) {
+    public function removeNode($ID) {
+        
+        if (!$info = $this->getNodeInfo($ID)) {
+            return false;
+        }
 
+        if($ID) {
+            $this->_db->beginTransaction();
+            try {
+                // DELETE FROM my_tree WHERE left_key >= $left_key AND right_key <= $right_key
+                $this->_db->delete($this->_table, $this->_left.' >= '.$info[$this->_left].' AND '.$this->_right.' <= '.$info[$this->_right]);
+                
+                // UPDATE my_tree SET left_key = IF(left_key > $left_key, left_key – ($right_key - $left_key + 1), left_key), right_key = right_key – ($right_key - $left_key + 1) WHERE right_key > $right_key
+                $sql = 'UPDATE '.$this->_table.' 
+					SET 
+						'.$this->_left.' = IF('.$this->_left.' > '.$info[$this->_left].', '.$this->_left.' – ('. $info[$this->_right] - $info[$this->_left] + 1 .'), '.$this->_left.'), 
+						'.$this->_right.' = '.$this->_right.' – ('. $info[$this->_right] - $info[$this->_left] + 1 .')
+                	WHERE 
+						'.$this->_right.' > '.$info[$this->_right];
+                
+               
+                $this->_db->commit();
+                 var_dump($sql);
+                return new Varien_Db_Tree_Node($info, $this->getKeys());;
+            } catch (Exception $e) {
+                $this->_db->rollBack();
+                echo $e->getMessage();
+            }
+        }
     }
 
-    function moveBranch($ID, $newID) {
+    public function moveBranch($ID, $newID) {
 
     }
     

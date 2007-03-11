@@ -57,6 +57,10 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
             echo $e->getMessage();
         }
     }
+    
+    function getObject() {
+        return $this->_dbTree;
+    }
 
     /**
      * Retrieve tree of attributes (currently categories)
@@ -77,7 +81,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
         }
         return $data;
     }
-    
+
     /**
      * Get tree level
      *
@@ -85,7 +89,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
      * @param   int $startLevel
      * @return  mixed
      */
-    function getLevel($levelID, $startLevel=1) 
+    function getLevel($levelID, $startLevel=1)
     {
         try {
             $data = $this->_dbTree->getChildren($levelID, $startLevel);
@@ -95,6 +99,17 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
             echo $e->getMessage();
         }
         return $data;
+    }
+    
+    function appendChild($id, $data = array()) {
+        $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
+        $data['category_id'] = $this->_dbTree->appendChild($id, array('website_id'=>1));
+        $data['website_id'] = 1;
+        $data['attribute_id'] = 1;
+        $data['attribute_value'] = 'test';
+        $this->_write->insert($attributeValueTable, $data);
+        $data['attribute_id'] = 2;
+        $this->_write->insert($attributeValueTable, $data);
     }
     
     /**
