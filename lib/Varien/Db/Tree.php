@@ -216,7 +216,7 @@ class Varien_Db_Tree
 
     function getNodeInfo($ID) {
         if (empty($this->_nodesInfo[$ID])) {
-            $sql = 'SELECT `'.$this->_left.'`, `'.$this->_right.'`, `'.$this->_level.'` , `'.$this->_pid.'` , `'.$this->_id.'` FROM '.$this->_table.' WHERE '.$this->_id.'=:id';
+            $sql = 'SELECT * FROM '.$this->_table.' WHERE '.$this->_id.'=:id';
             $res = $this->_db->query($sql, array('id' => $ID));
             $data = $res->fetch();
             $this->_nodesInfo[$ID] = $data;
@@ -245,7 +245,9 @@ class Varien_Db_Tree
                     . ' `'.$this->_left.'` = IF( `'.$this->_left.'` > :left, `'.$this->_left.'`+2, `'.$this->_left.'`),'
                     . ' `'.$this->_right.'` = IF( `'.$this->_right.'`>= :right, `'.$this->_right.'`+2, `'.$this->_right.'`)'
                     . ' WHERE `'.$this->_right.'` >= :right';
+                
                 $this->_db->query($sql, array('table'=>$this->_table, 'left'=>$info[$this->_left], 'right'=>$info[$this->_right]));
+                
                 $this->_db->insert($this->_table, $data);
                 $this->_db->commit();
             } catch (Exception $e) {
@@ -257,7 +259,7 @@ class Varien_Db_Tree
             }
             // TODO: change to ZEND LIBRARY
             $res =  $this->_db->fetchOne('select last_insert_id()');
-            var_dump($res);
+            return $res;
            //return $this->_db->fetchOne('select last_insert_id()');
             //return $this->_db->lastInsertId();
         }
@@ -339,7 +341,12 @@ class Varien_Db_Tree
     
     function getChildren($ID, $start_level = 0, $end_level = 0) 
     {
-        $info = $this->getNodeInfo($ID);
+        try {
+            $info = $this->getNodeInfo($ID);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
         
         $dbSelect = new Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
@@ -357,7 +364,7 @@ class Varien_Db_Tree
             $dbSelect->where($this->_level . ' = :minLevel');
             $data['minLevel'] = $info[$this->_level] + $start_level;
         }
-
+        
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
