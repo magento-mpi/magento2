@@ -251,9 +251,14 @@ class Varien_Db_Tree
             } catch (Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
+                echo $sql;
+                var_dump($data);
+                exit();    
             }
             // TODO: change to ZEND LIBRARY
-            return $this->_db->fetchOne('select last_insert_id()');
+            $res =  $this->_db->fetchOne('select last_insert_id()');
+            var_dump($res);
+           //return $this->_db->fetchOne('select last_insert_id()');
             //return $this->_db->lastInsertId();
         }
         return  false;

@@ -107,6 +107,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
         $data['website_id'] = 1;
         $data['attribute_id'] = 1;
         $data['attribute_value'] = 'test';
+        var_dump($data);
         $this->_write->insert($attributeValueTable, $data);
         $data['attribute_id'] = 2;
         $this->_write->insert($attributeValueTable, $data);
