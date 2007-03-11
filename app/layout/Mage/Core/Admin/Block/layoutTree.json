@@ -1,0 +1,48 @@
+[":block_TreeLayout", {"output":[["block_tree"],["block_tree_js"]]},
+    ["+tree", "#catalog_tree",
+        [".construct", "catalog-category-tree-div", 
+            {
+                "animate":false,
+                "enableDD":true,
+                "containerScroll":true
+            }
+        ],
+        [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog_tree_root","async":false}],
+        [".appendChild","products",{"text":"Products","draggable":false,"id":"catalog_product_tree_root","expanded":true,"async":false}],
+            [".appendChild","recent_products",
+                {
+                    "text":"Recent Products",
+                    "allowDrag":false,
+                    "id":"catalog_recent_products_tree",
+                    "expanded":false
+                },"products"
+            ],
+            [".appendChild","recent_searches",
+                {
+                    "text":"Recent Searches",
+                    "allowDrag":false,
+                    "id":"catalog_recent_searches_tree",
+                    "expanded":false
+                },"products"
+            ],
+            [".appendChild","saved_searches",
+                {
+                    "text":"Saved Searches",
+                    "allowDrag":false,
+                    "id":"catalog_saved_searches_tree",
+                    "expanded":false
+                },"products"
+            ],
+        [".appendChild","category",
+            {
+                "text":"Categories",
+                "draggable":false,
+                "id":"1",
+                "expanded":false,
+                "async":true,
+                "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/categories/\"})}}"
+            }
+        ]
+    ],
+    ["+tpl","#catalog_tree_js",[".setViewName","Mage_Catalog","Admin/js/catalog_tree"]]
+]

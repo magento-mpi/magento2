@@ -4,9 +4,12 @@ Ext.onReady(function(){
     // shorthand
     var Tree = Ext.tree;
     
+    var jsonLoader = new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/block/node2/'});
+    var basicLoader = new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/block/node/'}); 
+    
     var tree = new Tree.TreePanel('block:tree', {
         animate:true, 
-        loader: new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/block/node/'}),
+        loader: basicLoader,
         enableDD:true,
         containerScroll: true
     });
@@ -27,9 +30,6 @@ Ext.onReady(function(){
             menuC.show(node.ui.getEl(), 'tr-tr');
     } 
 
-
-    tree.on('dblclick', Ext.Varien.Blocks.edit, Ext.Varien.Blocks);
-    
     function ondblClick(node, e) {
         var mainLayout = Admin.getLayout();
         mainLayout.beginUpdate();
@@ -46,7 +46,7 @@ Ext.onReady(function(){
     var root = new Tree.AsyncTreeNode({
         text: 'Blocks',
         draggable:false,
-        id:'1'
+        id:'.'
     });
     tree.setRootNode(root);
 
