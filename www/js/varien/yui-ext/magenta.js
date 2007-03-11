@@ -13,6 +13,7 @@ Mage.MenuHandler = {
         },
         
         loadPanel : function(node, e, data) {
+            var activePanel = null;
             var la = Mage.Collection.get('layout');
 
             // PanelId for new panel (node.id - id of clicked button)
@@ -21,9 +22,15 @@ Mage.MenuHandler = {
             // get center region - container for panel
             var center = la.getRegion('center');
 
-            // get activePanel if exists make active
-            var activePanel = center.getPanel(panelName);
-
+            // get panel from Mage element collection
+            var panel = Mage.Collection.get(panelName);
+            
+            // if we have panel in Collection check if we have this panl in region
+            if (panel) {
+                // get activePanel if exists make active
+                activePanel = center.getPanel(panel.getId());
+            }
+            
             if (activePanel) {
                 la.showPanel(activePanel);
             } else {
@@ -45,14 +52,17 @@ Mage.MenuHandler = {
 
 			// start update layout
 			la.beginUpdate();
+			
 			// create new panel with parameters, it is ajax panel - load contet from server
-			la.add('center', new Ext.ContentPanel(panelName, {
+			Mage.Collection.add(panelName, new Ext.ContentPanel(panelName, {
                 title : data.title,
                 autoCreate: true,
                 url: data.url,
                 loadOnce : true,
                 closable : false
-			}));
+			})) 
+			
+			la.add('center', Mage.Collection.get(panelName));
 			// after creation this panel is active
 			la.endUpdate();
         }

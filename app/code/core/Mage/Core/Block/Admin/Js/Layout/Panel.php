@@ -8,7 +8,6 @@ class Mage_Core_Block_Admin_Js_Layout_Panel extends Mage_Core_Block_Admin_Js_Lay
             $container = "'".$this->getInfo('name')."'";
             $config['autoCreate'] = true;
         }
-        
         $this->setAttribute('container', $container);
         $this->setAttribute('config', $config);
         
