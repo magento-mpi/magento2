@@ -475,9 +475,6 @@ final class Mage {
     {
         self::init();
 
-        Mage_Core_Config::loadFile('load.xml');
-        #echo "<pre><hr>"; print_r(Mage_Core_Config::getConfig());
-        Mage_Core_Config::loadFile('load.xml', 'Mage_Core');
-        echo "<xmp><hr>"; print_r(Mage_Core_Config::getConfig());
+        $xml = Mage_Core_Config::load();
     }
 }
