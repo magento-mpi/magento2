@@ -33,7 +33,7 @@ if (!Mage.Collection.get('category_tree_context_menu'))
     categoryTreeContextMenu.showNodeContextMenu = function(node, event){
         this.selectedNode = node;
         node.select();
-        this.show(node.ui.getEl(),'tr-tr');
+        this.showAt(event.getXY(),this.parentMenu,false);
     };
     Mage.Collection.add('category_tree_context_menu', categoryTreeContextMenu);
     Mage.Collection.add('category_tree_handler', categoryTreeHandler);
