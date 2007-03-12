@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <module name="Mage_Catalog">
+        
+            <depends>
+                <module name="Mage_Page"/>
+            </depends>
+
+            <area name="all">
+                <models>
+                    <model name="core">
+                        <class>Mage_Core_Model_Mysql4</class>
+                    </model>
+                </models>
+
+                <resources>
+                    <resource name="catalog_setup">
+                        <version>0.1.2</version>
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/connection"/>
+                        
+                        <entities>
+                            <entity name="category"><table>catalog_category</table></entity>
+                            <entity name="category_attribute"><table>catalog_category_attribute</table></entity>
+                            <entity name="category_attribute_value"><table>catalog_category_attribute_value</table></entity>
+                            <entity name="category_attribute_set"><table>catalog_category_attribute_set</table></entity>
+                            <entity name="category_set"><table>catalog_category_set</table></entity>
+                            <entity name="category_product"><table>catalog_category_product</table></entity>
+
+                            <entity name="product"><table>catalog_product</table></entity>
+                            <entity name="product_attribute"><table>catalog_product_attribute</table></entity>
+                            <entity name="product_attribute_int"><table>catalog_product_attribute_int</table></entity>
+                            <entity name="product_attribute_decimal"><table>catalog_product_attribute_decimal</table></entity>
+                            <entity name="product_attribute_varchar"><table>catalog_product_attribute_varchar</table></entity>
+                            <entity name="product_attribute_text"><table>catalog_product_attribute_text</table></entity>
+                            <entity name="product_attribute_date"><table>catalog_product_attribute_date</table></entity>
+                            <entity name="product_link"><table>catalog_product_link</table></entity>
+                            <entity name="product_link_type"><table>catalog_product_link_type</table></entity>
+                        </entities>
+                    </resource>
+
+                    <resource name="catalog_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
+                        <entities extends="/config/modules/module/area[@name='all']/resources/resource[@name='catalog_setup']/entities"/>
+                    </resource>
+
+                    <resource name="catalog_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_read']/connection"/>
+                        <entities extends="/config/modules/module/area[@name='all']/resources/resource[@name='catalog_setup']/entities"/>
+                    </resource>
+                </resources>
+
+                <priceRuleConditions>
+                    <priceRuleCondition name="attribute">
+                        <class>Mage_Catalog_Price_Rule_Condition_Attribute</class>
+                    </priceRuleCondition>
+
+                    <priceRuleCondition name="category">
+                        <class>Mage_Catalog_Price_Rule_Condition_Category</class>
+                    </priceRuleCondition>
+                </priceRuleConditions>
+
+                <priceRuleActions>
+                    <priceRuleAction name="subtotal_percent">
+                        <class>Mage_Catalog_Price_Rule_Action_Percent</class>
+                    </priceRuleAction>
+
+                    <priceRuleAction name="subtotal_fixed">
+                        <class>Mage_Catalog_Price_Rule_Action_Fixed</class>
+                    </priceRuleAction>
+                </priceRuleActions>
+            </area>
+
+            <area name="front">
+                <controller>
+                    <active>true</active>
+                    <frontName>catalog</frontName>
+                    <default>true</default>
+                </controller>
+
+                <blocks>
+                    <block name="catalog_category_tree"><class>Mage_Catalog_Block_Category_Tree</class></block>
+                    <block name="catalog_category_list"><class>Mage_Catalog_Block_Category_List</class></block>
+                    <block name="catalog_breadcrumbs"><class>Mage_Catalog_Block_Breadcrumbs</class></block>
+                    <block name="catalog_category_view"><class>Mage_Catalog_Block_Category_View</class></block>
+                    <block name="catalog_product_view"><class>Mage_Catalog_Block_Product_View</class></block>
+                    <block name="catalog_search_result"><class>Mage_Catalog_Block_Product_Search</class></block>
+                </blocks>
+
+                <events>
+                    <event name="initLayout">
+                        <observer name="cart_initLayout">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Catalog/initLayout.json</arg>
+                            <arg>Mage_Catalog</arg>
+                        </observer>
+                    </event>
+                </events>
+            </area>
+
+            <area name="admin">
+                <events>
+                    <event name="action_preDispatch_default_index_index">
+                        <observer name="catalog_init">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Catalog/Admin/initLayout.json</arg>
+                        </observer>
+                    </event>
+                </events>
+            </area>
+        </module>
+    </modules>
+</config>

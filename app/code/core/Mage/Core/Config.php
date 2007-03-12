@@ -1,97 +1,59 @@
 <?php
 
-class Mage_Core_Config
+class Mage_Core_Config extends Mage_Core_Config_Xml
 {
-    const XPATH_ACTIVE_MODULES = "/config/module[active='true']";
-    const XPATH_EXTENDS = "//*[@extends]";
-    const XPATH_HANDLERS = "/config/module/load/*/configHandler";
+    const XPATH_ACTIVE_MODULES = "/config/modules/module[active='true']";
     
-    /**
-     * Configuration xml
-     *
-     * @var Varien_Xml
-     */
-    protected $_xml = null;
-    
-    function __construct($sourceType='', $sourceData='', $moduleName='') {
-        switch ($sourceType) {
-            case 'file':
-                $this->loadFile($sourceData, $moduleName);
-                break;
-                
-            case 'string':
-                $this->_xml = simplexml_load_string($sourceData);
-                break;
-                
-            case 'dom':
-                $this->_xml = simplexml_import_dom($sourceData);
-                break;
-        }
-    }
-    
-    function getXpath($xpath='')
-    {
-        if (''===$xpath) {
-            return $this->_xml;
-        }
-        return $this->_xml->xpath($xpath);
-    }
-    
-    static function load()
-    {
-        $this->loadModules();
-        $this->applyExtends();
-        $this->processHandlers();
-    }
-    
-    static function loadFile($fileName, $moduleName='')
-    {
-        if (''===$moduleName) {
-            $rootDir = Mage::getRoot('etc');
-        } else {
-            $rootDir = Mage::getModuleInfo($moduleName)->getRoot('etc');
-        }
+    const XPATH_EVENT_OBSERVERS = "/config/modules/module/area[@name='all']/events";
+    const XPATH_RESOURCE_TYPES = "/config/modules/module/area[@name='all']/resourceTypes";
+    const XPATH_RESOURCES = "/config/modules/module/area[@name='all']/resources";
+    const XPATH_MODELS = "/config/modules/module/area[@name='all']/models";
+    const XPATH_BLOCK_TYPES = "/config/modules/module/area[@name='all']/blocks";
 
-        if (!is_readable($rootDir.DS.$fileName)) {
-            Mage::exception('Can not read xml file '.$rootDir.DS.$fileName);
-        }
-
-        $this->_xml = simplexml_load_file($rootDir.DS.$fileName);
+    function __construct()
+    {
+        parent::__construct();
         
-        return $this;
+        if (true && $xml = $this->cacheLoad('globalConfig')) {
+            $this->load('xml', $xml);
+        } else {
+            $this->compileGlobalConfig();
+        }
     }
-
-    static function loadModules()
+    
+    function compileGlobalConfig()
+    {
+        $configFile = Mage::getRoot('etc').DS.'core.xml';
+        $this->load('file', $configFile);
+        
+        $this->loadModules();
+        $this->loadLocal();
+        $this->applyExtends();
+        
+        $this->cacheSave('globalConfig');
+    }
+    
+    function loadModules()
     {
         $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
+        if (!$modules) {
+            return false;
+        }
         
         foreach ($modules as $module) {
-            $moduleConfig = new self('file', 'config.xml', $module->name);
-            $this->_xml->extend($moduleConfig->getXpath(), true);
-            break;
+            $configFile = Mage::getModuleInfo($module['name'])->getRoot('etc').DS.'config.xml';
+            $moduleConfig = new Mage_Core_Config_Xml('file', $configFile);
+            $this->_xml->extend($moduleConfig->getXml(), true);
         }
+
+        return true;
     }
     
-    static function applyExtends()
+    function loadLocal()
     {
-        $targets = self::getConfig(self::XPATH_EXTENDS);
-        
-        foreach ($targets as $target) {
-            $sources = $this->getXpath((string)$target['extends']);
-            foreach ($sources as $source) {
-                foreach ($source->children() as $sourceNode) {
-                    $this->_xml->extend($sourceNode);
-                }
-            }
-        }
+        $configFile = Mage::getRoot('etc').DS.'local.xml';
+        $localConfig = new Mage_Core_Config_Xml('file', $configFile);
+        $this->_xml->extend($localConfig->getXml(), true);
     }
-    
-    static function processHandlers()
-    {
-        $handlers = $this->getXpath(self::XPATH_HANDLERS);
-        foreach ($handlers as $handler) {
-            $nodes = $this->_xml->getXpath($handler->xpath);
-            
-        }
-    }
+
 }

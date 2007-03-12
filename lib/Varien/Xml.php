@@ -15,48 +15,67 @@ class Varien_Xml extends SimpleXMLElement
     
     function extendChild($source, $overwrite=false)
     {
+        $mergeBy = 'name';
+        
         // this will be our new target node
-        $target = null;
+        $targetChild = null;
         
         // name of the source node
         $sourceName = $source->getName();
         
         // here we have children of our source node
         $sourceChildren = $source->children();
-        
-        $exists = $this->$sourceName;
-        
+
         if (!$sourceChildren) {
             // handle string node
-            if (isset($exists)) {
+            if (isset($this->$sourceName)) {
                 if ($overwrite) {
-                    unset($exists);
+                    unset($this->$sourceName);
                 } else {
                     return $this;
                 }
             }
-            $this->addChild($sourceName, (string)$source);
+            $targetChild = $this->addChild($sourceName, (string)$source);
+            foreach ($source->attributes() as $key=>$value) {
+                $targetChild->addAttribute($key, $value);
+            }
             return $this;
         }
         
-        if (isset($exists)) {
+        if (isset($this->$sourceName)) {
             // search for target child with same name subnode as node's name
-            foreach ($exists as $existsNode) {
-                if ((string)$existsNode->name==(string)$source->name) {
-                    $target = $existsNode;
-                    break;
+            if (isset($source[$mergeBy])) {
+                foreach ($this->$sourceName as $targetNode) {
+                    if (!isset($targetNode[$mergeBy])) {
+                        Mage::exception("Can't merge identified node with non identified");
+                    }
+                    if ((string)$source[$mergeBy]==(string)$targetNode[$mergeBy]) {
+                        $targetChild = $targetNode;
+                        break;
+                    }
                 }
+            } else {
+                $existsWithId = false;
+                foreach ($this->$sourceName as $targetNode) {
+                    if (isset($targetNode[$mergeBy])) {
+                        Mage::exception("Can't merge identified node with non identified");
+                    }
+                }
+                $targetChild = $this->$sourceName;
             }
         }
         
-        if (is_null($target)) {
+        if (is_null($targetChild)) {
             // if child target is not found create new and descend
-            $target = $this->addChild($sourceName);
+            $targetChild = $this->addChild($sourceName);
+            foreach ($source->attributes() as $key=>$value) {
+                $targetChild->addAttribute($key, $value);
+            }
         }
         
         // finally add our source node children to resulting new target node
         foreach ($sourceChildren as $childKey=>$childNode) {
-            $target->extend($childNode);
+            $targetChild->extendChild($childNode);
         }        
         
         return $this;

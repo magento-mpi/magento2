@@ -1,152 +1,135 @@
 <?xml version="1.0"?>
 <config>
-    <module>
-        <name>Mage_Core</name>
-        <load>
-            <all>
-                <configHandler>
-                    <name>eventObserver</name>
-                    <xpath>/config/module/load/*/eventObserver</xpath>
-                    <callback><class>Mage_Core_Event</class><method>loadObserversConfig</method></callback>
-                </configHandler>
-        
-                <configHandler>
-                    <name>resourceType</name>
-                    <xpath>/config/module/load/*/resourceType</xpath>
-                    <callback><class>Mage_Core_Resource</class><method>loadTypesConfig</method></callback>
-                </configHandler>
-        
-                <configHandler>
-                    <name>resource</name>
-                    <xpath>/config/module/load/*/resource</xpath>
-                    <callback><class>Mage_Core_Resource</class><method>loadResourcesConfig</method></callback>
-                </configHandler>
-        
-                <configHandler>
-                    <name>resourceModel</name>
-                    <xpath>/config/module/load/*/resourceModel</xpath>
-                    <callback><class>Mage_Core_Model</class><method>loadModelsConfig</method></callback>
-                </configHandler>
-        
-                <configHandler>
-                    <name>blockType</name>
-                    <xpath>/config/module/load/*/blockType</xpath>
-                    <callback><class>Mage_Core_Block</class><method>loadTypesConfig</method></callback>
-                </configHandler>
-        
-                <resourceType>
-                    <name>mysql</name>
-                    <class>Mage_Core_Resource_Db_Mysql</class>
-                 </resourceType>
-        
-                <resourceType>
-                    <name>mysqli</name>
-                    <class>Mage_Core_Resource_Db_Mysqli</class>
-                 </resourceType>
-        
-                <resourceModel>
-                    <name>core</name>
-                    <class>Mage_Core_Model_Mysql4</class>
-                </resourceModel>
-        
-                <resource>
-                    <name>core_setup</name>
-                    <version>0.1.2</version>
-                    
-                    <entity><name>website</name><table>core_website</table></entity>
-                    <entity><name>language></name><table>core_language</table></entity>
-                    <entity><name>module</name><table>core_module</table></entity>
-                    <entity><name>table</name><table>core_table</table></entity>
-                    <entity><name>block_group</name><table>core_block_group</table></entity>
-                    <entity><name>block</name><table>core_block</table></entity>
-        
-                    <entity><name>domain</name><table>core_domain</table></entity>
-                    <entity><name>domain_website</name><table>core_domain_website</table></entity>
-                    <entity><name>setting</name><table>core_setting</table></entity>
-                    <entity><name>domain_setting</name><table>core_domain_setting</table></entity>
-                </resource>
-        
-                <resource>
-                    <name>core_write</name>
-                    <entity extends="/config/module/load/*/resource[name='core_setup']/entity"/>
-                </resource>
-        
-                <resource>
-                    <name>core_read</name>
-                    <entity extends="/config/module/load/*/resource[name='core_write']/entity"/>
-                </resource>
-        
-                <blockType><name>text</name><class>Mage_Core_Block_Text</class></blockType>
-                <blockType><name>tag</name><class>Mage_Core_Block_Text_Tag</class></blockType>
-                <blockType><name>tag_css</name><class>Mage_Core_Block_Text_Tag_Css</class></blockType>
-                <blockType><name>tag_js</name><class>Mage_Core_Block_Text_Tag_Js</class></blockType>
-                <blockType><name>tpl</name><class>Mage_Core_Block_Template</class></blockType>
-                <blockType><name>list_link</name><class>Mage_Core_Block_Text_List_Link</class></blockType>
-                <blockType><name>form</name><class>Mage_Core_Block_Form</class></blockType>
-            </all>
+    <modules>
+        <module name="Mage_Core">
+            <area name="all">
+                <resourceTypes>
+                    <resourceType name="mysql">
+                        <class>Mage_Core_Resource_Db_Mysql</class>
+                     </resourceType>
             
-            <front>
-                <eventObserver>
-                    <event>action_postDispatch</event>
-                    <name>renderLayout</name>
-                    <callback>
-                        <class>Mage_Core_Controller_Front_Action</class><method>renderLayoutStatic</method>
-                    </callback>
-                </eventObserver>
+                    <resourceType name="mysqli">
+                        <class>Mage_Core_Resource_Db_Mysqli</class>
+                     </resourceType>
+                </resourceTypes>
         
-                <eventObserver>
-                    <event>action_noRoute</event>
-                    <name>noRoute</name>
-                    <callback>
-                        <class>Mage_Core_Block</class><method>loadJsonFile</method>
-                        <arg>Mage/Core/noRoute.json</arg>
-                    </callback>
-                </eventObserver>
-            </front>
+                <models>
+                    <model name="core">
+                        <class>Mage_Core_Model_Mysql4</class>
+                    </model>
+                </models>
+
+                <blocks>
+                    <block name="text"><class>Mage_Core_Block_Text</class></block>
+                    <block name="tag"><class>Mage_Core_Block_Text_Tag</class></block>
+                    <block name="tag_css"><class>Mage_Core_Block_Text_Tag_Css</class></block>
+                    <block name="tag_js"><class>Mage_Core_Block_Text_Tag_Js</class></block>
+                    <block name="tpl"><class>Mage_Core_Block_Template</class></block>
+                    <block name="list_link"><class>Mage_Core_Block_Text_List_Link</class></block>
+                    <block name="form"><class>Mage_Core_Block_Form</class></block>
+                </blocks>
         
-            <admin>
-                <blockType><name>toolbar</name><class>Mage_Core_Block_Admin_Js_Toolbar</class></blockType>
-                <blockType><name>menu</name><class>Mage_Core_Block_Admin_Js_Menu</class></blockType>
-                <blockType><name>layout_border</name><class>Mage_Core_Block_Admin_Js_Layout_Border</class></blockType>
-                <blockType><name>layout_panel</name><class>Mage_Core_Block_Admin_Js_Layout_Panel</class></blockType>
-                <blockType><name>layout_panel_grid</name><class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class></blockType>
-                <blockType><name>layout_panel_nested</name><class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class></blockType>
-                <blockType><name>tree</name><class>Mage_Core_Block_Admin_Js_Tree</class></blockType>
+                <resources>
+                    <resource name="core_setup">
+                        <version>0.1.2</version>
+                        
+                        <entities>
+                            <entity name="website"><table>core_website</table></entity>
+                            <entity name="language"><table>core_language</table></entity>
+                            <entity name="module"><table>core_module</table></entity>
+                            <entity name="table"><table>core_table</table></entity>
+                            <entity name="block_group"><table>core_block_group</table></entity>
+                            <entity name="block"><table>core_block</table></entity>
+                
+                            <entity name="domain"><table>core_domain</table></entity>
+                            <entity name="domain_website"><table>core_domain_website</table></entity>
+                            <entity name="setting"><table>core_setting</table></entity>
+                            <entity name="domain_setting"><table>core_domain_setting</table></entity>
+                        </entities>
+                    </resource>
+            
+                    <resource name="core_write">
+                        <entities extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/entities"/>
+                    </resource>
+            
+                    <resource name="core_read">
+                        <entities extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/entities"/>
+                    </resource>
+                </resources>
+            </area>
+            
+            <area name="front">
+                <events>
+                    <event name="action_postDispatch">
+                        <observer name="renderLayout">
+                            <class>Mage_Core_Controller_Front_Action</class>
+                            <method>renderLayoutStatic</method>
+                        </observer>
+                    </event>
+            
+                    <event name="action_noRoute">
+                        <observer name="noRoute">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Core/noRoute.json</arg>
+                        </observer>
+                    </event>
+                </events>
+            </area>
         
-                <eventObserver>
-                    <event>action_preDispatch_default_index_index</event>
-                    <name>core_init</name>
-                    <callback>
-                        <class>Mage_Core_Block</class>
-                        <method>loadJsonFile</method>
-                        <arg>Mage/Core/Admin/initLayout.json</arg>
-                    </callback>
-                </eventObserver>
-        
-                <eventObserver>
-                    <event>action_preDispatch_default_block_loadPanel</event>
-                    <name>core_main</name>
-                    <callback>
-                        <class>Mage_Core_Block</class>
-                        <method>loadJsonFile</method>
-                        <arg>Mage/Core/Admin/Block/initLayout.json</arg>
-                    </callback>
-                </eventObserver>
-        
-                <eventObserver>
-                    <event>action_postDispatch</event>
-                    <name>renderLayout</name>
-                    <callback>
-                        <class>Mage_Core_Controller_Zend_Action</class>
-                        <method>renderLayoutStatic</method>
-                    </callback>
-                </eventObserver>
-            </admin>
-        </load>
-    </module>
-    
-    <module>
-        <name>Mage_Acl</name>
-        <test>Testing Merging</test>
-    </module>
+            <area name="admin">
+                <blocks>
+                    <block name="toolbar"><class>Mage_Core_Block_Admin_Js_Toolbar</class></block>
+                    <block name="menu"><class>Mage_Core_Block_Admin_Js_Menu</class></block>
+                    <block name="layout_border"><class>Mage_Core_Block_Admin_Js_Layout_Border</class></block>
+                    <block name="layout_panel"><class>Mage_Core_Block_Admin_Js_Layout_Panel</class></block>
+                    <block name="layout_panel_grid"><class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class></block>
+                    <block name="layout_panel_nested"><class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class></block>
+                    <block name="tree"><class>Mage_Core_Block_Admin_Js_Tree</class></block>
+                </blocks>
+
+                <events>
+                    <event name="action_preDispatch_default_index_index">
+                        <observer name="core_init">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Core/Admin/initLayout.json</arg>
+                        </observer>
+                    </event>
+            
+                    <event name="action_preDispatch_default_block_loadPanel">
+                        <observer name="core_main">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Core/Admin/Block/initLayout.json</arg>
+                        </observer>
+                    </event>
+            
+                    <event name="action_postDispatch">
+                        <observer name="renderLayout">
+                            <class>Mage_Core_Controller_Zend_Action</class>
+                            <method>renderLayoutStatic</method>
+                        </observer>
+                    </event>
+                </events>
+            </area>
+        </module>
+    </modules>
+
+    <shortcuts>
+        <front>
+            <eventObservers extends="/config/modules/module/area[@name='all']/events | /config/modules/module/area[@name='front']/events"/>
+            <resourceTypes extends="/config/modules/module/area[@name='all']/resourceTypes | /config/modules/module/area[@name='front']/resourceTypes"/>
+            <resources extends="/config/modules/module/area[@name='all']/resources | /config/modules/module/area[@name='front']/resources"/>
+            <models extends="/config/modules/module/area[@name='all']/models | /config/modules/module/area[@name='front']/models"/>
+            <blockTypes extends="/config/modules/module/area[@name='all']/blocks | /config/modules/module/area[@name='front']/blocks"/>
+        </front>
+        <admin>
+            <eventObservers extends="/config/modules/module/area[@name='all']/events | /config/modules/module/area[@name='admin']/events"/>
+            <resourceTypes extends="/config/modules/module/area[@name='all']/resourceTypes | /config/modules/module/area[@name='admin']/resourceTypes"/>
+            <resources extends="/config/modules/module/area[@name='all']/resources | /config/modules/module/area[@name='admin']/resources"/>
+            <models extends="/config/modules/module/area[@name='all']/models | /config/modules/module/area[@name='admin']/models"/>
+            <blockTypes extends="/config/modules/module/area[@name='all']/blocks | /config/modules/module/area[@name='admin']/blocks"/>
+        </admin>
+    </shortcuts>
 </config>

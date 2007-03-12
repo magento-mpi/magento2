@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <module name="Mage_Cart">
+            
+            <depends>
+                <module name="Mage_Catalog"/>
+                <module name="Mage_Customer"/>
+            </depends>
+
+            <area name="all">
+                <resources>
+                    <resource name="cart_setup">
+                        <version>0.1.1</version>
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/connection"/>
+                    </resource>
+
+                    <resource name="cart_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
+                    </resource>
+
+                    <resource name="cart_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_read']/connection"/>
+                    </resource>
+                </resources>
+            </area>
+
+            <area name="front">
+                <controller>
+                    <active>true</active>
+                    <frontName>cart</frontName>
+                </controller>
+
+                <events>
+                    <event name="initLayout">
+                        <observer name="cart_initLayout">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Cart/initLayout.json</arg>
+                            <arg>Mage_Cart</arg>
+                        </observer>
+                    </event>
+                </events>
+            </area>
+
+        </module>
+    </modules>
+</config>

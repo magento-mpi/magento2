@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <module name="Mage_Acl">
+            
+            <depends>
+                <module name="Mage_Core"/>
+            </depends>
+
+            <area name="all">
+                <resources>
+                    <resource name="acl_setup">
+                        <version>0.1.1</version>
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/connection"/>
+                    </resource>
+
+                    <resource name="acl_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
+                    </resource>
+
+                    <resource name="acl_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_read']/connection"/>
+                    </resource>
+                </resources>
+            </area>
+        </module>
+    </modules>
+</config>

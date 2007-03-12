@@ -51,6 +51,8 @@ final class Mage {
      * @var array
      */
     static private $_moduleInfo = array();
+    
+    static private $_config = null;
 
     /**
      * Set application root absolute path
@@ -91,8 +93,23 @@ final class Mage {
             case 'layout':
                 $dir .= DS.'layout';
                 break;
+            case 'var':
+                $dir = dirname($dir).DS.'var';
+                break;
         }
         return $dir;
+    }
+    
+    public static function getConfig($xpath='')
+    {
+        if (is_null(self::$_config)) {
+            return false;
+        }
+        if (''===$xpath) {
+            return self::$_config->getXml();
+        } else {
+            return self::$_config->getXpath($xpath);
+        }
     }
 
     /**
@@ -390,6 +407,8 @@ final class Mage {
     {
         // set application root path
         self::setRoot($appRoot);
+        
+        self::prepareFileSystem();
 
         // load core config file
         $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
@@ -424,6 +443,14 @@ final class Mage {
                     self::addModule($data);
                 }
             }
+        }
+    }
+    
+    public static function prepareFileSystem()
+    {
+        $xmlCacheDir = Mage::getRoot('var').DS.'cache'.DS.'xml';
+        if (!is_writable($xmlCacheDir)) {
+            mkdir($xmlCacheDir, 0777, true);
         }
     }
 
@@ -475,6 +502,11 @@ final class Mage {
     {
         self::init();
 
-        $xml = Mage_Core_Config::load();
+        Mage_Core_Profiler::setTimer('config');
+        self::$_config = new Mage_Core_Config();
+        echo Mage_Core_Profiler::setTimer('config');
+        
+        echo "<xmp>TEST:"; 
+        print_r(Mage::getConfig());
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <module name="Mage_Core">
+            <area name="all">
+                <resources>
+                    <resource name="dev_setup">
+                        <connection>
+                            <type>mysqli</type>
+                            <host>localhost</host>
+                            <username>root</username>
+                            <password></password>
+                            <dbname>magenta</dbname>
+                        </connection>
+                    </resource>
+
+                    <resource name="dev_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_setup']/connection">
+                            <type>mysql</type>
+                        </connection>
+                    </resource>
+
+                    <resource name="dev_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_write']/connection"/>
+                    </resource>
+
+                    <resource name="core_setup">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_setup']/connection"/>
+                    </resource>
+
+                    <resource name="core_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_write']/connection"/>
+                    </resource>
+
+                    <resource name="core_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_read']/connection"/>
+                    </resource>
+                </resources>
+            </area>
+        </module>
+    </modules>
+</config>

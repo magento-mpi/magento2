@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+    <codePools>
+        <codePool name="local">
+            <active>false</active>
+        </codePool>
+
+        <codePool name="community">
+            <active>false</active>
+        </codePool>
+
+        <codePool name="core">
+            <active>true</active>
+        </codePool>
+    </codePools>
+
+    <modules>
+        <module name="Mage_Core">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Acl">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Page">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Customer">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Catalog">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Cart">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Sales">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Checkout">
+            <active>true</active>
+        </module>
+
+        <module name="Mage_Directory">
+            <active>false</active>
+        </module>
+    </modules>
+</config>

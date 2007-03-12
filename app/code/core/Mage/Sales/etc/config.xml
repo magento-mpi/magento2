@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <module name="Mage_Sales">
+            
+            <depends>
+                <module name="Mage_Catalog"/>
+                <module name="Mage_Customer"/>
+            </depends>
+
+            <area name="all">
+                <resources>
+                    <resource name="sales_setup">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/connection"/>
+                        <version>0.1.1</version>
+                    </resource>
+
+                    <resource name="sales_write">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
+                    </resource>
+
+                    <resource name="sales_read">
+                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_read']/connection"/>
+                    </resource>
+                </resources>
+            </area>
+
+            <area name="admin">
+                <events>
+                    <event name="action_preDispatch_default_index_index">
+                        <observer name="sales_init">
+                            <class>Mage_Core_Block</class>
+                            <method>loadJsonFile</method>
+                            <arg>Mage/Sales/Admin/initLayout.json</arg>
+                        </observer>
+                    </event>
+                </events>
+            </area>
+
+        </module>
+    </modules>
+</config>
