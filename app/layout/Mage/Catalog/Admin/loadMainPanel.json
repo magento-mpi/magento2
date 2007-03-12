@@ -30,7 +30,7 @@
                                 ]
                             ]
                         ],
-                        [".addPanel","center",["+layout_panel","#catalog_main_content_panel",[".construct"]]]
+                        [".addPanel","center",["+layout_panel","#catalog_main_content_panel",[".construct","", {"url":"{$baseUrl}/mage_catalog/"}]]]
                     ],
                     {"title":"Products and Categories","closable":true}
                 ]

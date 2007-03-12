@@ -7,7 +7,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction() 
     {
-
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/startPageLayout.json', 'mage_catalog');
     }
 
     function loadMainPanelAction()

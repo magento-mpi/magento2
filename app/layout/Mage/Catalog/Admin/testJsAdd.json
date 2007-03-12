@@ -1,0 +1,3 @@
+[":test_TreeLayout", {"output":[["test_tree_addons"]]},
+    ["+tpl","#test_tree_addons",[".setViewName","Mage_Catalog","Admin/js/catalog_tree_test"]]
+]

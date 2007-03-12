@@ -1,0 +1,3 @@
+[":startpage_Layout", {"output":[["start_page"]]},
+    ["+tpl","#start_page",[".setViewName","Mage_Catalog","Admin/start_page"]]
+]

@@ -98,7 +98,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             return;
         }
 
-        Mage::dispatchEvent('action_postDispatch'.$this->getFullActionName());
+        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName());
         Mage::dispatchEvent('action_postDispatch');
     }
 
