@@ -11,7 +11,7 @@ function showCategoryTreeContectMenu(node)
                 text: 'Delete'
             }]
     });
-    menuC.show(node.ui.getEl());
+    menuC.show(node.ui.getEl(),'tr-tr');
 }
-Mage.Collection.get('catalog_tree').addListener('contextmenu',showCategoryTreeContectMenu);
+Mage.Collection.get('catalog_tree_root_category').addListener('contextmenu',showCategoryTreeContectMenu);
 </script>

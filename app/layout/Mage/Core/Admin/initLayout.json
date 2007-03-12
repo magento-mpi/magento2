@@ -6,6 +6,7 @@
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
             [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ext-all.css"]]],
+            [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ytheme-aero.css"]]],
             [".append",["+tag_css",[".setHref","/newadmin.css"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js"]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js"]]],
@@ -25,7 +26,7 @@
                 ["+layout_panel","#north",[".construct","",{"title":"North"}]]
             ],
             [".addPanel","center",
-                ["+layout_panel","#default",[".construct","",{"title":"Dashboard","fitToFrame":true,"url":"{$baseUrl}/mage_catalog/index/catalogTree"}]]
+                ["+layout_panel","#default",[".construct","",{"title":"Dashboard","fitToFrame":true,"url":"{$baseUrl}/index/dashboard"}]]
             ],
             [".addPanel","south",["+layout_panel","#south",[".construct"]]],
             [".addPanel","east",["+layout_panel","#east",[".construct","",{"title":"My Tasks"}]]],

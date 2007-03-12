@@ -13,7 +13,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
     function loadMainPanelAction()
     {
         Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/loadMainPanel.json', 'mage_catalog');
-        $this->renderLayout('layout', 'toJs');
+        #$this->renderLayout('layout', 'toJs');
     }
     
     function catalogTreeAction()

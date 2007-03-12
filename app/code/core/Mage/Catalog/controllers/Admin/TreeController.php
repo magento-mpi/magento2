@@ -9,13 +9,12 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
     /**
      * Index action
      *
-     * Display categories home page
+     * Display catalog tree
      *
      */
     function indexAction() 
     {
-        $this->_view->setScriptPath(Mage::getRoot('layout').'/Admin');
-        $this->getResponse()->appendBody($this->_view->render('/catalog/tree.php'));
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
     }
     
     function categoriesAction() 
@@ -37,7 +36,7 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
             $json[] = $tmp;            
         }
         unset($tmp);
-        $this->getResponse()->setBody(json_encode($json));
+        $this->getResponse()->setBody(Zend_Json::encode($json));
     }
     
     
