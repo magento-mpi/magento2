@@ -16,14 +16,10 @@ function showCategoryTreeContectMenu(node)
 Mage.Collection.get('catalog_tree_root_category').addListener('contextmenu',showCategoryTreeContectMenu);
 
 function moveNode(e) {
-    Ext.dump('target_id');
     Ext.dump(e.target.id);
-    Ext.dump('point');
     Ext.dump(e.point);
-    Ext.dump('srource');
-    Ext.dump(e.source.id);
-    Ext.dump('drop node');
     Ext.dump(e.dropNode.id);
+    Ext.dump('===================================');
 }
 var root = Mage.Collection.get('catalog_tree');
 root.addListener('beforenodedrop', moveNode);

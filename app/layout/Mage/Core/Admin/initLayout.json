@@ -18,7 +18,7 @@
             [".construct","document.body",{
                 "hideOnLayout": true,
                 "north":{"split":false,"titlebar":false,"collapsible":false},
-                "center":{"resizeTabs":false,"alwaysShowTabs":false,"hideTabs":true,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
+                "center":{"resizeTabs":false,"alwaysShowTabs":false,"hideTabs":false,"tabPosition":"top","titlebar":false,"autoScroll":true,"closeOnTab":true},
                 "south":{"split":false,"initialSize":22,"titlebar":false,"collapsible":false,"animate":false},
                 "east":{"split":true,"initialSize":150,"autoScroll":true,"collapsible":true,"titlebar":true,"animate":false}
             }],
