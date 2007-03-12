@@ -5,12 +5,12 @@
 
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action {
 
-    function indexAction() 
+    function indexAction()
     {
 
     }
 
-    function viewAction() 
+    function viewAction()
     {
         // Valid category id
         if ($categoryId = $this->_getId()) {
@@ -25,20 +25,22 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             echo 'Category id is not defined';
         }
     }
-    
+
     function appendAction() {
         if (intval($_GET['id'])) {
             Mage::getModel('catalog', 'category_tree')->appendChild($_GET['id']);
         }
     }
-    
+
+
     function checkTreeAction() {
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         $res = $obj->checkNodes();
         $dump = Zend_Debug::dump($res, 'Broken Nodes', false);
-        echo $dump;
+        Mage::getBlock('content')->append($dump);
     }
-    
+
+
     function removeAction() {
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         if (intval($_GET['id'])) {
@@ -46,10 +48,17 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         }
     }
 
+    function moveAction() {
+        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        if (intval($_GET['id']) && intval($_GET['pid'])) {
+            $obj->moveNode($_GET['id'], $_GET['pid']);
+        }
+    }
+
     function fillAction()
     {
         set_time_limit(0);
-        
+
         /**
          * @var $db Zend_Db_Adapter_Abstract
          */
@@ -62,22 +71,22 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             $db->insert('catalog_product', $base);
             $product_id = $db->lastInsertId();
             $category_id   = rand(3,23);
-            
+
             $cat_data = array();
             $cat_data['product_id'] = $product_id;
             $cat_data['category_id']= rand(3,23);
             $cat_data['position']   = 1;
-            
+
             $db->insert('catalog_category_product', $cat_data);
             $new_cat_id = $cat_data['category_id']+1;
-            
+
             if ($new_cat_id>23) {
                 $new_cat_id=$new_cat_id-2;
             }
-            
+
             $cat_data['category_id'] = $new_cat_id;
             $db->insert('catalog_category_product', $cat_data);
-            
+
             for ($website=1;$website<=2;$website++) {
                 /**
                  * 1 - name
@@ -156,7 +165,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
                 $attr['website_id']     = $website;
                 $attr['attribute_value']= 1;
                 $db->insert('catalog_product_attribute_int', $attr);
-                
+
                 $attr = array();
                 $attr['product_id']     = $product_id;
                 $attr['attribute_id']   = 10    ;
