@@ -4,12 +4,7 @@
             ["+menu","#top_menu_catalog",
                 [".construct"],
                 [".addItem",{
-                    "text":"Products and Categories (URL)",
-                    "id":"catalog_main_url", 
-                    "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"url":"{$baseUrl}/mage_catalog/","title":"Products and Categories","closable":true}]]}
-                }],
-                [".addItem",{
-                        "text":"Products and Categories (Script)",
+                        "text":"Products and Categories",
                         "id":"catalog_main", 
                         "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/index/loadMainPanel"}]]}
                 }],

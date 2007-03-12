@@ -1,10 +1,11 @@
-[":catalog_TreeLayout", {"output":[["catalog_tree"],["catalog_tree_js"]]},
+[":catalog_TreeLayout", {"output":[["catalog_tree"],["catalog_category_tree"],["catalog_tree_js"]]},
     ["+tree", "#catalog_tree",
-        [".construct", "catalog-category-tree-div", 
+        [".construct", "catalog-tree-div", 
             {
                 "animate":false,
-                "enableDD":true,
-                "containerScroll":true
+                "enableDD":false,
+                "containerScroll":true,
+                "rootVisible":false
             }
         ],
         [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog_tree_root","async":false}],
@@ -35,14 +36,23 @@
                     "expanded":false,
                     "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/savedSearches/\"})}}"
                 },"products"
-            ],
-        [".appendChild","category",
+            ]
+    ],
+    ["+tree", "#catalog_category_tree",
+        [".construct", "catalog-category-tree-div", 
             {
-                "text":"Categories",
+                "animate":false,
+                "enableDD":true,
+                "containerScroll":true,
+                "rootVisible":false
+            }
+        ],
+        [".setRootNode",
+            {
+                "text":"Catalog Categories",
                 "draggable":false,
                 "id":"1",
-                "expanded":false,
-                "async":true,
+                "expanded":true,
                 "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/categories/\"})}}"
             }
         ]

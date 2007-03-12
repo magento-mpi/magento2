@@ -1,19 +1,37 @@
 <script type="text/javascript" language="javascript">
-function showCategoryTreeContectMenu(node)
+if (!Mage.Collection.get('category_tree_context_menu'))
 {
-    var menuC = new Ext.menu.Menu({
-        id : 'mainContext',
-        items: [{
-                text: 'Show Products'
-            }, '-',  {
-                text: 'Edit'
-            }, {
-                text: 'Delete'
-            }]
+    var categoryTreeContextMenuHandler = new Object();
+    categoryTreeContextMenuHandler.showProducts = function(item,event){
+        alert('show products');
+    };
+    categoryTreeContextMenuHandler.editCategory = function(item,event){
+        alert('edit category');
+    };
+    categoryTreeContextMenuHandler.deleteCategory = function(item,event){
+        alert('delete category');
+    };
+
+    var categoryTreeContextMenu = new Ext.menu.Menu({
+        id : 'category_context_menu',
+        items: [{text: 'Show Category Products',handler:categoryTreeContextMenuHandler.showProducts}, 
+                '-',  
+                {text: 'Edit Catecory',handler:categoryTreeContextMenuHandler.editCategory}, 
+                {text: 'Delete Category',handler:categoryTreeContextMenuHandler.deleteCategory}]
     });
-    menuC.show(node.ui.getEl(),'tr-tr');
+    
+    categoryTreeContextMenu.showNodeContextMenu = function(node, event){
+        this.show(node.ui.getEl(),'tr-tr');
+    };
+    Mage.Collection.add('category_tree_context_menu', categoryTreeContextMenu);
+    Mage.Collection.add('category_tree_context_menu_handler', categoryTreeContextMenuHandler);
 }
-Mage.Collection.get('catalog_tree_root_category').addListener('contextmenu',showCategoryTreeContectMenu);
+
+Mage.Collection.get('catalog_category_tree').addListener(
+    'contextmenu',
+    Mage.Collection.get('category_tree_context_menu').showNodeContextMenu,
+    Mage.Collection.get('category_tree_context_menu')
+);
 
 function moveNode(e) {
     Ext.dump(e.target.id);
