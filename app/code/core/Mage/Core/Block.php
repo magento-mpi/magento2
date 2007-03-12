@@ -15,20 +15,6 @@
 class Mage_Core_Block
 {
     /**
-     * Block types
-     *
-     * @var    array
-     */
-    private static $_blockTypes = array();
-    
-    /**
-     * Block templates
-     *
-     * @var array
-     */
-    private static $_blockTemplates = array();
-    
-    /**
      * Blocks registry
      *
      * @var array
@@ -64,6 +50,16 @@ class Mage_Core_Block
         unset(self::$_blocks[$name]);
     }
     
+    public static function getType($type='')
+    {
+        $types = Mage::getConfig('/')->global->blockTypes;
+        if (''===$type) {
+            return $types;
+        } else {
+            return $types->$type;
+        }
+    }
+    
     /**
      * Block Factory
      * 
@@ -78,11 +74,10 @@ class Mage_Core_Block
     {
         #Mage::setTimer(__METHOD__);
 
-        if (empty(self::$_blockTypes[$type])) {
+        if (!$className = (string)self::getType($type)->class) {
             Mage::exception('Invalid block type ' . $type);
         }
 
-        $className = self::$_blockTypes[$type];
         $block = new $className();
         
         if (empty($name) || '.'===$name{0}) {
@@ -101,20 +96,6 @@ class Mage_Core_Block
         #Mage::setTimer(__METHOD__, true);
 
         return self::$_blocks[$name];
-    }
-    
-    public static function createBlockLike($template, $name='', array $attributes = array())
-    {
-        if (empty(self::$_blockTemplates[$template])) {
-            Mage::exception('Invalid block template ' . $template);
-        }
-        
-        $tpl = array_merge_recursive(self::$_blockTemplates[$template], $attributes);
-        
-        $block = self::createBlock($tpl['type'], $name, $tpl);
-        $block->setInfo(array('template'=>$template));
-        
-        return $block;
     }
     
     public static function getAllBlocks()
@@ -145,50 +126,7 @@ class Mage_Core_Block
     public static function getOutputBlocks()
     {
         return self::$_output;
-    }
-    
-    /**
-     * Load module block info
-     * 
-     * @param     none
-     * @return    none
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
-     */
-    
-    public static function loadTypesConfig($config)
-    {
-        if (!$config instanceof Zend_Config) {
-           Mage::exception('Block types config has to be Zend_Config type');
-        }
-        
-        $arrBlocks = $config->asArray();
-        if (is_array($arrBlocks)) {
-            foreach ($arrBlocks as $blockType => $blockClass) {
-                if(isset(self::$_blockTypes[$blockType])){
-                    Mage::exception('Block type ' . $blockType . ' already exist');
-                }
-                self::$_blockTypes[$blockType] = $blockClass;
-            }
-        }
-    }
-    
-    public static function loadTemplatesConfig($config)
-    {
-        if (!$config instanceof Zend_Config) {
-           Mage::exception('Block templates config has to be Zend_Config type');
-        }
-        
-        $arrBlocks = $config->asArray();
-        if (is_array($arrBlocks)) {
-            foreach ($arrBlocks as $blockTemplate => $attributes) {
-                if(isset(self::$_blockTemplates[$blockTemplate])){
-                    Mage::exception('Block template ' . $blockTemplate . ' already exist');
-                }
-                self::$_blockTemplates[$blockTemplate] = $attributes;
-            }
-        }
-    }
-    
+    }    
     
     /**
      * Parse and run block script array
@@ -280,7 +218,7 @@ class Mage_Core_Block
         $baseUrl = Mage::getBaseUrl();
         $baseSkinUrl = Mage::getBaseUrl('skin');
         if (''!==$moduleName) {
-            $baseModuleUrl = Mage::getModuleInfo($moduleName)->getBaseUrl();
+           $baseModuleUrl = Mage::getConfig()->getModuleBaseUrl($moduleName);
         } else {
             $baseModuleUrl = '';
         }

@@ -6,7 +6,7 @@ class Mage_Core_Controller_Zend_Request extends Zend_Controller_Request_Http
     {
         $params = $this->getParams();
         
-        $params['module'] = Mage::getModuleInfo($params['module'])->getFrontName();
+        $params['module'] = (string)Mage::getModule($params['module'])->controller->frontName;
         
         $url = 'http'.($this->getServer('HTTPS')?'s':'').'://'.$this->getServer('HTTP_HOST');
         $url .= $this->getBaseUrl() !== '/' ? $this->getBaseUrl() : '';

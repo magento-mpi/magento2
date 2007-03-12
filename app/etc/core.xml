@@ -1,54 +1,63 @@
 <?xml version="1.0"?>
 <config>
     <codePools>
-        <codePool name="local">
-            <active>false</active>
-        </codePool>
-
-        <codePool name="community">
-            <active>false</active>
-        </codePool>
-
-        <codePool name="core">
+        <core>
             <active>true</active>
-        </codePool>
+        </core>
+
+        <community>
+            <active>false</active>
+        </community>
+
+        <local>
+            <active>false</active>
+        </local>
     </codePools>
 
     <modules>
-        <module name="Mage_Core">
+        <Mage_Core>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Core>
 
-        <module name="Mage_Acl">
+        <Mage_Acl>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Acl>
 
-        <module name="Mage_Page">
+        <Mage_Page>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Page>
 
-        <module name="Mage_Customer">
+        <Mage_Customer>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Customer>
 
-        <module name="Mage_Catalog">
+        <Mage_Catalog>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Catalog>
 
-        <module name="Mage_Cart">
+        <Mage_Cart>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Cart>
 
-        <module name="Mage_Sales">
+        <Mage_Sales>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Sales>
 
-        <module name="Mage_Checkout">
+        <Mage_Checkout>
             <active>true</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Checkout>
 
-        <module name="Mage_Directory">
+        <Mage_Directory>
             <active>false</active>
-        </module>
+            <codePool>core</codePool>
+        </Mage_Directory>
     </modules>
 </config>

@@ -5,14 +5,19 @@
  */
 define ('DS', DIRECTORY_SEPARATOR);
 
-include "code/core/Mage/Core/Profiler.php";
+include dirname(__FILE__)."/code/core/Mage/Core/Profiler.php";
+include dirname(__FILE__)."/code/core/Mage/Core/Config/Xml.php";
+include dirname(__FILE__)."/code/core/Mage/Core/Config.php";
 
 function __autoload($class)
 {
     #echo $class."<hr>";
     #Mage_Core_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
-    include $classFile;
+    if (!include ($classFile)) {
+        $classFile = dirname(__FILE__).DS.'code'.DS.'core'.DS.$classFile;
+        include $classFile;
+    }
     #Mage_Core_Profiler::setTimer('autoload', true);
 }
 
@@ -51,7 +56,7 @@ final class Mage {
      * @var array
      */
     static private $_moduleInfo = array();
-    
+
     static private $_config = null;
 
     /**
@@ -61,12 +66,12 @@ final class Mage {
      */
     public static function setRoot($appRoot='')
     {
-    	if (''===$appRoot) {
-    	    // automagically find application root by dirname of Mage.php
-    		$appRoot = dirname(__FILE__);
-    	}
+        if (''===$appRoot) {
+            // automagically find application root by dirname of Mage.php
+            $appRoot = dirname(__FILE__);
+        }
 
-    	$appRoot = realpath($appRoot);
+        $appRoot = realpath($appRoot);
 
         if (is_dir($appRoot) and is_readable($appRoot)) {
             self::$_appRoot= $appRoot;
@@ -80,7 +85,7 @@ final class Mage {
      *
      * @return string
      */
-    public static function getRoot($type='')
+    public static function getRoot($type='', $moduleName='')
     {
         $dir = self::$_appRoot;
         switch ($type) {
@@ -99,16 +104,18 @@ final class Mage {
         }
         return $dir;
     }
-    
-    public static function getConfig($xpath='')
+
+    public static function getConfig($param='')
     {
         if (is_null(self::$_config)) {
             return false;
         }
-        if (''===$xpath) {
+        if (''==$param) {
+            return self::$_config;
+        } elseif ('/'===$param) {
             return self::$_config->getXml();
         } else {
-            return self::$_config->getXpath($xpath);
+            return self::$_config->getXpath($param);
         }
     }
 
@@ -146,11 +153,11 @@ final class Mage {
         }
 
         if ($moduleInfoClass!='Mage_Core_Module_Info'
-            && is_subclass_of($moduleInfoClass, 'Mage_Core_Module_Info')) {
+        && is_subclass_of($moduleInfoClass, 'Mage_Core_Module_Info')) {
             Mage::exception('Invalid module info class name');
         }
 
-        self::$_moduleInfo[strtolower($data->name)] = new $moduleInfoClass($data);
+        self::$_moduleInfo[strtolower($data['name'])] = new $moduleInfoClass($data);
     }
 
     /**
@@ -180,9 +187,9 @@ final class Mage {
      * @param string $key
      * @return Zend_Config_Ini
      */
-    public static function getModuleConfig($module, $key='')
+    public static function getModuleConfig($module)
     {
-        return self::getModuleInfo($module)->getConfig($key);
+        return Mage_Core_Config::getModule($module);
     }
 
     /**
@@ -272,7 +279,7 @@ final class Mage {
     {
         return Mage_Core_Event::dispatchEvent($name, $args);
     }
-    
+
     public static function getController()
     {
         return Mage_Core_Controller::getController();
@@ -365,8 +372,8 @@ final class Mage {
     {
         return Mage_Core_Controller::getBaseUrl($type);
     }
-    
-	/**
+
+    /**
 	 * Get model class
 	 *
 	 * @link Mage_Core_Model::getModelClass
@@ -375,44 +382,50 @@ final class Mage {
 	 * @param array $arguments
 	 * @return Mage_Core_Model_Abstract
 	 */
-	public static function getModel($model, $class='', array $arguments=array())
-	{
-	    return Mage_Core_Model::getModelClass($model, $class, $arguments);
-	}
+    public static function getModel($model, $class='', array $arguments=array())
+    {
+        return Mage_Core_Model::getModelClass($model, $class, $arguments);
+    }
 
-	public static function getCurentWebsite()
-	{
-		return Mage_Core_Website::getWebsiteId();
-	}
+    public static function getCurentWebsite()
+    {
+        return Mage_Core_Website::getWebsiteId();
+    }
 
-	/**
+    /**
 	 * Throw new exception by module
 	 *
 	 * @param string $message
 	 * @param integer $code
 	 * @param string $module
 	 */
-	public static function exception($message, $code=0, $module='Mage_Core')
-	{
-	    $className = $module.'_Exception';
-	    throw new $className($message, $code);
-	}
-	
+    public static function exception($message, $code=0, $module='Mage_Core')
+    {
+        $className = $module.'_Exception';
+        throw new $className($message, $code);
+    }
+
+    public static function prepareFileSystem()
+    {
+        $xmlCacheDir = Mage::getRoot('var').DS.'cache'.DS.'xml';
+        if (!is_writable($xmlCacheDir)) {
+            mkdir($xmlCacheDir, 0777, true);
+        }
+    }
+
     /**
      * Initialize Mage
      *
      * @param string $appRoot
      */
-    private static function init($appRoot='')
+    private static function init1($appRoot='')
     {
         // set application root path
         self::setRoot($appRoot);
-        
-        self::prepareFileSystem();
 
         // load core config file
         $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'core.ini', null, true);
+        .DS.'core.ini', null, true);
 
         // load codepools
         foreach ($coreConfig->codepools as $pool=>$active) {
@@ -425,15 +438,15 @@ final class Mage {
         $include_path = get_include_path();
         $include_path = str_replace('.'.PATH_SEPARATOR, '', $include_path);
         $include_path = '.'.PATH_SEPARATOR
-            .join(PATH_SEPARATOR, self::getCodePools())
-            .PATH_SEPARATOR.$include_path;
+        .join(PATH_SEPARATOR, self::getCodePools())
+        .PATH_SEPARATOR.$include_path;
         set_include_path($include_path);
 
         Mage_Core_Profiler::setTimer('app');
 
         // load modules list
         $modulesConfig = new Zend_Config_Ini(self::getRoot('etc')
-            .DS.'modules.ini', null, true);
+        .DS.'modules.ini', null, true);
 
         // add module information classes for each module from the list
         foreach($modulesConfig as $ns=>$modules) {
@@ -445,13 +458,27 @@ final class Mage {
             }
         }
     }
-    
-    public static function prepareFileSystem()
+
+    public static function init($appRoot='')
     {
-        $xmlCacheDir = Mage::getRoot('var').DS.'cache'.DS.'xml';
-        if (!is_writable($xmlCacheDir)) {
-            mkdir($xmlCacheDir, 0777, true);
+        Mage::setRoot($appRoot);
+
+        Mage::prepareFileSystem();
+        Mage_Core_Profiler::setTimer('app');
+
+        self::$_config = new Mage_Core_Config();
+
+        #echo Mage_Core_Profiler::setTimer('app').',';
+
+        $include_path = str_replace('.'.PATH_SEPARATOR, '', get_include_path());
+        $codePools = Mage::getConfig('/')->codePools->children();
+        foreach ($codePools as $codePool) {
+            if ('true'===(string)$codePool->active) {
+                $include_path = self::getRoot('code').DS.((string)$codePool->getName()).PATH_SEPARATOR.$include_path;
+            }
         }
+        set_include_path('.'.PATH_SEPARATOR.$include_path);
+        #echo Mage_Core_Profiler::setTimer('app').',';
     }
 
     /**
@@ -463,13 +490,15 @@ final class Mage {
     {
         try {
             self::init($appRoot);
+        
+            Mage_Core_Event::loadEventsConfig('front');
 
             #Mage_Core_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
             #Mage_Core_Profiler::setTimer('zend_controller', true);
-            self::loadActiveModules('front_load');
+            #self::loadActiveModules('front_load');
             Mage_Core_Controller::getController()->run();
-            
+
             Mage_Core_Profiler::getTimer('app', true);
             Mage_Core_Profiler::getSqlProfiler();
         } catch (Zend_Exception $e) {
@@ -478,26 +507,28 @@ final class Mage {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         }
     }
-    
+
     public static function runAdmin($appRoot='')
     {
         // temp (for test)
         session_start();
-        try {            
+        try {
             self::init($appRoot);
+        
+            Mage_Core_Event::loadEventsConfig('admin');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
-            self::loadActiveModules('admin_load');
+            #self::loadActiveModules('admin_load');
             Mage_Core_Controller::getController()->run();
-            
+
             //Mage_Core_Profiler::getTimer('app', true);
-          //  Mage_Core_Profiler::getSqlProfiler();
+            //  Mage_Core_Profiler::getSqlProfiler();
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         }
     }
-    
+
     public static function test()
     {
         self::init();
@@ -505,8 +536,8 @@ final class Mage {
         Mage_Core_Profiler::setTimer('config');
         self::$_config = new Mage_Core_Config();
         echo Mage_Core_Profiler::setTimer('config');
-        
-        echo "<xmp>TEST:"; 
+
+        echo "<xmp>TEST:";
         print_r(Mage::getConfig());
     }
 }

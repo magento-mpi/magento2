@@ -27,7 +27,7 @@ abstract class Mage_Core_Resource_Abstract
         if (''===$key) {
             return $this->_config;
         } else {
-            return isset($this->_config[$key]) ? $this->_config[$key] : false;
+            return isset($this->_config->$key) ? $this->_config->$key : false;
         }
     }
     
@@ -36,7 +36,7 @@ abstract class Mage_Core_Resource_Abstract
         if (null===$value) {
             $this->_config = $key;
         } else {
-            $this->_config[$key] = $value;
+            $this->_config->$key = $value;
         }
     }
     
@@ -48,19 +48,9 @@ abstract class Mage_Core_Resource_Abstract
     
     public function getEntity($name)
     {
-        if (!isset($this->_entities[$name])) {
+        if (!isset($this->_config->entities->$name)) {
             Mage::exception('Invalid entity requested from resource '.$this->getConfig('name').': '.$name);
         }
-        return $this->_entities[$name];
-    }
-
-    public function loadEntitiesArray($config)
-    {
-        $className = $this->_defaultEntityClass;
-        
-        foreach ($config as $name=>$config) {
-            $entity = new $className($config->asArray());
-            $this->addEntity($name, $entity);
-        }        
+        return $this->_config->entities->$name;
     }
 }

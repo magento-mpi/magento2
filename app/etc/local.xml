@@ -1,42 +1,44 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <module name="Mage_Core">
-            <area name="all">
-                <resources>
-                    <resource name="dev_setup">
-                        <connection>
-                            <type>mysqli</type>
-                            <host>localhost</host>
-                            <username>root</username>
-                            <password></password>
-                            <dbname>magenta</dbname>
-                        </connection>
-                    </resource>
+        <Mage_Core>
+            <load>
+                <all>
+                    <resources>
+                        <dev_setup>
+                            <connection>
+                                <type>mysqli</type>
+                                <host>localhost</host>
+                                <username>root</username>
+                                <password></password>
+                                <dbname>magenta</dbname>
+                            </connection>
+                        </dev_setup>
 
-                    <resource name="dev_write">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_setup']/connection">
-                            <type>mysql</type>
-                        </connection>
-                    </resource>
+                        <dev_write>
+                            <connection extends="//dev_setup/connection">
+                                <type>mysql</type>
+                            </connection>
+                        </dev_write>
 
-                    <resource name="dev_read">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_write']/connection"/>
-                    </resource>
+                        <dev_read>
+                            <connection extends="//dev_write/connection"/>
+                        </dev_read>
 
-                    <resource name="core_setup">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_setup']/connection"/>
-                    </resource>
+                        <core_setup>
+                            <connection extends="//dev_setup/connection"/>
+                        </core_setup>
 
-                    <resource name="core_write">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_write']/connection"/>
-                    </resource>
+                        <core_write>
+                            <connection extends="//dev_write/connection"/>
+                        </core_write>
 
-                    <resource name="core_read">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='dev_read']/connection"/>
-                    </resource>
-                </resources>
-            </area>
-        </module>
+                        <core_read>
+                            <connection extends="//dev_read/connection"/>
+                        </core_read>
+                    </resources>
+                </all>
+            </load>
+        </Mage_Core>
     </modules>
 </config>

@@ -57,26 +57,30 @@ class Mage_Core_Controller_Zend {
     public function loadModule($modInfo)
     {
         if (is_string($modInfo)) {
-            $modInfo = Mage::getModuleInfo($modInfo);
+            $modInfo = Mage::getModule($modInfo);
         }
-        if (!$modInfo instanceof Mage_Core_Module_Info) {
+        if (!$modInfo instanceof Varien_Xml) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
-        if (!$modInfo->isFront()) {
+        if ('true'!==(string)$modInfo->active 
+            || empty($modInfo->load->front->controller->active) 
+            || 'true'!==(string)$modInfo->load->front->controller->active) {
             return false;
         }
         
         $name = $modInfo->getName();
-        $this->_front->addControllerDirectory($modInfo->getRoot('controllers'), strtolower($name));
+        $nameLower = strtolower($name);
+        $this->_front->addControllerDirectory(Mage::getConfig()->getModuleRoot($name, 'controllers'), strtolower($name));
         
         
-        if (isset($modInfo->getConfig('controller')->default) && true==$modInfo->getConfig('controller')->default) {
-            $this->_defaultModule = strtolower($name);
+        if (empty($modInfo->load->front->controller->default) 
+            || 'true'===(string)$modInfo->load->front->controller->default) {
+            $this->_defaultModule = $nameLower;
         }
         
-        if (strcasecmp($modInfo->getFrontName(), $name)!==0) {
-            $routeMatch = $modInfo->getFrontName().'/:controller/:action/*';
-            $route = new Zend_Controller_Router_Route($routeMatch, array('module'=>strtolower($name), 'controller'=>'index', 'action'=>'index'));
+        if (strcasecmp((string)$modInfo->load->front->controller->frontName, $name)!==0) {
+            $routeMatch = ((string)$modInfo->load->front->controller->frontName).'/:controller/:action/*';
+            $route = new Zend_Controller_Router_Route($routeMatch, array('module'=>$nameLower, 'controller'=>'index', 'action'=>'index'));
             $this->_front->getRouter()->addRoute($name, $route);
         }
         
@@ -116,7 +120,7 @@ class Mage_Core_Controller_Zend {
      */
     public function run() 
     {
-        $default = Mage::getModuleInfo('Mage_Core')->getRoot('controllers');
+        $default = Mage::getConfig()->getModuleRoot('Mage_Core', 'controllers');
         $this->_front->addControllerDirectory($default, 'default');
 
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
@@ -126,7 +130,12 @@ class Mage_Core_Controller_Zend {
         }
         
         Mage_Core_Event::dispatchEvent('initLayout');
+        #print_r($this->_front->getControllerDirectory()); die;
         
+        foreach (Mage::getConfig('/')->modules->children() as $module) {
+            $this->loadModule($module);
+        }
+
         $this->_front->dispatch($this->_request);
     }
 }

@@ -84,12 +84,14 @@ class Mage_Core_Config_Xml
         
         foreach ($targets as $target) {
             $sources = $this->getXpath((string)$target['extends']);
-            if (!$sources) {
+            if ($sources) {
+                foreach ($sources as $source) {
+                    $target->extend($source);
+                }
+            } else {
                 echo "Not found extend: ".(string)$target['extends'];
             }
-            foreach ($sources as $source) {
-                $target->extend($source);
-            }
+            #unset($target['extends']);
         }
         return true;
     }

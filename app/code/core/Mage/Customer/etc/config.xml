@@ -1,47 +1,53 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <module name="Mage_Customer">
+        <Mage_Customer>
+            <version>0.1.1</version>
             
             <depends>
-                <module name="Mage_Page"/>
+                <Mage_Page/>
             </depends>
 
-            <area name="all">
-                <resources>
-                    <resource name="customer_setup">
-                        <version>0.1.1</version>
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
-                    </resource>
+            <load>
+                <all>
+                    <resources>
+                        <customer_setup>
+                            <connection extends="//core_write/connection"/>
+                        </customer_setup>
 
-                    <resource name="customer_write">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
-                    </resource>
+                        <customer_write>
+                            <connection extends="//core_write/connection"/>
+                        </customer_write>
 
-                    <resource name="customer_read">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
-                    </resource>
-                </resources>
-            </area>
+                        <customer_read>
+                            <connection extends="//core_write/connection"/>
+                        </customer_read>
+                    </resources>
+                </all>
 
-            <area name="front">
-                <controller>
-                    <active>true</active>
-                    <frontName>customer</frontName>
-                </controller>
+                <front>
+                    <controller>
+                        <active>true</active>
+                        <frontName>customer</frontName>
+                    </controller>
 
-                <events>
-                    <event name="initLayout">
-                        <observer name="cart_initLayout">
-                            <class>Mage_Core_Block</class>
-                            <method>loadJsonFile</method>
-                            <arg>Mage/Customer/initLayout.json</arg>
-                            <arg>Mage_Customer</arg>
-                        </observer>
-                    </event>
-                </events>
-            </area>
+                    <events>
+                        <initLayout>
+                            <observers>
+                                <customer>
+                                    <class>Mage_Core_Block</class>
+                                    <method>loadJsonFile</method>
+                                    <args>
+                                        <file>Mage/Customer/initLayout.json</file>
+                                        <module>Mage_Customer</module>
+                                    </args>
+                                </customer>
+                            </observers>
+                        </initLayout>
+                    </events>
+                </front>
+            </load>
 
-        </module>
+        </Mage_Customer>
     </modules>
 </config>

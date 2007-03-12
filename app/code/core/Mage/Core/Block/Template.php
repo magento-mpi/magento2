@@ -77,17 +77,19 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function renderView()
     {       
-        $viewModule = Mage::getModuleInfo($this->getAttribute('viewModule'));
+        $moduleName = $this->getAttribute('viewModule');
         
-        if (!$viewModule instanceof Mage_Core_Module_Info) {
-            Mage::exception('Invalid view module name specified in block '.$this->getInfo('name').': '.$this->getAttribute('viewModule'));
+        if (!Mage::getConfig()->getModule($moduleName)) {
+            Mage::exception('Invalid view module name specified in block '.$this->getInfo('name').': '.$moduleName);
         }
 
-        $this->getView()->setScriptPath($viewModule->getRoot('views').DS);
-        
-        $this->getView()->assign('moduleImagesUrl', $viewModule->getBaseUrl('skin') . '/images');
-        $this->getView()->assign('moduleSkinUrl', $viewModule->getBaseUrl('skin'));
-        $this->getView()->assign('moduleViewsDir', $viewModule->getRoot('views'));
+        $moduleViewsDir = Mage::getConfig()->getModuleRoot($moduleName, 'views');
+        $moduleBaseSkinUrl = Mage::getConfig()->getModuleBaseUrl($moduleName, 'skin');
+
+        $this->getView()->setScriptPath($moduleViewsDir.DS);
+        $this->getView()->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
+        $this->getView()->assign('moduleSkinUrl', $moduleBaseSkinUrl);
+        $this->getView()->assign('moduleViewsDir', $moduleViewsDir);
         
         $this->getView()->assign('curentBlock', $this);
         

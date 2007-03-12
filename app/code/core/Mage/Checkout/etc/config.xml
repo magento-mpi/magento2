@@ -1,47 +1,53 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <module name="Mage_Checkout">
+        <Mage_Checkout>
+            <version>0.1.1</version>
             
             <depends>
-                <module name="Mage_Sales"/>
+                <Mage_Sales/>
             </depends>
 
-            <area name="all">
-                <resources>
-                    <resource name="checkout_setup">
-                        <version>0.1.1</version>
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_setup']/connection"/>
-                    </resource>
+            <load>
+                <all>
+                    <resources>
+                        <checkout_setup>
+                            <connection extends="//core_setup/connection"/>
+                        </checkout_setup>
 
-                    <resource name="checkout_write">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_write']/connection"/>
-                    </resource>
+                        <checkout_write>
+                            <connection extends="//core_write/connection"/>
+                        </checkout_write>
 
-                    <resource name="checkout_read">
-                        <connection extends="/config/modules/module/area[@name='all']/resources/resource[@name='core_read']/connection"/>
-                    </resource>
-                </resources>
-            </area>
+                        <checkout_read>
+                            <connection extends="//core_read/connection"/>
+                        </checkout_read>
+                    </resources>
+                </all>
 
-            <area name="front">
-                <controller>
-                    <active>true</active>
-                    <frontName>checkout</frontName>
-                </controller>
+                <front>
+                    <controller>
+                        <active>true</active>
+                        <frontName>checkout</frontName>
+                    </controller>
 
-                <events>
-                    <event name="initLayout">
-                        <observer name="cart_initLayout">
-                            <class>Mage_Core_Block</class>
-                            <method>loadJsonFile</method>
-                            <arg>Mage/Checkout/initLayout.json</arg>
-                            <arg>Mage_Checkout</arg>
-                        </observer>
-                    </event>
-                </events>
-            </area>
+                    <events>
+                        <initLayout>
+                            <observers>
+                                <checkout>
+                                    <class>Mage_Core_Block</class>
+                                    <method>loadJsonFile</method>
+                                    <args>
+                                        <file>Mage/Checkout/initLayout.json</file>
+                                        <module>Mage_Checkout</module>
+                                    </args>
+                                </checkout>
+                            </observers>
+                        </initLayout>
+                    </events>
+                </front>
+            </load>
 
-        </module>
+        </Mage_Checkout>
     </modules>
 </config>

@@ -32,7 +32,8 @@ class Mage_Core_Resource_Db_Mysqli extends Mage_Core_Resource_Db
 		$this->_mysqli = new mysqli();
         $this->_mysqli->init();
         $this->_mysqli->options(MYSQLI_OPT_LOCAL_INFILE, true);
-		$this->_mysqli->real_connect($config['host'], $config['username'], $config['password'], $config['dbname']);
+        $conn = $config->connection;
+		$this->_mysqli->real_connect((string)$conn->host, (string)$conn->username, (string)$conn->password, (string)$conn->dbname);
 		$this->setConnection($this);
 	}
 	

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <module name="Mage_Directory">
+        <Mage_Directory>
             
             <depends>
-                <module name="Mage_Core"/>
+                <Mage_Core/>
             </depends>
 
-        </module>
+        </Mage_Directory>
     </modules>
 </config>

@@ -62,18 +62,18 @@ class Mage_Core_Controller_Zend_Admin {
     public function loadModule($modInfo)
     {
         if (is_string($modInfo)) {
-            $modInfo = Mage::getModuleInfo($modInfo);
+            $modInfo = Mage::getConfig()->getModuleInfo($modInfo);
         }
-        if (!$modInfo instanceof Mage_Core_Module_Info) {
+        if (!$modInfo instanceof Varien_Xml) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
-        if (!$modInfo->isFront()) {
+        if ('true'!==(string)$modInfo->active) {
             return false;
         }
 
         $name = $modInfo->getName();
-        if (is_dir($modInfo->getRoot('controllers').DS.'Admin')) {
-            $this->_front->addControllerDirectory($modInfo->getRoot('controllers').DS.'Admin', strtolower($name));
+        if (is_dir(Mage::getConfig()->getModuleRoot($name, 'controllers').DS.'Admin')) {
+            $this->_front->addControllerDirectory(Mage::getConfig()->getModuleRoot($name, 'controllers').DS.'Admin', strtolower($name));
         }
     }
 
@@ -93,8 +93,12 @@ class Mage_Core_Controller_Zend_Admin {
      */
     public function run() 
     {
-        $default = Mage::getModuleInfo('Mage_Core')->getRoot('controllers').DS.'Admin';
+        $default = Mage::getConfig()->getModuleRoot('Mage_Core', 'controllers').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
+
+        foreach (Mage::getConfig('/')->modules->children() as $module) {
+            $this->loadModule($module);
+        }
 
         $this->_front->dispatch($this->_request);
     }

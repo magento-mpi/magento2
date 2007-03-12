@@ -74,6 +74,8 @@ class Mage_Core_Event
      */
     public static function addObserver($eventName, $callback, array $arguments=array(), $observerName='')
     {
+        $eventName = strtolower($eventName);
+        
         if (!self::getEvent($eventName)) {
             self::addEvent($eventName);
         }
@@ -97,6 +99,8 @@ class Mage_Core_Event
      */
     public static function addMultiObserver($eventRegex, $callback, $observerName='')
     {
+        $eventRegex = strtolower($eventRegex);
+        
         $this->_multiObservers[$eventRegex] = $callback;
     }
 
@@ -115,6 +119,8 @@ class Mage_Core_Event
         #if ($event && $event->getObservers()) {
         #    $event->dispatch($args);
         #}
+        $eventName = strtolower($eventName);
+        
         if (!isset(self::$_events[$eventName])) {
             return false;
         }
@@ -149,18 +155,15 @@ class Mage_Core_Event
         $this->_stopDispatchFlag = true;
     }
     
-    public static function loadObserversConfig($config)
+    public static function loadEventsConfig($area)
     {
-        foreach ($config as $eventName=>$observers) {
-            foreach ($observers as $observerName=>$observerInfo) {
-                $callback = explode('::', $observerInfo->callback);
-                $args = array();
-    
-                if (isset($observerInfo->arg)) {
-                    $args = $observerInfo->arg->asArray();
-                }
-    
-                self::addObserver($eventName, $callback, $args, $observerName);
+        $events = Mage::getConfig('/')->global->$area->events;
+        foreach ($events->children() as $event) {
+            $eventName = $event->getName();
+            foreach ($event->observers->children() as $observer) {
+                $callback = array((string)$observer->class, (string)$observer->method);
+                $args = array_values((array)$observer->args);
+                self::addObserver($eventName, $callback, $args, $observer->getName());
             }
         }
     }

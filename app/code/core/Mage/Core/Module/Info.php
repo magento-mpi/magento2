@@ -4,50 +4,32 @@ class Mage_Core_Module_Info
     protected $_config = null;
     protected $_setupClass = null;
     
-    public function __construct(Zend_Config $config) 
+    public function __construct(Varien_Xml $config) 
     {
-        if (!isset($config->active)) {
-            $config->active = false;
-        }
         if (!isset($config->codePool)) {
-            $config->codePool = 'core';
+            $config->addChild('codePool', 'core');
         }
 
-        $this->setConfig($config);
+        $this->_config = new Mage_Core_Config_Xml('xml', $config);
     }
     
-    public function setConfig($key, $value='')
+    public function getConfig($xpath='')
     {
-        if ($key instanceof Zend_Config) {
-            if (is_null($this->_config)) {
-                $this->_config = $key;
-            } else {
-                foreach ($key as $k=>$v) {
-                    $this->_config->$k = $v;
-                }
-            }            
-        } elseif (is_string($key)) {
-            $this->_config->$key = $value;   
-        }
-    }
-    
-    public function getConfig($key='')
-    {
-        if (''===$key) {
-            return $this->_config;
+        if (''===$xpath) {
+            return $this->_config->getXml();
         } else {
-            return $this->_config->$key;
+            return $this->_config->getXpath($xpath);
         }
     }
     
     public function isFront() 
     {
-        return !empty($this->getConfig('controller')->front) ? true : false;
+        return !empty($this->getConfig()->controller->front) ? true : false;
     }
     
     public function isActive() 
     {
-        return $this->getConfig('active') ? true : false;
+        return !empty($this->getConfig()->active) ? true : false;
     }
     
     public function getSetupClass()
@@ -61,13 +43,14 @@ class Mage_Core_Module_Info
     
     public function getName()
     {
-        return $this->getConfig('name');
+        $config = $this->getConfig();
+        return $config['name'];
     }
 
     public function getFrontName() 
     {
-        if (!empty($this->getConfig('controller')->frontName)) {
-            return $this->getConfig('controller')->frontName;
+        if (!empty($this->getConfig()->controller->frontName)) {
+            return $this->getConfig()->controller->frontName;
         } else {
             return strtolower($this->getName());
         }
@@ -80,13 +63,12 @@ class Mage_Core_Module_Info
     
     public function getCodeVersion()
     {
-        return $this->getConfig('setup')->version;
+        return $this->getConfig()->version;
     }
     
     public function getRoot($type='') 
     {
-        $dir = Mage::getRoot('code').DS.$this->getConfig('codePool')
-            .DS.str_replace('_', DS, $this->getName());
+        $dir = Mage::getRoot('code').DS.$this->getConfig()->codePool.DS.str_replace('_', DS, $this->getName());
         switch ($type) {
             case 'etc':
                 $dir .= DS.'etc';
@@ -110,15 +92,19 @@ class Mage_Core_Module_Info
     
     public function getBaseUrl($type='')
     {
-        $url = '';
+        $url = Mage::getBaseUrl($type);
         switch ($type) {
+            case 'skin':
+                $url .= '/skins/default';
+                break;
+                
             default:
-                $url = Mage::getBaseUrl($type) . '/' . $this->getFrontName();
+                $url .= '/'.$this->getFrontName();
                 break;
         }
         return $url;
     }
-    
+/*
     public function loadConfig($name)
     {
         if ($name=='*user*') {
@@ -161,7 +147,7 @@ class Mage_Core_Module_Info
         
         Mage_Core_Controller::loadModuleConfig($this);
     }
-    
+*/
     static public function checkDepends($config)
     {
         foreach ($config as $depModule=>$dummy) {

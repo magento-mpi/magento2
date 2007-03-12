@@ -16,10 +16,6 @@
  */
 class Mage_Core_View_Zend extends Zend_View_Abstract
 {
-
-    private $_cache = array();
-    static public $_timer = 0;
-    
     /**
      * Includes the view script in a scope with only public $this variables.
      *
