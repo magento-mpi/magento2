@@ -26,10 +26,10 @@ class Varien_Db_Tree
     private $_level;
     private $_pid;
     private $_nodesInfo = array();
-    
+
     /**
      * Array of additional tables
-     * 
+     *
      * array(
      *  [$tableName] => array(
      *              ['joinCondition']
@@ -168,7 +168,6 @@ class Varien_Db_Tree
         return $this;
     }
 
-
     /**
      * set table name
      *
@@ -180,7 +179,7 @@ class Varien_Db_Tree
         return $this;
     }
 
-    function getKeys() {
+    public function getKeys() {
         $keys = array();
         $keys['id'] = $this->_id;
         $keys['left'] = $this->_left;
@@ -194,7 +193,7 @@ class Varien_Db_Tree
      * Cleare table and add root element
      *
      */
-    function clear($data = array())
+    public function clear($data = array())
     {
         // clearing table
         $this->_db->query('TRUNCATE '. $this->_table);
@@ -214,8 +213,7 @@ class Varien_Db_Tree
         return $this->_db->lastInsertId();
     }
 
-
-    function getNodeInfo($ID) {
+    public function getNodeInfo($ID) {
         if (empty($this->_nodesInfo[$ID])) {
             $sql = 'SELECT * FROM '.$this->_table.' WHERE '.$this->_id.'=:id';
             $res = $this->_db->query($sql, array('id' => $ID));
@@ -227,12 +225,12 @@ class Varien_Db_Tree
         return $data;
     }
 
-    function appendChild($ID, $data) {
+    public function appendChild($ID, $data) {
 
         if (!$info = $this->getNodeInfo($ID)) {
             return false;
         }
-    
+
         $data[$this->_left]  = $info[$this->_right];
         $data[$this->_right] = $info[$this->_right] + 1;
         $data[$this->_level] = $info[$this->_level] + 1;
@@ -246,9 +244,9 @@ class Varien_Db_Tree
                     . ' `'.$this->_left.'` = IF( `'.$this->_left.'` > :left, `'.$this->_left.'`+2, `'.$this->_left.'`),'
                     . ' `'.$this->_right.'` = IF( `'.$this->_right.'`>= :right, `'.$this->_right.'`+2, `'.$this->_right.'`)'
                     . ' WHERE `'.$this->_right.'` >= :right';
-                
+
                 $this->_db->query($sql, array('left'=>$info[$this->_left], 'right'=>$info[$this->_right]));
-                
+
                 $this->_db->insert($this->_table, $data);
                 $this->_db->commit();
             } catch (PDOException $p) {
@@ -286,7 +284,7 @@ class Varien_Db_Tree
         $sql->group('t1.'.$this->_id);
         $sql->having('max_right <> SQRT(4 * rep + 1) + 1');
 
-         
+
         return $this->_db->fetchAll($sql);
     }
 
@@ -295,7 +293,7 @@ class Varien_Db_Tree
     }
 
     public function removeNode($ID) {
-        
+
         if (!$info = $this->getNodeInfo($ID)) {
             return false;
         }
@@ -305,13 +303,13 @@ class Varien_Db_Tree
             try {
                 // DELETE FROM my_tree WHERE left_key >= $left_key AND right_key <= $right_key
                 $this->_db->delete($this->_table, $this->_left.' >= '.$info[$this->_left].' AND '.$this->_right.' <= '.$info[$this->_right]);
-                
+
                 // UPDATE my_tree SET left_key = IF(left_key > $left_key, left_key – ($right_key - $left_key + 1), left_key), right_key = right_key – ($right_key - $left_key + 1) WHERE right_key > $right_key
-                $sql = 'UPDATE '.$this->_table.' 
-					SET 
-						'.$this->_left.' = IF('.$this->_left.' > '.$info[$this->_left].', '.$this->_left.' - '.($info[$this->_right] - $info[$this->_left] + 1).', '.$this->_left.'), 
-						'.$this->_right.' = '.$this->_right.' - '.($info[$this->_right] - $info[$this->_left] + 1).' 
-					WHERE 
+                $sql = 'UPDATE '.$this->_table.'
+					SET
+						'.$this->_left.' = IF('.$this->_left.' > '.$info[$this->_left].', '.$this->_left.' - '.($info[$this->_right] - $info[$this->_left] + 1).', '.$this->_left.'),
+						'.$this->_right.' = '.$this->_right.' - '.($info[$this->_right] - $info[$this->_left] + 1).'
+					WHERE
 						'.$this->_right.' > '.$info[$this->_right];
                 $this->_db->query($sql);
                 $this->_db->commit();
@@ -323,10 +321,45 @@ class Varien_Db_Tree
         }
     }
 
-    public function moveBranch($ID, $newID) {
+    public function moveNode($eID, $pID, $aID = 0) {
 
+        $eInfo = $this->getNodeInfo($eID);
+
+        $pInfo = $this->getNodeInfo($pID);
+        //$aInfo = $this->getNodeInfo($aID);
+
+        if ($eInfo[$this->_pid] != $pID) {
+            $level_up = $pInfo[$this->_level];
+            $right_key_near = $pInfo[$this->_right] - 1;
+
+            $skew_level = $pInfo[$this->_level] - $eInfo[$this->_level] + 1;
+            $skew_tree = $eInfo[$this->_right] - $eInfo[$this->_left] + 1;
+            $skew_edit = $right_key_near - $eInfo[$this->_left] + 1;
+
+           $sql = '
+            UPDATE '.$this->_table.'
+                SET
+                '.$this->_pid.' = IF()
+                '.$this->_right.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_right.' + '.$skew_edit.', IF('.$this->_right.' < '.$eInfo[$this->_left].', '.$this->_right.' + '.$skew_tree.', '.$this->_right.')),
+                '.$this->_level.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_level.' + '.$skew_level.', '.$this->_level.'),
+                '.$this->_left.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_left.' + '.$skew_edit.', IF('.$this->_left.' > '.$right_key_near.', '.$this->_left.' + '.$skew_tree.', '.$this->_left.'))
+                WHERE '.$this->_right.' > '.$right_key_near.' AND '.$this->_left.' < '.$eInfo[$this->_right];
+        } else {
+
+        }
+
+        // level_up = $pInfo[$this->_level];
+        $this->_db->beginTransaction();
+        try {
+           $this->_db->query($sql);
+           $this->_db->commit();
+        } catch (Exception $e) {
+            $this->_db->rollBack();
+            echo $p->getMessage();
+            exit();
+        }
     }
-    
+
     public function addTable($tableName, $joinCondition, $fields='*')
     {
         $this->_extTables[$tableName] = array(
@@ -334,15 +367,15 @@ class Varien_Db_Tree
            'fields'        => $fields
         );
     }
-    
+
     protected function _addExtTablesToSelect(Zend_Db_Select &$select)
     {
         foreach ($this->_extTables as $tableName=>$info) {
             $select->joinInner($tableName, $info['joinCondition'], $info['fields']);
         }
     }
-    
-    function getChildren($ID, $start_level = 0, $end_level = 0) 
+
+    public function getChildren($ID, $start_level = 0, $end_level = 0)
     {
         try {
             $info = $this->getNodeInfo($ID);
@@ -350,15 +383,15 @@ class Varien_Db_Tree
             echo $e->getMessage();
             exit;
         }
-        
+
         $dbSelect = new Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
             ->where($this->_left  . ' >= :left')
             ->where($this->_right . ' <= :right')
             ->order($this->_left);
-        
+
         $this->_addExtTablesToSelect($dbSelect);
-        
+
         $data = array();
         $data['left'] = $info[$this->_left];
         $data['right'] = $info[$this->_right];
@@ -367,7 +400,7 @@ class Varien_Db_Tree
             $dbSelect->where($this->_level . ' = :minLevel');
             $data['minLevel'] = $info[$this->_level] + $start_level;
         }
-        
+
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
@@ -377,20 +410,20 @@ class Varien_Db_Tree
         }
         return $nodeSet;
     }
-    
-    function getNode($nodeId)
+
+    public function getNode($nodeId)
     {
         $dbSelect = new Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
             ->where($this->_table.'.'.$this->_id  . ' >= :id');
-        
+
         $this->_addExtTablesToSelect($dbSelect);
-        
+
         $data = array();
         $data['id'] = $nodeId;
-        
+
         $data = $this->_db->fetchRow($dbSelect, $data);
-        
+
         return new Varien_Db_Tree_Node($data, $this->getKeys());
     }
 }
