@@ -131,7 +131,7 @@ Ext.onReady(function(){
     tree.on('dblclick', ondblClick);
    // tree.on('nodedragover', function(e) {if (('append' == e.point ) && (e.target.getDepth() != ( e.dropNode.getDepth() - 1 ) ) ) return false; });
 
-	tree.on('beforenodedrop', function(e) {
+    tree.on('beforenodedrop', function(e) {
 	    Ext.dump(e);
 	});
 

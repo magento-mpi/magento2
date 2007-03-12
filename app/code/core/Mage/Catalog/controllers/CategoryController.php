@@ -37,7 +37,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         $res = $obj->checkNodes();
         $dump = Zend_Debug::dump($res, 'Broken Nodes', false);
-        Mage::getBlock('content')->append($dump);
+        Mage::getBlock('content')->append(Mage::createBlock('text')->setText($dump));
     }
 
 
