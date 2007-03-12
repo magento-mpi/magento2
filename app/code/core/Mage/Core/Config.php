@@ -95,10 +95,7 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
         $url = Mage::getBaseUrl($type);
         
         switch ($type) {
-            case 'skin':
-                $url .= '/skins/default';
-                break;
-                
+              
             default:
                 if (isset($module->load->front->controller->frontName)) {
                     $url .= '/'.$module->load->front->controller->frontName;
