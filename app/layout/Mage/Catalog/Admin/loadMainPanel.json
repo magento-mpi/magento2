@@ -7,7 +7,7 @@
                         [".construct", "layout", 
                             {
                                 "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
-                                "center":{"autoScroll":true}
+                                "center":{"autoScroll":false,"titlebar":true,"hideTabs":true}
                             }
                         ],
                         [".addPanel","west",

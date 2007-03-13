@@ -15,7 +15,7 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
     function indexAction() 
     {
         Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/testJsAdd.json', 'mage_catalog');
+        //Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/testJsAdd.json', 'mage_catalog');
     }
     
     function categoriesAction() 

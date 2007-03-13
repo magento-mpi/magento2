@@ -1,9 +1,15 @@
 <script type="text/javascript" language="javascript">
-if (!Mage.Collection.get('category_tree_context_menu'))
-{
+if (!Mage.Collection.get('category_tree_context_menu')){
+    
     var categoryTreeHandler = new Object();
     categoryTreeHandler.showProducts = function(item,event){
-        Ext.dump(item.parentMenu.selectedNode);
+        var contentPanel;
+        if (contentPanel=Mage.Collection.get('catalog_main_content_panel')){
+            if (item.parentMenu.selectedNode.id){
+                contentPanel.setUrl('<?=$this->baseUrl?>/mage_catalog/product/grid/category/'+item.parentMenu.selectedNode.id);
+                contentPanel.refresh();
+            }
+        }
     };
     categoryTreeHandler.editCategory = function(item,event){
         alert('edit category');

@@ -1,0 +1,3 @@
+[":product_gridPanel", {"output":[["product_grid_panel"]]},
+    ["+tpl","#product_grid_panel",[".setViewName","Mage_Catalog","Admin/js/product_grid_panel"]]
+]

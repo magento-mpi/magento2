@@ -88,6 +88,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $moduleBaseSkinUrl = Mage::getConfig()->getModuleBaseUrl($moduleName, 'skin');
 
         $this->getView()->setScriptPath($moduleViewsDir.DS);
+        $this->getView()->assign('baseUrl', Mage::getBaseUrl());
         $this->getView()->assign('moduleBaseUrl', $moduleBaseUrl);
         $this->getView()->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
         $this->getView()->assign('moduleSkinUrl', $moduleBaseSkinUrl);
@@ -107,7 +108,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected function _beforeAssign($blockName, $blockObject)
     {
-    	// before assign child block actions
+        // before assign child block actions
     }
     
     /**

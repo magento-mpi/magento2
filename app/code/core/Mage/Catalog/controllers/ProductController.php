@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Product controller
  *

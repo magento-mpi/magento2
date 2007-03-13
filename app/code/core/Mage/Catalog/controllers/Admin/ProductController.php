@@ -5,17 +5,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 {
     public function gridAction() 
     {
-        $categoryId = $this->getRequest()->getParam('category');
-        $this->_view->assign('category', $categoryId);
-        $this->getResponse()->setBody($this->_view->render('catalog/grid.products.phtml'));
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/product/initGridLayout.json', 'mage_catalog');
     }
     
     public function gridDataAction()
     {
         $prodCollection = Mage::getModel('catalog','product_collection');
-        $prodCollection->setPageSize(20);
-        $prodCollection->addFilter('website_id', Mage::getCurentWebsite(), 'and');
+        $prodCollection->addAttributeToSelect('name', 'varchar');
+        $prodCollection->addAttributeToSelect('price', 'decimal');
+        $prodCollection->addAttributeToSelect('description', 'text');
         
+        $prodCollection->setPageSize(20);
+        //$prodCollection->addFilter('website_id', Mage::getCurentWebsite(), 'and');
+        
+        /*
         if ($categoryId = $this->getRequest()->getParam('category')) {
             $arrCategories = array($categoryId);
             $tree = Mage::getModel('catalog','Categories');
@@ -25,23 +28,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         	}
         	
         	$condition = Mage::getModel('catalog')->getReadConnection()->quoteInto('category_id IN (?)', $arrCategories);
-        	$prodCollection->addFilter('category', $condition, 'string');
-        }
-        //$prodCollection->addFilter('category_id', 11 , 'and');
+        	//$prodCollection->addFilter('category', $condition, 'string');
+        }*/
+        $prodCollection->addCategoryFilter(10);
         
-        if (!empty($_POST['name'])) {
-        	$prodCollection->addSearchFilter($_POST['name']);
-        }
         
-        $page = isset($_POST['start']) ? $_POST['start']/20+1 : 1;
-        
+        //$page = isset($_POST['start']) ? $_POST['start']/20+1 : 1;
+        /*
         $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
         $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
         $prodCollection->setOrder($order, $dir);
-        $prodCollection->setCurPage($page);
+        $prodCollection->setCurPage($page);*/
         $prodCollection->load();
         
-        $arrGridFields = array('product_id', 'name', 'price', 'category', 'weight');
+        $arrGridFields = array('product_id', 'name', 'price', 'description');
         $this->getResponse()->setBody(Zend_Json::encode($prodCollection->__toArray($arrGridFields)));
     }
 
