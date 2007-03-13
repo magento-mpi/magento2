@@ -18,13 +18,13 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
      * @var Varien_Db_Tree
      */
     private $_dbTree;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
-        
+
         $treeTable = $this->_getTableName('catalog_read', 'category');
-        
+
         $config = array();
         $config['db']   = $this->_read;
         $config['table']= $treeTable;
@@ -37,27 +37,27 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
                 ->setRightField('right_key')
                 ->setPidField('pid')
                 ->setLevelField('level');
-            
+
             $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
-            $condition = "$attributeValueTable.category_id=$treeTable.category_id 
+            $condition = "$attributeValueTable.category_id=$treeTable.category_id
                           AND $attributeValueTable.website_id=".Mage::getCurentWebsite();
-            
+
             $this->_dbTree->addTable($attributeValueTable, $condition);
 
             $attributeTable = $this->_getTableName('catalog_read', 'category_attribute');
-            $condition = "$attributeValueTable.attribute_id=$attributeTable.attribute_id 
+            $condition = "$attributeValueTable.attribute_id=$attributeTable.attribute_id
                           AND $attributeTable.attribute_code='name'";
-            
+
             $this->_dbTree->addTable($attributeTable, $condition);
-        } 
+        }
         catch (PDOException $e) {
             echo $e->getMessage();
-        } 
+        }
         catch (Zend_Exception $e) {
             echo $e->getMessage();
         }
     }
-    
+
     function getObject() {
         return $this->_dbTree;
     }
@@ -100,9 +100,19 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
             echo $e->getMessage();
             exit();
         }
-        
+
     }
-    
+
+    /**
+     * Remove node From Tree
+     *
+     * @param integer $id
+     * @return Varien_Db_Tree_Node
+     */
+    function deleteNode($id) {
+        return $this->_dbTree->removeNode($id);
+    }
+
     function appendChild($id, $data = array()) {
         $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
         $data['category_id'] = $this->_dbTree->appendChild($id, array('website_id'=>1));
@@ -113,7 +123,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
         $data['attribute_id'] = 2;
         $this->_write->insert($attributeValueTable, $data);
     }
-    
+
     /**
      * Get tree node
      *

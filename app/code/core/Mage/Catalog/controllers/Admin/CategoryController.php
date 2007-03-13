@@ -23,4 +23,11 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         }
     }
 
+    function deleteAction() {
+        $id = $this->getRequest()->getParam('id', null);
+        if (!empty($id)) {
+            Mage::getModel('catalog', 'category_tree')->deleteNode($id);
+        }
+    }
+
 }
