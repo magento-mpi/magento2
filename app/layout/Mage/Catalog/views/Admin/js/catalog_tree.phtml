@@ -72,6 +72,12 @@ function moveNode(obj) {
 //    Ext.dump(obj.dropNode.id);
 //    Ext.dump('===================================');
 
+    if ((obj.target.parentNode.id == obj.dropNode.parentNode.id) && (obj.point != 'append')) {
+        Ext.MessageBox.alert("Tree Message","Can't move node here. Will be Fixed");
+        obj.cancel = true;
+        return obj;
+    }
+
     var url = BASE_URL + '/mage_catalog/category/move/';
 
     var data = {
@@ -93,7 +99,11 @@ function moveNode(obj) {
         break;
         case 'append' :
             data.pid = obj.target.id;
-            data.aid = obj.target.lastChild.id;
+            if (obj.target.lastChild) {
+                data.aid = obj.target.lastChild.id;
+            } else {
+                data.aid = 0;
+            }
         break;
         default :
             obj.cancel = true;

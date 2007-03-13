@@ -321,7 +321,73 @@ class Varien_Db_Tree
         }
     }
 
+
     public function moveNode($eId, $pId, $aId = 0) {
+
+        $eInfo = $this->getNodeInfo($eId);
+        $pInfo = $this->getNodeInfo($pId);
+
+
+        $leftId = $eInfo[$this->_left];
+        $rightId = $eInfo[$this->_right];
+        $level = $eInfo[$this->_level];
+
+        $leftIdP = $pInfo[$this->_left];
+        $rightIdP = $pInfo[$this->_right];
+        $levelP = $pInfo[$this->_level];
+
+        if ($eId == $pId || $leftId == $leftIdP || ($leftIdP >= $leftId && $leftIdP <= $rightId) || ($level == $levelP+1 && $leftId > $leftIdP && $rightId < $rightIdP)) {
+            echo "alert('cant_move_tree');";
+            return FALSE;
+        }
+
+        if ($leftIdP < $leftId && $rightIdP > $rightId && $levelP < $level - 1) {
+            $sql = 'UPDATE '.$this->_table.' SET '
+            . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_level.sprintf('%+d', -($level-1)+$levelP) . ' ELSE ' . $this->_level . ' END, '
+            . $this->_right . ' = CASE WHEN ' . $this->_right . ' BETWEEN ' . ($rightId+1) . ' AND ' . ($rightIdP-1) . ' THEN ' . $this->_right . '-' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_right . '+' . ((($rightIdP-$rightId-$level+$levelP)/2)*2+$level-$levelP-1) . ' ELSE ' . $this->_right . ' END, '
+            . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . ($rightId+1) . ' AND ' . ($rightIdP-1) . ' THEN ' . $this->_left . '-' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_left . '+' . ((($rightIdP-$rightId-$level+$levelP)/2)*2+$level-$levelP-1) . ' ELSE ' . $this->_left . ' END '
+            . 'WHERE ' . $this->_left . ' BETWEEN ' . ($leftIdP+1) . ' AND ' . ($rightIdP-1);
+        } elseif ($leftIdP < $leftId) {
+            $sql = 'UPDATE ' . $this->_table . ' SET '
+            . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_level.sprintf('%+d', -($level-1)+$levelP) . ' ELSE ' . $this->_level . ' END, '
+            . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $rightIdP . ' AND ' . ($leftId-1) . ' THEN ' . $this->_left . '+' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_left . '-' . ($leftId-$rightIdP) . ' ELSE ' . $this->_left . ' END, '
+            . $this->_right . ' = CASE WHEN ' . $this->_right . ' BETWEEN ' . $rightIdP . ' AND ' . $leftId . ' THEN ' . $this->_right . '+' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_right . '-' . ($leftId-$rightIdP) . ' ELSE ' . $this->_right . ' END '
+            . 'WHERE (' . $this->_left . ' BETWEEN ' . $leftIdP . ' AND ' . $rightId. ' '
+            . 'OR ' . $this->_right . ' BETWEEN ' . $leftIdP . ' AND ' . $rightId . ')';
+        } else {
+            $sql = 'UPDATE ' . $this->_table . ' SET '
+            . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_level.sprintf('%+d', -($level-1)+$levelP) . ' ELSE ' . $this->_level . ' END, '
+            . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $rightId . ' AND ' . $rightIdP . ' THEN ' . $this->_left . '-' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_left . '+' . ($rightIdP-1-$rightId) . ' ELSE ' . $this->_left . ' END, '
+            . $this->_right . ' = CASE WHEN ' . $this->_right . ' BETWEEN ' . ($rightId+1) . ' AND ' . ($rightIdP-1) . ' THEN ' . $this->_right . '-' . ($rightId-$leftId+1) . ' '
+            . 'WHEN ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_right . '+' . ($rightIdP-1-$rightId) . ' ELSE ' . $this->_right . ' END '
+            . 'WHERE (' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightIdP . ' '
+            . 'OR ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightIdP . ')';
+        }
+
+        $this->_db->beginTransaction();
+        try {
+            $this->_db->query($sql);
+            $this->_db->commit();
+            echo "alert('node moved');";
+            return true;
+        } catch (Exception $e) {
+            $this->_db->rollBack();
+            echo "alert('node not moved: fatal error');";
+            echo $e->getMessage();
+            echo "<br>\r\n";
+            echo $sql;
+            echo "<br>\r\n";
+            exit();
+        }
+    }
+
+
+    public function __moveNode($eId, $pId, $aId = 0) {
 
         $eInfo = $this->getNodeInfo($eId);
         if ($pId != 0) {
