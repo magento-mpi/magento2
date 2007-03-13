@@ -1,4 +1,4 @@
-[":catalog_addPanel", {"output":[["layout","toJs"]]},
+[":catalog_mainPanel", {"output":[["layout","toJs"]]},
     ["+layout_border","#layout",[".construct","",{"isStub":true,"useExistingPanels":true}],
         [".addPanel","center",
             ["+layout_panel_nested","#catalog_main_panel",

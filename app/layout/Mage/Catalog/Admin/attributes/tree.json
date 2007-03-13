@@ -1,0 +1,18 @@
+[":catalog_attributesTree", {"output":[["catalog_attributes_tree"],["catalog_attributes_tree_js"]]},
+    ["+tree", "#catalog_attributes_tree",
+        [".construct", "catalog-attributes-tree-div", 
+            {
+                "animate":false,
+                "enableDD":false,
+                "containerScroll":true,
+                "rootVisible":false
+            }
+        ],
+        [".setRootNode",{"text":"Attributes", "id":"catalog_attribute_tree_root","async":false}],
+        [".appendChild","category_attr_set",{"text":"Category attributes set","id":"category_attr_set","async":false}],
+        [".appendChild","category_attr",{"text":"Category attributes","id":"category_attr","async":false}],
+        [".appendChild","product_attr_set",{"text":"Product attributes set","id":"product_attr_set","async":false}],
+        [".appendChild","product_attr",{"text":"Product attributes","id":"product_attr","async":false}]
+    ],
+    ["+tpl","#catalog_attributes_tree_js",[".setViewName","Mage_Catalog","Admin/js/catalog_attributes_tree"]]
+]

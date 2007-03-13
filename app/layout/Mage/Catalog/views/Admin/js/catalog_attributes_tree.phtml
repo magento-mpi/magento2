@@ -1,0 +1,34 @@
+<script type="text/javascript" language="javascript">
+if (!Mage.Collection.get('catalog_attribute_tree_handler')){
+    var attributeTreeHandler = new Object();
+    attributeTreeHandler.showCategoryAttributesSet = function(){
+        alert('123');
+    }
+    attributeTreeHandler.showCategoryAttributes = function(){
+        alert('123');
+    }
+    attributeTreeHandler.showProductAttributesSet = function(){
+        alert('123');
+    }
+    attributeTreeHandler.showProductAttributes = function(){
+        alert('123');
+    }
+    Mage.Collection.add('catalog_attribute_tree_handler', attributeTreeHandler)
+}
+Mage.Collection.get('catalog_attributes_tree_root_category_attr_set').addListener(
+    'click',
+    Mage.Collection.get('catalog_attribute_tree_handler').showCategoryAttributesSet
+);
+Mage.Collection.get('catalog_attributes_tree_root_category_attr').addListener(
+    'click',
+    Mage.Collection.get('catalog_attribute_tree_handler').showCategoryAttributes
+);
+Mage.Collection.get('catalog_attributes_tree_root_product_attr_set').addListener(
+    'click',
+    Mage.Collection.get('catalog_attribute_tree_handler').showProductAttributesSet
+);
+Mage.Collection.get('catalog_attributes_tree_root_product_attr').addListener(
+    'click',
+    Mage.Collection.get('catalog_attribute_tree_handler').showProductAttributes
+);
+</script>

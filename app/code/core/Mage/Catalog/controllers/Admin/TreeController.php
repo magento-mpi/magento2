@@ -12,13 +12,16 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
      * Display catalog tree
      *
      */
-    function indexAction() 
+    public function indexAction() 
     {
         Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
-        //Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/testJsAdd.json', 'mage_catalog');
     }
     
-    function categoriesAction() 
+    /**
+     * Get subcategories JSON
+     *
+     */
+    public function categoriesAction() 
     {
         $tree = Mage::getModel('catalog','category_tree');
 
@@ -39,7 +42,6 @@ class Mage_Catalog_TreeController extends Mage_Core_Controller_Admin_Action
         unset($tmp);
         $this->getResponse()->setBody(Zend_Json::encode($json));
     }
-    
     
     function recentProductsAction()
     {

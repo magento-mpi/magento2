@@ -18,6 +18,12 @@
                     "text":"New Category",
                     "id":"catalog_new_category", 
                     "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/category/new"}]]}
+                }],
+                [".addItem","-"],
+                [".addItem",{
+                    "text":"Attributes",
+                    "id":"catalog_attributes", 
+                    "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/index/loadAttributesPanel"}]]}
                 }]
             ]
         ]
