@@ -50,8 +50,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
 
     function moveAction() {
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        if (intval($_GET['id']) && intval($_GET['pid'])) {
-            $obj->moveNode($_GET['id'], $_GET['pid']);
+        if (intval($_REQUEST['id']) && intval($_REQUEST['pid'])) {
+            $obj->moveNode($_REQUEST['id'], $_REQUEST['pid']);
         }
     }
 

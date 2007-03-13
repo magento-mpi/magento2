@@ -321,43 +321,82 @@ class Varien_Db_Tree
         }
     }
 
-    public function moveNode($eID, $pID, $aID = 0) {
+    public function moveNode($eId, $pId, $aId = 0) {
 
-        $eInfo = $this->getNodeInfo($eID);
+        $eInfo = $this->getNodeInfo($eId);
+        if ($pId != 0) {
+            $pInfo = $this->getNodeInfo($pId);
+        }
+        if ($aId != 0) {
+            $aInfo = $this->getNodeInfo($aId);
+        }
 
-        $pInfo = $this->getNodeInfo($pID);
-        //$aInfo = $this->getNodeInfo($aID);
-
-        if ($eInfo[$this->_pid] != $pID) {
+        $level = $eInfo[$this->_level];
+        $left_key = $eInfo[$this->_left];
+        $right_key = $eInfo[$this->_right];
+        if ($pId == 0) {
+            $level_up = 0;
+        } else {
             $level_up = $pInfo[$this->_level];
+        }
+
+        $right_key_near = 0;
+        $left_key_near = 0;
+
+        if ($pId == 0) { //move to root
+            $right_key_near = $this->_db->fetchOne('SELECT MAX('.$this->_right.') FROM '.$this->_table);
+        } elseif ($aId != 0 && $pID == $eInfo[$this->_pid]) { // if we have after ID
+            $right_key_near = $aInfo[$this->_right];
+            $left_key_near = $aInfo[$this->_left];
+        } elseif ($aId == 0 && $pId == $eInfo[$this->_pid]) { // if we do not have after ID
+            $right_key_near = $pInfo[$this->_left];
+        } elseif ($pId != $eInfo[$this->_pid]) {
             $right_key_near = $pInfo[$this->_right] - 1;
+        }
 
-            $skew_level = $pInfo[$this->_level] - $eInfo[$this->_level] + 1;
-            $skew_tree = $eInfo[$this->_right] - $eInfo[$this->_left] + 1;
-            $skew_edit = $right_key_near - $eInfo[$this->_left] + 1;
 
-           $sql = '
-            UPDATE '.$this->_table.'
+        $skew_level = $pInfo[$this->_level] - $eInfo[$this->_level] + 1;
+        $skew_tree = $eInfo[$this->_right] - $eInfo[$this->_left] + 1;
+
+        echo "alert('".$right_key_near."');";
+
+        if ($right_key_near > $right_key) { // up
+            echo "alert('move up');";
+            $skew_edit = $right_key_near - $left_key + 1;
+            $sql = 'UPDATE '.$this->_table.'
                 SET
-                '.$this->_pid.' = IF()
                 '.$this->_right.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_right.' + '.$skew_edit.', IF('.$this->_right.' < '.$eInfo[$this->_left].', '.$this->_right.' + '.$skew_tree.', '.$this->_right.')),
                 '.$this->_level.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_level.' + '.$skew_level.', '.$this->_level.'),
                 '.$this->_left.' = IF('.$this->_left.' >= '.$eInfo[$this->_left].', '.$this->_left.' + '.$skew_edit.', IF('.$this->_left.' > '.$right_key_near.', '.$this->_left.' + '.$skew_tree.', '.$this->_left.'))
                 WHERE '.$this->_right.' > '.$right_key_near.' AND '.$this->_left.' < '.$eInfo[$this->_right];
-        } else {
-
+        } elseif ($right_key_near < $right_key) { // down
+            echo "alert('move down');";
+            $skew_edit = $right_key_near - $left_key + 1 - $skew_tree;
+            $sql = 'UPDATE '.$this->_table.'
+                SET
+                    '.$this->_left.' = IF('.$this->_right.' <= '.$right_key.', '.$this->_left.' + '.$skew_edit.', IF('.$this->_left.' > '.$right_key.', '.$this->_left.' - '.$skew_tree.', '.$this->_left.')),
+                    '.$this->_level.' = IF('.$this->_right.' <= '.$right_key.', '.$this->_level.' + '.$skew_level.', '.$this->_level.'),
+                    '.$this->_right.' = IF('.$this->_right.' <= '.$right_key.', '.$this->_right.' + '.$skew_edit.', IF('.$this->_right.' <= '.$right_key_near.', '.$this->_right.' - '.$skew_tree.', '.$this->_right.'))
+                WHERE
+                    '.$this->_right.' > '.$left_key.' AND '.$this->_left.' <= '.$right_key_near;
         }
 
-        // level_up = $pInfo[$this->_level];
+
         $this->_db->beginTransaction();
         try {
            $this->_db->query($sql);
+           //$afrows = $this->_db->get
            $this->_db->commit();
+
         } catch (Exception $e) {
             $this->_db->rollBack();
-            echo $p->getMessage();
+            echo $e->getMessage();
+            echo "<br>\r\n";
+            echo $sql;
+            echo "<br>\r\n";
             exit();
         }
+        echo "alert('node added')";
     }
 
     public function addTable($tableName, $joinCondition, $fields='*')
