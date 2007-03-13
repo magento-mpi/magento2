@@ -1,6 +1,6 @@
 <script type="text/javascript" language="javascript">
 if (!Mage.Collection.get('category_tree_context_menu')){
-    
+
     var categoryTreeHandler = new Object();
     categoryTreeHandler.showProducts = function(item,event){
         var contentPanel;
@@ -24,18 +24,18 @@ if (!Mage.Collection.get('category_tree_context_menu')){
         }
     };
     categoryTreeHandler.dblClickCategory = function(node,event){
-        
+
     }
-    
-    
+
+
     var categoryTreeContextMenu = new Ext.menu.Menu({
         id : 'category_context_menu',
-        items: [{text: 'Show Category Products',handler:categoryTreeHandler.showProducts}, 
-                '-',  
-                {text: 'Edit Catecory',handler:categoryTreeHandler.editCategory}, 
+        items: [{text: 'Show Category Products',handler:categoryTreeHandler.showProducts},
+                '-',
+                {text: 'Edit Catecory',handler:categoryTreeHandler.editCategory},
                 {text: 'Delete Category',handler:categoryTreeHandler.deleteCategory}]
     });
-    
+
     categoryTreeContextMenu.showNodeContextMenu = function(node, event){
         this.selectedNode = node;
         node.select();
@@ -64,12 +64,57 @@ Mage.Collection.get('catalog_category_tree').addListener(
     Mage.Collection.get('category_tree_handler')
 );
 
-function moveNode(e) {
-    Ext.dump(e.target.id);
-    Ext.dump(e.point);
-    Ext.dump(e.dropNode.id);
-    Ext.dump('===================================');
+
+
+function moveNode(obj) {
+//    Ext.dump(obj.target.id);
+//    Ext.dump(obj.point);
+//    Ext.dump(obj.dropNode.id);
+//    Ext.dump('===================================');
+
+    var url = BASE_URL + '/mage_catalog/category/move/';
+
+    var data = {
+        id: obj.dropNode.id
+    }
+
+    switch (obj.point) {
+        case 'above' :
+            data.pid = obj.target.parentNode.id;
+            if (obj.target.previousSibling) {
+                data.aid = obj.target.previousSibling.id;
+            } else {
+                data.aid = 0;
+            }
+            break;
+        case 'below' :
+            data.pid = obj.target.parentNode.id;
+            data.aid = obj.target.id;
+        break;
+        case 'append' :
+            data.pid = obj.target.id;
+            data.aid = obj.target.lastChild.id;
+        break;
+        default :
+            obj.cancel = true;
+            return obj;
+    }
+
+
+    var success = function(o) {
+        try { eval(o.responseText); } catch(e) { Ext.dump(e); }
+    };
+    var failure = function(o) {
+        Ext.dump(o.statusText);
+    };
+
+    var pd = [];
+    for(var key in data) {
+        pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
+    }
+    pd.splice(pd.length-1,1);
+    var con = new Ext.lib.Ajax.request('POST', url, {success:success,failure:failure, scope:obj}, pd.join(""));
 }
-var root = Mage.Collection.get('catalog_tree');
+var root = Mage.Collection.get('catalog_category_tree');
 root.addListener('beforenodedrop', moveNode);
 </script>
