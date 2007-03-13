@@ -1,50 +1,10 @@
-[":catalog_TreeLayout", {"output":[["catalog_tree"],["catalog_category_tree"],["catalog_tree_js"]]},
-    ["+tree", "#catalog_tree",
-        [".construct", "catalog-tree-div", 
-            {
-                "animate":false,
-                "enableDD":false,
-                "containerScroll":true,
-                "rootVisible":false
-            }
-        ],
-        [".setRootNode",{"text":"Catalog","draggable":false,"id":"catalog_tree_root","async":false}],
-        [".appendChild","products",{"text":"Products","draggable":false,"id":"catalog_product_tree_root","expanded":true,"async":false}],
-            [".appendChild","recent_products",
-                {
-                    "text":"Recent Products",
-                    "allowDrag":false,
-                    "id":"catalog_recent_products_tree",
-                    "expanded":false,
-                    "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/recentProducts/\"})}}"
-                },"products"
-            ],
-            [".appendChild","recent_searches",
-                {
-                    "text":"Recent Searches",
-                    "allowDrag":false,
-                    "id":"catalog_recent_searches_tree",
-                    "expanded":false,
-                    "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/recentSearches/\"})}}"
-                },"products"
-            ],
-            [".appendChild","saved_searches",
-                {
-                    "text":"Saved Searches",
-                    "allowDrag":false,
-                    "id":"catalog_saved_searches_tree",
-                    "expanded":false,
-                    "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/savedSearches/\"})}}"
-                },"products"
-            ]
-    ],
+[":catalog_TreeLayout", {"output":[["catalog_category_tree"],["catalog_tree_js"]]},
     ["+tree", "#catalog_category_tree",
         [".construct", "catalog-category-tree-div", 
             {
                 "animate":false,
                 "enableDD":true,
-                "containerScroll":true,
-                "rootVisible":false
+                "containerScroll":true
             }
         ],
         [".setRootNode",
