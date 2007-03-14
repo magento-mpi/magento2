@@ -7,7 +7,7 @@
                         [".construct", "layout",
                             {
                                 "west":{"split":true,"autoScroll":true,"collapsible":true,"titlebar":true},
-                                "center":{"autoScroll":false,"titlebar":true,"hideTabs":true}
+                                "center":{"autoScroll":false,"titlebar":false,"hideTabs":true}
                             }
                         ],
                         [".addPanel","west",
@@ -49,7 +49,7 @@
                                         ],
                                         [".addPanel","center",
                                             ["+layout_panel","#catalog_main_content_center_panel",
-                                                [".construct","", {"url":"{$baseUrl}/mage_catalog/"}]
+                                                [".construct","", {"title":"Dashboard", "url":"{$baseUrl}/mage_catalog/","loadOnce":true}]
                                             ]
                                         ],
                                         [".addPanel","south",

@@ -1,6 +1,6 @@
 <div id="products-grid" style="overflow: hidden;"></div>
 <script type="text/javascript" language="javascript">
-if (Mage.Collection.get('catalog_main_panel_border')){
+if (Mage.Collection.get('catalog_main_content_border_panel')){
     var productGrid;
     if (!(productGrid=Mage.Collection.get('catalog_product_grid'))){
         productGrid = {
@@ -20,16 +20,16 @@ if (Mage.Collection.get('catalog_main_panel_border')){
                     proxy: new Ext.data.HttpProxy({url: '<?=$this->baseUrl?>/mage_catalog/product/gridData/category/1/'}),
                     reader: dataReader,
                     remoteSort: true
-                }); 
+                });
                 dataStore.setDefaultSort('product_id', 'desc');
-                
+
                 var colModel = new Ext.grid.ColumnModel([
                     {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
                     {header: "Name", sortable: true, dataIndex: 'name'},
                     {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
                     {header: "Description", sortable: false, dataIndex: 'description'}
                 ]);
-                
+
                 var grid = new Ext.grid.Grid('products-grid', {
                     ds: dataStore,
                     cm: colModel,
@@ -37,7 +37,7 @@ if (Mage.Collection.get('catalog_main_panel_border')){
                     monitorWindowResize: true,
                     autoHeight:true,
                     selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
-                    enableColLock:false 
+                    enableColLock:false
                 });
 
                 grid.render();
@@ -58,8 +58,13 @@ if (Mage.Collection.get('catalog_main_panel_border')){
                 return grid;
             }
         }
+        Mage.Collection.add('catalog_product_grid', new Ext.GridPanel(productGrid.init(),{title:"Grid Panel",fitToFrame:true,loadOnce:true,onWindowResize:true}));
+        Mage.Collection.get('catalog_main_content_border_panel').add('center', Mage.Collection.get('catalog_product_grid'));
+    } else {
+        Mage.Collection.get('catalog_product_grid').getRegion('center').showPanel(Mage.Collection.get('catalog_product_grid'));
     }
     //Ext.dump(productGrid.init());
-    Mage.Collection.get('catalog_main_panel_border').add('center', new Ext.GridPanel(productGrid.init(),{fitToFrame:true,onWindowResize:true}));
+
+
 }
 </script>

@@ -5,7 +5,7 @@ if (!Mage.Collection.get('category_tree_context_menu')){
 
     categoryTreeHandler.showProducts = function(item,event){
         var contentPanel;
-        if (contentPanel=Mage.Collection.get('catalog_main_content_panel')){
+        if (contentPanel=Mage.Collection.get('catalog_main_content_center_panel')){
             if (item.parentMenu.selectedNode.id){
                 contentPanel.setUrl('<?=$this->baseUrl?>/mage_catalog/product/grid/category/'+item.parentMenu.selectedNode.id);
                 contentPanel.refresh();
