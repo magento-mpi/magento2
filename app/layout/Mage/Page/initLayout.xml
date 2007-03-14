@@ -16,20 +16,20 @@
                 <list name="top.links" as="topLinks">
                     <_children>
                         <list_link name="top.links.help">
-                            <setLink aParams="href=\"{$baseModuleUrl}/article/help\"" title="Help" _process="aParams"/>
+                            <setLink aParams="href=&quot;{$baseModuleUrl}/article/help&quot;" title="Help" _process="aParams"/>
                         </list_link>
                     </_children>
                 </list>
                 <list name="top.menu" as="topMenu">
                     <_children>
                         <list_link name="top.menu.home">
-                            <setLink liParams="id=\"nav-home\"" aParams="href=\"{$baseUrl}\"" title="<span>Home</span>" _process="aParams"/>
+                            <setLink liParams="id=&quot;nav-home&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Home</span>" _process="aParams"/>
                         </list_link>
                         <list_link name="top.menu.preventcrime">
-                            <setLink liParams="id=\"nav-help-prevent\"" aParams="href=\"{$baseUrl}\"" title="<span>Help Prevent Crime</span>" _process="aParams"/>
+                            <setLink liParams="id=&quot;nav-help-prevent&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Help Prevent Crime</span>" _process="aParams"/>
                         </list_link>
                         <list_link name="top.menu.contact">
-                            <setLink liParams="id=\"nav-contact\"" aParams="href=\"{$baseUrl}\"" title="<span>Contact Us</span>" _process="aParams"/>
+                            <setLink liParams="id=&quot;nav-contact&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Contact Us</span>" _process="aParams"/>
                         </list_link>
                     </_children>
                 </list>
@@ -39,13 +39,13 @@
                 <list name="botom.links" as="bottomLinks">
                     <_children>
                         <list_link name="bottom.links.home">
-                            <setLink aParams="href=\"{$baseUrl}\"" title="Home" _process="aParams"/>
+                            <setLink aParams="href=&quot;{$baseUrl}&quot;" title="Home" _process="aParams"/>
                         </list_link>
                         <list_link name="bottom.links.sitemap">
-                            <setLink aParams="href=\"{$baseModuleUrl}/sitemap\"" title="Site Map" _process="aParams"/>
+                            <setLink aParams="href=&quot;{$baseModuleUrl}/sitemap&quot;" title="Site Map" _process="aParams"/>
                         </list_link>
                         <list_link name="bottom.links.privacy">
-                            <setLink aParams="href=\"{$baseModuleUrl}/article/privacy\"" title="Privacy Policy" _process="aParams"/>
+                            <setLink aParams="href=&quot;{$baseModuleUrl}/article/privacy&quot;" title="Privacy Policy" _process="aParams"/>
                         </list_link>
                     </_children>
                 </list>
