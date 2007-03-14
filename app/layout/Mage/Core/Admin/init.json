@@ -12,6 +12,7 @@
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js",""]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js",""]]],
             [".append",["+tag_js",[".setSrc","/magenta/core.js"]]],
+            [".append",["+tag_js",[".setSrc","/magenta/menu.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/catalog.js"]]]
         ]],
         
