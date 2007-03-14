@@ -1,55 +1,55 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <_output>
+    <output>
         <tpl name="root">
             <setViewName module="Mage_Page" view="layout.2column"/>
-            <assign var="imagesUrl" value="{$baseSkinUrl}/default/page/images" _process="value"/>
+            <assign var="imagesUrl" value="{$baseSkinUrl}/default/page/images" process="value"/>
             
-            <_children>
+            <children>
                 <list name="head" as="head">
-                    <_children>
+                    <children>
                         <tag name="head.title"><setTagName tagName="title"/><setContents contents="Magenta Commerce"/></tag>
                         <tag_js name="head.js.prototype"><setSrc src="/prototype.js"/></tag_js>
                         <tag_css name="head.css.main"><setHref href="/page/style.css"/></tag_css>
-                    </_children>
+                    </children>
                 </list>
                 <list name="top.links" as="topLinks">
-                    <_children>
+                    <children>
                         <list_link name="top.links.help">
-                            <setLink><a href="{$baseModuleUrl}/article/help" _process="href"><label>Help</label></setLink>
+                            <setLink><a href="{$baseModuleUrl}/article/help" process="href"><label>Help</label></setLink>
                         </list_link>
-                    </_children>
+                    </children>
                 </list>
                 <list name="top.menu" as="topMenu">
-                    <_children>
+                    <children>
                         <list_link name="top.menu.home">
-                            <setLink><li id="nav-home"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Home</span>]]></label></setLink>
+                            <setLink><li id="nav-home"/><a href="{$baseUrl}" process="href"/><label><![CDATA[<span>Home</span>]]></label></setLink>
                         </list_link>
                         <list_link name="top.menu.preventcrime">
-                            <setLink><li id="nav-help-prevent"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Help Prevent Crime</span>]]></label></setLink>
+                            <setLink><li id="nav-help-prevent"/><a href="{$baseUrl}" process="href"/><label><![CDATA[<span>Help Prevent Crime</span>]]></label></setLink>
                         </list_link>
                         <list_link name="top.menu.contact">
-                            <setLink><li id="nav-contact"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Contact Us</span>]]></label></setLink>
+                            <setLink><li id="nav-contact"/><a href="{$baseUrl}" process="href"/><label><![CDATA[<span>Contact Us</span>]]></label></setLink>
                         </list_link>
-                    </_children>
+                    </children>
                 </list>
                 <list name="top.forms" as="topForms"/>
                 <list name="left" as="left"/>
                 <list name="content" as="content"/>
                 <list name="botom.links" as="bottomLinks">
-                    <_children>
+                    <children>
                         <list_link name="bottom.links.home">
-                            <setLink><a href="{$baseUrl}" _process="aParams"><label>Home</label></setLink>
+                            <setLink><a href="{$baseUrl}" process="aParams"><label>Home</label></setLink>
                         </list_link>
                         <list_link name="bottom.links.sitemap">
-                            <setLink><a href="{$baseModuleUrl}/sitemap" _process="aParams"><label>Site Map</label></setLink>
+                            <setLink><a href="{$baseModuleUrl}/sitemap" process="aParams"><label>Site Map</label></setLink>
                         </list_link>
                         <list_link name="bottom.links.privacy">
-                            <setLink><a href="{$baseModuleUrl}/article/privacy" _process="aParams"><label>Privacy Policy</label></setLink>
+                            <setLink><a href="{$baseModuleUrl}/article/privacy" process="aParams"><label>Privacy Policy</label></setLink>
                         </list_link>
-                    </_children>
+                    </children>
                 </list>
-            </_children>
+            </children>
         </tpl>
-    </_output>
+    </output>
 </layoutUpdate>
