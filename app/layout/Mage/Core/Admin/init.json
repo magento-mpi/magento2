@@ -11,7 +11,8 @@
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js",""]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js",""]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js",""]]],
-            [".append",["+tag_js",[".setSrc","/magenta/core.js"]]]
+            [".append",["+tag_js",[".setSrc","/magenta/core.js"]]],
+            [".append",["+tag_js",[".setSrc","/magenta/catalog.js"]]]
         ]],
         
         [".setChild","layout",["+tpl", "#content", [".setViewName","Mage_Core","Admin/empty"]]]
