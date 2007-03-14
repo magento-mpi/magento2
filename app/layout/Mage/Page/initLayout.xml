@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <_children>
+    <_output>
         <tpl name="root">
             <setViewName module="Mage_Page" view="layout.2column"/>
             <assign var="imagesUrl" value="{$baseSkinUrl}/default/page/images" _process="value"/>
@@ -16,20 +16,20 @@
                 <list name="top.links" as="topLinks">
                     <_children>
                         <list_link name="top.links.help">
-                            <setLink aParams="href=&quot;{$baseModuleUrl}/article/help&quot;" title="Help" _process="aParams"/>
+                            <setLink><a href="{$baseModuleUrl}/article/help" _process="href"><label>Help</label></setLink>
                         </list_link>
                     </_children>
                 </list>
                 <list name="top.menu" as="topMenu">
                     <_children>
                         <list_link name="top.menu.home">
-                            <setLink liParams="id=&quot;nav-home&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Home</span>" _process="aParams"/>
+                            <setLink><li id="nav-home"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Home</span>]]></label></setLink>
                         </list_link>
                         <list_link name="top.menu.preventcrime">
-                            <setLink liParams="id=&quot;nav-help-prevent&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Help Prevent Crime</span>" _process="aParams"/>
+                            <setLink><li id="nav-help-prevent"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Help Prevent Crime</span>]]></label></setLink>
                         </list_link>
                         <list_link name="top.menu.contact">
-                            <setLink liParams="id=&quot;nav-contact&quot;" aParams="href=&quot;{$baseUrl}&quot;" title="<span>Contact Us</span>" _process="aParams"/>
+                            <setLink><li id="nav-contact"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Contact Us</span>]]></label></setLink>
                         </list_link>
                     </_children>
                 </list>
@@ -39,17 +39,17 @@
                 <list name="botom.links" as="bottomLinks">
                     <_children>
                         <list_link name="bottom.links.home">
-                            <setLink aParams="href=&quot;{$baseUrl}&quot;" title="Home" _process="aParams"/>
+                            <setLink><a href="{$baseUrl}" _process="aParams"><label>Home</label></setLink>
                         </list_link>
                         <list_link name="bottom.links.sitemap">
-                            <setLink aParams="href=&quot;{$baseModuleUrl}/sitemap&quot;" title="Site Map" _process="aParams"/>
+                            <setLink><a href="{$baseModuleUrl}/sitemap" _process="aParams"><label>Site Map</label></setLink>
                         </list_link>
                         <list_link name="bottom.links.privacy">
-                            <setLink aParams="href=&quot;{$baseModuleUrl}/article/privacy&quot;" title="Privacy Policy" _process="aParams"/>
+                            <setLink><a href="{$baseModuleUrl}/article/privacy" _process="aParams"><label>Privacy Policy</label></setLink>
                         </list_link>
                     </_children>
                 </list>
             </_children>
         </tpl>
-    </_children>
+    </_output>
 </layoutUpdate>
