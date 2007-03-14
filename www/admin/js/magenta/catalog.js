@@ -1,10 +1,9 @@
 Mage.Catalog = function(depend){
-    var loaded = false;
+    var Layout = null;
     return {
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
-            if (!loaded) {
-                
+            if (!Layout) {
                 var Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
                         split:true,
@@ -82,7 +81,7 @@ Mage.Catalog = function(depend){
                 loaded = true;
                 
             } else { // not loaded condition
-                Mage.Collection.get('layout').getRegion('center').showPanel(Mage.Collection.get('catalog_main_panel'));
+                Core_Layout.getRegion('center').showPanel(Layout);
             }
         }
     }
