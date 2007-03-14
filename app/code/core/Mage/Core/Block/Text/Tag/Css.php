@@ -7,25 +7,25 @@
  *
  * @copyright  Varien, 2007
  * @version    1.0 
- * @author	   Moshe Gurvich <moshe@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  * @date       Thu Feb 08 05:56:43 EET 2007
  */
 
 class Mage_Core_Block_Text_Tag_Css extends Mage_Core_Block_Text_Tag
 {
-	function __construct()
-	{
-		parent::__construct();
+    function __construct()
+    {
+        parent::__construct();
 
-		$this->setAttribute(array(
-		  'tagName'=>'link',
-		  'tagParams'=>array('rel'=>'stylesheet', 'type'=>'text/css', 'media'=>'all'),
-		));
-	}
-	
-	function setHref($href)
-	{
-	    $url = Mage::getBaseUrl('skin').$href;
-	    return $this->setTagParam('href', $url);
-	}
+        $this->setAttribute(array(
+          'tagName'=>'link',
+          'tagParams'=>array('rel'=>'stylesheet', 'type'=>'text/css', 'media'=>'all'),
+        ));
+    }
+    
+    function setHref($href, $locate='skin')
+    {
+        $url = Mage::getBaseUrl($locate).$href;
+        return $this->setTagParam('href', $url);
+    }
 }// Class Mage_Core_Block_List END

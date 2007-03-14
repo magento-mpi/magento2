@@ -1,16 +1,16 @@
 [":core_initLayout", {"output":[["root"]]},
     ["+tpl","#root",[".setViewName","Mage_Core","Admin/layout"],
         [".assign","baseUrl","{$baseUrl}"],
-        [".assign","baseSkinUrl","{$baseUrl}/admin/skins/default"],
+        [".assign","baseSkinUrl","{$baseUrl}/skins/default"],
 
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
-            [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ext-all.css"]]],
-            [".append",["+tag_css",[".setHref","/../../../js/yui-ext/resources/css/ytheme-aero.css"]]],
-            [".append",["+tag_css",[".setHref","/newadmin.css"]]],
-            [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js"]]],
-            [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js"]]],
-            [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js"]]],
+            [".append",["+tag_css",[".setHref","/yui-ext/resources/css/ext-all.css",""]]],
+            [".append",["+tag_css",[".setHref","/yui-ext/resources/css/ytheme-aero.css",""]]],
+
+            [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js",""]]],
+            [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js",""]]],
+            [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js",""]]],
             [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]]
         ]],
 

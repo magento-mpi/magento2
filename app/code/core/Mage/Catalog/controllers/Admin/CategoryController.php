@@ -1,9 +1,23 @@
 <?php
-
-
+/**
+ * Admin category controller
+ *
+ * @package    Ecom
+ * @subpackage Catalog
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
 {
-
+    /**
+     * New category layout
+     *
+     */
+    public function newAction()
+    {
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/category/newCategoryLayout.json', 'mage_catalog');
+    }
+    
     public function saveAction()
     {
         echo 'C save';

@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Form widget
  *
@@ -145,11 +142,23 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return $this;
 	}
 	
+    /**
+     * Get form element
+     *
+     * @param   string $elementId
+     * @return  Mage_Core_Block_Form_Element_Abstract
+     */
     public function getElement($elementId)
     {
     	return isset($this->_elements[$elementId]) ? $this->_children[$elementId] : null;
     }
     
+    /**
+     * Get form elements group
+     *
+     * @param   string $groupId
+     * @return  array
+     */
     function getGroup($groupId='')
     {
         if (empty($groupId)) {
@@ -161,16 +170,32 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return false;
     }
     
+    /**
+     * Get all form elements id
+     *
+     * @return array
+     */
     function getFields()
     {
         return array_keys($this->_fields);
     }
     
+    /**
+     * Get all form buttons id
+     *
+     * @return unknown
+     */
     function getButtons()
     {
         return array_keys($this->_buttons);
     }
     
+    /**
+     * Get elements by element type
+     *
+     * @param   string $type
+     * @return  array
+     */
     public function getElementsIdByType($type)
     {
         $arrElements = array();
@@ -185,16 +210,35 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     	return $arrElements;
     }
     
+    /**
+     * Set element attribute
+     *
+     * @param   string $attribName
+     * @param   string $attribValue
+     * @return  Mage_Core_Block_Form
+     */
     public function setElementAttribute($attribName, $attribValue)
     {
     	return $this;
     }
     
+    /**
+     * Set element value
+     *
+     * @param   string $arrValues
+     * @return  Mage_Core_Block_Form
+     */
     public function setElementsValues($arrValues)
     {
         return $this;
     }
     
+    /**
+     * Delete form field
+     *
+     * @param   string $elementId
+     * @return  Mage_Core_Block_Form
+     */
     public function deleteField($elementId)
     {
         if (isset($this->_fields[$elementId])) {
@@ -205,6 +249,12 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return $this;
     }
     
+    /**
+     * Delete form button
+     *
+     * @param   string $elementId
+     * @return  Mage_Core_Block_Form
+     */
     public function deleteButton($elementId)
     {
         if (isset($this->_buttons[$elementId])) {
@@ -215,6 +265,12 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return $this;
     }
     
+    /**
+     * Delete form element
+     *
+     * @param   string $elementId
+     * @return  Mage_Core_Block_Form
+     */
     protected function _deleteElement($elementId)
     {
         if (isset($this->_elements[$elementId])) {
@@ -224,6 +280,12 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return $this;
     }
     
+    /**
+     * Delete form group
+     *
+     * @param   string $groupId
+     * @return  Mage_Core_Block_Form
+     */
     function deleteGroup($groupId)
     {
         if (isset($this->_elementGroups[$groupId])) {
@@ -232,6 +294,11 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return $this;
     }
     
+    /**
+     * Render form
+     *
+     * @return Mage_Core_Block_Form
+     */
     public function renderView()
     {
         $formAttributes = array('name', 'id', 'method', 'enctype', 'action', 'target', 'onsubmit', 'class', 'style');

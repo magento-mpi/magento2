@@ -2,7 +2,13 @@
 if (!Mage.Collection.get('catalog_attribute_tree_handler')){
     var attributeTreeHandler = new Object();
     attributeTreeHandler.showCategoryAttributesSet = function(){
-        
+        /*var contentPanel;
+        if (contentPanel=Mage.Collection.get('catalog_attributes_content_panel')){
+            if (item.parentMenu.selectedNode.id){
+                contentPanel.setUrl('<?=$this->baseUrl?>/mage_catalog/product/grid/category/'+item.parentMenu.selectedNode.id);
+                contentPanel.refresh();
+            }
+        }*/
     }
     attributeTreeHandler.showCategoryAttributes = function(){
         alert('123');

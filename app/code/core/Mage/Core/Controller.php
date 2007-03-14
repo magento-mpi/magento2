@@ -53,7 +53,8 @@ class Mage_Core_Controller
                 break;
 
             case 'js':
-                $url = preg_replace('#/admin$#', '', $url).'/js';
+                //$url = preg_replace('#/admin$#', '', $url).'/js';
+                $url .= '/js';
                 break;                
         }
 

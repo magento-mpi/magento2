@@ -112,7 +112,7 @@
                                     <class>Mage_Core_Block</class>
                                     <method>loadJsonFile</method>
                                     <args>
-                                        <file>Mage/Catalog/Admin/initLayout.json</file>
+                                        <file>Mage/Catalog/Admin/init.json</file>
                                     </args>
                                 </catalog>
                             </observers>
