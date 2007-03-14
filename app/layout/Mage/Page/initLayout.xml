@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <_children>
+        <tpl name="root">
+            <setViewName module="Mage_Page" view="layout.2column"/>
+            <assign var="imagesUrl" value="{$baseSkinUrl}/default/page/images" _process="value"/>
+            
+            <_children>
+                <list name="head" as="head">
+                    <_children>
+                        <tag name="head.title"><setTagName tagName="title"/><setContents contents="Magenta Commerce"/></tag>
+                        <tag_js name="head.js.prototype"><setSrc src="/prototype.js"/></tag_js>
+                        <tag_css name="head.css.main"><setHref href="/page/style.css"/></tag_css>
+                    </_children>
+                </list>
+                <list name="top.links" as="topLinks">
+                    <_children>
+                        <list_link name="top.links.help">
+                            <setLink aParams="href=\"{$baseModuleUrl}/article/help\"" title="Help" _process="aParams"/>
+                        </list_link>
+                    </_children>
+                </list>
+                <list name="top.menu" as="topMenu">
+                    <_children>
+                        <list_link name="top.menu.home">
+                            <setLink liParams="id=\"nav-home\"" aParams="href=\"{$baseUrl}\"" title="<span>Home</span>" _process="aParams"/>
+                        </list_link>
+                        <list_link name="top.menu.preventcrime">
+                            <setLink liParams="id=\"nav-help-prevent\"" aParams="href=\"{$baseUrl}\"" title="<span>Help Prevent Crime</span>" _process="aParams"/>
+                        </list_link>
+                        <list_link name="top.menu.contact">
+                            <setLink liParams="id=\"nav-contact\"" aParams="href=\"{$baseUrl}\"" title="<span>Contact Us</span>" _process="aParams"/>
+                        </list_link>
+                    </_children>
+                </list>
+                <list name="top.forms" as="topForms"/>
+                <list name="left" as="left"/>
+                <list name="content" as="content"/>
+                <list name="botom.links" as="bottomLinks">
+                    <_children>
+                        <list_link name="bottom.links.home">
+                            <setLink aParams="href=\"{$baseUrl}\"" title="Home" _process="aParams"/>
+                        </list_link>
+                        <list_link name="bottom.links.sitemap">
+                            <setLink aParams="href=\"{$baseModuleUrl}/sitemap\"" title="Site Map" _process="aParams"/>
+                        </list_link>
+                        <list_link name="bottom.links.privacy">
+                            <setLink aParams="href=\"{$baseModuleUrl}/article/privacy\"" title="Privacy Policy" _process="aParams"/>
+                        </list_link>
+                    </_children>
+                </list>
+            </_children>
+        </tpl>
+    </_children>
+</layoutUpdate>

@@ -26,6 +26,7 @@
                         <tag><class>Mage_Core_Block_Text_Tag</class></tag>
                         <tag_css><class>Mage_Core_Block_Text_Tag_Css</class></tag_css>
                         <tag_js><class>Mage_Core_Block_Text_Tag_Js</class></tag_js>
+                        <debug><class>Mage_Core_Block_Text_Tag_Debug</class></debug>
                         <tpl><class>Mage_Core_Block_Template</class></tpl>
                         <list><class>Mage_Core_Block_Text_List</class></list>
                         <list_link><class>Mage_Core_Block_Text_List_Link</class></list_link>
