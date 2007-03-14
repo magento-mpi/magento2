@@ -16,7 +16,7 @@
                 <list name="top.links" as="topLinks">
                     <_children>
                         <list_link name="top.links.help">
-                            <setLink><a href="{$baseModuleUrl}/article/help" _process="href"><label>Help</label></setLink>
+                            <setLink><a href="{$baseModuleUrl}/article/help" _process="href"/><label>Help</label></setLink>
                         </list_link>
                     </_children>
                 </list>
