@@ -51,15 +51,28 @@ Mage.Core = function(){
             _toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
             _toolbar.add(_toolbarItems.items);
         },
-        getLayuotRegion : function(region){
+        getLayoutRegion : function(region){
             return _layout.getRegion(region);
         },
-        getLayuot : function(){
+        getLayout : function(){
             return _layout;
         },
         addToolbarItem : function(item){
             _toolbarItems.add(item);
+        },
+        updateRegion : function(region, url){
+            
         }
     }
 }();
 Ext.EventManager.onDocumentReady(Mage.Core.init, Mage.Core, true);
+
+Mage.Loader = function(){
+    return{
+        request : function (url) {
+            var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
+            var failure = function(o) { Ext.dump(o.statusText); }
+            var con = new Ext.lib.Ajax.request('GET', url, {success:success,failure:failure});  
+        }
+    }    
+}();
