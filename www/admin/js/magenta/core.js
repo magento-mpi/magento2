@@ -1,21 +1,12 @@
-Mage = function(){
-    return{
-        init: function(){
-        
-        }
-    }
-}();
-
+Mage = {};
 Mage.Collection = new Ext.util.MixedCollection;
-
-Mage.Collection.add('module_core', true);
-
 Mage.Core = function(){
-    var layout;
-    var toolbar;
+    var _layout;
+    var _toolbar;
+    var _toolbarItems = new Ext.util.MixedCollection();
     return {
         init: function(){
-            layout = new Ext.BorderLayout(document.body, {
+            _layout = new Ext.BorderLayout(document.body, {
                     "hideOnLayout":true,
                     "north":{
                         "split":false,
@@ -48,26 +39,26 @@ Mage.Core = function(){
                     }
                 });
 
-            layout.beginUpdate();
-            layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
-            layout.add('center', new Ext.ContentPanel('center', {"title":"Center Panel","fitToFrame":true,"autoCreate":true}));
-            layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
-            layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
-            toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(layout.getRegion('north').getEl().dom,{tag:'div'},true));
-            toolbar.add({
-                cls: 'x-btn-right',
-                text:'logout'
-            });
-            layout.endUpdate();
+            _layout.beginUpdate();
+            _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
+            _layout.add('center', new Ext.ContentPanel('center', {"title":"Center Panel","fitToFrame":true,"autoCreate":true}));
+            _layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
+            _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
+            this._initToolbar();
+            _layout.endUpdate();
+        },
+        _initToolbar : function(){
+            _toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
+            _toolbar.add(_toolbarItems.items);
+        },
+        getLayuotRegion : function(region){
+            return _layout.getRegion(region);
         },
         getLayuot : function(){
-            return layout;
+            return _layout;
         },
-        getToolbar : function(){
-            return toolbar;
-        },
-        getLayoutRegion : function(regionName){
-            return layout.getRegion(regionName);
+        addToolbarItem : function(item){
+            _toolbarItems.add(item);
         }
     }
 }();
