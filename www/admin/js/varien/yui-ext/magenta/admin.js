@@ -2,17 +2,10 @@ Mage.Core = function(){
     return {
         init : function() {
             alert('test');
+        },
+        
+        getLayout : function() {
+            return Mage.Collection.get('layout');
         }
     }
 }();
-
-Mage.Core_Catalog = function(prent){
-    prent.init();            
-    return {
-        init : function() {
-
-        }
-    }
-}(Mage.Core);
-
-Ext.EventManager.onDocumentReady(Mage.Core_Catalog.init, Mage.Core_Catalog, true);
