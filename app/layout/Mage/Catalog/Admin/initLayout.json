@@ -6,7 +6,7 @@
                 [".addItem",{
                         "text":"Products and Categories",
                         "id":"catalog_main", 
-                        "on":{"click":[["Mage.MenuHandler.loadPanel","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/index/loadMainPanel"}]]}
+                        "on":{"click":[["Mage.MenuHandler.makeAction","Mage.MenuHandler",{"loadScript":"true","url":"{$baseUrl}/mage_catalog/index/loadMainPanel"}]]}
                 }],
                 [".addItem","-"],
                 [".addItem",{

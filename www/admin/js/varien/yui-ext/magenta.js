@@ -6,6 +6,11 @@ Mage = new Object();
 Mage.Collection = new Ext.util.MixedCollection;
 
 Mage.MenuHandler = {
+    
+        makeAction : function(node, e, data) {
+            Mage.ProductsCategories.init();
+        },
+    
         loadScript : function (node, data) {
             var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
             var failure = function(o) { Ext.dump(o.statusText); }

@@ -11,7 +11,8 @@
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js",""]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-yui-adapter.js",""]]],
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js",""]]],
-            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]]
+            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta.js"]]],
+            [".append",["+tag_js",[".setSrc","/varien/yui-ext/magenta/prod_categ.js"]]]
         ]],
 
         [".setChild","layout",["+layout_border","#layout",
