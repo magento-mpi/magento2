@@ -83,8 +83,11 @@ Mage.Catalog = function(depend){
                 
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
-                
             }
+        },
+        
+        loadMainPanel : function() {
+            this.init();
         }
     }
 }();

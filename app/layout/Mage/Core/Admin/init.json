@@ -13,6 +13,8 @@
             [".append",["+tag_js",[".setSrc","/yui-ext/ext-all-debug.js",""]]],
             [".append",["+tag_js",[".setSrc","/magenta/mage.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/catalog.js"]]],
+            [".append",["+tag_js",[".setSrc","/magenta/catalog/product.js"]]],
+            [".append",["+tag_js",[".setSrc","/magenta/catalog/category.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/core.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/menu.js"]]]            
         ]]
