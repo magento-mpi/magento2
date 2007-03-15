@@ -1,4 +1,10 @@
-@import url("base.css");
-@import url("global.css");
-@import url("boxes.css");
-@import url("widgets.css");
+.left-menu-toolbar{
+
+}
+
+.right-menu-toolbar{
+    float:right;
+    width:300px;    
+    text-align:right;
+    border-left:0px;
+}

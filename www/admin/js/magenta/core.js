@@ -1,7 +1,9 @@
 Mage.Core = function(){
     var _layout;
-    var _toolbar;
-    var _toolbarItems = new Ext.util.MixedCollection();
+    var _leftToolbar;
+    var _rightToolbar;
+    var _lToolbarItems = new Ext.util.MixedCollection();
+    var _rToolbarItems = new Ext.util.MixedCollection();
     return {
         init: function(){
             _layout = new Ext.BorderLayout(document.body, {
@@ -46,15 +48,13 @@ Mage.Core = function(){
             _layout.endUpdate();
         },
         _initToolbar : function(){
-            _toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
-            _toolbar.add({id:'test', text: 'Test'});
-            _toolbar.add(_toolbarItems.items);
+            _leftToolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
+            _leftToolbar.add(_lToolbarItems.items);
+            _leftToolbar.getEl().addClass('left-menu-toolbar')
             
-            var lt = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
-            lt.add({id:'test1', text: 'Test 1'});
-            lt.getEl().setStyle('position','absolute');
-            lt.getEl().setStyle('width','50%');
-            lt.getEl().anchorTo(_toolbar.getEl(),'tr');
+            _rightToolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
+            _rightToolbar.add(_rToolbarItems.items);
+            _rightToolbar.getEl().addClass('right-menu-toolbar')
         },
         getLayoutRegion : function(region){
             return _layout.getRegion(region);
@@ -62,8 +62,11 @@ Mage.Core = function(){
         getLayout : function(){
             return _layout;
         },
-        addToolbarItem : function(item){
-            _toolbarItems.add(item);
+        addLeftToolbarItem : function(item){
+            _lToolbarItems.add(item);
+        },
+        addRightToolbarItem : function(item){
+            _rToolbarItems.add(item);
         },
         updateRegion : function(region, url){
             

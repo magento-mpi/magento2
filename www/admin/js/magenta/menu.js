@@ -88,10 +88,15 @@ Mage.Menu = function(){
                     })
                 ]
             });
-            Mage.Core.addToolbarItem({
+            Mage.Core.addLeftToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Catalog and Products',
                 menu: menu
+            });
+
+            Mage.Core.addRightToolbarItem({
+                cls: 'x-btn-text-icon bmenu',
+                text:'Logout'
             });
         }
     }
