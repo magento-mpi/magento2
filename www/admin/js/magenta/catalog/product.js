@@ -8,7 +8,7 @@ Mage.Catalog_Product = function(depend){
             dep.init();
         },
         
-        initGrid: function(prnt) {
+        initGrid: function(catId, prnt) {
             
             var dataRecord = Ext.data.Record.create([
                 {name: 'id', mapping: 'product_id'},
@@ -17,66 +17,84 @@ Mage.Catalog_Product = function(depend){
                 {name: 'description', mapping: 'description'},
             ]);
                 
-                var dataReader = new Ext.data.JsonReader({
-                    root: 'items',
-                    totalProperty: 'totalRecords',
-                    id: 'product_id'
-                }, dataRecord);
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'product_id'
+            }, dataRecord);
                 
-                var dataStore = new Ext.data.Store({
-                    proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/1/'}),
-                    reader: dataReader,
-                    remoteSort: true
-                });
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/'}),
+                reader: dataReader,
+                remoteSort: true
+             });
                 
-                dataStore.setDefaultSort('product_id', 'desc');
+            dataStore.setDefaultSort('product_id', 'desc');
+      
 
-                var colModel = new Ext.grid.ColumnModel([
-                    {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
-                    {header: "Name", sortable: true, dataIndex: 'name'},
-                    {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
-                    {header: "Description", sortable: false, dataIndex: 'description'}
-                ]);
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
+                {header: "Name", sortable: true, dataIndex: 'name'},
+                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+                {header: "Description", sortable: false, dataIndex: 'description'}
+            ]);
 
-                var grid = new Ext.grid.Grid(Ext.DomHelper.append(prnt, {tag: 'div'}, true), {
-                    ds: dataStore,
-                    cm: colModel,
-                    autoSizeColumns: true,
-                    monitorWindowResize: true,
-                    autoHeight:true,
-                    selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
-                    enableColLock:false
-                });
-
-                grid.render();
-                var gridHead = grid.getView().getHeaderPanel(true);
-                var gridFoot = grid.getView().getFooterPanel(true);
-                var paging = new Ext.PagingToolbar(gridFoot, dataStore, {pageSize: 20});
-
-                var displayInfo = gridHead.createChild({cls:'paging-info'});
-                dataStore.on('load', function(){
-                    var count = dataStore.getCount();
-                    var msg = count == 0 ?
-                        "No products to display" :
-                        String.format('Displaying products {0} - {1} of {2}', paging.cursor+1, paging.cursor+count, dataStore.getTotalCount());
-                    displayInfo.update(msg);
+            var grid = new Ext.grid.Grid(Ext.DomHelper.append(prnt, {tag: 'div'}, true), {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns: true,
+                monitorWindowResize: true,
+                autoHeight:true,
+                selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
+                enableColLock:false
             });
-
-            dataStore.load({params:{start:0, limit:20}});
+            
+            grid.render();
+            grid.getDataSource().load({params:{start:0, limit:20}});            
+            
+            var gridHead = grid.getView().getHeaderPanel(true);
+            var gridFoot = grid.getView().getFooterPanel(true);
+            
+            var dataStore = grid.getDataSource();
+            
+            var paging = new Ext.PagingToolbar(gridHead, dataStore, {
+                pageSize: 25,
+                displayInfo: true,
+                displayMsg: 'Displaying products {0} - {1} of {2}',
+                emptyMsg: 'No products to display'                
+            });
+            
+            paging.add('-', {
+                text: 'Create New',
+                cls: 'x-btn-text-icon product_new'
+            });
+            
+            paging.add({
+                pressed: false,
+                enableToggle: true,
+                text: 'Search',
+                cls: 'x-btn-text-icon product_new'
+            });
+            
+            
             return grid;
         },
         
-        viewGrid : function () {
+        viewGrid : function (treeNode) {
             this.init();
             var workZone = dep.getLayout('workZone');            
-            var grid = this.initGrid(workZone.getEl());
-            workZone.add('center', new Ext.GridPanel(grid, {title:'Products'}));
+            var grid = this.initGrid(treeNode.id, workZone.getEl());
+            workZone.beginUpdate();
+            workZone.add('center', new Ext.GridPanel(grid, {title: treeNode.text}));
+            workZone.endUpdate();            
         },
         
         create: function() {
             this.init();
             var workZone = dep.getLayout('workZone');
+            workZone.beginUpdate();
             workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}, 'Form will be there'));
+            workZone.endUpdate();
         }
     }
 }(Mage.Catalog);

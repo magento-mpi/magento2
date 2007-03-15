@@ -41,7 +41,7 @@ Mage.Core = function(){
 
             _layout.beginUpdate();
             _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
-            _layout.add('center', new Ext.ContentPanel('center', {"title":"Center Panel","fitToFrame":true,"autoCreate":true,"url":BASE_URL+"/mage_catalog/category/new"}));
+            _layout.add('center', new Ext.ContentPanel('center', {"title":"Center Panel","fitToFrame":true,"autoCreate":true, loadOnce: true, "url":Mage.url+"/mage_catalog/category/new"}));
             _layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             this._initToolbar();

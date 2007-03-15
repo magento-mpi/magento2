@@ -49,15 +49,17 @@ Mage.Catalog = function(depend){
                 var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     north: {
                         split:true,
-                        initialSize:200,
-                        minSize:50,
-                        maxSize:400,
+                        initialSize:50,
+                        minSize:0,
+                        maxSize:100,
                         autoScroll:true,
                         collapsible:true
                      },
                      center:{
                          autoScroll:true,
-                         titlebar:false
+                         titlebar:false,
+                         resizeTabs : true,
+                         tabPosition: 'top'
                      },
                      south: {
                          split:true,
@@ -72,7 +74,7 @@ Mage.Catalog = function(depend){
                 this._layouts.add('workZone', Layout_Center);
                 
                 Layout_Center.beginUpdate();
-                Layout_Center.add('north', new Ext.ContentPanel('catalog_layout_center_north_panel', {autoCreate:true}));
+                //Layout_Center.add('north', new Ext.ContentPanel('catalog_layout_center_north_panel', {autoCreate:true}));
                 Layout_Center.add('center', new Ext.ContentPanel('catalog_layout_center_center_panel', {title:"Dashboard", url:Mage.url + '/mage_catalog/',loadOnce:true,autoCreate:true}));
                 //Layout_Center.add('south', new Ext.ContentPanel('catalog_layout_center_south_panel', {autoCreate:true}));
                 Layout_Center.endUpdate();

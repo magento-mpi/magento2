@@ -3,14 +3,8 @@ if (!Mage.Collection.get('category_tree_context_menu')){
 
     var categoryTreeHandler = new Object();
 
-    categoryTreeHandler.showProducts = function(item,event){
-        var contentPanel;
-        if (contentPanel=Mage.Collection.get('catalog_main_content_center_panel')){
-            if (item.parentMenu.selectedNode.id){
-                contentPanel.setUrl('<?=$this->baseUrl?>/mage_catalog/product/grid/category/'+item.parentMenu.selectedNode.id);
-                contentPanel.refresh();
-            }
-        }
+    categoryTreeHandler.showProducts = function(item, event) {
+		Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
     };
 
     categoryTreeHandler.editCategory = function(item,event){
@@ -45,7 +39,7 @@ if (!Mage.Collection.get('category_tree_context_menu')){
 
     var categoryTreeContextMenu = new Ext.menu.Menu({
         id : 'category_context_menu',
-        items: [{text: 'Show Category Products',handler:Mage.Catalog_Product.viewGrid.createDelegate(Mage.Catalog_Product)},
+        items: [{text: 'Show Category Products', handler: categoryTreeHandler.showProducts},
                 '-',
                 {text: 'Edit Catecory',handler:categoryTreeHandler.editCategory},
                 {text: 'Delete Category',handler:categoryTreeHandler.deleteConfirm}]
