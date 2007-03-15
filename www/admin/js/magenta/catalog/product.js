@@ -76,7 +76,7 @@ Mage.Catalog_Product = function(depend){
         create: function() {
             this.init();
             var workZone = dep.getLayout('workZone');
-            workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, title:'New Product'}, 'Form will be there'));
+            workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}, 'Form will be there'));
         }
     }
 }(Mage.Catalog);
