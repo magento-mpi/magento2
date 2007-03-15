@@ -75,7 +75,7 @@ Mage.Menu = function(){
                 items: [
                     new Ext.menu.Item({
                         text: 'Categories and Products',
-                        handler: Mage.MenuHandler.makeAction
+                        handler: Mage.Catalog.init.createDelegate(Mage.Catalog)
                     }),
                     '-',
                     new Ext.menu.Item({
