@@ -46,6 +46,9 @@ Mage.Core = function(){
             _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             this._initToolbar();
             _layout.endUpdate();
+
+            // For testing
+            Mage.Catalog_Category.loadAttributesPanel();
         },
         _initToolbar : function(){
             _leftToolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));

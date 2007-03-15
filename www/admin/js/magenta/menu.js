@@ -85,6 +85,11 @@ Mage.Menu = function(){
                     new Ext.menu.Item({
                         text: 'New Category',
                         handler: Mage.Catalog_Category.create.createDelegate(Mage.Catalog_Category)                        
+                    }),
+                    '-',
+                    new Ext.menu.Item({
+                        text: 'Category attributes',
+                        handler: Mage.Catalog_Category.loadAttributesPanel.createDelegate(Mage.Catalog_Category)                        
                     })
                 ]
             });

@@ -25,25 +25,42 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         echo 'C save';
     }
 
-    function removeAction() {
+    public function removeAction() {
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         if (intval($_GET['id'])) {
             $obj->removeNode($_GET['id']);
         }
     }
 
-    function moveAction() {
+    public function moveAction() {
         $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         if (intval($_POST['id']) && intval($_POST['pid'])) {
             $obj->moveNode($_POST['id'], $_POST['pid']);
         }
     }
 
-    function deleteAction() {
+    public function deleteAction() {
         $id = $this->getRequest()->getParam('id', null);
         if (!empty($id)) {
             Mage::getModel('catalog', 'category_tree')->deleteNode($id);
         }
     }
 
+    //Category attributes
+    public function arrtibutesSetGridAction()
+    {
+        $block = Mage::createBlock('tpl', 'category_attributes_grid');
+        $block->setViewName('Mage_Catalog', 'Admin/category/attributes_set_grid');
+        $this->getResponse()->setBody($block->toString());
+    }
+    
+    public function attributesGridAction()
+    {
+        echo 'atttibutes';
+    }
+    
+    public function arrtibutesSetTreeAction()
+    {
+        echo 'tree';
+    }
 }
