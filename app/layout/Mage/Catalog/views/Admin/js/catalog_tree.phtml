@@ -45,7 +45,7 @@ if (!Mage.Collection.get('category_tree_context_menu')){
 
     var categoryTreeContextMenu = new Ext.menu.Menu({
         id : 'category_context_menu',
-        items: [{text: 'Show Category Products',handler:categoryTreeHandler.showProducts},
+        items: [{text: 'Show Category Products',handler:Mage.Catalog_Product.viewGrid.createDelegate(Mage.Catalog_Product)},
                 '-',
                 {text: 'Edit Catecory',handler:categoryTreeHandler.editCategory},
                 {text: 'Delete Category',handler:categoryTreeHandler.deleteConfirm}]

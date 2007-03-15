@@ -80,11 +80,11 @@ Mage.Menu = function(){
                     '-',
                     new Ext.menu.Item({
                         text: 'New Product',
-                        handler: Mage.Catalog_Product.create.createDelegate(Mage.Catalog)                        
+                        handler: Mage.Catalog_Product.create.createDelegate(Mage.Catalog_Product)                        
                     }),
                     new Ext.menu.Item({
                         text: 'New Category',
-                        handler: Mage.Catalog_Category.create.createDelegate(Mage.Catalog)                        
+                        handler: Mage.Catalog_Category.create.createDelegate(Mage.Catalog_Category)                        
                     })
                 ]
             });
