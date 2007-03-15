@@ -105,6 +105,10 @@
                 </front>
 
                 <admin>
+                    <blocks>
+                        <catalog_category_form><class>Mage_Catalog_Block_Admin_Category_Form</class></catalog_category_form>
+                    </blocks>
+
                     <events>
                         <action_preDispatch_default_index_index>
                             <observers>

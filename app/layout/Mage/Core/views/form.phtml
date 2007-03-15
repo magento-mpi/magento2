@@ -8,6 +8,8 @@
         <?$_processedElements[]=$_element?>
     <?endforeach?>
 <?endif?>
+<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
     <fieldset>
     <?if($_formLegend=$this->curentBlock->getAttribute('legend')):?>
         <legend><?=$_formLegend?></legend>
@@ -17,13 +19,15 @@
     <?$_formFields=$this->curentBlock->getFields()?>
     <?foreach($_formFields as $_field):?>
         <?if(!in_array($_field, $_processedElements)):?>
-        <div>
+        <div class="x-form-item">
             <?=$this->$_field?>
             <?$_processedElements[]=$_field?>
         </div>
         <?endif?>
     <?endforeach?>
     </fieldset>
+</div></div></div>
+<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 <?if ($this->curentBlock->getAttribute('isFormFramed')):?>
 </form>
 <?endif?>

@@ -15,7 +15,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function newAction()
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/category/newCategoryLayout.json', 'mage_catalog');
+        //Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/category/form.json', 'mage_catalog');
+        $form = Mage::createBlock('catalog_category_form', 'category_form');
+        $this->getResponse()->setBody($form->toString());
     }
     
     public function saveAction()

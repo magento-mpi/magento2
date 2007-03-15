@@ -95,6 +95,7 @@ Mage.Menu = function(){
             });
             
             ////////////////////////
+            // Temp - need load websites
             Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Website',
