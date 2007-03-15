@@ -3,6 +3,8 @@ Mage.Catalog_Product = function(depend){
     return {
         grid : null,
         ds : null,
+        grid : null,
+        searchPanel : null,
         
         init: function(){
             dep.init();
@@ -42,15 +44,15 @@ Mage.Catalog_Product = function(depend){
             var grid = new Ext.grid.Grid(Ext.DomHelper.append(prnt, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
-                autoSizeColumns: true,
-                monitorWindowResize: true,
-                autoHeight:true,
-                selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
-                enableColLock:false
+                autoSizeColumns : true,
+                monitorWindowResize : true,
+                autoHeight : true,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                enableColLock : false
             });
             
             grid.render();
-            grid.getDataSource().load({params:{start:0, limit:20}});            
+            grid.getDataSource().load({params:{start:0, limit:25}});            
             
             var gridHead = grid.getView().getHeaderPanel(true);
             var gridFoot = grid.getView().getFooterPanel(true);
@@ -66,18 +68,38 @@ Mage.Catalog_Product = function(depend){
             
             paging.add('-', {
                 text: 'Create New',
-                cls: 'x-btn-text-icon product_new'
+                cls: 'x-btn-text-icon product_new',
+                handler : this.create,
+                scope : this
             });
             
             paging.add({
                 pressed: false,
                 enableToggle: true,
                 text: 'Search',
+                handler : this.initSearch,
+                scope : this,
                 cls: 'x-btn-text-icon product_new'
             });
             
-            
+            this.grid = grid;
             return grid;
+        },
+        
+        initSearch : function(btn, e) {
+            var workZone = dep.getLayout('workZone');
+            if (btn.pressed) {
+                if (!this.searchPanel) {
+                   workZone.beginUpdate();
+                   this.searchPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'})
+                   workZone.add('north', this.searchPanel);
+                   workZone.endUpdate();
+                } else {
+                    workZone.getRegion('north').show();
+                }
+            } else {
+                workZone.getRegion('north').hide();
+            }
         },
         
         viewGrid : function (treeNode) {
@@ -93,7 +115,7 @@ Mage.Catalog_Product = function(depend){
             this.init();
             var workZone = dep.getLayout('workZone');
             workZone.beginUpdate();
-            workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}, 'Form will be there'));
+            workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, closable: true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}));
             workZone.endUpdate();
         }
     }
