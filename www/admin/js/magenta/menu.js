@@ -93,7 +93,35 @@ Mage.Menu = function(){
                 text:'Catalog and Products',
                 menu: menu
             });
-
+            
+            ////////////////////////
+            Mage.Core.addRightToolbarItem({
+                cls: 'x-btn-text-icon bmenu',
+                text:'Website',
+                menu: new Ext.menu.Menu({
+                    id: 'website',
+                    items: [
+                        '<b>Choose a Website</b>',
+                        new Ext.menu.CheckItem({
+                            text: 'Aero Glass',
+                            checked: true,
+                            group: 'theme'
+                        }),
+                        new Ext.menu.CheckItem({
+                            text: 'Vista Black',
+                            group: 'theme'
+                        }),
+                        new Ext.menu.CheckItem({
+                            text: 'Gray Theme',
+                            group: 'theme'
+                        }),
+                        new Ext.menu.CheckItem({
+                            text: 'Default Theme',
+                            group: 'theme'
+                        })
+                    ]
+                })
+            });
             Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Logout'
