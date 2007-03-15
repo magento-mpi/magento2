@@ -35,10 +35,21 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
         $this->setPageSize(9);
         $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');
     }
-
-    function addCategoryFilter($category_id)
+    
+    /**
+     * Add category condotion for collection
+     *
+     * @param int || array $category
+     */
+    function addCategoryFilter($category)
     {
-        $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id=?",$category_id);
+        if (is_array($category)) {
+            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id IN (?)",$category);
+        }
+        else {
+            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id=?",$category);
+        }
+
         $this->addFilter('category', $condition, 'string');
     } 
     

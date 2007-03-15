@@ -9,11 +9,11 @@
         ],
         [".setRootNode",
             {
-                "text":"Catalog Categories",
+                "text":"Catalog",
                 "draggable":false,
                 "id":"1",
                 "expanded":true,
-                "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/tree/categories/\"})}}"
+                "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/category/treeChildren\"})}}"
             }
         ]
     ],

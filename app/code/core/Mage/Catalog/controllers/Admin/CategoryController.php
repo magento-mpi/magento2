@@ -15,7 +15,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function newAction()
     {
-        //Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/category/form.json', 'mage_catalog');
         $form = Mage::createBlock('catalog_category_form', 'category_form');
         $this->getResponse()->setBody($form->toString());
     }
@@ -44,6 +43,41 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         if (!empty($id)) {
             Mage::getModel('catalog', 'category_tree')->deleteNode($id);
         }
+    }
+    
+    /**
+     * Categories tree
+     *
+     */
+    public function treeAction()
+    {
+        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
+    }
+    
+    /**
+     * Category tree json
+     *
+     */
+    public function treeChildrenAction()
+    {
+        $tree = Mage::getModel('catalog','category_tree');
+
+        $children = $tree->getLevel($this->getRequest()->getPost('node',1));
+        //$data = $tree->getLevel(1);
+
+        $items = array();
+        foreach ($children as $child) {
+            $item = array();
+            $item['text']= $child->getData('attribute_value').'(id #'.$child->getId().')';
+            $item['id']  = $child->getId();
+            $item['cls'] = 'folder';
+            if (!$child->isParent()) {
+                $item['leaf'] = 'true';    
+            }
+            $items[] = $item;
+        }
+
+        $this->getResponse()->setBody(Zend_Json::encode($items));        
     }
 
     //Category attributes

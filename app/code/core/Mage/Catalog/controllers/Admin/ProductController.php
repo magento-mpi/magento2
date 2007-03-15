@@ -8,37 +8,40 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/product/initGridLayout.json', 'mage_catalog');
     }
     
+    /**
+     * Product collection JSON
+     *
+     */
     public function gridDataAction()
     {
+        $pageSize = 30;
         $prodCollection = Mage::getModel('catalog','product_collection');
+        
         $prodCollection->addAttributeToSelect('name', 'varchar');
         $prodCollection->addAttributeToSelect('price', 'decimal');
         $prodCollection->addAttributeToSelect('description', 'text');
         
-        $prodCollection->setPageSize(20);
-        //$prodCollection->addFilter('website_id', Mage::getCurentWebsite(), 'and');
+        $prodCollection->setPageSize($pageSize);
         
-        /*
         if ($categoryId = $this->getRequest()->getParam('category')) {
+            // Add category_id to condition
             $arrCategories = array($categoryId);
-            $tree = Mage::getModel('catalog','Categories');
+            $tree = Mage::getModel('catalog','Category_Tree');
             $data = $tree->getLevel($categoryId, 0);
-        	foreach ($data as $node) {
+            foreach ($data as $node) {
         		$arrCategories[] = $node->getId();
         	}
-        	
-        	$condition = Mage::getModel('catalog')->getReadConnection()->quoteInto('category_id IN (?)', $arrCategories);
-        	//$prodCollection->addFilter('category', $condition, 'string');
-        }*/
-        $prodCollection->addCategoryFilter(10);
+        	$prodCollection->addCategoryFilter($arrCategories);
+        }
         
         
-        //$page = isset($_POST['start']) ? $_POST['start']/20+1 : 1;
-        /*
+        
+        $page = isset($_POST['start']) ? $_POST['start']/$pageSize+1 : 1;
+        
         $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
         $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
         $prodCollection->setOrder($order, $dir);
-        $prodCollection->setCurPage($page);*/
+        $prodCollection->setCurPage($page);
         $prodCollection->load();
         
         $arrGridFields = array('product_id', 'name', 'price', 'description');

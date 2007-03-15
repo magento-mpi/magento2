@@ -41,7 +41,7 @@ Mage.Catalog = function(depend){
                 this._layouts.add('tree', Layout_West);
                 
                 Layout_West.beginUpdate();
-                Layout_West.add('center', new Ext.ContentPanel('catalog_main_left_tree_panel', {url: Mage.url + '/mage_catalog/tree', autoCreate:true}));
+                Layout_West.add('center', new Ext.ContentPanel('catalog_main_left_tree_panel', {url: Mage.url + '/mage_catalog/category/tree', autoCreate:true}));
                 Layout_West.add('south', new Ext.ContentPanel('catalog_main_left_preview_panel', {autoCreate:true}));
                 Layout_West.endUpdate();
                 
