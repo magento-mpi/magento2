@@ -47,7 +47,14 @@ Mage.Core = function(){
         },
         _initToolbar : function(){
             _toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
+            _toolbar.add({id:'test', text: 'Test'});
             _toolbar.add(_toolbarItems.items);
+            
+            var lt = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
+            lt.add({id:'test1', text: 'Test 1'});
+            lt.getEl().setStyle('position','absolute');
+            lt.getEl().setStyle('width','50%');
+            lt.getEl().anchorTo(_toolbar.getEl(),'tr');
         },
         getLayoutRegion : function(region){
             return _layout.getRegion(region);

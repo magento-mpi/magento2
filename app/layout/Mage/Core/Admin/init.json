@@ -15,8 +15,6 @@
             [".append",["+tag_js",[".setSrc","/magenta/catalog.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/core.js"]]],
             [".append",["+tag_js",[".setSrc","/magenta/menu.js"]]]            
-        ]],
-        
-        [".setChild","layout",["+tpl", "#content", [".setViewName","Mage_Core","Admin/empty"]]]
+        ]]
     ]
 ]
