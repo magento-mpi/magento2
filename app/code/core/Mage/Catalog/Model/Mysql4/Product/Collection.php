@@ -30,7 +30,11 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
-        $this->_sqlSelect->join($this->_categoryProductTable, new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"));
+        $this->_sqlSelect->join(
+            $this->_categoryProductTable, 
+            new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"),
+            'product_id'
+        );
        
         $this->setPageSize(9);
         $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');

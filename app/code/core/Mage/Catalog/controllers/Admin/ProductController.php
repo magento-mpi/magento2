@@ -14,7 +14,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function gridDataAction()
     {
-        $pageSize = 30;
+        $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
         $prodCollection = Mage::getModel('catalog','product_collection');
         
         $prodCollection->addAttributeToSelect('name', 'varchar');
@@ -24,13 +24,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $prodCollection->setPageSize($pageSize);
         
         if ($categoryId = $this->getRequest()->getParam('category')) {
-            // Add category_id to condition
-            $arrCategories = array($categoryId);
+            
             $tree = Mage::getModel('catalog','Category_Tree');
             $data = $tree->getLevel($categoryId, 0);
-            foreach ($data as $node) {
-        		$arrCategories[] = $node->getId();
-        	}
+            
+            if (empty($data)) {
+                $arrCategories = array($categoryId);
+            }
+            else {
+                $arrCategories = array();
+                $prodCollection->distinct(true);
+                foreach ($data as $node) {
+            		$arrCategories[] = $node->getId();
+            	}
+            }
         	$prodCollection->addCategoryFilter($arrCategories);
         }
         
@@ -45,6 +52,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $prodCollection->load();
         
         $arrGridFields = array('product_id', 'name', 'price', 'description');
+        Mage::log(Zend_Json::encode($prodCollection->__toArray($arrGridFields)));
         $this->getResponse()->setBody(Zend_Json::encode($prodCollection->__toArray($arrGridFields)));
     }
 

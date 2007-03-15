@@ -253,6 +253,16 @@ class Mage_Core_Model_Collection implements Iterator
     }
     
     /**
+     * Set select distinct
+     *
+     * @param bool $flag
+     */
+    public function distinct($flag)
+    {
+        $this->_sqlSelect->distinct($flag);
+    }
+    
+    /**
      * Load data
      *
      * @return  Mage_Core_Model_Collection
@@ -263,7 +273,8 @@ class Mage_Core_Model_Collection implements Iterator
              ->_renderOrders()
              ->_renderLimit();
 
-        //echo $this->_sqlSelect->__toString(); 
+        //echo $this->_sqlSelect->__toString();
+        //Mage::log($this->_sqlSelect->__toString());
         $data = $this->_dbModel->getReadConnection()->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
             foreach ($data as $item) {

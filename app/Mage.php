@@ -411,6 +411,10 @@ final class Mage {
         if (!is_writable($xmlCacheDir)) {
             mkdir($xmlCacheDir, 0777, true);
         }
+        $logDir =  Mage::getRoot('var').DS.'log';
+        if (!is_writable($logDir)) {
+            mkdir($logDir, 0777, true);
+        }
     }
 
     /**
@@ -539,5 +543,19 @@ final class Mage {
 
         echo "<xmp>TEST:";
         print_r(Mage::getConfig());
+    }
+    
+    public static function log($message, $level=Zend_Log::LEVEL_DEBUG, $file = '')
+    {
+        if (empty($file)) {
+            $file = 'system.log';
+        }
+        $logFile = Mage::getRoot('var').DS.'log'.DS.$file;
+        
+        if (!Zend_Log::hasLogger($file)) {
+            Zend_Log::registerLogger(new Zend_Log_Adapter_File($logFile), $file);
+        }
+        
+        Zend_Log::log($message, $level, $file);
     }
 }
