@@ -18,24 +18,29 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             "tabs" => array(
                 array(
                     'name'  => 'general',
-                    'url'   => '',
+                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
                     'title' => 'General Information',
                     'active'=> true
                 ),
                 array(
                     'name'  => 'relations',
-                    'url'   => '',
+                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
                     'title' => 'Related Products'
                 ),
                 array(
                     'name'  => 'gallery',
-                    'url'   => '',
+                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
                     'title' => 'Product images'
                 )
             )
         );
         
         $this->getResponse()->setBody(Zend_Json::encode($cardStructure));
+    }
+    
+    public function formAction()
+    {
+        
     }
     
     /**
