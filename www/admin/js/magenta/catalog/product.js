@@ -1,3 +1,56 @@
+//create renderer for new product
+Mage.Catalog_Product_Renderer = function(){};
+
+Mage.Catalog_Product_Renderer.prototype = {
+    render :  function(el, response, updateManager, callback) {
+        el.dom.innerHTML = '';
+        
+       var dataCard = Ext.decode(response.responseText);        
+        
+       var proCard_Form = Ext.DomHelper.append(el, {tag: 'form', action:dataCard.form.action, method:dataCard.form.method}, true);
+       
+       var tabContainer = Ext.DomHelper.append(proCard_Form, {tag:'div'}, true);
+       var formTabs = new Ext.TabPanel(tabContainer);
+       
+       for(var i=0; i < dataCard.tabs.length; i++) {
+            var tab = formTabs.addTab(Ext.DomHelper.append(tabContainer, {tag: 'div'}, true), dataCard.tabs[i].title);
+            var updater = tab.getUpdateManager();
+            updater.setDefaultUrl(dataCard.tabs[i].url);
+            tab.on('activate', updater.refresh, updater, true);
+            if (dataCard.tabs[i].isActive) {
+                tab.activate();
+            }
+            if (dataCard.tabs[i].isDisabled) {
+                tab.disable();
+            }
+            delete tab;
+            delete updater;
+       }
+                
+            // more advanced tabs, built from javascript
+//            var jtabs = new Ext.TabPanel("jtabs");
+//            jtabs.addTab("jtabs-1", "Normal Tab", "My content was added during construction.");
+//    
+//            // set up the UpdateManager
+//            var tab2 = jtabs.addTab("jtabs-2", "Ajax Tab 1");
+//            var updater = tab2.getUpdateManager();
+//            updater.setDefaultUrl("ajax1.htm");
+//            tab2.on('activate', updater.refresh, updater, true);
+//
+//            // Use setUrl for Ajax loading
+//            var tab3 = jtabs.addTab("jtabs-3", "Ajax Tab 2");
+//            tab3.setUrl("ajax2.htm", null, true);
+//    
+//            // Disabled tab
+//            var tab4 = jtabs.addTab("tabs1-5", "Disabled Tab", "Can't see me cause I'm disabled");
+//            tab4.disable();
+//    
+//            jtabs.activate("jtabs-1");            
+        
+        //el.update(response.responseText, updateManager.loadScripts, callback);
+    }
+}
+
 Mage.Catalog_Product = function(depend){
     var dep = depend;
     return {
@@ -5,6 +58,7 @@ Mage.Catalog_Product = function(depend){
         ds : null,
         grid : null,
         searchPanel : null,
+        editPanel : null,
         
         init: function(){
             dep.init();
@@ -131,17 +185,25 @@ Mage.Catalog_Product = function(depend){
                 text: 'Cancel',
                 cls: 'x-btn-text-icon',
             });
-
-//            if (newItem) {
-//                toolbar.add(new Ext.Toolbar.TextItem('Item Name : <b>New Item</b>'));
-//            } else {
-//                
-//            }
             
             var workZone = dep.getLayout('workZone');
             workZone.beginUpdate();
-            workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, closable: true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}));
+            var newProductPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, title:'New Product'})
+            
+            var umgr = newProductPanel.getUpdateManager();
+            umgr.renderer = new Mage.Catalog_Product_Renderer(); 
+            umgr.update(Mage.url + '/mage_catalog/product/card/');
+            workZone.add('south', newProductPanel);
+            newProductPanel.refresh();
             workZone.endUpdate();
-        }
+        },
+        
+        cancelNew: function() {
+            
+        } 
+        
+        
     }
 }(Mage.Catalog);
+
+

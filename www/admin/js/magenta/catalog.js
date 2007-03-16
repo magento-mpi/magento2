@@ -68,7 +68,8 @@ Mage.Catalog = function(depend){
                          maxSize:400,
                          titlebar: true,
                          autoScroll:true,
-                         collapsible:true
+                         collapsible:true,
+                         hideTabs : true
                       }
                  });
                 
