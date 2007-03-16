@@ -26,28 +26,6 @@ Mage.Catalog_Product_Renderer.prototype = {
                 tab.disable();
             }
        }
-                
-            // more advanced tabs, built from javascript
-//            var jtabs = new Ext.TabPanel("jtabs");
-//            jtabs.addTab("jtabs-1", "Normal Tab", "My content was added during construction.");
-//    
-//            // set up the UpdateManager
-//            var tab2 = jtabs.addTab("jtabs-2", "Ajax Tab 1");
-//            var updater = tab2.getUpdateManager();
-//            updater.setDefaultUrl("ajax1.htm");
-//            tab2.on('activate', updater.refresh, updater, true);
-//
-//            // Use setUrl for Ajax loading
-//            var tab3 = jtabs.addTab("jtabs-3", "Ajax Tab 2");
-//            tab3.setUrl("ajax2.htm", null, true);
-//    
-//            // Disabled tab
-//            var tab4 = jtabs.addTab("tabs1-5", "Disabled Tab", "Can't see me cause I'm disabled");
-//            tab4.disable();
-//    
-//            jtabs.activate("jtabs-1");            
-        
-        //el.update(response.responseText, updateManager.loadScripts, callback);
     }
 }
 
@@ -167,26 +145,27 @@ Mage.Catalog_Product = function(depend){
             if (!this.grid) {
                 return false;
             }
+            var workZone = dep.getLayout('workZone');
+            if (workZone.getRegion('south').getActivePanel()) {
+                return false;
+            }
             newItem = true;
             var gridFoot = this.grid.getView().getFooterPanel(true);
-           
             var toolbar = new Ext.Toolbar(gridFoot);
-            
             toolbar.add({
                 text: 'Save',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon'
             },{
                 text: 'Delete',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon'
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon'
             },{
                 text: 'Cancel',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon'
             });
-            
-            var workZone = dep.getLayout('workZone');
+
             workZone.beginUpdate();
             var newProductPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, title:'New Product'})
             
