@@ -19,7 +19,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 array(
                     'name'  => 'general',
                     'url'   => '',
-                    'title' => 'General Information'
+                    'title' => 'General Information',
+                    'active'=> true
                 ),
                 array(
                     'name'  => 'relations',
