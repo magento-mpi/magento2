@@ -10,11 +10,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function cardAction()
     {
         $productId  = $this->getRequest()->getParam('product', false);
+        
         if ($productId) {
             
         }
-        
-        $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
         
         // Declare product attributes set
         $setId      = $this->getRequest()->getParam('set', false);
@@ -29,14 +28,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 $setId = $arrSets['items'][0]['product_attribute_set_id'];
             }
             else {
-                // .... exeption
+                Mage::exception('Undefined attributes set id');
             }
         }
         
         $set = Mage::getModel('catalog', 'product_attribute_set');
+        $arrAtributes = $set->getAttributes($setId);
         
-        
-        
+        $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
+        $arrGroups = $groupCollection->load()->__toArray();
         
         $cardStructure = array(
             "form" => array(

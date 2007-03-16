@@ -18,5 +18,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Mage_
         $this->_groupTable  = $this->_dbModel->getTableName('catalog_read', 'product_attribute_group');
         $this->_inGroupTable= $this->_dbModel->getTableName('catalog_read', 'product_attribute_in_group');
         
+        $this->_sqlSelect->from($this->_groupTable);
     }
 }

@@ -18,7 +18,26 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
         $this->_setTable    = $this->getTableName('catalog_read', 'product_attribute_set');
         $this->_inSetTable  = $this->getTableName('catalog_read', 'product_attribute_in_set');
     }
-
+    
+    /**
+     * Get attribute set attributes
+     *
+     * @param   int $setId
+     * @return  array
+     */
+    public function getAttributes($setId)
+    {
+        $arrRes =array();
+        $sql = "SELECT
+                    attribute_id
+                FROM
+                    $this->_inSetTable
+                WHERE
+                    product_attribute_set_id=:set_id";
+        $arrRes = $this->_read->fetchCol($sql, array('set_id'=>$setId));
+        return $arrRes;
+    }
+    
     /**
      * Insert row in database table
      *
