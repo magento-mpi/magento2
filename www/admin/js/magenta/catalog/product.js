@@ -13,18 +13,18 @@ Mage.Catalog_Product_Renderer.prototype = {
        var formTabs = new Ext.TabPanel(tabContainer);
        
        for(var i=0; i < dataCard.tabs.length; i++) {
-            var tab = formTabs.addTab(Ext.DomHelper.append(tabContainer, {tag: 'div'}, true), dataCard.tabs[i].title);
-            var updater = tab.getUpdateManager();
-            updater.setDefaultUrl(dataCard.tabs[i].url);
-            tab.on('activate', updater.refresh, updater, true);
+            var tab = formTabs.addTab('productCard_' + dataCard.tabs[i].name, dataCard.tabs[i].title);
+            if (dataCard.tabs[i].url) {
+                var updater = tab.getUpdateManager();
+                updater.setDefaultUrl(dataCard.tabs[i].url);
+                tab.on('activate', updater.refresh, updater, true);
+            }
             if (dataCard.tabs[i].isActive) {
                 tab.activate();
             }
             if (dataCard.tabs[i].isDisabled) {
                 tab.disable();
             }
-            delete tab;
-            delete updater;
        }
                 
             // more advanced tabs, built from javascript
