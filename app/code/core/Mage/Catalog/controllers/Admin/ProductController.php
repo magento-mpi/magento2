@@ -3,6 +3,36 @@
 
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action 
 {
+    /**
+     * Product card structure (json)
+     *
+     */
+    public function cardAction()
+    {
+        $cardStructure = array(
+            'form' => array(
+                'action'=> '',
+                'class' => '',
+                'method'=> 'post'
+            ),
+            'tabs' => array(
+                'first' => array(
+                    'url'   => '',
+                    'label' => 'Base product information'
+                ),
+                'second' => array(
+                    'url'   => '',
+                    'label' => 'Related products'
+                ),
+                'gallery' => array(
+                    'url'   => '',
+                    'label' => 'Product Images'
+                )
+            )
+        );
+        
+        $this->getResponse()->setBody(Zend_Json::encode($cardStructure));
+    }
     public function gridAction() 
     {
         Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/product/initGridLayout.json', 'mage_catalog');

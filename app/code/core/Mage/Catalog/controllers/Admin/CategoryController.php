@@ -77,7 +77,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
             $items[] = $item;
         }
 
-        $this->getResponse()->setBody(Zend_Json::encode($items));        
+        $this->getResponse()->setBody(Zend_Json::encode($items));
     }
 
     //Category attributes
