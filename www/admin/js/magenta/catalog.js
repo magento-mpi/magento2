@@ -66,6 +66,7 @@ Mage.Catalog = function(depend){
                          initialSize:200,
                          minSize:50,
                          maxSize:400,
+                         titlebar: true,
                          autoScroll:true,
                          collapsible:true
                       }

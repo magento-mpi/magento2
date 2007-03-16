@@ -56,9 +56,7 @@ Mage.Catalog_Product = function(depend){
             
             var gridHead = grid.getView().getHeaderPanel(true);
             var gridFoot = grid.getView().getFooterPanel(true);
-            
-            var dataStore = grid.getDataSource();
-            
+           
             var paging = new Ext.PagingToolbar(gridHead, dataStore, {
                 pageSize: 25,
                 displayInfo: true,
@@ -111,8 +109,35 @@ Mage.Catalog_Product = function(depend){
             workZone.endUpdate();            
         },
         
-        create: function() {
-            this.init();
+        create: function(newItem) {
+            if (!this.grid) {
+                return false;
+            }
+            newItem = true;
+            var gridFoot = this.grid.getView().getFooterPanel(true);
+           
+            var toolbar = new Ext.Toolbar(gridFoot);
+            
+            toolbar.add({
+                text: 'Save',
+                cls: 'x-btn-text-icon',
+            },{
+                text: 'Delete',
+                cls: 'x-btn-text-icon',
+            },{
+                text: 'Reset',
+                cls: 'x-btn-text-icon',
+            },{
+                text: 'Cancel',
+                cls: 'x-btn-text-icon',
+            });
+
+//            if (newItem) {
+//                toolbar.add(new Ext.Toolbar.TextItem('Item Name : <b>New Item</b>'));
+//            } else {
+//                
+//            }
+            
             var workZone = dep.getLayout('workZone');
             workZone.beginUpdate();
             workZone.add('south', new Ext.ContentPanel('', {autoCreate:true, closable: true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'}));
