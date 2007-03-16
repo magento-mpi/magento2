@@ -27,7 +27,8 @@ class Mage_Core_Model_Collection implements Iterator
     
     // PAGER
     protected $_curPage     = 1;
-    protected $_pageSize    = 10;
+    // if pageSize == false, then all data is selected
+    protected $_pageSize    = false;
     protected $_totalRecords= null;
     
     // ITERATOR
@@ -90,8 +91,12 @@ class Mage_Core_Model_Collection implements Iterator
         $collectionSize = $this->getSize();
         if (0 === $collectionSize) {
             return 1;
-        } else {
+        } 
+        elseif($this->_pageSize) {
             return ceil($collectionSize/$this->_pageSize);
+        }
+        else{
+            return 1;
         }
     }
     
@@ -107,6 +112,11 @@ class Mage_Core_Model_Collection implements Iterator
             $this->_totalRecords = $this->_dbModel->getReadConnection()->fetchOne($sql);
         }
         return $this->_totalRecords;
+    }
+
+    public function getItems()
+    {
+        return $this->_items;
     }
     
     /**
@@ -248,7 +258,10 @@ class Mage_Core_Model_Collection implements Iterator
             $this->_curPage=1;
         }
         
-        $this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
+        if($this->_pageSize){
+            $this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
+        }
+        
         return $this;
     }
     
@@ -267,14 +280,20 @@ class Mage_Core_Model_Collection implements Iterator
      *
      * @return  Mage_Core_Model_Collection
      */
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
         $this->_renderFilters()
              ->_renderOrders()
              ->_renderLimit();
 
-        //echo $this->_sqlSelect->__toString();
-        //Mage::log($this->_sqlSelect->__toString());
+        if($printQuery) {
+            echo $this->_sqlSelect->__toString();
+        }
+        
+        if($logQuery){
+            Mage::log($this->_sqlSelect->__toString());
+        }
+
         $data = $this->_dbModel->getReadConnection()->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
             foreach ($data as $item) {
@@ -284,9 +303,14 @@ class Mage_Core_Model_Collection implements Iterator
         return $this;
     }
     
-    public function load()
+    /**
+     * Load data
+     *
+     * @return  Mage_Core_Model_Collection
+     */
+    public function load($printQuery = false, $logQuery = false)
     {
-        return $this->loadData();
+        return $this->loadData($printQuery, $logQuery);
     }
     
     /**

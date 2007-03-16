@@ -9,6 +9,35 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
+        $productId  = $this->getRequest()->getParam('product', false);
+        if ($productId) {
+            
+        }
+        
+        $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
+        
+        // Declare product attributes set
+        $setId      = $this->getRequest()->getParam('set', false);
+
+        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
+        $setCollection->load();
+        $arrSets = $setCollection->__toArray();
+        
+        // Get first sttributes set id
+        if (!$setId) {
+            if (isset($arrSets['items'][0])) {
+                $setId = $arrSets['items'][0]['product_attribute_set_id'];
+            }
+            else {
+                // .... exeption
+            }
+        }
+        
+        $set = Mage::getModel('catalog', 'product_attribute_set');
+        
+        
+        
+        
         $cardStructure = array(
             "form" => array(
                 'action'=> '',
@@ -20,7 +49,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'name'  => 'general',
                     'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
                     'title' => 'General Information',
-                    'active'=> true
+                    'isActive'=> true
                 ),
                 array(
                     'name'  => 'relations',

@@ -30,6 +30,10 @@
 
                                 <product><table>catalog_product</table></product>
                                 <product_attribute><table>catalog_product_attribute</table></product_attribute>
+                                <product_attribute_set><table>catalog_product_attribute_set</table></product_attribute_set>
+                                <product_attribute_in_set><table>catalog_product_attribute_in_set</table></product_attribute_in_set>
+                                <product_attribute_group><table>catalog_product_attribute_group</table></product_attribute_group>
+                                <product_attribute_in_group><table>catalog_product_attribute_in_group</table></product_attribute_in_group>
                                 <product_attribute_int><table>catalog_product_attribute_int</table></product_attribute_int>
                                 <product_attribute_decimal><table>catalog_product_attribute_decimal</table></product_attribute_decimal>
                                 <product_attribute_varchar><table>catalog_product_attribute_varchar</table></product_attribute_varchar>

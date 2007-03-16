@@ -167,7 +167,7 @@ Mage.Catalog_Product = function(depend){
             });
 
             workZone.beginUpdate();
-            var newProductPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, title:'New Product'})
+            var newProductPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'})
             
             var umgr = newProductPanel.getUpdateManager();
             umgr.renderer = new Mage.Catalog_Product_Renderer(); 
