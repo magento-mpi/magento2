@@ -12,7 +12,7 @@ Mage.Catalog_Category = function(){
                         split:true,
                         autoScroll:true,
                         collapsible:false,
-                        titlebar:true
+                        titlebar:false
                     },
                     center : {
                         autoScroll : false,
@@ -38,12 +38,11 @@ Mage.Catalog_Category = function(){
                      }
                 );
                 
-                this._layouts.add('tree', Layout_West);
+                this._layouts.add('left', Layout_West);
                 
                 Layout_West.beginUpdate();
                 Layout_West.add('center', new Ext.ContentPanel('category_attr_set_panel', {
-                        autoCreate:true,
-                        url:Mage.url + '/mage_catalog/category/arrtibutesSetGrid'
+                        autoCreate:true
                     }));
                 Layout_West.add('south', new Ext.ContentPanel('category_attr_set_tree_panel', {
                         autoCreate:true,
@@ -88,10 +87,53 @@ Mage.Catalog_Category = function(){
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Category Attributes",closable:false}));
                 Core_Layout.endUpdate();            
                 loaded = true;
-                
+                this.initAttrSetGrid();
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
             }
+        },
+        
+        initAttrSetGrid: function(){
+            var parentElement = this.getLayout('left').getRegion('center');
+            var gColumn = new Ext.grid.ColumnModel([{
+                   header: "Attributes Set Name",
+                   dataIndex: 'name',
+                   editor: new Ext.grid.GridEditor(new Ext.form.TextField({allowBlank: false}))
+                }]);
+            
+            gColumn.defaultSortable = true;
+            
+            var dataRecord = Ext.data.Record.create([
+                   {name: 'category_attribute_set_id', type: 'int'},
+                   {name: 'category_attribute_set_code', type: 'string'}
+            ]);
+            
+            var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url+'/mage_catalog/category/attributesSetGridData/'}),
+                reader: new Ext.data.JsonReader({
+                       record: 'items'
+                   }, dataRecord)
+            });
+
+            var grid = new Ext.grid.EditorGrid(Ext.DomHelper.append(this.getLayout('left').getRegion('center').getEl(), {tag: 'div'}), {
+                ds: dataStore,
+                cm: gColumn,
+                enableColLock:false
+            });
+
+            var gridLayout = Ext.BorderLayout.create({
+                    center: {
+                        margins:{left:3,top:3,right:3,bottom:3},
+                        panels: [new Ext.GridPanel(grid)]
+                    }
+                }, Ext.DomHelper.append(this.getLayout('left').getRegion('center').getEl(), {tag: 'div'}));
+            
+            grid.render();
+            var gridHead = grid.getView().getHeaderPanel(true);
+            var tb = new Ext.Toolbar(gridHead, [{
+                text: 'Add set'
+            }]);
+            dataStore.load();
         },
         
         getLayout : function(name) {

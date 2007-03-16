@@ -48,7 +48,7 @@ Mage.Core = function(){
             _layout.endUpdate();
 
             // For testing
-            //Mage.Catalog_Category.loadAttributesPanel();
+            Mage.Catalog_Category.loadAttributesPanel();
         },
         _initToolbar : function(){
             _leftToolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
