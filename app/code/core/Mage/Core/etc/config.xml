@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
             <load>
                 <all>
                     <resourceTypes>
@@ -48,6 +48,10 @@
                                 <domain_website><table>core_domain_website</table></domain_website>
                                 <setting><table>core_setting</table></setting>
                                 <domain_setting><table>core_domain_setting</table></domain_setting>
+
+                                <data_change><table>core_data_change</table></data_change>
+                                <data_change_type><table>core_data_change_type</table></data_change_type>
+                                <data_change_info><table>core_data_change_info</table></data_change_info>
                             </entities>
                         </core_setup>
                 
