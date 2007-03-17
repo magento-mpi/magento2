@@ -48,9 +48,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $cardStructure['tabs'] = array();
         
         foreach ($arrGroups['items'] as $group) {
+            $url = Mage::getBaseUrl().'/mage_catalog/product/form/group/'.$group['product_attribute_group_id'].'/';
+            $url.= 'set/'.$setId.'/';
             $cardStructure['tabs'][] = array(
                 'name'  => $group['product_attribute_group_code'],
-                'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
+                'url'   => $url,
                 'title' => $group['product_attribute_group_code']
             );
         }
@@ -60,7 +62,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     
     public function formAction()
     {
-        
+        $groupId= $this->getRequest()->getParam('group', false);
+        $setId  = $this->getRequest()->getParam('set', false);
+        echo "group: $groupId, set: $setId";
     }
     
     /**
