@@ -55,11 +55,6 @@ Mage.Core = function(){
     var _rToolbarItems = new Ext.util.MixedCollection();
     return {
         init: function(){
-            var theme = Cookies.get('admtheme') || 'aero';
-            if(theme){
-                Ext.get(document.body).addClass('x-'+theme);
-            }            
-            
             _layout = new Ext.BorderLayout(document.body, {
                     "hideOnLayout":true,
                     "north":{

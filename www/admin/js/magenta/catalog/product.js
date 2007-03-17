@@ -151,8 +151,22 @@ Mage.Catalog_Product = function(depend){
             });
 
             this.editPanel.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true)));
-//            this.editPanel.add('center', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+
+            workZone.beginUpdate();
+            var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
+            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:'New Product'}));
+            workZone.endUpdate();
+        },
+        
+        loadTabs: function(response) {
+            if (!this.editPanel) {
+                return false;
+            }            
+            
+            dataCard = Ext.decode(response.responseText);  
+            this.editPanel.beginUpdate();
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
@@ -168,21 +182,24 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon'
             });
             
-            workZone.beginUpdate();
+           // if (dataCard.attribute_set.totalRecords > 1) {
+                var opts = [];
+                for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
+                    var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
+                    if (i == 0) {
+                        o.selected = 'true';
+                    }
+                    opts.push(o);
+                }
+                
+                var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
+            		tag:'select', children: opts
+                }, true);                
+                toolbar.add('-','Product type :', setSelect.dom);                   
+           // }
             
-            var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/', {success:this.loadTabs.createDelegate(this),failure:failure});  
-            
-            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
-            workZone.endUpdate();
-        },
-        
-        loadTabs: function(response) {
-            if (!this.editPanel) {
-                return false;
-            }            
-            dataCard = Ext.decode(response.responseText);  
-                  
+
+                              
             for(var i=0; i < dataCard.tabs.length; i++) {
                this.editPanel.add('center', new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
                    title : dataCard.tabs[i].title,
@@ -193,7 +210,7 @@ Mage.Catalog_Product = function(depend){
                    background: true
                }));
             }
-
+            this.editPanel.endUpdate();
             return true;
         },
         
