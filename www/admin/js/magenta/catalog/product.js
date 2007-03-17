@@ -4,28 +4,6 @@ Mage.Catalog_Product_Renderer = function(){};
 Mage.Catalog_Product_Renderer.prototype = {
     render :  function(el, response, updateManager, callback) {
         el.dom.innerHTML = '';
-        
-       var dataCard = Ext.decode(response.responseText);        
-        
-       var proCard_Form = Ext.DomHelper.append(el, {tag: 'form', action:dataCard.form.action, method:dataCard.form.method}, true);
-       
-       var tabContainer = Ext.DomHelper.append(proCard_Form, {tag:'div'}, true);
-       var formTabs = new Ext.TabPanel(tabContainer);
-       
-       for(var i=0; i < dataCard.tabs.length; i++) {
-            var tab = formTabs.addTab('productCard_' + dataCard.tabs[i].name, dataCard.tabs[i].title);
-            if (dataCard.tabs[i].url) {
-                var updater = tab.getUpdateManager();
-                updater.setDefaultUrl(dataCard.tabs[i].url);
-                tab.on('activate', updater.refresh, updater, true);
-            }
-            if (dataCard.tabs[i].isActive) {
-                tab.activate();
-            }
-            if (dataCard.tabs[i].isDisabled) {
-                tab.disable();
-            }
-       }
     }
 }
 
@@ -145,13 +123,37 @@ Mage.Catalog_Product = function(depend){
             if (!this.grid) {
                 return false;
             }
+            
             var workZone = dep.getLayout('workZone');
             if (workZone.getRegion('south').getActivePanel()) {
                 return false;
             }
+            
             newItem = true;
-            var gridFoot = this.grid.getView().getFooterPanel(true);
-            var toolbar = new Ext.Toolbar(gridFoot);
+            
+            var Layout_south = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
+                    hideOnLayout:true,
+                    north: {
+                        split:true,
+                        initialSize:28,
+                        minSize:28,
+                        maxSize:28,
+                        autoScroll:false,
+                        titlebar:false,                        
+                        collapsible:false
+                     },
+                     center:{
+                         autoScroll:true,
+                         titlebar:false,
+                         resizeTabs : true,
+                         tabPosition: 'top'
+                     }
+            });
+
+            Layout_south.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+            Layout_south.add('center', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+            
+            var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(Layout_south.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
                 cls: 'x-btn-text-icon'
@@ -165,15 +167,33 @@ Mage.Catalog_Product = function(depend){
                 text: 'Cancel',
                 cls: 'x-btn-text-icon'
             });
-
-            workZone.beginUpdate();
-            var newProductPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'})
             
-            var umgr = newProductPanel.getUpdateManager();
-            umgr.renderer = new Mage.Catalog_Product_Renderer(); 
-            umgr.update(Mage.url + '/mage_catalog/product/card/');
-            workZone.add('south', newProductPanel);
-            newProductPanel.refresh();
+            workZone.beginUpdate();
+            
+            
+//       var dataCard = Ext.decode(response.responseText);        
+//        
+//       var proCard_Form = Ext.DomHelper.append(el, {tag: 'form', action:dataCard.form.action, method:dataCard.form.method}, true);
+//       
+//       var tabContainer = Ext.DomHelper.append(proCard_Form, {tag:'div'}, true);
+//       var formTabs = new Ext.TabPanel(tabContainer);
+//       
+//       for(var i=0; i < dataCard.tabs.length; i++) {
+//            var tab = formTabs.addTab('productCard_' + dataCard.tabs[i].name, dataCard.tabs[i].title);
+//            if (dataCard.tabs[i].url) {
+//                var updater = tab.getUpdateManager();
+//                updater.setDefaultUrl(dataCard.tabs[i].url);
+//                tab.on('activate', updater.refresh, updater, true);
+//            }
+//            if (dataCard.tabs[i].isActive) {
+//                tab.activate();
+//            }
+//            if (dataCard.tabs[i].isDisabled) {
+//                tab.disable();
+//            }
+//       }
+
+            workZone.add('south', new Ext.NestedLayoutPanel(Layout_south, {title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
             workZone.endUpdate();
         },
         
