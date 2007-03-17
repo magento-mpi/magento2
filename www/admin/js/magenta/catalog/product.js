@@ -150,7 +150,7 @@ Mage.Catalog_Product = function(depend){
                      }
             });
 
-            this.editPanel.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+            this.editPanel.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true)));
 //            this.editPanel.add('center', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
             
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
@@ -173,7 +173,7 @@ Mage.Catalog_Product = function(depend){
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
             var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
-            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
+            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
             workZone.endUpdate();
         },
         
@@ -187,12 +187,13 @@ Mage.Catalog_Product = function(depend){
                this.editPanel.add('center', new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
                    title : dataCard.tabs[i].title,
                    autoCreate: true,
+                   closable : false,
                    url: dataCard.tabs[i].url,
                    loadOnce: true,
-                   closable : false
-                   
+                   background: true
                }));
             }
+
             return true;
         },
         
