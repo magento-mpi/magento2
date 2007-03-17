@@ -79,37 +79,79 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon product_new',
                 handler : this.create,
                 scope : this
+            },{
+                text: 'New Filter',
+                handler : this.addFilter,
+                scope : this,
+                cls: 'x-btn-text-icon'
             });
             
-            paging.add({
-                pressed: false,
-                enableToggle: true,
-                text: 'Search',
-                handler : this.initSearch,
-                scope : this,
-                cls: 'x-btn-text-icon product_new'
-            });
             
             this.grid = grid;
             return grid;
         },
         
-        initSearch : function(btn, e) {
-            var workZone = dep.getLayout('workZone');
-            if (btn.pressed) {
-                if (!this.searchPanel) {
-                   workZone.beginUpdate();
-                   this.searchPanel = new Ext.ContentPanel('', {autoCreate:true, closable: true, url: Mage.url + '/mage_catalog/category/new', loadOnce:true, title:'New Product'})
-                   workZone.add('north', this.searchPanel);
-                   workZone.endUpdate();
-                } else {
-                    workZone.getRegion('north').show();
-                }
-            } else {
-                workZone.getRegion('north').hide();
-            }
+        addFilter : function() {
+            var gridHead = this.grid.getView().getHeaderPanel(true);
+            var filter = new Ext.Toolbar(Ext.DomHelper.append(gridHead, {tag: 'div', id:'filter'+Ext.id()}, true));
+            
+            filter.add({
+                text: 'Remove',
+                handler : this.delFilter.createDelegate(filter, [this.grid]),
+                cls: 'x-btn-text-icon'
+            });
+            
+
+        	fieldSelect = Ext.DomHelper.append(gridHead, {
+		      tag:'select', children: [
+    			{tag: 'option', value:'name', selected: 'true', html:'Name'},
+	       		{tag: 'option', value:'size', html:'File Size'},
+			    {tag: 'option', value:'lastmod', html:'Last Modified'}
+              ]
+        	}, true);
+
+        	condSelect = Ext.DomHelper.append(gridHead, {
+		      tag:'select', children: [
+    			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
+	       		{tag: 'option', value:'eq', html:'Equal'},    			
+    			{tag: 'option', value:'lt', html:'Lower Than'},
+			    {tag: 'option', value:'like', html:'Like'}
+              ]
+        	}, true);
+        	
+        	textValue = Ext.DomHelper.append(gridHead, {
+		          tag:'input', type:'text', name:'filterValue'
+		    }, true);
+		    
+            filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);        	        	
+
+            filter.add({
+                text: 'Apply',
+                handler : this.applyFilter.createDelegate(filter, [this.grid]),
+                cls: 'x-btn-text-icon'
+            });
+            
+            var s = this.grid.getView().getScrollState();
+            this.grid.getView().refresh();
+            this.grid.getView().restoreScroll(s)
         },
         
+        applyFilter : function() {
+            
+        },
+        
+        delFilter : function(grid) {
+            for(var i=0; i< this.items.length; i++) {
+                if (this.items.get(i).destroy) {
+                    this.items.get(i).destroy();
+                }
+            }
+            this.el.removeAllListeners();
+            this.el.remove();
+            delete this.el;
+            grid.getView().refresh();            
+        },
+       
         viewGrid : function (treeNode) {
             this.init();
             var workZone = dep.getLayout('workZone');            
