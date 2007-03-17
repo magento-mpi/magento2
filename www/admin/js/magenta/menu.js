@@ -99,31 +99,49 @@ Mage.Menu = function(){
                 menu: menu
             });
             
+            function chooseTheme(item, e) {
+                Cookies.set('admtheme', item.value);
+                setTimeout(function(){
+                    window.location.reload();
+                }, 250);                
+            }
+            
             ////////////////////////
             // Temp - need load websites
             Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
-                text:'Website',
+                text:'Theme',
                 menu: new Ext.menu.Menu({
                     id: 'website',
                     items: [
-                        '<b>Choose a Website</b>',
+                        '<b>Choose the site theme</b>',
                         new Ext.menu.CheckItem({
                             text: 'Aero Glass',
-                            checked: true,
-                            group: 'theme'
+                            checked: (Cookies.get('admtheme') == 'aero') || false,
+                            group: 'theme',
+                            value : 'aero',
+                            handler : chooseTheme
                         }),
                         new Ext.menu.CheckItem({
                             text: 'Vista Black',
-                            group: 'theme'
+                            checked: (Cookies.get('admtheme') == 'vista') || false,
+                            group: 'theme',
+                            value : 'vista',
+                            handler : chooseTheme                            
                         }),
                         new Ext.menu.CheckItem({
                             text: 'Gray Theme',
-                            group: 'theme'
+                            group: 'theme',
+                            checked: (Cookies.get('admtheme') == 'gray') || false,
+                            value : 'gray',
+                            handler : chooseTheme                            
                         }),
                         new Ext.menu.CheckItem({
                             text: 'Default Theme',
-                            group: 'theme'
+                            group: 'theme',
+                            checked: (Cookies.get('admtheme') == 'default') || false,
+                            value : 'default',
+                            handler : chooseTheme                            
                         })
                     ]
                 })

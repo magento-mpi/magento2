@@ -6,7 +6,7 @@
         [".setChild","head",["+list","#head",
             [".append",["+tag","#.title",[".setTagName","title"],[".setContents","MagentaCommerce Admin Office"]]],
             [".append",["+tag_css",[".setHref","/yui-ext/resources/css/ext-all.css",""]]],
-            [".append",["+tag_css",[".setHref","/yui-ext/resources/css/ytheme-aero.css",""]]],
+            [".append",["+tag_css",[".setHref","/yui-ext/resources/css/ytheme-{$theme}.css",""]]],
             [".append",["+tag_css",[".setHref","/styles.css"]]],
 
             [".append",["+tag_js",[".setSrc","/yui-ext/yui-utilities.js",""]]],
