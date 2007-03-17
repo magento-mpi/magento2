@@ -131,10 +131,10 @@ Mage.Catalog_Product = function(depend){
             
             newItem = true;
             
-            var Layout_south = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
+            this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
                     hideOnLayout:true,
                     north: {
-                        split:true,
+                        split:false,
                         initialSize:28,
                         minSize:28,
                         maxSize:28,
@@ -150,10 +150,10 @@ Mage.Catalog_Product = function(depend){
                      }
             });
 
-            Layout_south.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
-            Layout_south.add('center', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+            this.editPanel.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
+//            this.editPanel.add('center', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true),{}));
             
-            var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(Layout_south.getRegion('north').getEl().dom, {tag:'div'}, true));
+            var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
                 cls: 'x-btn-text-icon'
@@ -170,38 +170,35 @@ Mage.Catalog_Product = function(depend){
             
             workZone.beginUpdate();
             
+            var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
-//       var dataCard = Ext.decode(response.responseText);        
-//        
-//       var proCard_Form = Ext.DomHelper.append(el, {tag: 'form', action:dataCard.form.action, method:dataCard.form.method}, true);
-//       
-//       var tabContainer = Ext.DomHelper.append(proCard_Form, {tag:'div'}, true);
-//       var formTabs = new Ext.TabPanel(tabContainer);
-//       
-//       for(var i=0; i < dataCard.tabs.length; i++) {
-//            var tab = formTabs.addTab('productCard_' + dataCard.tabs[i].name, dataCard.tabs[i].title);
-//            if (dataCard.tabs[i].url) {
-//                var updater = tab.getUpdateManager();
-//                updater.setDefaultUrl(dataCard.tabs[i].url);
-//                tab.on('activate', updater.refresh, updater, true);
-//            }
-//            if (dataCard.tabs[i].isActive) {
-//                tab.activate();
-//            }
-//            if (dataCard.tabs[i].isDisabled) {
-//                tab.disable();
-//            }
-//       }
-
-            workZone.add('south', new Ext.NestedLayoutPanel(Layout_south, {title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
+            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {title:'New Product(add combobox for attr set if total recods >1, pls. Onchange-send set id and reload panel)'}));
             workZone.endUpdate();
+        },
+        
+        loadTabs: function(response) {
+            if (!this.editPanel) {
+                return false;
+            }            
+            dataCard = Ext.decode(response.responseText);  
+                  
+            for(var i=0; i < dataCard.tabs.length; i++) {
+               this.editPanel.add('center', new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
+                   title : dataCard.tabs[i].title,
+                   autoCreate: true,
+                   url: dataCard.tabs[i].url,
+                   loadOnce: true,
+                   closable : false
+                   
+               }));
+            }
+            return true;
         },
         
         cancelNew: function() {
             
         } 
-        
-        
     }
 }(Mage.Catalog);
 
