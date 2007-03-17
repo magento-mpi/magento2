@@ -80,8 +80,13 @@ Mage.Catalog_Product = function(depend){
                 handler : this.create,
                 scope : this
             },{
-                text: 'New Filter',
+                text: 'Add Filter',
                 handler : this.addFilter,
+                scope : this,
+                cls: 'x-btn-text-icon'
+            },{
+                text: 'Apply Filters',
+                handler : this.applyFilters,
                 scope : this,
                 cls: 'x-btn-text-icon'
             });
@@ -92,8 +97,10 @@ Mage.Catalog_Product = function(depend){
         },
         
         addFilter : function() {
-            var gridHead = this.grid.getView().getHeaderPanel(true);
-            var filter = new Ext.Toolbar(Ext.DomHelper.append(gridHead, {tag: 'div', id:'filter'+Ext.id()}, true));
+            dep.getLayout('workZone').add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
+            var workZoneCenterPanel = dep.getLayout('workZone').getRegion('north').getActivePanel();
+            
+            var filter = new Ext.Toolbar(Ext.DomHelper.insertFirst(workZoneCenterPanel.getEl(), {tag: 'div', id:'filter'+Ext.id()}, true));
             
             filter.add({
                 text: 'Remove',
@@ -101,8 +108,7 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon'
             });
             
-
-        	fieldSelect = Ext.DomHelper.append(gridHead, {
+        	fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', children: [
     			{tag: 'option', value:'name', selected: 'true', html:'Name'},
 	       		{tag: 'option', value:'size', html:'File Size'},
@@ -110,7 +116,7 @@ Mage.Catalog_Product = function(depend){
               ]
         	}, true);
 
-        	condSelect = Ext.DomHelper.append(gridHead, {
+        	condSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', children: [
     			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
 	       		{tag: 'option', value:'eq', html:'Equal'},    			
@@ -119,24 +125,14 @@ Mage.Catalog_Product = function(depend){
               ]
         	}, true);
         	
-        	textValue = Ext.DomHelper.append(gridHead, {
+        	textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		          tag:'input', type:'text', name:'filterValue'
 		    }, true);
 		    
             filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);        	        	
-
-            filter.add({
-                text: 'Apply',
-                handler : this.applyFilter.createDelegate(filter, [this.grid]),
-                cls: 'x-btn-text-icon'
-            });
-            
-            var s = this.grid.getView().getScrollState();
-            this.grid.getView().refresh();
-            this.grid.getView().restoreScroll(s)
         },
         
-        applyFilter : function() {
+        applyFilters : function() {
             
         },
         

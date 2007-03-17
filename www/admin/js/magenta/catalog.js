@@ -48,10 +48,20 @@ Mage.Catalog = function(depend){
                 
                 
                 var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
+                    north: {
+                        titlebar:true,
+                        split:false,
+                        initialSize:83,
+                        minSize:0,
+                        maxSize:200,
+                        autoScroll:true,
+                        collapsible:true
+                     },
                      center:{
                          autoScroll:true,
                          titlebar:false,
                          resizeTabs : true,
+                         hideTabs : true,
                          tabPosition: 'top'
                      },
                      south: {
