@@ -36,33 +36,22 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $arrAtributes = $set->getAttributes($setId);
         
         $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
+        $groupCollection->distinct(true);
+        $groupCollection->addAttributeFilter($arrAtributes);
         $arrGroups = $groupCollection->load()->__toArray();
         
-        $cardStructure = array(
-            "form" => array(
-                'action'=> '',
-                'class' => '',
-                'method'=> 'post'
-            ),
-            "tabs" => array(
-                array(
-                    'name'  => 'general',
-                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
-                    'title' => 'General Information',
-                    'isActive'=> true
-                ),
-                array(
-                    'name'  => 'relations',
-                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
-                    'title' => 'Related Products'
-                ),
-                array(
-                    'name'  => 'gallery',
-                    'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
-                    'title' => 'Product images'
-                )
-            )
-        );
+        
+        $cardStructure = array();
+        $cardStructure['attribute_set'] = $arrSets;
+        $cardStructure['tabs'] = array();
+        
+        foreach ($arrGroups['items'] as $group) {
+            $cardStructure['tabs'][] = array(
+                'name'  => $group['product_attribute_group_code'],
+                'url'   => Mage::getBaseUrl().'/mage_catalog/product/form/',
+                'title' => $group['product_attribute_group_code']
+            );
+        }
         
         $this->getResponse()->setBody(Zend_Json::encode($cardStructure));
     }

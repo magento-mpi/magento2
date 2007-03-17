@@ -19,5 +19,22 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Mage_
         $this->_inGroupTable= $this->_dbModel->getTableName('catalog_read', 'product_attribute_in_group');
         
         $this->_sqlSelect->from($this->_groupTable);
+        $this->_sqlSelect->join(
+            $this->_inGroupTable, 
+            new Zend_Db_Expr("$this->_groupTable.product_attribute_group_id=$this->_inGroupTable.product_attribute_group_id"),
+            'product_attribute_group_id'
+        );
+    }
+    
+    public function addAttributeFilter($attribute)
+    {
+        if (is_array($attribute)) {
+            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_inGroupTable.attribute_id IN (?)",$attribute);
+        }
+        else {
+            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_inGroupTable.attribute_id=?",$attribute);
+        }
+
+        $this->addFilter('attribute', $condition, 'string');
     }
 }
