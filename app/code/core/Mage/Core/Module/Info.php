@@ -11,6 +11,7 @@ class Mage_Core_Module_Info
         }
 
         $this->_config = new Mage_Core_Config_Xml('xml', $config);
+        $this->getSetupClass()->applyDbUpdates();
     }
     
     public function getConfig($xpath='')

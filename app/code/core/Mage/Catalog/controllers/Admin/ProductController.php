@@ -32,15 +32,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             }
         }
         
+        // Declare set attributes
         $set = Mage::getModel('catalog', 'product_attribute_set');
         $arrAtributes = $set->getAttributes($setId);
         
+        // Declare attributes groups
         $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
         $groupCollection->distinct(true);
         $groupCollection->addAttributeFilter($arrAtributes);
         $arrGroups = $groupCollection->load()->__toArray();
         
-        
+        // Create card JSON structure
         $cardStructure = array();
         $cardStructure['attribute_set'] = $arrSets;
         $cardStructure['tabs'] = array();

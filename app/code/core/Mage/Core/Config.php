@@ -2,6 +2,8 @@
 
 class Mage_Core_Config extends Mage_Core_Config_Xml
 {
+    protected $_xml;
+    
     const XPATH_ACTIVE_MODULES = "/config/modules/*[active='true']";
 
     function __construct()
@@ -42,7 +44,6 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
             $moduleConfig = new Mage_Core_Config_Xml('file', $configFile);
             $this->_xml->extend($moduleConfig->getXml(), true);
         }
-
         return true;
     }
     
@@ -104,5 +105,14 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
         }
         return $url;
     }
-
+    
+    public function checkModulesDbChanges()
+    {
+        $modules = $this->getModule()->children();
+        foreach ($modules as $module) {
+            $setupClassName = $module->getName().'_Setup';
+            $setupClass = new $setupClassName($module, $this);
+            $setupClass->applyDbUpdates();
+        }
+    }
 }

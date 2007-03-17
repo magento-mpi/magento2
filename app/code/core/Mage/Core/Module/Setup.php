@@ -16,10 +16,12 @@ class Mage_Core_Module_Setup
     protected $_info = null;
 
     protected $_moduleInfo = null;
+    protected $_config;
     
-    public function __construct($modInfo)
+    public function __construct($modInfo, $config)
     {
         $this->_moduleInfo = $modInfo;
+        $this->_config = $config;
     }
 
     public function getInfo($key='')
@@ -38,27 +40,27 @@ class Mage_Core_Module_Setup
 
     public function applyDbUpdates()
     {
-        $dbVer = $this->_moduleInfo->getDbVersion();
-        $modVer = $this->_moduleInfo->getCodeVersion();
+        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_moduleInfo->getName());;
+        $modVer = $this->_moduleInfo->version;
 
         // Module is installed
         if ($dbVer!==false) {
              $status = version_compare($modVer, $dbVer);
              switch ($status) {
-             	case self::VERSION_COMPARE_LOWER:
-             		$this->_rollbackDb($modVer, $dbVer);
-             		break;
+                case self::VERSION_COMPARE_LOWER:
+                    $this->_rollbackDb($modVer, $dbVer);
+                    break;
                 case self::VERSION_COMPARE_GREATER:
                     $this->_upgradeDb($dbVer, $modVer);
                     break;
-             	default:
+                default:
                     return true;
-             	    break;
+                    break;
              }
         }
         // Module not installed
         elseif ($modVer) {
-        	$this->_installDb($modVer);
+            $this->_installDb($modVer);
         }
     }
 
@@ -66,8 +68,8 @@ class Mage_Core_Module_Setup
      * Install module
      *
      * @param     string $moduleVersion
-     * @return	  boll
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    boll
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _installDb($moduleVersion)
@@ -85,15 +87,15 @@ class Mage_Core_Module_Setup
     protected function _upgradeDb($oldVersion, $newVersion)
     {
         $this->_modifySql('upgrade', $oldVersion, $newVersion);
-    	Mage::getModel('core', 'Module') -> setDbVersion($this->_moduleInfo->getName(), $newVersion);
+        Mage::getModel('core', 'Module') -> setDbVersion($this->_moduleInfo->getName(), $newVersion);
     }
 
     /**
      * Roll back module
      *
      * @param     string $newVersion
-     * @return	  bool
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    bool
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _rollbackDb($oldVersion, $newVersion)
@@ -105,8 +107,8 @@ class Mage_Core_Module_Setup
      * Uninstall module
      *
      * @param     $moduleVersion
-     * @return	  bool
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    bool
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _uninstallDb($moduleVersion)
@@ -120,43 +122,43 @@ class Mage_Core_Module_Setup
      * @param     string $actionType install|upgrade|uninstall
      * @param     string $fromVersion
      * @param     string $toVersion
-     * @return	  bool
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    bool
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _modifySql($actionType, $fromVersion, $toVersion)
     {
         $arrResources = $this->_getModificationResources($actionType);
-    	foreach ($arrResources as $resName => $resInfo) {
-    	    
-    	    // Get Resource Object
-    	    $resource = Mage_Core_Resource::getResource($resName);
-    	    if ($resource) {
-    	        
-    	        // Get resource type
-        	    $resType = $resource->getConfig('type');
+        foreach ($arrResources as $resName => $resInfo) {
+            
+            // Get Resource Object
+            $resource = Mage_Core_Resource::getResource($resName);
+            if ($resource) {
+                
+                // Get resource type
+                $resType = $resource->getConfig('type');
                 if ($resType && isset($resInfo[$resType])) {
                     
                     // Get SQL files name 
                     $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resType]);
                     foreach ($arrFiles as $fileName) {
-                    	$sqlFile = $this->_moduleInfo->getRoot('sql').DS.$resName.DS.$fileName;
-                    	$sql = file_get_contents($sqlFile);
+                        $sqlFile = $this->_moduleInfo->getRoot('sql').DS.$resName.DS.$fileName;
+                        $sql = file_get_contents($sqlFile);
 
-                    	// Execute SQL
-                    	$resource->getConnection()->query($sql);
+                        // Execute SQL
+                        $resource->getConnection()->query($sql);
                     }
                 }
-    	    }
-    	}
+            }
+        }
     }
 
     /**
      * Get sql files for modifications
      *
      * @param     $actionType
-     * @return	  array
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @return    array
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrFiles)
@@ -164,82 +166,82 @@ class Mage_Core_Module_Setup
         $arrRes = array();
 
         switch ($actionType) {
-        	case 'install':
-        	    ksort($arrFiles);
-        		foreach ($arrFiles as $version => $file) {
-        			if (version_compare($version, $toVersion)!==self::VERSION_COMPARE_GREATER) {
-        				$arrRes[0] = $file;
-        			}
-        		}
-        		break;
+            case 'install':
+                ksort($arrFiles);
+                foreach ($arrFiles as $version => $file) {
+                    if (version_compare($version, $toVersion)!==self::VERSION_COMPARE_GREATER) {
+                        $arrRes[0] = $file;
+                    }
+                }
+                break;
             case 'upgrade':
                 ksort($arrFiles);
-        		foreach ($arrFiles as $version => $file) {
-        		    $version_info = explode('-', $version);
-        		    
-        		    // In array must be 2 elements: 0 => version from, 1 => version to
-        		    if (count($version_info)!=2) {
-        		    	break;
-        		    }
-        		    $infoFrom = $version_info[0];
-        		    $infoTo   = $version_info[1];
-        			if (version_compare($infoFrom, $fromVersion)!==self::VERSION_COMPARE_LOWER
-        			    && version_compare($infoTo, $toVersion)!==self::VERSION_COMPARE_GREATER) {
-        				$arrRes[] = $file;
-        			}
-        		}
+                foreach ($arrFiles as $version => $file) {
+                    $version_info = explode('-', $version);
+                    
+                    // In array must be 2 elements: 0 => version from, 1 => version to
+                    if (count($version_info)!=2) {
+                        break;
+                    }
+                    $infoFrom = $version_info[0];
+                    $infoTo   = $version_info[1];
+                    if (version_compare($infoFrom, $fromVersion)!==self::VERSION_COMPARE_LOWER
+                        && version_compare($infoTo, $toVersion)!==self::VERSION_COMPARE_GREATER) {
+                        $arrRes[] = $file;
+                    }
+                }
                 break;
         }
-    	return $arrRes;
+        return $arrRes;
     }
 
     /**
      * Get module resources information for modification
      *
      * @param     string $actionType install|upgrade|uninstall
-     * @return	  array(
+     * @return    array(
      *              [$resource] => array(
      *                      [$resourceType] => array(
      *                              [$versionInfo] => $fileName
      *                          )
      *                  )
      *            )
-     * @author	  Soroka Dmitriy <dmitriy@varien.com>
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
     protected function _getModificationResources($actionType)
     {
         $arrSql = array();
-    	$resourceFilesDir = $this->_moduleInfo->getRoot('sql');
+        $resourceFilesDir = $this->_config->getModuleRoot($this->_moduleInfo->getName(),'sql');
 
-    	if (!file_exists($resourceFilesDir)) {
-    		return $arrSql;
-    	}
+        if (!file_exists($resourceFilesDir)) {
+            return $arrSql;
+        }
 
-    	$resourceDir = dir($resourceFilesDir);
-    	while (false !== ($resource = $resourceDir->read())) {
-    		if ($resource == '.' || $resource == '..' || strstr($resource, '.') !==false ) {
-    			continue;
-    		}
+        $resourceDir = dir($resourceFilesDir);
+        while (false !== ($resource = $resourceDir->read())) {
+            if ($resource == '.' || $resource == '..' || strstr($resource, '.') !==false ) {
+                continue;
+            }
 
-    		$arrSql[$resource] = array();
-    		$sqlFilesDir = $resourceFilesDir . DS . $resource;
+            $arrSql[$resource] = array();
+            $sqlFilesDir = $resourceFilesDir . DS . $resource;
             
-    		// RegExp Pattern
-    	    // [resourceType]-[actionType]-[versionInfo].sql
-		    $filePattern = '/^(.*)-' . $actionType . '-(.*)\.sql$/i';
-		    
-		    // Read resource files
-		    $sqlDir = dir($sqlFilesDir);
-    		while (false !== ($sqlFile = $sqlDir->read())) {
-    			if (preg_match($filePattern, $sqlFile, $matches)) {
-    				$arrSql[$resource][$matches[1]][$matches[2]] = $sqlFile;
-    			}
-    		}
-    		$sqlDir->close();
-    	}
-    	$resourceDir->close();
+            // RegExp Pattern
+            // [resourceType]-[actionType]-[versionInfo].sql
+            $filePattern = '/^(.*)-' . $actionType . '-(.*)\.sql$/i';
+            
+            // Read resource files
+            $sqlDir = dir($sqlFilesDir);
+            while (false !== ($sqlFile = $sqlDir->read())) {
+                if (preg_match($filePattern, $sqlFile, $matches)) {
+                    $arrSql[$resource][$matches[1]][$matches[2]] = $sqlFile;
+                }
+            }
+            $sqlDir->close();
+        }
+        $resourceDir->close();
 
-    	return $arrSql;
+        return $arrSql;
     }
 }

@@ -4,7 +4,10 @@ class Mage_Core_Model
 {
 	public static function getModelClass($model, $class='', $arguments=array())
 	{
-	    $className = (string)Mage::getConfig('/')->global->models->$model->class;
+	    $className = '';
+	    if (Mage::getConfig('/')) {
+	        $className = (string)Mage::getConfig('/')->global->models->$model->class;
+	    }	    
 
 		if (empty($className)) {
 			Mage::exception('No model is defined: '.$model);

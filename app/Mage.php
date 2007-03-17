@@ -8,16 +8,19 @@ define ('DS', DIRECTORY_SEPARATOR);
 include dirname(__FILE__)."/code/core/Mage/Core/Profiler.php";
 include dirname(__FILE__)."/code/core/Mage/Core/Config/Xml.php";
 include dirname(__FILE__)."/code/core/Mage/Core/Config.php";
+include dirname(__FILE__)."/code/core/Mage/Core/Module/Setup.php";
+include dirname(__FILE__)."/code/core/Mage/Core/Setup.php";
 
 function __autoload($class)
 {
     #echo $class."<hr>";
     #Mage_Core_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
-    if (!include ($classFile)) {
+    include_once($classFile);
+/*    if (!include_once($classFile)) {
         $classFile = dirname(__FILE__).DS.'code'.DS.'core'.DS.$classFile;
-        include $classFile;
-    }
+        include_once($classFile);
+    }*/
     #Mage_Core_Profiler::setTimer('autoload', true);
 }
 
@@ -482,6 +485,9 @@ final class Mage {
             }
         }
         set_include_path('.'.PATH_SEPARATOR.$include_path);
+        
+        // check modules db
+        self::$_config->checkModulesDbChanges();
         #echo Mage_Core_Profiler::setTimer('app').',';
     }
 
