@@ -79,6 +79,7 @@ Mage.Core = function(){
                         "animate":false
                     },
                     "east":{
+                        collapsedTitle : '<b>TaskBar</b>',
                         "split":true,
                         "initialSize":150,
                         "autoScroll":true,

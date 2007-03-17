@@ -197,9 +197,7 @@ Mage.Catalog_Product = function(depend){
                 }, true);                
                 toolbar.add('-','Product type :', setSelect.dom);                   
            // }
-            
-
-                              
+           
             for(var i=0; i < dataCard.tabs.length; i++) {
                this.editPanel.add('center', new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
                    title : dataCard.tabs[i].title,

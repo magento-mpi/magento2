@@ -24,6 +24,7 @@ Mage.Catalog = function(depend){
                 
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
+                            collapsedTitle : '<b>Categories Tree</b>',
                             autoScroll:true,
                             titlebar:false
                         }, 
