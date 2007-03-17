@@ -94,6 +94,7 @@
                     <blocks>
                         <toolbar><class>Mage_Core_Block_Admin_Js_Toolbar</class></toolbar>
                         <menu><class>Mage_Core_Block_Admin_Js_Menu</class></menu>
+                        <tag_css_theme><class>Mage_Core_Block_Text_Tag_Css_Admin</class></tag_css_theme>
                         <layout_border><class>Mage_Core_Block_Admin_Js_Layout_Border</class></layout_border>
                         <layout_panel><class>Mage_Core_Block_Admin_Js_Layout_Panel</class></layout_panel>
                         <layout_panel_grid><class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class></layout_panel_grid>
