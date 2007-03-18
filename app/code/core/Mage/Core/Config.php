@@ -10,17 +10,19 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
     {
         parent::__construct();
         
+        $this->setCacheKey('globalConfig');
         $this->loadGlobal();
     }
     
     function loadGlobal()
     {
-        if (true && $xml = $this->cacheLoad('globalConfig')) {
+        if (true && $xml = $this->loadCache()) {
             $this->load('xml', $xml);
             return true;
         }
         
         $configFile = Mage::getRoot('etc').DS.'core.xml';
+        $this->addCacheStat($configFile);
         $this->load('file', $configFile);
         
         $this->loadModules();
@@ -28,7 +30,7 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
         $this->applyExtends();
         $this->applyExtends();
         
-        $this->cacheSave('globalConfig');
+        $this->saveCache();
         
         return true;
     }
@@ -41,6 +43,7 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
         }
         foreach ($modules as $module) {
             $configFile = Mage::getRoot('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
+            $this->addCacheStat($configFile);
             $moduleConfig = new Mage_Core_Config_Xml('file', $configFile);
             $this->_xml->extend($moduleConfig->getXml(), true);
         }
@@ -51,6 +54,7 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
     {
         $configFile = Mage::getRoot('etc').DS.'local.xml';
         $localConfig = new Mage_Core_Config_Xml('file', $configFile);
+        $this->addCacheStat($configFile);
         $this->_xml->extend($localConfig->getXml(), true);
     }
     

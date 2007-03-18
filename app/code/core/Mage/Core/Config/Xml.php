@@ -11,6 +11,8 @@ class Mage_Core_Config_Xml
      * @var Varien_Xml
      */
     protected $_xml = null;
+    protected $_cacheKey = null;
+    protected $_cacheStat = null;
     protected $_cacheDir = null;
     
     function __construct($sourceType='', $sourceData='') {
@@ -64,7 +66,9 @@ class Mage_Core_Config_Xml
             Mage::exception('Can not read xml file '.$filePath);
         }
 
-        return simplexml_load_file($filePath, self::SIMPLEXML_CLASS);
+        $xml = simplexml_load_file($filePath, self::SIMPLEXML_CLASS);
+        
+        return $xml;
     }
     
     function saveFile($filePath)
@@ -96,19 +100,76 @@ class Mage_Core_Config_Xml
         return true;
     }
     
-    function cacheLoad($key)
+    function setCacheKey($key)
     {
-        $filePath = $this->_cacheDir.DS.$key.'.xml';
-        if (is_readable($filePath)) {
-            return $this->loadFile($filePath);
+        $this->_cacheKey = $key;
+        $this->_cacheStat = array();
+    }
+
+    function addCacheStat($fileName)
+    {
+        $this->_cacheStat[$fileName] = filemtime($fileName);
+    }
+    
+    function getCacheFileName($key='')
+    {
+        if (''===$key) {
+            $key = $this->_cacheKey;
+        }
+
+        return $this->_cacheDir.DS.$key.'.xml'; 
+    }
+    
+    function getCacheStatFileName($key='')
+    {
+        if (''===$key) {
+            $key = $this->_cacheKey;
+        }
+
+        return $this->_cacheDir.DS.$key.'.stat'; 
+    }
+    
+    function loadCache($key='')
+    {
+        if (''===$key) {
+            $key = $this->_cacheKey;
+        }
+        
+        // get cache status file
+        $statFile = $this->getCacheStatFileName($key);
+        if (!is_readable($statFile)) {
+            return false;
+        }
+        // read it
+        $data = unserialize(file_get_contents($statFile));
+        if (empty($data) || !is_array($data)) {
+            return false;
+        }
+        // check that no source files were changed
+        foreach ($data as $sourceFile=>$mtime) {
+            if (filemtime($sourceFile)!==$mtime) {
+                return false;
+            }
+        }
+        // read cache file
+        $cacheFile = $this->getCacheFileName($key);
+        if (is_readable($cacheFile)) {
+            return $this->loadFile($cacheFile);
         } else {
             return false;
         }
     }
     
-    function cacheSave($key)
+    function saveCache($key='')
     {
-        $filePath = $this->_cacheDir.DS.$key.'.xml';
-        $this->saveFile($filePath);
+        if (''===$key) {
+            $key = $this->_cacheKey;
+        }
+        
+        $statFile = $this->getCacheStatFileName($key);
+        file_put_contents($statFile, serialize($this->_cacheStat));
+        
+        $cacheFile = $this->getCacheFileName($key);
+        $this->saveFile($cacheFile);
     }
 }
