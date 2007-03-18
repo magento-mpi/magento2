@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="head">
+        <block type="tag_css">
+            <action method="setHref"><href>/customer/style.css</href></action>
+        </block>
+    </reference>
+    
+    <reference name="left">
+        <block type="tpl" name="left.newsletter">
+            <action method="setViewName"><module>Mage_Catalog</module><view>search.form.mini</view></action>
+        </block>
+    </reference>
+    
+    <reference name="top.links">
+        <block type="list_link" name="top.links.myaccount">
+            <action method="setLink"><a>href="{$baseModuleUrl}/account"</a><label>My Account</label></action>
+        </block>
+        <block type="list_link" name="top.links.favorite">
+            <action method="setLink"><a>href="{$baseModuleUrl}/favorite"</a><label>Favorite</label></action>
+        </block>
+    </reference>
+</layoutUpdate>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="content">
+        <block type="text" name="content.noRoute">
+            <action method="setText"><text><![CDATA[<br>Page not found.]]></text></action>
+        </block>
+    </reference>
+</layoutUpdate>

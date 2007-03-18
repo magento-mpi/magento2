@@ -1,55 +1,56 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <_output>
-        <tpl name="root">
-            <setViewName module="Mage_Page" view="layout.2column"/>
-            <assign var="imagesUrl" value="{$baseSkinUrl}/default/page/images" _process="value"/>
-            
-            <_children>
-                <list name="head" as="head">
-                    <_children>
-                        <tag name="head.title"><setTagName tagName="title"/><setContents contents="Magenta Commerce"/></tag>
-                        <tag_js name="head.js.prototype"><setSrc src="/prototype.js"/></tag_js>
-                        <tag_css name="head.css.main"><setHref href="/page/style.css"/></tag_css>
-                    </_children>
-                </list>
-                <list name="top.links" as="topLinks">
-                    <_children>
-                        <list_link name="top.links.help">
-                            <setLink><a href="{$baseModuleUrl}/article/help" _process="href"/><label>Help</label></setLink>
-                        </list_link>
-                    </_children>
-                </list>
-                <list name="top.menu" as="topMenu">
-                    <_children>
-                        <list_link name="top.menu.home">
-                            <setLink><li id="nav-home"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Home</span>]]></label></setLink>
-                        </list_link>
-                        <list_link name="top.menu.preventcrime">
-                            <setLink><li id="nav-help-prevent"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Help Prevent Crime</span>]]></label></setLink>
-                        </list_link>
-                        <list_link name="top.menu.contact">
-                            <setLink><li id="nav-contact"/><a href="{$baseUrl}" _process="href"/><label><![CDATA[<span>Contact Us</span>]]></label></setLink>
-                        </list_link>
-                    </_children>
-                </list>
-                <list name="top.forms" as="topForms"/>
-                <list name="left" as="left"/>
-                <list name="content" as="content"/>
-                <list name="botom.links" as="bottomLinks">
-                    <_children>
-                        <list_link name="bottom.links.home">
-                            <setLink><a href="{$baseUrl}" _process="aParams"/><label>Home</label></setLink>
-                        </list_link>
-                        <list_link name="bottom.links.sitemap">
-                            <setLink><a href="{$baseModuleUrl}/sitemap" _process="aParams"/><label>Site Map</label></setLink>
-                        </list_link>
-                        <list_link name="bottom.links.privacy">
-                            <setLink><a href="{$baseModuleUrl}/article/privacy" _process="aParams"/><label>Privacy Policy</label></setLink>
-                        </list_link>
-                    </_children>
-                </list>
-            </_children>
-        </tpl>
-    </_output>
+    <block type="tpl" name="root">
+        <action method="setViewName"><module>Mage_Page</module><view>layout.2column</view></action>
+        <action method="assign"><var>imagesUrl</var><value process="true">{$baseSkinUrl}/default/page/images"</value></action>
+        
+        <block type="list" name="head" as="head">
+            <block type="tag" name="head.title">
+                <action method="setTagName"><tagName>title</tagName></action>
+                <action method="setContents"><contents>Magenta Commerce</contents></action>
+            </block>
+            <block type="tag_js" name="head.js.prototype">
+                <action method="setSrc"><src>/prototype.js</src></action>
+            </block>
+            <block type="tag_css" name="head.css.main">
+                <action method="setHref"><href>/page/style.css</href></action>
+            </block>
+        </block>
+        
+        <block type="list" name="top.links" as="topLinks">
+            <block type="list_link" name="top.links.help">
+                <action method="setLink"><a process="true">href="{$baseModuleUrl}/article/help"</a><label>Help</label></action>
+            </block>
+        </block>
+        
+        <block type="list" name="top.menu" as="topMenu">
+            <block type="list_link" name="top.menu.home">
+                <action method="setLink"><li>id="nav-home"</li><a process="true">href="{$baseUrl}"></a><label><![CDATA[<span>Home</span>]]></label></action>
+            </block>
+            <block type="list_link" name="top.menu.preventcrime">
+                <action method="setLink"><li>id="nav-help-prevent"</li><a process="true">href="{$baseUrl}"</a><label><![CDATA[<span>Help Prevent Crime</span>]]></label></action>
+            </block>
+            <block type="list_link" name="top.menu.contact">
+                <action method="setLink"><li>id="nav-contact"</li><a process="true">href="{$baseUrl}"</a><label><![CDATA[<span>Contact Us</span>]]></label></action>
+            </block>
+        </block>
+        
+        <block type="list" name="top.forms" as="topForms"/>
+        
+        <block type="list" name="left" as="left"/>
+        
+        <block type="list" name="content" as="content"/>
+        
+        <block type="list" name="botom.links" as="bottomLinks">
+            <block type="list_link" name="bottom.links.home">
+                <action method="setLink"><a process="true">href="{$baseUrl}"</a><label>Home</label></action>
+            </block>
+            <block type="list_link" name="bottom.links.sitemap">
+                <action method="setLink"><a process="true">href="{$baseModuleUrl}/sitemap"</a><label>Site Map</label></action>
+            </block>
+            <block type="list_link" name="bottom.links.privacy">
+                <action method="setLink"><a process="true">href="{$baseModuleUrl}/article/privacy"</a><label>Privacy Policy</label></action>
+            </block>
+        </block>
+    </block>
 </layoutUpdate>
