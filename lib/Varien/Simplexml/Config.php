@@ -1,8 +1,8 @@
 <?php
 
-class Mage_Core_Config_Xml
+class Varien_Simplexml_Config
 {
-    const SIMPLEXML_CLASS = 'Varien_Xml';
+    const SIMPLEXML_CLASS = 'Varien_Simplexml_Object';
     const XPATH_EXTENDS = "//*[@extends]";
     
     /**
@@ -15,13 +15,11 @@ class Mage_Core_Config_Xml
     protected $_cacheStat = null;
     protected $_cacheDir = null;
     
-    function __construct($sourceType='', $sourceData='') {
-        $this->_cacheDir = Mage::getRoot('var').DS.'cache'.DS.'xml';
-        
-        $this->load($sourceType, $sourceData);
+    function __construct($sourceData='', $sourceType='xml') {
+        $this->setXml($sourceType, $sourceData);
     }
     
-    function load($sourceType='', $sourceData='') 
+    function setXml($sourceData, $sourceType='xml') 
     {
         switch ($sourceType) {
             case 'xml':
@@ -63,7 +61,7 @@ class Mage_Core_Config_Xml
     function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            Mage::exception('Can not read xml file '.$filePath);
+            Zend::exception('Can not read xml file '.$filePath);
         }
 
         $xml = simplexml_load_file($filePath, self::SIMPLEXML_CLASS);
@@ -98,6 +96,11 @@ class Mage_Core_Config_Xml
             #unset($target['extends']);
         }
         return true;
+    }
+    
+    function setCacheDir($dir)
+    {
+        
     }
     
     function setCacheKey($key)

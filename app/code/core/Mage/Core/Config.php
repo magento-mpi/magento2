@@ -1,15 +1,14 @@
 <?php
 
-class Mage_Core_Config extends Mage_Core_Config_Xml
+class Mage_Core_Config extends Varien_Simplexml_Config
 {
-    protected $_xml;
-    
     const XPATH_ACTIVE_MODULES = "/config/modules/*[active='true']";
 
     function __construct()
     {
         parent::__construct();
         
+        $this->setCacheDir(Mage::getRoot('var').DS.'cache'.DS.'xml');
         $this->setCacheKey('globalConfig');
         $this->loadGlobal();
     }
@@ -17,13 +16,13 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
     function loadGlobal()
     {
         if (true && $xml = $this->loadCache()) {
-            $this->load('xml', $xml);
+            $this->setXml($xml);
             return true;
         }
         
         $configFile = Mage::getRoot('etc').DS.'core.xml';
         $this->addCacheStat($configFile);
-        $this->load('file', $configFile);
+        $this->setXml($configFile, 'file');
         
         $this->loadModules();
         $this->loadLocal();
@@ -44,7 +43,7 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
         foreach ($modules as $module) {
             $configFile = Mage::getRoot('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
             $this->addCacheStat($configFile);
-            $moduleConfig = new Mage_Core_Config_Xml('file', $configFile);
+            $moduleConfig = new Mage_Core_Config_Xml($configFile, 'file');
             $this->_xml->extend($moduleConfig->getXml(), true);
         }
         return true;
@@ -53,8 +52,8 @@ class Mage_Core_Config extends Mage_Core_Config_Xml
     function loadLocal()
     {
         $configFile = Mage::getRoot('etc').DS.'local.xml';
-        $localConfig = new Mage_Core_Config_Xml('file', $configFile);
         $this->addCacheStat($configFile);
+        $localConfig = new Mage_Core_Config_Xml($configFile, 'file');
         $this->_xml->extend($localConfig->getXml(), true);
     }
     

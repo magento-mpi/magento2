@@ -14,6 +14,8 @@
 
 class Mage_Core_Block
 {
+    
+    
     /**
      * Blocks registry
      *
@@ -240,4 +242,5 @@ class Mage_Core_Block
         self::loadArray($arr);
         #Mage_Core_Profiler::setTimer('loadArray', true);
     }
+
 }// Class Mage_Home_ContentBlock END
