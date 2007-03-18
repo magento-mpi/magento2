@@ -1,13 +1,13 @@
 <?php
 /**
- * Data change hystory model
+ * Data change history model
  *
  * @package    Ecom
  * @subpackage Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Mysql4_Hystory extends Mage_Core_Model_Mysql4
+class Mage_Core_Model_Mysql4_History extends Mage_Core_Model_Mysql4
 {
     protected $_changeTable;
     protected $_changeInfoTable;

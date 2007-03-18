@@ -7,10 +7,10 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Hystory
+class Mage_Core_History
 {
-    public static function addHystory()
+    public static function addHistory()
     {
-        $model = Mage::getModel('core', 'Hystory');
+        $model = Mage::getModel('core', 'History');
     }
 }
