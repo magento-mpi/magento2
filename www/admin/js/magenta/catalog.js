@@ -60,7 +60,6 @@ Mage.Catalog = function(depend){
                      center:{
                          titlebar: true,
                          autoScroll:true,
-                         titlebar:false,
                          resizeTabs : true,
                          hideTabs : true,
                          tabPosition: 'top'
