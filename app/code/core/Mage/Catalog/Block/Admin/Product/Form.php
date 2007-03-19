@@ -18,9 +18,9 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
 
         $this->setViewName('Mage_Core', 'form');
         
-        $this->setAttribute('method', 'post');
+        $this->setAttribute('method', 'POST');
         $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', '/');
+        $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/product/save/');
         
         $groupId  = Mage_Core_Controller::getController()->getRequest()->getParam('group', false);
         if ($groupId) {
