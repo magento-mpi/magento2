@@ -61,6 +61,8 @@ Mage.Catalog_Product = function(depend){
                 enableColLock : false
             });
             
+            grid.on('rowdblclick', this.createItem.createDelegate(this));
+            
             grid.render();
             grid.getDataSource().load({params:{start:0, limit:25}});            
             
@@ -77,8 +79,7 @@ Mage.Catalog_Product = function(depend){
             paging.add('-', {
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
-                handler : this.create,
-                scope : this
+                handler : this.createItem.createDelegate(this)
             },{
                 text: 'Add Filter',
                 handler : this.addFilter,
@@ -157,10 +158,34 @@ Mage.Catalog_Product = function(depend){
             workZone.endUpdate();            
         },
         
-        create: function(newItem) {
+        createItem: function() {
+            var mode = null;
+            var rowId = null;
+            var prodId = 0;
+            
+            switch (arguments.length) {
+                case 2 :
+                   menuItem = arguments[0];
+                   e = arguments[1];
+                   rowId = 0;
+                   break;
+                case 3 :
+                   rowId = arguments[1];
+                   e = arguments[2];
+                   break;
+                default :
+                    return false;
+            };
+            
             if (!this.grid) {
                 return false;
             }
+            
+            if (rowId != 0) {
+               try {
+                  prodId = this.grid.getDataSource().getAt(rowId).id;
+                } catch (e) {}
+            };
             
             var workZone = dep.getLayout('workZone');
             if (workZone.getRegion('south').getActivePanel()) {
@@ -192,7 +217,7 @@ Mage.Catalog_Product = function(depend){
 
             workZone.beginUpdate();
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/', {success:this.loadTabs.createDelegate(this),failure:failure});  
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/prodid/'+prodId+'/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:'New Product'}));
             workZone.endUpdate();

@@ -20,6 +20,7 @@ Mage.Catalog = function(depend){
                         hideTabs:true
                     }
                 });
+                
                 this._layouts.add('main', Layout);
                 
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
@@ -77,7 +78,8 @@ Mage.Catalog = function(depend){
                  });
                 
                 this._layouts.add('workZone', Layout_Center);
-                
+
+//                var NestedLayout_Center = new Ext.BorderLayout();
                 Layout_Center.beginUpdate();
                 //Layout_Center.add('north', new Ext.ContentPanel('catalog_layout_center_north_panel', {autoCreate:true}));
                 Layout_Center.add('center', new Ext.ContentPanel('catalog_layout_center_center_panel', {title:"Dashboard", url:Mage.url + '/mage_catalog/',loadOnce:true,autoCreate:true}));
