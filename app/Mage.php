@@ -19,8 +19,6 @@ function __autoload($class)
  */
 final class Mage {
 
-    static private $_configSections = array();
-
     /**
      * Application root absolute path
      *
@@ -28,28 +26,11 @@ final class Mage {
      */
     static private $_appRoot = null;
 
-    /**
-     * Code pools
-     *
-     * include_path will be built with the order these are specified
-     *
-     * defined in core.ini [codepools]
-     * default: local, community, core
-     *
-     * @var array
-     */
-    static private $_codePools = array();
-
-    /**
-     * Collection of objects with information about modules installed
-     *
-     * @var array
-     */
-    static private $_moduleInfo = array();
-
     static private $_config = null;
     
     static private $_events = null;
+    
+    static private $_layout = null;
 
     /**
      * Set application root absolute path
@@ -71,36 +52,38 @@ final class Mage {
             Mage::exception($appRoot.' is not a directory or not readable by this user');
         }
     }
+    
+    public static function getRoot()
+    {
+        return self::$_appRoot;
+    }
 
     /**
      * Retrieve application root absolute path
      *
      * @return string
      */
-    public static function getRoot($type='', $moduleName='')
+    public static function getBaseDir($type='', $moduleName='')
     {
-        $dir = self::$_appRoot;
-        switch ($type) {
-            case 'etc':
-                $dir .= DS.'etc';
-                break;
-            case 'code':
-                $dir .= DS.'code';
-                break;
-            case 'layout':
-                $dir .= DS.'layout';
-                break;
-            case 'var':
-                $dir = dirname($dir).DS.'var';
-                break;
-        }
-        return $dir;
+        return self::getConfig()->getBaseDir($type, $moduleName);
+    }
+
+
+    /**
+     * Get base URL path by type
+     *
+     * @param string $type
+     * @return string
+     */
+    public static function getBaseUrl($type='', $moduleName='')
+    {
+        return self::getConfig()->getBaseUrl($type, $moduleName);
     }
 
     public static function getConfig($param='')
     {
         if (is_null(self::$_config)) {
-            return false;
+            self::$_config = new Mage_Core_Config();
         }
         if (''==$param) {
             return self::$_config;
@@ -109,6 +92,19 @@ final class Mage {
         } else {
             return self::$_config->getXpath($param);
         }
+    }
+    
+    public static function getLayout()
+    {
+        if (is_null(self::$_layout)) {
+            self::$_layout = new Mage_Core_Layout();
+        }
+        return self::$_layout;
+    }
+    
+    public static function loadLayoutUpdate($args)
+    {
+        self::getLayout()->loadLayoutUpdate($args);
     }
 
     /**
@@ -212,17 +208,6 @@ final class Mage {
     }
 
     /**
-     * Get base URL path by type
-     *
-     * @param string $type
-     * @return string
-     */
-    public static function getBaseUrl($type='')
-    {
-        return Mage_Core_Controller::getBaseUrl($type);
-    }
-
-    /**
 	 * Get model class
 	 *
 	 * @link Mage_Core_Model::getModelClass
@@ -256,11 +241,11 @@ final class Mage {
 
     public static function prepareFileSystem()
     {
-        $xmlCacheDir = Mage::getRoot('var').DS.'cache'.DS.'xml';
+        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'xml';
         if (!is_writable($xmlCacheDir)) {
             mkdir($xmlCacheDir, 0777, true);
         }
-        $logDir =  Mage::getRoot('var').DS.'log';
+        $logDir =  Mage::getBaseDir('var').DS.'log';
         if (!is_writable($logDir)) {
             mkdir($logDir, 0777, true);
         }
@@ -273,17 +258,18 @@ final class Mage {
      */
     public static function init($appRoot='')
     {
+        Varien_Profiler::setTimer('app');
+
         Mage::setRoot($appRoot);
+        
+        Mage::getConfig()->init();
 
         Mage::prepareFileSystem();
-        Varien_Profiler::setTimer('app');
 
         self::$_events = new Varien_Event();
         
-        self::$_config = new Mage_Core_Config();
-        
         // check modules db
-        self::$_config->checkModulesDbChanges();
+        self::getConfig()->checkModulesDbChanges();
         #echo Varien_Profiler::setTimer('app').',';
     }
 

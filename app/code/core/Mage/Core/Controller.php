@@ -37,27 +37,4 @@ class Mage_Core_Controller
     {
         self::getController()->loadModule($modInfo);
     }
-    /**
-     * Get base URL path by type
-     *
-     * @param string $type
-     * @return string
-     */
-    public static function getBaseUrl($type='')
-    {
-        $url = self::getController()->getRequest()->getBaseUrl();
-
-        switch ($type) {
-            case 'skin':
-                $url .= '/skins/default';
-                break;
-
-            case 'js':
-                //$url = preg_replace('#/admin$#', '', $url).'/js';
-                $url .= '/js';
-                break;                
-        }
-
-        return $url;
-    }
 }

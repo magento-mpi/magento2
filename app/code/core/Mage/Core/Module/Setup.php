@@ -6,42 +6,17 @@ class Mage_Core_Module_Setup
     const VERSION_COMPARE_LOWER  = -1;
     const VERSION_COMPARE_GREATER= 1;
     
-    /**
-     * Module information
-     *
-     * [version, name]
-     *
-     * @var array
-     */
-    protected $_info = null;
-
-    protected $_moduleInfo = null;
-    protected $_config;
+    protected $_module = null;
     
-    public function __construct($modInfo, $config)
+    public function __construct($moduleConfig)
     {
-        $this->_moduleInfo = $modInfo;
-        $this->_config = $config;
-    }
-
-    public function getInfo($key='')
-    {
-        if (''===$key) {
-            return $this->_info;
-        } else {
-            return $this->_info[$key];
-        }
-    }
-    
-    public function getModuleInfo()
-    {
-        return $this->_moduleInfo;
+        $this->_module = $moduleConfig;
     }
 
     public function applyDbUpdates()
     {
-        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_moduleInfo->getName());;
-        $modVer = $this->_moduleInfo->version;
+        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->name);
+        $modVer = $this->_module->version;
 
         // Module is installed
         if ($dbVer!==false) {
@@ -75,7 +50,7 @@ class Mage_Core_Module_Setup
     protected function _installDb($moduleVersion)
     {
         $this->_modifySql('install', '', $moduleVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_moduleInfo->getName(), $moduleVersion);
+        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->name, $moduleVersion);
     }
 
     /**
@@ -87,7 +62,7 @@ class Mage_Core_Module_Setup
     protected function _upgradeDb($oldVersion, $newVersion)
     {
         $this->_modifySql('upgrade', $oldVersion, $newVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_moduleInfo->getName(), $newVersion);
+        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->name, $newVersion);
     }
 
     /**
@@ -142,7 +117,7 @@ class Mage_Core_Module_Setup
                     // Get SQL files name 
                     $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resType]);
                     foreach ($arrFiles as $fileName) {
-                        $sqlFile = $this->_moduleInfo->getRoot('sql').DS.$resName.DS.$fileName;
+                        $sqlFile = Mage::getBaseDir('sql', $this->_module->name).DS.$resName.DS.$fileName;
                         $sql = file_get_contents($sqlFile);
 
                         // Execute SQL
@@ -212,7 +187,7 @@ class Mage_Core_Module_Setup
     protected function _getModificationResources($actionType)
     {
         $arrSql = array();
-        $resourceFilesDir = $this->_config->getModuleRoot($this->_moduleInfo->getName(),'sql');
+        $resourceFilesDir = Mage::getBaseDir('sql', $this->_module->name);
 
         if (!file_exists($resourceFilesDir)) {
             return $arrSql;

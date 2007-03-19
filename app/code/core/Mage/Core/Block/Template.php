@@ -83,9 +83,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             Mage::exception('Invalid view module name specified in block '.$this->getInfo('name').': '.$moduleName);
         }
 
-        $moduleViewsDir = Mage::getConfig()->getModuleRoot($moduleName, 'views');
-        $moduleBaseUrl = Mage::getConfig()->getModuleBaseUrl($moduleName);
-        $moduleBaseSkinUrl = Mage::getConfig()->getModuleBaseUrl($moduleName, 'skin');
+        $moduleViewsDir = Mage::getBaseDir('views', $moduleName);
+        $moduleBaseUrl = Mage::getBaseUrl('', $moduleName);
+        $moduleBaseSkinUrl = Mage::getBaseUrl('skin', $moduleName);
 
         $this->getView()->setScriptPath($moduleViewsDir.DS);
         $this->getView()->assign('baseUrl', Mage::getBaseUrl());

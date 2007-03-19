@@ -7,8 +7,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function __construct()
     {
         parent::__construct();
-        
-        $this->setCacheDir(Mage::getRoot('var').DS.'cache'.DS.'xml');
+    }
+    
+    function init()
+    {
+        $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'xml');
         $this->setCacheKey('globalConfig');
         $this->loadGlobal();
     }
@@ -19,19 +22,24 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $this->setXml($xml);
             return true;
         }
-        
-        $configFile = Mage::getRoot('etc').DS.'core.xml';
-        $this->addCacheStat($configFile);
-        $this->setXml($configFile);
-        
+
+        $this->loadCore();
         $this->loadModules();
         $this->loadLocal();
+        
         $this->applyExtends();
         $this->applyExtends();
         
         $this->saveCache();
         
         return true;
+    }
+    
+    function loadCore()
+    {
+        $configFile = Mage::getBaseDir('etc').DS.'core.xml';
+        $this->addCacheStat($configFile);
+        $this->setXml($configFile);
     }
     
     function loadModules()
@@ -41,7 +49,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             return false;
         }
         foreach ($modules as $module) {
-            $configFile = Mage::getRoot('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
+            $configFile = Mage::getBaseDir('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
             $this->addCacheStat($configFile);
             $moduleConfig = $this->loadFile($configFile);
             $this->_xml->extend($moduleConfig, true);
@@ -51,7 +59,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     
     function loadLocal()
     {
-        $configFile = Mage::getRoot('etc').DS.'local.xml';
+        $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         $this->addCacheStat($configFile);
         $localConfig = $this->loadFile($configFile);
         $this->_xml->extend($localConfig, true);
@@ -66,46 +74,81 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
     
-    function getModuleRoot($moduleName, $type='')
+    function getBaseDir($type='', $moduleName='')
     {
-        $module = self::getModule($moduleName);
-        $modulePath = str_replace(' ', DS, ucwords(str_replace('_', ' ', $moduleName)));
-        $dir = Mage::getRoot('code').DS.$module->codePool.DS.$modulePath;
-        
-        switch ($type) {
-            case 'etc':
-                $dir .= DS.'etc';
-                break;
-                
-            case 'controllers':
-                $dir .= DS.'controllers';
-                break;
-                
-            case 'views':
-                //$dir .= DS.'views';
-                $dir = Mage::getRoot('layout').DS.$modulePath.DS.'views';
-                break;
-                
-            case 'sql':
-                $dir .= DS.'sql';
-                break;
+        if (''!==$moduleName) {
+            $module = self::getModule($moduleName);
+            $modulePath = str_replace(' ', DS, ucwords(str_replace('_', ' ', $moduleName)));
+            $dir = Mage::getBaseDir('code').DS.$module->codePool.DS.$modulePath;
+            
+            switch ($type) {
+                case 'etc':
+                    $dir .= DS.'etc';
+                    break;
+                    
+                case 'controllers':
+                    $dir .= DS.'controllers';
+                    break;
+                    
+                case 'views':
+                    //$dir .= DS.'views';
+                    $dir = $this->getBaseDir('layout').DS.$modulePath.DS.'views';
+                    break;
+                    
+                case 'sql':
+                    $dir .= DS.'sql';
+                    break;
+            }
+        } else {
+            $dir = Mage::getRoot();
+            switch ($type) {
+                case 'etc':
+                    $dir .= DS.'etc';
+                    break;
+                case 'code':
+                    $dir .= DS.'code';
+                    break;
+                case 'layout':
+                    $dir .= DS.'layout';
+                    break;
+                case 'var':
+                    $dir = dirname($dir).DS.'var';
+                    break;
+            }
         }
+
         return $dir;
     }
     
-    function getModuleBaseUrl($moduleName, $type='')
+    function getBaseUrl($type='', $moduleName='')
     {
-        $module = $this->getModule($moduleName);
-        $url = Mage::getBaseUrl($type);
-        
-        switch ($type) {
-              
-            default:
-                if (isset($module->load->front->controller->frontName)) {
-                    $url .= '/'.$module->load->front->controller->frontName;
-                }
-                break;
+        if (''!==$moduleName) {
+            $module = $this->getModule($moduleName);
+            $url = $this->getBaseUrl($type);
+            
+            switch ($type) {
+                  
+                default:
+                    if (isset($module->load->front->controller->frontName)) {
+                        $url .= '/'.$module->load->front->controller->frontName;
+                    }
+                    break;
+            }
+        } else {
+            $url = Mage_Core_Controller::getController()->getRequest()->getBaseUrl();
+
+            switch ($type) {
+                case 'skin':
+                    $url .= '/skins/default';
+                    break;
+    
+                case 'js':
+                    //$url = preg_replace('#/admin$#', '', $url).'/js';
+                    $url .= '/js';
+                    break;                
+            }
         }
+        
         return $url;
     }
     
@@ -114,7 +157,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $modules = $this->getModule()->children();
         foreach ($modules as $module) {
             $setupClassName = $module->getName().'_Setup';
-            $setupClass = new $setupClassName($module, $this);
+            $setupClass = new $setupClassName($module);
             $setupClass->applyDbUpdates();
         }
     }
@@ -130,5 +173,21 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 Mage::addObserver($eventName, $callback, $args, $observer->getName());
             }
         }
+    }
+    
+    public function getPathVars($args)
+    {
+        $path = array();
+        
+        $path['baseUrl'] = Mage::getBaseUrl();
+        $path['baseSkinUrl'] = Mage::getBaseUrl('skin');
+        if (isset($args['moduleName'])) {
+            $path['baseModuleUrl'] = $this->getBaseUrl('', $args['moduleName']);
+        } else {
+            $path['baseModuleUrl'] = '';
+        }
+        $path['baseJsUrl'] = Mage::getBaseUrl('js');
+        
+        return $path;
     }
 }

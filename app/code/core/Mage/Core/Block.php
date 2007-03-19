@@ -220,14 +220,14 @@ class Mage_Core_Block
         $baseUrl = Mage::getBaseUrl();
         $baseSkinUrl = Mage::getBaseUrl('skin');
         if (''!==$moduleName) {
-           $baseModuleUrl = Mage::getConfig()->getModuleBaseUrl($moduleName);
+           $baseModuleUrl = Mage::getBaseUrl('', $moduleName);
         } else {
             $baseModuleUrl = '';
         }
         $baseJsUrl = Mage::getBaseUrl('js');
         
         if ('/'!==$fileName{0}) {
-            $fileName = Mage::getRoot('layout').DS.$fileName;
+            $fileName = Mage::getBaseDir('layout').DS.$fileName;
         }
         
         $json = file_get_contents($fileName, true);

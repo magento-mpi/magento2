@@ -1,19 +1,5 @@
 <?xml version="1.0"?>
 <config>
-    <codePools>
-        <core>
-            <active>true</active>
-        </core>
-
-        <community>
-            <active>false</active>
-        </community>
-
-        <local>
-            <active>false</active>
-        </local>
-    </codePools>
-
     <modules>
         <Mage_Core>
             <active>true</active>

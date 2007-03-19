@@ -55,12 +55,12 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             $this->getRequest()->getActionName();
      }
      
-     function renderLayout($name='root', $method='toString')
+     function renderLayout()
      {
-         self::renderLayoutStatic($name, $method);
+         self::renderLayoutObserver();
      }
      
-     static function renderLayoutStatic($name='root', $method='toString')
+     static function renderLayoutStatic()
      {
          $request = Mage_Core_Controller::getController()->getRequest();
          $response = Mage_Core_Controller::getController()->getFront()->getResponse();

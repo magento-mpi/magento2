@@ -14,10 +14,10 @@
     
     <reference name="top.links">
         <block type="list_link" name="top.links.myaccount">
-            <action method="setLink"><a>href="{$baseModuleUrl}/account"</a><label>My Account</label></action>
+            <action method="setLink"><a process="true">href="{$baseModuleUrl}/account"</a><label>My Account</label></action>
         </block>
         <block type="list_link" name="top.links.favorite">
-            <action method="setLink"><a>href="{$baseModuleUrl}/favorite"</a><label>Favorite</label></action>
+            <action method="setLink"><a process="true">href="{$baseModuleUrl}/favorite"</a><label>Favorite</label></action>
         </block>
     </reference>
 </layoutUpdate>

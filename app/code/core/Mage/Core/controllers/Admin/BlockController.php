@@ -17,7 +17,7 @@ class BlockController extends Mage_Core_Controller_Admin_Action
     }
     
     function loadTreeAction() {
-        $this->_view->setScriptPath(Mage::getRoot('layout').'/Admin');
+        $this->_view->setScriptPath(Mage::getBaseDir('layout').'/Admin');
         $this->_view->assign('BASE_URL', Mage::getBaseUrl());
         $this->getResponse()->appendBody($this->_view->render('/core/block.tree.phtml'));
     }
@@ -30,7 +30,7 @@ class BlockController extends Mage_Core_Controller_Admin_Action
             return true;
         }
         
-        $root = dir(Mage::getRoot('layout'). DIRECTORY_SEPARATOR . $node);
+        $root = dir(Mage::getBaseDir('layout'). DIRECTORY_SEPARATOR . $node);
         $content = array();
         while (false !== ($entry = $root->read())) {
             if ($entry{0} == ".") {

@@ -2,6 +2,39 @@
 
 class Varien_Simplexml_Object extends SimpleXMLElement 
 {
+    protected $_parent = null;
+    
+    public function setParent($element)
+    {
+        $this->_parent = $element;
+    }
+    
+    public function getParent()
+    {
+        if (!empty($this->_parent)) {
+            return $this->_parent;
+        } else {
+            return $this->xpath('..');
+        }
+    }
+    
+    function appendChild($sourceNodes)
+    {
+        foreach ($sourceNodes as $source) {
+            $child = $this->addChild($source->getName());
+            
+            $attributes = $source->attributes();
+            foreach ($attributes as $key=>$value) {
+                $child->addAttribute($key, $value);
+            }
+            
+            $sourceChildren = $source->children();
+            foreach ($sourceChildren as $sourceChild) {
+                $child->appendChild($sourceChild);
+            }
+        }
+    }
+    
     function extend($source, $overwrite=false)
     {
         $sourceChildren = $source->children();
