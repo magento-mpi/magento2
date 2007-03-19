@@ -18,7 +18,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
         }
     }
     
-    public function loadUpdateFile($fileName)
+    public function loadUpdate($fileName, $moduleName)
     {
         $update = $this->loadFile($fileName);
         $this->getXml()->appendChild($update);
