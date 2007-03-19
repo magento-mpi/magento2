@@ -7,15 +7,8 @@ define ('DS', DIRECTORY_SEPARATOR);
 
 function __autoload($class)
 {
-    #echo $class."<hr>";
-    #Varien_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
-    include_once($classFile);
-/*    if (!include_once($classFile)) {
-        $classFile = dirname(__FILE__).DS.'code'.DS.'core'.DS.$classFile;
-        include_once($classFile);
-    }*/
-    #Varien_Profiler::setTimer('autoload', true);
+    include ($classFile);
 }
 
 /**
@@ -309,7 +302,6 @@ final class Mage {
             #Varien_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
             #Varien_Profiler::setTimer('zend_controller', true);
-            #self::loadActiveModules('front_load');
             Mage_Core_Controller::getController()->run();
 
             Varien_Profiler::getTimer('app', true);
@@ -332,7 +324,6 @@ final class Mage {
             self::getConfig()->loadEventObservers('admin');
             
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
-            #self::loadActiveModules('admin_load');
             Mage_Core_Controller::getController()->run();
 
             //Varien_Profiler::getTimer('app', true);
