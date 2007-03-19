@@ -5,12 +5,6 @@
  */
 define ('DS', DIRECTORY_SEPARATOR);
 
-include dirname(__FILE__)."/code/core/Mage/Core/Profiler.php";
-include dirname(__FILE__)."/code/core/Mage/Core/Config/Xml.php";
-include dirname(__FILE__)."/code/core/Mage/Core/Config.php";
-include dirname(__FILE__)."/code/core/Mage/Core/Module/Setup.php";
-include dirname(__FILE__)."/code/core/Mage/Core/Setup.php";
-
 function __autoload($class)
 {
     #echo $class."<hr>";
@@ -425,47 +419,6 @@ final class Mage {
      *
      * @param string $appRoot
      */
-    private static function init1($appRoot='')
-    {
-        // set application root path
-        self::setRoot($appRoot);
-
-        // load core config file
-        $coreConfig = new Zend_Config_Ini(self::getRoot('etc')
-        .DS.'core.ini', null, true);
-
-        // load codepools
-        foreach ($coreConfig->codepools as $pool=>$active) {
-            if ($active) {
-                self::addCodePool($pool, self::getRoot('code').DS.$pool);
-            }
-        }
-
-        // set include path constructed from codepools and previous include path
-        $include_path = get_include_path();
-        $include_path = str_replace('.'.PATH_SEPARATOR, '', $include_path);
-        $include_path = '.'.PATH_SEPARATOR
-        .join(PATH_SEPARATOR, self::getCodePools())
-        .PATH_SEPARATOR.$include_path;
-        set_include_path($include_path);
-
-        Mage_Core_Profiler::setTimer('app');
-
-        // load modules list
-        $modulesConfig = new Zend_Config_Ini(self::getRoot('etc')
-        .DS.'modules.ini', null, true);
-
-        // add module information classes for each module from the list
-        foreach($modulesConfig as $ns=>$modules) {
-            foreach($modules as $name=>$data) {
-                if ($data->active) {
-                    $data->name = $ns.'_'.$name;
-                    self::addModule($data);
-                }
-            }
-        }
-    }
-
     public static function init($appRoot='')
     {
         Mage::setRoot($appRoot);
@@ -474,17 +427,6 @@ final class Mage {
         Mage_Core_Profiler::setTimer('app');
 
         self::$_config = new Mage_Core_Config();
-
-        #echo Mage_Core_Profiler::setTimer('app').',';
-
-        $include_path = str_replace('.'.PATH_SEPARATOR, '', get_include_path());
-        $codePools = Mage::getConfig('/')->codePools->children();
-        foreach ($codePools as $codePool) {
-            if ('true'===(string)$codePool->active) {
-                $include_path = self::getRoot('code').DS.((string)$codePool->getName()).PATH_SEPARATOR.$include_path;
-            }
-        }
-        set_include_path('.'.PATH_SEPARATOR.$include_path);
         
         // check modules db
         self::$_config->checkModulesDbChanges();
@@ -501,7 +443,7 @@ final class Mage {
         try {
             self::init($appRoot);
         
-            Mage_Core_Event::loadEventsConfig('front');
+            self::getConfig()->loadEventObservers('front');
 
             #Mage_Core_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
@@ -525,7 +467,8 @@ final class Mage {
         try {
             self::init($appRoot);
         
-            Mage_Core_Event::loadEventsConfig('admin');
+            self::getConfig()->loadEventObservers('admin');
+            
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
             #self::loadActiveModules('admin_load');
             Mage_Core_Controller::getController()->run();

@@ -22,7 +22,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
         $configFile = Mage::getRoot('etc').DS.'core.xml';
         $this->addCacheStat($configFile);
-        $this->setXml($configFile, 'file');
+        $this->setXml($configFile);
         
         $this->loadModules();
         $this->loadLocal();
@@ -43,8 +43,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         foreach ($modules as $module) {
             $configFile = Mage::getRoot('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
             $this->addCacheStat($configFile);
-            $moduleConfig = new Mage_Core_Config_Xml($configFile, 'file');
-            $this->_xml->extend($moduleConfig->getXml(), true);
+            $moduleConfig = $this->loadFile($configFile);
+            $this->_xml->extend($moduleConfig, true);
         }
         return true;
     }
@@ -53,8 +53,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $configFile = Mage::getRoot('etc').DS.'local.xml';
         $this->addCacheStat($configFile);
-        $localConfig = new Mage_Core_Config_Xml($configFile, 'file');
-        $this->_xml->extend($localConfig->getXml(), true);
+        $localConfig = $this->loadFile($configFile);
+        $this->_xml->extend($localConfig, true);
     }
     
     function getModule($moduleName='')
@@ -116,6 +116,19 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $setupClassName = $module->getName().'_Setup';
             $setupClass = new $setupClassName($module, $this);
             $setupClass->applyDbUpdates();
+        }
+    }
+    
+    public function loadEventObservers($area)
+    {
+        $events = $this->getXml()->global->$area->events;
+        foreach ($events->children() as $event) {
+            $eventName = $event->getName();
+            foreach ($event->observers->children() as $observer) {
+                $callback = array((string)$observer->class, (string)$observer->method);
+                $args = array_values((array)$observer->args);
+                Mage_Core_Event::addObserver($eventName, $callback, $args, $observer->getName());
+            }
         }
     }
 }

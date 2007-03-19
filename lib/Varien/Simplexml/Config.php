@@ -15,15 +15,33 @@ class Varien_Simplexml_Config
     protected $_cacheStat = null;
     protected $_cacheDir = null;
     
-    function __construct($sourceData='', $sourceType='xml') {
-        $this->setXml($sourceType, $sourceData);
+    function __construct($sourceData='', $sourceType='') {
+        $this->setXml($sourceData, $sourceType);
     }
     
-    function setXml($sourceData, $sourceType='xml') 
+    function setXml($sourceData, $sourceType='') 
     {
+        if (''===$sourceType) {
+            if ($sourceData instanceof SimpleXMLElement) {
+                $sourceType = 'xml';
+            } elseif ($sourceData instanceof DomNode) {
+                $sourceType = 'dom';
+            } elseif (is_string($sourceData)) {
+                if (strlen($sourceData)<1000 && is_readable($sourceData)) {
+                    $sourceType = 'file';
+                } else {
+                    $sourceType = 'string';
+                }
+            }
+        }
+        
         switch ($sourceType) {
             case 'xml':
                 $this->_xml = $sourceData;
+                break;
+                
+            case 'dom':
+                $this->_xml = $this->loadDom($sourceData);
                 break;
                 
             case 'file':
@@ -31,11 +49,7 @@ class Varien_Simplexml_Config
                 break;
                 
             case 'string':
-                $this->_xml = simplexml_load_string($sourceData, self::SIMPLEXML_CLASS);
-                break;
-                
-            case 'dom':
-                $this->_xml = simplexml_import_dom($sourceData, self::SIMPLEXML_CLASS);
+                $this->_xml = $this->loadString($sourceData);
                 break;
         }
     }
@@ -65,6 +79,20 @@ class Varien_Simplexml_Config
         }
 
         $xml = simplexml_load_file($filePath, self::SIMPLEXML_CLASS);
+        
+        return $xml;
+    }
+    
+    function loadString($string)
+    {
+        $xml = simplexml_load_string($string, self::SIMPLEXML_CLASS);
+        
+        return $xml;
+    }
+    
+    function loadDom($dom)
+    {
+        $xml = simplexml_import_dom($dom, self::SIMPLEXML_CLASS);
         
         return $xml;
     }
@@ -100,7 +128,7 @@ class Varien_Simplexml_Config
     
     function setCacheDir($dir)
     {
-        
+        $this->_cacheDir = $dir;
     }
     
     function setCacheKey($key)

@@ -1,4 +1,5 @@
 php_flag magic_quotes_gpc off
+php_value include_path ".:/home/moshe/dev/magenta/app/code/core:/home/moshe/dev/magenta/lib:/usr/local/php5/lib/php:/usr/local/php4/lib/php"
 
 DirectoryIndex index.php
 

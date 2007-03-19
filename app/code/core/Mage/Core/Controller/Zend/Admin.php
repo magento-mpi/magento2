@@ -64,7 +64,7 @@ class Mage_Core_Controller_Zend_Admin {
         if (is_string($modInfo)) {
             $modInfo = Mage::getConfig()->getModuleInfo($modInfo);
         }
-        if (!$modInfo instanceof Varien_Xml) {
+        if (!$modInfo instanceof Varien_Smiplexml_Object) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
         if ('true'!==(string)$modInfo->active) {

@@ -4,7 +4,7 @@ class Mage_Core_Module_Info
     protected $_config = null;
     protected $_setupClass = null;
     
-    public function __construct(Varien_Xml $config) 
+    public function __construct(Varien_Simplexml_Object $config) 
     {
         if (!isset($config->codePool)) {
             $config->addChild('codePool', 'core');
