@@ -162,6 +162,7 @@ Mage.Catalog_Product = function(depend){
             var mode = null;
             var rowId = null;
             var prodId = 0;
+            var title = 'New Product'; // title for from layout
             
             switch (arguments.length) {
                 case 2 :
@@ -182,17 +183,18 @@ Mage.Catalog_Product = function(depend){
             }
             
             if (rowId != 0) {
-               try {
+             try {
                   prodId = this.grid.getDataSource().getAt(rowId).id;
-                } catch (e) {}
+                  title = 'Edit: ' + this.grid.getDataSource().getById(prodId).get('name');
+              } catch (e) {
+                  Ext.MessageBox.alert('Error!', e.getMessage());
+              }
             };
             
             var workZone = dep.getLayout('workZone');
             if (workZone.getRegion('south').getActivePanel()) {
                 return false;
             }
-            
-            newItem = true;
             
             this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
                     hideOnLayout:true,
@@ -219,7 +221,7 @@ Mage.Catalog_Product = function(depend){
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
             var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/prodid/'+prodId+'/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
-            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:'New Product'}));
+            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             workZone.endUpdate();
         },
         
