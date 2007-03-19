@@ -8,14 +8,14 @@ define ('DS', DIRECTORY_SEPARATOR);
 function __autoload($class)
 {
     #echo $class."<hr>";
-    #Mage_Core_Profiler::setTimer('autoload');
+    #Varien_Profiler::setTimer('autoload');
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
     include_once($classFile);
 /*    if (!include_once($classFile)) {
         $classFile = dirname(__FILE__).DS.'code'.DS.'core'.DS.$classFile;
         include_once($classFile);
     }*/
-    #Mage_Core_Profiler::setTimer('autoload', true);
+    #Varien_Profiler::setTimer('autoload', true);
 }
 
 /**
@@ -55,6 +55,8 @@ final class Mage {
     static private $_moduleInfo = array();
 
     static private $_config = null;
+    
+    static private $_events = null;
 
     /**
      * Set application root absolute path
@@ -117,108 +119,6 @@ final class Mage {
     }
 
     /**
-     * Add a directory to code pool
-     *
-     * @param string $name code pool name
-     * @param string $dir code pool directory
-     */
-    public static function addCodePool($name, $dir)
-    {
-        self::$_codePools[$name] = $dir;
-    }
-
-    /**
-     * Retrieve code pools
-     *
-     * @return array
-     */
-    public static function getCodePools()
-    {
-        return self::$_codePools;
-    }
-
-    /**
-     * Add Module Information
-     *
-     * @param Zend_Config $data
-     * @param string $moduleInfoClass
-     */
-    public static function addModule($data, $moduleInfoClass='Mage_Core_Module_Info')
-    {
-        if (empty($data) || !is_object($data)) {
-            Mage::exception('Invalid data');
-        }
-
-        if ($moduleInfoClass!='Mage_Core_Module_Info'
-        && is_subclass_of($moduleInfoClass, 'Mage_Core_Module_Info')) {
-            Mage::exception('Invalid module info class name');
-        }
-
-        self::$_moduleInfo[strtolower($data['name'])] = new $moduleInfoClass($data);
-    }
-
-    /**
-     * Retrieve module information object
-     *
-     * @param string $module
-     * @return Mage_Core_Module_Info
-     */
-    public static function getModuleInfo($module='')
-    {
-        $module = strtolower($module);
-        if (''===$module) {
-            return self::$_moduleInfo;
-        } else {
-            if (isset(self::$_moduleInfo[$module])) {
-                return self::$_moduleInfo[$module];
-            } else {
-                return false;
-            }
-        }
-    }
-
-    /**
-     * Get module configuration, loaded from config files
-     *
-     * @param string $module
-     * @param string $key
-     * @return Zend_Config_Ini
-     */
-    public static function getModuleConfig($module)
-    {
-        return Mage_Core_Config::getModule($module);
-    }
-
-    /**
-     * Add handler for parsing a config file section
-     *
-     * @param string $name
-     * @param callback $callback
-     */
-    static function addConfigSection($name, $callback)
-    {
-        self::$_configSections[$name] = $callback;
-    }
-
-    /**
-     * Retrieve config section handler class
-     *
-     * @param string $name
-     * @return string
-     */
-    static function getConfigSection($name='')
-    {
-        if (''===$name) {
-            return self::$_configSections;
-        } else {
-            if (isset(self::$_configSections[$name])) {
-                return self::$_configSections[$name];
-            }
-        }
-        return false;
-    }
-
-    /**
      * Retrieve event object
      *
      * @param string $name
@@ -226,7 +126,7 @@ final class Mage {
      */
     public static function getEvent($name)
     {
-        return Mage_Core_Event::getEvent($name);
+        return self::$_events->getEvent($name);
     }
 
     /**
@@ -236,7 +136,7 @@ final class Mage {
      */
     public static function addEvent($name)
     {
-        return Mage_Core_Event::addEvent($name);
+        return self::$_events->addEvent($name);
     }
 
     /**
@@ -249,7 +149,7 @@ final class Mage {
      */
     public static function addObserver($eventName, $callback, array $arguments=array(), $observerName='')
     {
-        return Mage_Core_Event::addObserver($eventName, $callback, $arguments, $observerName);
+        return self::$_events->addObserver($eventName, $callback, $arguments, $observerName);
     }
 
     /**
@@ -260,7 +160,7 @@ final class Mage {
      */
     public static function addMultiObserver($eventRegex, $callback, $observerName='')
     {
-        return Mage_Core_Event::addMultiObserver($eventRegex, $callback, $observerName);
+        return self::$_events->addMultiObserver($eventRegex, $callback, $observerName);
     }
 
     /**
@@ -274,48 +174,7 @@ final class Mage {
      */
     public static function dispatchEvent($name, array $args=array())
     {
-        return Mage_Core_Event::dispatchEvent($name, $args);
-    }
-
-    public static function getController()
-    {
-        return Mage_Core_Controller::getController();
-    }
-
-
-    /**
-     * Retrieve active modules
-     *
-     * @return array
-     */
-    public static function getActiveModules()
-    {
-        return self::getModuleInfo();
-    }
-
-    /**
-     * Load active modules
-     * 
-     * @param   mixed $configs
-     */
-    public static function loadActiveModules($configs = '')
-    {
-        $modules = self::getActiveModules();
-        foreach ($modules as $modName=>$modInfo) {
-            $modInfo->loadConfig('load');
-            $modInfo->loadConfig('*user*');
-            if (!empty($configs)) {
-                if (is_array($configs)) {
-                    foreach ($configs as $config) {
-                        $modInfo->loadConfig($config);
-                    }
-                }
-                else {
-                    $modInfo->loadConfig($configs);
-                }
-            }
-            $modInfo->processConfig();
-        }
+        return self::$_events->dispatchEvent($name, $args);
     }
 
     /**
@@ -424,13 +283,15 @@ final class Mage {
         Mage::setRoot($appRoot);
 
         Mage::prepareFileSystem();
-        Mage_Core_Profiler::setTimer('app');
+        Varien_Profiler::setTimer('app');
 
+        self::$_events = new Varien_Event();
+        
         self::$_config = new Mage_Core_Config();
         
         // check modules db
         self::$_config->checkModulesDbChanges();
-        #echo Mage_Core_Profiler::setTimer('app').',';
+        #echo Varien_Profiler::setTimer('app').',';
     }
 
     /**
@@ -445,14 +306,15 @@ final class Mage {
         
             self::getConfig()->loadEventObservers('front');
 
-            #Mage_Core_Profiler::setTimer('zend_controller');
+            #Varien_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
-            #Mage_Core_Profiler::setTimer('zend_controller', true);
+            #Varien_Profiler::setTimer('zend_controller', true);
             #self::loadActiveModules('front_load');
             Mage_Core_Controller::getController()->run();
 
-            Mage_Core_Profiler::getTimer('app', true);
-            Mage_Core_Profiler::getSqlProfiler();
+            Varien_Profiler::getTimer('app', true);
+            
+            Varien_Profiler::getSqlProfiler(Mage_Core_Resource::getResource('dev_write')->getConnection());
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {
@@ -473,8 +335,8 @@ final class Mage {
             #self::loadActiveModules('admin_load');
             Mage_Core_Controller::getController()->run();
 
-            //Mage_Core_Profiler::getTimer('app', true);
-            //  Mage_Core_Profiler::getSqlProfiler();
+            //Varien_Profiler::getTimer('app', true);
+            //  Varien_Profiler::getSqlProfiler();
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {
@@ -486,9 +348,9 @@ final class Mage {
     {
         self::init();
 
-        Mage_Core_Profiler::setTimer('config');
+        Varien_Profiler::setTimer('config');
         self::$_config = new Mage_Core_Config();
-        echo Mage_Core_Profiler::setTimer('config');
+        echo Varien_Profiler::setTimer('config');
 
         echo "<xmp>TEST:";
         print_r(Mage::getConfig());

@@ -62,8 +62,8 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      static function renderLayoutStatic($name='root', $method='toString')
      {
-         $request = Mage::getController()->getRequest();
-         $response = Mage::getController()->getFront()->getResponse();
+         $request = Mage_Core_Controller::getController()->getRequest();
+         $response = Mage_Core_Controller::getController()->getFront()->getResponse();
          $blocks = Mage_Core_Block::getOutputBlocks();
          
          Mage::dispatchEvent('beforeRenderLayout');

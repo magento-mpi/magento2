@@ -129,7 +129,7 @@ class Mage_Core_Controller_Zend {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
         
-        Mage_Core_Event::dispatchEvent('initLayout');
+        Mage::dispatchEvent('initLayout');
         #print_r($this->_front->getControllerDirectory()); die;
         
         foreach (Mage::getConfig('/')->modules->children() as $module) {

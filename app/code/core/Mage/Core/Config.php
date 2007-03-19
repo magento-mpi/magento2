@@ -127,7 +127,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             foreach ($event->observers->children() as $observer) {
                 $callback = array((string)$observer->class, (string)$observer->method);
                 $args = array_values((array)$observer->args);
-                Mage_Core_Event::addObserver($eventName, $callback, $args, $observer->getName());
+                Mage::addObserver($eventName, $callback, $args, $observer->getName());
             }
         }
     }

@@ -215,7 +215,7 @@ class Mage_Core_Block
 
     static public function loadJsonFile($fileName, $moduleName='')
     {
-        #Mage_Core_Profiler::setTimer('loadJson');
+        #Varien_Profiler::setTimer('loadJson');
         
         $baseUrl = Mage::getBaseUrl();
         $baseSkinUrl = Mage::getBaseUrl('skin');
@@ -236,11 +236,11 @@ class Mage_Core_Block
         $arr = Zend_Json::decode($json);
         #echo "TEST:"; print_r($arr);
 
-        #Mage_Core_Profiler::setTimer('loadJson', true);
+        #Varien_Profiler::setTimer('loadJson', true);
 
-        #Mage_Core_Profiler::setTimer('loadArray');
+        #Varien_Profiler::setTimer('loadArray');
         self::loadArray($arr);
-        #Mage_Core_Profiler::setTimer('loadArray', true);
+        #Varien_Profiler::setTimer('loadArray', true);
     }
 
 }// Class Mage_Home_ContentBlock END
