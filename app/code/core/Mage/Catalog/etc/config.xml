@@ -111,6 +111,8 @@
                 <admin>
                     <blocks>
                         <catalog_category_form><class>Mage_Catalog_Block_Admin_Category_Form</class></catalog_category_form>
+                        <catalog_product_form><class>Mage_Catalog_Block_Admin_Product_Form</class></catalog_product_form>
+                        <catalog_product_card><class>Mage_Catalog_Block_Admin_Product_Card</class></catalog_product_card>
                     </blocks>
 
                     <events>

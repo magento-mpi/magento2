@@ -9,62 +9,16 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
-        $productId  = $this->getRequest()->getParam('product', false);
-        
-        if ($productId) {
-            
-        }
-        
-        // Declare product attributes set
-        $setId      = $this->getRequest()->getParam('set', false);
-
-        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
-        $setCollection->load();
-        $arrSets = $setCollection->__toArray();
-        
-        // Get first sttributes set id
-        if (!$setId) {
-            if (isset($arrSets['items'][0])) {
-                $setId = $arrSets['items'][0]['product_attribute_set_id'];
-            }
-            else {
-                Mage::exception('Undefined attributes set id');
-            }
-        }
-        
-        // Declare set attributes
-        $set = Mage::getModel('catalog', 'product_attribute_set');
-        $arrAtributes = $set->getAttributes($setId);
-        
-        // Declare attributes groups
-        $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
-        $groupCollection->distinct(true);
-        $groupCollection->addAttributeFilter($arrAtributes);
-        $arrGroups = $groupCollection->load()->__toArray();
-        
-        // Create card JSON structure
-        $cardStructure = array();
-        $cardStructure['attribute_set'] = $arrSets;
-        $cardStructure['tabs'] = array();
-        
-        foreach ($arrGroups['items'] as $group) {
-            $url = Mage::getBaseUrl().'/mage_catalog/product/form/group/'.$group['product_attribute_group_id'].'/';
-            $url.= 'set/'.$setId.'/';
-            $cardStructure['tabs'][] = array(
-                'name'  => $group['product_attribute_group_code'],
-                'url'   => $url,
-                'title' => $group['product_attribute_group_code']
-            );
-        }
-        
-        $this->getResponse()->setBody(Zend_Json::encode($cardStructure));
+        $card = Mage::createBlock('catalog_product_card', 'product_card');
+        $this->getResponse()->setBody($card->toJson());
     }
     
     public function formAction()
     {
-        $groupId= $this->getRequest()->getParam('group', false);
-        $setId  = $this->getRequest()->getParam('set', false);
-        echo "group: $groupId, set: $setId";
+        $form = Mage::createBlock('catalog_product_form', 'product_form');
+        $this->getResponse()->setBody($form->toString());
+        
+        //echo "group: $groupId, set: $setId";
     }
     
     /**
