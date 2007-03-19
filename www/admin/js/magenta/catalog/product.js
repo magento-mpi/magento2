@@ -225,6 +225,22 @@ Mage.Catalog_Product = function(depend){
             workZone.endUpdate();
         },
         
+        saveItem : function() {
+            var region = this.editPanel.getRegion('center');
+            var i = 0;
+            var panel = null;
+            
+            for(i = 0; i< region.panels.length; i++) {
+                panel = region.panels.get(i);
+                dq = Ext.DomQuery;
+                if (panel.loaded) {
+                   form = dq.selectNode('form', panel.getEl().dom);
+                   var mgr = new Ext.UpdateManager(form);
+                   mgr.formUpdate(form);
+                }
+            }
+        },
+        
         loadTabs: function(response) {
             if (!this.editPanel) {
                 return false;
@@ -235,7 +251,8 @@ Mage.Catalog_Product = function(depend){
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
                 cls: 'x-btn-text-icon'
