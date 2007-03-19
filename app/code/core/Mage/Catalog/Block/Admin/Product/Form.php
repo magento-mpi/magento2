@@ -27,6 +27,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             $this->_group = Mage::getModel('catalog', 'product_attribute_group')->get($groupId);
             if ($this->_group) {
                 $this->setAttribute('legend', $this->_group['product_attribute_group_code']);
+                $this->setAttribute('id', 'form_'.$groupId);
             }
         }
         
@@ -48,11 +49,12 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $elementId      = $attribute['attribute_code'];
         $elementType    = $attribute['data_input'];
         $elementConfig  = array();
-        $elementConfig['name'] = $attribute['attribute_code'];
-        $elementConfig['label'] = $attribute['attribute_code'];
+        $elementConfig['name'] = 'attribute['.$attribute['attribute_id'].']';
+        $elementConfig['label']= $attribute['attribute_code'];
         $elementConfig['id']   = $attribute['attribute_code'];
         $elementConfig['value']= '';
         $elementConfig['title']= $attribute['attribute_code'];
+        $elementConfig['validation'] = '';
         //$elementConfig['maxlength'] = '';
         //$elementConfig['size'] = '';
 
