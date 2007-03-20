@@ -1,8 +1,0 @@
-[":customer.initLayout", {},
-    ["#head",[".append",["+tag_css",[".setHref","/customer/style.css"]]]],
-    ["#left",[".append",["+tpl","#.newsletter",[".setViewName","Mage_Customer","newsletter.form.mini"]]]],
-    ["#top.links",
-        [".append",["+list_link","#.myaccount",[".setLink","","href=\"{$baseModuleUrl}/account\" title=\"My Account\"","My Account"]]],
-        [".append",["+list_link","#.favorite",[".setLink","","href=\"{$baseModuleUrl}/favorite\" title=\"Favorite\"","Favorite"]]]
-    ]
-]

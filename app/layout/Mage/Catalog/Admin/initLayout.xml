@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="head">
+        <block type="tag_js" name="head.js.catalog">
+            <action method="setSrc"><src>/magenta/catalog.js</src></action>
+        </block>
+        <block type="tag_js" name="head.js.catalog.product">
+            <action method="setSrc"><src>/magenta/catalog/product.js</src></action>
+        </block>
+        <block type="tag_js" name="head.js.catalog.category">
+            <action method="setSrc"><src>/magenta/catalog/category.js</src></action>
+        </block>
+    </reference>
+</layoutUpdate>

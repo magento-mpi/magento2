@@ -100,6 +100,14 @@ class Mage_Core_Block
         return self::$_blocks[$name];
     }
     
+    public static function addBlock($className, $blockName)
+    {
+        $block = new $className();
+        $block->setInfo(array('name'=>$blockName));
+        self::$_blocks[$blockName] = $block;
+        return $block;
+    }
+    
     public static function getAllBlocks()
     {
         return self::$_blocks;
@@ -114,133 +122,13 @@ class Mage_Core_Block
         }
     }
     
-    public static function getBlocksByGroup($groupName)
+    public static function addOutputBlock($blockName, $method)
     {
-        $blocks = array();
-        foreach (self::$_blocks as $name=>$block) {
-            if ($block->getInfo('groupName')==$groupName) {
-                $blocks[$name] = $block;
-            }
-        }
-        return $blocks;
+        self::$_output[] = array($blockName, $method);
     }
     
     public static function getOutputBlocks()
     {
         return self::$_output;
     }    
-    
-    /**
-     * Parse and run block script array
-     * 
-     */
-    static public function loadArray($arr, $block=null)
-    {
-        if (!is_array($arr) || empty($arr[0]) || !is_string($arr[0])) {
-            return $arr;
-        }
-       
-        $type = $arr[0]{0};
-        $entity = substr($arr[0], 1);
-        array_shift($arr);
-        
-        switch ($type) {
-            
-            case ':': 
-                // declare layoutUpdate name and check for dependancies
-                $config = array_shift($arr);
-                if (!empty($config) && is_array($config)) {
-                    foreach ($config as $key=>$value) {
-                        switch ($key) {
-                            case "output":
-                                foreach ($value as $callback) {
-                                    $blockName = $callback[0];
-                                    $method = isset($callback[1]) ? $callback[1] : 'toString';
-                                    self::$_output[] = array($blockName, $method);
-                                }
-                                break;
-                        }
-                    }
-                }
-                
-                $blocks = array();
-                foreach ($arr as $block) {
-                    $blocks[] = self::loadArray($block);
-                }
-                $result = $blocks;  
-                break;    
-                                
-            case '+': 
-            case '#': 
-                if ('+'===$type) {
-                    // create new block using this entity as block type
-                    if (!empty($arr[0]) && is_string($arr[0]) && ('#'===$arr[0]{0})) {
-                        $name = substr($arr[0], 1);
-                        array_shift($arr);
-                    } else {
-                        $name = '';
-                    }
-                    $block = self::createBlock($entity, $name);
-                } else {
-                    // retrieve existing block by entity as name
-                    $block = self::getBlockByName($entity);
-                }
-                
-                if (empty($block)) {
-                    $result = false;
-                    break;
-                }
-                foreach ($arr as $action) {
-                    self::loadArray($action, $block);
-                }
-                $result = $block;
-                break;
-                
-            case '.': 
-                // run action method for $block
-                if (empty($block)) {
-                    $result = false;
-                    break;
-                }
-                $args = array();
-                foreach ($arr as $arg) {
-                    $args[] = self::loadArray($arg);
-                }
-                $result = call_user_func_array(array($block, $entity), $args);
-                break;
-        }
-        
-        return $result;
-    }
-
-    static public function loadJsonFile($fileName, $moduleName='')
-    {
-        #Varien_Profiler::setTimer('loadJson');
-        
-        $baseUrl = Mage::getBaseUrl();
-        $baseSkinUrl = Mage::getBaseUrl('skin');
-        if (''!==$moduleName) {
-           $baseModuleUrl = Mage::getBaseUrl('', $moduleName);
-        } else {
-            $baseModuleUrl = '';
-        }
-        $baseJsUrl = Mage::getBaseUrl('js');
-        
-        if ('/'!==$fileName{0}) {
-            $fileName = Mage::getBaseDir('layout').DS.$fileName;
-        }
-        
-        $json = file_get_contents($fileName, true);
-        eval('$json = "'.addslashes($json).'";');
-        
-        $arr = Zend_Json::decode($json);
-        #echo "TEST:"; print_r($arr);
-
-        #Varien_Profiler::setTimer('loadJson', true);
-
-        #Varien_Profiler::setTimer('loadArray');
-        self::loadArray($arr);
-        #Varien_Profiler::setTimer('loadArray', true);
-    }
-
 }// Class Mage_Home_ContentBlock END

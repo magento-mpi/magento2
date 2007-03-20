@@ -2,36 +2,40 @@
 
 class Varien_Simplexml_Object extends SimpleXMLElement 
 {
-    protected $_parent = null;
+    private $_parent = null;
     
     public function setParent($element)
     {
-        $this->_parent = $element;
+        #$this->_parent = $element;
     }
     
     public function getParent()
     {
         if (!empty($this->_parent)) {
-            return $this->_parent;
+            $parent = $this->_parent;
         } else {
-            return $this->xpath('..');
+            $arr = $this->xpath('..');
+            $parent = $arr[0];
         }
+        return $parent;
     }
     
-    function appendChild($sourceNodes)
+    function appendChild($source)
     {
-        foreach ($sourceNodes as $source) {
+        if ($source->children()) {
             $child = $this->addChild($source->getName());
-            
-            $attributes = $source->attributes();
-            foreach ($attributes as $key=>$value) {
-                $child->addAttribute($key, $value);
-            }
-            
-            $sourceChildren = $source->children();
-            foreach ($sourceChildren as $sourceChild) {
-                $child->appendChild($sourceChild);
-            }
+        } else {
+            $child = $this->addChild($source->getName(), (string)$source);
+        }
+        $child->setParent($this);
+        
+        $attributes = $source->attributes();
+        foreach ($attributes as $key=>$value) {
+            $child->addAttribute($key, (string)$value);
+        }
+        
+        foreach ($source as $sourceChild) {
+            $child->appendChild($sourceChild);
         }
     }
     
@@ -67,6 +71,7 @@ class Varien_Simplexml_Object extends SimpleXMLElement
                 }
             }
             $targetChild = $this->addChild($sourceName, (string)$source);
+            $targetChild->setParent($this);
             foreach ($source->attributes() as $key=>$value) {
                 $targetChild->addAttribute($key, $value);
             }
@@ -80,6 +85,7 @@ class Varien_Simplexml_Object extends SimpleXMLElement
         if (is_null($targetChild)) {
             // if child target is not found create new and descend
             $targetChild = $this->addChild($sourceName);
+            $targetChild->setParent($this);
             foreach ($source->attributes() as $key=>$value) {
                 $targetChild->addAttribute($key, $value);
             }

@@ -1,5 +1,5 @@
 <?php
 
 require '../app/Mage.php';
-Mage::run();
+Mage::runFront();
     

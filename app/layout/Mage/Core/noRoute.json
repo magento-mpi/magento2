@@ -1,3 +1,0 @@
-[":core.noRoute", {},
-    ["#content", [".append", ["+text", [".setText", "<br>Page not found."]]]]
-]

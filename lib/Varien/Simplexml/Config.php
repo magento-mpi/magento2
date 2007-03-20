@@ -14,9 +14,20 @@ class Varien_Simplexml_Config
     protected $_cacheKey = null;
     protected $_cacheStat = null;
     protected $_cacheDir = null;
+    protected $_cacheLoaded = false;
     
     function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
+    }
+    
+    function getConstant($const)
+    {
+        return constant(get_class($this).'::'.$const);
+    }
+    
+    function isCacheLoaded()
+    {
+        return $this->_cacheLoaded;
     }
     
     function setXml($sourceData, $sourceType='') 
@@ -75,24 +86,24 @@ class Varien_Simplexml_Config
     function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            Zend::exception('Can not read xml file '.$filePath);
+            throw new Exception('Can not read xml file '.$filePath);
         }
 
-        $xml = simplexml_load_file($filePath, self::SIMPLEXML_CLASS);
+        $xml = simplexml_load_file($filePath, $this->getConstant('SIMPLEXML_CLASS'));
         
         return $xml;
     }
     
     function loadString($string)
     {
-        $xml = simplexml_load_string($string, self::SIMPLEXML_CLASS);
+        $xml = simplexml_load_string($string, $this->getConstant('SIMPLEXML_CLASS'));
         
         return $xml;
     }
     
     function loadDom($dom)
     {
-        $xml = simplexml_import_dom($dom, self::SIMPLEXML_CLASS);
+        $xml = simplexml_import_dom($dom, $this->getConstant('SIMPLEXML_CLASS'));
         
         return $xml;
     }
@@ -107,7 +118,7 @@ class Varien_Simplexml_Config
 
     function applyExtends()
     {
-        $targets = $this->getXpath(self::XPATH_EXTENDS);
+        $targets = $this->getXpath($this->getConstant('XPATH_EXTENDS'));
         if (!$targets) {
             return false;
         }
@@ -119,7 +130,7 @@ class Varien_Simplexml_Config
                     $target->extend($source);
                 }
             } else {
-                echo "Not found extend: ".(string)$target['extends'];
+                #echo "Not found extend: ".(string)$target['extends'];
             }
             #unset($target['extends']);
         }
@@ -185,10 +196,13 @@ class Varien_Simplexml_Config
         // read cache file
         $cacheFile = $this->getCacheFileName($key);
         if (is_readable($cacheFile)) {
-            return $this->loadFile($cacheFile);
-        } else {
-            return false;
+            $xml = $this->loadFile($cacheFile);
+            if (!empty($xml)) {
+                $this->_cacheLoaded = true;
+                return $xml;
+            }
         }
+        return false;
     }
     
     function saveCache($key='')

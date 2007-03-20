@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="head">
-        <block type="tag_css">
+        <block type="tag_css" name="head.css.catalog">
             <action method="setHref"><href>/catalog/style.css</href></action>
         </block>
     </reference>
@@ -9,6 +9,18 @@
     <reference name="top.forms">
         <block type="tpl" name="search.form.mini">
             <action method="setViewName"><module>Mage_Catalog</module><view>search.form.mini</view></action>
+        </block>
+    </reference>
+    
+    <reference name="left">
+        <block type="tpl" name="catalog.leftnav" before="-">
+            <action method="setViewName"><module>Mage_Catalog</module><view>leftnav</view></action>
+            <block type="catalog_category_list" name="catalog.leftnav.bytopic" as="bytopic">
+                <action method="loadCategories"><parent>2</parent></action>
+            </block>
+            <block type="catalog_category_list" name="catalog.leftnav.byproduct" as="byproduct">
+                <action method="loadCategories"><parent>13</parent></action>
+            </block>
         </block>
     </reference>
 </layoutUpdate>

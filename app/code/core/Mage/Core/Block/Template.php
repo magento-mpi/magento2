@@ -51,6 +51,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     
     public function setViewName($viewModule, $viewName)
     {
+#echo "<hr>Module:"; print_r($viewModule); echo ", Name:"; print_r($viewName);
         $this->setAttribute('viewModule', $viewModule);
         $this->setAttribute('viewName', $viewName);
         return $this;
@@ -76,7 +77,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @return unknown
      */
     public function renderView()
-    {       
+    {
         $moduleName = $this->getAttribute('viewModule');
         
         if (!Mage::getConfig()->getModule($moduleName)) {

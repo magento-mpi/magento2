@@ -1,10 +1,10 @@
 <?php
 
 class Mage_Core_Layout_Object extends Varien_Simplexml_Object
-{
+{    
     public function prepare($args)
     {
-        switch (strtolower($this->getName())) {
+        switch ($this->getName()) {
             case 'layoutUpdate':
                 break;
                 
@@ -24,17 +24,25 @@ class Mage_Core_Layout_Object extends Varien_Simplexml_Object
                 $this->prepareActionArgument($args);
                 break;
         }
+        $children = $this->children();
+        foreach ($this as $child) {
+            $child->prepare($args);
+        }
+        return $this;
     }
     
     public function prepareBlock($args)
     {
-        $type = (string)$this->getAttribute('type');
-        $name = (string)$this->getAttribute('name');
+        $type = (string)$this['type'];
+        $name = (string)$this['name'];
         
-        $class = Mage::getConfig('/')->global->blockTypes->$type;
+        $class = (string)Mage::getConfig('/')->global->blockTypes->$type->class;
+        $parent = $this->getParent();
         
         $this->addAttribute('class', $class);
-        $this->addAttribute('parent', $this->getParent()->getName());
+        if (isset($parent['name'])) {
+            $this->addAttribute('parent', (string)$parent['name']);
+        }
         
         return $this;
     }
@@ -49,22 +57,24 @@ class Mage_Core_Layout_Object extends Varien_Simplexml_Object
     public function prepareAction($args)
     {
         #$method = (string)$this->getAttribute('method');
-        $this->addattribute('block', $this->getParent()->getName());
+        $parent = $this->getParent();
+        $this->addAttribute('block', (string)$parent['name']);
+        
+        $process = (string)$this['process'];
+        if (!empty($process)) {
+            $moduleName = (string)$args->module;
+            extract(Mage::getConfig()->getPathVars($moduleName));
+            $args = explode(',', $process);
+            foreach ($args as $argName) {
+                eval('$this->$argName = "'.addslashes((string)$this->$argName).'";');
+            }
+        }
         
         return $this;
     }
     
     public function prepareActionArgument($args)
     {
-        $process = (string)$this->getAttribute('process');
-        
-        if ('true'===$process) {
-            extract(Mage::getConfig()->getPathVars($args));
-            $name = $this->getName();
-            eval('$processedValue = "'.addslashes((string)$this).'";');
-            $this->getParent()->$name = $processedValue;
-        }
-        
         return $this;
     }
 

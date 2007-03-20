@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <block type="tpl" name="root">
+    <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Page</module><view>layout.2column</view></action>
-        <action method="assign"><var>imagesUrl</var><value process="true">{$baseSkinUrl}/default/page/images"</value></action>
+        <action method="assign" process="value"><var>imagesUrl</var><value>{$baseSkinUrl}/default/page/images</value></action>
         
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
@@ -19,19 +19,19 @@
         
         <block type="list" name="top.links" as="topLinks">
             <block type="list_link" name="top.links.help">
-                <action method="setLink"><a process="true">href="{$baseModuleUrl}/article/help"</a><label>Help</label></action>
+                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/article/help"</a><label>Help</label></action>
             </block>
         </block>
         
         <block type="list" name="top.menu" as="topMenu">
             <block type="list_link" name="top.menu.home">
-                <action method="setLink"><li>id="nav-home"</li><a process="true">href="{$baseUrl}"></a><label><![CDATA[<span>Home</span>]]></label></action>
+                <action method="setLink" process="a"><li>id="nav-home"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Home</span>]]></label></action>
             </block>
             <block type="list_link" name="top.menu.preventcrime">
-                <action method="setLink"><li>id="nav-help-prevent"</li><a process="true">href="{$baseUrl}"</a><label><![CDATA[<span>Help Prevent Crime</span>]]></label></action>
+                <action method="setLink" process="a"><li>id="nav-help-prevent"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Help Prevent Crime</span>]]></label></action>
             </block>
             <block type="list_link" name="top.menu.contact">
-                <action method="setLink"><li>id="nav-contact"</li><a process="true">href="{$baseUrl}"</a><label><![CDATA[<span>Contact Us</span>]]></label></action>
+                <action method="setLink" process="a"><li>id="nav-contact"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Contact Us</span>]]></label></action>
             </block>
         </block>
         
@@ -43,13 +43,13 @@
         
         <block type="list" name="botom.links" as="bottomLinks">
             <block type="list_link" name="bottom.links.home">
-                <action method="setLink"><a process="true">href="{$baseUrl}"</a><label>Home</label></action>
+                <action method="setLink" process="a"><li/><a>href="{$baseUrl}"</a><label>Home</label></action>
             </block>
             <block type="list_link" name="bottom.links.sitemap">
-                <action method="setLink"><a process="true">href="{$baseModuleUrl}/sitemap"</a><label>Site Map</label></action>
+                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/sitemap"</a><label>Site Map</label></action>
             </block>
             <block type="list_link" name="bottom.links.privacy">
-                <action method="setLink"><a process="true">href="{$baseModuleUrl}/article/privacy"</a><label>Privacy Policy</label></action>
+                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/article/privacy"</a><label>Privacy Policy</label></action>
             </block>
         </block>
     </block>

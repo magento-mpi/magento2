@@ -25,22 +25,6 @@
                         </sales_read>
                     </resources>
                 </all>
-
-                <admin>
-                    <events>
-                        <action_preDispatch_default_index_index>
-                            <resources>
-                                <sales>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Sales/Admin/initLayout.json</file>
-                                    </args>
-                                </sales>
-                            </resources>
-                        </action_preDispatch_default_index_index>
-                    </events>
-                </admin>
             </load>
         </Mage_Sales>
     </modules>

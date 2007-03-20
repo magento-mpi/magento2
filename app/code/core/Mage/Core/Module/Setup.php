@@ -12,7 +12,7 @@ class Mage_Core_Module_Setup
     {
         $this->_module = $moduleConfig;
     }
-
+    
     public function applyDbUpdates()
     {
         $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->getName());

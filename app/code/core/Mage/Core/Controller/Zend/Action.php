@@ -17,14 +17,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       * @var array
       */
      protected $_flags = array();
-     protected $_view = null;
+     protected $_layout = null;
 
-     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
-     {
-         parent::__construct($request, $response, $invokeArgs);
-         $this->_view = new Zend_View();
-     }
-     
+
      function getFlag($action, $flag='')
      {
          if (''===$action) {
@@ -55,24 +50,27 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             $this->getRequest()->getActionName();
      }
      
-     function renderLayout()
+     function getLayout()
      {
-         self::renderLayoutObserver();
+         if (empty($this->_layout)) {
+             $this->_layout = new Mage_Core_Layout();
+         }
+         return $this->_layout;
      }
      
-     static function renderLayoutStatic()
+     function renderLayout()
      {
-         $request = Mage_Core_Controller::getController()->getRequest();
-         $response = Mage_Core_Controller::getController()->getFront()->getResponse();
-         $blocks = Mage_Core_Block::getOutputBlocks();
-         
          Mage::dispatchEvent('beforeRenderLayout');
-         Mage::dispatchEvent('beforeRenderLayout_'.$request->getModuleName().'_'.$request->getControllerName().'_'.$request->getActionName());
+         Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          
+         $blocks = Mage_Core_Block::getOutputBlocks();
+
          if (!empty($blocks)) {
-            foreach ($blocks as $callback) {
-                $response->appendBody(Mage::getBlock($callback[0])->$callback[1]());
-            }
+             $response = $this->getResponse();
+             foreach ($blocks as $callback) {
+                 $out = Mage::getBlock($callback[0])->$callback[1]();
+                 $response->appendBody($out);
+             }
          }
      }
      
@@ -97,7 +95,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         if ($this->getFlag('', 'no-postDispatch')) {
             return;
         }
-
+        
         Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName());
         Mage::dispatchEvent('action_postDispatch');
     }

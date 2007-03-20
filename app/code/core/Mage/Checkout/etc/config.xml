@@ -31,20 +31,9 @@
                         <frontName>checkout</frontName>
                     </controller>
 
-                    <events>
-                        <initLayout>
-                            <observers>
-                                <checkout>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Checkout/initLayout.json</file>
-                                        <module>Mage_Checkout</module>
-                                    </args>
-                                </checkout>
-                            </observers>
-                        </initLayout>
-                    </events>
+                    <layouts>
+                        <default><updates><checkout><module>Mage_Checkout</module><file>initLayout.xml</file></checkout></updates></default>
+                    </layouts>
                 </front>
             </load>
 

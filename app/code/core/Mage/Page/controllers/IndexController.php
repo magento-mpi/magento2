@@ -16,9 +16,10 @@ class Mage_Page_IndexController extends Mage_Core_Controller_Front_Action
     {
         #Mage::getBlock('root')->setGroup('layout.3column', -1);
         #Mage::getModel('core', 'Block')->saveGroup('layout.3column');
-        $blocks = Mage_Core_Block::getAllBlocks();
-        $debug = Mage::createBlock('debug')->setValue(array_keys($blocks));
-        Mage::getBlock('content')->append($debug);
+        #$blocks = Mage_Core_Block::getAllBlocks();
+        #$debug = Mage::createBlock('debug')->setValue(array_keys($blocks));
+        #Mage::getBlock('content')->append($debug);
+        print_r($this->getLayout()->getXml());
     }
 
 }// Class IndexController ENDclass

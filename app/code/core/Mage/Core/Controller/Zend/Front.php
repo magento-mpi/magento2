@@ -6,7 +6,7 @@
  * @author Andrey Korolyov <andrey@varien.com>
  *
  */
-class Mage_Core_Controller_Zend {
+class Mage_Core_Controller_Zend_Front {
     /**
      * Enter description here...
      *
@@ -128,10 +128,7 @@ class Mage_Core_Controller_Zend {
         if (!empty($this->_defaultModule)) {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
-        
-        Mage::dispatchEvent('initLayout');
-        #print_r($this->_front->getControllerDirectory()); die;
-        
+
         foreach (Mage::getConfig('/')->modules->children() as $module) {
             $this->loadModule($module);
         }

@@ -31,21 +31,10 @@
                         <active>true</active>
                         <frontName>cart</frontName>
                     </controller>
-
-                    <events>
-                        <initLayout>
-                            <observers>
-                                <cart>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Cart/initLayout.json</file>
-                                        <module>Mage_Cart</module>
-                                    </args>
-                                </cart>
-                            </observers>
-                        </initLayout>
-                    </events>
+                    
+                    <layouts>
+                        <default><updates><cart><module>Mage_Cart</module><file>initLayout.xml</file></cart></updates></default>
+                    </layouts>
                 </front>
             </load>
 

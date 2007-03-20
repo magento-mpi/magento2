@@ -7,6 +7,7 @@ define ('DS', DIRECTORY_SEPARATOR);
 
 function __autoload($class)
 {
+    #echo "<hr>".$class;
     $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
     include ($classFile);
 }
@@ -104,7 +105,7 @@ final class Mage {
     
     public static function loadLayoutUpdate($args)
     {
-        self::getLayout()->loadLayoutUpdate($args);
+        self::getLayout()->loadUpdate($args);
     }
 
     /**
@@ -113,7 +114,7 @@ final class Mage {
      * @param string $name
      * @return Mage_Core_Event
      */
-    public static function getEvent($name)
+    public static function getEvent($name='')
     {
         return self::$_events->getEvent($name);
     }
@@ -136,7 +137,7 @@ final class Mage {
      * @param array $arguments
      * @param string $observerName
      */
-    public static function addObserver($eventName, $callback, array $arguments=array(), $observerName='')
+    public static function addObserver($eventName, $callback, $arguments=array(), $observerName='')
     {
         return self::$_events->addObserver($eventName, $callback, $arguments, $observerName);
     }
@@ -241,7 +242,11 @@ final class Mage {
 
     public static function prepareFileSystem()
     {
-        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'xml';
+        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'config';
+        if (!is_writable($xmlCacheDir)) {
+            mkdir($xmlCacheDir, 0777, true);
+        }
+        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'layout';
         if (!is_writable($xmlCacheDir)) {
             mkdir($xmlCacheDir, 0777, true);
         }
@@ -269,7 +274,7 @@ final class Mage {
         self::$_events = new Varien_Event();
         
         // check modules db
-        self::getConfig()->checkModulesDbChanges();
+        self::getConfig()->applyDbUpdates();
         #echo Varien_Profiler::setTimer('app').',';
     }
 
@@ -278,15 +283,17 @@ final class Mage {
      *
      * @param string $appRoot
      */
-    public static function run($appRoot='')
+    public static function runFront($appRoot='')
     {
         try {
             self::init($appRoot);
-        
+
+            self::getLayout()->init('test');
+            
             self::getConfig()->loadEventObservers('front');
 
             #Varien_Profiler::setTimer('zend_controller');
-            Mage_Core_Controller::setController(new Mage_Core_Controller_Zend());
+            Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Front());
             #Varien_Profiler::setTimer('zend_controller', true);
             Mage_Core_Controller::getController()->run();
 

@@ -11,14 +11,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     
     function init()
     {
-        $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'xml');
+        $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'config');
         $this->setCacheKey('globalConfig');
+        
         $this->loadGlobal();
     }
     
     function loadGlobal()
     {
-        if (true && $xml = $this->loadCache()) {
+        if ($xml = $this->loadCache()) {
             $this->setXml($xml);
             return true;
         }
@@ -30,6 +31,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->applyExtends();
         $this->applyExtends();
         
+        #$this->removeExtraSource();
+        
         $this->saveCache();
         
         return true;
@@ -40,6 +43,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $configFile = Mage::getBaseDir('etc').DS.'core.xml';
         $this->addCacheStat($configFile);
         $this->setXml($configFile);
+        
+        return true;
     }
     
     function loadModules()
@@ -63,6 +68,18 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->addCacheStat($configFile);
         $localConfig = $this->loadFile($configFile);
         $this->_xml->extend($localConfig, true);
+        return true;
+    }
+    
+    function removeExtraSource()
+    {
+        $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
+        if (!$modules) {
+            return false;
+        }
+        foreach ($modules as $module) {
+            unset($module->load);
+        }
     }
     
     function getModule($moduleName='')
@@ -82,17 +99,21 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $dir = Mage::getBaseDir('code').DS.$module->codePool.DS.$modulePath;
             
             switch ($type) {
+                case 'layout':
+                    $dir = $this->getBaseDir('layout').DS.$modulePath;
+                    break;
+                    
+                case 'views':
+                    //$dir .= DS.'views';
+                    $dir = $this->getBaseDir('layout').DS.$modulePath.DS.'views';
+                    break;
+
                 case 'etc':
                     $dir .= DS.'etc';
                     break;
                     
                 case 'controllers':
                     $dir .= DS.'controllers';
-                    break;
-                    
-                case 'views':
-                    //$dir .= DS.'views';
-                    $dir = $this->getBaseDir('layout').DS.$modulePath.DS.'views';
                     break;
                     
                 case 'sql':
@@ -152,7 +173,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $url;
     }
     
-    public function checkModulesDbChanges()
+    public function applyDbUpdates()
     {
         $modules = $this->getModule()->children();
         foreach ($modules as $module) {
@@ -160,19 +181,23 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $setupClass = new $setupClassName($module);
             $setupClass->applyDbUpdates();
         }
+        return true;
     }
     
     public function loadEventObservers($area)
     {
-        $events = $this->getXml()->global->$area->events;
-        foreach ($events->children() as $event) {
+        $events = $this->getXml()->global->$area->events->children();
+        foreach ($events as $event) {
             $eventName = $event->getName();
-            foreach ($event->observers->children() as $observer) {
+            $observers = $event->observers->children();
+            foreach ($observers as $observer) {
                 $callback = array((string)$observer->class, (string)$observer->method);
-                $args = array_values((array)$observer->args);
+                #$args = array_values((array)$observer->args);
+                $args = array($observer->args);
                 Mage::addObserver($eventName, $callback, $args, $observer->getName());
             }
         }
+        return true;
     }
     
     public function getPathVars($args)
@@ -189,5 +214,26 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $path['baseJsUrl'] = Mage::getBaseUrl('js');
         
         return $path;
+    }
+    
+    public function loadStep($areaName, $methodName) 
+    {
+        $this->loadStep('all', $methodName);
+        
+        $modules = $this->getXml()->modules;
+        foreach ($modules as $module) {
+            $area = $module->load->$areaName;
+            if (empty($area)) {
+                continue;
+            }
+            $load = $area->useModuleSteps;
+            if (empty($load) || 'true'!==(string)$load) {
+                continue;
+            }
+            $callback = array($moduleName.'_Module_'.ucwords(strtolower($areaName)), $methodName);
+            if (is_callable($callback)) {
+                call_user_func($callback);
+            }
+        }
     }
 }

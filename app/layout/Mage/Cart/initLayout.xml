@@ -2,7 +2,7 @@
 <layoutUpdate>
     <reference name="top.links">
         <block type="list_link" name="top.links.mycart">
-            <action method="setLink"><a process="true">href="{$baseModuleUrl}"</a><label>My Cart</label></action>
+            <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}"</a><label>My Cart</label></action>
         </block>
     </reference>
 </layoutUpdate>

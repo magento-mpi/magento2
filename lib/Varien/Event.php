@@ -36,12 +36,16 @@ class Varien_Event
      * @param string $name
      * @return Mage_Core_Event
      */
-    public function getEvent($name)
+    public function getEvent($name='')
     {
-        $name = strtolower($name);
-
-        if (isset($this->_events[$name])) {
-            return $this->_events[$name];
+        if (''===$name) {
+            return $this->_events;
+        } else {
+            $name = strtolower($name);
+    
+            if (isset($this->_events[$name])) {
+                return $this->_events[$name];
+            }
         }
         return false;
     }
@@ -69,7 +73,7 @@ class Varien_Event
      * @param array $arguments
      * @param string $observerName
      */
-    public function addObserver($eventName, $callback, array $arguments=array(), $observerName='')
+    public function addObserver($eventName, $callback, $arguments=array(), $observerName='')
     {
         $eventName = strtolower($eventName);
         
@@ -110,7 +114,7 @@ class Varien_Event
      * @param string $name
      * @param array $args
      */
-    public function dispatchEvent($eventName, array $eventArgs=array())
+    public function dispatchEvent($eventName, $eventArgs=array())
     {
         #$event = self::getEvent($name);
         #if ($event && $event->getObservers()) {
@@ -123,6 +127,7 @@ class Varien_Event
         }
         
         $observers = $this->_events[$eventName];
+        #echo "dispatch:".$eventName. print_r($observers,1)."<hr>";
         foreach ($observers as $observer) {
             $arguments = $eventArgs;
             if (!empty($observer[1])) {

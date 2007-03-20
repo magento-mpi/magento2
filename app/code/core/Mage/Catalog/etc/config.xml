@@ -94,23 +94,18 @@
                         <catalog_search_result><class>Mage_Catalog_Block_Product_Search</class></catalog_search_result>
                     </blocks>
 
-                    <events>
-                        <initLayout>
-                            <observers>
-                                <catalog>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Catalog/initLayout.json</file>
-                                        <module>Mage_Catalog</module>
-                                    </args>
-                                </catalog>
-                            </observers>
-                        </initLayout>
-                    </events>
+                    <layouts>
+                        <default>
+                            <updates><catalog><module>Mage_Catalog</module><file>initLayout.xml</file></catalog></updates>
+                        </default>
+                    </layouts>
                 </front>
 
                 <admin>
+                    <layouts>
+                        <default><updates><catalog><module>Mage_Catalog</module><file>Admin/initLayout.xml</file></catalog></updates></default>
+                    </layouts>
+                    
                     <blocks>
                         <catalog_category_form><class>Mage_Catalog_Block_Admin_Category_Form</class></catalog_category_form>
                         <catalog_product_form><class>Mage_Catalog_Block_Admin_Product_Form</class></catalog_product_form>
@@ -140,31 +135,6 @@
                             </params>
                         </product_manufacturer>
                     </dataSources>
-
-                    <events>
-                        <action_preDispatch_default_index_index>
-                            <observers>
-                                <catalog>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Catalog/Admin/init.json</file>
-                                    </args>
-                                </catalog>
-                            </observers>
-                        </action_preDispatch_default_index_index>
-                        <action_preDispatch_mage_catalog_tree_index>
-                            <observers>
-                                <catalog>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Catalog/Admin/testJsAdd.json</file>
-                                    </args>
-                                </catalog>
-                            </observers>
-                        </action_preDispatch_mage_catalog_tree_index>
-                    </events>
                 </admin>
             </load>
         </Mage_Catalog>

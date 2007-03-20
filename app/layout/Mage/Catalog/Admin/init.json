@@ -1,5 +1,0 @@
-[":catalog_initLayout", {},
-    ["#head",
-        [".append",["+tag_js",[".setSrc","/magenta/catalog.js"]]]
-    ]
-]

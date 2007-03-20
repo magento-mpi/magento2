@@ -31,20 +31,9 @@
                         <frontName>page</frontName>
                     </controller>
 
-                    <events>
-                        <initLayout>
-                            <observers>
-                                <page>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Page/initLayout.json</file>
-                                        <module>Mage_Page</module>
-                                    </args>
-                                </page>
-                            </observers>
-                        </initLayout>
-                    </events>
+                    <layouts>
+                        <default><updates><page><module>Mage_Page</module><file>initLayout.xml</file></page></updates></default>
+                    </layouts>
                 </front>
             </load>
 

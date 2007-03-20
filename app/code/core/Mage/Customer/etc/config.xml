@@ -31,20 +31,9 @@
                         <frontName>customer</frontName>
                     </controller>
 
-                    <events>
-                        <initLayout>
-                            <observers>
-                                <customer>
-                                    <class>Mage_Core_Block</class>
-                                    <method>loadJsonFile</method>
-                                    <args>
-                                        <file>Mage/Customer/initLayout.json</file>
-                                        <module>Mage_Customer</module>
-                                    </args>
-                                </customer>
-                            </observers>
-                        </initLayout>
-                    </events>
+                    <layouts>
+                        <default><updates><customer><module>Mage_Customer</module><file>initLayout.xml</file></customer></updates></default>
+                    </layouts>
                 </front>
             </load>
 

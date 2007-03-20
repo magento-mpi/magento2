@@ -8,13 +8,15 @@
  */
 class Mage_Core_Resource 
 {
+    static private $_types = array();
+    
     /**
      * Collection of resources (connections to DBs, etc)
      *
      * @var array
      */
     static private $_resources = array();
-
+    
     /**
      * Retrieve named resource
      *
@@ -39,14 +41,22 @@ class Mage_Core_Resource
         
         return self::$_resources[$name];
     }
-    
+
+    public static function addType($name, $class)
+    {
+        self::$_types[$name] = $class;
+    }
+        
     static public function getType($name='')
     {
         if (''===$name) {
-            return Mage::getConfig('/')->global->resourceTypes;
+            return self::$_types;
         } else {
-            return Mage::getConfig('/')->global->resourceTypes->$name;
+            if (isset(self::$_types[$name])) {
+                return self::$_types[$name];
+            }
         }
+        return false;
     }
     
     static public function getEntity($resource, $entity='')

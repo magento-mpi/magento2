@@ -1,10 +1,12 @@
 <?php
 
-$xml1 = simplexml_load_string("<root><child>sometext</child></root>");
-$xml2 = simplexml_load_string("<child>another text</child>");
-$xml1->child = $xml2;
+$xml = simplexml_load_string("<root><child><grand>test1</grand></child><child><grand>test2</grand></child></root>");
+$grand = $xml->child->grand;
 
-echo "<xmp>"; print_r($xml1);
+echo "<xmp>"; 
+print_r($xml);
+print_r($grand);
+print_r($grand->xpath('..'));
 
 /*
 try {

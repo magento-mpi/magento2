@@ -1,3 +1,0 @@
-[":cart.initLayout", {},
-    ["#top.links",[".append",["+list_link","#.mycart",[".setLink","","href=\"{$baseModuleUrl}\"","My Cart"]]]]
-]

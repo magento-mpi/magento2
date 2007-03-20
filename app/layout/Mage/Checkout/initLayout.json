@@ -1,3 +1,0 @@
-[":checkout.initLayout", {},
-    ["#top.links",[".append",["+list_link","#.checkout",[".setLink","","href=\"{$baseModuleUrl}\" title=\"Checkout\"","Checkout"]]]]
-]

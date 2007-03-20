@@ -186,19 +186,6 @@ abstract class Mage_Core_Block_Abstract
 	    }
 	    return false;
 	}
-	
-    public function setGroup($groupName, $depth=0)
-    {
-        $this->setInfo('groupName', $groupName);
-        
-        if (($depth===-1 || $depth>0) && ($children = $this->getChild())) {
-            foreach ($children as $name=>$block) {
-                $block->setGroup($groupName, $depth!==-1 ? $depth-1 : -1);
-            }
-        }
-        return $this;
-    }
-    
 
     /**
      * Used only in lists

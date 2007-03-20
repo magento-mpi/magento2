@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <block type="tpl" name="start_page" output="toString">
+        <action method="setViewName"><module>Mage_Catalog</module><view>Admin/start_page</view></action>
+    </block>
+</layoutUpdate>
