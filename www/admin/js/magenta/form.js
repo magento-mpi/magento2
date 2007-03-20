@@ -8,6 +8,7 @@ Mage.Form = function(form){
     this.method = form.method;
     this.timeout = 100;
     this.transId = null;
+    this.scipFile = true;
     this.enctype = form.getAttribute("enctype");
     if(this.enctype && this.enctype.toLowerCase() == "multipart/form-data"){
         this.isUpload  = true;
@@ -35,11 +36,16 @@ Mage.Form = function(form){
     this.sendForm = function(reset, callBack) {
         var i = 0;
         var formData = [];
+        var elm;
         for(i=0; i < this.elements.getCount(); i++) {
-            if (this.elements.itemAt(i).tagName.toLowerCase() == 'fieldset') {
+            elm = this.elements.itemAt(i);
+            if (elm.tagName.toLowerCase() == 'fieldset') {
                 continue;
             }
-            formData.push(this.elements.itemAt(i).name+'='+this.elements.itemAt(i).value);
+            if (this.scipFile && elm.type.toLowerCase() == 'file') {
+                continue;
+            }
+            formData.push(elm.name+'='+elm.value);
         }
         var cb = {
             success : this.successDelegate,

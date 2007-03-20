@@ -16,7 +16,9 @@ Mage.Catalog_Product = function(depend){
         searchPanel : null,
         editPanel : null,
         formLoading: null,
+        loadedForms : new Ext.util.MixedCollection(true),
         registeredForms : new Ext.util.MixedCollection(true),
+        test : 0,
         
         init: function(){
             dep.init();
@@ -302,18 +304,41 @@ Mage.Catalog_Product = function(depend){
                 toolbar.add('-','Product type :', setSelect.dom);                   
            // }
            
+           var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
-               this.editPanel.add('center', new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
+                var panel = new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
                    title : dataCard.tabs[i].title,
                    autoCreate: true,
                    closable : false,
                    url: dataCard.tabs[i].url,
                    loadOnce: true,
                    background: true
-               }));
+               })
+               var mgr = panel.getUpdateManager();
+               mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
+               this.editPanel.add('center', panel);
             }
             this.editPanel.endUpdate();
             return true;
+        },
+        
+        onLoadPanel : function(el, response) {
+            // we can ignore panel.laoded - becouse next set  is set it to ture version Ext alpha 3r4
+            panel = this.editPanel.getRegion('center').getPanel(el.id);
+            form = Ext.DomQuery.selectNode('form', panel.getEl().dom);
+            var i=0;
+            var el;
+            for(i=0; i < form.elements.length; i++) {
+                Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange, this, true);
+            }
+            this.loadedForms.add(form.id, form);
+        },
+        
+        onFormChange : function(e, element, object) {
+            panel = this.editPanel.getRegion('center').getPanel(element.id);
+            this.test++;
+            alert(this.test);
+            panel.setTitle(panel.getTitle() + '*');
         },
         
         cancelNew: function() {
