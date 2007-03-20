@@ -17,7 +17,7 @@ Mage.Form = function(form){
     this._parseElements = function(form) {
         var i = 0;
         for(i=0; i < form.elements.length; i++) {
-            this.elements.add(this.form.elements[i].name, this.form.elements[i]);
+            this.elements.add(form.elements[i].name, form.elements[i]);
         }
     }
     
@@ -36,6 +36,9 @@ Mage.Form = function(form){
         var i = 0;
         var formData = [];
         for(i=0; i < this.elements.getCount(); i++) {
+            if (this.elements.itemAt(i).tagName.toLowerCase() == 'fieldset') {
+                continue;
+            }
             formData.push(this.elements.itemAt(i).name+'='+this.elements.itemAt(i).value);
         }
         var cb = {
@@ -44,6 +47,7 @@ Mage.Form = function(form){
             timeout : this.timeout,
             argument: {"url": this.action, "method":this.method, "form": this.form, "reset":reset, "callBack": callBack}
         }
+        Ext.dump(formData);
         params = formData.join('&');
         this.transId = Ext.lib.Ajax.request(this.method, this.action, cb, params);
         this.elements.clear();
