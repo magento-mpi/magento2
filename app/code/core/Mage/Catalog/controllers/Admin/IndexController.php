@@ -14,7 +14,19 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
      */
     public function indexAction() 
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/startPageLayout.json', 'mage_catalog');
+        $layout = $this->getLayout();
+        
+        $layout->init('catalog_panel');
+        if (!$layout->isCacheLoaded()) {
+            $layout->loadUpdatesFromConfig('admin', 'catalog_panel');
+            $layout->saveCache();
+        }
+        
+        $layout->createBlocks();
+        
+        $this->renderLayout();
+        
+        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/startPageLayout.json', 'mage_catalog');
     }
     
     /**
@@ -23,7 +35,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
      */
     public function loadMainPanelAction()
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/loadMainPanel.json', 'mage_catalog');
+        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/loadMainPanel.json', 'mage_catalog');
     }
     
     /**
@@ -32,6 +44,6 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
      */
     public function loadAttributesPanelAction()
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/attributes/loadPanel.json', 'mage_catalog');
+        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/attributes/loadPanel.json', 'mage_catalog');
     }
 }

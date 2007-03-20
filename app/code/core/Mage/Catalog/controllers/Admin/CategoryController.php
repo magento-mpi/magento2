@@ -51,7 +51,18 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function treeAction()
     {
-        Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
+        $layout = $this->getLayout();
+        
+        $layout->init('catalog_category_tree');
+        if (!$layout->isCacheLoaded()) {
+            $layout->loadUpdatesFromConfig('admin', 'catalog_category_tree');
+            #$layout->saveCache();
+        }
+        
+        $layout->createBlocks();
+        
+        $this->renderLayout();
+        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
     }
     
     /**

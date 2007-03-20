@@ -93,6 +93,12 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
                     $method = (string)$node['method'];
                     $args = (array)$node->children();
                     unset($args['@attributes']);
+                    if (isset($node['json'])) {
+                        $json = explode(',', (string)$node['json']);
+                        foreach ($json as $arg) {
+                            $args[$arg] = Zend_Json::decode($args[$arg]);
+                        }
+                    }
 #echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
                     call_user_func_array(array($block, $method), $args);
                     break;
