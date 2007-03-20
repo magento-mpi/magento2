@@ -1,6 +1,25 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <block type="tpl" name="catalog_category_tree" output="toString">
+    <block type="tree" name="catalog_category_tree" output="toString">
+        <action method="construct" json="attributes">
+            <id>catalog-category-tree-div</id>
+            <attributes>{
+                "animate":false,
+                "enableDD":true,
+                "containerScroll":true
+            }</attributes>
+        </action>
+        <action method="setRootNode" process="attributes" json="attributes">
+            <attributes>{
+                "text":"Catalog",
+                "draggable":false,
+                "id":"1",
+                "expanded":true,
+                "loader":"{{new Ext.tree.TreeLoader({\"dataUrl\":\"{$baseUrl}/mage_catalog/category/treeChildren\"})}}"
+            }</attributes>
+        </action>
+    </block>
+    <block type="tpl" name="catalog_category_tree_events" output="toString">
         <action method="setViewName">
             <module>Mage_Catalog</module><view>Admin/js/catalog_tree</view>
         </action>
