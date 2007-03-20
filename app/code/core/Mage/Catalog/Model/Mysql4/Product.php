@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject
         $select = $dbConnection->getReadConnection()->select();
         $select->from($product_table, '*')
                ->join($extension_table, $extension_table.'.product_id='.$product_table.'.product_id', '*')
-               ->where($product_table.'.product_id=? and '.$extension_table.'.website_id=1', $id);
+               ->where($product_table.'.product_id=? and '.$extension_table.'.website_id='.Mage_Core_Environment::getCurentWebsite(), $id);
         
         $this->_data = $dbConnection->getReadConnection()->fetchRow($select);
         return $this;

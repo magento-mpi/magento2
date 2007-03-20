@@ -15,7 +15,7 @@ class Mage_Core_Module_Setup
 
     public function applyDbUpdates()
     {
-        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->name);
+        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->getName());
         $modVer = $this->_module->version;
 
         // Module is installed
@@ -50,7 +50,7 @@ class Mage_Core_Module_Setup
     protected function _installDb($moduleVersion)
     {
         $this->_modifySql('install', '', $moduleVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->name, $moduleVersion);
+        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->getName(), $moduleVersion);
     }
 
     /**
@@ -62,7 +62,7 @@ class Mage_Core_Module_Setup
     protected function _upgradeDb($oldVersion, $newVersion)
     {
         $this->_modifySql('upgrade', $oldVersion, $newVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->name, $newVersion);
+        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->getName(), $newVersion);
     }
 
     /**
@@ -110,14 +110,16 @@ class Mage_Core_Module_Setup
             $resource = Mage_Core_Resource::getResource($resName);
             if ($resource) {
                 
-                // Get resource type
-                $resType = $resource->getConfig('type');
+                // Get resource type !!! TODO
+                $resType = (array) $resource->getConfig()->connection->type;
+                $resType = $resType[0];
+
                 if ($resType && isset($resInfo[$resType])) {
                     
                     // Get SQL files name 
                     $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resType]);
                     foreach ($arrFiles as $fileName) {
-                        $sqlFile = Mage::getBaseDir('sql', $this->_module->name).DS.$resName.DS.$fileName;
+                        $sqlFile = Mage::getBaseDir('sql', $this->_module->getName()).DS.$resName.DS.$fileName;
                         $sql = file_get_contents($sqlFile);
 
                         // Execute SQL
@@ -187,7 +189,7 @@ class Mage_Core_Module_Setup
     protected function _getModificationResources($actionType)
     {
         $arrSql = array();
-        $resourceFilesDir = Mage::getBaseDir('sql', $this->_module->name);
+        $resourceFilesDir = Mage::getBaseDir('sql', $this->_module->getName());
 
         if (!file_exists($resourceFilesDir)) {
             return $arrSql;

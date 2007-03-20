@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
         //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
         $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;
         
-        $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId AND $tableAlias.website_id=1";
+        $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId AND $tableAlias.website_id=".Mage_Core_Environment::getCurentWebsite();
         $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeCode"));
     }
 }

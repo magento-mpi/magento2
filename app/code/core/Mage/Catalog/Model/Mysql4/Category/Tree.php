@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
 
             $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
             $condition = "$attributeValueTable.category_id=$treeTable.category_id
-                          AND $attributeValueTable.website_id=".Mage::getCurentWebsite();
+                          AND $attributeValueTable.website_id=".Mage_Core_Environment::getCurentWebsite();
 
             $this->_dbTree->addTable($attributeValueTable, $condition);
 

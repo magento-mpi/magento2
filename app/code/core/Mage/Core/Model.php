@@ -19,4 +19,11 @@ class Mage_Core_Model
 
 		return new $className($arguments);
 	}
+	
+	public static function runModelMethod($module, $modelName, $method, $params = array())
+	{
+	    $model = Mage::getModel($module, $modelName);
+	    $res = $model->$method($params);
+	    return $res;
+	}
 }

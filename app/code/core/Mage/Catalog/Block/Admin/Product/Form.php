@@ -11,10 +11,14 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
 {
     protected $_attributeSet;
     protected $_group;
+    protected $_dataInputs;
+    protected $_dataSources;
     
     public function __construct() 
     {
         parent::__construct();
+        $this->_dataInputs = (array) Mage::getConfig('/')->global->admin->dataInputs;
+        $this->_dataSources= (array) Mage::getConfig('/')->modules->Mage_Catalog->load->admin->dataSources;
 
         $this->setViewName('Mage_Core', 'form');
         
@@ -36,18 +40,13 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             $this->attribute2field($attribute);
         }
         //$this->_attributeSet    = Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
-        
-        
-        
-        
-/*        $this->addField('text1', 'text', array('name'=>'text1', 'id'=>'text1', 'value'=>11, 'label'=>'My field'));
-        $this->addField('text3', 'select', array('name'=>'text3', 'id'=>'text3', 'value'=>11,'label'=>'Select field', 'values'=>array(0=>array('value'=>1, 'label'=>'1111111'))));*/
     }
     
     public function attribute2field($attribute)
     {
         $elementId      = $attribute['attribute_code'];
         $elementType    = $attribute['data_input'];
+        
         $elementConfig  = array();
         $elementConfig['name'] = 'attribute['.$attribute['attribute_id'].']';
         $elementConfig['label']= $attribute['attribute_code'];
@@ -55,9 +54,29 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $elementConfig['value']= '';
         $elementConfig['title']= $attribute['attribute_code'];
         $elementConfig['validation'] = '';
-        //$elementConfig['maxlength'] = '';
-        //$elementConfig['size'] = '';
-
+        
+        // Parse input element params
+        if (isset($this->_dataInputs[$attribute['data_input']])) {
+            $htmlParams = (array) $this->_dataInputs[$attribute['data_input']];
+            $htmlParams = isset($htmlParams['htmlParams']) ? (array) $htmlParams['htmlParams'] : array();
+            foreach ($htmlParams as $paramName=>$paramValue) {
+                if (!isset($elementConfig[$paramName])) {
+                    $elementConfig[$paramName] = $paramValue;
+                }
+            }
+        }
+        
+        // Parse option values
+        if (isset($this->_dataSources[$attribute['data_source']])) {
+            $dataSource = (array) $this->_dataSources[$attribute['data_source']];
+            $elementConfig['values'] = Mage_Core_Model::runModelMethod(
+                'catalog', 
+                $dataSource['model'],
+                $dataSource['method'],
+                (array) $dataSource['params']
+            );
+        }
+                
         $this->addField($elementId, $elementType, $elementConfig);
     }
 }

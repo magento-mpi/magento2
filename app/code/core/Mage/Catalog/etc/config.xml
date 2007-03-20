@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.1.3</version>
+            <version>0.1.4</version>
         
             <depends>
                 <Mage_Page/>
@@ -39,6 +39,8 @@
                                 <product_attribute_varchar><table>catalog_product_attribute_varchar</table></product_attribute_varchar>
                                 <product_attribute_text><table>catalog_product_attribute_text</table></product_attribute_text>
                                 <product_attribute_date><table>catalog_product_attribute_date</table></product_attribute_date>
+                                <product_attribute_option><table>catalog_product_attribute_option</table></product_attribute_option>
+                                <product_attribute_option_type><table>catalog_product_attribute_option_type</table></product_attribute_option_type>
                                 <product_link><table>catalog_product_link</table></product_link>
                                 <product_link_type><table>catalog_product_link_type</table></product_link_type>
                             </entities>
@@ -114,6 +116,30 @@
                         <catalog_product_form><class>Mage_Catalog_Block_Admin_Product_Form</class></catalog_product_form>
                         <catalog_product_card><class>Mage_Catalog_Block_Admin_Product_Card</class></catalog_product_card>
                     </blocks>
+
+                    <dataSources>
+                        <product_status>
+                            <model>product_attribute_option</model>
+                            <method>getOptions</method>
+                            <params>
+                                <option_type>status</option_type>
+                            </params>
+                        </product_status>
+                        <product_type>
+                            <model>product_attribute_option</model>
+                            <method>getOptions</method>
+                            <params>
+                                <option_type>type</option_type>
+                            </params>
+                        </product_type>
+                        <product_manufacturer>
+                            <model>product_attribute_option</model>
+                            <method>getOptions</method>
+                            <params>
+                                <option_type>manufacturer</option_type>
+                            </params>
+                        </product_manufacturer>
+                    </dataSources>
 
                     <events>
                         <action_preDispatch_default_index_index>

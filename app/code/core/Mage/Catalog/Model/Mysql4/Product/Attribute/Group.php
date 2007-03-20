@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      */
     public function getRow($rowId)
     {
-        
+        return $this->get($rowId);
     }    
     
 }

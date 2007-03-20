@@ -102,12 +102,32 @@
                         <tree><class>Mage_Core_Block_Admin_Js_Tree</class></tree>
                     </blocks>
 
-                    <data_input>
-                        <text><code>Simple text</code><class>Mage_Core_Block_Form_Element_Text</class></text>
-                        <textarea><code>Big text</code><class>Mage_Core_Block_Form_Element_Textarea</class></textarea>
-                        <select><code>Dropdown</code><class>Mage_Core_Block_Form_Element_Select</class></select>
-                        <file><code>Upload file</code><class>Mage_Core_Block_Form_Element_File</class></file>
-                    </data_input>
+                    <dataInputs>
+                        <text>
+                            <class>Mage_Core_Block_Form_Element_Text</class>
+                            <code>Simple text</code>
+                            <htmlParams>
+                                <size>70</size>
+                                <maxLength>255</maxLength>
+                            </htmlParams>
+                        </text>
+                        <textarea>
+                            <class>Mage_Core_Block_Form_Element_Textarea</class>
+                            <code>Big text</code>
+                            <htmlParams>
+                                <cols>70</cols>
+                                <rows>5</rows>
+                            </htmlParams>
+                        </textarea>
+                        <select>
+                            <class>Mage_Core_Block_Form_Element_Select</class>
+                            <code>Dropdown</code>
+                        </select>
+                        <file>
+                            <class>Mage_Core_Block_Form_Element_File</class>
+                            <code>Upload file</code>
+                        </file>
+                    </dataInputs>
 
                     <events>
                         <action_preDispatch_default_index_index>
@@ -160,6 +180,7 @@
 
         <admin>
             <events extends="/config/modules/*/load/all/events | /config/modules/*/load/admin/events"/>
+            <dataInputs extends="/config/modules/*/load/admin/dataInputs"/>
         </admin>
     </global>
 </config>
