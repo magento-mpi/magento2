@@ -10,5 +10,8 @@
         <block type="tag_js" name="head.js.catalog.category">
             <action method="setSrc"><src>/magenta/catalog/category.js</src></action>
         </block>
+        <block type="tag_js" name="head.js.catalog.menu">
+            <action method="setSrc"><src>/magenta/catalog/menu.js</src></action>
+        </block>
     </reference>
 </layoutUpdate>

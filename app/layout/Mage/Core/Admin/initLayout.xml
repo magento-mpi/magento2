@@ -47,8 +47,8 @@
                 <action method="setSrc"><src>/magenta/core.js</src></action>
             </block>
             
-            <block type="tag_js" name="head.js.magenta.menu">
-                <action method="setSrc"><src>/magenta/menu.js</src></action>
+            <block type="tag_js" name="head.js.magenta.core.menu">
+                <action method="setSrc"><src>/magenta/core/menu.js</src></action>
             </block>
         </block>
     </block>
