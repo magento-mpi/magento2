@@ -15,6 +15,8 @@ Mage.Catalog_Product = function(depend){
         grid : null,
         searchPanel : null,
         editPanel : null,
+        formLoading: null,
+        registeredForms : new Ext.util.MixedCollection(true),
         
         init: function(){
             dep.init();
@@ -228,18 +230,33 @@ Mage.Catalog_Product = function(depend){
         saveItem : function() {
             var region = this.editPanel.getRegion('center');
             var i = 0;
+            var k = 0;
             var panel = null;
+            var form = null;
             
             for(i = 0; i< region.panels.length; i++) {
                 panel = region.panels.get(i);
                 dq = Ext.DomQuery;
+                form = null;
+                
                 if (panel.loaded) {
-                   form = dq.selectNode('form', panel.getEl().dom);
-                   var mgr = new Ext.UpdateManager(form);
-                   mgr.formUpdate(form);
+                   formEl = dq.selectNode('form', panel.getEl().dom);
+                   if (form = this.registeredForms.get(formEl.action)) {
+                       form.appendForm(formEl);
+                   } else {
+                       form = new Mage.Form(formEl);
+                       this.registeredForms.add(form.action, form);
+                   }
                 }
             }
+            
+            form = null;
+            for(i=0; i < this.registeredForms.getCount(); i++) {
+                form = this.registeredForms.itemAt(i);
+                form.sendForm();
+            }
         },
+        
         
         loadTabs: function(response) {
             if (!this.editPanel) {
@@ -262,6 +279,11 @@ Mage.Catalog_Product = function(depend){
             },{
                 text: 'Cancel',
                 cls: 'x-btn-text-icon'
+            },'-');
+            this.formLoading = toolbar.addButton({
+               tooltip: 'Form is updating',
+               cls: "x-btn-icon x-grid-loading",
+               disabled: false
             });
             
            // if (dataCard.attribute_set.totalRecords > 1) {
