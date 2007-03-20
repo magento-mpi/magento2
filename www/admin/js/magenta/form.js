@@ -13,7 +13,7 @@ Mage.Form = function(form){
         this.isUpload  = true;
     }                
 
-    this.successDelegate = this.processSucccess.createDelegate(this);
+    this.successDelegate = this.processSuccess.createDelegate(this);
     this.failureDelegate = this.processFailure.createDelegate(this);
 
     this._parseElements = function(form) {
