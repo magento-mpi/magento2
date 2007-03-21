@@ -26,9 +26,9 @@
         </li>
     </ul>
     <span class="sort-by">Sort by <select name="sort" onchange="location.href=this.options[this.selectedIndex].label">
-        <option value="name_desc" label="<?=$this->sortUrl->setParam('order', 'name')->buildUrl()?>" <?=$this->sortValue=='name_desc'?'selected':''?>>Name</option>
+        <option value="name_desc" label="<?=$this->sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->buildUrl()?>" <?=$this->sortValue=='name_desc'?'selected':''?>>Name</option>
         <option value="price_asc" label="<?=$this->sortUrl->setParam('order', 'price')->buildUrl()?>" <?=$this->sortValue=='price_asc'?'selected':''?>>Price Low-High</option>
-        <option value="price_desc" label="<?=$this->sortUrl->setParam('order', 'price')->setParam('dir', 'desc')->buildUrl()?>" <?=$this->sortValue=='price_desc'?'selected':''?>>Price High-Low</option>
+        <option value="price_desc" label="<?=$this->sortUrl->setParam('dir', 'desc')->buildUrl()?>" <?=$this->sortValue=='price_desc'?'selected':''?>>Price High-Low</option>
         </select></span>
     <div class="clearfix"></div>
 </div>

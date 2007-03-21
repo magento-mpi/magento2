@@ -19,6 +19,7 @@
             }</attributes>
         </action>
     </block>
+    
     <block type="tpl" name="catalog_category_tree_events" output="toString">
         <action method="setViewName">
             <module>Mage_Catalog</module><view>Admin/js/catalog_tree</view>

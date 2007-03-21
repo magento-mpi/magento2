@@ -9,7 +9,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
         $layout->init('admin_default');
         if (!$layout->isCacheLoaded()) {
             $layout->loadUpdatesFromConfig('admin', 'default');
-            #$layout->saveCache();
+            $layout->saveCache();
         }
         
         $layout->createBlocks();

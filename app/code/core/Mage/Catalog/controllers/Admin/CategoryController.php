@@ -53,16 +53,15 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     {
         $layout = $this->getLayout();
         
-        $layout->init('catalog_category_tree');
+        $layout->init('admin_catalog_category_tree');
         if (!$layout->isCacheLoaded()) {
             $layout->loadUpdatesFromConfig('admin', 'catalog_category_tree');
-            #$layout->saveCache();
+            $layout->saveCache();
         }
         
         $layout->createBlocks();
         
         $this->renderLayout();
-        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/catalogTree.json', 'mage_catalog');
     }
     
     /**

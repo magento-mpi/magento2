@@ -1,0 +1,34 @@
+{
+	"fields":{"tag":"select","children":[
+		{"tag":"option","value":"name","html":"Name"},
+		{"tag":"option","value":"date_created","html":"Date Created"},
+		{"tag":"option","value":"attribute_set","html":"Product Type"}
+	]},
+
+	"filters":{
+		"name":{
+			"conditions":{"tag":"select","children":[
+				{"tag":"option","value":"like","html":"Like"},
+				{"tag":"option","value":"not_like","html":"Not Like"}
+			]},
+			"value":{"tag":"input","type":"text"}
+		},
+		"date_created":{
+			"conditions":{"tag":"select","children":[
+				{"tag":"option","value":"lt","html":"Less Than"},
+				{"tag":"option","value":"gt","html":"Greater Than"}
+			]},
+			"value":{"tag":"input","type":"date"}
+		},
+		"attribute_set":{
+			"conditions":{"tag":"select","children":[
+				{"tag":"option","value":"eq","html":"Equals"},
+				{"tag":"option","value":"ne","html":"Not equals"}
+			]},
+			"value":{"tag":"select","children":[{
+				{"tag":"option","value":"type1","html":"Type 1"},
+				{"tag":"option","value":"type2","html":"Type 2"}
+			]}
+		}
+	}
+}
