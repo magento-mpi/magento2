@@ -53,7 +53,6 @@ Mage.Form = function(form){
             timeout : this.timeout,
             argument: {"url": this.action, "method":this.method, "form": this.form, "reset":reset, "callBack": callBack}
         }
-        Ext.dump(formData);
         params = formData.join('&');
         this.transId = Ext.lib.Ajax.request(this.method, this.action, cb, params);
         this.elements.clear();
