@@ -66,7 +66,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 
         $cardStructure['tabs'][] = array(
             'name'  => 'related',
-            'url'   => '',
+            'url'   => Mage::getBaseUrl().'/mage_catalog/product/reation/',
             'title' => 'Related products',
         );
         $cardStructure['tabs'][0]['active'] = true;

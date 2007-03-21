@@ -13,12 +13,27 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($card->toJson());
     }
     
+    /**
+     * Attributes group form
+     *
+     */
     public function formAction()
     {
         $form = Mage::createBlock('catalog_product_form', 'product_form');
         $this->getResponse()->setBody($form->toString());
+    }
+    
+    /**
+     * Product attribute set JSON
+     *
+     */
+    public function attributeSetListAction()
+    {
+        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
+        $setCollection->load();
+        $arrSets = $setCollection->__toArray();
         
-        //echo "group: $groupId, set: $setId";
+        $this->getResponse()->setBody(Zend_Json::encode($arrSets['items']));
     }
     
     /**
