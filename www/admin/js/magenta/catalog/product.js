@@ -335,11 +335,8 @@ Mage.Catalog_Product = function(depend){
         },
         
         onFormChange : function(e, element, object, panel) {
-//            panel = object.editPanel.getRegion('center').getPanel(element.id);
-            this.test++;
-            alert(this.test);
             panel.setTitle(panel.getTitle() + '*');
-        //   Ext.EventManager();
+            e.stopEvent();
         },
         
         cancelNew: function() {
