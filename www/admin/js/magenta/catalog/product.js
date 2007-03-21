@@ -323,22 +323,23 @@ Mage.Catalog_Product = function(depend){
         },
         
         onLoadPanel : function(el, response) {
-            // we can ignore panel.laoded - becouse next set  is set it to ture version Ext alpha 3r4
+            // we can ignore panel.laoded - becouse next step set it to ture version Ext alpha 3r4
             panel = this.editPanel.getRegion('center').getPanel(el.id);
             form = Ext.DomQuery.selectNode('form', panel.getEl().dom);
             var i=0;
             var el;
             for(i=0; i < form.elements.length; i++) {
-                Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange, this, true);
+                Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
             }
             this.loadedForms.add(form.id, form);
         },
         
-        onFormChange : function(e, element, object) {
-            panel = this.editPanel.getRegion('center').getPanel(element.id);
+        onFormChange : function(e, element, object, panel) {
+//            panel = object.editPanel.getRegion('center').getPanel(element.id);
             this.test++;
             alert(this.test);
             panel.setTitle(panel.getTitle() + '*');
+        //   Ext.EventManager();
         },
         
         cancelNew: function() {
