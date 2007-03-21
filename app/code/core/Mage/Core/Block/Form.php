@@ -230,6 +230,11 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
      */
     public function setElementsValues($arrValues)
     {
+        foreach ($arrValues as $elementId => $elementValue) {
+            if (isset($this->_elements[$elementId])) {
+                $this->getChild($elementId)->setAttribute('value', $elementValue);
+            }
+        }
         return $this;
     }
     

@@ -9,7 +9,6 @@
  */
 class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
 {
-    protected $_attributeSet;
     protected $_group;
     protected $_dataInputs;
     protected $_dataSources;
@@ -17,16 +16,22 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
     public function __construct() 
     {
         parent::__construct();
+        // Config settings
         $this->_dataInputs = (array) Mage::getConfig('/')->global->admin->dataInputs;
         $this->_dataSources= (array) Mage::getConfig('/')->modules->Mage_Catalog->load->admin->dataSources;
 
         $this->setViewName('Mage_Core', 'form');
         
+        // Set form attributes
         $this->setAttribute('method', 'POST');
         $this->setAttribute('class', 'x-form');
         $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/product/save/');
         
+        // Request params
         $groupId  = Mage_Core_Controller::getController()->getRequest()->getParam('group', false);
+        $setId    = Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
+        $productId= (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
+        
         if ($groupId) {
             $this->_group = Mage::getModel('catalog', 'product_attribute_group')->get($groupId);
             if ($this->_group) {
@@ -35,11 +40,16 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             }
         }
         
-        $attributes = Mage::getModel('catalog', 'product_attribute_group')->getAttributes($groupId);
+        $attributes = Mage::getModel('catalog', 'product_attribute_group')->getAttributes($groupId, $setId);
         foreach ($attributes as $attribute) {
             $this->attribute2field($attribute);
         }
-        //$this->_attributeSet    = Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
+        
+        if ($productId) {
+            $product = Mage::getModel('catalog','product');
+            $productInfo = $product->getRow($productId);
+            $this->setElementsValues($productInfo);
+        }
     }
     
     public function attribute2field($attribute)

@@ -223,7 +223,7 @@ Mage.Catalog_Product = function(depend){
 
             workZone.beginUpdate();
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/prodid/'+prodId+'/', {success:this.loadTabs.createDelegate(this),failure:failure});  
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/', {success:this.loadTabs.createDelegate(this),failure:failure});  
             
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             workZone.endUpdate();

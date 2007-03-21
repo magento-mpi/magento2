@@ -41,25 +41,46 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      * Get group attributes
      *
      * @param   int $groupId
+     * @param   int $setId
      * @return  array
      */
-    public function getAttributes($groupId)
+    public function getAttributes($groupId, $setId = false)
     {
         $arrRes = array();
-        $attributesTable = $this->getTableName('catalog_read', 'product_attribute');
-        $sql = "SELECT
-                    $this->_attributeInGeoupTable.*,
-                    $attributesTable.*
-                FROM
-                    $this->_attributeInGeoupTable,
-                    $attributesTable
-                WHERE
-                    $this->_attributeInGeoupTable.product_attribute_group_id=:group_id
-                    AND $attributesTable.attribute_id=$this->_attributeInGeoupTable.attribute_id
-                ORDER BY
-                    $this->_attributeInGeoupTable.position";
-
-        $arrRes = $this->_read->fetchAll($sql, array('group_id'=>$groupId));
+        $attributeTable = $this->getTableName('catalog_read', 'product_attribute');
+        $arrSqlParam = array('group_id'=>$groupId);
+        
+        if ($setId) {
+            $attributeInSetTable = $this->getTableName('catalog_read', 'product_attribute_in_set');
+            
+            $sql = "SELECT
+                        $attributeTable.*
+                    FROM
+                        $this->_attributeInGeoupTable,
+                        $attributeTable,
+                        $attributeInSetTable
+                    WHERE
+                        $attributeTable.attribute_id=$this->_attributeInGeoupTable.attribute_id
+                        AND $attributeInSetTable.attribute_id=$attributeTable.attribute_id
+                        AND $this->_attributeInGeoupTable.product_attribute_group_id=:group_id
+                        AND $attributeInSetTable.product_attribute_set_id=:set_id
+                    ORDER BY
+                        $this->_attributeInGeoupTable.position";
+            $arrSqlParam['set_id'] = $setId;
+        }
+        else {
+            $sql = "SELECT
+                        $attributeTable.*
+                    FROM
+                        $this->_attributeInGeoupTable,
+                        $attributeTable
+                    WHERE
+                        $this->_attributeInGeoupTable.product_attribute_group_id=:group_id
+                        AND $attributeTable.attribute_id=$this->_attributeInGeoupTable.attribute_id
+                    ORDER BY
+                        $this->_attributeInGeoupTable.position";
+        }
+        $arrRes = $this->_read->fetchAll($sql, $arrSqlParam);
         return $arrRes;
     }
     

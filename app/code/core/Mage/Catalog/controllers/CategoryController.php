@@ -64,9 +64,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
          */
         $db = Mage_Core_Resource::getResource('catalog_write')->getConnection();
 
-        for ($i=1;$i<10000;$i++) {
+        for ($i=0;$i<100;$i++) {
             $base = array();
-            $base['create_date'] = new Zend_Db_Expr('NOW()');
+            $base['create_date'] = date('Y-m-d H:i:s');
+            $base['attribute_set_id'] = 1;
 
             $db->insert('catalog_product', $base);
             $product_id = $db->lastInsertId();
@@ -176,7 +177,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             }
         }
     }
-
+    
     protected function _getId()
     {
         return $this->getRequest()->getParam('id');

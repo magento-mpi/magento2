@@ -50,8 +50,12 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure['tabs'] = array();
         
         // Tabs description JSON
+        $baseTabUrl = Mage::getBaseUrl().'/mage_catalog/product/form/';
+        if ($this->_productId) {
+            $baseTabUrl.= 'product/' . $this->_productId . '/';
+        }
         foreach ($arrGroups['items'] as $group) {
-            $url = Mage::getBaseUrl().'/mage_catalog/product/form/group/'.$group['product_attribute_group_id'].'/';
+            $url = $baseTabUrl . 'group/' . $group['product_attribute_group_id'].'/';
             $url.= 'set/'.$this->_attributeSet.'/';
             $cardStructure['tabs'][] = array(
                 'name'  => $group['product_attribute_group_code'],
@@ -60,11 +64,11 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             );
         }
 
-            $cardStructure['tabs'][] = array(
-                'name'  => 'related',
-                'url'   => '',
-                'title' => 'Related products',
-            );
+        $cardStructure['tabs'][] = array(
+            'name'  => 'related',
+            'url'   => '',
+            'title' => 'Related products',
+        );
         
         return Zend_Json::encode($cardStructure);
     }
