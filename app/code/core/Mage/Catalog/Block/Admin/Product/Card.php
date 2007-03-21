@@ -69,7 +69,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             'url'   => '',
             'title' => 'Related products',
         );
-        
+        $cardStructure['tabs'][0]['active'] = true;
         return Zend_Json::encode($cardStructure);
     }
 }
