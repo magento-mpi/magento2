@@ -1,5 +1,68 @@
+<div id="related_product_grid" style="overflow: hidden;"></div>
+<script type="text/javascript" language="javascript">
+/*
+var productGrid;
+productGrid = {
+    init : function(){
+        var dataRecord = Ext.data.Record.create([
+            {name: 'id', mapping: 'product_id'},
+            {name: 'name', mapping: 'name'},
+            {name: 'price', mapping: 'price'},
+            {name: 'description', mapping: 'description'},
+        ]);
+        var dataReader = new Ext.data.JsonReader({
+            root: 'items',
+            totalProperty: 'totalRecords',
+            id: 'product_id'
+        }, dataRecord);
+        var dataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({url: '<?=$baseUrl?>/mage_catalog/product/gridData/category/1/'}),
+            reader: dataReader,
+            remoteSort: true
+        });
+        dataStore.setDefaultSort('product_id', 'desc');
+
+        var colModel = new Ext.grid.ColumnModel([
+            {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
+            {header: "Name", sortable: true, dataIndex: 'name'},
+            {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+            {header: "Description", sortable: false, dataIndex: 'description'}
+        ]);
+
+        var grid = new Ext.grid.Grid('products-grid', {
+            ds: dataStore,
+            cm: colModel,
+            autoSizeColumns: true,
+            monitorWindowResize: true,
+            autoHeight:true,
+            selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
+            enableColLock:false
+        });
+
+        grid.render();
+        var gridHead = grid.getView().getHeaderPanel(true);
+        var gridFoot = grid.getView().getFooterPanel(true);
+        var paging = new Ext.PagingToolbar(gridFoot, dataStore, {pageSize: 20});
+
+        var displayInfo = gridHead.createChild({cls:'paging-info'});
+        dataStore.on('load', function(){
+            var count = dataStore.getCount();
+            var msg = count == 0 ?
+                "No products to display" :
+                String.format('Displaying products {0} - {1} of {2}', paging.cursor+1, paging.cursor+count, dataStore.getTotalCount());
+            displayInfo.update(msg);
+        });
+
+        dataStore.load({params:{start:0, limit:20}});
+        return grid;
+    }
+    new Ext.GridPanel(productGrid.init(),{title:"Grid Panel",fitToFrame:true,loadOnce:true,onWindowResize:true}));
+    Mage.Collection.get('catalog_main_content_border_panel').add('center', Mage.Collection.get('catalog_product_grid'));
+}/*
+</script>
 <div id="related_products_panel">
     <div id="related_products_panel_toolbar"></div>
+    <div id="related_products_panel_grid"></div>
 </div>
 <script type="text/javascript">
 var relProductChooser = function(){

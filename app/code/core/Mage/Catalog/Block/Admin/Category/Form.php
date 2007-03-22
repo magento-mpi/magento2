@@ -13,9 +13,13 @@ class Mage_Catalog_Block_Admin_Category_Form extends Mage_Core_Block_Form
     {
         parent::__construct();
         $this->setViewName('Mage_Core', 'form');
+        $this->setAttribute('id', 'add_child_category_form');
         $this->setAttribute('legend', 'Category form');
         $this->setAttribute('class', 'x-form');
-        $this->addField('text1', 'text', array('name'=>'text1', 'id'=>'text1', 'value'=>11, 'label'=>'My field'));
-        $this->addField('text3', 'select', array('name'=>'text3', 'id'=>'text3', 'value'=>11,'label'=>'Select field', 'values'=>array(0=>array('value'=>1, 'label'=>'1111111'))));
+        $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/category/save/');
+        
+        $parentId = Mage_Core_Controller::getController()->getRequest()->getParam('parent', false);
+        $this->addField('parent', 'hidden', array('name'=>'parent', 'value'=>$parentId));
+        $this->addField('name', 'text', array('name'=>'name', 'id'=>'new_category_name', 'label'=>'Category name'));
     }
 }

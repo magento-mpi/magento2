@@ -19,6 +19,12 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($form->toString());
     }
     
+    public function formAction()
+    {
+        $form = Mage::createBlock('catalog_category_form', 'category_form');
+        $this->getResponse()->setBody($form->toString());
+    }
+    
     public function saveAction()
     {
         echo 'C save';

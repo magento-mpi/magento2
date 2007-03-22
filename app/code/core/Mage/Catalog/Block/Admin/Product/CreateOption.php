@@ -34,9 +34,30 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         $this->addField('attribute_set', 'select', array(
             'name'  => 'setId',
             'label' => 'Attributes Set',
-            'id'    => 'setId',
+            'id'    => 'choose_attribute_set',
             'values'=> $setOptions,
             'title' => 'Choose attributes set for new product',
+        ));
+
+        $this->addField('product_type', 'select', array(
+            'name'  => 'type',
+            'label' => 'Product Type',
+            'id'    => 'choose_product_type',
+            'values'=> array(
+                0 => array(
+                    'label' => 'Normal product',
+                    'value' => ''
+                ),
+                1 => array(
+                    'label' => 'Super product',
+                    'value' => ''
+                ),
+                2 => array(
+                    'label' => 'Bundle product',
+                    'value' => ''
+                ),
+            ),
+            'title' => 'Choose product type',
         ));
     }
 }

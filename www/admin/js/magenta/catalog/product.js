@@ -169,11 +169,11 @@ Mage.Catalog_Product = function(depend){
                         title : 'Test',
                         autoTabs:true,
                         width:300,
-                        height:150,
+                        height:200,
                         modal:true,
                         shadow:true,
                         minWidth:300,
-                        minHeight:150,
+                        minHeight:200,
                         proxyDrag: true,
                 });
                 var sbmt = this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog);

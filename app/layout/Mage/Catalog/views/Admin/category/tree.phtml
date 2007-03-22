@@ -7,9 +7,10 @@ if (!Mage.Collection.get('category_tree_context_menu')){
         Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
     };
 
-    categoryTreeHandler.newCategory = function(item, event) {
+    categoryTreeHandler.addChild = function(item, event) {
+        addChildDialog(item);
         //Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);
-        Ext.MessageBox.alert('New Category', 'create new');        
+        //Ext.MessageBox.alert('New Category', 'create new');        
     };
 
 
@@ -47,7 +48,7 @@ if (!Mage.Collection.get('category_tree_context_menu')){
         id : 'category_context_menu',
         items: [{text: 'Show Category Products', handler: categoryTreeHandler.showProducts},
                 '-',
-                {text: 'New Catecory',handler:categoryTreeHandler.newCategory},
+                {text: 'Add child',handler:categoryTreeHandler.addChild},
                 {text: 'Edit Catecory',handler:categoryTreeHandler.editCategory},
                 {text: 'Delete Category',handler:categoryTreeHandler.deleteConfirm}]
     });
@@ -80,7 +81,31 @@ Mage.Collection.get('catalog_category_tree').addListener(
     Mage.Collection.get('category_tree_handler')
 );
 
-
+var chlildDialog;
+function addChildDialog(menuItem)
+{
+    if (!chlildDialog) {
+        chlildDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
+                title : 'Add child node',
+                autoTabs:true,
+                width:400,
+                height:300,
+                modal:true,
+                shadow:true,
+                minWidth:300,
+                minHeight:300,
+                proxyDrag: true,
+        });
+        var sbmt = chlildDialog.addButton('Submit', chlildDialog.hide, chlildDialog);
+        sbmt.disable();
+        chlildDialog.addButton('Close', chlildDialog.hide, chlildDialog);
+        
+        var mgr = new Ext.UpdateManager(chlildDialog.body);
+        mgr.on('update', function(){sbmt.enable();});
+        mgr.update(Mage.url + '/mage_catalog/category/form/parent/'+menuItem.parentMenu.selectedNode.id);
+    }
+    chlildDialog.show(menuItem.getEl());
+}
 
 function moveNode(obj) {
 //    Ext.dump(obj.target.id);
