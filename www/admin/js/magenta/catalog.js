@@ -33,7 +33,7 @@ Mage.Catalog = function(depend){
                             split:true,
                             initialSize:200,
                             minSize:50,
-                            maxSize:400,
+                            //maxSize:400,
                             autoScroll:true,
                             collapsible:true
                          }
@@ -69,7 +69,7 @@ Mage.Catalog = function(depend){
                          split:true,
                          initialSize:200,
                          minSize:50,
-                         maxSize:400,
+                         //maxSize:400,
                          titlebar: true,
                          autoScroll:true,
                          collapsible:true,

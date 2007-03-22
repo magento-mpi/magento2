@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <script type="text/javascript" language="Javascript">
-        var BASE_URL = '<?=$this->baseUrl?>';
-        var SKIN_URL = '<?=$this->baseSkinUrl?>';
+        var BASE_URL = '<?=$baseUrl?>';
+        var SKIN_URL = '<?=$baseSkinUrl?>';
     </script>
-    <?=$this->head?>
+    <?=$head?>
     <script type="text/javascript" language="Javascript">
-        Ext.BLANK_IMAGE_URL = '<?=$this->baseUrl?>/yui-ext/resources/images/s.gif';
+        Ext.BLANK_IMAGE_URL = '<?=$baseUrl?>/yui-ext/resources/images/s.gif';
         Ext.UpdateManager.defaults.loadScripts = true;
         Ext.UpdateManager.defaults.disableCachingL = true;
     </script>
 </head>
 <body>
-    <?=$this->layout?>
+    <?=$layout?>
 </body>
 </html>

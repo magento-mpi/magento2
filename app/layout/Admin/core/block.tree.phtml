@@ -4,8 +4,8 @@ Ext.onReady(function(){
     // shorthand
     var Tree = Ext.tree;
     
-    var jsonLoader = new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/block/node2/'});
-    var basicLoader = new Tree.TreeLoader({dataUrl:'<?=$this->BASE_URL?>/block/node/'}); 
+    var jsonLoader = new Tree.TreeLoader({dataUrl:'<?=$BASE_URL?>/block/node2/'});
+    var basicLoader = new Tree.TreeLoader({dataUrl:'<?=$BASE_URL?>/block/node/'}); 
     
     var tree = new Tree.TreePanel('block:tree', {
         animate:true, 

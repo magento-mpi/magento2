@@ -17,7 +17,7 @@ if (Mage.Collection.get('catalog_main_content_border_panel')){
                     id: 'product_id'
                 }, dataRecord);
                 var dataStore = new Ext.data.Store({
-                    proxy: new Ext.data.HttpProxy({url: '<?=$this->baseUrl?>/mage_catalog/product/gridData/category/1/'}),
+                    proxy: new Ext.data.HttpProxy({url: '<?=$baseUrl?>/mage_catalog/product/gridData/category/1/'}),
                     reader: dataReader,
                     remoteSort: true
                 });

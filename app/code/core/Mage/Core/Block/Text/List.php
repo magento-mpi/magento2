@@ -15,6 +15,7 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 {
 	function toString()
 	{
+	    $this->setText('');
 	    $list = $this->getAttribute('sortedChildrenList');
 	    if (!empty($list)) {
     	    foreach ($list as $name) {

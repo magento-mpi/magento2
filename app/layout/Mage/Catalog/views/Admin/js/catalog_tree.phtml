@@ -23,7 +23,7 @@ if (!Mage.Collection.get('category_tree_context_menu')){
             var node = tree.getSelectionModel().getSelectedNode();
             var success = function(o) { this.parentNode.removeChild(this);};
             var failure = function(o) { Ext.dump(o.statusText); };
-            var con = new Ext.lib.Ajax.request('GET', '<?=$this->baseUrl?>/mage_catalog/category/delete/id/'+node.id+'/', {success:success,failure:failure,scope:node});
+            var con = new Ext.lib.Ajax.request('GET', '<?=$baseUrl?>/mage_catalog/category/delete/id/'+node.id+'/', {success:success,failure:failure,scope:node});
         }
     };
 

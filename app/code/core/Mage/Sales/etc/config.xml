@@ -25,6 +25,12 @@
                         </sales_read>
                     </resources>
                 </all>
+            
+                <admin>
+                    <layouts>
+                        <default><updates><sales><module>Mage_Sales</module><file>Admin/initLayout.xml</file></sales></updates></default>
+                    </layouts>
+                </admin>
             </load>
         </Mage_Sales>
     </modules>

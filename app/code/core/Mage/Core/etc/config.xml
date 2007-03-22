@@ -28,6 +28,7 @@
                         <tag_js><class>Mage_Core_Block_Text_Tag_Js</class></tag_js>
                         <debug><class>Mage_Core_Block_Text_Tag_Debug</class></debug>
                         <tpl><class>Mage_Core_Block_Template</class></tpl>
+                        <tpl_zend><class>Mage_Core_Block_Template_Zend</class></tpl_zend>
                         <list><class>Mage_Core_Block_Text_List</class></list>
                         <list_link><class>Mage_Core_Block_Text_List_Link</class></list_link>
                         <form><class>Mage_Core_Block_Form</class></form>

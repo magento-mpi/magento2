@@ -11,7 +11,7 @@ bottomLinks Links on the bottom
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <?=$this->head?>
+    <?=$head?>
 </head>
 <body>
     <div class="page">
@@ -20,15 +20,15 @@ bottomLinks Links on the bottom
             <div class="header-info">
                 <div class="account">
                     <ul>
-                        <?=$this->topLinks?>
+                        <?=$topLinks?>
                     </ul>
                 </div>
             </div>
             <div class="top-menu-line">
                 <ul class="nav">
-                    <?=$this->topMenu?>
+                    <?=$topMenu?>
                 </ul>
-                <?=$this->topForms?>
+                <?=$topForms?>
             </div>
         </div>
         <!-- [end] header -->
@@ -36,12 +36,12 @@ bottomLinks Links on the bottom
         <div class="container">
             <!-- [start] column-left -->
             <div class="column-left">
-                <?=$this->left?>
+                <?=$left?>
             </div>
             <!-- [end] column-left -->
             <!-- [start] column-right -->
             <div class="column-right">
-                <?=$this->content?>
+                <?=$content?>
             </div>
             <!-- [end] column-right -->
             <div class="clearfix"></div>
@@ -50,7 +50,7 @@ bottomLinks Links on the bottom
         <!-- [start] footer -->
         <div class="footer">
             <ul>
-                <?=$this->bottomLinks?>
+                <?=$bottomLinks?>
             </ul>
             <div class="clearfix"></div>
         </div>

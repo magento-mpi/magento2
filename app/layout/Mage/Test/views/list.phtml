@@ -1,5 +1,5 @@
-<ul class="<?=$this->cssClassName?>">
-    <?foreach ($this->data as $item):?>
-        <li><a href="<?=$this->base_url?>/catalog/category/view/id/<?=$item['id']?>/" <?if (!empty($this->currentCategoryId) && $item['id']==$this->currentCategoryId):?> class="active"<?endif?>><?=$item['title']?></a></li>
+<ul class="<?=$cssClassName?>">
+    <?foreach ($data as $item):?>
+        <li><a href="<?=$base_url?>/catalog/category/view/id/<?=$item['id']?>/" <?if (!empty($currentCategoryId) && $item['id']==$currentCategoryId):?> class="active"<?endif?>><?=$item['title']?></a></li>
     <?endforeach?>
 </ul>

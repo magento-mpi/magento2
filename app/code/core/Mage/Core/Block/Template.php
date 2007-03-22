@@ -15,32 +15,9 @@
 
 class Mage_Core_Block_Template extends Mage_Core_Block_Abstract 
 {
-    protected $_view = null;
-   
-    /**
-     * Class constructor. Base html block
-     * 
-     * @param      none
-     * @return     void
-     * @author     Soroka Dmitriy <dmitriy@varien.com>
-     */
-    function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
-    }
+    protected $_viewDir = '';
+    protected $_viewVars = array();
     
-    public function setView()
-    {
-        if (empty($this->_view)) {
-            $this->_view = new Mage_Core_View_Zend();
-        }
-    }
-    
-    public function getView()
-    {
-        return $this->_view;
-    }
-
     /**
      * Set block template
      * 
@@ -59,16 +36,27 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     
     public function assign($key, $value=null)
     {
-        $this->setView();
-        
         if (is_array($key) && is_null($value)) {
             foreach ($key as $k=>$v) {
                 $this->assign($k, $v);
             }
         } elseif (!is_null($value)) {
-            $this->getView()->assign($key, $value);
+            $this->_viewVars[$key] = $value;
         }
         return $this;
+    }
+    
+    public function setScriptPath($dir)
+    {
+        $this->_viewDir = $dir;
+    }
+    
+    public function fetchView($fileName)
+    {
+        extract ($this->_viewVars);
+        ob_start();
+        include $this->_viewDir.DS.$fileName;
+        return ob_get_clean();
     }
     
     /**
@@ -88,16 +76,16 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $moduleBaseUrl = Mage::getBaseUrl('', $moduleName);
         $moduleBaseSkinUrl = Mage::getBaseUrl('skin', $moduleName);
 
-        $this->getView()->setScriptPath($moduleViewsDir.DS);
-        $this->getView()->assign('baseUrl', Mage::getBaseUrl());
-        $this->getView()->assign('moduleBaseUrl', $moduleBaseUrl);
-        $this->getView()->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
-        $this->getView()->assign('moduleSkinUrl', $moduleBaseSkinUrl);
-        $this->getView()->assign('moduleViewsDir', $moduleViewsDir);
+        $this->assign('baseUrl', Mage::getBaseUrl());
+        $this->assign('moduleBaseUrl', $moduleBaseUrl);
+        $this->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
+        $this->assign('moduleSkinUrl', $moduleBaseSkinUrl);
+        $this->assign('moduleViewsDir', $moduleViewsDir);
         
-        $this->getView()->assign('curentBlock', $this);
+        $this->assign('curentBlock', $this);
         
-        $html = $this->getView()->render($this->getAttribute('viewName').'.phtml');
+        $this->setScriptPath($moduleViewsDir.DS);
+        $html = $this->fetchView($this->getAttribute('viewName').'.phtml');
         
         return $html;
     }
@@ -119,7 +107,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function toString()
     {
-        $this->setView();
         if (!empty($this->_children)) {
             // Render child elements
             foreach ($this->_children as $name=>$block) {
@@ -128,7 +115,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
                 } elseif (is_string($block)) {
                    $childHtml = $block;
                 }
-                
                 $this->_beforeAssign($name, $block);
                 $this->assign($name, $childHtml);
             }

@@ -31,7 +31,7 @@ var ProductGrid = {
 
         // create the Data Store
         this.ds = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: '<?=Mage::getBaseUrl()?>/mage_catalog/product/gridData/category/<?=$this->category?>/'}),
+            proxy: new Ext.data.HttpProxy({url: '<?=Mage::getBaseUrl()?>/mage_catalog/product/gridData/category/<?=$category?>/'}),
             reader: reader,
             remoteSort: true
         });

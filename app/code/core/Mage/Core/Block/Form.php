@@ -307,7 +307,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function renderView()
     {
         $formAttributes = array('name', 'id', 'method', 'enctype', 'action', 'target', 'onsubmit', 'class', 'style');
-    	$this->getView()->assign('formAttributes', $this->_attributesToString($formAttributes));
+    	$this->assign('formAttributes', $this->_attributesToString($formAttributes));
     	
     	return parent::renderView();
     }
