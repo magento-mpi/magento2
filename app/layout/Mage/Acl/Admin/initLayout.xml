@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="head">
+        <block type="tag_js" name="head.js.acl.menu">
+            <action method="setSrc"><src>/magenta/acl/menu.js</src></action>
+        </block>
+    </reference>
+</layoutUpdate>

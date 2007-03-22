@@ -123,6 +123,16 @@ Mage.Core = function(){
         },
         updateRegion : function(region, url){
             
+        },
+        applyDbUpdates : function(){
+            var success = function(o) {Ext.MessageBox.alert('System - Apply DB Updates',o.responseText);}
+            var failure = function(o) {Ext.MessageBox.alert('System - Apply DB Updates',o.statusText);}
+            var cb = {
+                success : success,
+                failure : failure,
+                argument : {}
+            };
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/index/applyDbUpdates', cb);  
         }
     }
 }();

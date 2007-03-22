@@ -23,9 +23,19 @@
                             <connection extends="//core_read/connection"/>
                         </acl_read>
                     </resources>
+                    
+                    <models>
+                        <acl>
+                            <class>Mage_Acl_Model_Mysql4</class>
+                        </acl>
+                    </models>
                 </all>
                 
                 <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
                     <layouts>
                         <default><updates><acl><module>Mage_Acl</module><file>Admin/initLayout.xml</file></acl></updates></default>
                     </layouts>

@@ -37,6 +37,10 @@
                 </front>
             
                 <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
                     <layouts>
                         <default><updates><customer><module>Mage_Customer</module><file>Admin/initLayout.xml</file></customer></updates></default>
                     </layouts>

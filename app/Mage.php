@@ -19,19 +19,21 @@ function __autoload($class)
  * @author Andrey Korolyov <andrey@varien.com>
  */
 final class Mage {
-
-    /**
-     * Application root absolute path
-     *
-     * @var string
-     */
-    static private $_appRoot = null;
-
-    static private $_config = null;
     
-    static private $_events = null;
+    static private $_registry = array();
     
-    static private $_layout = null;
+    public static function register($key, $value)
+    {
+        self::$_registry[$key] = $value;
+    }
+    
+    public static function registry($key)
+    {
+        if (isset(self::$_registry[$key])) {
+            return self::$_registry[$key];
+        }
+        return null;
+    }
 
     /**
      * Set application root absolute path
@@ -48,7 +50,7 @@ final class Mage {
         $appRoot = realpath($appRoot);
 
         if (is_dir($appRoot) and is_readable($appRoot)) {
-            self::$_appRoot= $appRoot;
+            Mage::register('appRoot', $appRoot);
         } else {
             Mage::exception($appRoot.' is not a directory or not readable by this user');
         }
@@ -56,7 +58,7 @@ final class Mage {
     
     public static function getRoot()
     {
-        return self::$_appRoot;
+        return Mage::registry('appRoot');
     }
 
     /**
@@ -66,7 +68,7 @@ final class Mage {
      */
     public static function getBaseDir($type='', $moduleName='')
     {
-        return self::getConfig()->getBaseDir($type, $moduleName);
+        return Mage::getConfig()->getBaseDir($type, $moduleName);
     }
 
 
@@ -78,34 +80,21 @@ final class Mage {
      */
     public static function getBaseUrl($type='', $moduleName='')
     {
-        return self::getConfig()->getBaseUrl($type, $moduleName);
+        return Mage::getConfig()->getBaseUrl($type, $moduleName);
     }
 
     public static function getConfig($param='')
     {
-        if (is_null(self::$_config)) {
-            self::$_config = new Mage_Core_Config();
+        if (is_null(Mage::registry('config'))) {
+            Mage::register('config', new Mage_Core_Config());
         }
         if (''==$param) {
-            return self::$_config;
+            return Mage::registry('config');
         } elseif ('/'===$param) {
-            return self::$_config->getXml();
+            return Mage::registry('config')->getXml();
         } else {
-            return self::$_config->getXpath($param);
+            return Mage::registry('config')->getXpath($param);
         }
-    }
-    
-    public static function getLayout()
-    {
-        if (is_null(self::$_layout)) {
-            self::$_layout = new Mage_Core_Layout();
-        }
-        return self::$_layout;
-    }
-    
-    public static function loadLayoutUpdate($args)
-    {
-        self::getLayout()->loadUpdate($args);
     }
 
     /**
@@ -116,7 +105,7 @@ final class Mage {
      */
     public static function getEvent($name='')
     {
-        return self::$_events->getEvent($name);
+        return Mage::registry('events')->getEvent($name);
     }
 
     /**
@@ -126,7 +115,7 @@ final class Mage {
      */
     public static function addEvent($name)
     {
-        return self::$_events->addEvent($name);
+        return Mage::registry('events')->addEvent($name);
     }
 
     /**
@@ -139,7 +128,7 @@ final class Mage {
      */
     public static function addObserver($eventName, $callback, $arguments=array(), $observerName='')
     {
-        return self::$_events->addObserver($eventName, $callback, $arguments, $observerName);
+        return Mage::registry('events')->addObserver($eventName, $callback, $arguments, $observerName);
     }
 
     /**
@@ -150,7 +139,7 @@ final class Mage {
      */
     public static function addMultiObserver($eventRegex, $callback, $observerName='')
     {
-        return self::$_events->addMultiObserver($eventRegex, $callback, $observerName);
+        return Mage::registry('events')->addMultiObserver($eventRegex, $callback, $observerName);
     }
 
     /**
@@ -164,7 +153,7 @@ final class Mage {
      */
     public static function dispatchEvent($name, array $args=array())
     {
-        return self::$_events->dispatchEvent($name, $args);
+        return Mage::registry('events')->dispatchEvent($name, $args);
     }
 
     /**
@@ -271,10 +260,10 @@ final class Mage {
 
         Mage::prepareFileSystem();
 
-        self::$_events = new Varien_Event();
+        Mage::register('events', new Varien_Event());
         
         // check modules db
-        self::getConfig()->applyDbUpdates();
+        #Mage::getConfig()->applyDbUpdates();
         #echo Varien_Profiler::setTimer('app').',';
     }
 
@@ -286,11 +275,9 @@ final class Mage {
     public static function runFront($appRoot='')
     {
         try {
-            self::init($appRoot);
+            Mage::init($appRoot);
 
-            self::getLayout()->init('test');
-            
-            self::getConfig()->loadEventObservers('front');
+            Mage::getConfig()->loadEventObservers('front');
 
             #Varien_Profiler::setTimer('zend_controller');
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Front());
@@ -312,9 +299,9 @@ final class Mage {
         // temp (for test)
         session_start();
         try {
-            self::init($appRoot);
+            Mage::init($appRoot);
         
-            self::getConfig()->loadEventObservers('admin');
+            Mage::getConfig()->loadEventObservers('admin');
             
             Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
             Mage_Core_Controller::getController()->run();
@@ -330,10 +317,10 @@ final class Mage {
 
     public static function test()
     {
-        self::init();
+        Mage::init();
 
         Varien_Profiler::setTimer('config');
-        self::$_config = new Mage_Core_Config();
+        Mage::register('config', new Mage_Core_Config());
         echo Varien_Profiler::setTimer('config');
 
         echo "<xmp>TEST:";

@@ -102,6 +102,10 @@
                 </front>
 
                 <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
                     <layouts>
                         <default><updates><catalog><module>Mage_Catalog</module><file>Admin/initLayout.xml</file></catalog></updates></default>
                         <catalog_category_tree><updates><catalog><module>Mage_Catalog</module><file>Admin/categoryTree.xml</file></catalog></updates></catalog_category_tree>

@@ -27,6 +27,10 @@
                 </all>
             
                 <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
                     <layouts>
                         <default><updates><sales><module>Mage_Sales</module><file>Admin/initLayout.xml</file></sales></updates></default>
                     </layouts>

@@ -54,8 +54,8 @@ class Mage_Core_Controller_Zend_Admin {
         //$this->_request = new Mage_Core_Controller_Zend_Request();
         $this->_request = new Zend_Controller_Request_Http();
 
-//        $this->_dispatcher = new Zend_Controller_Dispatcher_Standard();
-//        $this->_front->setDispatcher($this->_dispatcher);
+        $this->_dispatcher = new Varien_Controller_Dispatcher_Standard();
+        $this->_front->setDispatcher($this->_dispatcher);
        // Zend_Registry::set('view', new Zend_View());
     }
 
@@ -67,7 +67,9 @@ class Mage_Core_Controller_Zend_Admin {
         if (!$modInfo instanceof Varien_Simplexml_Object) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
-        if ('true'!==(string)$modInfo->active) {
+        if ('true'!==(string)$modInfo->active 
+            || empty($modInfo->load->admin->controller->active) 
+            || 'true'!==(string)$modInfo->load->admin->controller->active) {
             return false;
         }
 
@@ -75,6 +77,11 @@ class Mage_Core_Controller_Zend_Admin {
         $dir = Mage::getBaseDir('controllers', $name).DS.'Admin';
         if (is_dir($dir)) {
             $this->_front->addControllerDirectory($dir, strtolower($name));
+        }
+        
+        if (!empty($modInfo->load->admin->controller->default) 
+            && 'true'===(string)$modInfo->load->admin->controller->default) {
+            $this->_defaultModule = strtolower($name);
         }
     }
 
@@ -99,6 +106,10 @@ class Mage_Core_Controller_Zend_Admin {
 
         foreach (Mage::getConfig('/')->modules->children() as $module) {
             $this->loadModule($module);
+        }
+
+        if (!empty($this->_defaultModule)) {
+            #$this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
 
         $this->_front->dispatch($this->_request);

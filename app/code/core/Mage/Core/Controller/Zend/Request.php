@@ -8,7 +8,15 @@ class Mage_Core_Controller_Zend_Request extends Zend_Controller_Request_Http
         $params['module'] = str_replace(' ','_',ucwords(str_replace('_',' ',$params['module'])));
         $params['module'] = (string)Mage::getConfig()->getModule($params['module'])->load->front->controller->frontName;
         
-        $url = 'http'.($this->getServer('HTTPS')?'s':'').'://'.$this->getServer('HTTP_HOST');
+        if (!isset($params['protocol'])) {
+            $params['protocol'] = 'http'.($this->getServer('HTTPS')?'s':'');
+        }
+        
+        if (!isset($params['server'])) {
+            $params['server'] = $this->getServer('HTTP_HOST');
+        }
+        
+        $url = $params['protocol'].'://'.$params['server'];
         $url .= $this->getBaseUrl() !== '/' ? $this->getBaseUrl() : '';
         $url .= '/'.$params['module'].'/'.$params['controller'].'/'.$params['action'];
         

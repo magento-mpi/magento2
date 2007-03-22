@@ -35,6 +35,14 @@
                         <default><updates><page><module>Mage_Page</module><file>initLayout.xml</file></page></updates></default>
                     </layouts>
                 </front>
+                
+                <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
+                
+                </admin>
             </load>
 
         </Mage_Page>

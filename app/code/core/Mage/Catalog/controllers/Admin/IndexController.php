@@ -14,15 +14,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Admin_Action
      */
     public function indexAction() 
     {
-        $layout = $this->getLayout();
-        
-        $layout->init('catalog_panel');
-        if (!$layout->isCacheLoaded()) {
-            $layout->loadUpdatesFromConfig('admin', 'catalog_panel');
-            $layout->saveCache();
-        }
-        
-        $layout->createBlocks();
+        $this->loadLayout('admin', 'catalog_panel');
         
         $this->renderLayout();
         

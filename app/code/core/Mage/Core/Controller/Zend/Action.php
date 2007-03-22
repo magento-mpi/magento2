@@ -58,6 +58,29 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return $this->_layout;
      }
      
+     function loadLayout($area, $ids, $key='')
+     {
+        if (''===$key) {
+            if (is_array($ids)) {
+                Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
+            }
+            $key = $area.'_'.$ids;
+        }
+         
+        $layout = $this->getLayout();
+        
+        $layout->init($key);
+        if (!$layout->isCacheLoaded()) {
+            foreach ((array)$ids as $id) {
+                $layout->loadUpdatesFromConfig($area, $id);
+            }
+            $layout->saveCache();
+        }
+        
+        $layout->createBlocks();
+        return $this;
+     }
+     
      function renderLayout()
      {
          Mage::dispatchEvent('beforeRenderLayout');
@@ -72,6 +95,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
                  $response->appendBody($out);
              }
          }
+         return $this;
      }
      
     /**

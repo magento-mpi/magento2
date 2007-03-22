@@ -57,15 +57,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function treeAction()
     {
-        $layout = $this->getLayout();
-        
-        $layout->init('admin_catalog_category_tree');
-        if (!$layout->isCacheLoaded()) {
-            $layout->loadUpdatesFromConfig('admin', 'catalog_category_tree');
-            $layout->saveCache();
-        }
-        
-        $layout->createBlocks();
+        $this->loadLayout('admin', 'catalog_category_tree');
         
         $this->renderLayout();
     }

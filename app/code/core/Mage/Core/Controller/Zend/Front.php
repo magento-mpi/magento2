@@ -73,8 +73,8 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $name), strtolower($name));
         
         
-        if (empty($modInfo->load->front->controller->default) 
-            || 'true'===(string)$modInfo->load->front->controller->default) {
+        if (!empty($modInfo->load->front->controller->default) 
+            && 'true'===(string)$modInfo->load->front->controller->default) {
             $this->_defaultModule = $nameLower;
         }
         
@@ -125,12 +125,12 @@ class Mage_Core_Controller_Zend_Front {
 
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
-        if (!empty($this->_defaultModule)) {
-            $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
-        }
-
         foreach (Mage::getConfig('/')->modules->children() as $module) {
             $this->loadModule($module);
+        }
+
+        if (!empty($this->_defaultModule)) {
+            $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
 
         $this->_front->dispatch($this->_request);
