@@ -4,12 +4,12 @@ if (!Mage.Collection.get('category_tree_context_menu')){
     var categoryTreeHandler = new Object();
 
     categoryTreeHandler.showProducts = function(item, event) {
-		Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
+        Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
     };
 
     categoryTreeHandler.newCategory = function(item, event) {
-		//Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);
-		Ext.MessageBox.alert('New Category', 'create new');        
+        //Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);
+        Ext.MessageBox.alert('New Category', 'create new');        
     };
 
 

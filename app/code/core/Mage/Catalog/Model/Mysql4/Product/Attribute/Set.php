@@ -38,6 +38,22 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
         return $arrRes;
     }
     
+    public function getGroups($setId)
+    {
+        $arrRes =array();
+        $groupTable = $this->getTableName('catalog_read', 'product_attribute_group');
+        $sql = "SELECT
+                    DISTINCT $groupTable.*
+                FROM
+                    $this->_inSetTable,
+                    $groupTable
+                WHERE
+                    $groupTable.product_attribute_group_id=$this->_inSetTable.product_attribute_group_id
+                    AND $this->_inSetTable.product_attribute_set_id=:set_id";
+        $arrRes = $this->_read->fetchAll($sql, array('set_id'=>$setId));
+        return $arrRes;
+    }
+    
     /**
      * Insert row in database table
      *

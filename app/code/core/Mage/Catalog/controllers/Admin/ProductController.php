@@ -3,9 +3,15 @@
 
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action 
 {
+    /**
+     * Create new product dialog form
+     *
+     */
     public function newoptionAction()
     {
-        echo '<form id="test" action="'.Mage::getBaseUrl().'/mage_catalog/product/card/">test form<input type="text" name="set" value="1"></form>';
+        $form = Mage::createBlock('catalog_product_create_option', 'product_create_option');
+        $this->getResponse()->setBody($form->toString());
+        //echo '<form id="test" action="'.Mage::getBaseUrl().'/mage_catalog/product/card/">test form<input type="text" name="set" value="1"></form>';
     }
     
     /**

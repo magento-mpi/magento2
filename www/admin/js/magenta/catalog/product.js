@@ -168,12 +168,12 @@ Mage.Catalog_Product = function(depend){
                 this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
                         title : 'Test',
                         autoTabs:true,
-                        width:200,
-                        height:100,
+                        width:300,
+                        height:150,
                         modal:true,
                         shadow:true,
                         minWidth:300,
-                        minHeight:250,
+                        minHeight:150,
                         proxyDrag: true,
                 });
                 var sbmt = this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog);

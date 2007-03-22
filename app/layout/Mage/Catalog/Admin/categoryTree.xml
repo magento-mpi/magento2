@@ -22,7 +22,7 @@
     
     <block type="tpl" name="catalog_category_tree_events" output="toString">
         <action method="setViewName">
-            <module>Mage_Catalog</module><view>Admin/js/catalog_tree</view>
+            <module>Mage_Catalog</module><view>Admin/category/tree</view>
         </action>
     </block>
 </layoutUpdate>

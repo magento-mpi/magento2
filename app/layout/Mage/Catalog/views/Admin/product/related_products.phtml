@@ -1,0 +1,51 @@
+<div id="related_products_panel">
+    <div id="related_products_panel_toolbar"></div>
+</div>
+<script type="text/javascript">
+var relProductChooser = function(){
+    this.dlg = new Ext.LayoutDialog(Ext.id(), {
+        autoCreate : true,
+        width:600,
+        height:400,
+        minWidth:400,
+        minHeight:300,
+        syncHeightBeforeShow: true,
+        shadow:true,
+        fixedcenter:true,
+        center:{autoScroll:false},
+        east:{split:true,initialSize:150,minSize:150,maxSize:250}
+    });
+    this.dlg.setTitle('Choose Related Products');
+    this.dlg.addKeyListener(27, this.dlg.hide, this.dlg);
+    
+    // add buttons
+    this.btnOk = this.dlg.addButton('OK', this.doCallback, this);
+    this.btnOk.disable();
+    this.dlg.setDefaultButton(this.dlg.addButton('Cancel', this.dlg.hide, this.dlg));
+    //dlg.on('show', this.load, this);
+    
+    this.dlg.resizeTo(this.width, this.height);
+    this.loaded = false;
+};
+
+relProductChooser.prototype = {
+    show : function(el, callback){
+        this.dlg.show(el);
+    }
+};
+
+var chooser;
+function chooseRelProducts(btn)
+{
+    if(!chooser){
+        chooser = new relProductChooser();
+    }
+    chooser.show(btn.getEl());
+}
+
+var tb = new Ext.Toolbar('related_products_panel_toolbar');
+tb.add({
+        text:'Add products',
+        handler: chooseRelProducts
+    });
+</script>

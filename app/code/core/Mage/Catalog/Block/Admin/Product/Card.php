@@ -36,13 +36,14 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         
         // Declare set attributes
         $set = Mage::getModel('catalog', 'product_attribute_set');
-        $arrAtributes = $set->getAttributes($this->_attributeSet);
+        //$arrAtributes = $set->getAttributes($this->_attributeSet);
+        $arrGroups = $set->getGroups($this->_attributeSet);
         
         // Declare attributes groups
-        $groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
+        /*$groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
         $groupCollection->distinct(true);
         $groupCollection->addAttributeFilter($arrAtributes);
-        $arrGroups = $groupCollection->load()->__toArray();
+        $arrGroups = $groupCollection->load()->__toArray();*/
         
         // Create card JSON structure
         $cardStructure = array();
@@ -54,7 +55,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         if ($this->_productId) {
             $baseTabUrl.= 'product/' . $this->_productId . '/';
         }
-        foreach ($arrGroups['items'] as $group) {
+        foreach ($arrGroups as $group) {
             $url = $baseTabUrl . 'group/' . $group['product_attribute_group_id'].'/';
             $url.= 'set/'.$this->_attributeSet.'/';
             $cardStructure['tabs'][] = array(
@@ -66,7 +67,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 
         $cardStructure['tabs'][] = array(
             'name'  => 'related',
-            'url'   => Mage::getBaseUrl().'/mage_catalog/product/reation/',
+            'url'   => Mage::getBaseUrl().'/mage_catalog/product/relatedProducts/',
             'title' => 'Related products',
         );
         $cardStructure['tabs'][0]['active'] = true;

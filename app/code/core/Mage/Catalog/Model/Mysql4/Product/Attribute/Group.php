@@ -10,13 +10,11 @@
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Model_Mysql4 implements Mage_Core_Model_Db_Table_Interface 
 {
     protected $_attributeGeoupTable;
-    protected $_attributeInGroupTable;
     
     public function __construct() 
     {
         parent::__construct();
         $this->_attributeGeoupTable = $this->getTableName('catalog_read', 'product_attribute_group');
-        $this->_attributeInGeoupTable = $this->getTableName('catalog_read', 'product_attribute_in_group');
     }
     
     /**
@@ -44,42 +42,29 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      * @param   int $setId
      * @return  array
      */
-    public function getAttributes($groupId, $setId = false)
+    public function getAttributes($groupId, $setId)
     {
         $arrRes = array();
         $attributeTable = $this->getTableName('catalog_read', 'product_attribute');
-        $arrSqlParam = array('group_id'=>$groupId);
         
-        if ($setId) {
-            $attributeInSetTable = $this->getTableName('catalog_read', 'product_attribute_in_set');
-            
-            $sql = "SELECT
-                        $attributeTable.*
-                    FROM
-                        $this->_attributeInGeoupTable,
-                        $attributeTable,
-                        $attributeInSetTable
-                    WHERE
-                        $attributeTable.attribute_id=$this->_attributeInGeoupTable.attribute_id
-                        AND $attributeInSetTable.attribute_id=$attributeTable.attribute_id
-                        AND $this->_attributeInGeoupTable.product_attribute_group_id=:group_id
-                        AND $attributeInSetTable.product_attribute_set_id=:set_id
-                    ORDER BY
-                        $this->_attributeInGeoupTable.position";
-            $arrSqlParam['set_id'] = $setId;
-        }
-        else {
-            $sql = "SELECT
-                        $attributeTable.*
-                    FROM
-                        $this->_attributeInGeoupTable,
-                        $attributeTable
-                    WHERE
-                        $this->_attributeInGeoupTable.product_attribute_group_id=:group_id
-                        AND $attributeTable.attribute_id=$this->_attributeInGeoupTable.attribute_id
-                    ORDER BY
-                        $this->_attributeInGeoupTable.position";
-        }
+        $attributeInSetTable = $this->getTableName('catalog_read', 'product_attribute_in_set');
+        
+        $sql = "SELECT
+                    $attributeTable.*
+                FROM
+                    $attributeTable,
+                    $attributeInSetTable
+                WHERE
+                    $attributeTable.attribute_id=$attributeInSetTable.attribute_id
+                    AND $attributeInSetTable.product_attribute_group_id=:group_id
+                    AND $attributeInSetTable.product_attribute_set_id=:set_id
+                ORDER BY
+                    $attributeInSetTable.position";
+        
+        $arrSqlParam = array();
+        $arrSqlParam['set_id']  = $setId;
+        $arrSqlParam['group_id']= $groupId;
+        
         $arrRes = $this->_read->fetchAll($sql, $arrSqlParam);
         return $arrRes;
     }
