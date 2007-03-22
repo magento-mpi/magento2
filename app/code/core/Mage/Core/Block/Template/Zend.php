@@ -49,7 +49,6 @@ class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
     
     public function fetchView($fileName)
     {
-        $this->_view->setViewArgs($this->_viewArgs);
         $this->_view->render($fileName);
     }
 }// Class Mage_Core_Block_Template END

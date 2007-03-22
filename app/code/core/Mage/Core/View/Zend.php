@@ -16,13 +16,6 @@
  */
 class Mage_Core_View_Zend extends Zend_View_Abstract
 {
-    protected $_viewArgs = array();
-    
-    function setViewArgs($viewArgs)
-    {
-        $this->_viewArgs = $viewArgs;
-    }
-    
     /**
      * Includes the view script in a scope with only public $this variables.
      *
@@ -30,8 +23,6 @@ class Mage_Core_View_Zend extends Zend_View_Abstract
      */
     protected function _run()
     {
-        extract($this->_viewArgs);
-        
         #Mage::setTimer(__METHOD__);
         include func_get_arg(0);
         #Mage::setTimer(__METHOD__, true);
