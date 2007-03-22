@@ -27,7 +27,7 @@ class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
     function __construct($attributes = array())
     {
         parent::__construct($attributes);
-        $this->_view = new Mage_Core_View_Zend();
+        $this->_view = new Zend_View();
     }
     
     public function assign($key, $value=null)

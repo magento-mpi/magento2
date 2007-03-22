@@ -48,7 +48,7 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->throwExceptions(true);
         $this->_front->setParam('useDefaultControllerAlways', true);
         $this->_front->registerPlugin(new Varien_Controller_Plugin_NotFound());
-        $this->_view = new Mage_Core_View_Zend();
+        //$this->_view = new Mage_Core_View_Zend();
         $this->_request = new Mage_Core_Controller_Zend_Request();
         $this->_dispatcher = new Varien_Controller_Dispatcher_Standard();
         $this->_front->setDispatcher($this->_dispatcher);
