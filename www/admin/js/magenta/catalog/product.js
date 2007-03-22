@@ -166,6 +166,7 @@ Mage.Catalog_Product = function(depend){
         setUpNewItem : function(menuItem, e) {
             if(!this.newItemDialog){ // lazy initialize the dialog and only create it once
                 this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
+                        title : 'Test',
                         autoTabs:true,
                         width:200,
                         height:100,
@@ -173,10 +174,15 @@ Mage.Catalog_Product = function(depend){
                         shadow:true,
                         minWidth:300,
                         minHeight:250,
-                        proxyDrag: true
+                        proxyDrag: true,
                 });
-                this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog).disable();
+                var sbmt = this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog);
+                sbmt.disable();
                 this.newItemDialog.addButton('Close', this.newItemDialog.hide, this.newItemDialog);
+                
+                var mgr = new Ext.UpdateManager(this.newItemDialog.body);
+                mgr.on('update', function(){sbmt.enable();});
+                mgr.update(Mage.url + '/mage_catalog/product/newoption/');
             }
             this.newItemDialog.show(menuItem.getEl().dom);     
         },
