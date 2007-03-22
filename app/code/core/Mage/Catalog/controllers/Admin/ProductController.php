@@ -3,6 +3,11 @@
 
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action 
 {
+    public function newoptionAction()
+    {
+        echo '<form id="test" action="'.Mage::getBaseUrl().'/mage_catalog/product/card/">test form<input type="text" name="set" value="1"></form>';
+    }
+    
     /**
      * Product card structure (json)
      *
@@ -34,6 +39,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $arrSets = $setCollection->__toArray();
         
         $this->getResponse()->setBody(Zend_Json::encode($arrSets['items']));
+    }
+    
+    /**
+     * Related products control panel
+     *
+     */
+    public function relatedProductsAction()
+    {
+        $block = Mage::createBlock('tpl', 'related_products_panel');
+        $block->setViewName('Mage_Catalog', 'Admin/product/related_products');
+        $this->getResponse()->setBody($block->toString());
     }
     
     /**
