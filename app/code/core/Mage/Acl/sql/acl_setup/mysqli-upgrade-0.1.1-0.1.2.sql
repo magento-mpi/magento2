@@ -1,1 +1,0 @@
-insert into `acl_user` (`user_id`,`firstname`,`lastname`,`email`,`password`,`created`,`modified`,`logdate`,`lognum`,`reload_acl_flag`) values ( NULL,'root','Administrator','admin@varien.com','','2007-03-15',NULL,NULL,'0','0')

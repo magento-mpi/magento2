@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_Auth>
+            <version>0.1.1</version>
+            
+            <depends>
+                <Mage_Core/>
+            </depends>
+
+            <load>
+                <all>
+                    <resources>
+                        <auth_setup>
+                            <connection extends="//core_setup/connection"/>
+                            <entities>
+                                <acl><table>auth_acl</table></acl>
+                            </entities>
+                        </auth_setup>
+
+                        <auth_write>
+                            <connection extends="//core_write/connection"/>
+                            <entites extends="//auth_setup/entities"/>
+                        </auth_write>
+
+                        <auth_read>
+                            <connection extends="//core_read/connection"/>
+                            <entites extends="//auth_setup/entities"/>
+                        </auth_read>
+                    </resources>
+                    
+                    <models>
+                        <auth>
+                            <class>Mage_Auth_Model_Mysql4</class>
+                        </auth>
+                    </models>
+                </all>
+                
+                <admin>
+                    <controller>
+                        <active>true</active>
+                    </controller>
+                    
+                    <layouts>
+                        <default><updates><auth><module>Mage_Auth</module><file>Admin/initLayout.xml</file></auth></updates></default>
+                    </layouts>
+                </admin>
+            </load>
+        </Mage_Auth>
+    </modules>
+</config>
