@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_View_Zend_Helper_LoadComponent {
+class Varien_Helper_LoadComponent {
 
     /**
      * Enter description here...

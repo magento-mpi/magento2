@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Mage_Acl>
+        <Mage_Admin>
+            <version>0.1.1</version>
             
             <depends>
                 <Mage_Core/>
@@ -10,27 +11,27 @@
             <load>
                 <all>
                     <resources>
-                        <acl_setup>
-                            <version>0.1.2</version>
+                        <admin_setup>
                             <connection extends="//core_setup/connection"/>
-                        </acl_setup>
+                        </admin_setup>
 
-                        <acl_write>
+                        <admin_write>
                             <connection extends="//core_write/connection"/>
-                        </acl_write>
+                        </admin_write>
 
-                        <acl_read>
+                        <admin_read>
                             <connection extends="//core_read/connection"/>
-                        </acl_read>
+                        </admin_read>
                     </resources>
                 </all>
-                
+
                 <admin>
                     <layouts>
-                        <default><updates><acl><module>Mage_Acl</module><file>Admin/initLayout.xml</file></acl></updates></default>
+                        <default><updates><admin><module>Mage_Admin</module><file>initLayout.xml</file></admin></updates></default>
                     </layouts>
                 </admin>
             </load>
-        </Mage_Acl>
+
+        </Mage_Admin>
     </modules>
 </config>
