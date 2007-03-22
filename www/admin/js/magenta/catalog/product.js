@@ -16,9 +16,10 @@ Mage.Catalog_Product = function(depend){
         searchPanel : null,
         editPanel : null,
         formLoading: null,
-        loadedForms : new Ext.util.MixedCollection(true),
-        registeredForms : new Ext.util.MixedCollection(true),
-        test : 0,
+        loadedForms : new Ext.util.MixedCollection(),
+        editablePanels : [],
+        registeredForms : new Ext.util.MixedCollection(),
+        newItemDialog : null,
         
         init: function(){
             dep.init();
@@ -83,7 +84,7 @@ Mage.Catalog_Product = function(depend){
             paging.add('-', {
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
-                handler : this.createItem.createDelegate(this)
+                handler : this.setUpNewItem.createDelegate(this)
             },{
                 text: 'Add Filter',
                 handler : this.addFilter,
@@ -138,7 +139,6 @@ Mage.Catalog_Product = function(depend){
         },
         
         applyFilters : function() {
-            
         },
         
         delFilter : function(grid) {
@@ -162,11 +162,29 @@ Mage.Catalog_Product = function(depend){
             workZone.endUpdate();            
         },
         
+        
+        setUpNewItem : function(menuItem, e) {
+            if(!this.newItemDialog){ // lazy initialize the dialog and only create it once
+                this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
+                        autoTabs:true,
+                        width:500,
+                        height:300,
+                        modal:true,
+                        shadow:true,
+                        minWidth:300,
+                        minHeight:250,
+                        proxyDrag: true
+                });
+                this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog).disable();
+                this.newItemDialog.addButton('Close', this.newItemDialog.hide, this.newItemDialog);
+            }
+            this.newItemDialog.show(menuItem.getEl().dom);     
+        },
+        
         createItem: function() {
-            var mode = null;
             var rowId = null;
-            var prodId = 0;
-            var title = 'New Product'; // title for from layout
+            var menuItem = null;
+            var e = null;
             
             switch (arguments.length) {
                 case 2 :
@@ -182,8 +200,30 @@ Mage.Catalog_Product = function(depend){
                     return false;
             };
             
-            if (!this.grid) {
+            // check if we have editable panels
+            if (this.editablePanels.length) {
+                Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.doCreateItem.createDelegate(this, [rowId], 0));
+            } else {
+                this.doCreateItem(rowId, 'yes');
+                return true;
+            }
+                
+            // check if we have opened panels
+
+        },
+        
+        
+        doCreateItem: function(rowId, btn) {
+            if (btn == 'no') {
                 return false;
+            }
+            var title = 'New Product'; // title for from layout            
+            var setId = arguments[2] || 0;
+
+            var workZone = dep.getLayout('workZone');
+            if (workZone.getRegion('south').getActivePanel()) {
+                workZone.getRegion('south').clearPanels();
+                this.editablePanels = [];
             }
             
             if (rowId != 0) {
@@ -194,11 +234,6 @@ Mage.Catalog_Product = function(depend){
                   Ext.MessageBox.alert('Error!', e.getMessage());
               }
             };
-            
-            var workZone = dep.getLayout('workZone');
-            if (workZone.getRegion('south').getActivePanel()) {
-                return false;
-            }
             
             this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
                     hideOnLayout:true,
@@ -223,7 +258,12 @@ Mage.Catalog_Product = function(depend){
 
             workZone.beginUpdate();
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/', {success:this.loadTabs.createDelegate(this),failure:failure});  
+            var cb = {
+                success : this.loadTabs.createDelegate(this),
+                failure : failure,
+                argument : {prod_id: prodId}
+            };
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/', cb);  
             
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             workZone.endUpdate();
@@ -286,23 +326,26 @@ Mage.Catalog_Product = function(depend){
                tooltip: 'Form is updating',
                cls: "x-btn-icon x-grid-loading",
                disabled: false
-            });
+            },'-');
             
-           // if (dataCard.attribute_set.totalRecords > 1) {
-                var opts = [];
-                for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
-                    var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
-                    if (i == 0) {
-                        o.selected = 'true';
+            // check if we have new product //
+            if (response.argument.prod_id == 0) {
+                if (dataCard.attribute_set.totalRecords > 1 ) {
+                    var opts = [];
+                    for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
+                        var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
+                        if (i == 0) {
+                            o.selected = 'true';
+                        }
+                        opts.push(o);
                     }
-                    opts.push(o);
-                }
                 
-                var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
-            		tag:'select', children: opts
-                }, true);                
-                toolbar.add('-','Product type :', setSelect.dom);                   
-           // }
+                    var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
+                		tag:'select', children: opts
+                    }, true);                
+                    toolbar.add('Product type :', setSelect.dom);                   
+               }
+            }
            
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
@@ -323,18 +366,27 @@ Mage.Catalog_Product = function(depend){
         },
         
         onLoadPanel : function(el, response) {
-            // we can ignore panel.laoded - becouse next step set it to ture version Ext alpha 3r4
+             var i=0;
+            // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
             panel = this.editPanel.getRegion('center').getPanel(el.id);
-            form = Ext.DomQuery.selectNode('form', panel.getEl().dom);
-            var i=0;
-            var el;
-            for(i=0; i < form.elements.length; i++) {
-                Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
+            if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
+                var el;             
+                for(i=0; i < form.elements.length; i++) {
+                    Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
+                }
+                this.loadedForms.add(form.id, form);
             }
-            this.loadedForms.add(form.id, form);
         },
         
         onFormChange : function(e, element, object, panel) {
+            var i = 0;
+            for(i=0; i<this.editablePanels.length; i++) {
+                if (this.editablePanels[i] == panel.getId()) {
+                    e.stopEvent();
+                    return true;
+                }
+            }
+            this.editablePanels.push(panel.getId());
             panel.setTitle(panel.getTitle() + '*');
             e.stopEvent();
         },
