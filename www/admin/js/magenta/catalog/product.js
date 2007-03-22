@@ -227,14 +227,12 @@ Mage.Catalog_Product = function(depend){
                 this.editablePanels = [];
             }
             
-            if (rowId != 0) {
              try {
                   prodId = this.grid.getDataSource().getAt(rowId).id;
                   title = 'Edit: ' + this.grid.getDataSource().getById(prodId).get('name');
               } catch (e) {
                   Ext.MessageBox.alert('Error!', e.getMessage());
               }
-            };
             
             this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
                     hideOnLayout:true,
