@@ -167,8 +167,8 @@ Mage.Catalog_Product = function(depend){
             if(!this.newItemDialog){ // lazy initialize the dialog and only create it once
                 this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
                         autoTabs:true,
-                        width:500,
-                        height:300,
+                        width:200,
+                        height:100,
                         modal:true,
                         shadow:true,
                         minWidth:300,
@@ -214,6 +214,7 @@ Mage.Catalog_Product = function(depend){
         
         
         doCreateItem: function(rowId, btn) {
+            var prodId = 0;
             if (btn == 'no') {
                 return false;
             }
