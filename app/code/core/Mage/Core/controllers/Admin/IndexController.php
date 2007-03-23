@@ -4,7 +4,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction()
     {
-        $this->loadLayout('admin', 'default');        
+        $this->loadLayout('admin', 'default');
         $this->renderLayout();
     }
     
