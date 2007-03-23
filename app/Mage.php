@@ -268,7 +268,7 @@ final class Mage {
         Mage::register('website', new Mage_Core_Website());
         
         // check modules db
-        #Mage::getConfig()->applyDbUpdates();
+        Mage::getConfig()->applyDbUpdates();
         #echo Varien_Profiler::setTimer('app').',';
     }
 
