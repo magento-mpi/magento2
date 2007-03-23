@@ -84,7 +84,7 @@ Mage.Catalog_Product = function(depend){
             paging.add('-', {
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
-                handler : this.setUpNewItem.createDelegate(this)
+                handler : this.createItem.createDelegate(this)
             },{
                 text: 'Add Filter',
                 handler : this.addFilter,
@@ -212,22 +212,28 @@ Mage.Catalog_Product = function(depend){
                    menuItem = arguments[0];
                    e = arguments[1];
                    rowId = 0;
+                   if (this.editablePanels.length) {
+                        Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.setUpNewItem.createDelegate(this, [menuItem, e], 0));
+                   } else {
+                        this.doCreateItem(menuItem, e);
+                        return true;
+                   }
                    break;
                 case 3 :
                    rowId = arguments[1];
                    e = arguments[2];
+                   if (this.editablePanels.length) {
+                        Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.doCreateItem.createDelegate(this, [rowId], 0));
+                   } else {
+                        this.doCreateItem(rowId, 'yes');
+                        return true;
+                   }
                    break;
                 default :
                     return false;
             };
             
             // check if we have editable panels
-            if (this.editablePanels.length) {
-                Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.doCreateItem.createDelegate(this, [rowId], 0));
-            } else {
-                this.doCreateItem(rowId, 'yes');
-                return true;
-            }
                 
             // check if we have opened panels
 
