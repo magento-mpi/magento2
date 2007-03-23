@@ -1,34 +1,36 @@
 Mage.Menu_Core = function(){
-    var menu;
+    var menu = null;
     return {
-//        add : function(config){
-//            menu.add(config);
-//        },
+        add : function(config){
+            if (!menu) {
+                menu.add(config);
+            }
+        },
         
         init : function(){
-//            menu = new Ext.menu.Menu({
-//                id: 'mainSystemMenu',
-//                items: [
-//                    new Ext.menu.Item({
-//                        text: 'Modules'                  
-//                    }),
-//                    '-',
-//                    new Ext.menu.Item({
-//                        text: 'Websites'                  
-//                    }),
-//                    '-',
-//                    new Ext.menu.Item({
-//                        text: 'Apply DB Updates',
-//                        handler: Mage.Core.applyDbUpdates.createDelegate(Mage.Core)
-//                    }),                    
-//                 ]
-//            });
+            menu = new Ext.menu.Menu({
+                id: 'mainSystemMenu',
+                items: [
+                    new Ext.menu.Item({
+                        text: 'Modules'                  
+                    }),
+                    '-',
+                    new Ext.menu.Item({
+                        text: 'Websites'                  
+                    }),
+                    '-',
+                    new Ext.menu.Item({
+                        text: 'Apply DB Updates',
+                        handler: Mage.Core.applyDbUpdates.createDelegate(Mage.Core)
+                    })
+                 ]
+            });
             
-//            Mage.Core.addLeftToolbarItem({
-//                cls: 'x-btn-text-icon bmenu',
-//                text:'System',
-//                menu: menu
-//            });
+            Mage.Core.addLeftToolbarItem({
+                cls: 'x-btn-text-icon bmenu',
+                text:'System',
+                menu: menu
+            });
             
             function chooseTheme(item, e) {
                 Cookies.set('admtheme', item.value);

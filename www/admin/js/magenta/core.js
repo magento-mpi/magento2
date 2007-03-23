@@ -132,7 +132,7 @@ Mage.Core = function(){
                 failure : failure,
                 argument : {}
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/index/applyDbUpdates', cb);  
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/index/applyDbUpdates', cb);
         }
     }
 }();
