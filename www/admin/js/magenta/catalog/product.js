@@ -388,13 +388,13 @@ Mage.Catalog_Product = function(depend){
                 var el;             
                 for(i=0; i < form.elements.length; i++) {
                     Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
-                    el_type = form.elements[i].getAttribute('type');
-                    if (el_type && 'text' == el_type) {
-                         date[i] = new Ext.form.DateField({
-                               allowBlank:false
-                         });
-                        date[i].applyTo(form.elements[i].id);                   
-                    }
+//                    el_type = form.elements[i].getAttribute('type');
+//                    if (el_type && 'text' == el_type) {
+//                         date[i] = new Ext.form.DateField({
+//                               allowBlank:false
+//                         });
+//                        date[i].applyTo(form.elements[i].id);                   
+//                    }
                 }
                 this.loadedForms.add(form.id, form);
             }
