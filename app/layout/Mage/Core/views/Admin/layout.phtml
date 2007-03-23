@@ -1,20 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
-    <script type="text/javascript" language="Javascript">
+</head>
+<body>
+	<div id="loading">
+		<div class="loading-indicator">Loading...</div>
+	</div>
+
+	<script type="text/javascript" language="Javascript">
         var BASE_URL = '<?=$baseUrl?>';
         var SKIN_URL = '<?=$baseSkinUrl?>';
     </script>
     <?=$head?>
-    <script type="text/javascript" language="Javascript">
+	<script type="text/javascript" language="Javascript">
         Ext.BLANK_IMAGE_URL = '<?=$baseUrl?>/yui-ext/resources/images/s.gif';
         Ext.UpdateManager.defaults.loadScripts = true;
         Ext.UpdateManager.defaults.disableCaching = true;
-    </script>
-</head>
-<body>
-<div id="loading">
-	<div class="loading-indicator">Loading...</div>
-</div>
+	</script>
 </body>
 </html>
