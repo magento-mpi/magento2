@@ -64,12 +64,14 @@ Mage.Form = function(form){
     
     this.processSuccess = function(response) {
         if (typeof response.argument.callBack == 'function') {
-            response.argument.callBack();
+            response.argument.callBack(response, {success:true});
         }
     }
     
     this.processFailure = function(response) {
-        
+        if (typeof response.argument.callBack == 'function') {
+            response.argument.callBack(response, {failure:true});
+        }
     }
     
     this.successDelegate = this.processSuccess.createDelegate(this);

@@ -328,8 +328,8 @@ Mage.Catalog_Product = function(depend){
             }
         },
         
-        saveItemCallBack : function() {
-            alert('form saved');
+        saveItemCallBack : function(response, type) {
+            Ext.dump(response);
         },
         
         
