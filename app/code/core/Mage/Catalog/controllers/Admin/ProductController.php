@@ -123,4 +123,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         
     }
+    
+    public function saveAction()
+    {
+        echo('<pre>');
+        print_r($_POST);
+        echo('</pre>');
+    }
 }

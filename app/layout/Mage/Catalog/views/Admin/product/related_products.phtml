@@ -125,7 +125,7 @@ relProducts.prototype = {
             grid.getView().refresh();
         }
 
-        var layuot = new Ext.BorderLayout('related_product_panel', {
+        var layuot = new Ext.BorderLayout(Ext.DomHelper.append(Mage.Catalog_Product.editPanel.getEl(), {tag:'div'}, true), {
                  center:{
                      autoScroll:true,
                      titlebar:false,
@@ -134,11 +134,11 @@ relProducts.prototype = {
                  }
         });
         layuot.beginUpdate();
-        layuot.add('center', new Ext.GridPanel(grid,{title:'test'}));
+        layuot.add('center', new Ext.GridPanel(grid));
         layuot.endUpdate();
     }
 };
 
 relProductChooser = new relProducts();
-relProductChooser.initGrid();
+//relProductChooser.initGrid();
 </script>

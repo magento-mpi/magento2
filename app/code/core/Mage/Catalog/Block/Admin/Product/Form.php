@@ -31,6 +31,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $groupId  = Mage_Core_Controller::getController()->getRequest()->getParam('group', false);
         $setId    = Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
         $productId= (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
+        $isDefault= (bool) Mage_Core_Controller::getController()->getRequest()->getParam('isdefault', false);
         
         if ($groupId) {
             $this->_group = Mage::getModel('catalog', 'product_attribute_group')->get($groupId);
@@ -38,6 +39,16 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
                 $this->setAttribute('legend', $this->_group['product_attribute_group_code']);
                 $this->setAttribute('id', 'form_'.$groupId);
             }
+        }
+        
+        if ($isDefault) {
+            $this->addField('product_id', 'hidden',
+                array(
+                    'name'  => 'product_id',
+                    'value' => $productId,
+                    'id'    => 'product_id'
+                )
+            );
         }
         
         $attributes = Mage::getModel('catalog', 'product_attribute_group')->getAttributes($groupId, $setId);

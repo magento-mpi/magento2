@@ -390,6 +390,11 @@ Mage.Catalog_Product = function(depend){
                mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
                this.editPanel.add('center', panel);
             }
+            for(var i=0; i < dataCard.tabs.length; i++) {
+                if (dataCard.tabs[i].active) {
+                    this.editPanel.getRegion('center').showPanel('productCard_' + dataCard.tabs[i].name);
+                }
+            }
             this.editPanel.endUpdate();
             return true;
         },

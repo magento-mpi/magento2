@@ -32,7 +32,7 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         }
 
         $this->addField('attribute_set', 'select', array(
-            'name'  => 'setId',
+            'name'  => 'set',
             'label' => 'Attributes Set',
             'id'    => 'choose_attribute_set',
             'values'=> $setOptions,

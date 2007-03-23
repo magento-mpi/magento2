@@ -14,8 +14,8 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
     
     public function __construct() 
     {
-        $this->_productId   = Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
-        $this->_attributeSet= Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
+        $this->_productId   = (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
+        $this->_attributeSet= (int) Mage_Core_Controller::getController()->getRequest()->getParam('setid', false);
     }
     
     public function toJson()
@@ -55,6 +55,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         if ($this->_productId) {
             $baseTabUrl.= 'product/' . $this->_productId . '/';
         }
+        
         foreach ($arrGroups as $group) {
             $url = $baseTabUrl . 'group/' . $group['product_attribute_group_id'].'/';
             $url.= 'set/'.$this->_attributeSet.'/';
@@ -70,7 +71,10 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             'url'   => Mage::getBaseUrl().'/mage_catalog/product/relatedProducts/',
             'title' => 'Related products',
         );
+        
+        // Set first tab as active
         $cardStructure['tabs'][0]['active'] = true;
+        $cardStructure['tabs'][0]['url']    = $cardStructure['tabs'][0]['url'] . 'isdefault/1/';
         return Zend_Json::encode($cardStructure);
     }
 }
