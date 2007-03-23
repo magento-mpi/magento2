@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="head">
-        <block type="tag_js" name="head.js.sales.menu">
+    <reference name="jscripts">
+        <block type="tag_js" name="jscripts.js.sales.menu">
             <action method="setSrc"><src>/magenta/sales/menu.js</src></action>
         </block>
     </reference>

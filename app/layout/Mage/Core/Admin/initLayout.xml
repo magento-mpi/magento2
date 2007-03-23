@@ -23,31 +23,34 @@
                 <action method="setHref"><href>/styles.css</href></action>
             </block>
             
-            <block type="tag_js" name="head.js.yui.utilities">
+		</block>            
+		
+		<block type="list" name="jscripts" as="jscripts">
+            <block type="tag_js" name="jscripts.js.yui.utilities">
                 <action method="setSrc"><src>/yui-ext/yui-utilities.js</src><locate/></action>
             </block>
             
-            <block type="tag_js" name="head.js.ext.yui.adapter">
+            <block type="tag_js" name="jscripts.js.ext.yui.adapter">
                 <action method="setSrc"><src>/yui-ext/ext-yui-adapter.js</src><locate/></action>
             </block>
             
-            <block type="tag_js" name="head.js.ext.all.debug">
+            <block type="tag_js" name="jscripts.js.ext.all.debug">
                 <action method="setSrc"><src>/yui-ext/ext-all-debug.js</src><locate/></action>
             </block>
             
-            <block type="tag_js" name="head.js.magenta.mage">
+            <block type="tag_js" name="jscripts.js.magenta.mage">
                 <action method="setSrc"><src>/magenta/mage.js</src></action>
             </block>
             
-            <block type="tag_js" name="head.js.magenta.form">
+            <block type="tag_js" name="jscripts.js.magenta.form">
                 <action method="setSrc"><src>/magenta/form.js</src></action>
             </block>
             
-            <block type="tag_js" name="head.js.magenta.core">
+            <block type="tag_js" name="jscripts.js.magenta.core">
                 <action method="setSrc"><src>/magenta/core.js</src></action>
             </block>
             
-            <block type="tag_js" name="head.js.magenta.core.menu">
+            <block type="tag_js" name="jscripts.js.magenta.core.menu">
                 <action method="setSrc"><src>/magenta/core/menu.js</src></action>
             </block>
         </block>

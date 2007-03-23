@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="head">
+    <reference name="jscripts">
         <block type="tag_js" name="head.js.auth.menu">
             <action method="setSrc"><src>/magenta/auth/menu.js</src></action>
         </block>
