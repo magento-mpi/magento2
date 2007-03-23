@@ -198,14 +198,14 @@ final class Mage {
     }
 
     /**
-	 * Get model class
-	 *
-	 * @link Mage_Core_Model::getModelClass
-	 * @param string $model
-	 * @param string $class
-	 * @param array $arguments
-	 * @return Mage_Core_Model_Abstract
-	 */
+     * Get model class
+     *
+     * @link Mage_Core_Model::getModelClass
+     * @param string $model
+     * @param string $class
+     * @param array $arguments
+     * @return Mage_Core_Model_Abstract
+     */
     public static function getModel($model, $class='', array $arguments=array())
     {
         return Mage_Core_Model::getModelClass($model, $class, $arguments);
@@ -217,12 +217,12 @@ final class Mage {
     }
 
     /**
-	 * Throw new exception by module
-	 *
-	 * @param string $message
-	 * @param integer $code
-	 * @param string $module
-	 */
+     * Throw new exception by module
+     *
+     * @param string $message
+     * @param integer $code
+     * @param string $module
+     */
     public static function exception($message, $code=0, $module='Mage_Core')
     {
         $className = $module.'_Exception';
@@ -265,6 +265,7 @@ final class Mage {
         Mage::prepareFileSystem();
 
         Mage::register('events', new Varien_Event());
+        Mage::register('website', new Mage_Core_Website());
         
         // check modules db
         #Mage::getConfig()->applyDbUpdates();

@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
     public function __construct() 
     {
         parent::__construct();
-        $this->_optionTable     = $this->getTableName('catalog_read', 'product_attribute_option');
-        $this->_optionTypeTable = $this->getTableName('catalog_read', 'product_attribute_option_type');
+        $this->_optionTable     = $this->getTableName('catalog_setup', 'product_attribute_option');
+        $this->_optionTypeTable = $this->getTableName('catalog_setup', 'product_attribute_option_type');
     }
     
     /**
@@ -53,7 +53,10 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function insert($data)
     {
-        
+        if ($this->_write->insert($this->_optionTable, $data)) {
+            return $this->_write->lastInsertId();
+        }
+        return false;
     }
     
     /**
@@ -64,7 +67,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function update($data, $rowId)
     {
-        
+        $condition = $this->_write->quoteInto('option_id=?', $rowId);
+        return $this->_write->update($this->_optionTable, $data, $condition);
     }
     
     /**
@@ -74,7 +78,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function delete($rowId)
     {
-        
+        $condition = $this->_write->quoteInto('option_id=?', $rowId);
+        return $this->_write->delete($this->_optionTable, $condition);
     }
     
     /**
@@ -84,6 +89,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function getRow($rowId)
     {
-        
+        return array();
     }    
 }

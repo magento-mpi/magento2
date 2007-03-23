@@ -1,7 +1,4 @@
 <?php
-
-include_once('Mage/Catalog/Model/Mysql4/Product/Attribute/Abstract.php');
-
 /**
  * Product int attribute model
  *
@@ -14,6 +11,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Int extends Mage_Catalog_Model
 {
     public function __construct() 
     {
-        
+        $this->_attributeValueTable = $this->getTableName('catalog_setup', 'product_attribute_int');
     }
 }

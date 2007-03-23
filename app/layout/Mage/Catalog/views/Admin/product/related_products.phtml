@@ -1,72 +1,13 @@
-<div id="related_product_grid" style="overflow: hidden;"></div>
+<div id="related_product_panel"></div>
+<div id="related_product_grid"></div>
+<div id="related_product_grid_toolbar"></div>
+
 <script type="text/javascript" language="javascript">
-/*
-var productGrid;
-productGrid = {
-    init : function(){
-        var dataRecord = Ext.data.Record.create([
-            {name: 'id', mapping: 'product_id'},
-            {name: 'name', mapping: 'name'},
-            {name: 'price', mapping: 'price'},
-            {name: 'description', mapping: 'description'},
-        ]);
-        var dataReader = new Ext.data.JsonReader({
-            root: 'items',
-            totalProperty: 'totalRecords',
-            id: 'product_id'
-        }, dataRecord);
-        var dataStore = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: '<?=$baseUrl?>/mage_catalog/product/gridData/category/1/'}),
-            reader: dataReader,
-            remoteSort: true
-        });
-        dataStore.setDefaultSort('product_id', 'desc');
-
-        var colModel = new Ext.grid.ColumnModel([
-            {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
-            {header: "Name", sortable: true, dataIndex: 'name'},
-            {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
-            {header: "Description", sortable: false, dataIndex: 'description'}
-        ]);
-
-        var grid = new Ext.grid.Grid('products-grid', {
-            ds: dataStore,
-            cm: colModel,
-            autoSizeColumns: true,
-            monitorWindowResize: true,
-            autoHeight:true,
-            selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
-            enableColLock:false
-        });
-
-        grid.render();
-        var gridHead = grid.getView().getHeaderPanel(true);
-        var gridFoot = grid.getView().getFooterPanel(true);
-        var paging = new Ext.PagingToolbar(gridFoot, dataStore, {pageSize: 20});
-
-        var displayInfo = gridHead.createChild({cls:'paging-info'});
-        dataStore.on('load', function(){
-            var count = dataStore.getCount();
-            var msg = count == 0 ?
-                "No products to display" :
-                String.format('Displaying products {0} - {1} of {2}', paging.cursor+1, paging.cursor+count, dataStore.getTotalCount());
-            displayInfo.update(msg);
-        });
-
-        dataStore.load({params:{start:0, limit:20}});
-        return grid;
-    }
-    new Ext.GridPanel(productGrid.init(),{title:"Grid Panel",fitToFrame:true,loadOnce:true,onWindowResize:true}));
-    Mage.Collection.get('catalog_main_content_border_panel').add('center', Mage.Collection.get('catalog_product_grid'));
-}/*
-</script>
-<div id="related_products_panel">
-    <div id="related_products_panel_toolbar"></div>
-    <div id="related_products_panel_grid"></div>
-</div>
-<script type="text/javascript">
-var relProductChooser = function(){
-    this.dlg = new Ext.LayoutDialog(Ext.id(), {
+var relProducts = function(){
+    this.container = '';
+    
+    // Dialog
+    this.dialog    = new Ext.LayoutDialog(Ext.id(), {
         autoCreate : true,
         width:600,
         height:400,
@@ -75,40 +16,129 @@ var relProductChooser = function(){
         syncHeightBeforeShow: true,
         shadow:true,
         fixedcenter:true,
-        center:{autoScroll:false},
-        east:{split:true,initialSize:150,minSize:150,maxSize:250}
+        center:{autoScroll:true}
     });
-    this.dlg.setTitle('Choose Related Products');
-    this.dlg.addKeyListener(27, this.dlg.hide, this.dlg);
-    
-    // add buttons
-    this.btnOk = this.dlg.addButton('OK', this.doCallback, this);
+    this.dialog.setTitle('Choose Related Products');
+    this.btnOk = this.dialog.addButton('OK', this.doCallback, this);
     this.btnOk.disable();
-    this.dlg.setDefaultButton(this.dlg.addButton('Cancel', this.dlg.hide, this.dlg));
-    //dlg.on('show', this.load, this);
+    this.dialog.setDefaultButton(this.dialog.addButton('Cancel', this.dialog.hide, this.dialog));
+
+
     
-    this.dlg.resizeTo(this.width, this.height);
-    this.loaded = false;
+    this.dialogGrid= '';
+    this.grid      = '';
+    
+    // flags
+    this._loaded   = false;
 };
 
-relProductChooser.prototype = {
-    show : function(el, callback){
-        this.dlg.show(el);
+relProducts.prototype = {
+    showDialog : function(el, callback){
+        this.dialog.show(el);
+    },
+
+    initGrid: function(){
+        var ds = new Ext.data.Store({
+            proxy: new Ext.data.ScriptTagProxy({
+                url: 'http://www.yui-ext.com/forum2/topics-remote.php'
+            }),
+            reader: new Ext.data.JsonReader({
+                root: 'topics',
+                totalProperty: 'totalCount',
+                id: 'topic_id'
+            }, [
+                {name: 'title', mapping: 'topic_title'},
+                {name: 'author', mapping: 'username'},
+                {name: 'totalPosts', mapping: 'topic_replies', type: 'int'},
+                {name: 'lastPost', mapping: 'post_time', type: 'date', dateFormat: 'timestamp'},
+                {name: 'lastPoster', mapping: 'user2'},
+                {name: 'excerpt', mapping: 'post_text'}
+            ]),
+            remoteSort: false
+        });
+        ds.setDefaultSort('lastPost', 'desc');
+
+        // pluggable renders
+        function renderTopic(value, p, record){
+            return String.format('<b>{0}</b>{1}', value, record.data['excerpt']);
+        }
+        function renderTopicPlain(value){
+            return String.format('<b><i>{0}</i></b>', value);
+        }
+        function renderLast(value, p, r){
+            return String.format('{0}<br/>by {1}', value.dateFormat('M j, Y, g:i a'), r.data['lastPoster']);
+        }
+        function renderLastPlain(value){
+            return value.dateFormat('M j, Y, g:i a');
+        }
+        
+        var cm = new Ext.grid.ColumnModel([{
+               id: 'topic', // id assigned so we can apply custom css (e.g. .x-grid-col-topic b { color:#333 })
+               header: "Topic",
+               dataIndex: 'title',
+               width: 420,
+               renderer: renderTopic,
+               css: 'white-space:normal;'
+            },{
+               header: "Author",
+               dataIndex: 'author',
+               width: 100,
+               hidden: true
+            },{
+               header: "Total Posts",
+               dataIndex: 'totalPosts',
+               width: 70,
+               align: 'right'
+            },{
+               id: 'last',
+               header: "Last Post",
+               dataIndex: 'lastPost',
+               width: 150,
+               renderer: renderLast
+            }]);
+        
+        cm.defaultSortable = true;
+        var grid = new Ext.grid.Grid('related_product_grid', {
+            ds: ds,
+            cm: cm,
+            selModel: new Ext.grid.RowSelectionModel({singleSelect:true}),
+            enableColLock:false
+        });
+        grid.render();
+        
+        var gridFoot = grid.getView().getHeaderPanel(true);
+
+        // add a paging toolbar to the grid's footer
+        var toolbar = new Ext.Toolbar(gridFoot);
+        // add the detailed view button
+        toolbar.add('-', {
+            pressed: true,
+            enableToggle:true,
+            text: 'Detailed View',
+            cls: 'x-btn-text-icon details',
+            toggleHandler: toggleDetails
+        });
+        ds.load();
+        function toggleDetails(btn, pressed){
+            cm.getColumnById('topic').renderer = pressed ? renderTopic : renderTopicPlain;
+            cm.getColumnById('last').renderer = pressed ? renderLast : renderLastPlain;
+            grid.getView().refresh();
+        }
+
+        var layuot = new Ext.BorderLayout('related_product_panel', {
+                 center:{
+                     autoScroll:true,
+                     titlebar:false,
+                     resizeTabs : true,
+                     tabPosition: 'top'
+                 }
+        });
+        layuot.beginUpdate();
+        layuot.add('center', new Ext.GridPanel(grid,{title:'test'}));
+        layuot.endUpdate();
     }
 };
 
-var chooser;
-function chooseRelProducts(btn)
-{
-    if(!chooser){
-        chooser = new relProductChooser();
-    }
-    chooser.show(btn.getEl());
-}
-
-var tb = new Ext.Toolbar('related_products_panel_toolbar');
-tb.add({
-        text:'Add products',
-        handler: chooseRelProducts
-    });
+relProductChooser = new relProducts();
+relProductChooser.initGrid();
 </script>

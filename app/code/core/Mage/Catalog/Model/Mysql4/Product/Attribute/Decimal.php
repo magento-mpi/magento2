@@ -1,7 +1,4 @@
 <?php
-
-include_once('Mage/Catalog/Model/Mysql4/Product/Attribute/Abstract.php');
-
 /**
  * Product decimal attribute model
  *
@@ -14,6 +11,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Decimal extends Mage_Catalog_M
 {
     public function __construct() 
     {
-        
+        $this->_attributeValueTable = $this->getTableName('catalog_setup', 'product_attribute_decimal');
     }
 }

@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
     {
         parent::__construct();
 
-        $treeTable = $this->_getTableName('catalog_read', 'category');
+        $treeTable = $this->_getTableName('catalog_setup', 'category');
 
         $config = array();
         $config['db']   = $this->_read;
@@ -38,13 +38,13 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
                 ->setPidField('pid')
                 ->setLevelField('level');
 
-            $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
+            $attributeValueTable = $this->_getTableName('catalog_setup', 'category_attribute_value');
             $condition = "$attributeValueTable.category_id=$treeTable.category_id
                           AND $attributeValueTable.website_id=".Mage_Core_Environment::getCurentWebsite();
 
             $this->_dbTree->addTable($attributeValueTable, $condition);
 
-            $attributeTable = $this->_getTableName('catalog_read', 'category_attribute');
+            $attributeTable = $this->_getTableName('catalog_setup', 'category_attribute');
             $condition = "$attributeValueTable.attribute_id=$attributeTable.attribute_id
                           AND $attributeTable.attribute_code='name'";
 
@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
     }
 
     function appendChild($id, $data = array()) {
-        $attributeValueTable = $this->_getTableName('catalog_read', 'category_attribute_value');
+        $attributeValueTable = $this->_getTableName('catalog_setup', 'category_attribute_value');
         $data['category_id'] = $this->_dbTree->appendChild($id, array('website_id'=>1));
         $data['website_id'] = 1;
         $data['attribute_id'] = 1;

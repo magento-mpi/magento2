@@ -39,7 +39,13 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     
     /**
      * Insert row in database table
-     *
+     * $data = array(
+     *      ['attribute_set_id'] => int
+     *      ['system_status_id'] => int
+     *      ['attributes'] => array(
+     *          [$id] => $value
+     *      )
+     * )
      * @param array $data
      */
     public function insert($data)
@@ -70,9 +76,9 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     
     public function getAttributes($productId)
     {
-        $productTable   = $this->_dbModel->getTableName('catalog_read', 'product');
-        $attributeTable = $this->_dbModel->getTableName('catalog_read', 'product_attribute');
-        $attributeInSetTable    = $this->_dbModel->getTableName('catalog_read', 'product_attribute_in_set');
+        $productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
+        $attributeTable = $this->_dbModel->getTableName('catalog_setup', 'product_attribute');
+        $attributeInSetTable    = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_set');
         
         $sql = "SELECT
                     $attributeTable.*
@@ -97,7 +103,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     public function getRow($productId, $withMultipleFields = true)
     {
         $arrRes = array();
-        $productTable           = $this->_dbModel->getTableName('catalog_read', 'product');        
+        $productTable           = $this->_dbModel->getTableName('catalog_setup', 'product');        
 
         $attributes = $this->getAttributes($productId);
         
@@ -114,7 +120,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
 
             // Prepare join
             $tableCode = 'product_attribute_'.$attribute['data_type'];
-            $tableName = $this->_dbModel->getTableName('catalog_read', $tableCode);
+            $tableName = $this->_dbModel->getTableName('catalog_setup', $tableCode);
             $tableAlias= $tableName . '_' . $attribute['attribute_code'];
             
             $selectTable = $tableName . ' AS ' . $tableAlias;

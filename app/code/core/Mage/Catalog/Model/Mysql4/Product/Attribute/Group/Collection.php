@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Mage_
     public function __construct() 
     {
         parent::__construct(Mage::getModel('catalog'));
-        $this->_groupTable  = $this->_dbModel->getTableName('catalog_read', 'product_attribute_group');
-        $this->_inGroupTable= $this->_dbModel->getTableName('catalog_read', 'product_attribute_in_group');
+        $this->_groupTable  = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_group');
+        $this->_inGroupTable= $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_group');
         
         $this->_sqlSelect->from($this->_groupTable);
         $this->_sqlSelect->join(

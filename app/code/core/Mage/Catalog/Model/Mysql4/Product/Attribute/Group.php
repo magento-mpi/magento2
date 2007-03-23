@@ -14,7 +14,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     public function __construct() 
     {
         parent::__construct();
-        $this->_attributeGeoupTable = $this->getTableName('catalog_read', 'product_attribute_group');
+        $this->_attributeGeoupTable = $this->getTableName('catalog_setup', 'product_attribute_group');
     }
     
     /**
@@ -45,9 +45,9 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     public function getAttributes($groupId, $setId)
     {
         $arrRes = array();
-        $attributeTable = $this->getTableName('catalog_read', 'product_attribute');
+        $attributeTable = $this->getTableName('catalog_setup', 'product_attribute');
         
-        $attributeInSetTable = $this->getTableName('catalog_read', 'product_attribute_in_set');
+        $attributeInSetTable = $this->getTableName('catalog_setup', 'product_attribute_in_set');
         
         $sql = "SELECT
                     $attributeTable.*
@@ -72,11 +72,15 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     /**
      * Insert row in database table
      *
-     * @param array $data
+     * @param   array $data
+     * @return  int || false
      */
     public function insert($data)
     {
-        
+        if ($this->_write->insert($this->_attributeGeoupTable, $data)) {
+            return $this->_write->lastInsertId();
+        }
+        return false;
     }
     
     /**
@@ -84,10 +88,12 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      *
      * @param   array $data
      * @param   int   $rowId
+     * @return  int
      */
     public function update($data, $rowId)
     {
-        
+        $condition = $this->_write->quoteInto('product_attribute_group_id=?', $rowId);
+        return $this->_write->update($this->_attributeGeoupTable, $data, $condition);
     }
     
     /**
@@ -97,7 +103,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      */
     public function delete($rowId)
     {
-        
+        $condition = $this->_write->quoteInto('product_attribute_group_id=?', $rowId);
+        return $this->_write->delete($this->_attributeGeoupTable, $condition);
     }
     
     /**
@@ -109,5 +116,4 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     {
         return $this->get($rowId);
     }    
-    
 }

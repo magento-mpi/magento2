@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
     public function __construct() 
     {
         parent::__construct();
-        $this->_setTable    = $this->getTableName('catalog_read', 'product_attribute_set');
-        $this->_inSetTable  = $this->getTableName('catalog_read', 'product_attribute_in_set');
+        $this->_setTable    = $this->getTableName('catalog_setup', 'product_attribute_set');
+        $this->_inSetTable  = $this->getTableName('catalog_setup', 'product_attribute_in_set');
     }
     
     /**
@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
     public function getGroups($setId)
     {
         $arrRes =array();
-        $groupTable = $this->getTableName('catalog_read', 'product_attribute_group');
+        $groupTable = $this->getTableName('catalog_setup', 'product_attribute_group');
         $sql = "SELECT
                     DISTINCT $groupTable.*
                 FROM
@@ -61,7 +61,10 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function insert($data)
     {
-        
+        if ($this->_write->insert($this->_setTable, $data)) {
+            return $this->_write->lastInsertId();
+        }
+        return false;
     }
     
     /**
@@ -72,7 +75,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function update($data, $rowId)
     {
-        
+        $condition = $this->_write->quoteInto('product_attribute_set_id=?', $rowId);
+        return $this->_write->update($this->_setTable, $data, $condition);
     }
     
     /**
@@ -82,7 +86,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function delete($rowId)
     {
-        
+        $condition = $this->_write->quoteInto('product_attribute_set_id=?', $rowId);
+        return $this->_write->delete($this->_setTable, $condition);
     }
     
     /**
@@ -92,6 +97,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function getRow($rowId)
     {
-        
+        $sql = "SELECT * FROM $this->_setTable WHERE product_attribute_set_id=:set_id";
+        return $this->_read->fetchRow($sql, array('set_id'=>$rowId));
     }    
 }
