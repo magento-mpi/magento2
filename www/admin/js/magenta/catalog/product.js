@@ -10,7 +10,6 @@ Mage.Catalog_Product_Renderer.prototype = {
 Mage.Catalog_Product = function(depend){
     var dep = depend;
     return {
-        grid : null,
         ds : null,
         grid : null,
         searchPanel : null,
@@ -403,10 +402,18 @@ Mage.Catalog_Product = function(depend){
              var i=0;
             // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
             panel = this.editPanel.getRegion('center').getPanel(el.id);
+            date = [];
             if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
                 var el;             
                 for(i=0; i < form.elements.length; i++) {
                     Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
+                    el_type = form.elements[i].getAttribute('type');
+                    if (el_type && 'text' == el_type) {
+                         date[i] = new Ext.form.DateField({
+                               allowBlank:false
+                         });
+                        date[i].applyTo(form.elements[i].id);                   
+                    }
                 }
                 this.loadedForms.add(form.id, form);
             }
