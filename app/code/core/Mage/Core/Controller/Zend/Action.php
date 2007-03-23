@@ -81,8 +81,12 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         return $this;
      }
      
-     function renderLayout()
+     function renderLayout($output='')
      {
+         if (''!==$output) {
+             Mage_Core_Block::addOutputBlock($output);
+         }
+         
          Mage::dispatchEvent('beforeRenderLayout');
          Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          

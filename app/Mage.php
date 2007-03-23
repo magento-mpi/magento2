@@ -243,6 +243,10 @@ final class Mage {
         if (!is_writable($logDir)) {
             mkdir($logDir, 0777, true);
         }
+        $sessionDir =  Mage::getBaseDir('var').DS.'session';
+        if (!is_writable($sessionDir)) {
+            mkdir($sessionDir, 0777, true);
+        }
     }
 
     /**
@@ -297,7 +301,7 @@ final class Mage {
     public static function runAdmin($appRoot='')
     {
         // temp (for test)
-        session_start();
+        //session_start();
         try {
             Mage::init($appRoot);
         

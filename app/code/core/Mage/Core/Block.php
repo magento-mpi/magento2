@@ -122,7 +122,7 @@ class Mage_Core_Block
         }
     }
     
-    public static function addOutputBlock($blockName, $method)
+    public static function addOutputBlock($blockName, $method='toString')
     {
         self::$_output[] = array($blockName, $method);
     }

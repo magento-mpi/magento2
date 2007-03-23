@@ -15,6 +15,7 @@
                             <connection extends="//core_setup/connection"/>
                             <entities>
                                 <acl><table>auth_acl</table></acl>
+                                <user><table>auth_user</table></user>
                             </entities>
                         </auth_setup>
 
@@ -44,6 +45,14 @@
                     <layouts>
                         <default><updates><auth><module>Mage_Auth</module><file>Admin/initLayout.xml</file></auth></updates></default>
                     </layouts>
+                    
+                    <events>
+                        <action_preDispatch>
+                            <observers>
+                                <auth><class>Mage_Auth_Setup</class><method>load_admin_action_preDispatch</method></auth>
+                            </observers>
+                        </action_preDispatch>
+                    </events>
                 </admin>
             </load>
         </Mage_Auth>
