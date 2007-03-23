@@ -33,7 +33,8 @@ class Mage_Core_Block_Form_Element_Reset extends Mage_Core_Block_Form_Element_Ab
                ,'onchange'
                ,'onselect'
                ,'onfocus'
-               ,'onblur'));
+               ,'onblur'
+               ,'ext_type'));
 
         $html.= '/>';
         

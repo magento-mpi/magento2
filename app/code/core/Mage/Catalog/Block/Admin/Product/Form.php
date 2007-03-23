@@ -74,7 +74,8 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $elementConfig['id']   = $attribute['attribute_code'];
         $elementConfig['value']= '';
         $elementConfig['title']= $attribute['attribute_code'];
-        $elementConfig['validation'] = '';
+        $elementConfig['validation']= '';
+        $elementConfig['ext_type']  = 'TextField';
         
         // Parse input element params
         if (isset($this->_dataInputs[$attribute['data_input']])) {
@@ -90,6 +91,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         // Parse option values
         if (isset($this->_dataSources[$attribute['data_source']])) {
             $dataSource = (array) $this->_dataSources[$attribute['data_source']];
+            $elementConfig['ext_type']  = 'ComboBox';
             $elementConfig['values'] = Mage_Core_Model::runModelMethod(
                 'catalog', 
                 $dataSource['model'],

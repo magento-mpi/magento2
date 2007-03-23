@@ -35,7 +35,8 @@ class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_A
                ,'onchange'
                ,'onselect'
                ,'onfocus'
-               ,'onblur'));
+               ,'onblur'
+               ,'ext_type'));
         $html.= '>';
         
         $value  = $this->getAttribute('value');

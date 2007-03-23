@@ -12,16 +12,16 @@
  */
 class Mage_Core_Block_Form_Element_Textarea extends Mage_Core_Block_Form_Element_Abstract 
 {
-	public public function __construct($attributes) 
-	{
-		parent::__construct($attributes);
-	}
-	
-	public function toString()
-	{
-	    $html = $this->renderElementLabel();
-	    $html.= '<textarea ';
-	    $html.= $this->_attributesToString(array(
+    public public function __construct($attributes) 
+    {
+        parent::__construct($attributes);
+    }
+    
+    public function toString()
+    {
+        $html = $this->renderElementLabel();
+        $html.= '<textarea ';
+        $html.= $this->_attributesToString(array(
                 'name'
                ,'id'
                ,'cols'
@@ -37,12 +37,13 @@ class Mage_Core_Block_Form_Element_Textarea extends Mage_Core_Block_Form_Element
                ,'onchange'
                ,'onselect'
                ,'onfocus'
-               ,'onblur'));
+               ,'onblur'
+               ,'ext_type'));
 
-	    $html.= '>';
-	    $html.= $this->getAttribute('value');
-	    $html.= '</textarea>';
-	    
-	    return $html;
-	}
+        $html.= '>';
+        $html.= $this->getAttribute('value');
+        $html.= '</textarea>';
+        
+        return $html;
+    }
 }

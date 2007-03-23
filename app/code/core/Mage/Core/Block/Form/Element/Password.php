@@ -36,7 +36,8 @@ class Mage_Core_Block_Form_Element_Password extends Mage_Core_Block_Form_Element
                        ,'onchange'
                        ,'onselect'
                        ,'onfocus'
-                       ,'onblur'));
+                       ,'onblur'
+                       ,'ext_type'));
 
         $html.= '/>';
         

@@ -62,6 +62,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute extends Mage_Catalog_Model_Mys
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_attributeTable WHERE attribute_id=:attribute_id";
-        return $this->_read->fetchRow($sql, array('attribute_id'=>$rowId))
+        return $this->_read->fetchRow($sql, array('attribute_id'=>$rowId));
     }    
 }

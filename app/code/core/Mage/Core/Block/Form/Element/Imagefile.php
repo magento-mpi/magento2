@@ -35,7 +35,8 @@ class Mage_Core_Block_Form_Element_Imagefile extends Mage_Core_Block_Form_Elemen
                ,'onchange'
                ,'onselect'
                ,'onfocus'
-               ,'onblur'));
+               ,'onblur'
+               ,'ext_type'));
 
         $html.= '/>';
         

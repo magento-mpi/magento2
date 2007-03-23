@@ -38,7 +38,8 @@ class Mage_Core_Block_Form_Element_Text extends Mage_Core_Block_Form_Element_Abs
                        ,'onchange'
                        ,'onselect'
                        ,'onfocus'
-                       ,'onblur'));
+                       ,'onblur'
+                       ,'ext_type'));
         $html.= '/>';
         
         return $html;

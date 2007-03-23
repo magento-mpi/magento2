@@ -10,16 +10,16 @@
  */
 class Mage_Core_Block_Form_Element_Submit extends Mage_Core_Block_Form_Element_Abstract 
 {
-	public public function __construct($attributes) 
-	{
-		parent::__construct($attributes);
-	}
-	
-	public function toString()
-	{
-	    $html = $this->renderElementLabel();
-	    $html.= '<input type="submit" ';
-	    $html.= $this->_attributesToString(array(
+    public public function __construct($attributes) 
+    {
+        parent::__construct($attributes);
+    }
+    
+    public function toString()
+    {
+        $html = $this->renderElementLabel();
+        $html.= '<input type="submit" ';
+        $html.= $this->_attributesToString(array(
                 'name'
                ,'id'
                ,'value'
@@ -33,10 +33,11 @@ class Mage_Core_Block_Form_Element_Submit extends Mage_Core_Block_Form_Element_A
                ,'onchange'
                ,'onselect'
                ,'onfocus'
-               ,'onblur'));
+               ,'onblur'
+               ,'ext_type'));
 
-	    $html.= '/>';
-	    
-	    return $html;
-	}
+        $html.= '/>';
+        
+        return $html;
+    }
 }
