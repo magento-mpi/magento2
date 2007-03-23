@@ -13,13 +13,15 @@ SET SQL_MODE='';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
-drop table if exists `acl_registry`;
+drop table if exists `auth_acl`;
 
 CREATE TABLE `auth_acl` (
   `acl_id` int(10) unsigned NOT NULL default '1',
   `acl_serialized` text,
   PRIMARY KEY  (`acl_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Auth Acl';
+
+drop table if exists `auth_user`;
 
 CREATE TABLE `auth_user` (
   `user_id` mediumint(9) unsigned NOT NULL auto_increment,
