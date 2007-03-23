@@ -170,21 +170,36 @@ Mage.Catalog_Product = function(depend){
                         autoTabs:true,
                         width:300,
                         height:200,
-                        modal:true,
+                        modal:false,
                         shadow:true,
                         minWidth:300,
                         minHeight:200,
                         proxyDrag: true,
                 });
-                var sbmt = this.newItemDialog.addButton('Submit', this.newItemDialog.hide, this.newItemDialog);
+                var sbmt = this.newItemDialog.addButton('Ok', submit, this);
                 sbmt.disable();
-                this.newItemDialog.addButton('Close', this.newItemDialog.hide, this.newItemDialog);
-                
+                this.newItemDialog.addButton('Cancel', this.newItemDialog.hide, this.newItemDialog);
                 var mgr = new Ext.UpdateManager(this.newItemDialog.body);
-                mgr.on('update', function(){sbmt.enable();});
+                mgr.on('update', function(){sbmt.enable()});
+                //this.newItemDialog.on('show', function(){mgr.update(Mage.url + '/mage_catalog/product/newoption/')})
                 mgr.update(Mage.url + '/mage_catalog/product/newoption/');
             }
             this.newItemDialog.show(menuItem.getEl().dom);     
+            
+            var dialog = this.newItemDialog;
+            
+            function submit() {
+                var set = Ext.DomQuery.selectNode('select#choose_attribute_set', dialog.body.dom);
+                var type = Ext.DomQuery.selectNode('select#choose_product_type', dialog.body.dom);
+                if (set) {
+                    var setId = set.value;
+                }
+                if (type) {
+                    var typeId = type.value;
+                }
+                this.newItemDialog.hide();
+                this.doCreateItem.createDelegate(this, [-1, 'yes', setId, typeId], 0)();
+            }
         },
         
         createItem: function() {
@@ -219,13 +234,14 @@ Mage.Catalog_Product = function(depend){
         },
         
         
-        doCreateItem: function(rowId, btn) {
+        doCreateItem: function(rowId, btn, setId, typeId) {
             var prodId = 0;
+            setId = Number(setId);
+            typeId = Number(typeId);
             if (btn == 'no') {
                 return false;
             }
             var title = 'New Product'; // title for from layout            
-            var setId = arguments[2] || 0;
 
             var workZone = dep.getLayout('workZone');
             if (workZone.getRegion('south').getActivePanel()) {
@@ -233,13 +249,14 @@ Mage.Catalog_Product = function(depend){
                 this.editablePanels = [];
             }
             
+            if (rowId >= 0) {
              try {
                   prodId = this.grid.getDataSource().getAt(rowId).id;
                   title = 'Edit: ' + this.grid.getDataSource().getById(prodId).get('name');
               } catch (e) {
                   Ext.MessageBox.alert('Error!', e.getMessage());
               }
-            
+            }
             this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
                     hideOnLayout:true,
                     north: {
@@ -268,7 +285,7 @@ Mage.Catalog_Product = function(depend){
                 failure : failure,
                 argument : {prod_id: prodId}
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/', cb);  
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);  
             
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             workZone.endUpdate();
@@ -331,26 +348,27 @@ Mage.Catalog_Product = function(depend){
                tooltip: 'Form is updating',
                cls: "x-btn-icon x-grid-loading",
                disabled: false
-            },'-');
+            });
+            toolbar.addSeparator();
             
             // check if we have new product //
-            if (response.argument.prod_id == 0) {
-                if (dataCard.attribute_set.totalRecords > 1 ) {
-                    var opts = [];
-                    for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
-                        var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
-                        if (i == 0) {
-                            o.selected = 'true';
-                        }
-                        opts.push(o);
-                    }
-                
-                    var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
-                		tag:'select', children: opts
-                    }, true);                
-                    toolbar.add('Product type :', setSelect.dom);                   
-               }
-            }
+//            if (response.argument.prod_id == 0) {
+//                if (dataCard.attribute_set.totalRecords > 1 ) {
+//                    var opts = [];
+//                    for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
+//                        var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
+//                        if (i == 0) {
+//                            o.selected = 'true';
+//                        }
+//                        opts.push(o);
+//                    }
+//                
+//                    var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
+//                		tag:'select', children: opts
+//                    }, true);                
+//                    toolbar.add('Product type :', setSelect.dom);                   
+//               }
+//            }
            
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
