@@ -124,10 +124,19 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         
     }
     
+    /**
+     * Save product
+     *
+     */
     public function saveAction()
     {
-        echo('<pre>');
-        print_r($_POST);
-        echo('</pre>');
+        $validator = new Mage_Catalog_Validate_Product($_POST);
+        if ($validator->isValid()) {
+            $productModel = Mage::getModel('catalog', 'product');
+            Mage::log('product save');
+        }
+        else {
+            $this->getResponse()->setBody($validator->getMessage('json'));
+        }
     }
 }
