@@ -231,11 +231,6 @@ Mage.Catalog_Product = function(depend){
                 default :
                     return false;
             };
-            
-            // check if we have editable panels
-                
-            // check if we have opened panels
-
         },
         
         
@@ -293,9 +288,14 @@ Mage.Catalog_Product = function(depend){
             var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);  
             
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
+            workZone.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
             workZone.endUpdate();
         },
 
+        onRemovePanel : function(region, panel) {
+            this.editablePanels = [];
+            this.registeredForms.clear();
+        },
 
         // submit form to server        
         saveItem : function() {
