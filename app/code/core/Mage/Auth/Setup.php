@@ -29,11 +29,13 @@ class Mage_Auth_Setup extends Mage_Core_Module_Setup
         if (empty($auth->acl)) {
             $auth->acl = Mage::getModel('auth', 'Acl')->loadUserAcl($auth->user->user_id);
         }
+        
+        Mage::register('acl', $auth->acl);
     }
 
 
 /*
-Example of acl query: Mage::registry('auth_session')->acl->isAllowed('U2', 'system/websites')
+Example of acl query: Mage::registry('acl')->isAllowed('U2', 'system/websites')
 */
 
 }
