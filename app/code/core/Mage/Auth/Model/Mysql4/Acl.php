@@ -14,11 +14,13 @@ class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
         $acl = new Zend_Acl();
         
         Mage_Auth_Config::loadAclResources($acl);
+#echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
         $roleTable = $this->_getTableName('auth_setup', 'role');
         $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
         $rolesArr = $this->_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
+#echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
         $ruleTable = $this->_getTableName('auth_setup', 'rule');
         $assertTable = $this->_getTableName('auth_setup', 'assert');
@@ -26,6 +28,7 @@ class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
         $rulesArr = $this->_read->fetchAll($rulesSelect);        
         $this->loadRules($acl, $rulesArr);
+#echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
         return $acl;
     }
@@ -58,7 +61,7 @@ class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
         foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
-            $privileges = explode(',', $rule['privileges']);
+            $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
 
             $assert = null;
             if (0!=$rule['assert_id']) {

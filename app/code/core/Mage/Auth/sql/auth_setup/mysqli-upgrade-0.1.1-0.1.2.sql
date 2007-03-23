@@ -60,7 +60,7 @@ CREATE TABLE `auth_user` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Users';
 
-insert into `auth_user` (user_id, firstname, lastname, email, username, password) values
+insert into `auth_user` (user_id, firstname, lastname, email, `username`, `password`) values
 (1, 'Moshe', 'Gurvich', 'moshe@varien.com', 'moshe', md5('123123')),
 (2, 'Andrey', 'Korolyov', 'andrey@varien.com', 'andrey', md5('123123')),
 (3, 'Dmitriy', 'Soroka', 'dmitriy@varien.com', 'dmitriy', md5('123123'));
@@ -74,5 +74,7 @@ insert into `auth_role` (role_id, parent_id, tree_level, role_type, user_id, rol
 (6, 1, 2, 'U', 3, 'Dmitriy Soroka');
 
 insert into `auth_rule` (role_type, role_id, resource_id, `privileges`, permission) values
-('G', 1, 'system', 'all', 2);
+('G', 1, 'system', '', 2),
+('U', 1, 'catalog', 'create,delete', 2),
+('U', 2, 'system/websites', 'delete', 0);
 

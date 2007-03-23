@@ -56,7 +56,7 @@
                         
                         <privilegeSets>
                             <default>
-                                <view/><edit/><delete/><create/><all/>
+                                <view/><edit/><delete/><create/>
                             </default>
                         </privilegeSets>
                     </acl>
