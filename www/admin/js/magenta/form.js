@@ -34,6 +34,10 @@ Mage.Form = function(form){
     
     /* private function */
     this.sendForm = function(reset, callBack) {
+        if (!this.action) {
+            Ext.MessageBox.alert('Form','From action do not set');
+            return false;
+        }
         var i = 0;
         var formData = [];
         var elm;
