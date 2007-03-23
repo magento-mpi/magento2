@@ -55,6 +55,7 @@ Mage.Core = function(){
     var _rToolbarItems = new Ext.util.MixedCollection();
     return {
         init: function(){
+            //Ext.get('loading').remove();            
             _layout = new Ext.BorderLayout(document.body, {
                     "hideOnLayout":true,
                     "north":{
