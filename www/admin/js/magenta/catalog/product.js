@@ -30,7 +30,7 @@ Mage.Catalog_Product = function(depend){
                 {name: 'id', mapping: 'product_id'},
                 {name: 'name', mapping: 'name'},
                 {name: 'price', mapping: 'price'},
-                {name: 'description', mapping: 'description'},
+                {name: 'description', mapping: 'description'}
             ]);
                 
             var dataReader = new Ext.data.JsonReader({
@@ -173,7 +173,7 @@ Mage.Catalog_Product = function(depend){
                         shadow:true,
                         minWidth:300,
                         minHeight:200,
-                        proxyDrag: true,
+                        proxyDrag: true
                 });
                 var sbmt = this.newItemDialog.addButton('Ok', submit, this);
                 sbmt.disable();
@@ -355,25 +355,6 @@ Mage.Catalog_Product = function(depend){
                disabled: false
             });
             toolbar.addSeparator();
-            
-            // check if we have new product //
-//            if (response.argument.prod_id == 0) {
-//                if (dataCard.attribute_set.totalRecords > 1 ) {
-//                    var opts = [];
-//                    for (var i=0; i < dataCard.attribute_set.items.length; i++ ) {
-//                        var o = {tag: 'option',  value:dataCard.attribute_set.items[i].product_attribute_set_id, html:dataCard.attribute_set.items[i].product_set_code}
-//                        if (i == 0) {
-//                            o.selected = 'true';
-//                        }
-//                        opts.push(o);
-//                    }
-//                
-//                    var setSelect = Ext.DomHelper.append(this.editPanel.getEl(), {
-//                		tag:'select', children: opts
-//                    }, true);                
-//                    toolbar.add('Product type :', setSelect.dom);                   
-//               }
-//            }
            
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
