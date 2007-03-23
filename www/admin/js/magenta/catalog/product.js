@@ -295,7 +295,9 @@ Mage.Catalog_Product = function(depend){
             workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             workZone.endUpdate();
         },
-        
+
+
+        // submit form to server        
         saveItem : function() {
             var region = this.editPanel.getRegion('center');
             var i = 0;
@@ -322,8 +324,12 @@ Mage.Catalog_Product = function(depend){
             form = null;
             for(i=0; i < this.registeredForms.getCount(); i++) {
                 form = this.registeredForms.itemAt(i);
-                form.sendForm();
+                form.sendForm(this.saveItemCallBack.createDelegate(this));
             }
+        },
+        
+        saveItemCallBack : function() {
+            alert('form saved');
         },
         
         
@@ -331,9 +337,13 @@ Mage.Catalog_Product = function(depend){
             if (!this.editPanel) {
                 return false;
             }            
-            
+            // decode responce from server - there is information about form tabs
             dataCard = Ext.decode(response.responseText);  
+            
+            // begin update editPanel
             this.editPanel.beginUpdate();
+            
+            // setup toolbar for forms
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
@@ -356,6 +366,7 @@ Mage.Catalog_Product = function(depend){
             });
             toolbar.addSeparator();
            
+           // start draw panels and setup it to get infration from server
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
                 var panel = new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
@@ -370,15 +381,18 @@ Mage.Catalog_Product = function(depend){
                mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
                this.editPanel.add('center', panel);
             }
+            
             for(var i=0; i < dataCard.tabs.length; i++) {
                 if (dataCard.tabs[i].active) {
                     this.editPanel.getRegion('center').showPanel('productCard_' + dataCard.tabs[i].name);
                 }
             }
             this.editPanel.endUpdate();
+            // end update editPanel
             return true;
         },
         
+        // set up form in panel - call after tab is updated by Ext.UpdateManager
         onLoadPanel : function(el, response) {
              var i=0;
             // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
@@ -387,6 +401,7 @@ Mage.Catalog_Product = function(depend){
             if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
                 var el;             
                 for(i=0; i < form.elements.length; i++) {
+                    // add to each file onChange event if - field changed - mark tab and form changed
                     Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
 //                    el_type = form.elements[i].getAttribute('type');
 //                    if (el_type && 'text' == el_type) {
@@ -399,6 +414,7 @@ Mage.Catalog_Product = function(depend){
                 this.loadedForms.add(form.id, form);
             }
         },
+        
         
         onFormChange : function(e, element, object, panel) {
             var i = 0;

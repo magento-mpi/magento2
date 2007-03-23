@@ -24,7 +24,7 @@ Mage.Form = function(form){
     
     this._parseElements(this.form);
     
-    /* public functions */
+
     this.appendForm = function(form, force) {
         if (form.action != this.action && !force) {
             return false;
@@ -32,8 +32,8 @@ Mage.Form = function(form){
         this._parseElements(form);
     }
     
-    /* private function */
-    this.sendForm = function(reset, callBack) {
+
+    this.sendForm = function(callBack, reset) {
         if (!this.action) {
             Ext.MessageBox.alert('Form','From action do not set');
             return false;
@@ -63,7 +63,9 @@ Mage.Form = function(form){
     }
     
     this.processSuccess = function(response) {
-        
+        if (typeof response.argument.callBack == 'function') {
+            response.argument.callBack();
+        }
     }
     
     this.processFailure = function(response) {
