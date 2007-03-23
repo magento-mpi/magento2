@@ -215,7 +215,7 @@ Mage.Catalog_Product = function(depend){
                    if (this.editablePanels.length) {
                         Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.setUpNewItem.createDelegate(this, [menuItem, e], 0));
                    } else {
-                        this.doCreateItem(menuItem, e);
+                        this.setUpNewItem(menuItem, e);
                         return true;
                    }
                    break;
