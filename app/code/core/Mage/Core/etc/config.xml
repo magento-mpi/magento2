@@ -78,6 +78,15 @@
                         <default>true</default>
                     </controller>
                     
+                    <acl>
+                        <resources>
+                            <system>
+                                <modules/>
+                                <websites/>
+                            </system>
+                        </resources>
+                    </acl>
+
                     <layouts>
                         <default><updates><core><module>Mage_Core</module><file>Admin/initLayout.xml</file></core></updates></default>
                     </layouts>

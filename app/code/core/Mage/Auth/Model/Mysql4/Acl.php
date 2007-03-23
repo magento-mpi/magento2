@@ -2,25 +2,80 @@
 
 class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
 {
-    function load()
+    const ROLE_TYPE_GROUP = 'G';
+    const ROLE_TYPE_USER = 'U';
+    
+    const RULE_PERM_DENY = 0;
+    const RULE_PERM_INHERIT = 1;
+    const RULE_PERM_ALLOW = 2;
+    
+    function loadUserAcl($userId)
     {
-        $aclTable = $this->_getTableName('auth_setup', 'acl');
-        $aclArr = $this->_read->fetchRow($this->_read->select()->from($aclTable));
-        $aclData = unserialize($aclArr['acl_serialized']);
-        return $aclData;
+        $acl = new Zend_Acl();
+        
+        Mage_Auth_Config::loadAclResources($acl);
+
+        $roleTable = $this->_getTableName('auth_setup', 'role');
+        $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
+        $rolesArr = $this->_read->fetchAll($rolesSelect);
+        $this->loadRoles($acl, $rolesArr);
+        
+        $ruleTable = $this->_getTableName('auth_setup', 'rule');
+        $assertTable = $this->_getTableName('auth_setup', 'assert');
+        $rulesSelect = $this->_read->select()->from($ruleTable)
+            ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
+        $rulesArr = $this->_read->fetchAll($rulesSelect);        
+        $this->loadRules($acl, $rulesArr);
+        
+        return $acl;
     }
     
-    function save(Zend_Acl $acl)
+    function loadRoles(Zend_Acl $acl, array $rolesArr)
     {
-        $aclTable = $this->_getTableName('auth_setup', 'acl');
-        $aclSerialized = serialize($acl);
-        if ($this->load()) {
-            $aclData = array('acl_serialized'=>$aclSerialized);
-            $this->_write->update($aclTable, $aclData, "acl_id=1");
-        } else {
-            $aclData = array('acl_id'=>1, 'acl_serialized'=>$aclSerialized);
-            $this->_write->insert($aclTable, $aclData);
+        foreach ($rolesArr as $role) {
+            $parent = $role['parent_id']>0 ? self::ROLE_TYPE_GROUP.$role['parent_id'] : null;
+            
+            switch ($role['role_type']) {
+                case self::ROLE_TYPE_GROUP:
+                    $roleId = $role['role_type'].$role['role_id'];
+                    $acl->addRole(new Mage_Auth_Acl_Role_Group($roleId), $parent);
+                    break;
+                    
+                case self::ROLE_TYPE_USER:
+                    $roleId = $role['role_type'].$role['user_id'];
+                    if (!$acl->hasRole($roleId)) {
+                        $acl->addRole(new Mage_Auth_Acl_Role_User($roleId), $parent);
+                    } else {
+                        $acl->addRoleParent($roleId, $parent);
+                    }
+                    break;
+            }
         }
-        return $this;
     }
+    
+    function loadRules(Zend_Acl $acl, array $rulesArr)
+    {
+        foreach ($rulesArr as $rule) {
+            $role = $rule['role_type'].$rule['role_id'];
+            $resource = $rule['resource_id'];
+            $privileges = explode(',', $rule['privileges']);
+
+            $assert = null;
+            if (0!=$rule['assert_id']) {
+                $assertClass = (string)Mage_Auth_Config::getAclAssert($rule['assert_type'])->class;
+                $assert = new $assertClass(unserialize($rule['assert_data']));
+            }
+            switch ($rule['permission']) {
+                case self::RULE_PERM_ALLOW:
+                    $acl->allow($role, $resource, $privileges, $assert);
+                    break;
+                    
+                case self::RULE_PERM_DENY:
+                    $acl->deny($role, $resource, $privileges, $assert);
+                    break;
+            }
+            
+        }
+    }
+
 }

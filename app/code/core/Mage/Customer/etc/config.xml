@@ -37,6 +37,14 @@
                 </front>
             
                 <admin>
+                    <acl>
+                        <resources>
+                            <customers>
+                                <manage/>
+                            </customers>
+                        </resources>
+                    </acl>
+
                     <controller>
                         <active>true</active>
                     </controller>

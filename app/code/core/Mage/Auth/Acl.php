@@ -9,5 +9,9 @@ class Mage_Auth_Acl extends Zend_Acl
         }
         return $this->_roleRegistry;
     }
-
+    
+    public function addRoleParent($role, $parent)
+    {
+        $this->_getRoleRegistry()->addParent($role, $parent);   
+    }
 }

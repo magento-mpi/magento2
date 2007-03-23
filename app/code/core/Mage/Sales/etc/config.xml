@@ -31,6 +31,14 @@
                         <active>true</active>
                     </controller>
                     
+                    <acl>
+                        <resources>
+                            <sales>
+                                <orders/>
+                            </sales>
+                        </resources>
+                    </acl>
+                                        
                     <layouts>
                         <default><updates><sales><module>Mage_Sales</module><file>Admin/initLayout.xml</file></sales></updates></default>
                     </layouts>

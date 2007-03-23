@@ -3,7 +3,7 @@ Mage.Menu_Auth = function(){
         init : function(){
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
-                text: 'Permissions'                  
+                text: 'Users & Permissions'                  
             });
         }
     }

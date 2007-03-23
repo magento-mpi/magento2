@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Auth>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
             
             <depends>
                 <Mage_Core/>
@@ -14,8 +14,10 @@
                         <auth_setup>
                             <connection extends="//core_setup/connection"/>
                             <entities>
-                                <acl><table>auth_acl</table></acl>
                                 <user><table>auth_user</table></user>
+                                <role><table>auth_role</table></role>
+                                <rule><table>auth_rule</table></rule>
+                                <assert><table>auth_assert</table></assert>
                             </entities>
                         </auth_setup>
 
@@ -42,6 +44,23 @@
                         <active>true</active>
                     </controller>
                     
+                    <acl>
+                        <asserts>
+                            <ip><class>Mage_Auth_Acl_Assert_Ip</class></ip>
+                            <time><class>Mage_Auth_Acl_Assert_Time</class></time>
+                        </asserts>
+                        
+                        <resources>
+                            <system><permissions/></system>
+                        </resources>
+                        
+                        <privilegeSets>
+                            <default>
+                                <view/><edit/><delete/><create/><all/>
+                            </default>
+                        </privilegeSets>
+                    </acl>
+                    
                     <layouts>
                         <default><updates><auth><module>Mage_Auth</module><file>Admin/initLayout.xml</file></auth></updates></default>
                     </layouts>
@@ -57,4 +76,10 @@
             </load>
         </Mage_Auth>
     </modules>
+    
+    <global>
+        <admin>
+            <acl extends="/config/modules/*/load/admin/acl"/>
+        </admin>
+    </global>
 </config>

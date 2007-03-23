@@ -6,9 +6,11 @@ class Mage_Auth_Setup extends Mage_Core_Module_Setup
     {
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
         Zend_Session::start();
+        
+        Mage::register('auth_session', $auth = new Zend_Session_Namespace('Mage_Auth'));
 
-        Mage::register('auth', $auth = new Zend_Session_Namespace('Mage_Auth'));
-                
+#$auth->acl = null;
+
         if (empty($auth->user) && isset($_POST['login'])) {
             extract($_POST['login']);
             if (!empty($username) && !empty($password)) {
@@ -25,29 +27,8 @@ class Mage_Auth_Setup extends Mage_Core_Module_Setup
         }
         
         if (empty($auth->acl)) {
-            $auth->acl = Mage::getModel('auth', 'Acl')->load();
+            $auth->acl = Mage::getModel('auth', 'Acl')->loadUserAcl($auth->user->user_id);
         }
-        if (empty($auth->acl)) {
-            self::createAuthBase();
-        }
-    }
-    
-    static public function createAuthBase()
-    {
-        $acl = new Mage_Auth_Acl();
-        
-        $acl->addRole($user = new Mage_Auth_Acl_Role_Group('user'));
-        $acl->addRole($admin = new Mage_Auth_Acl_Role_Group('admin'));
-        $acl->addRole($dev = new Mage_Auth_Acl_Role_Group('dev'));
-        
-        $acl->addRole($moshe = new Mage_Auth_Acl_Role_User('moshe'), 'dev');
-        $acl->addRole($andrey = new Mage_Auth_Acl_Role_User('andrey'), 'dev');
-        $acl->addRole($dmitriy = new Mage_Auth_Acl_Role_User('dmitriy'), 'dev');
-        
-        $acl->add(new Mage_Auth_Acl_Resource('admin'));
-        
-        $acl->allow('dev', 'admin');
-        
-        Mage::getModel('auth', 'Acl')->save($acl);
+#echo "<pre>"; print_r($auth->acl); echo "</pre>";
     }
 }

@@ -41,7 +41,14 @@
                         <active>true</active>
                     </controller>
                     
-                
+                    <acl>
+                        <resources>
+                            <layouts>
+                                <manage/>
+                            </layouts>
+                        </resources>
+                    </acl>
+                    
                 </admin>
             </load>
 
