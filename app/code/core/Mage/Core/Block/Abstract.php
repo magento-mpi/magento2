@@ -171,6 +171,15 @@ abstract class Mage_Core_Block_Abstract
         return $this;
     }
     
+    public function unsetChild($name)
+    {
+        unset($this->_children[$name]);
+        $list = $this->getAttribute('sortedChildrenList');
+        $key = array_search($name, $list);
+        unset($list[$key]);
+        $this->setAttribute('sortedChildrenList', $list);
+    }
+    
     /**
      * Get child block
      *
