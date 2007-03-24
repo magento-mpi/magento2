@@ -49,7 +49,7 @@ Mage.Form = function(form){
             if (this.scipFile && elm.type.toLowerCase() == 'file') {
                 continue;
             }
-            formData.push(elm.name+'='+elm.value);
+            formData.push(encodeURIComponent(elm.name)+'='+encodeURIComponent(elm.value));
         }
         var cb = {
             success : this.successDelegate,
