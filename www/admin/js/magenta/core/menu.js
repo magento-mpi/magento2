@@ -2,7 +2,7 @@ Mage.Menu_Core = function(){
     var menu = null;
     return {
         add : function(config){
-            if (!menu) {
+            if (menu) {
                 menu.add(config);
             }
         },

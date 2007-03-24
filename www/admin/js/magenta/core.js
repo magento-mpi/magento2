@@ -126,8 +126,8 @@ Mage.Core = function(){
             
         },
         applyDbUpdates : function(){
-            var success = function(o) {Ext.MessageBox.alert('System - Apply DB Updates',o.responseText);}
-            var failure = function(o) {Ext.MessageBox.alert('System - Apply DB Updates',o.statusText);}
+            var success = function(o) {Ext.MessageBox.alert('Apply DB Updates',o.responseText);}
+            var failure = function(o) {Ext.MessageBox.alert('Apply DB Updates',o.statusText);}
             var cb = {
                 success : success,
                 failure : failure,

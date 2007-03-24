@@ -11,8 +11,8 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 {
     public function toJson()
     {
-        $productId      = (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
-        $attributeSetId = (int) Mage_Core_Controller::getController()->getRequest()->getParam('setid', false);
+        $productId      = (int) Mage::registry('controller')->getRequest()->getParam('product', false);
+        $attributeSetId = (int) Mage::registry('controller')->getRequest()->getParam('setid', false);
 
         $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
         $setCollection->load();

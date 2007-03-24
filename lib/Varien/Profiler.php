@@ -74,7 +74,6 @@ class Varien_Profiler
      *
      */
     public static function getSqlProfiler($res) {
-        $res = Mage_Core_Resource::getResource('dev_write')->getConnection();
         $profiler = $res->getProfiler();
         if($profiler->getEnabled())
         {

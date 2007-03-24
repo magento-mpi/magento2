@@ -28,10 +28,10 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/product/save/');
         
         // Request params
-        $groupId  = Mage_Core_Controller::getController()->getRequest()->getParam('group', false);
-        $setId    = Mage_Core_Controller::getController()->getRequest()->getParam('set', false);
-        $productId= (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
-        $isDefault= (bool) Mage_Core_Controller::getController()->getRequest()->getParam('isdefault', false);
+        $groupId  = Mage::registry('controller')->getRequest()->getParam('group', false);
+        $setId    = Mage::registry('controller')->getRequest()->getParam('set', false);
+        $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
+        $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
         
         if ($groupId) {
             $this->_group = Mage::getModel('catalog', 'product_attribute_group')->get($groupId);
@@ -99,12 +99,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         if (isset($this->_dataSources[$attribute['data_source']])) {
             $dataSource = (array) $this->_dataSources[$attribute['data_source']];
             $elementConfig['ext_type']  = 'ComboBox';
-            $elementConfig['values'] = Mage_Core_Model::runModelMethod(
-                'catalog', 
-                $dataSource['model'],
-                $dataSource['method'],
-                (array) $dataSource['params']
-            );
+            $elementConfig['values'] = Mage::getModel('catalog', $dataSource['model'])->$dataSource['method']((array) $dataSource['params']);
         }
                 
         $this->addField($elementId, $elementType, $elementConfig);

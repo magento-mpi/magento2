@@ -107,7 +107,7 @@ class Mage_Core_Module_Setup
         foreach ($arrResources as $resName => $resInfo) {
             
             // Get Resource Object
-            $resource = Mage_Core_Resource::getResource($resName);
+            $resource = Mage::getConfig()->getResource($resName);
             if ($resource) {
                 
                 // Get resource type !!! TODO

@@ -176,8 +176,10 @@ abstract class Mage_Core_Block_Abstract
         unset($this->_children[$name]);
         $list = $this->getAttribute('sortedChildrenList');
         $key = array_search($name, $list);
-        unset($list[$key]);
-        $this->setAttribute('sortedChildrenList', $list);
+        if (!empty($key)) {
+            unset($list[$key]);
+            $this->setAttribute('sortedChildrenList', $list);
+        }
     }
     
     /**

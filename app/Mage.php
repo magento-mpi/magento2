@@ -208,7 +208,7 @@ final class Mage {
      */
     public static function getModel($model, $class='', array $arguments=array())
     {
-        return Mage_Core_Model::getModelClass($model, $class, $arguments);
+        return Mage::getConfig()->getModelClass($model, $class, $arguments);
     }
 
     public static function getCurentWebsite()
@@ -256,8 +256,6 @@ final class Mage {
      */
     public static function init($appRoot='')
     {
-        Varien_Profiler::setTimer('app');
-
         Mage::setRoot($appRoot);
         
         Mage::getConfig()->init();
@@ -280,18 +278,19 @@ final class Mage {
     public static function runFront($appRoot='')
     {
         try {
-            Mage::init($appRoot);
+Varien_Profiler::setTimer('app');
+
+        	Mage::init($appRoot);
 
             Mage::getConfig()->loadEventObservers('front');
 
-            #Varien_Profiler::setTimer('zend_controller');
-            Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Front());
-            #Varien_Profiler::setTimer('zend_controller', true);
-            Mage_Core_Controller::getController()->run();
+            Mage::register('controller', new Mage_Core_Controller_Zend_Front());
+            Mage::registry('controller')->run();
 
-            Varien_Profiler::getTimer('app', true);
+Varien_Profiler::getTimer('app', true);
+$conn = Mage::getConfig()->getResource('dev_write')->getConnection();
+Varien_Profiler::getSqlProfiler($conn);
             
-            Varien_Profiler::getSqlProfiler(Mage_Core_Resource::getResource('dev_write')->getConnection());
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {
@@ -308,11 +307,9 @@ final class Mage {
         
             Mage::getConfig()->loadEventObservers('admin');
             
-            Mage_Core_Controller::setController(new Mage_Core_Controller_Zend_Admin());
-            Mage_Core_Controller::getController()->run();
+            Mage::register('controller', new Mage_Core_Controller_Zend_Admin());
+            Mage::registry('controller')->run();
 
-            //Varien_Profiler::getTimer('app', true);
-            //  Varien_Profiler::getSqlProfiler();
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {
