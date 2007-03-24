@@ -337,11 +337,16 @@ final class Mage {
         if (empty($file)) {
             $file = 'system.log';
         }
-        $logFile = Mage::getRoot('var').DS.'log'.DS.$file;
-        
+        $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
+
         if (!Zend_Log::hasLogger($file)) {
             Zend_Log::registerLogger(new Zend_Log_Adapter_File($logFile), $file);
         }
+        
+        if (is_array($message) || is_object($message)) {
+            $message = print_r($message, true);
+        }
+        $message = date("Y-m-d H:i:s\t") . $message;
         
         Zend_Log::log($message, $level, $file);
     }

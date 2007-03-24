@@ -38,6 +38,29 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
         return $arrRes;
     }
     
+    /**
+     * Get attribute set attributes information
+     *
+     * @param   int $setId
+     * @return  array
+     */
+    public function getAttributesInfo($setId)
+    {
+        $attributeTable = $this->getTableName('catalog_setup', 'product_attribute');
+        $arrRes =array();
+        $sql = "SELECT
+                    $attributeTable.*
+                FROM
+                    $this->_inSetTable,
+                    $attributeTable
+                WHERE
+                    $attributeTable.attribute_id=$this->_inSetTable.attribute_id
+                    AND product_attribute_set_id=:set_id";
+
+        $arrRes = $this->_read->fetchAll($sql, array('set_id'=>$setId));
+        return $arrRes;
+    }
+
     public function getGroups($setId)
     {
         $arrRes =array();

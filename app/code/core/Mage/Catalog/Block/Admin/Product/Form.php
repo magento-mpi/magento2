@@ -49,6 +49,13 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
                     'id'    => 'product_id'
                 )
             );
+            $this->addField('attribute_set_id', 'hidden',
+                array(
+                    'name'  => 'attribute_set_id',
+                    'value' => $setId,
+                    'id'    => 'attribute_set_id'
+                )
+            );
         }
         
         $attributes = Mage::getModel('catalog', 'product_attribute_group')->getAttributes($groupId, $setId);

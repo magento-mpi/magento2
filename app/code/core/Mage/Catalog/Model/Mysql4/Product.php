@@ -74,27 +74,6 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
         
     }
     
-    public function getAttributes($productId)
-    {
-        $productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
-        $attributeTable = $this->_dbModel->getTableName('catalog_setup', 'product_attribute');
-        $attributeInSetTable    = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_set');
-        
-        $sql = "SELECT
-                    $attributeTable.*
-                FROM
-                    $productTable,
-                    $attributeInSetTable,
-                    $attributeTable
-                WHERE
-                    $productTable.product_id=:product_id
-                    AND $attributeInSetTable.product_attribute_set_id=$productTable.attribute_set_id
-                    AND $attributeTable.attribute_id=$attributeInSetTable.attribute_id";
-        
-        $attributes = $this->_dbModel->getReadConnection()->fetchAll($sql, array('product_id'=>$productId));
-        return $attributes;
-    }
-    
     /**
      * Get row from database table
      *
@@ -183,5 +162,48 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
         }
         
         return $arrRes;
-    }    
+    }
+    
+    /**
+     * Get product attributes
+     *
+     * @param   int $productId
+     * @return  array
+     */
+    public function getAttributes($productId)
+    {
+        $productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
+        $attributeTable = $this->_dbModel->getTableName('catalog_setup', 'product_attribute');
+        $attributeInSetTable    = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_set');
+        
+        $sql = "SELECT
+                    $attributeTable.*
+                FROM
+                    $productTable,
+                    $attributeInSetTable,
+                    $attributeTable
+                WHERE
+                    $productTable.product_id=:product_id
+                    AND $attributeInSetTable.product_attribute_set_id=$productTable.attribute_set_id
+                    AND $attributeTable.attribute_id=$attributeInSetTable.attribute_id";
+        
+        $attributes = $this->_dbModel->getReadConnection()->fetchAll($sql, array('product_id'=>$productId));
+        return $attributes;
+    }
+    
+    public function getAttributeSetId($productId)
+    {
+        if (!empty($this->_data['attribute_set_id'])) {
+            return $this->_data['attribute_set_id'];
+        }
+        
+        $productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
+        $sql = "SELECT
+                    attribute_set_id
+                FROM
+                    $productTable
+                WHERE
+                    product_id=:product_id";
+        return $this->_dbModel->getReadConnection()->fetchOne($sql, array('product_id'=>$productId));
+    }
 }

@@ -9,25 +9,24 @@
  */
 class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 {
-    protected $_productId;
-    protected $_attributeSet;
-    
-    public function __construct() 
-    {
-        $this->_productId   = (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
-        $this->_attributeSet= (int) Mage_Core_Controller::getController()->getRequest()->getParam('setid', false);
-    }
-    
     public function toJson()
     {
+        $productId      = (int) Mage_Core_Controller::getController()->getRequest()->getParam('product', false);
+        $attributeSetId = (int) Mage_Core_Controller::getController()->getRequest()->getParam('setid', false);
+
         $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
         $setCollection->load();
         $arrSets = $setCollection->__toArray();
         
+        if ($productId) {
+            $productModel   = Mage::getModel('catalog', 'product');
+            $attributeSetId = $productModel->getAttributeSetId($productId);
+        }
+        
         // Get first sttributes set id
-        if (!$this->_attributeSet) {
+        if (!$attributeSetId) {
             if (isset($arrSets['items'][0])) {
-                $this->_attributeSet = $arrSets['items'][0]['product_attribute_set_id'];
+                $attributeSetId = $arrSets['items'][0]['product_attribute_set_id'];
             }
             else {
                 Mage::exception('Undefined attributes set id');
@@ -36,14 +35,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         
         // Declare set attributes
         $set = Mage::getModel('catalog', 'product_attribute_set');
-        //$arrAtributes = $set->getAttributes($this->_attributeSet);
-        $arrGroups = $set->getGroups($this->_attributeSet);
-        
-        // Declare attributes groups
-        /*$groupCollection= Mage::getModel('catalog', 'product_attribute_group_collection');
-        $groupCollection->distinct(true);
-        $groupCollection->addAttributeFilter($arrAtributes);
-        $arrGroups = $groupCollection->load()->__toArray();*/
+        $arrGroups = $set->getGroups($attributeSetId);
         
         // Create card JSON structure
         $cardStructure = array();
@@ -52,13 +44,13 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         
         // Tabs description JSON
         $baseTabUrl = Mage::getBaseUrl().'/mage_catalog/product/form/';
-        if ($this->_productId) {
-            $baseTabUrl.= 'product/' . $this->_productId . '/';
+        if ($productId) {
+            $baseTabUrl.= 'product/' . $productId . '/';
         }
         
         foreach ($arrGroups as $group) {
             $url = $baseTabUrl . 'group/' . $group['product_attribute_group_id'].'/';
-            $url.= 'set/'.$this->_attributeSet.'/';
+            $url.= 'set/'.$attributeSetId.'/';
             $cardStructure['tabs'][] = array(
                 'name'  => $group['product_attribute_group_code'],
                 'url'   => $url,

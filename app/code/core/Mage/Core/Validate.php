@@ -18,6 +18,16 @@ abstract class Mage_Core_Validate
     }
     
     /**
+     * Get valid data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+    
+    /**
      * Data validation
      */
     public function isValid() 
@@ -25,6 +35,12 @@ abstract class Mage_Core_Validate
 		return false;
 	}
     
+	/**
+	 * Get validation result message
+	 *
+	 * @param  string $format
+	 * @return string
+	 */
     public function getMessage($format='string') 
     {
         switch ($format) {
@@ -39,14 +55,28 @@ abstract class Mage_Core_Validate
         }
 	}
 	
+	/**
+	 * Get validation object
+	 *
+	 * @param  string $type
+	 * @param  string $class
+	 * @return Zend_Validate
+	 */
 	protected function _getValidator($type, $class = '')
 	{
 	    if (empty($class)) {
 	        $class = 'Zend_Validate_'.ucfirst(strtolower($type));
 	    }
-	    return  new $class;
+	    return new $class;
 	}
 	
+	/**
+	 * Prepare array keys
+	 *
+	 * @param  array $arr
+	 * @param  array $keys
+	 * @return array
+	 */
 	protected function _prepareArray($arr, $keys)
 	{
 	    $arrRes = array();
