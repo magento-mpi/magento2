@@ -15,22 +15,24 @@ Mage.Auth = function(depend){
                         split:true,
                         autoScroll:true,
                         collapsible:false,
-                        titlebar:false,
+                        titlebar: true,
                         minSize : 200,
+                        maxSize : 600,
                         initialSize: 200
                     },
                     center : {
                         autoScroll : false,
-                        titlebar : false,
+                        titlebar : true,
                         hideTabs:false
                     },
                     east : {
                         split:true,                        
                         autoScroll : false,
                         collapsible:false,                        
-                        titlebar : false,
+                        titlebar : true,
                         hideTabs:false,
                         minSize : 200,
+                        maxSize : 600,
                         initialSize: 200
                     },
                     south : {
@@ -40,6 +42,7 @@ Mage.Auth = function(depend){
                         titlebar : true,
                         hideTabs:false,
                         minSize : 200,
+                        maxSize : 600,
                         initialSize: 200
                     }
                 });
