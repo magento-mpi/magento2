@@ -162,4 +162,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($arrSets));
     }
     
+    /**
+     * Product attribute set JSON
+     *
+     */
+    public function attributeListAction()
+    {
+        $collection  = Mage::getModel('catalog', 'product_attribute_collection');
+        $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
+        $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
+        $collection->setOrder($order, $dir);
+        $collection->load();
+        
+        $arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
+        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
+    }
+
 }

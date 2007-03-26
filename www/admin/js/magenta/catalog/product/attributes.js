@@ -106,7 +106,7 @@ Mage.Product_Attributes = function(){
                 text: 'Add Set',
                 handler : function(){
                     var p = new Set({
-                        name: 'New Set',
+                        name: 'New Set'
                     });
                     grid.stopEditing();
                     dataStore.insert(0, p);
@@ -141,10 +141,11 @@ Mage.Product_Attributes = function(){
                 return false;
             }
             var dataRecord = Ext.data.Record.create([
-                {name: 'id', mapping: 'product_id'},
-                {name: 'name', mapping: 'name'},
-                {name: 'price', mapping: 'price'},
-                {name: 'description', mapping: 'description'}
+                {name: 'attribute_id', mapping: 'attribute_id'},
+                {name: 'attribute_code', mapping: 'attribute_code'},
+                {name: 'data_input', mapping: 'data_input'},
+                {name: 'data_type', mapping: 'data_type'},
+                {name: 'required', mapping: 'required'}
             ]);
                 
             var dataReader = new Ext.data.JsonReader({
@@ -154,7 +155,7 @@ Mage.Product_Attributes = function(){
             }, dataRecord);
                 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/'+setId+'/'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -163,10 +164,11 @@ Mage.Product_Attributes = function(){
       
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
-                {header: "Name", sortable: true, dataIndex: 'name'},
-                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
-                {header: "Description", sortable: false, dataIndex: 'description'}
+                {header: "ID#", sortable: true, locked:false, dataIndex: 'attribute_id'},
+                {header: "Code", sortable: true, dataIndex: 'attribute_code'},
+                {header: "Input type", sortable: true, dataIndex: 'data_input'},
+                {header: "Data type", sortable: true, dataIndex: 'data_type'},
+                {header: "Required", sortable: true, dataIndex: 'required'}
             ]);
 
             var grid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
