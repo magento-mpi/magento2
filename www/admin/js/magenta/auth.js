@@ -23,7 +23,8 @@ Mage.Auth = function(depend){
                     center : {
                         autoScroll : false,
                         titlebar : true,
-                        hideTabs:false
+                        hideTabs:false,
+                        minSize : 200,                        
                     },
                     east : {
                         split:true,                        
@@ -75,17 +76,17 @@ Mage.Auth = function(depend){
             }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-//                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
+                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/user/'}),
                 enableDD:true,
                 containerScroll: true
             });  
             UserTree = treePanel;
 
             // set the root node
-            var root = new Ext.tree.TreeNode({
+            var root = new Ext.tree.AsyncTreeNode({
                 text: 'Users',
                 draggable:false,
-                id:'userRoot'
+                id:'_'
             });
             treePanel.setRootNode(root);
 
@@ -100,17 +101,17 @@ Mage.Auth = function(depend){
             }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-//                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
+                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/role/'}),
                 enableDD:true,
                 containerScroll: true
             });  
             GroupTree = treePanel;
 
             // set the root node
-            var root = new Ext.tree.TreeNode({
+            var root = new Ext.tree.AsyncTreeNode({
                 text: 'Groups',
                 draggable:false,
-                id:'groupRoot'
+                id:'_'
             });
             treePanel.setRootNode(root);
 
@@ -127,17 +128,17 @@ Mage.Auth = function(depend){
             
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-//                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
+                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/resource/'}),
                 enableDD:true,
                 containerScroll: true
             });  
             ActionTree = treePanel
 
             // set the root node
-            var root = new Ext.tree.TreeNode({
+            var root = new Ext.tree.AsyncTreeNode({
                 text: 'Actions',
                 draggable:false,
-                id:'actionRoot'
+                id:'_'
             });
             treePanel.setRootNode(root);
 
