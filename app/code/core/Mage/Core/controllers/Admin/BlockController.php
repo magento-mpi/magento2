@@ -8,16 +8,36 @@ class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
 {
     public function blockChildrenAction()
     {
+        $xpath = $this->getRequest()->getParam('xpath', false);
         $layout = new Mage_Core_Layout('<layout/>');
         $layout->loadUpdatesFromConfig('front', 'default');
         $xml = $layout->getXml();
-        echo('<pre>');
-        print_r($xml);
-        echo('</pre>');
         
+        if ($xpath) {
+            $xml = $xml->xpath($xpath);
+        }
         
-        //$fileName = Mage::getBaseDir('layout', 'Page').DS.'initLayout.xml';
-        //echo $fileName;
+        $arrNodes = array();
+        
+        if ($xml->block) {
+            if (is_array($xml->block)) {
+                foreach ($xml->block as $block) {
+                    
+                }
+            }
+            else {
+                $block = $xml->block;
+                $blockAttr = (array) $block->attributes();
+                $node = array();
+                $node['text']   = $blockAttr['@attributes']['name'];
+                $node['id']     = '';
+                $node['cls']    = 'folder';
+                
+                $arrNodes[] = $node;
+            }
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($arrNodes));
     }
     
     function indexAction()

@@ -45,7 +45,7 @@ Mage.Core_Blocks = function(){
                 
                 var tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_catalog/category/treeChildren'}),
+                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/block/blockChildren'}),
                     enableDD:true,
                     containerScroll: true,
                     dropConfig: {appendOnly:true}
