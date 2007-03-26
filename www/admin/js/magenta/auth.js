@@ -24,7 +24,7 @@ Mage.Auth = function(depend){
                         autoScroll : false,
                         titlebar : true,
                         hideTabs:false,
-                        minSize : 200,                        
+                        minSize : 200                      
                     },
                     east : {
                         split:true,                        
