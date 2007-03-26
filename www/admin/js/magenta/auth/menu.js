@@ -3,7 +3,8 @@ Mage.Menu_Auth = function(){
         init : function(){
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
-                text: 'Users & Permissions'                  
+                text: 'Users & Permissions',
+                handler: Mage.Auth.loadMainPanel.createDelegate(Mage.Auth)
             });
         }
     }
