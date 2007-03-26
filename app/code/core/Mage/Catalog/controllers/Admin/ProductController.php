@@ -35,19 +35,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     }
     
     /**
-     * Product attribute set JSON
-     *
-     */
-    public function attributeSetListAction()
-    {
-        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
-        $setCollection->load();
-        $arrSets = $setCollection->__toArray();
-        
-        $this->getResponse()->setBody(Zend_Json::encode($arrSets['items']));
-    }
-    
-    /**
      * Related products control panel
      *
      */
@@ -158,4 +145,21 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $this->getResponse()->setBody($validator->getMessage('json'));
         }
     }
+    
+    /////////////////////////////////
+    // Attributes
+    
+    /**
+     * Product attribute set JSON
+     *
+     */
+    public function attributeSetListAction()
+    {
+        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
+        $setCollection->load();
+        $arrSets = $setCollection->__toArray();
+        
+        $this->getResponse()->setBody(Zend_Json::encode($arrSets));
+    }
+    
 }
