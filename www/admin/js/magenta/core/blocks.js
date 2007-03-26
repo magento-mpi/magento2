@@ -35,7 +35,7 @@ Mage.Core_Blocks = function(){
                 var viewEl = blocks.createChild({tag:'div', id:'folders'});
 
                 var treePanel = layout.add('west', new Ext.ContentPanel(blocks, {
-                    title:'My Albums', 
+                    title:'Blocks', 
                     fitToFrame:true,
                     autoScroll:true,
                     autoCreate:true,
@@ -60,12 +60,10 @@ Mage.Core_Blocks = function(){
                 tree.setRootNode(root);
                 tree.render();
 
-                //layout.beginUpdate();
                 var centerPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
                 }));
-                //layout.endUpdate();
             }
 
             blockDialog.show();

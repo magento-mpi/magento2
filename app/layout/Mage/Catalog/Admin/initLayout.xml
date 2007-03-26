@@ -13,6 +13,9 @@
         <block type="tag_js" name="jscripts.js.catalog.category">
             <action method="setSrc"><src>/magenta/catalog/category.js</src></action>
         </block>
+        <block type="tag_js" name="jscripts.js.catalog.category.tree">
+            <action method="setSrc"><src>/magenta/catalog/tree.js</src></action>
+        </block>
         <block type="tag_js" name="jscripts.js.catalog.menu">
             <action method="setSrc"><src>/magenta/catalog/menu.js</src></action>
         </block>
