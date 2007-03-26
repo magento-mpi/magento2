@@ -76,7 +76,7 @@ Mage.Auth = function(depend){
             }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/user/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/user/'}),
                 enableDD:true,
                 containerScroll: true
             });  
@@ -101,7 +101,7 @@ Mage.Auth = function(depend){
             }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/role/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/role/'}),
                 enableDD:true,
                 containerScroll: true
             });  
@@ -128,7 +128,7 @@ Mage.Auth = function(depend){
             
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
-                loader: new Tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/resource/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + '/mage_auth/tree/resource/'}),
                 enableDD:true,
                 containerScroll: true
             });  
