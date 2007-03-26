@@ -1,4 +1,5 @@
 Mage.Core_Blocks = function(){
+    var blockDialog = null;
     return {
         init: function(){
             Mage.Menu_Core.add('-');
@@ -9,65 +10,65 @@ Mage.Core_Blocks = function(){
         },
         showDialog: function(){
             Ext.QuickTips.init();
-            var dlg = new Ext.LayoutDialog(Ext.id(), {
-                autoCreate : true,
-                width:700,
-                height:500,
-                minWidth:600,
-                minHeight:400,
-                syncHeightBeforeShow: true,
-                shadow:true,
-                fixedcenter:true,
-                center:{autoScroll:false},
-                west:{split:true,initialSize:200,minSize:150,maxSize:250}
-            });
-            dlg.setTitle('Blocks & Layouts');
-            dlg.setDefaultButton(dlg.addButton('Cancel', dlg.hide, dlg));
+            if (!blockDialog) {
+                blockDialog = new Ext.LayoutDialog(Ext.id(), {
+                    autoCreate : true,
+                    width:700,
+                    height:500,
+                    minWidth:600,
+                    minHeight:400,
+                    syncHeightBeforeShow: true,
+                    shadow:true,
+                    fixedcenter:true,
+                    center:{autoScroll:false},
+                    west:{split:true,initialSize:200,minSize:150,maxSize:250}
+                });
+                blockDialog.setTitle('Blocks & Layouts');
+                blockDialog.setDefaultButton(blockDialog.addButton('Cancel', blockDialog.hide, blockDialog));
 
-            var layout = dlg.getLayout();
-            var blocks = layout.getEl().createChild({tag:'div', id:'blocks'});
-            var tb = new Ext.Toolbar(blocks.createChild({tag:'div'}));
-            tb.addButton({
-                text: 'New Block'
-            });
-            var viewEl = blocks.createChild({tag:'div', id:'folders'});
+                var layout = blockDialog.getLayout();
+                var blocks = layout.getEl().createChild({tag:'div', id:'blocks'});
+                var tb = new Ext.Toolbar(blocks.createChild({tag:'div'}));
+                tb.addButton({
+                    text: 'New Block'
+                });
+                var viewEl = blocks.createChild({tag:'div', id:'folders'});
 
-            var treePanel = layout.add('west', new Ext.ContentPanel(blocks, {
-                title:'My Albums', 
-                fitToFrame:true,
-                autoScroll:true,
-                autoCreate:true,
-                toolbar: tb,
-                resizeEl:viewEl
-            }));
+                var treePanel = layout.add('west', new Ext.ContentPanel(blocks, {
+                    title:'My Albums', 
+                    fitToFrame:true,
+                    autoScroll:true,
+                    autoCreate:true,
+                    toolbar: tb,
+                    resizeEl:viewEl
+                }));
+                
+                var tree = new Ext.tree.TreePanel(viewEl, {
+                    animate:true, 
+                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_catalog/category/treeChildren'}),
+                    enableDD:true,
+                    containerScroll: true,
+                    dropConfig: {appendOnly:true}
+                });
 
-            var tree = new Ext.tree.TreePanel(viewEl, {
-                animate:true, 
-                enableDD:true,
-                containerScroll: true
-                //ddGroup: 'organizerDD',
-                //rootVisible:false
-            });
+                var root = new Ext.tree.AsyncTreeNode({
+                    text: 'Blocks', 
+                    draggable:false, // disable root node dragging
+                    id:'1'
+                });
 
-            var root = new Ext.tree.TreeNode({
-                text: 'Blocks', 
-                id: "1",
-                loader:Mage.url+"/mage_catalog/category/treeChildren",
-                expanded: true,
-                allowDrag:false,
-                allowDrop:false
-            });
-            tree.setRootNode(root);
-            tree.render();
-            root.expand();
-            //layout.beginUpdate();
-            var centerPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
-                autoCreate : true,
-                fitToFrame:true
-            }));
-            //layout.endUpdate();
+                tree.setRootNode(root);
+                tree.render();
 
-            dlg.show();
+                //layout.beginUpdate();
+                var centerPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                    autoCreate : true,
+                    fitToFrame:true
+                }));
+                //layout.endUpdate();
+            }
+
+            blockDialog.show();
         }
     }
 }();

@@ -4,8 +4,22 @@ require_once('Zend/Filter.php');
 require_once('Zend/Filter/Alpha.php');
 require_once('Zend/Filter/StringToLower.php');
 
-class BlockController extends Mage_Core_Controller_Admin_Action
+class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
 {
+    public function blockChildrenAction()
+    {
+        $layout = new Mage_Core_Layout('<layout/>');
+        $layout->loadUpdatesFromConfig('front', 'default');
+        $xml = $layout->getXml();
+        echo('<pre>');
+        print_r($xml);
+        echo('</pre>');
+        
+        
+        //$fileName = Mage::getBaseDir('layout', 'Page').DS.'initLayout.xml';
+        //echo $fileName;
+    }
+    
     function indexAction()
     {
         echo "test";
