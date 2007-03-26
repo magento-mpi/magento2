@@ -329,7 +329,7 @@ Mage.Catalog_Product = function(depend){
         },
         
         saveItemCallBack : function(response, type) {
-            Ext.dump(response);
+            Ext.dump(type);
         },
         
         
