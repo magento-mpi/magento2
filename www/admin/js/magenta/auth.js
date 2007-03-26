@@ -24,7 +24,7 @@ Mage.Auth = function(depend){
                         autoScroll : false,
                         titlebar : true,
                         hideTabs:false,
-                        minSize : 200                      
+                        minSize : 200                        
                     },
                     east : {
                         split:true,                        
@@ -50,10 +50,10 @@ Mage.Auth = function(depend){
                 
                 this._layouts.add('main', Layout);
                 Layout.beginUpdate();
-                Layout.add('west', new Ext.ContentPanel(Ext.id(), {title: 'west', autoCreate: true}));
-                Layout.add('center', new Ext.ContentPanel(Ext.id(), {title: 'center', autoCreate: true}));
-                Layout.add('east', new Ext.ContentPanel(Ext.id(), {title: 'east', autoCreate: true}));
-                Layout.add('south', new Ext.ContentPanel(Ext.id(), {title: 'south', autoCreate: true}));
+                Layout.add('west', new Ext.ContentPanel(Ext.id(), {title: 'Users', autoCreate: true}));
+                Layout.add('center', new Ext.ContentPanel(Ext.id(), {title: 'Groups & Roles', autoCreate: true}));
+                Layout.add('east', new Ext.ContentPanel(Ext.id(), {title: 'Resources & Actions', autoCreate: true}));
+                Layout.add('south', new Ext.ContentPanel(Ext.id(), {title: 'Properties', autoCreate: true}));
                 Layout.endUpdate();                
                 
                 Core_Layout.beginUpdate();
@@ -84,9 +84,9 @@ Mage.Auth = function(depend){
 
             // set the root node
             var root = new Ext.tree.AsyncTreeNode({
-                text: 'Users',
+                text: 'All Users',
                 draggable:false,
-                id:'_'
+                id:'U0'
             });
             treePanel.setRootNode(root);
 
@@ -109,9 +109,9 @@ Mage.Auth = function(depend){
 
             // set the root node
             var root = new Ext.tree.AsyncTreeNode({
-                text: 'Groups',
+                text: 'All Groups',
                 draggable:false,
-                id:'_'
+                id:'G0'
             });
             treePanel.setRootNode(root);
 
@@ -136,7 +136,7 @@ Mage.Auth = function(depend){
 
             // set the root node
             var root = new Ext.tree.AsyncTreeNode({
-                text: 'Actions',
+                text: 'All Actions',
                 draggable:false,
                 id:'_'
             });
