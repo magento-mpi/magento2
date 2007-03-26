@@ -4,7 +4,7 @@ Mage.Catalog_Category_Tree = function(){
 
     return{
         create: function(panel){
-            if (!tree){
+            if (!tree) {
                 var layout = Mage.Catalog.getLayout('tree');
                 var treeContainer = layout.getEl().createChild({tag:'div', id:'catalog_category_tree_cont'});
                 /*var tb = new Ext.Toolbar(treeContainer.createChild({tag:'div'}));
@@ -14,11 +14,11 @@ Mage.Catalog_Category_Tree = function(){
                 
                 categoryContextMenu = new Ext.menu.Menu({
                         id : 'category_context_menu',
-                        items: [{text: 'Show Category Products', handler: this.showProducts},
+                        items: [{text: 'Show Category Products', handler: this.showProducts.createDelegate(this)},
                                 '-',
-                                {text: 'Add child',handler:this.addChild},
-                                {text: 'Edit Catecory',handler:this.editCategory},
-                                {text: 'Delete Category',handler:this.deleteCategoryConfirm}]
+                                {text: 'Add child',handler:this.addChild.createDelegate(this)},
+                                {text: 'Edit Catecory',handler:this.editCategory.createDelegate(this)},
+                                {text: 'Delete Category',handler:this.deleteCategoryConfirm.createDelegate(this)}]
                     });
 
                 var viewEl = treeContainer.createChild({tag:'div', id:'catalog_category_tree'});
@@ -125,7 +125,7 @@ Mage.Catalog_Category_Tree = function(){
                 var node = tree.getSelectionModel().getSelectedNode();
                 var success = function(o) { this.parentNode.removeChild(this);};
                 var failure = function(o) { Ext.dump(o.statusText); };
-                var con = new Ext.lib.Ajax.request('GET', '<?=$baseUrl?>/mage_catalog/category/delete/id/'+node.id+'/', {success:success,failure:failure,scope:node});
+                var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/category/delete/id/'+node.id+'/', {success:success,failure:failure,scope:node});
             }
         },
 

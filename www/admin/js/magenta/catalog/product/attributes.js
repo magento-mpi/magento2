@@ -114,6 +114,8 @@ Mage.Product_Attributes = function(){
                 }
             },{
                 text: 'Save'
+            },{
+                text: 'Delete'
             }]);            
             grid.getDataSource().load({params:{start:0, limit:10}});            
             
