@@ -16,7 +16,8 @@ Mage.Product_Attributes = function(){
                     center : {
                         autoScroll : false,
                         titlebar : false,
-                        hideTabs : false
+                        hideTabs : false,
+                        tabPosition : 'top'
                     },
                     east : {
                         autoScroll : false,
@@ -73,23 +74,47 @@ Mage.Product_Attributes = function(){
             dataStore.setDefaultSort('product_id', 'desc');
       
 
-            var colModel = new Ext.grid.ColumnModel([
-                {header: "Set Code", sortable: false, dataIndex: 'name'}
-            ]);
+            var colModel = new Ext.grid.ColumnModel([{
+                header: "Set Code", 
+                sortable: false, 
+                dataIndex: 'name',
+                editor: new Ext.grid.GridEditor(new Ext.form.TextField({
+                     allowBlank: false
+                }))
+            }]);
 
-            var grid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
+            var Set = Ext.data.Record.create([
+               {name: 'name', type: 'string'},
+           ]);
+
+            var grid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 autoHeight : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
             
             grid.on('rowdblclick', this.onRowDblClick.createDelegate(this));
             
             grid.render();
+            
+            var gridHead = grid.getView().getHeaderPanel(true);
+            var tb = new Ext.Toolbar(gridHead, [{
+                text: 'Add Set',
+                handler : function(){
+                    var p = new Set({
+                        name: 'New Set',
+                    });
+                    grid.stopEditing();
+                    dataStore.insert(0, p);
+                    grid.startEditing(0, 0);
+                }
+            },{
+                text: 'Save'
+            }]);            
             grid.getDataSource().load({params:{start:0, limit:10}});            
             
             return grid;
