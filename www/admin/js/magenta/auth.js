@@ -1,6 +1,9 @@
 Mage.Auth = function(depend){
     var loaded = false;
     var Layout = null;
+    var UserTree = null;
+    var GroupTree = null;
+    var ActionTree = null;        
     return {
         _layouts : new Ext.util.MixedCollection(true),
         
@@ -64,12 +67,16 @@ Mage.Auth = function(depend){
         },
         
         createUserTree : function(region) {
+            if (UserTree) {
+                return true;
+            }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
 //                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
                 enableDD:true,
                 containerScroll: true
             });  
+            UserTree = treePanel;
 
             // set the root node
             var root = new Ext.tree.TreeNode({
@@ -85,12 +92,16 @@ Mage.Auth = function(depend){
         },
         
         createGroupTree : function(region) {
+            if (GroupTree) {
+                return true;
+            }
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
 //                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
                 enableDD:true,
                 containerScroll: true
             });  
+            GroupTree = treePanel;
 
             // set the root node
             var root = new Ext.tree.TreeNode({
@@ -107,12 +118,17 @@ Mage.Auth = function(depend){
         },
         
         createActionTree : function(region) {
+            if (ActionTree) {
+                return true;
+            }
+            
             var treePanel = new Ext.tree.TreePanel(Ext.DomHelper.append(Layout.getRegion(region).getActivePanel().getEl().dom, {tag:'div'}, true), {
                 animate:true, 
 //                loader: new Tree.TreeLoader({dataUrl:'get-nodes.php'}),
                 enableDD:true,
                 containerScroll: true
             });  
+            ActionTree = treePanel
 
             // set the root node
             var root = new Ext.tree.TreeNode({
