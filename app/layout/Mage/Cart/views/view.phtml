@@ -1,0 +1,26 @@
+<h2>Shopping Cart</h2>
+<form action="<?=$data['url']['cart']?>/index/updatePost" method="post">
+    <table border=1>
+        <tr><th>Product</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
+        <?foreach($data['cart']['products'] as $product):?>
+            <tr>
+                <td><?=$product['name']?></td>
+                <td><input name="cart[<?=$product['id']?>][qty]" value="<?=$product['qty']?>" size=2></td>
+                <td><?=$product['price']?></td>
+                <td><input type="checkbox" name="cart[<?=$product['id']?>][remove]"></td>
+            </tr>
+        <?endforeach?>
+        <tr>
+            <td colspan=4>
+                <input type="button" value="Continue Shopping" onclick="location.href='<?=$data['url']['base']?>'">
+                <input type="submit" value="Update">
+                <input type="button" value="Checkout" onclick="location.href='<?=$data['url']['checkout']?>'">
+            </td>        
+        </tr>
+    </table>
+</form>
+
+<h2>Estimate</h2>
+<form action="<?$data['url']['cart']?>/index/estimatePost" method="post">
+    Zipcode: <input >
+</form>

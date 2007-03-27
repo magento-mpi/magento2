@@ -10,6 +10,10 @@
 
             <load>
                 <all>
+                    <models>
+                        <checkout><class>Mage_Checkout_Model_Mysql4</class></checkout>
+                    </models>
+                    
                     <resources>
                         <checkout_setup>
                             <connection extends="//core_setup/connection"/>

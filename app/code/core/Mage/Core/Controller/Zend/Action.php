@@ -19,6 +19,17 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      protected $_flags = array();
      protected $_layout = null;
 
+     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+     {
+         parent::__construct($request, $response, $invokeArgs);
+         
+         $this->_construct();
+     }
+     
+     protected function _construct()
+     {
+         
+     }
 
      function getFlag($action, $flag='')
      {

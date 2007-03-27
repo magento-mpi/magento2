@@ -8,9 +8,9 @@
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
-    function __construct(Zend_Controller_Request_Abstract $request,Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+    protected function _construct()
     {
-        parent::__construct($request, $response, $invokeArgs);
+        parent::_construct();
         
         $this->setFlag('image', 'no-preDispatch', true);
     }

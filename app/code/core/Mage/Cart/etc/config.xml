@@ -11,6 +11,10 @@
 
             <load>
                 <all>
+                    <models>
+                        <cart><class>Mage_Cart_Model_Mysql4</class></cart>
+                    </models>
+                    
                     <resources>
                         <cart_setup>
                             <connection extends="//core_setup/connection"/>
