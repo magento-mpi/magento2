@@ -40,42 +40,42 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     function loadCore()
     {
-    	$configFile = Mage::getBaseDir('etc').DS.'core.xml';
-    	$this->addCacheStat($configFile);
-    	$this->setXml($configFile);
+        $configFile = Mage::getBaseDir('etc').DS.'core.xml';
+        $this->addCacheStat($configFile);
+        $this->setXml($configFile);
 
-    	return true;
+        return true;
     }
 
     function loadModules()
     {
-    	$modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
-    	if (!$modules) {
-    		return false;
-    	}
-    	foreach ($modules as $module) {
-    		$configFile = Mage::getBaseDir('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
-    		$this->addCacheStat($configFile);
-    		$moduleConfig = $this->loadFile($configFile);
-    		$this->_xml->extend($moduleConfig, true);
-    	}
-    	return true;
+        $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
+        if (!$modules) {
+            return false;
+        }
+        foreach ($modules as $module) {
+            $configFile = Mage::getBaseDir('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
+            $this->addCacheStat($configFile);
+            $moduleConfig = $this->loadFile($configFile);
+            $this->_xml->extend($moduleConfig, true);
+        }
+        return true;
     }
 
     function loadLocal()
     {
-    	$configFile = Mage::getBaseDir('etc').DS.'local.xml';
-    	$this->addCacheStat($configFile);
-    	$localConfig = $this->loadFile($configFile);
-    	$this->_xml->extend($localConfig, true);
-    	return true;
+        $configFile = Mage::getBaseDir('etc').DS.'local.xml';
+        $this->addCacheStat($configFile);
+        $localConfig = $this->loadFile($configFile);
+        $this->_xml->extend($localConfig, true);
+        return true;
     }
 
     function removeExtraSource()
     {
-    	$modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
-    	if (!$modules) {
-    		return false;
+        $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
+        if (!$modules) {
+            return false;
         }
         foreach ($modules as $module) {
             unset($module->load);
@@ -85,17 +85,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function getModule($moduleName='')
     {
         if (''===$moduleName) {
-        	return $this->_xml->modules;
+            return $this->_xml->modules;
         } else {
-        	return $this->_xml->modules->$moduleName;
+            return $this->_xml->modules->$moduleName;
         }
     }
 
     function getBaseDir($type='', $moduleName='')
     {
-    	if (''!==$moduleName) {
-    		$module = self::getModule($moduleName);
-    		$modulePath = str_replace(' ', DS, ucwords(str_replace('_', ' ', $moduleName)));
+        if (''!==$moduleName) {
+            $module = self::getModule($moduleName);
+            $modulePath = str_replace(' ', DS, ucwords(str_replace('_', ' ', $moduleName)));
             $dir = Mage::getBaseDir('code').DS.$module->codePool.DS.$modulePath;
             
             switch ($type) {
@@ -206,8 +206,16 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
         $path['baseUrl'] = Mage::getBaseUrl();
         $path['baseSkinUrl'] = Mage::getBaseUrl('skin');
-        if (isset($args['moduleName'])) {
-            $path['baseModuleUrl'] = $this->getBaseUrl('', $args['moduleName']);
+        
+        if(is_array($args)) {
+            $moduleName = isset($args['moduleName']) ? $args['moduleName'] : '';
+        }
+        else {
+            $moduleName = $args;
+        }
+        
+        if (!empty($moduleName)) {
+            $path['baseModuleUrl'] = $this->getBaseUrl('', $moduleName);
         } else {
             $path['baseModuleUrl'] = '';
         }
@@ -237,20 +245,20 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
 
-	public function getModelClass($model, $class='', $constructArguments=array())
-	{
-	    $className = '';
-	    if (Mage::getConfig('/')) {
-	        $className = (string)$this->getXml()->global->models->$model->class;
-	    }	  
+    public function getModelClass($model, $class='', $constructArguments=array())
+    {
+        $className = '';
+        if (Mage::getConfig('/')) {
+            $className = (string)$this->getXml()->global->models->$model->class;
+        }     
 
-		if (''!==$class) {
-			$className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($class))));
-		}
+        if (''!==$class) {
+            $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($class))));
+        }
 
-		return new $className($constructArguments);
-	}
-	
+        return new $className($constructArguments);
+    }
+    
     /**
      * Retrieve named resource
      *
@@ -259,17 +267,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResource($name='')
     {
-    	if (!Mage::registry('resources')) {
-    		Mage::register('resources', array());
-    	}
-    	$resources = Mage::registry('resources');
-    	
+        if (!Mage::registry('resources')) {
+            Mage::register('resources', array());
+        }
+        $resources = Mage::registry('resources');
+        
         if ($name=='') {
             return $resources;
         }
         
         if (!Mage::registry($name)) {
-        	$global = $this->getXml()->global;
+            $global = $this->getXml()->global;
             $resource = $global->resources->$name;
             $rType = (string)$resource->connection->type;
             $rTypeClass = (string)$global->resourceTypes->$rType->class;

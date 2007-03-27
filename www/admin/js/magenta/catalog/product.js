@@ -369,17 +369,12 @@ Mage.Catalog_Product = function(depend){
            // start draw panels and setup it to get infration from server
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
-                var panel = new Ext.ContentPanel('productCard_' + dataCard.tabs[i].name,{
-                   title : dataCard.tabs[i].title,
-                   autoCreate: true,
-                   closable : false,
-                   url: dataCard.tabs[i].url,
-                   loadOnce: true,
-                   background: true
-               })
-               var mgr = panel.getUpdateManager();
-               mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
-               this.editPanel.add('center', panel);
+               var panel = this.createTabPanel(dataCard.tabs[i]);
+               if (panel) {
+                   var mgr = panel.getUpdateManager();
+                   mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
+                   this.editPanel.add('center', panel);
+               }
             }
             
             for(var i=0; i < dataCard.tabs.length; i++) {
@@ -390,6 +385,24 @@ Mage.Catalog_Product = function(depend){
             this.editPanel.endUpdate();
             // end update editPanel
             return true;
+        },
+
+        createTabPanel: function(tabInfo){
+            var panel = null;
+            if (tabInfo.type){
+                // Relatet, bundle and super products panels
+            }
+            else{
+                panel = new Ext.ContentPanel('productCard_' + tabInfo.name,{
+                    title : tabInfo.title,
+                    autoCreate: true,
+                    closable : false,
+                    url: tabInfo.url,
+                    loadOnce: true,
+                    background: true
+                });
+            }
+            return panel;
         },
         
         // set up form in panel - call after tab is updated by Ext.UpdateManager

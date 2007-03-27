@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         // Breadcrumbs
         $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>'Home','title'=>'Go to home page','link'=>Mage::getBaseUrl().'/'));
-        $breadcrumbs->addCrumb('category', array('label'=>$this->currentCategory->getData('name')));
+        $breadcrumbs->addCrumb('category', array('label'=>$this->currentCategory->getData('attribute_value')));
         $this->setChild('breadcrumbs', $breadcrumbs);
         
         // Init collection

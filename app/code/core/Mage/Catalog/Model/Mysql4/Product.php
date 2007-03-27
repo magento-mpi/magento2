@@ -22,14 +22,16 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     
     public function getCategoryLink()
     {
-        $url = Mage::getBaseUrl().'/catalog/category/view/id/'.$this->getCategory_Id();
+        // TODO : default category id attribute
+        $url = Mage::getBaseUrl().'/catalog/category/view/id/3';
         return $url;
     }
     
     public function getCategoryName()
     {
-        $category = Mage::getModel('catalog', 'categories')->getNode($this->getCategory_Id());
-        return $category->getData('name');
+        // TODO : default category id attribute
+        $category = Mage::getModel('catalog', 'category_tree')->getNode(3);
+        return $category->getData('attribute_value');
     }
     
     public function getLargeImageLink()
