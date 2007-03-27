@@ -6,7 +6,8 @@ Mage.Menu_Customer = function(){
                 id: 'mainCustomerMenu',
                 items: [
                     new Ext.menu.Item({
-                        text: 'Manage Customers'                  
+                        text: 'Manage Customers',
+                        handler: Mage.Customer.loadMainPanel.createDelegate(Mage.Customer)
                     })
                  ]
             });

@@ -6,7 +6,8 @@ Mage.Menu_Sales = function(){
                 id: 'mainSalesMenu',
                 items: [
                     new Ext.menu.Item({
-                        text: 'Orders'                  
+                        text: 'Orders',
+                        handler: Mage.Sales.loadMainPanel.createDelegate(Mage.Sales)
                     })
                  ]
             });
