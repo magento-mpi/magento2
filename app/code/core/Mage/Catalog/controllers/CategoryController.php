@@ -1,8 +1,12 @@
 <?php
-
-
-
-
+/**
+ * Category controller
+ *
+ * @package    Ecom
+ * @subpackage Catalog
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action {
 
     function indexAction()

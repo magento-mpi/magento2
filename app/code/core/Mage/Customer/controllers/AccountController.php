@@ -1,13 +1,12 @@
 <?php
 /**
- * Page Index Controller
+ * Customer account controller
  *
- * @copyright  Varien, 2007
- * @version    1.0
- * @author     Soroka Dmitriy <dmitriy@varien.com>
- * @date       Wed Feb 07 04:25:14 EET 2007
+ * @package    Ecom
+ * @subpackage Customer
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-
 class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 {
     /**
@@ -16,7 +15,18 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
+        if (Mage::registry('AUTH') && Mage::registry('AUTH')->customer) {
+            $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/card/');
+            return;
+        }
         
+        $block = Mage::createBlock('customer_login', 'customer.login');
+        Mage::getBlock('content')->append($block);
+    }
+    
+    public function registerAction()
+    {
+            
     }
     
     /**
@@ -25,7 +35,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function cardAction()
     {
-        
+        // TODO: auth check
+        $block = Mage::createBlock('customer_account', 'customer.account');
+        Mage::getBlock('content')->append($block);
     }
     
     /**
@@ -51,6 +63,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      *
      */
     public function addressBookAction()
+    {
+        
+    }
+    
+    /**
+     * Forgot password
+     *
+     */
+    public function forgotPasswordAction()
     {
         
     }

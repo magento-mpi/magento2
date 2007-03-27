@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product model
+ *
+ * @package    Ecom
+ * @subpackage Catalog
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mage_Core_Model_Db_Table_Interface
 {
     protected $_dbModel;

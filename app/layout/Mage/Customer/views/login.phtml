@@ -1,0 +1,33 @@
+<div class="content">
+<h1 class="page-heading">Login</h1>
+<form action="<?=$moduleBaseUrl?>/account/" method="post" onSubmit="">
+<table cellspacing="0" width="100%">
+    <tr>
+        <td style="width:50%; padding-right:5px;"><h3>I am a new customer.</h3>
+            <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses and more.</p></td>
+        <td style="width:50%; padding-left:5px;"><h3>I am a returning customer.</h3>
+            <fieldset>
+                <legend>Login</legend>
+                <ul class="input-list">
+                    <li><label for="login">Login <span class="required">*</span></label><br/>
+                    <input name="login[customer_login]" value="" title="Login" id="login" type="text" class="input-text" style="width:200px;"/></li>
+                    <li><label for="pass" style="width:95px;">Password <span class="required">*</span></label><br/>
+                    <input name="login[customer_pass]" type="password" class="input-text" id="pass" style="width:200px;"/></li>
+                </ul>
+            </fieldset>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onClick="window.location='<?=$moduleBaseUrl?>/account/register/';" class="input-button" value="Register"/></td>
+        <td>
+            <ul class="input-list">
+                <li><input name="send" type="submit" class="input-button" id="send2" value="Login"/></li>
+                <li><span class="required">* Required Fields</span></li>
+            </ul>
+            <p>You can <a href="<?=$moduleBaseUrl?>/account/forgotpassword/">retrieve your password here</a> if you forgot your password.</p>
+        </td>
+    </tr>
+</table>
+</form>
+</div>

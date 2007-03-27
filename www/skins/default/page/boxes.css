@@ -8,6 +8,8 @@
 .footer { padding:10px 14px; background:url(images/bg_footer.gif) repeat-x #8aa7ab; text-align:right;}
 .clearfix {display:block; clear:both; height:0; font-size:0; line-height:0px; overflow:hidden;}
 .dotted-separator { margin:10px 0; height:1px; font-size:1px; line-height:1em; background:url(images/bg_dotted_hori.gif) repeat-x 0 0; overflow:hidden; }
+.content {float:right; padding:15px 20px 20px 0; width:572px;}
+.page-heading {font-size:1.45em; padding-bottom:4px; border-bottom: 1px solid #ebebeb; } 
 
 .header-info { float:right; width:248px;}
     .account { 

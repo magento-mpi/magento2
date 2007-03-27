@@ -1,7 +1,4 @@
 <?php
-
-
-
 class Mage_Catalog_Model_Mysql4 extends Mage_Core_Model_Db
 {
     function __construct()
