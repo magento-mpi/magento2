@@ -28,22 +28,23 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         
         $ids = implode(",", $pids);
         $products = Mage::getModel('catalog', 'product_collection');
+        $products->setPageSize(false);
         $products->addAttributeToSelect('name', 'varchar');
         $products->addAttributeToSelect('price', 'decimal');
         $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
-        $products->load(true);
+        $products->load();
         
-        
+        $data = array();
         foreach($products as $product) {
-            Zend_Debug::dump($product);
+            $data[] = array(
+                'id' => $product->getProduct_Id(),
+                'qty' => 2,
+                'name' => $product->getName(),
+                'price' => $product->getPrice()
+            );
         }
         
-        echo $ids;
-//        $arr = array(
-//            array('id'=>1, 'qty'=>2, 'name'=>'Test Product', 'price'=>12.34),
-//        );
-        
-        return $arr;
+        return $data;
     }
     
     function getCustomerCart($customer_Id) {
