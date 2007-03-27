@@ -76,7 +76,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         $items = array();
         foreach ($children as $child) {
             $item = array();
-            $item['text']= $child->getData('attribute_value').'(id #'.$child->getId().')';
+            $item['text']= $child->getData('attribute_value'); //.'(id #'.$child->getId().')';
             $item['id']  = $child->getId();
             $item['cls'] = 'folder';
             if (!$child->isParent()) {

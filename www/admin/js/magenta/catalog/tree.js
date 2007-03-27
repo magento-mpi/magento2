@@ -48,7 +48,7 @@ Mage.Catalog_Category_Tree = function(){
                     text: 'Catalog Categories', 
                     draggable:false,
                     id:'1',
-                    expanded:true
+                    expanded:false
                 });
                 tree.setRootNode(root);
                 tree.render();
