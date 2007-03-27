@@ -36,7 +36,7 @@ class Mage_Core_Layout_Object extends Varien_Simplexml_Object
         $type = (string)$this['type'];
         $name = (string)$this['name'];
         
-        $class = (string)Mage::getConfig('/')->global->blockTypes->$type->class;
+        $class = (string)Mage::getConfig()->getXml()->global->blockTypes->$type->class;
         $parent = $this->getParent();
         
         $this->addAttribute('class', $class);

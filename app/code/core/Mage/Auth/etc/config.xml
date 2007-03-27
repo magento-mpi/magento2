@@ -68,7 +68,7 @@
                     <events>
                         <action_preDispatch>
                             <observers>
-                                <auth><class>Mage_Auth_Auth</class><method>load_admin_action_preDispatch</method></auth>
+                                <auth><class>Mage_Auth_Admin</class><method>action_preDispatch</method></auth>
                             </observers>
                         </action_preDispatch>
                     </events>

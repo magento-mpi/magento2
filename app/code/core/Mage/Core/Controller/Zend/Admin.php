@@ -104,7 +104,7 @@ class Mage_Core_Controller_Zend_Admin {
         $default = Mage::getBaseDir('controllers', 'Mage_Core').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
 
-        foreach (Mage::getConfig('/')->modules->children() as $module) {
+        foreach (Mage::getConfig()->getXml()->modules->children() as $module) {
             $this->loadModule($module);
         }
 

@@ -83,18 +83,14 @@ final class Mage {
         return Mage::getConfig()->getBaseUrl($type, $moduleName);
     }
 
-    public static function getConfig($param='')
+    public static function getConfig($moduleName='Mage_Core')
     {
-        if (is_null(Mage::registry('config'))) {
-            Mage::register('config', new Mage_Core_Config());
+        $key = 'config_'.$moduleName;
+        if (is_null(Mage::registry($key))) {
+            $className = str_replace(' ', '_', ucwords(str_replace('_', ' ', $moduleName))).'_Config';
+            Mage::register($key, new $className());
         }
-        if (''==$param) {
-            return Mage::registry('config');
-        } elseif ('/'===$param) {
-            return Mage::registry('config')->getXml();
-        } else {
-            return Mage::registry('config')->getXpath($param);
-        }
+        return Mage::registry($key);
     }
 
     /**
@@ -259,7 +255,7 @@ final class Mage {
         Mage::setRoot($appRoot);
         
         Mage::getConfig()->init();
-
+        
         Mage::prepareFileSystem();
 
         Mage::register('events', new Varien_Event());
@@ -268,6 +264,9 @@ final class Mage {
         // check modules db
         Mage::getConfig()->applyDbUpdates();
         #echo Varien_Profiler::setTimer('app').',';
+
+        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
+        Zend_Session::start();
     }
 
     /**

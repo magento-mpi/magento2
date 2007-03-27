@@ -12,4 +12,4 @@ CREATE TABLE `core_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 insert into core_config (config_module, config_key, config_value, value_input_type) 
-values ('Mage_Sales', '/config/global/shipping/ups/active', 'True', 'checkbox');
+values ('Mage_Sales', 'global/shipping/ups/active', 'True', 'checkbox');

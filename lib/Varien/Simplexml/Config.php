@@ -108,6 +108,32 @@ class Varien_Simplexml_Config
         return $xml;
     }
     
+    function setKeyValue($key, $value, $overwrite=true)
+    {
+        $arr1 = explode('/', $key);
+        $arr = array();
+        foreach ($arr1 as $v) {
+            if (!empty($v)) $arr[] = $v;
+        }
+        $last = sizeof($arr)-1;
+        $xml = $this->_xml;
+        foreach ($arr as $i=>$nodeName) {
+            if ($last===$i) {
+                if (!isset($xml->$nodeName) || $overwrite) {
+                    $xml->$nodeName = $value;
+                }
+            } else {
+                if (!isset($xml->$nodeName)) {
+                    $xml = $xml->addChild($nodeName);
+                } else {
+                    $xml = $xml->$nodeName;
+                }
+            }
+
+        }
+        return $this;
+    }
+    
     function saveFile($filePath)
     {
         $xmlText = $this->_xml->asXml();

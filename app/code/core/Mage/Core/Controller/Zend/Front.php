@@ -125,7 +125,7 @@ class Mage_Core_Controller_Zend_Front {
 
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
-        foreach (Mage::getConfig('/')->modules->children() as $module) {
+        foreach (Mage::getConfig()->getXml()->modules->children() as $module) {
             $this->loadModule($module);
         }
 

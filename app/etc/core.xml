@@ -35,6 +35,11 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Sales>
+        
+        <Mage_Usa>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Usa>
 
         <Mage_Checkout>
             <active>true</active>

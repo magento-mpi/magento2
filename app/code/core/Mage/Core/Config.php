@@ -30,6 +30,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
         $this->applyExtends();
         $this->applyExtends();
+        $this->applyExtends();
+
+        $this->loadFromDb();
 
         #$this->removeExtraSource();
 
@@ -70,6 +73,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->_xml->extend($localConfig, true);
         return true;
     }
+    
+    function loadFromDb()
+    {
+        /*
+        $coreModel = (string)$this->_xml->modules->Mage_Core->load->all->models->core->class;
+        $className = $coreModel.'_Config';
+        $model = new $className();
+        */
+        $model = $this->getModelClass('core', 'config');
+        $model->updateXmlFromDb($this->_xml);
+    }
 
     function removeExtraSource()
     {
@@ -90,7 +104,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             return $this->_xml->modules->$moduleName;
         }
     }
-
+    
+    function getModuleSetup($module)
+    {
+        if (isset($module->setup) && isset($module->setup->class)) {
+            $className = $module->setup->class;
+        } else {
+            $className = 'Mage_Core_Setup';
+        }
+        return new $className($module);
+    }
+    
     function getBaseDir($type='', $moduleName='')
     {
         if (''!==$moduleName) {
@@ -148,10 +172,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $url = $this->getBaseUrl($type);
             
             switch ($type) {
-                  
                 default:
                     if (isset($module->load->front->controller->frontName)) {
                         $url .= '/'.$module->load->front->controller->frontName;
+                    } else {
+                        $url .= '/'.strtolower($moduleName);
                     }
                     break;
             }
@@ -177,8 +202,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $modules = $this->getModule()->children();
         foreach ($modules as $module) {
-            $setupClassName = $module->getName().'_Setup';
-            $setupClass = new $setupClassName($module);
+            $setupClass = $this->getModuleSetup($module);
             $setupClass->applyDbUpdates();
         }
         return true;
@@ -248,8 +272,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     public function getModelClass($model, $class='', $constructArguments=array())
     {
         $className = '';
-        if (Mage::getConfig('/')) {
-            $className = (string)$this->getXml()->global->models->$model->class;
+        if ($xml = $this->getXml()) {
+            $className = (string)$xml->global->models->$model->class;
         }     
 
         if (''!==$class) {

@@ -17,8 +17,8 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
     {
         parent::__construct();
         // Config settings
-        $this->_dataInputs = (array) Mage::getConfig('/')->global->admin->dataInputs;
-        $this->_dataSources= (array) Mage::getConfig('/')->modules->Mage_Catalog->load->admin->dataSources;
+        $this->_dataInputs = (array) Mage::getConfig()->getXml()->global->admin->dataInputs;
+        $this->_dataSources= (array) Mage::getConfig()->getXml()->modules->Mage_Catalog->load->admin->dataSources;
 
         $this->setViewName('Mage_Core', 'form');
         

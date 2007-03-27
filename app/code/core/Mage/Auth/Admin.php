@@ -1,12 +1,9 @@
 <?php
 
-class Mage_Auth_Auth
+class Mage_Auth_Admin
 {
-    static public function load_admin_action_preDispatch()
+    static public function action_preDispatch()
     {
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
-        Zend_Session::start();
-        
         Mage::register('auth_session', $auth = new Zend_Session_Namespace('Mage_Auth'));
 
 #$auth->acl = null;

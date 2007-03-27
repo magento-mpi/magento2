@@ -54,7 +54,7 @@ class Mage_Core_Block
     
     public static function getType($type='')
     {
-        $types = Mage::getConfig('/')->global->blockTypes;
+        $types = Mage::getConfig()->getXml()->global->blockTypes;
         if (''===$type) {
             return $types;
         } else {
