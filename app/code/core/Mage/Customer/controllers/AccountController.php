@@ -24,9 +24,21 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         Mage::getBlock('content')->append($block);
     }
     
+    public function logoutAction()
+    {
+        Mage_Customer_Front::logout();
+        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+        //$this->_forward('index');
+    }
+    
+    /**
+     * Registration form
+     *
+     */
     public function registerAction()
     {
-            
+        $block = Mage::createBlock('customer_regform', 'customer.regform');
+        Mage::getBlock('content')->append($block);
     }
     
     /**

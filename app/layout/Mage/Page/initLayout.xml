@@ -10,7 +10,13 @@
                 <action method="setContents"><contents>Magenta Commerce</contents></action>
             </block>
             <block type="tag_js" name="head.js.prototype">
-                <action method="setSrc"><src>/prototype.js</src></action>
+                <action method="setSrc"><src>/prototype/prototype.js</src></action>
+            </block>
+            <block type="tag_js" name="head.js.prototype.validation">
+                <action method="setSrc"><src>/prototype/validation.js</src></action>
+            </block>
+            <block type="tag_js" name="head.js.varien">
+                <action method="setSrc"><src>/varien/js.js</src></action>
             </block>
             <block type="tag_css" name="head.css.main">
                 <action method="setHref"><href>/page/style.css</href></action>

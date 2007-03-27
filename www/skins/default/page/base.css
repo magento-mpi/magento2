@@ -39,21 +39,32 @@ h1 span, h2 span, h3 span { display:none; }
 input, select { vertical-align:middle; }
 a img { border:0; }
 
+/* Positioning */
+.float-left {float:left;}
+.float-right {float:right;}
+.align-left {text-align:left;}
+.align-center {text-align:center;}
+.align-right {text-align:right;}
+.vtop {vertical-align:top;}
+.vmiddle {vertical-align:middle;}
+.vbottom {vertical-align:bottom;}
+
 /**************************************
  * Forms
  **************************************/
 fieldset { border:none; }
 legend {display:none;}
-label { color:#999; }
+.input-list li { clear:both;  margin-bottom:6px;}
 .input-text, textarea, select {
     padding:2px; 
     border-width:1px; 
     border-style:solid; 
     border-color:#979797 #e0e0e0 #e0e0e0 #979797;
     font:11px/1.55em Verdana, Helvetica, sans-serif;
-}
-.input-left { width:50%; float:left; }    /* Column left of two column form */
-.input-right { width:50%; float:right; }    /* Column right of two column form */
+    }
+.input-left { width:50%; float:left; }
+.input-right { width:50%; float:right; }
+.input-single {}
 .input-button { 
     padding:4px; 
     background-color:#c23b0b; 
@@ -61,4 +72,43 @@ label { color:#999; }
     color:#fff; 
     font:bold 11px Verdana, sans-serif; 
     cursor:pointer;
+    }
+.content fieldset.group-single, #page-oscom fieldset.group-single { padding:10px; } /* Accomodate the onfocuc background color */
+.qty { width:2em; text-align:center;}
+.buttons-container { margin-top:20px; }
+    .button-left { float:left; width:50%; text-align:left;}
+    .button-right { float:left; width:50%; text-align:left;}
+
+fieldset.highlight { background-color:#f7f8df; }
+.content .input-text, .col-oscom select, .col-oscom textarea { font:1.27em Verdana, sans-serif; }
+.content fieldset, #page-oscom fieldset { margin-bottom:10px; }
+.content fieldset .input-text, #page-oscom fieldset .input-text { width:526px; }
+.content fieldset select, #page-oscom fieldset select { width:532px; }
+.content fieldset .input-left .input-text, #page-oscom fieldset .input-left .input-text,
+.content fieldset .input-right .input-text, #page-oscom fieldset .input-right .input-text {width:250px; } 
+.content fieldset .input-left select, #page-oscom fieldset  .input-left select, 
+.content fieldset .input-right select, #page-oscom fieldset  .input-right select{width:256px; } 
+
+/* Error */
+.error-message { 
+    margin: 10px 0; 
+    color:#c7460b; 
+    font-weight:bold; 
+    background-color:#fef6f2; 
+    padding:10px;
+    }
+.required, .error, .red { color:#c7460b;}
+
+/* Clearfix */
+.clearfix {display:block; clear:both; height:0; font-size:0; line-height:0px; overflow:hidden;}
+
+/* Form Validation */
+.validation-advice {
+    margin-left:5px; 
+    color:#d40707;
+    font-weight:bold;
+    margin-right:20px;
+}
+input.validation-failed, textarea.validation-failed {
+    border: 1px solid #d40707;
 }

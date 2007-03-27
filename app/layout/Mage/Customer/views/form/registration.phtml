@@ -1,0 +1,82 @@
+<div class="content">
+<h1 class="page-heading">Create account</h1>
+<?// TODO: create dynamic form template?>
+    <form action="{$page.form.action}" method="{$page.form.method}" id="form-validate">
+    <fieldset class="group-single">
+     <legend>Personal Information</legend>
+        <h3>Personal Information</h3>
+        <ul class="input-list">
+            <li>
+                <div class="input-left">
+                    <label for="firstname">First Name <span class="required">*</span></label><br/><input type="text" name="firstname" id="firstname" value="" title="First Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="input-right">
+                    <label for="lastname">Last Name <span class="required">*</span></label><br/>
+                    <input type="text" name="lastname" id="lastname" value="" title="Last Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            <li><div class="input-left">
+                <label for="company">Company</label><br/>
+                <input type="text" name="company" id="company" value="" title="Company" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="input-right">
+                <label for="email_address">Email <span class="required">*</span></label><br/>
+                <input type="text" name="email_address" id="email_address" value="" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset class="group-single">
+     <legend>Address</legend>
+        <h3>Address</h3>
+     <ul class="input-list">
+        <li><label for="street_address">Street Address <span class="required">*</span></label><br/>
+            <input type="text" name="street_address" value="" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+            <li><input type="text" name="street_address2" value="" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+            <li><label for="city">City <span class="required">*</span></label><br/>
+            <input type="text" name="city" value=""  title="City" class="required-entry input-text" id="city" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+            <li>
+                <div class="input-left">
+                <label for="state">State / Province <span class="required">*</span></label><br/>
+                <input type="text" name="state" value="" title="State/Province" id="state"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="input-right">
+                    <label for="zip">Zip <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+                    <div class="clearfix"></div>
+                    </li>
+            <li><label for="country">Country <span class="required">*</span></label><br/>
+            <select name="country" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+            </select></li>
+            <li><div class="input-left"><label for="telephone">Telephone <span class="required">*</span></label><br/>
+            <input type="text" name="telephone" value="" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+            <div class="input-right"><label for="fax">Fax</label><br/>
+                <input type="text" name="fax" value="" title="Fax" class="validate-fax input-text" id="fax" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+            <div class="clearfix"></div></li>
+        </ul>
+    </fieldset>
+    <fieldset class="group-single">
+        <legend>Login Information</legend>
+        <h3>Login Information</h3>
+        <ul class="input-list">
+            <li>
+                <div class="input-left">
+                    <label for="password">Password <span class="required">*</span></label><br/>
+                    <input type="password" name="password" id="password" title="Password"  class="required-entry validate-password input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+                <div class="input-right"><label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
+                    <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div></li>
+        </ul>
+    </fieldset>
+        <div class="clearfix"></div>
+        <div class="buttons-container">
+            <p class="required">* Required Fields</p>
+            <input type="button" onclick="window.location='{$page.links.back}';" value="Back" class="input-button float-left"/>
+            <input type="submit" class="input-button float-right" value="Continue"/>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        new Validation('form-validate');
+    </script>
+</div>

@@ -47,6 +47,7 @@
                     <blocks>
                         <customer_login><class>Mage_Customer_Block_Login</class></customer_login>
                         <customer_account><class>Mage_Customer_Block_Account</class></customer_account>
+                        <customer_regform><class>Mage_Customer_Block_Regform</class></customer_regform>
                     </blocks>
 
                     <layouts>
@@ -56,9 +57,14 @@
                     <events>
                         <action_preDispatch>
                             <observers>
-                                <auth><class>Mage_Customer_Auth</class><method>load_front_action_preDispatch</method></auth>
+                                <auth><class>Mage_Customer_Front</class><method>load_front_action_preDispatch</method></auth>
                             </observers>
                         </action_preDispatch>
+                        <action_postDispatch>
+                            <observers>
+                                <auth><class>Mage_Customer_Front</class><method>load_front_action_postDispatch</method></auth>
+                            </observers>
+                        </action_postDispatch>
                     </events>
                 </front>
             

@@ -16,7 +16,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Mysql4
         parent::__construct();
         
         $userTable = $this->_getTableName('customer_setup', 'customer');
-        $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $userTable, 'customer_login', 'customer_pass', 'md5(?)');
+        $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $userTable, 'customer_email', 'customer_pass', 'md5(?)');
     }
     
     public function authenticate($username, $password)
