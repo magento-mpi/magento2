@@ -14,49 +14,57 @@
         <div class="clearfix"></div>
     </div>
 </div>
+<form action="<?=Mage::getBaseUrl('', 'Mage_Cart');?>/index/add/" method="POST">
+<input type="hidden" name="product_Id" value="<?=$product->getProduct_Id()?>">
 <div class="product-info">
-        <h1 class="page-heading"><?=$product->getName()?></h1>
-        <div class="product-description"><?=$product->getDescription()?></div>
-        <table cellspacing="0" width="100%" class="qty-list">
-            <thead>
-                <tr>
-                    <th style="width:78px;" class="top-left">Quantity</th>
-                    <th style="width:80px;">Price Each</th>
-                    <th class="top-right price">Total</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="bottom">
-                        <div><a href="#"><img src="<?=$moduleImagesUrl?>/icon_shipping_costs.png" alt="View Shipping Costs" class="vmiddle"/></a> 
-                        <a href="#"><strong>View Shipping Costs</strong></a></div></td>
-                </tr>
-            </tfoot>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>$<?=$product->getPrice()?></td>
-                    <td class="price">$<?=$product->getPrice()?></td>
-                </tr>
-            </tbody>
-        </table>
-        <input type="image" src="<?=$moduleImagesUrl?>/btn_add_to_cart.gif" alt="Add to Cart" class="float-left"/>
-        <ul class="product-options">
-            <li>
-                <a href="#" title="Request a Sample"><img src="<?=$moduleImagesUrl?>/icon_request_sample.gif" alt="Request a Sample"/></a>
-                <a href="#" title="Request a Sample"><strong>Request a Sample</strong></a></li>
-            <li>
-                <a href="#" title="Tell-a-Friend"><img src="<?=$moduleImagesUrl?>/icon_tell_friend.gif" alt="Request a Sample"/></a>
-                <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a></li>
-            <li>
-                <a href="#"><img src="<?=$moduleImagesUrl?>/icon_add_favorites.gif" alt="Add to Favorite"/></a>
-                <a href="#"><strong>Add to Favorites</strong></a>
-            </li>
-        </ul>
-    <div class="dotted-separator"></div>
-    <h3 class="red">Satisfaction Guaranteed</h3>
-    <p>If you are not completely satisfied with your order return it for a full refund!</p>
-    <div class="dotted-separator"></div>
-    <img src="<?=$moduleImagesUrl?>/icon_made_in_america.gif" alt="Made in USA"/>
-</div>
+<h1 class="page-heading"><?=$product->getName()?></h1>
+<div class="product-description"><?=$product->getDescription()?></div>
+<table cellspacing="0" width="100%" class="qty-list">
+	<thead>
+		<tr>
+			<th style="width:78px;" class="top-left">Quantity</th>
+			<th style="width:80px;">Price Each</th>
+			<th class="top-right price">Total</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3" class="bottom">
+			<div><a href="#"><img
+				src="<?=$moduleImagesUrl?>/icon_shipping_costs.png"
+				alt="View Shipping Costs" class="vmiddle" /></a> <a href="#"><strong>View
+			Shipping Costs</strong></a></div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>$<?=$product->getPrice()?></td>
+			<td class="price">$<?=$product->getPrice()?></td>
+		</tr>
+	</tbody>
+</table>
+<input type="image" src="<?=$moduleImagesUrl?>/btn_add_to_cart.gif"
+	alt="Add to Cart" class="float-left" />
+<ul class="product-options">
+	<li><a href="#" title="Request a Sample"><img
+		src="<?=$moduleImagesUrl?>/icon_request_sample.gif"
+		alt="Request a Sample" /></a> <a href="#" title="Request a Sample"><strong>Request
+	a Sample</strong></a></li>
+	<li><a href="#" title="Tell-a-Friend"><img
+		src="<?=$moduleImagesUrl?>/icon_tell_friend.gif"
+		alt="Request a Sample" /></a> <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a></li>
+	<li><a href="#"><img src="<?=$moduleImagesUrl?>/icon_add_favorites.gif"
+		alt="Add to Favorite" /></a> <a href="#"><strong>Add to Favorites</strong></a>
+	</li>
+</ul>
+<div class="dotted-separator"></div>
+<h3 class="red">Satisfaction Guaranteed</h3>
+<p>If you are not completely satisfied with your order return it for a
+full refund!</p>
+<div class="dotted-separator"></div>
+<img src="<?=$moduleImagesUrl?>/icon_made_in_america.gif"
+	alt="Made in USA" /></div>
+</form>
 <div class="clearfix" style="height: 20px;">&nbsp;</div>

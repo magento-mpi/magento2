@@ -27,15 +27,18 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         $block = Mage::createBlock('tpl', 'cart.view')
             ->setViewName('Mage_Cart', $cartView)
             ->assign('data', $this->_data);
+            
         Mage::getBlock('content')->append($block);
     }
     
     function addAction()
     {
-        $productId = $this->getRequest()->getParam('id');
+        $intFilter = new Zend_Filter_Int();
+        $product_Id = $intFilter->filter($_POST['product_Id']);
+
+        //$productId = $this->getRequest()->getParam('id');
         
-        $result = Mage::getModel('cart', 'cart')->addProduct($productId);
-        
+        $result = Mage::getModel('cart', 'cart')->addProduct($product_Id);
         $this->_redirect($this->_data['url']['cart']);
     }
     
