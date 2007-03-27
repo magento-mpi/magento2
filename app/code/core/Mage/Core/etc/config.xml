@@ -38,6 +38,8 @@
                         <core_setup>
                             
                             <entities>
+                                <config><table>core_config</table></config>
+                            
                                 <website><table>core_website</table></website>
                                 <language><table>core_language</table></language>
                                 <module><table>core_module</table></module>

@@ -32,7 +32,7 @@
                     <payment>
                         <checkmo><class>Mage_Sales_Payment_Checkmo</class></checkmo>
                         <ccsave><class>Mage_Sales_Payment_Ccsave</class></ccsave>
-                        <custbalance><class>Mage_Sales_Payment_Custbalance</class><custbalance>
+                        <custbalance><class>Mage_Sales_Payment_Custbalance</class></custbalance>
                     </payment>
                     
                     <discount>
