@@ -27,13 +27,13 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         }
         
         $ids = implode(",", $pids);
-        $products = Mage::getModel('catalog', 'Product');
-        $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
+        $products = Mage::getModel('catalog', 'product_collection');
         $products->addAttributeToSelect('name', 'varchar');
         $products->addAttributeToSelect('price', 'decimal');
+        $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
         $products->load(true);
         
-        Zend_Debug::dump($products);
+        
         foreach($products as $product) {
             Zend_Debug::dump($product);
         }

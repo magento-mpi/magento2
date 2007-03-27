@@ -35,7 +35,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      * Registration form
      *
      */
-    public function registerAction()
+    public function createAction()
     {
         $block = Mage::createBlock('customer_regform', 'customer.regform');
         Mage::getBlock('content')->append($block);
@@ -85,6 +85,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function forgotPasswordAction()
     {
-        
+        $block = Mage::createBlock('tpl', 'customer.forgotpassword')
+            ->setViewName('Mage_Customer', 'form/forgotpassword');
+        Mage::getBlock('content')->append($block);
     }
 }// Class Mage_Customer_AccountController END
