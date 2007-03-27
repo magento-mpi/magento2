@@ -9,7 +9,11 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function shippingAction()
     {
-        
+        $data = array();
+        $block = Mage::createBlock('tpl', 'checkout.shipping')
+            ->setViewName('Mage_Checkout', 'shipping')
+            ->assign('shipping', $data);
+        Mage::getBlock('content')->append($block);
     }
     
     function shippingPostAction()
@@ -19,7 +23,11 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function paymentAction()
     {
-        
+        $data = array();
+        $block = Mage::createBlock('tpl', 'checkout.payment')
+            ->setViewName('Mage_Checkout', 'payment')
+            ->assign('shipping', $data);
+        Mage::getBlock('content')->append($block);
     }
     
     function paymentPostAction()
@@ -29,7 +37,11 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function overviewAction()
     {
-        
+        $data = array();
+        $block = Mage::createBlock('tpl', 'checkout.overview')
+            ->setViewName('Mage_Checkout', 'overview')
+            ->assign('shipping', $data);
+        Mage::getBlock('content')->append($block);
     }
     
     function overviewPostAction()
@@ -39,6 +51,10 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function successAction()
     {
-        
+        $data = array();
+        $block = Mage::createBlock('tpl', 'checkout.success')
+            ->setViewName('Mage_Checkout', 'success')
+            ->assign('shipping', $data);
+        Mage::getBlock('content')->append($block);
     }
 }

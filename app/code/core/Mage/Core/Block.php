@@ -100,9 +100,13 @@ class Mage_Core_Block
         return self::$_blocks[$name];
     }
     
-    public static function addBlock($className, $blockName)
+    public static function addBlock($blockClass, $blockName)
     {
-        $block = new $className();
+        if (is_string($blockClass)) {
+            $block = new $blockClass();
+        } else {
+            $block = $blockClass;
+        }
         $block->setInfo(array('name'=>$blockName));
         self::$_blocks[$blockName] = $block;
         return $block;
