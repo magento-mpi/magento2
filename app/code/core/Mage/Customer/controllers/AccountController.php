@@ -16,12 +16,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function indexAction() 
     {
         if (Mage::registry('AUTH') && Mage::registry('AUTH')->customer) {
-            $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/card/');
-            return;
+            // TODO: auth check
+            $block = Mage::createBlock('customer_account', 'customer.account');
+            Mage::getBlock('content')->append($block);
         }
-        
-        $block = Mage::createBlock('customer_login', 'customer.login');
-        Mage::getBlock('content')->append($block);
+        else {
+            $block = Mage::createBlock('customer_login', 'customer.login');
+            Mage::getBlock('content')->append($block);
+        }
     }
     
     public function logoutAction()
@@ -42,17 +44,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * Account information page
-     *
-     */
-    public function cardAction()
-    {
-        // TODO: auth check
-        $block = Mage::createBlock('customer_account', 'customer.account');
-        Mage::getBlock('content')->append($block);
-    }
-    
-    /**
      * Edit base iformation form
      *
      */
@@ -65,16 +56,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      * Change password form
      *
      */
-    public function passwordAction()
-    {
-        
-    }
-    
-    /**
-     * Address book
-     *
-     */
-    public function addressBookAction()
+    public function changePasswordAction()
     {
         
     }
@@ -88,5 +70,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
             ->setViewName('Mage_Customer', 'form/forgotpassword');
         Mage::getBlock('content')->append($block);
+    }
+    
+    public function newsLetterAction()
+    {
+        
     }
 }// Class Mage_Customer_AccountController END

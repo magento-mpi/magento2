@@ -1,72 +1,12 @@
 <div class="content">
     <h1 class="page-heading">My Account</h1>
-    <table cellspacing="0" width="100%" class="account-data">
-        <thead>
-            <tr class="bg-light-turq">
-                <th colspan="3"><h3>My Orders</h3></th>
-                <th colspan="2" class="align-right"><a href="{$page.links.account_history}" class="red-link">View all orders</a></th>
-            </tr>
-            <tr class="bg-baige">
-                <th class="align-center" style="width:80px;">Order #</th>
-                <th style="width:115px;">Date</th>
-                <th>Shipped To</th>
-                <th class="align-right" style="width:85px;">Total</th>
-                <th class="align-center" style="width:85px;">Details</th>
-            </tr>
-        </thead>
-    </table>
-    <p></p>
+    <ul>
+        <li><a href="<?=$moduleBaseUrl?>/order/">My orders</a></li>
+        <li><a href="<?=$moduleBaseUrl?>/favorite/">My Favorites</a></li>
+        <li><a href="<?=$moduleBaseUrl?>/account/edit/">Personal Information</a></li>
+        <li><a href="<?=$moduleBaseUrl?>/account/changepassword/">Change Password</a></li>
+        <li><a href="<?=$moduleBaseUrl?>/address/">Address Book</a></li>
+        <li><a href="<?=$moduleBaseUrl?>/account/newsletter/">Newsletters</a></li>
+    </ul>
     <div class="dotted-separator"></div>
-    <p></p>
-    <div class="account-misc">
-        <table cellspacing="0" width="100%">
-            <thead>
-                <tr class="bg-light-turq">
-                    <th colspan="2" style="padding:3px 10px;">
-                        <h3 style="float:left; width:55%;">My Favorites</h3> 
-                        <span style="float:right; width:44%; text-align:right;"><a href="{$page.links.account_wishlist}" class="red-link"><strong>View all favorites</strong></a></span></th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr class="bg-baige">
-                <td style="width:50px;"><a href=""><img src="images_osc/placeholder_product_t1.gif" alt="Product Name here" style="width:50px;" class="img-border"/></a></td>
-                <td><p><a href="">Bicycle Safety Enforcement</p>
-                <p><a href="" class="red-link">Add to Cart</a> | <a href="">Remove</a></p></td>
-            </tr>
-            <tr><td colspan="2" class="spacer" style="background:url(images_osc/bg_dotted_hori.gif) repeat-x 0 0;">&nbsp;</td></tr>
-            <tr class="bg-light-baige">
-                <td><a href=""><img src="images_osc/placeholder_product_t1.gif" alt="Product Name here" style="width:50px;" class="img-border"/></a></td>
-                <td><p><a href="">Bicycle Safety Enforcement</p>
-                <p><a href="" class="red-link">Add to Cart</a> | <a href="">Remove</a></p></td>
-            </tr>
-            <tr><td colspan="2" class="spacer" style="background:url(images_osc/bg_dotted_hori.gif) repeat-x 0 0;">&nbsp;</td></tr>
-            <tr class="bg-baige">
-                <td><a href=""><img src="images_osc/placeholder_product_t1.gif" alt="Product Name here" style="width:50px;" class="img-border"/></a></td>
-                <td><p><a href="">Bicycle Safety Enforcement</p>
-                <p><a href="" class="red-link">Add to Cart</a> | <a href="">Remove</a></p></td>
-            </tr>
-            </tbody>
-        </table>
-        <p></p>
-        <h3>Product Customizations | <a href="{$page.links.product_customize}" class="head-link red-link"><strong>Edit</strong></a></h3>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec velit. Nunc rhoncus, tortor in dapibus tincidunt, odio justo vehicula erat, in placerat purus nunc eget metus. Suspendisse potenti. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis ac neque. Sed auctor. Nunc posuere ipsum egestas purus. Nunc a tortor. Morbi vitae turpis. Nunc vitae justo.</p>
-    </div>
-    <div class="account-personal">
-        <h3>Personal Information | <a href="{$page.links.account_edit}" class="head-link red-link"><strong>Edit</strong></a></h3>
-        <address>
-            <strong>Minu Oh</strong><br/>
-            minu@varien.com<br/>
-            T| 310-999-9999
-        </address>
-        <p><a href="{$page.links.account_password}"><img src="images_osc/icon_padlock.gif" alt="Change Password" class="vmiddle"/></a>&nbsp;&nbsp;<a href="{$page.links.account_password}">Change Password</a></p>
-        <h3>Address Book | <a href="{$page.links.address_book}" class="head-link red-link"><strong>Manage</strong></a></h3>
-            <p>Following is your primary shipping/billing address.</p>
-            <address><strong>Minu Oh</strong><br/>
-            3402 Motor Ave Suite B<br/>
-            Los Angeles, CA 90034<br/>
-            United States
-        </address>
-        <h3>Newsletters | <a href="{$page.links.account_newsletters}" class="head-link red-link"><strong>Edit</strong></a></h3>
-        Your preference is set to <strong>receive</strong> newsletters.
-    </div>
 </div>
