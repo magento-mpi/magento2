@@ -3,6 +3,7 @@
     <modules>
         <Mage_Sales>
             
+            <version>0.1.1</version>
             <depends>
                 <Mage_Catalog/>
                 <Mage_Customer/>
@@ -13,7 +14,6 @@
                     <resources>
                         <sales_setup>
                             <connection extends="//core_setup/connection"/>
-                            <version>0.1.1</version>
                         </sales_setup>
 
                         <sales_write>
@@ -24,6 +24,24 @@
                             <connection extends="//core_read/connection"/>
                         </sales_read>
                     </resources>
+                    
+                    <shipping>
+                        <table><class>Mage_Sales_Shipping_Table</class></table>
+                    </shipping>
+                    
+                    <payment>
+                        <checkmo><class>Mage_Sales_Payment_Checkmo</class></checkmo>
+                        <ccsave><class>Mage_Sales_Payment_Ccsave</class></ccsave>
+                        <custbalance><class>Mage_Sales_Payment_Custbalance</class><custbalance>
+                    </payment>
+                    
+                    <discount>
+                        <coupon><class>Mage_Sales_Discount_Coupon</class></coupon>
+                    </discount>
+                    
+                    <tax>
+                        <rule><class>Mage_Sales_Tax_Rule</class></rule>
+                    </tax>
                 </all>
             
                 <admin>
@@ -46,4 +64,11 @@
             </load>
         </Mage_Sales>
     </modules>
+    
+    <global>
+        <discount extends="/config/modules/*/load/all/discount"/>
+        <shipping extends="/config/modules/*/load/all/shipping"/>
+        <payment extends="/config/modules/*/load/all/payment"/>
+        <tax extends="/config/modules/*/load/all/tax"/>
+    </global>
 </config>
