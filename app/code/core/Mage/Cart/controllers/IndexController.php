@@ -11,6 +11,10 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout');
         
         $this->_data['params'] = $this->getRequest()->getParams();
+        
+        $this->setFlag('add', 'no-defaultLayout', true);
+        $this->setFlag('updatePost', 'no-defaultLayout', true);
+        $this->setFlag('clean', 'no-defaultLayout', true);
     }
     
     function indexAction()
