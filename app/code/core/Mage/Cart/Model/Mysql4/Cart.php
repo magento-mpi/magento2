@@ -22,8 +22,11 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
             
         $arr = $this->_read->fetchAll($sql);
         
+        $pids = array();
+        $qty = array();
         foreach($arr as $cartItem) {
             $pids[]= $cartItem['product_id'];
+            $qty[$cartItem['product_id']] = $cartItem['product_qty'];
         }
         
         $ids = implode(",", $pids);
@@ -38,7 +41,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         foreach($products as $product) {
             $data[] = array(
                 'id' => $product->getProduct_Id(),
-                'qty' => 2,
+                'qty' => $qty[$product->getProduct_Id()],
                 'name' => $product->getName(),
                 'price' => $product->getPrice()
             );
@@ -47,7 +50,8 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         return $data;
     }
     
-    function getCustomerCart($customer_Id) {
+    function getCustomerCart() {
+        $customer_Id = Mage::registry('AUTH')->customer->customer_id;
         $sql = $this->_read->select()
             ->from('cart', array('cart_id'))
             ->where('customer_id = ?', $customer_Id);
@@ -56,6 +60,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     }
     
     function createCart($customer_Id) {
+        $customer_Id = Mage::registry('AUTH')->customer->customer_id;
         $this->_write->insert('cart', array(
             'cart_id' => 0,
             'customer_id' => $customer_Id,
@@ -68,10 +73,9 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     
     function addProduct($product_Id)
     {
-        $customer_Id = 1;
-        $cart_Id = $this->getCustomerCart($customer_Id);
+        $cart_Id = $this->getCustomerCart();
         if (!$cart_Id) {
-            $cart_Id = $this->createCart($customer_Id);
+            $cart_Id = $this->createCart();
         }
         
         $sql = $this->_read->select()
@@ -98,8 +102,21 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         return true;
     }
     
-    function update($cartData, $cartId=null)
+    function update($cartData, $cart_Id=null)
     {
-        
+        if (empty($cart_Id)) {
+            $cart_Id = $this->getCustomerCart();
+        }
+        foreach($cartData as $product_Id=>$prop) {
+            if (isset($prop['remove']) && $prop['remove'] == 1) {
+                $this->_write->delete('cart_product', 
+                    $this->_write->quoteInto('cart_id = ?', $cart_Id) . ' AND ' . $this->_write->quoteInto('product_id = ?', $product_Id)
+                );
+            } else {
+                $this->_write->update('cart_product', array(
+                    'product_qty' => $prop['qty'],
+                ), $this->_write->quoteInto('cart_id = ?', $cart_Id) . ' AND ' . $this->_write->quoteInto('product_id = ?', $product_Id));
+            }
+        }
     }
 }
