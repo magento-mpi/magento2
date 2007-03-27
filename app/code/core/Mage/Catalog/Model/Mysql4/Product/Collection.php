@@ -15,6 +15,9 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     protected $_attributeTables;
     protected $_categoryProductTable;
     
+    protected $_websiteId;
+    protected $_isCategoryJoined=false;
+    
     function __construct($config = array())
     {
         parent::__construct(Mage::getModel('catalog'));
@@ -30,14 +33,10 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
-        $this->_sqlSelect->join(
-            $this->_categoryProductTable, 
-            new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"),
-            'product_id'
-        );
        
         $this->setPageSize(9);
         $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');
+        $this->setWebsiteId(Mage::registry('website')->getId());
     }
     
     /**
@@ -47,6 +46,14 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
      */
     function addCategoryFilter($category)
     {
+        if (!$this->_isCategoryJoined) {
+            $this->_sqlSelect->join(
+                $this->_categoryProductTable, 
+                new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"),
+                'product_id'
+            );
+        }
+        
         if (is_array($category)) {
             $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id IN (?)",$category);
         }
@@ -102,7 +109,21 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
         //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
         $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;
         
-        $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId AND $tableAlias.website_id=".Mage_Core_Environment::getCurentWebsite();
+        $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId";
+        if ($this->_websiteId) {
+            $condition.= " AND $tableAlias.website_id=".(int) $this->_websiteId;
+        }
+        
         $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeCode"));
+    }
+    
+    public function setWebsiteId($websiteId)
+    {
+        $this->_websiteId = $websiteId;
+    }
+    
+    public function getWebsiteId()
+    {
+        return $this->_websiteId;
     }
 }
