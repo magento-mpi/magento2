@@ -181,7 +181,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                     break;
             }
         } else {
-            $url = Mage::registry('controller')->getRequest()->getBaseUrl();
+            $url = Mage::registry('controller')->getRequest()->getBaseAppUrl();
 
             switch ($type) {
                 case 'skin':
