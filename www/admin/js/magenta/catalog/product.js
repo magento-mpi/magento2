@@ -65,7 +65,7 @@ Mage.Catalog_Product = function(depend){
                 enableColLock : false
             });
             
-            grid.on('rowdblclick', this.createItem.createDelegate(this));
+            grid.on('rowclick', this.createItem.createDelegate(this));
             
             grid.render();
             grid.getDataSource().load({params:{start:0, limit:25}});            
@@ -329,7 +329,7 @@ Mage.Catalog_Product = function(depend){
         },
         
         saveItemCallBack : function(response, type) {
-            Ext.dump(type);
+            Ext.dump(response.responseText);
         },
         
         

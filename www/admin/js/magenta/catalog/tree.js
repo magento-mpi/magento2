@@ -38,8 +38,9 @@ Mage.Catalog_Category_Tree = function(){
                     containerScroll: true,
                     dropConfig: {appendOnly:true}
                 });
+                
                 tree.addListener('contextmenu',this.categoryRightClick,this);
-                tree.addListener('click',this.categoryClick,this);
+                tree.addListener('click',this.categoryClick.createDelegate(this));
                 tree.addListener('dblclick',this.categoryDblClick,this);
                 tree.addListener('beforenodedrop', this.moveNode, this);
 
@@ -139,15 +140,20 @@ Mage.Catalog_Category_Tree = function(){
             
         },
         
-        categoryClick: function(){
+        categoryClick: function(node, e){
             if (categoryContextMenu){
                 categoryContextMenu.hide();
             }
+            this.showProducts(null, e, node);
         },
             
         //////////////// Context menu handlers /////////////
-        showProducts: function(item, event) {
-            Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
+        showProducts: function(item, event, selectedNode) {
+            if (selectedNode) {
+                Mage.Catalog_Product.viewGrid(selectedNode);        
+            } else {
+                Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
+            }
         },
 
         addChild: function(item, event) {

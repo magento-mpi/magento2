@@ -103,7 +103,7 @@ Mage.Product_Attributes = function(){
             
             var gridHead = grid.getView().getHeaderPanel(true);
             var tb = new Ext.Toolbar(gridHead, [{
-                text: 'Add Set',
+                text: 'Add',
                 handler : function(){
                     var p = new Set({
                         name: 'New Set'
@@ -112,6 +112,8 @@ Mage.Product_Attributes = function(){
                     dataStore.insert(0, p);
                     grid.startEditing(0, 0);
                 }
+            },{
+                text: 'Edit'
             },{
                 text: 'Save'
             },{
@@ -134,6 +136,7 @@ Mage.Product_Attributes = function(){
             } else {
                 return false;
             }
+            e.stopEvent();
         },
         
         initAttributesGrid : function(setId) {
