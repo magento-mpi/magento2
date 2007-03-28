@@ -350,6 +350,11 @@ class Mage_Core_Model_Collection implements Iterator
         return $arrItems;
     }
     
+    public function getItemById($idValue)
+    {
+        return false;
+    }
+    
     /**
      * implematation of iterator block
      */

@@ -126,4 +126,15 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     {
         return $this->_websiteId;
     }
+    
+    public function getItemById($idValue)
+    {
+        foreach ($this->_items as $product) {
+            if ($product->getProduct_Id() == $idValue) {
+                return $product;
+            }
+        }
+        return false;
+    }
+    
 }
