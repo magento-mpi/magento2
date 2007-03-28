@@ -53,7 +53,12 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     }
     
     function getCustomerCart() {
-        $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+        
+        if (isset(Mage::registry('AUTH')->customer)) {
+            $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+        } else {
+            return false;
+        }
         
         if (empty($customer_Id)) {
             return false;            
@@ -66,8 +71,15 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         return $cart_Id;     
     }
     
-    function createCart($customer_Id) {
+    function createCart() {
         $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+        
+        if (isset(Mage::registry('AUTH')->customer)) {
+            $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+        } else {
+            return false;
+        }
+        
         $this->_write->insert('cart', array(
             'cart_id' => 0,
             'customer_id' => $customer_Id,
