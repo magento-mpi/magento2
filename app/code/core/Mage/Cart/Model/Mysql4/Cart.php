@@ -88,7 +88,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         return $cart_Id;
     }
     
-    function addProduct($product_Id)
+    function addProduct($product_Id, $qty=1)
     {
         $cart_Id = $this->getCustomerCartId();
         if (!$cart_Id) {
@@ -106,14 +106,14 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         try {
             if ($this->_read->fetchRow($sql)) {
                 $this->_write->update('cart_product', array(
-                    'product_qty' => new Zend_Db_Expr('product_qty+1'),
+                    'product_qty' => new Zend_Db_Expr($this->_read->quoteInto('product_qty+?', $qty)),
                     ), $this->_write->quoteInto('cart_id = ?', $cart_Id) . ' AND ' . $this->_write->quoteInto('product_id = ?', $product_Id));
             } else {
                 $this->_write->insert('cart_product', array(
                     'cart_product_id' => 0,
                     'cart_id' => $cart_Id,
                     'product_id' => $product_Id,
-                    'product_qty' => 1,
+                    'product_qty' => $qty,
                 ));
             }
         } catch(PDOException $e) {
