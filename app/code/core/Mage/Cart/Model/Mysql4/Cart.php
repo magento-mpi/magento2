@@ -14,8 +14,9 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     
     function getProducts($cartId=null)
     {
-        $customer_Id = 1;
-        $cart_Id = $this->getCustomerCart($customer_Id);
+        $cart_Id = $this->getCustomerCart();
+        echo $cart_Id;
+        var_dump($_COOKIE);
         $sql = $this->_read->select()
             ->from('cart_product')
             ->where('cart_id = ?', $cart_Id);
@@ -53,39 +54,42 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     }
     
     function getCustomerCart() {
-        
         if (isset(Mage::registry('AUTH')->customer)) {
             $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+            $sql = $this->_read->select()
+                ->from('cart', array('cart_id'))
+                ->where('customer_id = ?', $customer_Id);
+            $cart_Id = $this->_read->fetchOne($sql);
+        } elseif(isset($_COOKIE['cart_life_time'])) {
+            $sql = $this->_read->select()
+                ->from('cart', array('cart_id'))
+                ->where('uniq_code = ?', $_COOKIE['cart_life_time']);
+            $cart_Id = $this->_read->fetchOne($sql);
         } else {
             return false;
         }
-        
-        if (empty($customer_Id)) {
-            return false;            
-        }
-        
-        $sql = $this->_read->select()
-            ->from('cart', array('cart_id'))
-            ->where('customer_id = ?', $customer_Id);
-        $cart_Id = $this->_read->fetchOne($sql);
         return $cart_Id;     
     }
     
     function createCart() {
-        $customer_Id = Mage::registry('AUTH')->customer->customer_id;
         
         if (isset(Mage::registry('AUTH')->customer)) {
             $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+            $this->_write->insert('cart', array(
+                'cart_id' => 0,
+                'customer_id' => $customer_Id,
+                'create_date' => new Zend_Db_Expr('NOW()')
+            ));
         } else {
-            return false;
+            $token = md5(uniqid(rand(), true));
+            $this->_write->insert('cart', array(
+                'cart_id' => 0,
+                'create_date' => new Zend_Db_Expr('NOW()'),
+                'uniq_code' => $token
+            ));
+            setcookie("cart_life_time", $token, time()+31104000, '/');
         }
-        
-        $this->_write->insert('cart', array(
-            'cart_id' => 0,
-            'customer_id' => $customer_Id,
-            'create_date' => new Zend_Db_Expr('NOW()'),
-            'uniq_code' => time()
-        ));
+
         $cart_Id = $this->_write->lastInsertId();
         return $cart_Id;
     }
