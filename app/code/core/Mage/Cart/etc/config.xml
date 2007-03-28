@@ -31,6 +31,14 @@
                 </all>
 
                 <front>
+                    <events>
+                        <customer_login>
+                            <observers>
+                                <auth><class>Mage_Cart_Front</class><method>registerCustomer</method></auth>
+                            </observers>
+                        </customer_login>
+                    </events>
+
                     <controller>
                         <active>true</active>
                         <frontName>cart</frontName>

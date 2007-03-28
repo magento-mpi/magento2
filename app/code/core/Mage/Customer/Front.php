@@ -47,5 +47,8 @@ class Mage_Customer_Front
     public static function login($login, $password)
     {
         Mage::registry('AUTH')->customer = Mage::getModel('customer', 'customer')->authenticate($login, $password);
+        if (Mage::registry('AUTH')->customer) {
+            Mage::dispatchEvent('customer_login');
+        }
     }
 }
