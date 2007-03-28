@@ -38,13 +38,15 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
             $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
             $products->load();
         
-
-            foreach($products as $product) {
+            foreach($arr as $cartItem) {
+                $product = $products->getItemById($cartItem['product_id']);
+                $pids[] = $cartItem['product_id'];
+                $qty[$cartItem['product_id']] = $cartItem['product_qty'];
                 $data[] = array(
                     'id' => $product->getProduct_Id(),
-                    'qty' => $qty[$product->getProduct_Id()],
+                    'qty' => $cartItem['product_qty'],
                     'name' => $product->getName(),
-                    'price' => $product->getPrice() * $qty[$product->getProduct_Id()]
+                    'price' => $product->getPrice() * $cartItem['product_qty']
                 );
             }
         }
