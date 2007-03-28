@@ -29,29 +29,36 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
             $qty[$cartItem['product_id']] = $cartItem['product_qty'];
         }
         
-        $ids = implode(",", $pids);
-        $products = Mage::getModel('catalog', 'product_collection');
-        $products->setPageSize(false);
-        $products->addAttributeToSelect('name', 'varchar');
-        $products->addAttributeToSelect('price', 'decimal');
-        $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
-        $products->load();
-        
         $data = array();
-        foreach($products as $product) {
-            $data[] = array(
-                'id' => $product->getProduct_Id(),
-                'qty' => $qty[$product->getProduct_Id()],
-                'name' => $product->getName(),
-                'price' => $product->getPrice()
-            );
-        }
+        if (!empty($pids)) {
+            $ids = implode(",", $pids);
+            $products = Mage::getModel('catalog', 'product_collection');
+            $products->setPageSize(false);
+            $products->addAttributeToSelect('name', 'varchar');
+            $products->addAttributeToSelect('price', 'decimal');
+            $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
+            $products->load();
         
+
+            foreach($products as $product) {
+                $data[] = array(
+                    'id' => $product->getProduct_Id(),
+                    'qty' => $qty[$product->getProduct_Id()],
+                    'name' => $product->getName(),
+                    'price' => $product->getPrice()
+                );
+            }
+        }
         return $data;
     }
     
     function getCustomerCart() {
         $customer_Id = Mage::registry('AUTH')->customer->customer_id;
+        
+        if (empty($customer_Id)) {
+            return false;            
+        }
+        
         $sql = $this->_read->select()
             ->from('cart', array('cart_id'))
             ->where('customer_id = ?', $customer_Id);
@@ -76,6 +83,9 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         $cart_Id = $this->getCustomerCart();
         if (!$cart_Id) {
             $cart_Id = $this->createCart();
+            if (!$cart_Id) {
+                return false;
+            }
         }
         
         $sql = $this->_read->select()
@@ -106,12 +116,20 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     {
         if (empty($cart_Id)) {
             $cart_Id = $this->getCustomerCart();
+            if (!$cart_Id) {
+                return false;
+            }
         }
+        
         foreach($cartData as $product_Id=>$prop) {
             if (isset($prop['remove']) && $prop['remove'] == 1) {
+                try {
                 $this->_write->delete('cart_product', 
                     $this->_write->quoteInto('cart_id = ?', $cart_Id) . ' AND ' . $this->_write->quoteInto('product_id = ?', $product_Id)
                 );
+                }catch(PDOException $e) {
+                    var_dump($prop);
+                }
             } else {
                 $this->_write->update('cart_product', array(
                     'product_qty' => $prop['qty'],
