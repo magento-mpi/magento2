@@ -4,28 +4,19 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
 {
     
     private $_dbModel = null;
-
-    
-    
-    function __construct() {
-        parent::__construct();
-        $this->_dbModel = Mage::getModel('cart');
-    }
     
     function getProducts($cartId=null)
     { 
         $cart_Id = $this->getCustomerCart();
         $sql = $this->_read->select()
-            ->from('cart_product')
+            ->from($this->_getTableName('cart_setup', 'item'))
             ->where('cart_id = ?', $cart_Id);
             
         $arr = $this->_read->fetchAll($sql);
         
         $pids = array();
-        $qty = array();
         foreach($arr as $cartItem) {
             $pids[]= $cartItem['product_id'];
-            $qty[$cartItem['product_id']] = $cartItem['product_qty'];
         }
         
         $data = array();
@@ -44,7 +35,8 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
                     'id' => $cartItem['product_id'],
                     'qty' => $cartItem['product_qty'],
                     'name' => $product->getName(),
-                    'price' => $product->getPrice() * $cartItem['product_qty']
+                    'item_price' => $product->getPrice(),
+                    'row_total' => $product->getPrice() * $cartItem['product_qty'],
                 );
             }
         }

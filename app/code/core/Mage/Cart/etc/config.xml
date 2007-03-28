@@ -18,6 +18,11 @@
                     <resources>
                         <cart_setup>
                             <connection extends="//core_setup/connection"/>
+                            
+                            <entities>
+                                <cart><table>cart</table></cart>
+                                <item><table>cart_product</table></item>
+                            </entities>
                         </cart_setup>
 
                         <cart_write>

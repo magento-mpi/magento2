@@ -7,7 +7,8 @@
             <tr>
                 <td><?=$product['name']?></td>
                 <td><input name="cart[<?=$product['id']?>][qty]" value="<?=$product['qty']?>" size=2></td>
-                <td><?=$product['price']?></td>
+                <td><?=$product['item_price']?></td>
+                <td><?=$product['row_total']?></td>
                 <td><input type="checkbox" value="1" name="cart[<?=$product['id']?>][remove]"></td>
             </tr>
         <?endforeach?>
