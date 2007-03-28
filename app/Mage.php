@@ -260,6 +260,7 @@ final class Mage {
 
         Mage::register('events', new Varien_Event());
         Mage::register('website', new Mage_Core_Website());
+        Mage::register('messages', new Mage_Core_message());
         
         // check modules db
         Mage::getConfig()->applyDbUpdates();
