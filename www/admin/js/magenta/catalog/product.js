@@ -18,7 +18,9 @@ Mage.Catalog_Product = function(depend){
         loadedForms : new Ext.util.MixedCollection(),
         editablePanels : [],
         categoryEditFormPanel : null, // panel for category from
-        productLyaout : null,
+        productLayout : null,
+        parentProductLayut : null,
+        gridPanel : null,
         productsGrid : null,
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
@@ -41,7 +43,7 @@ Mage.Catalog_Product = function(depend){
                      },
                  });
                  
-                 this.productLyaout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
+                 this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
                     north: {
                         titlebar:true,
                         split:true,
@@ -70,14 +72,8 @@ Mage.Catalog_Product = function(depend){
                       }
                  });
                 
-                this.productLyaout.beginUpdate();
-                this.productLyaout.add('north',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title:'Filter'},'north'));
-                //this.productLyaout.add('center',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title:'Grid'},'center'));
-                this.productLyaout.add('south',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title: 'Product Card'},'south'));
-                this.productLyaout.endUpdate();
-                
                 Layout_Center.beginUpdate();
-                Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLyaout, {title:'Cat Name'}));
+                this.parentProductLayut = Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLayout, {title:'Cat Name'}));
                 Layout_Center.endUpdate();
                 
                 Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));                
@@ -114,7 +110,7 @@ Mage.Catalog_Product = function(depend){
                 {header: "Description", sortable: false, dataIndex: 'description'}
             ]);
 
-            var grid = new Ext.grid.Grid(this.productLyaout.getEl().createChild({tag: 'div'}), {
+            var grid = new Ext.grid.Grid(this.productLayout.getEl().createChild({tag: 'div'}), {
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
@@ -160,8 +156,8 @@ Mage.Catalog_Product = function(depend){
         },
         
         addFilter : function() {
-            dep.getLayout('workZone').add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
-            var workZoneCenterPanel = this.workZone.getRegion('north').getActivePanel();
+            this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
+            var workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel');
             
             var filter = new Ext.Toolbar(Ext.DomHelper.insertFirst(workZoneCenterPanel.getEl(), {tag: 'div', id:'filter'+Ext.id()}, true));
             
@@ -212,12 +208,20 @@ Mage.Catalog_Product = function(depend){
        
         viewGrid : function (treeNode) {
             this.init();
-            this.initLayouts();
-            var grid = this.initGrid(treeNode.id);
-//            this.productLayout.getLayout().setTitle(treeNode.text);
-            this.productLayout.beginUpdate();
-            this.productLayout.add('center',new Ext.GridPanel(grid, {title: treeNode.text}));
-            this.productLayout.endUpdate();
+            if (!this.productLayout) {
+                this.initLayouts();
+            }
+            this.parentProductLayut.setTitle(treeNode.text);            
+            if (!this.gridPanel) {
+                var grid = this.initGrid(treeNode.id);
+                this.productLayout.beginUpdate();
+                this.gridPanel = this.productLayout.add('center',new Ext.GridPanel(grid, {title: treeNode.text}));
+                this.productLayout.endUpdate();
+            } else {
+                var grid = this.gridPanel.getGrid();
+                grid.getDataSource().proxy = new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/'});
+                grid.getDataSource().load({params:{start:0, limit:25}});            
+            }
         },
         
         
