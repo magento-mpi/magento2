@@ -21,14 +21,17 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     {
         $cart['products'] = Mage::getModel('cart', 'cart')->getProducts();
         
-        $filter = new Varien_Filter_Grid();
-        $filter->addFilter(new Varien_Filter_Sprintf('$%1.02f'), 'item_price');
-        $filter->addFilter(new Varien_Filter_Sprintf('$%1.02f'), 'row_total');
-        $cart['products'] = $filter->filter($cart['products']);
         if (empty($cart['products'])) {
             $cartView = 'noItems';
         } else {
             $cartView = 'view';
+
+            $filter = new Varien_Filter_Grid();
+            $filter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
+            $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
+            $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
+            $cart['products'] = $filter->filter($cart['products']);
+            
             $this->_data['cart'] = $cart;
         }        
         
