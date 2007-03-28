@@ -53,47 +53,8 @@ Mage.Catalog = function(depend){
                 Layout_West.endUpdate();
                 
                 
-                var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
-                    north: {
-                        titlebar:false,
-                        split:true,
-                        initialSize:83,
-                        minSize:0,
-                        maxSize:200,
-                        autoScroll:true,
-                        collapsible:true
-                     },
-                     center:{
-                         titlebar: true,
-                         autoScroll:true,
-                         resizeTabs : true,
-                         hideTabs : true,
-                         tabPosition: 'top'
-                     },
-                     south: {
-                         split:true,
-                         initialSize:300,
-                         minSize:50,
-                         //maxSize:400,
-                         titlebar: true,
-                         autoScroll:true,
-                         collapsible:true,
-                         hideTabs : true
-                      }
-                 });
-                
-                this._layouts.add('workZone', Layout_Center);
-
-//                var NestedLayout_Center = new Ext.BorderLayout();
-                Layout_Center.beginUpdate();
-                //Layout_Center.add('north', new Ext.ContentPanel('catalog_layout_center_north_panel', {autoCreate:true}));
-                Layout_Center.add('center', new Ext.ContentPanel('catalog_layout_center_center_panel', {title:"Dashboard", url:Mage.url + '/mage_catalog/',loadOnce:true,autoCreate:true}));
-                //Layout_Center.add('south', new Ext.ContentPanel('catalog_layout_center_south_panel', {autoCreate:true}));
-                Layout_Center.endUpdate();
-                
                 Layout.beginUpdate();
                 Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : 'Catalog'}));
-                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
                 Layout.endUpdate();
                 
                 Core_Layout.beginUpdate();

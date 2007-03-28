@@ -17,11 +17,70 @@ Mage.Catalog_Product = function(depend){
         formLoading: null,
         loadedForms : new Ext.util.MixedCollection(),
         editablePanels : [],
+        categoryEditFormPanel : null, // panel for category from
+        productLyaout : null,
+        productsGrid : null,
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
         
+        
         init: function(){
             dep.init();
+        },
+        
+        initLayouts : function() {
+                var Layout = dep.getLayout('main');
+                
+                var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Layout.getEl(), {tag:'div'}, true), {
+                     center:{
+                         titlebar: true,
+                         autoScroll:true,
+                         resizeTabs : true,
+                         hideTabs : true,
+                         tabPosition: 'top'
+                     },
+                 });
+                 
+                 this.productLyaout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
+                    north: {
+                        titlebar:true,
+                        split:true,
+                        initialSize:83,
+                        minSize:0,
+                        maxSize:200,
+                        autoScroll:true,
+                        collapsible:true
+                     },
+                     center:{
+                         titlebar: false,
+                         autoScroll:true,
+                         resizeTabs : true,
+                         hideTabs : false,
+                         tabPosition: 'top'
+                     },
+                     south: {
+                         split:true,
+                         initialSize:300,
+                         minSize:50,
+                         //maxSize:400,
+                         titlebar: true,
+                         autoScroll:true,
+                         collapsible:true,
+                         hideTabs : true
+                      }
+                 });
+                
+                this.productLyaout.beginUpdate();
+                this.productLyaout.add('north',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title:'Filter'},'north'));
+                //this.productLyaout.add('center',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title:'Grid'},'center'));
+                this.productLyaout.add('south',new Ext.ContentPanel(Ext.id(), {autoCreate: true, title: 'Product Card'},'south'));
+                this.productLyaout.endUpdate();
+                
+                Layout_Center.beginUpdate();
+                Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLyaout, {title:'Cat Name'}));
+                Layout_Center.endUpdate();
+                
+                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));                
         },
         
         initGrid: function(catId, prnt) {
@@ -55,7 +114,7 @@ Mage.Catalog_Product = function(depend){
                 {header: "Description", sortable: false, dataIndex: 'description'}
             ]);
 
-            var grid = new Ext.grid.Grid(Ext.DomHelper.append(prnt, {tag: 'div'}, true), {
+            var grid = new Ext.grid.Grid(this.productLyaout.getEl().createChild({tag: 'div'}), {
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
@@ -96,14 +155,13 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon'
             });
             
-            
             this.grid = grid;
             return grid;
         },
         
         addFilter : function() {
             dep.getLayout('workZone').add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
-            var workZoneCenterPanel = dep.getLayout('workZone').getRegion('north').getActivePanel();
+            var workZoneCenterPanel = this.workZone.getRegion('north').getActivePanel();
             
             var filter = new Ext.Toolbar(Ext.DomHelper.insertFirst(workZoneCenterPanel.getEl(), {tag: 'div', id:'filter'+Ext.id()}, true));
             
@@ -154,11 +212,12 @@ Mage.Catalog_Product = function(depend){
        
         viewGrid : function (treeNode) {
             this.init();
-            var workZone = dep.getLayout('workZone');            
-            var grid = this.initGrid(treeNode.id, workZone.getEl());
-            workZone.beginUpdate();
-            workZone.add('center', new Ext.GridPanel(grid, {title: treeNode.text}));
-            workZone.endUpdate();            
+            this.initLayouts();
+            var grid = this.initGrid(treeNode.id);
+//            this.productLayout.getLayout().setTitle(treeNode.text);
+            this.productLayout.beginUpdate();
+            this.productLayout.add('center',new Ext.GridPanel(grid, {title: treeNode.text}));
+            this.productLayout.endUpdate();
         },
         
         
@@ -243,9 +302,8 @@ Mage.Catalog_Product = function(depend){
             }
             var title = 'New Product'; // title for from layout            
 
-            var workZone = dep.getLayout('workZone');
-            if (workZone.getRegion('south').getActivePanel()) {
-                workZone.getRegion('south').clearPanels();
+            if (this.productLayout.getRegion('south').getActivePanel()) {
+                this.productLayout.getRegion('south').clearPanels();
                 this.editablePanels = [];
             }
             
@@ -257,7 +315,7 @@ Mage.Catalog_Product = function(depend){
                   Ext.MessageBox.alert('Error!', e.getMessage());
               }
             }
-            this.editPanel = new Ext.BorderLayout(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true), {
+            this.editPanel = new Ext.BorderLayout(this.productLayout.getEl().createChild({tag:'div'}), {
                     hideOnLayout:true,
                     north: {
                         split:false,
@@ -276,9 +334,9 @@ Mage.Catalog_Product = function(depend){
                      }
             });
 
-            this.editPanel.add('north', new Ext.ContentPanel(Ext.DomHelper.append(workZone.getEl(), {tag:'div'}, true)));
+            this.editPanel.add('north', new Ext.ContentPanel(this.productLayout.getEl().createChild({tag:'div'})));
 
-            workZone.beginUpdate();
+            this.productLayout.beginUpdate();
             var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
             var cb = {
                 success : this.loadTabs.createDelegate(this),
@@ -287,9 +345,9 @@ Mage.Catalog_Product = function(depend){
             };
             var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);  
             
-            workZone.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
-            workZone.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
-            workZone.endUpdate();
+            this.productLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
+            this.productLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
+            this.productLayout.endUpdate();
         },
 
         onRemovePanel : function(region, panel) {
@@ -444,10 +502,14 @@ Mage.Catalog_Product = function(depend){
         },
         
         loadCategoryEditForm : function(treeNode) {
-            var workZone = dep.getLayout('main');            
-            //workZone.beginUpdate();
-            workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'/mage_catalog/category/new', title: 'Edit: ' + treeNode.text}));
-            //workZone.endUpdate();            
+            if (!this.categoryEditFormPanel) {
+                var workZone = dep.getLayout('main');            
+                workZone.beginUpdate();
+                this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'/mage_catalog/category/new', title: 'Edit: ' + treeNode.text, background:true}));
+                workZone.endUpdate();           
+            } else {
+                this.categoryEditFormPanel.setTitle('Edit: ' + treeNode.text);
+            }
         },
         
         
