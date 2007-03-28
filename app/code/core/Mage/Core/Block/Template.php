@@ -36,11 +36,12 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     
     public function assign($key, $value=null)
     {
-        if (is_array($key) && is_null($value)) {
+        if (is_array($key)) {
             foreach ($key as $k=>$v) {
                 $this->assign($k, $v);
             }
-        } elseif (!is_null($value)) {
+        } 
+        else {
             $this->_viewVars[$key] = $value;
         }
         return $this;
@@ -81,7 +82,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
         $this->assign('moduleSkinUrl', $moduleBaseSkinUrl);
         $this->assign('moduleViewsDir', $moduleViewsDir);
-        $this->assign('curentUrl', Mage::registry('controller')->getRequest()->getCurentUrl());
+        $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
         $this->assign('curentBlock', $this);
         
         $this->setScriptPath($moduleViewsDir.DS);
