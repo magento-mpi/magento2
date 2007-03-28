@@ -40,10 +40,8 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         
             foreach($arr as $cartItem) {
                 $product = $products->getItemById($cartItem['product_id']);
-                $pids[] = $cartItem['product_id'];
-                $qty[$cartItem['product_id']] = $cartItem['product_qty'];
                 $data[] = array(
-                    'id' => $product->getProduct_Id(),
+                    'id' => $cartItem['product_id'],
                     'qty' => $cartItem['product_qty'],
                     'name' => $product->getName(),
                     'price' => $product->getPrice() * $cartItem['product_qty']
