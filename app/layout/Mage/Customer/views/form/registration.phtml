@@ -22,7 +22,7 @@
                 </div>
                 <div class="input-right">
                 <label for="email_address">Email <span class="required">*</span></label><br/>
-                <input type="text" name="email_address" id="email_address" value="" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+                <input type="text" name="email" id="email_address" value="" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
                 <div class="clearfix"></div>
             </li>
         </ul>
@@ -32,14 +32,16 @@
         <h3>Address</h3>
      <ul class="input-list">
         <li><label for="street_address">Street Address <span class="required">*</span></label><br/>
-            <input type="text" name="street_address" value="" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
-            <li><input type="text" name="street_address2" value="" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+            <input type="text" name="street[1]" value="" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+            <li><input type="text" name="street[1]" value="" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
             <li><label for="city">City <span class="required">*</span></label><br/>
             <input type="text" name="city" value=""  title="City" class="required-entry input-text" id="city" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
             <li>
                 <div class="input-left">
                 <label for="state">State / Province <span class="required">*</span></label><br/>
-                <input type="text" name="state" value="" title="State/Province" id="state"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <select name="region_id" value="" title="State/Province" id="state"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                 <option value="1">1</option>
+                </select>
                 </div>
                 <div class="input-right">
                     <label for="zip">Zip <span class="required">*</span></label><br/>
@@ -47,8 +49,10 @@
                     <div class="clearfix"></div>
                     </li>
             <li><label for="country">Country <span class="required">*</span></label><br/>
-            <select name="country" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
-            </select></li>
+            <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+             <option value="1">USA</option>
+            </select>
+            </li>
             <li><div class="input-left"><label for="telephone">Telephone <span class="required">*</span></label><br/>
             <input type="text" name="telephone" value="" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
             <div class="input-right"><label for="fax">Fax</label><br/>

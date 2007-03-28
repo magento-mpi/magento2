@@ -39,17 +39,45 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
+        if (!empty($_POST)) {
+            $customerValidator = new Mage_Customer_Validate_Customer($_POST);
+            $addressValidator = new Mage_Customer_Validate_Address($_POST);
+            
+            // Validate customer and address info
+            if ($customerValidator->isValid() && $addressValidator->isValid()) {
+                
+                $customerModel = Mage::getModel('customer', 'customer');
+                
+                // Insert customer information
+                $customerData = $customerValidator->getData();
+                if ($customerId = $customerModel->insert($customerData)) {
+                    
+                    $addressModel = Mage::getModel('customer', 'customer_address');
+                    
+                    // Insert customer address
+                    $addressData = $addressValidator->getData();
+                    $addressData['customer_id'] = $customerId;
+                    if ($addressId = $addressModel->insert($addressData)) {
+                        
+                        $customerModel->setDefaultAddress($customerId, $addressId);
+                        Mage_Customer_Front::login($customerData['customer_email'], $customerData['customer_pass']);
+                        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+                    }
+                    else {
+                        // Delete customer? and can't create address error
+                    }
+                }
+                else {
+                    // Can't create customer
+                }
+            }
+            else {
+                // Fix validation error
+            }
+        }
+        
         $block = Mage::createBlock('customer_regform', 'customer.regform');
         Mage::getBlock('content')->append($block);
-    }
-    
-    /**
-     * Edit base iformation form
-     *
-     */
-    public function editAction()
-    {
-        
     }
     
     /**

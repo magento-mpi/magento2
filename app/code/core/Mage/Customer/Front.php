@@ -20,7 +20,7 @@ class Mage_Customer_Front
         if (empty($auth->customer) && isset($_POST['login'])) {
             extract($_POST['login']);
             if (!empty($customer_email) && !empty($customer_pass)) {
-                $auth->customer = Mage::getModel('customer', 'customer')->authenticate($customer_email, $customer_pass);
+                self::login($customer_email, $customer_pass);
             }
         }
     }
@@ -42,5 +42,10 @@ class Mage_Customer_Front
         if (Mage::registry('AUTH')->customer) {
             unset(Mage::registry('AUTH')->customer);
         }
+    }
+    
+    public static function login($login, $password)
+    {
+        Mage::registry('AUTH')->customer = Mage::getModel('customer', 'customer')->authenticate($login, $password);
     }
 }
