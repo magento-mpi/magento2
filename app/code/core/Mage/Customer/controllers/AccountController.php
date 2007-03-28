@@ -52,7 +52,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $customerData = $customerValidator->getData();
                 if ($customerId = $customerModel->insert($customerData)) {
                     
-                    $addressModel = Mage::getModel('customer', 'customer_address');
+                    $addressModel = Mage::getModel('customer', 'address');
                     
                     // Insert customer address
                     $addressData = $addressValidator->getData();
@@ -86,7 +86,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function changePasswordAction()
     {
-        
+        $block = Mage::createBlock('tpl', 'customer.changepassword')
+            ->setViewName('Mage_Customer', 'form/changepassword');
+        Mage::getBlock('content')->append($block);
     }
     
     /**
@@ -102,6 +104,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function newsLetterAction()
     {
-        
+        $block = Mage::createBlock('tpl', 'customer.newsletter')
+            ->setViewName('Mage_Customer', 'form/newsletter');
+        Mage::getBlock('content')->append($block);
     }
 }// Class Mage_Customer_AccountController END
