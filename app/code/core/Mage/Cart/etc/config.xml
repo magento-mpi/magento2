@@ -35,7 +35,11 @@
                     </resources>
                     
                     <cartTotals>
-                        <subtotal><class>Mage_Cart_Total_Subtotal</class></subtotal>
+                        <subtotal><class>Mage_Cart_Total_Subtotal</class><sortOrder>10</sortOrder></subtotal>
+                        <discount><class>Mage_Cart_Total_Discount</class><sortOrder>20</sortOrder></discount>
+                        <shipping><class>Mage_Cart_Total_Shipping</class><sortOrder>30</sortOrder></shipping>
+                        <tax><class>Mage_Cart_Total_Tax</class><sortOrder>40</sortOrder></tax>
+                        <grand><class>Mage_Cart_Total_Grand</class><sortOrder>100</sortOrder></grand>
                     </cartTotals>
                 </all>
 

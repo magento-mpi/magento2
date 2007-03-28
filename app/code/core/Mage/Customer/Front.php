@@ -47,7 +47,6 @@ class Mage_Customer_Front
     {
         $auth = Mage::registry('AUTH');
         
-        // Login
         if (empty($auth->customer)) {
             if (isset($_POST['login'])) {
                 extract($_POST['login']);
@@ -57,10 +56,12 @@ class Mage_Customer_Front
                     }
                 }
             }
+            $block = Mage::createBlock('customer_login', 'customer.login');
+            Mage::getBlock('content')->append($block);
             return false;
         }
         return true;
-    }
+    }    
     
     /**
      * Get authenticated customer id 

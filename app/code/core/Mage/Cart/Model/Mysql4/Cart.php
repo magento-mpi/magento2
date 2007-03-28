@@ -2,11 +2,30 @@
 
 class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
 {
+    protected $_itemsCache = null;
+    
+    function cleanCache($cart_Id=null)
+    {
+        if ('*'===$cart_Id) {
+            $this->_itemsCache = null;
+            return;
+        }
+        
+        if (is_null($cart_Id)) {
+            $cart_Id = $this->getCustomerCartId();
+        }
+        
+        $this->_itemsCache[$cart_Id] = null;
+    }
     
     function getItems($cart_Id=null)
     { 
         if (is_null($cart_Id)) {
             $cart_Id = $this->getCustomerCartId();
+        }
+        
+        if (!empty($this->_itemsCache[$cart_Id])) {
+            return $this->_itemsCache[$cart_Id];
         }
         
         $sql = $this->_read->select()
@@ -32,7 +51,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         
             foreach($arr as $cartItem) {
                 $product = $products->getItemById($cartItem['product_id']);
-                $price = $product->getTierPrice();
+                $price = $product->getTierPrice($cartItem['product_qty']);
                 $data[] = array(
                     'id' => $cartItem['product_id'],
                     'qty' => $cartItem['product_qty'],
@@ -42,6 +61,9 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
                 );
             }
         }
+        
+        $this->_itemsCache[$cart_Id] = $data;
+        
         return $data;
     }
     

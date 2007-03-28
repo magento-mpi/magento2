@@ -9,23 +9,13 @@
  */
 class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 {
-    protected function _auth()
-    {
-        if (!Mage_Customer_Front::authenticate()) {
-            $block = Mage::createBlock('customer_login', 'customer.login');
-            Mage::getBlock('content')->append($block);
-            return false;
-        }
-        return true;
-    }
-    
     /**
      * Default account page
      *
      */
     public function indexAction() 
     {
-        if (!$this->_auth()) {
+        if (!Mage_Customer_Front::authenticate()) {
             return;
         }
         
@@ -35,7 +25,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function loginAction()
     {
-        $this->_auth();
+        if (!Mage_Customer_Front::authenticate()) {
+            return;
+        }
+        
     }
     
     public function logoutAction()
@@ -96,9 +89,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function changePasswordAction()
     {
-        if (!$this->_auth()) {
+        if (!Mage_Customer_Front::authenticate()) {
             return;
         }
+        
 
         $block = Mage::createBlock('tpl', 'customer.changepassword')
             ->setViewName('Mage_Customer', 'form/changepassword');
@@ -111,9 +105,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function forgotPasswordAction()
     {
-        if (!$this->_auth()) {
+        if (!Mage_Customer_Front::authenticate()) {
             return;
         }
+        
         
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
             ->setViewName('Mage_Customer', 'form/forgotpassword');
@@ -122,9 +117,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     public function newsletterAction()
     {
-        if (!$this->_auth()) {
+        if (!Mage_Customer_Front::authenticate()) {
             return;
         }
+        
 
         $block = Mage::createBlock('tpl', 'customer.newsletter')
             ->setViewName('Mage_Customer', 'form/newsletter');
