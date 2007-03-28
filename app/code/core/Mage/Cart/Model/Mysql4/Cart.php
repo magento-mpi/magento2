@@ -13,7 +13,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     }
     
     function getProducts($cartId=null)
-    {
+    { 
         $cart_Id = $this->getCustomerCart();
         $sql = $this->_read->select()
             ->from('cart_product')
@@ -44,7 +44,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
                     'id' => $product->getProduct_Id(),
                     'qty' => $qty[$product->getProduct_Id()],
                     'name' => $product->getName(),
-                    'price' => $product->getPrice()
+                    'price' => $product->getPrice() * $qty[$product->getProduct_Id()]
                 );
             }
         }
