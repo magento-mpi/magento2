@@ -2,18 +2,23 @@
 <h1 class="page-heading">Shopping Cart</h1>
 <form action="<?=$data['url']['cart']?>/index/updatePost" method="post">
     <table border=1>
-        <tr><th>Product</th><th>Quantity</th><th>Price</th><th>Remove</th></tr>
-        <?foreach($data['cart']['products'] as $product):?>
+        <tr><th>Remove</th><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
+        <?foreach($data['cart']['items'] as $item):?>
             <tr>
-                <td><?=$product['name']?></td>
-                <td><input name="cart[<?=$product['id']?>][qty]" value="<?=$product['qty']?>" size=2></td>
-                <td><?=$product['item_price']?></td>
-                <td><?=$product['row_total']?></td>
-                <td><input type="checkbox" value="1" name="cart[<?=$product['id']?>][remove]"></td>
+                <td><input type="checkbox" value="1" name="cart[<?=$item['id']?>][remove]"></td>
+                <td><?=$item['name']?></td>
+                <td><input name="cart[<?=$item['id']?>][qty]" value="<?=$item['qty']?>" size=2></td>
+                <td><?=$item['item_price']?></td>
+                <td><?=$item['row_total']?></td>
             </tr>
         <?endforeach?>
+        <?foreach($data['cart']['totals'] as $total):?>
         <tr>
-            <td colspan=4>
+            <th colspan=4><?=$total['title']?></th><td><?=$total['value']?></td>
+        </tr>
+        <?endforeach?>
+        <tr>
+            <td colspan=5>
                 <input type="button" value="Continue Shopping" onclick="location.href='<?=$data['url']['base']?>'">
                 <input type="submit" value="Update">
                 <input type="button" value="Checkout" onclick="location.href='<?=$data['url']['checkout']?>'">

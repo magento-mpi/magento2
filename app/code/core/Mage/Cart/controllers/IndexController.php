@@ -19,18 +19,24 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     
     function indexAction()
     {
-        $cart['products'] = Mage::getModel('cart', 'cart')->getProducts();
+        $cart['items'] = Mage::getModel('cart', 'cart')->getItems();
         
-        if (empty($cart['products'])) {
+        if (empty($cart['items'])) {
             $cartView = 'noItems';
         } else {
             $cartView = 'view';
 
-            $filter = new Varien_Filter_Array_Grid();
-            $filter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-            $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
-            $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
-            $cart['products'] = $filter->filter($cart['products']);
+            $itemsFilter = new Varien_Filter_Array_Grid();
+            $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
+            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
+            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
+            $cart['items'] = $itemsFilter->filter($cart['items']);
+            
+            $cart['totals'] = Mage_Cart_Total::getTotals();
+
+            $totalsFilter = new Varien_Filter_Array_Grid();
+            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+            $cart['totals'] = $totalsFilter->filter($cart['totals']);
             
             $this->_data['cart'] = $cart;
         }        

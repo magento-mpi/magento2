@@ -47,6 +47,11 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
         return Mage::getBaseUrl().'/catalog/product/image/id/'.$this->getProduct_Id();
     }
     
+    public function getTierPrice($qty=1)
+    {
+        return $this->getPrice();
+    }
+    
     /**
      * Insert row in database table
      * $data = array(
@@ -92,7 +97,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     public function getRow($productId, $withMultipleFields = true)
     {
         $arrRes = array();
-        $productTable           = $this->_dbModel->getTableName('catalog_setup', 'product');        
+        $productTable = $this->_dbModel->getTableName('catalog_setup', 'product');        
 
         $attributes = $this->getAttributes($productId);
         

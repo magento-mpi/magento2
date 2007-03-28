@@ -33,6 +33,10 @@
                             <connection extends="//core_read/connection"/>
                         </cart_read>
                     </resources>
+                    
+                    <cartTotals>
+                        <subtotal><class>Mage_Cart_Total_Subtotal</class></subtotal>
+                    </cartTotals>
                 </all>
 
                 <front>
@@ -57,4 +61,8 @@
 
         </Mage_Cart>
     </modules>
+    
+    <global>
+        <cartTotals extends="/config/modules/*/load/all/cartTotals"/>
+    </global>
 </config>

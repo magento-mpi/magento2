@@ -11,18 +11,7 @@ class Mage_Customer_Front
 {
     public static function load_front_action_preDispatch()
     {
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
-        Zend_Session::start();
-        
         Mage::register('AUTH', $auth = new Zend_Session_Namespace('Mage_Customer'));
-        
-        // Login
-        if (empty($auth->customer) && isset($_POST['login'])) {
-            extract($_POST['login']);
-            if (!empty($customer_email) && !empty($customer_pass)) {
-                self::login($customer_email, $customer_pass);
-            }
-        }
     }
     
     public static function load_front_action_postDispatch()
@@ -49,6 +38,27 @@ class Mage_Customer_Front
         Mage::registry('AUTH')->customer = Mage::getModel('customer', 'customer')->authenticate($login, $password);
         if (Mage::registry('AUTH')->customer) {
             Mage::dispatchEvent('customer_login');
+            return true;
         }
+        return false;
+    }
+    
+    public static function authenticate()
+    {
+        $auth = Mage::registry('AUTH');
+        
+        // Login
+        if (empty($auth->customer)) {
+            if (isset($_POST['login'])) {
+                extract($_POST['login']);
+                if (!empty($customer_email) && !empty($customer_pass)) {
+                    if (self::login($customer_email, $customer_pass)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

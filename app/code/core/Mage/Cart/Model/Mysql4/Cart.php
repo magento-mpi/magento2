@@ -3,11 +3,12 @@
 class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
 {
     
-    private $_dbModel = null;
-    
-    function getProducts($cartId=null)
+    function getItems($cart_Id=null)
     { 
-        $cart_Id = $this->getCustomerCart();
+        if (is_null($cart_Id)) {
+            $cart_Id = $this->getCustomerCartId();
+        }
+        
         $sql = $this->_read->select()
             ->from($this->_getTableName('cart_setup', 'item'))
             ->where('cart_id = ?', $cart_Id);
@@ -31,19 +32,21 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         
             foreach($arr as $cartItem) {
                 $product = $products->getItemById($cartItem['product_id']);
+                $price = $product->getTierPrice();
                 $data[] = array(
                     'id' => $cartItem['product_id'],
                     'qty' => $cartItem['product_qty'],
                     'name' => $product->getName(),
-                    'item_price' => $product->getPrice(),
-                    'row_total' => $product->getPrice() * $cartItem['product_qty'],
+                    'item_price' => $price,
+                    'row_total' => $price * $cartItem['product_qty'],
                 );
             }
         }
         return $data;
     }
     
-    function getCustomerCart() {
+    function getCustomerCartId() 
+    {
         if (isset(Mage::registry('AUTH')->customer)) {
             $customer_Id = Mage::registry('AUTH')->customer->customer_id;
             $sql = $this->_read->select()
@@ -61,7 +64,8 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         return $cart_Id;     
     }
     
-    function createCart() {
+    function createCart() 
+    {
         
         if (isset(Mage::registry('AUTH')->customer)) {
             $customer_Id = Mage::registry('AUTH')->customer->customer_id;
@@ -121,7 +125,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     function update($cartData, $cart_Id=null)
     {
         if (empty($cart_Id)) {
-            $cart_Id = $this->getCustomerCart();
+            $cart_Id = $this->getCustomerCartId();
             if (!$cart_Id) {
                 return false;
             }
