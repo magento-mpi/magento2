@@ -9,6 +9,11 @@ abstract class Mage_Core_Message_Abstract
         $this->_data = $data;
     }
     
+    function getData()
+    {
+        return $this->_data;
+    }
+    
     function getType()
     {
         return 'message';
