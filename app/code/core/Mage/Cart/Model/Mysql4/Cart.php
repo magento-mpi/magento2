@@ -15,8 +15,6 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     function getProducts($cartId=null)
     {
         $cart_Id = $this->getCustomerCart();
-        echo $cart_Id;
-        var_dump($_COOKIE);
         $sql = $this->_read->select()
             ->from('cart_product')
             ->where('cart_id = ?', $cart_Id);
@@ -60,10 +58,10 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
                 ->from('cart', array('cart_id'))
                 ->where('customer_id = ?', $customer_Id);
             $cart_Id = $this->_read->fetchOne($sql);
-        } elseif(isset($_COOKIE['cart_life_time'])) {
+        } elseif(isset($_COOKIE['cart_uniq_code'])) {
             $sql = $this->_read->select()
                 ->from('cart', array('cart_id'))
-                ->where('uniq_code = ?', $_COOKIE['cart_life_time']);
+                ->where('uniq_code = ?', $_COOKIE['cart_uniq_code']);
             $cart_Id = $this->_read->fetchOne($sql);
         } else {
             return false;
@@ -87,7 +85,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
                 'create_date' => new Zend_Db_Expr('NOW()'),
                 'uniq_code' => $token
             ));
-            setcookie("cart_life_time", $token, time()+31104000, '/');
+            setcookie("cart_uniq_code", $token, time()+31104000, '/');
         }
 
         $cart_Id = $this->_write->lastInsertId();
