@@ -90,7 +90,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
     
     function addProduct($product_Id)
     {
-        $cart_Id = $this->getCustomerCart();
+        $cart_Id = $this->getCustomerCartId();
         if (!$cart_Id) {
             $cart_Id = $this->createCart();
             if (!$cart_Id) {

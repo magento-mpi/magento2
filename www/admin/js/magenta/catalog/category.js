@@ -137,12 +137,11 @@ Mage.Catalog_Category = function(){
         },
         
         loadEditForm : function(treeNode) {
-            var workZone = Mage.Catalog.getLayout('workZone');            
-//            var grid = this.initGrid(treeNode.id, workZone.getEl());
+            var workZone = Mage.Core.getLayout();            
+            //Ext.dump(workZone);
 //            workZone.beginUpdate();
-            workZone.add('center', new Ext.ContentPanel(Ext.id(), {auotCreate: true, title: treeNode.text}));
+            //workZone.add('center', new Ext.ContentPanel(Ext.id(), {auotCreate: true, title: treeNode.text}));
 //            workZone.endUpdate();            
-            
         },
         
         getLayout : function(name) {
