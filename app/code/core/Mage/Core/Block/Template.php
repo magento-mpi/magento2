@@ -81,7 +81,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
         $this->assign('moduleSkinUrl', $moduleBaseSkinUrl);
         $this->assign('moduleViewsDir', $moduleViewsDir);
-        
+        $this->assign('curentUrl', Mage::registry('controller')->getRequest()->getCurentUrl());
         $this->assign('curentBlock', $this);
         
         $this->setScriptPath($moduleViewsDir.DS);

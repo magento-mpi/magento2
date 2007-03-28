@@ -10,44 +10,49 @@
 class Varien_DataObject
 {
     protected $_data;
-	
+    
     public function __construct($data = array())
-	{
-		$this->_data = $data;
-	}
+    {
+        $this->_data = $data;
+    }
 
-	/**
-	 * Convert object attributes to array
-	 * 
-	 * @param  array $arrAttributes array of required attributes
-	 * @return array
-	 */
-	public function __toArray($arrAttributes = array())
-	{
-	    if (empty($arrAttributes)) {
-	    	return $this->_data;
-	    }
-		
-	    $arrRes = array();
-		foreach ($arrAttributes as $attribute) {
-			if (isset($this->_data[$attribute])) {
-				$arrRes[$attribute] = $this->_data[$attribute];
-			}
-			else {
-				$arrRes[$attribute] = null;
-			}
-		}
-		return $arrRes;
-	}
-	
-	/**
-	 * Convert object attributes to XML
-	 *
-	 * @param  array $arrAttributes array of required attributes
-	 * @return string
-	 */
-	public function __toXml($arrAttributes = array(), $rootName = 'item')
-	{
+    public function setData($key, $value)
+    {
+        $this->_data[$key] = $value;
+    }
+
+    /**
+     * Convert object attributes to array
+     * 
+     * @param  array $arrAttributes array of required attributes
+     * @return array
+     */
+    public function __toArray($arrAttributes = array())
+    {
+        if (empty($arrAttributes)) {
+            return $this->_data;
+        }
+        
+        $arrRes = array();
+        foreach ($arrAttributes as $attribute) {
+            if (isset($this->_data[$attribute])) {
+                $arrRes[$attribute] = $this->_data[$attribute];
+            }
+            else {
+                $arrRes[$attribute] = null;
+            }
+        }
+        return $arrRes;
+    }
+    
+    /**
+     * Convert object attributes to XML
+     *
+     * @param  array $arrAttributes array of required attributes
+     * @return string
+     */
+    public function __toXml($arrAttributes = array(), $rootName = 'item')
+    {
         $xml = '<'.$rootName.'>';
         $arrData = $this->__toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
@@ -55,20 +60,20 @@ class Varien_DataObject
         }
         $xml.= '</'.$rootName.'>';
         return $xml;
-	}
-	
-	/**
-	 * Convert object attributes to string
-	 * 
-	 * @param  array  $arrAttributes array of required attributes
-	 * @param  string $valueSeparator
-	 * @return string
-	 */
-	public function __toString($arrAttributes = array(), $valueSeparator=',')
-	{
-	    $arrData = $this->__toArray($arrAttributes);
-		return implode($valueSeparator, $arrData);
-	}
+    }
+    
+    /**
+     * Convert object attributes to string
+     * 
+     * @param  array  $arrAttributes array of required attributes
+     * @param  string $valueSeparator
+     * @return string
+     */
+    public function __toString($arrAttributes = array(), $valueSeparator=',')
+    {
+        $arrData = $this->__toArray($arrAttributes);
+        return implode($valueSeparator, $arrData);
+    }
     /**
      * Set/Get attribute wrapper
      *

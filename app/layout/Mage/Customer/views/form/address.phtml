@@ -1,0 +1,89 @@
+<div class="content">
+    <h1 class="page-heading"><?if($addressId):?>Edit<?else:?>New<?endif?> Address Entry</h1>
+    <form action="<?=$curentUrl?>" method="post" id="form-validate">
+        <fieldset class="group-single">
+            <legend>Personal Information</legend>
+            <h3>Personal Information</h3>
+            <ul class="input-list">
+                <li>
+                    <div class="input-left">
+                        <label for="firstname">First Name <span class="required">*</span></label><br/>
+                        <input type="text" name="firstname" id="firstname" title="First Name" value="<?=$formData->getFirstname()?>" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    </div>
+                    <div class="input-right">
+                        <label for="lastname">Last Name <span class="required">*</span></label><br/>
+                        <input type="text" name="lastname" id="lastname" title="Last Name" value="<?=$formData->getLastname()?>" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <li>
+                    <div class="input-left">
+                        <label for="company">Company</label><br/>
+                        <input type="text" name="company" id="company" title="Company" value="<?=$formData->getCompany()?>" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset class="group-single">
+            <legend>Address</legend>
+            <h3>Address</h3>
+            <ul class="input-list">
+                <li>
+                    <label for="street_address">Street Address <span class="required">*</span></label><br/>
+                    <input type="text" name="street[1]" value="<?=$formData->getStreet1()?>" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </li>
+                <li>
+                    <input type="text" name="street[2]" value="<?=$formData->getStreet2()?>" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </li>
+                <li>
+                    <label for="city">City <span class="required">*</span></label><br/>
+                    <input type="text" name="city" value="<?=$formData->getCity()?>"  title="City" class="required-entry input-text" id="city" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
+                <li>
+                    <div class="input-left">
+                        <label for="state">State / Province <span class="required">*</span></label><br/>
+                        <select name="region_id" title="State/Province" id="state" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+                            <option value="1">LA</option>
+                        </select>
+                    </div>
+                    <div class="input-right">
+                        <label for="zip">Zip <span class="required">*</span></label><br/>
+                        <input type="text" name="postcode" value="<?=$formData->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <li>
+                    <label for="country">Country <span class="required">*</span></label><br/>
+                    <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+                        <option value="1">USA</option>
+                    </select>
+                </li>
+                <li>
+                    <div class="input-left">
+                        <label for="telephone">Telephone <span class="required">*</span></label><br/>
+                        <input type="text" name="telephone" value="<?=$formData->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></div>
+                    <div class="input-right">
+                        <label for="fax">Fax</label><br/>
+                        <input type="text" name="fax" value="<?=$formData->getFax()?>" title="Fax" class="validate-fax input-text" id="fax" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <?if($addressId!=$defaultAddressId):?>
+                <li>
+                    <input type="checkbox" id="primary" name="set_as_default" checked="checked"/>&nbsp;
+                    <label for="primary">Use as my primary address</label>
+                </li>
+                <?endif?>
+            </ul>
+        </fieldset>
+        <div class="buttons-container">
+            <p class="required">* Required Fields</p>
+                <input type="button" onclick="window.location='<?=$moduleBaseUrl?>/address/';" value="Back" class="input-button float-left"/>
+                <input type="submit" value="Submit" class="input-button float-right"/>
+                <div class="clearfix"></div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        new Validation('form-validate');
+    </script>
+</div>

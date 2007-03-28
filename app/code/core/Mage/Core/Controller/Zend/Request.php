@@ -37,4 +37,9 @@ class Mage_Core_Controller_Zend_Request extends Zend_Controller_Request_Http
         
         return $url;
     }
+
+    public function getCurentUrl()
+    {
+        return $this->getBaseUrl() . $this->getRequestUri();
+    }
 }

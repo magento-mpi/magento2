@@ -36,4 +36,10 @@ class Mage_Customer_Validate_Address extends Mage_Core_Validate
         $this->_data = $arrData;
         return true;
     }
+    
+    public function hasCustomer($addressId, $customerId)
+    {
+        // TODO: check in DB
+        return true;
+    }
 }

@@ -61,4 +61,50 @@ class Mage_Customer_Front
         }
         return true;
     }
+    
+    /**
+     * Get authenticated customer id 
+     *
+     * @return int || null
+     */
+    public static function getCustomerId()
+    {
+        return self::getCustomerInfo('customer_id');
+    }
+    
+    /**
+     * Get authenticated customer field
+     *
+     * @param   string $fieldName
+     * @return  null
+     */
+    public static function getCustomerInfo($fieldName = '')
+    {
+        if (Mage::registry('AUTH')->customer) {
+            if (empty($fieldName)) {
+                return Mage::registry('AUTH')->customer;
+            }
+            else {
+                return isset(Mage::registry('AUTH')->customer->$fieldName) ? Mage::registry('AUTH')->customer->$fieldName : null;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Set authenticated customer field value
+     *
+     * @param string $fieldName
+     * @param mixed $fieldValue
+     */
+    public static function setCustomerInfo($fieldName, $fieldValue)
+    {
+        if (Mage::registry('AUTH')->customer) {
+            if ($fieldName!='customer_id') {
+                Mage::registry('AUTH')->customer->$fieldName = $fieldValue;
+                return true;
+            }            
+        }
+        return false;
+    }
 }

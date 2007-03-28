@@ -1,0 +1,56 @@
+<div class="content">
+<h1 class="page-heading">Address Book</h1>
+<table cellspacing="0" width="100%">
+    <tr>
+    <?if($defaultAddress):?>
+        <td style="width:50%;"><h3>Primary Address</h3>
+            <address>
+                <?=$defaultAddress->getFirstname()?> <?=$defaultAddress->getLastname()?><br/>
+                <?=$defaultAddress->getCompany()?><br/>
+                <?=$defaultAddress->getPostcode()?>, <?=$defaultAddress->getCity()?><br/>
+                <?=$defaultAddress->getStreet()?><br/>
+                <?if($defaultAddress->getTelephone()):?>T| <?=$defaultAddress->getTelephone()?><br/><?endif?>
+                <?if($defaultAddress->getFax()):?>F| <?=$defaultAddress->getFax()?><br/><?endif?>
+            </address>
+            <p>
+            <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$defaultAddress->getAddress_Id()?>/" class="red-link">Edit</a></strong></p>
+        </td>
+    <?endif?>
+        <td style="width:50%;"><h3>Additional Entries</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if(!empty($addresses)):?>    
+                <?foreach($addresses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+                        <?=$_address->getCompany()?><br/>
+                        <?=$_address->getPostcode()?>, <?=$_address->getCity()?><br/>
+                        <?=$_address->getStreet()?><br/>
+                        <?if($_address->getTelephone()):?>T| <?=$_address->getTelephone()?><br/><?endif?>
+                        <?if($_address->getFax()):?>F| <?=$_address->getFax()?><br/><?endif?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddress_Id()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
+                        <strong><a href="<?=$moduleBaseUrl?>/address/delete/address/<?=$_address->getAddress_Id()?>/" class="red-link">Delete</a></strong>
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no additional entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+    </tr>
+</table>
+<div class="buttons-container">
+    <div class="button-left"><input type="button" onclick="window.location='<?=$moduleBaseUrl?>/account/';" value="Back" class="input-button"></div>
+    <div class="button-right"><input type="button" onclick="window.location='<?=$moduleBaseUrl?>/address/form/';" value="New Address" class="input-button"></div>
+    <div class="clearfix"></div>
+</div>
+</div>
