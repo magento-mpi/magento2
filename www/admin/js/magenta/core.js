@@ -64,13 +64,13 @@ Mage.Core = function(){
                         "collapsible":false
                     },
                     "center":{
-                        "resizeTabs":false,
-                        "alwaysShowTabs":false,
-                        "hideTabs":false,
-                        "tabPosition":"top",
-                        "titlebar":false,
-                        "autoScroll":true,
-                        "closeOnTab":true
+                        resizeTabs:true,
+                        alwaysShowTabs:false,
+                        hideTabs:true,
+                        tabPosition:'top',
+                        titlebar:false,
+                        autoScroll:true,
+                        closeOnTab:true
                     },
                     "south":{
                         "split":false,
@@ -92,7 +92,7 @@ Mage.Core = function(){
 
             _layout.beginUpdate();
             _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
-            _layout.add('center', new Ext.ContentPanel('center', {"title":"Center Panel","fitToFrame":true,"autoCreate":true, loadOnce: true, "url":Mage.url+"/mage_catalog/category/new"}));
+            _layout.add('center', new Ext.ContentPanel('center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
             _layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             this._initToolbar();

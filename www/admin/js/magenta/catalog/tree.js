@@ -151,10 +151,10 @@ Mage.Catalog_Category_Tree = function(){
         showProducts: function(item, event, selectedNode) {
             if (selectedNode) {
                 Mage.Catalog_Product.viewGrid(selectedNode);        
-                Mage.Catalog_Category.loadEditForm(selectedNode);
+                Mage.Catalog_Product.loadCategoryEditForm(selectedNode);
             } else {
                 Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
-                Mage.Catalog_Category.loadEditForm(item.parentMenu.selectedNode);                
+                Mage.Catalog_Product.loadCategoryEditForm(item.parentMenu.selectedNode);                
             }
         },
 

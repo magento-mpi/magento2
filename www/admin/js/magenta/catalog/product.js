@@ -427,6 +427,7 @@ Mage.Catalog_Product = function(depend){
                 this.loadedForms.add(form.id, form);
             }
         },
+       
         
         
         onFormChange : function(e, element, object, panel) {
@@ -441,6 +442,15 @@ Mage.Catalog_Product = function(depend){
             panel.setTitle(panel.getTitle() + '*');
             e.stopEvent();
         },
+        
+        loadCategoryEditForm : function(treeNode) {
+            var workZone = dep.getLayout('main');            
+            //workZone.beginUpdate();
+            workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'/mage_catalog/category/new', title: 'Edit: ' + treeNode.text}));
+            //workZone.endUpdate();            
+        },
+        
+        
         
         cancelNew: function() {
             

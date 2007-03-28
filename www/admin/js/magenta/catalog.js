@@ -12,12 +12,14 @@ Mage.Catalog = function(depend){
                         split:true,
                         autoScroll:true,
                         collapsible:true,
+                        collapsedTitle : 'Categories Tree',
                         titlebar:true
                     },
                     center : {
-                        autoScroll : false,
+                        autoScroll : true,
                         titlebar : false,
-                        hideTabs:true
+                        tabPosition : 'top',
+                       	alwaysShowTabs : true
                     }
                 });
                 
@@ -25,9 +27,9 @@ Mage.Catalog = function(depend){
                 
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
-                            collapsedTitle : '<b>Categories Tree</b>',
                             autoScroll:true,
-                            titlebar:false
+                            titlebar:false,
+                            tabPosition : 'top'
                         }, 
                         south: {
                             split:true,
@@ -35,6 +37,7 @@ Mage.Catalog = function(depend){
                             minSize:50,
                             maxSize:400,
                             autoScroll:true,
+                            titlebar : true,
                             collapsible:true
                          }
                      }
@@ -43,7 +46,6 @@ Mage.Catalog = function(depend){
                 this._layouts.add('tree', Layout_West);
                 
                 Layout_West.beginUpdate();
-                //Layout_West.add('center', new Ext.ContentPanel('catalog_main_left_tree_panel', {autoCreate:true}));
                 // Create tree
                 Mage.Catalog_Category_Tree.create();
 
@@ -53,7 +55,7 @@ Mage.Catalog = function(depend){
                 
                 var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     north: {
-                        titlebar:true,
+                        titlebar:false,
                         split:true,
                         initialSize:83,
                         minSize:0,
@@ -90,8 +92,8 @@ Mage.Catalog = function(depend){
                 Layout_Center.endUpdate();
                 
                 Layout.beginUpdate();
-                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West));
-                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center));
+                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : 'Catalog'}));
+                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
                 Layout.endUpdate();
                 
                 Core_Layout.beginUpdate();

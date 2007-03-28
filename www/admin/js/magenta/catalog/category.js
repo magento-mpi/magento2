@@ -136,14 +136,6 @@ Mage.Catalog_Category = function(){
             dataStore.load();
         },
         
-        loadEditForm : function(treeNode) {
-            var workZone = Mage.Core.getLayout();            
-            //Ext.dump(workZone);
-//            workZone.beginUpdate();
-            //workZone.add('center', new Ext.ContentPanel(Ext.id(), {auotCreate: true, title: treeNode.text}));
-//            workZone.endUpdate();            
-        },
-        
         getLayout : function(name) {
             return this._layouts.get(name);
         },
