@@ -26,7 +26,7 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         } else {
             $cartView = 'view';
 
-            $filter = new Varien_Filter_Grid();
+            $filter = new Varien_Filter_Array_Grid();
             $filter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
             $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
             $filter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');

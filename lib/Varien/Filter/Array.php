@@ -1,6 +1,6 @@
 <?php
 
-class Varien_Filter_Grid extends Zend_Filter
+class Varien_Filter_Array extends Zend_Filter
 {
     protected $_columnFilters = array();
     
@@ -18,15 +18,14 @@ class Varien_Filter_Grid extends Zend_Filter
     
     function filter($array)
     {
-        foreach ($array as $i=>$row) {
-            foreach ($row as $column=>$value) {
-                $value = parent::filter($value);
-                if (isset($this->_columnFilters[$column])) {
-                    $value = $this->_columnFilters[$column]->filter($value);
-                }
-                $array[$i][$column] = $value;
+        $out = array();
+        foreach ($array as $column=>$value) {
+            $value = parent::filter($value);
+            if (isset($this->_columnFilters[$column])) {
+                $value = $this->_columnFilters[$column]->filter($value);
             }
+            $out[$column] = $value;
         }
-        return $array;
+        return $out;
     }
 }
