@@ -9,26 +9,30 @@
  */
 class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 {
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        
+        $action = $this->getRequest()->getActionName();
+        if (!preg_match('#^create#', $action)) {
+            if (!Mage_Customer_Front::authenticate($this)) {
+                $this->setFlag('', 'no-dispatch', true);
+            }
+        }
+    }
     /**
      * Default account page
      *
      */
     public function indexAction() 
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
-            return;
-        }
-        
         $block = Mage::createBlock('customer_account', 'customer.account');
         Mage::getBlock('content')->append($block);
     }
     
     public function loginAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
-            return;
-        }
-        
+
     }
     
     public function logoutAction()
@@ -89,11 +93,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function changePasswordAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
-            return;
-        }
-        
-
         $block = Mage::createBlock('tpl', 'customer.changepassword')
             ->setViewName('Mage_Customer', 'form/changepassword');
         Mage::getBlock('content')->append($block);
@@ -105,11 +104,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function forgotPasswordAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
-            return;
-        }
-        
-        
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
             ->setViewName('Mage_Customer', 'form/forgotpassword');
         Mage::getBlock('content')->append($block);
@@ -117,11 +111,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     public function newsletterAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
-            return;
-        }
-        
-
         $block = Mage::createBlock('tpl', 'customer.newsletter')
             ->setViewName('Mage_Customer', 'form/newsletter');
         Mage::getBlock('content')->append($block);

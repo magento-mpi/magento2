@@ -113,6 +113,18 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return $this;
      }
      
+    public function dispatch($action)
+    {
+        $this->preDispatch();
+        if ($this->getRequest()->isDispatched()) {
+            // preDispatch() didn't change the action, so we can continue
+            if (!$this->getFlag('', 'no-dispatch')) {
+                $this->$action();
+            }
+            $this->postDispatch();
+        }
+    }
+     
     /**
      * Dispatches event before action
      */
