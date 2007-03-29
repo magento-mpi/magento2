@@ -12,7 +12,7 @@ class Mage_Customer_Block_Login extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setViewName('Mage_Customer', 'form/login');
+        $this->setViewName('Mage_Customer', 'form/login.phtml');
         
     }
 }

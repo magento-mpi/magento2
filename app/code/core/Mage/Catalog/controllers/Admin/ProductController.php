@@ -41,7 +41,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function relatedProductsAction()
     {
         $block = Mage::createBlock('tpl', 'related_products_panel');
-        $block->setViewName('Mage_Catalog', 'Admin/product/related_products');
+        $block->setViewName('Mage_Catalog', 'Admin/product/related_products.phtml');
         $this->getResponse()->setBody($block->toString());
     }
     

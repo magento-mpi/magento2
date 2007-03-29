@@ -8,7 +8,7 @@
     
     <reference name="left">
         <block type="tpl" name="left.newsletter">
-            <action method="setViewName"><module>Mage_Customer</module><view>form/mini.newsletter</view></action>
+            <action method="setViewName"><module>Mage_Customer</module><view>form/mini.newsletter.phtml</view></action>
         </block>
     </reference>
     

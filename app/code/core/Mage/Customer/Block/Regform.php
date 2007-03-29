@@ -11,7 +11,7 @@ class Mage_Customer_Block_Regform extends Mage_Core_Block_Form
 {
     public function __construct() 
     {
-        $this->setViewName('Mage_Customer', 'form/registration');
+        $this->setViewName('Mage_Customer', 'form/registration.phtml');
         
         $this->setAttribute('method', 'post');
         $this->setAttribute('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/register/');

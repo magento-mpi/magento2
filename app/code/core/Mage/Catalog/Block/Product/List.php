@@ -14,6 +14,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template_List
 	public function __construct() 
 	{
 		parent::__construct();
-    	$this->setViewName('Mage_Catalog', 'product.list');
+    	$this->setViewName('Mage_Catalog', 'product.list.phtml');
 	}
 }

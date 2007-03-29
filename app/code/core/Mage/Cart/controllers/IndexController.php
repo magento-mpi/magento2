@@ -22,9 +22,9 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         $cart['items'] = Mage::getModel('cart', 'cart')->getItems();
         
         if (empty($cart['items'])) {
-            $cartView = 'noItems';
+            $cartView = 'noItems.phtml';
         } else {
-            $cartView = 'view';
+            $cartView = 'view.phtml';
 
             $itemsFilter = new Varien_Filter_Array_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');

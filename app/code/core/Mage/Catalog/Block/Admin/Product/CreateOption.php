@@ -12,7 +12,7 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
     public function __construct() 
     {
         parent::__construct();
-        $this->setViewName('Mage_Core', 'form');
+        $this->setViewName('Mage_Core', 'form.phtml');
         
         // Set form attributes
         $this->setAttribute('method', 'POST');

@@ -24,7 +24,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setViewName('Mage_Catalog', 'category/view');
+        $this->setViewName('Mage_Catalog', 'category/view.phtml');
     }
 
     public function loadData(Zend_Controller_Request_Http $request)

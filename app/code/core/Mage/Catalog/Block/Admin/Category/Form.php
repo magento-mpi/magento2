@@ -12,7 +12,7 @@ class Mage_Catalog_Block_Admin_Category_Form extends Mage_Core_Block_Form
     public function __construct() 
     {
         parent::__construct();
-        $this->setViewName('Mage_Core', 'form');
+        $this->setViewName('Mage_Core', 'form.phtml');
         $this->setAttribute('id', 'add_child_category_form');
         $this->setAttribute('legend', 'Category form');
         $this->setAttribute('class', 'x-form');

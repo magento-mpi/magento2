@@ -17,7 +17,7 @@ class Mage_Auth_Admin
         
         if (empty($auth->user)) {
             echo Mage::createBlock('tpl', 'root')
-                ->setViewName('Mage_Auth', 'Admin/login')
+                ->setViewName('Mage_Auth', 'Admin/login.phtml')
                 ->assign('username', '')
                 ->toString();
             exit;

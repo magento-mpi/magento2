@@ -16,7 +16,7 @@ class Mage_Catalog_Block_Category_List extends Mage_Core_Block_Template
     {
         parent::__construct($attributes);
         
-        $this->setViewName('Mage_Catalog', 'list');
+        $this->setViewName('Mage_Catalog', 'list.phtml');
         $this->assign('base_url', Mage::getBaseUrl());
         $this->assign('cssClassName', 'category');
     }

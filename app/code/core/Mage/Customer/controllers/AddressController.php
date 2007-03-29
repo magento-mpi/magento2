@@ -30,7 +30,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             ->load();
         
         $block = Mage::createBlock('tpl', 'customer.address')
-            ->setViewName('Mage_Customer', 'address')
+            ->setViewName('Mage_Customer', 'address.phtml')
             ->assign('addresses', $addressCoolection->getItems())
             ->assign('defaultAddress', $defaultAddress);
         
@@ -98,7 +98,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
         
         $block = Mage::createBlock('tpl', 'customer.address.form')
-            ->setViewName('Mage_Customer', 'form/address')
+            ->setViewName('Mage_Customer', 'form/address.phtml')
             ->assign('addressId', $addressId)
             ->assign('formData', $formData)
             ->assign('defaultAddressId', Mage_Customer_Front::getCustomerInfo('default_address_id'));

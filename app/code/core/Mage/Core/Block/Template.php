@@ -86,7 +86,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->assign('curentBlock', $this);
         
         $this->setScriptPath($moduleViewsDir.DS);
-        $html = $this->fetchView($this->getAttribute('viewName').'.phtml');
+        $html = $this->fetchView($this->getAttribute('viewName'));
         
         return $html;
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <block type="tpl" name="root" output="toString">
-        <action method="setViewName"><module>Mage_Page</module><view>layout.2column</view></action>
+        <action method="setViewName"><module>Mage_Page</module><view>layout.2column.phtml</view></action>
         <action method="assign" process="value"><var>imagesUrl</var><value>{$baseSkinUrl}/default/page/images</value></action>
         
         <block type="list" name="head" as="head">

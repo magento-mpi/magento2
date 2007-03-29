@@ -94,7 +94,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function changePasswordAction()
     {
         $block = Mage::createBlock('tpl', 'customer.changepassword')
-            ->setViewName('Mage_Customer', 'form/changepassword');
+            ->setViewName('Mage_Customer', 'form/changepassword.phtml');
         Mage::getBlock('content')->append($block);
     }
     
@@ -105,14 +105,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function forgotPasswordAction()
     {
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
-            ->setViewName('Mage_Customer', 'form/forgotpassword');
+            ->setViewName('Mage_Customer', 'form/forgotpassword.phtml');
         Mage::getBlock('content')->append($block);
     }
 
     public function newsletterAction()
     {
         $block = Mage::createBlock('tpl', 'customer.newsletter')
-            ->setViewName('Mage_Customer', 'form/newsletter');
+            ->setViewName('Mage_Customer', 'form/newsletter.phtml');
         Mage::getBlock('content')->append($block);
     }
 }// Class Mage_Customer_AccountController END
