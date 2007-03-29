@@ -30,11 +30,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         Mage::getBlock('content')->append($block);
     }
     
-    public function loginAction()
-    {
-
-    }
-    
     public function logoutAction()
     {
         Mage_Customer_Front::logout();
@@ -93,6 +88,47 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/create/');
     }
     
+    public function editAction()
+    {
+        $formData = Mage::registry('session')->getNamespaceData('customer_edit');
+        if ($formData->isEmpty()) {
+            $customerModel = Mage::getModel('customer', 'customer');
+            $formData = $customerModel->getRow(Mage_Customer_Front::getCustomerId());
+        }
+        
+        $block = Mage::createBlock('tpl', 'customer.edit')
+            ->setViewName('Mage_Customer', 'form/edit.phtml')
+            ->assign('formData', $formData)
+            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/editPost/')
+            ->assign('messages', Mage::registry('session')->getNamespaceMessage('customer_edit'));
+            
+        Mage::getBlock('content')->append($block);
+    }
+    
+    public function editPostAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $customerValidator = new Mage_Customer_Validate_Customer();
+            
+            if ($customerValidator->editAccount($_POST)) {
+                $customerModel = Mage::getModel('customer', 'customer');
+                $customerModel->update($customerValidator->getData(), Mage_Customer_Front::getCustomerId());
+                
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
+                return;
+            }
+
+            Mage::registry('session')
+                ->getNamespaceMessage('customer_edit', false)
+                    ->addMessage($customerValidator->getMessage());
+
+            Mage::registry('session')
+                ->getNamespaceData('customer_edit', false)
+                    ->setData($customerValidator->getData());
+        }
+        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/edit/');
+    }
+    
     /**
      * Change password form
      *
@@ -109,7 +145,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function changePasswordPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customerValidator = new Mage_Customer_Validate_Customer(array());
+            $customerValidator = new Mage_Customer_Validate_Customer();
             
             if ($customerValidator->changePassword($_POST)) {
                 $customerModel = Mage::getModel('customer', 'customer');

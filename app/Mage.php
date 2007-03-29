@@ -258,16 +258,14 @@ final class Mage {
         
         Mage::prepareFileSystem();
 
+        Mage::register('session', new Mage_Core_Session());
+        Mage::register('messages', new Mage_Core_Message());
         Mage::register('events', new Varien_Event());
         Mage::register('website', new Mage_Core_Website());
-        Mage::register('messages', new Mage_Core_message());
         
         // check modules db
         Mage::getConfig()->applyDbUpdates();
         #echo Varien_Profiler::setTimer('app').',';
-
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
-        Zend_Session::start();
     }
 
     /**
@@ -280,7 +278,7 @@ final class Mage {
         try {
 Varien_Profiler::setTimer('app');
 
-        	Mage::init($appRoot);
+            Mage::init($appRoot);
 
             Mage::getConfig()->loadEventObservers('front');
 
@@ -300,8 +298,6 @@ Varien_Profiler::getSqlProfiler($conn);
 
     public static function runAdmin($appRoot='')
     {
-        // temp (for test)
-        //session_start();
         try {
             Mage::init($appRoot);
         

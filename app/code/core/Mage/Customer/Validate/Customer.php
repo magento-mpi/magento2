@@ -10,7 +10,7 @@
 class Mage_Customer_Validate_Customer extends Mage_Core_Validate 
 {
     /**
-     * Data validation
+     * Validate data for account create
      */
     public function createAccount($data) 
     {
@@ -22,6 +22,35 @@ class Mage_Customer_Validate_Customer extends Mage_Core_Validate
         $this->_data['customer_firstname']  = $arrData['firstname'];
         $this->_data['customer_lastname']   = $arrData['lastname'];
         $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
+        
+        $customerModel = Mage::getModel('customer', 'customer');
+        $customer = $customerModel->getByEmail($arrData['customer_email']);
+        if ($customer->getCustomer_Id()) {
+            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Validate data for change account information
+     *
+     */
+    public function editAccount($data)
+    {
+        $arrData= $this->_prepareArray($data, array('customer_firstname', 'customer_lastname', 'customer_email'));
+        $this->_data = $arrData;
+        // validate fields.....
+        
+        // Validate email
+        $customerModel = Mage::getModel('customer', 'customer');
+        $customer = $customerModel->getByEmail($arrData['customer_email']);
+
+        if ($customer->getCustomer_Id() && ($customer->getCustomer_Id() != Mage_Customer_Front::getCustomerId())) {
+            $this->_message = 'E-Mail Address already exists';
+            return false;
+        }
+
         return true;
     }
 

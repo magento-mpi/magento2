@@ -16,9 +16,17 @@ class Varien_DataObject
         $this->_data = $data;
     }
 
-    public function setData($key, $value)
+    public function setData($key, $value='')
     {
-        $this->_data[$key] = $value;
+        if(is_array($key))
+        {
+            foreach($key as $index=>$value){
+                $this->_data[$index] = $value;
+            }
+        }
+        else{
+            $this->_data[$key] = $value;
+        }
     }
 
     /**
@@ -43,6 +51,14 @@ class Varien_DataObject
             }
         }
         return $arrRes;
+    }
+
+    public function isEmpty()
+    {
+        if(empty($this->_data)) {
+            return true;
+        }
+        return false;
     }
     
     /**

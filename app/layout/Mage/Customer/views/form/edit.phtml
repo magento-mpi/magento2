@@ -1,0 +1,36 @@
+<div class="content">
+    <h1 class="page-heading">Edit Account Info</h1>
+    <?var_dump($messages)?>
+    <form action="<?=$action?>" method="post" id="form-validate">
+    <fieldset class="group-single">
+        <legend>Edit Personal Information</legend>
+        <ul class="input-list">
+            <li>
+                <div class="input-left">
+                    <label for="firstname">First Name <span class="required">*</span></label><br/>
+                    <input type="text" name="customer_firstname" value="<?=$formData->getCustomer_Firstname()?>" title="First Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="input-right">
+                    <label for="lastname">Last Name <span class="required">*</span></label><br/>
+                    <input type="text" name="customer_lastname" value="<?=$formData->getCustomer_Lastname()?>" title="Last Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            <li>
+                <label for="email_address">Email <span class="required">*</span></label><br/>
+                <input type="text" name="customer_email" value="<?=$formData->getCustomer_Email()?>" title="Email Address" class="required-entry validate-email input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+            </li>
+        </ul>
+    </fieldset>
+    <div class="clearfix"></div>
+    <div class="buttons-container">
+        <p class="required">* Required Fields</p>
+        <input type="button" onclick="window.location='<?=$moduleBaseUrl?>/account/';" value="Back" class="input-button float-left"/>
+        <input type="submit" class="input-button float-right" value="Continue"/>
+        <div class="clearfix"></div>
+    </div>
+    </form>
+    <script type="text/javascript">
+        new Validation('form-validate');
+    </script>
+</div>

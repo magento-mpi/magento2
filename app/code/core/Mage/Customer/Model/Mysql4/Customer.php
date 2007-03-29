@@ -60,6 +60,16 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Mysql4 imp
         return $this->_read->fetchOne($sql, $arrData);
     }
     
+    public function getByEmail($customerEmail)
+    {
+        $arrData = array(
+            'email'    => $customerEmail,
+        );
+        
+        $sql = "SELECT * FROM $this->_customerTable WHERE customer_email=:email";
+        return new Varien_DataObject($this->_read->fetchRow($sql, $arrData));
+    }
+
     /**
      * Insert row in database table
      *
@@ -114,7 +124,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Mysql4 imp
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_customerTable WHERE customer_id=:customer_id";
-        return $this->_read->fetchRow($sql, array('customer_id'=>$rowId));
+        return new Varien_DataObject($this->_read->fetchRow($sql, array('customer_id'=>$rowId)));
     }    
     
     protected function _encodePassword($password)
