@@ -15,6 +15,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
+        if (!Mage_Customer_Front::authenticate($this)) {
+            return;
+        }
+
         // Default address
         $defaultAddress = false;
         $addressModel = Mage::getModel('customer', 'address');
@@ -43,6 +47,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
+        if (!Mage_Customer_Front::authenticate($this)) {
+            return;
+        }
+
         $formData = new Varien_DataObject();
         $addressValidator = new Mage_Customer_Validate_Address(array());
         
@@ -108,6 +116,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     
     public function deleteAction()
     {
+        if (!Mage_Customer_Front::authenticate($this)) {
+            return;
+        }
+
         $addressId = $this->getRequest()->getParam('address', false);
         $addressValidator = new Mage_Customer_Validate_Address(array());
         

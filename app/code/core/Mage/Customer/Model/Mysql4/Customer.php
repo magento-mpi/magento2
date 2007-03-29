@@ -43,6 +43,23 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Mysql4 imp
         return $this->update($arrData, $customerId);
     }
     
+    public function changePassword($customerId, $newPassword)
+    {
+        $data = array('customer_pass' => $newPassword);
+        return $this->update($data, $customerId);
+    }
+    
+    public function checkPassword($customerId, $password)
+    {
+        $arrData = array(
+            'id'    => $customerId,
+            'pass'  => $this->_encodePassword($password)
+        );
+        
+        $sql = "SELECT customer_id FROM $this->_customerTable WHERE customer_id=:id AND customer_pass=:pass";
+        return $this->_read->fetchOne($sql, $arrData);
+    }
+    
     /**
      * Insert row in database table
      *

@@ -66,5 +66,6 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Mysql4 impl
         $sql = "SELECT * FROM $this->_addressTable WHERE address_id=:address_id";
         return new Varien_DataObject($this->_read->fetchRow($sql, array('address_id'=>$rowId)));
     }    
-   
+    
+    
 }

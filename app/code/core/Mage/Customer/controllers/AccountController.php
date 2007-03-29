@@ -47,12 +47,19 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        if (!empty($_POST)) {
-            $customerValidator = new Mage_Customer_Validate_Customer($_POST);
+        $block = Mage::createBlock('customer_regform', 'customer.regform')
+            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/');
+        Mage::getBlock('content')->append($block);
+    }
+    
+    public function createPostAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $customerValidator = new Mage_Customer_Validate_Customer();
             $addressValidator = new Mage_Customer_Validate_Address($_POST);
             
             // Validate customer and address info
-            if ($customerValidator->isValid() && $addressValidator->isValid()) {
+            if ($customerValidator->createAccount($_POST) && $addressValidator->isValid()) {
                 
                 $customerModel = Mage::getModel('customer', 'customer');
                 
@@ -80,11 +87,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             }
             else {
-                // Fix validation error
+                // Fix validation error and tmp save post data
             }
         }
-        $block = Mage::createBlock('customer_regform', 'customer.regform');
-        Mage::getBlock('content')->append($block);
+        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/create/');
     }
     
     /**
@@ -94,8 +100,29 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function changePasswordAction()
     {
         $block = Mage::createBlock('tpl', 'customer.changepassword')
-            ->setViewName('Mage_Customer', 'form/changepassword.phtml');
+            ->setViewName('Mage_Customer', 'form/changepassword.phtml')
+            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/changePasswordPost/');
+            
         Mage::getBlock('content')->append($block);
+    }
+    
+    public function changePasswordPostAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $customerValidator = new Mage_Customer_Validate_Customer(array());
+            
+            if ($customerValidator->changePassword($_POST)) {
+                $customerModel = Mage::getModel('customer', 'customer');
+                $customerModel->changePassword(Mage_Customer_Front::getCustomerId(), $customerValidator->getDataItem('password'));
+                
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
+            }
+            else {
+                // TODO: register error message
+            }
+        }
+        
+        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/changePassword/');
     }
     
     /**
@@ -108,11 +135,21 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->setViewName('Mage_Customer', 'form/forgotpassword.phtml');
         Mage::getBlock('content')->append($block);
     }
+    
+    public function forgotPasswordPostAction()
+    {
+        
+    }
 
     public function newsletterAction()
     {
         $block = Mage::createBlock('tpl', 'customer.newsletter')
             ->setViewName('Mage_Customer', 'form/newsletter.phtml');
         Mage::getBlock('content')->append($block);
+    }
+    
+    public function newsletterPostAction()
+    {
+        
     }
 }// Class Mage_Customer_AccountController END

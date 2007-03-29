@@ -12,7 +12,7 @@ abstract class Mage_Core_Validate
     protected $_data;
     protected $_message;
     
-    public function __construct($data) 
+    public function __construct($data = array()) 
     {
         $this->setData($data);
     }
@@ -27,6 +27,23 @@ abstract class Mage_Core_Validate
         return $this->_data;
     }
     
+    /**
+     * Get valid data item
+     *
+     * @return array
+     */
+    public function getDataItem($key)
+    {
+        if(isset($this->_data[$key]))
+        {
+            return $this->_data[$key];
+        }
+        else
+        {
+            // exception....
+        }
+    }
+
     /**
      * Get valid data object
      *
@@ -51,9 +68,9 @@ abstract class Mage_Core_Validate
     /**
      * Data validation
      */
-    public function isValid() 
+    public function isValid($data = array()) 
     {
-        return false;
+        return true;
     }
     
     /**
