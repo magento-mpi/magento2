@@ -1,6 +1,7 @@
 Mage.Customer = function(depend){
     var loaded = false;
     var Layout = null;
+    var gridLayout = null;
     return {
         _layouts : new Ext.util.MixedCollection(true),
         init : function() {
@@ -27,7 +28,7 @@ Mage.Customer = function(depend){
                 
 
                 Layout.beginUpdate();
-                Layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                gridLayout = Layout.add('center', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
                 }));
@@ -42,6 +43,8 @@ Mage.Customer = function(depend){
                 Core_Layout.endUpdate();            
                 loaded = true;
                 
+                this.initGrid();
+            
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
             }
@@ -53,6 +56,81 @@ Mage.Customer = function(depend){
         
         loadMainPanel : function() {
             this.init();
+        },
+
+        initGrid: function(){
+            var dataRecord = Ext.data.Record.create([
+                {name: 'customer_id', mapping: 'customer_id'},
+                {name: 'customer_email', mapping: 'customer_email'},
+                {name: 'customer_firstname', mapping: 'customer_firstname'},
+                {name: 'customer_lastname', mapping: 'customer_lastname'}
+            ]);
+                
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'customer_id'
+            }, dataRecord);
+                
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_customer/customer/gridData/'}),
+                reader: dataReader,
+                remoteSort: true
+             });
+                
+            dataStore.setDefaultSort('customer_id', 'desc');
+      
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "ID#", sortable: true, locked:false, dataIndex: 'customer_id'},
+                {header: "Email", sortable: true, dataIndex: 'customer_email'},
+                {header: "Firstname", sortable: true, dataIndex: 'customer_firstname'},
+                {header: "Lastname", sortable: true, dataIndex: 'customer_lastname'}
+            ]);
+
+            var grid = new Ext.grid.Grid(gridLayout.getEl().createChild({tag: 'div'}), {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns : true,
+                monitorWindowResize : true,
+                autoHeight : true,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                enableColLock : false
+            });
+            
+            //grid.on('rowclick', this.createItem.createDelegate(this));
+            
+            grid.render();
+            grid.getDataSource().load({params:{start:0, limit:25}});            
+            
+            var gridHead = grid.getView().getHeaderPanel(true);
+            var gridFoot = grid.getView().getFooterPanel(true);
+           
+            var paging = new Ext.PagingToolbar(gridHead, dataStore, {
+                pageSize: 25,
+                displayInfo: true,
+                displayMsg: 'Displaying products {0} - {1} of {2}',
+                emptyMsg: 'No products to display'                
+            });
+            
+            paging.add('-', {
+                text: 'Create New',
+                cls: 'x-btn-text-icon product_new'
+                //handler : this.createItem.createDelegate(this)
+            },{
+                text: 'Add Filter',
+                //handler : this.addFilter,
+                scope : this,
+                cls: 'x-btn-text-icon'
+            },{
+                text: 'Apply Filters',
+                //handler : this.applyFilters,
+                scope : this,
+                cls: 'x-btn-text-icon'
+            });
+            
+            this.grid = grid;
+            return grid;
         }
     }
 }();
