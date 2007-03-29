@@ -15,7 +15,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
-        if (!Mage_Customer_Front::authenticate()) {
+        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
         
@@ -25,7 +25,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function loginAction()
     {
-        if (!Mage_Customer_Front::authenticate()) {
+        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
         
@@ -89,7 +89,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function changePasswordAction()
     {
-        if (!Mage_Customer_Front::authenticate()) {
+        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
         
@@ -105,7 +105,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function forgotPasswordAction()
     {
-        if (!Mage_Customer_Front::authenticate()) {
+        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
         
@@ -117,7 +117,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     public function newsletterAction()
     {
-        if (!Mage_Customer_Front::authenticate()) {
+        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
         

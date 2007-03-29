@@ -43,7 +43,7 @@ class Mage_Customer_Front
         return false;
     }
     
-    public static function authenticate()
+    public static function authenticate($action)
     {
         $auth = Mage::registry('AUTH');
         
@@ -52,7 +52,8 @@ class Mage_Customer_Front
                 extract($_POST['login']);
                 if (!empty($customer_email) && !empty($customer_pass)) {
                     if (self::login($customer_email, $customer_pass)) {
-                        return true;
+                        $action->getResponse()->setRedirect($action->getRequest()->getRequestUri());
+                        return false;
                     }
                 }
             }
