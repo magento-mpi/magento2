@@ -26,12 +26,9 @@ Mage.Customer = function(depend){
                 
                 this._layouts.add('main', Layout);
                 
-
+                this.initGrid();
                 Layout.beginUpdate();
-                gridLayout = Layout.add('center', new Ext.ContentPanel(Ext.id(), {
-                    autoCreate : true,
-                    fitToFrame:true
-                }));
+                Layout.add('center', new Ext.GridPanel(this.grid, {title:"test"}));
                 Layout.add('south', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
@@ -42,9 +39,6 @@ Mage.Customer = function(depend){
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Customers",closable:false}));
                 Core_Layout.endUpdate();            
                 loaded = true;
-                
-                this.initGrid();
-            
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
             }
@@ -58,7 +52,7 @@ Mage.Customer = function(depend){
             this.init();
         },
 
-        initGrid: function(){
+        initGrid: function(parentLayout){
             var dataRecord = Ext.data.Record.create([
                 {name: 'customer_id', mapping: 'customer_id'},
                 {name: 'customer_email', mapping: 'customer_email'},
@@ -87,18 +81,19 @@ Mage.Customer = function(depend){
                 {header: "Firstname", sortable: true, dataIndex: 'customer_firstname'},
                 {header: "Lastname", sortable: true, dataIndex: 'customer_lastname'}
             ]);
-
-            var grid = new Ext.grid.Grid(gridLayout.getEl().createChild({tag: 'div'}), {
+            
+            var rowSelector = new Ext.grid.RowSelectionModel({singleSelect : true});
+            var grid = new Ext.grid.Grid(Layout.getEl().createChild({tag: 'div'}), {
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 autoHeight : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                selModel : rowSelector,
                 enableColLock : false
             });
             
-            //grid.on('rowclick', this.createItem.createDelegate(this));
+            rowSelector.on('rowselect', this.showItem.createDelegate(this));
             
             grid.render();
             grid.getDataSource().load({params:{start:0, limit:25}});            
@@ -131,6 +126,10 @@ Mage.Customer = function(depend){
             
             this.grid = grid;
             return grid;
+        },
+
+        showItem: function(row){
+            
         }
     }
 }();
