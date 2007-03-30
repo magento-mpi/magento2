@@ -32,7 +32,7 @@
                     </address>
                     <p>
                         <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddress_Id()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
-                        <strong><a href="<?=$moduleBaseUrl?>/address/delete/address/<?=$_address->getAddress_Id()?>/" class="red-link">Delete</a></strong>
+                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddress_Id()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -54,3 +54,13 @@
     <div class="clearfix"></div>
 </div>
 </div>
+<script type="text/javascript">
+    function deleteAddress(addressId)
+    {
+        if(confirm('Do you whant delete address?'))
+        {
+            window.location='<?=$moduleBaseUrl?>/address/delete/address/'+addressId;
+        }
+        return false;
+    }
+</script>
