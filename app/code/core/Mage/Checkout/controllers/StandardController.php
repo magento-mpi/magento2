@@ -33,7 +33,8 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'shipping.phtml')
             ->assign('data', $this->_data)
-            ->assign('address', $address);
+            ->assign('address', $address)
+            ->assign('action', Mage::getBaseUrl('', 'Mage_Checkout').'/standard/shippingPost/');
         Mage::getBlock('content')->append($block);
     }
     
