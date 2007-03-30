@@ -10,10 +10,12 @@
 class Varien_DataObject
 {
     protected $_data;
+    protected $_inflector;
     
     public function __construct($data = array())
     {
         $this->_data = $data;
+        $this->_inflector = new Zend_Db_Inflector();
     }
 
     public function setData($key, $value='')
@@ -101,7 +103,8 @@ class Varien_DataObject
     {
         switch (substr($method, 0, 3)) {
             case 'get' :
-                $key = strtolower(substr($method,3));
+                //$key = strtolower(substr($method,3));
+                $key = $this->_inflector->underscore(substr($method,3));
                 if (isset($this->_data[$key])) {
                     return $this->_data[$key];
                 } else {
@@ -110,7 +113,8 @@ class Varien_DataObject
                 break;
 
             case 'set' :
-                $key = strtolower(substr($method,3));
+                //$key = strtolower(substr($method,3));
+                $key = $this->_inflector->underscore(substr($method,3));
                 if (isset($args[0])) {
                     $this->_data[$key] = $args[0];
                 }

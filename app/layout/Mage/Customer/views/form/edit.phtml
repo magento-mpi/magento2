@@ -8,17 +8,17 @@
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="customer_firstname" value="<?=$formData->getCustomer_Firstname()?>" title="First Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="customer_firstname" value="<?=$formData->getCustomerFirstname()?>" title="First Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="input-right">
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="customer_lastname" value="<?=$formData->getCustomer_Lastname()?>" title="Last Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="customer_lastname" value="<?=$formData->getCustomerLastname()?>" title="Last Name"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
             <li>
                 <label for="email_address">Email <span class="required">*</span></label><br/>
-                <input type="text" name="customer_email" value="<?=$formData->getCustomer_Email()?>" title="Email Address" class="required-entry validate-email input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <input type="text" name="customer_email" value="<?=$formData->getCustomerEmail()?>" title="Email Address" class="required-entry validate-email input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
             </li>
         </ul>
     </fieldset>
