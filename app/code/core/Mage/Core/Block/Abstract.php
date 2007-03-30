@@ -182,6 +182,13 @@ abstract class Mage_Core_Block_Abstract
         }
     }
     
+    public function unsetChildren()
+    {
+        $this->_children = array();
+        $this->setAttribute('sortedChildrenList', array());
+        return $this;
+    }
+
     /**
      * Get child block
      *
