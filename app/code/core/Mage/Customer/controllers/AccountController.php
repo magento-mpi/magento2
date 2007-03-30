@@ -96,11 +96,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $formData = $customerModel->getRow(Mage_Customer_Front::getCustomerId());
         }
         
+        $message = Mage::createBlock('message', 'customer.edit.message');
+        $message->setMessage(Mage::registry('session')->getNamespaceMessage('customer_edit'));
+
         $block = Mage::createBlock('tpl', 'customer.edit')
             ->setViewName('Mage_Customer', 'form/edit.phtml')
             ->assign('formData', $formData)
             ->assign('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/editPost/')
-            ->assign('messages', Mage::registry('session')->getNamespaceMessage('customer_edit'));
+            ->setChild('message', $message);
             
         Mage::getBlock('content')->append($block);
     }
@@ -120,7 +123,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             Mage::registry('session')
                 ->getNamespaceMessage('customer_edit', false)
-                    ->addMessage($customerValidator->getMessage());
+                    ->addMessage($customerValidator->getMessage(), 'error');
 
             Mage::registry('session')
                 ->getNamespaceData('customer_edit', false)

@@ -32,6 +32,7 @@
                         <list><class>Mage_Core_Block_Text_List</class></list>
                         <list_link><class>Mage_Core_Block_Text_List_Link</class></list_link>
                         <form><class>Mage_Core_Block_Form</class></form>
+                        <message><class>Mage_Core_Block_Message</class></message>
                     </blocks>
             
                     <resources>

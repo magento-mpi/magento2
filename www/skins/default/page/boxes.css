@@ -10,6 +10,29 @@
 .content {float:right; padding:15px 20px 20px 0; width:572px;}
 .page-heading {font-size:1.45em; padding-bottom:4px; border-bottom: 1px solid #ebebeb; } 
 
+.error{ 
+    margin: 10px 0; 
+    color:#c7460b; 
+    font-weight:bold; 
+    background-color:#fef6f2; 
+    padding:10px;
+}
+.notice{ 
+    margin: 10px 0; 
+    color:green; 
+    font-weight:bold; 
+    background-color:#fef6f2; 
+    padding:10px;
+}
+.warning{ 
+    margin: 10px 0; 
+    color:blue; 
+    font-weight:bold; 
+    background-color:#fef6f2; 
+    padding:10px;
+}
+
+
 .header-info { float:right; width:248px;}
     .account { 
         height:45px; 
