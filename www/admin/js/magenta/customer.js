@@ -52,20 +52,7 @@ Mage.Customer = function(depend){
                 this.baseLayout.add('center', new Ext.NestedLayoutPanel(this.customerLayout, {title:'Manage Customers'}));
                 this.baseLayout.endUpdate();
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(this.baseLayout, {title : 'Products Grid'}));
-                /*
-                this.initGrid();
-                Layout.beginUpdate();
-                Layout.add('center', new Ext.GridPanel(this.grid, {title:"test"}));
-                Layout.add('south', new Ext.ContentPanel(Ext.id(), {
-                    autoCreate : true,
-                    fitToFrame:true
-                }));
-                Layout.endUpdate();
                 
-                Core_Layout.beginUpdate();
-                Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Customers",closable:false}));
-                Core_Layout.endUpdate();            */
-                loaded = true;
                 this.viewGrid();
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(this.baseLayout);
@@ -173,11 +160,12 @@ Mage.Customer = function(depend){
         showEditPanel: function(row){
             customerId = false;
             var title = 'New Customer';
-            if (row){
-                var title = 'Edit Customer #';
+            Ext.dump(arguments.length);
+            //if (row){
+              //  var title = 'Edit Customer #';
                 //Ext.dump(row);
                 //customerId = this.grid.getDataSource().getAt(row).id;
-            }
+//            }
             
              // title for form layout            
 

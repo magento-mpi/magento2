@@ -51,12 +51,12 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     function addAction()
     {
         $intFilter = new Zend_Filter_Int();
-        $product_Id = $this->getRequest()->getPost('product_Id');
-        $product_Id = $intFilter->filter($product_Id);
+        $productId = $this->getRequest()->getPost('product_id');
+        $productId = $intFilter->filter($productId);
 
         //$productId = $this->getRequest()->getParam('id');
         
-        $result = Mage::getModel('cart', 'cart')->addProduct($product_Id);
+        $result = Mage::getModel('cart', 'cart')->addProduct($productId);
         $this->_redirect($this->_data['url']['cart']);
     }
     

@@ -1,3 +1,24 @@
-<form action="<?=$data['url']['checkout']?>/shippingPost" method="post">
-    <input type="submit" value="Continue to payment">
-</form>
+<!--form action="<?=$data['url']['checkout']?>/shippingPost/" method="post"-->
+<div class="content">
+    <h1 class="page-heading">Shipping Information</h1>
+    <h2>Shipping Address | <a href="">Change Address</a></h2>
+    <address>
+        <strong><?=$address->getFirstname()?> <?=$address->getLastname()?></strong><br/>
+        <?=$address->getCompany()?><br/>
+        <?=$address->getPostcode()?>, <?=$address->getCity()?><br/>
+        <?=$address->getStreet()?><br/>
+        <?if($address->getTelephone()):?>T| <?=$address->getTelephone()?><br/><?endif?>
+        <?if($address->getFax()):?>F| <?=$address->getFax()?><br/><?endif?>
+    </address>
+    <h2>Shipping Method</h2>
+    <form action="" method="post">
+        <fieldset>
+            <legend>Shipping Method</legend>
+        </fieldset>
+        <div class="buttons-container">
+            <input onclick="window.location='<?=$baseUrl?>/cart/'" type="button" class="float-left input-button" value="Back"/>
+            <input type="submit" class="input-button float-right" value="Continue"/>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+</div>
