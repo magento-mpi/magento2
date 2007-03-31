@@ -1,11 +1,11 @@
-<script type="text/javascript" src="<?=$baseUrl?>/js/telephone.js"></script>
+<script type="text/javascript" src="<?=$baseUrl?>/js/varien/telephone.js"></script>
 <script type="text/javascript">
 function CVVPopUpWindow(url) { 
     window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=600,height=233,screenX=150,screenY=150,top=150,left=150');
 }
 </script>
 <script type="text/javascript">
-/*    var Addresses = new Array();
+    var Addresses = new Array();
     var billingAdrId;
     var shippingAdrId;
     var billingNew = false;
@@ -13,14 +13,16 @@ function CVVPopUpWindow(url) {
     var zone_id = $H({ billing: 0, shipping: 0 });
     var co_step;
     var co_prev_step;
-    var CustomerInfo<{if $page.customer_info_json}> = $H( <{$page.customer_info_json}> )<{/if}>;
-    var SID = '<{$smarty.const.SID}>';
+    //var CustomerInfo<{if $page.customer_info_json}> = $H( <{$page.customer_info_json}> )<{/if}>;
+    var CustomerInfo;
+    //var SID = '<{$smarty.const.SID}>';
+    var SID = '';
     var val_shipping;
     var val_billing;
     var val_payment;
     var co_avail = $H( {billing: false, shipping: false, payment: false, review: false} );
     function getAddressBook() {
-        new Ajax.Request( 'checkout.php?<{$smarty.const.SID}>', {
+        new Ajax.Request( 'checkout.php', {
             method: 'post',
             parameters: { type: 'json', request: 'addressbook' },
             onSuccess: function( transport, json ) {
@@ -329,7 +331,6 @@ function CVVPopUpWindow(url) {
         
         $('co-form-place').submit();
     }
-*/
 </script>
 <div class="content page-checkout">
     <ol id="one-pg-co">
