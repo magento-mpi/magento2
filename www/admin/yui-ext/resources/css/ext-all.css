@@ -1,9 +1,9 @@
 /*
- * Ext - JS Library 1.0 Alpha 3 - Rev 4
- * Copyright(c) 2006-2007, Jack Slocum.
- * jack.slocum@yahoo.com
+ * Ext JS Library 1.0 Beta 1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
  * 
- * http://www.extjs.com/license.txt
+ * http://www.extjs.com/license
  */
 
 html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}img,body,html{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}
@@ -19,6 +19,14 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
     width: 100%;
     height: 100%;
     zoom: 1;
+}
+
+
+.x-hidden {
+    position:absolute;
+    left:-2000px;
+    top:-2000px;
+    visibility:hidden;
 }
 
 .x-masked {
@@ -368,6 +376,7 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 
 .x-form-text, textarea.x-form-field{
     padding: 1px 3px;
+    background:#fff url(../images/default/form/text-bg.gif) repeat-x 0 0;
 }
 .x-form-text {
     height:22px;
@@ -441,7 +450,12 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 .x-form-field-wrap .x-form-trigger-click{
     background-position:-34px 0;
 }
-
+.x-item-disabled .x-form-trigger-over{
+    background-position:0 0 !important;
+}
+.x-item-disabled .x-form-trigger-click{
+    background-position:0 0 !important;
+}
 .x-form-field-wrap .x-form-date-trigger{
     background:transparent url(../images/default/form/date-trigger.gif) no-repeat 0 0;
     cursor:pointer;
@@ -458,7 +472,7 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 
 .x-form-invalid{
 	background:#fff url(../images/default/grid/invalid_line.gif) repeat-x bottom;
-	border: 1px solid #ff7870;
+	border: 1px solid #dd7870;
 }
 .ext-safari .x-form-invalid{
 	background-color:#ffeeee;
@@ -532,10 +546,19 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 }
 
 .x-form-label-top .x-form-item label {
-   width:auto;
-   float:none;
+    width:auto;
+    float:none;
+    clear:none;
+    display:inline;
+    margin-bottom:4px;
 }
-
+.x-form-label-top .x-form-element {
+    padding-left:0;
+    padding-top:4px;
+}
+.x-form-label-top .x-form-item {
+    padding-bottom:4px;
+}
 .x-form fieldset {
     border:1px solid #B5B8C8;
     padding:10px 10px 5px 10px;
@@ -548,7 +571,6 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 .ext-ie .x-form fieldset legend {
     margin-bottom:10px;
 }
-
 .x-form-empty-field {
     color:gray;
 }
@@ -592,6 +614,13 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 }
 .x-small-editor .x-form-field-wrap .x-form-trigger{
     height:19px;
+}
+
+
+.x-form-clear {
+    clear:both;
+    height:0;
+    overflow:hidden;
 }
 .x-btn{
 	font:normal 11px tahoma, verdana, helvetica;
@@ -825,6 +854,9 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 	cursor:default;
 	margin: 0 2px 0;
 	border:0;
+}
+.x-toolbar .ytb-spacer {
+    width:2px;
 }
 .mso .x-toolbar .ytb-sep, .x-grid-mso .x-toolbar .ytb-sep{
 	background-image: url(../images/default/grid/grid-blue-split.gif);
@@ -1231,6 +1263,22 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 	color: white;
 }
 
+.x-grid-locked td.x-grid-row-marker, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker{
+    background: #ebeadb url(../images/default/grid/grid-hrow.gif) repeat-x 0 bottom !important;
+    vertical-align:middle !important;
+    color:black;
+    padding:0;
+    border-top:1px solid white;
+    border-bottom:none !important;
+    border-right:1px solid #6fa0df !important;
+    text-align:center;
+}
+.x-grid-locked td.x-grid-row-marker div, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker div{
+    padding:0 4px;
+    color:#15428b !important;
+    text-align:center;
+}
+
 
 .x-grid-dirty-cell {
     background: transparent url(../images/default/grid/dirty.gif) no-repeat 0 0;
@@ -1282,6 +1330,11 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 }
 .xg-hmenu-unlock .x-menu-item-icon{
 	background-image: url(../images/default/grid/hmenu-unlock.gif);
+}
+
+
+.x-dd-drag-ghost .x-grid-dd-wrap {
+    padding:1px 3px 3px 1px;
 }
 .x-layout-container{
     width:100%;
@@ -1510,6 +1563,22 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 	-moz-opacity: 0.3;
    opacity:.30;
    filter: alpha(opacity=30);
+}
+
+
+
+.x-reader .x-layout-panel-north {
+    border:0 none;
+}
+.x-reader .x-layout-panel-center{
+    border:0 none;
+}
+.x-reader .x-layout-nested-layout .x-layout-panel-center{
+    border:1px solid #99bbe8;
+    border-top:0 none;
+}
+.x-reader .x-layout-nested-layout .x-layout-panel-south{
+    border:1px solid #99bbe8;
 }
 .x-dlg-proxy {
 	background-image: url(../images/default/gradient-bg.gif);
@@ -1758,6 +1827,14 @@ body.x-body-masked .x-dlg select {
 	border-bottom:1px solid #65A1EF;
 	border-right:1px solid #65A1EF;
 }
+
+#x-msg-box .x-msg-box-wait {
+	background: transparent url(../images/default/grid/loading.gif) no-repeat left;
+    display:block;
+    width:300px;
+    padding-left:18px;
+    line-height:18px;
+}
 .x-dd-drag-proxy{
 	position:absolute;
 	left:0;top:0;
@@ -1821,7 +1898,7 @@ body.x-body-masked .x-dlg select {
 }
 .x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon{
 	border: 0 none;
-	height: 16px;
+	height: 18px;
 	margin: 0;
 	padding: 0;
 	vertical-align: middle;
@@ -2279,6 +2356,7 @@ table.x-date-inner {
 
 .x-box-tl {
 	background: transparent url(../images/default/box/corners.gif) no-repeat 0 0;
+    zoom:1;
 }
 
 .x-box-tc {
@@ -2292,9 +2370,10 @@ table.x-date-inner {
 }
 
 .x-box-ml {
-	background: transparent url(../images/default/box/l.gif) repeat-y left;
+	background: transparent url(../images/default/box/l.gif) repeat-y 0;
 	padding-left: 4px;
 	overflow: hidden;
+    zoom:1;
 }
 
 .x-box-mc {
@@ -2319,6 +2398,7 @@ table.x-date-inner {
 
 .x-box-bl {
 	background: transparent url(../images/default/box/corners.gif) no-repeat 0 -16px;
+    zoom:1;
 }
 
 .x-box-bc {

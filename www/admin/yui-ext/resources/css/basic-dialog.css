@@ -1,9 +1,9 @@
 /*
- * Ext - JS Library 1.0 Alpha 3 - Rev 4
- * Copyright(c) 2006-2007, Jack Slocum.
- * jack.slocum@yahoo.com
+ * Ext JS Library 1.0 Beta 1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
  * 
- * http://www.extjs.com/license.txt
+ * http://www.extjs.com/license
  */
 
 .x-dlg-proxy {
@@ -252,4 +252,12 @@ body.x-body-masked .x-dlg select {
 	border-top:1px solid #B2D0F7;
 	border-bottom:1px solid #65A1EF;
 	border-right:1px solid #65A1EF;
+}
+
+#x-msg-box .x-msg-box-wait {
+	background: transparent url(../images/default/grid/loading.gif) no-repeat left;
+    display:block;
+    width:300px;
+    padding-left:18px;
+    line-height:18px;
 }

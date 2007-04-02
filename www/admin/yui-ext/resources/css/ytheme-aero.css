@@ -1,9 +1,9 @@
 /*
- * Ext - JS Library 1.0 Alpha 3 - Rev 4
- * Copyright(c) 2006-2007, Jack Slocum.
- * jack.slocum@yahoo.com
+ * Ext JS Library 1.0 Beta 1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
  * 
- * http://www.extjs.com/license.txt
+ * http://www.extjs.com/license
  */
 
 /* menus */
@@ -64,7 +64,7 @@
 }
 .x-tabs-strip .x-tabs-text {
 	color:#15428b;
-	font-weight:normal;
+	font:bold 11px tahoma,arial,verdana,sans-serif;
 }
 .x-tabs-strip .on .x-tabs-text {
 	cursor:default;
@@ -450,6 +450,24 @@ body.x-masked #x-msg-box .x-dlg-bd, body.x-body-masked #x-msg-box .x-dlg-bd{
 	height:22px;
 	width:120px;
 }
+
+
+.x-grid-locked td.x-grid-row-marker, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker{
+    background: #ebeadb url(../images/aero/grid/grid-hrow.gif) repeat-x 0 0 !important;
+    vertical-align:middle !important;
+    color:black;
+    padding:0;
+    border-top:1px solid white;
+    border-bottom:1px solid #6f99cf !important;
+    border-right:1px solid #6f99cf !important;
+    text-align:center;
+}
+.x-grid-locked td.x-grid-row-marker div, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker div{
+    padding:0 4px;
+    color:#15428b !important;
+    text-align:center;
+}
+
 /** Toolbar */
 .x-toolbar{
 	padding:2px 2px 2px 2px;

@@ -1,8 +1,9 @@
 /*
- * Ext - JS Library 1.0 Alpha 3 - Rev 4
- * Copyright(c) 2006-2007, Jack Slocum.
+ * Ext JS Library 1.0 Beta 1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
  * 
- * http://www.extjs.com/license.txt
+ * http://www.extjs.com/license
  */
 
 
@@ -745,6 +746,9 @@ Ext.DomQuery = function(){
     }
 
     function nodup(cs){
+        if(!cs){
+            return [];
+        }
         var len = cs.length, c, i, r = cs, cj;
         if(!len || typeof cs.nodeType != "undefined" || len == 1){
             return cs;
@@ -1131,15 +1135,15 @@ Ext.DomQuery = function(){
             },
             
             "nth" : function(c, a){
-                return c[a-1];
+                return c[a-1] || [];
             },
             
             "first" : function(c){
-                return c[0];
+                return c[0] || [];
             },
             
             "last" : function(c){
-                return c[c.length-1];
+                return c[c.length-1] || [];
             },
             
             "has" : function(c, ss){
@@ -1361,7 +1365,8 @@ Ext.util.Observable.releaseCapture = function(o){
                 if(!this.firing){
                     this.listeners.splice(index, 1);
                 }else{
-                    this.listeners = this.listeners.slice(0).splice(index, 1);
+                    this.listeners = this.listeners.slice(0);
+                    this.listeners.splice(index, 1);
                 }
                 return true;
             }
@@ -1429,7 +1434,7 @@ Ext.EventManager = function(){
         }else if(Ext.isSafari){ 
             docReadyProcId = setInterval(function(){
                 var rs = document.readyState;
-                if(rs == "loaded" || rs == "complete") {
+                if(rs == "complete") {
                     fireDocReady();     
                  }
             }, 10);
@@ -2241,8 +2246,9 @@ El.prototype = {
         return this;
     },
     
+    
     removeClass : function(className){
-        if(!className){
+        if(!className || !this.dom.className){
             return this;
         }
         if(className instanceof Array){
@@ -2250,15 +2256,21 @@ El.prototype = {
             	this.removeClass(className[i]);
             }
         }else{
-            var re = new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)', "g");
-            var c = this.dom.className;
-            if(re.test(c)){
-                this.dom.className = c.replace(re, " ");
+            if(this.hasClass(className)){
+                var re = this.classReCache[className];
+                if (!re) {
+                   re = new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)', "g");
+                   this.classReCache[className] = re;
+                }
+                this.dom.className =
+                    this.dom.className.replace(re, " ");
             }
         }
         return this;
     },
     
+    classReCache: {},
+
     
     toggleClass : function(className){
         if(this.hasClass(className)){
@@ -2333,7 +2345,7 @@ El.prototype = {
             if(!(camel = propCache[prop])){
                 camel = propCache[prop] = prop.replace(camelRe, camelFn);
             }
-            if(name == 'opacity') {
+            if(camel == 'opacity') {
                 this.setOpacity(value);
             }else{
                 this.dom.style[camel] = value;
@@ -3034,7 +3046,7 @@ El.prototype = {
             var srcRe = /\ssrc=([\'\"])(.*?)\1/i;
             var match;
             while(match = re.exec(html)){
-                var srcMatch = match[1].match(srcRe);
+                var srcMatch = match[1] ? match[1].match(srcRe) : false;
                 if(srcMatch && srcMatch[2]){
                    var s = document.createElement("script");
                    s.src = srcMatch[2];
@@ -3532,7 +3544,7 @@ El.prototype = {
 
     
     translatePoints : function(x, y){
-        if(x instanceof Array){
+        if(typeof x == 'object' || x instanceof Array){
             y = x[1]; x = x[0];
         }
         var p = this.getStyle('position');
@@ -3704,6 +3716,9 @@ El._flyweights = {};
 El.fly = function(el, named){
     named = named || '_global';
     el = Ext.getDom(el);
+    if(!el){
+        return null;
+    }
     if(!El._flyweights[named]){
         El._flyweights[named] = new El.Flyweight();
     }
@@ -4705,7 +4720,7 @@ Ext.extend(Ext.UpdateManager, Ext.util.Observable, {
                 isUpload = true;
                 cb.upload = this.successDelegate;
             }
-            this.transaction = Ext.lib.Ajax.formRequest(form, url, cb, null, isUpload, this.sslBlankUrl);
+            this.transaction = Ext.lib.Ajax.formRequest(formEl, url, cb, null, isUpload, this.sslBlankUrl);
             this.showLoading.defer(1, this);
         }
     },
