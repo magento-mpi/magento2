@@ -15,13 +15,13 @@ Accordion.prototype = {
         if(section.id != this.currentSection) {
             this.closeExistingSection();
             this.currentSection = section.id;
-            var contents = document.getElementsByClassName('contents',section);
+            var contents = document.getElementsByClassName('a-item',section);
             contents[0].show();
         }
     },
     closeExistingSection: function() {
         if(this.currentSection) {
-            var contents = document.getElementsByClassName('contents',this.currentSection);
+            var contents = document.getElementsByClassName('a-item',this.currentSection);
             contents[0].hide();
         }
     }

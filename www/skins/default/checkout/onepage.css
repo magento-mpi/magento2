@@ -19,7 +19,7 @@ html>body ol#one-pg-co li#co-shipping { border : 1px solid #fff;}
 html>body ol#one-pg-co li#co-payment { border : 1px solid #fff;}
 html>body ol#one-pg-co li#co-review { border : 1px solid #fff;}
 html>body ol#one-pg-co li { border : 0 1px 0 0;}
-    ol#one-pg-co li h3 {
+    .page-checkout h3 {
         margin:0;
         padding:0 8px;
         border-top:1px solid #fff;

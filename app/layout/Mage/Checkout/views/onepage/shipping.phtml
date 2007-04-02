@@ -1,0 +1,68 @@
+<div class="step-body">
+    <div id="co-shipping-nb" class="note-box" style="display:block;">
+        <p class="option">Select a shipping address from your address book or enter a &nbsp;<a href="javascript:void(null);" onclick="co_process('shipping-new')">new address</a></p>
+        <select id="sel-shipping" name="" style="width:100%;"></select>
+    </div>
+    <div id="co-shipping-db" class="default-box" style="display:block;">
+        <p class="option">Enter new shipping information</p>
+        <form id="co-shipping-form"><fieldset>
+            <ul>
+                <li><div class="left">
+                        <label for="shipping:firstname">First Name <span class="required">*</span></label><br/><input type="text" id="shipping:firstname" title="First Name" class="required-entry input-text"/>
+                    </div>
+                    <div class="right">
+                        <label for="shipping:lastname">Last Name <span class="required">*</span></label><br/>
+                        <input type="text" id="shipping:lastname" title="Last Name" class="required-entry input-text"/>
+                    </div>
+                </li>
+                <li><div class="left">
+                        <label for="shipping:company">Company</label><br/>
+                        <input type="text" id="shipping:company" title="Company" class="input-text"/>
+                    </div>
+                    <div class="right">
+                        <label for="shipping:email_address">Email <span class="required">*</span></label><br/>
+                        <input type="text" id="shipping:email_address" title="Email Address" class="validate-email required-entry input-text"/>
+                    </div>
+                </li>
+                <li><label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
+                    <input type="text" name="street_address" title="Street Address" id="shipping:street_address" class="required-entry input-text"/></li>
+                <li><input type="text" name="street_address2" title="Street Address 2" id="shipping:street_address2" class="input-text"/></li>
+                <li><label for="shipping:city">City <span class="required">*</span></label><br/>
+                    <input type="text" title="City" class="required-entry input-text" id="shipping:city"/></li>
+                <li>
+                    <div class="left">
+                        <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
+                        <select title="State/Province" id="shipping:zone_id" class="validate-select required-entry">
+                            <{foreach item=zone from=$page.form.states}>
+                                <option value="<{$zone.zone_id}>"><{$zone.zone_name}></option>
+                            <{/foreach}>
+                        </select></div>
+                    <div class="right">
+                        <label for="shipping:postcode">Zip <span class="required">*</span></label><br/>
+                        <input type="text" title="ZIP/Post Code" id="shipping:postcode" class="validate-zip required-entry input-text"/></div>
+                </li>
+                <{*<li><label for="shipping:country_id">Country <span class="required">*</span></label><br/>
+                    <select id="shipping:country_id" title="Country" disabled><option value="223" selected="selected">United zone_ids</option></select></li>*}>
+                    <input type="hidden" id="shipping:country_id" value="223">
+                <li><div class="left"><label for="shipping:telephone">Telephone <span class="required">*</span></label><br/>
+                        (<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="shipping:telephone_p1" size="3" maxlength="3" style="width: 35px;" />)
+<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="shipping:telephone_p2" size="3" maxlength="3" style="width: 35px;" />
+- <input type="text" value="" title="Telephone" class="required-entry input-text input-size4" id="shipping:telephone_p3" size="4" maxlength="4" style="width: 50px;" />
+x <input type="text" value="" title="Telephone" class="input-text input-size4" id="shipping:telephone_p4" size="3" maxlength="4" style="width: 50px;" />
+<input type="hidden" name="shipping:telephone" value="" class="validate-telephone" id="shipping:telephone" />
+<script type="text/javascript">phone = new telephoneElem('shipping:telephone', 'shipping:telephone_p1', 'shipping:telephone_p2', 'shipping:telephone_p3', 'shipping:telephone_p4');</script></div>
+                    <div class="right"><label for="shipping:fax">Fax</label><br/>
+                        (<input type="text" value="" title="Telephone" class="input-text input-size3" id="shipping:fax_p1" size="3" maxlength="3" style="width: 35px;" />)
+<input type="text" value="" title="Telephone" class="input-text input-size3" id="shipping:fax_p2" size="3" maxlength="3" style="width: 35px;" />
+- <input type="text" value="" title="Telephone" class="input-text input-size4" id="shipping:fax_p3" size="4" maxlength="4" style="width: 50px;" />
+<input type="hidden" value="" class="validate-fax" id="shipping:fax"/>
+<script type="text/javascript">fax = new telephoneElem('shipping:fax', 'shipping:fax_p1', 'shipping:fax_p2', 'shipping:fax_p3', false);</script></div></li>
+                <li class="a-right"><span class="required">* Required Fields</span></li>
+            </ul>
+        </fieldset></form>
+    </div>
+    <div class="note-box buttons"><input type="button" class="input-button" value="Continue" onclick="co_process('payment');" /></div>
+</div>
+<script type="text/javascript">
+    val_shipping = new Validation('co-shipping-form');
+</script>
