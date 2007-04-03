@@ -6,6 +6,8 @@ Mage.Customer = function(depend){
         _layouts : new Ext.util.MixedCollection(true),
         baseLayout:null,
         customerLayout: null,
+        editPanel : null,
+        addressLayout : null,
         gridPanel:null,
         grid:null,
         
@@ -243,6 +245,8 @@ Mage.Customer = function(depend){
             });
             toolbar.addSeparator();
             
+            
+            dataCard.tabs[0].type = 'address';
             var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
                var panel = this.createTabPanel(dataCard.tabs[i]);
@@ -259,8 +263,11 @@ Mage.Customer = function(depend){
         createTabPanel: function(tabInfo){
             var panel = null;
             switch (tabInfo.type) {
+                case 'address' :
+                    panel = this.createAddressTab(tabInfo);
+                break;
                 default : 
-                    panel = new Ext.ContentPanel('productCard_' + tabInfo.name,{
+                    panel = new Ext.ContentPanel('customerCard_' + tabInfo.name,{
                         title : tabInfo.title,
                         autoCreate: true,
                         closable : false,
@@ -269,6 +276,57 @@ Mage.Customer = function(depend){
                         background: true
                     });
             }
+            return panel;
+        },
+        
+        createAddressTab : function(tabInfo) {
+            this.addressLayout = new Ext.BorderLayout(this.editPanel.getEl().createChild({tag:'div'}), {
+                    hideOnLayout:true,
+                    west: {
+                        split:true,
+                        initialSize: 200,
+                        autoScroll:false,
+                        titlebar:false,                        
+                        collapsible:false
+                     },
+                     center:{
+                         autoScroll:true,
+                         titlebar:false,
+                         resizeTabs : true,
+                         tabPosition: 'top'
+                     }
+            });
+            
+            this.addressLayout.beginUpdate();
+            var addressPanel = this.addressLayout.add('west', new Ext.ContentPanel(Ext.id(), {autoCreate: true}));
+            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true},'center'));
+            this.addressLayout.endUpdate();            
+            
+            var addressBody = addressPanel.getEl().createChild({tag:'div', cls:'ychooser-view'});
+            
+        	// create the required templates
+        	this.addressTemplate = new Ext.Template(
+                '<address id="{addr_id}">'+
+            		'{address}<br/>'+
+            		'{city}, {state} {zip}<br/>'+
+            		'{country}'+
+                '</address>'
+        	);
+        	this.addressTemplate.compile();	            
+            
+        	var view = new Ext.JsonView(addressBody, this.addressTemplate, {
+        		singleSelect: true,
+        		jsonRoot: 'addresses',
+        		emptyText : '<div style="padding:10px;">No address found</div>'
+        	});            
+            
+            view.on("click", function(vw, index, node, e){
+                 alert('Node "' + node.id + '" at index: ' + index + " was clicked.");
+             });
+
+            view.load({url: Mage.url + '/mage_customer/customer/addressdata/id/1/'});
+            
+            var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;
         },
         
