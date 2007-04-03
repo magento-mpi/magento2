@@ -1,12 +1,47 @@
 <?php
 
+/**
+ * Resources and connections registry and factory
+ *
+ */
 class Mage_Core_Resource
 {
+    /**
+     * Instances of classes for connection types
+     *
+     * @var array
+     */
     protected $_connectionTypes = array();
+    
+    /**
+     * Instances of actual connections
+     *
+     * @var array
+     */
     protected $_connections = array();
+    
+    /**
+     * Miscellanious information about resources
+     *
+     * @var array
+     */
     protected $_resources = array();
+    
+    /**
+     * Registry of resource entities
+     *
+     * @var array
+     */
     protected $_entities = array();
 
+    /**
+     * Get connection type instance
+     * 
+     * Creates new if doesn't exist
+     *
+     * @param string $type
+     * @return Mage_Core_Resource_Type_Abstract
+     */
     function getConnectionTypeObj($type)
     {
         if (!isset($this->_connectionTypes[$type])) {
@@ -18,6 +53,12 @@ class Mage_Core_Resource
         return $this->_connectionTypes[$type];
     }
     
+    /**
+     * Creates a connection to resource whenever needed
+     *
+     * @param string $name
+     * @return mixed
+     */
     function getConnection($name)
     {
         if (!isset($this->_connections[$name])) {
@@ -34,6 +75,13 @@ class Mage_Core_Resource
         return $this->_connections[$name];
     }
     
+    /**
+     * Get resource entity
+     *
+     * @param string $resource
+     * @param string $entity
+     * @return Varien_Simplexml_Config
+     */
     function getEntity($resource, $entity)
     {
         if (!isset($this->_entities[$resource][$entity])) {

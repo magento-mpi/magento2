@@ -1,14 +1,34 @@
 <?php
 
+/**
+ * Core configuration class
+ * 
+ * Used to retrieve core configuration values
+ *
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
+
 class Mage_Core_Config extends Varien_Simplexml_Config
 {
+    /**
+     * Xpath for active modules. Used during compilation of cache config file
+     *
+     */
     const XPATH_ACTIVE_MODULES = "/config/modules/*[active='true']";
 
+    /**
+     * Constructor
+     *
+     */
     function __construct()
     {
         parent::__construct();
     }
     
+    /**
+     * Initialization of core config
+     *
+     */
     function init()
     {
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'config');
@@ -17,6 +37,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->loadGlobal();
     }
     
+    
+    /**
+     * Config load sequence. Executed only in case of missing cache
+     *
+     * @return boolean
+     */
     function loadGlobal()
     {
         if ($xml = $this->loadCache()) {
@@ -41,6 +67,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
 
+    /**
+     * Load core config from /app/etc/core.xml
+     *
+     * @return boolean
+     */
     function loadCore()
     {
         $configFile = Mage::getBaseDir('etc').DS.'core.xml';
@@ -50,6 +81,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
 
+    /**
+     * Load modules config for active modules from /app/code/<pool>/<module>/etc/config.xml
+     * 
+     * Overwrites core config
+     *
+     * @return boolean
+     */
     function loadModules()
     {
         $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
@@ -65,6 +103,14 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
 
+    /**
+     * Load local config from /app/etc/local.xml
+     * 
+     * Usually contains db connections configurations.
+     * Overwrites core and modules configs.
+     *
+     * @return boolean
+     */
     function loadLocal()
     {
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
@@ -74,6 +120,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
     
+    /**
+     * Load configuration values from database.
+     * 
+     * Overwrites all other configs
+     *
+     */
     function loadFromDb()
     {
         /*
@@ -85,6 +137,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $model->updateXmlFromDb($this->_xml);
     }
 
+    /**
+     * Remove extra information from cached config to improve performance.
+     * 
+     * not used
+     *
+     * @return boolean
+     */
     function removeExtraSource()
     {
         $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
@@ -94,8 +153,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         foreach ($modules as $module) {
             unset($module->load);
         }
+        return true;
     }
     
+    /**
+     * Get module config node
+     *
+     * @param string $moduleName
+     * @return Varien_Simplexml_Object
+     */
     function getModule($moduleName='')
     {
         if (''===$moduleName) {
@@ -105,6 +171,14 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
     
+    /**
+     * Get module setup class instance.
+     * 
+     * Defaults to Mage_Core_Setup
+     *
+     * @param string $module
+     * @return object
+     */
     function getModuleSetup($module)
     {
         if (isset($module->setup) && isset($module->setup->class)) {
@@ -115,6 +189,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return new $className($module);
     }
     
+    /**
+     * Get base filesystem directory. depends on $type
+     * 
+     * If $moduleName is specified retrieves specific value for the module.
+     *
+     * @param string $type
+     * @param string $moduleName
+     * @return string
+     */
     function getBaseDir($type='', $moduleName='')
     {
         if (''!==$moduleName) {
@@ -165,6 +248,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $dir;
     }
     
+    /**
+     * Get base URL path. depends on $type
+     * 
+     * If $moduleName is specified retrieves specific value for the module.
+     *
+     * @param string $type
+     * @param string $moduleName
+     * @return string
+     */
     function getBaseUrl($type='', $moduleName='')
     {
         if (''!==$moduleName) {
@@ -198,6 +290,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $url;
     }
     
+    /**
+     * Apply database updates whenever needed
+     * 
+     * @todo    move somewhere sensible
+     * @return  boolean
+     */
     public function applyDbUpdates()
     {
         $modules = $this->getModule()->children();
@@ -208,6 +306,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
     
+    /**
+     * Load event observers for an area (front, admin)
+     *
+     * @param string $area
+     * @return boolean
+     */
     public function loadEventObservers($area)
     {
         $events = $this->getXml()->global->$area->events->children();
@@ -224,6 +328,14 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return true;
     }
     
+    /**
+     * Get standard path variables.
+     * 
+     * To be used in blocks, templates, etc.
+     *
+     * @param mixed $args
+     * @return array
+     */
     public function getPathVars($args)
     {
         $path = array();
@@ -248,6 +360,16 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $path;
     }
     
+    /**
+     * Load step for an area.
+     * 
+     * Goes over installed modules and checks for existance of class for the $areaName.
+     * For example: Mage_Core_Module_Front
+     * After that checks for existance of $methodName and if exists - executes.
+     *
+     * @param string $areaName
+     * @param string $methodName
+     */
     public function loadStep($areaName, $methodName) 
     {
         $this->loadStep('all', $methodName);
@@ -269,6 +391,19 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
 
+    /**
+     * Get model class instance.
+     * 
+     * Example:
+     * $config->getModelClass('catalog', 'product')
+     * 
+     * Will instantiate Mage_Catalog_Model_Mysql4_Product
+     *
+     * @param string $model
+     * @param string $class
+     * @param array|object $constructArguments
+     * @return Mage_Core_Model_Abstract
+     */
     public function getModelClass($model, $class='', $constructArguments=array())
     {
         $className = '';
@@ -283,13 +418,42 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return new $className($constructArguments);
     }
     
+    /**
+     * Get resource configuration for resource name
+     *
+     * @param string $name
+     * @return Varien_Simplexml_Object
+     */
     public function getResourceConfig($name)
     {
         return $this->getXml()->global->resources->$name;
     }
        
+    /**
+     * Retrieve resource type configuration for resource name
+     *
+     * @param string $type
+     * @return Varien_Simplexml_Object
+     */
     public function getResourceType($type)
     {
         return $this->getXml()->global->resourceTypes->$type;
     }
+    
+     /**
+     * Get block type(s) from config
+     *
+     * @param string $type
+     * @return Varien_Simplexml_Object
+     */
+    public function getBlockType($type='')
+    {
+        $types = $this->getXml()->global->blockTypes;
+        if (''===$type) {
+            return $types;
+        } else {
+            return $types->$type;
+        }
+    }
+    
 }

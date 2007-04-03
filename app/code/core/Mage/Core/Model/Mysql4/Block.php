@@ -53,7 +53,7 @@ class Mage_Core_Model_Mysql4_Block extends Mage_Core_Model_Mysql4
         $oldBlocks = $this->_read->fetchPairs("select block_id, block_name 
             from $blockTable where group_id=?", array($group['group_id']));
         
-        $newBlocks = Mage_Core_Block::getBlocksByGroup($groupName);
+        $newBlocks = Mage::registry('blocks')->getBlocksByGroup($groupName);
         
         $delete = array();
         foreach ($oldBlocks as $id=>$name) {

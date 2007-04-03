@@ -18,7 +18,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             $block = $panel;
             $name = $panel->getInfo('name');
         } else {
-            $block = Mage_Core_Block::getBlockByName($panel);
+            $block = Mage::registry('blocks')->getBlockByName($panel);
             $name = $panel;
         }
         $this->setChild($name, $block);
@@ -34,7 +34,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             $block = $toolbar;
             $name = $toolbar->getInfo('name');
         } else {
-            $block = Mage_Core_Block::getBlockByName($toolbar);
+            $block = Mage::registry('blocks')->getBlockByName($toolbar);
             $name = $toolbar;
         }
         $this->setChild($name, $block);
@@ -48,7 +48,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             $block = $menu;
             $name = $menu->getInfo('name');
         } else {
-            $block = Mage_Core_Block::getBlockByName($menu);
+            $block = Mage::registry('blocks')->getBlockByName($menu);
             $name = $menu;
         }
         $this->setChild($name, $block);

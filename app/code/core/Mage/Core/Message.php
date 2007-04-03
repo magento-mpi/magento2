@@ -1,10 +1,29 @@
 <?php
 
+/**
+ * Class to hold messages between submition from code and reporting to user
+ *
+ */
 class Mage_Core_Message
 {
+    /**
+     * All messages registry
+     *
+     * @var array
+     */
     protected $_messages = array();
+    
+    /**
+     * Messages by type
+     *
+     * @var array
+     */
     protected $_messagesByType = array();
     
+    /**
+     * Constructor
+     *
+     */
     function __construct()
     {
     }
@@ -17,6 +36,12 @@ class Mage_Core_Message
         $this->_sessionNamespace->messages = $this->_messages;
     }*/
     
+    /**
+     * Add message
+     *
+     * @param string|Mage_Core_Message_Abstract $message
+     * @param string $messageType
+     */
     function addMessage($message, $messageType = 'notice')
     {
         if (is_string($message)) {
@@ -38,6 +63,12 @@ class Mage_Core_Message
         $this->_messagesByType[$message->getType()][] = $message;
     }    
 
+    /**
+     * Get all messages or by type
+     *
+     * @param string $type
+     * @return array
+     */
     function getMessages($type='')
     {
         if (''===$type) {

@@ -18,6 +18,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       */
      protected $_flags = array();
      protected $_layout = null;
+     protected $_blocks = null;
 
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
@@ -95,13 +96,13 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      function renderLayout($output='')
      {
          if (''!==$output) {
-             Mage_Core_Block::addOutputBlock($output);
+             Mage::registry('blocks')->addOutputBlock($output);
          }
          
          Mage::dispatchEvent('beforeRenderLayout');
          Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          
-         $blocks = Mage_Core_Block::getOutputBlocks();
+         $blocks = Mage::registry('blocks')->getOutputBlocks();
 
          if (!empty($blocks)) {
              $response = $this->getResponse();

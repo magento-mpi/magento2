@@ -1,9 +1,22 @@
 <?php
 
+/**
+ * Layout configuration class
+ *
+ */
 class Mage_Core_Layout extends Varien_Simplexml_Config
 {
+    /**
+     * SimpleXML nodes will be of this class
+     *
+     */
     const SIMPLEXML_CLASS = 'Mage_Core_Layout_Object';
     
+    /**
+     * Initialize layout configuration for $id key
+     *
+     * @param string $id
+     */
     public function init($id)
     {
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'layout');
@@ -16,6 +29,11 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
         }
     }
     
+    /**
+     * Load layout configuration update from file
+     *
+     * @param Varien_Simplexml_Object $args
+     */
     public function loadUpdate($args)
     {
         $fileName = (string)$args->file;
@@ -29,6 +47,13 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
         }
     }
  
+    /**
+     * Load all updates from main config for the $area and $id
+     *
+     * @param string $area
+     * @param string $id
+     * @return boolean
+     */
     public function loadUpdatesFromConfig($area, $id)
     {
         $layoutConfig = Mage::getConfig()->getXml()->global->$area->layouts->$id;
@@ -38,9 +63,14 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
                 $this->loadUpdate($update);
             }
         }
-        return false;
+        return true;
     }
     
+    /**
+     * Create layout blocks from configuration
+     *
+     * @param Mage_Core_Layout_Object|null $parent
+     */
     public function createBlocks($parent=null)
     {
         if (empty($parent)) {
@@ -51,11 +81,11 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
                 case 'block':
                     $className = (string)$node['class'];
                     $blockName = (string)$node['name'];
-                    $block = Mage_Core_Block::addBlock($className, $blockName);
+                    $block = Mage::registry('blocks')->addBlock($className, $blockName);
                     
                     if (!empty($node['parent'])) {
                         $parentName = (string)$node['parent'];
-                        $parent = Mage_Core_Block::getBlockByName($parentName);
+                        $parent = Mage::registry('blocks')->getBlockByName($parentName);
                         
                         if (isset($node['as'])) {
                             $as = (string)$node['as'];
@@ -78,7 +108,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
                     }
                     if (!empty($node['output'])) {
                         $method = (string)$node['output'];
-                        Mage_Core_Block::addOutputBlock($blockName, $method);
+                        Mage::registry('blocks')->addOutputBlock($blockName, $method);
                     }
                     $this->createBlocks($node);
                     break;
@@ -89,7 +119,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
 
                 case 'action':
                     $name = (string)$node['block'];
-                    $block = Mage_Core_Block::getBlockByName($name);
+                    $block = Mage::registry('blocks')->getBlockByName($name);
                     $method = (string)$node['method'];
                     $args = (array)$node->children();
                     unset($args['@attributes']);

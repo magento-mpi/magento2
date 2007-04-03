@@ -93,7 +93,7 @@ class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
         $node = $_POST['node'];
 
         Mage_Core_Block::loadJsonFile($node);        
-        $res = Mage_Core_Block::getAllBlocks();
+        $res = Mage::registry('blocks')->getAllBlocks();
         foreach($res as $block) {
             echo get_class($block)."<br>";
         }

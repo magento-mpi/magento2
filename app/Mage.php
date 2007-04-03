@@ -20,13 +20,30 @@ function __autoload($class)
  */
 final class Mage {
     
+    /**
+     * Registry collection
+     *
+     * @var array
+     */
     static private $_registry = array();
     
+    /**
+     * Register a new variable
+     *
+     * @param string $key
+     * @param mixed $value
+     */
     public static function register($key, $value)
     {
         self::$_registry[$key] = $value;
     }
     
+    /**
+     * Retrieve a value from registry by a key
+     *
+     * @param string $key
+     * @return mixed
+     */
     public static function registry($key)
     {
         if (isset(self::$_registry[$key])) {
@@ -56,6 +73,12 @@ final class Mage {
         }
     }
     
+    /**
+     * Get application root absolute path
+     *
+     * @return string
+     */
+    
     public static function getRoot()
     {
         return Mage::registry('appRoot');
@@ -83,6 +106,12 @@ final class Mage {
         return Mage::getConfig()->getBaseUrl($type, $moduleName);
     }
 
+    /**
+     * Get a config object by module name
+     *
+     * @param string $moduleName
+     * @return object
+     */
     public static function getConfig($moduleName='Mage_Core')
     {
         $key = 'config_'.$moduleName;
@@ -164,23 +193,9 @@ final class Mage {
      */
     public static function createBlock($type, $name='', array $attributes=array())
     {
-        return Mage_Core_Block::createBlock($type, $name, $attributes);
+        return Mage::registry('blocks')->createBlock($type, $name, $attributes);
     }
-
-    /**
-     * Create block from template
-     *
-     * @link Mage_Core_Block::createBlockLike
-     * @param string $template
-     * @param string $name
-     * @param array $attributes
-     * @return Mage_Core_Block_Abstract
-     */
-    public static function createBlockLike($template, $name='', array $attributes=array())
-    {
-        return Mage_Core_Block::createBlockLike($template, $name, $attributes);
-    }
-
+    
     /**
      * Return Block object for block id
      *
@@ -190,7 +205,7 @@ final class Mage {
      */
     public static function getBlock($name)
     {
-        return Mage_Core_Block::getBlockByName($name);
+        return Mage::registry('blocks')->getBlockByName($name);
     }
 
     /**
@@ -207,6 +222,11 @@ final class Mage {
         return Mage::getConfig()->getModelClass($model, $class, $arguments);
     }
 
+    /**
+     * Get current website id on frontend
+     *
+     * @return integer
+     */
     public static function getCurentWebsite()
     {
         return Mage_Core_Website::getWebsiteId();
@@ -225,6 +245,10 @@ final class Mage {
         throw new $className($message, $code);
     }
 
+    /**
+     * Prepare folders and permissions
+     *
+     */
     public static function prepareFileSystem()
     {
         $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'config';
@@ -261,6 +285,7 @@ final class Mage {
         Mage::register('events', new Varien_Event());
         Mage::register('website', new Mage_Core_Website());
         Mage::register('resources', new Mage_Core_Resource());
+        Mage::register('blocks', new Mage_Core_Block());
         
         Mage::getConfig()->init();
         
@@ -270,7 +295,7 @@ final class Mage {
     }
 
     /**
-     * Mage main entry point
+     * Front end main entry point
      *
      * @param string $appRoot
      */
@@ -297,6 +322,11 @@ Varien_Profiler::getSqlProfiler($conn);
         }
     }
 
+    /**
+     * Admin main entry point
+     *
+     * @param string $appRoot
+     */
     public static function runAdmin($appRoot='')
     {
         try {
@@ -314,18 +344,13 @@ Varien_Profiler::getSqlProfiler($conn);
         }
     }
 
-    public static function test()
-    {
-        Mage::init();
-
-        Varien_Profiler::setTimer('config');
-        Mage::register('config', new Mage_Core_Config());
-        echo Varien_Profiler::setTimer('config');
-
-        echo "<xmp>TEST:";
-        print_r(Mage::getConfig());
-    }
-    
+    /**
+     * log facility (??)
+     *
+     * @param string $message
+     * @param integer $level
+     * @param string $file
+     */
     public static function log($message, $level=Zend_Log::LEVEL_DEBUG, $file = '')
     {
         if (empty($file)) {

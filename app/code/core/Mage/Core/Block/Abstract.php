@@ -154,8 +154,8 @@ abstract class Mage_Core_Block_Abstract
             }
             $blockName = $this->getInfo('name').'.'.$suffix;
 
-            Mage_Core_Block::unsetBlock($block->getInfo('name'));
-            Mage_Core_Block::setBlock($blockName, $block);
+            Mage::registry('blocks')->unsetBlock($block->getInfo('name'));
+            Mage::registry('blocks')->setBlock($blockName, $block);
             
             $block->setInfo('name', $blockName);
             $block->setInfo('anonymous', false);

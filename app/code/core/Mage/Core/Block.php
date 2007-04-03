@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Block factory
+ * Layout blocks registry and factory
  * 
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
@@ -21,14 +21,14 @@ class Mage_Core_Block
      *
      * @var array
      */
-    private static $_blocks = array();
+    protected $_blocks = array();
     
     /**
      * Cache of block callbacks to output during rendering
      *
      * @var array
      */
-    private static $_output = array();
+    protected $_output = array();
     
     /**
      * Save block in blocks registry
@@ -36,9 +36,9 @@ class Mage_Core_Block
      * @param string $name
      * @param Mage_Core_Block_Abstract $block
      */
-    public static function setBlock($name, $block)
+    public function setBlock($name, $block)
     {
-        self::$_blocks[$name] = $block;
+        $this->_blocks[$name] = $block;
     }
     
     /**
@@ -46,20 +46,10 @@ class Mage_Core_Block
      *
      * @param string $name
      */
-    public static function unsetBlock($name)
+    public function unsetBlock($name)
     {
-        self::$_blocks[$name] = null;
-        unset(self::$_blocks[$name]);
-    }
-    
-    public static function getType($type='')
-    {
-        $types = Mage::getConfig()->getXml()->global->blockTypes;
-        if (''===$type) {
-            return $types;
-        } else {
-            return $types->$type;
-        }
+        $this->_blocks[$name] = null;
+        unset($this->_blocks[$name]);
     }
     
     /**
@@ -72,11 +62,11 @@ class Mage_Core_Block
      * @author    Moshe Gurvich <moshe@varien.com>
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
-    public static function createBlock($type, $name='', array $attributes = array())
+    public function createBlock($type, $name='', array $attributes = array())
     {
         #Mage::setTimer(__METHOD__);
 
-        if (!$className = (string)self::getType($type)->class) {
+        if (!$className = (string)Mage::getConfig()->getBlockType($type)->class) {
             Mage::exception('Invalid block type ' . $type);
         }
 
@@ -87,20 +77,27 @@ class Mage_Core_Block
             if (!empty($name)) {
                 $block->setInfo('anonSuffix', substr($name, 1));
             }
-            $name = 'ANONYMOUS_'.sizeof(self::$_blocks);
+            $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         }
         
         $block->setInfo(array('type'=>$type, 'name'=>$name));
         $block->setAttribute($attributes);
         
-        self::$_blocks[$name] = $block;
+        $this->_blocks[$name] = $block;
         
         #Mage::setTimer(__METHOD__, true);
 
-        return self::$_blocks[$name];
+        return $this->_blocks[$name];
     }
     
-    public static function addBlock($blockClass, $blockName)
+    /**
+     * Add a block to registry, create new object if needed
+     *
+     * @param string|Mage_Core_Block_Abstract $blockClass
+     * @param string $blockName
+     * @return Mage_Core_Block_Abstract
+     */
+    public function addBlock($blockClass, $blockName)
     {
         if (is_string($blockClass)) {
             $block = new $blockClass();
@@ -108,31 +105,53 @@ class Mage_Core_Block
             $block = $blockClass;
         }
         $block->setInfo(array('name'=>$blockName));
-        self::$_blocks[$blockName] = $block;
+        $this->_blocks[$blockName] = $block;
         return $block;
     }
     
-    public static function getAllBlocks()
+    /**
+     * Retrieve all blocks from registry as array
+     *
+     * @return array
+     */
+    public function getAllBlocks()
     {
-        return self::$_blocks;
+        return $this->_blocks;
     }
     
-    public static function getBlockByName($name)
+    /**
+     * Get block object by name
+     *
+     * @param string $name
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getBlockByName($name)
     {
-        if (isset(self::$_blocks[$name])) {
-            return self::$_blocks[$name];
+        if (isset($this->_blocks[$name])) {
+            return $this->_blocks[$name];
         } else {
             return false;
         }
     }
     
-    public static function addOutputBlock($blockName, $method='toString')
+    /**
+     * Add a block to output
+     *
+     * @param string $blockName
+     * @param string $method
+     */
+    public function addOutputBlock($blockName, $method='toString')
     {
-        self::$_output[] = array($blockName, $method);
+        $this->_output[] = array($blockName, $method);
     }
     
-    public static function getOutputBlocks()
+    /**
+     * Get all blocks marked for output
+     *
+     * @return array
+     */
+    public function getOutputBlocks()
     {
-        return self::$_output;
+        return $this->_output;
     }    
 }// Class Mage_Home_ContentBlock END
