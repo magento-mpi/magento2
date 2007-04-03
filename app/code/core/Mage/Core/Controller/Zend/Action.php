@@ -95,6 +95,10 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function renderLayout($output='')
      {
+        if ($this->getFlag('', 'no-renderLayout')) {
+            return;
+        }
+
          if (''!==$output) {
              Mage::registry('blocks')->addOutputBlock($output);
          }

@@ -5,7 +5,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         parent::_construct();
-        $this->setFlag('status', 'no-preDispatch', true);
+        $this->setFlag('status', 'no-renderLayout', true);
     }
     
     public function indexAction()
@@ -22,6 +22,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function statusAction()
     {
-        Mage::createBlock('onepage_status', 'root');
+        $statusBlock = Mage::createBlock('onepage_status', 'root');
+        $this->getResponse()->appendBody($statusBlock->toString());
     }
 }

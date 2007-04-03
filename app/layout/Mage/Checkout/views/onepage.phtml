@@ -11,6 +11,9 @@ Checkout.prototype = {
         this.shipping= '';
     }, 
     
+    reloadStatusBlock: function(){
+        var updater = new Ajax.Updater('column-left', '<?=$moduleBaseUrl?>/onepage/status/', {method: 'get'});
+    },
 
     setType: function(){
         if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
@@ -24,7 +27,8 @@ Checkout.prototype = {
     },
 
     setBilling: function() {
-        this.accordion.openNextSection(true);
+        this.reloadStatusBlock();
+        //this.accordion.openNextSection(true);
     },
 
     setPayment: function() {
