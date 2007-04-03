@@ -81,7 +81,16 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $block = Mage::createBlock('tpl', 'checkout.billing')
             ->setViewName('Mage_Checkout', 'onepage/billing.phtml')
             ->assign('data', $data);
-            
+        
+        if (Mage_Customer_Front::getCustomerId()) {
+            //$addressModel = Mage::getModel('customer', 'address_collection');
+            $addresses = Mage::getModel('customer', 'address_collection')
+                ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
+                ->load()
+                ->getItems();
+            $block->assign('addresses', $addresses);
+        }
+        
         $this->setChild('billing', $block);
     }
 

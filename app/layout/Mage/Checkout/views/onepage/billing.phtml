@@ -1,13 +1,19 @@
 <div class="step-body">
-    <div id="co-billing-nb" class="note-box" style="display:block;">
+    <?if(!empty($addresses)):?>
+    <div class="note-box" style="display:block;">
         <p class="option">
             Select a billing address from your address book or enter a &nbsp;
-            <a href="javascript:void(null);" onclick="co_process('billing-new');">new address</a>
+            <a href="javascript:void(null);" onclick="">new address</a>
         </p>
-        <select id="sel-billing" name="" style="width:100%;"></select>
+        <select id="sel-billing" name="" style="width:100%;">
+        <?foreach($addresses as $_addressId=>$_address):?>
+            <option value="<?=$_addressId?>"><?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]</option>
+        <?endforeach?>
+        </select>
     </div>
+    <?endif?>
     <div id="co-billing-db" class="default-box" style="display:block;">
-        <p class="option">Enter new billing information</p>
+        <p class="option">Enter billing information</p>
         <form id="co-billing-form">
             <fieldset>
             <ul class="input-list">
@@ -48,7 +54,7 @@
                     <div class="input-left">
                         <label for="billing:zone_id">State / Province <span class="required">*</span></label><br/>
                         <select title="State/Province" id="billing:zone_id" class="validate-select required-entry">
-                            <option value="<{$zone.zone_id}>"><{$zone.zone_name}></option>
+                            <option value="1">LA</option>
                         </select></div>
                     <div class="input-right">
                         <label for="billing:postcode">Zip <span class="required">*</span></label><br/>
@@ -58,27 +64,17 @@
                 </li>
                 <li>
                     <label for="billing:country_id">Country <span class="required">*</span></label><br/>
-                    <select id="billing:country_id" title="Country" disabled>
-                        <option value="223" selected="selected">United zone_ids</option>
+                    <select id="billing:country_id" title="Country">
+                        <option value="223" selected="selected">USA</option>
                     </select>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="billing:telephone">Telephone <span class="required">*</span></label><br/>
-                        (<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="billing:telephone_p1" size="3" maxlength="3" style="width: 35px;" />)
-                        <input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="billing:telephone_p2" size="3" maxlength="3" style="width: 35px;" />
-                        - <input type="text" value="" title="Telephone" class="required-entry input-text input-size4" id="billing:telephone_p3" size="4" maxlength="4" style="width: 50px;" />
-                        x <input type="text" value="" title="Telephone" class="input-text input-size4" id="billing:telephone_p4" size="3" maxlength="4" style="width: 50px;" />
-                        <input type="hidden" name="billing:telephone" value="" class="validate-telephone" id="billing:telephone" />
-                        <script type="text/javascript">phone = new telephoneElem('billing:telephone', 'billing:telephone_p1', 'billing:telephone_p2', 'billing:telephone_p3', 'billing:telephone_p4');</script>
-                    </div>
+                        <input type="text" name="billing:telephone" value="" title="Telephone" class="required-entry validate-phoneStrict input-text" id="billing:telephone"/></div>
                     <div class="input-right">
                         <label for="billing:fax">Fax</label><br/>
-                        (<input type="text" value="" title="Fax" class="input-text input-size3" id="billing:fax_p1" size="3" maxlength="3" style="width: 35px;" />)
-                        <input type="text" value="" title="Fax" class="input-text input-size3" id="billing:fax_p2" size="3" maxlength="3" style="width: 35px;" />
-                        - <input type="text" value="" title="Fax" class="input-text input-size4" id="billing:fax_p3" size="4" maxlength="4" style="width: 50px;" />
-                        <input type="hidden" value="" class="validate-fax" id="billing:fax"/>
-                        <script type="text/javascript">fax = new telephoneElem('billing:fax', 'billing:fax_p1', 'billing:fax_p2', 'billing:fax_p3', false);</script>
+                        <input type="text" name="billing:fax" value="" title="Fax" class="validate-fax input-text" id="billing:fax"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>

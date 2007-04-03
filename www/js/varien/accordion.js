@@ -26,8 +26,8 @@ Accordion.prototype = {
             this.closeExistingSection();
             this.currentSection = section.id;
             var contents = document.getElementsByClassName('a-item',section);
-            //contents[0].show();
-            Effect.SlideDown(contents[0]);
+            contents[0].show();
+            //Effect.SlideDown(contents[0]);
         }
     },
     
@@ -60,8 +60,8 @@ Accordion.prototype = {
     closeExistingSection: function() {
         if(this.currentSection) {
             var contents = document.getElementsByClassName('a-item',this.currentSection);
-            //contents[0].hide();
-            Effect.SlideUp(contents[0]);
+            contents[0].hide();
+            //Effect.SlideUp(contents[0]);
         }
     }
 }
