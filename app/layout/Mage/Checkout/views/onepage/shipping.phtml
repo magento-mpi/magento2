@@ -61,7 +61,11 @@ x <input type="text" value="" title="Telephone" class="input-text input-size4" i
             </ul>
         </fieldset></form>
     </div>
-    <div class="note-box buttons"><input type="button" class="input-button" value="Continue" onclick="co_process('payment');" /></div>
+    <div class="note-box buttons">
+        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
+        <input type="button" onclick="checkout.setShipping();" class="input-button float-right" value="Continue"/>
+        <div class="clearfix"></div>
+    </div>
 </div>
 <script type="text/javascript">
     val_shipping = new Validation('co-shipping-form');

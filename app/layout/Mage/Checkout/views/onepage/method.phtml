@@ -20,7 +20,7 @@
                     <label for="password">Password</label></br>
                     <input type="password" class="input-text" id="password" name="login[customer_pass]" />
                 </div>
-                <div class="input-right" style="padding-top:20px;"><a href="">Forgot your password?</a></div>
+                <div class="input-right" style="padding-top:20px;"><a href="<?=Mage::getBaseUrl('', 'Mage_Customer')?>/account/forgotpassword/">Forgot your password?</a></div>
                 <div class="clearfix"></div>
             </li>
         </ul>
@@ -32,12 +32,13 @@
 <h4 style="border:0;">Checkout as a Guest or Register</h4>
 <div class="step-body">
     <div class="note-box">
+    <form id="checkout_type">
         <fieldset>
         <p>You may check out as a guest or register with us for future convenience:</p>
         <p>
-            <input type="radio" name="checkout_type" id="checkout_type:guest" value="1" /> 
+            <input type="radio" name="checkout_type" id="checkout_type:guest" value="1"/> 
             <label for="checkout_type:guest"><strong>Checkout as Guest</strong></label><br/>
-            <input type="radio" name="checkout_type" id="checkout_type:register" value="2" /> 
+            <input type="radio" name="checkout_type" id="checkout_type:register" value="2"/> 
             <label for="checkout_type:register"><strong>Register</strong></label>
         </p>
         <strong>Register and save time!</strong><br/>
@@ -46,6 +47,7 @@
             <li>Easy access to your order history and status</li>
         </ul>
         </fieldset>
-        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="co_process('login-register');"/></div>
+        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="checkout.setType();"/></div>
+    </form>
     </div>
 </div>

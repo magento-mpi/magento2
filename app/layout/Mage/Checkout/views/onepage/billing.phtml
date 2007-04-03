@@ -89,7 +89,9 @@
     <div id="co-billing-nb2" class="note-box" style="padding-top:0;">
         <input type="checkbox" id="ship2bill" /><label for="ship2bill"><strong>Ship to this address</strong></label>
         <p class="a-right"><span class="required">* Required Fields</span></p>
-        <div class="note-box buttons"><input type="button" class="input-button" value="Continue" onclick="co_process('shipping');" /></div>
+        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
+        <input type="button" onclick="checkout.setBilling();" class="input-button float-right" value="Continue"/>
+        <div class="clearfix"></div>
     </div>
 </div>
 <script type="text/javascript">

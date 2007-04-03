@@ -3,16 +3,44 @@
 <script type="text/javascript">
 var Checkout = Class.create();
 Checkout.prototype = {
-    initialize: function(){
-        
+    initialize: function(accordion){
+        this.accordion = accordion;
+        this.type = '';
+        this.billing = '';
+        this.payment = '';
+        this.shipping= '';
     }, 
     
-    getServerData: function(url){
-    
+
+    setType: function(){
+        if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
+            //alert('guest');
+        }
+        else if($('checkout_type:register') && $('checkout_type:register').checked) {
+            //alert('register');
+        }
+
+        this.accordion.openNextSection(true);
     },
 
-    updateFromFields: function(url){
+    setBilling: function() {
+        this.accordion.openNextSection(true);
+    },
+
+    setPayment: function() {
+        this.accordion.openNextSection(true);
+    },
+
+    setShipping: function() {
+        this.accordion.openNextSection(true);
+    },
+        
+    setShippingMethod: function() {
+        this.accordion.openNextSection(true);
+    },
     
+    back: function(){
+        this.accordion.openPrevSection(true);
     }
 }
 </script>
@@ -33,6 +61,6 @@ Checkout.prototype = {
         accordion.openSection('<?=$_activeStep?>');
         <?endif?>
         
-        var checkout = new Checkout();
+        var checkout = new Checkout(accordion);
     </script>
 </div>

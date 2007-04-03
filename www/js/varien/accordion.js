@@ -3,6 +3,7 @@ Accordion.prototype = {
     initialize: function(elem, clickableEntity, checkAllow) {
         this.container = $(elem);
         this.checkAllow = checkAllow || false;
+        this.sections = $$('#' + elem + ' .section');
         var headers = $$('#' + elem + ' .section ' + clickableEntity);
         headers.each(function(header) {
             Event.observe(header,'click',this.sectionClicked.bindAsEventListener(this));
@@ -30,11 +31,37 @@ Accordion.prototype = {
         }
     },
     
+    openNextSection: function(setAllow){
+        for (section in this.sections) {
+            var nextIndex = parseInt(section)+1;
+            if (this.sections[section].id == this.currentSection && this.sections[nextIndex]){
+                if (setAllow) {
+                    Element.addClassName(this.sections[nextIndex], 'allow')
+                }
+                this.openSection(this.sections[nextIndex]);
+                return;
+            }
+        }
+    },
+    
+    openPrevSection: function(setAllow){
+        for (section in this.sections) {
+            var prevIndex = parseInt(section)-1;
+            if (this.sections[section].id == this.currentSection && this.sections[prevIndex]){
+                if (setAllow) {
+                    Element.addClassName(this.sections[prevIndex], 'allow')
+                }
+                this.openSection(this.sections[prevIndex]);
+                return;
+            }
+        }
+    },
+    
     closeExistingSection: function() {
         if(this.currentSection) {
             var contents = document.getElementsByClassName('a-item',this.currentSection);
-            //contents[0].hide();
-            Effect.SlideUp(contents[0]);
+            contents[0].hide();
+            //Effect.SlideUp(contents[0]);
         }
     }
 }
