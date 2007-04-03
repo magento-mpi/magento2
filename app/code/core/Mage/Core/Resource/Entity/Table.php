@@ -6,5 +6,8 @@
  */
 class Mage_Core_Resource_Entity_Table extends Mage_Core_Resource_Entity_Abstract
 {
-
+    function getTable()
+    {
+        return $this->getConfig('table');
+    }
 }

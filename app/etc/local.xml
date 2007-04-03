@@ -22,19 +22,19 @@
                         </dev_write>
 
                         <dev_read>
-                            <connection extends="//dev_write/connection"/>
+                            <connection use="dev_write"/>
                         </dev_read>
 
                         <core_setup>
-                            <connection extends="//dev_setup/connection"/>
+                            <connection use="dev_setup"/>
                         </core_setup>
 
                         <core_write>
-                            <connection extends="//dev_write/connection"/>
+                            <connection use="dev_write"/>
                         </core_write>
 
                         <core_read>
-                            <connection extends="//dev_read/connection"/>
+                            <connection use="dev_read"/>
                         </core_read>
                     </resources>
                 </all>

@@ -15,11 +15,11 @@ abstract class Mage_Core_Model_Abstract
      */
     protected function _getConnection($resourceName)
     {
-        return Mage::getConfig()->getResource($resourceName)->getConnection();
+        return Mage::registry('resources')->getConnection($resourceName);
     }
 
     protected function _getEntity($resourceName, $entityName)
     {
-        return Mage::getConfig()->getResource($resourceName)->getEntity($entityName);
+        return Mage::registry('resources')->getEntity($resourceName, $entityName);
     }
 }

@@ -28,7 +28,7 @@ abstract class Mage_Core_Model_Db extends Mage_Core_Model_Abstract
 
     public function getTableName($resourceName, $entityName)
     {
-        return (string)$this->_getEntity($resourceName, $entityName)->table;
+        return $this->_getTableName($resourceName, $entityName);
     }
 
     public function getReadConnection()

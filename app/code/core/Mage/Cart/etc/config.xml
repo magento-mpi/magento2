@@ -17,7 +17,7 @@
                     
                     <resources>
                         <cart_setup>
-                            <connection extends="//core_setup/connection"/>
+                            <connection use="core_setup"/>
                             
                             <entities>
                                 <cart><table>cart</table></cart>
@@ -26,11 +26,11 @@
                         </cart_setup>
 
                         <cart_write>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_write"/>
                         </cart_write>
 
                         <cart_read>
-                            <connection extends="//core_read/connection"/>
+                            <connection use="core_read"/>
                         </cart_read>
                     </resources>
                     

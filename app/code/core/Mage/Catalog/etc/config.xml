@@ -18,7 +18,7 @@
 
                     <resources>
                         <catalog_setup>
-                            <connection extends="//core_setup/connection"/>
+                            <connection use="core_setup"/>
                             
                             <entities>
                                 <category><table>catalog_category</table></category>
@@ -51,13 +51,11 @@
                         </catalog_setup>
 
                         <catalog_write>
-                            <connection extends="//core_write/connection"/>
-                            <entities extends="//catalog_setup/entities"/>
+                            <connection use="core_write"/>
                         </catalog_write>
 
                         <catalog_read>
-                            <connection extends="//core_read/connection"/>
-                            <entities extends="//catalog_setup/entities"/>
+                            <connection use="core_read"/>
                         </catalog_read>
                     </resources>
 

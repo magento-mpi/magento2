@@ -16,15 +16,15 @@
                     
                     <resources>
                         <checkout_setup>
-                            <connection extends="//core_setup/connection"/>
+                            <connection use="core_setup"/>
                         </checkout_setup>
 
                         <checkout_write>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_write"/>
                         </checkout_write>
 
                         <checkout_read>
-                            <connection extends="//core_read/connection"/>
+                            <connection use="core_read"/>
                         </checkout_read>
                     </resources>
                 </all>

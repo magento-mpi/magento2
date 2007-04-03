@@ -19,6 +19,29 @@ class Varien_Simplexml_Object extends SimpleXMLElement
         }
         return $parent;
     }
+
+    public function asArray()
+    {
+    	$r = array();
+    	
+    	$attributes = $this->attributes();
+    	foreach($attributes as $k=>$v) {
+    		if ($v) $r['@'][$k] = (string) $v;
+    	}
+
+    	if (!($children = $this->children())) {
+    		$r['_'] = (string) $this;
+    		return $r;
+    	}
+
+    	foreach($children as $childName=>$child) {
+    		foreach ($child as $index=>$element) {
+    			$r[$childName][$index] = $element->asArray();
+    		}
+    	}
+    	
+    	return $r;
+	}
     
     function appendChild($source)
     {

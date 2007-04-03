@@ -283,45 +283,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return new $className($constructArguments);
     }
     
-    /**
-     * Retrieve named resource
-     *
-     * @param string $name
-     * @return resource || false
-     */
-    public function getResource($name='')
+    public function getResourceConfig($name)
     {
-        if (!Mage::registry('resources')) {
-            Mage::register('resources', array());
-        }
-        $resources = Mage::registry('resources');
-        
-        if ($name=='') {
-            return $resources;
-        }
-        
-        if (!Mage::registry($name)) {
-            $global = $this->getXml()->global;
-            $resource = $global->resources->$name;
-            $rType = (string)$resource->connection->type;
-            $rTypeClass = (string)$global->resourceTypes->$rType->class;
-            $resources[$name] = new $rTypeClass($resource);
-            if (!isset($resources[$name])) {
-                Mage::exception('Non existing resource requested: '.$name);
-            }
-            Mage::register('resources', $resources);
-        }
-        
-        return $resources[$name];
+        return $this->getXml()->global->resources->$name;
     }
-    
-    public function getResourceEntity($resource, $entity='')
+       
+    public function getResourceType($type)
     {
-        $entities = $this->getXml()->global->resources->$resource->entities;
-        if (''===$entity) {
-            return $entities;
-        } else {
-            return $entities->$entity;
-        }
+        return $this->getXml()->global->resourceTypes->$type;
     }
 }

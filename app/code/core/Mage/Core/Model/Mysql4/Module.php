@@ -14,7 +14,7 @@ class Mage_Core_Model_Mysql4_Module extends Mage_Core_Model_Mysql4
      */
     function getDbVersion($moduleName)
     {
-        $moduleTable = $this->_getTableName('core_read', 'module');
+        $moduleTable = $this->_getTableName('core_setup', 'module');
 
         // if Core module not instaled
         try {

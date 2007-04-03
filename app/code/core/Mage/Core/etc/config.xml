@@ -7,11 +7,11 @@
                 <all>
                     <resourceTypes>
                         <mysql>
-                            <class>Mage_Core_Resource_Db_Mysql</class>
+                            <class>Mage_Core_Resource_Type_Db_Mysql</class>
                         </mysql>
                 
                         <mysqli>
-                            <class>Mage_Core_Resource_Db_Mysqli</class>
+                            <class>Mage_Core_Resource_Type_Db_Mysqli</class>
                         </mysqli>
                     </resourceTypes>
             
@@ -37,7 +37,6 @@
             
                     <resources>
                         <core_setup>
-                            
                             <entities>
                                 <config><table>core_config</table></config>
                             
@@ -58,14 +57,6 @@
                                 <data_change_info><table>core_data_change_info</table></data_change_info>
                             </entities>
                         </core_setup>
-                
-                        <core_write>
-                            <entities extends="//core_setup/entities"/>
-                        </core_write>
-                
-                        <core_read>
-                            <entities extends="//core_setup/entities"/>
-                        </core_read>
                     </resources>
                 </all>
                 

@@ -13,15 +13,15 @@
                 <all>
                     <resources>
                         <sales_setup>
-                            <connection extends="//core_setup/connection"/>
+                            <connection use="core_setup"/>
                         </sales_setup>
 
                         <sales_write>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_write"/>
                         </sales_write>
 
                         <sales_read>
-                            <connection extends="//core_read/connection"/>
+                            <connection use="core_read"/>
                         </sales_read>
                     </resources>
                     

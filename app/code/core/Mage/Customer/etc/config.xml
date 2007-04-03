@@ -18,7 +18,7 @@
 
                     <resources>
                         <customer_setup>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_setup"/>
                             <entities>
                                 <customer><table>customer</table></customer>
                                 <customer_address><table>customer_address</table></customer_address>
@@ -29,11 +29,11 @@
                         </customer_setup>
 
                         <customer_write>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_write"/>
                         </customer_write>
 
                         <customer_read>
-                            <connection extends="//core_write/connection"/>
+                            <connection use="core_read"/>
                         </customer_read>
                     </resources>
                 </all>

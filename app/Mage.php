@@ -254,14 +254,15 @@ final class Mage {
     {
         Mage::setRoot($appRoot);
         
-        Mage::getConfig()->init();
-        
         Mage::prepareFileSystem();
 
         Mage::register('session', new Mage_Core_Session());
         Mage::register('messages', new Mage_Core_Message());
         Mage::register('events', new Varien_Event());
         Mage::register('website', new Mage_Core_Website());
+        Mage::register('resources', new Mage_Core_Resource());
+        
+        Mage::getConfig()->init();
         
         // check modules db
         Mage::getConfig()->applyDbUpdates();
@@ -286,7 +287,7 @@ Varien_Profiler::setTimer('app');
             Mage::registry('controller')->run();
 
 Varien_Profiler::getTimer('app', true);
-$conn = Mage::getConfig()->getResource('dev_write')->getConnection();
+$conn = Mage::registry('resources')->getConnection('dev_write');
 Varien_Profiler::getSqlProfiler($conn);
             
         } catch (Zend_Exception $e) {
