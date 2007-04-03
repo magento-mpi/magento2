@@ -25,23 +25,23 @@
                         </sales_read>
                     </resources>
                     
-                    <shipping>
+                    <salesShipping>
                         <table><class>Mage_Sales_Shipping_Table</class></table>
-                    </shipping>
+                    </salesShipping>
                     
-                    <payment>
+                    <salesPayment>
                         <checkmo><class>Mage_Sales_Payment_Checkmo</class></checkmo>
                         <ccsave><class>Mage_Sales_Payment_Ccsave</class></ccsave>
                         <custbalance><class>Mage_Sales_Payment_Custbalance</class></custbalance>
-                    </payment>
+                    </salesPayment>
                     
-                    <discount>
+                    <salesDiscount>
                         <coupon><class>Mage_Sales_Discount_Coupon</class></coupon>
-                    </discount>
+                    </salesDiscount>
                     
-                    <tax>
+                    <salesTax>
                         <rule><class>Mage_Sales_Tax_Rule</class></rule>
-                    </tax>
+                    </salesTax>
                 </all>
             
                 <admin>
@@ -66,9 +66,9 @@
     </modules>
     
     <global>
-        <discount extends="/config/modules/*/load/all/discount"/>
-        <shipping extends="/config/modules/*/load/all/shipping"/>
-        <payment extends="/config/modules/*/load/all/payment"/>
-        <tax extends="/config/modules/*/load/all/tax"/>
+        <salesDiscount extends="/config/modules/*/load/all/salesDiscount"/>
+        <salesShipping extends="/config/modules/*/load/all/salesShipping"/>
+        <salesPayment extends="/config/modules/*/load/all/salesPayment"/>
+        <salesTax extends="/config/modules/*/load/all/salesTax"/>
     </global>
 </config>

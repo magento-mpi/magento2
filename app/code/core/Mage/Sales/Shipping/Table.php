@@ -2,14 +2,24 @@
 
 class Mage_Sales_Shipping_Table extends Mage_Sales_Shipping_Abstract
 {
-    public function fetchQuotes($data, $refresh=false) 
+	/**
+	 * Enter description here...
+	 *
+	 * @param Mage_Sales_Shipping_Request $data
+	 * @return unknown
+	 */
+	public function fetchQuotes(Mage_Sales_Shipping_Request $request)
     {
-        $arr = array(
-            'table'=>array(
-                'free'=>array('title'=>'Free shipping', 'price'=>0),
-             ),
-        );
+    	$result = new Mage_Sales_Shipping_Quote_Result();
+    	
+    	$quote = new Mage_Sales_Shipping_Quote();
+    	$quote->type = 'table';
+    	$quote->method = 'free';
+    	$quote->title = 'Free Shipping';
+    	$quote->price = 0;
+    	
+    	$result->append($quote);
         
-        return $arr;
+    	return $result;
     }
 }

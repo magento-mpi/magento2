@@ -1,0 +1,6 @@
+<?php
+
+class Mage_Usa_Shipping_Dhl extends Mage_Sales_Shipping_Abstract
+{
+	
+}

@@ -8,16 +8,16 @@
                         <usa><class>Mage_Usa_Model_Mysql4</class></usa>
                     </model>
                     
-                    <shipping>
+                    <salesShipping>
                         <ups><class>Mage_Usa_Shipping_Ups</class></ups>
                         <usps><class>Mage_Usa_Shipping_Usps</class></usps>
                         <fedex><class>Mage_Usa_Shipping_Fedex</class></fedex>
                         <dhl><class>Mage_Usa_Shipping_Dhl</class></dhl>
-                    </shipping>
+                    </salesShipping>
                     
-                    <tax>
+                    <salesTax>
                         <uszipcode><class>Mage_Usa_Tax_Uszipcode</class></uszipcode>
-                    </tax>
+                    </salesTax>
                 </all>
             </load>
         </Mage_Usa>
