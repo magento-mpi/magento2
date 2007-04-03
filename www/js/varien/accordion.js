@@ -60,8 +60,8 @@ Accordion.prototype = {
     closeExistingSection: function() {
         if(this.currentSection) {
             var contents = document.getElementsByClassName('a-item',this.currentSection);
-            contents[0].hide();
-            //Effect.SlideUp(contents[0]);
+            //contents[0].hide();
+            Effect.SlideUp(contents[0]);
         }
     }
 }
