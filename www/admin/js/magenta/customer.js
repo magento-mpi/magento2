@@ -15,7 +15,7 @@ Mage.Customer = function(depend){
                 this.baseLayout = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                      center:{
                          titlebar: true,
-                         autoScroll:true,
+                         autoScroll: true,
                          resizeTabs : true,
                          hideTabs : true,
                          tabPosition: 'top'
@@ -23,43 +23,35 @@ Mage.Customer = function(depend){
                 });
                 
                 this.customerLayout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
-                    north: {
-                        titlebar:true,
-                        split:true,
-                        initialSize:83,
-                        minSize:0,
-                        maxSize:200,
-                        autoScroll:true,
-                        collapsible:true
-                    },
+//                    north: {
+//                        titlebar:false,
+//                        split : true,
+//                        initialSize:0,
+//                        minSize:0,
+//                        maxSize:200,
+//                        autoScroll:true,
+//                        collapsible:false
+//                    },
                     center : {
                         autoScroll : false,
                         titlebar : false,
                         hideTabs:true
-                    },
-                    south: {
-                         split:true,
-                         initialSize:300,
-                         minSize:50,
-                         titlebar: true,
-                         autoScroll:true,
-                         collapsible:true,
-                         hideTabs : true
-                     }
+                    }
                 });
                 
                 this.baseLayout.beginUpdate();
-                this.baseLayout.add('center', new Ext.NestedLayoutPanel(this.customerLayout, {title:'Manage Customers'}));
+                this.baseLayout.add('center', new Ext.NestedLayoutPanel(this.customerLayout));
                 this.baseLayout.endUpdate();
-                Core_Layout.add('center', new Ext.NestedLayoutPanel(this.baseLayout, {title : 'Products Grid'}));
                 
-                this.viewGrid();
+                Core_Layout.add('center', new Ext.NestedLayoutPanel(this.baseLayout, {title : 'Mange Customers'}));
+                
             } else { // not loaded condition
                 Mage.Core.getLayout().getRegion('center').showPanel(this.baseLayout);
             }
         },
 
         viewGrid: function(){
+            this.init();
             if (!this.gridPanel){
                 var grid = this.initGrid();
                 this.customerLayout.beginUpdate();
@@ -73,7 +65,7 @@ Mage.Customer = function(depend){
         },
         
         loadMainPanel : function() {
-            this.init();
+            this.viewGrid();
         },
 
         initGrid: function(parentLayout){
@@ -117,7 +109,7 @@ Mage.Customer = function(depend){
                 enableColLock : false
             });
             
-            grid.on('click', this.showEditPanel.createDelegate(this));
+            //grid.on('click', this.showEditPanel.createDelegate(this));
             
             grid.render();
 
@@ -137,51 +129,34 @@ Mage.Customer = function(depend){
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
                 handler : this.createItem.createDelegate(this)
-            },{
-                text: 'Add Filter',
-                //handler : this.addFilter,
-                scope : this,
-                cls: 'x-btn-text-icon'
-            },{
-                text: 'Apply Filters',
-                //handler : this.applyFilters,
-                scope : this,
-                cls: 'x-btn-text-icon'
             });
+//            ,{
+//                text: 'Add Filter',
+//                scope : this,
+//                cls: 'x-btn-text-icon'
+//            },{
+//                text: 'Apply Filters',
+//                scope : this,
+//                cls: 'x-btn-text-icon'
+//            });
             
             this.grid = grid;
             return grid;
         },
         
         createItem: function(){
-            this.showEditPanel(false);
+            this.showEditPanel();
         },
 
-        showEditPanel: function(row){
-            customerId = false;
+        showEditPanel: function(){
             var title = 'New Customer';
-            Ext.dump(arguments.length);
-            //if (row){
-              //  var title = 'Edit Customer #';
-                //Ext.dump(row);
-                //customerId = this.grid.getDataSource().getAt(row).id;
-//            }
-            
-             // title for form layout            
 
-            if (this.customerLayout.getRegion('south').getActivePanel()) {
+            
+            if (this.customerLayout.getRegion('south') && this.customerLayout.getRegion('south').getActivePanel()) {
                 this.customerLayout.getRegion('south').clearPanels();
-                this.editablePanels = [];
+                this.customerLayout.getRegion('south').hide();
             }
             
-           /* if (rowId >= 0) {
-             try {
-                  prodId = this.grid.getDataSource().getAt(rowId).id;
-                  title = 'Edit: ' + this.grid.getDataSource().getById(prodId).get('name');
-              } catch (e) {
-                  Ext.MessageBox.alert('Error!', e.getMessage());
-              }
-            }*/
             this.editPanel = new Ext.BorderLayout(this.customerLayout.getEl().createChild({tag:'div'}), {
                     hideOnLayout:true,
                     north: {
@@ -200,21 +175,106 @@ Mage.Customer = function(depend){
                          tabPosition: 'top'
                      }
             });
-
-            this.editPanel.add('north', new Ext.ContentPanel(this.customerLayout.getEl().createChild({tag:'div'})));
+            this.editPanel.add('north', new Ext.ContentPanel(this.editPanel.getEl().createChild({tag:'div'})));
+           
+            var failure = function(o) {Ext.MessageBox.alert('Customer Card',o.statusText);}
+            var cb = {
+                success : this.loadTabs.createDelegate(this),
+                failure : failure
+            };
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/502/', cb);  
 
             this.customerLayout.beginUpdate();
-            var failure = function(o) {Ext.MessageBox.alert('Product Card',o.statusText);}
-            var cb = {
-                //success : this.loadTabs.createDelegate(this),
-                failure : failure
-                //argument : {prod_id: prodId}
-            };
-            //var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);  
-            
-            this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
-            //this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
+            if (!this.customerLayout.getRegion('south')) {
+               this.customerLayout.addRegion('south', {
+                    split:true,
+                    initialSize:300,
+                    minSize:50,
+                    titlebar: true,
+                    autoScroll:true,
+                    collapsible:true,
+                    hideTabs : true
+               });
+            } else {
+                this.customerLayout.getRegion('south').show();
+            }
             this.customerLayout.endUpdate();
+
+            this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
+            this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
+        },
+        
+        onRemovePanel: function(region, panel) {
+            region.hide();
+        },
+        
+        onLoadPanel : function() {
+            
+        },
+        
+        loadTabs : function(response) {
+            
+            dataCard = Ext.decode(response.responseText);  
+            
+            
+            // begin update editPanel
+//            this.editPanel.beginUpdate();
+            
+            // setup toolbar for forms
+            var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
+            toolbar.add({
+                text: 'Save',
+                cls: 'x-btn-text-icon',
+                handler : this.saveItem.createDelegate(this)
+            },{
+                text: 'Delete',
+                cls: 'x-btn-text-icon'
+            },{
+                text: 'Reset',
+                cls: 'x-btn-text-icon'
+            },{
+                text: 'Cancel',
+                cls: 'x-btn-text-icon'
+            },'-');
+            this.formLoading = toolbar.addButton({
+               tooltip: 'Form is updating',
+               cls: "x-btn-icon x-grid-loading",
+               disabled: false
+            });
+            toolbar.addSeparator();
+            
+            var panel = null;
+            for(var i=0; i < dataCard.tabs.length; i++) {
+               var panel = this.createTabPanel(dataCard.tabs[i]);
+               if (panel) {
+                   var mgr = panel.getUpdateManager();
+                   mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
+                   this.editPanel.add('center', panel);
+               }
+            }
+            //this.editPanel.endUpdate();
+            
+        },
+        
+        createTabPanel: function(tabInfo){
+            var panel = null;
+            switch (tabInfo.type) {
+                default : 
+                    panel = new Ext.ContentPanel('productCard_' + tabInfo.name,{
+                        title : tabInfo.title,
+                        autoCreate: true,
+                        closable : false,
+                        url: tabInfo.url,
+                        loadOnce: true,
+                        background: true
+                    });
+            }
+            return panel;
+        },
+        
+        saveItem : function() {
+            
         }
+        
     }
 }();
