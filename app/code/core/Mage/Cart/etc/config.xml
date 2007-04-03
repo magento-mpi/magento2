@@ -45,11 +45,11 @@
 
                 <front>
                     <events>
-                        <customer_login>
+                        <customerLogin>
                             <observers>
                                 <auth><class>Mage_Cart_Front</class><method>registerCustomer</method></auth>
                             </observers>
-                        </customer_login>
+                        </customerLogin>
                     </events>
 
                     <controller>

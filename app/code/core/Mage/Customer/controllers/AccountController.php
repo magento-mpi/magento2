@@ -14,7 +14,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^create#', $action)) {
+        if (!preg_match('#^[create|forgotpassword]#', $action)) {
             if (!Mage_Customer_Front::authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }

@@ -24,9 +24,25 @@ class Mage_Checkout_Front
         }
     }
     
-    public function setStateData($stateName, $data)
+    public static function clear()
     {
-        $this->_state->$stateName = $data;
+        Mage::registry('Mage_Checkout')->clearState();
+    }
+
+    public function setStateData($stateName, $data, $value='')
+    {
+        if (is_string($data) && ('' != $value) ) {
+            $prevData = $this->_state->$stateName;
+            if (!is_array($prevData)) {
+                $prevData = array();
+            }
+            $prevData[$data] = $value;
+            $this->_state->$stateName = $prevData;
+        }
+        else {
+            $this->_state->$stateName = $data;
+        }
+        
         return $this;
     }
     
@@ -37,6 +53,6 @@ class Mage_Checkout_Front
     
     public function clearState()
     {
-        $this->_state = array();
+        $this->_state->unsetAll();
     }
 }

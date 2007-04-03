@@ -28,6 +28,9 @@ html>body ol#one-pg-co li { border : 0 1px 0 0;}
         line-height:1.8em;
         cursor:pointer;
         }
+
+    .page-checkout .allow h3 {background:#82b745; color:#fff;}
+    
     ol#one-pg-co li.over h3 { background:#dbd6ac; color:#366402; }
     ol#one-pg-co li.on h3 { background:#82b745; color:#fff; }
     ol#one-pg-co li h3 .step-number { 
@@ -59,7 +62,7 @@ html>body ol#one-pg-co li.on .step-body  { border : 1px solid #fbf9ea; }
         height:0;
         visibility:hidden;
         }
-    ol#one-pg-co li h4, ol#one-pg-co p.option { color:#4C8810; margin:0 0 4px 0; font-weight:bold; font-size:1em; }
+    .page-checkout h4, ol#one-pg-co p.option { color:#4C8810; margin:0 0 4px 0; font-weight:bold; font-size:1em; }
     ol#one-pg-co li .left { float:left; width:245px; }
     ol#one-pg-co li .right { float:right; width:245px; }
     ol#one-pg-co li .input-button { font-size:1.2em; font-weight:bold; }

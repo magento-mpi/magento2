@@ -1,66 +1,90 @@
 <div class="step-body">
     <div id="co-billing-nb" class="note-box" style="display:block;">
-        <p class="option">Select a billing address from your address book or enter a &nbsp;<a href="javascript:void(null);" onclick="co_process('billing-new');">new address</a></p>
+        <p class="option">
+            Select a billing address from your address book or enter a &nbsp;
+            <a href="javascript:void(null);" onclick="co_process('billing-new');">new address</a>
+        </p>
         <select id="sel-billing" name="" style="width:100%;"></select>
     </div>
     <div id="co-billing-db" class="default-box" style="display:block;">
         <p class="option">Enter new billing information</p>
-        <form id="co-billing-form"><fieldset>
-            <ul>
-                <li><div class="left">
-                        <label for="billing:firstname">First Name <span class="required">*</span></label><br/><input type="text" id="billing:firstname" title="First Name" class="required-entry input-text"/>
+        <form id="co-billing-form">
+            <fieldset>
+            <ul class="input-list">
+                <li>
+                    <div class="input-left">
+                        <label for="billing:firstname">First Name <span class="required">*</span></label><br/>
+                        <input type="text" id="billing:firstname" title="First Name" class="required-entry input-text"/>
                     </div>
-                    <div class="right">
+                    <div class="input-right">
                         <label for="billing:lastname">Last Name <span class="required">*</span></label><br/>
                         <input type="text" id="billing:lastname" title="Last Name" class="required-entry input-text"/>
                     </div>
+                    <div class="clearfix"></div>
                 </li>
-                <li><div class="left">
+                <li>
+                    <div class="input-left">
                         <label for="billing:company">Company</label><br/>
                         <input type="text" id="billing:company" title="Company" class="input-text"/>
                     </div>
-                    <div class="right">
+                    <div class="input-right">
                         <label for="billing:email_address">Email <span class="required">*</span></label><br/>
                         <input type="text" id="billing:email_address" title="Email Address" class="validate-email required-entry input-text"/>
                     </div>
+                    <div class="clearfix"></div>
                 </li>
-                <li><label for="billing:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" id="billing:street_address" class="required-entry input-text"/></li>
-                <li><input type="text" title="Street Address 2" id="billing:street_address2" class="input-text"/></li>
-                <li><label for="billing:city">City <span class="required">*</span></label><br/>
-                    <input type="text" title="City" class="required-entry input-text" id="billing:city"/></li>
                 <li>
-                    <div class="left">
+                    <label for="billing:street_address">Street Address <span class="required">*</span></label><br/>
+                    <input type="text" title="Street Address" id="billing:street_address" class="required-entry input-text"/>
+                </li>
+                <li>
+                    <input type="text" title="Street Address 2" id="billing:street_address2" class="input-text"/>
+                </li>
+                <li>
+                    <label for="billing:city">City <span class="required">*</span></label><br/>
+                    <input type="text" title="City" class="required-entry input-text" id="billing:city"/>
+                </li>
+                <li>
+                    <div class="input-left">
                         <label for="billing:zone_id">State / Province <span class="required">*</span></label><br/>
                         <select title="State/Province" id="billing:zone_id" class="validate-select required-entry">
-                            <{foreach item=zone from=$page.form.states}>
-                                <option value="<{$zone.zone_id}>"><{$zone.zone_name}></option>
-                            <{/foreach}>
+                            <option value="<{$zone.zone_id}>"><{$zone.zone_name}></option>
                         </select></div>
-                    <div class="right">
+                    <div class="input-right">
                         <label for="billing:postcode">Zip <span class="required">*</span></label><br/>
                         <input type="text" title="ZIP/Post Code" id="billing:postcode" class="validate-zip required-entry input-text"/>
                     </div>
+                    <div class="clearfix"></div>
                 </li>
-                <{*<li><label for="billing:country_id">Country <span class="required">*</span></label><br/>
-                    <select id="billing:country_id" title="Country" disabled><option value="223" selected="selected">United zone_ids</option></select></li>*}>
-                    <input type="hidden" id="billing:country_id" value="223">
                 <li>
-                    <div class="left"><label for="billing:telephone">Telephone <span class="required">*</span></label><br/>
+                    <label for="billing:country_id">Country <span class="required">*</span></label><br/>
+                    <select id="billing:country_id" title="Country" disabled>
+                        <option value="223" selected="selected">United zone_ids</option>
+                    </select>
+                </li>
+                <li>
+                    <div class="input-left">
+                        <label for="billing:telephone">Telephone <span class="required">*</span></label><br/>
                         (<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="billing:telephone_p1" size="3" maxlength="3" style="width: 35px;" />)
-<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="billing:telephone_p2" size="3" maxlength="3" style="width: 35px;" />
-- <input type="text" value="" title="Telephone" class="required-entry input-text input-size4" id="billing:telephone_p3" size="4" maxlength="4" style="width: 50px;" />
-x <input type="text" value="" title="Telephone" class="input-text input-size4" id="billing:telephone_p4" size="3" maxlength="4" style="width: 50px;" />
-<input type="hidden" name="billing:telephone" value="" class="validate-telephone" id="billing:telephone" />
-<script type="text/javascript">phone = new telephoneElem('billing:telephone', 'billing:telephone_p1', 'billing:telephone_p2', 'billing:telephone_p3', 'billing:telephone_p4');</script></div>
-                    <div class="right"><label for="billing:fax">Fax</label><br/>
+                        <input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="billing:telephone_p2" size="3" maxlength="3" style="width: 35px;" />
+                        - <input type="text" value="" title="Telephone" class="required-entry input-text input-size4" id="billing:telephone_p3" size="4" maxlength="4" style="width: 50px;" />
+                        x <input type="text" value="" title="Telephone" class="input-text input-size4" id="billing:telephone_p4" size="3" maxlength="4" style="width: 50px;" />
+                        <input type="hidden" name="billing:telephone" value="" class="validate-telephone" id="billing:telephone" />
+                        <script type="text/javascript">phone = new telephoneElem('billing:telephone', 'billing:telephone_p1', 'billing:telephone_p2', 'billing:telephone_p3', 'billing:telephone_p4');</script>
+                    </div>
+                    <div class="input-right">
+                        <label for="billing:fax">Fax</label><br/>
                         (<input type="text" value="" title="Fax" class="input-text input-size3" id="billing:fax_p1" size="3" maxlength="3" style="width: 35px;" />)
-<input type="text" value="" title="Fax" class="input-text input-size3" id="billing:fax_p2" size="3" maxlength="3" style="width: 35px;" />
-- <input type="text" value="" title="Fax" class="input-text input-size4" id="billing:fax_p3" size="4" maxlength="4" style="width: 50px;" />
-<input type="hidden" value="" class="validate-fax" id="billing:fax"/>
-<script type="text/javascript">fax = new telephoneElem('billing:fax', 'billing:fax_p1', 'billing:fax_p2', 'billing:fax_p3', false);</script></div></li>
+                        <input type="text" value="" title="Fax" class="input-text input-size3" id="billing:fax_p2" size="3" maxlength="3" style="width: 35px;" />
+                        - <input type="text" value="" title="Fax" class="input-text input-size4" id="billing:fax_p3" size="4" maxlength="4" style="width: 50px;" />
+                        <input type="hidden" value="" class="validate-fax" id="billing:fax"/>
+                        <script type="text/javascript">fax = new telephoneElem('billing:fax', 'billing:fax_p1', 'billing:fax_p2', 'billing:fax_p3', false);</script>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
             </ul>
-        </fieldset></form>
+        </fieldset>
+        </form>
     </div>
     <div id="co-billing-nb2" class="note-box" style="padding-top:0;">
         <input type="checkbox" id="ship2bill" /><label for="ship2bill"><strong>Ship to this address</strong></label>

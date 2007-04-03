@@ -1,0 +1,51 @@
+<h4>Login</h4>
+<div class="step-body">
+    <div class="note-box">
+    <form action="<?=$moduleBaseUrl?>" method="post">
+        <fieldset>
+        <p>
+            <strong>Already Registered?</strong><br/>
+            Log in below to take advantage of Express Checkout:
+        </p>
+        <ul>
+            <li>
+                <div class="input-left">
+                    <label for="email">Email Address</label></br>
+                    <input type="text" class="input-text" id="email" name="login[customer_email]"/>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            <li>
+                <div class="input-left">
+                    <label for="password">Password</label></br>
+                    <input type="password" class="input-text" id="password" name="login[customer_pass]" />
+                </div>
+                <div class="input-right" style="padding-top:20px;"><a href="">Forgot your password?</a></div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="submit" class="input-button" value="Login"/></div>
+    </form>
+    </div>
+</div>
+<h4 style="border:0;">Checkout as a Guest or Register</h4>
+<div class="step-body">
+    <div class="note-box">
+        <fieldset>
+        <p>You may check out as a guest or register with us for future convenience:</p>
+        <p>
+            <input type="radio" name="checkout_type" id="checkout_type:guest" value="1" /> 
+            <label for="checkout_type:guest"><strong>Checkout as Guest</strong></label><br/>
+            <input type="radio" name="checkout_type" id="checkout_type:register" value="2" /> 
+            <label for="checkout_type:register"><strong>Register</strong></label>
+        </p>
+        <strong>Register and save time!</strong><br/>
+        <ul class="disc">
+            <li>Fast and easy check out</li>
+            <li>Easy access to your order history and status</li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="co_process('login-register');"/></div>
+    </div>
+</div>

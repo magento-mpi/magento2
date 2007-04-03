@@ -2,23 +2,26 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action 
 {
-    function indexAction()
+    protected function _construct()
     {
-        $processBlock =  Mage::createBlock('tpl', 'checkout.process')
-            ->setViewName('Mage_Checkout', 'onepage/process.phtml');
+        parent::_construct();
+        $this->setFlag('status', 'no-preDispatch', true);
+    }
+    
+    public function indexAction()
+    {
+        $statusBlock =  Mage::createBlock('onepage_status', 'checkout.status');
             
         Mage::getBlock('left')->unsetChildren()
-            ->insert($processBlock);
+            ->insert($statusBlock);
             
-        $block = Mage::createBlock('tpl', 'checkout.onepage')
-            ->setViewName('Mage_Checkout', 'onepage.phtml');
-        
+        $block = Mage::createBlock('onepage', 'checkout.onepage');
         Mage::getBlock('content')->append($block);
         //$this->_redirect($this->_data['url']['checkout'].'/shipping');
     }
     
-    public function processStatusAction()
+    public function statusAction()
     {
-        
+        Mage::createBlock('onepage_status', 'root');
     }
 }

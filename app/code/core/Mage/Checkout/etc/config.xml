@@ -35,9 +35,34 @@
                         <frontName>checkout</frontName>
                     </controller>
 
+                    <blocks>
+                        <onepage><class>Mage_Checkout_Block_Onepage</class></onepage>
+                        <onepage_status><class>Mage_Checkout_Block_Onepage_Status</class></onepage_status>
+                    </blocks>
+
                     <layouts>
                         <default><updates><checkout><module>Mage_Checkout</module><file>initLayout.xml</file></checkout></updates></default>
                     </layouts>
+
+                    <events>
+                        <action_preDispatch>
+                            <observers>
+                                <construct><class>Mage_Checkout_Front</class><method>construct</method></construct>
+                            </observers>
+                        </action_preDispatch>
+                        
+                        <customerLogin>
+                            <observers>
+                                <clear><class>Mage_Checkout_Front</class><method>clear</method></clear>
+                            </observers>
+                        </customerLogin>
+                        
+                        <customerLogout>
+                            <observers>
+                                <clear><class>Mage_Checkout_Front</class><method>clear</method></clear>
+                            </observers>
+                        </customerLogout>
+                    </events>
                 </front>
             </load>
 

@@ -1,56 +1,38 @@
 <script type="text/javascript" src="<?=$baseUrl?>/js/varien/telephone.js"></script>
 <script type="text/javascript" src="<?=$baseUrl?>/js/varien/accordion.js"></script>
 <script type="text/javascript">
-    // Checkout
-</script>
+var Checkout = Class.create();
+Checkout.prototype = {
+    initialize: function(){
+        
+    }, 
+    
+    getServerData: function(url){
+    
+    },
 
+    updateFromFields: function(url){
+    
+    }
+}
+</script>
 <div class="content page-checkout">
     <div id="checkoutSteps" class="page-checkout">
-        <div class="section" id="checkout_base">
-            <h3>Checkout</h3>
+    <?foreach($steps as $_stepId => $_stepInfo):?>
+        <div class="section<?if(!empty($_stepInfo['allow'])):?> allow<?endif?>" id="<?=$_stepId?>">
+            <h3><?=$_stepInfo['label']?></h3>
             <div class="a-item" style="display:none;">
-            // base
+            <?=$$_stepId?>
             </div>
         </div>
-
-        <div class="section" id="checkout_billing">
-            <h3>Billing Information</h3>
-            <div class="a-item" style="display:none;">
-            // billing
-            </div>
-        </div>
-
-        <div class="section" id="checkout_payment">
-            <h3>Payment Information</h3>
-            <div class="a-item" style="display:none;">
-            // payment
-            </div>
-        </div>
-
-        <div class="section" id="checkout_shipping">
-            <h3>Shipping Information</h3>
-            <div class="a-item" style="display:none;">
-                // shipping
-            </div>
-        </div>
-
-        <div class="section" id="checkout_shipping_metod">
-            <h3>Shipping Method</h3>
-            <div class="a-item" style="display:none;">
-                // shipping method
-            </div>
-        </div>
-
-        <div class="section" id="checkout_review">
-            <h3>Order Review</h3>
-            <div class="a-item" style="display:none;">
-                // Order Review
-            </div>
-        </div>
-
+    <?endforeach?>
     </div>
-
     <script>
-        var accordion = new Accordion('checkoutSteps','h3');
+        var accordion = new Accordion('checkoutSteps','h3',true);
+        <?if($_activeStep=$curentBlock->getLastAllowStep()):?>
+        accordion.openSection('<?=$_activeStep?>');
+        <?endif?>
+        
+        var checkout = new Checkout();
     </script>
 </div>

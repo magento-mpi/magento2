@@ -30,6 +30,7 @@ class Mage_Customer_Front
     {
         if (Mage::registry('AUTH')->customer) {
             unset(Mage::registry('AUTH')->customer);
+            Mage::dispatchEvent('customerLogout');
         }
     }
     
@@ -37,7 +38,7 @@ class Mage_Customer_Front
     {
         Mage::registry('AUTH')->customer = Mage::getModel('customer', 'customer')->authenticate($login, $password);
         if (Mage::registry('AUTH')->customer) {
-            Mage::dispatchEvent('customer_login');
+            Mage::dispatchEvent('customerLogin');
             return true;
         }
         return false;

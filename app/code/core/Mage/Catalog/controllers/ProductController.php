@@ -15,7 +15,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->setFlag('image', 'no-preDispatch', true);
     }
     
-    function indexAction()
+    public function indexAction()
     {
 
     }
