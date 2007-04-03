@@ -15,6 +15,9 @@
             <block type="tag_js" name="head.js.prototype.validation">
                 <action method="setSrc"><src>/prototype/validation.js</src></action>
             </block>
+            <block type="tag_js" name="head.js.prototype.effects">
+                <action method="setSrc"><src>/scriptaculous/effects.js</src></action>
+            </block>
             <block type="tag_js" name="head.js.varien">
                 <action method="setSrc"><src>/varien/js.js</src></action>
             </block>

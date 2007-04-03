@@ -25,14 +25,16 @@ Accordion.prototype = {
             this.closeExistingSection();
             this.currentSection = section.id;
             var contents = document.getElementsByClassName('a-item',section);
-            contents[0].show();
+            //contents[0].show();
+            Effect.SlideDown(contents[0]);
         }
     },
     
     closeExistingSection: function() {
         if(this.currentSection) {
             var contents = document.getElementsByClassName('a-item',this.currentSection);
-            contents[0].hide();
+            //contents[0].hide();
+            Effect.SlideUp(contents[0]);
         }
     }
 }

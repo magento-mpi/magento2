@@ -39,6 +39,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
         $this->_steps['payment'] = array();
         $this->_steps['payment']['label'] = 'Payment Information';
+        $this->_steps['payment']['allow'] = true;
         $this->_createPaymentBlock();
 
         $this->_steps['shipping'] = array();
