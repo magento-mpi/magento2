@@ -4,9 +4,9 @@
         <Mage_Usa>
             <load>
                 <all>
-                    <model>
+                    <resourceModels>
                         <usa><class>Mage_Usa_Model_Mysql4</class></usa>
-                    </model>
+                    </resourceModels>
                     
                     <salesShippingVendors>
                         <ups><class>Mage_Usa_Shipping_Vendors_Ups</class></ups>

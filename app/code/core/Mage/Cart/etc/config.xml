@@ -11,9 +11,9 @@
 
             <load>
                 <all>
-                    <models>
+                    <resourceModels>
                         <cart><class>Mage_Cart_Model_Mysql4</class></cart>
-                    </models>
+                    </resourceModels>
                     
                     <resources>
                         <cart_setup>

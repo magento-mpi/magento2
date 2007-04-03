@@ -10,9 +10,9 @@
 
             <load>
                 <all>
-                    <models>
+                    <resourceModels>
                         <checkout><class>Mage_Checkout_Model_Mysql4</class></checkout>
-                    </models>
+                    </resourceModels>
                     
                     <resources>
                         <checkout_setup>

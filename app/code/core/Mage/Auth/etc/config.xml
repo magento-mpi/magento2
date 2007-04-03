@@ -30,11 +30,11 @@
                         </auth_read>
                     </resources>
                     
-                    <models>
+                    <resourceModels>
                         <auth>
                             <class>Mage_Auth_Model_Mysql4</class>
                         </auth>
-                    </models>
+                    </resourceModels>
                 </all>
                 
                 <admin>

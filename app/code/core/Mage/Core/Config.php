@@ -369,7 +369,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
         return true;
     }
-    
+
     /**
      * Get standard path variables.
      * 
@@ -450,7 +450,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $className = '';
         if ($xml = $this->getXml()) {
-            $className = (string)$xml->global->models->$model->class;
+            $className = (string)$xml->global->resourceModels->$model->class;
         }     
 
         if (''!==$class) {
@@ -479,7 +479,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceType($type)
     {
-        return $this->getXml()->global->resourceTypes->$type;
+        return $this->getXml()->global->resourceConnectionTypes->$type;
     }
     
      /**

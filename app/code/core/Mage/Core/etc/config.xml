@@ -5,7 +5,7 @@
             <version>0.1.4</version>
             <load>
                 <all>
-                    <resourceTypes>
+                    <resourceConnectionTypes>
                         <mysql>
                             <class>Mage_Core_Resource_Type_Db_Mysql</class>
                         </mysql>
@@ -13,13 +13,13 @@
                         <mysqli>
                             <class>Mage_Core_Resource_Type_Db_Mysqli</class>
                         </mysqli>
-                    </resourceTypes>
+                    </resourceConnectionTypes>
             
-                    <models>
+                    <resourceModels>
                         <core>
                             <class>Mage_Core_Model_Mysql4</class>
                         </core>
-                    </models>
+                    </resourceModels>
 
                     <blocks>
                         <text><class>Mage_Core_Block_Text</class></text>
@@ -128,9 +128,9 @@
     </modules>
 
     <global>
-        <resourceTypes extends="/config/modules/*/load/*/resourceTypes"/>
+        <resourceConnectionTypes extends="/config/modules/*/load/*/resourceConnectionTypes"/>
         <resources extends="/config/modules/*/load/*/resources"/>
-        <models extends="/config/modules/*/load/*/models"/>
+        <resourceModels extends="/config/modules/*/load/*/resourceModels"/>
         <blockTypes extends="/config/modules/*/load/*/blocks"/>
 
         <front>

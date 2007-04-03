@@ -10,11 +10,11 @@
 
             <load>
                 <all>
-                    <models>
+                    <resourceModels>
                         <customer>
                             <class>Mage_Customer_Model_Mysql4</class>
                         </customer>
-                    </models>
+                    </resourceModels>
 
                     <resources>
                         <customer_setup>

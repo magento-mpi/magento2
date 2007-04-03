@@ -10,11 +10,11 @@
 
             <load>
                 <all>
-                    <models>
+                    <resourceModels>
                         <catalog>
                             <class>Mage_Catalog_Model_Mysql4</class>
                         </catalog>
-                    </models>
+                    </resourceModels>
 
                     <resources>
                         <catalog_setup>
