@@ -7,11 +7,11 @@ class Mage_Sales_Shipping_Quote_Result
 	/**
 	 * Add a quote to the result
 	 *
-	 * @param Mage_Sales_Shipping_Quote|Mage_Sales_Shipping_Quote_Result $result
+	 * @param Mage_Sales_Shipping_Quote_Method|Mage_Sales_Shipping_Quote_Result $result
 	 */
 	function append($result)
 	{
-		if ($result instanceof Mage_Sales_Shipping_Quote) {
+		if ($result instanceof Mage_Sales_Shipping_Quote_Method) {
 			$this->_quotes[] = $result;
 		} elseif ($result instanceof Mage_Sales_Shipping_Quote_Result) {
 			$quotes = $result->getAllQuotes();
@@ -45,5 +45,3 @@ class Mage_Sales_Shipping_Quote_Result
 		return $result;
 	}
 }
-
-?>

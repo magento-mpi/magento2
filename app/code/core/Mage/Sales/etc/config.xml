@@ -25,9 +25,22 @@
                         </sales_read>
                     </resources>
                     
-                    <salesShipping>
-                        <table><class>Mage_Sales_Shipping_Table</class></table>
-                    </salesShipping>
+                    <salesShippingVendors>
+                        <table><class>Mage_Sales_Shipping_Vendor_Table</class></table>
+                    </salesShippingVendors>
+                    
+                    <salesShippingRuleConditions>
+                    	<dest_country><class>Mage_Sales_Shipping_Rule_Condition_Dest_Country</class></dest_country>
+                    	<dest_region><class>Mage_Sales_Shipping_Rule_Condition_Dest_Region</class></dest_region>
+                    	<dest_zip><class>Mage_Sales_Shipping_Rule_Condition_Dest_Zip</class></dest_zip>
+                    	<package_weight><class>Mage_Sales_Shipping_Rule_Condition_Package_Weight</class></package_weight>
+                    	<order_subtotal><class>Mage_Sales_Shipping_Rule_Condition_Order_Subtotal</class></order_subtotal>
+                    	<order_totalqty><class>Mage_Sales_Shipping_Rule_Condition_Order_Totalqty</class></order_totalqty>
+                    </salesShippingRuleConditions>
+                    
+                    <salesShippingRuleActions>
+                    	
+                    </salesShippingRuleActions>
                     
                     <salesPayment>
                         <checkmo><class>Mage_Sales_Payment_Checkmo</class></checkmo>
@@ -67,7 +80,9 @@
     
     <global>
         <salesDiscount extends="/config/modules/*/load/all/salesDiscount"/>
-        <salesShipping extends="/config/modules/*/load/all/salesShipping"/>
+        <salesShippingVendors extends="/config/modules/*/load/all/salesShippingVendors"/>
+        <salesShippingRuleConditions extends="/config/modules/*/load/all/salesShippingRuleConditions"/>
+        <salesShippingRuleActions extends="/config/modules/*/load/all/salesShippingRuleActions"/>
         <salesPayment extends="/config/modules/*/load/all/salesPayment"/>
         <salesTax extends="/config/modules/*/load/all/salesTax"/>
     </global>

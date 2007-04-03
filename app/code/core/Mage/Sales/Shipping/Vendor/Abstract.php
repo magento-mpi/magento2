@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Sales_Shipping_Abstract
+abstract class Mage_Sales_Shipping_Vendor_Abstract
 {
     protected $_quotes = null;
     
