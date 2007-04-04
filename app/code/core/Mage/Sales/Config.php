@@ -9,5 +9,6 @@ class Mage_Sales_Config
             'origin_region_id'=>1,
             'origin_zip'=>'90034',
         );
+        return $origin;
     }
 }
