@@ -250,7 +250,6 @@ Mage.Customer = function(depend){
             toolbar.addSeparator();
             
             
-            dataCard.tabs[0].type = 'address';
             var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
                var panel = this.createTabPanel(dataCard.tabs[i]);
@@ -310,17 +309,15 @@ Mage.Customer = function(depend){
             
         	// create the required templates
         	this.addressTemplate = new Ext.Template(
-                '<address id="{addr_id}">'+
-            		'{address}<br/>'+
-            		'{city}, {state} {zip}<br/>'+
-            		'{country}'+
+                '<address id="{address_id}">'+
+            		'{address}' +
                 '</address>'
         	);
         	this.addressTemplate.compile();	            
             
         	var view = new Ext.JsonView(addressBody, this.addressTemplate, {
         		singleSelect: true,
-        		jsonRoot: 'addresses',
+        		//jsonRoot: 'addresses',
         		emptyText : '<div style="padding:10px;">No address found</div>'
         	});            
             

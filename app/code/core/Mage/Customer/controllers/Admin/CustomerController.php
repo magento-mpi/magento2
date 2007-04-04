@@ -38,7 +38,22 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
-        //$card
+        $cardStruct = array();
+        $cardStruct['tabs'] = array(
+            0 => array(
+                'name' => 'general',
+                'title' => 'General Information',
+                'url' => ''
+            ),
+            1 => array(
+                'name' => 'addresses',
+                'title' => 'Addresses',
+                'url' => '',
+                'type' => 'address'
+            ),
+        );
+        
+        $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
     
     /**
