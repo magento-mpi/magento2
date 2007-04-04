@@ -138,11 +138,11 @@ Mage.Catalog_Product = function(depend){
         addFilter : function(node, e) {
             if (!this.productLayout.getRegion('north')) {
                 var region = this.productLayout.addRegion('north',{
-                    titlebar:true,
+                    titlebar:false,
                     split:true,
-                    initialSize:83,
-                    minSize:0,
-                    maxSize:200,
+                    initialSize:30,
+                    minSize:27,
+                    maxSize:100,
                     autoScroll:true,
                     collapsible:true
                 }) 
@@ -191,6 +191,7 @@ Mage.Catalog_Product = function(depend){
             filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);        	        	
             
             this.updateSizeFilterPanel();
+            return true;
         },
         
         
@@ -215,7 +216,7 @@ Mage.Catalog_Product = function(depend){
                 height = height + el.getHeight();
             }
             this.productLayout.getRegion('north').resizeTo(height+1);
-            
+            return true;
         },
         
         applyFilters : function() {
@@ -332,16 +333,18 @@ Mage.Catalog_Product = function(depend){
             }
             var title = 'New Product'; // title for from layout            
 
+
+            
             if (!this.productLayout.getRegion('south')) {
                 var region = this.productLayout.addRegion('south',{
                          split:true,
                          initialSize:300,
                          minSize:50,
                          titlebar: true,
-                         autoScroll:true,
-                         collapsible:true,
+                         autoScroll: true,
+                         collapsible: true,
                          hideTabs : true
-                }) 
+                }); 
             } else {
                this.productLayout.getRegion('south').show();
             }
@@ -349,6 +352,7 @@ Mage.Catalog_Product = function(depend){
             if (this.productLayout.getRegion('south').getActivePanel()) {
                 this.productLayout.getRegion('south').clearPanels();
                 this.editablePanels = [];
+                this.productLayout.getRegion('south').show();                
             }
             
             if (rowId >= 0) {
@@ -394,11 +398,35 @@ Mage.Catalog_Product = function(depend){
             this.productLayout.endUpdate();
         },
 
-        onRemovePanel : function(region, panel) {
+        onRemovePanel : function() {
             this.editablePanels = [];
             this.registeredForms.clear();
             this.productLayout.getRegion('south').clearPanels();
             this.productLayout.getRegion('south').hide();
+            return true;
+        },
+        
+        
+        onResetForm : function() {
+            var i;
+            for (i=0; i < this.editablePanels.length; i++) {
+                var panel = this.editPanel.getRegion('center').getPanel(this.editablePanels[i]);
+                if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom)) {
+                    form.reset();
+                }
+                panel.setTitle(panel.getTitle().substr(0,panel.getTitle().length-1));
+            }
+            this.editablePanels = [];
+            return true;
+        },
+        
+        onCancelEdit : function() {
+            if (this.editablePanels.length) {
+                Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.onRemovePanel.createDelegate(this));
+            } else {
+               this.onRemovePanel();
+            }
+            return true;
         },
 
         // submit form to server        
@@ -458,11 +486,12 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon'
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.onResetForm.createDelegate(this)
             },{
                 text: 'Cancel',
                 cls: 'x-btn-text-icon',
-                handler : this.onRemovePanel.createDelegate(this)
+                handler : this.onCancelEdit.createDelegate(this)
             },'-');
             this.formLoading = toolbar.addButton({
                tooltip: 'Form is updating',
