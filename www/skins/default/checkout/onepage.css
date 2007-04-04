@@ -7,8 +7,8 @@
         color:#000;
         line-height:1.8em;}
 .page-checkout-left li h4 { margin:0; padding:0 10px 0 25px; background:url(images/bg_checkout_incomplete.gif) no-repeat 6px 50%; color:#2c5200; font-size:1em; line-height:2em; }
-.page-checkout-left li.complete h4 { background:url(images/bg_checkout_complete.gif) no-repeat 6px 50% #fbf9ea; }
-.page-checkout-left .step-body { padding:8px; background-color:#fffef9; display:none; }
+.page-checkout-left li.complete h4 { background:url(images/bg_checkout_complete.gif) no-repeat 6px 50%; }
+.page-checkout-left .step-body { padding:2px 8px;}
 .page-checkout-left li.complete .step-body { display:block;}
 .page-checkout-left a:hover { color:#e17000; }
 .page-checkout a,   .page-checkout a:hover { display:inline; background:none;} 

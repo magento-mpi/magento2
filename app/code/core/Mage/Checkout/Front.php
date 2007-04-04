@@ -46,9 +46,16 @@ class Mage_Checkout_Front
         return $this;
     }
     
-    public function getStateData($stateName)
+    public function getStateData($stateName, $section = '')
     {
-        return $this->_state->$stateName;
+        if ('' == $section) {
+            return $this->_state->$stateName;
+        }
+        else {
+            $data = $this->_state->$stateName;
+            return isset($data[$section]) ? $data[$section] : false;
+        }
+        
     }
     
     public function clearState()

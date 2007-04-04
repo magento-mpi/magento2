@@ -82,15 +82,31 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             ->setViewName('Mage_Checkout', 'onepage/billing.phtml')
             ->assign('data', $data);
         
+        $address = array();
+        if (Mage::registry('Mage_Checkout')->getStateData('billing', 'data')) {
+            $address = Mage::registry('Mage_Checkout')->getStateData('billing', 'data');
+            $address = new Varien_DataObject($address);
+        }
+        
+        
+        // assign customer addresses
         if (Mage_Customer_Front::getCustomerId()) {
-            //$addressModel = Mage::getModel('customer', 'address_collection');
+
             $addresses = Mage::getModel('customer', 'address_collection')
                 ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
                 ->load()
                 ->getItems();
             $block->assign('addresses', $addresses);
+            if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
+                $address = Mage::getModel('customer', 'address')->getRow($default_address_id);
+            }
         }
         
+        if (empty($address)) {
+            $address = new Varien_DataObject();
+        }
+        
+        $block->assign('address', $address);
         $this->setChild('billing', $block);
     }
 

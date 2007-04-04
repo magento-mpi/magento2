@@ -4,6 +4,7 @@ Billing.prototype = {
     initialize: function(form){
         this.form = form;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
+        this.onSave = this.continue.bindAsEventListener(this);
     },
 
     setAddress: function(addressId){
@@ -21,6 +22,13 @@ Billing.prototype = {
         }
     },
     
+    resetSelectedAddress: function(){
+        var selectElement = $('billing-address-select')
+        if (selectElement) {
+            selectElement.value='';
+        }
+    },
+
     fillForm: function(transport){
         var elementValues = {};
         if (transport && transport.responseText){
@@ -31,12 +39,29 @@ Billing.prototype = {
                 elementValues = {};
             }
         }
+        else{
+            this.resetSelectedAddress();
+        }
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
                 var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
             }
+        }
+    },
+    
+    save: function(){
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+            var request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/saveBilling/address/',
+                {
+                    method:'post',
+                    onSuccess: this.onSave,
+                    parameters: Form.serialize(this.form)
+                }
+            );
         }
     },
 
@@ -52,34 +77,36 @@ Billing.prototype = {
             Select a billing address from your address book or enter a &nbsp;
             <a href="#" onclick="billing.setAddress(false); return false;">new address</a>
         </p>
-        <select id="sel-billing" name="" style="width:100%;" onchange="billing.setAddress(this.value);">
+        <select id="billing-address-select" name="" style="width:100%;" onchange="billing.setAddress(this.value);">
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
-            <option value="<?=$_address->getAddressId()?>"><?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]</option>
+            <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]
+            </option>
         <?endforeach?>
         </select>
     </div>
     <?endif?>
     <div class="default-box" style="display:block;">
         <form id="co-billing-form">
-            <input type="hidden" name="billing[address_id]" id="billing:address_id">
+            <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id">
             <fieldset>
             <ul class="input-list">
                 <li>
                     <div class="input-left">
                         <label for="billing:firstname">First Name <span class="required">*</span></label><br/>
-                        <input type="text" id="billing:firstname" title="First Name" class="required-entry input-text"/>
+                        <input type="text" id="billing:firstname" name="billing[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry input-text"/>
                     </div>
                     <div class="input-right">
                         <label for="billing:lastname">Last Name <span class="required">*</span></label><br/>
-                        <input type="text" id="billing:lastname" title="Last Name" class="required-entry input-text"/>
+                        <input type="text" id="billing:lastname" name="billing[lastname]" value="<?=$address->getLastname()?>" title="Last Name" class="required-entry input-text"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="billing:company">Company</label><br/>
-                        <input type="text" id="billing:company" title="Company" class="input-text"/>
+                        <input type="text" id="billing:company" name="billing[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
                     </div>
                     <!--
                     <div class="input-right">
@@ -91,40 +118,40 @@ Billing.prototype = {
                 </li>
                 <li>
                     <label for="billing:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" id="billing:street_address" class="required-entry input-text"/>
+                    <input type="text" title="Street Address" name="billing[street][1]" id="billing:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
                 </li>
                 <li>
-                    <input type="text" title="Street Address 2" id="billing:street_address2" class="input-text"/>
+                    <input type="text" title="Street Address 2" name="billing[street][2]" id="billing:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
                 </li>
                 <li>
                     <label for="billing:city">City <span class="required">*</span></label><br/>
-                    <input type="text" title="City" class="required-entry input-text" id="billing:city"/>
+                    <input type="text" title="City" name="billing[city]" value="<?=$address->getCity()?>" class="required-entry input-text" id="billing:city"/>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="billing:zone_id">State / Province <span class="required">*</span></label><br/>
-                        <select title="State/Province" id="billing:zone_id" class="validate-select required-entry">
+                        <select title="State/Province" id="billing:region_id" name="billing[region_id]" class="validate-select required-entry">
                             <option value="1">LA</option>
                         </select></div>
                     <div class="input-right">
                         <label for="billing:postcode">Zip <span class="required">*</span></label><br/>
-                        <input type="text" title="ZIP/Post Code" id="billing:postcode" class="validate-zip required-entry input-text"/>
+                        <input type="text" title="ZIP/Post Code" name="billing[postcode]" id="billing:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
                 <li>
                     <label for="billing:country_id">Country <span class="required">*</span></label><br/>
-                    <select id="billing:country_id" title="Country">
+                    <select id="billing:country_id" name="billing[country_id]" title="Country">
                         <option value="223" selected="selected">USA</option>
                     </select>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="billing:telephone">Telephone <span class="required">*</span></label><br/>
-                        <input type="text" name="billing:telephone" value="" title="Telephone" class="required-entry validate-phoneStrict input-text" id="billing:telephone"/></div>
+                        <input type="text" name="billing[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="billing:telephone"/></div>
                     <div class="input-right">
                         <label for="billing:fax">Fax</label><br/>
-                        <input type="text" name="billing:fax" value="" title="Fax" class="validate-fax input-text" id="billing:fax"/>
+                        <input type="text" name="billing[fax]" value="<?=$address->getFax()?>" title="Fax" class="validate-fax input-text" id="billing:fax"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
@@ -132,15 +159,13 @@ Billing.prototype = {
         </fieldset>
         </form>
     </div>
-    <div id="co-billing-nb2" class="note-box" style="padding-top:0;">
-        <input type="checkbox" id="ship2bill" /><label for="ship2bill"><strong>Ship to this address</strong></label>
+    <div class="note-box">
         <p class="a-right"><span class="required">* Required Fields</span></p>
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="billing.continue();" class="input-button float-right" value="Continue"/>
+        <input type="button" onclick="billing.save();" class="input-button float-right" value="Continue"/>
         <div class="clearfix"></div>
     </div>
 </div>
 <script type="text/javascript">
     var billing = new Billing('co-billing-form');
-    val_billing = new Validation('co-billing-form');
 </script>

@@ -1,11 +1,27 @@
 <div class="page-checkout-left">
     <h3>Checkout Status</h3>
     <ol>
-        <li>
-            <h4>Billing Address 2</h4>
-            <div>
-            123 123
+    <?if($billing):?>
+        <li class="complete">
+            <h4>Billing Address</h4>
+            <div class="step-body">
+            <?=$billing['firstname']?> <?=$billing['lastname']?>
             </div>
+            <a href="#" onclick="checkout.accordion.openSection('billing');return false;">edit</a>
+        </li>
+    <?else:?>
+        <li class="complete">
+            <h4>Billing Address</h4>
+        </li>
+    <?endif?>
+        <li<?if($payment):?> class="complete"<?endif?>>
+            <h4>Payment Method</h4>
+        </li>
+        <li<?if($shipping):?> class="complete"<?endif?>>
+            <h4>Shipping Address</h4>
+        </li>
+        <li<?if($shipping_method):?> class="complete"<?endif?>>
+            <h4>Shipping Method</h4>
         </li>
     </ol>
 </div>

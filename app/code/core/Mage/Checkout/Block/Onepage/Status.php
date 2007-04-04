@@ -13,15 +13,10 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setViewName('Mage_Checkout', 'onepage/status.phtml');
-    }
-    
-    protected function _initStatus()
-    {
-        $statuses = array(
-            'billing',
-            'payment',
-            'shipping',
-            'shipping_method',
-        );
+        
+        $this->assign('billing', Mage::registry('Mage_Checkout')->getStateData('billing', 'data'));
+        $this->assign('payment', Mage::registry('Mage_Checkout')->getStateData('payment', 'data'));
+        $this->assign('shipping', Mage::registry('Mage_Checkout')->getStateData('shipping', 'data'));
+        $this->assign('shipping_method', Mage::registry('Mage_Checkout')->getStateData('shipping_method', 'data'));
     }
 }
