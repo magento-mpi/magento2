@@ -128,7 +128,32 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'onepage/shipping.phtml')
             ->assign('data', $data);
-            
+        
+        $address = array();
+        if (Mage::registry('Mage_Checkout')->getStateData('shipping', 'data')) {
+            $address = Mage::registry('Mage_Checkout')->getStateData('shipping', 'data');
+            $address = new Varien_DataObject($address);
+        }
+        
+        
+        // assign customer addresses
+        if (Mage_Customer_Front::getCustomerId()) {
+
+            $addresses = Mage::getResourceModel('customer', 'address_collection')
+                ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
+                ->load()
+                ->getItems();
+            $block->assign('addresses', $addresses);
+            if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
+                $address = Mage::getResourceModel('customer', 'address')->getRow($default_address_id);
+            }
+        }
+        
+        if (empty($address)) {
+            $address = new Varien_DataObject();
+        }
+        
+        $block->assign('address', $address);
         $this->setChild('shipping', $block);
     }
 

@@ -13,6 +13,14 @@ class Mage_Customer_Address
     
     public function __construct($addressId=false) 
     {
-        
+        if ($addressId) {
+            $this->_addressId = $addressId;
+            $this->load($addressId);
+        }
+    }
+    
+    public function load($addressId)
+    {
+        $this->_addressId = $addressId;
     }
 }

@@ -9,6 +9,9 @@
  */
 class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
 {
+    /**
+     * Addresses JSON
+     */
     public function gridDataAction()
     {
         $arrRes = array(
@@ -25,8 +28,27 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
         
         $this->getResponse()->setBody(Zend_Json::encode($arrRes));
     }
-    
+
+    /**
+     * Address form
+     */
     public function formAction()
+    {
+        
+    }
+
+    /**
+     * Form post
+     */
+    public function formPostAction()
+    {
+        
+    }
+
+    /**
+     * Delete address
+     */
+    public function deleteAction()
     {
         
     }

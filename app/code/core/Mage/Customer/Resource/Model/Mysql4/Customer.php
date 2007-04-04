@@ -124,7 +124,8 @@ class Mage_Customer_Resource_Model_Mysql4_Customer extends Mage_Customer_Resourc
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_customerTable WHERE customer_id=:customer_id";
-        return new Varien_DataObject($this->_read->fetchRow($sql, array('customer_id'=>$rowId)));
+        //return new Varien_DataObject($this->_read->fetchRow($sql, array('customer_id'=>$rowId)));
+        return $this->_read->fetchRow($sql, array('customer_id'=>$rowId));
     }    
     
     protected function _encodePassword($password)

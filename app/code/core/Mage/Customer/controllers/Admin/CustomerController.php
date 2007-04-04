@@ -43,7 +43,8 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             0 => array(
                 'name' => 'general',
                 'title' => 'General Information',
-                'url' => ''
+                'url' => Mage::getBaseUrl().'/mage_customer/customer/form/',
+                'active' => true
             ),
             1 => array(
                 'name' => 'addresses',
@@ -61,15 +62,83 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
      */
     public function formAction()
     {
-        
-    }
-    
-    /**
-     * Customer addresses
-     */
-    public function addressesAction()
-    {
         $customerId = $this->getRequest()->getParam('customer', false);
-        $addresses = '';
+        $customer = new Mage_Customer_Customer($customerId);
+        
+        $form = Mage::createBlock('form', 'customer.form');
+        $form->setViewName('Mage_Core', 'form.phtml');
+        
+        $form->setAttribute('legend', 'Customer information');
+        $form->setAttribute('class', 'x-form');
+        $form->setAttribute('action', Mage::getBaseUrl().'/mage_customer/customer/formPost/');
+        
+        $form->addField(
+            'customer_id', 
+            'hidden', 
+            array(
+                'name'=>'customer_id'
+            )
+        );
+                
+        $form->addField(
+            'customer_firstname', 
+            'text', 
+            array(
+                'name'  => 'customer_firstname',
+                'label' => 'Firstname',
+                'id'    => 'customer_firstname',
+                'title' => 'Customer Firstname',
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField(
+            'customer_lastname', 
+            'text', 
+            array(
+                'name'  => 'customer_lastname',
+                'label' => 'Lastname',
+                'id'    => 'customer_lastname',
+                'title' => 'Customer Lastname',
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField(
+            'customer_email', 
+            'text', 
+            array(
+                'name'  => 'customer_email',
+                'label' => 'Email',
+                'id'    => 'customer_email',
+                'title' => 'Customer Email',
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->setElementsValues($customer->__toArray());
+
+        $form->addField(
+            'customer_pass', 
+            'password', 
+            array(
+                'name'  => 'customer_pass',
+                'label' => 'Password',
+                'id'    => 'customer_pass',
+                'title' => 'Customer Password',
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+        
+        $this->getResponse()->setBody($form->toString());
+    }
+
+    public function formPostAction()
+    {
+        
     }
 }

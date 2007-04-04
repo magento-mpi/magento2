@@ -56,6 +56,16 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveShippingAction()
     {
+
+        if ($this->getRequest()->isPost()) {
+            $data = isset($_POST['shipping']) ? $_POST['shipping'] : array();
+            if (!empty($data)) {
+                Mage::registry('Mage_Checkout')->setStateData('shipping', 'allow', true);
+                //Mage::registry('Mage_Checkout')->setStateData('payment', 'allow', true);
+            }
+            Mage::registry('Mage_Checkout')->setStateData('shipping', 'data', $data);
+        }
+
         $shipping = new Mage_Sales_Shipping();
 
         $request = new Mage_Sales_Shipping_Quote_Request();

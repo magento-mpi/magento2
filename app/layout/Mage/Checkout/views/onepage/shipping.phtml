@@ -1,72 +1,171 @@
+<script type="text/javascript">
+var Shipping = Class.create();
+Shipping.prototype = {
+    initialize: function(form){
+        this.form = form;
+        this.onAddressLoad = this.fillForm.bindAsEventListener(this);
+        this.onSave = this.continue.bindAsEventListener(this);
+    },
+
+    setAddress: function(addressId){
+        if (addressId) {
+            request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/getAddress/address/'+addressId,
+                {
+                    method:'get',
+                    onSuccess: this.onAddressLoad
+                }
+            );
+        }
+        else {
+            this.fillForm(false);
+        }
+    },
+    
+    resetSelectedAddress: function(){
+        var selectElement = $('shipping-address-select')
+        if (selectElement) {
+            selectElement.value='';
+        }
+    },
+
+    fillForm: function(transport){
+        var elementValues = {};
+        if (transport && transport.responseText){
+            try{
+                elementValues = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                elementValues = {};
+            }
+        }
+        else{
+            this.resetSelectedAddress();
+        }
+        arrElements = Form.getElements(this.form);
+        for (var elemIndex in arrElements) {
+            if (arrElements[elemIndex].id) {
+                var fieldName = arrElements[elemIndex].id.replace(/shipping:/, '');
+                arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
+            }
+        }
+    },
+    
+    save: function(){
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+            var request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/saveShipping/address/',
+                {
+                    method:'post',
+                    onSuccess: this.onSave,
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    },
+
+    continue: function(){
+        checkout.setShipping();
+    }
+}
+</script>
 <div class="step-body">
-    <div id="co-shipping-nb" class="note-box" style="display:block;">
-        <p class="option">Select a shipping address from your address book or enter a &nbsp;<a href="javascript:void(null);" onclick="co_process('shipping-new')">new address</a></p>
-        <select id="sel-shipping" name="" style="width:100%;"></select>
+    <?if(!empty($addresses)):?>
+    <div class="note-box" style="display:block;">
+        <p class="option">
+            Select a shipping address from your address book or enter a &nbsp;
+            <a href="#" onclick="shipping.setAddress(false); return false;">new address</a>
+        </p>
+        <select id="shipping-address-select" name="" style="width:100%;" onchange="shipping.setAddress(this.value);">
+            <option value="">New address</option>
+        <?foreach($addresses as $_addressId=>$_address):?>
+            <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]
+            </option>
+        <?endforeach?>
+        </select>
     </div>
-    <div id="co-shipping-db" class="default-box" style="display:block;">
-        <p class="option">Enter new shipping information</p>
-        <form id="co-shipping-form"><fieldset>
-            <ul>
-                <li><div class="left">
-                        <label for="shipping:firstname">First Name <span class="required">*</span></label><br/><input type="text" id="shipping:firstname" title="First Name" class="required-entry input-text"/>
+    <?endif?>
+    <div class="default-box" style="display:block;">
+        <form id="co-shipping-form">
+            <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id">
+            <fieldset>
+            <ul class="input-list">
+                <li>
+                    <div class="input-left">
+                        <label for="shipping:firstname">First Name <span class="required">*</span></label><br/>
+                        <input type="text" id="shipping:firstname" name="shipping[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry input-text"/>
                     </div>
-                    <div class="right">
+                    <div class="input-right">
                         <label for="shipping:lastname">Last Name <span class="required">*</span></label><br/>
-                        <input type="text" id="shipping:lastname" title="Last Name" class="required-entry input-text"/>
+                        <input type="text" id="shipping:lastname" name="shipping[lastname]" value="<?=$address->getLastname()?>" title="Last Name" class="required-entry input-text"/>
                     </div>
+                    <div class="clearfix"></div>
                 </li>
-                <li><div class="left">
+                <li>
+                    <div class="input-left">
                         <label for="shipping:company">Company</label><br/>
-                        <input type="text" id="shipping:company" title="Company" class="input-text"/>
+                        <input type="text" id="shipping:company" name="shipping[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
                     </div>
-                    <div class="right">
+                    <!--
+                    <div class="input-right">
                         <label for="shipping:email_address">Email <span class="required">*</span></label><br/>
                         <input type="text" id="shipping:email_address" title="Email Address" class="validate-email required-entry input-text"/>
                     </div>
+                    -->
+                    <div class="clearfix"></div>
                 </li>
-                <li><label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" name="street_address" title="Street Address" id="shipping:street_address" class="required-entry input-text"/></li>
-                <li><input type="text" name="street_address2" title="Street Address 2" id="shipping:street_address2" class="input-text"/></li>
-                <li><label for="shipping:city">City <span class="required">*</span></label><br/>
-                    <input type="text" title="City" class="required-entry input-text" id="shipping:city"/></li>
                 <li>
-                    <div class="left">
-                        <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
-                        <select title="State/Province" id="shipping:zone_id" class="validate-select required-entry">
-                            <{foreach item=zone from=$page.form.states}>
-                                <option value="<{$zone.zone_id}>"><{$zone.zone_name}></option>
-                            <{/foreach}>
-                        </select></div>
-                    <div class="right">
-                        <label for="shipping:postcode">Zip <span class="required">*</span></label><br/>
-                        <input type="text" title="ZIP/Post Code" id="shipping:postcode" class="validate-zip required-entry input-text"/></div>
+                    <label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
+                    <input type="text" title="Street Address" name="shipping[street][1]" id="shipping:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
                 </li>
-                <{*<li><label for="shipping:country_id">Country <span class="required">*</span></label><br/>
-                    <select id="shipping:country_id" title="Country" disabled><option value="223" selected="selected">United zone_ids</option></select></li>*}>
-                    <input type="hidden" id="shipping:country_id" value="223">
-                <li><div class="left"><label for="shipping:telephone">Telephone <span class="required">*</span></label><br/>
-                        (<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="shipping:telephone_p1" size="3" maxlength="3" style="width: 35px;" />)
-<input type="text" value="" title="Telephone" class="required-entry input-text input-size3" id="shipping:telephone_p2" size="3" maxlength="3" style="width: 35px;" />
-- <input type="text" value="" title="Telephone" class="required-entry input-text input-size4" id="shipping:telephone_p3" size="4" maxlength="4" style="width: 50px;" />
-x <input type="text" value="" title="Telephone" class="input-text input-size4" id="shipping:telephone_p4" size="3" maxlength="4" style="width: 50px;" />
-<input type="hidden" name="shipping:telephone" value="" class="validate-telephone" id="shipping:telephone" />
-<script type="text/javascript">phone = new telephoneElem('shipping:telephone', 'shipping:telephone_p1', 'shipping:telephone_p2', 'shipping:telephone_p3', 'shipping:telephone_p4');</script></div>
-                    <div class="right"><label for="shipping:fax">Fax</label><br/>
-                        (<input type="text" value="" title="Telephone" class="input-text input-size3" id="shipping:fax_p1" size="3" maxlength="3" style="width: 35px;" />)
-<input type="text" value="" title="Telephone" class="input-text input-size3" id="shipping:fax_p2" size="3" maxlength="3" style="width: 35px;" />
-- <input type="text" value="" title="Telephone" class="input-text input-size4" id="shipping:fax_p3" size="4" maxlength="4" style="width: 50px;" />
-<input type="hidden" value="" class="validate-fax" id="shipping:fax"/>
-<script type="text/javascript">fax = new telephoneElem('shipping:fax', 'shipping:fax_p1', 'shipping:fax_p2', 'shipping:fax_p3', false);</script></div></li>
-                <li class="a-right"><span class="required">* Required Fields</span></li>
+                <li>
+                    <input type="text" title="Street Address 2" name="shipping[street][2]" id="shipping:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
+                </li>
+                <li>
+                    <label for="shipping:city">City <span class="required">*</span></label><br/>
+                    <input type="text" title="City" name="shipping[city]" value="<?=$address->getCity()?>" class="required-entry input-text" id="shipping:city"/>
+                </li>
+                <li>
+                    <div class="input-left">
+                        <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
+                        <select title="State/Province" id="shipping:region_id" name="shipping[region_id]" class="validate-select required-entry">
+                            <option value="1">LA</option>
+                        </select></div>
+                    <div class="input-right">
+                        <label for="shipping:postcode">Zip <span class="required">*</span></label><br/>
+                        <input type="text" title="ZIP/Post Code" name="shipping[postcode]" id="shipping:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <li>
+                    <label for="shipping:country_id">Country <span class="required">*</span></label><br/>
+                    <select id="shipping:country_id" name="shipping[country_id]" title="Country">
+                        <option value="223" selected="selected">USA</option>
+                    </select>
+                </li>
+                <li>
+                    <div class="input-left">
+                        <label for="shipping:telephone">Telephone <span class="required">*</span></label><br/>
+                        <input type="text" name="shipping[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="shipping:telephone"/></div>
+                    <div class="input-right">
+                        <label for="shipping:fax">Fax</label><br/>
+                        <input type="text" name="shipping[fax]" value="<?=$address->getFax()?>" title="Fax" class="validate-fax input-text" id="shipping:fax"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
             </ul>
-        </fieldset></form>
+        </fieldset>
+        </form>
     </div>
-    <div class="note-box buttons">
+    <div class="note-box">
+        <p class="a-right"><span class="required">* Required Fields</span></p>
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="checkout.setShipping();" class="input-button float-right" value="Continue"/>
+        <input type="button" onclick="shipping.save();" class="input-button float-right" value="Continue"/>
         <div class="clearfix"></div>
     </div>
 </div>
 <script type="text/javascript">
-    val_shipping = new Validation('co-shipping-form');
+    var shipping = new Shipping('co-shipping-form');
 </script>

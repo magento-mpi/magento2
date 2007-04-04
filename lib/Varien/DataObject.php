@@ -55,14 +55,6 @@ class Varien_DataObject
         return $arrRes;
     }
 
-    public function isEmpty()
-    {
-        if(empty($this->_data)) {
-            return true;
-        }
-        return false;
-    }
-    
     /**
      * Convert object attributes to XML
      *
@@ -105,6 +97,7 @@ class Varien_DataObject
         $arrData = $this->__toArray($arrAttributes);
         return implode($valueSeparator, $arrData);
     }
+    
     /**
      * Set/Get attribute wrapper
      *
@@ -134,5 +127,23 @@ class Varien_DataObject
                 return $this;
                 break;
         }
+    }
+    
+    public function __get($var)
+    {
+        
+    }
+    
+    public function __set($var, $value)
+    {
+        
+    }
+    
+    public function isEmpty()
+    {
+        if(empty($this->_data)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -13,6 +13,8 @@ class Mage_Customer_Customer extends Varien_DataObject
     
     public function __construct($customerId=false) 
     {
+        parent::__construct();
+        
         if ($customerId) {
             $this->_customerId = $customerId;
             $this->load($customerId);
@@ -22,6 +24,16 @@ class Mage_Customer_Customer extends Varien_DataObject
     public function load($customerId)
     {
         $this->_customerId = $customerId;
-        $this->_data = array();
+        $this->_data = Mage::getResourceModel('customer', 'customer')->getRow($customerId);
+    }
+    
+    public function getDefaultAddress()
+    {
+        return $this->getAddress($this->defaultAddressId);
+    }
+    
+    public function getAddress($addressId)
+    {
+        
     }
 }
