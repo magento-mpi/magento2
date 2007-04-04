@@ -16,7 +16,7 @@ Mage.Customer = function(depend){
             if (!this.baseLayout) {
                 this.baseLayout = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                      center:{
-                         titlebar: true,
+                         titlebar: false,
                          autoScroll: true,
                          resizeTabs : true,
                          hideTabs : true,
@@ -25,19 +25,30 @@ Mage.Customer = function(depend){
                 });
                 
                 this.customerLayout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
-//                    north: {
-//                        titlebar:false,
-//                        split : true,
-//                        initialSize:0,
-//                        minSize:0,
-//                        maxSize:200,
-//                        autoScroll:true,
-//                        collapsible:false
-//                    },
+                    north: {
+                        hideWhenEmpty : true,
+                        titlebar : false,
+                        split : true,
+                        initialSize:21,
+                        minSize:21,
+                        maxSize:200,
+                        autoScroll:true,
+                        collapsible:false
+                    },
                     center : {
                         autoScroll : false,
                         titlebar : false,
                         hideTabs:true
+                    },
+                    south : {
+                        hideWhenEmpty : true,
+                        split:true,
+                        initialSize:300,
+                        minSize:50,
+                        titlebar: true,
+                        autoScroll:true,
+                        collapsible:true,
+                        hideTabs : true
                     }
                 });
                 
@@ -112,6 +123,13 @@ Mage.Customer = function(depend){
             });
             
             //grid.on('click', this.showEditPanel.createDelegate(this));
+            grid.on({
+            	rowclick :  this.createItem.createDelegate(this),
+            	rowcontextmenu : function(grid, rowIndex, e){
+            	 	alert('context menu');
+            	 	e.stopEvent();
+            	},
+            });            
             
             grid.render();
 
@@ -143,6 +161,7 @@ Mage.Customer = function(depend){
 //            });
             
             this.grid = grid;
+
             return grid;
         },
         
@@ -186,28 +205,13 @@ Mage.Customer = function(depend){
             };
             var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/502/', cb);  
 
-            this.customerLayout.beginUpdate();
-            if (!this.customerLayout.getRegion('south')) {
-               this.customerLayout.addRegion('south', {
-                    split:true,
-                    initialSize:300,
-                    minSize:50,
-                    titlebar: true,
-                    autoScroll:true,
-                    collapsible:true,
-                    hideTabs : true
-               });
-            } else {
-                this.customerLayout.getRegion('south').show();
-            }
-            this.customerLayout.endUpdate();
-
             this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
         },
         
         onRemovePanel: function(region, panel) {
-            region.hide();
+            //region.hide();
+            region.clearPanels();
         },
         
         onLoadPanel : function() {

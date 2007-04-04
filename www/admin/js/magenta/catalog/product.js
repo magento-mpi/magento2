@@ -44,12 +44,32 @@ Mage.Catalog_Product = function(depend){
                  });
                  
                  this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
+                     north : {
+                        hideWhenEmpty : true,
+                        titlebar:false,
+                        split:true,
+                        initialSize:30,
+                        minSize:27,
+                        maxSize:100,
+                        autoScroll:true,
+                        collapsible:true
+                     },
                      center:{
                          titlebar: false,
                          autoScroll:true,
                          resizeTabs : true,
                          hideTabs : false,
                          tabPosition: 'top'
+                     },
+                     south : {
+                         hideWhenEmpty : true,
+                         split:true,
+                         initialSize:300,
+                         minSize:50,
+                         titlebar: true,
+                         autoScroll: true,
+                         collapsible: true,
+                         hideTabs : true
                      }
                  });
                 
@@ -136,23 +156,6 @@ Mage.Catalog_Product = function(depend){
         },
         
         addFilter : function(node, e) {
-            if (!this.productLayout.getRegion('north')) {
-                var region = this.productLayout.addRegion('north',{
-                    titlebar:false,
-                    split:true,
-                    initialSize:30,
-                    minSize:27,
-                    maxSize:100,
-                    autoScroll:true,
-                    collapsible:true
-                }) 
-                region.on('panelremoved', function(){
-                    region.clearPanels();
-                    region.hide();
-                });
-            } else {
-               this.productLayout.getRegion('north').show();
-            }
             var workZoneCenterPanel = null;
             if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
                 workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
@@ -209,7 +212,7 @@ Mage.Catalog_Product = function(depend){
             var height = titleHeight; // magic number - titlebar size;
             if (filters.length == 0) {
                  this.productLayout.getRegion('north').clearPanels();
-                 this.productLayout.getRegion('north').hide();
+                 //this.productLayout.getRegion('north').hide();
             }
             for (i = 0; i < filters.length; i++) {
                 var el = Ext.get(filters[i]);
@@ -332,27 +335,10 @@ Mage.Catalog_Product = function(depend){
                 return false;
             }
             var title = 'New Product'; // title for from layout            
-
-
-            
-            if (!this.productLayout.getRegion('south')) {
-                var region = this.productLayout.addRegion('south',{
-                         split:true,
-                         initialSize:300,
-                         minSize:50,
-                         titlebar: true,
-                         autoScroll: true,
-                         collapsible: true,
-                         hideTabs : true
-                }); 
-            } else {
-               this.productLayout.getRegion('south').show();
-            }
             
             if (this.productLayout.getRegion('south').getActivePanel()) {
                 this.productLayout.getRegion('south').clearPanels();
                 this.editablePanels = [];
-                this.productLayout.getRegion('south').show();                
             }
             
             if (rowId >= 0) {
@@ -402,7 +388,7 @@ Mage.Catalog_Product = function(depend){
             this.editablePanels = [];
             this.registeredForms.clear();
             this.productLayout.getRegion('south').clearPanels();
-            this.productLayout.getRegion('south').hide();
+            //this.productLayout.getRegion('south').hide();
             return true;
         },
         
