@@ -6,6 +6,6 @@ class Mage_Sales_Block_Payment_Ccsave extends Mage_Core_Block_Template
     {
         parent::__construct();
         
-        $this->setViewName('Mage_Sales', '')
+        $this->setViewName('Mage_Sales', '');
     }
 }
