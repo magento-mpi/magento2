@@ -56,11 +56,15 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveShippingAction()
     {
-        
+        $shipping = new Mage_Sales_Shipping();
+
+        $request = new Mage_Sales_Shipping_Quote_Request();
+
+        $result = $shipping->fetchQuotes($request);
     }
     
     public function saveShippingMethodAction()
     {
-        
+
     }
 }

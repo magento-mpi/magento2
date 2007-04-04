@@ -14,6 +14,9 @@
                     <resources>
                         <sales_setup>
                             <connection use="core_setup"/>
+                            <entities>
+                            	<shipping_table><table>sales_shipping_table</table></shipping_table>
+                            </entities>
                         </sales_setup>
 
                         <sales_write>
@@ -39,7 +42,8 @@
                     </salesShippingRuleConditions>
                     
                     <salesShippingRuleActions>
-                    	
+                    	<vendor><class>Mage_Sales_Shipping_Rule_Action_Vendor</class></vendor>
+                    	<method><class>Mage_Sales_Shipping_Rule_Action_Method</class></method>
                     </salesShippingRuleActions>
                     
                     <salesPayment>

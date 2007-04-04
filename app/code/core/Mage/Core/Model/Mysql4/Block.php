@@ -39,8 +39,8 @@ class Mage_Core_Model_Mysql4_Block extends Mage_Core_Model_Mysql4
 
     function saveGroup($groupName)
     {
-        $groupTable = $this->_getTableName('core_write', 'block_group');
-        $blockTable = $this->_getTableName('core_write', 'block');
+        $groupTable = $this->_getTableName('core_setup', 'block_group');
+        $blockTable = $this->_getTableName('core_setup', 'block');
         
         $group = $this->_read->fetchRow("select * from $groupTable where group_name=?", array($groupName));
 
@@ -76,8 +76,8 @@ class Mage_Core_Model_Mysql4_Block extends Mage_Core_Model_Mysql4
     
     function saveBlock($block)
     {
-        $groupTable = $this->_getTableName('core_write', 'block_group');
-        $blockTable = $this->_getTableName('core_write', 'block');
+        $groupTable = $this->_getTableName('core_setup', 'block_group');
+        $blockTable = $this->_getTableName('core_setup', 'block');
 
         if (is_string($block)) {
             $block = Mage::getBlock($block);

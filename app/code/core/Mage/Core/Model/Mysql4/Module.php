@@ -39,7 +39,7 @@ class Mage_Core_Model_Mysql4_Module extends Mage_Core_Model_Mysql4
      */
     function setDbVersion($moduleName, $version)
     {
-        $moduleTable = $this->_getTableName('core_write', 'module');
+        $moduleTable = $this->_getTableName('core_setup', 'module');
 
         $dbModuleInfo = array(
             'module_db_version' => $version

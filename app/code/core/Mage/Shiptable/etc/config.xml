@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_Shiptable>
+        
+        	<version>0.1.0</version>
+            <load>
+                <all>
+                	<resourceModels>
+                		<shiptable><class>Mage_Shiptable_Model_Mysql4</class></shiptable>
+                	</resourceModels>
+                	
+                	<resources>
+                		<shiptable_setup>
+                			<connection use="core_setup"/>
+                			
+                			<entities>
+                				<shiptable><table>shiptable_data</table></shiptable>
+                			</entities>
+                		</shiptable_setup>
+                		
+                		<shiptable_write>
+                			<connection use="core_write"/>
+                		</shiptable_write>
+
+                		<shiptable_read>
+                			<connection use="core_read"/>
+                		</shiptable_read>                		
+                	</resources>
+                
+                    <resourceModels>
+                        <shiptable><class>Mage_Shiptable_Model_Mysql4</class></shiptable>
+                    </resourceModels>
+                    
+                    <salesShippingVendors>
+                        <shiptable><class>Mage_Shiptable_Table</class></shiptable>
+                    </salesShippingVendors>
+                </all>
+                
+                <admin>
+                	<controller>
+                		<active>true</active>
+                	</controller>
+                </admin>
+            </load>
+        </Mage_Shiptable>
+    </modules>
+</config>

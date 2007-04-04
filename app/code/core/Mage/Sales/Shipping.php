@@ -23,6 +23,14 @@ class Mage_Sales_Shipping
 		$this->_origin = $data;
 	}
 	
+	public function getOriginData()
+	{
+	    if (!isset($this->_origin)) {
+            $this->setOriginData(Mage::getConfig('Mage_Sales')->getShippingOrigin());
+	    }
+	    return $this->_origin;
+	}
+	
 	/**
 	 * Retrieve all quotes for supplied shipping data
 	 * 
@@ -32,7 +40,7 @@ class Mage_Sales_Shipping
 	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
     {
     	if (!$request->origin) {
-    		$request->origin = $this->_origin;
+    		$request->setData($this->_origin);
     	}
     	
         $types = Mage::getConfig()->getGlobalConfig('shipping');

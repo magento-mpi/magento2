@@ -54,12 +54,12 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          $this->_flags[$action][$flag] = $value;
          return $this;
      }
-     
+      
      function getFullActionName()
      {
          return $this->getRequest()->getModuleName().'_'.
-            $this->getRequest()->getControllerName().'_'.
-            $this->getRequest()->getActionName();
+         $this->getRequest()->getControllerName().'_'.
+         $this->getRequest()->getActionName();
      }
      
      function getLayout()
@@ -72,37 +72,45 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function loadLayout($area, $ids, $key='')
      {
-        if (''===$key) {
-            if (is_array($ids)) {
-                Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
-            }
-            $key = $area.'_'.$ids;
-        }
+        Varien_Profiler::setTimer('loadLayout');
          
-        $layout = $this->getLayout();
-        
-        $layout->init($key);
-        if (!$layout->isCacheLoaded()) {
-            foreach ((array)$ids as $id) {
-                $layout->loadUpdatesFromConfig($area, $id);
-            }
-            $layout->saveCache();
-        }
-        
-        $layout->createBlocks();
-        return $this;
+		if (''===$key) {
+		    if (is_array($ids)) {
+		        Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
+		    }
+		    $key = $area.'_'.$ids;
+		}
+		 
+		$layout = $this->getLayout();
+		
+		$layout->init($key);
+		if (!$layout->isCacheLoaded()) {
+		    foreach ((array)$ids as $id) {
+		        $layout->loadUpdatesFromConfig($area, $id);
+		    }
+		    $layout->saveCache();
+		}
+		Varien_Profiler::setTimer('loadLayout', true);
+		
+		Varien_Profiler::setTimer('createBlocks');
+		$layout->createBlocks();
+		Varien_Profiler::setTimer('createBlocks', true);
+		
+		return $this;
      }
      
      function renderLayout($output='')
      {
-        if ($this->getFlag('', 'no-renderLayout')) {
-            return;
-        }
+         Varien_Profiler::setTimer('renderLayout');
+         
+         if ($this->getFlag('', 'no-renderLayout')) {
+             return;
+         }
 
          if (''!==$output) {
              Mage::registry('blocks')->addOutputBlock($output);
          }
-         
+          
          Mage::dispatchEvent('beforeRenderLayout');
          Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          
@@ -115,11 +123,15 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
                  $response->appendBody($out);
              }
          }
+         
+         Varien_Profiler::setTimer('renderLayout', true);
+         
          return $this;
      }
      
     public function dispatch($action)
     {
+        Varien_Profiler::setTimer('actionDispatch');
         $this->preDispatch();
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
@@ -128,6 +140,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             }
             $this->postDispatch();
         }
+        Varien_Profiler::setTimer('actionDispatch', true);
     }
      
     /**

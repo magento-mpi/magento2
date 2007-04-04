@@ -12,8 +12,25 @@ class Mage_Core_Setup
     {
         $this->_module = $moduleConfig;
     }
+
+    /**
+     * Apply database updates whenever needed
+     *
+     * @todo    move somewhere sensible
+     * @return  boolean
+     */
+    public function applyAllDbUpdates()
+    {
+        $config = Mage::getConfig();
+        $modules = $config->getModule()->children();
+        foreach ($modules as $module) {
+            $setupClass = $config->getModuleSetup($module);
+            $setupClass->applyModuleDbUpdates();
+        }
+        return true;
+    }
     
-    public function applyDbUpdates()
+    public function applyModuleDbUpdates()
     {
         $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->getName());
         $modVer = $this->_module->version;
@@ -107,12 +124,11 @@ class Mage_Core_Setup
         foreach ($arrResources as $resName => $resInfo) {
             
             // Get Resource Object
-            $resource = Mage::getConfig()->getResource($resName);
-            if ($resource) {
+            $connConfig = Mage::getConfig()->getResourceConnectionConfig($resName);
+            if ($connConfig) {
                 
                 // Get resource type !!! TODO
-                $resType = (array) $resource->getConfig()->connection->type;
-                $resType = $resType[0];
+                $resType = (string)$connConfig->type;
 
                 if ($resType && isset($resInfo[$resType])) {
                     
@@ -123,7 +139,7 @@ class Mage_Core_Setup
                         $sql = file_get_contents($sqlFile);
 
                         // Execute SQL
-                        $resource->getConnection()->query($sql);
+                        Mage::registry('resources')->getConnection($resName)->query($sql);
                     }
                 }
             }

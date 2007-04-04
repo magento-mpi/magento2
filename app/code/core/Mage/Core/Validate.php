@@ -68,7 +68,7 @@ abstract class Mage_Core_Validate
     /**
      * Data validation
      */
-    public function isValid($data = array()) 
+    public function isValid() 
     {
         return true;
     }

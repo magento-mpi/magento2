@@ -40,15 +40,20 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Sales>
-        
-        <Mage_Usa>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Usa>
 
         <Mage_Checkout>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Checkout>
+        
+        <Mage_Shiptable>
+        	<active>true</active>
+        	<codePool>core</codePool>
+        </Mage_Shiptable>
+        
+        <Mage_Usa>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Usa>
     </modules>
 </config>

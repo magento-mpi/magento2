@@ -45,7 +45,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function loadGlobal()
     {
-    	if ($xml = $this->loadCache()) {
+        if ($xml = $this->loadCache()) {
     		$this->setXml($xml);
     		return true;
     	}
@@ -83,7 +83,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     /**
      * Load modules config for active modules from /app/code/<pool>/<module>/etc/config.xml
-     * 
+     *
      * Overwrites core config
      *
      * @return boolean
@@ -218,15 +218,19 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * 
      * Defaults to Mage_Core_Setup
      *
-     * @param string $module
+     * @param string|Varien_Simplexml_Object $module
      * @return object
      */
-    function getModuleSetup($module)
+    function getModuleSetup($module='')
     {
-        if (isset($module->setup) && isset($module->setup->class)) {
-            $className = $module->setup->class;
-        } else {
-            $className = 'Mage_Core_Setup';
+        $className = 'Mage_Core_Setup';
+        if (''!==$module) {
+            if (is_string($module)) {
+                $module = $this->getModule($module);
+            }
+	        if (isset($module->setup) && isset($module->setup->class)) {
+	            $className = $module->setup->class;
+	        }
         }
         return new $className($module);
     }
@@ -330,22 +334,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
         
         return $url;
-    }
-    
-    /**
-     * Apply database updates whenever needed
-     * 
-     * @todo    move somewhere sensible
-     * @return  boolean
-     */
-    public function applyDbUpdates()
-    {
-        $modules = $this->getModule()->children();
-        foreach ($modules as $module) {
-            $setupClass = $this->getModuleSetup($module);
-            $setupClass->applyDbUpdates();
-        }
-        return true;
     }
     
     /**
@@ -469,6 +457,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     public function getResourceConfig($name)
     {
         return $this->getXml()->global->resources->$name;
+    }
+    
+    public function getResourceConnectionConfig($name)
+    {
+        $config = $this->getResourceConfig($name);
+        $conn = $config->connection;
+        if (!empty($conn['use'])) {
+            return $this->getResourceConnectionConfig((string)$conn['use']);
+        } else {
+            return $conn;
+        }
     }
        
     /**

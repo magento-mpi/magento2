@@ -44,6 +44,8 @@ class Mage_Core_Controller_Zend_Front {
      */
     public function __construct() 
     {
+        Varien_Profiler::setTimer('controllerInit');
+        
         $this->_front  = Zend_Controller_Front::getInstance();
         $this->_front->throwExceptions(true);
         $this->_front->setParam('useDefaultControllerAlways', true);
@@ -62,9 +64,9 @@ class Mage_Core_Controller_Zend_Front {
         if (!$modInfo instanceof Varien_Simplexml_Object) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
-        if ('true'!==(string)$modInfo->active 
-            || empty($modInfo->load->front->controller->active) 
-            || 'true'!==(string)$modInfo->load->front->controller->active) {
+        if ('true'!==(string)$modInfo->active
+        || empty($modInfo->load->front->controller->active)
+        || 'true'!==(string)$modInfo->load->front->controller->active) {
             return false;
         }
         
@@ -132,7 +134,10 @@ class Mage_Core_Controller_Zend_Front {
         if (!empty($this->_defaultModule)) {
             $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
         }
-
+        Varien_Profiler::setTimer('controllerInit', true);
+        
+        Varien_Profiler::setTimer('frontDispatch');
         $this->_front->dispatch($this->_request);
+        Varien_Profiler::setTimer('frontDispatch', true);
     }
 }

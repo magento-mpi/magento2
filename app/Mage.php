@@ -276,6 +276,8 @@ final class Mage {
      */
     public static function init($appRoot='')
     {
+        Varien_Profiler::setTimer('init');
+
         Mage::setRoot($appRoot);
         
         Mage::prepareFileSystem();
@@ -289,9 +291,12 @@ final class Mage {
         
         Mage::getConfig()->init();
         
+        Varien_Profiler::setTimer('init', true);
+
         // check modules db
-        Mage::getConfig()->applyDbUpdates();
-        #echo Varien_Profiler::setTimer('app').',';
+        Varien_Profiler::setTimer('applyDbUpdates');
+        Mage::getConfig()->getModuleSetup()->applyAllDbUpdates();
+        Varien_Profiler::setTimer('applyDbUpdates', true);
     }
 
     /**
@@ -302,18 +307,22 @@ final class Mage {
     public static function runFront($appRoot='')
     {
         try {
-Varien_Profiler::setTimer('app');
+            Varien_Profiler::setTimer('totalApp');
 
             Mage::init($appRoot);
-
             Mage::getConfig()->loadEventObservers('front');
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
-
-//Varien_Profiler::getTimer('app', true);
-$conn = Mage::registry('resources')->getConnection('dev_write');
-Varien_Profiler::getSqlProfiler($conn);
+            
+            Varien_Profiler::setTimer('totalApp', true);
+            
+            echo '<hr><table border=1 align=center>';
+            $timers = Varien_Profiler::getCumulativeTimer();
+            foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.$timer[0].'</td></tr>';
+            echo '</table>';
+            
+            Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
