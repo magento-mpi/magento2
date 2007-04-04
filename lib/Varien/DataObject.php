@@ -81,6 +81,19 @@ class Varien_DataObject
     }
     
     /**
+     * Convert object attributes to JSON
+     *
+     * @param  array $arrAttributes array of required attributes
+     * @return string
+     */
+    public function __toJson($arrAttributes = array())
+    {
+        $arrData = $this->__toArray($arrAttributes);
+        $json = Zend_Json::encode($arrData);
+        return $json;
+    }
+
+    /**
      * Convert object attributes to string
      * 
      * @param  array  $arrAttributes array of required attributes

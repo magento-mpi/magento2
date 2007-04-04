@@ -311,7 +311,7 @@ Varien_Profiler::setTimer('app');
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
 
-Varien_Profiler::getTimer('app', true);
+//Varien_Profiler::getTimer('app', true);
 $conn = Mage::registry('resources')->getConnection('dev_write');
 Varien_Profiler::getSqlProfiler($conn);
             

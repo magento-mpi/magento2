@@ -1,7 +1,48 @@
 <script type="text/javascript">
 var Billing = Class.create();
 Billing.prototype = {
+    initialize: function(form){
+        this.form = form;
+        this.onAddressLoad = this.fillForm.bindAsEventListener(this);
+    },
 
+    setAddress: function(addressId){
+        if (addressId) {
+            request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/getAddress/address/'+addressId,
+                {
+                    method:'get',
+                    onSuccess: this.onAddressLoad
+                }
+            );
+        }
+        else {
+            this.fillForm(false);
+        }
+    },
+    
+    fillForm: function(transport){
+        var elementValues = {};
+        if (transport && transport.responseText){
+            try{
+                elementValues = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                elementValues = {};
+            }
+        }
+        arrElements = Form.getElements(this.form);
+        for (var elemIndex in arrElements) {
+            if (arrElements[elemIndex].id) {
+                var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
+                arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
+            }
+        }
+    },
+
+    continue: function(){
+        checkout.setBilling();
+    }
 }
 </script>
 <div class="step-body">
@@ -9,18 +50,19 @@ Billing.prototype = {
     <div class="note-box" style="display:block;">
         <p class="option">
             Select a billing address from your address book or enter a &nbsp;
-            <a href="javascript:void(null);" onclick="">new address</a>
+            <a href="#" onclick="billing.setAddress(false); return false;">new address</a>
         </p>
-        <select id="sel-billing" name="" style="width:100%;">
+        <select id="sel-billing" name="" style="width:100%;" onchange="billing.setAddress(this.value);">
+            <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
-            <option value="<?=$_addressId?>"><?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]</option>
+            <option value="<?=$_address->getAddressId()?>"><?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]</option>
         <?endforeach?>
         </select>
     </div>
     <?endif?>
-    <div id="co-billing-db" class="default-box" style="display:block;">
-        <p class="option">Enter billing information</p>
+    <div class="default-box" style="display:block;">
         <form id="co-billing-form">
+            <input type="hidden" name="billing[address_id]" id="billing:address_id">
             <fieldset>
             <ul class="input-list">
                 <li>
@@ -39,10 +81,12 @@ Billing.prototype = {
                         <label for="billing:company">Company</label><br/>
                         <input type="text" id="billing:company" title="Company" class="input-text"/>
                     </div>
+                    <!--
                     <div class="input-right">
                         <label for="billing:email_address">Email <span class="required">*</span></label><br/>
                         <input type="text" id="billing:email_address" title="Email Address" class="validate-email required-entry input-text"/>
                     </div>
+                    -->
                     <div class="clearfix"></div>
                 </li>
                 <li>
@@ -92,10 +136,11 @@ Billing.prototype = {
         <input type="checkbox" id="ship2bill" /><label for="ship2bill"><strong>Ship to this address</strong></label>
         <p class="a-right"><span class="required">* Required Fields</span></p>
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="checkout.setBilling();" class="input-button float-right" value="Continue"/>
+        <input type="button" onclick="billing.continue();" class="input-button float-right" value="Continue"/>
         <div class="clearfix"></div>
     </div>
 </div>
 <script type="text/javascript">
+    var billing = new Billing('co-billing-form');
     val_billing = new Validation('co-billing-form');
 </script>
