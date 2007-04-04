@@ -20,13 +20,11 @@ class Varien_DataObject
 
     public function setData($key, $value='')
     {
-        if(is_array($key))
-        {
-            foreach($key as $index=>$value){
+        if(is_array($key)) {
+            foreach($key as $index=>$value) {
                 $this->_data[$index] = $value;
             }
-        }
-        else{
+        } else {
             $this->_data[$key] = $value;
         }
     }

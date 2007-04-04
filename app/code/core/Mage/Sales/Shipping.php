@@ -59,7 +59,7 @@ class Mage_Sales_Shipping
 	 */
 	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
     {
-    	if (!$request->origin) {
+    	if (!$request->getOrigin()) {
     		$request->setData($this->_origin);
     	}
     	

@@ -39,8 +39,8 @@ class Mage_Core_Resource_Model_Mysql4_Block extends Mage_Core_Resource_Model_Mys
 
     function saveGroup($groupName)
     {
-        $groupTable = $this->_getTableName('core_setup', 'block_group');
-        $blockTable = $this->_getTableName('core_setup', 'block');
+        $groupTable = $this->_getTableName('core', 'block_group');
+        $blockTable = $this->_getTableName('core', 'block');
         
         $group = $this->_read->fetchRow("select * from $groupTable where group_name=?", array($groupName));
 
@@ -76,8 +76,8 @@ class Mage_Core_Resource_Model_Mysql4_Block extends Mage_Core_Resource_Model_Mys
     
     function saveBlock($block)
     {
-        $groupTable = $this->_getTableName('core_setup', 'block_group');
-        $blockTable = $this->_getTableName('core_setup', 'block');
+        $groupTable = $this->_getTableName('core', 'block_group');
+        $blockTable = $this->_getTableName('core', 'block');
 
         if (is_string($block)) {
             $block = Mage::getBlock($block);

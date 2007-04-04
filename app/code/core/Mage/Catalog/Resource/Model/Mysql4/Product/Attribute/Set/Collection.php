@@ -15,8 +15,8 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute_Set_Collection extend
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('catalog'));
-        $this->_setTable    = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_set');
-        $this->_inSetTable  = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_set');
+        $this->_setTable    = $this->_dbModel->getTableName('catalog', 'product_attribute_set');
+        $this->_inSetTable  = $this->_dbModel->getTableName('catalog', 'product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_setTable);
     }

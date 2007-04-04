@@ -11,6 +11,6 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute_Int extends Mage_Cata
 {
     public function __construct() 
     {
-        $this->_attributeValueTable = $this->getTableName('catalog_setup', 'product_attribute_int');
+        $this->_attributeValueTable = $this->getTableName('catalog', 'product_attribute_int');
     }
 }

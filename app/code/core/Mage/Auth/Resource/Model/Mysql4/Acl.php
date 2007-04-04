@@ -16,14 +16,14 @@ class Mage_Auth_Resource_Model_Mysql4_Acl extends Mage_Auth_Resource_Model_Mysql
         Mage::getConfig('Mage_Auth')->loadAclResources($acl);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
-        $roleTable = $this->_getTableName('auth_setup', 'role');
+        $roleTable = $this->_getTableName('auth', 'role');
         $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
         $rolesArr = $this->_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
-        $ruleTable = $this->_getTableName('auth_setup', 'rule');
-        $assertTable = $this->_getTableName('auth_setup', 'assert');
+        $ruleTable = $this->_getTableName('auth', 'rule');
+        $assertTable = $this->_getTableName('auth', 'assert');
         $rulesSelect = $this->_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
         $rulesArr = $this->_read->fetchAll($rulesSelect);        

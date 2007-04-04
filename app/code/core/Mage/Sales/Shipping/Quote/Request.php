@@ -2,12 +2,12 @@
 /**
  * Fields:
  * - origin: 
- *   - countryId: 223
- *   - regionId: 1
+ *   - country_id: 223
+ *   - region_id: 1
  *   - zip: 90034
  * - dest: 
- *   - countryId: 223
- *   - regionId: 2
+ *   - country_id: 223
+ *   - region_id: 2
  *   - zip: 01005
  * - package: 
  *   - value: $100
@@ -16,12 +16,12 @@
  *   - width: 10"
  *   - depth: 10"
  * - order: 
- *   - totalQty: 10
+ *   - total_qty: 10
  *   - subtotal: $100
  * - option
  *   - insurance: true
  * - table (shiptable)
- *   - conditionName: package_weight
+ *   - condition_name: package_weight
  * - limit
  *   - vendor
  *   - method

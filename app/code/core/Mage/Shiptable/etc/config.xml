@@ -8,16 +8,16 @@
           <resourceModels>
             <shiptable>
               <class>Mage_Shiptable_Resource_Model_Mysql4</class>
-            </shiptable>
-          </resourceModels>
-          <resources>
-            <shiptable_setup>
-              <connection use="core_setup" />
               <entities>
                 <shiptable>
                   <table>shiptable_data</table>
                 </shiptable>
               </entities>
+            </shiptable>
+          </resourceModels>
+          <resources>
+            <shiptable_setup>
+              <connection use="core_setup" />
             </shiptable_setup>
             <shiptable_write>
               <connection use="core_write" />

@@ -15,8 +15,8 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute_Option extends Mage_C
     public function __construct() 
     {
         parent::__construct();
-        $this->_optionTable     = $this->getTableName('catalog_setup', 'product_attribute_option');
-        $this->_optionTypeTable = $this->getTableName('catalog_setup', 'product_attribute_option_type');
+        $this->_optionTable     = $this->getTableName('catalog', 'product_attribute_option');
+        $this->_optionTypeTable = $this->getTableName('catalog', 'product_attribute_option_type');
     }
     
     /**

@@ -29,7 +29,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         }
         
         $sql = $this->_read->select()
-            ->from($this->_getTableName('cart_setup', 'item'))
+            ->from($this->_getTableName('cart', 'item'))
             ->where('cart_id = ?', $cartId);
             
         $arr = $this->_read->fetchAll($sql);

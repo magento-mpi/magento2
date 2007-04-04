@@ -12,11 +12,6 @@
           <resourceModels>
             <cart>
               <class>Mage_Cart_Resource_Model_Mysql4</class>
-            </cart>
-          </resourceModels>
-          <resources>
-            <cart_setup>
-              <connection use="core_setup" />
               <entities>
                 <cart>
                   <table>cart</table>
@@ -25,6 +20,11 @@
                   <table>cart_product</table>
                 </item>
               </entities>
+            </cart>
+          </resourceModels>
+          <resources>
+            <cart_setup>
+              <connection use="core_setup" />
             </cart_setup>
             <cart_write>
               <connection use="core_write" />

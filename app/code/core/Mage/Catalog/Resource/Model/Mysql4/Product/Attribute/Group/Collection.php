@@ -15,8 +15,8 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute_Group_Collection exte
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('catalog'));
-        $this->_groupTable  = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_group');
-        $this->_inGroupTable= $this->_dbModel->getTableName('catalog_setup', 'product_attribute_in_group');
+        $this->_groupTable  = $this->_dbModel->getTableName('catalog', 'product_attribute_group');
+        $this->_inGroupTable= $this->_dbModel->getTableName('catalog', 'product_attribute_in_group');
         
         $this->_sqlSelect->from($this->_groupTable);
         $this->_sqlSelect->join(

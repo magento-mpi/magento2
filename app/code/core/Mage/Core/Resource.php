@@ -71,7 +71,7 @@ class Mage_Core_Resource
     public function getEntity($resource, $entity)
     {
         if (!isset($this->_entities[$resource][$entity])) {
-            $entities = Mage::getConfig()->getResourceConfig($resource)->entities;
+            $entities = Mage::getConfig()->getResourceModelConfig($resource)->entities;
             $this->_entities[$resource][$entity] = $entities->$entity;
         }
         return $this->_entities[$resource][$entity];

@@ -11,6 +11,6 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute_Date extends Mage_Cat
 {
     public function __construct() 
     {
-        $this->_attributeValueTable = $this->getTableName('catalog_setup', 'product_attribute_date');
+        $this->_attributeValueTable = $this->getTableName('catalog', 'product_attribute_date');
     }
 }

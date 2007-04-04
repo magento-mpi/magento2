@@ -11,11 +11,6 @@
           <resourceModels>
             <customer>
               <class>Mage_Customer_Resource_Model_Mysql4</class>
-            </customer>
-          </resourceModels>
-          <resources>
-            <customer_setup>
-              <connection use="core_setup" />
               <entities>
                 <customer>
                   <table>customer</table>
@@ -33,6 +28,11 @@
                   <table>customer_payment_method</table>
                 </customer_payment_method>
               </entities>
+            </customer>
+          </resourceModels>
+          <resources>
+            <customer_setup>
+              <connection use="core_setup" />
             </customer_setup>
             <customer_write>
               <connection use="core_write" />

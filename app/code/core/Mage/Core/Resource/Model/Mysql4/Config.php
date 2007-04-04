@@ -7,7 +7,7 @@ class Mage_Core_Resource_Model_Mysql4_Config extends Mage_Core_Resource_Model_My
     function __construct()
     {
         parent::__construct();
-        $this->_table = $this->_getTableName('core_setup', 'config');
+        $this->_table = $this->_getTableName('core', 'config');
     }
     
     function getValueByKey($key)

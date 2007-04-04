@@ -11,11 +11,6 @@
           <resourceModels>
             <catalog>
               <class>Mage_Catalog_Resource_Model_Mysql4</class>
-            </catalog>
-          </resourceModels>
-          <resources>
-            <catalog_setup>
-              <connection use="core_setup" />
               <entities>
                 <category>
                   <table>catalog_category</table>
@@ -90,6 +85,11 @@
                   <table>catalog_product_link_attribute_varchar</table>
                 </product_link_attribute_varchar>
               </entities>
+            </catalog>
+          </resourceModels>
+          <resources>
+            <catalog_setup>
+              <connection use="core_setup" />
             </catalog_setup>
             <catalog_write>
               <connection use="core_write" />

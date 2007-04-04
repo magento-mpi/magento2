@@ -14,7 +14,7 @@ class Mage_Customer_Resource_Model_Mysql4_Customer_Collection extends Mage_Core_
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('customer'));
-        $this->_customerTable = $this->_dbModel->getTableName('customer_setup', 'customer');
+        $this->_customerTable = $this->_dbModel->getTableName('customer', 'customer');
         $this->_sqlSelect->from($this->_customerTable);
     }
 }

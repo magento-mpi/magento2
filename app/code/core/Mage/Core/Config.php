@@ -133,7 +133,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $className = $coreModel.'_Config';
         $model = new $className();
         */
-        $model = $this->getResourceModelClass('core', 'config');
+        $model = $this->getResourceModelInstance('core', 'config');
         $model->updateXmlFromDb($this->_xml);
     }
 
@@ -421,6 +421,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
 
+    public function getResourceModelConfig($model)
+    {
+        return $this->getXml()->global->resourceModels->$model;
+    }
+    
     /**
      * Get model class instance.
      * 
@@ -436,10 +441,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceModelInstance($model, $class='', $constructArguments=array())
     {
-        $className = '';
-        if ($xml = $this->getXml()) {
-            $className = (string)$xml->global->resourceModels->$model->class;
-        }     
+        $config = $this->getResourceModelConfig($model);
+        $className = (string)$config->class;
 
         if (''!==$class) {
             $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($class))));

@@ -14,7 +14,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Mage_Core_R
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('customer'));
-        $this->_addressTable    = $this->_dbModel->getTableName('customer_setup', 'customer_address');
+        $this->_addressTable    = $this->_dbModel->getTableName('customer', 'customer_address');
         
         $this->_sqlSelect->from($this->_addressTable);
     }

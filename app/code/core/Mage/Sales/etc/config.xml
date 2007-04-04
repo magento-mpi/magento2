@@ -9,14 +9,19 @@
       </depends>
       <load>
         <all>
-          <resources>
-            <sales_setup>
-              <connection use="core_setup" />
+          <resourceModels>
+            <sales>
+              <class>Mage_Sales_Resource_Model_Mysql4</class>
               <entities>
                 <shipping_table>
                   <table>sales_shipping_table</table>
                 </shipping_table>
               </entities>
+            </sales>
+          </resourceModels>
+          <resources>
+            <sales_setup>
+              <connection use="core_setup" />
             </sales_setup>
             <sales_write>
               <connection use="core_write" />

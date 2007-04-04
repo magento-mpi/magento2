@@ -22,14 +22,14 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
     {
         parent::__construct(Mage::getResourceModel('catalog'));
 
-        $this->_productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
-        $this->_categoryProductTable = $this->_dbModel->getTableName('catalog_setup', 'category_product');
-        $this->_attributeTable = $this->_dbModel->getTableName('catalog_setup', 'product_attribute');
-        $this->_attributeTables['varchar']  = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_varchar');
-        $this->_attributeTables['text']     = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_text');
-        $this->_attributeTables['decimal']  = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_decimal');
-        $this->_attributeTables['int']      = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_int');
-        $this->_attributeTables['date']     = $this->_dbModel->getTableName('catalog_setup', 'product_attribute_date');
+        $this->_productTable   = $this->_dbModel->getTableName('catalog', 'product');
+        $this->_categoryProductTable = $this->_dbModel->getTableName('catalog', 'category_product');
+        $this->_attributeTable = $this->_dbModel->getTableName('catalog', 'product_attribute');
+        $this->_attributeTables['varchar']  = $this->_dbModel->getTableName('catalog', 'product_attribute_varchar');
+        $this->_attributeTables['text']     = $this->_dbModel->getTableName('catalog', 'product_attribute_text');
+        $this->_attributeTables['decimal']  = $this->_dbModel->getTableName('catalog', 'product_attribute_decimal');
+        $this->_attributeTables['int']      = $this->_dbModel->getTableName('catalog', 'product_attribute_int');
+        $this->_attributeTables['date']     = $this->_dbModel->getTableName('catalog', 'product_attribute_date');
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
@@ -84,7 +84,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
     public function setOrder($field, $direction = 'desc')
     {
         if ($field == 'product_id') {
-            $field = $this->_dbModel->getTableName('catalog_setup', 'product').'.'.$field;
+            $field = $this->_dbModel->getTableName('catalog', 'product').'.'.$field;
         }
         return parent::setOrder($field, $direction);
     }

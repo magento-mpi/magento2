@@ -11,6 +11,17 @@
           <resources>
             <auth_setup>
               <connection use="core_setup" />
+            </auth_setup>
+            <auth_write>
+              <connection use="core_write" />
+            </auth_write>
+            <auth_read>
+              <connection use="core_read" />
+            </auth_read>
+          </resources>
+          <resourceModels>
+            <auth>
+              <class>Mage_Auth_Resource_Model_Mysql4</class>
               <entities>
                 <user>
                   <table>auth_user</table>
@@ -25,17 +36,6 @@
                   <table>auth_assert</table>
                 </assert>
               </entities>
-            </auth_setup>
-            <auth_write>
-              <connection use="core_write" />
-            </auth_write>
-            <auth_read>
-              <connection use="core_read" />
-            </auth_read>
-          </resources>
-          <resourceModels>
-            <auth>
-              <class>Mage_Auth_Resource_Model_Mysql4</class>
             </auth>
           </resourceModels>
         </all>
