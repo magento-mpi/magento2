@@ -1,71 +1,81 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Checkout>
-            <version>0.1.1</version>
-            
-            <depends>
-                <Mage_Sales/>
-            </depends>
-
-            <load>
-                <all>
-                    <resourceModels>
-                        <checkout><class>Mage_Checkout_Model_Mysql4</class></checkout>
-                    </resourceModels>
-                    
-                    <resources>
-                        <checkout_setup>
-                            <connection use="core_setup"/>
-                        </checkout_setup>
-
-                        <checkout_write>
-                            <connection use="core_write"/>
-                        </checkout_write>
-
-                        <checkout_read>
-                            <connection use="core_read"/>
-                        </checkout_read>
-                    </resources>
-                </all>
-
-                <front>
-                    <controller>
-                        <active>true</active>
-                        <frontName>checkout</frontName>
-                    </controller>
-
-                    <blocks>
-                        <onepage><class>Mage_Checkout_Block_Onepage</class></onepage>
-                        <onepage_status><class>Mage_Checkout_Block_Onepage_Status</class></onepage_status>
-                    </blocks>
-
-                    <layouts>
-                        <default><updates><checkout><module>Mage_Checkout</module><file>initLayout.xml</file></checkout></updates></default>
-                    </layouts>
-
-                    <events>
-                        <action_preDispatch>
-                            <observers>
-                                <construct><class>Mage_Checkout_Front</class><method>construct</method></construct>
-                            </observers>
-                        </action_preDispatch>
-                        
-                        <customerLogin>
-                            <observers>
-                                <clear><class>Mage_Checkout_Front</class><method>clear</method></clear>
-                            </observers>
-                        </customerLogin>
-                        
-                        <customerLogout>
-                            <observers>
-                                <clear><class>Mage_Checkout_Front</class><method>clear</method></clear>
-                            </observers>
-                        </customerLogout>
-                    </events>
-                </front>
-            </load>
-
-        </Mage_Checkout>
-    </modules>
+  <modules>
+    <Mage_Checkout>
+      <version>0.1.1</version>
+      <depends>
+        <Mage_Sales />
+      </depends>
+      <load>
+        <all>
+          <resourceModels>
+            <checkout>
+              <class>Mage_Checkout_Resource_Model_Mysql4</class>
+            </checkout>
+          </resourceModels>
+          <resources>
+            <checkout_setup>
+              <connection use="core_setup" />
+            </checkout_setup>
+            <checkout_write>
+              <connection use="core_write" />
+            </checkout_write>
+            <checkout_read>
+              <connection use="core_read" />
+            </checkout_read>
+          </resources>
+        </all>
+        <front>
+          <controller>
+            <active>true</active>
+            <frontName>checkout</frontName>
+          </controller>
+          <blocks>
+            <onepage>
+              <class>Mage_Checkout_Block_Onepage</class>
+            </onepage>
+            <onepage_status>
+              <class>Mage_Checkout_Block_Onepage_Status</class>
+            </onepage_status>
+          </blocks>
+          <layouts>
+            <default>
+              <updates>
+                <checkout>
+                  <module>Mage_Checkout</module>
+                  <file>initLayout.xml</file>
+                </checkout>
+              </updates>
+            </default>
+          </layouts>
+          <events>
+            <action_preDispatch>
+              <observers>
+                <construct>
+                  <class>Mage_Checkout_Front</class>
+                  <method>construct</method>
+                </construct>
+              </observers>
+            </action_preDispatch>
+            <customerLogin>
+              <observers>
+                <clear>
+                  <class>Mage_Checkout_Front</class>
+                  <method>clear</method>
+                </clear>
+              </observers>
+            </customerLogin>
+            <customerLogout>
+              <observers>
+                <clear>
+                  <class>Mage_Checkout_Front</class>
+                  <method>clear</method>
+                </clear>
+              </observers>
+            </customerLogout>
+          </events>
+        </front>
+      </load>
+    </Mage_Checkout>
+  </modules>
 </config>

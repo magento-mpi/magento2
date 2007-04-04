@@ -1,25 +1,35 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Usa>
-            <load>
-                <all>
-                    <resourceModels>
-                        <usa><class>Mage_Usa_Model_Mysql4</class></usa>
-                    </resourceModels>
-                    
-                    <salesShippingVendors>
-                        <ups><class>Mage_Usa_Shipping_Vendors_Ups</class></ups>
-                        <usps><class>Mage_Usa_Shipping_Vendors_Usps</class></usps>
-                        <fedex><class>Mage_Usa_Shipping_Vendors_Fedex</class></fedex>
-                        <dhl><class>Mage_Usa_Shipping_Vendors_Dhl</class></dhl>
-                    </salesShippingVendors>
-                    
-                    <salesTax>
-                        <uszipcode><class>Mage_Usa_Tax_Uszipcode</class></uszipcode>
-                    </salesTax>
-                </all>
-            </load>
-        </Mage_Usa>
-    </modules>
+  <modules>
+    <Mage_Usa>
+      <load>
+        <all>
+          <resourceModels>
+            <usa>
+              <class>Mage_Usa_Resource_Model_Mysql4</class>
+            </usa>
+          </resourceModels>
+          <salesShippingVendors>
+            <ups>
+              <class>Mage_Usa_Shipping_Vendors_Ups</class>
+            </ups>
+            <usps>
+              <class>Mage_Usa_Shipping_Vendors_Usps</class>
+            </usps>
+            <fedex>
+              <class>Mage_Usa_Shipping_Vendors_Fedex</class>
+            </fedex>
+            <dhl>
+              <class>Mage_Usa_Shipping_Vendors_Dhl</class>
+            </dhl>
+          </salesShippingVendors>
+          <salesTax>
+            <uszipcode>
+              <class>Mage_Usa_Tax_Uszipcode</class>
+            </uszipcode>
+          </salesTax>
+        </all>
+      </load>
+    </Mage_Usa>
+  </modules>
 </config>

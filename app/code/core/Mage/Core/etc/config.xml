@@ -1,147 +1,211 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Core>
-            <version>0.1.4</version>
-            <load>
-                <all>
-                    <resourceConnectionTypes>
-                        <mysql>
-                            <class>Mage_Core_Resource_Type_Db_Mysql</class>
-                        </mysql>
-                
-                        <mysqli>
-                            <class>Mage_Core_Resource_Type_Db_Mysqli</class>
-                        </mysqli>
-                    </resourceConnectionTypes>
-            
-                    <resourceModels>
-                        <core>
-                            <class>Mage_Core_Model_Mysql4</class>
-                        </core>
-                    </resourceModels>
-
-                    <blocks>
-                        <text><class>Mage_Core_Block_Text</class></text>
-                        <tag><class>Mage_Core_Block_Text_Tag</class></tag>
-                        <tag_css><class>Mage_Core_Block_Text_Tag_Css</class></tag_css>
-                        <tag_js><class>Mage_Core_Block_Text_Tag_Js</class></tag_js>
-                        <debug><class>Mage_Core_Block_Text_Tag_Debug</class></debug>
-                        <tpl><class>Mage_Core_Block_Template</class></tpl>
-                        <tpl_zend><class>Mage_Core_Block_Template_Zend</class></tpl_zend>
-                        <list><class>Mage_Core_Block_Text_List</class></list>
-                        <list_link><class>Mage_Core_Block_Text_List_Link</class></list_link>
-                        <form><class>Mage_Core_Block_Form</class></form>
-                        <message><class>Mage_Core_Block_Message</class></message>
-                    </blocks>
-            
-                    <resources>
-                        <core_setup>
-                            <entities>
-                                <config><table>core_config</table></config>
-                            
-                                <website><table>core_website</table></website>
-                                <language><table>core_language</table></language>
-                                <module><table>core_module</table></module>
-                                <table><table>core_table</table></table>
-                                <block_group><table>core_block_group</table></block_group>
-                                <block><table>core_block</table></block>
-                    
-                                <domain><table>core_domain</table></domain>
-                                <domain_website><table>core_domain_website</table></domain_website>
-                                <setting><table>core_setting</table></setting>
-                                <domain_setting><table>core_domain_setting</table></domain_setting>
-
-                                <data_change><table>core_data_change</table></data_change>
-                                <data_change_type><table>core_data_change_type</table></data_change_type>
-                                <data_change_info><table>core_data_change_info</table></data_change_info>
-                            </entities>
-                        </core_setup>
-                    </resources>
-                </all>
-                
-                <front>
-                    <layouts>
-                        <default_index_noRoute><updates><core><module>Mage_Core</module><file>noRoute.xml</file></core></updates></default_index_noRoute>
-                    </layouts>
-                </front>
-            
-                <admin>
-                    <controller>
-                        <active>true</active>
-                        <default>true</default>
-                    </controller>
-                    
-                    <acl>
-                        <resources>
-                            <system>
-                                <modules/>
-                                <websites/>
-                            </system>
-                        </resources>
-                    </acl>
-
-                    <layouts>
-                        <default><updates><core><module>Mage_Core</module><file>Admin/initLayout.xml</file></core></updates></default>
-                    </layouts>
-                    
-                    <blocks>
-                        <toolbar><class>Mage_Core_Block_Admin_Js_Toolbar</class></toolbar>
-                        <menu><class>Mage_Core_Block_Admin_Js_Menu</class></menu>
-                        <tag_css_theme><class>Mage_Core_Block_Text_Tag_Css_Admin</class></tag_css_theme>
-                        <layout_border><class>Mage_Core_Block_Admin_Js_Layout_Border</class></layout_border>
-                        <layout_panel><class>Mage_Core_Block_Admin_Js_Layout_Panel</class></layout_panel>
-                        <layout_panel_grid><class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class></layout_panel_grid>
-                        <layout_panel_nested><class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class></layout_panel_nested>
-                        <tree><class>Mage_Core_Block_Admin_Js_Tree</class></tree>
-                    </blocks>
-
-                    <dataInputs>
-                        <text>
-                            <class>Mage_Core_Block_Form_Element_Text</class>
-                            <code>Simple text</code>
-                            <htmlParams>
-                                <size>70</size>
-                                <maxLength>255</maxLength>
-                            </htmlParams>
-                        </text>
-                        <textarea>
-                            <class>Mage_Core_Block_Form_Element_Textarea</class>
-                            <code>Big text</code>
-                            <htmlParams>
-                                <cols>70</cols>
-                                <rows>5</rows>
-                            </htmlParams>
-                        </textarea>
-                        <select>
-                            <class>Mage_Core_Block_Form_Element_Select</class>
-                            <code>Dropdown</code>
-                        </select>
-                        <file>
-                            <class>Mage_Core_Block_Form_Element_File</class>
-                            <code>Upload file</code>
-                        </file>
-                    </dataInputs>
-                </admin>
-            </load>
-        </Mage_Core>
-    </modules>
-
-    <global>
-        <resourceConnectionTypes extends="/config/modules/*/load/*/resourceConnectionTypes"/>
-        <resources extends="/config/modules/*/load/*/resources"/>
-        <resourceModels extends="/config/modules/*/load/*/resourceModels"/>
-        <blockTypes extends="/config/modules/*/load/*/blocks"/>
-
+  <modules>
+    <Mage_Core>
+      <version>0.1.4</version>
+      <load>
+        <all>
+          <resourceConnectionTypes>
+            <mysql>
+              <class>Mage_Core_Resource_Type_Db_Mysql</class>
+            </mysql>
+            <mysqli>
+              <class>Mage_Core_Resource_Type_Db_Mysqli</class>
+            </mysqli>
+          </resourceConnectionTypes>
+          <resourceModels>
+            <core>
+              <class>Mage_Core_Resource_Model_Mysql4</class>
+            </core>
+          </resourceModels>
+          <blocks>
+            <text>
+              <class>Mage_Core_Block_Text</class>
+            </text>
+            <tag>
+              <class>Mage_Core_Block_Text_Tag</class>
+            </tag>
+            <tag_css>
+              <class>Mage_Core_Block_Text_Tag_Css</class>
+            </tag_css>
+            <tag_js>
+              <class>Mage_Core_Block_Text_Tag_Js</class>
+            </tag_js>
+            <debug>
+              <class>Mage_Core_Block_Text_Tag_Debug</class>
+            </debug>
+            <tpl>
+              <class>Mage_Core_Block_Template</class>
+            </tpl>
+            <tpl_zend>
+              <class>Mage_Core_Block_Template_Zend</class>
+            </tpl_zend>
+            <list>
+              <class>Mage_Core_Block_Text_List</class>
+            </list>
+            <list_link>
+              <class>Mage_Core_Block_Text_List_Link</class>
+            </list_link>
+            <form>
+              <class>Mage_Core_Block_Form</class>
+            </form>
+            <message>
+              <class>Mage_Core_Block_Message</class>
+            </message>
+          </blocks>
+          <resources>
+            <core_setup>
+              <entities>
+                <config>
+                  <table>core_config</table>
+                </config>
+                <website>
+                  <table>core_website</table>
+                </website>
+                <language>
+                  <table>core_language</table>
+                </language>
+                <module>
+                  <table>core_module</table>
+                </module>
+                <table>
+                  <table>core_table</table>
+                </table>
+                <block_group>
+                  <table>core_block_group</table>
+                </block_group>
+                <block>
+                  <table>core_block</table>
+                </block>
+                <domain>
+                  <table>core_domain</table>
+                </domain>
+                <domain_website>
+                  <table>core_domain_website</table>
+                </domain_website>
+                <setting>
+                  <table>core_setting</table>
+                </setting>
+                <domain_setting>
+                  <table>core_domain_setting</table>
+                </domain_setting>
+                <data_change>
+                  <table>core_data_change</table>
+                </data_change>
+                <data_change_type>
+                  <table>core_data_change_type</table>
+                </data_change_type>
+                <data_change_info>
+                  <table>core_data_change_info</table>
+                </data_change_info>
+              </entities>
+            </core_setup>
+          </resources>
+        </all>
         <front>
-            <layouts extends="/config/modules/*/load/front/layouts"/>
-            <events extends="/config/modules/*/load/front/events"/>
+          <layouts>
+            <default_index_noRoute>
+              <updates>
+                <core>
+                  <module>Mage_Core</module>
+                  <file>noRoute.xml</file>
+                </core>
+              </updates>
+            </default_index_noRoute>
+          </layouts>
         </front>
-
         <admin>
-            <layouts extends="/config/modules/*/load/admin/layouts"/>
-            <events extends="/config/modules/*/load/admin/events"/>
-            <dataInputs extends="/config/modules/*/load/admin/dataInputs"/>
+          <controller>
+            <active>true</active>
+            <default>true</default>
+          </controller>
+          <acl>
+            <resources>
+              <system>
+                <modules />
+                <websites />
+              </system>
+            </resources>
+          </acl>
+          <layouts>
+            <default>
+              <updates>
+                <core>
+                  <module>Mage_Core</module>
+                  <file>Admin/initLayout.xml</file>
+                </core>
+              </updates>
+            </default>
+          </layouts>
+          <blocks>
+            <toolbar>
+              <class>Mage_Core_Block_Admin_Js_Toolbar</class>
+            </toolbar>
+            <menu>
+              <class>Mage_Core_Block_Admin_Js_Menu</class>
+            </menu>
+            <tag_css_theme>
+              <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
+            </tag_css_theme>
+            <layout_border>
+              <class>Mage_Core_Block_Admin_Js_Layout_Border</class>
+            </layout_border>
+            <layout_panel>
+              <class>Mage_Core_Block_Admin_Js_Layout_Panel</class>
+            </layout_panel>
+            <layout_panel_grid>
+              <class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class>
+            </layout_panel_grid>
+            <layout_panel_nested>
+              <class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class>
+            </layout_panel_nested>
+            <tree>
+              <class>Mage_Core_Block_Admin_Js_Tree</class>
+            </tree>
+          </blocks>
+          <dataInputs>
+            <text>
+              <class>Mage_Core_Block_Form_Element_Text</class>
+              <code>Simple text</code>
+              <htmlParams>
+                <size>70</size>
+                <maxLength>255</maxLength>
+              </htmlParams>
+            </text>
+            <textarea>
+              <class>Mage_Core_Block_Form_Element_Textarea</class>
+              <code>Big text</code>
+              <htmlParams>
+                <cols>70</cols>
+                <rows>5</rows>
+              </htmlParams>
+            </textarea>
+            <select>
+              <class>Mage_Core_Block_Form_Element_Select</class>
+              <code>Dropdown</code>
+            </select>
+            <file>
+              <class>Mage_Core_Block_Form_Element_File</class>
+              <code>Upload file</code>
+            </file>
+          </dataInputs>
         </admin>
-    </global>
+      </load>
+    </Mage_Core>
+  </modules>
+  <global>
+    <resourceConnectionTypes extends="/config/modules/*/load/*/resourceConnectionTypes" />
+    <resources extends="/config/modules/*/load/*/resources" />
+    <resourceModels extends="/config/modules/*/load/*/resourceModels" />
+    <blockTypes extends="/config/modules/*/load/*/blocks" />
+    <front>
+      <layouts extends="/config/modules/*/load/front/layouts" />
+      <events extends="/config/modules/*/load/front/events" />
+    </front>
+    <admin>
+      <layouts extends="/config/modules/*/load/admin/layouts" />
+      <events extends="/config/modules/*/load/admin/events" />
+      <dataInputs extends="/config/modules/*/load/admin/dataInputs" />
+    </admin>
+  </global>
 </config>

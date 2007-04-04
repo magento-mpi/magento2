@@ -16,7 +16,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     /**
      * Product Collection
      *
-     * @var Mage_Catalog_Model_Mysql4_Product_Collection
+     * @var Mage_Catalog_Resource_Model_Mysql4_Product_Collection
      */
     private $prodCollection;
     private $currentCategory;

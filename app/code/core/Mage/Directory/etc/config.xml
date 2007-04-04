@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Directory>
-            
-            <depends>
-                <Mage_Core/>
-            </depends>
-
-        </Mage_Directory>
-    </modules>
+  <modules>
+    <Mage_Directory>
+      <depends>
+        <Mage_Core />
+      </depends>
+    </Mage_Directory>
+  </modules>
 </config>

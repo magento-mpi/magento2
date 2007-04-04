@@ -1,91 +1,115 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Customer>
-            <version>0.1.4</version>
-            
-            <depends>
-                <Mage_Page/>
-            </depends>
-
-            <load>
-                <all>
-                    <resourceModels>
-                        <customer>
-                            <class>Mage_Customer_Model_Mysql4</class>
-                        </customer>
-                    </resourceModels>
-
-                    <resources>
-                        <customer_setup>
-                            <connection use="core_setup"/>
-                            <entities>
-                                <customer><table>customer</table></customer>
-                                <customer_address><table>customer_address</table></customer_address>
-                                <customer_type><table>customer_type</table></customer_type>
-                                <customer_payment><table>customer_payment</table></customer_payment>
-                                <customer_payment_method><table>customer_payment_method</table></customer_payment_method>
-                            </entities>
-                        </customer_setup>
-
-                        <customer_write>
-                            <connection use="core_write"/>
-                        </customer_write>
-
-                        <customer_read>
-                            <connection use="core_read"/>
-                        </customer_read>
-                    </resources>
-                </all>
-
-                <front>
-                    <controller>
-                        <active>true</active>
-                        <frontName>customer</frontName>
-                    </controller>
-
-                    <blocks>
-                        <customer_login><class>Mage_Customer_Block_Login</class></customer_login>
-                        <customer_account><class>Mage_Customer_Block_Account</class></customer_account>
-                        <customer_regform><class>Mage_Customer_Block_Regform</class></customer_regform>
-                    </blocks>
-
-                    <layouts>
-                        <default><updates><customer><module>Mage_Customer</module><file>initLayout.xml</file></customer></updates></default>
-                    </layouts>
-                    
-                    <events>
-                        <action_preDispatch>
-                            <observers>
-                                <auth><class>Mage_Customer_Front</class><method>load_front_action_preDispatch</method></auth>
-                            </observers>
-                        </action_preDispatch>
-                        <action_postDispatch>
-                            <observers>
-                                <auth><class>Mage_Customer_Front</class><method>load_front_action_postDispatch</method></auth>
-                            </observers>
-                        </action_postDispatch>
-                    </events>
-                </front>
-            
-                <admin>
-                    <acl>
-                        <resources>
-                            <customers>
-                                <manage/>
-                            </customers>
-                        </resources>
-                    </acl>
-
-                    <controller>
-                        <active>true</active>
-                    </controller>
-                    
-                    <layouts>
-                        <default><updates><customer><module>Mage_Customer</module><file>Admin/initLayout.xml</file></customer></updates></default>
-                    </layouts>
-                </admin>
-            </load>
-        </Mage_Customer>
-    </modules>
+  <modules>
+    <Mage_Customer>
+      <version>0.1.4</version>
+      <depends>
+        <Mage_Page />
+      </depends>
+      <load>
+        <all>
+          <resourceModels>
+            <customer>
+              <class>Mage_Customer_Resource_Model_Mysql4</class>
+            </customer>
+          </resourceModels>
+          <resources>
+            <customer_setup>
+              <connection use="core_setup" />
+              <entities>
+                <customer>
+                  <table>customer</table>
+                </customer>
+                <customer_address>
+                  <table>customer_address</table>
+                </customer_address>
+                <customer_type>
+                  <table>customer_type</table>
+                </customer_type>
+                <customer_payment>
+                  <table>customer_payment</table>
+                </customer_payment>
+                <customer_payment_method>
+                  <table>customer_payment_method</table>
+                </customer_payment_method>
+              </entities>
+            </customer_setup>
+            <customer_write>
+              <connection use="core_write" />
+            </customer_write>
+            <customer_read>
+              <connection use="core_read" />
+            </customer_read>
+          </resources>
+        </all>
+        <front>
+          <controller>
+            <active>true</active>
+            <frontName>customer</frontName>
+          </controller>
+          <blocks>
+            <customer_login>
+              <class>Mage_Customer_Block_Login</class>
+            </customer_login>
+            <customer_account>
+              <class>Mage_Customer_Block_Account</class>
+            </customer_account>
+            <customer_regform>
+              <class>Mage_Customer_Block_Regform</class>
+            </customer_regform>
+          </blocks>
+          <layouts>
+            <default>
+              <updates>
+                <customer>
+                  <module>Mage_Customer</module>
+                  <file>initLayout.xml</file>
+                </customer>
+              </updates>
+            </default>
+          </layouts>
+          <events>
+            <action_preDispatch>
+              <observers>
+                <auth>
+                  <class>Mage_Customer_Front</class>
+                  <method>load_front_action_preDispatch</method>
+                </auth>
+              </observers>
+            </action_preDispatch>
+            <action_postDispatch>
+              <observers>
+                <auth>
+                  <class>Mage_Customer_Front</class>
+                  <method>load_front_action_postDispatch</method>
+                </auth>
+              </observers>
+            </action_postDispatch>
+          </events>
+        </front>
+        <admin>
+          <acl>
+            <resources>
+              <customers>
+                <manage />
+              </customers>
+            </resources>
+          </acl>
+          <controller>
+            <active>true</active>
+          </controller>
+          <layouts>
+            <default>
+              <updates>
+                <customer>
+                  <module>Mage_Customer</module>
+                  <file>Admin/initLayout.xml</file>
+                </customer>
+              </updates>
+            </default>
+          </layouts>
+        </admin>
+      </load>
+    </Mage_Customer>
+  </modules>
 </config>
