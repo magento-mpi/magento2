@@ -2,8 +2,28 @@
 
 class Mage_Sales_Shipping
 {
+    /**
+     * Default shipping origin for requests
+     *
+     * @var array
+     */
 	protected $_origin = null;
+	
+	/**
+	 * Cached result
+	 * 
+	 * @var Mage_Sales_Shipping_Quote_Result
+	 */
 	protected $_result = null;
+	
+	/**
+	 * Reset cached result
+	 */
+	public function resetResult()
+	{
+	    $this->_result->reset();
+	    return $this;
+	}
 	
 	/**
 	 * Constructor
@@ -43,46 +63,20 @@ class Mage_Sales_Shipping
     		$request->setData($this->_origin);
     	}
     	
-        $types = Mage::getConfig()->getGlobalConfig('shipping');
-        foreach ($types as $type) {
-            $className = (string)$type->class;
-            $obj = new $className();
-            $result = $obj->fetchQuotes($request);
-            $this->_result->append($result);
-        }
-        return $this->_result;
-    }
-    
-    /**
-     * Retrieve specific quote by type and optionally method
-     * 
-     * @param Mage_Sales_Shipping_Quote_Request $$request
-     * @param string $type
-     * @param string $method
-     * @return Mage_Sales_Shipping_Quote_Result|boolean
-     */
-    public function fetchQuoteByType(Mage_Sales_Shipping_Quote_Request $request, $type, $method='')
-    {
-    	if (!$request->origin) {
-    		$request->origin = $this->_origin;
-    	}
-    	
-    	$className = Mage::getConfig()->getGlobalInstance('shipping', $type);
-    	$obj = new $className();
-    	$result = $obj->fetchQuotes($request);
-    	
-    	if (''===$method) {
-    		return $result;
+    	if (!$request->limitVendor) { 
+	    	$types = Mage::getConfig()->getGlobalConfig('shipping');
+	        foreach ($types as $type) {
+	            $className = (string)$type->class;
+	            $obj = new $className();
+	            $result = $obj->fetchQuotes($request);
+	            $this->_result->append($result);
+	        }
     	} else {
-    		$quotes = $result->getAllQuotes();
-    		foreach ($quotes as $quote) {
-    			if ($quote->method===$method) {
-    				$result1 = new Mage_Sales_Shipping_Quote_Result();
-    				$result1->append($quote);
-    				return $result1;
-    			}
-    		}
+    	    $obj = Mage::getConfig()->getGlobalInstance('shipping', $type);
+    	    $result = $obj->fetchQuotes($request);
+    	    $this->_result->append($result);
     	}
-    	return false;
+    	
+        return $this->_result;
     }
 }

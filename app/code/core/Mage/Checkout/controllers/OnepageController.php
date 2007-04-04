@@ -5,8 +5,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         parent::_construct();
-        $this->setFlag('status', 'no-renderLayout', true);
-        $this->setFlag('getAddress', 'no-renderLayout', true);
+        foreach (array('status','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
+            $this->setFlag($action, 'no-renderLayout', true);
+        }
     }
     
     public function indexAction()
@@ -65,7 +66,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             }
             Mage::registry('Mage_Checkout')->setStateData('shipping', 'data', $data);
         }
-
+        print_r(Mage::registry('Mage_Checkout')->getStateData('shipping', 'data'));
         $shipping = new Mage_Sales_Shipping();
 
         $request = new Mage_Sales_Shipping_Quote_Request();

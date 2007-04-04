@@ -5,26 +5,36 @@ class Mage_Sales_Shipping_Quote_Result
 	protected $_quotes = array();
 	
 	/**
+	 * Reset result
+	 */
+	public function reset()
+	{
+	    $this->_quotes = array();
+	    return $this;
+	}
+	
+	/**
 	 * Add a quote to the result
 	 *
 	 * @param Mage_Sales_Shipping_Quote_Method|Mage_Sales_Shipping_Quote_Result $result
 	 */
-	function append($result)
+	public function append($result)
 	{
 		if ($result instanceof Mage_Sales_Shipping_Quote_Method) {
 			$this->_quotes[] = $result;
 		} elseif ($result instanceof Mage_Sales_Shipping_Quote_Result) {
-			$quotes = $result->getAllQuotes();
+		    $quotes = $result->getAllQuotes();
 			foreach ($quotes as $quote) {
-				$this->append($quote);
+			    $this->append($quote);
 			}
 		}
+		return $this;
 	}
 	
 	/**
 	 * Return all quotes in the result
 	 */
-	function getAllQuotes()
+	public function getAllQuotes()
 	{
 		return $this->_quotes;
 	}
@@ -34,7 +44,7 @@ class Mage_Sales_Shipping_Quote_Result
 	 *
 	 * @param string $type
 	 */
-	function getQuotesByType($type)
+	public function getQuotesByType($type)
 	{
 		$result = array();
 		foreach ($this->_quotes as $quote) {

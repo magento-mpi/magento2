@@ -2,12 +2,12 @@
 /**
  * Fields:
  * - origin: 
- *   - country: US
- *   - region: CA
+ *   - countryId: 223
+ *   - regionId: 1
  *   - zip: 90034
  * - dest: 
- *   - country: US
- *   - region: NY
+ *   - countryId: 223
+ *   - regionId: 2
  *   - zip: 01005
  * - package: 
  *   - value: $100
@@ -18,8 +18,13 @@
  * - order: 
  *   - totalQty: 10
  *   - subtotal: $100
- * - insurance: true
- * - conditionName: package_weight (tablerate)
+ * - option
+ *   - insurance: true
+ * - table (shiptable)
+ *   - conditionName: package_weight
+ * - limit
+ *   - vendor
+ *   - method
  */
 class Mage_Sales_Shipping_Quote_Request extends Varien_DataObject
 {

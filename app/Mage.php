@@ -219,7 +219,7 @@ final class Mage {
      */
     public static function getResourceModel($model, $class='', array $arguments=array())
     {
-        return Mage::getConfig()->getResourceModelClass($model, $class, $arguments);
+        return Mage::getConfig()->getResourceModelInstance($model, $class, $arguments);
     }
 
     /**
@@ -317,10 +317,12 @@ final class Mage {
             
             Varien_Profiler::setTimer('totalApp', true);
             
+            /*
             echo '<hr><table border=1 align=center>';
             $timers = Varien_Profiler::getCumulativeTimer();
             foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
             echo '</table>';
+			*/
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             

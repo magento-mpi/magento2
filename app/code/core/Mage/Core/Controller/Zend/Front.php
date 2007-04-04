@@ -136,8 +136,8 @@ class Mage_Core_Controller_Zend_Front {
         }
         Varien_Profiler::setTimer('controllerInit', true);
         
-        Varien_Profiler::setTimer('frontDispatch');
+        Varien_Profiler::setTimer('totalDispatch');
         $this->_front->dispatch($this->_request);
-        Varien_Profiler::setTimer('frontDispatch', true);
+        Varien_Profiler::setTimer('totalDispatch', true);
     }
 }

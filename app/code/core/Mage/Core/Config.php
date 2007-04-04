@@ -190,7 +190,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function getGlobalInstance($collection, $name)
     {
-        $x = $this->getType($collection, $name);
+        $x = $this->getGlobalConfig($collection, $name);
         if (!$x) {
             return false;
         }
@@ -425,7 +425,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * Get model class instance.
      * 
      * Example:
-     * $config->getResourceModelClass('catalog', 'product')
+     * $config->getResourceModelInstance('catalog', 'product')
      * 
      * Will instantiate Mage_Catalog_Resource_Model_Mysql4_Product
      *
@@ -434,7 +434,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param array|object $constructArguments
      * @return Mage_Core_Resource_Model_Abstract
      */
-    public function getResourceModelClass($model, $class='', $constructArguments=array())
+    public function getResourceModelInstance($model, $class='', $constructArguments=array())
     {
         $className = '';
         if ($xml = $this->getXml()) {

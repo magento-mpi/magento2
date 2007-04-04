@@ -23,13 +23,13 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
          parent::__construct($request, $response, $invokeArgs);
-         
+          
          $this->_construct();
      }
      
      protected function _construct()
      {
-         
+          
      }
 
      function getFlag($action, $flag='')
@@ -131,16 +131,20 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
     public function dispatch($action)
     {
-        Varien_Profiler::setTimer('actionDispatch');
+        Varien_Profiler::setTimer('preDispatch');
         $this->preDispatch();
+        Varien_Profiler::setTimer('preDispatch', true);
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
             if (!$this->getFlag('', 'no-dispatch')) {
+                Varien_Profiler::setTimer('actionDispatch');
                 $this->$action();
+                Varien_Profiler::setTimer('actionDispatch', true);
             }
+            Varien_Profiler::setTimer('postDispatch');
             $this->postDispatch();
+            Varien_Profiler::setTimer('postDispatch', true);
         }
-        Varien_Profiler::setTimer('actionDispatch', true);
     }
      
     /**
