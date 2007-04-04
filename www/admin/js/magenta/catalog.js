@@ -49,7 +49,7 @@ Mage.Catalog = function(depend){
                 // Create tree
                 Mage.Catalog_Category_Tree.create();
 
-                Layout_West.add('south', new Ext.ContentPanel('catalog_main_left_preview_panel', {autoCreate:true}));
+                Layout_West.add('south', new Ext.ContentPanel(Ext.id(), {autoCreate:true}));
                 Layout_West.endUpdate();
                 
                 

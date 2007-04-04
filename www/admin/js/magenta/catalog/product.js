@@ -44,32 +44,13 @@ Mage.Catalog_Product = function(depend){
                  });
                  
                  this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
-                    north: {
-                        titlebar:true,
-                        split:true,
-                        initialSize:83,
-                        minSize:0,
-                        maxSize:200,
-                        autoScroll:true,
-                        collapsible:true
-                     },
                      center:{
                          titlebar: false,
                          autoScroll:true,
                          resizeTabs : true,
                          hideTabs : false,
                          tabPosition: 'top'
-                     },
-                     south: {
-                         split:true,
-                         initialSize:300,
-                         minSize:50,
-                         //maxSize:400,
-                         titlebar: true,
-                         autoScroll:true,
-                         collapsible:true,
-                         hideTabs : true
-                      }
+                     }
                  });
                 
                 Layout_Center.beginUpdate();
@@ -141,8 +122,7 @@ Mage.Catalog_Product = function(depend){
                 handler : this.createItem.createDelegate(this)
             },{
                 text: 'Add Filter',
-                handler : this.addFilter,
-                scope : this,
+                handler : this.addFilter.createDelegate(this),
                 cls: 'x-btn-text-icon'
             },{
                 text: 'Apply Filters',
@@ -155,17 +135,37 @@ Mage.Catalog_Product = function(depend){
             return grid;
         },
         
-        addFilter : function() {
-            this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
-            var workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel');
+        addFilter : function(node, e) {
+            if (!this.productLayout.getRegion('north')) {
+                var region = this.productLayout.addRegion('north',{
+                    titlebar:true,
+                    split:true,
+                    initialSize:83,
+                    minSize:0,
+                    maxSize:200,
+                    autoScroll:true,
+                    collapsible:true
+                }) 
+                region.on('panelremoved', function(){
+                    region.clearPanels();
+                    region.hide();
+                });
+            } else {
+               this.productLayout.getRegion('north').show();
+            }
+            var workZoneCenterPanel = null;
+            if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
+                workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
+            }
             
-            var filter = new Ext.Toolbar(Ext.DomHelper.insertFirst(workZoneCenterPanel.getEl(), {tag: 'div', id:'filter'+Ext.id()}, true));
-            
+            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter'+Ext.id()}));
+                     
             filter.add({
                 text: 'Remove',
-                handler : this.delFilter.createDelegate(filter, [this.grid]),
+                handler : this.delFilter.createDelegate(filter, [this]),
                 cls: 'x-btn-text-icon'
             });
+
             
         	fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', children: [
@@ -189,12 +189,39 @@ Mage.Catalog_Product = function(depend){
 		    }, true);
 		    
             filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);        	        	
+            
+            this.updateSizeFilterPanel();
+        },
+        
+        
+        updateSizeFilterPanel : function() {
+            if (!this.productLayout.getRegion('north')) {
+                return false;
+            }
+            if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
+                return false;
+            }
+            
+            var titleHeight = this.productLayout.getRegion('north').titleEl.getHeight();
+            var filters = workZoneCenterPanel.getEl().dom.childNodes;
+            var i = 0;
+            var height = titleHeight; // magic number - titlebar size;
+            if (filters.length == 0) {
+                 this.productLayout.getRegion('north').clearPanels();
+                 this.productLayout.getRegion('north').hide();
+            }
+            for (i = 0; i < filters.length; i++) {
+                var el = Ext.get(filters[i]);
+                height = height + el.getHeight();
+            }
+            this.productLayout.getRegion('north').resizeTo(height+1);
+            
         },
         
         applyFilters : function() {
         },
         
-        delFilter : function(grid) {
+        delFilter : function(that) {
             for(var i=0; i< this.items.length; i++) {
                 if (this.items.get(i).destroy) {
                     this.items.get(i).destroy();
@@ -202,8 +229,7 @@ Mage.Catalog_Product = function(depend){
             }
             this.el.removeAllListeners();
             this.el.remove();
-            delete this.el;
-            grid.getView().refresh();            
+            that.updateSizeFilterPanel();
         },
        
         viewGrid : function (treeNode) {
@@ -306,6 +332,20 @@ Mage.Catalog_Product = function(depend){
             }
             var title = 'New Product'; // title for from layout            
 
+            if (!this.productLayout.getRegion('south')) {
+                var region = this.productLayout.addRegion('south',{
+                         split:true,
+                         initialSize:300,
+                         minSize:50,
+                         titlebar: true,
+                         autoScroll:true,
+                         collapsible:true,
+                         hideTabs : true
+                }) 
+            } else {
+               this.productLayout.getRegion('south').show();
+            }
+            
             if (this.productLayout.getRegion('south').getActivePanel()) {
                 this.productLayout.getRegion('south').clearPanels();
                 this.editablePanels = [];
@@ -357,6 +397,8 @@ Mage.Catalog_Product = function(depend){
         onRemovePanel : function(region, panel) {
             this.editablePanels = [];
             this.registeredForms.clear();
+            this.productLayout.getRegion('south').clearPanels();
+            this.productLayout.getRegion('south').hide();
         },
 
         // submit form to server        
@@ -419,7 +461,8 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon'
             },{
                 text: 'Cancel',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.onRemovePanel.createDelegate(this)
             },'-');
             this.formLoading = toolbar.addButton({
                tooltip: 'Form is updating',
