@@ -203,7 +203,7 @@ Mage.Customer = function(depend){
                 success : this.loadTabs.createDelegate(this),
                 failure : failure
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/502/', cb);  
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_customer/customer/card/customer/0/', cb);  
 
             this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
@@ -328,7 +328,7 @@ Mage.Customer = function(depend){
                  alert('Node "' + node.id + '" at index: ' + index + " was clicked.");
              });
 
-            view.load({url: Mage.url + '/mage_customer/customer/addressdata/id/1/'});
+            view.load({url: Mage.url + '/mage_customer/address/gridData/customer/14/'});
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;

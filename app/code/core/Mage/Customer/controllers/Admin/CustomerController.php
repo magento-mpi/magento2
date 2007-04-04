@@ -11,7 +11,6 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
 {
     /**
      * Customers collection JSON
-     *
      */
     public function gridDataAction()
     {
@@ -32,5 +31,30 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $arrGridFields = array();
         
         $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
+    }
+    
+    /**
+     * Customer card tabs
+     */
+    public function cardAction()
+    {
+        //$card
+    }
+    
+    /**
+     * Customer form
+     */
+    public function formAction()
+    {
+        
+    }
+    
+    /**
+     * Customer addresses
+     */
+    public function addressesAction()
+    {
+        $customerId = $this->getRequest()->getParam('customer', false);
+        $addresses = '';
     }
 }
