@@ -42,7 +42,7 @@ class Mage_Cart_Model_Mysql4_Cart extends Mage_Cart_Model_Mysql4
         $data = array();
         if (!empty($pids)) {
             $ids = implode(",", $pids);
-            $products = Mage::getModel('catalog', 'product_collection');
+            $products = Mage::getResourceModel('catalog', 'product_collection');
             $products->setPageSize(false);
             $products->addAttributeToSelect('name', 'varchar');
             $products->addAttributeToSelect('price', 'decimal');

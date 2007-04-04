@@ -16,9 +16,9 @@ class Mage_Catalog_Block_Category_Tree extends Mage_Core_Block_Abstract
 	function toString()
 	{
 	    if ($parent = $this->getAttribute('treeParentId')) {
-	        $data = Mage::getModel('catalog', 'category')->getTree($parent);
+	        $data = Mage::getResourceModel('catalog', 'category')->getTree($parent);
 	    } else {
-	        $data = Mage::getModel('catalog', 'category')->getTree();
+	        $data = Mage::getResourceModel('catalog', 'category')->getTree();
 	    }
 
 	    $tree = new Varien_Widget_HTMLTree($data);

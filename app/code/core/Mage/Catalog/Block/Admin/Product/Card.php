@@ -14,12 +14,12 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $productId      = (int) Mage::registry('controller')->getRequest()->getParam('product', false);
         $attributeSetId = (int) Mage::registry('controller')->getRequest()->getParam('setid', false);
 
-        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
+        $setCollection  = Mage::getResourceModel('catalog', 'product_attribute_set_collection');
         $setCollection->load();
         $arrSets = $setCollection->__toArray();
         
         if ($productId) {
-            $productModel   = Mage::getModel('catalog', 'product');
+            $productModel   = Mage::getResourceModel('catalog', 'product');
             $attributeSetId = $productModel->getAttributeSetId($productId);
         }
         
@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         }
         
         // Declare set attributes
-        $set = Mage::getModel('catalog', 'product_attribute_set');
+        $set = Mage::getResourceModel('catalog', 'product_attribute_set');
         $arrGroups = $set->getGroups($attributeSetId);
         
         // Create card JSON structure

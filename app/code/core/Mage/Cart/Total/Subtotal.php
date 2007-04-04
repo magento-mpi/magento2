@@ -6,7 +6,7 @@ class Mage_Cart_Total_Subtotal extends Mage_Cart_Total_Abstract
     {
         $arr = array();
         
-        $items = Mage::getModel('cart', 'cart')->getItems();
+        $items = Mage::getResourceModel('cart', 'cart')->getItems();
 
         $subtotal = 0;
         foreach ($items as $item) {

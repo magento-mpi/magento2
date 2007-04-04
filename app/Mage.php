@@ -211,15 +211,15 @@ final class Mage {
     /**
      * Get model class
      *
-     * @link Mage_Core_Model::getModelClass
+     * @link Mage_Core_Model::getResourceModelClass
      * @param string $model
      * @param string $class
      * @param array $arguments
      * @return Mage_Core_Model_Abstract
      */
-    public static function getModel($model, $class='', array $arguments=array())
+    public static function getResourceModel($model, $class='', array $arguments=array())
     {
-        return Mage::getConfig()->getModelClass($model, $class, $arguments);
+        return Mage::getConfig()->getResourceModelClass($model, $class, $arguments);
     }
 
     /**
@@ -319,7 +319,7 @@ final class Mage {
             
             echo '<hr><table border=1 align=center>';
             $timers = Varien_Profiler::getCumulativeTimer();
-            foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.$timer[0].'</td></tr>';
+            foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
             echo '</table>';
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));

@@ -18,7 +18,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     {
         // Valid category id
         if ($categoryId = $this->_getId()) {
-            $category = Mage::getModel('catalog', 'category_tree')->getNode($categoryId);
+            $category = Mage::getResourceModel('catalog', 'category_tree')->getNode($categoryId);
 
             $productInfoBlock = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
             $productInfoBlock->loadData($this->getRequest());
@@ -32,13 +32,13 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
 
     function appendAction() {
         if (intval($_GET['id'])) {
-            Mage::getModel('catalog', 'category_tree')->appendChild($_GET['id']);
+            Mage::getResourceModel('catalog', 'category_tree')->appendChild($_GET['id']);
         }
     }
 
 
     function checkTreeAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        $obj = Mage::getResourceModel('catalog', 'category_tree')->getObject();
         $res = $obj->checkNodes();
         $dump = Zend_Debug::dump($res, 'Broken Nodes', false);
         Mage::getBlock('content')->append(Mage::createBlock('text')->setText($dump));
@@ -46,14 +46,14 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
 
 
     function removeAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        $obj = Mage::getResourceModel('catalog', 'category_tree')->getObject();
         if (intval($_GET['id'])) {
             $obj->removeNode($_GET['id']);
         }
     }
 
     function moveAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
+        $obj = Mage::getResourceModel('catalog', 'category_tree')->getObject();
         if (intval($_REQUEST['id']) && intval($_REQUEST['pid'])) {
             $obj->moveNode($_REQUEST['id'], $_REQUEST['pid']);
         }

@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Mage_Core_M
     
     public function __construct() 
     {
-        parent::__construct(Mage::getModel('catalog'));
+        parent::__construct(Mage::getResourceModel('catalog'));
         $this->_attributeTable    = $this->_dbModel->getTableName('catalog_setup', 'product_attribute');
         
         $this->_sqlSelect->from($this->_attributeTable);

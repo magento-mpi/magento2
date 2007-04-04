@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Mage_Core_Model_Colle
     
     function __construct($config = array())
     {
-        parent::__construct(Mage::getModel('catalog'));
+        parent::__construct(Mage::getResourceModel('catalog'));
 
         $this->_productTable   = $this->_dbModel->getTableName('catalog_setup', 'product');
         $this->_categoryProductTable = $this->_dbModel->getTableName('catalog_setup', 'category_product');

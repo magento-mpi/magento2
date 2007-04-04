@@ -16,7 +16,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function gridDataAction()
     {
         $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
-        $collection = Mage::getModel('customer','customer_collection');
+        $collection = Mage::getResourceModel('customer','customer_collection');
         $collection->setPageSize($pageSize);
         
         

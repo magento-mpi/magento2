@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->setChild('breadcrumbs', $breadcrumbs);
         
         // Init collection
-        $this->prodCollection = Mage::getModel('catalog','product_collection');
+        $this->prodCollection = Mage::getResourceModel('catalog','product_collection');
         $this->prodCollection->addAttributeToSelect('name', 'varchar');
         $this->prodCollection->addAttributeToSelect('price', 'decimal');
         

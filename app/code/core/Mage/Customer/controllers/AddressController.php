@@ -21,14 +21,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
         // Default address
         $defaultAddress = false;
-        $addressModel = Mage::getModel('customer', 'address');
+        $addressModel = Mage::getResourceModel('customer', 'address');
         
         if ($defaultAddressId = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
             $defaultAddress = $addressModel->getRow($defaultAddressId);
         }
         
         // Load addresses
-        $addressCoolection = Mage::getModel('customer', 'address_collection')
+        $addressCoolection = Mage::getResourceModel('customer', 'address_collection')
             ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
             ->addFilter('without_default', 'address_id!=' . (int) $defaultAddressId, 'string')
             ->load();
@@ -62,7 +62,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            $addressModel = Mage::getModel('customer', 'address');
+            $addressModel = Mage::getResourceModel('customer', 'address');
             $formData = $addressModel->getRow($addressId);
         }
         
@@ -72,7 +72,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             
             // Validate data
             if ($addressValidator->isValid()) {
-                $addressModel = Mage::getModel('customer', 'address');
+                $addressModel = Mage::getResourceModel('customer', 'address');
                 if ($addressId) {
                     $saveRes = $addressModel->update($addressValidator->getData(), $addressId);
                 }
@@ -84,7 +84,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 
                 // Set default addres for customer
                 if (!empty($_POST['set_as_default'])) {
-                    $customerModel = Mage::getModel('customer', 'customer');
+                    $customerModel = Mage::getResourceModel('customer', 'customer');
                     $customerModel->setDefaultAddress(Mage_Customer_Front::getCustomerId(), $addressId);
                     Mage_Customer_Front::setCustomerInfo('default_address_id', $addressId);
                 }
@@ -130,7 +130,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            $addressModel = Mage::getModel('customer', 'address');
+            $addressModel = Mage::getResourceModel('customer', 'address');
             $addressModel->delete($addressId);
         }
         

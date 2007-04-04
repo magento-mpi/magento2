@@ -9,10 +9,10 @@
  */
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_Model_Db_Table_Interface 
 {
-    protected function _getModel($dataType)
+    protected function _getResourceModel($dataType)
     {
         $model_name = 'product_attribute_' . $dataType;
-        return Mage::getModel('catalog', $model_name);
+        return Mage::getResourceModel('catalog', $model_name);
     }
     
     /**
@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_M
      */
     public function insert($data, $dataType)
     {
-        return $this->_getModel($dataType)->insert($data);
+        return $this->_getResourceModel($dataType)->insert($data);
     }
     
     /**
@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_M
      */
     public function update($data, $rowId, $dataType)
     {
-        return $this->_getModel($dataType)->update($data, $rowId);
+        return $this->_getResourceModel($dataType)->update($data, $rowId);
     }
     
     /**
@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_M
      */
     public function delete($rowId,$dataType)
     {
-        return $this->_getModel($dataType)->delete($rowId);
+        return $this->_getResourceModel($dataType)->delete($rowId);
     }
     
     /**
@@ -55,6 +55,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_M
      */
     public function getRow($rowId, $dataType)
     {
-        return $this->_getModel($dataType)->getRow($data);
+        return $this->_getResourceModel($dataType)->getRow($data);
     }    
 }

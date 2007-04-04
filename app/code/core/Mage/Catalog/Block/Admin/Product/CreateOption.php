@@ -19,7 +19,7 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         $this->setAttribute('class', 'x-form');
         $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/product/card/');
         
-        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
+        $setCollection  = Mage::getResourceModel('catalog', 'product_attribute_set_collection');
         $setCollection->load();
         $arrSets = $setCollection->__toArray();
         

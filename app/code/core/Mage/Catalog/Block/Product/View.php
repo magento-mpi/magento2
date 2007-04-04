@@ -20,7 +20,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     public function loadData(Zend_Controller_Request_Http $request)
     {
         $productId = $request->getParam('id');
-        $product = Mage::getModel('catalog', 'product', array('id'=>$productId));
+        $product = Mage::getResourceModel('catalog', 'product', array('id'=>$productId));
         $product->load($productId);
         
         $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');

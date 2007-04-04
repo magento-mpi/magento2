@@ -23,7 +23,7 @@ class Mage_Catalog_Block_Category_List extends Mage_Core_Block_Template
     
     function loadCategories($parent)
     {
-        $categoryTree = Mage::getModel('catalog','category_tree')->getLevel($parent);
+        $categoryTree = Mage::getResourceModel('catalog','category_tree')->getLevel($parent);
         $data  = array();
         foreach ($categoryTree as $item) {
             $data[] = array(

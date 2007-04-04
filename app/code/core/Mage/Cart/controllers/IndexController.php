@@ -19,7 +19,7 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     
     function indexAction()
     {
-        $cart['items'] = Mage::getModel('cart', 'cart')->getItems();
+        $cart['items'] = Mage::getResourceModel('cart', 'cart')->getItems();
         
         if (empty($cart['items'])) {
             $cartView = 'noItems.phtml';
@@ -56,7 +56,7 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
 
         //$productId = $this->getRequest()->getParam('id');
         
-        $result = Mage::getModel('cart', 'cart')->addProduct($productId);
+        $result = Mage::getResourceModel('cart', 'cart')->addProduct($productId);
         $this->_redirect($this->_data['url']['cart']);
     }
     
@@ -64,7 +64,7 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     {
         $cart = $this->getRequest()->getPost('cart');
         
-        $result = Mage::getModel('cart', 'cart')->update($cart);
+        $result = Mage::getResourceModel('cart', 'cart')->update($cart);
 
         $this->_redirect($this->_data['url']['cart']);
     }

@@ -21,7 +21,7 @@ class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
             $request->conditionName = $this->_conditionName;
         }
         
-        $rate = Mage::getModel('shiptable', 'table')->getRate($request);
+        $rate = Mage::getResourceModel('shiptable', 'table')->getRate($request);
 
         $result = new Mage_Sales_Shipping_Quote_Result();
 

@@ -32,7 +32,7 @@ class Mage_Core_Setup
     
     public function applyModuleDbUpdates()
     {
-        $dbVer = Mage::getModel('core', 'Module')->getDbVersion($this->_module->getName());
+        $dbVer = Mage::getResourceModel('core', 'Module')->getDbVersion($this->_module->getName());
         $modVer = $this->_module->version;
 
         // Module is installed
@@ -67,7 +67,7 @@ class Mage_Core_Setup
     protected function _installDb($moduleVersion)
     {
         $this->_modifySql('install', '', $moduleVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->getName(), $moduleVersion);
+        Mage::getResourceModel('core', 'Module') -> setDbVersion($this->_module->getName(), $moduleVersion);
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Core_Setup
     protected function _upgradeDb($oldVersion, $newVersion)
     {
         $this->_modifySql('upgrade', $oldVersion, $newVersion);
-        Mage::getModel('core', 'Module') -> setDbVersion($this->_module->getName(), $newVersion);
+        Mage::getResourceModel('core', 'Module') -> setDbVersion($this->_module->getName(), $newVersion);
     }
 
     /**

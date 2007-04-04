@@ -31,7 +31,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
-            $address = Mage::getModel('customer', 'address')->getRow($addressId);
+            $address = Mage::getResourceModel('customer', 'address')->getRow($addressId);
             $this->getResponse()->setHeader('Content-type', 'application/x-json');
             $this->getResponse()->appendBody($address->__toJson());
         }

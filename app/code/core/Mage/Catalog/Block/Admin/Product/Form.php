@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
         
         if ($groupId) {
-            $this->_group = Mage::getModel('catalog', 'product_attribute_group')->get($groupId);
+            $this->_group = Mage::getResourceModel('catalog', 'product_attribute_group')->get($groupId);
             if ($this->_group) {
                 $this->setAttribute('legend', $this->_group['product_attribute_group_code']);
                 $this->setAttribute('id', 'form_'.$groupId);
@@ -58,13 +58,13 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             );
         }
         
-        $attributes = Mage::getModel('catalog', 'product_attribute_group')->getAttributes($groupId, $setId);
+        $attributes = Mage::getResourceModel('catalog', 'product_attribute_group')->getAttributes($groupId, $setId);
         foreach ($attributes as $attribute) {
             $this->attribute2field($attribute);
         }
         
         if ($productId) {
-            $product = Mage::getModel('catalog','product');
+            $product = Mage::getResourceModel('catalog','product');
             $productInfo = $product->getRow($productId);
             $this->setElementsValues($productInfo);
         }
@@ -99,7 +99,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         if (isset($this->_dataSources[$attribute['data_source']])) {
             $dataSource = (array) $this->_dataSources[$attribute['data_source']];
             $elementConfig['ext_type']  = 'ComboBox';
-            $elementConfig['values'] = Mage::getModel('catalog', $dataSource['model'])->$dataSource['method']((array) $dataSource['params']);
+            $elementConfig['values'] = Mage::getResourceModel('catalog', $dataSource['model'])->$dataSource['method']((array) $dataSource['params']);
         }
                 
         $this->addField($elementId, $elementType, $elementConfig);

@@ -28,7 +28,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         Mage::getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
 
-        $prodCollection = Mage::getModel('catalog','product_collection');
+        $prodCollection = Mage::getResourceModel('catalog','product_collection');
 
         $prodCollection->addFilter('website_id', Mage_Core_Environment::getCurentWebsite(), 'and');
         $prodCollection->addSearchFilter($query);

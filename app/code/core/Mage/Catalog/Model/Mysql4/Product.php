@@ -14,7 +14,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     function __construct($data = array())
     {
         parent::__construct($data);
-        $this->_dbModel = Mage::getModel('catalog');
+        $this->_dbModel = Mage::getResourceModel('catalog');
     }
     
     public function load($id)
@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_DataObject implements Mag
     public function getCategoryName()
     {
         // TODO : default category id attribute
-        $category = Mage::getModel('catalog', 'category_tree')->getNode(3);
+        $category = Mage::getResourceModel('catalog', 'category_tree')->getNode(3);
         return $category->getData('attribute_value');
     }
     

@@ -133,7 +133,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $className = $coreModel.'_Config';
         $model = new $className();
         */
-        $model = $this->getModelClass('core', 'config');
+        $model = $this->getResourceModelClass('core', 'config');
         $model->updateXmlFromDb($this->_xml);
     }
 
@@ -425,7 +425,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * Get model class instance.
      * 
      * Example:
-     * $config->getModelClass('catalog', 'product')
+     * $config->getResourceModelClass('catalog', 'product')
      * 
      * Will instantiate Mage_Catalog_Model_Mysql4_Product
      *
@@ -434,7 +434,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param array|object $constructArguments
      * @return Mage_Core_Model_Abstract
      */
-    public function getModelClass($model, $class='', $constructArguments=array())
+    public function getResourceModelClass($model, $class='', $constructArguments=array())
     {
         $className = '';
         if ($xml = $this->getXml()) {

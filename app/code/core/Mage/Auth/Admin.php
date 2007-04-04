@@ -11,7 +11,7 @@ class Mage_Auth_Admin
         if (empty($auth->user) && isset($_POST['login'])) {
             extract($_POST['login']);
             if (!empty($username) && !empty($password)) {
-                $auth->user = Mage::getModel('auth', 'Auth')->authenticate($username, $password);
+                $auth->user = Mage::getResourceModel('auth', 'Auth')->authenticate($username, $password);
             }
         }
         
@@ -24,7 +24,7 @@ class Mage_Auth_Admin
         }
        
         if (empty($auth->acl)) {
-            $auth->acl = Mage::getModel('auth', 'Acl')->loadUserAcl($auth->user->user_id);
+            $auth->acl = Mage::getResourceModel('auth', 'Acl')->loadUserAcl($auth->user->user_id);
         }
         
         Mage::register('acl', $auth->acl);

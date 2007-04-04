@@ -92,13 +92,13 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         // assign customer addresses
         if (Mage_Customer_Front::getCustomerId()) {
 
-            $addresses = Mage::getModel('customer', 'address_collection')
+            $addresses = Mage::getResourceModel('customer', 'address_collection')
                 ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
                 ->load()
                 ->getItems();
             $block->assign('addresses', $addresses);
             if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
-                $address = Mage::getModel('customer', 'address')->getRow($default_address_id);
+                $address = Mage::getResourceModel('customer', 'address')->getRow($default_address_id);
             }
         }
         
