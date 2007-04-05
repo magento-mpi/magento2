@@ -57,6 +57,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
                         'id' => $cartItem['product_id'],
                         'qty' => $cartItem['product_qty'],
                         'name' => $product->getName(),
+                        'weight' => $product->getWeight(),
                         'item_price' => $price,
                         'row_total' => $price * $cartItem['product_qty'],
                     );
