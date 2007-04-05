@@ -1,8 +1,10 @@
-<ul class="misc-info">
-    <li><a href="<?=$moduleBaseUrl?>/special/whatsnew">What's New</a></li>
-    <li class="last"><a href="<?=$moduleBaseUrl?>/special/closeouts">Closeouts</a></li>
-</ul>
-<h2 id="by-topic"><span>Browse by Topic</span></h2>
-<?=$bytopic?>
-<h2 id="by-product"><span>Browse by Product</span></h2>
-<?=$byproduct?>
+<div class="catalog-nav">
+    <h2 id="title-department"><span>Shop by department</span></h2>
+    <div class="category-nav">
+        <?=$bytopic?>
+    </div>
+    <h2 id="title-brand"><span>Shop by brand</span></h2>
+        <select><option>Choose a brand</option></select>
+    <h2 id="title-shoe-type"><span>Shop by shoe type</span></h2>
+        <select><option>Choose a Shoe Type</option></select>
+</div>

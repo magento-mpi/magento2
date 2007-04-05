@@ -1,0 +1,82 @@
+/* BASE */
+/* Block */
+body, div, ul, ol, li, p, dt, dd, dl, h1, h2, h3, h4, h5, form, fieldset, tr, td, legend  { 
+    margin: 0;
+    padding : 0;
+    font: 11px/1.55em Verdana, sans-serif;
+    color:#754D24;
+}
+
+h1 { font-size:1.6em; }
+h2 { font-size:1.3em; }
+h3 { font-size:1.2em; }
+h4 { font-size:1.05em; }
+h5 { font-size:1em; }
+h1, h2, h3, h4 { line-height:1.4em; font-weight:bold; margin-bottom:.6em; }
+th, td { vertical-align:top; }
+th { font-weight:bold;}
+p, address { margin-bottom:1em; }
+address { font-style:normal; }
+li { list-style-type:none; }
+
+
+/**************** In-line ******************/
+h1 span, h2 span, h3 span { display:none; }
+input, select { vertical-align:middle; }
+label { color:#C68D19; }
+a img { border:0; }
+a { color:#4a0b71; text-decoration:none; }
+a:hover { color:#152a4e; text-decoration:underline; }
+
+
+/* Positioning */
+.float-left {float:left;}
+.float-right {float:right;}
+.align-left {text-align:left;}
+.align-center {text-align:center;}
+.align-right {text-align:right;}
+.vtop {vertical-align:top;}
+.vmiddle {vertical-align:middle;}
+.vbottom {vertical-align:bottom;}
+
+/* Clearfix */
+.clearfix {display:block; clear:both; height:0; font-size:0; line-height:0px; overflow:hidden;}
+
+/* Forms */
+fieldset { border:none; }
+fieldset.highlight { background-color:#f7f8df; }
+legend {display:none;}
+.input-list li { clear:both;  margin-bottom:6px;}
+.input-text, textarea, select {
+    padding:2px; 
+    border-width:1px; 
+    border-style:solid; 
+    border-color:#979797 #e0e0e0 #e0e0e0 #979797;
+    font:11px/1.55em Verdana, Helvetica, sans-serif;
+    }
+.input-left { width:50%; float:left; }    /* Column left of two column form */
+.input-right { width:50%; float:right; }    /* Column right of two column form */
+.input-single {}
+.input-button { 
+    padding:2px;
+    background-color:#754D24; 
+    border:none; 
+    color:#fff; 
+    font:bold 11px Verdana, sans-serif; 
+    cursor:pointer;
+    }
+
+.buttons-container { margin-top:20px; }
+    .button-left { float:left; width:50%; text-align:left;}
+    .button-right { float:left; width:50%; text-align:left;}
+
+/* Form Validation */
+.validation-advice {
+    margin-left:5px; 
+    color:#d40707;
+    font-weight:bold;
+    margin-right:20px;
+}
+input.validation-failed, textarea.validation-failed {
+    border: 1px solid #d40707;
+}

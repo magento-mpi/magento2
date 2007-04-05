@@ -1,11 +1,5 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="head">
-        <block type="tag_css" name="head.css.customer">
-            <action method="setHref"><href>/customer/style.css</href></action>
-        </block>
-    </reference>
-    
     <reference name="left">
         <block type="tpl" name="left.newsletter">
             <action method="setViewName"><module>Mage_Customer</module><view>form/mini.newsletter.phtml</view></action>

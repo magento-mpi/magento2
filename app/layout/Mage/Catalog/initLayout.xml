@@ -1,11 +1,5 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="head">
-        <block type="tag_css" name="head.css.catalog">
-            <action method="setHref"><href>/catalog/style.css</href></action>
-        </block>
-    </reference>
-    
     <reference name="top.forms">
         <block type="tpl" name="search.form.mini">
             <action method="setViewName"><module>Mage_Catalog</module><view>search.form.mini.phtml</view></action>

@@ -1,10 +1,5 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="head">
-        <block type="tag_css" name="head.css.checkout">
-            <action method="setHref"><href>/checkout/onepage.css</href></action>
-        </block>
-    </reference>
     <reference name="top.links">
         <block type="list_link" name="top.links.checkout">
             <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}"</a><label>Checkout</label></action>

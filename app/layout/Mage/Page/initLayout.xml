@@ -2,7 +2,7 @@
 <layoutUpdate>
     <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Page</module><view>layout.2column.phtml</view></action>
-        <action method="assign" process="value"><var>imagesUrl</var><value>{$baseSkinUrl}/default/page/images</value></action>
+        <action method="assign" process="value"><var>imagesUrl</var><value>{$baseSkinUrl}/default/images</value></action>
         
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
@@ -22,25 +22,21 @@
                 <action method="setSrc"><src>/varien/js.js</src></action>
             </block>
             <block type="tag_css" name="head.css.main">
-                <action method="setHref"><href>/page/style.css</href></action>
+                <action method="setHref"><href>/css/styles.css</href></action>
             </block>
         </block>
         
-        <block type="list" name="top.links" as="topLinks">
-            <block type="list_link" name="top.links.help">
-                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/article/help"</a><label>Help</label></action>
-            </block>
-        </block>
+        <block type="list" name="top.links" as="topLinks"/>
         
         <block type="list" name="top.menu" as="topMenu">
-            <block type="list_link" name="top.menu.home">
-                <action method="setLink" process="a"><li>id="nav-home"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Home</span>]]></label></action>
+            <block type="list_link" name="top.menu.locations">
+                <action method="setLink" process="a"><li></li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Store Locations</span>]]></label></action>
             </block>
-            <block type="list_link" name="top.menu.preventcrime">
-                <action method="setLink" process="a"><li>id="nav-help-prevent"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Help Prevent Crime</span>]]></label></action>
+            <block type="list_link" name="top.menu.guide">
+                <action method="setLink" process="a"><li></li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Fit Guide</span>]]></label></action>
             </block>
-            <block type="list_link" name="top.menu.contact">
-                <action method="setLink" process="a"><li>id="nav-contact"</li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Contact Us</span>]]></label></action>
+            <block type="list_link" name="top.menu.tips">
+                <action method="setLink" process="a"><li></li><a>href="{$baseUrl}"</a><label><![CDATA[<span>Care tips</span>]]></label></action>
             </block>
         </block>
         
@@ -51,14 +47,17 @@
         <block type="list" name="content" as="content"/>
         
         <block type="list" name="botom.links" as="bottomLinks">
-            <block type="list_link" name="bottom.links.home">
-                <action method="setLink" process="a"><li/><a>href="{$baseUrl}"</a><label>Home</label></action>
+            <block type="list_link" name="bottom.links.about">
+                <action method="setLink" process="a"><li/><a>href="{$baseUrl}"</a><label>About Us</label></action>
+            </block>
+            <block type="list_link" name="bottom.links.contact">
+                <action method="setLink" process="a"><li/><a>href="{$baseUrl}"</a><label>Contact Us</label></action>
+            </block>
+            <block type="list_link" name="bottom.links.exchange">
+                <action method="setLink" process="a"><li/><a>href="{$baseUrl}"</a><label>Exchange and Returns</label></action>
             </block>
             <block type="list_link" name="bottom.links.sitemap">
-                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/sitemap"</a><label>Site Map</label></action>
-            </block>
-            <block type="list_link" name="bottom.links.privacy">
-                <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/article/privacy"</a><label>Privacy Policy</label></action>
+                <action method="setLink" process="a"><li/><a>href="{$baseUrl}/sitemap"</a><label>Site Map</label></action>
             </block>
         </block>
     </block>

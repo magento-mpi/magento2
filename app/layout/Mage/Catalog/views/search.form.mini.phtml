@@ -1,6 +1,6 @@
 <form action="<?=$moduleBaseUrl?>/search/result/" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return false;">
     <fieldset>
     <legend>Search Site</legend>
-    <input name="q" type="text" id="search" value="<?if(!empty($query)):?><?=$escape($query)?><?else:?>Enter your search term<?endif?>" class="input-text" onfocus="if(this.value=='Enter your search term')this.value=''; " onblur="if(this.value=='')this.value='Enter your search term';"/><input type="image" alt="Search" src="<?=$moduleImagesUrl?>/btn_search.gif" class="input-button" />
+    <input name="q" type="text" id="search" value="<?if(!empty($query)):?><?=$escape($query)?><?else:?>Enter your search term<?endif?>" class="input-text" onfocus="if(this.value=='Enter your search term')this.value=''; " onblur="if(this.value=='')this.value='Enter your search term';"/><input type="button" value="Search" alt="Search" class="input-button" />
     </fieldset>
 </form>

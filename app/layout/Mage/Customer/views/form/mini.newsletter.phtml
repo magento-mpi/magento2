@@ -1,10 +1,11 @@
-<form action="<?=$moduleBaseUrl?>/newsletter/subscribe/" method="post" id="newsletter-validate">
-    <fieldset class="newsletter">
-        <legend>Newsletter</legend>
-        <h3><span>Newsletter</span></h3>
-            <p>Subscribe to our newsletter to receive special offers</p>
-            <label for="newsletter"><strong>Enter your email:</strong></label>
-        <input name="email" id="newsletter" type="text" class="required-entry validate-email input-text"/>
-        <input type="image" src="<?=$moduleImagesUrl?>/btn_subscribe.gif" alt="Subscribe" class="input-button"/>
-    </fieldset>
-</form>
+<h2 id="title-newsletter"><span>Newsletter</span></h2>
+<div class="newsletter">
+    <form action="<?=$moduleBaseUrl?>/newsletter/subscribe/" method="post" id="newsletter-validate">
+        <fieldset>
+            <legend>Newsletter</legend>
+            <label for="newsletter">Sign up for our newsletter:</label>
+            <input name="email" id="newsletter" type="text" class="required-entry validate-email input-text"/>
+            <input type="button" value="Submit" alt="Subscribe" class="input-button"/>
+        </fieldset>
+    </form>
+</div>

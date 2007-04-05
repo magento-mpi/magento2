@@ -1,0 +1,121 @@
+/******************************************/
+/***************** GLOBAL *****************/
+/******************************************/
+
+/* Text-sizing */
+.text-bigger { font-size: 1.1em; }
+.text-smaller { font-size: 0.9em; }
+.text-small { font-size: 0.8em; }
+.text-xsmall { font-size: 0.7em; }
+h1.page-heading { font-size:1.45em;  } 
+
+/* Lists */
+ul.disc li { margin:4px 0 4px 25px; list-style-type:disc;}
+ul.decimal li { margin:4px 0 4px 25px; list-style-type:decimal;}
+ul.inline-list li { display:inline; }
+ul.inline-list a { text-decoration:none;}
+ul.inline-list a:hover { text-decoration:underline;} 
+
+
+/* Forms */
+fieldset { border:none; }
+legend {display:none;}
+.input-list li { clear:both;  margin-bottom:6px;}
+.input-text, textarea, select {
+	padding:2px; 
+	border-width:1px; 
+	border-style:solid; 
+	border-color:#979797 #e0e0e0 #e0e0e0 #979797;
+	font:11px/1.55em Verdana, Helvetica, sans-serif;
+	}
+.input-left { width:50%; float:left; }    /* Column left of two column form */
+.input-right { width:50%; float:right; }    /* Column right of two column form */
+.input-single {}
+.input-button { 
+	padding:4px; 
+	background-color:#c23b0b; 
+	border:none; 
+	color:#fff; 
+	font:bold 11px Verdana, sans-serif; 
+	cursor:pointer;
+	}
+.col-oscom fieldset.group-single, #page-oscom fieldset.group-single { padding:10px; } /* Accomodate the onfocuc background color */
+.qty { width:2em; text-align:center;}
+.buttons-container { margin-top:20px; }
+	.button-left { float:left; width:50%; text-align:left;}
+	.button-right { float:left; width:50%; text-align:left;}
+
+/* osCom Forms */
+fieldset.highlight { background-color:#f7f8df; }
+.col-oscom .input-text, .col-oscom select, .col-oscom textarea { font:1.27em Verdana, sans-serif; }
+.col-oscom fieldset, #page-oscom fieldset { margin-bottom:10px; }
+.col-oscom fieldset .input-text, #page-oscom fieldset .input-text { width:526px; }
+.col-oscom fieldset select, #page-oscom fieldset select { width:532px; }
+.col-oscom fieldset .input-left .input-text, #page-oscom fieldset .input-left .input-text,
+.col-oscom fieldset .input-right .input-text, #page-oscom fieldset .input-right .input-text {width:250px; } 
+.col-oscom fieldset .input-left select, #page-oscom fieldset  .input-left select, 
+.col-oscom fieldset .input-right select, #page-oscom fieldset  .input-right select{width:256px; } 
+
+/* Positioning */
+.float-left {float:left;}
+.float-right {float:right;}
+.align-left {text-align:left;}
+.align-center {text-align:center;}
+.align-right {text-align:right;}
+.vtop {vertical-align:top;}
+.vmiddle {vertical-align:middle;}
+.vbottom {vertical-align:bottom;}
+
+
+/* Error */
+.error-message { 
+	margin: 10px 0; 
+	color:#c7460b; 
+	font-weight:bold; 
+	background-color:#fef6f2; 
+	padding:10px;
+	}
+.required, .error, .red { color:#c7460b;}
+
+
+/* Clearfix */
+.clearfix {display:block; clear:both; height:0; font-size:0; line-height:0px; overflow:hidden;}
+
+
+/* Links */
+a:link.blue-link, a:visited.blue-link, a:active.blue-link, a:hover.blue-link { color:#0080b6; }
+a:link.red-link, a:visited.red-link, a:hover.red-link, a:active.red-link{ color:#c5410b;}
+
+
+/* Misc */
+body .container .spacer { clear:both; height:1px; padding:0; font-size:0; line-height:0; overflow:hidden;}
+.dotted-separator { margin:10px 0; height:1px; font-size:1px; line-height:1em; background:url(../images_osc/bg_dotted_hori.gif) repeat-x 0 0; overflow:hidden; }
+td.dotted-separator { margin:0;}
+h2 .head-link {display:inline; font-size:.75em; font-weight:normal;}
+h3 .head-link {display:inline; font-size:.85em; font-weight:normal;}
+.img-border { display:block; background-color:#f7f8df; padding:2px; border:1px solid #dbda9e;}
+.bg-light-baige { background-color:#f7f8df;}
+.bg-light-turq { background-color:#e1f6f8;}
+.bg-baige { background-color:#f2f3ce;}
+
+/* osCom */
+.col-oscom h2, #page-oscom h2 { padding-bottom:5px; background:url(../images_osc/bg_oscom_head.gif) no-repeat 100% 100%; }
+.col-oscom a:link,
+.col-oscom a:visited,
+.col-oscom a:active { text-decoration:underline;}
+.col-oscom a:hover { text-decoration:none; background-color:#ecf8fa;}
+.col-oscom col-oscom tr.data-row-foot td { background-color:#f2f3ce; padding:5px; }
+.col-oscom oscom-data td, .col-oscom .oscom-data th { background-color:#fff; padding:3px 5px;}
+.oscom-data { background-color:#f2f3ce;}
+.col-oscom h1.page-heading { padding-bottom:4px; border-bottom: 1px solid #ebebeb; } 
+
+/* Form Validation */
+.validation-advice {
+	margin-left:5px; 
+	color:#d40707;
+	font-weight:bold;
+	margin-right:20px;
+}
+input.validation-failed, textarea.validation-failed {
+	border: 1px solid #d40707;
+}

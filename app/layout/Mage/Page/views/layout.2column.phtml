@@ -1,4 +1,4 @@
-<!--{#children:
+<?/*<!--{#children:
 head        Head variables
 topLinks    Links on the top
 topMenu     Top menu
@@ -6,7 +6,7 @@ topForms    Forms in the same line as menu
 left        Left column for navigation
 content     The main contents area
 bottomLinks Links on the bottom
-}-->
+}--*/?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -17,18 +17,22 @@ bottomLinks Links on the bottom
     <div class="page">
         <!-- [start] header -->
         <div class="header">
-            <div class="header-info">
-                <div class="account">
+            <div class="top-menu-line">
+                <ul class="top-menu-nav">
+                    <?=$topMenu?>
+                </ul>
+                <?//=$topForms?>
+            </div>
+            <div class="top-links-line">
+                <div class="float-left top-form">
+                    <?=$topForms?>
+                </div>
+                <div class="float-right top-links">
                     <ul>
                         <?=$topLinks?>
                     </ul>
                 </div>
-            </div>
-            <div class="top-menu-line">
-                <ul class="nav">
-                    <?=$topMenu?>
-                </ul>
-                <?=$topForms?>
+                <div class="clearfix"></div>
             </div>
         </div>
         <!-- [end] header -->
