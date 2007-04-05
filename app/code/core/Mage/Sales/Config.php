@@ -2,13 +2,19 @@
 
 class Mage_Sales_Config
 {
-    public function getShippingOrigin()
+    public function getShippingOrig()
     {
-        $origin = array(
-            'origin_country_id'=>223,
-            'origin_region_id'=>1,
-            'origin_zip'=>'90034',
+        $orig = array(
+            'orig_country_id'=>223,
+            'orig_region_id'=>1,
+            'orig_postcode'=>'90034',
         );
-        return $origin;
+        return $orig;
+    }
+    
+    public function getShippingDefaults($vendor)
+    {
+        $config = Mage::getConfig()->getXml()->global->salesShippingVendors->$vendor;
+        return $config->defaults;
     }
 }

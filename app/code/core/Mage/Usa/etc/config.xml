@@ -11,16 +11,30 @@
           </resourceModels>
           <salesShippingVendors>
             <ups>
-              <class>Mage_Usa_Shipping_Vendors_Ups</class>
+              <active>true</active>
+              <class>Mage_Usa_Shipping_Vendor_Ups</class>
+              <defaults>
+                <title>United Parsel Service</title>
+                <pickup>CC</pickup>
+                <container>CP</container>
+                <destType>RES</destType>
+                <handling>0</handling>
+                <cgi>
+                    <proto>http</proto>
+                    <host>www.ups.com</host>
+                    <port>80</port>
+                    <url>/using/services/rave/qcostcgi.cgi</url>
+                </cgi>
+              </defaults>
             </ups>
             <usps>
-              <class>Mage_Usa_Shipping_Vendors_Usps</class>
+              <class>Mage_Usa_Shipping_Vendor_Usps</class>
             </usps>
             <fedex>
-              <class>Mage_Usa_Shipping_Vendors_Fedex</class>
+              <class>Mage_Usa_Shipping_Vendor_Fedex</class>
             </fedex>
             <dhl>
-              <class>Mage_Usa_Shipping_Vendors_Dhl</class>
+              <class>Mage_Usa_Shipping_Vendor_Dhl</class>
             </dhl>
           </salesShippingVendors>
           <salesTax>

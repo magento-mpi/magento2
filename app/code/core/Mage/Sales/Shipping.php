@@ -3,11 +3,11 @@
 class Mage_Sales_Shipping
 {
     /**
-     * Default shipping origin for requests
+     * Default shipping orig for requests
      *
      * @var array
      */
-	protected $_origin = null;
+	protected $_orig = null;
 	
 	/**
 	 * Cached result
@@ -36,19 +36,19 @@ class Mage_Sales_Shipping
 	}
 	
 	/**
-	 * Set shipping origin data
+	 * Set shipping orig data
 	 */
-	public function setOriginData($data)
+	public function setOrigData($data)
 	{
-		$this->_origin = $data;
+		$this->_orig = $data;
 	}
 	
-	public function getOriginData()
+	public function getOrigData()
 	{
-	    if (!isset($this->_origin)) {
-            $this->setOriginData(Mage::getConfig('Mage_Sales')->getShippingOrigin());
+	    if (!isset($this->_orig)) {
+            $this->setOrigData(Mage::getConfig('Mage_Sales')->getShippingOrig());
 	    }
-	    return $this->_origin;
+	    return $this->_orig;
 	}
 	
 	/**
@@ -59,18 +59,19 @@ class Mage_Sales_Shipping
 	 */
 	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
     {
-    	if (!$request->getOrigin()) {
-    		$request->setData($this->getOriginData());
+    	if (!$request->getOrig()) {
+    		$request->setData($this->getOrigData());
     	}
 
     	if (!$request->limitVendor) { 
-	    	$types = Mage::getConfig()->getGlobalConfig('salesShippingVendors')->children();
+	    	$vendors = Mage::getConfig()->getGlobalConfig('salesShippingVendors')->children();
 
-	        foreach ($types as $type) {
-	            if ('true'!==(string)$type->active) {
+	        foreach ($vendors as $vendor) {
+	            if ('true'!==(string)$vendor->active) {
 	                continue;
 	            }
-	            $className = (string)$type->class;
+	            $request->setVendor($vendor->getName());
+	            $className = (string)$vendor->class;
 	            $obj = new $className();
 	            $result = $obj->fetchQuotes($request);
 	            $this->_result->append($result);

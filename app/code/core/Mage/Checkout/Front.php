@@ -75,6 +75,7 @@ class Mage_Checkout_Front
         $request = new Mage_Sales_Shipping_Quote_Request();
         $request->setDestCountryId($shippingData['country_id']);
         $request->setDestRegionId($shippingData['region_id']);
+        $request->setDestPostcode($shippingData['postcode']);
         $request->setOrderSubtotal($subtotal[0]['value']);
         $request->setPackageWeight($weight[0]['value']);
 
@@ -87,9 +88,9 @@ class Mage_Checkout_Front
             foreach ($allQuotes as $quote) {
                 $priceFilter = new Varien_Filter_Sprintf('$%s', 2);
                 $quotes[$quote->getVendor()]['title'] = $quote->getVendorTitle();
-                $quotes[$quote->getVendor()]['methods'][$quote->getMethod()] = array(
-                    'code'=>$quote->getMethod(),
-                    'title'=>$quote->getMethodTitle(),
+                $quotes[$quote->getVendor()]['methods'][$quote->getService()] = array(
+                    'code'=>$quote->getService(),
+                    'title'=>$quote->getServiceTitle(),
                     'price'=>$priceFilter->filter($quote->getPrice()),
                 );
             }

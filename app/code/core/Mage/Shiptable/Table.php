@@ -25,13 +25,15 @@ class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
 
         $rate = Mage::getResourceModel('shiptable', 'table')->getRate($request);
         if (!empty($rate)) {
-	    	$quote = new Mage_Sales_Shipping_Quote_Method();
+	    	$quote = new Mage_Sales_Shipping_Quote_Service();
 	    	
-	    	$quote->setVendor('shiptable');
-	    	$quote->setVendorTitle('Table rate');
+	    	$vendor = 'shiptable';
+	    	$vendorTitle = (string)Mage::getConfig('Mage_Sales')->getShippingDefaults($vendor)->title;
+	    	$quote->setVendor($vendor);
+	    	$quote->setVendorTitle($vendorTitle);
 	    	
-	    	$quote->setMethod('shiptable_rate');
-	    	$quote->setMethodTitle('Table rate');
+	    	$quote->setService('best');
+	    	$quote->setServiceTitle('Best way');
 	    	
 	    	$quote->setPrice($rate['price']);
 	    	$quote->setCost($rate['cost']);

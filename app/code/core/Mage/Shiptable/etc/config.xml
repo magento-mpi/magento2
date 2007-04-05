@@ -30,6 +30,9 @@
             <shiptable>
               <active>true</active>
               <class>Mage_Shiptable_Table</class>
+              <defaults>
+                <title>Table rate</title>
+              </defaults>
             </shiptable>
           </salesShippingVendors>
         </all>

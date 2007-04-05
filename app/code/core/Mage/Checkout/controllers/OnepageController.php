@@ -42,7 +42,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function shippingMethodAction()
     {
         $checkout = Mage::registry('Mage_Checkout');
-        
+
+        $checkout->fetchShippingMethods();
+
         $quotes = $checkout->getStateData('shipping_method', 'quotes');
         $data = $checkout->getStateData('shipping_method', 'data');
 
@@ -78,7 +80,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('billing', 'allow', true);
             }
-            
             $address = new Mage_Customer_Address($data);
             $checkout->setStateData('billing', 'address', $address);
         }
@@ -108,7 +109,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $checkout->setStateData('shipping', 'address', $address);
         }
 
-        $checkout->fetchShippingMethods();
+        #$checkout->fetchShippingMethods();
     }
     
     public function saveShippingMethodAction()

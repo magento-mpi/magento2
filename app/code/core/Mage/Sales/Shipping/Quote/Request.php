@@ -1,14 +1,14 @@
 <?php
 /**
  * Fields:
- * - origin: 
+ * - orig: 
  *   - country_id: 223
  *   - region_id: 1
- *   - zip: 90034
+ *   - postcode: 90034
  * - dest: 
  *   - country_id: 223
  *   - region_id: 2
- *   - zip: 01005
+ *   - postcode: 01005
  * - package: 
  *   - value: $100
  *   - weight: 1.5 lb
@@ -20,11 +20,16 @@
  *   - subtotal: $100
  * - option
  *   - insurance: true
+ *   - handling: $1
  * - table (shiptable)
  *   - condition_name: package_weight
  * - limit
- *   - vendor
- *   - method
+ *   - vendor: ups
+ *   - service: 3dp
+ * - ups
+ *   - pickup: CC
+ *   - container: CP
+ *   - address: RES
  */
 class Mage_Sales_Shipping_Quote_Request extends Varien_DataObject
 {
