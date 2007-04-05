@@ -9,15 +9,16 @@
  */
 class Mage_Customer_Customer extends Varien_DataObject
 {
-    protected $_customerId;
-    
-    public function __construct($customerId=false) 
+    public function __construct($customer=false) 
     {
-        parent::__construct();
-        
-        if ($customerId) {
-            $this->_customerId = $customerId;
-            $this->load($customerId);
+        if (is_array($customer)) {
+            parent::__construct($customer);
+        }
+        elseif ($customer) {
+            $this->load((int)$address);
+        }
+        else {
+            parent::__construct();
         }
     }
     
