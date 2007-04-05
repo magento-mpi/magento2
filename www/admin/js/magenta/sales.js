@@ -19,7 +19,7 @@ Mage.Sales = function(depend){
                         maxSize:400,
                         autoScroll:true,
                         collapsible:true,
-                        collapsedTitle : '<b>Order info</b>',
+                        collapsedTitle : '<b>Order info</b>'
                      }
                 });
                 

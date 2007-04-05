@@ -26,7 +26,7 @@ Mage.Customer = function(depend){
                          resizeTabs : true,
                          hideTabs : true,
                          tabPosition: 'top'
-                     },
+                     }
                 });
                 
                 this.customerLayout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
@@ -133,7 +133,7 @@ Mage.Customer = function(depend){
             	rowcontextmenu : function(grid, rowIndex, e){
             	 	alert('context menu');
             	 	e.stopEvent();
-            	},
+            	}
             });            
             
             grid.render();

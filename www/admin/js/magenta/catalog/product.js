@@ -40,7 +40,7 @@ Mage.Catalog_Product = function(depend){
                          resizeTabs : true,
                          hideTabs : true,
                          tabPosition: 'top'
-                     },
+                     }
                  });
                  
                  this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {

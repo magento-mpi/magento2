@@ -9,6 +9,7 @@ Mage.Catalog = function(depend){
             if (!Layout) {
                 Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
+                        initialSize : 200,
                         split:true,
                         autoScroll:true,
                         collapsible:true,
