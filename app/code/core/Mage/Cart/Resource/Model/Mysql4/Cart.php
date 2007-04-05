@@ -18,8 +18,26 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         $this->_itemsCache[$cartId] = null;
     }
     
+    function getCart($cartId=null)
+    {
+        $cartTable = $this->_getTableName('cart', 'cart');
+        
+        if (is_null($cartId)) {
+            $cartId = $this->getCustomerCartId();
+        }
+        
+        $sql = $this->_read->select()->from($cartTable)->where('cart_id=?', $cartId);
+        $arr = $this->_read->fetchAssoc($sql);
+        
+        return $arr;
+    }
+    
     function getItems($cartId=null)
     { 
+        $cartTable = $this->_getTableName('cart', 'cart');
+        $itemTable = $this->_getTableName('cart', 'item');
+        $productTable = $this->_getTableName('catalog', 'product');
+        
         if (is_null($cartId)) {
             $cartId = $this->getCustomerCartId();
         }
@@ -29,7 +47,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         }
         
         $sql = $this->_read->select()
-            ->from($this->_getTableName('cart', 'item'))
+            ->from($itemTable)
             ->where('cart_id = ?', $cartId);
             
         $arr = $this->_read->fetchAll($sql);
@@ -46,7 +64,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
             $products->setPageSize(false);
             $products->addAttributeToSelect('name', 'varchar');
             $products->addAttributeToSelect('price', 'decimal');
-            $products->addFilter('id', 'catalog_product.product_id in ('.$ids.')', 'string');
+            $products->addFilter('id', "$productTable.product_id in ($ids)", 'string');
             $products->load();
         
             foreach($arr as $cartItem) {
@@ -71,14 +89,16 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function getCustomerCartId() 
     {
+        $cartTable = $this->_getTableName('cart', 'cart');
+        
         if ($customerId = Mage_Customer_Front::getCustomerId()) {
             $sql = $this->_read->select()
-                ->from('cart', array('cart_id'))
+                ->from($cartTable, array('cart_id'))
                 ->where('customer_id = ?', $customerId);
             $cartId = $this->_read->fetchOne($sql);
         } elseif(isset($_COOKIE['cart_uniq_code'])) {
             $sql = $this->_read->select()
-                ->from('cart', array('cart_id'))
+                ->from($cartTable, array('cart_id'))
                 ->where('uniq_code = ?', $_COOKIE['cart_uniq_code']);
             $cartId = $this->_read->fetchOne($sql);
         } else {
@@ -89,30 +109,28 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function createCart() 
     {
+        $cartTable = $this->_getTableName('cart', 'cart');
         
+        $cartData = array();
         if (isset(Mage::registry('AUTH')->customer)) {
-            $customerId = Mage::registry('AUTH')->customer->customer_id;
-            $this->_write->insert('cart', array(
-                'cart_id' => 0,
-                'customer_id' => $customerId,
-                'create_date' => new Zend_Db_Expr('NOW()')
-            ));
+            $cartData['customer_id'] = Mage::registry('AUTH')->customer->customer_id;
         } else {
-            $token = md5(uniqid(rand(), true));
-            $this->_write->insert('cart', array(
-                'cart_id' => 0,
-                'create_date' => new Zend_Db_Expr('NOW()'),
-                'uniq_code' => $token
-            ));
+            $cartData['uniq_code'] = md5(uniqid(rand(), true));
             setcookie("cart_uniq_code", $token, time()+31104000, '/');
         }
-
+        $cartData['create_date'] = new Zend_Db_Expr('NOW()');
+        $cartData['update_date'] = new Zend_Db_Expr('NOW()');
+        $this->_write->insert($cartTable, $cartData);
         $cartId = $this->_write->lastInsertId();
+        
         return $cartId;
     }
     
     function addProduct($productId, $qty=1)
     {
+        $cartTable = $this->_getTableName('cart', 'cart');
+        $itemTable = $this->_getTableName('cart', 'item');
+
         $cartId = $this->getCustomerCartId();
         if (!$cartId) {
             $cartId = $this->createCart();
@@ -122,18 +140,21 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         }
         
         $sql = $this->_read->select()
-            ->from('cart_product', array('cart_id'))
+            ->from($itemTable, array('cart_id'))
             ->where('product_id = ?', $productId)
             ->where('cart_id = ?', $cartId);
 
         try {
+            $this->_write->update($cartTable, 
+                array('update_date'=>new Zend_Db_Expr('NOW()')), 
+                $this->_write->quoteInto('cart_id = ?', $cartId));
+            
             if ($this->_read->fetchRow($sql)) {
-                $this->_write->update('cart_product', array(
+                $this->_write->update($itemTable, array(
                     'product_qty' => new Zend_Db_Expr($this->_read->quoteInto('product_qty+?', $qty)),
                     ), $this->_write->quoteInto('cart_id = ?', $cartId) . ' AND ' . $this->_write->quoteInto('product_id = ?', $productId));
             } else {
-                $this->_write->insert('cart_product', array(
-                    'cart_product_id' => 0,
+                $this->_write->insert($itemTable, array(
                     'cart_id' => $cartId,
                     'product_id' => $productId,
                     'product_qty' => $qty,
@@ -147,6 +168,9 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function update($cartData, $cartId=null)
     {
+        $cartTable = $this->_getTableName('cart', 'cart');
+        $itemTable = $this->_getTableName('cart', 'item');
+
         if (empty($cartId)) {
             $cartId = $this->getCustomerCartId();
             if (!$cartId) {
@@ -154,17 +178,21 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
             }
         }
         
+        $this->_write->update($cartTable,
+            array('update_date'=>new Zend_Db_Expr('NOW()')),
+            $this->_write->quoteInto('cart_id = ?', $cartId));
+
         foreach($cartData as $productId=>$prop) {
             if (isset($prop['remove']) && $prop['remove'] == 1) {
                 try {
-                $this->_write->delete('cart_product', 
+                    $this->_write->delete($itemTable,
                     $this->_write->quoteInto('cart_id = ?', $cartId) . ' AND ' . $this->_write->quoteInto('product_id = ?', $productId)
                 );
                 }catch(PDOException $e) {
                     var_dump($prop);
                 }
             } else {
-                $this->_write->update('cart_product', array(
+                $this->_write->update($itemTable, array(
                     'product_qty' => $prop['qty'],
                 ), $this->_write->quoteInto('cart_id = ?', $cartId) . ' AND ' . $this->_write->quoteInto('product_id = ?', $productId));
             }

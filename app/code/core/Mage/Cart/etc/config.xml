@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Mage_Cart>
-      <version>0.1.4</version>
+      <version>0.1.5</version>
       <depends>
         <Mage_Catalog />
         <Mage_Customer />
@@ -58,7 +58,15 @@
         </all>
         <front>
           <events>
-            <customerLogin>
+            <action_preDispatch>
+              <observers>
+                <cart>
+                  <class>Mage_Cart_Front</class>
+                  <method>construct</method>
+                </cart>
+              </observers>
+            </action_preDispatch>
+			<customerLogin>
               <observers>
                 <auth>
                   <class>Mage_Cart_Front</class>

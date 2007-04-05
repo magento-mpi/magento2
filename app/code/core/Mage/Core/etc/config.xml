@@ -97,10 +97,6 @@
               <class>Mage_Core_Block_Message</class>
             </message>
           </blocks>
-          <resources>
-            <core_setup>
-            </core_setup>
-          </resources>
         </all>
         <front>
           <layouts>

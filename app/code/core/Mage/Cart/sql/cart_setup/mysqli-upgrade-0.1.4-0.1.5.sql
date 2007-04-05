@@ -1,0 +1,1 @@
+alter table `cart` drop key `uniq_code`, add index `uniq_code` (`uniq_code`)
