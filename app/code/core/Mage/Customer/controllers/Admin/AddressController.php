@@ -21,12 +21,19 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
             ),
             
             1 => array(
-                'address_id' => 2,
-                'address' => 'Formated address string'
+            'address_id' => 2,
+            'address' => 'Formated address string'
             )
-        );
-        
-        $this->getResponse()->setBody(Zend_Json::encode($arrRes));
+            );
+
+            //$this->getResponse()->setBody(Zend_Json::encode($arrRes));
+            $this->getResponse()->setBody('{addresses:[{addr_id:0, address: "street lines", city: "Los Angeles", state:"California", zip: "09210", country: "USA"}, 
+													   {addr_id:1, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
+													   {addr_id:2, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
+													   {addr_id:3, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
+													   {addr_id:4, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
+													   {addr_id:5, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"}
+											]}');
     }
 
     /**

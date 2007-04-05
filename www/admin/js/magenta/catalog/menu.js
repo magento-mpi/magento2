@@ -12,11 +12,11 @@ Mage.Menu_Catalog = function(){
                     '-',
                     new Ext.menu.Item({
                         text: 'Category attributes',
-                        handler: Mage.Catalog_Category.loadAttributesPanel.createDelegate(Mage.Catalog_Category)                        
+                        handler: Mage.Catalog_Category_Attributes.loadAttributesPanel.createDelegate(Mage.Catalog_Category_Attributes)                        
                     }),
                     new Ext.menu.Item({
                         text: 'Product attributes',  
-                        handler: Mage.Product_Attributes.loadMainPanel.createDelegate(Mage.Product_Attributes)                                                
+                        handler: Mage.Catalog_Product_Attributes.loadMainPanel.createDelegate(Mage.Catalog_Product_Attributes)                                                
                     }),
                     '-',
                     new Ext.menu.Item({

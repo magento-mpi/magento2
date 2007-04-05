@@ -150,11 +150,13 @@ Mage.Catalog_Category_Tree = function(){
         //////////////// Context menu handlers /////////////
         showProducts: function(item, event, selectedNode) {
             if (selectedNode) {
-                Mage.Catalog_Product.viewGrid(selectedNode);        
-                Mage.Catalog_Product.loadCategoryEditForm(selectedNode);
+//                Mage.Catalog_Product.viewGrid(selectedNode);        
+//                Mage.Catalog_Product.loadCategoryEditForm(selectedNode);
+                Mage.Catalog_Category.init(selectedNode);
             } else {
-                Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
-                Mage.Catalog_Product.loadCategoryEditForm(item.parentMenu.selectedNode);                
+//                Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode);        
+//                Mage.Catalog_Product.loadCategoryEditForm(item.parentMenu.selectedNode);                
+                Mage.Catalog_Category.init(item.parentMenu.selectedNode);                
             }
         },
 

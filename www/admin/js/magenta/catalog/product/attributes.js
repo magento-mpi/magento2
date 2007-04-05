@@ -1,4 +1,4 @@
-Mage.Product_Attributes = function(){
+Mage.Catalog_Product_Attributes = function(){
     var loaded = false;
     var Layout = null;
     return {
@@ -90,9 +90,6 @@ Mage.Product_Attributes = function(){
             var grid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
-                autoSizeColumns : true,
-                monitorWindowResize : true,
-                autoHeight : true,
                 //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });

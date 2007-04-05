@@ -287,8 +287,8 @@ Mage.Customer = function(depend){
                     hideOnLayout:true,
                     west: {
                         split:true,
-                        initialSize: 200,
-                        autoScroll:false,
+                        initialSize: 300,
+                        autoScroll:true,
                         titlebar:false,                        
                         collapsible:false
                      },
@@ -309,15 +309,17 @@ Mage.Customer = function(depend){
             
         	// create the required templates
         	this.addressTemplate = new Ext.Template(
-                '<address id="{address_id}">'+
-            		'{address}' +
-                '</address>'
+                '<div id="{address_id}"><address>'+
+            		'{address}<br/>'+
+            		'{city}, {state} {zip}<br/>'+
+            		'{country}'+
+                '</address></div>'
         	);
         	this.addressTemplate.compile();	            
             
         	var view = new Ext.JsonView(addressBody, this.addressTemplate, {
         		singleSelect: true,
-        		//jsonRoot: 'addresses',
+        		jsonRoot: 'addresses',
         		emptyText : '<div style="padding:10px;">No address found</div>'
         	});            
             
@@ -325,10 +327,14 @@ Mage.Customer = function(depend){
                  alert('Node "' + node.id + '" at index: ' + index + " was clicked.");
              });
 
-            view.load({url: Mage.url + '/mage_customer/address/gridData/customer/14/'});
+            view.load({url: Mage.url + '/mage_customer/address/gridData/customer/14/', callback : this.onLoadAddressView.createDelegate(view)});
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;
+        },
+        
+        onLoadAddressView : function () {
+            this.select(0);
         },
         
         saveItem : function() {

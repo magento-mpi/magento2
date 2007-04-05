@@ -27,11 +27,13 @@ Mage.Catalog = function(depend){
                 
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
+                            hideWhenEmpty : true,
                             autoScroll:true,
                             titlebar:false,
                             tabPosition : 'top'
                         }, 
                         south: {
+                            hideWhenEmpty : true,
                             split:true,
                             initialSize:200,
                             minSize:50,
@@ -48,10 +50,7 @@ Mage.Catalog = function(depend){
                 Layout_West.beginUpdate();
                 // Create tree
                 Mage.Catalog_Category_Tree.create();
-
-                Layout_West.add('south', new Ext.ContentPanel(Ext.id(), {autoCreate:true}));
                 Layout_West.endUpdate();
-                
                 
                 Layout.beginUpdate();
                 Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : 'Catalog'}));
