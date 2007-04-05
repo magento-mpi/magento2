@@ -3,6 +3,7 @@
 class Mage_Sales_Shipping_Quote_Result
 {
 	protected $_quotes = array();
+	protected $_error = null;
 	
 	/**
 	 * Reset result
@@ -11,6 +12,16 @@ class Mage_Sales_Shipping_Quote_Result
 	{
 	    $this->_quotes = array();
 	    return $this;
+	}
+	
+	public function setError($error)
+	{
+	    $this->_error = $error;
+	}
+	
+	public function getError()
+	{
+	    return $this->_error;
 	}
 	
 	/**

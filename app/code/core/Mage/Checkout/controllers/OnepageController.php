@@ -48,8 +48,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $quotes = $checkout->getStateData('shipping_method', 'quotes');
         $data = $checkout->getStateData('shipping_method', 'data');
 
-        $block = Mage::createBlock('tpl', 'checkout.shipping_method')
-	        ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
+        $block = Mage::createBlock('tpl', 'root')
+	        ->setViewName('Mage_Checkout', 'onepage/shipping_method/box.phtml')
 	        ->assign('quotes', $quotes)
 	        ->assign('data', $data);
         

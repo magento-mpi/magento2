@@ -14,7 +14,7 @@
               <active>true</active>
               <class>Mage_Usa_Shipping_Vendor_Ups</class>
               <defaults>
-                <title>United Parsel Service</title>
+                <title>United Parcel Service</title>
                 <pickup>CC</pickup>
                 <container>CP</container>
                 <destType>RES</destType>

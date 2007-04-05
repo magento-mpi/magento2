@@ -38,7 +38,8 @@ class Mage_Customer_Address extends Varien_DataObject
     {
         if ($this->street) {
             if (is_array($this->street)) {
-                foreach ($this->street as $index => $value) {
+                $street = $this->street;
+                foreach ($street as $index => $value) {
                     $this->setData('street' . ($index+1), $value);
                 }
             }

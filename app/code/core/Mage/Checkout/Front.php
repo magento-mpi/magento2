@@ -75,7 +75,7 @@ class Mage_Checkout_Front
         $request = new Mage_Sales_Shipping_Quote_Request();
         $request->setDestCountryId($shippingData['country_id']);
         $request->setDestRegionId($shippingData['region_id']);
-        $request->setDestPostcode($shippingData['postcode']);
+        $request->setDestPostcode($shippingData['zip']);
         $request->setOrderSubtotal($subtotal[0]['value']);
         $request->setPackageWeight($weight[0]['value']);
 

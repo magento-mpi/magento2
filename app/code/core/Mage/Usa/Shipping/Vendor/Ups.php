@@ -19,7 +19,7 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Shipping_Vendor_Abstract
     public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request, $requestType='cgi')
     {
         $this->setRequest($request);
-        
+
         switch ($requestType) {
             case 'cgi':
                 $this->_getCgiQuotes();
@@ -106,15 +106,16 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Shipping_Vendor_Abstract
         $client->setUri($uri);
         $client->setParameterGet($params);
         $response = $client->request();
-        
-        $this->_parseCgiResponse($response->getBody());
+        $responseBody = $response->getBody();
+
+        $this->_parseCgiResponse($responseBody);
     }
     
     protected function _parseCgiResponse($response)
     {
         $rRows = explode("\n", $response);
         $rArr = array();
-        $error = 'Unknown error';
+        $errorTitle = 'Unknown error';
         foreach ($rRows as $rRow) {
             $r = explode('%', $rRow);
             switch (substr($r[0],-1)) {
@@ -122,7 +123,7 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Shipping_Vendor_Abstract
                     $rArr[] = array('service'=>$r[1], 'cost'=>$r[8]);
                     break;
                 case 5:
-                    $error = $r[1];
+                    $errorTitle = $r[1];
                     break;
                 case 6:
                     $rArr[] = array('service'=>$r[3], 'cost'=>$r[10]);
@@ -132,7 +133,9 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Shipping_Vendor_Abstract
         
         $result = new Mage_Sales_Shipping_Quote_Result();
         if (empty($rArr)) {
-            $result->setError($error);
+            $error = new Mage_Sales_Shipping_Quote_Service_Error();
+            $error->setTitle($errorTitle);
+            $result->append($error);
         } else {
             $defaults = $this->getDefaults();
             

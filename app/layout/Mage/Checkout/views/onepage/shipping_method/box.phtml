@@ -1,0 +1,28 @@
+<div class="default-box" style="display:block;">
+	<?if (empty($quotes)):?>
+		<b>Sorry, no quotes are available for this order at this time.</b>
+    <?else:?>
+        <form id="co-shipping-method-form">
+        	<fieldset>
+            	<?foreach ($quotes as $vendor):?>
+                	<strong><?=$vendor['title']?></strong>
+                	<ul>
+                		<?foreach ($vendor['methods'] as $method):?>
+                    		<li>
+                    		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method[method]" type="radio" value="<?=$method['code']?>">
+                    		    <label for="shipping_method_<?=$method['code']?>"><?=$method['title']?></label>:
+                    		    <strong><?=$method['price']?></strong>
+                    		</li>
+                		<?endforeach?>
+                	</ul>
+            	<?endforeach?>
+        	</fieldset>
+    	</form>
+	<?endif?>
+</div>
+
+<div class="note-box buttons">
+	<input type="button" onclick="checkout.back();" value="Back" class="input-button float-left" />
+	<input type="button" onclick="shippingMethod.save();" class="input-button float-right" value="Continue" />
+	<div class="clearfix"></div>
+</div>

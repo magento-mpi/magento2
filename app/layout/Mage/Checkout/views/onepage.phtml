@@ -65,7 +65,7 @@ Checkout.prototype = {
     <?foreach($steps as $_stepId => $_stepInfo):?>
         <div class="section<?if(!empty($_stepInfo['allow'])):?> allow<?endif?>" id="<?=$_stepId?>">
             <h3><?=$_stepInfo['label']?></h3>
-            <div class="a-item" style="display:none;">
+            <div class="a-item" style="display:none;" id="checkout-step-<?=$_stepId?>">
             <?=$$_stepId?>
             </div>
         </div>
