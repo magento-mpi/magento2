@@ -13,6 +13,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         }
     }
     
+    /**
+     * Checkout page
+     */
     public function indexAction()
     {
         $statusBlock =  Mage::createBlock('onepage_status', 'checkout.status');
@@ -23,13 +26,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $block = Mage::createBlock('onepage', 'checkout.onepage');
         Mage::getBlock('content')->append($block);
     }
-    
+
+    /**
+     * Checkout status block
+     */
     public function statusAction()
     {
         $statusBlock = Mage::createBlock('onepage_status', 'root');
         $this->getResponse()->appendBody($statusBlock->toString());
     }
-    
+
+    /**
+     * Shipping methos tab
+     */
     public function shippingMethodAction()
     {
         $checkout = Mage::registry('Mage_Checkout');
@@ -44,7 +53,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         
         $this->getResponse()->appendBody($block->toString());
     }
-    
+
+    /**
+     * Address JSON
+     */
     public function getAddressAction()
     {
         $addressId = $this->getRequest()->getParam('address', false);
@@ -54,7 +66,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->appendBody($address->__toJson());
         }
     }
-    
+
+    /**
+     * save checkout billing address
+     */
     public function saveBillingAction()
     {
         $checkout = Mage::registry('Mage_Checkout');
@@ -63,7 +78,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('billing', 'allow', true);
             }
-            $checkout->setStateData('billing', 'data', $data);
+            $address = new Mage_Customer_Address($data);
+            $checkout->setStateData('billing', 'address', $address);
         }
     }
     
@@ -87,7 +103,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('shipping', 'allow', true);
             }
-            $checkout->setStateData('shipping', 'data', $data);
+            $address = new Mage_Customer_Address($data);
+            $checkout->setStateData('shipping', 'address', $address);
         }
 
         $checkout->fetchShippingMethods();

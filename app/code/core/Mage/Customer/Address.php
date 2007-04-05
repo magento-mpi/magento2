@@ -13,6 +13,7 @@ class Mage_Customer_Address extends Varien_DataObject
     {
         if (is_array($address)) {
             parent::__construct($address);
+            $this->_explodeStreetAddress();
         }
         elseif (is_int($address) && $address) {
             $this->load($address);
@@ -26,16 +27,28 @@ class Mage_Customer_Address extends Varien_DataObject
     {
         if($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
             $this->addressId = $addressId;
-            if ($this->street) {
+            $this->_explodeStreetAddress();
+        }
+        else {
+            $this->_data = array();
+        }
+    }
+    
+    protected function _explodeStreetAddress()
+    {
+        if ($this->street) {
+            if (is_array($this->street)) {
+                foreach ($this->street as $index => $value) {
+                    $this->setData('street' . ($index+1), $value);
+                }
+            }
+            else {
                 // Set street{$index} fields
                 $arrStreet = explode("\n", $this->street);
                 foreach ($arrStreet as $index => $value) {
                     $this->setData('street' . ($index+1), $value);
                 }
             }
-        }
-        else {
-            $this->_data = array();
         }
     }
     

@@ -83,9 +83,8 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             ->assign('data', $data);
         
         $address = array();
-        if ($this->_checkout->getStateData('billing', 'data')) {
-            $address = $this->_checkout->getStateData('billing', 'data');
-            $address = new Varien_DataObject($address);
+        if ($this->_checkout->getStateData('billing', 'address')) {
+            $address = $this->_checkout->getStateData('billing', 'address');
         }
         
         
@@ -130,9 +129,8 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             ->assign('data', $data);
         
         $address = array();
-        if ($this->_checkout->getStateData('shipping', 'data')) {
-            $address = $this->_checkout->getStateData('shipping', 'data');
-            $address = new Varien_DataObject($address);
+        if ($this->_checkout->getStateData('shipping', 'address')) {
+            $address = $this->_checkout->getStateData('shipping', 'address');
         }
         
         
