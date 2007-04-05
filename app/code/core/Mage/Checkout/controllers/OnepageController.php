@@ -8,10 +8,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         parent::_construct();
         
-        foreach (array('status','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
+        foreach (array('status','shippingMethod','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
             $this->setFlag($action, 'no-renderLayout', true);
         }
-        $this->_checkout = Mage::registry('Mage_Checkout');
     }
     
     public function indexAction()
@@ -23,13 +22,23 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             
         $block = Mage::createBlock('onepage', 'checkout.onepage');
         Mage::getBlock('content')->append($block);
-        //$this->_redirect($this->_data['url']['checkout'].'/shipping');
     }
     
     public function statusAction()
     {
         $statusBlock = Mage::createBlock('onepage_status', 'root');
         $this->getResponse()->appendBody($statusBlock->toString());
+    }
+    
+    public function shippingMethodAction()
+    {
+        $data = Mage::registry('Mage_Checkout')->getStateData('shipping_method');
+
+        $block = Mage::createBlock('tpl', 'checkout.shipping_method')
+            ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
+            ->assign('data', $data);
+        
+        $this->getResponse()->appendBody($block->toString());
     }
     
     public function getAddressAction()
@@ -49,7 +58,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = isset($_POST['billing']) ? $_POST['billing'] : array();
             if (!empty($data)) {
                 $checkout->setStateData('billing', 'allow', true);
-                $checkout->setStateData('payment', 'allow', true);
             }
             $checkout->setStateData('billing', 'data', $data);
         }
@@ -57,7 +65,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function savePaymentAction()
     {
-        
+        $checkout = Mage::registry('Mage_Checkout');
+        if ($this->getRequest()->isPost()) {
+            $data = isset($_POST['payment']) ? $_POST['payment'] : array();
+            if (!empty($data)) {
+                $checkout->setStateData('payment', 'allow', true);
+            }
+            $checkout->setStateData('payment', 'data', $data);
+        }
     }
     
     public function saveShippingAction()
@@ -67,7 +82,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = isset($_POST['shipping']) ? $_POST['shipping'] : array();
             if (!empty($data)) {
                 $checkout->setStateData('shipping', 'allow', true);
-                //Mage::registry('Mage_Checkout')->setStateData('payment', 'allow', true);
             }
             $checkout->setStateData('shipping', 'data', $data);
         }

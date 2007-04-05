@@ -18,7 +18,7 @@ class Mage_Core_Block_Form_Element
         }
         
         $elementType = ucfirst(strtolower($elementType));
-        $module = isset($attriutes['module']) ? ucfirst(strtolower($attributes['module'])) : 'Core';
+        $module = isset($attriutes['module']) ? ucfirst($attributes['module']) : 'Core';
         
         $className = 'Mage_'.$module.'_Block_Form_Element_' . $elementType;
 

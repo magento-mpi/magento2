@@ -414,7 +414,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             if (empty($load) || 'true'!==(string)$load) {
                 continue;
             }
-            $callback = array($moduleName.'_Module_'.ucwords(strtolower($areaName)), $methodName);
+            $callback = array($moduleName.'_Module_'.ucwords($areaName), $methodName);
             if (is_callable($callback)) {
                 call_user_func($callback);
             }
@@ -445,7 +445,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $className = (string)$config->class;
 
         if (''!==$class) {
-            $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($class))));
+            $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', $class)));
         }
 
         return new $className($constructArguments);

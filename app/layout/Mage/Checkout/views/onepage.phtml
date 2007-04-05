@@ -14,6 +14,10 @@ Checkout.prototype = {
     reloadStatusBlock: function(){
         var updater = new Ajax.Updater('column-left', '<?=$moduleBaseUrl?>/onepage/status/', {method: 'get'});
     },
+    
+    reloadShippingMethodBlock: function(){
+    	var updater = new Ajax.Updater('checkout-shipping-method', '<?=$moduleBaseUrl?>/onepage/shippingMethod/', {method: 'get'});
+    },
 
     setType: function(){
         if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
@@ -32,14 +36,18 @@ Checkout.prototype = {
     },
 
     setPayment: function() {
+        this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
 
     setShipping: function() {
+        this.reloadShippingMethodBlock();
+        this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
         
     setShippingMethod: function() {
+        this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
     

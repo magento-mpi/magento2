@@ -1,3 +1,31 @@
+<script type="text/javascript">
+var Payment = Class.create();
+Payment.prototype = {
+    initialize: function(form){
+        this.form = form;
+        this.onSave = this.continue.bindAsEventListener(this);
+    },
+
+    save: function(){
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+            var request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/savePayment/',
+                {
+                    method:'post',
+                    onSuccess: this.onSave,
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    },
+
+    continue: function(){
+        checkout.setShipping();
+    }
+}
+</script>
+
 <div class="step-body">
     <div class="default-box">
         <form id="co-payment-form"><fieldset>
@@ -5,7 +33,7 @@
                 <li>
                     <div class="left">
                         <label for="cc_type">Credit Card Type <span class="required">*</span></label><br/>
-                        <select id="cc_type">
+                        <select id="cc_type" name="payment[cc_type]">
                             <option value="Visa">Visa</option>
                             <option value="Mastercard">Mastercard</option>
                             <option value="American Express">American Express</option>
@@ -15,18 +43,18 @@
                 <li>
                     <div class="left">
                         <label for="cc_number">Card Number <span class="required">*</span></label><br/>
-                        <input type="text" id="cc_number" title="Card Number" class="required-entry input-text" />
+                        <input type="text" id="cc_number" name="payment[cc_number]" title="Card Number" class="required-entry input-text" />
                     </div>
                 </li>
                 <li>
                     <div class="left">
                         <label for="cc_owner">Name on Card <span class="required">*</span></label><br/>
-                        <input type="text" title="Name on Card" class="required-entry input-text" id="cc_owner" />
+                        <input type="text" title="Name on Card" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]"/>
                     </div>
                 </li>
                 <li>
                     <label for="expiration">Expiration Date <span class="required">*</span></label><br/>
-                    <select id="expiration" style="width:140px;">
+                    <select id="expiration" style="width:140px;" name="payment[cc_exp_month]">
                         <option value="01">01-January</option>
                         <option value="02">02-February</option>
                         <option value="03">03-March</option>
@@ -40,32 +68,26 @@
                         <option value="11">11-November</option>
                         <option value="12">12-December</option>
                     </select> 
-                    <select id="expiration_yr" style="width:103px;">
+                    <select id="expiration_yr" style="width:103px;" name="payment[cc_exp_year]">
                         <option value="2007">2007</option>
                         <option value="2008">2008</option>
                     </select>
                 </li>
                 <li>
                     <label for="cvn">Card Verification Number <span class="required">*</span> | <a href="">What is this?</a></label><br/>
-                    <input type="text" title="Card Verification Number" class="required-entry input-text" id="cc_cvv2" style="width:3em;" />
+                    <input type="text" title="Card Verification Number" class="required-entry input-text" id="cc_cvv2" name="payment[cc_cvv2]" style="width:3em;" />
                 </li>
-            </ul>
-            <ul  id="co-coupon-topbox" style="margin-top:10px; padding-top:10px;">
-                <li  id="co-coupon-box">
-                    <p><strong>Do you have a coupon code? Please enter it below.</strong></p>
-                    <label for="coupon_code">Coupon Code</label><br/>
-                    <input type="text" name="coupon_code" id="coupon_code" title="Coupon Code" class="input-text" style="width:240px;"/>
-                </li>
+
                 <li class="a-right"><span class="required">* Required Fields</span></li>
             </ul>
         </fieldset></form>
     </div>
     <div class="note-box buttons">
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="checkout.setPayment();" class="input-button float-right" value="Continue"/>
+        <input type="button" onclick="payment.save();" class="input-button float-right" value="Continue"/>
         <div class="clearfix"></div>
     </div>
 </div>
 <script type="text/javascript">
-    val_payment = new Validation('co-payment-form');
+    var payment = new Payment('co-payment-form');
 </script>
