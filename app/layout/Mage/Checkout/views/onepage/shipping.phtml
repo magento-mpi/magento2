@@ -55,7 +55,7 @@ Shipping.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/saveShipping/address/',
+                '<?=$moduleBaseUrl?>/onepage/saveShipping/',
                 {
                     method:'post',
                     onSuccess: this.onSave,
@@ -119,10 +119,10 @@ Shipping.prototype = {
                 </li>
                 <li>
                     <label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" name="shipping[street][]" id="shipping:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
+                    <input type="text" title="Street Address" name="shipping[street][0]" id="shipping:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
                 </li>
                 <li>
-                    <input type="text" title="Street Address 2" name="shipping[street][]" id="shipping:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
+                    <input type="text" title="Street Address 2" name="shipping[street][1]" id="shipping:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
                 </li>
                 <li>
                     <label for="shipping:city">City <span class="required">*</span></label><br/>

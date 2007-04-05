@@ -78,6 +78,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('billing', 'allow', true);
             }
+            
             $address = new Mage_Customer_Address($data);
             $checkout->setStateData('billing', 'address', $address);
         }

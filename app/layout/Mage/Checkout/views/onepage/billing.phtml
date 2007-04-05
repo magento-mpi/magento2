@@ -55,7 +55,7 @@ Billing.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/saveBilling/address/',
+                '<?=$moduleBaseUrl?>/onepage/saveBilling/',
                 {
                     method:'post',
                     onSuccess: this.onSave,
@@ -118,10 +118,10 @@ Billing.prototype = {
                 </li>
                 <li>
                     <label for="billing:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" name="billing[street][]" id="billing:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
+                    <input type="text" title="Street Address" name="billing[street][0]" id="billing:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
                 </li>
                 <li>
-                    <input type="text" title="Street Address 2" name="billing[street][]" id="billing:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
+                    <input type="text" title="Street Address 2" name="billing[street][1]" id="billing:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
                 </li>
                 <li>
                     <label for="billing:city">City <span class="required">*</span></label><br/>
