@@ -22,7 +22,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function __construct()
     {
-    	parent::__construct();
+        parent::__construct();
     }
 
     /**
@@ -32,9 +32,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function init()
     {
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'config');
-    	$this->setCacheKey('globalConfig');
+        $this->setCacheKey('globalConfig');
 
-    	$this->loadGlobal();
+        $this->loadGlobal();
     }
 
 
@@ -46,17 +46,17 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function loadGlobal()
     {
         if ($xml = $this->loadCache()) {
-    		$this->setXml($xml);
-    		return true;
-    	}
+            $this->setXml($xml);
+            return true;
+        }
 
-    	$this->loadCore();
-    	$this->loadModules();
-    	$this->loadLocal();
+        $this->loadCore();
+        $this->loadModules();
+        $this->loadLocal();
 
-    	$this->applyExtends();
-    	$this->applyExtends();
-    	$this->applyExtends();
+        $this->applyExtends();
+        $this->applyExtends();
+        $this->applyExtends();
 
         $this->loadFromDb();
 
@@ -133,8 +133,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $className = $coreModel.'_Config';
         $model = new $className();
         */
-        $model = $this->getResourceModelInstance('core', 'config');
-        $model->updateXmlFromDb($this->_xml);
+        try{
+            $model = $this->getResourceModelInstance('core', 'config');
+            $model->updateXmlFromDb($this->_xml);
+        }
+        catch (Exception $e) {
+            
+        }
     }
 
     /**
@@ -159,9 +164,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     /**
      * General function to retrieve collection or item from global configuration
      * 
-     * @param	string $collection
-     * @param 	string $name
-     * @return	array|Varien_Simplexml_Object
+     * @param   string $collection
+     * @param   string $name
+     * @return  array|Varien_Simplexml_Object
      */
     function getGlobalConfig($collection, $name='')
     {
@@ -222,9 +227,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             if (is_string($module)) {
                 $module = $this->getModule($module);
             }
-	        if (isset($module->setup) && isset($module->setup->class)) {
-	            $className = $module->setup->class;
-	        }
+            if (isset($module->setup) && isset($module->setup->class)) {
+                $className = $module->setup->class;
+            }
         }
         return new $className($module);
     }

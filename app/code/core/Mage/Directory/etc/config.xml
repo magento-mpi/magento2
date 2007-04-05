@@ -2,9 +2,30 @@
 <config>
   <modules>
     <Mage_Directory>
+      <version>0.1.1</version>
       <depends>
         <Mage_Core />
       </depends>
+      <load>
+        <all>
+          <resourceModels>
+            <directory>
+              <class>Mage_Directory_Resource_Model_Mysql4</class>
+            </directory>
+          </resourceModels>
+          <resources>
+            <directory_setup>
+              <connection use="core_setup" />
+            </directory_setup>
+            <directory_write>
+              <connection use="core_write" />
+            </directory_write>
+            <directory_read>
+              <connection use="core_read" />
+            </directory_read>
+          </resources>
+        </all>
+      </load>
     </Mage_Directory>
   </modules>
 </config>

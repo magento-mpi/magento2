@@ -23,7 +23,7 @@ CREATE TABLE `directory_country` (
   PRIMARY KEY  (`country_id`),
   KEY `FK_COUNTRY_DEFAULT_CURRENCY` (`currency_id`),
   CONSTRAINT `FK_COUNTRY_DEFAULT_CURRENCY` FOREIGN KEY (`currency_id`) REFERENCES `directory_currency` (`currency_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Countries';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Countries';
 
 /*Data for the table `directory_country` */
 
@@ -38,7 +38,7 @@ CREATE TABLE `directory_country_currency` (
   KEY `FK_COUNTRY_CURRENCY` (`currency_id`),
   CONSTRAINT `FK_CURRENCY_COUNTRY` FOREIGN KEY (`country_id`) REFERENCES `directory_country` (`country_id`),
   CONSTRAINT `FK_COUNTRY_CURRENCY` FOREIGN KEY (`currency_id`) REFERENCES `directory_currency` (`currency_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Currency per country';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Currency per country';
 
 /*Data for the table `directory_country_currency` */
 
@@ -54,7 +54,7 @@ CREATE TABLE `directory_country_name` (
   KEY `FK_COUNTRY_NAME_COUNTRY` (`country_id`),
   CONSTRAINT `FK_COUNTRY_NAME_LANG` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`),
   CONSTRAINT `FK_COUNTRY_NAME_COUNTRY` FOREIGN KEY (`country_id`) REFERENCES `directory_country` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Country names';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Country names';
 
 /*Data for the table `directory_country_name` */
 
@@ -69,7 +69,7 @@ CREATE TABLE `directory_country_region` (
   PRIMARY KEY  (`region_id`),
   KEY `FK_REGION_COUNTRY` (`country_id`),
   CONSTRAINT `FK_REGION_COUNTRY` FOREIGN KEY (`country_id`) REFERENCES `directory_country` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Country regions';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Country regions';
 
 /*Data for the table `directory_country_region` */
 
@@ -82,7 +82,7 @@ CREATE TABLE `directory_currency` (
   `currency_code` char(3) NOT NULL default '',
   `currency_symbol` char(1) default NULL,
   PRIMARY KEY  (`currency_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Currency';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Currency';
 
 /*Data for the table `directory_currency` */
 
@@ -98,7 +98,7 @@ CREATE TABLE `directory_currency_name` (
   KEY `FK_CURRENCY_NAME_CURRENCY` (`currency_id`),
   CONSTRAINT `FK_CURRENCY_NAME_CURRENCY` FOREIGN KEY (`currency_id`) REFERENCES `directory_currency` (`currency_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CURENCY_NAME_LANG` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Currency names';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Currency names';
 
 /*Data for the table `directory_currency_name` */
 
@@ -114,7 +114,7 @@ CREATE TABLE `directory_region_name` (
   KEY `FK_REGION_NAME_REGION` (`region_id`),
   CONSTRAINT `FK_REGION_NAME_REGION` FOREIGN KEY (`region_id`) REFERENCES `directory_country_region` (`region_id`),
   CONSTRAINT `FK_REGION_NAME_LANG` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Regions names';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Regions names';
 
 /*Data for the table `directory_region_name` */
 

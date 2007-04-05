@@ -1,8 +1,5 @@
 <?php
-
-
-
-class Mage_Test_Exception extends Zend_Exception 
+class Mage_Directory_Exception extends Zend_Exception 
 {
     
 }

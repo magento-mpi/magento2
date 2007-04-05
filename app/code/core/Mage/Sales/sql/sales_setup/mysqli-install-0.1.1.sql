@@ -24,7 +24,7 @@ CREATE TABLE `sales_attribute` (
   PRIMARY KEY  (`attribute_code`),
   KEY `FK_ATTRIBUTE_TYPE` (`attribute_type_id`),
   CONSTRAINT `FK_ATTRIBUTE_TYPE` FOREIGN KEY (`attribute_type_id`) REFERENCES `sales_attribute_type` (`attribute_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Sales entity attributes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales entity attributes';
 
 /*Data for the table `sales_attribute` */
 
@@ -36,7 +36,7 @@ CREATE TABLE `sales_attribute_type` (
   `attribute_type_id` tinyint(3) NOT NULL default '0',
   `type_code` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`attribute_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Attributes type(entity)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attributes type(entity)';
 
 /*Data for the table `sales_attribute_type` */
 
@@ -55,7 +55,7 @@ CREATE TABLE `sales_invoice` (
   KEY `FK_INVOICE_STATUS` (`invoice_status_id`),
   CONSTRAINT `FK_INVOICE_STATUS` FOREIGN KEY (`invoice_status_id`) REFERENCES `sales_invoice_status` (`invoice_status_id`),
   CONSTRAINT `FK_INVOICE_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Invoices';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invoices';
 
 /*Data for the table `sales_invoice` */
 
@@ -75,7 +75,7 @@ CREATE TABLE `sales_invoice_item` (
   CONSTRAINT `FK_ITEM_INVOICE` FOREIGN KEY (`invoice_id`) REFERENCES `sales_invoice` (`invoice_id`),
   CONSTRAINT `FK_INVOICE_ITEM` FOREIGN KEY (`order_item_id`) REFERENCES `sales_order_item` (`order_item_id`),
   CONSTRAINT `FK_INVOICE_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product` (`product_id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Invoice items';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invoice items';
 
 /*Data for the table `sales_invoice_item` */
 
@@ -94,7 +94,7 @@ CREATE TABLE `sales_invoice_item_attribute` (
   KEY `FK_INVOICE_ITEM_ATTRIBUTE_CODE` (`attribute_code`),
   CONSTRAINT `FK_INVOICE_ITEM_ATTRIBUTE_CODE` FOREIGN KEY (`attribute_code`) REFERENCES `sales_attribute` (`attribute_code`) ON UPDATE CASCADE,
   CONSTRAINT `FK_INVOICE_ITEM_ATTRIBUTE` FOREIGN KEY (`invoice_item_id`) REFERENCES `sales_invoice_item` (`invoice_item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `sales_invoice_item_attribute` */
 
@@ -106,7 +106,7 @@ CREATE TABLE `sales_invoice_status` (
   `invoice_status_id` tinyint(3) unsigned NOT NULL auto_increment,
   `invoice_status_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`invoice_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Invoice status';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invoice status';
 
 /*Data for the table `sales_invoice_status` */
 
@@ -130,7 +130,7 @@ CREATE TABLE `sales_order` (
   CONSTRAINT `FK_ORDER_CUSTOMER` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ORDER_QUOTE` FOREIGN KEY (`quote_id`) REFERENCES `sales_qoute` (`quote_id`) ON DELETE SET NULL,
   CONSTRAINT `FK_ORDER_STATUS` FOREIGN KEY (`order_status_id`) REFERENCES `sales_order_status` (`order_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Orders';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Orders';
 
 /*Data for the table `sales_order` */
 
@@ -147,7 +147,7 @@ CREATE TABLE `sales_order_address` (
   KEY `FK_ORDER_ADDRESS_TYPE` (`address_type_id`),
   CONSTRAINT `FK_ORDER_ADDRESS_TYPE` FOREIGN KEY (`address_type_id`) REFERENCES `sales_order_address_type` (`address_type_id`),
   CONSTRAINT `FK_ORDER_ADDRESS` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Customer addresses info per order';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer addresses info per order';
 
 /*Data for the table `sales_order_address` */
 
@@ -159,7 +159,7 @@ CREATE TABLE `sales_order_address_type` (
   `address_type_id` tinyint(3) unsigned NOT NULL auto_increment,
   `address_type_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`address_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Order adress type(shipment, payment, etc.)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Order adress type(shipment, payment, etc.)';
 
 /*Data for the table `sales_order_address_type` */
 
@@ -178,7 +178,7 @@ CREATE TABLE `sales_order_attribute` (
   KEY `FK_ORDER_ATTRIBUTE_CODE` (`attribute_code`),
   CONSTRAINT `FK_ORDER_ATTRIBUTE_CODE` FOREIGN KEY (`attribute_code`) REFERENCES `sales_attribute` (`attribute_code`) ON UPDATE CASCADE,
   CONSTRAINT `FK_ORDER_ATTRIBUTE` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Order attributes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Order attributes';
 
 /*Data for the table `sales_order_attribute` */
 
@@ -199,7 +199,7 @@ CREATE TABLE `sales_order_item` (
   CONSTRAINT `FK_ORDER_ITEM_STATUS` FOREIGN KEY (`order_item_status_id`) REFERENCES `sales_order_item_status` (`order_item_status_id`),
   CONSTRAINT `FK_ITEM_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Order products';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Order products';
 
 /*Data for the table `sales_order_item` */
 
@@ -218,7 +218,7 @@ CREATE TABLE `sales_order_item_attribute` (
   KEY `FK_ORDER_ITEM_ATTRIBUTE_CODE` (`attribute_code`),
   CONSTRAINT `FK_ORDER_ITEM_ATTRIBUTE_CODE` FOREIGN KEY (`attribute_code`) REFERENCES `sales_attribute` (`attribute_code`),
   CONSTRAINT `FK_ORDER_ITEM_ATTRIBUTE` FOREIGN KEY (`order_item_id`) REFERENCES `sales_order_item` (`order_item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Product information per order';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product information per order';
 
 /*Data for the table `sales_order_item_attribute` */
 
@@ -230,7 +230,7 @@ CREATE TABLE `sales_order_item_status` (
   `order_item_status_id` tinyint(3) unsigned NOT NULL auto_increment,
   `item_status_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`order_item_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Statuses of order item';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Statuses of order item';
 
 /*Data for the table `sales_order_item_status` */
 
@@ -242,7 +242,7 @@ CREATE TABLE `sales_order_status` (
   `order_status_id` tinyint(3) unsigned NOT NULL auto_increment,
   `order_status_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`order_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Orders status';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Orders status';
 
 /*Data for the table `sales_order_status` */
 
@@ -258,7 +258,7 @@ CREATE TABLE `sales_order_status_history` (
   KEY `FK_HYSTORY_STATUS` (`order_status_id`),
   CONSTRAINT `FK_HYSTORY_STATUS` FOREIGN KEY (`order_status_id`) REFERENCES `sales_order_status` (`order_status_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_HYSTORY_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Order status change history';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Order status change history';
 
 /*Data for the table `sales_order_status_history` */
 
@@ -279,7 +279,7 @@ CREATE TABLE `sales_payment` (
   CONSTRAINT `FK_PAYMENT_TYPE` FOREIGN KEY (`payment_type_id`) REFERENCES `sales_payment_type` (`payment_type_id`),
   CONSTRAINT `FK_PAYMENT_METHOD` FOREIGN KEY (`payment_method_id`) REFERENCES `customer_payment_method` (`payment_method_id`),
   CONSTRAINT `FK_PAYMENT_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Payments';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Payments';
 
 /*Data for the table `sales_payment` */
 
@@ -297,7 +297,7 @@ CREATE TABLE `sales_payment_transaction` (
   KEY `FK_TRANSACTION_PAYMENT` (`payment_id`),
   CONSTRAINT `FK_TRANSACTION_PAYMENT` FOREIGN KEY (`payment_id`) REFERENCES `sales_payment` (`payment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TRANSACTION_INVOICE` FOREIGN KEY (`invoice_id`) REFERENCES `sales_invoice` (`invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Payment transactions';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Payment transactions';
 
 /*Data for the table `sales_payment_transaction` */
 
@@ -309,7 +309,7 @@ CREATE TABLE `sales_payment_type` (
   `payment_type_id` tinyint(3) unsigned NOT NULL auto_increment,
   `payment_type_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`payment_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Types of sales';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Types of sales';
 
 /*Data for the table `sales_payment_type` */
 
@@ -324,7 +324,7 @@ CREATE TABLE `sales_qoute` (
   PRIMARY KEY  (`quote_id`),
   KEY `FK_QOUTE_CUSTOMER` (`customer_id`),
   CONSTRAINT `FK_QOUTE_CUSTOMER` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Quotes info';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quotes info';
 
 /*Data for the table `sales_qoute` */
 
@@ -344,7 +344,7 @@ CREATE TABLE `sales_quote_address` (
   CONSTRAINT `FK_QUOTE_ADDRESS_TYPE` FOREIGN KEY (`address_type_id`) REFERENCES `sales_order_address_type` (`address_type_id`),
   CONSTRAINT `FK_ADDRESS_QUOTE` FOREIGN KEY (`quote_id`) REFERENCES `sales_qoute` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_QUOTE_ADDRESS` FOREIGN KEY (`address_id`) REFERENCES `customer_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Quote address';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote address';
 
 /*Data for the table `sales_quote_address` */
 
@@ -361,7 +361,7 @@ CREATE TABLE `sales_quote_address_bak` (
   KEY `FK_ADDRESS_QUOTE` (`quote_id`),
   KEY `FK_QUOTE_ADDRESS` (`address_id`),
   KEY `FK_QUOTE_ADDRESS_TYPE` (`address_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Quote address';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote address';
 
 /*Data for the table `sales_quote_address_bak` */
 
@@ -381,7 +381,7 @@ CREATE TABLE `sales_quote_item` (
   CONSTRAINT `FK_QUOTE_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product` (`product_id`),
   CONSTRAINT `FK_ITEM_QUOTE` FOREIGN KEY (`quote_id`) REFERENCES `sales_qoute` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_QUOTE_ITEM_ADDRESS` FOREIGN KEY (`quote_address_id`) REFERENCES `sales_quote_address` (`quote_address_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='quote items';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='quote items';
 
 /*Data for the table `sales_quote_item` */
 
@@ -400,7 +400,7 @@ CREATE TABLE `sales_quote_item_attribute` (
   KEY `FK_QUOTE_ITEM_ATTRIBUTE_CODE` (`attribute_code`),
   CONSTRAINT `FK_QUOTE_ITEM_ATTRIBUTE_CODE` FOREIGN KEY (`attribute_code`) REFERENCES `sales_attribute` (`attribute_code`),
   CONSTRAINT `FK_QUOTE_ITEM_ATTRIBUTE` FOREIGN KEY (`quote_item_id`) REFERENCES `sales_quote_item` (`quote_item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Quote item attributes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote item attributes';
 
 /*Data for the table `sales_quote_item_attribute` */
 
@@ -417,7 +417,7 @@ CREATE TABLE `sales_quote_item_attribute_bak` (
   PRIMARY KEY  (`quote_item_attribute_id`),
   KEY `FK_QUOTE_ITEM_ATTRIBUTE` (`quote_item_id`),
   KEY `FK_QUOTE_ITEM_ATTRIBUTE_CODE` (`attribute_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Quote item attributes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote item attributes';
 
 /*Data for the table `sales_quote_item_attribute_bak` */
 
@@ -440,7 +440,7 @@ CREATE TABLE `sales_shipment` (
   CONSTRAINT `FK_SHPMENT_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`),
   CONSTRAINT `FK_SHIPMENT_INVOICE` FOREIGN KEY (`invoice_id`) REFERENCES `sales_invoice` (`invoice_id`),
   CONSTRAINT `FK_SHIPMENT_METHOD` FOREIGN KEY (`shipment_method_id`) REFERENCES `sales_shipment_method` (`shipment_method_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Orders shipmpments';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Orders shipmpments';
 
 /*Data for the table `sales_shipment` */
 
@@ -452,7 +452,7 @@ CREATE TABLE `sales_shipment_method` (
   `shipment_method_id` tinyint(3) unsigned NOT NULL auto_increment,
   `method_code` varchar(16) NOT NULL default '',
   PRIMARY KEY  (`shipment_method_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Shipment methods';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipment methods';
 
 /*Data for the table `sales_shipment_method` */
 
