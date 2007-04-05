@@ -12,6 +12,7 @@ Mage.Customer = function(depend){
         gridPanel:null,
         grid:null,
         addressViewUrl : Mage.url + '/mage_customer/address/gridData/', 
+        addressViewForm : Mage.url + '/mage_customer/address/card/', 
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
         customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
         
@@ -327,14 +328,19 @@ Mage.Customer = function(depend){
         		emptyText : '<div style="padding:10px;">No address found</div>'
         	});            
         	
-            this.addressView.on("click", function(vw, index, node, e){
-                vw.select(index);
-             });
+            this.addressView.on("click", this.onClickAddressView.createDelegate(this));
 
             this.addressView.load(this.addressViewUrl + 'customer/14/');
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;
+        },
+        
+        onClickAddressView : function(view, index, node, e) {
+            this.addressView.select(index);
+            var panel = this.addressLayout.getRegion('center').getActivePanel();
+            panel.setUrl(this.addressViewForm + 'id/' + node.id);
+            panel.refresh();
         },
         
     	onLoadException : function(v,o){
