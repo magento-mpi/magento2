@@ -12,9 +12,9 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         
         $this->_data['params'] = $this->getRequest()->getParams();
         
-        $this->setFlag('add', 'no-defaultLayout', true);
-        $this->setFlag('updatePost', 'no-defaultLayout', true);
-        $this->setFlag('clean', 'no-defaultLayout', true);
+        foreach (array('add','clean','updatePost','estimatePost','couponPost') as $action) {
+            $this->setFlag($action, 'no-defaultLayout', true);
+        }
     }
     
     function indexAction()
@@ -75,4 +75,15 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
         
     }
     
+    function estimatePostAction()
+    {
+        
+        $this->_redirect($this->_data['url']['cart']);
+    }
+    
+    function couponPostAction()
+    {
+        
+        $this->_redirect($this->_data['url']['cart']);
+    }
 }

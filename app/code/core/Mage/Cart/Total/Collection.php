@@ -36,12 +36,14 @@ class Mage_Cart_Total_Collection
     {
         $totals = array();
         foreach ($this->_totals as $total) {
-            if (''===$type && $type!==$total->type
-              || '_output'===$type && empty($total->output)) {
-                continue;
+            $totalRows = $total->getTotals();
+            foreach ($totalRows as $row) {
+                if (''===$type && $type!==$row['type']
+                || '_output'===$type && empty($row['output'])) {
+                    continue;
+                }
+                $totals[] = $row;
             }
-            $t = $total->getTotals();
-            $totals = array_merge_recursive($totals, $t);
         }
         return $totals;
     }

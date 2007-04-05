@@ -5,7 +5,7 @@ class Mage_Cart_Total_Subtotal extends Mage_Cart_Total_Abstract
     function getTotals()
     {
         $arr = array();
-        
+
         $items = $this->_cart->getItems();
         $subtotal = 0;
         $weight = 0;

@@ -6,6 +6,6 @@ abstract class Mage_Cart_Total_Abstract
     
     public function __construct($cart)
     {
-        $this->_cart = $cart;        
+        $this->_cart = $cart;
     }
 }
