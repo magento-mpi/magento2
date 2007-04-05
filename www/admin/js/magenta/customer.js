@@ -153,7 +153,7 @@ Mage.Customer = function(depend){
             paging.add('-', {
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
-                handler : this.createItem.createDelegate(this)
+                handler : this.createItem.createDelegate(this, [this.customerLayout.getRegion('south')])
             });
 //            ,{
 //                text: 'Add Filter',
@@ -219,8 +219,12 @@ Mage.Customer = function(depend){
             region.clearPanels();
         },
         
+        onCancelEdit : function () {
+            this.customerLayout.getRegion('south').clearPanels();            
+        },
+        
         onLoadPanel : function() {
-            
+
         },
         
         loadTabs : function(response) {
@@ -245,7 +249,8 @@ Mage.Customer = function(depend){
                 cls: 'x-btn-text-icon'
             },{
                 text: 'Cancel',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.onCancelEdit.createDelegate(this)
             },'-');
             this.formLoading = toolbar.addButton({
                tooltip: 'Form is updating',
