@@ -8,6 +8,7 @@ Mage.Customer = function(depend){
         customerLayout: null,
         editPanel : null,
         addressLayout : null,
+        addressView : null,
         gridPanel:null,
         grid:null,
         
@@ -305,11 +306,11 @@ Mage.Customer = function(depend){
             this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true},'center'));
             this.addressLayout.endUpdate();            
             
-            var addressBody = addressPanel.getEl().createChild({tag:'div', cls:'ychooser-view'});
+            var addressBody = addressPanel.getEl().createChild({tag:'div'});
             
         	// create the required templates
         	this.addressTemplate = new Ext.Template(
-                '<div id="{address_id}"><address>'+
+                '<div id="{addr_id}" class="address-view"><address>'+
             		'{address}<br/>'+
             		'{city}, {state} {zip}<br/>'+
             		'{country}'+
@@ -317,23 +318,29 @@ Mage.Customer = function(depend){
         	);
         	this.addressTemplate.compile();	            
             
-        	var view = new Ext.JsonView(addressBody, this.addressTemplate, {
+        	this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
         		singleSelect: true,
         		jsonRoot: 'addresses',
         		emptyText : '<div style="padding:10px;">No address found</div>'
         	});            
-            
-            view.on("click", function(vw, index, node, e){
-                 alert('Node "' + node.id + '" at index: ' + index + " was clicked.");
+        	
+            this.addressView.on("click", function(vw, index, node, e){
+                vw.select(index);
              });
 
-            view.load({url: Mage.url + '/mage_customer/address/gridData/customer/14/', callback : this.onLoadAddressView.createDelegate(view)});
+            this.addressView.load(Mage.url + '/mage_customer/address/gridData/customer/14/');
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;
         },
         
+    	onLoadException : function(v,o){
+	       this.view.getEl().update('<div style="padding:10px;">Error loading images.</div>'); 
+    	}, 
+    	       
         onLoadAddressView : function () {
+            console.log('callback');            
+            Ext.dump(this.addressView);
             this.select(0);
         },
         
