@@ -60,19 +60,23 @@ class Mage_Sales_Shipping
 	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
     {
     	if (!$request->getOrigin()) {
-    		$request->setData($this->_origin);
+    		$request->setData($this->getOriginData());
     	}
-    	
+
     	if (!$request->limitVendor) { 
-	    	$types = Mage::getConfig()->getGlobalConfig('shipping');
+	    	$types = Mage::getConfig()->getGlobalConfig('salesShippingVendors')->children();
+
 	        foreach ($types as $type) {
+	            if ('true'!==(string)$type->active) {
+	                continue;
+	            }
 	            $className = (string)$type->class;
 	            $obj = new $className();
 	            $result = $obj->fetchQuotes($request);
 	            $this->_result->append($result);
 	        }
     	} else {
-    	    $obj = Mage::getConfig()->getGlobalInstance('shipping', $type);
+    	    $obj = Mage::getConfig()->getGlobalInstance('salesShippingVendors', $request->limitVendor);
     	    $result = $obj->fetchQuotes($request);
     	    $this->_result->append($result);
     	}

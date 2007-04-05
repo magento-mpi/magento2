@@ -1,7 +1,61 @@
+<script type="text/javascript">
+var ShippingMethod = Class.create();
+ShippingMethod.prototype = {
+    initialize: function(form){
+        this.form = form;
+        this.onSave = this.continue.bindAsEventListener(this);
+    },
+
+    save: function(){
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+            var request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/saveShippingMethod/',
+                {
+                    method:'post',
+                    onSuccess: this.onSave,
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    },
+
+    continue: function(){
+        checkout.setReview();
+    }
+}
+</script>
+
 <div id="checkout-shipping-method" class="step-body">
-    <div class="note-box buttons">
-        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="checkout.setShipping();" class="input-button float-right" value="Continue"/>
-        <div class="clearfix"></div>
-    </div>
+  	<div class="default-box" style="display:block;">
+    	<?if (empty($quotes)):?>
+    		<b>Sorry, no quotes are available for this order at this time.</b>
+	    <?else:?>
+            <form id="co-shipping-method-form">
+            	<fieldset>
+                	<?foreach ($quotes as $vendor):?>
+                    	<strong><?=$vendor['title']?></strong>
+                    	<ul>
+                    		<?foreach ($vendor['methods'] as $method):?>
+                        		<li>
+                        		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method[method]" type="radio" value="<?=$method['code']?>">
+                        		    <label for="shipping_method_<?=$method['code']?>"><?=$method['title']?></label>:
+                        		    <strong><?=$method['price']?></strong>
+                        		</li>
+                    		<?endforeach?>
+                    	</ul>
+                	<?endforeach?>
+            	</fieldset>
+        	</form>
+    	<?endif?>
+   	</div>
+	<div class="note-box buttons">
+		<input type="button" onclick="checkout.back();" value="Back" class="input-button float-left" />
+		<input type="button" onclick="shippingMethod.save();" class="input-button float-right" value="Continue" />
+		<div class="clearfix"></div>
+	</div>
 </div>
+
+<script type="text/javascript">
+    var shippingMethod = new ShippingMethod('co-shipping-method-form');
+</script>

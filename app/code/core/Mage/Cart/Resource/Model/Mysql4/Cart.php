@@ -12,7 +12,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         }
         
         $sql = $this->_read->select()->from($cartTable)->where('cart_id=?', $cartId);
-        $arr = $this->_read->fetchAssoc($sql);
+        $arr = $this->_read->fetchRow($sql);
         
         return $arr;
     }

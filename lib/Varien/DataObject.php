@@ -26,6 +26,14 @@ class Varien_DataObject
             $this->_data[$key] = $value;
         }
     }
+    
+    public function getData($key)
+    {
+        if (isset($this->_data[$key])) {
+            return $this->_data[$key];
+        }
+        return false;
+    }
 
     /**
      * Convert object attributes to array

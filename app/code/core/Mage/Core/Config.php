@@ -31,7 +31,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function init()
     {
-    	$this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'config');
+        $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'config');
     	$this->setCacheKey('globalConfig');
 
     	$this->loadGlobal();
@@ -167,18 +167,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $config = Mage::getConfig()->getXml()->global->$collection;
         if (''===$name) {
-            $arr = array();
-            foreach ($config as $node) {
-                if ($node->active) {
-                    $arr[$node->getName()] = $node;
-                }
-            }
-            return $arr;
+            return $config;
         }
-        if (!isset($config->$name)) {
-            return false;
+        if (isset($config->$name)) {
+            return $config->$name;
         }
-        return $config->$name;
+        return false;
     }
     
     /**

@@ -80,7 +80,21 @@ class Mage_Checkout_Front
 
         $shipping = new Mage_Sales_Shipping();
         $result = $shipping->fetchQuotes($request);
+        $allQuotes = $result->getAllQuotes();
         
-        $this->setStateData('shipping_method', 'quotes', $result);
+        $quotes = array();
+        if (!empty($allQuotes)) {
+            foreach ($allQuotes as $quote) {
+                $priceFilter = new Varien_Filter_Sprintf('$%s', 2);
+                $quotes[$quote->getVendor()]['title'] = $quote->getVendorTitle();
+                $quotes[$quote->getVendor()]['methods'][$quote->getMethod()] = array(
+                    'code'=>$quote->getMethod(),
+                    'title'=>$quote->getMethodTitle(),
+                    'price'=>$priceFilter->filter($quote->getPrice()),
+                );
+            }
+        }
+
+        $this->setStateData('shipping_method', 'quotes', $quotes);
     }
 }

@@ -28,6 +28,7 @@
           </resources>
           <salesShippingVendors>
             <shiptable>
+              <active>true</active>
               <class>Mage_Shiptable_Table</class>
             </shiptable>
           </salesShippingVendors>

@@ -30,8 +30,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $this->_steps['method']['label'] = 'Checkout';
             $this->_steps['method']['allow'] = true;
             $this->_createMethodBlock();
-        }
-        else {
+        } else {
             $this->_checkout->setStateData('billing', 'allow', true);
         }
         
@@ -41,7 +40,6 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
         $this->_steps['payment'] = array();
         $this->_steps['payment']['label'] = 'Payment Information';
-        //$this->_steps['payment']['allow'] = true;
         $this->_createPaymentBlock();
 
         $this->_steps['shipping'] = array();
@@ -166,7 +164,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
         $block = Mage::createBlock('tpl', 'checkout.shipping_method')
             ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
-            ->assign('quotes', $data)
+            ->assign('quotes', $quotes)
             ->assign('data', $data);
 
         $this->setChild('shipping_method', $block);
