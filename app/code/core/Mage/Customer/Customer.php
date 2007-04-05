@@ -34,6 +34,6 @@ class Mage_Customer_Customer extends Varien_DataObject
     
     public function getAddress($addressId)
     {
-        
+        return new Mage_Customer_Address($addressId);
     }
 }

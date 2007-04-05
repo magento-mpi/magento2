@@ -7,20 +7,53 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Address
+class Mage_Customer_Address extends Varien_DataObject 
 {
-    protected $_addressId;
-    
-    public function __construct($addressId=false) 
+    public function __construct($address=false) 
     {
-        if ($addressId) {
-            $this->_addressId = $addressId;
-            $this->load($addressId);
+        if (is_array($address)) {
+            parent::__construct($address);
+        }
+        elseif (is_int($address) && $address) {
+            $this->load($address);
+        }
+        else {
+            parent::__construct();
         }
     }
     
     public function load($addressId)
     {
-        $this->_addressId = $addressId;
+        if($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
+            $this->addressId = $addressId;
+            if ($this->street) {
+                // Set street{$index} fields
+                $arrStreet = explode("\n", $this->street);
+                foreach ($arrStreet as $index => $value) {
+                    $this->setData('street' . ($index+1), $value);
+                }
+            }
+        }
+        else {
+            $this->_data = array();
+        }
+    }
+    
+    public function save()
+    {
+        
+    }
+    
+    public function toString($format='')
+    {
+        if (empty($format)) {
+            return implode(', ', $this->_data);
+        }
+        return '// TODO: address string format';
+    }
+    
+    public function hasCustomer($customerId)
+    {
+        return true;
     }
 }

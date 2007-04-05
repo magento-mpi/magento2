@@ -21,15 +21,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
         // Default address
         $defaultAddress = false;
-        $addressModel = Mage::getResourceModel('customer', 'address');
         
         if ($defaultAddressId = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
-            $defaultAddress = $addressModel->getRow($defaultAddressId);
+            $defaultAddress = new Mage_Customer_Address($defaultAddressId);
         }
         
         // Load addresses
-        $addressCoolection = Mage::getResourceModel('customer', 'address_collection')
-            ->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
+        $addressCoolection = new Mage_Customer_Address_Collection();
+        $addressCoolection->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
             ->addFilter('without_default', 'address_id!=' . (int) $defaultAddressId, 'string')
             ->load();
         
@@ -50,22 +49,36 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }
-
-        $formData = new Varien_DataObject();
-        $addressValidator = new Mage_Customer_Validate_Address(array());
+        
+        // TODO: restore form data and messages from session
         
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
             
+            $address = new Mage_Customer_Address($addressId);
+            
             // Validate address_id <=> customer_id
-            if (!$addressValidator->hasCustomer($addressId, Mage_Customer_Front::getCustomerId())) {
+            if (!$address->hasCustomer(Mage_Customer_Front::getCustomerId())) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            $addressModel = Mage::getResourceModel('customer', 'address');
-            $formData = $addressModel->getRow($addressId);
+        }
+        else {
+            $address = new Mage_Customer_Address($addressId);
         }
         
+        
+        $block = Mage::createBlock('tpl', 'customer.address.form')
+            ->setViewName('Mage_Customer', 'form/address.phtml')
+            ->assign('addressId', $addressId)
+            ->assign('formData', $address)
+            ->assign('defaultAddressId', Mage_Customer_Front::getCustomerInfo('default_address_id'));
+            
+        Mage::getBlock('content')->append($block);
+    }
+    
+    public function formPostAction()
+    {
         // Save data
         if ($this->getRequest()->isPost()) {
             $addressValidator->setData($_POST);
@@ -96,22 +109,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $formData = $addressValidator->getDataObject();
             }
         }
-        
-        // Set street{$index} fields
-        if ($street = $formData->getStreet()) {
-            $street = explode("\n", $street);
-            foreach ($street as $index => $value) {
-                $formData->setData('street' . ($index+1), $value);
-            }
-        }
-        
-        $block = Mage::createBlock('tpl', 'customer.address.form')
-            ->setViewName('Mage_Customer', 'form/address.phtml')
-            ->assign('addressId', $addressId)
-            ->assign('formData', $formData)
-            ->assign('defaultAddressId', Mage_Customer_Front::getCustomerInfo('default_address_id'));
-            
-        Mage::getBlock('content')->append($block);
     }
     
     public function deleteAction()

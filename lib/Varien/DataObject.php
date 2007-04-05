@@ -10,12 +10,10 @@
 class Varien_DataObject
 {
     protected $_data;
-    protected $_inflector;
     
     public function __construct($data = array())
     {
         $this->_data = $data;
-        $this->_inflector = new Zend_Db_Inflector();
     }
 
     public function setData($key, $value='')
@@ -108,7 +106,7 @@ class Varien_DataObject
         switch (substr($method, 0, 3)) {
             case 'get' :
                 //$key = strtolower(substr($method,3));
-                $key = $this->_inflector->underscore(substr($method,3));
+                $key = $this->_underscore(substr($method,3));
                 if (isset($this->_data[$key])) {
                     return $this->_data[$key];
                 } else {
@@ -118,7 +116,7 @@ class Varien_DataObject
 
             case 'set' :
                 //$key = strtolower(substr($method,3));
-                $key = $this->_inflector->underscore(substr($method,3));
+                $key = $this->_underscore(substr($method,3));
                 if (isset($args[0])) {
                     $this->_data[$key] = $args[0];
                 }
@@ -129,12 +127,14 @@ class Varien_DataObject
     
     public function __get($var)
     {
-        
+        $var = $this->_underscore($var);
+        return isset($this->_data[$var]) ? $this->_data[$var] : null;
     }
     
     public function __set($var, $value)
     {
-        
+        $var = $this->_underscore($var);
+        $this->_data[$var] = $value;
     }
     
     public function isEmpty()
@@ -143,5 +143,10 @@ class Varien_DataObject
             return true;
         }
         return false;
+    }
+    
+    protected function _underscore($name)
+    {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', "$1_$2", $name));
     }
 }

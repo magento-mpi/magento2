@@ -141,4 +141,12 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     {
         
     }
+    
+    public function deleteAction()
+    {
+        $customerId = $this->getRequest()->getParam('customer', false);
+        if ($customerId) {
+            Mage::getResourceModel('customer', 'customer')->delete($customerId);
+        }
+    }
 }

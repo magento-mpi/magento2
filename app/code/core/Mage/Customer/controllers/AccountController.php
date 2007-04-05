@@ -93,7 +93,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $formData = Mage::registry('session')->getNamespaceData('customer_edit');
         if ($formData->isEmpty()) {
             $customerModel = Mage::getResourceModel('customer', 'customer');
-            $formData = $customerModel->getRow(Mage_Customer_Front::getCustomerId());
+            $formData = new Mage_Customer_Customer(Mage_Customer_Front::getCustomerId());
         }
         
         $message = Mage::createBlock('message', 'customer.edit.message');

@@ -5,12 +5,7 @@
     <?if($defaultAddress):?>
         <td style="width:50%;"><h3>Primary Address</h3>
             <address>
-                <?=$defaultAddress->getFirstname()?> <?=$defaultAddress->getLastname()?><br/>
-                <?=$defaultAddress->getCompany()?><br/>
-                <?=$defaultAddress->getPostcode()?>, <?=$defaultAddress->getCity()?><br/>
-                <?=$defaultAddress->getStreet()?><br/>
-                <?if($defaultAddress->getTelephone()):?>T| <?=$defaultAddress->getTelephone()?><br/><?endif?>
-                <?if($defaultAddress->getFax()):?>F| <?=$defaultAddress->getFax()?><br/><?endif?>
+                <?=$defaultAddress->toString()?>
             </address>
             <p>
             <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$defaultAddress->getAddress_Id()?>/" class="red-link">Edit</a></strong></p>
@@ -23,12 +18,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                        <?=$_address->getCompany()?><br/>
-                        <?=$_address->getPostcode()?>, <?=$_address->getCity()?><br/>
-                        <?=$_address->getStreet()?><br/>
-                        <?if($_address->getTelephone()):?>T| <?=$_address->getTelephone()?><br/><?endif?>
-                        <?if($_address->getFax()):?>F| <?=$_address->getFax()?><br/><?endif?>
+                        <?=$_address->toString()?>
                     </address>
                     <p>
                         <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddress_Id()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
