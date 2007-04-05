@@ -55,11 +55,33 @@ class Mage_Checkout_Front
             $data = $this->_state->$stateName;
             return isset($data[$section]) ? $data[$section] : false;
         }
-        
+
     }
-    
+
     public function clearState()
     {
         $this->_state->unsetAll();
+    }
+
+    public function fetchShippingMethods()
+    {
+        $shippingData = $this->getStateData('shipping', 'data');
+        $cart = new Mage_Cart_Cart();
+        #$cartRow = $cart->getCart();
+        $cartTotals = $cart->getTotals();
+        $subtotal = $cartTotals->asArray('subtotal');
+        $weight = $cartTotals->asArray('weight');
+        print_r($cartTotals);
+        $shipping = new Mage_Sales_Shipping();
+
+        $request = new Mage_Sales_Shipping_Quote_Request();
+        $request->setDestCountryId($shippingData['country_id']);
+        $request->setDestRegionId($shippingData['region_id']);
+        $request->setOrderSubtotal($subtotal[0]['value']);
+        $request->setPackageWeight($weight[0]['value']);
+
+        $result = $shipping->fetchQuotes($request);
+        
+        $this->setStateData('shipping_method', 'data', $result);
     }
 }

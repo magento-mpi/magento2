@@ -58,14 +58,6 @@
         </all>
         <front>
           <events>
-            <action_preDispatch>
-              <observers>
-                <cart>
-                  <class>Mage_Cart_Front</class>
-                  <method>construct</method>
-                </cart>
-              </observers>
-            </action_preDispatch>
 			<customerLogin>
               <observers>
                 <auth>

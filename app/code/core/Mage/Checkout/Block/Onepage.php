@@ -160,7 +160,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     protected function _createShippingMethodBlock()
     {
         $data = Mage::registry('Mage_Checkout')->getStateData('shipping_method');
-        
+        #echo "<HR>";print_r($data);
         $block = Mage::createBlock('tpl', 'checkout.shipping_method')
             ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
             ->assign('data', $data);

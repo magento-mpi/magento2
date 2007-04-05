@@ -127,7 +127,7 @@ class Varien_Event
         }
         
         $observers = $this->_events[$eventName];
-        #echo "dispatch:".$eventName. print_r($observers,1)."<hr>";
+        #echo "<pre>dispatch:".$eventName. print_r($observers,1)."</pre><hr>";
         foreach ($observers as $observer) {
             $arguments = $eventArgs;
             if (!empty($observer[1])) {

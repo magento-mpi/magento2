@@ -19,9 +19,10 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
     
     function indexAction()
     {
-        $cart['items'] = Mage::getResourceModel('cart', 'cart')->getItems();
+        $cart = new Mage_Cart_Cart();
+        $cartData['items'] = $cart->getItems();
         
-        if (empty($cart['items'])) {
+        if (empty($cartData['items'])) {
             $cartView = 'noItems.phtml';
         } else {
             $cartView = 'view.phtml';
@@ -30,15 +31,15 @@ class Mage_Cart_IndexController extends Mage_Core_Controller_Front_Action
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
-            $cart['items'] = $itemsFilter->filter($cart['items']);
+            $cartData['items'] = $itemsFilter->filter($cartData['items']);
             
-            $cart['totals'] = Mage_Cart_Total::getTotals();
+            $cartData['totals'] = $cart->getTotals()->asArray('_output');
 
             $totalsFilter = new Varien_Filter_Array_Grid();
             $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
-            $cart['totals'] = $totalsFilter->filter($cart['totals']);
+            $cartData['totals'] = $totalsFilter->filter($cartData['totals']);
             
-            $this->_data['cart'] = $cart;
+            $this->_data['cart'] = $cartData;
         }        
         
         $block = Mage::createBlock('tpl', 'cart.view')

@@ -2,12 +2,16 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action 
 {
+    protected $_checkout = null;
+    
     protected function _construct()
     {
         parent::_construct();
+        
         foreach (array('status','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
             $this->setFlag($action, 'no-renderLayout', true);
         }
+        $this->_checkout = Mage::registry('Mage_Checkout');
     }
     
     public function indexAction()
@@ -40,13 +44,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveBillingAction()
     {
+        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
             $data = isset($_POST['billing']) ? $_POST['billing'] : array();
             if (!empty($data)) {
-                Mage::registry('Mage_Checkout')->setStateData('billing', 'allow', true);
-                Mage::registry('Mage_Checkout')->setStateData('payment', 'allow', true);
+                $checkout->setStateData('billing', 'allow', true);
+                $checkout->setStateData('payment', 'allow', true);
             }
-            Mage::registry('Mage_Checkout')->setStateData('billing', 'data', $data);
+            $checkout->setStateData('billing', 'data', $data);
         }
     }
     
@@ -57,21 +62,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveShippingAction()
     {
-
+        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
             $data = isset($_POST['shipping']) ? $_POST['shipping'] : array();
             if (!empty($data)) {
-                Mage::registry('Mage_Checkout')->setStateData('shipping', 'allow', true);
+                $checkout->setStateData('shipping', 'allow', true);
                 //Mage::registry('Mage_Checkout')->setStateData('payment', 'allow', true);
             }
-            Mage::registry('Mage_Checkout')->setStateData('shipping', 'data', $data);
+            $checkout->setStateData('shipping', 'data', $data);
         }
-        print_r(Mage::registry('Mage_Checkout')->getStateData('shipping', 'data'));
-        $shipping = new Mage_Sales_Shipping();
 
-        $request = new Mage_Sales_Shipping_Quote_Request();
-
-        $result = $shipping->fetchQuotes($request);
+        $checkout->fetchShippingMethods();
     }
     
     public function saveShippingMethodAction()

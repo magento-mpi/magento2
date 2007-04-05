@@ -2,22 +2,7 @@
 
 class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysql4
 {
-    protected $_itemsCache = null;
-    
-    function cleanCache($cartId=null)
-    {
-        if ('*'===$cartId) {
-            $this->_itemsCache = null;
-            return;
-        }
-        
-        if (is_null($cartId)) {
-            $cartId = $this->getCustomerCartId();
-        }
-        
-        $this->_itemsCache[$cartId] = null;
-    }
-    
+
     function getCart($cartId=null)
     {
         $cartTable = $this->_getTableName('cart', 'cart');
@@ -42,10 +27,6 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
             $cartId = $this->getCustomerCartId();
         }
         
-        if (!empty($this->_itemsCache[$cartId])) {
-            return $this->_itemsCache[$cartId];
-        }
-        
         $sql = $this->_read->select()
             ->from($itemTable)
             ->where('cart_id = ?', $cartId);
@@ -64,6 +45,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
             $products->setPageSize(false);
             $products->addAttributeToSelect('name', 'varchar');
             $products->addAttributeToSelect('price', 'decimal');
+            $products->addAttributeToSelect('weight', 'decimal');
             $products->addFilter('id', "$productTable.product_id in ($ids)", 'string');
             $products->load();
         
@@ -81,8 +63,6 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
                 }
             }
         }
-        
-        $this->_itemsCache[$cartId] = $data;
         
         return $data;
     }
