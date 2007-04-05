@@ -11,6 +11,9 @@ Mage.Customer = function(depend){
         addressView : null,
         gridPanel:null,
         grid:null,
+        addressViewUrl : Mage.url + '/mage_customer/address/gridData/', 
+        customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
+        customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
         
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
@@ -97,7 +100,7 @@ Mage.Customer = function(depend){
             }, dataRecord);
                 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_customer/customer/gridData/'}),
+                proxy: new Ext.data.HttpProxy({url: this.customerGridDataUrl}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -204,7 +207,7 @@ Mage.Customer = function(depend){
                 success : this.loadTabs.createDelegate(this),
                 failure : failure
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_customer/customer/card/customer/0/', cb);  
+            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/0/', cb);  
 
             this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
@@ -328,7 +331,7 @@ Mage.Customer = function(depend){
                 vw.select(index);
              });
 
-            this.addressView.load(Mage.url + '/mage_customer/address/gridData/customer/14/');
+            this.addressView.load(this.addressViewUrl + 'customer/14/');
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
             return panel;
