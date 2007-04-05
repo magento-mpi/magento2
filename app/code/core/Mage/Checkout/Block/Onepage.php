@@ -10,6 +10,7 @@
 class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 {
     protected $_steps;
+    protected $_checkout;
     
     public function __construct() 
     {
@@ -22,6 +23,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     protected function _initSteps()
     {
         $this->_steps = array();
+        $this->_checkout = Mage::registry('Mage_Checkout');
         
         if (!Mage_Customer_Front::getCustomerId()) {
             $this->_steps['method'] = array();
@@ -30,7 +32,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $this->_createMethodBlock();
         }
         else {
-            Mage::registry('Mage_Checkout')->setStateData('billing', 'allow', true);
+            $this->_checkout->setStateData('billing', 'allow', true);
         }
         
         $this->_steps['billing'] = array();
@@ -55,7 +57,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $this->_createReviewBlock();
         
         foreach ($this->_steps as $stepId=>$stepInfo) {
-            $stepData = Mage::registry('Mage_Checkout')->getStateData($stepId);
+            $stepData = $this->_checkout->getStateData($stepId);
             if (!empty($stepData['allow'])) {
                 $this->_steps[$stepId]['allow'] = true;
             }
@@ -65,7 +67,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createMethodBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('method');
+        $data = $this->_checkout->getStateData('method');
         
         $block = Mage::createBlock('tpl', 'checkout.method')
             ->setViewName('Mage_Checkout', 'onepage/method.phtml')
@@ -76,15 +78,15 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     
     protected function _createBillingBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('billing');
+        $data = $this->_checkout->getStateData('billing');
         
         $block = Mage::createBlock('tpl', 'checkout.billing')
             ->setViewName('Mage_Checkout', 'onepage/billing.phtml')
             ->assign('data', $data);
         
         $address = array();
-        if (Mage::registry('Mage_Checkout')->getStateData('billing', 'data')) {
-            $address = Mage::registry('Mage_Checkout')->getStateData('billing', 'data');
+        if ($this->_checkout->getStateData('billing', 'data')) {
+            $address = $this->_checkout->getStateData('billing', 'data');
             $address = new Varien_DataObject($address);
         }
         
@@ -112,7 +114,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createPaymentBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('payment');
+        $data = $this->_checkout->getStateData('payment');
         
         $block = Mage::createBlock('tpl', 'checkout.payment')
             ->setViewName('Mage_Checkout', 'onepage/payment.phtml')
@@ -123,15 +125,15 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('shipping');
+        $data = $this->_checkout->getStateData('shipping');
         
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'onepage/shipping.phtml')
             ->assign('data', $data);
         
         $address = array();
-        if (Mage::registry('Mage_Checkout')->getStateData('shipping', 'data')) {
-            $address = Mage::registry('Mage_Checkout')->getStateData('shipping', 'data');
+        if ($this->_checkout->getStateData('shipping', 'data')) {
+            $address = $this->_checkout->getStateData('shipping', 'data');
             $address = new Varien_DataObject($address);
         }
         
@@ -159,18 +161,20 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingMethodBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('shipping_method');
+        $quotes = $this->_checkout->getStateData('shipping_method', 'quotes');
+        $data = $this->_checkout->getStateData('shipping_method', 'data');
 
         $block = Mage::createBlock('tpl', 'checkout.shipping_method')
             ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
+            ->assign('quotes', $data)
             ->assign('data', $data);
-            
+
         $this->setChild('shipping_method', $block);
     }
 
     protected function _createReviewBlock()
     {
-        $data = Mage::registry('Mage_Checkout')->getStateData('review');
+        $data = $this->_checkout->getStateData('review');
         
         $block = Mage::createBlock('tpl', 'checkout.review')
             ->setViewName('Mage_Checkout', 'onepage/review.phtml')

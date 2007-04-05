@@ -91,6 +91,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveShippingMethodAction()
     {
+        $checkout = Mage::registry('Mage_Checkout');
+        if ($this->getRequest()->isPost()) {
+            $data = isset($_POST['shipping_method']) ? $_POST['shipping_method'] : array();
+            if (!empty($data)) {
+                $checkout->setStateData('shipping_method', 'allow', true);
+            }
+            $checkout->setStateData('shipping_method', 'data', $data);
+        }
 
     }
 }

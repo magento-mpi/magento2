@@ -77,10 +77,10 @@ class Mage_Checkout_Front
         $request->setDestRegionId($shippingData['region_id']);
         $request->setOrderSubtotal($subtotal[0]['value']);
         $request->setPackageWeight($weight[0]['value']);
-print_r($request);
+
         $shipping = new Mage_Sales_Shipping();
         $result = $shipping->fetchQuotes($request);
         
-        $this->setStateData('shipping_method', 'data', $result);
+        $this->setStateData('shipping_method', 'quotes', $result);
     }
 }
