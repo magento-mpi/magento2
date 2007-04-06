@@ -1,1 +1,0 @@
-alter table `cart` add column `update_date` datetime not null;
