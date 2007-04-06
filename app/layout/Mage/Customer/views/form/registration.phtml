@@ -61,7 +61,7 @@
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
                 <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
-                    <option value="1">USA</option>
+                    <?=$countries->toHtmlOptions(223)?>
                 </select>
             </li>
             <li>

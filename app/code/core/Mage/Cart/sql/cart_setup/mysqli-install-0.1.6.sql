@@ -35,7 +35,7 @@ CREATE TABLE `cart_product` (
   PRIMARY KEY  (`cart_product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shopping cart products';
 
-alter table `cart` drop key `uniq_code`, add index `uniq_code` (`uniq_code`)
+alter table `cart` drop key `uniq_code`, add index `uniq_code` (`uniq_code`);
 alter table `cart` add column `update_date` datetime not null;
 
 SET SQL_MODE=@OLD_SQL_MODE;

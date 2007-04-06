@@ -24,6 +24,7 @@ create table core_language
    language_title                 varchar(32)                   not null,
    primary key (language_code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 comment = "Languages";
+insert into `core_language` (`language_code`,`language_title`) values ('en','English');
 
 /*Table structure for table `core_block` */
 

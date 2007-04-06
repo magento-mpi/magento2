@@ -23,6 +23,12 @@ class Mage_Core_Resource_Model_Collection implements Iterator
     protected $_orders      = array();
     protected $_filters     = array();
     protected $_isFiltersRendered = false;
+    
+    /**
+     * Select oblect
+     *
+     * @var Zend_Db_Select
+     */
     protected $_sqlSelect;
     
     // PAGER
