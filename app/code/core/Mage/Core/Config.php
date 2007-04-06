@@ -55,8 +55,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->loadLocal();
 
         $this->applyExtends();
-        $this->applyExtends();
-        $this->applyExtends();
 
         $this->loadFromDb();
 

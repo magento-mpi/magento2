@@ -10,7 +10,7 @@
 
                <username>root</username>
 
-               <password></password>
+               <password/>
 
                <dbname>magenta</dbname>
             </connection>
