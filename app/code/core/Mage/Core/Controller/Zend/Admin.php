@@ -80,7 +80,7 @@ class Mage_Core_Controller_Zend_Admin {
         }
         
         if ($modInfo->admin->controller->is('default')) {
-            $this->_defaultModule = $nameLower;
+            $this->_defaultModule = strtolower($name);
         }
     }
 

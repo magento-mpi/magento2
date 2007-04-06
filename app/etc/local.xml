@@ -21,19 +21,19 @@
          </dev_write>
 
          <dev_read>
-            <connection use="dev_write" />
+            <connection><use>dev_write</use></connection>
          </dev_read>
 
          <core_setup>
-            <connection use="dev_setup" />
+            <connection><use>dev_setup</use></connection>
          </core_setup>
 
          <core_write>
-            <connection use="dev_write" />
+            <connection><use>dev_write</use></connection>
          </core_write>
 
          <core_read>
-            <connection use="dev_read" />
+            <connection><use>dev_read</use></connection>
          </core_read>
       </resources>
    </global>

@@ -9,15 +9,15 @@
     <global>
         <resources>
             <cron_setup>
-                <connection use="core_setup" />
-            </catalog_setup>
+                <connection><use>core_setup</use></connection>
+            </cron_setup>
             
             <cron_write>
-                <connection use="core_write" />
+                <connection><use>core_write</use></connection>
             </cron_write>
             
             <cron_read>
-                <connection use="core_read" />
+                <connection><use>core_read</use></connection>
             </cron_read>
         </resources>
         
