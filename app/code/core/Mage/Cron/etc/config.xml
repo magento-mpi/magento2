@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_Cron>
+            <version>0.1.0</version>
+        </Mage_Cron>
+    </modules>
+    
+    <global>
+        <resources>
+            <cron_setup>
+                <connection use="core_setup" />
+            </catalog_setup>
+            
+            <cron_write>
+                <connection use="core_write" />
+            </cron_write>
+            
+            <cron_read>
+                <connection use="core_read" />
+            </cron_read>
+        </resources>
+        
+        <resourceModels>
+            <cron>
+                <class>Mage_Cron_Resource_Model_Mysql4</class>
+            </cron>
+        </resourceModels>
+    </global>
+</config>

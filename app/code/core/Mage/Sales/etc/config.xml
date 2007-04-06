@@ -33,15 +33,15 @@
 
       <resources>
          <sales_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </sales_setup>
 
          <sales_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </sales_write>
 
          <sales_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </sales_read>
       </resources>
 

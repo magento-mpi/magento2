@@ -27,15 +27,15 @@
    <global>
       <resources>
          <page_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </page_setup>
 
          <page_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </page_write>
 
          <page_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </page_read>
       </resources>
    </global>

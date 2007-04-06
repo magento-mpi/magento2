@@ -166,15 +166,15 @@
 
       <resources>
          <catalog_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </catalog_setup>
 
          <catalog_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </catalog_write>
 
          <catalog_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </catalog_read>
       </resources>
 

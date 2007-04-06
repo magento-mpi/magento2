@@ -27,15 +27,15 @@
 
       <resources>
          <shiptable_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </shiptable_setup>
 
          <shiptable_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </shiptable_write>
 
          <shiptable_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </shiptable_read>
       </resources>
 

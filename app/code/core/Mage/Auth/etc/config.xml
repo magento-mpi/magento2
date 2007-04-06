@@ -21,15 +21,15 @@
    <global>
       <resources>
          <auth_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </auth_setup>
 
          <auth_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </auth_write>
 
          <auth_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </auth_read>
       </resources>
 

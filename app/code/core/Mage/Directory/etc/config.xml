@@ -49,15 +49,15 @@
 
       <resources>
          <directory_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </directory_setup>
 
          <directory_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </directory_write>
 
          <directory_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </directory_read>
       </resources>
    </global>

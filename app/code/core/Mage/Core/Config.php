@@ -435,8 +435,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $config = $this->getResourceConfig($name);
         $conn = $config->connection;
-        if (!empty($conn['use'])) {
-            return $this->getResourceConnectionConfig((string)$conn['use']);
+        if (!empty($conn->use)) {
+            return $this->getResourceConnectionConfig((string)$conn->use);
         } else {
             return $conn;
         }

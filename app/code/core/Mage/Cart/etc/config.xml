@@ -39,15 +39,15 @@
 
       <resources>
          <cart_setup>
-            <connection use="core_setup" />
+            <connection><use>core_setup</use></connection>
          </cart_setup>
 
          <cart_write>
-            <connection use="core_write" />
+            <connection><use>core_write</use></connection>
          </cart_write>
 
          <cart_read>
-            <connection use="core_read" />
+            <connection><use>core_read</use></connection>
          </cart_read>
       </resources>
 
