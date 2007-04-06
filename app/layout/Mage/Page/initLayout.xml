@@ -7,7 +7,7 @@
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
                 <action method="setTagName"><tagName>title</tagName></action>
-                <action method="setContents"><contents>Magenta Commerce</contents></action>
+                <action method="setContents"><contents>Magento Commerce</contents></action>
             </block>
 		    <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
