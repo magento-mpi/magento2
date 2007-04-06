@@ -43,7 +43,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $checkout = Mage::registry('Mage_Checkout');
 
-        $checkout->fetchShippingMethods();
+        #$checkout->fetchShippingMethods();
 
         $quotes = $checkout->getStateData('shipping_method', 'quotes');
         $data = $checkout->getStateData('shipping_method', 'data');
@@ -109,7 +109,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $checkout->setStateData('shipping', 'address', $address);
         }
 
-        #$checkout->fetchShippingMethods();
+        $checkout->fetchShippingMethods();
     }
     
     public function saveShippingMethodAction()

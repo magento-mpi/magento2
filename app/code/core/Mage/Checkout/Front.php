@@ -29,9 +29,9 @@ class Mage_Checkout_Front
         Mage::registry('Mage_Checkout')->clearState();
     }
 
-    public function setStateData($stateName, $data, $value='')
+    public function setStateData($stateName, $data, $value=null)
     {
-        if (is_string($data) && ('' != $value) ) {
+        if (is_string($data) && (!is_null($value)) ) {
             $prevData = $this->_state->$stateName;
             if (!is_array($prevData)) {
                 $prevData = array();
@@ -48,7 +48,7 @@ class Mage_Checkout_Front
     
     public function getStateData($stateName, $section = '')
     {
-        if ('' == $section) {
+        if (''===$section) {
             return $this->_state->$stateName;
         }
         else {
@@ -65,17 +65,17 @@ class Mage_Checkout_Front
 
     public function fetchShippingMethods()
     {
-        $shippingData = $this->getStateData('shipping', 'data');
+        $shippingAddress = $this->getStateData('shipping', 'address');
         
         $cart = new Mage_Cart_Cart();
         $cartTotals = $cart->getTotals();
         $subtotal = $cartTotals->asArray('subtotal');
         $weight = $cartTotals->asArray('weight');
-        
+
         $request = new Mage_Sales_Shipping_Quote_Request();
-        $request->setDestCountryId($shippingData['country_id']);
-        $request->setDestRegionId($shippingData['region_id']);
-        $request->setDestPostcode($shippingData['zip']);
+        $request->setDestCountryId($shippingAddress->getCountryId());
+        $request->setDestRegionId($shippingAddress->getRegionId());
+        $request->setDestPostcode($shippingAddress->getPostcode());
         $request->setOrderSubtotal($subtotal[0]['value']);
         $request->setPackageWeight($weight[0]['value']);
 
