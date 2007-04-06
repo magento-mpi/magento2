@@ -2,7 +2,7 @@
 
 class Varien_Simplexml_Element extends SimpleXMLElement 
 {
-    private $_parent = null;
+    protected $_parent = null;
     
     public function setParent($element)
     {
