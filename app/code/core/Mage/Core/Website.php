@@ -18,4 +18,14 @@ class Mage_Core_Website
     {
         return 1;
     }
+
+    public function getDomain()
+    {
+        return 'base';
+    }
+
+    public function getLanguage()
+    {
+        return 'en';
+    }
 }

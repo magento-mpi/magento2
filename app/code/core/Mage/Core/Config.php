@@ -499,4 +499,25 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
     
+    /**
+     * Get domain configuration
+     *
+     * @param   stting $name
+     * @return  Varien_Simplexml_Object
+     */
+    public function getDomain($name)
+    {
+        return $this->getXml()->domains->$name;
+    }   
+
+    /**
+     * Get curent domain configuration
+     *
+     * @return  Varien_Simplexml_Object
+     */
+    public function getCurrentDomain()
+    {
+        return $this->getDomain(Mage::registry('website')->getDomain());
+    }   
+
 }

@@ -189,6 +189,7 @@
       </load>
     </Mage_Core>
   </modules>
+  
   <global>
     <resourceConnectionTypes extends="/config/modules/*/load/*/resourceConnectionTypes" />
     <resources extends="/config/modules/*/load/*/resources" />
@@ -204,4 +205,12 @@
       <dataInputs extends="/config/modules/*/load/admin/dataInputs" />
     </admin>
   </global>
+
+  <domains>
+    <base>
+        <defaultCountry>223</defaultCountry>
+        <allowCountries>223,220</allowCountries>
+        <currency>1</currency>
+    </base>
+  </domains>
 </config>

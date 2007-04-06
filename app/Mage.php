@@ -322,7 +322,7 @@ final class Mage {
             $timers = Varien_Profiler::getCumulativeTimer();
             foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
             echo '</table>';
-			*/
+            */
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             
