@@ -8,7 +8,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Resource_Model_Collection 
+class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Resource_Model_Db_Collection 
 {
     protected $_productTable;
     protected $_attributeTable;
@@ -79,7 +79,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Mage_Core_Resource_Model_Collection
+     * @return  Mage_Core_Resource_Model_Db_Collection
      */
     public function setOrder($field, $direction = 'desc')
     {

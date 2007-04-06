@@ -1,116 +1,133 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <Mage_Sales>
-      <version>0.1.1</version>
-      <depends>
-        <Mage_Catalog />
-        <Mage_Customer />
-      </depends>
-      <load>
-        <all>
-          <resourceModels>
-            <sales>
-              <class>Mage_Sales_Resource_Model_Mysql4</class>
-              <entities>
-                <shipping_table>
+   <modules>
+      <Mage_Sales>
+         <version>0.1.1</version>
+
+         <depends>
+            <Mage_Catalog />
+
+            <Mage_Customer />
+         </depends>
+
+         <admin>
+            <controller>
+               <active>true</active>
+            </controller>
+         </admin>
+      </Mage_Sales>
+   </modules>
+
+   <global>
+      <resourceModels>
+         <sales>
+            <class>Mage_Sales_Resource_Model_Mysql4</class>
+
+            <entities>
+               <shipping_table>
                   <table>sales_shipping_table</table>
-                </shipping_table>
-              </entities>
+               </shipping_table>
+            </entities>
+         </sales>
+      </resourceModels>
+
+      <resources>
+         <sales_setup>
+            <connection use="core_setup" />
+         </sales_setup>
+
+         <sales_write>
+            <connection use="core_write" />
+         </sales_write>
+
+         <sales_read>
+            <connection use="core_read" />
+         </sales_read>
+      </resources>
+
+      <salesShippingRuleConditions>
+         <dest_country>
+            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Country</class>
+         </dest_country>
+
+         <dest_region>
+            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Region</class>
+         </dest_region>
+
+         <dest_zip>
+            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Zip</class>
+         </dest_zip>
+
+         <package_weight>
+            <class>Mage_Sales_Shipping_Rule_Condition_Package_Weight</class>
+         </package_weight>
+
+         <order_subtotal>
+            <class>Mage_Sales_Shipping_Rule_Condition_Order_Subtotal</class>
+         </order_subtotal>
+
+         <order_totalqty>
+            <class>Mage_Sales_Shipping_Rule_Condition_Order_Totalqty</class>
+         </order_totalqty>
+      </salesShippingRuleConditions>
+
+      <salesShippingRuleActions>
+         <vendor>
+            <class>Mage_Sales_Shipping_Rule_Action_Vendor</class>
+         </vendor>
+
+         <method>
+            <class>Mage_Sales_Shipping_Rule_Action_Method</class>
+         </method>
+      </salesShippingRuleActions>
+
+      <salesPayment>
+         <checkmo>
+            <class>Mage_Sales_Payment_Checkmo</class>
+         </checkmo>
+
+         <ccsave>
+            <class>Mage_Sales_Payment_Ccsave</class>
+         </ccsave>
+
+         <custbalance>
+            <class>Mage_Sales_Payment_Custbalance</class>
+         </custbalance>
+      </salesPayment>
+
+      <salesDiscount>
+         <coupon>
+            <class>Mage_Sales_Discount_Coupon</class>
+         </coupon>
+      </salesDiscount>
+
+      <salesTax>
+         <rule>
+            <class>Mage_Sales_Tax_Rule</class>
+         </rule>
+      </salesTax>
+   </global>
+
+   <admin>
+      <acl>
+         <resources>
+            <sales>
+               <orders />
             </sales>
-          </resourceModels>
-          <resources>
-            <sales_setup>
-              <connection use="core_setup" />
-            </sales_setup>
-            <sales_write>
-              <connection use="core_write" />
-            </sales_write>
-            <sales_read>
-              <connection use="core_read" />
-            </sales_read>
-          </resources>
-          <salesShippingRuleConditions>
-            <dest_country>
-              <class>Mage_Sales_Shipping_Rule_Condition_Dest_Country</class>
-            </dest_country>
-            <dest_region>
-              <class>Mage_Sales_Shipping_Rule_Condition_Dest_Region</class>
-            </dest_region>
-            <dest_zip>
-              <class>Mage_Sales_Shipping_Rule_Condition_Dest_Zip</class>
-            </dest_zip>
-            <package_weight>
-              <class>Mage_Sales_Shipping_Rule_Condition_Package_Weight</class>
-            </package_weight>
-            <order_subtotal>
-              <class>Mage_Sales_Shipping_Rule_Condition_Order_Subtotal</class>
-            </order_subtotal>
-            <order_totalqty>
-              <class>Mage_Sales_Shipping_Rule_Condition_Order_Totalqty</class>
-            </order_totalqty>
-          </salesShippingRuleConditions>
-          <salesShippingRuleActions>
-            <vendor>
-              <class>Mage_Sales_Shipping_Rule_Action_Vendor</class>
-            </vendor>
-            <method>
-              <class>Mage_Sales_Shipping_Rule_Action_Method</class>
-            </method>
-          </salesShippingRuleActions>
-          <salesPayment>
-            <checkmo>
-              <class>Mage_Sales_Payment_Checkmo</class>
-            </checkmo>
-            <ccsave>
-              <class>Mage_Sales_Payment_Ccsave</class>
-            </ccsave>
-            <custbalance>
-              <class>Mage_Sales_Payment_Custbalance</class>
-            </custbalance>
-          </salesPayment>
-          <salesDiscount>
-            <coupon>
-              <class>Mage_Sales_Discount_Coupon</class>
-            </coupon>
-          </salesDiscount>
-          <salesTax>
-            <rule>
-              <class>Mage_Sales_Tax_Rule</class>
-            </rule>
-          </salesTax>
-        </all>
-        <admin>
-          <controller>
-            <active>true</active>
-          </controller>
-          <acl>
-            <resources>
-              <sales>
-                <orders />
-              </sales>
-            </resources>
-          </acl>
-          <layouts>
-            <default>
-              <updates>
-                <sales>
+         </resources>
+      </acl>
+
+      <layouts>
+         <default>
+            <updates>
+               <sales>
                   <module>Mage_Sales</module>
+
                   <file>Admin/initLayout.xml</file>
-                </sales>
-              </updates>
-            </default>
-          </layouts>
-        </admin>
-      </load>
-    </Mage_Sales>
-  </modules>
-  <global>
-    <salesDiscount extends="/config/modules/*/load/all/salesDiscount" />
-    <salesShippingVendors extends="/config/modules/*/load/all/salesShippingVendors" />
-    <salesShippingRuleConditions extends="/config/modules/*/load/all/salesShippingRuleConditions" />
-    <salesShippingRuleActions extends="/config/modules/*/load/all/salesShippingRuleActions" />
-    <salesPayment extends="/config/modules/*/load/all/salesPayment" />
-    <salesTax extends="/config/modules/*/load/all/salesTax" />
-  </global>
+               </sales>
+            </updates>
+         </default>
+      </layouts>
+   </admin>
 </config>
+

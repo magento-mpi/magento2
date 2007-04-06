@@ -1,59 +1,71 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Core>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Core>
+   <modules>
+      <Mage_Core>
+         <active>true</active>
 
-        <Mage_Directory>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Directory>
+         <codePool>core</codePool>
+      </Mage_Core>
 
-        <Mage_Auth>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Auth>
+      <Mage_Directory>
+         <active>true</active>
 
-        <Mage_Page>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Page>
+         <codePool>core</codePool>
+      </Mage_Directory>
 
-        <Mage_Customer>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Customer>
+      <Mage_Auth>
+         <active>true</active>
 
-        <Mage_Catalog>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Catalog>
+         <codePool>core</codePool>
+      </Mage_Auth>
 
-        <Mage_Cart>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Cart>
+      <Mage_Page>
+         <active>true</active>
 
-        <Mage_Sales>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Sales>
+         <codePool>core</codePool>
+      </Mage_Page>
 
-        <Mage_Checkout>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Checkout>
-        
-        <Mage_Shiptable>
-        	<active>true</active>
-        	<codePool>core</codePool>
-        </Mage_Shiptable>
-        
-        <Mage_Usa>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Usa>
-    </modules>
+      <Mage_Customer>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Customer>
+
+      <Mage_Catalog>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Catalog>
+
+      <Mage_Cart>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Cart>
+
+      <Mage_Sales>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Sales>
+
+      <Mage_Checkout>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Checkout>
+
+      <Mage_Shiptable>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Shiptable>
+
+      <Mage_Usa>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Usa>
+   </modules>
 </config>
+

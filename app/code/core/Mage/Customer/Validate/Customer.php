@@ -24,7 +24,7 @@ class Mage_Customer_Validate_Customer extends Mage_Core_Validate
         $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
         
         $customerModel = Mage::getResourceModel('customer', 'customer');
-        $customer = $customerModel->getByEmail($arrData['customer_email']);
+        $customer = $customerModel->getByEmail($arrData['email']);
         if ($customer->getCustomer_Id()) {
             $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
             return false;

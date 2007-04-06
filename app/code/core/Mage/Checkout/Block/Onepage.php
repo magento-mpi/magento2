@@ -92,10 +92,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         if (Mage_Customer_Front::getCustomerId()) {
 
             $addresses = new Mage_Customer_Address_Collection();
-            $addresses->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
-                ->load()
-                ->getItems();
-            $block->assign('addresses', $addresses);
+            $addresses->filterByCustomerId(Mage_Customer_Front::getCustomerId());
+            $addresses->load();
+            $block->assign('addresses', $addresses->getAll());
             if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
                 $address = new Mage_Customer_Address($default_address_id);
             }
@@ -138,10 +137,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         if (Mage_Customer_Front::getCustomerId()) {
 
             $addresses = new Mage_Customer_Address_Collection();
-            $addresses->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
-                ->load()
-                ->getItems();
-            $block->assign('addresses', $addresses);
+            $addresses->filterByCustomerId(Mage_Customer_Front::getCustomerId());
+            $addresses->load();
+            $block->assign('addresses', $addresses->getAll());
             if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
                 $address = new Mage_Customer_Address($default_address_id);
             }

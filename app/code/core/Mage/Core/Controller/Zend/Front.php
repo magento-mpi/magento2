@@ -65,8 +65,8 @@ class Mage_Core_Controller_Zend_Front {
             Mage::exception('Argument suppose to be module name or module info object');
         }
         if ('true'!==(string)$modInfo->active
-        || empty($modInfo->load->front->controller->active)
-        || 'true'!==(string)$modInfo->load->front->controller->active) {
+        || empty($modInfo->front->controller->active)
+        || 'true'!==(string)$modInfo->front->controller->active) {
             return false;
         }
         
@@ -75,13 +75,13 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $name), strtolower($name));
         
         
-        if (!empty($modInfo->load->front->controller->default) 
-            && 'true'===(string)$modInfo->load->front->controller->default) {
+        if (!empty($modInfo->front->controller->default) 
+            && 'true'===(string)$modInfo->front->controller->default) {
             $this->_defaultModule = $nameLower;
         }
         
-        if (strcasecmp((string)$modInfo->load->front->controller->frontName, $name)!==0) {
-            $routeMatch = ((string)$modInfo->load->front->controller->frontName).'/:controller/:action/*';
+        if (strcasecmp((string)$modInfo->front->controller->frontName, $name)!==0) {
+            $routeMatch = ((string)$modInfo->front->controller->frontName).'/:controller/:action/*';
             $route = new Zend_Controller_Router_Route($routeMatch, array('module'=>$nameLower, 'controller'=>'index', 'action'=>'index'));
             $this->_front->getRouter()->addRoute($name, $route);
         }

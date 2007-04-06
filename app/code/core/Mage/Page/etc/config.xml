@@ -1,54 +1,67 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <Mage_Page>
-      <version>0.1.1</version>
-      <depends>
-        <Mage_Auth />
-      </depends>
-      <load>
-        <all>
-          <resources>
-            <page_setup>
-              <connection use="core_setup" />
-            </page_setup>
-            <page_write>
-              <connection use="core_write" />
-            </page_write>
-            <page_read>
-              <connection use="core_read" />
-            </page_read>
-          </resources>
-        </all>
-        <front>
-          <controller>
-            <active>true</active>
-            <frontName>page</frontName>
-          </controller>
-          <layouts>
-            <default>
-              <updates>
-                <page>
+   <modules>
+      <Mage_Page>
+         <version>0.1.1</version>
+
+         <depends>
+            <Mage_Auth />
+         </depends>
+
+         <front>
+            <controller>
+               <active>true</active>
+
+               <frontName>page</frontName>
+            </controller>
+         </front>
+
+         <admin>
+            <controller>
+               <active>true</active>
+            </controller>
+         </admin>
+      </Mage_Page>
+   </modules>
+
+   <global>
+      <resources>
+         <page_setup>
+            <connection use="core_setup" />
+         </page_setup>
+
+         <page_write>
+            <connection use="core_write" />
+         </page_write>
+
+         <page_read>
+            <connection use="core_read" />
+         </page_read>
+      </resources>
+   </global>
+
+   <front>
+      <layouts>
+         <default>
+            <updates>
+               <page>
                   <module>Mage_Page</module>
+
                   <file>initLayout.xml</file>
-                </page>
-              </updates>
-            </default>
-          </layouts>
-        </front>
-        <admin>
-          <controller>
-            <active>true</active>
-          </controller>
-          <acl>
-            <resources>
-              <layouts>
-                <manage />
-              </layouts>
-            </resources>
-          </acl>
-        </admin>
-      </load>
-    </Mage_Page>
-  </modules>
+               </page>
+            </updates>
+         </default>
+      </layouts>
+   </front>
+
+   <admin>
+      <acl>
+         <resources>
+            <layouts>
+               <manage />
+            </layouts>
+         </resources>
+      </acl>
+   </admin>
 </config>
+

@@ -14,7 +14,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Resource
     public function __construct() 
     {
         parent::__construct();
-        $this->_addressTable = $this->_getTableName('customer', 'customer_address');
+        $this->_addressTable = $this->_getTableName('customer', 'address');
     }
     
      /**
@@ -68,5 +68,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Resource
         return $this->_read->fetchRow($sql, array('address_id'=>$rowId));
     }    
     
-    
+    public function getCollection()
+    {
+        
+    }
 }

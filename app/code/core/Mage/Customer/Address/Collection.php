@@ -7,16 +7,28 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Address_Collection extends Mage_Core_Resource_Model_Collection
+class Mage_Customer_Address_Collection extends Mage_Core_Resource_Model_Db_Collection
 {
-    protected $_addressTable;
+    protected $_model = null;
     
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('customer'));
-        $this->_addressTable    = $this->_dbModel->getTableName('customer', 'customer_address');
-        $this->_sqlSelect->from($this->_addressTable);
-        
-        $this->setItemObjectClass('Mage_Customer_Address');
+        $this->_model = Mage::getResourceModel('customer', 'address_collection');
+    }
+    
+    public function getModel()
+    {
+        return $this->_model;
+    }
+    
+    public function load()
+    {
+        $this->_model->load();
+        return $this;
+    }
+    
+    public function getAll()
+    {
+        return $this->_model->getItems();
     }
 }

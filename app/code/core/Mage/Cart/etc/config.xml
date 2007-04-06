@@ -1,91 +1,113 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <Mage_Cart>
-      <version>0.1.6</version>
-      <depends>
-        <Mage_Catalog />
-        <Mage_Customer />
-      </depends>
-      <load>
-        <all>
-          <resourceModels>
-            <cart>
-              <class>Mage_Cart_Resource_Model_Mysql4</class>
-              <entities>
-                <cart>
+   <modules>
+      <Mage_Cart>
+         <version>0.1.6</version>
+
+         <depends>
+            <Mage_Catalog />
+
+            <Mage_Customer />
+         </depends>
+
+         <front>
+            <controller>
+               <active>true</active>
+
+               <frontName>cart</frontName>
+            </controller>
+         </front>
+      </Mage_Cart>
+   </modules>
+
+   <global>
+      <resourceModels>
+         <cart>
+            <class>Mage_Cart_Resource_Model_Mysql4</class>
+
+            <entities>
+               <cart>
                   <table>cart</table>
-                </cart>
-                <item>
+               </cart>
+
+               <item>
                   <table>cart_product</table>
-                </item>
-              </entities>
-            </cart>
-          </resourceModels>
-          <resources>
-            <cart_setup>
-              <connection use="core_setup" />
-            </cart_setup>
-            <cart_write>
-              <connection use="core_write" />
-            </cart_write>
-            <cart_read>
-              <connection use="core_read" />
-            </cart_read>
-          </resources>
-          <cartTotals>
-            <subtotal>
-              <class>Mage_Cart_Total_Subtotal</class>
-              <sortOrder>10</sortOrder>
-            </subtotal>
-            <discount>
-              <class>Mage_Cart_Total_Discount</class>
-              <sortOrder>20</sortOrder>
-            </discount>
-            <shipping>
-              <class>Mage_Cart_Total_Shipping</class>
-              <sortOrder>30</sortOrder>
-            </shipping>
-            <tax>
-              <class>Mage_Cart_Total_Tax</class>
-              <sortOrder>40</sortOrder>
-            </tax>
-            <grand>
-              <class>Mage_Cart_Total_Grand</class>
-              <sortOrder>100</sortOrder>
-            </grand>
-          </cartTotals>
-        </all>
-        <front>
-          <events>
-			<customerLogin>
-              <observers>
-                <auth>
-                  <class>Mage_Cart_Front</class>
-                  <method>registerCustomer</method>
-                </auth>
-              </observers>
-            </customerLogin>
-          </events>
-          <controller>
-            <active>true</active>
-            <frontName>cart</frontName>
-          </controller>
-          <layouts>
-            <default>
-              <updates>
-                <cart>
+               </item>
+            </entities>
+         </cart>
+      </resourceModels>
+
+      <resources>
+         <cart_setup>
+            <connection use="core_setup" />
+         </cart_setup>
+
+         <cart_write>
+            <connection use="core_write" />
+         </cart_write>
+
+         <cart_read>
+            <connection use="core_read" />
+         </cart_read>
+      </resources>
+
+      <cartTotals>
+         <subtotal>
+            <class>Mage_Cart_Total_Subtotal</class>
+
+            <sortOrder>10</sortOrder>
+         </subtotal>
+
+         <discount>
+            <class>Mage_Cart_Total_Discount</class>
+
+            <sortOrder>20</sortOrder>
+         </discount>
+
+         <shipping>
+            <class>Mage_Cart_Total_Shipping</class>
+
+            <sortOrder>30</sortOrder>
+         </shipping>
+
+         <tax>
+            <class>Mage_Cart_Total_Tax</class>
+
+            <sortOrder>40</sortOrder>
+         </tax>
+
+         <grand>
+            <class>Mage_Cart_Total_Grand</class>
+
+            <sortOrder>100</sortOrder>
+         </grand>
+      </cartTotals>
+   </global>
+
+   <front>
+      <layouts>
+         <default>
+            <updates>
+               <cart>
                   <module>Mage_Cart</module>
+
                   <file>initLayout.xml</file>
-                </cart>
-              </updates>
-            </default>
-          </layouts>
-        </front>
-      </load>
-    </Mage_Cart>
-  </modules>
-  <global>
-    <cartTotals extends="/config/modules/*/load/all/cartTotals" />
-  </global>
+               </cart>
+            </updates>
+         </default>
+      </layouts>
+
+      <events>
+         <customerLogin>
+            <observers>
+               <auth>
+                  <class>Mage_Cart_Front</class>
+
+                  <method>registerCustomer</method>
+               </auth>
+            </observers>
+         </customerLogin>
+      </events>
+   </front>
 </config>
+

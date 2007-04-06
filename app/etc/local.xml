@@ -1,44 +1,43 @@
 <?xml version="1.0"?>
 <config>
-    <modules>
-        <Mage_Core>
-            <load>
-                <all>
-                    <resources>
-                        <dev_setup>
-                            <connection>
-                                <type>mysqli</type>
-                                <host>localhost</host>
-                                <username>root</username>
-                                <password></password>
-                                <dbname>magenta</dbname>
-                            </connection>
-                        </dev_setup>
+   <global>
+      <resources>
+         <dev_setup>
+            <connection>
+               <type>mysqli</type>
 
-                        <dev_write>
-                            <connection extends="//dev_setup/connection">
-                                <type>mysql</type>
-                            </connection>
-                        </dev_write>
+               <host>localhost</host>
 
-                        <dev_read>
-                            <connection use="dev_write"/>
-                        </dev_read>
+               <username>root</username>
 
-                        <core_setup>
-                            <connection use="dev_setup"/>
-                        </core_setup>
+               <password></password>
 
-                        <core_write>
-                            <connection use="dev_write"/>
-                        </core_write>
+               <dbname>magenta</dbname>
+            </connection>
+         </dev_setup>
 
-                        <core_read>
-                            <connection use="dev_read"/>
-                        </core_read>
-                    </resources>
-                </all>
-            </load>
-        </Mage_Core>
-    </modules>
+         <dev_write>
+            <connection extends="//dev_setup/connection">
+               <type>mysql</type>
+            </connection>
+         </dev_write>
+
+         <dev_read>
+            <connection use="dev_write" />
+         </dev_read>
+
+         <core_setup>
+            <connection use="dev_setup" />
+         </core_setup>
+
+         <core_write>
+            <connection use="dev_write" />
+         </core_write>
+
+         <core_read>
+            <connection use="dev_read" />
+         </core_read>
+      </resources>
+   </global>
 </config>
+

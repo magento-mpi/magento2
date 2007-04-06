@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Region_Collection extends Mage_Core_Resource_Model_Collection
+class Mage_Directory_Region_Collection extends Mage_Core_Resource_Model_Db_Collection
 {
     public function __construct($lang='en') 
     {

@@ -69,8 +69,8 @@ class Mage_Core_Controller_Zend_Admin {
             Mage::exception('Argument suppose to be module name or module info object');
         }
         if ('true'!==(string)$modInfo->active 
-            || empty($modInfo->load->admin->controller->active) 
-            || 'true'!==(string)$modInfo->load->admin->controller->active) {
+            || empty($modInfo->admin->controller->active) 
+            || 'true'!==(string)$modInfo->admin->controller->active) {
             return false;
         }
 
@@ -80,8 +80,8 @@ class Mage_Core_Controller_Zend_Admin {
             $this->_front->addControllerDirectory($dir, strtolower($name));
         }
         
-        if (!empty($modInfo->load->admin->controller->default) 
-            && 'true'===(string)$modInfo->load->admin->controller->default) {
+        if (!empty($modInfo->admin->controller->default) 
+            && 'true'===(string)$modInfo->admin->controller->default) {
             $this->_defaultModule = strtolower($name);
         }
     }

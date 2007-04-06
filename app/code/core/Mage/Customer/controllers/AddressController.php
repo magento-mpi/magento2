@@ -28,13 +28,13 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         
         // Load addresses
         $addressCoolection = new Mage_Customer_Address_Collection();
-        $addressCoolection->addFilter('customer_id', (int) Mage_Customer_Front::getCustomerId(), 'and')
-            ->addFilter('without_default', 'address_id!=' . (int) $defaultAddressId, 'string')
+        $addressCoolection->filterByCustomerId(Mage_Customer_Front::getCustomerId())
+            ->filterByCondition('address_id!=' . (int) $defaultAddressId)
             ->load();
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
-            ->assign('addresses', $addressCoolection->getItems())
+            ->assign('addresses', $addressCoolection->getAll())
             ->assign('defaultAddress', $defaultAddress);
         
         Mage::getBlock('content')->append($block);

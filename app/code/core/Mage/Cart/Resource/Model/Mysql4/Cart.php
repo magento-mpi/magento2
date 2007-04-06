@@ -96,7 +96,8 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
         if (isset(Mage::registry('AUTH')->customer)) {
             $cartData['customer_id'] = Mage::registry('AUTH')->customer->customer_id;
         } else {
-            $cartData['uniq_code'] = md5(uniqid(rand(), true));
+            $token = md5(uniqid(rand(), true));
+            $cartData['uniq_code'] = $token;
             setcookie("cart_uniq_code", $token, time()+31104000, '/');
         }
         $cartData['create_date'] = new Zend_Db_Expr('NOW()');

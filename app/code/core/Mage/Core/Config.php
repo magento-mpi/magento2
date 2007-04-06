@@ -128,11 +128,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function loadFromDb()
     {
-        /*
-        $coreModel = (string)$this->_xml->modules->Mage_Core->load->all->models->core->class;
-        $className = $coreModel.'_Config';
-        $model = new $className();
-        */
         try{
             $model = $this->getResourceModelInstance('core', 'config');
             $model->updateXmlFromDb($this->_xml);
@@ -310,8 +305,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             
             switch ($type) {
                 default:
-                    if (isset($module->load->front->controller->frontName)) {
-                        $url .= '/'.$module->load->front->controller->frontName;
+                    if (isset($module->front->controller->frontName)) {
+                        $url .= '/'.$module->front->controller->frontName;
                     } else {
                         $url .= '/'.strtolower($moduleName);
                     }
@@ -343,7 +338,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function loadEventObservers($area)
     {
-        $events = $this->getXml()->global->$area->events->children();
+        $events = $this->getXml()->$area->events->children();
         foreach ($events as $event) {
             $eventName = $event->getName();
             $observers = $event->observers->children();
@@ -405,7 +400,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
         $modules = $this->getXml()->modules;
         foreach ($modules as $module) {
-            $area = $module->load->$areaName;
+            $area = $module->$areaName;
             if (empty($area)) {
                 continue;
             }

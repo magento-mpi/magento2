@@ -1,0 +1,1 @@
+alter table `shiptable_data` Engine = InnoDB;
