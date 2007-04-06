@@ -2,7 +2,7 @@
 
 class Varien_Simplexml_Config
 {
-    const SIMPLEXML_CLASS = 'Varien_Simplexml_Object';
+    const ELEMENT_CLASS = 'Varien_Simplexml_Object';
     const XPATH_EXTENDS = "//*[@extends]";
     
     /**
@@ -16,21 +16,21 @@ class Varien_Simplexml_Config
     protected $_cacheDir = null;
     protected $_cacheLoaded = false;
     
-    function __construct($sourceData='', $sourceType='') {
+    public function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
     }
     
-    function getConstant($const)
+    public function getConstant($const)
     {
         return constant(get_class($this).'::'.$const);
     }
     
-    function isCacheLoaded()
+    public function isCacheLoaded()
     {
         return $this->_cacheLoaded;
     }
     
-    function setXml($sourceData, $sourceType='') 
+    public function setXml($sourceData, $sourceType='') 
     {
         if (''===$sourceType) {
             if ($sourceData instanceof SimpleXMLElement) {
@@ -65,12 +65,12 @@ class Varien_Simplexml_Config
         }
     }
     
-    function getXml()
+    public function getXml()
     {
         return $this->_xml;
     }
     
-    function getXpath($xpath)
+    public function getXpath($xpath)
     {
         if (empty($this->_xml)) {
             return false;
@@ -83,7 +83,7 @@ class Varien_Simplexml_Config
         return $result;
     }
     
-    function loadFile($filePath)
+    public function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
             throw new Exception('Can not read xml file '.$filePath);
@@ -94,21 +94,21 @@ class Varien_Simplexml_Config
         return $xml;
     }
     
-    function loadString($string)
+    public function loadString($string)
     {
         $xml = simplexml_load_string($string, $this->getConstant('SIMPLEXML_CLASS'));
         
         return $xml;
     }
     
-    function loadDom($dom)
+    public function loadDom($dom)
     {
         $xml = simplexml_import_dom($dom, $this->getConstant('SIMPLEXML_CLASS'));
         
         return $xml;
     }
     
-    function setKeyValue($key, $value, $overwrite=true)
+    public function setKeyValue($key, $value, $overwrite=true)
     {
         $arr1 = explode('/', $key);
         $arr = array();
@@ -134,7 +134,7 @@ class Varien_Simplexml_Config
         return $this;
     }
     
-    function saveFile($filePath)
+    public function saveFile($filePath)
     {
         $xmlText = $this->_xml->asXml();
         file_put_contents($filePath, $xmlText);
@@ -142,7 +142,7 @@ class Varien_Simplexml_Config
         return true;
     }
 
-    function applyExtends()
+    public function applyExtends()
     {
         $targets = $this->getXpath($this->getConstant('XPATH_EXTENDS'));
         if (!$targets) {
@@ -163,23 +163,23 @@ class Varien_Simplexml_Config
         return true;
     }
     
-    function setCacheDir($dir)
+    public function setCacheDir($dir)
     {
         $this->_cacheDir = $dir;
     }
     
-    function setCacheKey($key)
+    public function setCacheKey($key)
     {
         $this->_cacheKey = $key;
         $this->_cacheStat = array();
     }
 
-    function addCacheStat($fileName)
+    public function addCacheStat($fileName)
     {
         $this->_cacheStat[$fileName] = filemtime($fileName);
     }
     
-    function getCacheFileName($key='')
+    public function getCacheFileName($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
@@ -188,7 +188,7 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.xml'; 
     }
     
-    function getCacheStatFileName($key='')
+    public function getCacheStatFileName($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
@@ -197,7 +197,7 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.stat'; 
     }
     
-    function loadCache($key='')
+    public function loadCache($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
@@ -231,7 +231,7 @@ class Varien_Simplexml_Config
         return false;
     }
     
-    function saveCache($key='')
+    public function saveCache($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;

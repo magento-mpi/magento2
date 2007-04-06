@@ -10,7 +10,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
      * SimpleXML nodes will be of this class
      *
      */
-    const SIMPLEXML_CLASS = 'Mage_Core_Layout_Element';
+    const ELEMENT_CLASS = 'Mage_Core_Layout_Element';
     
     /**
      * Initialize layout configuration for $id key

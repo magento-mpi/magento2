@@ -10,7 +10,7 @@
 
 class Mage_Core_Config extends Varien_Simplexml_Config
 {
-    const SIMPLEXML_CLASS = 'Mage_Core_Config_Element';
+    const ELEMENT_CLASS = 'Mage_Core_Config_Element';
     /**
      * Constructor
      *
