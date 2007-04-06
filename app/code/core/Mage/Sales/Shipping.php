@@ -67,7 +67,7 @@ class Mage_Sales_Shipping
 	    	$vendors = Mage::getConfig()->getGlobalConfig('salesShippingVendors')->children();
 
 	        foreach ($vendors as $vendor) {
-	            if ('true'!==(string)$vendor->active) {
+	            if (!$vendor->is('active')) {
 	                continue;
 	            }
 	            $request->setVendor($vendor->getName());

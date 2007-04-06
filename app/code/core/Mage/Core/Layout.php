@@ -10,7 +10,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
      * SimpleXML nodes will be of this class
      *
      */
-    const SIMPLEXML_CLASS = 'Mage_Core_Layout_Object';
+    const SIMPLEXML_CLASS = 'Mage_Core_Layout_Element';
     
     /**
      * Initialize layout configuration for $id key
@@ -32,7 +32,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
     /**
      * Load layout configuration update from file
      *
-     * @param Varien_Simplexml_Object $args
+     * @param Varien_Simplexml_Element $args
      */
     public function loadUpdate($args)
     {
@@ -69,7 +69,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
     /**
      * Create layout blocks from configuration
      *
-     * @param Mage_Core_Layout_Object|null $parent
+     * @param Mage_Core_Layout_Element|null $parent
      */
     public function createBlocks($parent=null)
     {

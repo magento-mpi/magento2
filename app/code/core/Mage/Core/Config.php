@@ -10,12 +10,7 @@
 
 class Mage_Core_Config extends Varien_Simplexml_Config
 {
-    /**
-     * Xpath for active modules. Used during compilation of cache config file
-     *
-     */
-    const XPATH_ACTIVE_MODULES = "/config/modules/*[active='true']";
-
+    const SIMPLEXML_CLASS = 'Mage_Core_Config_Element';
     /**
      * Constructor
      *
@@ -88,11 +83,14 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function loadModules()
     {
-        $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
+        $modules = $this->getXml()->modules->children();
         if (!$modules) {
             return false;
         }
         foreach ($modules as $module) {
+            if (!$module->is('active')) {
+                continue;
+            }
             $configFile = Mage::getBaseDir('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
             $this->addCacheStat($configFile);
             $moduleConfig = $this->loadFile($configFile);

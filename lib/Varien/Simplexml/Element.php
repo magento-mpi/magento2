@@ -1,6 +1,6 @@
 <?php
 
-class Varien_Simplexml_Object extends SimpleXMLElement 
+class Varien_Simplexml_Element extends SimpleXMLElement 
 {
     private $_parent = null;
     

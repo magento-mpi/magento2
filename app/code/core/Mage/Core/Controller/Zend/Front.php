@@ -61,12 +61,11 @@ class Mage_Core_Controller_Zend_Front {
         if (is_string($modInfo)) {
             $modInfo = Mage::getModule($modInfo);
         }
-        if (!$modInfo instanceof Varien_Simplexml_Object) {
+        if (!$modInfo instanceof Varien_Simplexml_Element) {
             Mage::exception('Argument suppose to be module name or module info object');
         }
-        if ('true'!==(string)$modInfo->active
-        || empty($modInfo->front->controller->active)
-        || 'true'!==(string)$modInfo->front->controller->active) {
+        $controller = $modInfo->front->controller;
+        if (!$modInfo->is('active') || !isset($controller) || !$controller->is('active')) {
             return false;
         }
         
