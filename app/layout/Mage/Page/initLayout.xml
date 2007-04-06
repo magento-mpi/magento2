@@ -9,6 +9,18 @@
                 <action method="setTagName"><tagName>title</tagName></action>
                 <action method="setContents"><contents>Magenta Commerce</contents></action>
             </block>
+		    <block type="tag" name="head.icon">
+                <action method="setTagName"><tagName>link</tagName></action>
+                <action method="setTagParam"><name>rel</name><value>icon</value></action>
+                <action method="setTagParam"><name>href</name><value>/favicon.ico</value></action>
+                <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+            </block>            
+		    <block type="tag" name="head.shortcut_icon">
+                <action method="setTagName"><tagName>link</tagName></action>
+                <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
+                <action method="setTagParam"><name>href</name><value>/favicon.ico</value></action>
+                <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+            </block>            
             <block type="tag_js" name="head.js.prototype">
                 <action method="setSrc"><src>/prototype/prototype.js</src></action>
             </block>
