@@ -18,12 +18,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        $statusBlock =  Mage::createBlock('onepage_status', 'checkout.status');
+        $statusBlock =  Mage::createBlock('checkout_onepage_status', 'checkout.status');
             
         Mage::getBlock('left')->unsetChildren()
             ->insert($statusBlock);
             
-        $block = Mage::createBlock('onepage', 'checkout.onepage');
+        $block = Mage::createBlock('checkout_onepage', 'checkout.onepage');
         Mage::getBlock('content')->append($block);
     }
 
@@ -32,7 +32,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $statusBlock = Mage::createBlock('onepage_status', 'root');
+        $statusBlock = Mage::createBlock('checkout_onepage_status', 'root');
         $this->getResponse()->appendBody($statusBlock->toString());
     }
 

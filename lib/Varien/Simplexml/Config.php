@@ -89,21 +89,21 @@ class Varien_Simplexml_Config
             throw new Exception('Can not read xml file '.$filePath);
         }
 
-        $xml = simplexml_load_file($filePath, $this->getConstant('SIMPLEXML_CLASS'));
+        $xml = simplexml_load_file($filePath, $this->getConstant('ELEMENT_CLASS'));
         
         return $xml;
     }
     
     public function loadString($string)
     {
-        $xml = simplexml_load_string($string, $this->getConstant('SIMPLEXML_CLASS'));
+        $xml = simplexml_load_string($string, $this->getConstant('ELEMENT_CLASS'));
         
         return $xml;
     }
     
     public function loadDom($dom)
     {
-        $xml = simplexml_import_dom($dom, $this->getConstant('SIMPLEXML_CLASS'));
+        $xml = simplexml_import_dom($dom, $this->getConstant('ELEMENT_CLASS'));
         
         return $xml;
     }

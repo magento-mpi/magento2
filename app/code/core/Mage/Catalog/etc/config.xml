@@ -199,21 +199,21 @@
       </priceRuleActions>
 
       <blockTypes>
-         <catalog_category_form>
+         <admin_catalog_category_form>
             <class>Mage_Catalog_Block_Admin_Category_Form</class>
-         </catalog_category_form>
+         </admin_catalog_category_form>
 
-         <catalog_product_create_option>
+         <admin_catalog_product_create_option>
             <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
-         </catalog_product_create_option>
+         </admin_catalog_product_create_option>
 
-         <catalog_product_form>
+         <admin_catalog_product_form>
             <class>Mage_Catalog_Block_Admin_Product_Form</class>
-         </catalog_product_form>
+         </admin_catalog_product_form>
 
-         <catalog_product_card>
+         <admin_catalog_product_card>
             <class>Mage_Catalog_Block_Admin_Product_Card</class>
-         </catalog_product_card>
+         </admin_catalog_product_card>
 
          <catalog_category_tree>
             <class>Mage_Catalog_Block_Category_Tree</class>

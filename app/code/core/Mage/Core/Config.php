@@ -52,9 +52,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $this->applyExtends();
 
         $this->loadFromDb();
-
-        #$this->removeExtraSource();
-
+        
         $this->saveCache();
 
         return true;
@@ -131,25 +129,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         catch (Exception $e) {
             
         }
-    }
-
-    /**
-     * Remove extra information from cached config to improve performance.
-     * 
-     * not used
-     *
-     * @return boolean
-     */
-    function removeExtraSource()
-    {
-        $modules = $this->getXpath(self::XPATH_ACTIVE_MODULES);
-        if (!$modules) {
-            return false;
-        }
-        foreach ($modules as $module) {
-            unset($module->load);
-        }
-        return true;
     }
     
     /**

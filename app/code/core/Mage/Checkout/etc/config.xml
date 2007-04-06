@@ -20,13 +20,13 @@
    <global>
    
       <blockTypes>
-         <onepage>
+         <checkout_onepage>
             <class>Mage_Checkout_Block_Onepage</class>
-         </onepage>
+         </checkout_onepage>
 
-         <onepage_status>
+         <checkout_onepage_status>
             <class>Mage_Checkout_Block_Onepage_Status</class>
-         </onepage_status>
+         </checkout_onepage_status>
       </blockTypes>
 
       <resourceModels>

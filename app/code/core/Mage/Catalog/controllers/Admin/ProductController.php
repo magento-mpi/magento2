@@ -9,7 +9,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function newoptionAction()
     {
-        $form = Mage::createBlock('catalog_product_create_option', 'product_create_option');
+        $form = Mage::createBlock('admin_catalog_product_create_option', 'product_create_option');
         $this->getResponse()->setBody($form->toString());
         //echo '<form id="test" action="'.Mage::getBaseUrl().'/mage_catalog/product/card/">test form<input type="text" name="set" value="1"></form>';
     }
@@ -20,7 +20,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
-        $card = Mage::createBlock('catalog_product_card', 'product_card');
+        $card = Mage::createBlock('admin_catalog_product_card', 'product_card');
         $this->getResponse()->setBody($card->toJson());
     }
     
@@ -30,7 +30,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function formAction()
     {
-        $form = Mage::createBlock('catalog_product_form', 'product_form');
+        $form = Mage::createBlock('admin_catalog_product_form', 'product_form');
         $this->getResponse()->setBody($form->toString());
     }
     
