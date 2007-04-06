@@ -50,22 +50,25 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Shipping_Vendor_Abstract
         }
         
         if ($request->getUpsPickup()) {
-            $this->_data['pickup'] = $this->getCode('pickup', $request->getUpsPickup());
+            $pickup = $request->getUpsPickup();
         } else {
-            $this->_data['pickup'] = $this->getCode('pickup', (string)$defaults->pickup);
+            $pickup = (string)$defaults->pickup;
         }
+        $this->_data['pickup'] = $this->getCode('pickup', $pickup);
         
         if ($request->getUpsContainer()) {
-            $this->_data['container'] = $this->getCode('container', $request->getUpsContainer());
+            $container = $request->getUpsContainer();
         } else {
-            $this->_data['container'] = $this->getCode('container', (string)$defaults->container);
+            $container = (string)$defaults->container;
         }
+        $this->_data['container'] = $this->getCode('container', $container);
         
         if ($request->getUpsDestType()) {
-            $this->_data['destType'] = $this->getCode('destType', $request->getUpsDestType());
+            $destType = $request->getUpsDestType();
         } else {
-            $this->_data['destType'] = $this->getCode('destType', (string)$defaults->destType);
+            $destType = (string)$defaults->destType;
         }
+        $this->_data['destType'] = $this->getCode('destType', $destType);
                 
         $this->_data['origCountry'] = 'US';#Mage::registry('directory')->getCountryById($request->getOrigCountry(), 'iso_code_2');
         $this->_data['origPostal'] = $request->getOrigPostcode();

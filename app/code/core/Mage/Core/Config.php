@@ -380,7 +380,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 continue;
             }
             $load = $area->useModuleSteps;
-            if (empty($load) || 'true'!==(string)$load) {
+            if (!$area->is('useModuleSteps')) {
                 continue;
             }
             $callback = array($moduleName.'_Module_'.ucwords($areaName), $methodName);

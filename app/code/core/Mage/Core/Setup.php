@@ -128,12 +128,12 @@ class Mage_Core_Setup
             if ($connConfig) {
                 
                 // Get resource type !!! TODO
-                $resType = (string)$connConfig->type;
+                $resModel = (string)$connConfig->model;
 
-                if ($resType && isset($resInfo[$resType])) {
+                if ($resModel && isset($resInfo[$resModel])) {
                     
                     // Get SQL files name 
-                    $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resType]);
+                    $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resModel]);
                     foreach ($arrFiles as $fileName) {
                         $sqlFile = Mage::getBaseDir('sql', $this->_module->getName()).DS.$resName.DS.$fileName;
                         $sql = file_get_contents($sqlFile);

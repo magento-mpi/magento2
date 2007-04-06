@@ -2,64 +2,67 @@
 <config>
    <modules>
       <Mage_Usa>
-         <load>
-            <all>
-               <resourceModels>
-                  <usa>
-                     <class>Mage_Usa_Resource_Model_Mysql4</class>
-                  </usa>
-               </resourceModels>
-
-               <salesShippingVendors>
-                  <ups>
-                     <active>true</active>
-
-                     <class>Mage_Usa_Shipping_Vendor_Ups</class>
-
-                     <defaults>
-                        <title>United Parcel Service</title>
-
-                        <pickup>CC</pickup>
-
-                        <container>CP</container>
-
-                        <destType>RES</destType>
-
-                        <handling>0</handling>
-
-                        <cgi>
-                           <proto>http</proto>
-
-                           <host>www.ups.com</host>
-
-                           <port>80</port>
-
-                           <url>/using/services/rave/qcostcgi.cgi</url>
-                        </cgi>
-                     </defaults>
-                  </ups>
-
-                  <usps>
-                     <class>Mage_Usa_Shipping_Vendor_Usps</class>
-                  </usps>
-
-                  <fedex>
-                     <class>Mage_Usa_Shipping_Vendor_Fedex</class>
-                  </fedex>
-
-                  <dhl>
-                     <class>Mage_Usa_Shipping_Vendor_Dhl</class>
-                  </dhl>
-               </salesShippingVendors>
-
-               <salesTax>
-                  <uszipcode>
-                     <class>Mage_Usa_Tax_Uszipcode</class>
-                  </uszipcode>
-               </salesTax>
-            </all>
-         </load>
+         <version>0.1.0</version>
+         <depends>
+         	<Mage_Sales/>
+         </depends>
       </Mage_Usa>
    </modules>
+
+   <global>
+      <resourceModels>
+         <usa>
+            <class>Mage_Usa_Resource_Model_Mysql4</class>
+         </usa>
+      </resourceModels>
+
+      <salesShippingVendors>
+         <ups>
+            <active>true</active>
+
+            <class>Mage_Usa_Shipping_Vendor_Ups</class>
+
+            <defaults>
+               <title>United Parcel Service</title>
+
+               <pickup>CC</pickup>
+
+               <container>CP</container>
+
+               <destType>RES</destType>
+
+               <handling>0</handling>
+
+               <cgi>
+                  <proto>http</proto>
+
+                  <host>www.ups.com</host>
+
+                  <port>80</port>
+
+                  <url>/using/services/rave/qcostcgi.cgi</url>
+               </cgi>
+            </defaults>
+         </ups>
+
+         <usps>
+            <class>Mage_Usa_Shipping_Vendor_Usps</class>
+         </usps>
+
+         <fedex>
+            <class>Mage_Usa_Shipping_Vendor_Fedex</class>
+         </fedex>
+
+         <dhl>
+            <class>Mage_Usa_Shipping_Vendor_Dhl</class>
+         </dhl>
+      </salesShippingVendors>
+
+      <salesTax>
+         <uszipcode>
+            <class>Mage_Usa_Tax_Uszipcode</class>
+         </uszipcode>
+      </salesTax>
+   </global>
 </config>
 

@@ -79,9 +79,8 @@ class Mage_Core_Controller_Zend_Admin {
             $this->_front->addControllerDirectory($dir, strtolower($name));
         }
         
-        if (!empty($modInfo->admin->controller->default) 
-            && 'true'===(string)$modInfo->admin->controller->default) {
-            $this->_defaultModule = strtolower($name);
+        if ($modInfo->admin->controller->is('default')) {
+            $this->_defaultModule = $nameLower;
         }
     }
 

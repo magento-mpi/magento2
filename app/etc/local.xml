@@ -4,14 +4,12 @@
       <resources>
          <dev_setup>
             <connection>
+               <model>mysql4</model>
+
                <type>mysqli</type>
-
                <host>localhost</host>
-
                <username>root</username>
-
                <password/>
-
                <dbname>magenta</dbname>
             </connection>
          </dev_setup>

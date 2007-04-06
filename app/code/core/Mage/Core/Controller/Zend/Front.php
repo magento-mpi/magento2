@@ -74,8 +74,7 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $name), strtolower($name));
         
         
-        if (!empty($modInfo->front->controller->default) 
-            && 'true'===(string)$modInfo->front->controller->default) {
+        if ($modInfo->front->controller->is('default')) {
             $this->_defaultModule = $nameLower;
         }
         
