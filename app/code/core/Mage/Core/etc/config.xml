@@ -14,20 +14,24 @@
 
    <global>
       <resourceConnectionTypes>
-         <mysql>
-            <class>Mage_Core_Resource_Type_Db_Mysql</class>
-         </mysql>
+         <pdo_mysql>
+            <class>Mage_Core_Resource_Type_Db_Pdo_Mysql</class>
+         </pdo_mysql>
 
          <mysqli>
             <class>Mage_Core_Resource_Type_Db_Mysqli</class>
          </mysqli>
+         
+         <mysqli_setup>
+            <class>Mage_Core_Resource_Type_Db_Mysqli_Setup</class>
+         </mysqli_setup>
       </resourceConnectionTypes>
       
       <resources>
          <core_setup>
              <setup>
                 <module>Mage_Core</module>
-                <version>0.1.5</version>
+                <version>0.1.6</version>
             </setup>
          </core_setup>
       </resources>

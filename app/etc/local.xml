@@ -6,7 +6,7 @@
             <connection>
                <model>mysql4</model>
 
-               <type>mysqli</type>
+               <type>mysqli_setup</type>
                <host>localhost</host>
                <username>root</username>
                <password/>
@@ -16,7 +16,7 @@
 
          <dev_write>
             <connection extends="//dev_setup/connection">
-               <type>mysql</type>
+               <type>pdo_mysql</type>
             </connection>
          </dev_write>
 

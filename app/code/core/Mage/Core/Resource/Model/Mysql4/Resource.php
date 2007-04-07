@@ -18,10 +18,9 @@ class Mage_Core_Resource_Model_Mysql4_Resource extends Mage_Core_Resource_Model_
 
         // if Core module not instaled
         try {
-            $dbVersion = $this->_read->fetchOne(
-                "select resource_db_version from $resTable where resource_name=?"
-               , array($resName)
-            );
+            $select = $this->_read->select()->from($resTable)
+                ->where($this->_read->quoteInto('resource_name=?', $resName));
+            $dbVersion = $this->_read->fetchOne($select);
         }
         catch (Exception $e){
             return false;

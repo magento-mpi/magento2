@@ -64,7 +64,7 @@ class Mage_Core_Layout_Element extends Varien_Simplexml_Element
         if (!empty($process)) {
             $moduleName = (string)$args->module;
             extract(Mage::getConfig()->getPathVars($moduleName));
-            $args = explode(',', $process);
+            $args = explode(' ', $process);
             foreach ($args as $argName) {
                 eval('$this->$argName = "'.addslashes((string)$this->$argName).'";');
             }

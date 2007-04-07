@@ -9,7 +9,10 @@
     <global>
         <resources>
             <cron_setup>
-                <version>0.1.0</version>
+                <setup>
+                    <module>Mage_Cron</module>
+                    <version>0.1.0</version>
+                </setup>
                 <connection><use>core_setup</use></connection>
             </cron_setup>
             

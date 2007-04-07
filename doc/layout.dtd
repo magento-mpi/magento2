@@ -1,0 +1,23 @@
+<!ELEMENT layoutUpdate (block | reference)*>
+
+<!ELEMENT block (action | block)*>
+<!ATTLIST block
+    type CDATA #REQUIRED
+    name CDATA #REQUIRED
+    as CDATA #IMPLIED
+    before CDATA #IMPLIED
+    after CDATA #IMPLIED
+    output CDATA #IMPLIED
+>
+
+<!ELEMENT action ANY>
+<!ATTLIST action
+    method CDATA #REQUIRED
+    json NMTOKENS #IMPLIED
+    process NMTOKENS #IMPLIED
+>
+
+<!ELEMENT reference (action | block)*>
+<!ATTLIST reference
+    name CDATA #REQUIRED
+>

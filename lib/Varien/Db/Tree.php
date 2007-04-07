@@ -70,7 +70,12 @@ class Varien_Db_Tree
 
             // save the connection
             $this->_db = $db;
-            $this->_db->getConnection()->setAttribute (PDO::ATTR_EMULATE_PREPARES, true);
+            $conn = $this->_db->getConnection();
+            if ($conn instanceof PDO) {
+                $conn->setAttribute (PDO::ATTR_EMULATE_PREPARES, true);
+            } elseif ($conn instanceof mysqli) {
+                //TODO: ???
+            }
         } else {
             throw new Varien_Db_Tree_Exception('db object is not set in config');
         }

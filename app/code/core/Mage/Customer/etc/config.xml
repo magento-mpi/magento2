@@ -131,29 +131,26 @@
          </action_postDispatch>
       </events>
    </front>
-
    <admin>
-      <admin>
-         <acl>
-            <resources>
-               <customers>
-                  <manage />
-               </customers>
-            </resources>
-         </acl>
+     <acl>
+        <resources>
+           <customers>
+              <manage />
+           </customers>
+        </resources>
+     </acl>
 
-         <layouts>
-            <default>
-               <updates>
-                  <customer>
-                     <module>Mage_Customer</module>
+     <layouts>
+        <default>
+           <updates>
+              <customer>
+                 <module>Mage_Customer</module>
 
-                     <file>Admin/initLayout.xml</file>
-                  </customer>
-               </updates>
-            </default>
-         </layouts>
-      </admin>
+                 <file>Admin/initLayout.xml</file>
+              </customer>
+           </updates>
+        </default>
+     </layouts>
    </admin>
 </config>
 

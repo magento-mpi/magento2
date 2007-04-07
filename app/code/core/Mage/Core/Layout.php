@@ -124,7 +124,7 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
                     $args = (array)$node->children();
                     unset($args['@attributes']);
                     if (isset($node['json'])) {
-                        $json = explode(',', (string)$node['json']);
+                        $json = explode(' ', (string)$node['json']);
                         foreach ($json as $arg) {
                             $args[$arg] = Zend_Json::decode($args[$arg]);
                         }

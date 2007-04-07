@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Resource_Type_Db_Mysql extends Mage_Core_Resource_Type_Db
+class Mage_Core_Resource_Type_Db_Pdo_Mysql extends Mage_Core_Resource_Type_Db
 {
     public function getConnection($config)
     {
