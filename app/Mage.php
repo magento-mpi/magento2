@@ -295,7 +295,7 @@ final class Mage {
 
         // check modules db
         Varien_Profiler::setTimer('applyDbUpdates');
-        Mage::getConfig()->getModuleSetup()->applyAllDbUpdates();
+        Mage_Core_Resource_Setup::applyAllUpdates();
         Varien_Profiler::setTimer('applyDbUpdates', true);
     }
 

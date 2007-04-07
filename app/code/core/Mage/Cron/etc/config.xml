@@ -2,13 +2,14 @@
 <config>
     <modules>
         <Mage_Cron>
-            <version>0.1.0</version>
+
         </Mage_Cron>
     </modules>
     
     <global>
         <resources>
             <cron_setup>
+                <version>0.1.0</version>
                 <connection><use>core_setup</use></connection>
             </cron_setup>
             

@@ -2,8 +2,6 @@
 <config>
    <modules>
       <Mage_Cart>
-         <version>0.1.6</version>
-
          <depends>
             <Mage_Catalog />
 
@@ -39,6 +37,10 @@
 
       <resources>
          <cart_setup>
+            <setup>
+                <module>Mage_Cart</module>
+                <version>0.1.6</version>
+            </setup>
             <connection><use>core_setup</use></connection>
          </cart_setup>
 

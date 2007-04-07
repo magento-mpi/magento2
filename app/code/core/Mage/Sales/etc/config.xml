@@ -2,8 +2,6 @@
 <config>
    <modules>
       <Mage_Sales>
-         <version>0.1.1</version>
-
          <depends>
             <Mage_Catalog />
 
@@ -33,6 +31,10 @@
 
       <resources>
          <sales_setup>
+            <setup>
+                <module>Mage_Sales</module>
+                <version>0.1.1</version>
+            </setup>
             <connection><use>core_setup</use></connection>
          </sales_setup>
 

@@ -64,7 +64,7 @@ class Mage_Sales_Shipping
     	}
 
     	if (!$request->limitVendor) { 
-	    	$vendors = Mage::getConfig()->getGlobalConfig('salesShippingVendors')->children();
+	    	$vendors = Mage::getConfig()->getGlobalCollection('salesShippingVendors')->children();
 
 	        foreach ($vendors as $vendor) {
 	            if (!$vendor->is('active')) {

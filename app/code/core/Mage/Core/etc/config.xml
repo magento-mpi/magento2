@@ -2,8 +2,6 @@
 <config>
    <modules>
       <Mage_Core>
-         <version>0.1.5</version>
-
          <admin>
             <controller>
                <active>true</active>
@@ -24,6 +22,15 @@
             <class>Mage_Core_Resource_Type_Db_Mysqli</class>
          </mysqli>
       </resourceConnectionTypes>
+      
+      <resources>
+         <core_setup>
+             <setup>
+                <module>Mage_Core</module>
+                <version>0.1.5</version>
+            </setup>
+         </core_setup>
+      </resources>
 
       <resourceModels>
          <core>
@@ -41,6 +48,10 @@
                <language>
                   <table>core_language</table>
                </language>
+
+               <resource>
+                  <table>core_resource</table>
+               </resource>
 
                <module>
                   <table>core_module</table>

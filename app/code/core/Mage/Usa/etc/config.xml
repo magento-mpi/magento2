@@ -2,7 +2,6 @@
 <config>
    <modules>
       <Mage_Usa>
-         <version>0.1.0</version>
          <depends>
          	<Mage_Sales/>
          </depends>

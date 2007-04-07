@@ -51,7 +51,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
 	
 	function applyDbUpdatesAction()
 	{
-	    Mage::getConfig()->applyDbUpdates();
+	    Mage_Core_Resource_Setup::applyAllUpdates();
 	    echo "Successfully updated.";
 	}
 }

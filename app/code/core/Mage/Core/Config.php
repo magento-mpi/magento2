@@ -138,7 +138,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param   string $name
      * @return  array|Varien_Simplexml_Object
      */
-    function getGlobalConfig($collection, $name='')
+    function getGlobalCollection($collection, $name='')
     {
         $config = Mage::getConfig()->getXml()->global->$collection;
         if (''===$name) {
@@ -159,7 +159,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function getGlobalInstance($collection, $name)
     {
-        $x = $this->getGlobalConfig($collection, $name);
+        $x = $this->getGlobalCollection($collection, $name);
         if (!$x) {
             return false;
         }

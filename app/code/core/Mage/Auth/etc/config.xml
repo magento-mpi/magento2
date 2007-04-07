@@ -2,8 +2,6 @@
 <config>
    <modules>
       <Mage_Auth>
-         <version>0.1.2</version>
-
          <depends>
             <Mage_Core />
          </depends>
@@ -21,6 +19,10 @@
    <global>
       <resources>
          <auth_setup>
+            <setup>
+                <module>Mage_Auth</module>
+                <version>0.1.2</version>
+            </setup>
             <connection><use>core_setup</use></connection>
          </auth_setup>
 
