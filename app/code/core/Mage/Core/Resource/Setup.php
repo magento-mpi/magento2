@@ -9,12 +9,16 @@ class Mage_Core_Resource_Setup
     protected $_resourceName = null;
     protected $_resourceConfig = null;
     protected $_connectionConfig = null;
+    protected $_moduleConfig = null;
     
     public function __construct($resourceName)
     {
+        $config = Mage::getConfig();
         $this->_resourceName = $resourceName;
-        $this->_resourceConfig = Mage::getConfig()->getResourceConfig($resourceName);
-        $this->_connectionConfig = Mage::getConfig()->getResourceConnectionConfig($resourceName);
+        $this->_resourceConfig = $config->getResourceConfig($resourceName);
+        $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
+        $modName = (string)$this->_resourceConfig->setup->module;
+        $this->_moduleConfig = $config->getModule($modName);
     }
 
     /**
@@ -42,7 +46,7 @@ class Mage_Core_Resource_Setup
     public function applyUpdates()
     {
         $dbVer = Mage::getResourceModel('core', 'Resource')->getDbVersion($this->_resourceName);
-        $configVer = (string)$this->_resourceConfig->setup->version;
+        $configVer = (string)$this->_moduleConfig->version;
 
         // Module is installed
         if ($dbVer!==false) {
@@ -133,7 +137,7 @@ class Mage_Core_Resource_Setup
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
         $resModel = (string)$this->_connectionConfig->model;
-        $modName = (string)$this->_resourceConfig->setup->module;
+        $modName = (string)$this->_moduleConfig->getName();
         
         $sqlFilesDir = Mage::getBaseDir('sql', $modName).DS.$this->_resourceName;
         if (!file_exists($sqlFilesDir)) {

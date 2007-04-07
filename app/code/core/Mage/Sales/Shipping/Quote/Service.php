@@ -9,7 +9,7 @@
  * - price: $9.40 (cost+handling)
  * - cost: $8.00
  */
-class Mage_Sales_Shipping_Quote_Service extends Varien_DataObject
+class Mage_Sales_Shipping_Quote_Service extends Varien_Data_Object
 {
 
 }

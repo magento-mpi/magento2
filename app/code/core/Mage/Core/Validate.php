@@ -47,11 +47,11 @@ abstract class Mage_Core_Validate
     /**
      * Get valid data object
      *
-     * @return Varien_DataObject
+     * @return Varien_Data_Object
      */
     public function getDataObject()
     {
-        return new Varien_DataObject($this->_data);
+        return new Varien_Data_Object($this->_data);
     }
 
     /**

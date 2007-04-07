@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
+         <version>0.1.6</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -166,7 +167,6 @@
          <catalog_setup>
             <setup>
                 <module>Mage_Catalog</module>
-                <version>0.1.6</version>
             </setup>
             <connection><use>core_setup</use></connection>
          </catalog_setup>

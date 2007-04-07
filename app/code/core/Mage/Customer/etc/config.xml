@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Customer>
+         <version>0.1.6</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -81,7 +82,6 @@
          <customer_setup>
             <setup>
                 <module>Mage_Customer</module>
-                <version>0.1.5</version>
             </setup>
             <connection><use>core_setup</use></connection>
          </customer_setup>

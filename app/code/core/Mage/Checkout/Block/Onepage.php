@@ -101,7 +101,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         if (empty($address)) {
-            $address = new Varien_DataObject();
+            $address = new Varien_Data_Object();
         }
         
         $block->assign('address', $address);
@@ -146,7 +146,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         if (empty($address)) {
-            $address = new Varien_DataObject();
+            $address = new Varien_Data_Object();
         }
         
         $block->assign('address', $address);

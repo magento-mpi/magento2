@@ -27,6 +27,18 @@ class Mage_Customer_Address_Collection
         return $this;
     }
     
+    public function filterByCustomerId($customerId)
+    {
+        $this->_model->filterByCustomerId($customerId);
+        return $this;
+    }
+    
+    public function filterByCondition($condition)
+    {
+        $this->_model->filterByCondition($condition);
+        return $this;
+    }
+    
     public function getAll()
     {
         return $this->_model->getItems();

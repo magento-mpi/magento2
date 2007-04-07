@@ -23,7 +23,7 @@ class Mage_Customer_Resource_Model_Mysql4_Customer extends Mage_Customer_Resourc
      *
      * @param   string $username
      * @param   string $password
-     * @return  false || object
+     * @return  false|object
      */
     public function authenticate($username, $password)
     {
@@ -67,14 +67,14 @@ class Mage_Customer_Resource_Model_Mysql4_Customer extends Mage_Customer_Resourc
         );
         
         $sql = "SELECT * FROM $this->_customerTable WHERE customer_email=:email";
-        return new Varien_DataObject($this->_read->fetchRow($sql, $arrData));
+        return new Varien_Data_Object($this->_read->fetchRow($sql, $arrData));
     }
 
     /**
      * Insert row in database table
      *
      * @param   array $data
-     * @return  int || false
+     * @return  integer|false
      */
     public function insert($data)
     {
@@ -124,7 +124,7 @@ class Mage_Customer_Resource_Model_Mysql4_Customer extends Mage_Customer_Resourc
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_customerTable WHERE customer_id=:customer_id";
-        //return new Varien_DataObject($this->_read->fetchRow($sql, array('customer_id'=>$rowId)));
+        //return new Varien_Data_Object($this->_read->fetchRow($sql, array('customer_id'=>$rowId)));
         return $this->_read->fetchRow($sql, array('customer_id'=>$rowId));
     }    
     

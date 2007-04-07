@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Core>
+         <version>0.1.6</version>
          <admin>
             <controller>
                <active>true</active>
@@ -29,9 +30,8 @@
       
       <resources>
          <core_setup>
-             <setup>
+            <setup>
                 <module>Mage_Core</module>
-                <version>0.1.6</version>
             </setup>
          </core_setup>
       </resources>

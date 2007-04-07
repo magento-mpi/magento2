@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Checkout>
+         <version>0.1.1</version>
          <depends>
             <Mage_Sales />
          </depends>
@@ -37,7 +38,6 @@
          <checkout_setup>
             <setup>
                 <module>Mage_Checkout</module>
-                <version>0.1.1</version>
             </setup>
             <connection><use>core_setup</use></connection>
          </checkout_setup>

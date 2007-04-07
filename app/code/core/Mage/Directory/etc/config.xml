@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Directory>
+         <version>0.1.3</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -49,7 +50,6 @@
          <directory_setup>
             <setup>
                 <module>Mage_Directory</module>
-                <version>0.1.3</version>
             </setup>
             <connection><use>core_setup</use></connection>
          </directory_setup>

@@ -28,7 +28,7 @@ class Mage_Core_Session
             $this->_namespaces[$namespaceName] = new Zend_Session_Namespace($namespaceName);
             
             if (empty($this->_namespaces[$namespaceName]->_data)) {
-                $this->_namespaces[$namespaceName]->_data = new Varien_DataObject();
+                $this->_namespaces[$namespaceName]->_data = new Varien_Data_Object();
             }
             
             if (empty($this->_namespaces[$namespaceName]->_message)) {
@@ -49,7 +49,7 @@ class Mage_Core_Session
     {
         $data = $this->getNamespace($namespaceName)->_data;
         if ($clear) {
-            $this->getNamespace($namespaceName)->_data = new Varien_DataObject();
+            $this->getNamespace($namespaceName)->_data = new Varien_Data_Object();
         }
         return $data;
     }

@@ -3,18 +3,27 @@
 class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Resource_Model_Mysql4 implements Mage_Core_Resource_Model_Db_Table_Interface
 {
     protected $_typeTable = null;
+    protected $_typeLinkTable = null;
     
     public function __construct()
     {
+        parent::__construct();
+        
         $this->_typeTable = $this->_getTableName('customer', 'address_type');
+        $this->_typeLinkTable = $this->_getTableName('customer', 'address_type_link');
     }
     
+    /**
+     * Address type can be identified by both id and name, choose the appropriate
+     *
+     * @param integer|string $id
+     */
     protected function _getIdCondition($id)
     {
         if (is_numeric($id)) {
-            $condition = $this->_read->quoteInto('address_type_id=?', $id);
+            $condition = $this->_read->quoteInto("$this->_typeTable.address_type_id=?", $id);
         } else {
-            $condition = $this->_read->quoteInto('address_type_code=?', $id);
+            $condition = $this->_read->quoteInto("$this->_typeTable.address_type_code=?", $id);
         }
     }
 
@@ -22,7 +31,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
      * Insert row in database table
      *
      * @param   array $data
-     * @return  int || false
+     * @return  integer|false
      */
     public function insert($data)
     {
@@ -36,7 +45,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
      * Update row in database table
      *
      * @param   array $data
-     * @param   int   $rowId
+     * @param   integer|string   $rowId
      * @return  int
      */
     public function update($data, $rowId)
@@ -47,7 +56,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
     /**
      * Delete row from database table
      *
-     * @param   int $rowId
+     * @param   integer|string $rowId
      */
     public function delete($rowId)
     {
@@ -57,17 +66,63 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
     /**
      * Get row from database table
      *
-     * @param   int|string $rowId
-     * @return  Varien_DataObject
+     * @param   integer|string $rowId
+     * @return  Varien_Data_Object
      */
     public function getRow($rowId)
     {
-        //return new Varien_DataObject($this->_read->fetchRow($sql, array('address_id'=>$rowId)));
         $select = $this->_read->select()->from($this->_typeTable)->where($this->_getIdCondition($rowId));
         return $this->_read->fetchRow($select);
     }    
     
-    public function getCollection()
+    public function getCollection($condition)
+    {
+        // fetch all types for address
+        $select = $this->_read->select()->from($this->_typeLinkTable);
+        $select->join($this->_typeTable, 
+            "$this->_typeTable.address_type_id=$this->_typeLinkTable.address_type_id", 
+            "$this->_typeTable.address_type_code");
+        $select->where($condition);
+        $typesArr = $this->_read->fetchAll($select);
+        return $typesArr;
+    }
+    
+    public function getByAddressId($addressId)
+    {
+        $condition = $this->_read->quoteInto("$this->_typeLinkTable.address_id=?", $addressId);
+        $typesArr = $this->getCollection($condition);
+        
+        // process result
+        $types = array('primary_types'=>array(), 'alternative_types'=>array());
+        foreach ($typesArr as $type) {
+            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
+            $types[$priority][] = $type['address_type_code'];
+        }
+        
+        return $types;
+    }
+
+    public function getByCustomerId($customerId)
+    {
+        $condition = $this->_read->quoteInto("$this->_typeLinkTable.customer_id=?", $customerId);
+        $typesArr = $this->getCollection($condition);
+        
+        // process result
+        $types = array('primary_types'=>array(), 'alternative_types'=>array());
+        foreach ($typesArr as $type) {
+            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
+            $types[$type['address_id']][$priority][] = $type['address_type_code'];
+        }
+        
+        return $types;
+    }
+    
+    public function saveAddressTypes($data)
+    {
+        
+    }
+    
+    public function deleteAddressTypes($addressId)
     {
         
     }

@@ -14,7 +14,7 @@ class Mage_Core_Resource_Model_Db_Collection implements Iterator
 {
     // ITEMS
     protected $_items = array();
-    protected $_itemObjectClass='Varien_DataObject';
+    protected $_itemObjectClass='Varien_Data_Object';
     
     // DB
     protected $_dbModel;
@@ -205,8 +205,8 @@ class Mage_Core_Resource_Model_Db_Collection implements Iterator
      */
     function setItemObjectClass($className)
     {
-        if (!is_subclass_of($className, 'Varien_DataObject')) {
-            Mage::exception($className.' does not extends from Varien_DataObject', 0, 'Mage_Core');
+        if (!is_subclass_of($className, 'Varien_Data_Object')) {
+            Mage::exception($className.' does not extends from Varien_Data_Object', 0, 'Mage_Core');
         }
         $this->_itemObjectClass = $className;
         return $this;

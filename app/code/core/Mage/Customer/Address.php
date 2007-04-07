@@ -7,8 +7,13 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Address extends Varien_DataObject 
+class Mage_Customer_Address extends Varien_Data_Object 
 {
+    /**
+     * Constructor receives $address as array of fields for new address or integer to load existing id
+     *
+     * @param array|integer $address
+     */
     public function __construct($address=false) 
     {
         if (is_array($address)) {
@@ -25,7 +30,7 @@ class Mage_Customer_Address extends Varien_DataObject
     
     public function load($addressId)
     {
-        if($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
+        if ($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
             $this->addressId = $addressId;
             $this->_explodeStreetAddress();
         }
@@ -55,7 +60,13 @@ class Mage_Customer_Address extends Varien_DataObject
     
     public function save()
     {
+        $addressModel = Mage::getResourceModel('customer', 'address');
         
+        if (!$this->getAddressId()) {
+            $addressModel->update($this->_data, $this->getAddressId());
+        } else {
+            $this->setAddressId($addressModel->insert($this->_data));
+        }
     }
     
     public function toString($format='')
