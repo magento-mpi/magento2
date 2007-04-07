@@ -49,10 +49,10 @@ class Mage_Core_Resource_Setup
              $status = version_compare($configVer, $dbVer);
              switch ($status) {
                 case self::VERSION_COMPARE_LOWER:
-                    $this->_rollbackDb($configVer, $dbVer);
+                    $this->_rollbackResourceDb($configVer, $dbVer);
                     break;
                 case self::VERSION_COMPARE_GREATER:
-                    $this->_upgradeDb($dbVer, $configVer);
+                    $this->_upgradeResourceDb($dbVer, $configVer);
                     break;
                 default:
                     return true;
@@ -61,59 +61,62 @@ class Mage_Core_Resource_Setup
         }
         // Module not installed
         elseif ($configVer) {
-            $this->_installDb($configVer);
+            $this->_installResourceDb($configVer);
         }
     }
 
     /**
-     * Install module
+     * Install resource
      *
-     * @param     string $moduleVersion
+     * @param     string $version
      * @return    boll
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _installDb($version)
+    protected function _installResourceDb($version)
     {
-        $this->_modifySql('install', '', $version);
+        $this->_modifyResourceDb('install', '', $version);
         Mage::getResourceModel('core', 'Resource') -> setDbVersion($this->_resourceName, $version);
     }
 
     /**
-     * Upgrade DB for new module version
+     * Upgrade DB for new resource version
      *
      * @param string $oldVersion
      * @param string $newVersion
      */
-    protected function _upgradeDb($oldVersion, $newVersion)
+    protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
-        $this->_modifySql('upgrade', $oldVersion, $newVersion);
+        $this->_modifyResourceDb('upgrade', $oldVersion, $newVersion);
         Mage::getResourceModel('core', 'Resource') -> setDbVersion($this->_resourceName, $newVersion);
     }
 
     /**
-     * Roll back module
+     * Roll back resource
      *
      * @param     string $newVersion
      * @return    bool
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _rollbackDb($oldVersion, $newVersion)
+    protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
-
+        $this->_modifyResourceDb('rollback', $newVersion, $oldVersion);
+        Mage::getResourceModel('core', 'Resource') -> setDbVersion($this->_resourceName, $oldVersion);
     }
 
     /**
-     * Uninstall module
+     * Uninstall resource
      *
-     * @param     $moduleVersion
+     * @param     $version existing resource version
      * @return    bool
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _uninstallDb($moduleVersion)
+    protected function _uninstallResourceDb($version)
     {
+        $this->_modifyResourceDb('uninstall', $version, '');
+        Mage::getResourceModel('core', 'Resource') -> setDbVersion($this->_resourceName);
 
     }
 
@@ -127,29 +130,44 @@ class Mage_Core_Resource_Setup
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _modifySql($actionType, $fromVersion, $toVersion)
+    protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
-        $arrResources = $this->_getModificationResources($actionType);
-        foreach ($arrResources as $resName => $resInfo) {
-            $resModel = (string)$this->_connectionConfig->model;
-
-            if (!$resModel || !isset($resInfo[$resModel])) {
-                continue;
-            }
-                
-            // Get SQL files name 
-            $arrFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $resInfo[$resModel]);
-            foreach ($arrFiles as $fileName) {
-                $modName = (string)$this->_resourceConfig->setup->module;
-                $sqlFile = Mage::getBaseDir('sql', $modName).DS.$resName.DS.$fileName;
-                $sql = file_get_contents($sqlFile);
-
-                // Execute SQL
-                Mage::registry('resources')->getConnection($resName)->multi_query($sql);
+        $resModel = (string)$this->_connectionConfig->model;
+        $modName = (string)$this->_resourceConfig->setup->module;
+        
+        $sqlFilesDir = Mage::getBaseDir('sql', $modName).DS.$this->_resourceName;
+        if (!file_exists($sqlFilesDir)) {
+            return false;
+        }
+        
+        // Read resource files
+        $arrAvailableFiles = array();
+        $sqlDir = dir($sqlFilesDir);
+        while (false !== ($sqlFile = $sqlDir->read())) {
+            if (preg_match('#^'.$resModel.'-'.$actionType.'-(.*)\.sql$#i', $sqlFile, $matches)) {
+                $arrAvailableFiles[$matches[1]] = $sqlFile;
             }
         }
-    }
+        $sqlDir->close();
+        if (empty($arrAvailableFiles)) {
+            return false;
+        }
+               
+        // Get SQL files name 
+        $arrModifyFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrAvailableFiles);
+        if (empty($arrModifyFiles)) {
+            return false;
+        }
+        
+        foreach ($arrModifyFiles as $fileName) {
+            $sqlFile = $sqlFilesDir.DS.$fileName;
+            $sql = file_get_contents($sqlFile);
 
+            // Execute SQL
+            Mage::registry('resources')->getConnection($this->_resourceName)->multi_query($sql);
+        }
+    }
+    
     /**
      * Get sql files for modifications
      *
@@ -171,6 +189,7 @@ class Mage_Core_Resource_Setup
                     }
                 }
                 break;
+                
             case 'upgrade':
                 ksort($arrFiles);
                 foreach ($arrFiles as $version => $file) {
@@ -188,58 +207,13 @@ class Mage_Core_Resource_Setup
                     }
                 }
                 break;
+                
+            case 'rollback':
+                break;
+                
+            case 'uninstall':
+                break;
         }
         return $arrRes;
-    }
-
-    /**
-     * Get module resources information for modification
-     *
-     * @param     string $actionType install|upgrade|uninstall
-     * @return    array(
-     *              [$resource] => array(
-     *                      [$resourceType] => array(
-     *                              [$versionInfo] => $fileName
-     *                          )
-     *                  )
-     *            )
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
-     */
-
-    protected function _getModificationResources($actionType)
-    {
-        $arrSql = array();
-        $modName = (string)$this->_resourceConfig->setup->module;
-        $resourceFilesDir = Mage::getBaseDir('sql', $modName);
-
-        if (!file_exists($resourceFilesDir)) {
-            return $arrSql;
-        }
-
-        $resourceDir = dir($resourceFilesDir);
-        while (false !== ($resource = $resourceDir->read())) {
-            if ($resource == '.' || $resource == '..' || strstr($resource, '.') !==false ) {
-                continue;
-            }
-
-            $arrSql[$resource] = array();
-            $sqlFilesDir = $resourceFilesDir . DS . $resource;
-            
-            // RegExp Pattern
-            // [resourceType]-[actionType]-[versionInfo].sql
-            $filePattern = '/^(.*)-' . $actionType . '-(.*)\.sql$/i';
-            
-            // Read resource files
-            $sqlDir = dir($sqlFilesDir);
-            while (false !== ($sqlFile = $sqlDir->read())) {
-                if (preg_match($filePattern, $sqlFile, $matches)) {
-                    $arrSql[$resource][$matches[1]][$matches[2]] = $sqlFile;
-                }
-            }
-            $sqlDir->close();
-        }
-        $resourceDir->close();
-
-        return $arrSql;
     }
 }
