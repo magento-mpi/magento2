@@ -12,13 +12,13 @@
 		    <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
-                <action method="setTagParam"><name>href</name><value>/favicon.ico</value></action>
+                <action method="setTagParam" process="value"><name>href</name><value>{$baseUrl}/favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
 		    <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
-                <action method="setTagParam"><name>href</name><value>/favicon.ico</value></action>
+                <action method="setTagParam" process="value"><name>href</name><value>{$baseUrl}/favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
             <block type="tag_js" name="head.js.prototype">
