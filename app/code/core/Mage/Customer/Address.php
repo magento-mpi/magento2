@@ -9,6 +9,8 @@
  */
 class Mage_Customer_Address extends Varien_Data_Object 
 {
+    protected $_types = array();
+    
     /**
      * Constructor receives $address as array of fields for new address or integer to load existing id
      *
@@ -16,82 +18,118 @@ class Mage_Customer_Address extends Varien_Data_Object
      */
     public function __construct($address=false) 
     {
-        if (is_array($address)) {
-            parent::__construct($address);
-            $this->_explodeStreetAddress();
-        }
-        elseif (is_numeric($address)) {
-            $this->load($address);
-        }
-        else {
-            parent::__construct();
-        }
-    }
-    
-    public function setAndValidate($data)
-    {
+        parent::__construct();
         
+        if (is_numeric($address)) {
+            $this->load($address);
+        } elseif (is_array($address)) {
+            $this->setData($address);
+        }
     }
     
     public function load($addressId)
     {
-        if ($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
-            $this->addressId = $addressId;
-            $this->explodeStreetAddress();
+        Mage::getResourceModel('customer', 'address')->getRow($addressId, $this);
+    }
+
+    public function getStreet($line=0)
+    {
+        if (-1===$line) {
+            return $this->getData('street');
+        } else {
+            $arr = explode("\n", trim($this->getData('street')));
+            if (0===$line) {
+                return $arr;
+            } else {
+                return $arr[$line-1];
+            }
         }
-        else {
-            $this->_data = array();
+    }
+    
+    public function setStreet($street)
+    {
+        if (is_array($street)) {
+            $street = trim(implode("\n", $street));
         }
+        $this->setData('street', $street);
     }
     
     public function explodeStreetAddress()
     {
-        if ($this->getStreet()) {
-            if (is_array($this->getStreet())) {
-                $street = $this->getStreet();
-                foreach ($street as $index => $value) {
-                    $this->setData('street' . ($index+1), $value);
-                }
-            }
-            else {
-                // Set street{$index} fields
-                $arrStreet = explode("\n", $this->getStreet());
-                foreach ($arrStreet as $index => $value) {
-                    $this->setData('street' . ($index+1), $value);
-                }
-            }
+        $streetLines = $this->getStreet();
+        foreach ($streetLines as $i=>$line) {
+            $this->setData('street'.($i+1), $line);
         }
     }
     
-    public function combineStreetAddress()
+    public function getType($type='', $is_primary=null)
     {
-        if ($this->getStreet() && is_array($this->getStreet())) {
-            $this->setStreet(join("\n", $this->getStreet()));
+        if (''===$type) {
+            $types = $this->_types;
+            if (!is_null($is_primary)) {
+                foreach ($types as $code=>$t) {
+                    if ($t['is_primary']!==(boolean)$is_primary) {
+                        unset($types[$code]);
+                    }
+                }
+            }
+            return $types;
+            
+        } elseif (isset($this->_types[$type])) {
+            $t = $this->_types[$type];
+            if (!is_null($is_primary)) {
+                if ($t['is_primary']===(boolean)$is_primary) {
+                    return $t;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public function setType($type, $isPrimary=null)
+    {
+        if (is_array($type)) {
+            foreach ($type as $k=>$v) {
+                $this->setType($k, $v['is_primary']);
+            }
+        } else {
+            if (!is_null($isPrimary)) {
+                $this->_types[$type] = array('is_primary'=>$isPrimary);
+            } else {
+                unset($this->_types[$type]);
+            }
         }
     }
     
     public function save()
     {
-        $this->_combineStreetAddress();
-        
         $addressModel = Mage::getResourceModel('customer', 'address');
         
-        if (!$this->getAddressId()) {
-            $addressModel->update($this->_data, $this->getAddressId());
+        if ($this->getAddressId()) {
+            $addressModel->update($this);
         } else {
-            $this->setAddressId($addressModel->insert($this->_data));
+            $addressModel->insert($this);
         }
     }
     
     public function toString($format='')
     {
         if (empty($format)) {
-            return implode(', ', $this->_data);
+            $str = implode(', ', $this->getData());
+        } else {
+            $str = '// TODO: address string format';
         }
-        return '// TODO: address string format';
+        return $str;
     }
     
-    public function hasCustomer($customerId)
+    public function validateCreate()
+    {
+        return true;
+    }
+    
+    public function validateUpdate()
     {
         return true;
     }

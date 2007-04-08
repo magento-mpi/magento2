@@ -8,7 +8,7 @@ class Mage_Auth_Resource_Model_Mysql4_Auth extends Mage_Auth_Resource_Model_Mysq
     {
         parent::__construct();
         
-        $userTable = $this->_getTableName('auth', 'user');
+        $userTable = Mage::registry('resources')->getTableName('auth', 'user');
         $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $userTable, 'username', 'password', 'md5(?)');
     }
     

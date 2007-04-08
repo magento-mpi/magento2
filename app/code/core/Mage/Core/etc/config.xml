@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Core>
-         <version>0.1.6</version>
+         <version>0.1.7</version>
          <admin>
             <controller>
                <active>true</active>
@@ -64,14 +64,6 @@
                <table>
                   <table>core_table</table>
                </table>
-
-               <block_group>
-                  <table>core_block_group</table>
-               </block_group>
-
-               <block>
-                  <table>core_block</table>
-               </block>
 
                <domain>
                   <table>core_domain</table>

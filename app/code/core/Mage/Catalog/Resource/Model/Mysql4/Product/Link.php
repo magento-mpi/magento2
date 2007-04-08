@@ -13,7 +13,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Link extends Mage_Catalog_Resou
     
     public function __construct() 
     {
-        $this->_linkTable = $this->getTableName('catalog', 'product_link');
+        $this->_linkTable = Mage::registry('resources')->getTableName('catalog', 'product_link');
     }
     
     /**

@@ -82,7 +82,7 @@ Shipping.prototype = {
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
             <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet()?>] [<?=$_address->getTelephone()?>]
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getStreet(-1)?>, <?=$_address->getPostcode()?>, <?=$_address->getCity()?>] [<?=$_address->getTelephone()?>]
             </option>
         <?endforeach?>
         </select>
@@ -119,10 +119,10 @@ Shipping.prototype = {
                 </li>
                 <li>
                     <label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" name="shipping[street][0]" id="shipping:street1" value="<?=$address->getStreet1()?>" class="required-entry input-text"/>
+                    <input type="text" title="Street Address" name="shipping[street][1]" id="shipping:street1" value="<?=$address->getStreet(1)?>" class="required-entry input-text"/>
                 </li>
                 <li>
-                    <input type="text" title="Street Address 2" name="shipping[street][1]" id="shipping:street2" value="<?=$address->getStreet2()?>" class="input-text"/>
+                    <input type="text" title="Street Address 2" name="shipping[street][2]" id="shipping:street2" value="<?=$address->getStreet(2)?>" class="input-text"/>
                 </li>
                 <li>
                     <label for="shipping:city">City <span class="required">*</span></label><br/>

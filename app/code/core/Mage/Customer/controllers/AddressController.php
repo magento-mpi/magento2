@@ -48,7 +48,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address = new Mage_Customer_Address($addressId);
             
             // Validate address_id <=> customer_id
-            if (!$address->hasCustomer(Mage_Customer_Front::getCustomerId())) {
+            if ($address->getCustomerId()!=Mage_Customer_Front::getCustomerId()) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
@@ -65,7 +65,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $types[$typeCode]['is_primary'] = !empty($primary[$typeCode]);
         }
             
-        
         $block = Mage::createBlock('tpl', 'customer.address.form')
             ->setViewName('Mage_Customer', 'form/address.phtml')
             ->assign('formData', $address)

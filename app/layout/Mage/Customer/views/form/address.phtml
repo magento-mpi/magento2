@@ -31,11 +31,11 @@
             <h3>Address</h3>
             <ul class="input-list">
                 <li>
-                    <label for="street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" name="street[1]" value="<?=$formData->getStreet1()?>" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <label for="street_1">Street Address <span class="required">*</span></label><br/>
+                    <input type="text" name="street[1]" value="<?=$formData->getStreet(1)?>" title="Street Address" id="street_1" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </li>
                 <li>
-                    <input type="text" name="street[2]" value="<?=$formData->getStreet2()?>" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="street[2]" value="<?=$formData->getStreet(2)?>" title="Street Address 2" id="street_2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </li>
                 <li>
                     <label for="city">City <span class="required">*</span></label><br/>

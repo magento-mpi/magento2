@@ -3,7 +3,8 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.21-community-nt : Database - pepper
 *********************************************************************
 Server version : 4.1.21-community-nt
-*/
+*/
+
 
 SET NAMES utf8;
 
@@ -348,23 +349,6 @@ CREATE TABLE `sales_quote_address` (
 
 /*Data for the table `sales_quote_address` */
 
-/*Table structure for table `sales_quote_address_bak` */
-
-DROP TABLE IF EXISTS `sales_quote_address_bak`;
-
-CREATE TABLE `sales_quote_address_bak` (
-  `quote_address_id` int(11) unsigned NOT NULL auto_increment,
-  `quote_id` int(11) unsigned default NULL,
-  `address_id` int(11) unsigned default NULL,
-  `address_type_id` tinyint(3) unsigned default NULL,
-  PRIMARY KEY  (`quote_address_id`),
-  KEY `FK_ADDRESS_QUOTE` (`quote_id`),
-  KEY `FK_QUOTE_ADDRESS` (`address_id`),
-  KEY `FK_QUOTE_ADDRESS_TYPE` (`address_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote address';
-
-/*Data for the table `sales_quote_address_bak` */
-
 /*Table structure for table `sales_quote_item` */
 
 DROP TABLE IF EXISTS `sales_quote_item`;
@@ -403,23 +387,6 @@ CREATE TABLE `sales_quote_item_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote item attributes';
 
 /*Data for the table `sales_quote_item_attribute` */
-
-/*Table structure for table `sales_quote_item_attribute_bak` */
-
-DROP TABLE IF EXISTS `sales_quote_item_attribute_bak`;
-
-CREATE TABLE `sales_quote_item_attribute_bak` (
-  `quote_item_attribute_id` int(11) unsigned NOT NULL default '0',
-  `quote_item_id` int(11) unsigned NOT NULL default '0',
-  `attribute_code` varchar(32) NOT NULL default '',
-  `attribute_decimal` decimal(12,4) default NULL,
-  `attribute_text` varchar(128) default NULL,
-  PRIMARY KEY  (`quote_item_attribute_id`),
-  KEY `FK_QUOTE_ITEM_ATTRIBUTE` (`quote_item_id`),
-  KEY `FK_QUOTE_ITEM_ATTRIBUTE_CODE` (`attribute_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote item attributes';
-
-/*Data for the table `sales_quote_item_attribute_bak` */
 
 /*Table structure for table `sales_shipment` */
 

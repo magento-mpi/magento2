@@ -14,8 +14,8 @@ class Mage_Core_Resource_Model_Mysql4_History extends Mage_Core_Resource_Model_M
     
     public function __construct() 
     {
-        $this->_changeTable = $this->_getTableName('core_read', 'data_change');
-        $this->_changeInfoTable = $this->_getTableName('core_read', 'data_change_info');
+        $this->_changeTable = Mage::registry('resources')->getTableName('core_read', 'data_change');
+        $this->_changeInfoTable = Mage::registry('resources')->getTableName('core_read', 'data_change_info');
     }
     
     /**

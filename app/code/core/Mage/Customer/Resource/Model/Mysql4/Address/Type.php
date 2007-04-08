@@ -9,8 +9,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
     {
         parent::__construct();
         
-        $this->_typeTable = $this->_getTableName('customer', 'address_type');
-        $this->_typeLinkTable = $this->_getTableName('customer', 'address_type_link');
+        $this->_typeTable = Mage::registry('resources')->getTableName('customer', 'address_type');
+        $this->_typeLinkTable = Mage::registry('resources')->getTableName('customer', 'address_type_link');
     }
     
     /**
@@ -93,10 +93,9 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
         $typesArr = $this->getCollection($condition);
         
         // process result
-        $types = array('primary_types'=>array(), 'alternative_types'=>array());
+        $types = array();
         foreach ($typesArr as $type) {
-            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$priority][$type['address_type_code']] = true;
+            $types[$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
         }
         
         return $types;
@@ -108,16 +107,15 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
         $typesArr = $this->getCollection($condition);
         
         // process result
-        $types = array('primary_types'=>array(), 'alternative_types'=>array());
+        $types = array();
         foreach ($typesArr as $type) {
-            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$type['address_id']][$priority][$type['address_type_code']] = true;
+            $types[$type['address_id']][$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
         }
         
         return $types;
     }
     
-    public function saveAddressTypes($data)
+    public function saveAddressTypes($data, $addressId=null)
     {
         
     }
@@ -138,7 +136,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
      */
     public function getAvailableTypes($by='code', $langCode='en')
     {
-        $langTable = $this->_getTableName('customer', 'address_type_language');
+        $langTable = Mage::registry('resources')->getTableName('customer', 'address_type_language');
         
         $select = $this->_read->select()->from($this->_typeTable)
             ->join($langTable, "$langTable.address_type_id=$this->_typeTable.address_type_id", "$langTable.address_type_name");

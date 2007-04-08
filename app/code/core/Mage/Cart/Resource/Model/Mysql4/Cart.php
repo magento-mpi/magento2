@@ -5,7 +5,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
 
     function getCart($cartId=null)
     {
-        $cartTable = $this->_getTableName('cart', 'cart');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
         
         if (is_null($cartId)) {
             $cartId = $this->getCustomerCartId();
@@ -19,9 +19,9 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function getItems($cartId=null)
     { 
-        $cartTable = $this->_getTableName('cart', 'cart');
-        $itemTable = $this->_getTableName('cart', 'item');
-        $productTable = $this->_getTableName('catalog', 'product');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
+        $itemTable = Mage::registry('resources')->getTableName('cart', 'item');
+        $productTable = Mage::registry('resources')->getTableName('catalog', 'product');
         
         if (is_null($cartId)) {
             $cartId = $this->getCustomerCartId();
@@ -70,7 +70,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function getCustomerCartId() 
     {
-        $cartTable = $this->_getTableName('cart', 'cart');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
         
         if ($customerId = Mage_Customer_Front::getCustomerId()) {
             $sql = $this->_read->select()
@@ -90,7 +90,7 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function createCart() 
     {
-        $cartTable = $this->_getTableName('cart', 'cart');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
         
         $cartData = array();
         if (isset(Mage::registry('AUTH')->customer)) {
@@ -110,8 +110,8 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function addProduct($productId, $qty=1)
     {
-        $cartTable = $this->_getTableName('cart', 'cart');
-        $itemTable = $this->_getTableName('cart', 'item');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
+        $itemTable = Mage::registry('resources')->getTableName('cart', 'item');
 
         $cartId = $this->getCustomerCartId();
         if (!$cartId) {
@@ -150,8 +150,8 @@ class Mage_Cart_Resource_Model_Mysql4_Cart extends Mage_Cart_Resource_Model_Mysq
     
     function update($cartData, $cartId=null)
     {
-        $cartTable = $this->_getTableName('cart', 'cart');
-        $itemTable = $this->_getTableName('cart', 'item');
+        $cartTable = Mage::registry('resources')->getTableName('cart', 'cart');
+        $itemTable = Mage::registry('resources')->getTableName('cart', 'item');
 
         if (empty($cartId)) {
             $cartId = $this->getCustomerCartId();

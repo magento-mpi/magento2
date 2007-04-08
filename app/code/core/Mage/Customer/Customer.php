@@ -11,26 +11,36 @@ class Mage_Customer_Customer extends Varien_Data_Object
 {
     public function __construct($customer=false) 
     {
-        if (is_array($customer)) {
-            parent::__construct($customer);
-        }
-        elseif ($customer) {
-            $this->load((int)$address);
-        }
-        else {
-            parent::__construct();
+        parent::__construct();
+        
+        if (is_numeric($customer)) {
+            $this->load($customer);
+        } elseif (is_array($customer)) {
+            $this->setData($customer);
         }
     }
     
     public function load($customerId)
     {
-        $this->_customerId = $customerId;
-        $this->_data = Mage::getResourceModel('customer', 'customer')->getRow($customerId);
+        $data = Mage::getResourceModel('customer', 'customer')->getRow($customerId);
+        if ($data) {
+            $this->setData($data);
+        }
     }
     
-    public function getDefaultAddress()
+    public function validateCreate()
     {
-        return $this->getAddress($this->defaultAddressId);
+        return true;
+    }
+    
+    public function validateUpdate()
+    {
+        return true;
+    }
+    
+    public function validateChangePassword()
+    {
+        return true;
     }
     
     public function getAddress($addressId)

@@ -14,7 +14,7 @@ class Mage_Core_Resource_Model_Mysql4_Resource extends Mage_Core_Resource_Model_
      */
     function getDbVersion($resName)
     {
-        $resTable = $this->_getTableName('core', 'resource');
+        $resTable = Mage::registry('resources')->getTableName('core', 'resource');
 
         // if Core module not instaled
         try {
@@ -38,7 +38,7 @@ class Mage_Core_Resource_Model_Mysql4_Resource extends Mage_Core_Resource_Model_
      */
     function setDbVersion($resName, $version)
     {
-        $resTable = $this->_getTableName('core', 'resource');
+        $resTable = Mage::registry('resources')->getTableName('core', 'resource');
 
         $dbModuleInfo = array(
             'resource_name'       => $resName,

@@ -395,6 +395,22 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $this->getXml()->global->resourceModels->$model;
     }
     
+    public function getResourceModelClassName($model, $class)
+    {
+        $config = $this->getResourceModelConfig($model);
+        
+        if (isset($config->subs->$class)) {
+            $className = (string)$config->subs->$class;
+        } else {
+            $className = (string)$config->class;
+    
+            if (''!==$class) {
+                $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', $class)));
+            }
+        }
+        return $className;
+    }
+    
     /**
      * Get model class instance.
      * 
@@ -410,13 +426,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceModelInstance($model, $class='', $constructArguments=array())
     {
-        $config = $this->getResourceModelConfig($model);
-        $className = (string)$config->class;
-
-        if (''!==$class) {
-            $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', $class)));
-        }
-
+        $className = $this->getResourceModelClassName($model, $class);
+        
         return new $className($constructArguments);
     }
     
@@ -448,7 +459,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param string $type
      * @return Varien_Simplexml_Object
      */
-    public function getResourceType($type)
+    public function getResourceTypeConfig($type)
     {
         return $this->getXml()->global->resourceConnectionTypes->$type;
     }
@@ -459,7 +470,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param string $type
      * @return Varien_Simplexml_Object
      */
-    public function getBlockType($type='')
+    public function getBlockTypeConfig($type='')
     {
         $types = $this->getXml()->global->blockTypes;
         if (''===$type) {

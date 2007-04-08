@@ -7,31 +7,19 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Address_Collection extends Mage_Core_Resource_Model_Db_Collection
+class Mage_Customer_Address_Collection extends Varien_Data_Collection_Db
 {
     protected $_addressTable = null;
 
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('customer'));
+        parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
         
-        $this->_addressTable = $this->_dbModel->getTableName('customer', 'address');
+        $this->_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
 
         $this->_sqlSelect->from($this->_addressTable);
 
         $this->setItemObjectClass('Mage_Customer_Address');
-    }
-    
-    public function filterByCustomerId($customerId)
-    {
-        $this->addFilter('customer_id', (int)$customerId, 'and');
-        return $this;
-    }
-    
-    public function filterByCondition($condition)
-    {
-        $this->addFilter('', $condition, 'string');
-        return $this;
     }
     
     public function load($printQuery = false, $logQuery = false)
@@ -51,7 +39,7 @@ class Mage_Customer_Address_Collection extends Mage_Core_Resource_Model_Db_Colle
         }
         
         // fetch all types for collection addresses
-        $condition = $this->_dbModel->getReadConnection()->quoteInto("address_id in (?)", $addressIds);
+        $condition = $this->getConnection()->quoteInto("address_id in (?)", $addressIds);
         $typesArr = Mage::getResourceModel('customer', 'Address_Type')->getCollection($condition);
         
         // process result
@@ -69,14 +57,12 @@ class Mage_Customer_Address_Collection extends Mage_Core_Resource_Model_Db_Colle
             if (isset($types[$item->getAddressId()]['alternative_types'])) {
                 $item->setAlternativeTypes($types[$item->getAddressId()]['alternative_types']);
             }
-            
-            $item->explodeStreetAddress();
         }
     }
     
     public function loadByCustomer($customerId)
     {
-        $this->filterByCustomerId($customerId);
+        $this->addFilter('customer_id', (int)$customerId, 'and');
         $this->load();
         return $this;
     }

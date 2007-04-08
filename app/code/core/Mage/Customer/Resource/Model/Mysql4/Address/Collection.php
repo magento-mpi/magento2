@@ -1,14 +1,14 @@
 <?php
 
-class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Mage_Core_Resource_Model_Db_Collection
+class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data_Collection_Db
 {
     protected $_addressTable = null;
 
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('customer'));
+        parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
         
-        $this->_addressTable = $this->_dbModel->getTableName('customer', 'address');
+        $this->_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
 
         $this->_sqlSelect->from($this->_addressTable);
 
@@ -44,26 +44,18 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Mage_Core_R
         }
         
         // fetch all types for collection addresses
-        $condition = $this->_dbModel->getReadConnection()->quoteInto("address_id in (?)", $addressIds);
-        $typesArr = Mage::getResourceModel('customer', 'Address_Type')->getCollection($condition);
+        $condition = $this->getConnection()->quoteInto("address_id in (?)", $addressIds);
+        $typesArr = Mage::getResourceModel('customer', 'address_type')->getCollection($condition);
         
         // process result
         $types = array('primary_types'=>array(), 'alternative_types'=>array());
         foreach ($typesArr as $type) {
-            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$type['address_id']][$priority][] = $type['address_type_code'];
+            $types[$type['address_id']][$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
         }
        
         // set types to address objects and explode street address
         foreach ($this->_items as $item) {
-            if (isset($types[$item->getAddressId()]['primary_types'])) {
-                $item->setPrimaryTypes($types[$item->getAddressId()]['primary_types']);
-            }
-            if (isset($types[$item->getAddressId()]['alternative_types'])) {
-                $item->setAlternativeTypes($types[$item->getAddressId()]['alternative_types']);
-            }
-            
-            $item->explodeStreetAddress();
+            $item->setType($types[$item->getAddressId()]);
         }
     }
 }

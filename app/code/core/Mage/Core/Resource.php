@@ -54,7 +54,7 @@ class Mage_Core_Resource
     public function getConnectionTypeObj($type)
     {
         if (!isset($this->_connectionTypes[$type])) {
-            $config = Mage::getConfig()->getResourceType($type);
+            $config = Mage::getConfig()->getResourceTypeConfig($type);
             $typeClass = (string)$config->class;
             $this->_connectionTypes[$type] = new $typeClass();
         }
@@ -75,5 +75,10 @@ class Mage_Core_Resource
             $this->_entities[$resource][$entity] = $entities->$entity;
         }
         return $this->_entities[$resource][$entity];
+    }
+    
+    public function getTableName($resource, $entity)
+    {
+        return (string)$this->getEntity($resource, $entity)->table;
     }
 }

@@ -97,7 +97,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
     public function getRow($productId, $withMultipleFields = true)
     {
         $arrRes = array();
-        $productTable = $this->_dbModel->getTableName('catalog', 'product');        
+        $productTable = Mage::registry('resources')->getTableName('catalog', 'product');        
 
         $attributes = $this->getAttributes($productId);
         
@@ -114,7 +114,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
 
             // Prepare join
             $tableCode = 'product_attribute_'.$attribute['data_type'];
-            $tableName = $this->_dbModel->getTableName('catalog', $tableCode);
+            $tableName = Mage::registry('resources')->getTableName('catalog', $tableCode);
             $tableAlias= $tableName . '_' . $attribute['attribute_code'];
             
             $selectTable = $tableName . ' AS ' . $tableAlias;
@@ -187,9 +187,9 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
      */
     public function getAttributes($productId)
     {
-        $productTable   = $this->_dbModel->getTableName('catalog', 'product');
-        $attributeTable = $this->_dbModel->getTableName('catalog', 'product_attribute');
-        $attributeInSetTable    = $this->_dbModel->getTableName('catalog', 'product_attribute_in_set');
+        $productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
+        $attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $attributeInSetTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
         
         $sql = "SELECT
                     $attributeTable.*
@@ -212,7 +212,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
             return $this->_data['attribute_set_id'];
         }
         
-        $productTable   = $this->_dbModel->getTableName('catalog', 'product');
+        $productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
         $sql = "SELECT
                     attribute_set_id
                 FROM

@@ -13,7 +13,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Attribute extends Mage_Catalog_
     
     public function __construct()
     {
-        $this->_attributeTable = $this->getTableName('catalog', 'product_attribute');
+        $this->_attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
     }
     
     /**

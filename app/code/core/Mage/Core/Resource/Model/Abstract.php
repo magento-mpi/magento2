@@ -20,6 +20,6 @@ abstract class Mage_Core_Resource_Model_Abstract
 
     protected function _getEntity($resourceName, $entityName)
     {
-        return Mage::registry('resources')->getEntity($resourceName, $entityName);
+        return Mage::registry('resources')->getTableName($resourceName, $entityName);
     }
 }

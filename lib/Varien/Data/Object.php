@@ -27,9 +27,11 @@ class Varien_Data_Object
         }
     }
     
-    public function getData($key)
+    public function getData($key='')
     {
-        if (isset($this->_data[$key])) {
+        if (''===$key) {
+            return $this->_data;
+        } elseif (isset($this->_data[$key])) {
             return $this->_data[$key];
         }
         return false;

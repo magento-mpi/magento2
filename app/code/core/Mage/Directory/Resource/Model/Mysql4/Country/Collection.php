@@ -7,14 +7,14 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Resource_Model_Mysql4_Country_Collection extends Mage_Core_Resource_Model_Db_Collection
+class Mage_Directory_Resource_Model_Mysql4_Country_Collection extends Varien_Data_Collection_Db
 {
     public function __construct($useDomainConfig=true) 
     {
-        parent::__construct(Mage::getResourceModel('directory'));
+        parent::__construct(Mage::getResourceModel('directory')->getReadConnection());
         
-        $countryTable = $this->_dbModel->getTableName('directory', 'country');
-        $countryNameTable = $this->_dbModel->getTableName('directory', 'country_name');
+        $countryTable = Mage::registry('resources')->getTableName('directory', 'country');
+        $countryNameTable = Mage::registry('resources')->getTableName('directory', 'country_name');
         $lang = Mage::registry('website')->getLanguage();
         
         $this->_sqlSelect->from($countryTable);

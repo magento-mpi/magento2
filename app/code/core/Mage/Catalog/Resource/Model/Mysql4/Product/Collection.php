@@ -8,7 +8,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Resource_Model_Db_Collection 
+class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Varien_Data_Collection_Db 
 {
     protected $_productTable;
     protected $_attributeTable;
@@ -20,16 +20,16 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
     
     function __construct($config = array())
     {
-        parent::__construct(Mage::getResourceModel('catalog'));
+        parent::__construct(Mage::getResourceModel('catalog')->getReadConnection());
 
-        $this->_productTable   = $this->_dbModel->getTableName('catalog', 'product');
-        $this->_categoryProductTable = $this->_dbModel->getTableName('catalog', 'category_product');
-        $this->_attributeTable = $this->_dbModel->getTableName('catalog', 'product_attribute');
-        $this->_attributeTables['varchar']  = $this->_dbModel->getTableName('catalog', 'product_attribute_varchar');
-        $this->_attributeTables['text']     = $this->_dbModel->getTableName('catalog', 'product_attribute_text');
-        $this->_attributeTables['decimal']  = $this->_dbModel->getTableName('catalog', 'product_attribute_decimal');
-        $this->_attributeTables['int']      = $this->_dbModel->getTableName('catalog', 'product_attribute_int');
-        $this->_attributeTables['date']     = $this->_dbModel->getTableName('catalog', 'product_attribute_date');
+        $this->_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
+        $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog', 'category_product');
+        $this->_attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $this->_attributeTables['varchar']  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_varchar');
+        $this->_attributeTables['text']     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_text');
+        $this->_attributeTables['decimal']  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_decimal');
+        $this->_attributeTables['int']      = Mage::registry('resources')->getTableName('catalog', 'product_attribute_int');
+        $this->_attributeTables['date']     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_date');
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
@@ -55,10 +55,10 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
         }
         
         if (is_array($category)) {
-            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id IN (?)",$category);
+            $condition = $this->getConnection()->quoteInto("$this->_categoryProductTable.category_id IN (?)",$category);
         }
         else {
-            $condition = $this->_dbModel->getReadConnection()->quoteInto("$this->_categoryProductTable.category_id=?",$category);
+            $condition = $this->getConnection()->quoteInto("$this->_categoryProductTable.category_id=?",$category);
         }
 
         $this->addFilter('category', $condition, 'string');
@@ -68,7 +68,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
     {
         $query = trim(strip_tags($query));
         if (!empty($query)) {
-            $condition = $this->_dbModel->getReadConnection()->quoteInto("(name LIKE ? OR description LIKE ?)", "%$query%");
+            $condition = $this->getConnection()->quoteInto("(name LIKE ? OR description LIKE ?)", "%$query%");
             $this->addFilter('search', $condition, 'string');
         }
         return $this;
@@ -79,12 +79,12 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Mage_Core_Resource_Model_Db_Collection
+     * @return  Varien_Data_Collection_Db
      */
     public function setOrder($field, $direction = 'desc')
     {
         if ($field == 'product_id') {
-            $field = $this->_dbModel->getTableName('catalog', 'product').'.'.$field;
+            $field = Mage::registry('resources')->getTableName('catalog', 'product').'.'.$field;
         }
         return parent::setOrder($field, $direction);
     }
@@ -104,7 +104,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
         if (!isset($this->_attributeTables[$attributeType])) {
             Mage::exception('Wrong attribute type:'.$attributeType, 0, 'Mage_Catalog');
         }
-        $attributeId = $this->_dbModel->getReadConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_code=?", $attributeCode);
+        $attributeId = $this->getConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_code=?", $attributeCode);
         $tableAlias= $attributeCode . '_' . $attributeType;
         //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
         $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;

@@ -15,7 +15,7 @@ class Mage_Customer_Resource_Model_Mysql4_Customer extends Mage_Customer_Resourc
     {
         parent::__construct();
         
-        $this->_customerTable = $this->_getTableName('customer', 'customer');
+        $this->_customerTable = Mage::registry('resources')->getTableName('customer', 'customer');
     }
     
     /**

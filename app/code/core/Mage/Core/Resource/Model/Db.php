@@ -21,16 +21,6 @@ abstract class Mage_Core_Resource_Model_Db extends Mage_Core_Resource_Model_Abst
 
     }
 
-    protected function _getTableName($resourceName, $entityName)
-    {
-        return (string)$this->_getEntity($resourceName, $entityName)->table;
-    }
-
-    public function getTableName($resourceName, $entityName)
-    {
-        return $this->_getTableName($resourceName, $entityName);
-    }
-
     public function getReadConnection()
     {
         return $this->_read;

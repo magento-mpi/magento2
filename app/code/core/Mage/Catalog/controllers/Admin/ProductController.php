@@ -71,7 +71,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         
         if ($categoryId = $this->getRequest()->getParam('category')) {
             
-            $tree = Mage::getResourceModel('catalog','Category_Tree');
+            $tree = Mage::getResourceModel('catalog','category_tree');
             $data = $tree->getLevel($categoryId, 0);
             
             if (empty($data)) {
