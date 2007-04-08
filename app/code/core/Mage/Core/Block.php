@@ -66,7 +66,7 @@ class Mage_Core_Block
     {
         #Mage::setTimer(__METHOD__);
 
-        if (!$className = (string)Mage::getConfig()->getBlockTypeConfig($type)->class) {
+        if (!$className = Mage::getConfig()->getBlockTypeConfig($type)->getClassName()) {
             Mage::exception('Invalid block type ' . $type);
         }
 

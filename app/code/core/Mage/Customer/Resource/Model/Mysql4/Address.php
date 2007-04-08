@@ -9,21 +9,21 @@
  */
 class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
 {
-    protected $_addressTable = null;
-    protected $_typeTable = null;
-    protected $_typeLinkTable = null;
-    protected $_read = null;
-    protected $_write = null;
+    static protected $_addressTable = null;
+    static protected $_typeTable = null;
+    static protected $_typeLinkTable = null;
+    static protected $_read = null;
+    static protected $_write = null;
     
     public function __construct($data=array()) 
     {
         parent::__construct($data);
         
-        $this->_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
-        $this->_typeTable = Mage::registry('resources')->getTableName('customer', 'address_type');
-        $this->_typeLinkTable = Mage::registry('resources')->getTableName('customer', 'address_type_link');
-        $this->_read = Mage::registry('resources')->getConnection('customer_read');
-        $this->_write = Mage::registry('resources')->getConnection('customer_write');
+        self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
+        self::$_typeTable = Mage::registry('resources')->getTableName('customer', 'address_type');
+        self::$_typeLinkTable = Mage::registry('resources')->getTableName('customer', 'address_type_link');
+        self::$_read = Mage::registry('resources')->getConnection('customer_read');
+        self::$_write = Mage::registry('resources')->getConnection('customer_write');
     }
     
      /**
@@ -34,8 +34,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
      */
     public function insert()
     {
-        if ($this->_write->insert($this->_addressTable, $this->getData())) {
-            $this->setAddressId($this->_write->lastInsertId());
+        if (self::$_write->insert(self::$_addressTable, $this->getData())) {
+            $this->setAddressId(self::$_write->lastInsertId());
             $this->insertTypes();
             return $this->getAddressId();
         }
@@ -51,8 +51,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
      */
     public function update()
     {
-        $condition = $this->_write->quoteInto('address_id=?', $this->getAddressId());
-        $result = $this->_write->update($this->_addressTable, $this->getData(), $condition);
+        $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
+        $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
         if ($result) {
             $this->updateTypes();
         }
@@ -69,8 +69,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
         if (is_null($addressId)) {
             $addressId = $this->getAddressId();
         }
-        $condition = $this->_write->quoteInto('address_id=?', $addressId);
-        $result = $this->_write->delete($this->_addressTable, $condition);
+        $condition = self::$_write->quoteInto('address_id=?', $addressId);
+        $result = self::$_write->delete(self::$_addressTable, $condition);
         $this->deleteTypes($this);
         return $result;
     }
@@ -81,11 +81,11 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
      * @param   int $rowId
      * @return  Mage_Customer_Address
      */
-    public function getByAddressId($addressId)
+    public function loadByAddressId($addressId)
     {
-        $select = $this->_read->select()->from($this->_addressTable)
-            ->where($this->_read->quoteInto('address_id=?', $addressId));
-        $row = $this->_read->fetchRow($select);
+        $select = self::$_read->select()->from(self::$_addressTable)
+            ->where(self::$_read->quoteInto('address_id=?', $addressId));
+        $row = self::$_read->fetchRow($select);
         if (!$row) {
             return false;
         }
@@ -97,18 +97,18 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
     public function getTypesByCondition($condition)
     {
         // fetch all types for address
-        $select = $this->_read->select()->from($this->_typeLinkTable);
-        $select->join($this->_typeTable, 
-            "$this->_typeTable.address_type_id=$this->_typeLinkTable.address_type_id", 
-            "$this->_typeTable.address_type_code");
+        $select = self::$_read->select()->from(self::$_typeLinkTable);
+        $select->join(self::$_typeTable, 
+            self::$_typeTable.".address_type_id=".self::$_typeLinkTable.".address_type_id", 
+            self::$_typeTable.".address_type_code");
         $select->where($condition);
-        $typesArr = $this->_read->fetchAll($select);
+        $typesArr = self::$_read->fetchAll($select);
         return $typesArr;
     }
     
     public function getTypesByAddressId($addressId)
     {
-        $condition = $this->_read->quoteInto("$this->_typeLinkTable.address_id=?", $addressId);
+        $condition = self::$_read->quoteInto(self::$_typeLinkTable.".address_id=?", $addressId);
         $typesArr = $this->getTypesByCondition($condition);
         
         // process result
@@ -122,7 +122,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
     
     public function getTypesByCustomerId($customerId)
     {
-        $condition = $this->_read->quoteInto("$this->_typeLinkTable.customer_id=?", $customerId);
+        $condition = self::$_read->quoteInto(self::$_typeLinkTable.".customer_id=?", $customerId);
         $typesArr = $this->getTypesByCondition($condition);
         
         // process result
@@ -147,10 +147,10 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
     {
         $langTable = Mage::registry('resources')->getTableName('customer', 'address_type_language');
         
-        $select = $this->_read->select()->from($this->_typeTable)
-            ->join($langTable, "$langTable.address_type_id=$this->_typeTable.address_type_id", "$langTable.address_type_name");
+        $select = self::$_read->select()->from(self::$_typeTable)
+            ->join($langTable, "$langTable.address_type_id=self::$_typeTable.address_type_id", "$langTable.address_type_name");
             
-        $typesArr = $this->_read->fetchAll($select);
+        $typesArr = self::$_read->fetchAll($select);
         $types = array();
         foreach ($typesArr as $type) {
             $types[$type['address_type_'.$by]] = $type;
@@ -167,9 +167,9 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
     public function getTypeIdCondition($id)
     {
         if (is_numeric($id)) {
-            $condition = $this->_read->quoteInto("$this->_typeTable.address_type_id=?", $id);
+            $condition = self::$_read->quoteInto(self::$_typeTable.".address_type_id=?", $id);
         } else {
-            $condition = $this->_read->quoteInto("$this->_typeTable.address_type_code=?", $id);
+            $condition = self::$_read->quoteInto(self::$_typeTable.".address_type_code=?", $id);
         }
     }
     

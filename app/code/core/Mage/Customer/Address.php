@@ -21,7 +21,7 @@ abstract class Mage_Customer_Address extends Varien_Data_Object
         parent::__construct();
         
         if (is_numeric($address)) {
-            $this->getByAddressId($address);
+            $this->loadByAddressId($address);
         } elseif (is_array($address)) {
             $this->setData($address);
         }
@@ -29,7 +29,7 @@ abstract class Mage_Customer_Address extends Varien_Data_Object
     
     public function load($addressId)
     {
-        $this->getByAddressId($addressId);
+        $this->loadByAddressId($addressId);
     }
     
     public function save()
@@ -68,7 +68,9 @@ abstract class Mage_Customer_Address extends Varien_Data_Object
     }
     
     /**
-     * Create fields street1, street2, etc. Use only in controllers
+     * Create fields street1, street2, etc.
+     * 
+     * To be used in controllers for views data
      *
      */
     public function explodeStreetAddress()
@@ -77,6 +79,15 @@ abstract class Mage_Customer_Address extends Varien_Data_Object
         foreach ($streetLines as $i=>$line) {
             $this->setData('street'.($i+1), $line);
         }
+    }
+    
+    /**
+     * To be used when processing _POST
+     *
+     */
+    public function implodeStreetAddress()
+    {
+        $this->setStreet($this->getData('street'));
     }
     
     public function getType($type='', $is_primary=null)

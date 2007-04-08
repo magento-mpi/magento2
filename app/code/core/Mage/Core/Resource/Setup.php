@@ -35,7 +35,7 @@ class Mage_Core_Resource_Setup
             }
             $className = __CLASS__;
             if (isset($resource->setup->class)) {
-                $className = (string)$resource->setup->class;
+                $className = $resource->setup->getClassName();
             }
             $setupClass = new $className($resource->getName());
             $setupClass->applyUpdates();

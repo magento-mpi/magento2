@@ -55,7 +55,7 @@ class Mage_Core_Resource
     {
         if (!isset($this->_connectionTypes[$type])) {
             $config = Mage::getConfig()->getResourceTypeConfig($type);
-            $typeClass = (string)$config->class;
+            $typeClass = $config->getClassName();
             $this->_connectionTypes[$type] = new $typeClass();
         }
         return $this->_connectionTypes[$type];

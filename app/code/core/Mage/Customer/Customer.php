@@ -9,12 +9,14 @@
  */
 abstract class Mage_Customer_Customer extends Varien_Data_Object
 {
+    protected $_addresses = null;
+    
     public function __construct($customer=false) 
     {
         parent::__construct();
         
         if (is_numeric($customer)) {
-            $this->getByCustomerId($customer);
+            $this->loadByCustomerId($customer);
         } elseif (is_array($customer)) {
             $this->setData($customer);
         }
@@ -22,7 +24,7 @@ abstract class Mage_Customer_Customer extends Varien_Data_Object
     
     public function load($customerId)
     {
-        $this->getByCustomerId($customerId);
+        $this->loadByCustomerId($customerId);
     }
     
     public function validateCreate()
@@ -39,11 +41,17 @@ abstract class Mage_Customer_Customer extends Varien_Data_Object
     {
         return true;
     }
+        
+    public function loadAddresses()
+    {
+        $this->_addresses = Mage::getResourceModel('customer', 'address_collection');
+        $this->_addresses->loadByCustomerId($this->getCustomerId());
+    }
     
     public function getAddress($addressId)
     {
         $address = Mage::getConfig()->getResourceModelClassName('customer', 'address');
-        $address->getByAddressId($addressId);
+        $address->loadByAddressId($addressId);
         return $address;
     }
 }

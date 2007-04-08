@@ -65,7 +65,7 @@ class Mage_Auth_Resource_Model_Mysql4_Acl extends Mage_Auth_Resource_Model_Mysql
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = (string)Mage::getConfig('Mage_Auth')->getAclAssert($rule['assert_type'])->class;
+                $assertClass = Mage::getConfig('Mage_Auth')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             switch ($rule['permission']) {

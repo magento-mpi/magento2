@@ -64,7 +64,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
             $address = Mage::getResourceModel('customer', 'address');
-            $address->getByAddressId((int) $addressId);
+            $address->loadByAddressId((int) $addressId);
             $address->explodeStreetAddress();
             $this->getResponse()->setHeader('Content-type', 'application/x-json');
             $this->getResponse()->appendBody($address->__toJson());
@@ -82,7 +82,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('billing', 'allow', true);
             }
-            $address = new Mage_Customer_Address($data);
+            $address = Mage::getResourceModel('customer', 'address');
+            $address->setData($data);
+            $address->implodeStreetAddress();
             $checkout->setStateData('billing', 'address', $address);
         }
     }
@@ -107,7 +109,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (!empty($data)) {
                 $checkout->setStateData('shipping', 'allow', true);
             }
-            $address = new Mage_Customer_Address($data);
+            $address = Mage::getResourceModel('customer', 'address');
+            $address->setData($data);
+            $address->implodeStreetAddress();
             $checkout->setStateData('shipping', 'address', $address);
         }
 

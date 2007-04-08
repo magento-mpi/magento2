@@ -4,7 +4,7 @@ abstract class Mage_Core_Message_Abstract
 {
     protected $_data = null;
     
-    function __construct($data)
+    function __construct($data=array())
     {
         $this->_data = $data;
     }

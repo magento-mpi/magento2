@@ -32,6 +32,12 @@
                <quote_item>
                   <table>sales_quote_item</table>
                </quote_item>
+               <quote_item_total>
+                  <table>sales_quote_item_total</table>
+               </quote_item_total>
+               <quote_total>
+                  <table>sales_quote_total</table>
+               </quote_total>
             </entities>
          </sales>
       </resourceModels>

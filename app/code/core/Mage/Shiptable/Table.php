@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
+abstract class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
 {
     protected $_conditionName = 'package_weight';
     
@@ -23,7 +23,7 @@ class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
 
         $result = new Mage_Sales_Shipping_Quote_Result();
 
-        $rate = Mage::getResourceModel('shiptable', 'table')->getRate($request);
+        $rate = $this->getRate($request);
         if (!empty($rate)) {
 	    	$quote = new Mage_Sales_Shipping_Quote_Service();
 	    	
@@ -42,5 +42,10 @@ class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
         }
         
     	return $result;
+    }
+    
+    public function getRate(Mage_Sales_Shipping_Quote_Request $request)
+    {
+        
     }
 }

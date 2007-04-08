@@ -1,13 +1,13 @@
 <?php
 
-class Mage_Cart_Total_Collection
+class Mage_Sales_Quote_Total_Collection
 {
-    protected $_cart = null;
+    protected $_quote = null;
     protected $_totals = array();
     
-    public function __construct(Mage_Cart_Cart $cart)
+    public function __construct(Mage_Sales_Quote $quote)
     {
-        $this->_cart = $cart;
+        $this->_quote = $quote;
     }
     
     public function reset()
@@ -15,18 +15,18 @@ class Mage_Cart_Total_Collection
         $this->_totals = array();
     }
     
-    public function append(Mage_Cart_Total_Abstract $total)
+    public function append(Mage_Sales_Quote_Total_Abstract $total)
     {
         $this->_totals[] = $total;
     }
     
     public function collect()
     {
-        $totalsConfig = Mage::getConfig('Mage_Cart')->getTotals();
+        $totalsConfig = Mage::getConfig('Mage_Checkout')->getQuoteTotals();
 
         foreach ($totalsConfig as $total) {
             $className = $total->getClassName();
-            $this->append(new $className($this->_cart));
+            $this->append(new $className($this->_quote));
         }
 
         return $this;

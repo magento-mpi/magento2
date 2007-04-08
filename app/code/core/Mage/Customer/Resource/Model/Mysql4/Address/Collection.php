@@ -9,16 +9,13 @@
  */
 class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data_Collection_Db
 {
-    protected $_addressTable = null;
+    static protected $_addressTable = null;
 
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
-        
-        $this->_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
-
-        $this->_sqlSelect->from($this->_addressTable);
-
+        self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
+        $this->_sqlSelect->from(self::$_addressTable);
         $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('customer', 'address'));
     }
     
@@ -58,7 +55,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data
         }
     }
     
-    public function loadByCustomer($customerId)
+    public function loadByCustomerId($customerId)
     {
         $this->addFilter('customer_id', (int)$customerId, 'and');
         $this->load();

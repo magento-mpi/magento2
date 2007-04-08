@@ -45,7 +45,8 @@
          <shiptable>
             <active>true</active>
 
-            <class>Mage_Shiptable_Table</class>
+            <model>shiptable</model>
+            <class>table</class>
 
             <defaults>
                <title>Table rate</title>

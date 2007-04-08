@@ -9,12 +9,12 @@
  */
 class Mage_Customer_Resource_Model_Mysql4_Customer_Collection extends Varien_Data_Collection_Db
 {
-    protected $_customerTable;
+    static protected $_customerTable;
     
     public function __construct() 
     {
         parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
-        $this->_customerTable = Mage::registry('resources')->getTableName('customer', 'customer');
+        self::$_customerTable = Mage::registry('resources')->getTableName('customer', 'customer');
         $this->_sqlSelect->from($this->_customerTable);
         
         $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('customer', 'customer'));

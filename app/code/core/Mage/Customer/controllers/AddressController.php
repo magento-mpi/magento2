@@ -21,7 +21,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
         // Load addresses
         $addressCollection = Mage::getResourceModel('customer', 'address_collection');
-        $addressCollection->loadByCustomer(Mage_Customer_Front::getCustomerId());
+        $addressCollection->loadByCustomerId(Mage_Customer_Front::getCustomerId());
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
@@ -46,7 +46,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         
         if ($addressId) {
             $address = Mage::getResourceModel('customer', 'address');
-            $address->getByAddressId($addressId);
+            $address->loadByAddressId($addressId);
             
             // Validate address_id <=> customer_id
             if ($address->getCustomerId()!=Mage_Customer_Front::getCustomerId()) {

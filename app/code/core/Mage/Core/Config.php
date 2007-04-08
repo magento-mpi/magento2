@@ -163,7 +163,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         if (!$x) {
             return false;
         }
-        $className = (string)$x->class;
+        $className = $x->getClassName();
         return new $className();
     }
     
@@ -198,7 +198,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 $module = $this->getModule($module);
             }
             if (isset($module->setup) && isset($module->setup->class)) {
-                $className = $module->setup->class;
+                $className = $module->setup->getClassName();
             }
         }
         return new $className($module);
@@ -318,7 +318,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $eventName = $event->getName();
             $observers = $event->observers->children();
             foreach ($observers as $observer) {
-                $callback = array((string)$observer->class, (string)$observer->method);
+                $callback = array($observer->getClassName(), (string)$observer->method);
                 #$args = array_values((array)$observer->args);
                 $args = array($observer->args);
                 Mage::addObserver($eventName, $callback, $args, $observer->getName());
@@ -402,7 +402,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         if (isset($config->subs->$class)) {
             $className = (string)$config->subs->$class;
         } else {
-            $className = (string)$config->class;
+            $className = $config->getClassName();
     
             if (''!==$class) {
                 $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', $class)));

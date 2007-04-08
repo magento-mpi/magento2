@@ -71,7 +71,7 @@ class Mage_Sales_Shipping
 	                continue;
 	            }
 	            $request->setVendor($vendor->getName());
-	            $className = (string)$vendor->class;
+	            $className = $vendor->getClassName();
 	            $obj = new $className();
 	            $result = $obj->fetchQuotes($request);
 	            $this->_result->append($result);
