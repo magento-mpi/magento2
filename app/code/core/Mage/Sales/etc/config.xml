@@ -23,9 +23,15 @@
             <class>Mage_Sales_Resource_Model_Mysql4</class>
 
             <entities>
-               <shipping_table>
-                  <table>sales_shipping_table</table>
-               </shipping_table>
+               <quote>
+                  <table>sales_quote</table>
+               </quote>
+               <quote_address>
+                  <table>sales_quote_address</table>
+               </quote_address>
+               <quote_item>
+                  <table>sales_quote_item</table>
+               </quote_item>
             </entities>
          </sales>
       </resourceModels>

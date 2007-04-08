@@ -20,13 +20,13 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
 
         // Load addresses
-        $addressCollection = new Mage_Customer_Address_Collection();
+        $addressCollection = Mage::getResourceModel('customer', 'address_collection');
         $addressCollection->loadByCustomer(Mage_Customer_Front::getCustomerId());
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
-            ->assign('primaryAddresses', $addressCollection->getPrimaryTypes())
-            ->assign('alternativeAddresses', $addressCollection->getPrimaryTypes(false));
+            ->assign('primaryAddresses', $addressCollection->getPrimaryAddresses())
+            ->assign('alternativeAddresses', $addressCollection->getPrimaryAddresses(false));
         
         Mage::getBlock('content')->append($block);
     }
@@ -45,7 +45,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('address', false);
         
         if ($addressId) {
-            $address = new Mage_Customer_Address($addressId);
+            $address = Mage::getResourceModel('customer', 'address');
+            $address->getByAddressId($addressId);
             
             // Validate address_id <=> customer_id
             if ($address->getCustomerId()!=Mage_Customer_Front::getCustomerId()) {
@@ -55,11 +56,11 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             
             $primary = $address->getPrimaryTypes();
         } else {
-            $address = new Mage_Customer_Address();
+            $address = Mage::getResourceModel('customer', 'address');
             $primary = array();
         }
 
-        $types = Mage::getResourceModel('customer', 'address_type')->getAvailableTypes();
+        $types = Mage::getResourceModel('customer', 'address')->getAvailableTypes();
         foreach ($types as $typeCode=>$type) {
             $types[$typeCode]['name'] = $type['address_type_name'];
             $types[$typeCode]['is_primary'] = !empty($primary[$typeCode]);

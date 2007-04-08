@@ -17,7 +17,7 @@ class Mage_Customer_Block_Regform extends Mage_Core_Block_Form
         $this->setAttribute('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/register/');
         $this->setAttribute('class', 'regform');
         
-        $countries = new Mage_Directory_Country_Collection();
+        $countries = Mage::getResourceModel('directory', 'country_collection');
         $this->assign('countries', $countries->load());
             
         $data = '';

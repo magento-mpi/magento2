@@ -25,6 +25,21 @@ class Mage_Directory_Resource_Model_Mysql4_Country_Collection extends Varien_Dat
             // TODO
         }
         
-        $this->setItemObjectClass('Mage_Directory_Country');
+        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('directory', 'country'));
+    }
+        
+    public function toHtmlOptions($default=false)
+    {
+        $out = '';
+        foreach ($this->_model->getItems() as $index => $item) {
+            $out.='<option value="'.$item->countryId.'"';
+            if ($default == $item->countryId) {
+                $out.=' selected';
+            }
+            $out.='>' . $item->name;
+            $out.="</option>\n";
+        }
+         
+        return $out;
     }
 }

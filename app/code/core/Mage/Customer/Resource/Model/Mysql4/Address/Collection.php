@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Customer address collection
+ *
+ * @package    Ecom
+ * @subpackage Customer
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data_Collection_Db
 {
     protected $_addressTable = null;
@@ -12,29 +19,15 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data
 
         $this->_sqlSelect->from($this->_addressTable);
 
-        $this->setItemObjectClass('Mage_Customer_Address');
-    }
-    
-    public function filterByCustomerId($customerId)
-    {
-        $this->addFilter('customer_id', (int)$customerId, 'and');
-        return $this;
-    }
-    
-    public function filterByCondition($condition)
-    {
-        $this->addFilter('', $condition, 'string');
-        return $this;
+        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('customer', 'address'));
     }
     
     public function load($printQuery = false, $logQuery = false)
     {
-        // load addresses data
-        $data = parent::load($printQuery, $logQuery);
-        
-        // if empty return
-        if (empty($data)) {
-            return $data;
+        // try load addresses data
+        if (!parent::load($printQuery, $logQuery)) {
+            // if empty return
+            return false;
         }
         
         // collect address ids
@@ -45,17 +38,48 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data
         
         // fetch all types for collection addresses
         $condition = $this->getConnection()->quoteInto("address_id in (?)", $addressIds);
-        $typesArr = Mage::getResourceModel('customer', 'address_type')->getCollection($condition);
+        $typesArr = Mage::getResourceModel('customer', 'address')->getTypesByCondition($condition);
         
         // process result
         $types = array('primary_types'=>array(), 'alternative_types'=>array());
         foreach ($typesArr as $type) {
-            $types[$type['address_id']][$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
+            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
+            $types[$type['address_id']][$priority][] = $type['address_type_code'];
         }
        
         // set types to address objects and explode street address
         foreach ($this->_items as $item) {
-            $item->setType($types[$item->getAddressId()]);
+            if (isset($types[$item->getAddressId()]['primary_types'])) {
+                $item->setPrimaryTypes($types[$item->getAddressId()]['primary_types']);
+            }
+            if (isset($types[$item->getAddressId()]['alternative_types'])) {
+                $item->setAlternativeTypes($types[$item->getAddressId()]['alternative_types']);
+            }
         }
+    }
+    
+    public function loadByCustomer($customerId)
+    {
+        $this->addFilter('customer_id', (int)$customerId, 'and');
+        $this->load();
+        return $this;
+    }
+    
+    /**
+     * Enter description here...
+     *
+     * @param string $priority primary|alternative
+     */
+    public function getPrimaryAddresses($primary=true)
+    {
+        $items = $this->getItems();
+        $result = array();
+        foreach ($items as $item) {
+            $primaryTypes = $item->getPrimaryTypes();
+            if ($primary && !empty($primaryTypes) || !$primary && empty($primaryTypes)) {
+                $result[] = $item;
+            }
+        }
+        return $result;
     }
 }

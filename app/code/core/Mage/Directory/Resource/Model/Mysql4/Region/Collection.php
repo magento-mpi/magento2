@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Region_Collection extends Varien_Data_Collection_Db
+class Mage_Directory_Resource_Model_Mysql4_Region_Collection extends Varien_Data_Collection_Db
 {
     public function __construct($lang='en') 
     {
@@ -19,7 +19,7 @@ class Mage_Directory_Region_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->from($regionTable);
         $this->_sqlSelect->join($regionNameTable, "$regionNameTable.region_id=$regionTable.region_id AND $regionNameTable.language_code='$lang'");
         
-        $this->setItemObjectClass('Mage_Region_Country');
+        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('directory', 'region'));
     }
     
     public function toHtmlOptions($default=false)

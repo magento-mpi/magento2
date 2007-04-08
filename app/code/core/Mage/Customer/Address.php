@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Address extends Varien_Data_Object 
+abstract class Mage_Customer_Address extends Varien_Data_Object 
 {
     protected $_types = array();
     
@@ -21,7 +21,7 @@ class Mage_Customer_Address extends Varien_Data_Object
         parent::__construct();
         
         if (is_numeric($address)) {
-            $this->load($address);
+            $this->getByAddressId($address);
         } elseif (is_array($address)) {
             $this->setData($address);
         }
@@ -29,9 +29,20 @@ class Mage_Customer_Address extends Varien_Data_Object
     
     public function load($addressId)
     {
-        Mage::getResourceModel('customer', 'address')->getRow($addressId, $this);
+        $this->getByAddressId($addressId);
     }
-
+    
+    public function save()
+    {
+        $addressModel = Mage::getResourceModel('customer', 'address');
+        
+        if ($this->getAddressId()) {
+            $this->update($this);
+        } else {
+            $this->insert($this);
+        }
+    }
+    
     public function getStreet($line=0)
     {
         if (-1===$line) {
@@ -40,8 +51,10 @@ class Mage_Customer_Address extends Varien_Data_Object
             $arr = explode("\n", trim($this->getData('street')));
             if (0===$line) {
                 return $arr;
-            } else {
+            } elseif (isset($arr[$line-1])) {
                 return $arr[$line-1];
+            } else {
+                return '';
             }
         }
     }
@@ -54,6 +67,10 @@ class Mage_Customer_Address extends Varien_Data_Object
         $this->setData('street', $street);
     }
     
+    /**
+     * Create fields street1, street2, etc. Use only in controllers
+     *
+     */
     public function explodeStreetAddress()
     {
         $streetLines = $this->getStreet();
@@ -100,17 +117,6 @@ class Mage_Customer_Address extends Varien_Data_Object
             } else {
                 unset($this->_types[$type]);
             }
-        }
-    }
-    
-    public function save()
-    {
-        $addressModel = Mage::getResourceModel('customer', 'address');
-        
-        if ($this->getAddressId()) {
-            $addressModel->update($this);
-        } else {
-            $addressModel->insert($this);
         }
     }
     

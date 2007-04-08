@@ -7,14 +7,14 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Customer extends Varien_Data_Object
+abstract class Mage_Customer_Customer extends Varien_Data_Object
 {
     public function __construct($customer=false) 
     {
         parent::__construct();
         
         if (is_numeric($customer)) {
-            $this->load($customer);
+            $this->getByCustomerId($customer);
         } elseif (is_array($customer)) {
             $this->setData($customer);
         }
@@ -22,10 +22,7 @@ class Mage_Customer_Customer extends Varien_Data_Object
     
     public function load($customerId)
     {
-        $data = Mage::getResourceModel('customer', 'customer')->getRow($customerId);
-        if ($data) {
-            $this->setData($data);
-        }
+        $this->getByCustomerId($customerId);
     }
     
     public function validateCreate()
@@ -38,13 +35,15 @@ class Mage_Customer_Customer extends Varien_Data_Object
         return true;
     }
     
-    public function validateChangePassword()
+    public function validateChangePassword($data)
     {
         return true;
     }
     
     public function getAddress($addressId)
     {
-        return new Mage_Customer_Address($addressId);
+        $address = Mage::getConfig()->getResourceModelClassName('customer', 'address');
+        $address->getByAddressId($addressId);
+        return $address;
     }
 }
