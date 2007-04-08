@@ -1,8 +1,9 @@
 <div class="content">
     <h1 class="page-heading"><?if($formData->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h1>
-    <form action="<?=$currentUrl?>" method="post" id="form-validate">
+    <form action="<?=$moduleBaseUrl?>/address/formPost" method="post" id="form-validate">
         <fieldset class="group-single">
             <legend>Personal Information</legend>
+            <input type="hidden" name="address_id" id="address_id" value="<?=$formData->getAddressId()?>">
             <h3>Personal Information</h3>
             <ul class="input-list">
                 <li>
@@ -47,7 +48,7 @@
                         </select>
                     </div>
                     <div class="input-right">
-                        <label for="zip">Zip <span class="required">*</span></label><br/>
+                        <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
                         <input type="text" name="postcode" value="<?=$formData->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                     </div>
                     <div class="clearfix"></div>
@@ -71,10 +72,10 @@
                 <?foreach ($primaryTypes as $code=>$type):?>
                     <li>
                     <?if ($type['is_primary']):?>
-                        <?=$this->__("This is my primary <strong>%s</strong> address", $type['name'])?>
+                        <?=__("This is my primary <strong>%s</strong> address", $type['name'])?>
                     <?else:?>
                         <input type="checkbox" id="primary_<?=$code?>" name="primary_types[<?=$code?>]"/>&nbsp;
-                        <label for="primary_<?=$code?>"><?=$this->__("Use as my primary <strong>%s</strong> address", $type['name'])?></label>
+                        <label for="primary_<?=$code?>"><?=__("Use as my primary <strong>%s</strong> address", $type['name'])?></label>
                     <?endif?>
                     </li>
                 <?endforeach?>

@@ -54,7 +54,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Mage_Core_R
             $types[$type['address_id']][$priority][] = $type['address_type_code'];
         }
        
-        // set types to address objects 
+        // set types to address objects and explode street address
         foreach ($this->_items as $item) {
             if (isset($types[$item->getAddressId()]['primary_types'])) {
                 $item->setPrimaryTypes($types[$item->getAddressId()]['primary_types']);
@@ -62,6 +62,8 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Mage_Core_R
             if (isset($types[$item->getAddressId()]['alternative_types'])) {
                 $item->setAlternativeTypes($types[$item->getAddressId()]['alternative_types']);
             }
+            
+            $item->explodeStreetAddress();
         }
     }
 }

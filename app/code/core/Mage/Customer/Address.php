@@ -28,29 +28,34 @@ class Mage_Customer_Address extends Varien_Data_Object
         }
     }
     
+    public function setAndValidate($data)
+    {
+        
+    }
+    
     public function load($addressId)
     {
         if ($this->_data = Mage::getResourceModel('customer', 'address')->getRow($addressId)) {
             $this->addressId = $addressId;
-            $this->_explodeStreetAddress();
+            $this->explodeStreetAddress();
         }
         else {
             $this->_data = array();
         }
     }
     
-    protected function _explodeStreetAddress()
+    public function explodeStreetAddress()
     {
-        if ($this->street) {
-            if (is_array($this->street)) {
-                $street = $this->street;
+        if ($this->getStreet()) {
+            if (is_array($this->getStreet())) {
+                $street = $this->getStreet();
                 foreach ($street as $index => $value) {
                     $this->setData('street' . ($index+1), $value);
                 }
             }
             else {
                 // Set street{$index} fields
-                $arrStreet = explode("\n", $this->street);
+                $arrStreet = explode("\n", $this->getStreet());
                 foreach ($arrStreet as $index => $value) {
                     $this->setData('street' . ($index+1), $value);
                 }
@@ -58,8 +63,17 @@ class Mage_Customer_Address extends Varien_Data_Object
         }
     }
     
+    public function combineStreetAddress()
+    {
+        if ($this->getStreet() && is_array($this->getStreet())) {
+            $this->setStreet(join("\n", $this->getStreet()));
+        }
+    }
+    
     public function save()
     {
+        $this->_combineStreetAddress();
+        
         $addressModel = Mage::getResourceModel('customer', 'address');
         
         if (!$this->getAddressId()) {

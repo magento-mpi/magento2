@@ -381,3 +381,21 @@ final class Mage {
         Zend_Log::log($message, $level, $file);
     }
 }
+
+/**
+ * Translator function
+ * 
+ * @param string $text the text to translate
+ * @param mixed optional parameters to use in sprintf
+ */
+function __()
+{
+    $args = func_get_args();
+    $text = array_shift($args);
+    
+    //translate $text
+    
+    array_unshift($args, $text);
+    
+    return call_user_func_array('sprintf', $args);
+}

@@ -56,6 +56,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $primary = $address->getPrimaryTypes();
         } else {
             $address = new Mage_Customer_Address();
+            $primary = array();
         }
 
         $types = Mage::getResourceModel('customer', 'address_type')->getAvailableTypes();
@@ -77,25 +78,25 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         // Save data
         if ($this->getRequest()->isPost()) {
-            $addressValidator->setData($_POST);
+            $addressValidator = new Mage_Customer_Validate_Address($_POST);
+            
+            // Validate address_id <=> customer_id
+            if (!$address->hasCustomer(Mage_Customer_Front::getCustomerId())) {
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
+                return;
+            }
+            
+            $data = $addressValidator->getData();
             
             // Validate data
             if ($addressValidator->isValid()) {
                 $addressModel = Mage::getResourceModel('customer', 'address');
-                if ($addressId) {
-                    $saveRes = $addressModel->update($addressValidator->getData(), $addressId);
-                }
-                else {
-                    $saveData = $addressValidator->getData();
-                    $saveData['customer_id'] = Mage_Customer_Front::getCustomerId();
-                    $addressId = $addressModel->insert($saveData);
-                }
                 
-                // Set default addres for customer
-                if (!empty($_POST['set_as_default'])) {
-                    $customerModel = Mage::getResourceModel('customer', 'customer');
-                    $customerModel->setDefaultAddress(Mage_Customer_Front::getCustomerId(), $addressId);
-                    Mage_Customer_Front::setCustomerInfo('default_address_id', $addressId);
+                if ($data['address_id']) {
+                    $saveRes = $addressModel->update($data, $data['address_id']);
+                } else {
+                    $data['customer_id'] = Mage_Customer_Front::getCustomerId();
+                    $addressModel->insert($data);
                 }
                 
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
