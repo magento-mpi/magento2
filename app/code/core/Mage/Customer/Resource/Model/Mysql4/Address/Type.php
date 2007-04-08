@@ -96,7 +96,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
         $types = array('primary_types'=>array(), 'alternative_types'=>array());
         foreach ($typesArr as $type) {
             $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$priority][] = $type['address_type_code'];
+            $types[$priority][$type['address_type_code']] = true;
         }
         
         return $types;
@@ -111,7 +111,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
         $types = array('primary_types'=>array(), 'alternative_types'=>array());
         foreach ($typesArr as $type) {
             $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$type['address_id']][$priority][] = $type['address_type_code'];
+            $types[$type['address_id']][$priority][$type['address_type_code']] = true;
         }
         
         return $types;
@@ -125,5 +125,30 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Type extends Mage_Customer_Res
     public function deleteAddressTypes($addressId)
     {
         
+    }
+    
+    /**
+     * Retrieve available address types with their name by language
+     * 
+     * Use specified field for key
+     *
+     * @param string $by code|id
+     * @param string $langCode en
+     * @return array
+     */
+    public function getAvailableTypes($by='code', $langCode='en')
+    {
+        $langTable = $this->_getTableName('customer', 'address_type_language');
+        
+        $select = $this->_read->select()->from($this->_typeTable)
+            ->join($langTable, "$langTable.address_type_id=$this->_typeTable.address_type_id", "$langTable.address_type_name");
+            
+        $typesArr = $this->_read->fetchAll($select);
+        $types = array();
+        foreach ($typesArr as $type) {
+            $types[$type['address_type_'.$by]] = $type;
+        }
+
+        return $types;
     }
 }

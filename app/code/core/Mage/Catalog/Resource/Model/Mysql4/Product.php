@@ -24,7 +24,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
 
     public function getLink()
     {
-        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getProduct_Id();
+        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getProductId();
         return $url;
     }
     
@@ -44,7 +44,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product extends Varien_Data_Object impl
     
     public function getLargeImageLink()
     {
-        return Mage::getBaseUrl().'/catalog/product/image/id/'.$this->getProduct_Id();
+        return Mage::getBaseUrl().'/catalog/product/image/id/'.$this->getProductId();
     }
     
     public function getTierPrice($qty=1)

@@ -130,7 +130,7 @@ class Mage_Catalog_Resource_Model_Mysql4_Product_Collection extends Mage_Core_Re
     public function getItemById($idValue)
     {
         foreach ($this->_items as $product) {
-            if ($product->getProduct_Id() == $idValue) { // FIXME: why getProduct_Id ? -moshe
+            if ($product->getProductId() == $idValue) { 
                 return $product;
             }
         }

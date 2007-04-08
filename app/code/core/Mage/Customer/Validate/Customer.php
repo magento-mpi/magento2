@@ -25,7 +25,7 @@ class Mage_Customer_Validate_Customer extends Mage_Core_Validate
         
         $customerModel = Mage::getResourceModel('customer', 'customer');
         $customer = $customerModel->getByEmail($arrData['email']);
-        if ($customer->getCustomer_Id()) {
+        if ($customer->getCustomerId()) {
             $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
             return false;
         }
@@ -46,7 +46,7 @@ class Mage_Customer_Validate_Customer extends Mage_Core_Validate
         $customerModel = Mage::getResourceModel('customer', 'customer');
         $customer = $customerModel->getByEmail($arrData['customer_email']);
 
-        if ($customer->getCustomer_Id() && ($customer->getCustomer_Id() != Mage_Customer_Front::getCustomerId())) {
+        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage_Customer_Front::getCustomerId())) {
             $this->_message = 'E-Mail Address already exists';
             return false;
         }

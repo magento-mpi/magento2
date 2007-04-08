@@ -7,31 +7,19 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Country_Collection extends Mage_Core_Resource_Model_Db_Collection
+class Mage_Directory_Country_Collection
 {
+    protected $_model = null;
+    
     public function __construct($useDomainConfig=true) 
     {
-        parent::__construct(Mage::getResourceModel('directory'));
-        
-        $countryTable = $this->_dbModel->getTableName('directory', 'country');
-        $countryNameTable = $this->_dbModel->getTableName('directory', 'country_name');
-        $lang = Mage::registry('website')->getLanguage();
-        
-        $this->_sqlSelect->from($countryTable);
-        $this->_sqlSelect->join($countryNameTable, "$countryNameTable.country_id=$countryTable.country_id AND $countryNameTable.language_code='$lang'");
-        
-        if ($useDomainConfig) {
-            $config = Mage::getConfig()->getCurrentDomain();
-            // TODO
-        }
-        
-        $this->setItemObjectClass('Mage_Directory_Country');
+        $this->_model = Mage::getResourceModel('directory', 'country_collection', array($useDomainConfig));
     }
     
     public function toHtmlOptions($default=false)
     {
         $out = '';
-        foreach ($this->_items as $index => $item) {
+        foreach ($this->_model->getItems() as $index => $item) {
             $out.='<option value="'.$item->countryId.'"';
             if ($default == $item->countryId) {
                 $out.=' selected';

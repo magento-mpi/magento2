@@ -19,23 +19,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        // Default address
-        $defaultAddress = false;
-        
-        if ($defaultAddressId = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
-            $defaultAddress = new Mage_Customer_Address($defaultAddressId);
-        }
-        
         // Load addresses
-        $addressCoolection = new Mage_Customer_Address_Collection();
-        $addressCoolection->filterByCustomerId(Mage_Customer_Front::getCustomerId())
-            ->filterByCondition('address_id!=' . (int) $defaultAddressId)
-            ->load();
+        $addressCollection = new Mage_Customer_Address_Collection();
+        $addressCollection->loadByCustomer(Mage_Customer_Front::getCustomerId());
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
-            ->assign('addresses', $addressCoolection->getAll())
-            ->assign('defaultAddress', $defaultAddress);
+            ->assign('primaryAddresses', $addressCollection->getPrimaryTypes())
+            ->assign('alternativeAddresses', $addressCollection->getPrimaryTypes(false));
         
         Mage::getBlock('content')->append($block);
     }
@@ -50,11 +41,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             return;
         }
         
-        // TODO: restore form data and messages from session
-        
+        // TODO: restore form data and messages from session        
         $addressId = $this->getRequest()->getParam('address', false);
+        
         if ($addressId) {
-            
             $address = new Mage_Customer_Address($addressId);
             
             // Validate address_id <=> customer_id
@@ -62,17 +52,23 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
+            
+            $primary = $address->getPrimaryTypes();
+        } else {
+            $address = new Mage_Customer_Address();
         }
-        else {
-            $address = new Mage_Customer_Address($addressId);
+
+        $types = Mage::getResourceModel('customer', 'address_type')->getAvailableTypes();
+        foreach ($types as $typeCode=>$type) {
+            $types[$typeCode]['name'] = $type['address_type_name'];
+            $types[$typeCode]['is_primary'] = !empty($primary[$typeCode]);
         }
-        
+            
         
         $block = Mage::createBlock('tpl', 'customer.address.form')
             ->setViewName('Mage_Customer', 'form/address.phtml')
-            ->assign('addressId', $addressId)
             ->assign('formData', $address)
-            ->assign('defaultAddressId', Mage_Customer_Front::getCustomerInfo('default_address_id'));
+            ->assign('primaryTypes', $types);
             
         Mage::getBlock('content')->append($block);
     }

@@ -27,20 +27,33 @@ class Mage_Customer_Address_Collection
         return $this;
     }
     
-    public function filterByCustomerId($customerId)
+    public function loadByCustomer($customerId)
     {
         $this->_model->filterByCustomerId($customerId);
-        return $this;
-    }
-    
-    public function filterByCondition($condition)
-    {
-        $this->_model->filterByCondition($condition);
+        $this->load();
         return $this;
     }
     
     public function getAll()
     {
         return $this->_model->getItems();
+    }
+    
+    /**
+     * Enter description here...
+     *
+     * @param string $priority primary|alternative
+     */
+    public function getPrimaryTypes($primary=true)
+    {
+        $items = $this->_model->getItems();
+        $result = array();
+        foreach ($items as $item) {
+            $primaryTypes = $item->getPrimaryTypes();
+            if ($primary && !empty($primaryTypes) || !$primary && empty($primaryTypes)) {
+                $result[] = $item;
+            }
+        }
+        return $result;
     }
 }

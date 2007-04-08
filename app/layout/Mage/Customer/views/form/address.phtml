@@ -1,5 +1,5 @@
 <div class="content">
-    <h1 class="page-heading"><?if($addressId):?>Edit<?else:?>New<?endif?> Address Entry</h1>
+    <h1 class="page-heading"><?if($formData->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h1>
     <form action="<?=$currentUrl?>" method="post" id="form-validate">
         <fieldset class="group-single">
             <legend>Personal Information</legend>
@@ -41,9 +41,9 @@
                     <input type="text" name="city" value="<?=$formData->getCity()?>"  title="City" class="required-entry input-text" id="city" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/></li>
                 <li>
                     <div class="input-left">
-                        <label for="state">State / Province <span class="required">*</span></label><br/>
-                        <select name="region_id" title="State/Province" id="state" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
-                            <option value="1">LA</option>
+                        <label for="region_id">State / Province <span class="required">*</span></label><br/>
+                        <select name="region_id" title="State/Province" id="region_id" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+                            <option value="1">CA</option>
                         </select>
                     </div>
                     <div class="input-right">
@@ -68,12 +68,16 @@
                     </div>
                     <div class="clearfix"></div>
                 </li>
-                <?if($addressId!=$defaultAddressId):?>
-                <li>
-                    <input type="checkbox" id="primary" name="set_as_default"/>&nbsp;
-                    <label for="primary">Use as my primary address</label>
-                </li>
-                <?endif?>
+                <?foreach ($primaryTypes as $code=>$type):?>
+                    <li>
+                    <?if ($type['is_primary']):?>
+                        <?=$this->__("This is my primary <strong>%s</strong> address", $type['name'])?>
+                    <?else:?>
+                        <input type="checkbox" id="primary_<?=$code?>" name="primary_types[<?=$code?>]"/>&nbsp;
+                        <label for="primary_<?=$code?>"><?=$this->__("Use as my primary <strong>%s</strong> address", $type['name'])?></label>
+                    <?endif?>
+                    </li>
+                <?endforeach?>
             </ul>
         </fieldset>
         <div class="buttons-container">

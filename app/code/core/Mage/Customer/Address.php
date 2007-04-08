@@ -20,7 +20,7 @@ class Mage_Customer_Address extends Varien_Data_Object
             parent::__construct($address);
             $this->_explodeStreetAddress();
         }
-        elseif (is_int($address) && $address) {
+        elseif (is_numeric($address)) {
             $this->load($address);
         }
         else {

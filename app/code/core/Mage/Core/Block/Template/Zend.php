@@ -3,7 +3,7 @@
 
 
 /**
- * Base html block 
+ * Zend html block 
  *
  * @package    Mage
  * @subpackage Core
@@ -49,6 +49,6 @@ class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
     
     public function fetchView($fileName)
     {
-        $this->_view->render($fileName);
+        return $this->_view->render($fileName);
     }
 }// Class Mage_Core_Block_Template END

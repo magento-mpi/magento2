@@ -333,4 +333,16 @@ abstract class Mage_Core_Block_Abstract
         
     }
     
+    /**
+     * Translator
+     *
+     * @param unknown_type $text
+     * @param unknown_type $args
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        return call_user_func_array('sprintf', $args);
+    }
+    
 }// Class Mage_Home_ContentBlock END

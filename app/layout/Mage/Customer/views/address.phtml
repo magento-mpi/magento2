@@ -2,27 +2,42 @@
 <h1 class="page-heading">Address Book</h1>
 <table cellspacing="0" width="100%">
     <tr>
-    <?if($defaultAddress):?>
-        <td style="width:50%;"><h3>Primary Address</h3>
-            <address>
-                <?=$defaultAddress->toString()?>
-            </address>
-            <p>
-            <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$defaultAddress->getAddress_Id()?>/" class="red-link">Edit</a></strong></p>
-        </td>
-    <?endif?>
-        <td style="width:50%;"><h3>Additional Entries</h3>
+        <td style="width:50%;"><h3>Primary</h3>
             <table width="100%" cellspacing="0"> 
-            <?if(!empty($addresses)):?>    
-                <?foreach($addresses as $_address):?>
+            <?if(!empty($primaryAddresses)):?>    
+                <?foreach($primaryAddresses as $_address):?>
                 <tr>
                     <td>
                     <address>
                         <?=$_address->toString()?>
                     </address>
                     <p>
-                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddress_Id()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
-                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddress_Id()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no primary entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+        <td style="width:50%;"><h3>Additional Entries</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if(!empty($alternativeAddresses)):?>    
+                <?foreach($alternativeAddresses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=$_address->toString()?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
+                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>

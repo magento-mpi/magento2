@@ -19,7 +19,7 @@
     </div>
 </div>
 <form action="<?=Mage::getBaseUrl('', 'Mage_Cart');?>/index/add/" method="POST">
-<input type="hidden" name="product_id" value="<?=$product->getProduct_Id()?>">
+<input type="hidden" name="product_id" value="<?=$product->getProductId()?>">
 <div class="product-info">
 <h1 class="page-heading"><?=$product->getName()?></h1>
 <div class="product-description"><?=$product->getDescription()?></div>
