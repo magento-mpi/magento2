@@ -263,7 +263,7 @@ Mage.Customer = function(depend){
             };
             
 
-            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/'+this.customerCardId+'/', cb);  
+            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'id/'+this.customerCardId+'/', cb);  
 
             this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
@@ -327,9 +327,9 @@ Mage.Customer = function(depend){
             for (i=0; i < this.formsEdit.length; i++) {
                 if (this.forms.get(this.formsEdit[i])) {
                     var form = this.forms.get(this.formsEdit[i]);
+                    form.sendForm(this.saveItemCallBack.createDelegate(this, [form.id], 0));
                     form.disable();
                     this.disableToolbar();
-                    form.sendForm(this.saveItemCallBack.createDelegate(this, [form.id], 0));
                     var panel = this.forms2Panel.get(form.id);
                 }
             }    
@@ -393,7 +393,7 @@ Mage.Customer = function(depend){
             
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
             panel.on('activate', function() {
-                this.addressView.load(this.addressViewUrl + 'customer/14/');
+                this.addressView.load(this.addressViewUrl + 'id/'+ this.customerCardId +'/');
             }, this);
             
             return panel;
@@ -449,7 +449,7 @@ Mage.Customer = function(depend){
                 success : this.onDeleteSuccess.createDelegate(this),
                 failure : this.onDeleteFailure.createDelegate(this),
             }
-            var con = new Ext.lib.Ajax.request('GET', this.deleteUrl + 'id/14/', cb);
+            var con = new Ext.lib.Ajax.request('GET', this.deleteUrl + 'id/' + this.customerCardId + '/', cb);
         },
         
         onDeleteSuccess : function() {

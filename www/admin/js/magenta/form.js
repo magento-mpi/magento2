@@ -44,6 +44,7 @@ Mage.Form = function(form){
         var i = 0;
         var formData = '';
         var elm;
+
         for(i=0; i < this.elements.getCount(); i++) {
             elm = this.elements.itemAt(i);
             oElement = elm;
@@ -98,8 +99,10 @@ Mage.Form = function(form){
 				}
 			}            
         }
+
    		formData = formData.substr(0, formData.length - 1);
         
+
         var cb = {
             success : this.successDelegate,
             failure : this.failureDelegate,

@@ -29,7 +29,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         
         //$arrGridFields = array('product_id', 'name', 'price', 'description');
         $arrGridFields = array();
-        
+
         $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
     }
     
@@ -38,12 +38,13 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
+        $customerId = $this->getRequest()->getParam('id', 0);
         $cardStruct = array();
         $cardStruct['tabs'] = array(
             0 => array(
                 'name' => 'general',
                 'title' => 'General Information',
-                'url' => Mage::getBaseUrl().'/mage_customer/customer/form/',
+                'url' => Mage::getBaseUrl().'/mage_customer/customer/form/id/'.$customerId.'/',
                 'type' => 'form',
                 'active' => true
             ),
@@ -61,7 +62,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
      */
     public function formAction()
     {
-        $customerId = $this->getRequest()->getParam('customer', false);
+        $customerId = $this->getRequest()->getParam('id', false);
         $customer = Mage::getModel('customer', 'customer');
         $customer->load($customerId);
         
@@ -75,8 +76,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $form->addField(
             'customer_id', 
             'hidden', 
-            array(
-                'name'=>'customer_id'
+            array (
+                'name'=>'customer_id',
+            	'value' => $customerId
             )
         );
                 
@@ -110,7 +112,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'customer_email', 
             'text', 
             array(
-                'name'  => 'customer_email',
+            'name'  => 'customer_email',
                 'label' => 'Email',
                 'id'    => 'customer_email',
                 'title' => 'Customer Email',
@@ -119,9 +121,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             )
         );
 
-        $form->setElementsValues($customer->__toArray());
-
-        $form->addField(
+       $form->setElementsValues($customer->__toArray());
+            
+       $form->addField(
             'customer_pass', 
             'password', 
             array(
@@ -139,12 +141,17 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
 
     public function formPostAction()
     {
-        
+        $customerId = $this->getRequest()->getPost('customer_id', 0);
+        $customer = Mage::getModel('customer', 'customer', array($customerId));
+        $customer->setEmail($this->getRequest()->getPost('customer_email', false));
+        $customer->setFirstName($this->getRequest()->getPost('customer_firstname', false));
+        $customer->setLastName($this->getRequest()->getPost('customer_lasttname', false));
+        $customer->save();
     }
     
     public function deleteAction()
     {
-        $customerId = $this->getRequest()->getParam('customer', false);
+        $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
             Mage::getModel('customer', 'customer')->delete($customerId);
         }
