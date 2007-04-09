@@ -4,6 +4,7 @@ Mage.Form = function(form){
     this.elements = new Ext.util.MixedCollection(false);
     
     this.form = Ext.getDom(form);
+    this.id = form.id;
     this.action = form.action;
     this.method = form.method;
     this.timeout = 10000;
@@ -126,7 +127,7 @@ Mage.Form = function(form){
     
     this.processFailure = function(response) {
         if (typeof response.argument.callBack == 'function') {
-            response.argument.callBack(response, {failure:true});
+            response.argument.callBack(response, {success:false});
         }
     }
     

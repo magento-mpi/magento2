@@ -44,23 +44,26 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
                 'name' => 'general',
                 'title' => 'General Information',
                 'url' => Mage::getBaseUrl().'/mage_customer/customer/form/',
+                'type' => 'form',
                 'active' => true
             ),
             1 => array(
-                'type' => 'address'
+                'type' => 'address',
+			    'active' => false
             ),
         );
         
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
-    
+
     /**
      * Customer form
      */
     public function formAction()
     {
         $customerId = $this->getRequest()->getParam('customer', false);
-        $customer = new Mage_Customer_Customer($customerId);
+        //$customer = new Mage_Customer_Customer($customerId);
+        $customer = Mage::getResourceModel('customer', 'customer', array($customerId));
         
         $form = Mage::createBlock('form', 'customer.form');
         $form->setViewName('Mage_Core', 'form.phtml');

@@ -15,6 +15,9 @@ Mage.Customer = function(depend){
         addressViewForm : Mage.url + '/mage_customer/address/card/', 
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
         customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
+        formPanels : new Ext.util.MixedCollection(),
+        forms : new Ext.util.MixedCollection(),
+        formsEdit : [],
         
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
@@ -214,18 +217,7 @@ Mage.Customer = function(depend){
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
         },
         
-        onRemovePanel: function(region, panel) {
-            //region.hide();
-            region.clearPanels();
-        },
-        
-        onCancelEdit : function () {
-            this.customerLayout.getRegion('south').clearPanels();            
-        },
-        
-        onLoadPanel : function() {
 
-        },
         
         loadTabs : function(response) {
             
@@ -267,10 +259,18 @@ Mage.Customer = function(depend){
                    var mgr = panel.getUpdateManager();
                    mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
                    this.editPanel.add('center', panel);
+                   dataCard.tabs[i]["panel"] = panel;
+                   if (dataCard.tabs[i].type == 'form') {
+                       this.formPanels.add(panel.getId(), panel);
+                   }
                }
             }
-            //this.editPanel.endUpdate();
             
+            for (var i=0; i < dataCard.tabs.length; i++) {
+               if (dataCard.tabs[i].active) {
+                   this.editPanel.getRegion('center').showPanel(dataCard.tabs[i]["panel"]);
+               }
+            }
         },
         
         createTabPanel: function(tabInfo){
@@ -279,6 +279,7 @@ Mage.Customer = function(depend){
                 case 'address' :
                     panel = this.createAddressTab(tabInfo);
                 break;
+                case 'form' :
                 default : 
                     panel = new Ext.ContentPanel('customerCard_' + tabInfo.name,{
                         title : tabInfo.title,
@@ -289,7 +290,28 @@ Mage.Customer = function(depend){
                         background: true
                     });
             }
+            
             return panel;
+        },
+        
+        saveItem : function() {
+            var i;
+            for (i=0; i < this.formsEdit.length; i++) {
+                if (this.forms.get(this.formsEdit[i])) {
+                    var form = new Mage.Form(this.forms.get(this.formsEdit[i]));
+                    form.sendForm(this.saveItemCallBack.createDelegate(this, [form.id], 0));
+                    this.formsEdit[i] = 0;
+                    
+                }
+            }    
+        },
+        
+        saveItemCallBack : function(formId, response, type) {
+            if (type.success) {
+                alert('From POSTed');
+            } else {
+                Ext.dump(response.responseText);
+            }
         },
         
         createAddressTab : function(tabInfo) {
@@ -334,10 +356,12 @@ Mage.Customer = function(depend){
         	});            
         	
             this.addressView.on("click", this.onClickAddressView.createDelegate(this));
-
-            this.addressView.load(this.addressViewUrl + 'customer/14/');
             
-            var panel = new Ext.NestedLayoutPanel(this.addressLayout, {title: 'Addresses'});
+            var panel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
+            panel.on('activate', function() {
+                this.addressView.load(this.addressViewUrl + 'customer/14/');
+            }, this);
+            
             return panel;
         },
         
@@ -358,9 +382,48 @@ Mage.Customer = function(depend){
             this.select(0);
         },
         
-        saveItem : function() {
-            
-        }
+        onRemovePanel: function(region, panel) {
+            //region.hide();
+            region.clearPanels();
+        },
         
+        onCancelEdit : function () {
+            this.customerLayout.getRegion('south').clearPanels();            
+        },
+        
+        onLoadPanel : function(el, response) {
+            if (!this.formPanels.get(el.id)) {
+                return false;
+            }
+             var i=0;
+            // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
+            panel = this.formPanels.get(el.id);
+            if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
+                var el;             
+                if (!form.id) {
+                    form.id = Ext.id();
+                }
+                
+                for(i=0; i < form.elements.length; i++) {
+                    // add to each file onChange event if - field changed - mark tab and form changed
+                    Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel, form.id], 0));
+                }
+                this.forms.add(form.id, form);
+            }
+        },
+        
+        onFormChange : function(panel, formId, e, element, object) {
+            var i;
+            for (i = 0; i < this.formsEdit.length; i++) {
+                if (this.formsEdit[i] == formId) {
+                    return false;
+                }
+            }
+            if (this.forms.get(formId)) {
+                panel.setTitle(panel.getTitle() + '*');
+                this.formsEdit.push(formId);
+            }
+            e.stopEvent();
+        }
     }
 }();
