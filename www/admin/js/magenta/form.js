@@ -9,8 +9,10 @@ Mage.Form = function(form){
     this.method = form.method;
     this.timeout = 10000;
     this.transId = null;
+    this.disabled = false;
     this.scipFile = true;
     this.enctype = form.getAttribute("enctype");
+    
     if(this.enctype && this.enctype.toLowerCase() == "multipart/form-data"){
         this.isUpload  = true;
     }                
@@ -95,18 +97,8 @@ Mage.Form = function(form){
 						break;
 				}
 			}            
-
-//            if (elm.tagName.toLowerCase() == 'fieldset') {
-//                continue;
-//            }
-//            if (this.scipFile && elm.type.toLowerCase() == 'file') {
-//                continue;
-//            }
-//            
-//            formData.push(encodeURIComponent(elm.name)+'='+encodeURIComponent(elm.value));
         }
-           // this._isFormSubmit = true;
-    		formData = formData.substr(0, formData.length - 1);
+   		formData = formData.substr(0, formData.length - 1);
         
         var cb = {
             success : this.successDelegate,
@@ -116,7 +108,6 @@ Mage.Form = function(form){
         }
        // params = formData.join('&');
         this.transId = Ext.lib.Ajax.request(this.method, this.action, cb, formData);
-        this.elements.clear();
     }
     
     this.processSuccess = function(response) {
@@ -130,6 +121,25 @@ Mage.Form = function(form){
             response.argument.callBack(response, {success:false});
         }
     }
+    
+    this.disable = function () {
+      var i = 0;
+      for(i=0; i < this.elements.getCount(); i++) {
+          var elm = this.elements.itemAt(i);
+          elm.disabled = true;
+          this.disabled = true;
+      }   
+    }
+
+    this.enable = function () {
+        var i;
+        for(i=0; i < this.elements.getCount(); i++) {
+            var elm = this.elements.itemAt(i);
+            elm.disabled = false;
+            this.disabled = false;
+        }
+    }
+
     
     this.successDelegate = this.processSuccess.createDelegate(this);
     this.failureDelegate = this.processFailure.createDelegate(this);

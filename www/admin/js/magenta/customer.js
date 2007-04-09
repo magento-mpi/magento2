@@ -16,7 +16,9 @@ Mage.Customer = function(depend){
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
         customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
         formPanels : new Ext.util.MixedCollection(),
+        forms2Panel : new Ext.util.MixedCollection(),
         forms : new Ext.util.MixedCollection(),
+        
         formsEdit : [],
         
         init : function() {
@@ -204,31 +206,8 @@ Mage.Customer = function(depend){
                          tabPosition: 'top'
                      }
             });
-            this.editPanel.add('north', new Ext.ContentPanel(this.editPanel.getEl().createChild({tag:'div'})));
-           
-            var failure = function(o) {Ext.MessageBox.alert('Customer Card',o.statusText);}
-            var cb = {
-                success : this.loadTabs.createDelegate(this),
-                failure : failure
-            };
-            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/0/', cb);  
-
-            this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
-            this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
-        },
-        
-
-        
-        loadTabs : function(response) {
-            
-            dataCard = Ext.decode(response.responseText);  
-            
-            
-            // begin update editPanel
-//            this.editPanel.beginUpdate();
-            
             // setup toolbar for forms
-            var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
+            toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
                 cls: 'x-btn-text-icon',
@@ -250,6 +229,29 @@ Mage.Customer = function(depend){
                disabled: false
             });
             toolbar.addSeparator();
+            
+            this.editPanel.add('north', new Ext.ContentPanel(this.editPanel.getEl().createChild({tag:'div'}), {toolbar: toolbar}));
+           
+            var failure = function(o) {Ext.MessageBox.alert('Customer Card',o.statusText);}
+            var cb = {
+                success : this.loadTabs.createDelegate(this),
+                failure : failure
+            };
+            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/0/', cb);  
+
+            this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
+            this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
+        },
+        
+
+        
+        loadTabs : function(response) {
+            
+            dataCard = Ext.decode(response.responseText);  
+            
+            
+            // begin update editPanel
+//            this.editPanel.beginUpdate();
             
             
             var panel = null;
@@ -298,10 +300,11 @@ Mage.Customer = function(depend){
             var i;
             for (i=0; i < this.formsEdit.length; i++) {
                 if (this.forms.get(this.formsEdit[i])) {
-                    var form = new Mage.Form(this.forms.get(this.formsEdit[i]));
+                    var form = this.forms.get(this.formsEdit[i]);
+                    form.disable();
+                    this.disableToolbar();
                     form.sendForm(this.saveItemCallBack.createDelegate(this, [form.id], 0));
-                    this.formsEdit[i] = 0;
-                    
+                    var panel = this.forms2Panel.get(form.id);
                 }
             }    
         },
@@ -309,9 +312,14 @@ Mage.Customer = function(depend){
         saveItemCallBack : function(formId, response, type) {
             if (type.success) {
                 alert('From POSTed');
+                var panel = this.forms2Panel.get(formId);
+                panel.setTitle(panel.getTitle().substr(0,panel.getTitle().length-1));
+                this.formsEdit.splice(this.formsEdit.indexOf(formId),1);
             } else {
                 Ext.dump(response.responseText);
             }
+            this.enableToolbar();
+            this.forms.get(formId).enable();
         },
         
         createAddressTab : function(tabInfo) {
@@ -365,6 +373,24 @@ Mage.Customer = function(depend){
             return panel;
         },
         
+        disableToolbar : function() {
+            var toolbar = this.editPanel.getRegion('north').getActivePanel().getToolbar();
+            for(var i=0; i< toolbar.items.length; i++) {
+                if (toolbar.items.get(i).disable) {
+                    toolbar.items.get(i).disable();
+                }
+            }            
+        },
+        
+        enableToolbar : function() {
+            var toolbar = this.editPanel.getRegion('north').getActivePanel().getToolbar();
+            for(var i=0; i< toolbar.items.length; i++) {
+                if (toolbar.items.get(i).enable) {
+                    toolbar.items.get(i).enable();
+                }
+            }            
+        },
+        
         onClickAddressView : function(view, index, node, e) {
             this.addressView.select(index);
             var panel = this.addressLayout.getRegion('center').getActivePanel();
@@ -398,6 +424,7 @@ Mage.Customer = function(depend){
              var i=0;
             // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
             panel = this.formPanels.get(el.id);
+            var form = null;
             if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
                 var el;             
                 if (!form.id) {
@@ -408,7 +435,8 @@ Mage.Customer = function(depend){
                     // add to each file onChange event if - field changed - mark tab and form changed
                     Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel, form.id], 0));
                 }
-                this.forms.add(form.id, form);
+                this.forms.add(form.id, new Mage.Form(form));
+                this.forms2Panel.add(form.id, panel);
             }
         },
         
