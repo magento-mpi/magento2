@@ -3,12 +3,11 @@
  * Varien Library
  *
  *
- * @category
- * @package
+ * @package		Varien
+ * @subpackage  Db
  * @copyright  Copyright (c) 2007 Varien Inc.
- * @license    New BSD License
- * @author     Andrey Korolyov
- * @author     Dmitriy Soroka
+ * @author     Andrey Korolyov <andrey@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 
 

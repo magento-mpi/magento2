@@ -3,10 +3,10 @@
 /**
  * Base items collection class 
  *
- * @package    Mage
- * @subpackage Core
+ * @package    Varien
+ * @subpackage Data
  * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Andrey Korolyov
+ * @author     Andrey Korolyov <andrey@varien.com>
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */

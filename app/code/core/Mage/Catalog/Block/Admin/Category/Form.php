@@ -2,7 +2,7 @@
 /**
  * Category data form
  *
- * @package    Ecom
+ * @package    Mage_Admin
  * @subpackage Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
