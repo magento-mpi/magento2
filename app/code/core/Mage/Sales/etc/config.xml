@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Sales>
-         <version>0.1.2</version>
+         <version>0.1.1</version>
          <depends>
             <Mage_Catalog />
 
@@ -26,18 +26,50 @@
                <quote>
                   <table>sales_quote</table>
                </quote>
+               <quote_attribute>
+                  <table>sales_quote_attribute</table>
+               </quote_attribute>
                <quote_address>
                   <table>sales_quote_address</table>
+               </quote_address>
+               <quote_address>
+                  <table>sales_quote_address_type</table>
                </quote_address>
                <quote_item>
                   <table>sales_quote_item</table>
                </quote_item>
-               <quote_item_total>
-                  <table>sales_quote_item_total</table>
-               </quote_item_total>
-               <quote_total>
-                  <table>sales_quote_total</table>
-               </quote_total>
+               <quote_payment>
+                  <table>sales_quote_payment</table>
+               </quote_payment>
+               
+               <order>
+                  <table>sales_order</table>
+               </order>
+               <order_attribute>
+                  <table>sales_order_attribute</table>
+               </order_attribute>
+               <order_address>
+                  <table>sales_order_address</table>
+               </order_address>
+               <order_address>
+                  <table>sales_order_address_type</table>
+               </order_address>
+               <order_item>
+                  <table>sales_order_item</table>
+               </order_item>
+               <order_item_attribute>
+                  <table>sales_order_item_attribute</table>
+               </order_item_attribute>
+               <order_item_status>
+                  <table>sales_order_item_status</table>
+               </order_item_status>
+               <order_status>
+                  <table>sales_order_status</table>
+               </order_status>
+               <order_status_history>
+                  <table>sales_order_status_history</table>
+               </order_status_history>
+               
             </entities>
          </sales>
       </resourceModels>

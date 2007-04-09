@@ -4,7 +4,6 @@ class Mage_Sales_Resource_Model_Mysql4_Quote extends Mage_Sales_Quote
 {
     protected static $_read;
     protected static $_write;
-    protected static $_quoteTable;
     
     public function __construct($data=array())
     {
@@ -14,10 +13,25 @@ class Mage_Sales_Resource_Model_Mysql4_Quote extends Mage_Sales_Quote
     
     public function loadByQuoteId($quoteId)
     {
-        $select = self::$_read->select()->from(self::$_quoteTable)
+        $quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
+        $select = self::$_read->select()->from($quoteTable)
             ->where(self::$_read->quoteInto("quote_id=?", $quoteId));
         $this->setData(self::$_read->fetchRow($select));
+        
+        $this->loadAttributes();
     }
-
     
+    public function loadAttributes()
+    {
+        $attrTable = Mage::registry('resources')->getTableName('sales', 'quote_attribute');
+        $select = self::$_read->select()->from($attrTable)
+            ->where(self::$_read->quoteInto("quote_id=?", $this->getQuoteId()));
+        $attributes = self::$_read->fetchRow($select);
+        if (empty($attributes)) {
+            return false;
+        }
+        foreach ($attributes as $attr) {
+            
+        }
+    }
 }
