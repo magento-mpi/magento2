@@ -13,7 +13,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address_Collection extends Varien_Data
 
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
+        parent::__construct(Mage::registry('resources')->getConnection('customer_read'));
         self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
         $this->_sqlSelect->from(self::$_addressTable);
         $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('customer', 'address'));

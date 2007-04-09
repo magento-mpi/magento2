@@ -11,7 +11,7 @@ class Mage_Directory_Resource_Model_Mysql4_Region_Collection extends Varien_Data
 {
     public function __construct($lang='en') 
     {
-        parent::__construct(Mage::getResourceModel('directory')->getReadConnection());
+        parent::__construct(Mage::registry('resources')->getConnection('directory_read'));
         
         $regionTable = Mage::registry('resources')->getTableName('directory', 'country_region');
         $regionNameTable = Mage::registry('resources')->getTableName('directory', 'country_region_name');

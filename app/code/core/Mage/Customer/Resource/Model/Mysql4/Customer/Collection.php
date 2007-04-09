@@ -13,7 +13,7 @@ class Mage_Customer_Resource_Model_Mysql4_Customer_Collection extends Varien_Dat
     
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('customer')->getReadConnection());
+        parent::__construct(Mage::registry('resources')->getConnection('customer_read'));
         self::$_customerTable = Mage::registry('resources')->getTableName('customer', 'customer');
         $this->_sqlSelect->from($this->_customerTable);
         
