@@ -7,94 +7,9 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Product extends Varien_Data_Object implements Mage_Core_Model_Db_Table_Interface
+class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product 
 {
-    protected $_dbModel;
-    
-    function __construct($data = array())
-    {
-        parent::__construct($data);
-        $this->_dbModel = Mage::getModel('catalog');
-    }
-    
-    public function load($id)
-    {
-        $this->_data = $this->getRow($id);
-    }
-
-    public function getLink()
-    {
-        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getProductId();
-        return $url;
-    }
-    
-    public function getCategoryLink()
-    {
-        // TODO : default category id attribute
-        $url = Mage::getBaseUrl().'/catalog/category/view/id/3';
-        return $url;
-    }
-    
-    public function getCategoryName()
-    {
-        // TODO : default category id attribute
-        $category = Mage::getModel('catalog', 'category_tree')->getNode(3);
-        return $category->getData('attribute_value');
-    }
-    
-    public function getLargeImageLink()
-    {
-        return Mage::getBaseUrl().'/catalog/product/image/id/'.$this->getProductId();
-    }
-    
-    public function getTierPrice($qty=1)
-    {
-        return $this->getPrice();
-    }
-    
-    /**
-     * Insert row in database table
-     * $data = array(
-     *      ['attribute_set_id'] => int
-     *      ['system_status_id'] => int
-     *      ['attributes'] => array(
-     *          [$id] => $value
-     *      )
-     * )
-     * @param array $data
-     */
-    public function insert($data)
-    {
-        
-    }
-    
-    /**
-     * Update row in database table
-     *
-     * @param   array $data
-     * @param   int   $rowId
-     */
-    public function update($data, $rowId)
-    {
-        
-    }
-    
-    /**
-     * Delete row from database table
-     *
-     * @param   int $rowId
-     */
-    public function delete($rowId)
-    {
-        
-    }
-    
-    /**
-     * Get row from database table
-     *
-     * @param   int $rowId
-     */
-    public function getRow($productId, $withMultipleFields = true)
+    public function load($productId)
     {
         $arrRes = array();
         $productTable = Mage::registry('resources')->getTableName('catalog', 'product');        
@@ -178,18 +93,18 @@ class Mage_Catalog_Model_Mysql4_Product extends Varien_Data_Object implements Ma
         
         return $arrRes;
     }
-    
+
     /**
      * Get product attributes
      *
      * @param   int $productId
      * @return  array
      */
-    public function getAttributes($productId)
+    public function getAttributes()
     {
-        $productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
-        $attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
-        $attributeInSetTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        $productTable       = Mage::registry('resources')->getTableName('catalog', 'product');
+        $attributeTable     = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $attributeInSetTable= Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
         
         $sql = "SELECT
                     $attributeTable.*
