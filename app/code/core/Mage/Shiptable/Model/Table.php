@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Shiptable_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
+abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
 {
     protected $_conditionName = 'package_weight';
     

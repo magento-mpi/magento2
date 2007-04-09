@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Shiptable_Model_Mysql4_Table extends Mage_Shiptable_Table
+class Mage_Shiptable_Model_Mysql4_Table extends Mage_Shiptable_Model_Table
 {
     protected static $_read;
     protected static $_write;
