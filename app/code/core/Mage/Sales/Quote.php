@@ -2,25 +2,152 @@
 
 class Mage_Sales_Quote extends Varien_Data_Object
 {
-    protected $_items = null;
     protected $_addresses = null;
-    protected $_totals = null;
-    
-    public function loadAddresses()
+    protected $_items = null;
+    protected $_attributes = null;
+    protected $_payments = null;
+
+    public function getAddresses()
     {
-        $this->_addresses = Mage::getResourceModel('sales', 'quote_address_collection');
-        $this->_addresses->loadByQuoteId($this->getQuoteId());
+        if (is_null($this->_addresses)) {
+            $this->_addresses = Mage::getResourceModel('sales', 'quote_address_collection');
+        }
+        return $this->_addresses;
     }
     
-    public function loadItems()
+    public function getItems()
     {
-        $this->_items = Mage::getResourceModel('sales', 'quote_item_collection');
-        $this->_items->loadByQuoteId($this->getQuoteId());
+        if (is_null($this->_items)) {
+            $this->_items = Mage::getResourceModel('sales', 'quote_item_collection');
+        }
+        return $this->_items;
     }
     
-    public function loadTotals()
+    public function getAttributes()
     {
-        $this->_totals = Mage::getResourceModel('sales', 'quote_total_collection');
-        $this->_totals->loadByQuoteId($this->getQuoteId());
+        if (is_null($this->_attributes)) {
+            $this->_attributes = Mage::getResourceModel('sales', 'quote_attribute_collection');
+        }
+        return $this->_attributes;
+    }
+    
+    public function getPayments()
+    {
+        if (is_null($this->_payments)) {
+            $this->_payments = Mage::getResourceModel('sales', 'quote_payment_collection');
+        }
+        return $this->_payments;
+    }
+    
+    public function getAddressByType($type)
+    {
+        foreach ($this->getAddresses()->getItems() as $addr) {
+            if ($addr->getAddressTypeCode()==$type) {
+                return $addr;
+            }
+        }
+    }
+    
+    public function collectTotals($type='')
+    {
+        $attrClasses = Mage::getConfig()->getGlobalCollection('salesQuoteAttributes');
+        $totalsArr = array();
+        foreach ($this->getAttributes()->getItems() as $item) {
+            if ($item->getEntityType()!='quote') {
+                continue;
+            }
+            $code = $item->getAttributeCode();
+            if (!$attrClasses->$code) {
+                continue;
+            }
+            $className = $attrClasses->$code->getClassName();
+            $attr = new $className();
+            $arr = $attr->collectTotals($quote);
+            foreach ($arr as $i=>$row) {
+                if (''!==$type && $row['type']!==$type || '_output'===$type && empty($row['output'])) {
+                    unset($arr[$i]);
+                }
+            }
+            $totalsArr = array_merge_recursive($totalsArr, $arr);
+        }
+        return $totalsArr;
+    }
+    
+    public function getItemsAsArray($fields=null)
+    {
+        $arr = array();
+        if (is_null($fields)) {
+            foreach ($this->getItems() as $item) {
+                $arr[$item->getQuoteItemId()] = $item->getData();
+            }
+            foreach ($this->getAttributes()->getByEntity('item') as $attr) {
+                $arr[$attr->getEntityId()][$attr->getAttributeCode()] = $attr->getData();
+            }
+        } else {
+            foreach ($this->getItems() as $item) {
+                $arr[$item->getQuoteItemId()] = $item->getData();
+                foreach ($fields as $fieldName=>$fieldType) {
+                    $attrs = $this->getAttributes()->getByEntity('item', $fieldName);
+                    $arr[$item->getQuoteItemId()][$fieldName] = $attrs[0]->getData('attribute_'.$fieldType);  
+                }
+            }
+        }
+        return $arr;
+    }
+    
+    public function addCustomerAddress(Mage_Customer_Address $source, $type)
+    {
+        $address = Mage::getResourceModel('sales', 'quote_address');
+        
+        $fields = array(
+            'firstname'=>'text', 
+            'lastname'=>'text', 
+            'company'=>'text', 
+            'street'=>'text', 
+            'city'=>'text', 
+            'region'=>'text', 
+            'region_id'=>'int', 
+            'postcode'=>'text', 
+            'country_id'=>'int', 
+            'telephone'=>'text', 
+            'fax'=>'text'
+        );
+        foreach ($fields as $fieldName=>$fieldType) {
+            $attr = Mage::getResourceModel('sales', 'quote_attribute');
+            $attr->setEntityType('address');
+            $attr->setAttributeCode($fieldName);
+            $attr->setData('attribute_'.$fieldType, $source->getData($fieldName));
+            $address->addAttribute($attr);
+        }
+        
+        $this->getAddresses()->addItem($address);
+        
+        return $this;
+    }
+    
+    public function addProductItem(Mage_Catalog_Product $source, $qty=1)
+    {
+        $item = Mage::getResourceModel('sales', 'quote_item');
+        
+        $fields = array(
+            'product_id'=>'int', 
+            'product_name'=>'text', 
+        );
+        foreach ($fields as $fieldName=>$fieldType) {
+            $attr = Mage::getResourceModel('sales', 'quote_attribute');
+            $attr->setEntityType('item');
+            $attr->setAttributeCode($fieldName);
+            $attr->setData('attribute_'.$fieldType, $source->getData($fieldName));
+            $item->addAttribute($attr);
+        }
+        
+        $this->getItems()->addItem($item);
+        
+        return $this;
+    }
+    
+    public function addPayment(Mage_Sales_Payment $source)
+    {
+        
     }
 }

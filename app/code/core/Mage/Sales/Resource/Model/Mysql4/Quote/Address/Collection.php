@@ -18,4 +18,13 @@ class Mage_Sales_Resource_Model_Mysql4_Quote_Address_Collection extends Varien_D
         $this->load();
         return $this;
     }
+        
+    public function getByAddressId($addressId)
+    {
+        foreach ($this->getItems() as $item) {
+            if ($item->getQuoteAddressId()==$addressId) {
+                return $item;
+            }
+        }
+    }
 }

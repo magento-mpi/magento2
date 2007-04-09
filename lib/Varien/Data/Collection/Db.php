@@ -25,6 +25,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     
     public function __construct($conn=null)
     {
+        parent::__construct();
+        
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
@@ -199,9 +201,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $data = $this->_conn->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
             foreach ($data as $item) {
-                $this->_items[] = new $this->_itemObjectClass($item);
+                $this->addItem(new $this->_itemObjectClass($item));
             }
         }
         return $this;
     }
+
 }

@@ -14,7 +14,7 @@ class Varien_Data_Collection implements Iterator
 {
     // ITEMS
     protected $_items = array();
-    protected $_itemObjectClass='Varien_Data_Object';
+    protected $_itemObjectClass = 'Varien_Data_Object';
     
     // FILTERS AND ORDERS
     protected $_orders      = array();
@@ -104,6 +104,36 @@ class Varien_Data_Collection implements Iterator
     public function getItems()
     {
         return $this->_items;
+    }
+    
+    public function addItem(Varien_Data_Object $item)
+    {
+        $this->_items[] = $item;
+    }
+    
+    public function clear()
+    {
+        $this->_items[] = array();
+    }
+        
+    public function walk($method, $args)
+    {
+        foreach ($this->getItems() as $item) {
+            call_user_func_array(array($item, $method), $args);
+        }
+    }
+
+    public function setDataToAll($key, $value=null)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k=>$v) {
+                $this->setDataToAll($k, $v);
+            }
+            return $this;
+        }
+        foreach ($this->getItems() as $item) {
+            $this->setData($key, $value);
+        }
     }
     
     /**

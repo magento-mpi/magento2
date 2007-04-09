@@ -17,5 +17,14 @@ class Mage_Sales_Resource_Model_Mysql4_Quote_Payment_Collection extends Varien_D
         $this->addFilter('quote_id', (int)$quoteId, 'and');
         $this->load();
         return $this;
+    }    
+    
+    public function getByPaymentId($paymentId)
+    {
+        foreach ($this->getItems() as $item) {
+            if ($item->getQuotePaymentId()==$paymentId) {
+                return $item;
+            }
+        }
     }
 }

@@ -18,4 +18,13 @@ class Mage_Sales_Resource_Model_Mysql4_Quote_Item_Collection extends Varien_Data
         $this->load();
         return $this;
     }
+    
+    public function getByItemId($itemId)
+    {
+        foreach ($this->getItems() as $item) {
+            if ($item->getQuoteItemId()==$itemId) {
+                return $item;
+            }
+        }
+    }
 }
