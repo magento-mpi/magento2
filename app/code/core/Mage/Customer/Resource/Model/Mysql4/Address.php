@@ -148,7 +148,7 @@ class Mage_Customer_Resource_Model_Mysql4_Address extends Mage_Customer_Address
         $langTable = Mage::registry('resources')->getTableName('customer', 'address_type_language');
         
         $select = self::$_read->select()->from(self::$_typeTable)
-            ->join($langTable, "$langTable.address_type_id=self::$_typeTable.address_type_id", "$langTable.address_type_name");
+            ->join($langTable, "$langTable.address_type_id=".self::$_typeTable.".address_type_id", "$langTable.address_type_name");
             
         $typesArr = self::$_read->fetchAll($select);
         $types = array();

@@ -45,6 +45,16 @@ CREATE TABLE `sales_invoice_attribute` (
   CONSTRAINT `FK_INVOICE_ATTRIBUTE` FOREIGN KEY (`invoice_id`) REFERENCES `sales_invoice` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invoice attributes';
 
-rename table sales_payment to sales_order_payment;
-rename table sales_payment_type to sales_order_payment_type;
-rename table sales_payment_transaction to sales_invoice_transaction;
+rename table `sales_payment` to `sales_order_payment`;
+rename table `sales_payment_type` to `sales_order_payment_type`;
+rename table `sales_payment_transaction` to `sales_invoice_transaction`;
+
+CREATE TABLE `sales_quote_payment` (
+  `quote_payment_id` int(10) unsigned NOT NULL auto_increment,
+  `quote_id` int(10) unsigned NOT NULL default '0',
+  `payment_code` varchar(32) NOT NULL default '',
+  PRIMARY KEY  (`quote_payment_id`),
+  KEY `quote_id` (`quote_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table .`sales_quote_attribute` ,add column `entity_type` enum ('quote','item','payment') DEFAULT 'quote' NOT NULL  after `quote_id`, add column `entity_id` int (11)  NOT NULL  after `attribute_type`,change `attribute_code` `attribute_code` varchar (32)  NOT NULL  COLLATE utf8_general_ci , change `attribute_decimal` `attribute_decimal` decimal (12,4)  NOT NULL , change `attribute_text` `attribute_text` varchar (128)  NULL  COLLATE utf8_general_ci , add index `quote_id` (`quote_id`, `entity_type`, `entity_id`);

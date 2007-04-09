@@ -18,4 +18,17 @@ class Mage_Sales_Resource_Model_Mysql4_Quote_Attribute_Collection extends Varien
         $this->load();
         return $this;
     }
+    
+    public function filterByEntityType($entityType)
+    {
+        $this->addFilter('entity_type', $entityType, 'and');
+        return $this;
+    }
+    
+    public function loadByEntityId($entityId)
+    {
+        $this->addFilter('entity_id', (int)$entityId, 'and');
+        $this->load();
+        return $this;
+    }
 }
