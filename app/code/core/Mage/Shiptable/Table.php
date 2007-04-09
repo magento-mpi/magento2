@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
+abstract class Mage_Shiptable_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
 {
     protected $_conditionName = 'package_weight';
     
@@ -12,20 +12,20 @@ abstract class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
 	/**
 	 * Enter description here...
 	 *
-	 * @param Mage_Sales_Shipping_Request $data
-	 * @return Mage_Sales_Shipping_Result
+	 * @param Mage_Sales_Model_Shipping_Request $data
+	 * @return Mage_Sales_Model_Shipping_Result
 	 */
-	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
+	public function fetchQuotes(Mage_Sales_Model_Shipping_Quote_Request $request)
     {
         if (!$request->getConditionName()) {
             $request->setConditionName($this->_conditionName);
         }
 
-        $result = new Mage_Sales_Shipping_Quote_Result();
+        $result = new Mage_Sales_Model_Shipping_Quote_Result();
 
         $rate = $this->getRate($request);
         if (!empty($rate)) {
-	    	$quote = new Mage_Sales_Shipping_Quote_Service();
+	    	$quote = new Mage_Sales_Model_Shipping_Quote_Service();
 	    	
 	    	$vendor = 'shiptable';
 	    	$vendorTitle = (string)Mage::getConfig('Mage_Sales')->getShippingDefaults($vendor)->title;
@@ -44,7 +44,7 @@ abstract class Mage_Shiptable_Table extends Mage_Sales_Shipping_Vendor_Abstract
     	return $result;
     }
     
-    public function getRate(Mage_Sales_Shipping_Quote_Request $request)
+    public function getRate(Mage_Sales_Model_Shipping_Quote_Request $request)
     {
         
     }

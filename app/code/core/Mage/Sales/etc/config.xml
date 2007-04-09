@@ -149,37 +149,37 @@
 
       <salesTax>
          <rule>
-            <class>Mage_Sales_Tax_Rule</class>
+            <class>Mage_Sales_Model_Tax_Rule</class>
          </rule>
       </salesTax>
       
       <salesQuoteAttributes>
          <subtotal>
-            <class>Mage_Sales_Quote_Total_Subtotal</class>
+            <class>Mage_Sales_Model_Quote_Total_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Quote_Total_Discount</class>
+            <class>Mage_Sales_Model_Quote_Total_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Quote_Total_Shipping</class>
+            <class>Mage_Sales_Model_Quote_Total_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Quote_Total_Tax</class>
+            <class>Mage_Sales_Model_Quote_Total_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Quote_Total_Grand</class>
+            <class>Mage_Sales_Model_Quote_Total_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>
@@ -188,31 +188,31 @@
       
       <salesOrderAttributes>
          <subtotal>
-            <class>Mage_Sales_Order_Total_Subtotal</class>
+            <class>Mage_Sales_Model_Order_Total_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Order_Total_Discount</class>
+            <class>Mage_Sales_Model_Order_Total_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Order_Total_Shipping</class>
+            <class>Mage_Sales_Model_Order_Total_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Order_Total_Tax</class>
+            <class>Mage_Sales_Model_Order_Total_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Order_Total_Grand</class>
+            <class>Mage_Sales_Model_Order_Total_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>

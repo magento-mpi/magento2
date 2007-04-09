@@ -72,7 +72,7 @@ class Mage_Checkout_Front
         $subtotal = $cartTotals->asArray('subtotal');
         $weight = $cartTotals->asArray('weight');
 
-        $request = new Mage_Sales_Shipping_Quote_Request();
+        $request = new Mage_Sales_Model_Shipping_Quote_Request();
         $request->setDestCountryId($shippingAddress->getCountryId());
         $request->setDestRegionId($shippingAddress->getRegionId());
         $request->setDestPostcode($shippingAddress->getPostcode());

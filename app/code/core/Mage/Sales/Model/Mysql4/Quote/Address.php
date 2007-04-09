@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Mysql4_Quote_Address extends Mage_Sales_Quote_Address
+class Mage_Sales_Model_Mysql4_Quote_Address extends Mage_Sales_Model_Quote_Address
 {
     protected static $_read;
     protected static $_write;

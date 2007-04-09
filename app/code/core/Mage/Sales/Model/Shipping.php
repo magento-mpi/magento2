@@ -12,7 +12,7 @@ class Mage_Sales_Model_Shipping
 	/**
 	 * Cached result
 	 * 
-	 * @var Mage_Sales_Shipping_Quote_Result
+	 * @var Mage_Sales_Model_Shipping_Quote_Result
 	 */
 	protected $_result = null;
 	
@@ -32,7 +32,7 @@ class Mage_Sales_Model_Shipping
 	 */
 	public function __construct()
 	{
-		$this->_result = new Mage_Sales_Shipping_Quote_Result();
+		$this->_result = new Mage_Sales_Model_Shipping_Quote_Result();
 	}
 	
 	/**
@@ -54,10 +54,10 @@ class Mage_Sales_Model_Shipping
 	/**
 	 * Retrieve all quotes for supplied shipping data
 	 * 
-	 * @param Mage_Sales_Shipping_Quote_Request $data
-	 * @return Mage_Sales_Shipping_Quote_Result
+	 * @param Mage_Sales_Model_Shipping_Quote_Request $data
+	 * @return Mage_Sales_Model_Shipping_Quote_Result
 	 */
-	public function fetchQuotes(Mage_Sales_Shipping_Quote_Request $request)
+	public function fetchQuotes(Mage_Sales_Model_Shipping_Quote_Request $request)
     {
     	if (!$request->getOrig()) {
     		$request->setData($this->getOrigData());
