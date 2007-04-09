@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Cron_Task
+class Mage_Cron_Model_Task
 {
     public function createSchedules()
     {

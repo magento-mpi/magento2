@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Customer_Address extends Varien_Data_Object 
+abstract class Mage_Customer_Model_Address extends Varien_Data_Object 
 {
     protected $_types = array();
     

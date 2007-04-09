@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Country extends Varien_Data_Object 
+class Mage_Directory_Model_Country extends Varien_Data_Object 
 {
     public function __construct($country) 
     {

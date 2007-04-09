@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Address
+class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
 {
     static protected $_addressTable = null;
     static protected $_typeTable = null;
@@ -29,7 +29,7 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Address
      /**
      * Insert row in database table
      *
-     * @param   Mage_Customer_Address $data
+     * @param   Mage_Customer_Model_Address $data
      * @return  int || false
      */
     public function insert()
@@ -45,7 +45,7 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Address
     /**
      * Update row in database table
      *
-     * @param   Mage_Customer_Address $data
+     * @param   Mage_Customer_Model_Address $data
      * @param   int   $rowId
      * @return  int
      */
@@ -62,7 +62,7 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Address
     /**
      * Delete row from database table
      *
-     * @param   Mage_Customer_Address|int $rowId
+     * @param   Mage_Customer_Model_Address|int $rowId
      */
     public function delete($addressId=null)
     {
@@ -79,7 +79,7 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Address
      * Get row from database table
      *
      * @param   int $rowId
-     * @return  Mage_Customer_Address
+     * @return  Mage_Customer_Model_Address
      */
     public function loadByAddressId($addressId)
     {

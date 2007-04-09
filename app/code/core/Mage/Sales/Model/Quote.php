@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Quote extends Varien_Data_Object
+class Mage_Sales_Model_Quote extends Varien_Data_Object
 {
     protected $_addresses = null;
     protected $_items = null;
@@ -95,7 +95,7 @@ class Mage_Sales_Quote extends Varien_Data_Object
         return $arr;
     }
     
-    public function addCustomerAddress(Mage_Customer_Address $source, $type)
+    public function addCustomerAddress(Mage_Customer_Model_Address $source, $type)
     {
         $address = Mage::getResourceModel('sales', 'quote_address');
         
@@ -146,7 +146,7 @@ class Mage_Sales_Quote extends Varien_Data_Object
         return $this;
     }
     
-    public function addPayment(Mage_Sales_Payment $source)
+    public function addPayment(Mage_Sales_Model_Payment $source)
     {
         
     }

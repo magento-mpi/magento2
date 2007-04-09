@@ -62,8 +62,8 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function formAction()
     {
         $customerId = $this->getRequest()->getParam('customer', false);
-        //$customer = new Mage_Customer_Customer($customerId);
-        $customer = Mage::getResourceModel('customer', 'customer', array($customerId));
+        $customer = Mage::getResourceModel('customer', 'customer');
+        $customer->load($customerId);
         
         $form = Mage::createBlock('form', 'customer.form');
         $form->setViewName('Mage_Core', 'form.phtml');

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Shipping
+class Mage_Sales_Model_Shipping
 {
     /**
      * Default shipping orig for requests

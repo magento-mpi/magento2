@@ -2,7 +2,7 @@
 
 class Mage_Sales_Quote_Attribute_Tax extends Mage_Sales_Quote_Attribute
 {
-    function collectTotals(Mage_Sales_Quote $quote)
+    function collectTotals(Mage_Sales_Model_Quote $quote)
     {
         $arr = array();
 

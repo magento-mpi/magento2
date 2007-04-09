@@ -5,7 +5,7 @@ class Mage_Sales_Quote_Total_Collection
     protected $_quote = null;
     protected $_totals = array();
     
-    public function __construct(Mage_Sales_Quote $quote)
+    public function __construct(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
     }

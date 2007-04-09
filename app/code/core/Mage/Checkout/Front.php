@@ -79,7 +79,7 @@ class Mage_Checkout_Front
         $request->setOrderSubtotal($subtotal[0]['value']);
         $request->setPackageWeight($weight[0]['value']);
 
-        $shipping = new Mage_Sales_Shipping();
+        $shipping = new Mage_Sales_Model_Shipping();
         $result = $shipping->fetchQuotes($request);
         $allQuotes = $result->getAllQuotes();
         

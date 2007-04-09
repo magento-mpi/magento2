@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Customer
+class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
 {
     /**
      * These made static to avoid saving in object
