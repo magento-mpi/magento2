@@ -9,20 +9,16 @@
  */
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action {
 
-    function indexAction()
-    {
-
-    }
-
     function viewAction()
     {
+        $category = Mage::getModel('catalog', 'category');
+        $category->load($this->getRequest()->getParam('id', false));
+        
         // Valid category id
-        if ($categoryId = $this->_getId()) {
-            $category = Mage::getModel('catalog', 'category_tree')->getNode($categoryId);
-
-            $productInfoBlock = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
-            $productInfoBlock->loadData($this->getRequest());
-
+        if (!$category->isEmpty()) {
+            $block = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
+            $block->loadData($this->getRequest());
+            
             Mage::getBlock('content')->append($productInfoBlock);
         }
         else { // TODO: forvard to error action
@@ -180,10 +176,5 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
 
             }
         }
-    }
-    
-    protected function _getId()
-    {
-        return $this->getRequest()->getParam('id');
     }
 }

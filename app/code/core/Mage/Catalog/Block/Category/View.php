@@ -11,16 +11,6 @@
  */
 class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 {
-
-    private $breadcrumbs;
-    /**
-     * Product Collection
-     *
-     * @var Mage_Catalog_Model_Mysql4_Product_Collection
-     */
-    private $prodCollection;
-    private $currentCategory;
-
     public function __construct()
     {
         parent::__construct();
@@ -29,31 +19,29 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 
     public function loadData(Zend_Controller_Request_Http $request)
     {
-        $this->currentCategory = $this->getAttribute('category');
+        $category = $this->getAttribute('category');
         
         // Breadcrumbs
         $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
-        $breadcrumbs->addCrumb('home', array('label'=>'Home','title'=>'Go to home page','link'=>Mage::getBaseUrl().'/'));
-        $breadcrumbs->addCrumb('category', array('label'=>$this->currentCategory->getData('attribute_value')));
+        $breadcrumbs->addCrumb('home', array('label'=>__('Home'),'title'=>__('Go to home page'),'link'=>Mage::getBaseUrl().'/'));
+        $breadcrumbs->addCrumb('category', array('label'=>$category->getName()));
         $this->setChild('breadcrumbs', $breadcrumbs);
         
         // Init collection
-        $this->prodCollection = Mage::getModel('catalog','product_collection');
-        $this->prodCollection->addAttributeToSelect('name', 'varchar');
-        $this->prodCollection->addAttributeToSelect('price', 'decimal');
+        $prodCollection = $category->getProductCollection();
+        $prodCollection->addAttributeToSelect('name', 'varchar');
+        $prodCollection->addAttributeToSelect('price', 'decimal');
         
-        $this->prodCollection->addCategoryFilter($this->currentCategory->getId());
-
-        Mage::getBlock('catalog.leftnav.bytopic')->assign('currentCategoryId',$this->currentCategory->getId());
-        Mage::getBlock('catalog.leftnav.byproduct')->assign('currentCategoryId',$this->currentCategory->getId());
+        Mage::getBlock('catalog.leftnav.bytopic')->assign('currentCategoryId',$category->getId());
+        //Mage::getBlock('catalog.leftnav.byproduct')->assign('currentCategoryId',$this->currentCategory->getId());
 
         $page = $request->getParam('p',1);
-        $this->prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
-        $this->prodCollection->setCurPage($page);
-        $this->prodCollection->loadData();
+        $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
+        $prodCollection->setCurPage($page);
+        $prodCollection->loadData();
 
-        $this->assign('category', $this->currentCategory);
-        $this->assign('productCollection', $this->prodCollection);
+        $this->assign('category', $category);
+        $this->assign('productCollection', $prodCollection);
         
         $pageUrl = clone $request;
         $this->assign('pageUrl', $pageUrl);

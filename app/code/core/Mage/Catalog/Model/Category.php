@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Category extends Varien_Data_Object
+abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
 {
     public function __construct($category=false) 
     {
@@ -20,11 +20,49 @@ class Mage_Catalog_Model_Category extends Varien_Data_Object
             $this->setData($category);
         }
     }
-    
-    public function getProducts()
+
+    /**
+     * Load category data
+     *
+     * @param   int $categoryId
+     * @return  Mage_Catalog_Model_Category
+     */
+    public function load($categoryId)
     {
-        if ($this->getCategoryId()) {
-            
-        }
+        $this->setCategoryId($categoryId);
+        return $this;
+    }
+    
+    /**
+     * Get category id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->getCategoryId();
+    }
+    
+    public function getName()
+    {
+        
+    }
+
+    /**
+     * Get category products collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function getProductCollection()
+    {
+        $collection = Mage::getModel('catalog', 'product_collection');
+        $collection->addCategoryFilter($this->getCategoryId());
+        return $collection;
+    }
+    
+    
+    public function getAttributes()
+    {
+        
     }
 }
