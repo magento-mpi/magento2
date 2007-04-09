@@ -26,7 +26,7 @@
         
         <resourceModels>
             <cron>
-                <class>Mage_Cron_Resource_Model_Mysql4</class>
+                <class>Mage_Cron_Model_Mysql4</class>
             </cron>
         </resourceModels>
         

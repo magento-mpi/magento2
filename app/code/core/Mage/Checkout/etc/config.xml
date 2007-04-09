@@ -30,7 +30,7 @@
 
       <resourceModels>
          <checkout>
-            <class>Mage_Checkout_Resource_Model_Mysql4</class>
+            <class>Mage_Checkout_Model_Mysql4</class>
          </checkout>
       </resourceModels>
 

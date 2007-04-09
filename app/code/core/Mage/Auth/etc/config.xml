@@ -37,7 +37,7 @@
 
       <resourceModels>
          <auth>
-            <class>Mage_Auth_Resource_Model_Mysql4</class>
+            <class>Mage_Auth_Model_Mysql4</class>
 
             <entities>
                <user>

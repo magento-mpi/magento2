@@ -417,12 +417,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * Example:
      * $config->getResourceModelInstance('catalog', 'product')
      * 
-     * Will instantiate Mage_Catalog_Resource_Model_Mysql4_Product
+     * Will instantiate Mage_Catalog_Model_Mysql4_Product
      *
      * @param string $model
      * @param string $class
      * @param array|object $constructArguments
-     * @return Mage_Core_Resource_Model_Abstract
+     * @return Mage_Core_Model_Abstract
      */
     public function getResourceModelInstance($model, $class='', $constructArguments=array())
     {

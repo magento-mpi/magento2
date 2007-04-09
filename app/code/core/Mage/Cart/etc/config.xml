@@ -22,7 +22,7 @@
    <global>
       <resourceModels>
          <cart>
-            <class>Mage_Cart_Resource_Model_Mysql4</class>
+            <class>Mage_Cart_Model_Mysql4</class>
 
             <entities>
                <cart>

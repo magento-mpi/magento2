@@ -40,7 +40,7 @@
 
       <resourceModels>
          <customer>
-            <class>Mage_Customer_Resource_Model_Mysql4</class>
+            <class>Mage_Customer_Model_Mysql4</class>
 
             <entities>
                <customer>

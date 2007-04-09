@@ -20,7 +20,7 @@
    <global>
       <resourceModels>
          <sales>
-            <class>Mage_Sales_Resource_Model_Mysql4</class>
+            <class>Mage_Sales_Model_Mysql4</class>
 
             <entities>
                <quote>

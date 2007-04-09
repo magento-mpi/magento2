@@ -61,7 +61,7 @@
    <global>
       <resourceModels>
          <catalog>
-            <class>Mage_Catalog_Resource_Model_Mysql4</class>
+            <class>Mage_Catalog_Model_Mysql4</class>
 
             <entities>
                <category>

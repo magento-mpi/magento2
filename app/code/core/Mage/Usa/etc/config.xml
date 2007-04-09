@@ -11,7 +11,7 @@
    <global>
       <resourceModels>
          <usa>
-            <class>Mage_Usa_Resource_Model_Mysql4</class>
+            <class>Mage_Usa_Model_Mysql4</class>
          </usa>
       </resourceModels>
 

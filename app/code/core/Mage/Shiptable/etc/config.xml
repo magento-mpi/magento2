@@ -14,7 +14,7 @@
    <global>
       <resourceModels>
          <shiptable>
-            <class>Mage_Shiptable_Resource_Model_Mysql4</class>
+            <class>Mage_Shiptable_Model_Mysql4</class>
 
             <entities>
                <shiptable>
