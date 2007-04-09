@@ -24,11 +24,11 @@
             </cron_read>
         </resources>
         
-        <resourceModels>
+        <models>
             <cron>
                 <class>Mage_Cron_Model_Mysql4</class>
             </cron>
-        </resourceModels>
+        </models>
         
         <cronJobs>
             <test1>

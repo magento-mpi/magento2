@@ -59,7 +59,7 @@
    </modules>
 
    <global>
-      <resourceModels>
+      <models>
          <catalog>
             <class>Mage_Catalog_Model_Mysql4</class>
 
@@ -161,7 +161,7 @@
                </product_link_attribute_varchar>
             </entities>
          </catalog>
-      </resourceModels>
+      </models>
 
       <resources>
          <catalog_setup>

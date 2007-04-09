@@ -28,7 +28,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
         
         // TODO: change address id
         $addressId = Mage_Customer_Front::getCustomerInfo('default_address_id');
-        $address = Mage::getResourceModel('customer', 'address')->getRow($addressId);
+        $address = Mage::getModel('customer', 'address')->getRow($addressId);
         
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'shipping.phtml')

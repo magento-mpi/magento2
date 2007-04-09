@@ -19,7 +19,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         $this->_sqlSelect->from($regionTable);
         $this->_sqlSelect->join($regionNameTable, "$regionNameTable.region_id=$regionTable.region_id AND $regionNameTable.language_code='$lang'");
         
-        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('directory', 'region'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory', 'region'));
     }
     
     public function toHtmlOptions($default=false)

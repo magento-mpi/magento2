@@ -123,7 +123,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function loadFromDb()
     {
         try{
-            $model = $this->getResourceModelInstance('core', 'config');
+            $model = $this->getModelInstance('core', 'config');
             $model->updateXmlFromDb($this->_xml);
         }
         catch (Exception $e) {
@@ -390,14 +390,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
     }
 
-    public function getResourceModelConfig($model)
+    public function getModelClassName($model, $class)
     {
-        return $this->getXml()->global->resourceModels->$model;
-    }
-    
-    public function getResourceModelClassName($model, $class)
-    {
-        $config = $this->getResourceModelConfig($model);
+        $config = $this->getGlobalCollection('models', $model);
         
         if (isset($config->subs->$class)) {
             $className = (string)$config->subs->$class;
@@ -415,7 +410,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * Get model class instance.
      * 
      * Example:
-     * $config->getResourceModelInstance('catalog', 'product')
+     * $config->getModelInstance('catalog', 'product')
      * 
      * Will instantiate Mage_Catalog_Model_Mysql4_Product
      *
@@ -424,9 +419,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param array|object $constructArguments
      * @return Mage_Core_Model_Abstract
      */
-    public function getResourceModelInstance($model, $class='', $constructArguments=array())
+    public function getModelInstance($model, $class='', $constructArguments=array())
     {
-        $className = $this->getResourceModelClassName($model, $class);
+        $className = $this->getModelClassName($model, $class);
         
         return new $className($constructArguments);
     }

@@ -9,7 +9,7 @@ class Mage_Sales_Model_Mysql4_Quote_Payment_Collection extends Varien_Data_Colle
         parent::__construct(Mage::registry('resources')->getConnection('sales_read'));
         self::$_paymentTable = Mage::registry('resources')->getTableName('sales', 'quote_payment');
         $this->_sqlSelect->from(self::$_paymentTable);
-        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('sales', 'quote_payment'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales', 'quote_payment'));
     }
     
     public function loadByQuoteId($quoteId)

@@ -31,14 +31,14 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     }
 
     public function removeAction() {
-        $obj = Mage::getResourceModel('catalog', 'category_tree')->getObject();
+        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         if (intval($_GET['id'])) {
             $obj->removeNode($_GET['id']);
         }
     }
 
     public function moveAction() {
-        $obj = Mage::getResourceModel('catalog', 'category_tree')->getObject();
+        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
         if (intval($_POST['id']) && intval($_POST['pid'])) {
             $obj->moveNode($_POST['id'], $_POST['pid']);
         }
@@ -47,7 +47,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     public function deleteAction() {
         $id = $this->getRequest()->getParam('id', null);
         if (!empty($id)) {
-            Mage::getResourceModel('catalog', 'category_tree')->deleteNode($id);
+            Mage::getModel('catalog', 'category_tree')->deleteNode($id);
         }
     }
     
@@ -68,7 +68,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function treeChildrenAction()
     {
-        $tree = Mage::getResourceModel('catalog','category_tree');
+        $tree = Mage::getModel('catalog','category_tree');
 
         $children = $tree->getLevel($this->getRequest()->getPost('node',1));
         //$data = $tree->getLevel(1);

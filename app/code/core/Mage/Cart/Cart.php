@@ -9,7 +9,7 @@ class Mage_Cart_Cart
 
     public function __construct($cartId=null)
     {
-        $this->_cartModel = Mage::getResourceModel('cart', 'cart');
+        $this->_cartModel = Mage::getModel('cart', 'cart');
         
         if (is_null($cartId)) {
             $cartId = $this->_cartModel->getCustomerCartId();

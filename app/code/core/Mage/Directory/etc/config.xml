@@ -10,7 +10,7 @@
    </modules>
 
    <global>
-      <resourceModels>
+      <models>
          <directory>
             <class>Mage_Directory_Model_Mysql4</class>
 
@@ -44,7 +44,7 @@
                </currency_name>
             </entities>
          </directory>
-      </resourceModels>
+      </models>
 
       <resources>
          <directory_setup>

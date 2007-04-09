@@ -15,7 +15,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function gridDataAction()
     {
         $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
-        $collection = Mage::getResourceModel('customer', 'customer_collection');
+        $collection = Mage::getModel('customer', 'customer_collection');
         $collection->setPageSize($pageSize);
         
         
@@ -62,7 +62,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function formAction()
     {
         $customerId = $this->getRequest()->getParam('customer', false);
-        $customer = Mage::getResourceModel('customer', 'customer');
+        $customer = Mage::getModel('customer', 'customer');
         $customer->load($customerId);
         
         $form = Mage::createBlock('form', 'customer.form');
@@ -146,7 +146,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     {
         $customerId = $this->getRequest()->getParam('customer', false);
         if ($customerId) {
-            Mage::getResourceModel('customer', 'customer')->delete($customerId);
+            Mage::getModel('customer', 'customer')->delete($customerId);
         }
     }
 }

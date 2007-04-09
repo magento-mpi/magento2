@@ -36,7 +36,7 @@
          </core_setup>
       </resources>
 
-      <resourceModels>
+      <models>
          <core>
             <class>Mage_Core_Model_Mysql4</class>
 
@@ -94,7 +94,7 @@
                </data_change_info>
             </entities>
          </core>
-      </resourceModels>
+      </models>
 
       <blockTypes>
          <text>

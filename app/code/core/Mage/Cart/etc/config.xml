@@ -20,7 +20,7 @@
    </modules>
 
    <global>
-      <resourceModels>
+      <models>
          <cart>
             <class>Mage_Cart_Model_Mysql4</class>
 
@@ -34,7 +34,7 @@
                </item>
             </entities>
          </cart>
-      </resourceModels>
+      </models>
 
       <resources>
          <cart_setup>

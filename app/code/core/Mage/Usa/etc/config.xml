@@ -9,11 +9,11 @@
    </modules>
 
    <global>
-      <resourceModels>
+      <models>
          <usa>
             <class>Mage_Usa_Model_Mysql4</class>
          </usa>
-      </resourceModels>
+      </models>
 
       <salesShippingVendors>
          <ups>

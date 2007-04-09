@@ -7,7 +7,7 @@ class Mage_Sales_Model_Quote_Address extends Varien_Data_Object
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes = Mage::getResourceModel('sales', 'quote_attribute_collection');
+            $this->_attributes = Mage::getModel('sales', 'quote_attribute_collection');
         }
         return $this->_attributes;
     }

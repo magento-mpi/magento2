@@ -161,7 +161,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         $this->_data['customer_lastname']   = $arrData['lastname'];
         $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
         
-        $customerModel = Mage::getResourceModel('customer', 'customer');
+        $customerModel = Mage::getModel('customer', 'customer');
         $customer = $customerModel->loadByEmail($arrData['email']);
         if ($customer->getCustomerId()) {
             $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
@@ -178,7 +178,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         // validate fields.....
         
         // Validate email
-        $customerModel = Mage::getResourceModel('customer', 'customer');
+        $customerModel = Mage::getModel('customer', 'customer');
         $customer = $customerModel->loadByEmail($arrData['customer_email']);
 
         if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage_Customer_Front::getCustomerId())) {
@@ -196,7 +196,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
             return false;
         }
         else {
-            $customerModel = Mage::getResourceModel('customer', 'customer');
+            $customerModel = Mage::getModel('customer', 'customer');
             
             if (!$customerModel->checkPassword(Mage_Customer_Front::getCustomerId(), $data['current_password'])) {
                 $this->_message = 'Invalid current password';

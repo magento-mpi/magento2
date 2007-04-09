@@ -38,7 +38,7 @@
          </customer_regform>
       </blockTypes>
 
-      <resourceModels>
+      <models>
          <customer>
             <class>Mage_Customer_Model_Mysql4</class>
 
@@ -76,7 +76,7 @@
                </payment_method>
             </entities>
          </customer>
-      </resourceModels>
+      </models>
 
       <resources>
          <customer_setup>

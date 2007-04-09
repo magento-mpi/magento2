@@ -24,7 +24,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         if (!$quoteId) {
             $cartView = 'cart/noItems.phtml';
         } else {
-            $quote = Mage::getResourceModel('sales', 'quote');
+            $quote = Mage::getModel('sales', 'quote');
             $quote->load($quoteId);
         
             $cartView = 'cart/view.phtml';
@@ -64,8 +64,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $qty = 1;
         }
 
-        $product = Mage::getResourceModel('catalog', 'product')->load($productId);
-        $result = Mage::getResourceModel('sales', 'quote')->addProductItem($product, $qty);
+        $product = Mage::getModel('catalog', 'product')->load($productId);
+        $result = Mage::getModel('sales', 'quote')->addProductItem($product, $qty);
         $this->_redirect($this->_data['url']['cart']);
     }
     
@@ -75,7 +75,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         //foreach ($cart as )
         
-        $result = Mage::getResourceModel('sales', 'quote')->updateCartItems($cart);
+        $result = Mage::getModel('sales', 'quote')->updateCartItems($cart);
 
         $this->_redirect($this->_data['url']['cart']);
     }

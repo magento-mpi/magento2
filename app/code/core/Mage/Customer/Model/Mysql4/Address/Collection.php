@@ -16,7 +16,7 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
         parent::__construct(Mage::registry('resources')->getConnection('customer_read'));
         self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
         $this->_sqlSelect->from(self::$_addressTable);
-        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('customer', 'address'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer', 'address'));
     }
     
     public function load($printQuery = false, $logQuery = false)
@@ -35,7 +35,7 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
         
         // fetch all types for collection addresses
         $condition = $this->getConnection()->quoteInto("address_id in (?)", $addressIds);
-        $typesArr = Mage::getResourceModel('customer', 'address')->getTypesByCondition($condition);
+        $typesArr = Mage::getModel('customer', 'address')->getTypesByCondition($condition);
         
         // process result
         $types = array('primary_types'=>array(), 'alternative_types'=>array());

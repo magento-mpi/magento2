@@ -68,17 +68,17 @@ class Mage_Core_Resource
      * @param string $entity
      * @return Varien_Simplexml_Config
      */
-    public function getEntity($resource, $entity)
+    public function getEntity($model, $entity)
     {
-        if (!isset($this->_entities[$resource][$entity])) {
-            $entities = Mage::getConfig()->getResourceModelConfig($resource)->entities;
-            $this->_entities[$resource][$entity] = $entities->$entity;
+        if (!isset($this->_entities[$model][$entity])) {
+            $entities = Mage::getConfig()->getGlobalCollection('models', $model)->entities;
+            $this->_entities[$model][$entity] = $entities->$entity;
         }
-        return $this->_entities[$resource][$entity];
+        return $this->_entities[$model][$entity];
     }
     
-    public function getTableName($resource, $entity)
+    public function getTableName($model, $entity)
     {
-        return (string)$this->getEntity($resource, $entity)->table;
+        return (string)$this->getEntity($model, $entity)->table;
     }
 }

@@ -14,7 +14,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set_Collection extends Varien_
     
     public function __construct() 
     {
-        parent::__construct(Mage::getResourceModel('catalog')->getReadConnection());
+        parent::__construct(Mage::getModel('catalog')->getReadConnection());
         $this->_setTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute_set');
         $this->_inSetTable  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
         

@@ -56,13 +56,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             // Validate customer and address info
             if ($customerValidator->createAccount($_POST) && $addressValidator->isValid()) {
                 
-                $customerModel = Mage::getResourceModel('customer', 'customer');
+                $customerModel = Mage::getModel('customer', 'customer');
                 
                 // Insert customer information
                 $customerData = $customerValidator->getData();
                 if ($customerId = $customerModel->insert($customerData)) {
                     
-                    $addressModel = Mage::getResourceModel('customer', 'address');
+                    $addressModel = Mage::getModel('customer', 'address');
                     
                     // Insert customer address
                     $addressData = $addressValidator->getData();
@@ -92,7 +92,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $formData = Mage::registry('session')->getNamespaceData('customer_edit');
         if ($formData->isEmpty()) {
-            $customerModel = Mage::getResourceModel('customer', 'customer');
+            $customerModel = Mage::getModel('customer', 'customer');
             $formData = $customerModel->load(Mage_Customer_Front::getCustomerId());
         }
         
@@ -114,7 +114,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customerValidator = new Mage_Customer_Validate_Customer();
             
             if ($customerValidator->editAccount($_POST)) {
-                $customerModel = Mage::getResourceModel('customer', 'customer');
+                $customerModel = Mage::getModel('customer', 'customer');
                 $customerModel->update($customerValidator->getData(), Mage_Customer_Front::getCustomerId());
                 
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
@@ -151,7 +151,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customerValidator = new Mage_Customer_Validate_Customer();
             
             if ($customerValidator->changePassword($_POST)) {
-                $customerModel = Mage::getResourceModel('customer', 'customer');
+                $customerModel = Mage::getModel('customer', 'customer');
                 $customerModel->changePassword(Mage_Customer_Front::getCustomerId(), $customerValidator->getDataItem('password'));
                 
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');

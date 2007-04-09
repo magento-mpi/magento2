@@ -35,7 +35,7 @@
          </auth_read>
       </resources>
 
-      <resourceModels>
+      <models>
          <auth>
             <class>Mage_Auth_Model_Mysql4</class>
 
@@ -57,7 +57,7 @@
                </assert>
             </entities>
          </auth>
-      </resourceModels>
+      </models>
    </global>
 
    <admin>

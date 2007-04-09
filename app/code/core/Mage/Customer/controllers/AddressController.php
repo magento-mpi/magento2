@@ -20,7 +20,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
 
         // Load addresses
-        $addressCollection = Mage::getResourceModel('customer', 'address_collection');
+        $addressCollection = Mage::getModel('customer', 'address_collection');
         $addressCollection->loadByCustomerId(Mage_Customer_Front::getCustomerId());
         
         $block = Mage::createBlock('tpl', 'customer.address')
@@ -45,7 +45,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('address', false);
         
         if ($addressId) {
-            $address = Mage::getResourceModel('customer', 'address');
+            $address = Mage::getModel('customer', 'address');
             $address->loadByAddressId($addressId);
             
             // Validate address_id <=> customer_id
@@ -56,11 +56,11 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             
             $primary = $address->getPrimaryTypes();
         } else {
-            $address = Mage::getResourceModel('customer', 'address');
+            $address = Mage::getModel('customer', 'address');
             $primary = array();
         }
 
-        $types = Mage::getResourceModel('customer', 'address')->getAvailableTypes();
+        $types = Mage::getModel('customer', 'address')->getAvailableTypes();
         foreach ($types as $typeCode=>$type) {
             $types[$typeCode]['name'] = $type['address_type_name'];
             $types[$typeCode]['is_primary'] = !empty($primary[$typeCode]);
@@ -90,7 +90,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             
             // Validate data
             if ($addressValidator->isValid()) {
-                $addressModel = Mage::getResourceModel('customer', 'address');
+                $addressModel = Mage::getModel('customer', 'address');
                 
                 if ($data['address_id']) {
                     $saveRes = $addressModel->update($data, $data['address_id']);
@@ -124,7 +124,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            $addressModel = Mage::getResourceModel('customer', 'address');
+            $addressModel = Mage::getModel('customer', 'address');
             $addressModel->delete($addressId);
         }
         

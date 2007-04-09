@@ -11,6 +11,6 @@ class Mage_Core_History
 {
     public static function addHistory()
     {
-        $model = Mage::getResourceModel('core', 'History');
+        $model = Mage::getModel('core', 'History');
     }
 }

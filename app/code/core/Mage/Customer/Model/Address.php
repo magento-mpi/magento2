@@ -34,7 +34,7 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
     
     public function save()
     {
-        $addressModel = Mage::getResourceModel('customer', 'address');
+        $addressModel = Mage::getModel('customer', 'address');
         
         if ($this->getAddressId()) {
             $this->update($this);

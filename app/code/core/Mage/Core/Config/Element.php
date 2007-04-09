@@ -11,7 +11,7 @@ class Mage_Core_Config_Element extends Varien_Simplexml_Element
     public function getClassName()
     {
         if ($this->model) {
-            $className = Mage::getConfig()->getResourceModelClassName((string)$this->model, $this->class);
+            $className = Mage::getConfig()->getModelClassName((string)$this->model, $this->class);
         } else {
             $className = (string)$this->class;
         }

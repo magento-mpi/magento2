@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     
     function __construct($config = array())
     {
-        parent::__construct(Mage::getResourceModel('catalog')->getReadConnection());
+        parent::__construct(Mage::getModel('catalog')->getReadConnection());
 
         $this->_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
         $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog', 'category_product');

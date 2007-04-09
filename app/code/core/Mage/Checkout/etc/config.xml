@@ -28,11 +28,11 @@
          </checkout_onepage_status>
       </blockTypes>
 
-      <resourceModels>
+      <models>
          <checkout>
             <class>Mage_Checkout_Model_Mysql4</class>
          </checkout>
-      </resourceModels>
+      </models>
 
       <resources>
          <checkout_setup>

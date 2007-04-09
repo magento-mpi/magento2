@@ -12,7 +12,7 @@
    </modules>
 
    <global>
-      <resourceModels>
+      <models>
          <shiptable>
             <class>Mage_Shiptable_Model_Mysql4</class>
 
@@ -22,7 +22,7 @@
                </shiptable>
             </entities>
          </shiptable>
-      </resourceModels>
+      </models>
 
       <resources>
          <shiptable_setup>

@@ -10,7 +10,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     public function getAddresses()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getResourceModel('sales', 'quote_address_collection');
+            $this->_addresses = Mage::getModel('sales', 'quote_address_collection');
         }
         return $this->_addresses;
     }
@@ -18,7 +18,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     public function getItems()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales', 'quote_item_collection');
+            $this->_items = Mage::getModel('sales', 'quote_item_collection');
         }
         return $this->_items;
     }
@@ -26,7 +26,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes = Mage::getResourceModel('sales', 'quote_attribute_collection');
+            $this->_attributes = Mage::getModel('sales', 'quote_attribute_collection');
         }
         return $this->_attributes;
     }
@@ -34,7 +34,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     public function getPayments()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales', 'quote_payment_collection');
+            $this->_payments = Mage::getModel('sales', 'quote_payment_collection');
         }
         return $this->_payments;
     }
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     
     public function addCustomerAddress(Mage_Customer_Model_Address $source, $type)
     {
-        $address = Mage::getResourceModel('sales', 'quote_address');
+        $address = Mage::getModel('sales', 'quote_address');
         
         $fields = array(
             'firstname'=>'text', 
@@ -113,7 +113,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
             'fax'=>'text'
         );
         foreach ($fields as $fieldName=>$fieldType) {
-            $attr = Mage::getResourceModel('sales', 'quote_attribute');
+            $attr = Mage::getModel('sales', 'quote_attribute');
             $attr->setEntityType('address');
             $attr->setAttributeCode($fieldName);
             $attr->setData('attribute_'.$fieldType, $source->getData($fieldName));
@@ -127,14 +127,14 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     
     public function addProductItem(Mage_Catalog_Product $source, $qty=1)
     {
-        $item = Mage::getResourceModel('sales', 'quote_item');
+        $item = Mage::getModel('sales', 'quote_item');
         
         $fields = array(
             'product_id'=>'int', 
             'product_name'=>'text', 
         );
         foreach ($fields as $fieldName=>$fieldType) {
-            $attr = Mage::getResourceModel('sales', 'quote_attribute');
+            $attr = Mage::getModel('sales', 'quote_attribute');
             $attr->setEntityType('item');
             $attr->setAttributeCode($fieldName);
             $attr->setData('attribute_'.$fieldType, $source->getData($fieldName));

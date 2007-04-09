@@ -44,13 +44,13 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         
     public function loadAddresses()
     {
-        $this->_addresses = Mage::getResourceModel('customer', 'address_collection');
+        $this->_addresses = Mage::getModel('customer', 'address_collection');
         $this->_addresses->loadByCustomerId($this->getCustomerId());
     }
     
     public function getAddress($addressId)
     {
-        $address = Mage::getConfig()->getResourceModelClassName('customer', 'address');
+        $address = Mage::getConfig()->getModelClassName('customer', 'address');
         $address->loadByAddressId($addressId);
         return $address;
     }

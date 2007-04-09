@@ -25,7 +25,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
             // TODO
         }
         
-        $this->setItemObjectClass(Mage::getConfig()->getResourceModelClassName('directory', 'country'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory', 'country'));
     }
         
     public function toHtmlOptions($default=false)

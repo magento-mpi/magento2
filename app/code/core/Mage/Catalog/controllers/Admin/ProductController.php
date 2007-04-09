@@ -61,7 +61,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function gridDataAction()
     {
         $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
-        $prodCollection = Mage::getResourceModel('catalog','product_collection');
+        $prodCollection = Mage::getModel('catalog','product_collection');
         
         $prodCollection->addAttributeToSelect('name', 'varchar');
         $prodCollection->addAttributeToSelect('price', 'decimal');
@@ -71,7 +71,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         
         if ($categoryId = $this->getRequest()->getParam('category')) {
             
-            $tree = Mage::getResourceModel('catalog','category_tree');
+            $tree = Mage::getModel('catalog','category_tree');
             $data = $tree->getLevel($categoryId, 0);
             
             if (empty($data)) {
@@ -120,7 +120,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $validator = new Mage_Catalog_Validate_Product($_POST);
         if ($validator->isValid()) {
             Mage::log('begin product saving');
-            $productModel = Mage::getResourceModel('catalog', 'product');
+            $productModel = Mage::getModel('catalog', 'product');
             
             if ($productId = $validator->getProductId()) {
                 if ($productModel->update($validator->getData(), $productId)) {
@@ -155,7 +155,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function attributeSetListAction()
     {
-        $setCollection  = Mage::getResourceModel('catalog', 'product_attribute_set_collection');
+        $setCollection  = Mage::getModel('catalog', 'product_attribute_set_collection');
         $setCollection->load();
         $arrSets = $setCollection->__toArray();
         
@@ -168,7 +168,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function attributeListAction()
     {
-        $collection  = Mage::getResourceModel('catalog', 'product_attribute_collection');
+        $collection  = Mage::getModel('catalog', 'product_attribute_collection');
         $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
         $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
         $collection->setOrder($order, $dir);
