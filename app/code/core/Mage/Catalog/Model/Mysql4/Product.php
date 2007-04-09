@@ -9,6 +9,24 @@
  */
 class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product 
 {
+    /**
+     * These made static to avoid saving in object
+     *
+     * @var string
+     */
+    static protected $_productTable;
+    static protected $_read;
+    static protected $_write;
+
+    public function __construct($data=array()) 
+    {
+        parent::__construct($data);
+        
+        self::$_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
+        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_read');
+    }
+    
     public function load($productId)
     {
         $arrRes = array();

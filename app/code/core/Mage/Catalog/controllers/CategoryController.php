@@ -8,7 +8,10 @@
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action {
-
+    /**
+     * View category products
+     *
+     */
     function viewAction()
     {
         $category = Mage::getModel('catalog', 'category');
@@ -19,39 +22,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             $block = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
             $block->loadData($this->getRequest());
             
-            Mage::getBlock('content')->append($productInfoBlock);
+            Mage::getBlock('content')->append($block);
         }
         else { // TODO: forvard to error action
             echo 'Category id is not defined';
-        }
-    }
-
-    function appendAction() {
-        if (intval($_GET['id'])) {
-            Mage::getModel('catalog', 'category_tree')->appendChild($_GET['id']);
-        }
-    }
-
-
-    function checkTreeAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        $res = $obj->checkNodes();
-        $dump = Zend_Debug::dump($res, 'Broken Nodes', false);
-        Mage::getBlock('content')->append(Mage::createBlock('text')->setText($dump));
-    }
-
-
-    function removeAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        if (intval($_GET['id'])) {
-            $obj->removeNode($_GET['id']);
-        }
-    }
-
-    function moveAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        if (intval($_REQUEST['id']) && intval($_REQUEST['pid'])) {
-            $obj->moveNode($_REQUEST['id'], $_REQUEST['pid']);
         }
     }
 

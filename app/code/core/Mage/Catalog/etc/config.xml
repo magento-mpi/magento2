@@ -80,9 +80,9 @@
                   <table>catalog_category_attribute_set</table>
                </category_attribute_set>
 
-               <category_set>
-                  <table>catalog_category_set</table>
-               </category_set>
+               <category_attribute_in_set>
+                  <table>catalog_category_attribute_in_set</table>
+               </category_attribute_in_set>
 
                <category_product>
                   <table>catalog_category_product</table>

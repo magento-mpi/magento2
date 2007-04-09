@@ -60,9 +60,26 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
         return $collection;
     }
     
-    
+    /**
+     * Get category attributes
+     *
+     * @return unknown
+     */
     public function getAttributes()
     {
-        
+        $attributes = $this->getAttributeCollection()->load()->__toArray();
+        return isset($attributes['items']) ? $attributes['items'] : array();
+    }
+    
+    /**
+     * Get category attributes collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function getAttributeCollection()
+    {
+        $collection = Mage::getModel('catalog', 'category_attribute_collection');
+        $collection->addSetFilter($this->getAttributeSetId());
+        return $collection;
     }
 }

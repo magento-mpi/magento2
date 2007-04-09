@@ -9,14 +9,22 @@
  */
 class Mage_Catalog_Model_Mysql4_Category_Attribute_Collection extends Varien_Data_Collection_Db 
 {
+    protected $_attributeTable;
+    protected $_attributeInSetTable;
+    
     public function __construct() 
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
         
-        $attributeTable     = Mage::registry('resources')->getTableName('catalog', 'category_attribute');
-        $attributeSetTable  = Mage::registry('resources')->getTableName('catalog', 'category_attribute_set');
+        $this->_attributeTable     = Mage::registry('resources')->getTableName('catalog', 'category_attribute');
+        $this->_attributeInSetTable= Mage::registry('resources')->getTableName('catalog', 'category_attribute_in_set');
         
-        $this->_sqlSelect->from($attributeTable);
-        $this->_sqlSelect->join($attributeSetTable, "$attributeTable.attribute_id=$attributeSetTable.attribute_id");
+        $this->_sqlSelect->from($this->_attributeTable);
+        $this->_sqlSelect->join($this->_attributeInSetTable, "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id");
+    }
+    
+    public function addSetFilter($attributeSetId)
+    {
+        $this->addFilter("$this->_attributeInSetTable.category_attribute_set_id", $attributeSetId);
     }
 }
