@@ -15,9 +15,12 @@ Mage.Customer = function(depend){
         addressViewForm : Mage.url + '/mage_customer/address/card/', 
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
         customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
+        deleteUrl : Mage.url + '/mage_customer/customer/delete/', 
         formPanels : new Ext.util.MixedCollection(),
         forms2Panel : new Ext.util.MixedCollection(),
         forms : new Ext.util.MixedCollection(),
+        customerCardId : null,
+
         
         formsEdit : [],
         
@@ -175,12 +178,22 @@ Mage.Customer = function(depend){
             return grid;
         },
         
-        createItem: function(){
+        createItem: function(grid, rowIndex, e){
+            try {
+                if (typeof grid.getDataSource == 'function') {
+                    this.customerCardId = grid.getDataSource().getAt(rowIndex).id;
+                } else {
+                    this.customerCardId = 0;
+                }
+            } catch (e) {
+                alert(e);
+                return false;
+            }
             this.showEditPanel();
         },
 
         showEditPanel: function(){
-            var title = 'New Customer';
+
 
             
             if (this.customerLayout.getRegion('south') && this.customerLayout.getRegion('south').getActivePanel()) {
@@ -206,6 +219,14 @@ Mage.Customer = function(depend){
                          tabPosition: 'top'
                      }
             });
+            
+            if (!this.customerCardId) {
+                var deleteDisabled = true;
+                var title = 'New Customer';
+            } else {
+                var deleteDisabled = false;
+                // var title = this.grid.getDataSource().get(this.customerCardId).customer_firstname + ' ' + this.grid.getDataSource().get(this.customerCardId).customer_lastname;
+            }
             // setup toolbar for forms
             toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
@@ -214,10 +235,13 @@ Mage.Customer = function(depend){
                 handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.onDelete.createDelegate(this),
+                disabled : deleteDisabled
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler : this.onReset.createDelegate(this)
             },{
                 text: 'Cancel',
                 cls: 'x-btn-text-icon',
@@ -237,7 +261,9 @@ Mage.Customer = function(depend){
                 success : this.loadTabs.createDelegate(this),
                 failure : failure
             };
-            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/0/', cb);  
+            
+
+            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'customer/'+this.customerCardId+'/', cb);  
 
             this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
@@ -415,6 +441,31 @@ Mage.Customer = function(depend){
         
         onCancelEdit : function () {
             this.customerLayout.getRegion('south').clearPanels();            
+        },
+        
+        onDelete : function() {
+            this.disableToolbar();
+            var cb = {
+                success : this.onDeleteSuccess.createDelegate(this),
+                failure : this.onDeleteFailure.createDelegate(this),
+            }
+            var con = new Ext.lib.Ajax.request('GET', this.deleteUrl + 'id/14/', cb);
+        },
+        
+        onDeleteSuccess : function() {
+            this.onCancelEdit();
+            if (this.gridPanel) {
+                this.gridPanel.getGrid().getDataSource().reload();
+            }
+        },
+        
+        onDeleteFailure : function() {
+            this.toolbarEnable();
+        },
+        
+        
+        onReset : function() {
+            
         },
         
         onLoadPanel : function(el, response) {
