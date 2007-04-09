@@ -73,7 +73,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $cart = $this->getRequest()->getPost('cart');
         
-        foreach ($cart as )
+        //foreach ($cart as )
         
         $result = Mage::getResourceModel('sales', 'quote')->updateCartItems($cart);
 
