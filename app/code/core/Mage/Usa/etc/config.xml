@@ -19,7 +19,7 @@
          <ups>
             <active>true</active>
 
-            <class>Mage_Usa_Shipping_Vendor_Ups</class>
+            <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
 
             <defaults>
                <title>United Parcel Service</title>
@@ -45,21 +45,21 @@
          </ups>
 
          <usps>
-            <class>Mage_Usa_Shipping_Vendor_Usps</class>
+            <class>Mage_Usa_Model_Shipping_Vendor_Usps</class>
          </usps>
 
          <fedex>
-            <class>Mage_Usa_Shipping_Vendor_Fedex</class>
+            <class>Mage_Usa_Model_Shipping_Vendor_Fedex</class>
          </fedex>
 
          <dhl>
-            <class>Mage_Usa_Shipping_Vendor_Dhl</class>
+            <class>Mage_Usa_Model_Shipping_Vendor_Dhl</class>
          </dhl>
       </salesShippingVendors>
 
       <salesTax>
          <uszipcode>
-            <class>Mage_Usa_Tax_Uszipcode</class>
+            <class>Mage_Usa_Model_Tax_Uszipcode</class>
          </uszipcode>
       </salesTax>
    </global>
