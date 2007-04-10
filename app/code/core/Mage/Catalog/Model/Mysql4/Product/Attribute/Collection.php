@@ -10,12 +10,21 @@
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data_Collection_Db
 {
     protected $_attributeTable;
+    protected $_attributeInSetTable;
     
     public function __construct() 
     {
-        parent::__construct(Mage::getModel('catalog')->getReadConnection());
+        parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
+        
         $this->_attributeTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $this->_attributeInSetTable= Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_attributeTable);
+        $this->_sqlSelect->join($this->_attributeInSetTable, "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id");
+    }
+    
+    public function addSetFilter($attributeSetId)
+    {
+        $this->addFilter("$this->_attributeInSetTable.product_attribute_set_id", $attributeSetId);
     }
 }

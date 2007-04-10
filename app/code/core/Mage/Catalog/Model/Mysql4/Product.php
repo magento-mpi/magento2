@@ -15,6 +15,9 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
      * @var string
      */
     static protected $_productTable;
+    static protected $_attributeTable;
+    static protected $_attributeInSetTable;
+    
     static protected $_read;
     static protected $_write;
 
@@ -22,7 +25,10 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
     {
         parent::__construct($data);
         
-        self::$_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
+        self::$_productTable        = Mage::registry('resources')->getTableName('catalog', 'product');
+        self::$_attributeTable      = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        self::$_attributeInSetTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        
         self::$_read = Mage::registry('resources')->getConnection('catalog_read');
         self::$_write = Mage::registry('resources')->getConnection('catalog_read');
     }
@@ -30,18 +36,19 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
     public function load($productId)
     {
         $arrRes = array();
-        $productTable = Mage::registry('resources')->getTableName('catalog', 'product');        
-
-        $attributes = $this->getAttributes($productId);
+        $sql = 'SELECT * FROM ' . self::$_productTable . ' WHERE product_id=:product_id';
+        $this->setData(self::$_read->fetchRow($sql, array('product_id'=>$productId)));
         
-        $select = $this->_dbModel->getReadConnection()->select();
-        $select->from($productTable);
+        $attributes = $this->getAttributes();
+        
+        $select = self::$_read->select();
+        $select->from(self::$_productTable);
         
         $multipleAtributes = array();
         foreach ($attributes as $attribute) {
 
             // Multiples
-            if ($attribute['multiple'] && !$withMultipleFields) {
+            if ($attribute['multiple'] && !$this->_useMultipleValues) {
                 continue;
             }
 
@@ -51,9 +58,9 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
             $tableAlias= $tableName . '_' . $attribute['attribute_code'];
             
             $selectTable = $tableName . ' AS ' . $tableAlias;
-            $condition = "$tableAlias.product_id=$productTable.product_id
+            $condition = "$tableAlias.product_id=".self::$_productTable.".product_id
                           AND $tableAlias.attribute_id=".$attribute['attribute_id']."
-                          AND $tableAlias.website_id=".Mage_Core_Environment::getCurentWebsite();
+                          AND $tableAlias.website_id=".Mage::registry('website')->getId();
             
             // If data_type==decimal, then is qty field
             if ($attribute['data_type'] == 'decimal') {
@@ -88,70 +95,27 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
             }
         }
         
-        $select->where("$productTable.product_id=$productId");
+        $select->where(self::$_productTable.".product_id=$productId");
         
-        $arrRes = $this->_dbModel->getReadConnection()->fetchRow($select);
+        $arrRes = self::$_read->fetchRow($select);
 
         // Add multiple attributes to result       
         foreach ($multipleAtributes as $attributeCode => $selectParam) {
-            $select = $this->_dbModel->getReadConnection()->select();
+            $select = self::$_read->select();
             $select->from($selectParam['table'] . ' AS ' . $selectParam['alias'], $selectParam['columns']);
             $select->where('product_id='.$productId);
             $select->where('attribute_id='.$selectParam['attribute_id']);
-            $select->where('website_id='.Mage_Core_Environment::getCurentWebsite());
+            $select->where('website_id='.Mage::registry('website')->getId());
             
             if (count($selectParam['columns'])>1) {
-                $arrRes[$attributeCode] = $this->_dbModel->getReadConnection()->fetchAll($select);
+                $arrRes[$attributeCode] = self::$_read->fetchAll($select);
             }
             else {
-                $arrRes[$attributeCode] = $this->_dbModel->getReadConnection()->fetchCol($select);
+                $arrRes[$attributeCode] = self::$_read->fetchCol($select);
             }
             
         }
         
-        return $arrRes;
-    }
-
-    /**
-     * Get product attributes
-     *
-     * @param   int $productId
-     * @return  array
-     */
-    public function getAttributes()
-    {
-        $productTable       = Mage::registry('resources')->getTableName('catalog', 'product');
-        $attributeTable     = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
-        $attributeInSetTable= Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
-        
-        $sql = "SELECT
-                    $attributeTable.*
-                FROM
-                    $productTable,
-                    $attributeInSetTable,
-                    $attributeTable
-                WHERE
-                    $productTable.product_id=:product_id
-                    AND $attributeInSetTable.product_attribute_set_id=$productTable.attribute_set_id
-                    AND $attributeTable.attribute_id=$attributeInSetTable.attribute_id";
-        
-        $attributes = $this->_dbModel->getReadConnection()->fetchAll($sql, array('product_id'=>$productId));
-        return $attributes;
-    }
-    
-    public function getAttributeSetId($productId)
-    {
-        if (!empty($this->_data['attribute_set_id'])) {
-            return $this->_data['attribute_set_id'];
-        }
-        
-        $productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
-        $sql = "SELECT
-                    attribute_set_id
-                FROM
-                    $productTable
-                WHERE
-                    product_id=:product_id";
-        return $this->_dbModel->getReadConnection()->fetchOne($sql, array('product_id'=>$productId));
+        $this->setData($arrRes);
     }
 }

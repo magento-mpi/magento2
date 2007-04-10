@@ -43,11 +43,6 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
         return $this->getCategoryId();
     }
     
-    public function getName()
-    {
-        
-    }
-
     /**
      * Get category products collection
      *

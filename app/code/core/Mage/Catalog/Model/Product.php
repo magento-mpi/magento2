@@ -10,32 +10,11 @@
 abstract class Mage_Catalog_Model_Product extends Varien_Data_Object 
 {
     /**
-     * Product attributes information
-     *
-     * @var array
-     */
-    protected $_attributes;
-    
-    /**
-     * Product set information
-     *
-     * @var array
-     */
-    protected $_set;
-    
-    /**
-     * Group 
-     *
-     * @var unknown_type
-     */
-    protected $_group;
-    
-    /**
      * Use multiple values flag
      *
      * @var bool
      */
-    protected $_useMultiple;
+    protected $_useMultipleValues = true;
     
     public function __construct($product=false) 
     {
@@ -57,13 +36,6 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
     public function save()
     {
         // save product
-    }
-    
-    public function getAttributes()
-    {
-        if ($this->_attributes) {
-            return $this->_attributes;
-        }
     }
     
     public function getLink()
@@ -95,4 +67,29 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
     {
         return $this->getPrice();
     }
+    
+    /**
+     * Get product attributes
+     *
+     * @param   int $productId
+     * @return  array
+     */
+    public function getAttributes()
+    {
+        $collection = $this->getAttributeCollection()->load()->__toArray();
+        return isset($collection['items']) ? $collection['items'] : array();
+    }
+    
+    /**
+     * Get product attributes collection object
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function getAttributeCollection()
+    {
+        $collection = Mage::getModel('catalog', 'product_attribute_collection');
+        $collection->addSetFilter($this->getAttributeSetId());
+        return $collection;
+    }
+    
 }
