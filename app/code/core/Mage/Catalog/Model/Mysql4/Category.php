@@ -63,7 +63,7 @@ class Mage_Catalog_Model_Mysql4_Category extends Mage_Catalog_Model_Category
                 $select->joinLeft($selectTable, $condition, $columns);
             }
             $select->where(self::$_categoryTable . ".category_id=$categoryId");
+            $this->setData(self::$_read->fetchRow($select));
         }
-        $this->setData(self::$_read->fetchRow($select));
     }
 }
