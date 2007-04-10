@@ -50,7 +50,7 @@
       </Mage_Sales>
       
       <Mage_Cart>
-         <active>true</active>
+         <active>false</active>
 
          <codePool>core</codePool>
       </Mage_Cart>

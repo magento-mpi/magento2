@@ -27,13 +27,24 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         $this->loadByCustomerId($customerId);
     }
     
-    public function validateCreate()
+    public function validate()
     {
-        return true;
-    }
-    
-    public function validateUpdate()
-    {
+        $data = $this->getData();
+        $arrData= $this->_prepareArray($data, array('firstname', 'lastname', 'email', 'password'));
+        
+        $this->_data = array();
+        $this->_data['customer_email']      = $arrData['email'];
+        $this->_data['customer_pass']       = $arrData['password'];
+        $this->_data['customer_firstname']  = $arrData['firstname'];
+        $this->_data['customer_lastname']   = $arrData['lastname'];
+        $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
+        
+        $testCustomer = Mage::getModel('customer', 'customer');
+        $testCustomer->loadByEmail($arrData['email']);
+        if ($customer->getCustomerId()) {
+            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
+            return false;
+        }
         return true;
     }
     
@@ -51,7 +62,7 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     public function getAddress($addressId)
     {
         $address = Mage::getConfig()->getModelClassName('customer', 'address');
-        $address->loadByAddressId($addressId);
+        $address->load($addressId);
         return $address;
     }
 }

@@ -29,7 +29,7 @@ class Mage_Catalog_Model_Mysql4_Category extends Mage_Catalog_Model_Category
         self::$_attributeTable  = Mage::registry('resources')->getTableName('catalog', 'category_attribute');
         self::$_attributeValueTable  = Mage::registry('resources')->getTableName('catalog', 'category_attribute_value');
         self::$_read = Mage::registry('resources')->getConnection('catalog_read');
-        self::$_write = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
     }
 
     public function load($categoryId)
@@ -65,5 +65,6 @@ class Mage_Catalog_Model_Mysql4_Category extends Mage_Catalog_Model_Category
             $select->where(self::$_categoryTable . ".category_id=$categoryId");
             $this->setData(self::$_read->fetchRow($select));
         }
+        return $this;
     }
 }

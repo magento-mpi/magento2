@@ -145,7 +145,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $customer = Mage::getModel('customer', 'customer', array($customerId));
         $customer->setEmail($this->getRequest()->getPost('customer_email', false));
         $customer->setFirstName($this->getRequest()->getPost('customer_firstname', false));
-        $customer->setLastName($this->getRequest()->getPost('customer_lasttname', false));
+        $customer->setLastName($this->getRequest()->getPost('customer_lastname', false));
         $customer->save();
     }
     

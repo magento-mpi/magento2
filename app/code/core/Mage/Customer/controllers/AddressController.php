@@ -43,10 +43,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         
         // TODO: restore form data and messages from session        
         $addressId = $this->getRequest()->getParam('address', false);
+        $address = Mage::getModel('customer', 'address');
         
         if ($addressId) {
-            $address = Mage::getModel('customer', 'address');
-            $address->loadByAddressId($addressId);
+            $address->load($addressId);
             
             // Validate address_id <=> customer_id
             if ($address->getCustomerId()!=Mage_Customer_Front::getCustomerId()) {
@@ -60,7 +60,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $primary = array();
         }
 
-        $types = Mage::getModel('customer', 'address')->getAvailableTypes();
+        $types = $address->getAvailableTypes();
         foreach ($types as $typeCode=>$type) {
             $types[$typeCode]['name'] = $type['address_type_name'];
             $types[$typeCode]['is_primary'] = !empty($primary[$typeCode]);
@@ -78,32 +78,24 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         // Save data
         if ($this->getRequest()->isPost()) {
-            $addressValidator = new Mage_Customer_Validate_Address($_POST);
+            $address = Mage::getModel('customer', 'address');
+            $address->setData($_POST);
             
             // Validate address_id <=> customer_id
-            if (!$address->hasCustomer(Mage_Customer_Front::getCustomerId())) {
+            if ($address->getCustomerId()!==Mage_Customer_Front::getCustomerId()) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            
-            $data = $addressValidator->getData();
-            
+
             // Validate data
-            if ($addressValidator->isValid()) {
-                $addressModel = Mage::getModel('customer', 'address');
-                
-                if ($data['address_id']) {
-                    $saveRes = $addressModel->update($data, $data['address_id']);
-                } else {
-                    $data['customer_id'] = Mage_Customer_Front::getCustomerId();
-                    $addressModel->insert($data);
-                }
+            if ($address->validate()) {
+                $address->save();
                 
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
             }
             else {
                 // validation error message
-                $formData = $addressValidator->getDataObject();
+                #$formData = $address->getDataObject();
             }
         }
     }
@@ -115,9 +107,9 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
 
         $addressId = $this->getRequest()->getParam('address', false);
-        $addressValidator = new Mage_Customer_Validate_Address(array());
         
         if ($addressId) {
+            $address = Mage::getModel('customer', 'address')->load($addressId);
             
             // Validate address_id <=> customer_id
             if (!$addressValidator->hasCustomer($addressId, Mage_Customer_Front::getCustomerId())) {

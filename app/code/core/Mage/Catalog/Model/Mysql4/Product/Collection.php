@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     
     function __construct($config = array())
     {
-        parent::__construct(Mage::getModel('catalog')->getReadConnection());
+        parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
 
         $this->_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
         $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog', 'category_product');
@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         $this->_sqlSelect->from($this->_productTable, $productColumns);
        
         $this->setPageSize(9);
-        $this->setItemObjectClass('Mage_Catalog_Model_Mysql4_Product');
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product'));
         $this->setWebsiteId(Mage::registry('website')->getId());
     }
     

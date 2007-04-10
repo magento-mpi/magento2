@@ -7,15 +7,15 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Mysql4_History extends Mage_Core_Model_Mysql4
+class Mage_Core_Model_Mysql4_History
 {
-    protected $_changeTable;
-    protected $_changeInfoTable;
+    protected static $_changeTable = null;
+    protected static $_changeInfoTable = null;
     
     public function __construct() 
     {
-        $this->_changeTable = Mage::registry('resources')->getTableName('core_read', 'data_change');
-        $this->_changeInfoTable = Mage::registry('resources')->getTableName('core_read', 'data_change_info');
+        self::$_changeTable = Mage::registry('resources')->getTableName('core_read', 'data_change');
+        self::$_changeInfoTable = Mage::registry('resources')->getTableName('core_read', 'data_change_info');
     }
     
     /**

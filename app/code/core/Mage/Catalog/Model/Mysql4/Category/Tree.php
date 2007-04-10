@@ -8,8 +8,11 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
+class Mage_Catalog_Model_Mysql4_Category_Tree
 {
+    protected static $_read = null;
+    protected static $_write = null;
+    
     /**
      * DB tree object
      *
@@ -19,12 +22,13 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
 
     public function __construct()
     {
-        parent::__construct();
+        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
 
         $treeTable = Mage::registry('resources')->getTableName('catalog', 'category');
 
         $config = array();
-        $config['db']   = $this->_read;
+        $config['db']   = self::$_read;
         $config['table']= $treeTable;
         $config['id']   = 'category_id';
 
@@ -117,9 +121,9 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Mage_Catalog_Model_Mysql4
         $data['website_id'] = 1;
         $data['attribute_id'] = 1;
         $data['attribute_value'] = 'test';
-        $this->_write->insert($attributeValueTable, $data);
+        self::$_write->insert($attributeValueTable, $data);
         $data['attribute_id'] = 2;
-        $this->_write->insert($attributeValueTable, $data);
+        self::$_write->insert($attributeValueTable, $data);
     }
 
     /**

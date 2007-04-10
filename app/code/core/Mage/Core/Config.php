@@ -123,8 +123,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function loadFromDb()
     {
         try{
-            $model = $this->getModelInstance('core', 'config');
-            $model->updateXmlFromDb($this->_xml);
+            Mage::getModel('core', 'config')->updateXmlFromDb($this->_xml);
         }
         catch (Exception $e) {
             

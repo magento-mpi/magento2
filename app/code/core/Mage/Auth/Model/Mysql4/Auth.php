@@ -1,15 +1,20 @@
 <?php
 
-class Mage_Auth_Model_Mysql4_Auth extends Mage_Auth_Model_Mysql4 
+class Mage_Auth_Model_Mysql4_Auth
 {
+    protected static $_read = null;
+    protected static $_write = null;
+    protected static $_userTable = null;
+
     protected $_authAdapter = null;
     
     public function __construct()
     {
-        parent::__construct();
-        
-        $userTable = Mage::registry('resources')->getTableName('auth', 'user');
-        $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $userTable, 'username', 'password', 'md5(?)');
+        self::$_read = Mage::registry('resources')->getConnection('auth_read');
+        self::$_write = Mage::registry('resources')->getConnection('auth_write');
+        self::$_userTable = Mage::registry('resources')->getTableName('auth', 'user');
+
+        $this->_authAdapter = new Zend_Auth_Adapter_DbTable(self::$_read, self::$_userTable, 'username', 'password', 'md5(?)');
     }
     
     public function authenticate($username, $password)

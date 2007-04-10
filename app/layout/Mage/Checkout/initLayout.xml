@@ -7,6 +7,9 @@
     </reference>
     
     <reference name="top.links">
+        <block type="list_link" name="top.links.cart">
+            <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}/cart/"</a><label>Cart</label></action>
+        </block>
         <block type="list_link" name="top.links.checkout">
             <action method="setLink" process="a"><li/><a>href="{$baseModuleUrl}"</a><label>Checkout</label></action>
         </block>

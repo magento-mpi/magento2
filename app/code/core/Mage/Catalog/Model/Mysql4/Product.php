@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
         self::$_attributeInSetTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
         
         self::$_read = Mage::registry('resources')->getConnection('catalog_read');
-        self::$_write = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
     }
     
     public function load($productId)
@@ -117,5 +117,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
         }
         
         $this->setData($arrRes);
+        
+        return $this;
     }
 }

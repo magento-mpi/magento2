@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
         }
         
         $sql = "SELECT $fields FROM $this->_attributeGeoupTable WHERE product_attribute_group_id=:group_id";
-        $arrRes = $this->_read->fetchRow($sql, array('group_id'=>$groupId));
+        $arrRes = self::$_read->fetchRow($sql, array('group_id'=>$groupId));
         return $arrRes;
     }
     
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
         $arrSqlParam['set_id']  = $setId;
         $arrSqlParam['group_id']= $groupId;
         
-        $arrRes = $this->_read->fetchAll($sql, $arrSqlParam);
+        $arrRes = self::$_read->fetchAll($sql, $arrSqlParam);
         return $arrRes;
     }
     
@@ -77,8 +77,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      */
     public function insert($data)
     {
-        if ($this->_write->insert($this->_attributeGeoupTable, $data)) {
-            return $this->_write->lastInsertId();
+        if (self::$_write->insert($this->_attributeGeoupTable, $data)) {
+            return self::$_write->lastInsertId();
         }
         return false;
     }
@@ -92,8 +92,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      */
     public function update($data, $rowId)
     {
-        $condition = $this->_write->quoteInto('product_attribute_group_id=?', $rowId);
-        return $this->_write->update($this->_attributeGeoupTable, $data, $condition);
+        $condition = self::$_write->quoteInto('product_attribute_group_id=?', $rowId);
+        return self::$_write->update($this->_attributeGeoupTable, $data, $condition);
     }
     
     /**
@@ -103,8 +103,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
      */
     public function delete($rowId)
     {
-        $condition = $this->_write->quoteInto('product_attribute_group_id=?', $rowId);
-        return $this->_write->delete($this->_attributeGeoupTable, $condition);
+        $condition = self::$_write->quoteInto('product_attribute_group_id=?', $rowId);
+        return self::$_write->delete($this->_attributeGeoupTable, $condition);
     }
     
     /**

@@ -8,7 +8,17 @@ class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
     const RULE_PERM_DENY = 0;
     const RULE_PERM_INHERIT = 1;
     const RULE_PERM_ALLOW = 2;
+
+    protected static $_read = null;
+    protected static $_write = null;
+    protected static $_userTable = null;
     
+    function __construct()
+    {
+        self::$_read = Mage::registry('resources')->getConnection('auth_read');
+        self::$_write = Mage::registry('resources')->getConnection('auth_write');
+    }
+
     function loadUserAcl($userId)
     {
         $acl = new Zend_Acl();
@@ -17,16 +27,16 @@ class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
         $roleTable = Mage::registry('resources')->getTableName('auth', 'role');
-        $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
-        $rolesArr = $this->_read->fetchAll($rolesSelect);
+        $rolesSelect = self::$_read->select()->from($roleTable)->order(array('tree_level'));
+        $rolesArr = self::$_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
         $ruleTable = Mage::registry('resources')->getTableName('auth', 'rule');
         $assertTable = Mage::registry('resources')->getTableName('auth', 'assert');
-        $rulesSelect = $this->_read->select()->from($ruleTable)
+        $rulesSelect = self::$_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
-        $rulesArr = $this->_read->fetchAll($rulesSelect);        
+        $rulesArr = self::$_read->fetchAll($rulesSelect);        
         $this->loadRules($acl, $rulesArr);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
         

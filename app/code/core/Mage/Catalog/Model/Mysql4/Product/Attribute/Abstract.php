@@ -22,8 +22,8 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
         if (empty($data['website_id'])) {
             $data['website_id'] = Mage::registry('website')->getId();
         }
-        if ($this->_write->insert($this->_attributeValueTable, $data)) {
-            return $this->_write->lastInsertId();
+        if (self::$_write->insert($this->_attributeValueTable, $data)) {
+            return self::$_write->lastInsertId();
         }
         return false;
     }
@@ -32,7 +32,7 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
     {
         if (is_array($arrId)) {
             if (!empty($arrId['value_id'])) {
-                $condition = $this->_write->quoteInto('value_id=?', $arrId['value_id']);
+                $condition = self::$_write->quoteInto('value_id=?', $arrId['value_id']);
             }
             else {
                 if (empty($arrId['attribute_id'])) {
@@ -45,13 +45,13 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
                     $arrId['website_id'] = Mage::registry('website')->getId();
                 }
                 
-                $condition = $this->_write->quoteInto('product_id=?', $arrId['product_id']).
-                             ' AND ' . $this->_write->quoteInto('attribute_id=?', $arrId['attribute_id']).
-                             ' AND ' . $this->_write->quoteInto('website_id=?', $arrId['website_id']);
+                $condition = self::$_write->quoteInto('product_id=?', $arrId['product_id']).
+                             ' AND ' . self::$_write->quoteInto('attribute_id=?', $arrId['attribute_id']).
+                             ' AND ' . self::$_write->quoteInto('website_id=?', $arrId['website_id']);
             }            
         }
         else {
-            $condition = $this->_write->quoteInto('value_id=?', $arrId);
+            $condition = self::$_write->quoteInto('value_id=?', $arrId);
         }
         
         return $condition;
@@ -67,7 +67,7 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
     public function update($data, $arrId)
     {
         $condition = $this->_renderFkCondition($arrId);
-        return $this->_write->update($this->_attributeValueTable, $data, $condition);
+        return self::$_write->update($this->_attributeValueTable, $data, $condition);
     }
     
     /**
@@ -78,7 +78,7 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
     public function delete($arrId)
     {
         $condition = $this->_renderFkCondition($arrId);
-        return $this->_write->delete($this->_attributeValueTable, $condition);
+        return self::$_write->delete($this->_attributeValueTable, $condition);
     }
     
     /**
@@ -89,6 +89,6 @@ abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract extends Mage
     public function getRow($arrId)
     {
         $sql = "SELECT * FROM $this->_attributeValueTable WHERE " . $this->_renderFkCondition($arrId);
-        return $this->_read->fetchRow($sql);
+        return self::$_read->fetchRow($sql);
     }    
 }

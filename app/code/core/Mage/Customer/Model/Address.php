@@ -21,27 +21,17 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
         parent::__construct();
         
         if (is_numeric($address)) {
-            $this->loadByAddressId($address);
+            $this->load($address);
         } elseif (is_array($address)) {
             $this->setData($address);
         }
     }
     
-    public function load($addressId)
-    {
-        $this->loadByAddressId($addressId);
-    }
-    
-    public function save()
-    {
-        $addressModel = Mage::getModel('customer', 'address');
-        
-        if ($this->getAddressId()) {
-            $this->update($this);
-        } else {
-            $this->insert($this);
-        }
-    }
+    abstract public function load($addressId);
+
+    abstract public function save();
+
+    abstract public function delete();
     
     public function getStreet($line=0)
     {
@@ -141,13 +131,28 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
         return $str;
     }
     
-    public function validateCreate()
+    public function validate()
     {
-        return true;
-    }
-    
-    public function validateUpdate()
-    {
+        $arrData= $this->_prepareArray($this->_data, 
+            array(
+                'firstname', 
+                'lastname', 
+                'company',
+                'street',
+                'city',
+                'region_id',
+                'postcode',
+                'country_id',
+                'telephone',
+                'fax',
+            )
+        );
+        
+        if (is_array($arrData['street'])) {
+            $this->implodeStreetAddress();
+        }
+        
+        $this->_data = $arrData;
         return true;
     }
 }

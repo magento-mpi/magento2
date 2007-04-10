@@ -24,8 +24,8 @@ class Mage_Catalog_Model_Mysql4_Product_Link extends Mage_Catalog_Model_Mysql4 i
      */
     public function insert($data)
     {
-        if ($this->_write->insert($this->_linkTable, $data)) {
-            return $this->_write->lastInsertId();
+        if (self::$_write->insert($this->_linkTable, $data)) {
+            return self::$_write->lastInsertId();
         }
         return false;
     }
@@ -39,8 +39,8 @@ class Mage_Catalog_Model_Mysql4_Product_Link extends Mage_Catalog_Model_Mysql4 i
      */
     public function update($data, $rowId)
     {
-        $condition = $this->_write->quoteInto('link_id=?', $rowId);
-        return $this->_write->update($this->_linkTable, $data, $condition);
+        $condition = self::$_write->quoteInto('link_id=?', $rowId);
+        return self::$_write->update($this->_linkTable, $data, $condition);
     }
     
     /**
@@ -50,8 +50,8 @@ class Mage_Catalog_Model_Mysql4_Product_Link extends Mage_Catalog_Model_Mysql4 i
      */
     public function delete($rowId)
     {
-        $condition = $this->_write->quoteInto('link_id=?', $rowId);
-        return $this->_write->delete($this->_linkTable, $condition);
+        $condition = self::$_write->quoteInto('link_id=?', $rowId);
+        return self::$_write->delete($this->_linkTable, $condition);
     }
     
     /**
@@ -62,6 +62,6 @@ class Mage_Catalog_Model_Mysql4_Product_Link extends Mage_Catalog_Model_Mysql4 i
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_linkTable WHERE link_id=:link_id";
-        return $this->_read->fetchRow($sql, array('link_id'=>$rowId));
+        return self::$_read->fetchRow($sql, array('link_id'=>$rowId));
     }    
 }

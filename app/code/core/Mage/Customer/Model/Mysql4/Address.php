@@ -26,37 +26,42 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
         self::$_write = Mage::registry('resources')->getConnection('customer_write');
     }
     
-     /**
-     * Insert row in database table
+    /**
+     * Get row from database table
      *
-     * @param   Mage_Customer_Model_Address $data
-     * @return  int || false
+     * @param   int $rowId
+     * @return  Mage_Customer_Model_Address
      */
-    public function insert()
+    public function load($addressId)
     {
-        if (self::$_write->insert(self::$_addressTable, $this->getData())) {
-            $this->setAddressId(self::$_write->lastInsertId());
-            $this->insertTypes();
-            return $this->getAddressId();
+        $select = self::$_read->select()->from(self::$_addressTable)
+            ->where(self::$_read->quoteInto('address_id=?', $addressId));
+        $row = self::$_read->fetchRow($select);
+        if (!$row) {
+            return false;
         }
-        return false;
+        $this->setData($row);
+        $this->setType($this->getTypesByAddressId($this->getAddressId()));
+        return $this;
     }
     
-    /**
-     * Update row in database table
-     *
-     * @param   Mage_Customer_Model_Address $data
-     * @param   int   $rowId
-     * @return  int
-     */
-    public function update()
+    public function save()
     {
-        $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
-        $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
-        if ($result) {
-            $this->updateTypes();
+        $addressModel = Mage::getModel('customer', 'address');
+        
+        if ($this->getAddressId()) {
+            $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
+            $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
+            if ($result) {
+                $this->updateTypes();
+            }
+        } else {
+            if (self::$_write->insert(self::$_addressTable, $this->getData())) {
+                $this->setAddressId(self::$_write->lastInsertId());
+                $this->insertTypes();
+            }
         }
-        return $result;
+        return $this;
     }
     
     /**
@@ -72,27 +77,9 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
         $condition = self::$_write->quoteInto('address_id=?', $addressId);
         $result = self::$_write->delete(self::$_addressTable, $condition);
         $this->deleteTypes($this);
-        return $result;
-    }
-    
-    /**
-     * Get row from database table
-     *
-     * @param   int $rowId
-     * @return  Mage_Customer_Model_Address
-     */
-    public function loadByAddressId($addressId)
-    {
-        $select = self::$_read->select()->from(self::$_addressTable)
-            ->where(self::$_read->quoteInto('address_id=?', $addressId));
-        $row = self::$_read->fetchRow($select);
-        if (!$row) {
-            return false;
-        }
-        $this->setData($row);
-        $this->setType($this->getTypesByAddressId($this->getAddressId()));
         return $this;
     }
+
     
     public function getTypesByCondition($condition)
     {

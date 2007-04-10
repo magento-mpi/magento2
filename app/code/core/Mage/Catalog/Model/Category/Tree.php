@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
         $treeTable = Mage::registry('resources')->getTableName('catalog', 'category');
 
         $config = array();
-        $config['db']   = $this->_read;
+        $config['db']   = self::$_read;
         $config['table']= $treeTable;
         $config['id']   = 'category_id';
 
@@ -117,9 +117,9 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
         $data['website_id'] = 1;
         $data['attribute_id'] = 1;
         $data['attribute_value'] = 'test';
-        $this->_write->insert($attributeValueTable, $data);
+        self::$_write->insert($attributeValueTable, $data);
         $data['attribute_id'] = 2;
-        $this->_write->insert($attributeValueTable, $data);
+        self::$_write->insert($attributeValueTable, $data);
     }
 
     /**

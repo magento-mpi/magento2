@@ -50,38 +50,26 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customerValidator = new Mage_Customer_Validate_Customer();
-            $addressValidator = new Mage_Customer_Validate_Address($_POST);
+            $customer = Mage::getModel('customer', 'customer')->setData($_POST);
+            $address = Mage::getModel('customer', 'address')->setData($_POST);
             
             // Validate customer and address info
-            if ($customerValidator->createAccount($_POST) && $addressValidator->isValid()) {
+            if ($customer->validate() && $address->validate()) {
                 
-                $customerModel = Mage::getModel('customer', 'customer');
-                
-                // Insert customer information
-                $customerData = $customerValidator->getData();
-                if ($customerId = $customerModel->insert($customerData)) {
+                if ($customer->save()) {
+                    $address->setCustomerId($customer->getCustomerId());
                     
-                    $addressModel = Mage::getModel('customer', 'address');
-                    
-                    // Insert customer address
-                    $addressData = $addressValidator->getData();
-                    $addressData['customer_id'] = $customerId;
-                    if ($addressId = $addressModel->insert($addressData)) {
-                        
-                        $customerModel->setDefaultAddress($customerId, $addressId);
-                        Mage_Customer_Front::login($customerData['customer_email'], $customerData['customer_pass']);
+                    if ($address->save()) {
+                        $customer->setPrimaryAddress($address->getAddressId());
+                        Mage_Customer_Front::login($customer->getCustomerEmail(), $customer->getCustomerPass());
                         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
-                    }
-                    else {
+                    } else {
                         // Delete customer? and can't create address error
                     }
-                }
-                else {
+                } else {
                     // Can't create customer
                 }
-            }
-            else {
+            } else {
                 // Fix validation error and tmp save post data
             }
         }
@@ -111,19 +99,22 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function editPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customerValidator = new Mage_Customer_Validate_Customer();
+            $customer = Mage::getModel('customer', 'customer')->setData($_POST);
             
-            if ($customerValidator->editAccount($_POST)) {
-                $customerModel = Mage::getModel('customer', 'customer');
-                $customerModel->update($customerValidator->getData(), Mage_Customer_Front::getCustomerId());
-                
+            if ($customer->validate()) {
+                $customer->setCustomerId(Mage_Customer_Front::getCustomerId());
+                if ($customer->save()) {
+                    
+                } else {
+                    // problem saving customer
+                }
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
                 return;
             }
 
             Mage::registry('session')
                 ->getNamespaceMessage('customer_edit', false)
-                    ->addMessage($customerValidator->getMessage(), 'error');
+                    ->addMessage($customer->getMessage(), 'error');
 
             Mage::registry('session')
                 ->getNamespaceData('customer_edit', false)

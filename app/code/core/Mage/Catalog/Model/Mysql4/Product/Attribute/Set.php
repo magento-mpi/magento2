@@ -34,7 +34,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
                     $this->_inSetTable
                 WHERE
                     product_attribute_set_id=:set_id";
-        $arrRes = $this->_read->fetchCol($sql, array('set_id'=>$setId));
+        $arrRes = self::$_read->fetchCol($sql, array('set_id'=>$setId));
         return $arrRes;
     }
     
@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
                     $attributeTable.attribute_id=$this->_inSetTable.attribute_id
                     AND product_attribute_set_id=:set_id";
 
-        $arrRes = $this->_read->fetchAll($sql, array('set_id'=>$setId));
+        $arrRes = self::$_read->fetchAll($sql, array('set_id'=>$setId));
         return $arrRes;
     }
 
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
                 WHERE
                     $groupTable.product_attribute_group_id=$this->_inSetTable.product_attribute_group_id
                     AND $this->_inSetTable.product_attribute_set_id=:set_id";
-        $arrRes = $this->_read->fetchAll($sql, array('set_id'=>$setId));
+        $arrRes = self::$_read->fetchAll($sql, array('set_id'=>$setId));
         return $arrRes;
     }
     
@@ -84,8 +84,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function insert($data)
     {
-        if ($this->_write->insert($this->_setTable, $data)) {
-            return $this->_write->lastInsertId();
+        if (self::$_write->insert($this->_setTable, $data)) {
+            return self::$_write->lastInsertId();
         }
         return false;
     }
@@ -98,8 +98,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function update($data, $rowId)
     {
-        $condition = $this->_write->quoteInto('product_attribute_set_id=?', $rowId);
-        return $this->_write->update($this->_setTable, $data, $condition);
+        $condition = self::$_write->quoteInto('product_attribute_set_id=?', $rowId);
+        return self::$_write->update($this->_setTable, $data, $condition);
     }
     
     /**
@@ -109,8 +109,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function delete($rowId)
     {
-        $condition = $this->_write->quoteInto('product_attribute_set_id=?', $rowId);
-        return $this->_write->delete($this->_setTable, $condition);
+        $condition = self::$_write->quoteInto('product_attribute_set_id=?', $rowId);
+        return self::$_write->delete($this->_setTable, $condition);
     }
     
     /**
@@ -121,6 +121,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
     public function getRow($rowId)
     {
         $sql = "SELECT * FROM $this->_setTable WHERE product_attribute_set_id=:set_id";
-        return $this->_read->fetchRow($sql, array('set_id'=>$rowId));
+        return self::$_read->fetchRow($sql, array('set_id'=>$rowId));
     }    
 }

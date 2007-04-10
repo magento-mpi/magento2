@@ -125,7 +125,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         return $this;
     }
     
-    public function addProductItem(Mage_Catalog_Product $source, $qty=1)
+    public function addProductItem(Mage_Catalog_Model_Product $source, $qty=1)
     {
         $item = Mage::getModel('sales', 'quote_item');
         
@@ -146,8 +146,25 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         return $this;
     }
     
+    /**
+     * Add payment to quote
+     * 
+     * @todo Maybe not to use this, but to do directly $quote->getPayments()->addItem($source)
+     *
+     * @param Mage_Sales_Model_Payment $source
+     */
     public function addPayment(Mage_Sales_Model_Payment $source)
     {
+        $payment = Mage::getModel('sales', 'quote_payment');
         
+        $fields = array();
+        
+        foreach ($fields as $fieldName=>$fieldType) {
+            $attr = Mage::getModel('sales', 'quote_attribute');
+            $attr->setEntityType('payment');
+            $attr->setAttributeCode($fieldName);
+            $attr->setData('attribute_'.$fieldType, $source->getData($fieldName));
+            $item->addAttribute($attr);
+        }
     }
 }

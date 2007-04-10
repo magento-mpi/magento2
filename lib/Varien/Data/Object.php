@@ -137,6 +137,7 @@ class Varien_Data_Object
                 return $this;
                 break;
         }
+        throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
     }
     
     public function __get($var)

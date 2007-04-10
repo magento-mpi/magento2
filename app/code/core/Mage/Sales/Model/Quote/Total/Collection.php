@@ -22,7 +22,7 @@ class Mage_Sales_Model_Quote_Total_Collection
     
     public function collect()
     {
-        $totalsConfig = Mage::getConfig('Mage_Checkout')->getQuoteTotals();
+        $totalsConfig = Mage::getConfig('Mage_Sales')->getQuoteTotals();
 
         foreach ($totalsConfig as $total) {
             $className = $total->getClassName();
