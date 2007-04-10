@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Auth_Model_Mysql4_Acl extends Mage_Auth_Model_Mysql4
+class Mage_Auth_Model_Mysql4_Acl
 {
     const ROLE_TYPE_GROUP = 'G';
     const ROLE_TYPE_USER = 'U';

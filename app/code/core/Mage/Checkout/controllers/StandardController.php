@@ -22,12 +22,12 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     function shippingAction()
     {
         // check customer auth
-        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
+        if (!Mage::getSingleton('customer_model', 'session')->authenticate($this)) {
             return;
         }
         
         // TODO: change address id
-        $addressId = Mage::getSingleton('customer', 'session')->getCustomer()->getPrimaryAddress('shipping');
+        $addressId = Mage::getSingleton('customer_model', 'session')->getCustomer()->getPrimaryAddress('shipping');
         $address = Mage::getModel('customer', 'address')->getRow($addressId);
         
         $block = Mage::createBlock('tpl', 'checkout.shipping')

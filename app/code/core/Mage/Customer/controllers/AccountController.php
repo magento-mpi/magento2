@@ -15,7 +15,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^[create|forgotpassword]#', $action)) {
-            if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
+            if (!Mage::getSingleton('customer_model', 'session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
         }
@@ -32,7 +32,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function logoutAction()
     {
-        Mage::getSingleton('customer', 'session')->logout();
+        Mage::getSingleton('customer_model', 'session')->logout();
         $this->_redirect(Mage::getBaseUrl());
     }
     
@@ -61,7 +61,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     
                     if ($address->save()) {
                         $customer->setPrimaryAddress($address->getAddressId());
-                        Mage::getSingleton('customer', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
+                        Mage::getSingleton('customer_model', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
                         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
                     } else {
                         // Delete customer? and can't create address error
@@ -102,7 +102,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer = Mage::getModel('customer', 'customer')->setData($_POST);
             
             if ($customer->validate()) {
-                $customer->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId());
+                $customer->setCustomerId(Mage::getSingleton('customer_model', 'session')->getCustomerId());
                 if ($customer->save()) {
                     
                 } else {
@@ -139,13 +139,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function changePasswordPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getSingleton('customer', 'session')->getCustomer();
+            $customer = Mage::getSingleton('customer_model', 'session')->getCustomer();
             $currentPassword = $this->getRequest()->getPost('current_password');
             $newPassword = $this->getRequest()->getPost('password');
             
             if ($customer && $customer->validatePassword($currentPassword)) {
-                $customerModel = Mage::getModel('customer', 'customer');
-                $customerModel->changePassword(Mage_Customer_Front::getCustomerId(), $customerValidator->getDataItem('password'));
+                $customer->setCustomerPass($newPassword);
+                $customer->save();
                 
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
             }

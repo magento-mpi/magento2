@@ -52,10 +52,11 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         $result = $authAdapter->setIdentity($username)->setCredential($password)->authenticate();
         
         if (Zend_Auth_Result::SUCCESS===$result->getCode()) {
-            return $authAdapter->getResultRowObject();
+            $this->load($authAdapter->getResultRowObject()->customer_id);
         } else {
             return false;
         }
+        return $this;
     }
     
     public function setDefaultAddress($customerId, $addressId)
@@ -100,7 +101,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
      */
     public function save()
     {
-        $this->_hashPassword();
         if ($this->getCustomerId()) {
             $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
             self::$_write->update(self::$_customerTable, $this->getData(), $condition);
@@ -158,7 +158,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         $customerModel = Mage::getModel('customer', 'customer');
         $customer = $customerModel->loadByEmail($arrData['customer_email']);
 
-        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId())) {
+        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage::getSingleton('customer_model', 'session')->getCustomerId())) {
             $this->_message = 'E-Mail Address already exists';
             return false;
         }

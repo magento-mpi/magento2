@@ -77,9 +77,13 @@
             </entities>
             
             <subs>
-                <session>Mage_Customer_Model_Session</session>
+                <session></session>
             </subs>
          </customer>
+         
+         <customer_model>
+            <class>Mage_Customer_Model</class>
+         </customer_model>
       </models>
 
       <resources>
