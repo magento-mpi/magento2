@@ -11,8 +11,11 @@ Mage.Customer = function(depend){
         addressView : null,
         gridPanel:null,
         grid:null,
+        addressLoading : null,
         addressViewUrl : Mage.url + '/mage_customer/address/gridData/', 
         addressViewForm : Mage.url + '/mage_customer/address/card/', 
+        deleteAddressUrl : Mage.url + '/mage_customer/address/delete/', 
+
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
         customerGridDataUrl : Mage.url + '/mage_customer/customer/gridData/',
         deleteUrl : Mage.url + '/mage_customer/customer/delete/', 
@@ -366,13 +369,63 @@ Mage.Customer = function(depend){
                      }
             });
             
-            this.addressLayout.beginUpdate();
-            var addressPanel = this.addressLayout.add('west', new Ext.ContentPanel(Ext.id(), {autoCreate: true}));
-            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true},'center'));
-            this.addressLayout.endUpdate();            
+            
+            this.addressViewLayout = new Ext.BorderLayout(this.addressLayout.getRegion('west').getEl().createChild({tag:'div'}), {
+                  hideOnLayout:true,
+                  north : {
+                      split:false,
+                      initialSize: 27,
+                      autoScroll:true,
+                      titlebar:false,                        
+                      collapsible:false
+                  },
+                  center : {
+                      split:true,
+                      initialSize: 300,
+                      autoScroll:true,
+                      titlebar:false,                        
+                      collapsible:false
+                  }
+            });
+
+//            this.addressViewLayout.beginUpdate();
+            
+            var toolbar = new Ext.Toolbar(this.addressViewLayout.getRegion('north').getEl().insertFirst({tag:'div'}, true));
+            toolbar.add({
+                text: 'New',
+                cls: 'x-btn-text-icon',
+                handler : this.onAddressNew.createDelegate(this)                
+            },{
+                text: 'Save',
+                cls: 'x-btn-text-icon',
+                handler : this.onAddressSave.createDelegate(this)
+            },{
+                text: 'Delete',
+                cls: 'x-btn-text-icon',
+                handler : this.onAddressDelete.createDelegate(this)
+            },{
+                text: 'Reset',
+                cls: 'x-btn-text-icon',
+                handler : this.onAddressReset.createDelegate(this)                
+            },'-');
+            this.addressLoading = toolbar.addButton({
+               tooltip: 'Form is updating',
+               cls: "x-btn-icon x-grid-loading",
+               disabled: false
+            });
+            
+            this.addressViewLayout.add('north', new Ext.ContentPanel(Ext.id(), {autoCreate: true, toolbar: toolbar}));
+            var addressPanel = this.addressViewLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true}));
+            this.addressLayout.endUpdate();                                    
+            
+            // setup toolbar for address
+            
+            this.addressLayout.add('west', new Ext.NestedLayoutPanel(this.addressViewLayout));
+            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true}, 'center'));
             
             var addressBody = addressPanel.getEl().createChild({tag:'div'});
             
+
         	// create the required templates
         	this.addressTemplate = new Ext.Template(
                 '<div id="{addr_id}" class="address-view"><address>'+
@@ -387,7 +440,13 @@ Mage.Customer = function(depend){
         		singleSelect: true,
         		jsonRoot: 'addresses',
         		emptyText : '<div style="padding:10px;">No address found</div>'
-        	});            
+        	});     
+        	
+        	this.addressView.on( 'load', function(view, data, response) {
+            	    alert('onload');
+            	}
+            );
+            
         	
             this.addressView.on("click", this.onClickAddressView.createDelegate(this));
             
@@ -395,7 +454,7 @@ Mage.Customer = function(depend){
             panel.on('activate', function() {
                 this.addressView.load(this.addressViewUrl + 'id/'+ this.customerCardId +'/');
             }, this);
-            
+
             return panel;
         },
         
@@ -416,6 +475,25 @@ Mage.Customer = function(depend){
                 }
             }            
         },
+
+        disableAddressToolbar : function() {
+            var toolbar = this.addressViewLayout.getRegion('north').getActivePanel().getToolbar();
+            for(var i=0; i< toolbar.items.length; i++) {
+                if (toolbar.items.get(i).disable) {
+                    toolbar.items.get(i).disable();
+                }
+            }            
+        },
+        
+        enableAddressToolbar : function() {
+            var toolbar = this.addressViewLayout.getRegion('north').getActivePanel().getToolbar();
+            for(var i=0; i< toolbar.items.length; i++) {
+                if (toolbar.items.get(i).enable) {
+                    toolbar.items.get(i).enable();
+                }
+            }            
+        },
+
         
         onClickAddressView : function(view, index, node, e) {
             this.addressView.select(index);
@@ -460,7 +538,7 @@ Mage.Customer = function(depend){
         },
         
         onDeleteFailure : function() {
-            this.toolbarEnable();
+            this.enableToolbar();
         },
         
         
@@ -503,6 +581,44 @@ Mage.Customer = function(depend){
                 this.formsEdit.push(formId);
             }
             e.stopEvent();
-        }
+        },
+        
+        onAddressNew : function() {
+            
+        },
+
+        onAddressSave : function() {
+            
+        },
+
+        onAddressDelete : function () {
+            this.disableAddressToolbar();
+            var cb = {
+                success : this.onAddressDeleteSuccess.createDelegate(this),
+                failure : this.onAddressDeleteFailure.createDelegate(this),
+            }
+            var selNode = this.addressView.getSelectedNodes()[0]
+            if (selNode) {
+                var addressId = selNode.id;                
+                var con = new Ext.lib.Ajax.request('GET', this.deleteAddressUrl + 'id/' + addressId + '/', cb);
+            } else {
+                this.enableAddressToolbar();
+            }
+        },
+        
+        onAddressDeleteSuccess : function() {
+            this.enableAddressToolbar();
+        },
+        
+        onAddressDeleteFailure : function() {
+            this.enableAddressToolbar();
+        },
+        
+        onAddressReset : function() {
+            
+        },
+        
+        
+        
     }
 }();
