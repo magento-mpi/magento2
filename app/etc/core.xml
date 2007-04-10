@@ -48,12 +48,6 @@
 
          <codePool>core</codePool>
       </Mage_Sales>
-      
-      <Mage_Cart>
-         <active>false</active>
-
-         <codePool>core</codePool>
-      </Mage_Cart>
 
       <Mage_Checkout>
          <active>true</active>
