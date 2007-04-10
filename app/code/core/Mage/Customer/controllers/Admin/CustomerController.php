@@ -14,15 +14,18 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
      */
     public function gridDataAction()
     {
-        $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
+        $pageSize = $this->getRequest()->getPost('limit', 30);
         $collection = Mage::getModel('customer', 'customer_collection');
         $collection->setPageSize($pageSize);
         
         
-        $page = isset($_POST['start']) ? $_POST['start']/$pageSize+1 : 1;
+        $page = $this->getRequest()->getPost('start', 1);
+        if ($page>1) {
+            $page = $page/$pageSize+1;
+        }
         
-        $order = isset($_POST['sort']) ? $_POST['sort'] : 'customer_id';
-        $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
+        $order = $this->getRequest()->getPost('sort', 'customer_id');
+        $dir   = $this->getRequest()->getPost('dir', 'desc');
         $collection->setOrder($order, $dir);
         $collection->setCurPage($page);
         $collection->load();
@@ -43,7 +46,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $cardStruct['tabs'] = array(
             0 => array(
                 'name' => 'general',
-                'title' => 'General Information',
+                'title' => __('General Information'),
                 'url' => Mage::getBaseUrl().'/mage_customer/customer/form/id/'.$customerId.'/',
                 'type' => 'form',
                 'active' => true
@@ -87,9 +90,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'text', 
             array(
                 'name'  => 'customer_firstname',
-                'label' => 'Firstname',
+                'label' => __('Firstname'),
                 'id'    => 'customer_firstname',
-                'title' => 'Customer Firstname',
+                'title' => __('Customer Firstname'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )
@@ -100,9 +103,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'text', 
             array(
                 'name'  => 'customer_lastname',
-                'label' => 'Lastname',
+                'label' => __('Lastname'),
                 'id'    => 'customer_lastname',
-                'title' => 'Customer Lastname',
+                'title' => __('Customer Lastname'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )
@@ -113,9 +116,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'text', 
             array(
             'name'  => 'customer_email',
-                'label' => 'Email',
+                'label' => __('Email'),
                 'id'    => 'customer_email',
-                'title' => 'Customer Email',
+                'title' => __('Customer Email'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )
@@ -128,9 +131,9 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'password', 
             array(
                 'name'  => 'customer_pass',
-                'label' => 'Password',
+                'label' => __('Password'),
                 'id'    => 'customer_pass',
-                'title' => 'Customer Password',
+                'title' => __('Customer Password'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )
@@ -141,12 +144,20 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
 
     public function formPostAction()
     {
-        $customerId = $this->getRequest()->getPost('customer_id', 0);
+        /*$customerId = $this->getRequest()->getPost('customer_id', 0);
         $customer = Mage::getModel('customer', 'customer', array($customerId));
         $customer->setEmail($this->getRequest()->getPost('customer_email', false));
         $customer->setFirstName($this->getRequest()->getPost('customer_firstname', false));
-        $customer->setLastName($this->getRequest()->getPost('customer_lastname', false));
-        $customer->save();
+        $customer->setLastName($this->getRequest()->getPost('customer_lasttname', false));
+        $customer->save();*/
+        if ($this->getRequest()->isPost()) {
+            $customer = Mage::getModel('customer', 'customer');
+            $customer->setData($this->getRequest()->getPost());
+            
+            if ($customer->validateSave() && $customer->save()) {
+
+            }
+        }
     }
     
     public function deleteAction()
