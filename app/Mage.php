@@ -221,6 +221,15 @@ final class Mage {
     {
         return Mage::getConfig()->getModelInstance($model, $class, $arguments);
     }
+    
+    public static function getSingleton($model, $class='', array $arguments=array())
+    {
+        $registryKey = '_singleton_'.$model.'_'.$class;
+        if (!Mage::registry($registryKey)) {
+            Mage::register($registryKey, Mage::getModel($model, $class, $arguments));
+        }
+        return Mage::registry($registryKey);
+    }
 
     /**
      * Get current website id on frontend
