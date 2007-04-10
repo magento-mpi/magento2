@@ -2,7 +2,6 @@
 
 class Varien_Simplexml_Config
 {
-    const ELEMENT_CLASS = 'Varien_Simplexml_Object';
     const XPATH_EXTENDS = "//*[@extends]";
     
     /**
@@ -15,6 +14,7 @@ class Varien_Simplexml_Config
     protected $_cacheStat = null;
     protected $_cacheDir = null;
     protected $_cacheLoaded = false;
+    protected $_elementClass = 'Varien_Simplexml_Element';
     
     public function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
@@ -89,21 +89,21 @@ class Varien_Simplexml_Config
             throw new Exception('Can not read xml file '.$filePath);
         }
 
-        $xml = simplexml_load_file($filePath, $this->getConstant('ELEMENT_CLASS'));
+        $xml = simplexml_load_file($filePath, $this->_elementClass);
         
         return $xml;
     }
     
     public function loadString($string)
     {
-        $xml = simplexml_load_string($string, $this->getConstant('ELEMENT_CLASS'));
+        $xml = simplexml_load_string($string, $this->_elementClass);
         
         return $xml;
     }
     
     public function loadDom($dom)
     {
-        $xml = simplexml_import_dom($dom, $this->getConstant('ELEMENT_CLASS'));
+        $xml = simplexml_import_dom($dom, $this->_elementClass);
         
         return $xml;
     }

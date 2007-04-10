@@ -25,7 +25,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $this->_steps = array();
         $this->_checkout = Mage::registry('Mage_Checkout');
         
-        if (!Mage_Customer_Front::getCustomerId()) {
+        if (!Mage::getSingleton('customer', 'session')->isLoggedIn()) {
             $this->_steps['method'] = array();
             $this->_steps['method']['label'] = 'Checkout';
             $this->_steps['method']['allow'] = true;
@@ -89,10 +89,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         
         // assign customer addresses
-        if (Mage_Customer_Front::getCustomerId()) {
+        if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
 
             $addresses = Mage::getModel('customer', 'address_collection');
-            $addresses->loadByCustomerId(Mage_Customer_Front::getCustomerId());
+            $addresses->loadByCustomerId(Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId());
             $block->assign('addresses', $addresses->getItems());
             if (empty($address)) {
                 $address = Mage::getModel('customer', 'address');
@@ -133,18 +133,18 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         
         // assign customer addresses
-        if (Mage_Customer_Front::getCustomerId()) {
+        if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
 
             $addresses = Mage::getModel('customer', 'address_collection');
-            $addresses->loadByCustomerId(Mage_Customer_Front::getCustomerId());
+            $addresses->loadByCustomerId(Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId());
             $block->assign('addresses', $addresses->getItems());
-            if (empty($address) && $default_address_id = Mage_Customer_Front::getCustomerInfo('default_address_id')) {
-                $address = new Mage_Customer_Model_Address($default_address_id);
+            if (empty($address)) {
+                $address = Mage::getSingleton('customer', 'session')->getCustomer()->getPrimaryAddress('shipping');
             }
         }
         
         if (empty($address)) {
-            $address = new Varien_Data_Object();
+            $address = Mage::getModel('customer', 'address');
         }
         
         $block->assign('address', $address);

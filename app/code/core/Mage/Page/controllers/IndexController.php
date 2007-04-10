@@ -14,11 +14,6 @@ class Mage_Page_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction()
     {
-        #Mage::getBlock('root')->setGroup('layout.3column', -1);
-        #Mage::getModel('core', 'block')->saveGroup('layout.3column');
-        #$blocks = Mage::registry('blocks')->getAllBlocks();
-        #$debug = Mage::createBlock('debug')->setValue(array_keys($blocks));
-        #Mage::getBlock('content')->append($debug);
         print_r($this->getLayout()->getXml());
     }
 

@@ -4,14 +4,8 @@
  * Layout configuration class
  *
  */
-class Mage_Core_Layout extends Varien_Simplexml_Config
+class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
-    /**
-     * SimpleXML nodes will be of this class
-     *
-     */
-    const ELEMENT_CLASS = 'Mage_Core_Layout_Element';
-    
     /**
      * Initialize layout configuration for $id key
      *
@@ -19,6 +13,8 @@ class Mage_Core_Layout extends Varien_Simplexml_Config
      */
     public function init($id)
     {
+        $this->_elementClass = Mage::getConfig()->getModelClassName('core_model', 'layout_element');
+
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'layout');
         $this->setCacheKey($id);
         

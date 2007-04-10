@@ -290,15 +290,18 @@ final class Mage {
         Mage::setRoot($appRoot);
         
         Mage::prepareFileSystem();
-
-        Mage::register('session', new Mage_Core_Session());
-        Mage::register('messages', new Mage_Core_Message());
-        Mage::register('events', new Varien_Event());
-        Mage::register('website', new Mage_Core_Website());
-        Mage::register('resources', new Mage_Core_Resource());
-        Mage::register('blocks', new Mage_Core_Block());
         
+        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
+        Zend_Session::start();
+        
+        Mage::register('events', new Varien_Event());
+        Mage::register('resources', new Mage_Core_Resource());
+
         Mage::getConfig()->init();
+
+        Mage::register('session', Mage::getSingleton('core_model', 'session'));
+        Mage::register('website', Mage::getSingleton('core_model', 'website'));
+        Mage::register('blocks', Mage::getSingleton('core_model', 'block'));
         
         Varien_Profiler::setTimer('init', true);
 
@@ -326,12 +329,12 @@ final class Mage {
             
             Varien_Profiler::setTimer('totalApp', true);
             
-            /*
+            
             echo '<hr><table border=1 align=center>';
             $timers = Varien_Profiler::getCumulativeTimer();
             foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
             echo '</table>';
-            */
+            
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             

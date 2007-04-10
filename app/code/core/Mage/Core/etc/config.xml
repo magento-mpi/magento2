@@ -94,6 +94,10 @@
                </data_change_info>
             </entities>
          </core>
+         
+         <core_model>
+            <class>Mage_Core_Model</class>
+         </core_model>
       </models>
 
       <blockTypes>

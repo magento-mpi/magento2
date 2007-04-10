@@ -12,7 +12,7 @@
  * @author     Soroka Dmitriy <dmitriy@varien.com>
  */
 
-class Mage_Core_Block
+class Mage_Core_Model_Block
 {
     
     

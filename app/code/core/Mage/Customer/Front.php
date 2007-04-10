@@ -9,15 +9,10 @@
  */
 class Mage_Customer_Front
 {
-    public static function load_front_action_preDispatch()
-    {
-        Mage::register('AUTH', $auth = new Zend_Session_Namespace('Mage_Customer'));
-    }
-    
-    public static function load_front_action_postDispatch()
+    public static function action_postDispatch()
     {
         // Add logout link
-        if (Mage::registry('AUTH')->customer) {
+        if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
             Mage::getBlock('top.links')->append(
                 Mage::createBlock('list_link', 'top.links.logout')->setLink(
                     '', 'href="'.Mage::getBaseUrl('','Mage_Customer').'/account/logout/"', 'Logout', ''

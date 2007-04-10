@@ -15,7 +15,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^[create|forgotpassword]#', $action)) {
-            if (!Mage_Customer_Front::authenticate($this)) {
+            if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
         }
@@ -32,7 +32,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function logoutAction()
     {
-        Mage_Customer_Front::logout();
+        Mage::getSingleton('customer', 'session')->logout();
         $this->_redirect(Mage::getBaseUrl());
     }
     
@@ -61,7 +61,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     
                     if ($address->save()) {
                         $customer->setPrimaryAddress($address->getAddressId());
-                        Mage_Customer_Front::login($customer->getCustomerEmail(), $customer->getCustomerPass());
+                        Mage::getSingleton('customer', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
                         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
                     } else {
                         // Delete customer? and can't create address error
@@ -102,7 +102,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer = Mage::getModel('customer', 'customer')->setData($_POST);
             
             if ($customer->validate()) {
-                $customer->setCustomerId(Mage_Customer_Front::getCustomerId());
+                $customer->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId());
                 if ($customer->save()) {
                     
                 } else {
@@ -139,9 +139,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function changePasswordPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customerValidator = new Mage_Customer_Validate_Customer();
+            $customer = Mage::getSingleton('customer', 'session')->getCustomer();
+            $currentPassword = $this->getRequest()->getPost('current_password');
+            $newPassword = $this->getRequest()->getPost('password');
             
-            if ($customerValidator->changePassword($_POST)) {
+            if ($customer && $customer->validatePassword($currentPassword)) {
                 $customerModel = Mage::getModel('customer', 'customer');
                 $customerModel->changePassword(Mage_Customer_Front::getCustomerId(), $customerValidator->getDataItem('password'));
                 

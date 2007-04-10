@@ -10,7 +10,6 @@
 
 class Mage_Core_Config extends Varien_Simplexml_Config
 {
-    const ELEMENT_CLASS = 'Mage_Core_Config_Element';
     /**
      * Constructor
      *
@@ -18,6 +17,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function __construct()
     {
         parent::__construct();
+        $this->_elementClass = 'Mage_Core_Config_Element';
     }
 
     /**

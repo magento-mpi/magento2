@@ -15,13 +15,13 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
+        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
             return;
         }
 
         // Load addresses
         $addressCollection = Mage::getModel('customer', 'address_collection');
-        $addressCollection->loadByCustomerId(Mage_Customer_Front::getCustomerId());
+        $addressCollection->loadByCustomerId(Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId());
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
@@ -37,7 +37,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
+        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
             return;
         }
         
@@ -49,7 +49,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address->load($addressId);
             
             // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!=Mage_Customer_Front::getCustomerId()) {
+            if ($address->getCustomerId()!=Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId()) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
@@ -82,7 +82,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address->setData($_POST);
             
             // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!==Mage_Customer_Front::getCustomerId()) {
+            if ($address->getCustomerId()!==Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId()) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
@@ -102,7 +102,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     
     public function deleteAction()
     {
-        if (!Mage_Customer_Front::authenticate($this)) {
+        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
             return;
         }
 
@@ -112,7 +112,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address = Mage::getModel('customer', 'address')->load($addressId);
             
             // Validate address_id <=> customer_id
-            if (!$addressValidator->hasCustomer($addressId, Mage_Customer_Front::getCustomerId())) {
+            if (!$addressValidator->hasCustomer($addressId, Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId())) {
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }

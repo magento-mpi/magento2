@@ -8,7 +8,7 @@ class Mage_Checkout_IndexController extends Mage_Core_Controller_Front_Action
 /*        if (!Mage_Customer_Front::authenticate($this)) {
             return;
         }*/
-        Mage_Customer_Front::authenticate($this);
+        Mage::getSingleton('customer', 'session')->authenticate($this);
         $this->_redirect(Mage::getbaseUrl('', 'Mage_Checkout').'/onepage/');
     }
 }

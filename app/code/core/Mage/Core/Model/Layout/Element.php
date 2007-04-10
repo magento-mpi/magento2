@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Layout_Element extends Varien_Simplexml_Element
+class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
 {    
     public function prepare($args)
     {

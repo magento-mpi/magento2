@@ -126,14 +126,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         return $this;
     }
     
-    protected function _hashPassword($password)
-    {
-        if ($this->getCustomerPass()) {
-            $this->setCustomerPass(md5($this->getCustomerPass()));
-        }
-        return $this;
-    }
-    
     public function validateCreate()
     {
         $data = $this->getData();
@@ -166,33 +158,11 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         $customerModel = Mage::getModel('customer', 'customer');
         $customer = $customerModel->loadByEmail($arrData['customer_email']);
 
-        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage_Customer_Front::getCustomerId())) {
+        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage::getSingleton('customer', 'session')->getCustomer()->getCustomerId())) {
             $this->_message = 'E-Mail Address already exists';
             return false;
         }
 
-        return true;
-    }
-    
-    public function validateChangePassword($data)
-    {
-        if (!isset($data['current_password'])) {
-            $this->_message = 'Current customer password is empty';
-            return false;
-        }
-        else {
-            $customerModel = Mage::getModel('customer', 'customer');
-            
-            if (!$customerModel->checkPassword(Mage_Customer_Front::getCustomerId(), $data['current_password'])) {
-                $this->_message = 'Invalid current password';
-                return false;
-            }
-            if (empty($data['password'])) {
-                return false;
-            }
-        }
-        
-        $this->_data['password'] = $data['password'];
         return true;
     }
 }

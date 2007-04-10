@@ -17,7 +17,6 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       * @var array
       */
      protected $_flags = array();
-     protected $_layout = null;
      protected $_blocks = null;
 
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
@@ -64,10 +63,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function getLayout()
      {
-         if (empty($this->_layout)) {
-             $this->_layout = new Mage_Core_Layout();
-         }
-         return $this->_layout;
+         return Mage::getSingleton('core_model', 'layout');
      }
      
      function loadLayout($area, $ids, $key='')

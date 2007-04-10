@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Core_Message_Abstract
+abstract class Mage_Core_Model_Message_Abstract
 {
     protected $_data = null;
     

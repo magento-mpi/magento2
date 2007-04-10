@@ -12,8 +12,7 @@ class Mage_Core_Session
     protected $_namespaces = array();
     public function __construct() 
     {
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
-        Zend_Session::start();
+
     }
     
     /**

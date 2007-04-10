@@ -75,6 +75,10 @@
                   <table>customer_payment_method</table>
                </payment_method>
             </entities>
+            
+            <subs>
+                <session>Mage_Customer_Model_Session</session>
+            </subs>
          </customer>
       </models>
 
@@ -110,22 +114,12 @@
       </layouts>
 
       <events>
-         <action_preDispatch>
-            <observers>
-               <auth>
-                  <class>Mage_Customer_Front</class>
-
-                  <method>load_front_action_preDispatch</method>
-               </auth>
-            </observers>
-         </action_preDispatch>
-
          <action_postDispatch>
             <observers>
                <auth>
                   <class>Mage_Customer_Front</class>
 
-                  <method>load_front_action_postDispatch</method>
+                  <method>action_postDispatch</method>
                </auth>
             </observers>
          </action_postDispatch>

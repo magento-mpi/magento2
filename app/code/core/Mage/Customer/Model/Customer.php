@@ -22,10 +22,7 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         }
     }
     
-    public function load($customerId)
-    {
-        $this->loadByCustomerId($customerId);
-    }
+    abstract public function load($customerId);
     
     public function validate()
     {
@@ -47,6 +44,22 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         }
         return true;
     }
+    
+    public function validatePassword($password)
+    {
+        return $this->getCustomerPass()===$this->_hashPassword($password);
+    }
+    
+    protected function _hashPassword($password)
+    {
+        return md5($password);
+    }
+    
+    public function setCustomerPass($password)
+    {
+        $this->setData('customer_pass', $this->_hashPassword($password));
+    }
+    
     
     public function validateChangePassword($data)
     {
