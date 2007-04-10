@@ -2,7 +2,7 @@
 
 class Mage_Core_Model_Session
 {
-    protected $_session = null;
+    protected $_session;
     
     public function __construct()
     {

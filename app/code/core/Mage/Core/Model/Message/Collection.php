@@ -7,6 +7,12 @@ class Mage_Core_Model_Message_Collection
     public function addMessage(Mage_Core_Model_Message_Abstract $message)
     {
         $this->_messages[] = $message;
+        return $this;
+    }
+
+    public function add(Mage_Core_Model_Message_Abstract $message)
+    {
+        return $this->addMessage($message);
     }
     
     public function getItems()
@@ -17,5 +23,6 @@ class Mage_Core_Model_Message_Collection
     public function clear()
     {
         $this->_messages = array();
+        return $this;
     }
 }
