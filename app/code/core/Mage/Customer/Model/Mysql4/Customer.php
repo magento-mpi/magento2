@@ -40,6 +40,38 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
     }    
     
     /**
+     * Save row in database table
+     *
+     * @return  integer|false
+     */
+    public function save()
+    {
+        if ($this->getCustomerId()) {
+            $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
+            self::$_write->update(self::$_customerTable, $this->getData(), $condition);
+        } else {
+            self::$_write->insert(self::$_customerTable, $this->getData());
+            $this->setCustomerId(self::$_write->lastInsertId());
+        }
+        return $this;
+    }
+    
+    /**
+     * Delete row from database table
+     *
+     * @param   int $rowId
+     */
+    public function delete($customerId=null)
+    {
+        if (is_null($customerId)) {
+            $customerId = $this->getCustomerId();
+        }
+        $condition = self::$_write->quoteInto('customer_id=?', $customerId);
+        self::$_write->delete(self::$_customerTable, $condition);
+        return $this;
+    }
+
+    /**
      * Authenticate customer
      *
      * @param   string $username
@@ -94,38 +126,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         $this->setData(self::$_read->fetchRow($select, $arrData));
     }
 
-    /**
-     * Save row in database table
-     *
-     * @return  integer|false
-     */
-    public function save()
-    {
-        if ($this->getCustomerId()) {
-            $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
-            self::$_write->update(self::$_customerTable, $this->getData(), $condition);
-        } else {
-            self::$_write->insert(self::$_customerTable, $this->getData());
-            $this->setCustomerId(self::$_write->lastInsertId());
-        }
-        return $this;
-    }
-    
-    /**
-     * Delete row from database table
-     *
-     * @param   int $rowId
-     */
-    public function delete($customerId=null)
-    {
-        if (is_null($customerId)) {
-            $customerId = $this->getCustomerId();
-        }
-        $condition = self::$_write->quoteInto('customer_id=?', $customerId);
-        self::$_write->delete(self::$_customerTable, $condition);
-        return $this;
-    }
-    
     public function validateCreate()
     {
         $data = $this->getData();

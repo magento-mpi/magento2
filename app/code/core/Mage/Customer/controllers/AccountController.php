@@ -50,8 +50,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer', 'customer')->setData($_POST);
-            $address = Mage::getModel('customer', 'address')->setData($_POST);
+            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            $address    = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
             
             // Validate customer and address info
             if ($customer->validate() && $address->validate()) {
@@ -60,8 +60,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $address->setCustomerId($customer->getCustomerId());
                     
                     if ($address->save()) {
+                        
                         $customer->setPrimaryAddress($address->getAddressId());
-                        Mage::getSingleton('customer_model', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
+                        //Mage::getSingleton('customer_model', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
+                        
+                        Mage::getSingleton('customer_model', 'session')->setCustomer($customer);
                         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
                     } else {
                         // Delete customer? and can't create address error
