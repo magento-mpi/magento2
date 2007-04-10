@@ -95,6 +95,11 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         return $arr;
     }
     
+    public function setCustomer(Mage_Customer_Model_Customer $source)
+    {
+        $this->setCustomerId($source->getCustomerId());
+    }
+    
     public function addCustomerAddress(Mage_Customer_Model_Address $source, $type)
     {
         $address = Mage::getModel('sales', 'quote_address');

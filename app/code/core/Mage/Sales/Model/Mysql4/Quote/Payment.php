@@ -8,8 +8,8 @@ class Mage_Sales_Model_Mysql4_Quote_Payment extends Mage_Sales_Model_Quote_Payme
     
     public function __construct($data=array())
     {
-        self::$_read = Mage::registry('resources')->getConnection('sales', 'read');
-        self::$_write = Mage::registry('resources')->getConnection('sales', 'write');
+        self::$_read = Mage::registry('resources')->getConnection('sales_read');
+        self::$_write = Mage::registry('resources')->getConnection('sales_write');
         self::$_paymentTable = Mage::registry('resources')->getTableName('sales', 'quote_payment');
     }
     

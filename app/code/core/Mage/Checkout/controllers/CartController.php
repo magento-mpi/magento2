@@ -11,6 +11,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout');
         
         $this->_data['params'] = $this->getRequest()->getParams();
+       
+        $this->_data['quote'] = Mage::getSingleton('checkout_model', 'session')->getQuote();
         
         foreach (array('add','clean','updatePost','estimatePost','couponPost') as $action) {
             $this->setFlag($action, 'no-defaultLayout', true);
@@ -57,15 +59,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $productId = $this->getRequest()->getPost('product_id');
         $productId = $intFilter->filter($productId);
         
-        $qty = $this->getRequest()->getPost('qty');
+        $qty = $this->getRequest()->getPost('qty', 1);
         $qty = $intFilter->filter($qty);
-        
-        if (!$qty) {
-            $qty = 1;
-        }
 
         $product = Mage::getModel('catalog', 'product')->load($productId);
-        $result = Mage::getModel('sales', 'quote')->addProductItem($product, $qty);
+        $this->_data['quote']->addProductItem($product, $qty)->save();
+        
+        $checkoutSession = Mage::getSingleton('checkout_model', 'session');
+        $checkoutSession->setQuoteId($this->_data['quote']->getQuoteId());
+        
         $this->_redirect($this->_data['url']['cart']);
     }
     

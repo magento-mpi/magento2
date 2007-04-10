@@ -29,9 +29,9 @@
       </blockTypes>
 
       <models>
-         <checkout>
-            <class>Mage_Checkout_Model_Mysql4</class>
-         </checkout>
+         <checkout_model>
+            <class>Mage_Checkout_Model</class>
+         </checkout_model>
       </models>
 
       <resources>
@@ -97,6 +97,11 @@
             </observers>
          </customerLogout>
       </events>
+      
+      <urls>
+         <cart_view>checkout/cart</cart_view>
+         <checkout_start>checkout</checkout_start>
+      </urls>
    </front>
 </config>
 

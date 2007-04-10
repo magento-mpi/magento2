@@ -2,7 +2,7 @@
 
 class Mage_Sales_Model_Quote_Item extends Varien_Data_Object
 {
-    protected $_attributes = array();
+    protected $_attributes = null;
     
     public function getAttributes()
     {

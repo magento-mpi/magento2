@@ -132,8 +132,9 @@ class Varien_Data_Collection implements Iterator
             return $this;
         }
         foreach ($this->getItems() as $item) {
-            $this->setData($key, $value);
+            $item->setData($key, $value);
         }
+        return $this;
     }
     
     /**

@@ -8,8 +8,8 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
     
     public function __construct($data=array())
     {
-        self::$_read = Mage::registry('resources')->getConnection('sales', 'read');
-        self::$_write = Mage::registry('resources')->getConnection('sales', 'write');
+        self::$_read = Mage::registry('resources')->getConnection('sales_read');
+        self::$_write = Mage::registry('resources')->getConnection('sales_write');
         self::$_quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
     }
     
@@ -42,7 +42,8 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
         if (!$this->getQuoteId()) {
             $this->setQuoteId(self::$_write->insert(self::$_quoteTable, $this->getData()));
         } else {
-            self::$_write->update(self::$_quoteTable, $this->getData(), self::$_write->quoteInto('quote_id=?', $this->getQuoteId()));
+            $condition = self::$_write->quoteInto('quote_id=?', $this->getQuoteId());
+            self::$_write->update(self::$_quoteTable, $this->getData(), $condition);
         }
         if ($saveAttributes) {
             $this->getAddresses()->setDataToAll('quote_id', $this->getQuoteId())->walk('save', array(false));

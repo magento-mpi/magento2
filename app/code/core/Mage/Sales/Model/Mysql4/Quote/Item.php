@@ -8,9 +8,9 @@ class Mage_Sales_Model_Mysql4_Quote_Item extends Mage_Sales_Model_Quote_Item
     
     public function __construct($data=array())
     {
-        self::$_read = Mage::registry('resources')->getConnection('sales', 'read');
-        self::$_write = Mage::registry('resources')->getConnection('sales', 'write');
-        self::$_addressTable = Mage::registry('resources')->getTableName('sales', 'quote_item');
+        self::$_read = Mage::registry('resources')->getConnection('sales_read');
+        self::$_write = Mage::registry('resources')->getConnection('sales_write');
+        self::$_itemTable = Mage::registry('resources')->getTableName('sales', 'quote_item');
     }
     
     public function load($itemId, $loadAttributes=true)

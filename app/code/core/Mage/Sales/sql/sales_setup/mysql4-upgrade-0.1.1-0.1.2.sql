@@ -27,7 +27,7 @@ CREATE TABLE `sales_quote_attribute` (
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_decimal` decimal(12,4) NOT NULL default '0.0000',
-  `attribute_text` varchar(128) NOT NULL default '',
+  `attribute_text` text NOT NULL default '',
   `attribute_int` int(11) NOT NULL default '0',
   `attribute_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`quote_attribute_id`),
@@ -76,4 +76,5 @@ alter table `magenta`.`sales_quote_address`
 , change `address_id` `customer_address_id` int (11)UNSIGNED  DEFAULT '0' NOT NULL 
 , add column `address_type_code` varchar (32)  NOT NULL  after `customer_address_id`;
 
-drop table sales_quote_address_type;
+drop table `sales_quote_address_type`;
+drop table `sales_quote_item_attribute`;
