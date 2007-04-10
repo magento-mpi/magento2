@@ -28,6 +28,18 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
     }
     
     /**
+     * Get row from database table
+     *
+     * @param   int $rowId
+     */
+    public function load($customerId)
+    {
+        $select = self::$_read->select()->from(self::$_customerTable)
+            ->where(self::$_read->quoteInto("customer_id=?", $customerId));
+        $this->setData(self::$_read->fetchRow($select));
+    }    
+    
+    /**
      * Authenticate customer
      *
      * @param   string $username
@@ -82,40 +94,21 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
     }
 
     /**
-     * Insert row in database table
+     * Save row in database table
      *
-     * @param   array $data
      * @return  integer|false
      */
-    public function insert()
+    public function save()
     {
-        $data = $this->getData();
-        if (isset($data['customer_pass'])) {
-            $data['customer_pass'] = $this->_hashPassword($data['customer_pass']);
+        $this->_hashPassword();
+        if ($this->getCustomerId()) {
+            $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
+            self::$_write->update(self::$_customerTable, $this->getData(), $condition);
+        } else {
+            self::$_write->insert(self::$_customerTable, $this->getData());
+            $this->setCustomerId(self::$_write->lastInsertId());
         }
-        
-        if (self::$_write->insert(self::$_customerTable, $data)) {
-            return self::$_write->lastInsertId();
-        }
-        return false;
-    }
-    
-    /**
-     * Update row in database table
-     *
-     * @param   array $data
-     * @param   int   $rowId
-     * @return  int
-     */
-    public function update()
-    {
-        $data = $this->getData();
-        if (isset($data['customer_pass'])) {
-            $data['customer_pass'] = $this->_hashPassword($data['customer_pass']);
-        }
-        
-        $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
-        return self::$_write->update(self::$_customerTable, $data, $condition);
+        return $this;
     }
     
     /**
@@ -129,24 +122,16 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
             $customerId = $this->getCustomerId();
         }
         $condition = self::$_write->quoteInto('customer_id=?', $customerId);
-        return self::$_write->delete(self::$_customerTable, $condition);
+        self::$_write->delete(self::$_customerTable, $condition);
+        return $this;
     }
-    
-    /**
-     * Get row from database table
-     *
-     * @param   int $rowId
-     */
-    public function loadByCustomerId($customerId)
-    {
-        $select = self::$_read->select()->from(self::$_customerTable)
-            ->where(self::$_read->quoteInto("customer_id=?", $customerId));
-        $this->setData(self::$_read->fetchRow($select));
-    }    
     
     protected function _hashPassword($password)
     {
-        return md5($password);
+        if ($this->getCustomerPass()) {
+            $this->setCustomerPass(md5($this->getCustomerPass()));
+        }
+        return $this;
     }
     
     public function validateCreate()
