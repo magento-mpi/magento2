@@ -74,12 +74,6 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     {
         $this->setData('customer_pass', $this->_hashPassword($password));
     }
-    
-    
-    public function validateChangePassword($data)
-    {
-        return true;
-    }
         
     public function loadAddresses()
     {

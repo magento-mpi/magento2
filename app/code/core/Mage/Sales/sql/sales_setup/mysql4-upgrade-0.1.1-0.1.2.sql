@@ -76,3 +76,4 @@ alter table `magenta`.`sales_quote_address`
 , change `address_id` `customer_address_id` int (11)UNSIGNED  DEFAULT '0' NOT NULL 
 , add column `address_type_code` varchar (32)  NOT NULL  after `customer_address_id`;
 
+drop table sales_quote_address_type;

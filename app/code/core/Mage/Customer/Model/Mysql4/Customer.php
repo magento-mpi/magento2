@@ -91,12 +91,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         return $this;
     }
     
-    public function setDefaultAddress($customerId, $addressId)
-    {
-        $arrData = array('default_address_id'=>$addressId);
-        return $this->update($arrData, $customerId);
-    }
-    
     public function changePassword($customerId, $newPassword)
     {
         $data = array('customer_pass' => $newPassword);
