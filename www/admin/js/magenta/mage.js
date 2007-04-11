@@ -1,4 +1,4 @@
-Ext.UpdateManager.defaults.loadScripts  = true;
+Ext.UpdateManager.defaults.loadScripts  = false;
 Ext.UpdateManager.defaults.disableCaching  = true;
 
 Mage = new Object();

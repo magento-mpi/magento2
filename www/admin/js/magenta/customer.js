@@ -13,7 +13,7 @@ Mage.Customer = function(depend){
         grid:null,
         addressLoading : null,
         addressViewUrl : Mage.url + '/mage_customer/address/gridData/', 
-        addressViewForm : Mage.url + '/mage_customer/address/card/', 
+        addressViewForm : Mage.url + '/mage_customer/address/form/', 
         deleteAddressUrl : Mage.url + '/mage_customer/address/delete/', 
 
         customerCardUrl : Mage.url + '/mage_customer/customer/card/', 
@@ -443,18 +443,20 @@ Mage.Customer = function(depend){
         	});     
         	
         	this.addressView.on({
-        	    load :  function(view, data, response) {
-            	    alert('onload');
+        	    'load' : function () {
+        	        this.addressView.select(0);
+        	        this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
+        	    },
+            	'loadexception' : function (view, data, response) {
+            	    alert('loadExceptionEvent');
             	},
-            	loadexception : function (view, data, response) {
-            	    alert('loadException');
-            	},
-            	click : this.onClickAddressView.createDelegate(this)
+            	'click' : this.onClickAddressView.createDelegate(this),
+            	scope : this
         	});
         	
             var panel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
             panel.on('activate', function() {
-                this.addressView.load(this.addressViewUrl + 'id/'+ this.customerCardId +'/');
+                this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
             }, this);
 
             return panel;
@@ -498,24 +500,19 @@ Mage.Customer = function(depend){
 
         
         onClickAddressView : function(view, index, node, e) {
-            this.addressView.select(index);
-            var panel = this.addressLayout.getRegion('center').getActivePanel();
-            panel.setUrl(this.addressViewForm + 'id/' + node.id);
-            panel.refresh();
+            if (view.jsonData.length > 0 ) {
+                this.addressView.select(index);
+                var panel = this.addressLayout.getRegion('center').getActivePanel();
+                panel.setUrl(this.addressViewForm + 'id/' + node.id);
+                panel.refresh();
+            }            
         },
         
     	onLoadException : function(v,o){
 	       this.view.getEl().update('<div style="padding:10px;">Error loading images.</div>'); 
     	}, 
-    	       
-        onLoadAddressView : function () {
-            console.log('callback');            
-            Ext.dump(this.addressView);
-            this.select(0);
-        },
         
         onRemovePanel: function(region, panel) {
-            //region.hide();
             region.clearPanels();
         },
         
@@ -540,12 +537,19 @@ Mage.Customer = function(depend){
         },
         
         onDeleteFailure : function() {
+            alert('Customer delete failure');
             this.enableToolbar();
         },
         
         
         onReset : function() {
-            
+            var panel = this.editPanel.getRegion('center').getActivePanel();
+            var formEl = Ext.DomQuery.selectNode('form', panel.getEl().dom);
+            if (formEl && this.formsEdit.indexOf(formEl.id) >= 0) {
+                formEl.reset();
+                this.formsEdit.splice(this.formsEdit.indexOf(formEl.id),1);            
+                panel.setTitle(panel.getTitle().substr(0,panel.getTitle().length-1));            
+            }
         },
         
         onLoadPanel : function(el, response) {
@@ -586,11 +590,24 @@ Mage.Customer = function(depend){
         },
         
         onAddressNew : function() {
-            
+              var panel = this.addressLayout.getRegion('center').getActivePanel();
+              panel.setUrl(this.addressViewForm + 'id/0/');
+              panel.refresh();
         },
 
         onAddressSave : function() {
-            
+            this.disableAddressToolbar();
+            var panel = this.addressLayout.getRegion('center').getActivePanel();
+            var formEl = Ext.DomQuery.selectNode('form', panel.getEl().dom);
+            var form = new Mage.Form(formEl);
+            form.sendForm(this.onAddressSaveCallback.createDelegate(this));
+        },
+        
+        onAddressSaveCallback : function(response, type) {
+             if (response.status == 200) {
+                 alert('OK');
+             }
+            this.enableAddressToolbar();             
         },
 
         onAddressDelete : function () {
@@ -611,17 +628,27 @@ Mage.Customer = function(depend){
         
         onAddressDeleteSuccess : function(response) {
             var addressIndex = response.argument.addressId;
-            var node = this.addressView.getNodes(addressIndex, 0)[0];
-            node.parentNode.removeChild(node);
+            this.addressView.jsonData.splice(addressIndex,1);
+            this.addressView.refresh();                        
+            if (this.addressView.jsonData.length > 0) {            
+                this.addressView.select(0)
+                this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
+            } else {
+                var panel = this.addressLayout.getRegion('center').getActivePanel();
+                panel.setContent('');
+            }
             this.enableAddressToolbar();
         },
         
         onAddressDeleteFailure : function() {
+            alert('Delete Failure');
             this.enableAddressToolbar();
         },
         
         onAddressReset : function() {
-            
+            var panel = this.addressLayout.getRegion('center').getActivePanel();
+            var formEl = Ext.DomQuery.selectNode('form', panel.getEl().dom);
+            formEl.reset();
         }
     }
 }();

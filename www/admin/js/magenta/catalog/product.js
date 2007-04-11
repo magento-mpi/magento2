@@ -249,7 +249,7 @@ Mage.Catalog_Product = function(depend){
                 this.productLayout.endUpdate();
             } else {
                 var grid = this.gridPanel.getGrid();
-                grid.getDataSource().proxy = new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/'});
+                grid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/';
                 grid.getDataSource().load({params:{start:0, limit:25}});            
             }
         },

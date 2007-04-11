@@ -115,7 +115,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'customer_email', 
             'text', 
             array(
-            'name'  => 'customer_email',
+                'name'  => 'customer_email',
                 'label' => __('Email'),
                 'id'    => 'customer_email',
                 'title' => __('Customer Email'),

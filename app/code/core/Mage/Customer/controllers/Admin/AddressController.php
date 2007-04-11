@@ -41,7 +41,67 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
      */
     public function formAction()
     {
-        
+        $addressId = $this->getRequest()->getParam('id', false);
+        $address = Mage::getModel('customer', 'address');
+        $address->load($addressId);
+
+        $form = Mage::createBlock('form', 'customer.form');
+        $form->setViewName('Mage_Core', 'form.phtml');
+
+        $form->setAttribute('legend', 'Address information');
+        $form->setAttribute('class', 'x-form');
+        $form->setAttribute('action', Mage::getBaseUrl().'/mage_customer/address/formPost/');
+
+        $form->addField(
+            'address_id',
+            'hidden',
+            array (
+                'name'=>'customer_id',
+                'value' => $addressId
+            )
+        );
+
+        $form->addField(
+            'customer_firstname',
+            'text',
+            array(
+                'name'  => 'customer_firstname',
+                'label' => __('Firstname'),
+                'id'    => 'customer_firstname',
+                'title' => __('Customer Firstname'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField(
+            'customer_lastname',
+            'text',
+            array(
+                'name'  => 'customer_lastname',
+                'label' => __('Lastname'),
+                'id'    => 'customer_lastname',
+                'title' => __('Customer Lastname'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+        	)
+        );
+
+        $form->addField(
+            'customer_email',
+            'text',
+            array(
+                'name'  => 'customer_email',
+                'label' => __('Email'),
+                'id'    => 'customer_email',
+                'title' => __('Customer Email'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->setElementsValues($address->__toArray());
+        $this->getResponse()->setBody($form->toString());
     }
 
     /**
