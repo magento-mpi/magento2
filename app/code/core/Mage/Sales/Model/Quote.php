@@ -198,6 +198,12 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         return $totalsArr;
     }
     
+    public function hasItems()
+    {
+        $items = $this->getEntitiesByType('item');
+        return !empty($items);
+    }
+    
     public function getItemsAsArray($fields=null)
     {
         $arr = array();

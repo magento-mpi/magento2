@@ -5,13 +5,14 @@ class Mage_Sales_Model_Quote_Attribute_Subtotal extends Mage_Sales_Model_Quote_A
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
         $arr = array();
-
-        $items = $quote->getItemsAsArray();
+        
         $subtotal = 0;
         $weight = 0;
-        foreach ($items as $item) {
-            $subtotal += $item['row_total'];
-            $weight += $item['weight'];
+
+        foreach ($quote->getEntitiesByType('item') as $item) {
+            $item->setAttribute('row_total', $item->getAttribute('price')*$item->getAttribute('qty'))->save();
+            $subtotal += $item->getAttribute('row_total');
+            $weight += $item->getAttribute('weight');
         }
 
         $arr[] = array('code'=>'subtotal', 'title'=>'Subtotal:', 'value'=>$subtotal, 'output'=>true);

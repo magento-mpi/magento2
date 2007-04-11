@@ -23,22 +23,22 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $quote = $this->_data['quote'];
         
-        $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'tier_price'=>'decimal', 'row_total'=>'decimal'));
         
-        if (empty($quoteItems)) {
+        if (!$quote->hasItems()) {
             $cartView = 'cart/noItems.phtml';
         } else {
             $cartView = 'cart/view.phtml';
             
+            $totalsFilter = new Varien_Filter_Array_Grid();
+            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+            $cartData['totals'] = $totalsFilter->filter($quote->collectTotals('_output'));
+            
+            $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'tier_price'=>'decimal', 'row_total'=>'decimal'));
             $itemsFilter = new Varien_Filter_Array_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
             $cartData['items'] = $itemsFilter->filter($quoteItems);
-            
-            $totalsFilter = new Varien_Filter_Array_Grid();
-            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
-            $cartData['totals'] = $totalsFilter->filter($quote->collectTotals('_output'));
             
             $this->_data['cart'] = $cartData;
         }        

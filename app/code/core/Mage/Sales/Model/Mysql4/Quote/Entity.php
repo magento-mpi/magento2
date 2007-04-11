@@ -28,21 +28,24 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
             return $this->delete();
         }
         
-        if (!$this->isChanged()) {
-            return $this;
-        }
+        if ($this->isChanged()) {
         
-        $this->setQuoteId($this->getQuote()->getQuoteId());
-        
-        if ($this->getQuoteEntityId()<=0) {
-            if (self::$_write->insert(self::$_entityTable, $this->getData())) { 
-                $this->setQuoteEntityId(self::$_write->lastInsertId());
+            $this->setQuoteId($this->getQuote()->getQuoteId());
+            
+            if ($this->getQuoteEntityId()<=0) {
+                if (self::$_write->insert(self::$_entityTable, $this->getData())) { 
+                    $this->setQuoteEntityId(self::$_write->lastInsertId());
+                }
+            } else {
+                $condition = self::$_write->quoteInto('quote_entity_id=?', $this->getQuoteEntityId());
+                self::$_write->update(self::$_entityTable, $this->getData(), $condition);
             }
-        } else {
-            $condition = self::$_write->quoteInto('quote_entity_id=?', $this->getQuoteEntityId());
-            self::$_write->update(self::$_entityTable, $this->getData(), $condition);
+            $this->resetChanged(false);
         }
-        $this->resetChanged(false);
+        
+        foreach ($this->_attributes as $attr) {
+            $attr->save();
+        }
 
         return $this;
     }
