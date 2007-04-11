@@ -100,9 +100,9 @@ Mage.Customer = function(depend){
         initGrid: function(parentLayout){
             var dataRecord = Ext.data.Record.create([
                 {name: 'customer_id', mapping: 'customer_id'},
-                {name: 'customer_email', mapping: 'customer_email'},
-                {name: 'customer_firstname', mapping: 'customer_firstname'},
-                {name: 'customer_lastname', mapping: 'customer_lastname'}
+                {name: 'email', mapping: 'email'},
+                {name: 'firstname', mapping: 'firstname'},
+                {name: 'lastname', mapping: 'lastname'}
             ]);
                 
             var dataReader = new Ext.data.JsonReader({
@@ -122,9 +122,9 @@ Mage.Customer = function(depend){
 
             var colModel = new Ext.grid.ColumnModel([
                 {header: "ID#", sortable: true, locked:false, dataIndex: 'customer_id'},
-                {header: "Email", sortable: true, dataIndex: 'customer_email'},
-                {header: "Firstname", sortable: true, dataIndex: 'customer_firstname'},
-                {header: "Lastname", sortable: true, dataIndex: 'customer_lastname'}
+                {header: "Email", sortable: true, dataIndex: 'email'},
+                {header: "Firstname", sortable: true, dataIndex: 'firstname'},
+                {header: "Lastname", sortable: true, dataIndex: 'lastname'}
             ]);
             
             var rowSelector = new Ext.grid.RowSelectionModel({singleSelect : true});

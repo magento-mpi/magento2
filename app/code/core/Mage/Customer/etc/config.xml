@@ -32,10 +32,6 @@
          <customer_account>
             <class>Mage_Customer_Block_Account</class>
          </customer_account>
-
-         <customer_regform>
-            <class>Mage_Customer_Block_Regform</class>
-         </customer_regform>
       </blockTypes>
 
       <models>
@@ -150,5 +146,13 @@
         </default>
      </layouts>
    </admin>
+
+   <domains>
+      <base>
+         <defaultCountry>223</defaultCountry>
+         <allowCountries>223</allowCountries>
+         <currency>1</currency>
+      </base>
+   </domains>
 </config>
 

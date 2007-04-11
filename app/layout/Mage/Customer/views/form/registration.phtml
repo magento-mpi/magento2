@@ -1,6 +1,6 @@
 <div class="content">
 <h1 class="page-heading">Create account</h1>
-<?// TODO: create dynamic form template?>
+    <?=$messages->__toHtml()?>
     <form action="<?=$action?>" method="post" id="form-validate">
     <fieldset class="group-single">
      <legend>Personal Information</legend>
@@ -48,9 +48,13 @@
             <li>
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
-                    <select name="region_id" value="" title="State/Province" id="state"  class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
-                        <option value="1">LA</option>
+                <?if($regions):?>
+                    <select name="region_id" value="" title="State/Province" id="state"  class="required-entry validate-select" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                        <option value="">Select State/Province...</option>
+                        <?=$regions->toHtmlOptions()?>
                     </select>
+                <?else:?>
+                <?endif?>
                 </div>
                 <div class="input-right">
                     <label for="zip">Zip <span class="required">*</span></label><br/>
@@ -61,7 +65,7 @@
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
                 <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
-                    <?=$countries->toHtmlOptions(223)?>
+                    <?=$countries->toHtmlOptions()?>
                 </select>
             </li>
             <li>

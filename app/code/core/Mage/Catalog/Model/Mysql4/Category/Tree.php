@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree
 
             $attributeValueTable = Mage::registry('resources')->getTableName('catalog', 'category_attribute_value');
             $condition = "$attributeValueTable.category_id=$treeTable.category_id
-                          AND $attributeValueTable.website_id=".Mage_Core_Environment::getCurentWebsite();
+                          AND $attributeValueTable.website_id=".Mage::registry('website')->getId();
 
             $this->_dbTree->addTable($attributeValueTable, $condition);
 

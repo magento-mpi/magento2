@@ -16,6 +16,11 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
      */
     static protected $_customerTable;
     static protected $_read;
+    /**
+     * DB write connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
     static protected $_write;
     
     public function __construct($data=array()) 
@@ -27,50 +32,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         self::$_write = Mage::registry('resources')->getConnection('customer_write');
     }
     
-    /**
-     * Get row from database table
-     *
-     * @param   int $rowId
-     */
-    public function load($customerId)
-    {
-        $select = self::$_read->select()->from(self::$_customerTable)
-            ->where(self::$_read->quoteInto("customer_id=?", $customerId));
-        $this->setData(self::$_read->fetchRow($select));
-    }    
-    
-    /**
-     * Save row in database table
-     *
-     * @return  integer|false
-     */
-    public function save()
-    {
-        if ($this->getCustomerId()) {
-            $condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
-            self::$_write->update(self::$_customerTable, $this->getData(), $condition);
-        } else {
-            self::$_write->insert(self::$_customerTable, $this->getData());
-            $this->setCustomerId(self::$_write->lastInsertId());
-        }
-        return $this;
-    }
-    
-    /**
-     * Delete row from database table
-     *
-     * @param   int $rowId
-     */
-    public function delete($customerId=null)
-    {
-        if (is_null($customerId)) {
-            $customerId = $this->getCustomerId();
-        }
-        $condition = self::$_write->quoteInto('customer_id=?', $customerId);
-        self::$_write->delete(self::$_customerTable, $condition);
-        return $this;
-    }
-
     /**
      * Authenticate customer
      *
@@ -90,7 +51,70 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         }
         return $this;
     }
+
+    /**
+     * Get row from database table
+     *
+     * @param   int $rowId
+     */
+    public function load($customerId)
+    {
+        $select = self::$_read->select()->from(self::$_customerTable)
+            ->where(self::$_read->quoteInto("customer_id=?", $customerId));
+        
+        $this->setData(self::$_read->fetchRow($select));
+    }    
     
+    /**
+     * Save row in database table
+     *
+     * @return  integer|false
+     */
+    public function save()
+    {
+        self::$_write->beginTransaction();
+
+        try {
+
+            if ($this->getCustomerId()) {
+                //$condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
+                //self::$_write->update(self::$_customerTable, $this->getData(), $condition);
+            } else { 
+                self::$_write->insert(self::$_customerTable, $this->_prepareSaveData());
+                $this->setCustomerId(self::$_write->lastInsertId());
+            }
+
+            self::$_write->commit();
+        }
+        catch (Exception $e){
+            self::$_write->rollBack();
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE001'));
+        }
+        
+        return $this;
+    }
+    
+    private function _prepareSaveData()
+    {
+        $data = $this->__toArray(array('email', 'firstname', 'lastname'));
+        return $data;
+    }
+    
+    /**
+     * Delete row from database table
+     *
+     * @param   int $rowId
+     */
+    public function delete($customerId=null)
+    {
+        if (is_null($customerId)) {
+            $customerId = $this->getCustomerId();
+        }
+        $condition = self::$_write->quoteInto('customer_id=?', $customerId);
+        self::$_write->delete(self::$_customerTable, $condition);
+        return $this;
+    }
+
     public function changePassword($customerId, $newPassword)
     {
         $data = array('customer_pass' => $newPassword);
@@ -159,4 +183,36 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
 
         return true;
     }
+    
+    public function validate($withPasswordConfirm=false)
+    {
+        $arrData= $this->_prepareArray($this->getData(), array('firstname', 'lastname', 'email', 'password'));
+        
+        //$this->_data = array();
+        $this->_data['customer_email']      = $arrData['email'];
+        $this->_data['customer_pass']       = $arrData['password'];
+        $this->_data['customer_firstname']  = $arrData['firstname'];
+        $this->_data['customer_lastname']   = $arrData['lastname'];
+        $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
+        
+        if ($this->customerId) {
+            
+        }
+        else {
+            
+        }
+        $testCustomer = Mage::getModel('customer', 'customer');
+        $testCustomer->loadByEmail($arrData['email']);
+        if ($testCustomer->getCustomerId()) {
+            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
+            return false;
+        }
+        return true;
+    }
+    
+    public function validatePassword($password)
+    {
+        return $this->getCustomerPass()===$this->_hashPassword($password);
+    }
+    
 }

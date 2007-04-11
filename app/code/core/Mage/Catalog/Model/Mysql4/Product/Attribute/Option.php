@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
                     AND $this->_optionTable.website_id=:website_id
                     AND $this->_optionTypeTable.option_type_code=:option_type";
         $arrParam = array();
-        $arrParam['website_id']     = Mage_Core_Environment::getCurentWebsite();
+        $arrParam['website_id']     = Mage::registry('website')->getId();
         $arrParam['option_type']    = isset($params['option_type']) ? $params['option_type'] : '';
         
         $arrRes = self::$_read->fetchAll($sql,$arrParam);

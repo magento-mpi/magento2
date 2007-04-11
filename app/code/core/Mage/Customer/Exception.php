@@ -1,8 +1,5 @@
 <?php
-
-
-
-class Mage_Customer_Exception extends Zend_Exception 
+class Mage_Customer_Exception extends Mage_Core_Exception 
 {
     
 }

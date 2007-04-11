@@ -19,10 +19,5 @@ class Mage_Customer_Block_Regform extends Mage_Core_Block_Form
         
         $countries = Mage::getModel('directory', 'country_collection');
         $this->assign('countries', $countries->load());
-            
-        $data = '';
-        
-        $this->addField('firstname', 'text', array('name'=>'firstname'));
-        $this->addField('lastname', 'text', array('name'=>'lastname'));
     }
 }

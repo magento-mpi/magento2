@@ -21,7 +21,15 @@ class Mage_Directory_Model_Country extends Varien_Data_Object
     
     public function getRegions()
     {
-        
+        $collection = $this->getRegionCollection();
+        $collection->load();
+        return $collection;
     }
     
+    public function getRegionCollection()
+    {
+        $collection = Mage::getModel('directory', 'region_collection');
+        $collection->addCountryFilter($this->getCountryId());
+        return $collection;
+    }
 }

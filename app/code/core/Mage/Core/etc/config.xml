@@ -255,15 +255,5 @@
       </layouts>
 
    </front>
-
-   <domains>
-      <base>
-         <defaultCountry>223</defaultCountry>
-
-         <allowCountries>223,220</allowCountries>
-
-         <currency>1</currency>
-      </base>
-   </domains>
 </config>
 

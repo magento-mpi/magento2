@@ -9,11 +9,12 @@
  */
 abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
 {
-    const ERROR_EMAIL_EXIST         = 1;
-    const ERROR_CONFIRM_PASSWORD    = 2;
-    const ERROR_EMPTY_CUSTOMER_ID   = 3;
+    const ERROR_SAVE                    = 'Mage_Customer_Model_Customer::ERROR_SAVE';
+    const ERROR_EMAIL_EXIST             = 'Mage_Customer_Model_Customer::ERROR_EMAIL_EXIST';
+    const ERROR_PASSWORD_CONFIRMATION   = 'Mage_Customer_Model_Customer::ERROR_PASSWORD_CONFIRMATION';
+    const ERROR_EMPTY_CUSTOMER_ID       = 'Mage_Customer_Model_Customer::ERROR_EMPTY_CUSTOMER_ID';
     
-    const MESSAGE_CUSTOMER_SAVED    = 1;
+    const SUCCES_CUSTOMER_SAVED         = '';
     
     protected $_addresses = null;
     
@@ -28,63 +29,42 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         }
     }
     
+    abstract public function authenticate($login, $password);
+    
     abstract public function load($customerId);
     
     abstract public function save();
     
     abstract public function delete();
-    
-    public function validate($withPasswordConfirm=false)
+
+    public function addAddress(Mage_Customer_Model_Address $address)
     {
-        $arrData= $this->_prepareArray($this->getData(), array('firstname', 'lastname', 'email', 'password'));
-        
-        //$this->_data = array();
-        $this->_data['customer_email']      = $arrData['email'];
-        $this->_data['customer_pass']       = $arrData['password'];
-        $this->_data['customer_firstname']  = $arrData['firstname'];
-        $this->_data['customer_lastname']   = $arrData['lastname'];
-        $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
-        
-        if ($this->customerId) {
-            
-        }
-        else {
-            
-        }
-        $testCustomer = Mage::getModel('customer', 'customer');
-        $testCustomer->loadByEmail($arrData['email']);
-        if ($testCustomer->getCustomerId()) {
-            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
-            return false;
-        }
-        return true;
-    }
-    
-    public function validatePassword($password)
-    {
-        return $this->getCustomerPass()===$this->_hashPassword($password);
-    }
-    
-    protected function _hashPassword($password)
-    {
-        return md5($password);
-    }
-    
-    public function setCustomerPass($password)
-    {
-        $this->setData('customer_pass', $this->_hashPassword($password));
-    }
-        
-    public function loadAddresses()
-    {
-        $this->_addresses = Mage::getModel('customer', 'address_collection');
-        $this->_addresses->loadByCustomerId($this->getCustomerId());
-    }
+        $this->_addresses[] = $address;
+    }   
     
     public function getAddress($addressId)
     {
         $address = Mage::getConfig()->getModelClassName('customer', 'address');
         $address->load($addressId);
         return $address;
+    }
+
+    public function getAddressCollection($reload=false)
+    {
+        if ($this->_addresses && !$reload) {
+            return $this->_addresses;
+        }
+        $this->_addresses = Mage::getModel('customer', 'address_collection')->loadByCustomerId($this->getCustomerId());
+        return $this->_addresses;
+    }
+    
+    public function setCustomerPassword($password)
+    {
+        $this->setData('password', $this->_hashPassword($password));
+    }
+        
+    protected function _hashPassword($password)
+    {
+        return md5($password);
     }
 }

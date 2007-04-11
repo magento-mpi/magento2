@@ -20,6 +20,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
     }
+    
     /**
      * Default account page
      *
@@ -42,15 +43,49 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        $block = Mage::createBlock('customer_regform', 'customer.regform')
-            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/');
+        $countries = Mage::getModel('directory', 'country_collection');
+        $customer = Mage::getSingleton('customer_model', 'session')->getCustomer();
+        $messages = Mage::getSingleton('customer_model', 'session')->getMessages(true);
+
+        $block = Mage::createBlock('tpl', 'customer.regform')
+            ->setViewName('Mage_Customer', 'form/registration.phtml')
+            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
+            ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('regions',     $countries->getDefault()->getRegions())
+            ->assign('customer',    $customer)
+            ->assign('messages',    $messages);
+            
         Mage::getBlock('content')->append($block);
     }
     
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            
+            $address  = Mage::getModel('customer', 'address');
+            $address->setData($this->getRequest()->getPost());
+
+            $customer = Mage::getModel('customer', 'customer');
+            $customer->setData($this->getRequest()->getPost());
+
+            $customer->addAddress($address);
+            
+            try {
+                $customer->save();
+                Mage::getSingleton('customer_model', 'session')
+                    ->setCustomer($customer)
+                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS001'));
+                
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+            }
+            catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('customer_model', 'session')->addMessages($e->getMessages());
+            }
+            catch (Exception $e)
+            {
+                
+            }
+/*            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
             $address    = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
             
             // Validate customer and address info
@@ -74,7 +109,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             } else {
                 // Fix validation error and tmp save post data
-            }
+            }*/
         }
         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/create/');
     }

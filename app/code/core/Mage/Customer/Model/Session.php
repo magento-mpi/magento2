@@ -1,12 +1,10 @@
 <?php
 
-class Mage_Customer_Model_Session
+class Mage_Customer_Model_Session extends Mage_Core_Model_Session
 {
-    protected $_session = null;
-    
     public function __construct()
     {
-        $this->_session = new Zend_Session_Namespace('customer', Zend_Session_Namespace::SINGLE_INSTANCE);
+        parent::__construct('customer');
     }
     
     public function setCustomer(Mage_Customer_Model_Customer $customer)

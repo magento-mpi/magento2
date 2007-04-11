@@ -1,0 +1,9 @@
+[error]
+CSTE001 customer save error
+
+[warning]
+
+[notice]
+
+[success]
+CSTS001 customer create success

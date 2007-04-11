@@ -11,7 +11,7 @@ class Mage_Directory_Model_Region extends Varien_Data_Object
 {
     public function __construct($region) 
     {
-        
+        parent::__construct($region);
     }
     
     public function load()

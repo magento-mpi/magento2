@@ -2,27 +2,40 @@
 
 abstract class Mage_Core_Model_Message_Abstract
 {
+    protected $_type;
     protected $_code;
-    protected $_data;
+    protected $_class;
+    protected $_method;
     
-    function __construct($code, $data=array())
+    public function __construct($type, $code='')
     {
+        $this->_type = $type;
         $this->_code = $code;
-        $this->_data = $data;
     }
-    
+
     public function getCode()
     {
         return $this->_code;
     }
     
-    function getData()
+    public function getType()
     {
-        return $this->_data;
+        return $this->_type;
+    }
+
+    public function setClass($class)
+    {
+        $this->_class = $class;
     }
     
-    function getType()
+    public function setMethod($method)
     {
-        return 'message';
+        $this->_method = $method;
+    }
+
+    public function __toHtml()
+    {
+        $out = '<div class="'.$this->getType().'">'.$this->getCode().'</div>';
+        return $out;
     }
 }

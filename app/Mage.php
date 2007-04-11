@@ -248,10 +248,11 @@ final class Mage {
      * @param integer $code
      * @param string $module
      */
-    public static function exception($message, $code=0, $module='Mage_Core')
+    public static function exception($module='Mage_Core', $message='', $code=0)
     {
         $className = $module.'_Exception';
-        throw new $className($message, $code);
+        return new $className($message, $code);
+        //throw new $className($message, $code);
     }
 
     /**
