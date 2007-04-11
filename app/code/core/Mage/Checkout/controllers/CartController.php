@@ -58,9 +58,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $product = Mage::getModel('catalog', 'product')->load($productId)->setQty($qty);
         
-        $this->_data['quote']->addProduct($product)->save();
+        $quote = $this->_data['quote'];
+
+        if (!$quote->getQuoteId()) {
+            $quote->resetChanged(true)->save();
+            Mage::getSingleton('checkout_model', 'session')->setQuoteId($quote->getQuoteId());
+        }
         
-        Mage::getSingleton('checkout_model', 'session')->setQuoteId($this->_data['quote']->getQuoteId());
+        $quote->addProduct($product)->save();
         
         $this->_redirect($this->_data['url']['cart']);
     }

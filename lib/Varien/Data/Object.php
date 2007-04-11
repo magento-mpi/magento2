@@ -24,6 +24,7 @@ class Varien_Data_Object
     public function resetChanged($changed=false)
     {
         $this->_isChanged = $changed;
+        return $this;
     }
     
     public function isChanged()
