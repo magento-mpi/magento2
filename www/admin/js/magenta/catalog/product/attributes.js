@@ -152,7 +152,7 @@ Mage.Catalog_Product_Attributes = function(){
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'product_id'
+                id: 'attribute_id'
             }, dataRecord);
                 
              var dataStore = new Ext.data.Store({
@@ -161,7 +161,7 @@ Mage.Catalog_Product_Attributes = function(){
                 remoteSort: true
              });
                 
-            dataStore.setDefaultSort('product_id', 'desc');
+            dataStore.setDefaultSort('attribute_code', 'asc');
       
 
             var colModel = new Ext.grid.ColumnModel([

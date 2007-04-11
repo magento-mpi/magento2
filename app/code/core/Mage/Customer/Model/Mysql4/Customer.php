@@ -41,7 +41,7 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
      */
     public function authenticate($username, $password)
     {
-        $authAdapter = new Zend_Auth_Adapter_DbTable(self::$_read, self::$_customerTable, 'customer_email', 'customer_pass', 'md5(?)');
+        $authAdapter = new Zend_Auth_Adapter_DbTable(self::$_read, self::$_customerTable, 'email', 'password', 'md5(?)');
         $result = $authAdapter->setIdentity($username)->setCredential($password)->authenticate();
         
         if (Zend_Auth_Result::SUCCESS===$result->getCode()) {

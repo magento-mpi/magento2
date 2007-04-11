@@ -81,10 +81,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 $arrCategories = array();
                 $prodCollection->distinct(true);
                 foreach ($data as $node) {
-            		$arrCategories[] = $node->getId();
-            	}
+                    $arrCategories[] = $node->getId();
+                }
             }
-        	$prodCollection->addCategoryFilter($arrCategories);
+            $prodCollection->addCategoryFilter($arrCategories);
         }
         
         
@@ -169,7 +169,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function attributeListAction()
     {
         $collection  = Mage::getModel('catalog', 'product_attribute_collection');
-        $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
+        $order = isset($_POST['sort']) ? $_POST['sort'] : 'attribute_code';
         $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
         $collection->setOrder($order, $dir);
         $collection->load();
