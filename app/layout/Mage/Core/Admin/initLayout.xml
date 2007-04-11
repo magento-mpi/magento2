@@ -29,26 +29,26 @@
             </block>
             
             <block type="tag_css" name="jscripts.css.ext.all">
-                <action method="setHref"><href>/yui-ext/resources/css/ext-all.css</href><locate/></action>
+                <action method="setHref"><href>/extjs/resources/css/ext-all.css</href><locate/></action>
             </block>
             
             <block type="tag_css_theme" name="jscripts.css.ext.theme">
-                <action method="setHref"><href>/yui-ext/resources/css/ytheme-</href><locate/></action>
+                <action method="setHref"><href>/extjs/resources/css/ytheme-</href><locate/></action>
             </block>
         </block>            
         
         <block type="list" name="jscripts" as="jscripts">
             <!--  BEGIN LOAD EXT-YUI -->
             <block type="tag_js" name="jscripts.js.yui.utilities">
-                <action method="setSrc"><src>/yui-ext/yui-utilities.js</src><locate/></action>
+                <action method="setSrc"><src>/extjs/adapter/yui/yui-utilities.js</src><locate/></action>
             </block>
             
             <block type="tag_js" name="jscripts.js.ext.yui.adapter">
-                <action method="setSrc"><src>/yui-ext/ext-yui-adapter.js</src><locate/></action>
+                <action method="setSrc"><src>/extjs/adapter/yui/ext-yui-adapter.js</src><locate/></action>
             </block>
             
             <block type="tag_js" name="jscripts.js.ext.all.debug">
-                <action method="setSrc"><src>/yui-ext/ext-all-debug.js</src><locate/></action>
+                <action method="setSrc"><src>/extjs/ext-all-debug.js</src><locate/></action>
             </block>
             
             <!--  END LOAD EXT-YUI -->
