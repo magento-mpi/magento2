@@ -9,14 +9,12 @@
  */
 abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
 {
-    const ERROR_SAVE                    = 'Mage_Customer_Model_Customer::ERROR_SAVE';
-    const ERROR_EMAIL_EXIST             = 'Mage_Customer_Model_Customer::ERROR_EMAIL_EXIST';
-    const ERROR_PASSWORD_CONFIRMATION   = 'Mage_Customer_Model_Customer::ERROR_PASSWORD_CONFIRMATION';
-    const ERROR_EMPTY_CUSTOMER_ID       = 'Mage_Customer_Model_Customer::ERROR_EMPTY_CUSTOMER_ID';
-    
-    const SUCCES_CUSTOMER_SAVED         = '';
-    
-    protected $_addresses = null;
+    /**
+     * Customer address collection
+     *
+     * @var Varien_Data_Colection_Db
+     */
+    protected $_addresses;
     
     public function __construct($customer=false) 
     {
@@ -41,10 +39,23 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
 
     public function addAddress(Mage_Customer_Model_Address $address)
     {
-        $this->_addresses[] = $address;
+        if (!$this->_addresses) {
+            $this->_addresses = Mage::getModel('customer', 'address_collection');
+        }
+        
+        $this->_addresses->addItem($address);
+        return $this;
     }   
     
-    public function getAddress($addressId)
+    public function getAddress($addresType='')
+    {
+        if ('' == $addresType) {
+            return $this->getAddressCollection()->getFirstItem();
+        }
+        //TODO: get by address type
+    }
+    
+    public function getAddressById($addressId)
     {
         $address = Mage::getConfig()->getModelClassName('customer', 'address');
         $address->load($addressId);
@@ -56,17 +67,31 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         if ($this->_addresses && !$reload) {
             return $this->_addresses;
         }
-        $this->_addresses = Mage::getModel('customer', 'address_collection')->loadByCustomerId($this->getCustomerId());
+        
+        if ($this->getCustomerId()) {
+            $this->_addresses = Mage::getModel('customer', 'address_collection')->loadByCustomerId($this->getCustomerId());
+        }
+        else {
+            $this->_addresses = Mage::getModel('customer', 'address_collection');
+        }
+        
         return $this->_addresses;
     }
     
     public function setCustomerPassword($password)
     {
         $this->setData('password', $this->_hashPassword($password));
+        return $this;
     }
         
     protected function _hashPassword($password)
     {
         return md5($password);
+    }
+    
+    public function __sleep()
+    {
+        unset($this->_addresses);
+        return parent::__sleep();
     }
 }

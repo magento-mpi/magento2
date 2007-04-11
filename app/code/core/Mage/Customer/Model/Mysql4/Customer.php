@@ -88,13 +88,14 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         self::$_write->beginTransaction();
 
         try {
-
+            $this->_prepareSaveData();
+            
             if ($this->getCustomerId()) {
                 //$condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
                 //self::$_write->update(self::$_customerTable, $this->getData(), $condition);
             } else { 
                 
-                self::$_write->insert(self::$_customerTable, $this->_prepareSaveData());
+                self::$_write->insert(self::$_customerTable, $this->getData());
                 $this->setCustomerId(self::$_write->lastInsertId());
             }
 
@@ -114,11 +115,11 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
     
     private function _prepareSaveData()
     {
-        $data = $this->__toArray(array('email', 'firstname', 'lastname'));
+        $this->setData($this->__toArray(array('email', 'firstname', 'lastname')));
         // TODO: Zend_Validate for fields
         
         // Check uniq email
-        $testCustomer = Mage::getModel('customer', 'customer')->loadByEmail($data['email']);
+        $testCustomer = Mage::getModel('customer', 'customer')->loadByEmail($this->getEmail());
         if ($testCustomer->getCustomerId()) {
             if ($this->getCustomerId()) {
                 if ($testCustomer->getCustomerId() != $this->getCustomerId()) {

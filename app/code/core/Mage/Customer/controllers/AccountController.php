@@ -44,16 +44,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function createAction()
     {
         $countries = Mage::getModel('directory', 'country_collection');
-        $customer = Mage::getSingleton('customer_model', 'session')->getCustomer();
-        $messages = Mage::getSingleton('customer_model', 'session')->getMessages(true);
 
         $block = Mage::createBlock('tpl', 'customer.regform')
             ->setViewName('Mage_Customer', 'form/registration.phtml')
             ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault()->getRegions())
-            ->assign('customer',    $customer)
-            ->assign('messages',    $messages);
+            ->assign('data',        Mage::getSingleton('customer_model', 'session')->getData(true))
+            ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
     }
@@ -79,7 +77,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
             }
             catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('customer_model', 'session')->addMessages($e->getMessages());
+                Mage::getSingleton('customer_model', 'session')
+                    ->setData($this->getRequest()->getPost())
+                    ->addMessages($e->getMessages());
             }
         }
         

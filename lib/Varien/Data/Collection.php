@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Base items collection class 
  *
@@ -99,6 +98,16 @@ class Varien_Data_Collection implements Iterator
     public function getSize()
     {
         return $this->_totalRecords;
+    }
+
+    public function getFirstItem()
+    {
+        if(isset($this->_items[0]))
+        {
+            return $this->_items[0];
+        }
+
+        return new $this->_itemObjectClass();
     }
 
     public function getItems()

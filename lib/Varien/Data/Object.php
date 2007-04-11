@@ -39,23 +39,27 @@ class Varien_Data_Object
         }
         
         if(is_array($key)) {
-            foreach($key as $index=>$value) {
+            /*foreach($key as $index=>$value) {
                 $this->_data[$index] = $value;
-            }
+            }*/
+            $this->_data = $key;
         } else {
             $this->_data[$key] = $value;
         }
         return $this;
     }
     
-    public function getData($key='')
+    public function getData($key='', $index=false)
     {
         if (''===$key) {
             return $this->_data;
         } elseif (isset($this->_data[$key])) {
+            if ($index) {
+                return (is_array($this->_data[$key]) && !empty($this->_data[$key][$index])) ? $this->_data[$key][$index] : null;
+            }
             return $this->_data[$key];
         }
-        return false;
+        return null;
     }
 
     /**
@@ -180,5 +184,15 @@ class Varien_Data_Object
     protected function _underscore($name)
     {
         return strtolower(preg_replace('/([a-z])([A-Z])/', "$1_$2", $name));
+    }
+    
+    public function __sleep()
+    {
+       return array_keys( (array)$this );
+    }
+
+    public function __wakeup()
+    {
+        $this->_isChanged = false;
     }
 }

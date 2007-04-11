@@ -52,7 +52,7 @@ legend {display:none;}
     border-width:1px; 
     border-style:solid; 
     border-color:#979797 #e0e0e0 #e0e0e0 #979797;
-    font:11px/1.55em Verdana, Helvetica, sans-serif;
+    font:11px Verdana, Helvetica, sans-serif;
     }
 .input-left { width:50%; float:left; }    /* Column left of two column form */
 .input-right { width:50%; float:right; }    /* Column right of two column form */
@@ -80,3 +80,6 @@ legend {display:none;}
 input.validation-failed, textarea.validation-failed {
     border: 1px solid #d40707;
 }
+
+/* messages */
+.error {font-weight:bold;color:#d40707;border:1px solid #d40707;padding:5px}

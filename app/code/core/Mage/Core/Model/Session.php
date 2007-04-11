@@ -26,6 +26,7 @@ class Mage_Core_Model_Session
                 $this->addMessage($message);
             }
         }
+        return $this;
     }
 
     public function getMessages($clear=false)
@@ -40,5 +41,31 @@ class Mage_Core_Model_Session
             return $messages;
         }
         return $this->_session->messages;
+    }
+
+    public function setData($data)
+    {
+        if(!$this->_session->data) {
+            $this->_session->data = new Varien_Data_Object();
+        }
+        if(is_array($data)) {
+            $this->_session->data->setData($data);
+        }
+        return $this;
+    }
+
+    public function getData($clear=false)
+    {
+        if(!$this->_session->data) {
+            $this->_session->data = new Varien_Data_Object();
+        }
+
+        if($clear) {
+            $data = clone $this->_session->data;
+            unset($this->_session->data);
+            return $data;
+        }
+
+        return $this->_session->data;
     }
 }
