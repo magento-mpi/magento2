@@ -2,7 +2,21 @@ Mage.Catalog_Product_Attributes = function(){
     var loaded = false;
     var Layout = null;
     return {
-        _layouts : new Ext.util.MixedCollection(true),
+
+        westLayout : null,
+        btnEdit : null,
+        btnDelete : null,
+
+        attributeGrid : null,
+        attributeGridToolbar : null,
+        attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
+
+        setGrid : null,
+        setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
+
+        editSetGrid : null,
+        editSetGridUrl : Mage.url + '/mage_catalog/product/attributesetproperties/',
+
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
             if (!Layout) {
@@ -18,125 +32,131 @@ Mage.Catalog_Product_Attributes = function(){
                         titlebar : false,
                         hideTabs : false,
                         tabPosition : 'top'
-                    },
-                    east : {
-                        autoScroll : false,
-                        titlebar : false,
-                        hideTabs:true
                     }
-                    
                 });
-                this._layouts.add('main', Layout);
-                
-  //              var attributesGrid = this.initAttributesGrid();                
-                var setGrid = this.initSetGrid();
-                
+
+
+
+                this.westLayout = new Ext.BorderLayout(Layout.getRegion('west').getEl().createChild({tag:'div'}), {
+                    center: {
+                        split:true,
+                        autoScroll:true,
+                        collapsible:false,
+                        titlebar:false
+                    },
+                    south : {
+                        hideWhenEmpty : true,
+                        initialSize : 200,
+                        autoScroll : true,
+                        titlebar : false,
+                        hideTabs : false,
+                    }
+                });
+
+                this.initSetGrid();
+                this.westLayout.beginUpdate();
+                this.westLayout.add('center', new Ext.GridPanel(this.setGrid));
+                this.westLayout.endUpdate();
+
+
                 Layout.beginUpdate();
-                Layout.add('west', new Ext.GridPanel(setGrid));
+                Layout.add('west', new Ext.NestedLayoutPanel(this.westLayout));
                 Layout.endUpdate();
-                
+
                 Core_Layout.beginUpdate();
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Product Attributes",closable:false}));
-                Core_Layout.endUpdate();            
-                loaded = true;
-                
+                Core_Layout.endUpdate();
             } else {
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
             }
         },
-        
+
         loadAttributeGrid : function(setId) {
-            var attributesGrid = this.initAttributesGrid(setId);                
-               
-            Layout.beginUpdate();
-            Layout.add('center', new Ext.GridPanel(attributesGrid));
-            Layout.endUpdate();
+            if (this.attributeGrid == null) {
+                this.initAttributesGrid(setId);
+                Layout.beginUpdate();
+                Layout.add('center', new Ext.GridPanel(this.attributeGrid));
+                Layout.endUpdate();
+            } else {
+                this.attributeGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/';
+                this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
+            }
         },
-        
+
         initSetGrid : function() {
             var dataRecord = Ext.data.Record.create([
-                {name: 'id', mapping: 'product_attribute_set_id'},
-                {name: 'name', mapping: 'product_set_code'}
+            {name: 'id', mapping: 'product_attribute_set_id'},
+            {name: 'name', mapping: 'product_set_code'}
             ]);
-                
+
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
                 id: 'product_attribute_set_id'
             }, dataRecord);
-                
-             var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/attributeSetList/'}),
+
+            var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: this.setGridUrl}),
                 reader: dataReader,
                 remoteSort: true
-             });
-                
+            });
+
             dataStore.setDefaultSort('product_id', 'desc');
-      
+
 
             var colModel = new Ext.grid.ColumnModel([{
-                header: "Set Code", 
-                sortable: false, 
+                header: "Set Code",
+                sortable: false,
                 dataIndex: 'name',
                 editor: new Ext.grid.GridEditor(new Ext.form.TextField({
-                     allowBlank: false
+                    allowBlank: false
                 }))
             }]);
 
             var Set = Ext.data.Record.create([
-               {name: 'name', type: 'string'},
-           ]);
+                {name: 'name', type: 'string'},
+            ]);
 
-            var grid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
+            this.setGrid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
+                loadMask : true,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 autoSizeColumns: true,
-                monitorWindowResize: true,                
+                monitorWindowResize: true,
                 enableColLock : false
             });
-            
-            grid.on('rowdblclick', this.onRowDblClick.createDelegate(this));
-            
-            grid.render();
-            
-            var gridHead = grid.getView().getHeaderPanel(true);
-            var tb = new Ext.Toolbar(gridHead, [{
+
+            this.setGrid.on('rowclick', this.onRowClick.createDelegate(this));
+            this.setGrid.getSelectionModel().on('rowselect', function(){
+                    this.btnEdit.enable();
+                    this.btnDelete.enable();
+                }.createDelegate(this)
+            );
+
+            this.setGrid.render();
+
+            var gridHead = this.setGrid.getView().getHeaderPanel(true);
+            var tb = new Ext.Toolbar(gridHead);
+            tb.addButton ({
                 text: 'Add',
-                handler : function(){
-                    var p = new Set({
-                        name: 'New Set'
-                    });
-                    grid.stopEditing();
-                    dataStore.insert(0, p);
-                    grid.startEditing(0, 0);
-                }
-            },{
-                text: 'Edit'
-            },{
-                text: 'Save'
-            },{
-                text: 'Delete'
-            }]);            
-            grid.getDataSource().load({params:{start:0, limit:10}});            
-            
-            return grid;
+                handler : this.onAdd.createDelegate(this)
+            });
+
+            this.btnEdit = tb.addButton({
+                text: 'Edit',
+                enableToggle : true,
+                handler : this.onEditToogle.createDelegate(this),
+                disabled : true
+            });
+
+            this.btnDelete = tb.addButton ({
+                text: 'Delete',
+                disabled : true
+            });
+            this.setGrid.getDataSource().load({params:{start:0, limit:10}});
         },
-        
-        onRowDblClick : function(grid, rowIndex, e) {
-            var setId = 0;
-            try {
-                setId = grid.getDataSource().getAt(rowIndex).id;
-            } catch (e) {
-                alert(e);
-            }
-            if (setId) {
-                this.loadAttributeGrid(setId) 
-            } else {
-                return false;
-            }
-            e.stopEvent();
-        },
-        
+
         initAttributesGrid : function(setId) {
             if (!setId) {
                 return false;
@@ -148,21 +168,21 @@ Mage.Catalog_Product_Attributes = function(){
                 {name: 'data_type', mapping: 'data_type'},
                 {name: 'required', mapping: 'required'}
             ]);
-                
+
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
                 id: 'attribute_id'
             }, dataRecord);
-                
-             var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/'}),
+
+            var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: this.attributeGridUrl +  'set/'+setId+'/'}),
                 reader: dataReader,
                 remoteSort: true
-             });
-                
+            });
+
             dataStore.setDefaultSort('attribute_code', 'asc');
-      
+
 
             var colModel = new Ext.grid.ColumnModel([
                 {header: "ID#", sortable: true, locked:false, dataIndex: 'attribute_id'},
@@ -172,27 +192,115 @@ Mage.Catalog_Product_Attributes = function(){
                 {header: "Required", sortable: true, dataIndex: 'required'}
             ]);
 
-            var grid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
+            this.attributeGrid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
+                loadMask : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 autoHeight : true,
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
-            
-            
-            
-            grid.render();
-            grid.getDataSource().load({params:{start:0, limit:10}});            
-            
-            return grid;
-                
+
+            this.attributeGrid.render();
+            this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
         },
-        
+
         loadMainPanel : function() {
             this.init();
-        }
+        },
+
+        loadEditSetGrid : function(setId) {
+            if (this.editSetGrid == null) {
+                this.initEditSetGrid(setId);
+                this.westLayout.add('south', new Ext.GridPanel(this.editSetGrid));
+            } else {
+                this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  '/set/'+setId+'/';
+                this.editSetGrid.getDataSource().load();
+            }
+        },
+
+        initEditSetGrid : function(setId) {
+
+            var dataRecord = Ext.data.Record.create([
+                {name: 'name', mapping: 'name'},
+                {name: 'value', mapping: 'value'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'name'
+            }, dataRecord);
+
+            var dataStore = new Ext.data.Store({
+                proxy : new Ext.data.HttpProxy({url: this.editSetGridUrl +  'set/'+setId+'/'}),
+                reader : dataReader,
+                remoteSort: false
+            });
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "Name", sortable: true, locked:true, dataIndex: 'name'},
+                {header: "Value", sortable: true, locked:true, dataIndex: 'value'}
+            ]);
+
+            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
+                ds: dataStore,
+                loadMask : true,
+                cm: colModel
+            });
+
+            this.editSetGrid.render();
+            this.editSetGrid.getDataSource().load();
+        },
+
+        onAdd : function() {
+            this.btnEdit.enable();
+            this.btnEdit.toggle(true);
+            this.loadEditSetGrid(0);
+        },
+
+        onEditToogle : function(btn, e) {
+
+            if (btn.pressed == true) {
+                try {
+                    row = this.setGrid.getSelectionModel().getSelected();
+                    setId = row.id;
+                } catch(e){
+                    alert(e);
+                };
+
+                if (setId) {
+                    this.loadEditSetGrid(setId);
+                    this.westLayout.getRegion('south').show();
+                } else {
+                    alert('error');
+                }
+            } else {
+                this.westLayout.getRegion('south').hide();
+            }
+        },
+
+
+        onRowClick : function(grid, rowIndex, e) {
+            var setId = 0;
+            try {
+                setId =  this.setGrid.getDataSource().getAt(rowIndex).id;
+            } catch (e){};
+
+            if (setId) {
+                if (this.btnEdit.pressed == true) {
+                    this.loadEditSetGrid(setId);
+                } else {
+                    this.loadAttributeGrid(setId)
+                }
+            } else {
+                return false;
+            }
+            e.stopEvent();
+        },
+
     }
 }();
+
