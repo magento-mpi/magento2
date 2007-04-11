@@ -69,43 +69,47 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
             return $this;
         }
         
-        list($attrCode, $type) = explode('/', $var);
-        if (empty($type)) {
-            $type = $this->getDefaultAttributeType($attrCode);
+        $varArr = explode('/', $var);
+        if (empty($varArr[1])) {
+            $varArr[1] = $this->getDefaultAttributeType($varArr[0]);
         }
-        if (empty($type)) {
+        if (empty($varArr[1])) {
             throw new Mage_Sales_Exception("No type was specified for ".$var." and default type was not found.");
         }
-        if (!isset($this->_attributes[$attrCode])) {
+        if (isset($this->_attributes[$varArr[0]])) {
+            $attr = $this->_attributes[$varArr[0]];
+        } else {
             $attr = Mage::getModel('sales', 'quote_attribute');
             $attr->setEntity($this);
         }
-        $attr->setAttributeCode($attrCode);
-        $attr->setData('attribute_'.$type, $value, $isChanged);
-        $this->_attributes[$attrCode] = $attr;
+        $attr->setAttributeCode($varArr[0]);
+        $attr->setData('attribute_'.$varArr[1], $value, $isChanged);
+        $this->_attributes[$varArr[0]] = $attr;
         $this->_quote->getAttributes()->addItem($attr);
         return $this;
     }
     
     public function getAttribute($var)
     {
-        list($attrCode, $type) = explode('/', $var);
-        if (!isset($type)) {
-            $type = $this->getDefaultAttributeType($attrCode);
-            if (false===$type) {
+        $varArr = explode('/', $var);
+        if (!isset($varArr[1])) {
+            $varArr[1] = $this->getDefaultAttributeType($varArr[0]);
+            if (false===$varArr[1]) {
                 throw new Mage_Sales_Exception("No type was specified for ".$var." and default type was not found.");
             }
         }
-        if (!isset($this->_attributes[$attrCode])) {
+        if (!isset($this->_attributes[$varArr[0]])) {
             return false;
         }
-        return $this->_attributes[$attrCode]->getData('attribute_'.$type);
+        return $this->_attributes[$varArr[0]]->getData('attribute_'.$varArr[1]);
     }
     
     public function getDefaultAttributeType($attributeName='', $entityType='')
     {
         static $types = array(
             'quote'=>array(
+                'created_at'=>'datetime',
+                'updated_at'=>'datetime',
                 'status'=>'int',
                 'discount'=>'decimal',
                 'grand'=>'decimal',

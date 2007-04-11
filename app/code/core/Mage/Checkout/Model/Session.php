@@ -29,7 +29,7 @@ class Mage_Checkout_Model_Session
         if (!$quote->getCustomerId()) {
             $customerSession = Mage::getSingleton('customer_model', 'session');
             if ($customerSession->isLoggedIn()) {
-                $quote->setCustomerId($customerSession->getCustomerId());
+                $quote->setCustomerId($customerSession->getCustomerId())->save();
             }
         }
         return $quote;

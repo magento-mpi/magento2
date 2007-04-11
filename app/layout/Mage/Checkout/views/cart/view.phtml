@@ -1,6 +1,6 @@
 <div class="content">
 <h1 class="page-heading">Shopping Cart</h1>
-<form action="<?=$data['url']['cart']?>/updatePost" method="post">
+<form action="<?=$data['url']['cart']?>updatePost" method="post">
     <fieldset>
     <table border=1>
         <tr><th>Remove</th><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
@@ -30,14 +30,14 @@
 </form>
 
 <h2>Estimate</h2>
-<form action="<?=$data['url']['cart']?>/estimatePost/" method="post">
+<form action="<?=$data['url']['cart']?>estimatePost/" method="post">
     <fieldset>
     Zipcode: <input > <input type="submit" value="Estimate">
     </fieldset>
 </form>
 
 <h2>Coupon discount</h2>
-<form action="<?=$data['url']['cart']?>/couponPost/" method="post">
+<form action="<?=$data['url']['cart']?>couponPost/" method="post">
     <fieldset>
     Coupon code: <input > <input type="submit" value="Apply">
     <fieldset>

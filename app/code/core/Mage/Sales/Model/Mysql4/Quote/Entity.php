@@ -24,6 +24,10 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
     
     public function save()
     {
+        if ($this->getDeleteFlag()) {
+            return $this->delete();
+        }
+        
         if (!$this->isChanged()) {
             return $this;
         }
@@ -45,7 +49,9 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
     
     public function delete()
     {
-        $this->_attributes->walk('delete');
+        foreach ($this->_attributes as $attr) {
+            $attr->delete();
+        }
         $condition = self::$_write->quoteInto('quote_entity_id=?', $this->getQuoteEntityId());
         self::$_write->delete(self::$_entityTable, $condition);
         return $this;

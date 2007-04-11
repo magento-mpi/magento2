@@ -37,19 +37,20 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
         
     public function save()
     {
-        if (!$this->getQuoteId()) {
-            if (self::$_write->insert(self::$_quoteTable, $this->getData())) {
-                $this->setQuoteId(self::$_write->lastInsertId());
+        if ($this->isChanged()) {
+            if (!$this->getQuoteId()) {
+                if (self::$_write->insert(self::$_quoteTable, $this->getData())) {
+                    $this->setQuoteId(self::$_write->lastInsertId());
+                }
+            } else {
+                $condition = self::$_write->quoteInto('quote_id=?', $this->getQuoteId());
+                self::$_write->update(self::$_quoteTable, $this->getData(), $condition);
             }
-        } else {
-            $condition = self::$_write->quoteInto('quote_id=?', $this->getQuoteId());
-            self::$_write->update(self::$_quoteTable, $this->getData(), $condition);
+            $this->resetChanged(false);
         }
         
         $this->getEntities()->walk('save');
         $this->getAttributes()->walk('save');
-
-        $this->resetChanged(false);
 
         return $this;
     }

@@ -61,7 +61,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         if (isset($this->_entitiesByType[$type])) {
             return $this->_entitiesByType[$type];
         }
-        return false;        
+        return array();        
     }
     
     public function getEntityById($id)
@@ -70,6 +70,18 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
             return $this->_entitiesById[$id];
         }
         return false;  
+    }
+    
+    public function getEntitiesByAttribute($type, $attribute, $value=null)
+    {
+        $entities = $this->getEntitiesByType($type);
+        $entArr = array();
+        foreach ($entities as $entity) {
+            if ($value==$entity->getAttribute($attribute)) {
+                $entArr[] = $entity;
+            }
+        }
+        return $entArr;
     }
     
     public function getQuoteEntity()
@@ -122,7 +134,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         $entities = $this->getEntities();
         foreach ($entities as $key=>$entity) {
             if ($entity->getQuoteEntityId()===$entityToRemove->getQuoteEntityId()) {
-                unset($entities[$key]);
+                $entities->removeItemByKey($key);
             }
         }
     }
@@ -153,6 +165,19 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
                 return $addr;
             }
         }
+    }
+    
+    public function addProduct(Mage_Catalog_Model_Product $product)
+    {
+        if (!$product->getAsNewItem()) {
+            $dups = $this->getEntitiesByAttribute('item', 'product_id', $product->getProductId());
+            if (!empty($dups)) {
+                $dups[0]->setAttribute('qty', $dups[0]->getAttribute('qty')+$product->getQty());
+                return $this;
+            }
+        }
+        $this->addEntity('item', $product);
+        return $this;
     }
     
     public function collectTotals($type='')
@@ -193,5 +218,21 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         }
                
         return $arr;
+    }
+    
+    public function updateItems(array $itemsArr)
+    {
+        foreach ($itemsArr as $id=>$itemUpd) {
+            if (!empty($itemUpd['remove'])) {
+                $this->getEntityById($id)->setDeleteFlag(true);
+            } else {
+                $item = $this->getEntityById($id);
+                if (!$item) {
+                    continue;
+                }
+                $item->setAttribute('qty', $itemUpd['qty']);
+            }
+        }
+        return $this;
     }
 }
