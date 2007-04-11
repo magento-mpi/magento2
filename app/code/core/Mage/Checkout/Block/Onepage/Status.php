@@ -14,11 +14,23 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         parent::__construct();
         $this->setViewName('Mage_Checkout', 'onepage/status.phtml');
         
-        $checkout = Mage::registry('Mage_Checkout');
+        $checkout = Mage::getSingleton('checkout_model', 'session');
+        $quote = $checkout->getQuote();
         
-        $this->assign('billing', $checkout->getStateData('billing', 'data'));
-        $this->assign('payment', $checkout->getStateData('payment', 'data'));
-        $this->assign('shipping', $checkout->getStateData('shipping', 'data'));
-        $this->assign('shipping_method', $checkout->getStateData('shipping_method', 'data'));
+        $billing = $quote->getAddressByType('billing');
+        
+        $payments = $quote->getEntitiesByType('payment');
+        if (!empty($payments)) {
+            $payment = $payments[0];
+        } else {
+            $payment = false;
+        }
+        
+        $shipping = $quote->getAddressByType('shipping');
+        
+        $shippingMethod = array();
+        
+        $this->assign('billing', $billing)->assign('payment', $payment)
+            ->assign('shipping', $shipping)->assign('shipping_method', $shippingMethod);
     }
 }

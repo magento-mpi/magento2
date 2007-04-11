@@ -23,15 +23,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $quote = $this->_data['quote'];
         
-        
         if (!$quote->hasItems()) {
             $cartView = 'cart/noItems.phtml';
         } else {
             $cartView = 'cart/view.phtml';
-            
-            $totalsFilter = new Varien_Filter_Array_Grid();
-            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
-            $cartData['totals'] = $totalsFilter->filter($quote->collectTotals('_output'));
             
             $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'tier_price'=>'decimal', 'row_total'=>'decimal'));
             $itemsFilter = new Varien_Filter_Array_Grid();
@@ -40,6 +35,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
             $cartData['items'] = $itemsFilter->filter($quoteItems);
             
+            $totalsFilter = new Varien_Filter_Array_Grid();
+            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+            $cartData['totals'] = $totalsFilter->filter($quote->collectTotals('_output'));
+
             $this->_data['cart'] = $cartData;
         }        
         
@@ -56,16 +55,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $productId = $intFilter->filter($this->getRequest()->getPost('product_id'));
         $qty = $intFilter->filter($this->getRequest()->getPost('qty', 1));
 
-        $product = Mage::getModel('catalog', 'product')->load($productId)->setQty($qty);
-        
         $quote = $this->_data['quote'];
 
         if (!$quote->getQuoteId()) {
-            $quote->resetChanged(true)->save();
+            $quote->save();
             Mage::getSingleton('checkout_model', 'session')->setQuoteId($quote->getQuoteId());
         }
         
-        $quote->addProduct($product)->save();
+        $product = Mage::getModel('catalog', 'product')->load($productId);
+        $quote->addProduct($product->setQty($qty))->save();
         
         $this->_redirect($this->_data['url']['cart']);
     }

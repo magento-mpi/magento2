@@ -24,6 +24,10 @@ class Mage_Sales_Model_Mysql4_Quote_Attribute extends Mage_Sales_Model_Quote_Att
     
     public function save()
     {
+        if ($this->isEmpty()) {
+            $this->getEntity()->removeAttribute($this->getAttributeCode());
+            $this->setDeleteFlag(true);
+        }
         if ($this->getDeleteFlag()) {
             return $this->delete();
         }

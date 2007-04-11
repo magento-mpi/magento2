@@ -104,6 +104,11 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
         return $this->_attributes[$varArr[0]]->getData('attribute_'.$varArr[1]);
     }
     
+    public function removeAttribute($attrName)
+    {
+        unset($this->_attributes[$attrName]);
+    }
+    
     public function getDefaultAttributeType($attributeName='', $entityType='')
     {
         static $types = array(
@@ -115,19 +120,21 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
                 'grand'=>'decimal',
                 'subtotal'=>'decimal',
                 'tax'=>'decimal',
+                'weight'=>'decimal',
             ),
             'address'=>array(
-                'firstname'=>'text', 
-                'lastname'=>'text', 
-                'company'=>'text', 
+                'quote_address_type'=>'varchar',
+                'firstname'=>'varchar', 
+                'lastname'=>'varchar', 
+                'company'=>'varchar', 
                 'street'=>'text', 
-                'city'=>'text', 
-                'region'=>'text', 
+                'city'=>'varchar', 
+                'region'=>'varchar', 
                 'region_id'=>'int', 
-                'postcode'=>'text', 
+                'postcode'=>'varchar', 
                 'country_id'=>'int', 
-                'telephone'=>'text', 
-                'fax'=>'text',
+                'telephone'=>'varchar', 
+                'fax'=>'varchar',
             ),
             'item'=>array(
                 'product_id'=>'int',
@@ -139,9 +146,10 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
                 'qty'=>'decimal',
                 'discount'=>'decimal',
                 'tax'=>'decimal',
-                'row_total'=>'decimal',
                 'weight'=>'decimal',
                 'cost'=>'decimal',
+                'row_total'=>'decimal',
+                'row_weight'=>'decimal',
             ),
             'payment'=>array(
                 'amount'=>'decimal',

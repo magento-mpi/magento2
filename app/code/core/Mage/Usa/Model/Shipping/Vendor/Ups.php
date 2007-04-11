@@ -16,7 +16,7 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abst
         return $this->_defaults;    
     }
     
-    public function fetchQuotes(Mage_Sales_Model_Shipping_Quote_Request $request, $requestType='cgi')
+    public function fetchServices(Mage_Sales_Model_Shipping_Method_Request $request, $requestType='cgi')
     {
         $this->setRequest($request);
 
@@ -33,7 +33,7 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abst
         return $this->getResult();
     }
     
-    protected function setRequest(Mage_Sales_Model_Shipping_Quote_Request $request)
+    protected function setRequest(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         $this->_request = $request;
 
@@ -134,16 +134,16 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abst
             }
         }
         
-        $result = new Mage_Sales_Model_Shipping_Quote_Result();
+        $result = Mage::getModel('sales_model', 'shipping_method_result');
         if (empty($rArr)) {
-            $error = new Mage_Sales_Model_Shipping_Quote_Service_Error();
+            $error = Mage::getModel('sales_model', 'shipping_method_service_error');
             $error->setTitle($errorTitle);
             $result->append($error);
         } else {
             $defaults = $this->getDefaults();
             
             foreach ($rArr as $r) {
-                $quote = new Mage_Sales_Model_Shipping_Quote_Service();
+                $quote = Mage::getModel('sales_model', 'shipping_method_service');
                 $quote->setVendor($this->_data['vendor']);
                 $quote->setVendorTitle((string)$defaults->title);
                 $quote->setService($r['service']);

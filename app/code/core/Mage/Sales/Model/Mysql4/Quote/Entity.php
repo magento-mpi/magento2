@@ -34,7 +34,9 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
             
             if ($this->getQuoteEntityId()<=0) {
                 if (self::$_write->insert(self::$_entityTable, $this->getData())) { 
-                    $this->setQuoteEntityId(self::$_write->lastInsertId());
+                    $id = self::$_write->lastInsertId();
+                    $this->setQuoteEntityId($id);
+                    $this->getQuote()->setEntity($this);
                 }
             } else {
                 $condition = self::$_write->quoteInto('quote_entity_id=?', $this->getQuoteEntityId());

@@ -15,17 +15,17 @@ abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vend
 	 * @param Mage_Sales_Model_Shipping_Request $data
 	 * @return Mage_Sales_Model_Shipping_Result
 	 */
-	public function fetchQuotes(Mage_Sales_Model_Shipping_Quote_Request $request)
+	public function fetchServices(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         if (!$request->getConditionName()) {
             $request->setConditionName($this->_conditionName);
         }
 
-        $result = new Mage_Sales_Model_Shipping_Quote_Result();
+        $result = Mage::getModel('sales_model', 'shipping_method_result');
 
         $rate = $this->getRate($request);
         if (!empty($rate)) {
-	    	$quote = new Mage_Sales_Model_Shipping_Quote_Service();
+	    	$quote = Mage::getModel('sales_model', 'shipping_method_service');
 	    	
 	    	$vendor = 'shiptable';
 	    	$vendorTitle = (string)Mage::getConfig('Mage_Sales')->getShippingDefaults($vendor)->title;
@@ -44,7 +44,7 @@ abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vend
     	return $result;
     }
     
-    public function getRate(Mage_Sales_Model_Shipping_Quote_Request $request)
+    public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         
     }

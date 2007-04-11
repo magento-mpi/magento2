@@ -12,7 +12,7 @@ class Mage_Sales_Model_Shipping
 	/**
 	 * Cached result
 	 * 
-	 * @var Mage_Sales_Model_Shipping_Quote_Result
+	 * @var Mage_Sales_Model_Shipping_Method_Result
 	 */
 	protected $_result = null;
 	
@@ -32,7 +32,7 @@ class Mage_Sales_Model_Shipping
 	 */
 	public function __construct()
 	{
-		$this->_result = new Mage_Sales_Model_Shipping_Quote_Result();
+		$this->_result = new Mage_Sales_Model_Shipping_Method_Result();
 	}
 	
 	/**
@@ -52,12 +52,12 @@ class Mage_Sales_Model_Shipping
 	}
 	
 	/**
-	 * Retrieve all quotes for supplied shipping data
+	 * Retrieve all methods for supplied shipping data
 	 * 
-	 * @param Mage_Sales_Model_Shipping_Quote_Request $data
-	 * @return Mage_Sales_Model_Shipping_Quote_Result
+	 * @param Mage_Sales_Model_Shipping_Method_Request $data
+	 * @return Mage_Sales_Model_Shipping_Method_Result
 	 */
-	public function fetchQuotes(Mage_Sales_Model_Shipping_Quote_Request $request)
+	public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
     {
     	if (!$request->getOrig()) {
     		$request->setData($this->getOrigData());
@@ -73,12 +73,12 @@ class Mage_Sales_Model_Shipping
 	            $request->setVendor($vendor->getName());
 	            $className = $vendor->getClassName();
 	            $obj = new $className();
-	            $result = $obj->fetchQuotes($request);
+	            $result = $obj->collectMethods($request);
 	            $this->_result->append($result);
 	        }
     	} else {
     	    $obj = Mage::getConfig()->getGlobalInstance('salesShippingVendors', $request->limitVendor);
-    	    $result = $obj->fetchQuotes($request);
+    	    $result = $obj->collectMethods($request);
     	    $this->_result->append($result);
     	}
     	

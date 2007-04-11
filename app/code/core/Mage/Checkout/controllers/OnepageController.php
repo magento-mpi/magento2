@@ -2,11 +2,27 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action 
 {
+    
+    protected $_data = array();
     protected $_checkout = null;
+    protected $_quote = null;
     
     protected function _construct()
     {
         parent::_construct();
+        
+        $this->_data['url']['base'] = Mage::getBaseUrl();
+        $this->_data['url']['cart'] = Mage::getBaseUrl('', 'Mage_Checkout').'/cart/';
+        $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/';
+
+        $this->_checkout = Mage::getSingleton('checkout_model', 'session');
+        $this->_quote = $this->_checkout->getQuote();
+        
+        if (!$this->_quote->hasItems()) {
+            $this->setFlag('', 'no-renderLayout', true);
+            $this->setFlag('', 'no-dispatch', true);
+            $this->_redirect($this->_data['url']['cart']);
+        }
         
         foreach (array('status','shippingMethod','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
             $this->setFlag($action, 'no-renderLayout', true);
@@ -41,16 +57,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function shippingMethodAction()
     {
-        $checkout = Mage::registry('Mage_Checkout');
-
-        #$checkout->fetchShippingMethods();
-
-        $quotes = $checkout->getStateData('shipping_method', 'quotes');
-        $data = $checkout->getStateData('shipping_method', 'data');
+        $methods = $this->_checkout->getShippingMethods();
+        $data = $this->_quote->getEntityByType('address');
 
         $block = Mage::createBlock('tpl', 'root')
 	        ->setViewName('Mage_Checkout', 'onepage/shipping_method/box.phtml')
-	        ->assign('quotes', $quotes)
+	        ->assign('methods', $methods)
 	        ->assign('data', $data);
         
         $this->getResponse()->appendBody($block->toString());
@@ -76,46 +88,44 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function saveBillingAction()
     {
-        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
-            $data = isset($_POST['billing']) ? $_POST['billing'] : array();
+            $data = $this->getRequest()->getPost('billing', array());
             if (!empty($data)) {
-                $checkout->setStateData('billing', 'allow', true);
+                $this->_checkout->setAllowBilling(true);
             }
             $address = Mage::getModel('customer', 'address');
             $address->setData($data);
             $address->implodeStreetAddress();
-            $checkout->setStateData('billing', 'address', $address);
+            $this->_quote->setAddress('billing', $address);
         }
     }
     
     public function savePaymentAction()
     {
-        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
-            $data = isset($_POST['payment']) ? $_POST['payment'] : array();
+            $data = $this->getRequest()->getPost('payment', array());
             if (!empty($data)) {
-                $checkout->setStateData('payment', 'allow', true);
+                $this->_checkout->setAllowPayment('payment', true);
             }
-            $checkout->setStateData('payment', 'data', $data);
+            $payment = Mage::getModel('customer', 'payment')->setData($data);
+            $this->_quote->setPayment($payment);
         }
     }
     
     public function saveShippingAction()
     {
-        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
-            $data = isset($_POST['shipping']) ? $_POST['shipping'] : array();
+            $data = $this->getRequest()->getPost('shipping', array());
             if (!empty($data)) {
-                $checkout->setStateData('shipping', 'allow', true);
+                $this->_checkout->setAllowShipping(true);
             }
             $address = Mage::getModel('customer', 'address');
             $address->setData($data);
             $address->implodeStreetAddress();
-            $checkout->setStateData('shipping', 'address', $address);
+            $this->_quote->setAddress('shipping', $address);
+            $methods = $this->_checkout->collectShippingMethods();
+            
         }
-
-        $checkout->fetchShippingMethods();
     }
     
     public function saveShippingMethodAction()

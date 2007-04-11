@@ -11,19 +11,22 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 {
     protected $_steps;
     protected $_checkout;
+    protected $_quote;
     
     public function __construct() 
     {
         parent::__construct();
         $this->setViewName('Mage_Checkout', 'onepage.phtml');
         
+        $this->_checkout = Mage::getSingleton('checkout_model', 'session');
+        $this->_quote = $this->_checkout->getQuote();
+
         $this->_initSteps();
     }
     
     protected function _initSteps()
     {
         $this->_steps = array();
-        $this->_checkout = Mage::registry('Mage_Checkout');
         
         if (!Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
             $this->_steps['method'] = array();
@@ -31,7 +34,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $this->_steps['method']['allow'] = true;
             $this->_createMethodBlock();
         } else {
-            $this->_checkout->setStateData('billing', 'allow', true);
+            $this->_checkout->setAllowBilling(true);
         }
         
         $this->_steps['billing'] = array();
@@ -65,7 +68,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createMethodBlock()
     {
-        $data = $this->_checkout->getStateData('method');
+        $data = $this->_checkout->getCheckoutMethodData();
         
         $block = Mage::createBlock('tpl', 'checkout.method')
             ->setViewName('Mage_Checkout', 'onepage/method.phtml')
@@ -76,7 +79,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     
     protected function _createBillingBlock()
     {
-        $data = $this->_checkout->getStateData('billing');
+        $data = $this->_quote->getAddressByType('billing');
         
         $block = Mage::createBlock('tpl', 'checkout.billing')
             ->setViewName('Mage_Checkout', 'onepage/billing.phtml')
@@ -120,7 +123,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingBlock()
     {
-        $data = $this->_checkout->getStateData('shipping');
+        $data = $this->_quote->getAddressByType('shipping');
         
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'onepage/shipping.phtml')

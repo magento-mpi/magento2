@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Checkout_Model_Session
+class Mage_Checkout_Model_Session extends Varien_Data_Object
 {
     protected $_session = null;
     
@@ -25,13 +25,26 @@ class Mage_Checkout_Model_Session
         $quote = Mage::getModel('sales', 'quote');
         if ($this->getQuoteId()) {
             $quote->load($this->getQuoteId());
+            if (!$quote->getQuoteId()) {
+                $this->setQuoteId(null);
+            }
         }
-        if (!$quote->getCustomerId()) {
+        if ($this->getQuoteId() && !$quote->getCustomerId()) {
             $customerSession = Mage::getSingleton('customer_model', 'session');
             if ($customerSession->isLoggedIn()) {
                 $quote->setCustomerId($customerSession->getCustomerId())->save();
             }
         }
         return $quote;
+    }
+    
+    public function setData($var, $value='', $isChanged=true)
+    {
+        $this->_session->$var = $value;
+    }
+    
+    public function getData($var='')
+    {
+        return $this->_session->$var;
     }
 }

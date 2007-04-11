@@ -67,16 +67,6 @@
       </layouts>
 
       <events>
-         <action_preDispatch>
-            <observers>
-               <construct>
-                  <class>Mage_Checkout_Front</class>
-
-                  <method>construct</method>
-               </construct>
-            </observers>
-         </action_preDispatch>
-
          <customerLogin>
             <observers>
                <clear>

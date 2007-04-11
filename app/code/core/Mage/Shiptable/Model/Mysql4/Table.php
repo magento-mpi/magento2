@@ -13,7 +13,7 @@ class Mage_Shiptable_Model_Mysql4_Table extends Mage_Shiptable_Model_Table
         self::$_shipTable = Mage::registry('resources')->getTableName('shiptable', 'shiptable');
     }
     
-    public function getRate(Mage_Sales_Model_Shipping_Quote_Request $request)
+    public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         $select = self::$_read->select()->from(self::$_shipTable);
         $select->where(self::$_read->quoteInto('dest_country_id=?', $request->getDestCountryId()));

@@ -94,6 +94,14 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         }
     }
     
+    public function setEntity($entity)
+    {
+        $id = $entity->getQuoteEntityId();
+        $type = $entity->getEntityType();
+        $this->_entitiesById[$id] = $entity;
+        $this->_entitiesByType[$type][$id] = $entity;
+    }
+    
     public function addEntity($type, Varien_Data_Object $source=null)
     {
         $entity = Mage::getModel('sales', 'quote_entity');
@@ -106,11 +114,9 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         if (!$entity->hasQuoteEntityId()) {
             $entity->setQuoteEntityId($this->getNewEntityId());
         }
-        $id = $entity->getQuoteEntityId();
         
         $this->_entities->addItem($entity);
-        $this->_entitiesById[$id] = $entity;
-        $this->_entitiesByType[$type][$id] = $entity;
+        $this->setEntity($entity);
         
         return $this;
     }
@@ -139,6 +145,25 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         }
     }
     
+    public function deleteEntity($entityToRemove)
+    {
+        if ($entityToRemove instanceof Mage_Sales_Model_Quote_Entity) {
+            $entityId = $entity->getQuoteEntityId();
+        } else {
+            $entityId = (int)$entityToRemove;
+        }
+        
+        $entityToRemove = $this->getEntityById($entityId);
+        if (empty($entityToRemove)) {
+            return $this;
+        }
+        
+        unset($this->_entitiesById[$entityId]);
+        unset($this->_entitiesByType[$entityToRemove->getEntityType()][$entityId]);
+
+        $entityToRemove->setDeleteFlag(true);       
+    }
+    
     protected function _afterLoad()
     {
         foreach ($this->_entities->getItems() as $entity) {
@@ -160,11 +185,22 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     
     public function getAddressByType($type)
     {
-        foreach ($this->getEntity('address') as $addr) {
+        foreach ($this->getEntitiesByType('address') as $addr) {
             if ($addr->getAttribute('type/varchar')==$type) {
                 return $addr;
             }
         }
+    }
+    
+    public function setAddress($addressType, Mage_Customer_Model_Address $address)
+    {
+        $address->setQuoteAddressType($addressType);
+        $this->addEntity('address', $address);
+    }
+    
+    public function setPayment(Mage_Customer_Model_Payment $payment)
+    {
+        $this->addEntity('payment', $payment);
     }
     
     public function addProduct(Mage_Catalog_Model_Product $product)
@@ -177,6 +213,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
             }
         }
         $this->addEntity('item', $product);
+        $this->collectTotals();
         return $this;
     }
     
@@ -196,6 +233,35 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
             $totalsArr = array_merge_recursive($totalsArr, $arr);
         }
         return $totalsArr;
+    }
+    
+    public function collectShippingMethods()
+    {
+        $shippingAddress = $this->getAddressByType('shipping');
+
+        $request = Mage::getModel('sales_model', 'shipping_method_request');
+        $request->setDestCountryId($shippingAddress->getCountryId());
+        $request->setDestRegionId($shippingAddress->getRegionId());
+        $request->setDestPostcode($shippingAddress->getPostcode());
+        $request->setOrderSubtotal($this->getQuoteEntity()->getAttribute('subtotal'));
+        $request->setPackageWeight($this->getQuoteEntity()->getAttribute('weight'));
+
+        $shipping = Mage::getModel('sales_model', 'shipping');
+        $result = $shipping->collectMethods($request);
+        $allMethods = $result->getAllMethods();
+        
+        $methods = array();
+        if (!empty($allMethods)) {
+            foreach ($allMethods as $method) {
+                $methods[$service->getVendor()]['title'] = $method->getVendorTitle();
+                $methods[$service->getVendor()]['methods'][$method->getService()] = array(
+                    'title'=>$method->getServiceTitle(),
+                    'price'=>$priceFilter->filter($method->getPrice()),
+                );
+            }
+        }
+
+        return $services;
     }
     
     public function hasItems()
@@ -239,6 +305,8 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
                 $item->setAttribute('qty', $itemUpd['qty']);
             }
         }
+        $this->collectTotals();
         return $this;
     }
+
 }

@@ -37,6 +37,11 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
         
     public function save()
     {
+        if (!$this->getAttribute('created_at')) {
+            $this->resetChanged(true);
+            $this->getQuoteEntity()->setAttribute('created_at', new Zend_Db_Expr('now()'));
+        }
+        
         if ($this->isChanged()) {
             if (!$this->getQuoteId()) {
                 if (self::$_write->insert(self::$_quoteTable, $this->getData())) {
