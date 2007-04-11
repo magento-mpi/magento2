@@ -13,15 +13,30 @@
 
 class Varien_Data_Object
 {
-    protected $_data;
+    protected $_data = array();
+    protected $_isChanged = false;
     
     public function __construct($data = array())
     {
         $this->_data = $data;
     }
-
-    public function setData($key, $value='')
+    
+    public function resetChanged($changed=false)
     {
+        $this->_isChanged = $changed;
+    }
+    
+    public function isChanged()
+    {
+        return $this->_isChanged;
+    }
+
+    public function setData($key, $value='', $isChanged=true)
+    {
+        if ($isChanged) {
+            $this->resetChanged(true);
+        }
+        
         if(is_array($key)) {
             foreach($key as $index=>$value) {
                 $this->_data[$index] = $value;
@@ -120,37 +135,37 @@ class Varien_Data_Object
     {
         switch (substr($method, 0, 3)) {
             case 'get' :
-                //$key = strtolower(substr($method,3));
                 $key = $this->_underscore(substr($method,3));
-                if (isset($this->_data[$key])) {
-                    return $this->_data[$key];
-                } else {
-                    return null;
-                }
+                array_unshift($args, $key);
+                return call_user_func_array(array($this, 'getData'), $args);
                 break;
 
             case 'set' :
-                //$key = strtolower(substr($method,3));
                 $key = $this->_underscore(substr($method,3));
-                if (isset($args[0])) {
-                    $this->_data[$key] = $args[0];
-                }
+                array_unshift($args, $key);
+                return call_user_func_array(array($this, 'setData'), $args);
                 return $this;
                 break;
+                
+            case 'has' :
+                $key = $this->_underscore(substr($method,3));
+                return isset($this->_data[$key]);
+                break;
         }
-        throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
+        throw new Varien_Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
     }
     
     public function __get($var)
     {
         $var = $this->_underscore($var);
-        return isset($this->_data[$var]) ? $this->_data[$var] : null;
+        return $this->getData($var);
     }
     
     public function __set($var, $value)
     {
+        $this->resetChanged(true);
         $var = $this->_underscore($var);
-        $this->_data[$var] = $value;
+        $this->setData($var, $value);
     }
     
     public function isEmpty()

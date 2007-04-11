@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Sales>
-         <version>0.1.1</version>
+         <version>0.1.2</version>
          <depends>
             <Mage_Catalog />
 
@@ -29,18 +29,9 @@
                <quote_attribute>
                   <table>sales_quote_attribute</table>
                </quote_attribute>
-               <quote_address>
-                  <table>sales_quote_address</table>
-               </quote_address>
-               <quote_address>
-                  <table>sales_quote_address_type</table>
-               </quote_address>
-               <quote_item>
-                  <table>sales_quote_item</table>
-               </quote_item>
-               <quote_payment>
-                  <table>sales_quote_payment</table>
-               </quote_payment>
+               <quote_entity>
+                  <table>sales_quote_entity</table>
+               </quote_entity>
                
                <order>
                   <table>sales_order</table>
@@ -155,31 +146,31 @@
       
       <salesQuoteAttributes>
          <subtotal>
-            <class>Mage_Sales_Model_Quote_Total_Subtotal</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Model_Quote_Total_Discount</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Model_Quote_Total_Shipping</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Model_Quote_Total_Tax</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Model_Quote_Total_Grand</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>
@@ -188,31 +179,31 @@
       
       <salesOrderAttributes>
          <subtotal>
-            <class>Mage_Sales_Model_Order_Total_Subtotal</class>
+            <class>Mage_Sales_Model_Order_Attribute_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Model_Order_Total_Discount</class>
+            <class>Mage_Sales_Model_Order_Attribute_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Model_Order_Total_Shipping</class>
+            <class>Mage_Sales_Model_Order_Attribute_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Model_Order_Total_Tax</class>
+            <class>Mage_Sales_Model_Order_Attribute_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Model_Order_Total_Grand</class>
+            <class>Mage_Sales_Model_Order_Attribute_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>

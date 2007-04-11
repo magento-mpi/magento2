@@ -8,79 +8,57 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
     
     public function __construct($data=array())
     {
+        parent::__construct($data);
         self::$_read = Mage::registry('resources')->getConnection('sales_read');
         self::$_write = Mage::registry('resources')->getConnection('sales_write');
         self::$_quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
     }
     
-    public function load($quoteId, $loadAttributes=true)
+    public function load($quoteId)
     {
+        $this->reset();
+        
         $quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
         $select = self::$_read->select()->from($quoteTable)
             ->where(self::$_read->quoteInto("quote_id=?", $quoteId));
-        $this->setData(self::$_read->fetchRow($select));
-
-        if ($loadAttributes) {
-            $this->loadAttributes();
+        $rowData = self::$_read->fetchRow($select);
+        if (empty($rowData)) {
+            return $this;
         }
+        $this->setData($rowData);
+
+        $this->_entities->loadByQuoteId($quoteId);
+        $this->_attributes->loadByQuoteId($quoteId);
+        
+        $this->_afterLoad();
         
         return $this;
     }
-    
-    public function loadAttributes()
-    {
-        $this->getAddresses()->loadByQuoteId($quoteId);
-        $this->getItems()->loadByQuoteId($quoteId);
-        $this->getPayments()->loadByQuoteId($quoteId);
-        $this->getAttributes()->loadByQuoteId($quoteId);
-        $this->_distributeAttributes();
-        return $this;
-    }
         
-    public function save($saveAttributes=true)
+    public function save()
     {
         if (!$this->getQuoteId()) {
-            $this->setQuoteId(self::$_write->insert(self::$_quoteTable, $this->getData()));
+            if (self::$_write->insert(self::$_quoteTable, $this->getData())) {
+                $this->setQuoteId(self::$_write->lastInsertId());
+            }
         } else {
             $condition = self::$_write->quoteInto('quote_id=?', $this->getQuoteId());
             self::$_write->update(self::$_quoteTable, $this->getData(), $condition);
         }
-        if ($saveAttributes) {
-            $this->getAddresses()->setDataToAll('quote_id', $this->getQuoteId())->walk('save', array(false));
-            $this->getItems()->setDataToAll('quote_id', $this->getQuoteId())->walk('save', array(false));
-            $this->getPayments()->setDataToAll('quote_id', $this->getQuoteId())->walk('save', array(false));
-            $this->getAttributes()->setDataToAll('quote_id', $this->getQuoteId())->walk('save');
-        }
+        
+        $this->getEntities()->walk('save');
+        $this->getAttributes()->walk('save');
+
+        $this->resetChanged(false);
+
         return $this;
     }
     
     public function delete()
     {
+        $this->_entities->walk('delete');
+        $this->_attributes->walk('delete');
         self::$_write->delete(self::$_quoteTable, self::$_write->quoteInto('quote_id=?', $this->getQuoteId()));
-        $this->getAddresses()->walk('delete');
-        $this->getItems()->walk('delete');
-        $this->getPayments()->walk('delete');
-        $this->getAttributes()->walk('delete');
-        return $this;
-    }
-    
-    protected function _distributeAttributes()
-    {
-        foreach ($this->getAttributes()->getItems() as $attr) {
-            switch ($attr->getEntityType()) {
-                case 'address':
-                    $this->getAddresses()->getByAddressId($attr->getEntityId())->addAttribute($attr);
-                    break;
-                    
-                case 'item':
-                    $this->getItems()->getByItemId($attr->getEntityId())->addAttribute($attr);
-                    break;
-                    
-                case 'payment':
-                    $this->getPayments()->getByPaymentId($attr->getEntityId())->addAttribute($attr);
-                    break;
-            }
-        }
         return $this;
     }
 

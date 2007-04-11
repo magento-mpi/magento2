@@ -21,17 +21,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     function indexAction()
     {
-        $quoteId = Mage::registry('Mage_Checkout')->getStateData('cart', 'quote_id');
-        
-        if (!$quoteId) {
+        $quote = $this->_data['quote'];
+        if (!$quote->getQuoteId()) {
             $cartView = 'cart/noItems.phtml';
         } else {
-            $quote = Mage::getModel('sales', 'quote');
-            $quote->load($quoteId);
-        
             $cartView = 'cart/view.phtml';
-            $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'item_price'=>'decimal', 'row_total'=>'decimal'));
-
+            
+            $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'tier_price'=>'decimal', 'row_total'=>'decimal'));
             $itemsFilter = new Varien_Filter_Array_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
@@ -62,8 +58,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $qty = $this->getRequest()->getPost('qty', 1);
         $qty = $intFilter->filter($qty);
 
-        $product = Mage::getModel('catalog', 'product')->load($productId);
-        $this->_data['quote']->addProductItem($product, $qty)->save();
+        $product = Mage::getModel('catalog', 'product')->load($productId)->setQty($qty);
+        $this->_data['quote']->addEntity('item', $product)->save();
         
         $checkoutSession = Mage::getSingleton('checkout_model', 'session');
         $checkoutSession->setQuoteId($this->_data['quote']->getQuoteId());
@@ -77,7 +73,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         //foreach ($cart as )
         
-        $result = Mage::getModel('sales', 'quote')->updateCartItems($cart);
+        $this->_data['quote']->updateCartItems($cart);
 
         $this->_redirect($this->_data['url']['cart']);
     }

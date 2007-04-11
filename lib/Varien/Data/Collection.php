@@ -111,12 +111,17 @@ class Varien_Data_Collection implements Iterator
         $this->_items[] = $item;
     }
     
+    public function removeItemByKey($key)
+    {
+        unset($this->_items[$key]);
+    }
+    
     public function clear()
     {
         $this->_items[] = array();
     }
         
-    public function walk($method, $args)
+    public function walk($method, $args=array())
     {
         foreach ($this->getItems() as $item) {
             call_user_func_array(array($item, $method), $args);

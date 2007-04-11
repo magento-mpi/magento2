@@ -6,7 +6,7 @@ class Mage_Sales_Model_Quote_Attribute_Subtotal extends Mage_Sales_Model_Quote_A
     {
         $arr = array();
 
-        $items = $this->_quote->getItems();
+        $items = $quote->getItemsAsArray();
         $subtotal = 0;
         $weight = 0;
         foreach ($items as $item) {

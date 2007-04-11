@@ -28,19 +28,4 @@ class Mage_Sales_Model_Mysql4_Quote_Attribute_Collection extends Varien_Data_Col
         $this->load();
         return $this;
     }
-    
-    public function getByEntity($entityType, $entityId=null)
-    {
-        $arr = array();
-        foreach ($this->getItems() as $item) {
-            if ($item->getEntityType()!=$entityType) {
-                continue;
-            }
-            if (!is_null($entityId) && $item->getEntityId()!=$entityId) {
-                continue;
-            }
-            $arr[] = $item;
-        }
-        return $arr;
-    }
 }
