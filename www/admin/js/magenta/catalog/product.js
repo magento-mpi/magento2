@@ -115,6 +115,7 @@ Mage.Catalog_Product = function(depend){
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
+                loadMask: true,
                 monitorWindowResize : true,
                 autoHeight : true,
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),

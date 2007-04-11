@@ -90,7 +90,8 @@ Mage.Catalog_Product_Attributes = function(){
             var grid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
-                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                autoSizeColumns: true,
+                monitorWindowResize: true,                
                 enableColLock : false
             });
             

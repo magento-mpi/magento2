@@ -85,6 +85,7 @@ Mage.Customer = function(depend){
                 var grid = this.initGrid();
                 this.customerLayout.beginUpdate();
                 this.gridPanel = this.customerLayout.add('center',new Ext.GridPanel(grid));
+                this.grid.getDataSource().load({params:{start:0, limit:25}});
                 this.customerLayout.endUpdate();
             }
         },
@@ -134,6 +135,7 @@ Mage.Customer = function(depend){
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 autoHeight : true,
+                loadMask: true,
                 selModel : rowSelector,
                 enableColLock : false
             });
@@ -146,15 +148,14 @@ Mage.Customer = function(depend){
             	 	e.stopEvent();
             	}
             });            
-            
-            grid.render();
-
-            grid.getDataSource().load({params:{start:0, limit:25}});            
-            
-            var gridHead = grid.getView().getHeaderPanel(true);
-            var gridFoot = grid.getView().getFooterPanel(true);
+            this.grid = grid;
            
-            var paging = new Ext.PagingToolbar(gridHead, dataStore, {
+            this.grid.render();
+            
+            var gridHead = this.grid.getView().getHeaderPanel(true);
+            var gridFoot = this.grid.getView().getFooterPanel(true);
+           
+            var paging = new Ext.PagingToolbar(gridHead, this.grid.getDataSource(), {
                 pageSize: 25,
                 displayInfo: true,
                 displayMsg: 'Displaying products {0} - {1} of {2}',
@@ -175,8 +176,6 @@ Mage.Customer = function(depend){
 //                scope : this,
 //                cls: 'x-btn-text-icon'
 //            });
-            
-            this.grid = grid;
 
             return grid;
         },

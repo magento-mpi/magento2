@@ -48,7 +48,7 @@
             </block>
             
             <block type="tag_js" name="jscripts.js.ext.all.debug">
-                <action method="setSrc"><src>/extjs/ext-all-debug.js</src><locate/></action>
+                <action method="setSrc"><src>/extjs/ext-all.js</src><locate/></action>
             </block>
             
             <!--  END LOAD EXT-YUI -->

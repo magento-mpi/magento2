@@ -6,8 +6,8 @@ Mage.Catalog_Category = function(dep){
         treeLayout : null,
         init : function() {
             this.depend = dep;
-            this.treeLayout = this.depend.getLayout('tree');
-            this.buildGrid();
+//            this.treeLayout = this.depend.getLayout('tree');
+//            this.buildGrid();
         },
         
         buildGrid : function() {
