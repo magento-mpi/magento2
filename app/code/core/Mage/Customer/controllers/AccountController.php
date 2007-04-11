@@ -49,7 +49,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         $block = Mage::createBlock('tpl', 'customer.regform')
             ->setViewName('Mage_Customer', 'form/registration.phtml')
-            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
+            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault()->getRegions())
             ->assign('customer',    $customer)
@@ -58,15 +58,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         Mage::getBlock('content')->append($block);
     }
     
+    /**
+     * Create account
+     */
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
             
-            $address  = Mage::getModel('customer', 'address');
-            $address->setData($this->getRequest()->getPost());
-
-            $customer = Mage::getModel('customer', 'customer');
-            $customer->setData($this->getRequest()->getPost());
+            $address  = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
+            $customer = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
 
             $customer->addAddress($address);
             
@@ -81,36 +81,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer_model', 'session')->addMessages($e->getMessages());
             }
-            catch (Exception $e)
-            {
-                
-            }
-/*            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
-            $address    = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
-            
-            // Validate customer and address info
-            if ($customer->validate() && $address->validate()) {
-                
-                if ($customer->save()) {
-                    $address->setCustomerId($customer->getCustomerId());
-                    
-                    if ($address->save()) {
-                        
-                        $customer->setPrimaryAddress($address->getAddressId());
-                        //Mage::getSingleton('customer_model', 'session')->login($customer->getCustomerEmail(), $customer->getCustomerPass());
-                        
-                        Mage::getSingleton('customer_model', 'session')->setCustomer($customer);
-                        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
-                    } else {
-                        // Delete customer? and can't create address error
-                    }
-                } else {
-                    // Can't create customer
-                }
-            } else {
-                // Fix validation error and tmp save post data
-            }*/
         }
+        
         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/create/');
     }
     

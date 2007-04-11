@@ -1,5 +1,7 @@
 [error]
 CSTE001 customer save error
+CSTE002 customer email exist (update)
+CSTE003 customer email exist (insert)
 
 [warning]
 

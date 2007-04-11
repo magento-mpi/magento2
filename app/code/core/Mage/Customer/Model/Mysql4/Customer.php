@@ -63,7 +63,20 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
             ->where(self::$_read->quoteInto("customer_id=?", $customerId));
         
         $this->setData(self::$_read->fetchRow($select));
+        return $this;
     }    
+
+    public function loadByEmail($customerEmail)
+    {
+        $arrData = array(
+            'email'    => $customerEmail,
+        );
+        
+        $select = self::$_read->select()->from(self::$_customerTable)
+            ->where(self::$_read->quoteInto("email=?", $customerEmail));
+        $this->setData(self::$_read->fetchRow($select, $arrData));
+        return $this;
+    }
     
     /**
      * Save row in database table
@@ -80,11 +93,16 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
                 //$condition = self::$_write->quoteInto('customer_id=?', $this->getCustomerId());
                 //self::$_write->update(self::$_customerTable, $this->getData(), $condition);
             } else { 
+                
                 self::$_write->insert(self::$_customerTable, $this->_prepareSaveData());
                 $this->setCustomerId(self::$_write->lastInsertId());
             }
 
             self::$_write->commit();
+        }
+        catch (Mage_Core_Exception $e)
+        {
+            throw $e;
         }
         catch (Exception $e){
             self::$_write->rollBack();
@@ -97,6 +115,22 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
     private function _prepareSaveData()
     {
         $data = $this->__toArray(array('email', 'firstname', 'lastname'));
+        // TODO: Zend_Validate for fields
+        
+        // Check uniq email
+        $testCustomer = Mage::getModel('customer', 'customer')->loadByEmail($data['email']);
+        if ($testCustomer->getCustomerId()) {
+            if ($this->getCustomerId()) {
+                if ($testCustomer->getCustomerId() != $this->getCustomerId()) {
+                    throw Mage::exception('Mage_Customer')
+                        ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE002'));
+                }
+            }
+            else {
+                throw Mage::exception('Mage_Customer')
+                    ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE003'));
+            }
+        }
         return $data;
     }
     
@@ -130,84 +164,6 @@ class Mage_Customer_Model_Mysql4_Customer extends Mage_Customer_Model_Customer
         
         $sql = "SELECT customer_id FROM self::$_customerTable WHERE customer_id=:id AND customer_pass=:pass";
         return self::$_read->fetchOne($sql, $arrData);
-    }
-    
-    public function loadByEmail($customerEmail)
-    {
-        $arrData = array(
-            'email'    => $customerEmail,
-        );
-        
-        $select = self::$_read->select()->from(self::$_customerTable)
-            ->where(self::$_read->quoteInto("customer_email=?", $customerEmail));
-            
-        $this->setData(self::$_read->fetchRow($select, $arrData));
-    }
-
-    public function validateCreate()
-    {
-        $data = $this->getData();
-        $arrData= $this->_prepareArray($data, array('firstname', 'lastname', 'email', 'password'));
-        
-        $this->_data = array();
-        $this->_data['customer_email']      = $arrData['email'];
-        $this->_data['customer_pass']       = $arrData['password'];
-        $this->_data['customer_firstname']  = $arrData['firstname'];
-        $this->_data['customer_lastname']   = $arrData['lastname'];
-        $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
-        
-        $customerModel = Mage::getModel('customer', 'customer');
-        $customer = $customerModel->loadByEmail($arrData['email']);
-        if ($customer->getCustomerId()) {
-            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
-            return false;
-        }
-        return true;
-    }
-    
-    public function validateUpdate()
-    {
-        $data = $this->getData();
-        $arrData= $this->_prepareArray($data, array('customer_firstname', 'customer_lastname', 'customer_email'));
-        $this->_data = $arrData;
-        // validate fields.....
-        
-        // Validate email
-        $customerModel = Mage::getModel('customer', 'customer');
-        $customer = $customerModel->loadByEmail($arrData['customer_email']);
-
-        if ($customer->getCustomerId() && ($customer->getCustomerId() != Mage::getSingleton('customer_model', 'session')->getCustomerId())) {
-            $this->_message = 'E-Mail Address already exists';
-            return false;
-        }
-
-        return true;
-    }
-    
-    public function validate($withPasswordConfirm=false)
-    {
-        $arrData= $this->_prepareArray($this->getData(), array('firstname', 'lastname', 'email', 'password'));
-        
-        //$this->_data = array();
-        $this->_data['customer_email']      = $arrData['email'];
-        $this->_data['customer_pass']       = $arrData['password'];
-        $this->_data['customer_firstname']  = $arrData['firstname'];
-        $this->_data['customer_lastname']   = $arrData['lastname'];
-        $this->_data['customer_type_id']    = 1; // TODO: default or defined customer type
-        
-        if ($this->customerId) {
-            
-        }
-        else {
-            
-        }
-        $testCustomer = Mage::getModel('customer', 'customer');
-        $testCustomer->loadByEmail($arrData['email']);
-        if ($testCustomer->getCustomerId()) {
-            $this->_message = 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address';
-            return false;
-        }
-        return true;
     }
     
     public function validatePassword($password)

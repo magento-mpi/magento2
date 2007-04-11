@@ -29,6 +29,7 @@ class Varien_Data_Object
         } else {
             $this->_data[$key] = $value;
         }
+        return $this;
     }
     
     public function getData($key='')

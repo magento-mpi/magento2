@@ -9,22 +9,22 @@
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" id="firstname" value="" title="First Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="firstname" id="firstname" value="<?=$customer->getFirstname()?>" title="First Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="input-right">
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" id="lastname" value="" title="Last Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="lastname" id="lastname" value="<?=$customer->getLastname()?>" title="Last Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
             <li>
                 <div class="input-left">
                     <label for="company">Company</label><br/>
-                    <input type="text" name="company" id="company" value="" title="Company" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="company" id="company" value="<?=$customer->getCompany()?>" title="Company" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="input-right">
                     <label for="email_address">Email <span class="required">*</span></label><br/>
-                    <input type="text" name="email" id="email_address" value="" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="email" id="email_address" value="<?=$customer->getEmail()?>" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
@@ -36,7 +36,7 @@
         <ul class="input-list">
             <li>
                 <label for="street_address">Street Address <span class="required">*</span></label><br/>
-                <input type="text" name="street[1]" value="" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <input type="text" name="street[1]" value="<?=$customer->getStreet()?>" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
             </li>
             <li>
                 <input type="text" name="street[2]" value="" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>

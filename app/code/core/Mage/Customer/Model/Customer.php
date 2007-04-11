@@ -33,6 +33,8 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     
     abstract public function load($customerId);
     
+    abstract public function loadByEmail($customerEmail);
+    
     abstract public function save();
     
     abstract public function delete();
