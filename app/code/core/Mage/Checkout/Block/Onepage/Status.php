@@ -29,7 +29,9 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         }
         $payment = $paymentEntity->asModel('customer', 'payment');
         if ($payment) {
-            $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
+            if ($payment->getCcNumber()) {
+                $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
+            }
             $className = Mage::getConfig()->getGlobalCollection('salesPayment', $payment->getMethod())->getClassName();
             $paymentModel = new $className();
             $paymentBlock = $paymentModel->setPayment($payment)->createInfoBlock($this->getInfo('name').'.payment');
