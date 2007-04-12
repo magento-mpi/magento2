@@ -46,7 +46,7 @@ class Mage_Sales_Model_Payment_Ccsave extends Mage_Sales_Model_Payment_Abstract
             __('Type').': '.$this->_payment->getCcType()."\n".
             __('Owner').': '.$this->_payment->getCcOwner()."\n".
             __('Number').': '.$this->_payment->getCcNumber()."\n".
-            __('Expiration').': '.sprintf("%02d%02d", $this->_payment->getCcExpMonth(), $this->_payment->getCcExpYear()-2000)."\n";
+            __('Expiration').': '.sprintf("%02d%02d", $this->_payment->getCcExpMonth(), $this->_payment->getCcExpYear()-2000);
             
         $block = Mage::createBlock('text', $name)->setText(nl2br($out));
         

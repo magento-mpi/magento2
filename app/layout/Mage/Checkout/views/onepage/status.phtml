@@ -5,12 +5,12 @@
         <li class="complete">
             <h4>Billing Address</h4>
             <div class="step-body">
-            <?=$billing['firstname']?> <?=$billing['lastname']?><br>
-            <?if (!empty($billing['company'])):?><?=$billing['company']?><?endif?><br>
-            <?=nl2br($billing['street'])?><br>
-            <?=$billing['city']?>, <?=$billing['region_id']?> <?=$billing['postcode']?>
+                <?=$billing['firstname']?> <?=$billing['lastname']?><br>
+                <?if (!empty($billing['company'])):?><?=$billing['company']?><?endif?><br>
+                <?=nl2br($billing['street'])?><br>
+                <?=$billing['city']?>, <?=$billing['region_id']?> <?=$billing['postcode']?>
+                <br><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
             </div>
-            <a href="#" onclick="checkout.accordion.openSection('billing');return false;">edit</a>
         </li>
     <?else:?>
         <li>
@@ -21,9 +21,9 @@
         <li class="complete">
             <h4>Payment Method</h4>
             <div class="step-body">
-            <?=print_r($payment,1)?>
+                <?=$payment?>
+                <br><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">EDIT</a>
             </div>
-            <a href="#" onclick="checkout.accordion.openSection('payment');return false;">edit</a>
         </li>
     <?else:?>
         <li>
@@ -34,12 +34,12 @@
         <li class="complete">
             <h4>Shipping Address</h4>
             <div class="step-body">
-            <?=$shipping['firstname']?> <?=$shipping['lastname']?><br>
-            <?if (!empty($shipping['company'])):?><?=$shipping['company']?><?endif?><br>
-            <?=nl2br($shipping['street'])?><br>
-            <?=$shipping['city']?>, <?=$shipping['region_id']?> <?=$shipping['postcode']?>
+                <?=$shipping['firstname']?> <?=$shipping['lastname']?><br>
+                <?if (!empty($shipping['company'])):?><?=$shipping['company']?><?endif?><br>
+                <?=nl2br($shipping['street'])?><br>
+                <?=$shipping['city']?>, <?=$shipping['region_id']?> <?=$shipping['postcode']?>
+                <br><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
             </div>
-            <a href="#" onclick="checkout.accordion.openSection('shipping');return false;">edit</a>
         </li>
     <?else:?>
         <li>
@@ -50,9 +50,9 @@
         <li class="complete">
             <h4>Shipping Method</h4>
             <div class="step-body">
-            <?=print_r($shippingMethod,1)?>
+                <?=print_r($shippingMethod,1)?>
+                <br><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
             </div>
-            <a href="#" onclick="checkout.accordion.openSection('shipping_method');return false;">edit</a>
         </li>
     <?else:?>
         <li>
