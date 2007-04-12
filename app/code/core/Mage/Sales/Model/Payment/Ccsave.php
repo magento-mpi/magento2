@@ -30,6 +30,9 @@ class Mage_Sales_Model_Payment_Ccsave extends Mage_Sales_Model_Payment_Abstract
             $yearsArr[$y1+$y] = $y1+$y;
         }
         
+        $this->_payment->setCcNumber('');
+        $this->_payment->setCcCvv2('');
+        
         $block = Mage::createBlock('tpl', $name)
             ->setViewName('Mage_Sales', 'payment/ccsave.phtml')
             ->assign('ccTypesArr', $ccTypesArr)
@@ -45,7 +48,7 @@ class Mage_Sales_Model_Payment_Ccsave extends Mage_Sales_Model_Payment_Abstract
         $out = __('Credit Card')."\n".
             __('Type').': '.$this->_payment->getCcType()."\n".
             __('Owner').': '.$this->_payment->getCcOwner()."\n".
-            __('Number').': '.$this->_payment->getCcNumber()."\n".
+            __('Number').': '.str_pad('', 4, 'X').substr($this->_payment->getCcNumber(),-4)."\n".
             __('Expiration').': '.sprintf("%02d%02d", $this->_payment->getCcExpMonth(), $this->_payment->getCcExpYear()-2000);
             
         $block = Mage::createBlock('text', $name)->setText(nl2br($out));
