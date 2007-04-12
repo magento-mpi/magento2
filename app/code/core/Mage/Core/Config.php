@@ -280,7 +280,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             switch ($type) {
                 default:
                     if (isset($module->front->controller->frontName)) {
-                        $url .= '/'.$module->front->controller->frontName;
+                        $url .= '/'.(string)$module->front->controller->frontName;
                     } else {
                         $url .= '/'.strtolower($moduleName);
                     }
@@ -349,9 +349,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
         
         if (!empty($moduleName)) {
-            $path['baseModuleUrl'] = $this->getBaseUrl('', $moduleName);
+            $path['moduleBaseUrl'] = $this->getBaseUrl('', $moduleName);
         } else {
-            $path['baseModuleUrl'] = '';
+            $path['moduleBaseUrl'] = '';
         }
         $path['baseJsUrl'] = Mage::getBaseUrl('js');
         
