@@ -226,7 +226,6 @@ Mage.Catalog_Product = function(depend){
                 var el = Ext.get(filters[i]);
                 height = height + el.getHeight();
             }
-            alert(this.productLayout.getRegion('north').maxSize);
             
             if (this.productLayout.getRegion('north').maxSize) {
                 if (height+1 > this.productLayout.getRegion('north').maxSize) {
