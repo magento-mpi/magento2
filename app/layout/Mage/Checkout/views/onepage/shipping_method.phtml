@@ -25,16 +25,14 @@ ShippingMethod.prototype = {
     }
 }
 </script>
-<div id="checkout-shipping-method-wait" class="step-body">
-  	<div class="default-box" style="display:block;">
+<div id="checkout-shipping-method" class="step-body">
+  	<div id="checkout-shipping-method-wait" class="default-box" style="display:block;">
   	     Please wait, retrieving the shipping quotes...
   	</div>
-</div>
-
-<div id="checkout-shipping-method" class="step-body">
-
-    <?include "shipping_method/box.phtml"?>
-
+  	
+  	<div id="checkout-shipping-method-load" style="display:block;">
+  	    <?include "shipping_method/box.phtml"?>
+  	</div>
 </div>
 
 <script type="text/javascript">
