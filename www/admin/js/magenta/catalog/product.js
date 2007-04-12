@@ -151,12 +151,12 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon bedit_add'
              }));
              this.filterButtons.add('apply', paging.add({
-                text: 'Filters',
+                text: 'Apply',
                 handler : this.applyFilters.createDelegate(this),
                 cls: 'x-btn-text-icon bapply'
             }));
             this.filterButtons.add('clear', paging.add({
-                text: 'Filters',
+                text: 'Reset',
                 handler : this.deleteFilters.createDelegate(this),
                 cls: 'x-btn-text-icon bedit_delete'
             }));
