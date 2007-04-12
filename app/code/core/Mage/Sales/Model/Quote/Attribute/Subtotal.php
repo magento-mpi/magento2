@@ -19,7 +19,7 @@ class Mage_Sales_Model_Quote_Attribute_Subtotal extends Mage_Sales_Model_Quote_A
             ->setAttribute('subtotal', $subtotal)
             ->setAttribute('weight', $weight);
 
-        $arr['subtotal'] = array('code'=>'subtotal', 'title'=>'Subtotal:', 'value'=>$subtotal, 'output'=>true);
+        $arr['subtotal'] = array('code'=>'subtotal', 'title'=>__('Subtotal'), 'value'=>$subtotal, 'output'=>true);
         $arr['weight'] = array('code'=>'weight', 'value'=>$weight);
 
         return $arr;

@@ -105,6 +105,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 return;
             }
             $payment = Mage::getModel('customer', 'payment')->setData($data);
+            $payment->setCcNumber($payment->encrypt($payment->getCcNumber()));
             $this->_quote->setPayment($payment);
             $this->_quote->save();
             

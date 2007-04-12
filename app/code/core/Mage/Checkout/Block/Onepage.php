@@ -107,6 +107,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $paymentEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('payment');
         }
         $payment = $paymentEntity->asModel('customer', 'payment');
+        $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
         
         $paymentBlock = Mage::createBlock('tpl', 'checkout.payment')
             ->setViewName('Mage_Checkout', 'onepage/payment.phtml');

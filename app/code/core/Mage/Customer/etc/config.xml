@@ -20,6 +20,10 @@
                <active>true</active>
             </controller>
          </admin>
+         
+         <crypt>
+            <key><![CDATA[h$$@j>21#Nn 34{}~|][fksn2)*@H NdfM99f+<lml1(23nR_JN]]></key>
+         </crypt>
       </Mage_Customer>
    </modules>
 
@@ -125,6 +129,7 @@
          </action_postDispatch>
       </events>
    </front>
+   
    <admin>
      <acl>
         <resources>
