@@ -182,23 +182,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 )
             )
         );
-        $json = '{"totalRecords":"3",
-            "items": [{
-                    "id":"1",
-                    "value":"1",
-                    "name":"Simple product"
-                },{
-                    "id":"2",
-                    "value":"2",
-                    "name":"Base product"
-                },{
-                    "id":"3",
-                    "value":"3",
-                    "name":"Auto"
-                }
-            ]}';
-
-        $this->getResponse()->setBody($json);
+        $this->getResponse()->setBody(Zend_Json::encode($arrSets));
     }
 
     /**

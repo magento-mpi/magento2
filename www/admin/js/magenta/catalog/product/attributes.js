@@ -220,7 +220,7 @@ Mage.Catalog_Product_Attributes = function(){
                 this.westLayout.add('south', new Ext.GridPanel(this.editSetGrid));
                 this.westLayout.endUpdate();
             } else {
-                this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  '/set/'+setId+'/';
+                this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  'set/'+setId+'/';
                 this.editSetGrid.getDataSource().load();
             }
         },
@@ -228,7 +228,6 @@ Mage.Catalog_Product_Attributes = function(){
         initEditSetGrid : function(setId) {
 
             var dataRecord = Ext.data.Record.create([
-                {name: 'id', mapping: 'id'},
                 {name: 'name', mapping: 'name'},
                 {name: 'value', mapping: 'value'}
             ]);
@@ -241,19 +240,15 @@ Mage.Catalog_Product_Attributes = function(){
 
             var dataStore = new Ext.data.Store({
                 proxy : new Ext.data.HttpProxy({url: this.editSetGridUrl +  'set/'+setId+'/'}),
-                reader : dataReader,
-                remoteSort: true
+                reader : dataReader
             });
 
-            dataStore.setDefaultSort('id', 'asc');
-
             var colModel = new Ext.grid.ColumnModel([
-                {header: "#ID",  width : 60, locked:true, dataIndex: 'id'},
-                {header: "Name",  width : 60, locked:true, dataIndex: 'name'},
-                {header: "Value", width : 40, locked:true, dataIndex: 'value'}
+                {header: "Name",  dataIndex: 'name'},
+                {header: "Value", dataIndex: 'value'}
             ]);
 
-            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getEl().dom, {tag: 'div'}, true), {
+            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
                 loadMask : true,
