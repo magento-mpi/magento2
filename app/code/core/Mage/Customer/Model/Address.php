@@ -33,7 +33,7 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
 
     abstract public function delete();
     
-/*    public function getStreet($line=0)
+    public function getStreet($line=0)
     {
         if (-1===$line) {
             return $this->getData('street');
@@ -47,7 +47,7 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
                 return '';
             }
         }
-    }*/
+    }
 
     /**
      * Create fields street1, street2, etc.

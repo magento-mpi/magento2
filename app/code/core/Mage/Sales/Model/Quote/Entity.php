@@ -109,6 +109,29 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
         unset($this->_attributes[$attrName]);
     }
     
+    public function asArray($fields=null)
+    {
+        if (is_null($fields)) {
+            $fields = $this->getDefaultAttributeType();
+        }
+        $arr = array();
+        foreach ($fields as $fieldName=>$fieldType) {
+            $arr[$fieldName] = $this->getAttribute($fieldName.'/'.$fieldType);
+        }
+        return $arr;
+    }
+    
+    public function asModel($model=null, $class=null)
+    {
+        if (!is_null($model)) {
+            $obj = Mage::getModel($model, $class);
+        } else {
+            $obj = new Varien_Data_Object();
+        }
+        $obj->setData($this->asArray());
+        return $obj;
+    }
+    
     public function getDefaultAttributeType($attributeName='', $entityType='')
     {
         static $types = array(
@@ -124,6 +147,7 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
             ),
             'address'=>array(
                 'quote_address_type'=>'varchar',
+                'address_id'=>'int',
                 'firstname'=>'varchar', 
                 'lastname'=>'varchar', 
                 'company'=>'varchar', 

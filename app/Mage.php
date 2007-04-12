@@ -236,7 +236,7 @@ final class Mage {
      *
      * @return integer
      */
-    public static function getCurentWebsite()
+    public static function getCurrentWebsite()
     {
         return Mage_Core_Website::getWebsiteId();
     }

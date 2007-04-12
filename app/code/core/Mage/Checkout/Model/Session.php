@@ -43,7 +43,7 @@ class Mage_Checkout_Model_Session extends Varien_Data_Object
         $this->_session->$var = $value;
     }
     
-    public function getData($var='')
+    public function getData($var='', $index=false)
     {
         return $this->_session->$var;
     }

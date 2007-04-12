@@ -17,20 +17,28 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         $checkout = Mage::getSingleton('checkout_model', 'session');
         $quote = $checkout->getQuote();
         
-        $billing = $quote->getAddressByType('billing');
-        
-        $payments = $quote->getEntitiesByType('payment');
-        if (!empty($payments)) {
-            $payment = $payments[0];
-        } else {
-            $payment = false;
+        $billingEntity = $quote->getAddressByType('billing');
+        if (empty($billingEntity)) {
+            $billingEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('address');
         }
+        $billing = $billingEntity->asArray();
         
-        $shipping = $quote->getAddressByType('shipping');
+        $paymentEntity = $quote->getPayment('payment');
+        if (empty($paymentEntity)) {
+            $paymentEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('payment');
+        }
+        $payment = $paymentEntity->asArray();
+                
+        $shippingEntity = $quote->getAddressByType('shipping');
+        if (empty($shippingEntity)) {
+            $shippingEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('address');
+        }
+        $shipping = $shippingEntity->asArray();
         
         $shippingMethod = array();
         
-        $this->assign('billing', $billing)->assign('payment', $payment)
-            ->assign('shipping', $shipping)->assign('shipping_method', $shippingMethod);
+        $this->assign('checkout', $checkout)->assign('quote', $quote)
+            ->assign('billing', $billing)->assign('payment', $payment)
+            ->assign('shipping', $shipping)->assign('shippingMethod', $shippingMethod);
     }
 }

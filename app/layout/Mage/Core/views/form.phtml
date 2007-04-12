@@ -1,8 +1,8 @@
-<?if ($curentBlock->getAttribute('isFormFramed')):?>
+<?if ($currentBlock->getAttribute('isFormFramed')):?>
 <form <?=$formAttributes?>>
 <?endif?>
 <?$_processedElements=array()?>
-<?if($_hiddenElements=$curentBlock->getElementsIdByType('hidden')):?>
+<?if($_hiddenElements=$currentBlock->getElementsIdByType('hidden')):?>
     <?foreach($_hiddenElements as $_element):?>
         <?=$$_element?>
         <?$_processedElements[]=$_element?>
@@ -11,12 +11,12 @@
 <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
     <fieldset>
-    <?if($_formLegend=$curentBlock->getAttribute('legend')):?>
+    <?if($_formLegend=$currentBlock->getAttribute('legend')):?>
         <legend><?=$_formLegend?></legend>
-        <?if($_elementsGroup=$curentBlock->getGroup()):?>
+        <?if($_elementsGroup=$currentBlock->getGroup()):?>
         <?endif?>
     <?endif?>
-    <?$_formFields=$curentBlock->getFields()?>
+    <?$_formFields=$currentBlock->getFields()?>
     <?foreach($_formFields as $_field):?>
         <?if(!in_array($_field, $_processedElements)):?>
         <div class="x-form-item">
@@ -28,6 +28,6 @@
     </fieldset>
 </div></div></div>
 <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-<?if ($curentBlock->getAttribute('isFormFramed')):?>
+<?if ($currentBlock->getAttribute('isFormFramed')):?>
 </form>
 <?endif?>

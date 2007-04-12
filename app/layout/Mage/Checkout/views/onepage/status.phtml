@@ -1,27 +1,57 @@
 <div class="page-checkout-left">
     <h3>Checkout Status</h3>
     <ol>
-    <?if($billing):?>
+    <?if($checkout->getCompletedBilling()):?>
         <li class="complete">
             <h4>Billing Address</h4>
             <div class="step-body">
-            <?=$billing['firstname']?> <?=$billing['lastname']?>
+            <?=print_r($billing,1)?>
             </div>
             <a href="#" onclick="checkout.accordion.openSection('billing');return false;">edit</a>
         </li>
     <?else:?>
-        <li class="complete">
+        <li>
             <h4>Billing Address</h4>
         </li>
     <?endif?>
-        <li<?if($payment):?> class="complete"<?endif?>>
+    <?if($checkout->getCompletedPayment()):?>
+        <li class="complete">
+            <h4>Payment Method</h4>
+            <div class="step-body">
+            <?=print_r($payment,1)?>
+            </div>
+            <a href="#" onclick="checkout.accordion.openSection('payment');return false;">edit</a>
+        </li>
+    <?else:?>
+        <li>
             <h4>Payment Method</h4>
         </li>
-        <li<?if($shipping):?> class="complete"<?endif?>>
+    <?endif?>
+    <?if($checkout->getCompletedShipping()):?>
+        <li class="complete">
+            <h4>Shipping Address</h4>
+            <div class="step-body">
+            <?=print_r($shipping,1)?>
+            </div>
+            <a href="#" onclick="checkout.accordion.openSection('shipping');return false;">edit</a>
+        </li>
+    <?else:?>
+        <li>
             <h4>Shipping Address</h4>
         </li>
-        <li<?if($shipping_method):?> class="complete"<?endif?>>
+    <?endif?>
+    <?if($checkout->getCompletedShippingMethod()):?>
+        <li class="complete">
+            <h4>Shipping Method</h4>
+            <div class="step-body">
+            <?=print_r($shippingMethod,1)?>
+            </div>
+            <a href="#" onclick="checkout.accordion.openSection('shipping_method');return false;">edit</a>
+        </li>
+    <?else:?>
+        <li>
             <h4>Shipping Method</h4>
         </li>
+    <?endif?>
     </ol>
 </div>

@@ -73,7 +73,7 @@ Checkout.prototype = {
     </div>
     <script>
         var accordion = new Accordion('checkoutSteps','h3',true);
-        <?if($_activeStep=$curentBlock->getLastAllowStep()):?>
+        <?if($_activeStep=$currentBlock->getLastAllowStep()):?>
         accordion.openSection('<?=$_activeStep?>');
         <?endif?>
         

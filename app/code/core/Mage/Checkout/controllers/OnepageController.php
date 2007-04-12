@@ -90,13 +90,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('billing', array());
-            if (!empty($data)) {
-                $this->_checkout->setAllowBilling(true);
+            if (empty($data)) {
+                return;
             }
             $address = Mage::getModel('customer', 'address');
             $address->setData($data);
             $address->implodeStreetAddress();
             $this->_quote->setAddress('billing', $address);
+            $this->_quote->save();
+
+            $this->_checkout->setCompletedBilling(true);
+            $this->_checkout->setAllowPayment(true);
         }
     }
     
@@ -104,11 +108,15 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('payment', array());
-            if (!empty($data)) {
-                $this->_checkout->setAllowPayment('payment', true);
+            if (empty($data)) {
+                return;
             }
             $payment = Mage::getModel('customer', 'payment')->setData($data);
             $this->_quote->setPayment($payment);
+            $this->_quote->save();
+            
+            $this->_checkout->setCompletedPayment(true);
+            $this->_checkout->setAllowShipping(true);
         }
     }
     
@@ -116,27 +124,33 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping', array());
-            if (!empty($data)) {
-                $this->_checkout->setAllowShipping(true);
+            if (empty($data)) {
+                return;
             }
             $address = Mage::getModel('customer', 'address');
             $address->setData($data);
             $address->implodeStreetAddress();
             $this->_quote->setAddress('shipping', $address);
-            $methods = $this->_checkout->collectShippingMethods();
-            
+            $this->_quote->save();
+            $methods = $this->_quote->collectShippingMethods();
+
+            $this->_checkout->setCompletedShipping(true);
+            $this->_checkout->setAllowShippingMethod(true);
         }
     }
     
     public function saveShippingMethodAction()
     {
-        $checkout = Mage::registry('Mage_Checkout');
         if ($this->getRequest()->isPost()) {
-            $data = isset($_POST['shipping_method']) ? $_POST['shipping_method'] : array();
-            if (!empty($data)) {
-                $checkout->setStateData('shipping_method', 'allow', true);
+            $data = $this->getRequest()->getPost('shipping_method', array());
+            if (empty($data)) {
+                return;
             }
-            $checkout->setStateData('shipping_method', 'data', $data);
+            $this->_quote->getAddressByType('shipping')->setAttribute('shipping_method', $data['shipping_method']);
+            $this->_quote->save();
+            
+            $this->_checkout->setCompletedShippingMethod(true);
+            $this->_checkout->setAllowOrderReview(true);
         }
 
     }

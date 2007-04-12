@@ -486,7 +486,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     }   
 
     /**
-     * Get curent domain configuration
+     * Get current domain configuration
      *
      * @return  Varien_Simplexml_Object
      */

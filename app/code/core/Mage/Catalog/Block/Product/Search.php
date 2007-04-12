@@ -30,7 +30,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         $prodCollection = Mage::getModel('catalog','product_collection');
 
-        //$prodCollection->addFilter('website_id', Mage_Core_Environment::getCurentWebsite(), 'and');
+        //$prodCollection->addFilter('website_id', Mage_Core_Environment::getCurrentWebsite(), 'and');
         $prodCollection->addSearchFilter($query);
 
         $page = $request->getParam('p',1);

@@ -186,21 +186,46 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     public function getAddressByType($type)
     {
         foreach ($this->getEntitiesByType('address') as $addr) {
-            if ($addr->getAttribute('type/varchar')==$type) {
+            if ($addr->getAttribute('quote_address_type/varchar')==$type) {
                 return $addr;
             }
         }
+        return false;
     }
     
     public function setAddress($addressType, Mage_Customer_Model_Address $address)
     {
-        $address->setQuoteAddressType($addressType);
-        $this->addEntity('address', $address);
+        $existingAddress = $this->getAddressByType($addressType);
+        if (empty($existingAddress)) {
+            $address->setQuoteAddressType($addressType);
+            $this->addEntity('address', $address);
+        } else {
+            $data = $address->getData();
+            $fields = $existingAddress->getDefaultAttributeType();
+            foreach ($data as $fieldName=>$fieldValue) {
+                if (!isset($fields[$fieldName])) {
+                    continue;
+                }
+                $existingAddress->setAttribute($fieldName, $fieldValue);
+            }
+        }
+        return $this;
     }
     
     public function setPayment(Mage_Customer_Model_Payment $payment)
     {
         $this->addEntity('payment', $payment);
+    }
+    
+    public function getPayment()
+    {
+        $payments = $this->getEntitiesByType('payment');
+        if (empty($payments)) {
+            return false;
+        }
+        foreach ($payments as $payment) {
+            return $payment;
+        }
     }
     
     public function addProduct(Mage_Catalog_Model_Product $product)
