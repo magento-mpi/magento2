@@ -46,6 +46,7 @@ Mage.Catalog_Product_Attributes = function(){
                         titlebar:false
                     },
                     south : {
+                        split:true,
                         hideWhenEmpty : true,
                         initialSize : 200,
                         autoScroll : true,
@@ -190,15 +191,30 @@ Mage.Catalog_Product_Attributes = function(){
             dataStore.setDefaultSort('attribute_code', 'asc');
 
 
-            var colModel = new Ext.grid.ColumnModel([
-                {header: "ID#", sortable: true, locked:false, dataIndex: 'attribute_id'},
-                {header: "Code", sortable: true, dataIndex: 'attribute_code'},
-                {header: "Input type", sortable: true, dataIndex: 'data_input'},
-                {header: "Data type", sortable: true, dataIndex: 'data_type'},
-                {header: "Required", sortable: true, dataIndex: 'required'}
-            ]);
+            var colModel = new Ext.grid.ColumnModel([{
+                header: "ID#",
+                sortable: true,
+                locked:false,
+                dataIndex: 'attribute_id'
+            },{
+                header: "Code",
+                sortable: true,
+                dataIndex: 'attribute_code'
+            },{
+                header: "Input type",
+                sortable: true,
+                dataIndex: 'data_input'
+            },{
+                header: "Data type",
+                sortable: true,
+                dataIndex: 'data_type'
+            },{
+                header: "Required",
+                sortable: true,
+                dataIndex: 'required'
+            }]);
 
-            this.attributeGrid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
+            this.attributeGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
                 loadMask : true,
