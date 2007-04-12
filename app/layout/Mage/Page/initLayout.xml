@@ -9,13 +9,13 @@
                 <action method="setTagName"><tagName>title</tagName></action>
                 <action method="setContents"><contents>Magento Commerce</contents></action>
             </block>
-		    <block type="tag" name="head.icon">
+            <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{baseUrl}/favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
-		    <block type="tag" name="head.shortcut_icon">
+            <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{baseUrl}/favicon.ico</value></action>
@@ -32,6 +32,9 @@
             </block>
             <block type="tag_js" name="head.js.varien">
                 <action method="setSrc"><src>/varien/js.js</src></action>
+            </block>
+            <block type="tag_js" name="head.js.varien.form">
+                <action method="setSrc"><src>/varien/form.js</src></action>
             </block>
             <block type="tag_css" name="head.css.main">
                 <action method="setHref"><href>/css/styles.css</href></action>

@@ -9,22 +9,22 @@
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text"/>
                 </div>
                 <div class="input-right">
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
             <li>
                 <div class="input-left">
                     <label for="company">Company</label><br/>
-                    <input type="text" name="company" id="company" value="<?=$data->getCompany()?>" title="Company" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="company" id="company" value="<?=$data->getCompany()?>" title="Company" class="input-text"/>
                 </div>
                 <div class="input-right">
                     <label for="email_address">Email <span class="required">*</span></label><br/>
-                    <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
@@ -36,47 +36,47 @@
         <ul class="input-list">
             <li>
                 <label for="street_address">Street Address <span class="required">*</span></label><br/>
-                <input type="text" name="street[1]" value="<?=$data->getStreet(1)?>" title="Street Address" id="street_address" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <input type="text" name="street[1]" value="<?=$data->getStreet(1)?>" title="Street Address" id="street_address" class="required-entry input-text"/>
             </li>
             <li>
-                <input type="text" name="street[2]" value="<?=$data->getStreet(2)?>" title="Street Address 2" id="street_address2" class="input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <input type="text" name="street[2]" value="<?=$data->getStreet(2)?>" title="Street Address 2" id="street_address2" class="input-text"/>
             </li>
             <li>
                 <label for="city">City <span class="required">*</span></label><br/>
-                <input type="text" name="city" value="<?=$data->getCity()?>"  title="City" class="required-entry input-text" id="city" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                <input type="text" name="city" value="<?=$data->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
             </li>
             <li>
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
                 <?if($regions->getSize()):?>
-                    <select name="region_id" value="" title="State/Province" id="state"  class="required-entry validate-select" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <select name="region_id" value="" title="State/Province" id="state"  class="required-entry validate-select"/>
                         <option value="">Select State/Province...</option>
                         <?=$regions->toHtmlOptions($data->getRegionId())?>
                     </select>
                 <?else:?>
-                    <input type="text" name="region" value="<?=$data->getRegion()?>"  title="State/Province" id="state" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="region" value="<?=$data->getRegion()?>"  title="State/Province" id="state" class="required-entry input-text"/>
                 <?endif?>
                 </div>
                 <div class="input-right">
                     <label for="zip">Zip <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
-                <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select" onchange="">
+                <select name="country_id" id="country" title="Country" class="validate-select" onchange="">
                     <?=$countries->toHtmlOptions($data->getCountryId())?>
                 </select>
             </li>
             <li>
                 <div class="input-left">
                     <label for="telephone">Telephone <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" value="<?=$data->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="telephone" value="<?=$data->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone"/>
                 </div>
                 <div class="input-right">
                     <label for="fax">Fax</label><br/>
-                    <input type="text" name="fax" value="<?=$data->getFax()?>" title="Fax" class="validate-fax input-text" id="fax" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="text" name="fax" value="<?=$data->getFax()?>" title="Fax" class="validate-fax input-text" id="fax"/>
                 </div>
                 <div class="clearfix"></div>
             </li>
@@ -89,11 +89,11 @@
             <li>
                 <div class="input-left">
                     <label for="password">Password <span class="required">*</span></label><br/>
-                    <input type="password" name="password" id="password" title="Password"  class="required-entry validate-password input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="password" name="password" id="password" title="Password"  class="required-entry validate-password input-text"/>
                 </div>
                 <div class="input-right">
                     <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
-                    <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
+                    <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text"/>
                 </div>
             </li>
         </ul>
@@ -107,6 +107,8 @@
         </div>
     </form>
     <script type="text/javascript">
-        new Validation('form-validate');
+        //new Validation('form-validate');
+        var dataForm = new VarienForm('form-validate');
+        dataForm.setElementsRelation('country', 'state', '');
     </script>
 </div>
