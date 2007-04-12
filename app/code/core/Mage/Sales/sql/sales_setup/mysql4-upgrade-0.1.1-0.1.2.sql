@@ -1,3 +1,10 @@
+SET NAMES utf8;
+
+SET SQL_MODE='';
+
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+
 drop table if exists `sales_quote_item_bak`;
 drop table if exists `sales_quote_item_attribute_bak`;
 
@@ -48,3 +55,7 @@ CREATE TABLE `sales_quote_attribute` (
   KEY `quote_id` (`quote_id`,`quote_entity_id`),
   CONSTRAINT `FK_QUOTE_ATTRIBUTE` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes';
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
