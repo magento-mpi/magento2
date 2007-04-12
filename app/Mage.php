@@ -8,7 +8,7 @@ define ('DS', DIRECTORY_SEPARATOR);
 function __autoload($class)
 {
     #echo "<hr>".$class;
-    $classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $class))).'.php';
+    $classFile = uc_words($class, DS).'.php';
     include ($classFile);
 }
 
@@ -116,7 +116,7 @@ final class Mage {
     {
         $key = 'config_'.$moduleName;
         if (is_null(Mage::registry($key))) {
-            $className = str_replace(' ', '_', ucwords(str_replace('_', ' ', $moduleName))).'_Config';
+            $className = uc_words($moduleName).'_Config';
             Mage::register($key, new $className());
         }
         return Mage::registry($key);
@@ -414,4 +414,9 @@ function __()
     array_unshift($args, $text);
     
     return call_user_func_array('sprintf', $args);
+}
+
+function uc_words($str, $sep='_')
+{
+    return str_replace(' ', $sep, ucwords(str_replace('_', ' ', $str)));
 }

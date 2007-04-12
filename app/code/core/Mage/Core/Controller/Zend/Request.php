@@ -23,7 +23,7 @@ class Mage_Core_Controller_Zend_Request extends Zend_Controller_Request_Http
     public function buildUrl()
     {
         $params = $this->getParams();
-        $params['module'] = str_replace(' ','_',ucwords(str_replace('_',' ',$params['module'])));
+        $params['module'] = uc_words($params['module']);
         $params['module'] = (string)Mage::getConfig()->getModule($params['module'])->front->controller->frontName;
         
         $url = $this->getBaseAppUrl();

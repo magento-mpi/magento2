@@ -79,7 +79,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
 		 
 		$layout = $this->getLayout();
 		
-		$layout->init($key);
+		$moduleName = uc_words($this->getRequest()->getModuleName());
+		$layout->init($key)->setSubst(Mage::getConfig()->getPathVars($moduleName));
+		
 		if (!$layout->isCacheLoaded()) {
 		    foreach ((array)$ids as $id) {
 		        $layout->loadUpdatesFromConfig($area, $id);

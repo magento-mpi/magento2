@@ -8,11 +8,11 @@
     
     <reference name="top.links">
         <block type="list_link" name="top.links.myaccount">
-            <action method="setLink" process="a"><li/><a>href="{$moduleBaseUrl}/account"</a><label>My Account</label></action>
+            <action method="setLink"><li/><a>href="{moduleBaseUrl}/account"</a><label>My Account</label></action>
         </block>
         <!--
         <block type="list_link" name="top.links.favorite">
-            <action method="setLink" process="a"><li/><a>href="{$moduleBaseUrl}/favorite"</a><label>Favorite</label></action>
+            <action method="setLink"><li/><a>href="{moduleBaseUrl}/favorite"</a><label>Favorite</label></action>
         </block>
         -->
     </reference>

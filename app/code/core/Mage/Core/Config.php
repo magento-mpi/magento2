@@ -216,7 +216,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         if (''!==$moduleName) {
             $module = self::getModule($moduleName);
-            $modulePath = str_replace(' ', DS, ucwords(str_replace('_', ' ', $moduleName)));
+            $modulePath = uc_words($moduleName, DS);
             $dir = Mage::getBaseDir('code').DS.$module->codePool.DS.$modulePath;
             
             switch ($type) {
@@ -382,7 +382,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             if (!$area->is('useModuleSteps')) {
                 continue;
             }
-            $callback = array($moduleName.'_Module_'.ucwords($areaName), $methodName);
+            $callback = array($moduleName.'_Module_'.uc_words($areaName), $methodName);
             if (is_callable($callback)) {
                 call_user_func($callback);
             }
@@ -399,7 +399,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $className = $config->getClassName();
     
             if (''!==$class) {
-                $className .= '_'.str_replace(' ', '_', ucwords(str_replace('_', ' ', $class)));
+                $className .= '_'.uc_words($class);
             }
         }
         return $className;

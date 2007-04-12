@@ -6,7 +6,7 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
     {
         $arr = array();
 
-        $arr['shipping'] = array('code'=>'shipping', 'title'=>__('Shipping & Handling'), 'value'=>$subtotal, 'output'=>true);
+        #$arr['shipping'] = array('code'=>'shipping', 'title'=>__('Shipping & Handling'), 'value'=>$subtotal, 'output'=>true);
         
         return $arr;
     }

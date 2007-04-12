@@ -60,16 +60,6 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
         $parent = $this->getParent();
         $this->addAttribute('block', (string)$parent['name']);
         
-        $process = (string)$this['process'];
-        if (!empty($process)) {
-            $moduleName = (string)$args->module;
-            extract(Mage::getConfig()->getPathVars($moduleName));
-            $args = explode(' ', $process);
-            foreach ($args as $argName) {
-                eval('$this->$argName = "'.addslashes((string)$this->$argName).'";');
-            }
-        }
-        
         return $this;
     }
     

@@ -6,6 +6,8 @@
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
+    protected $_subst = array('keys'=>array(), 'values'=>array());
+    
     /**
      * Initialize layout configuration for $id key
      *
@@ -23,6 +25,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         } else {
             $this->setXml('<layout/>');
         }
+        return $this;
+    }
+    
+    public function setSubst($subst)
+    {
+        foreach ($subst as $k=>$v) {
+            $this->_subst['keys'][] = '{'.$k.'}';
+            $this->_subst['values'][] = $v;
+        }
+        return $this;
     }
     
     /**
@@ -36,11 +48,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $moduleName = (string)$args->module;
         $fileName = Mage::getBaseDir('layout', $moduleName).DS.$fileName;
         $this->addCacheStat($fileName);
-        $update = $this->loadFile($fileName);
+        $xmlText = file_get_contents($fileName);
+        $xmlText = str_replace($this->_subst['keys'], $this->_subst['values'], $xmlText);
+        $update = $this->loadString($xmlText);
         $update->prepare($args);
         foreach ($update as $child) {
             $this->getXml()->appendChild($child);
         }
+        return $this;
     }
  
     /**
@@ -59,7 +74,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 $this->loadUpdate($update);
             }
         }
-        return true;
+        return $this;
+    }
+    
+    protected function _processSubstitutions($orig, $subst)
+    {
+        str_replace(array_keys($subst), array_values($subst), $test);
     }
     
     /**
