@@ -249,7 +249,7 @@ Mage.Catalog_Product_Attributes = function(){
 
             var colModel = new Ext.grid.ColumnModel([
                 {header: "Name",  dataIndex: 'name'},
-                {header: "Value", dataIndex: 'value'}
+                {header: "Value", dataIndex: 'value',  editor: new Ext.grid.GridEditor(new Ext.form.TextField({allowBlank: false}))}
             ]);
 
             this.editSetGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
@@ -263,6 +263,12 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             this.editSetGrid.render();
+
+            var gridHead = this.editSetGrid.getView().getHeaderPanel(true);
+            var tb = new Ext.Toolbar(gridHead);
+            tb.addButton ({
+                text: 'Save'
+            });
         },
 
         onAdd : function() {
