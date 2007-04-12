@@ -48,7 +48,31 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
             }
         }
     }*/
+
+    /**
+     * Create fields street1, street2, etc.
+     * 
+     * To be used in controllers for views data
+     *
+     */
+    public function explodeStreetAddress()
+    {
+        $streetLines = $this->getStreet();
+        foreach ($streetLines as $i=>$line) {
+            $this->setData('street'.($i+1), $line);
+        }
+    }
     
+    /**
+     * To be used when processing _POST
+     *
+     */
+    public function implodeStreetAddress()
+    {
+        $this->setStreet($this->getData('street'));
+    }
+
+
     public function setStreet($street)
     {
         if (is_array($street)) {
