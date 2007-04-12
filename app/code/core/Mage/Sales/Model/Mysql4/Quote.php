@@ -16,8 +16,7 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
     
     public function load($quoteId)
     {
-        $quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
-        $select = self::$_read->select()->from($quoteTable)
+        $select = self::$_read->select()->from(self::$_quoteTable)
             ->where(self::$_read->quoteInto("quote_id=?", $quoteId));
         $rowData = self::$_read->fetchRow($select);
         if (empty($rowData)) {
@@ -27,6 +26,24 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
 
         $this->_entities->loadByQuoteId($quoteId);
         $this->_attributes->loadByQuoteId($quoteId);
+        
+        $this->_afterLoad();
+        
+        return $this;
+    }
+    
+    public function loadByCustomerId($customerId)
+    {
+        $select = self::$_read->select()->from(self::$_quoteTable)
+            ->where(self::$_read->quoteInto("customer_id=?", $customerId));
+        $rowData = self::$_read->fetchRow($select);
+        if (empty($rowData)) {
+            return $this;
+        }
+        $this->setData($rowData);
+                
+        $this->_entities->loadByQuoteId($rowData['quote_id']);
+        $this->_attributes->loadByQuoteId($rowData['quote_id']);
         
         $this->_afterLoad();
         

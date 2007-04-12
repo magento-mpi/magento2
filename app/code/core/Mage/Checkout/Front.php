@@ -10,9 +10,14 @@
 class Mage_Checkout_Front
 {
     
-    public static function clear()
+    public static function unsetAll()
     {
-        Mage::getSingleton('checkout_model', 'session')->setQuoteId(null);
+        Mage::getSingleton('checkout_model', 'session')->unsetAll();
+    }
+    
+    public static function loadCustomerQuote()
+    {
+        Mage::getSingleton('checkout_model', 'session')->loadCustomerQuote();
     }
 
 }

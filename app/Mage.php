@@ -287,6 +287,8 @@ final class Mage {
     public static function init($appRoot='')
     {
         Varien_Profiler::setTimer('init');
+        
+        date_default_timezone_set('America/Los_Angeles');
 
         Mage::setRoot($appRoot);
         

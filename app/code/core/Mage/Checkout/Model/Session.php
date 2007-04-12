@@ -3,39 +3,38 @@
 class Mage_Checkout_Model_Session extends Varien_Data_Object
 {
     protected $_session = null;
+    protected $_quote = null;
     
     public function __construct()
     {
         $this->_session = new Zend_Session_Namespace('checkout', Zend_Session_Namespace::SINGLE_INSTANCE);
     }
     
-    public function setQuoteId($quoteId)
+    public function unsetAll()
     {
-        $this->_session->quoteId = $quoteId;
-        return $this;
-    }    
-    
-    public function getQuoteId()
-    {
-        return $this->_session->quoteId;
+        $this->_session->unsetAll();
+        $this->_quote = null;
     }
     
     public function getQuote()
     {
-        $quote = Mage::getModel('sales', 'quote');
-        if ($this->getQuoteId()) {
-            $quote->load($this->getQuoteId());
-            if (!$quote->getQuoteId()) {
-                $this->setQuoteId(null);
+        if (empty($this->_quote)) {
+            $quote = Mage::getModel('sales', 'quote');
+            if ($this->getQuoteId()) {
+                $quote->load($this->getQuoteId());
+                if (!$quote->getQuoteId()) {
+                    $this->setQuoteId(null);
+                }
             }
-        }
-        if ($this->getQuoteId() && !$quote->getCustomerId()) {
-            $customerSession = Mage::getSingleton('customer_model', 'session');
-            if ($customerSession->isLoggedIn()) {
-                $quote->setCustomerId($customerSession->getCustomerId())->save();
+            if ($this->getQuoteId() && !$quote->getCustomerId()) {
+                $customerSession = Mage::getSingleton('customer_model', 'session');
+                if ($customerSession->isLoggedIn()) {
+                    $quote->setCustomerId($customerSession->getCustomerId())->save();
+                }
             }
+            $this->_quote = $quote;
         }
-        return $quote;
+        return $this->_quote;
     }
     
     public function setData($var, $value='', $isChanged=true)
@@ -46,5 +45,22 @@ class Mage_Checkout_Model_Session extends Varien_Data_Object
     public function getData($var='', $index=false)
     {
         return $this->_session->$var;
+    }
+    
+    public function loadCustomerQuote()
+    {
+        $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();
+        $customerQuote = Mage::getModel('sales', 'quote')->loadByCustomerId($customerId);
+        if ($customerQuote->getQuoteId()) {
+            if ($this->getQuoteId()) {
+                foreach ($this->getQuote()->getEntitiesByType('item') as $item) {
+                    $customerQuote->addProduct($item->asModel('catalog', 'product'));
+                }
+                $customerQuote->save();
+            }
+            $this->setQuoteId($customerQuote->getQuoteId());
+            $this->_quote = $customerQuote;        
+        }
+        return $this;
     }
 }

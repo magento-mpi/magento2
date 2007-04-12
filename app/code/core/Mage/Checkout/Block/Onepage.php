@@ -102,13 +102,30 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createPaymentBlock()
     {
-        $payment = $this->_quote->getPayment();
+        $paymentEntity = $this->_quote->getPayment();
+        if (empty($paymentEntity)) {
+            $paymentEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('payment');
+        }
+        $payment = $paymentEntity->asModel('customer', 'payment');
         
-        $block = Mage::createBlock('tpl', 'checkout.payment')
-            ->setViewName('Mage_Checkout', 'onepage/payment.phtml')
-            ->assign('payment', $payment);
+        $paymentBlock = Mage::createBlock('tpl', 'checkout.payment')
+            ->setViewName('Mage_Checkout', 'onepage/payment.phtml');
+        $listBlock = Mage::createBlock('list', 'checkout.payment.methods');    
+        $paymentBlock->setChild('paymentMethods', $listBlock);
+        
+        $methods = Mage::getConfig()->getGlobalCollection('salesPayment')->children();
+        foreach ($methods as $methodConfig) {
+            $methodName = $methodConfig->getName();
+            $className = $methodConfig->getClassName();
+            $method = new $className();
+            $method->setPayment($payment);
+            $methodBlock = $method->createBlock('checkout.payment.methods.'.$methodName);
+            if (!empty($methodBlock)) {
+                $listBlock->append($methodBlock);
+            }
+        }
             
-        $this->setChild('payment', $block);
+        $this->setChild('payment', $paymentBlock);
     }
 
     protected function _createShippingBlock()
@@ -137,13 +154,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingMethodBlock()
     {
-        $quotes = $this->_checkout->getShippingMethods('shipping_method', 'quotes');
-        $data = $this->_checkout->getStateData('shipping_method', 'data');
-
-        $block = Mage::createBlock('tpl', 'checkout.shipping_method')
-            ->setViewName('Mage_Checkout', 'onepage/shipping_method.phtml')
-            ->assign('quotes', $quotes)
-            ->assign('data', $data);
+        $block = Mage::createBlock('checkout_shipping_method', 'checkout.onepage.shipping_method');
 
         $this->setChild('shipping_method', $block);
     }

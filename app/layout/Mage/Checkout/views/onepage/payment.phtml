@@ -28,59 +28,9 @@ Payment.prototype = {
 
 <div class="step-body">
     <div class="default-box">
-        <form id="co-payment-form"><fieldset>
-            <ul>
-                <li>
-                    <div class="left">
-                        <label for="cc_type">Credit Card Type <span class="required">*</span></label><br/>
-                        <select id="cc_type" name="payment[cc_type]">
-                            <option value="Visa">Visa</option>
-                            <option value="Mastercard">Mastercard</option>
-                            <option value="American Express">American Express</option>
-                        </select>
-                    </div>
-                </li>
-                <li>
-                    <div class="left">
-                        <label for="cc_number">Card Number <span class="required">*</span></label><br/>
-                        <input type="text" id="cc_number" name="payment[cc_number]" title="Card Number" class="required-entry input-text" />
-                    </div>
-                </li>
-                <li>
-                    <div class="left">
-                        <label for="cc_owner">Name on Card <span class="required">*</span></label><br/>
-                        <input type="text" title="Name on Card" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]"/>
-                    </div>
-                </li>
-                <li>
-                    <label for="expiration">Expiration Date <span class="required">*</span></label><br/>
-                    <select id="expiration" style="width:140px;" name="payment[cc_exp_month]">
-                        <option value="01">01-January</option>
-                        <option value="02">02-February</option>
-                        <option value="03">03-March</option>
-                        <option value="04">04-April</option>
-                        <option value="05">05-May</option>
-                        <option value="06">06-June</option>
-                        <option value="07">07-July</option>
-                        <option value="08">08-August</option>
-                        <option value="09">09-September</option>
-                        <option value="10">10-October</option>
-                        <option value="11">11-November</option>
-                        <option value="12">12-December</option>
-                    </select> 
-                    <select id="expiration_yr" style="width:103px;" name="payment[cc_exp_year]">
-                        <option value="2007">2007</option>
-                        <option value="2008">2008</option>
-                    </select>
-                </li>
-                <li>
-                    <label for="cvn">Card Verification Number <span class="required">*</span> | <a href="">What is this?</a></label><br/>
-                    <input type="text" title="Card Verification Number" class="required-entry input-text" id="cc_cvv2" name="payment[cc_cvv2]" style="width:3em;" />
-                </li>
-
-                <li class="a-right"><span class="required">* Required Fields</span></li>
-            </ul>
-        </fieldset></form>
+        <form id="co-payment-form">
+            <?=$paymentMethods?>
+        </form>
     </div>
     <div class="note-box buttons">
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>

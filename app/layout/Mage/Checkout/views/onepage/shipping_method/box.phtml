@@ -1,17 +1,17 @@
 <div class="default-box" style="display:block;">
-	<?if (empty($quotes)):?>
+	<?if (empty($methods)):?>
 		<b>Sorry, no quotes are available for this order at this time.</b>
     <?else:?>
         <form id="co-shipping-method-form">
         	<fieldset>
-            	<?foreach ($quotes as $vendor):?>
+            	<?foreach ($methods as $vendorCode=>$vendor):?>
                 	<strong><?=$vendor['title']?></strong>
                 	<ul>
-                		<?foreach ($vendor['methods'] as $method):?>
+                		<?foreach ($vendor['methods'] as $serviceCode=>$method):?>
                     		<li>
-                    		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method[method]" type="radio" value="<?=$method['code']?>">
-                    		    <label for="shipping_method_<?=$method['code']?>"><?=$method['title']?></label>:
-                    		    <strong><?=$method['price']?></strong>
+                    		    <input id="shipping_method_<?=$vendorCode.'_'.$serviceCode?>" name="shipping_method[method]" type="radio" value="<?=$vendorCode.'_'.$serviceCode?>">
+                    		    <label for="shipping_method_<?=$vendorCode.'_'.$serviceCode?>"><?=$method['title']?></label>:
+                    		    <strong><?=$method['price_formatted']?></strong>
                     		</li>
                 		<?endforeach?>
                 	</ul>

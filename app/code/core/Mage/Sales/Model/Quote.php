@@ -272,6 +272,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         $result = $shipping->collectMethods($request);
         $allMethods = $result->getAllMethods();
         
+        $currencyFilter = new Varien_Filter_Sprintf('$%s', 2);
         $methods = array();
         if (!empty($allMethods)) {
             foreach ($allMethods as $method) {
@@ -279,6 +280,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
                 $methods[$method->getVendor()]['methods'][$method->getService()] = array(
                     'title'=>$method->getServiceTitle(),
                     'price'=>$method->getPrice(),
+                    'price_formatted'=>$currencyFilter->filter($method->getPrice()),
                 );
             }
         }

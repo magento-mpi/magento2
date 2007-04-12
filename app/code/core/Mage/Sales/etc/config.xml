@@ -88,57 +88,57 @@
 
       <salesShippingRuleConditions>
          <dest_country>
-            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Country</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
          </dest_country>
 
          <dest_region>
-            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Region</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
          </dest_region>
 
          <dest_zip>
-            <class>Mage_Sales_Shipping_Rule_Condition_Dest_Zip</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
          </dest_zip>
 
          <package_weight>
-            <class>Mage_Sales_Shipping_Rule_Condition_Package_Weight</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
          </package_weight>
 
          <order_subtotal>
-            <class>Mage_Sales_Shipping_Rule_Condition_Order_Subtotal</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
          </order_subtotal>
 
          <order_totalqty>
-            <class>Mage_Sales_Shipping_Rule_Condition_Order_Totalqty</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
          </order_totalqty>
       </salesShippingRuleConditions>
 
       <salesShippingRuleActions>
          <vendor>
-            <class>Mage_Sales_Shipping_Rule_Action_Vendor</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Action_Vendor</class>
          </vendor>
 
          <method>
-            <class>Mage_Sales_Shipping_Rule_Action_Method</class>
+            <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
          </method>
       </salesShippingRuleActions>
 
       <salesPayment>
          <checkmo>
-            <class>Mage_Sales_Payment_Checkmo</class>
+            <class>Mage_Sales_Model_Payment_Checkmo</class>
          </checkmo>
 
          <ccsave>
-            <class>Mage_Sales_Payment_Ccsave</class>
+            <class>Mage_Sales_Model_Payment_Ccsave</class>
          </ccsave>
 
          <custbalance>
-            <class>Mage_Sales_Payment_Custbalance</class>
+            <class>Mage_Sales_Model_Payment_Custbalance</class>
          </custbalance>
       </salesPayment>
 
       <salesDiscount>
          <coupon>
-            <class>Mage_Sales_Discount_Coupon</class>
+            <class>Mage_Sales_Model_Discount_Coupon</class>
          </coupon>
       </salesDiscount>
 
@@ -150,31 +150,31 @@
       
       <salesQuoteAttributes>
          <subtotal>
-            <class>Mage_Sales_Model_Method_Attribute_Subtotal</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Model_Method_Attribute_Discount</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Model_Method_Attribute_Shipping</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Model_Method_Attribute_Tax</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Model_Method_Attribute_Grand</class>
+            <class>Mage_Sales_Model_Quote_Attribute_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>

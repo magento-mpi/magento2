@@ -57,13 +57,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function shippingMethodAction()
     {
-        $methods = $this->_checkout->getShippingMethods();
-        $data = $this->_quote->getEntityByType('address');
-
-        $block = Mage::createBlock('tpl', 'root')
-	        ->setViewName('Mage_Checkout', 'onepage/shipping_method/box.phtml')
-	        ->assign('methods', $methods)
-	        ->assign('data', $data);
+        $block = Mage::createBlock('checkout_shipping_method', 'root');
         
         $this->getResponse()->appendBody($block->toString());
     }
@@ -130,8 +124,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $address->implodeStreetAddress();
             $this->_quote->setAddress('shipping', $address);
             $this->_quote->save();
-            $methods = $this->_quote->collectShippingMethods();
 
+            $this->_checkout->setShippingMethods(null);
             $this->_checkout->setCompletedShipping(true);
             $this->_checkout->setAllowShippingMethod(true);
         }
@@ -144,7 +138,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $this->_quote->getAddressByType('shipping')->setAttribute('shipping_method', $data['shipping_method']);
+            $this->_quote->getAddressByType('shipping')->setAttribute('shipping_method', $data['method']);
             $this->_quote->save();
             
             $this->_checkout->setCompletedShippingMethod(true);

@@ -26,6 +26,10 @@
          <checkout_onepage_status>
             <class>Mage_Checkout_Block_Onepage_Status</class>
          </checkout_onepage_status>
+         
+         <checkout_shipping_method>
+            <class>Mage_Checkout_Block_Shipping_Method</class>
+         </checkout_shipping_method>
       </blockTypes>
 
       <models>
@@ -69,21 +73,21 @@
       <events>
          <customerLogin>
             <observers>
-               <clear>
+               <loadCustomerQuote>
                   <class>Mage_Checkout_Front</class>
 
-                  <method>clear</method>
-               </clear>
+                  <method>loadCustomerQuote</method>
+               </loadCustomerQuote>
             </observers>
          </customerLogin>
 
          <customerLogout>
             <observers>
-               <clear>
+               <unsetAll>
                   <class>Mage_Checkout_Front</class>
 
-                  <method>clear</method>
-               </clear>
+                  <method>unsetAll</method>
+               </unsetAll>
             </observers>
          </customerLogout>
       </events>

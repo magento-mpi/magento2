@@ -162,6 +162,7 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
                 'country_id'=>'int', 
                 'telephone'=>'varchar', 
                 'fax'=>'varchar',
+                'shipping_method'=>'varchar',
             ),
             'item'=>array(
                 'product_id'=>'int',
@@ -179,11 +180,13 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
                 'row_weight'=>'decimal',
             ),
             'payment'=>array(
-                'amount'=>'decimal',
-                'type'=>'varchar',
+                'method'=>'varchar',
+                'cc_type'=>'varchar',
                 'cc_number'=>'varchar',
                 'cc_owner'=>'varchar',
-                'cc_exp'=>'varchar',
+                'cc_exp_month'=>'int',
+                'cc_exp_year'=>'int',
+                'cc_cvv2'=>'int',
             ),
         );
         

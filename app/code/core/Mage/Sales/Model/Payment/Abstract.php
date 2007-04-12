@@ -2,9 +2,20 @@
 
 abstract class Mage_Sales_Model_Payment_Abstract
 {
-    protected $_quotes = null;
+    protected $_payment = null;
     
-    abstract public function getFields();
+    public function createBlock($name) 
+    {
+        return false;
+    }
     
-    #abstract public function 
+    public function setPayment(Mage_Customer_Model_Payment $payment)
+    {
+        $this->_payment = $payment;
+    }
+    
+    public function getPayment()
+    {
+        return $this->_payment;
+    }
 }
