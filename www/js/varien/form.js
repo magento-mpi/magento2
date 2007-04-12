@@ -41,10 +41,13 @@ VarienForm.prototype = {
     },
     
     elementChildLoad: function(event){
-        new Ajax.Request(this.tmpUrl,{
-                method: 'get',
-                parameters: {"id":id}
-                //onComplete: close.bind(element)
-        });
+        element = Event.element(event);
+        if (element.value) {
+            new Ajax.Request(this.tmpUrl,{
+                    method: 'post',
+                    parameters: {"paernt":element.value}
+                    //onComplete: close.bind(element)
+            });
+        }
     }
 }

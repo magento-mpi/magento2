@@ -6,6 +6,13 @@
          <depends>
             <Mage_Core />
          </depends>
+
+         <front>
+            <controller>
+               <active>true</active>
+               <frontName>directory</frontName>
+            </controller>
+         </front>
       </Mage_Directory>
    </modules>
 
