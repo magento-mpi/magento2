@@ -56,32 +56,23 @@ Mage.Catalog_Product_Attributes = function(){
                 });
 
                 this.initSetGrid();
+
                 this.westLayout.beginUpdate();
                 this.westLayout.add('center', new Ext.GridPanel(this.setGrid));
                 this.westLayout.endUpdate();
-
 
                 Layout.beginUpdate();
                 Layout.add('west', new Ext.NestedLayoutPanel(this.westLayout));
                 Layout.endUpdate();
 
+                this.setGrid.getDataSource().load({params:{start:0, limit:10}});
+
                 Core_Layout.beginUpdate();
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Product Attributes",closable:false}));
                 Core_Layout.endUpdate();
+
             } else {
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
-            }
-        },
-
-        loadAttributeGrid : function(setId) {
-            if (this.attributeGrid == null) {
-                this.initAttributesGrid(setId);
-                Layout.beginUpdate();
-                Layout.add('center', new Ext.GridPanel(this.attributeGrid));
-                Layout.endUpdate();
-            } else {
-                this.attributeGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/';
-                this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
             }
         },
 
@@ -156,8 +147,21 @@ Mage.Catalog_Product_Attributes = function(){
                 text: 'Delete',
                 disabled : true
             });
-            this.setGrid.getDataSource().load({params:{start:0, limit:10}});
         },
+
+        loadAttributeGrid : function(setId) {
+            if (this.attributeGrid == null) {
+                this.initAttributesGrid(setId);
+                Layout.beginUpdate();
+                Layout.add('center', new Ext.GridPanel(this.attributeGrid));
+                Layout.endUpdate();
+                this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
+            } else {
+                this.attributeGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/';
+                this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
+            }
+        },
+
 
         initAttributesGrid : function(setId) {
             if (!setId) {
@@ -206,7 +210,6 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             this.attributeGrid.render();
-            this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
         },
 
         loadMainPanel : function() {
@@ -219,6 +222,7 @@ Mage.Catalog_Product_Attributes = function(){
                 this.westLayout.beginUpdate();
                 this.westLayout.add('south', new Ext.GridPanel(this.editSetGrid));
                 this.westLayout.endUpdate();
+                this.editSetGrid.getDataSource().load();
             } else {
                 this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  'set/'+setId+'/';
                 this.editSetGrid.getDataSource().load();
@@ -248,18 +252,17 @@ Mage.Catalog_Product_Attributes = function(){
                 {header: "Value", dataIndex: 'value'}
             ]);
 
-            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
+            this.editSetGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
                 loadMask : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 autoSizeColumns: true,
                 monitorWindowResize: true,
                 enableColLock : false
             });
 
             this.editSetGrid.render();
-            this.editSetGrid.getDataSource().load();
         },
 
         onAdd : function() {

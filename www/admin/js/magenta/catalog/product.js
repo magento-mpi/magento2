@@ -24,15 +24,15 @@ Mage.Catalog_Product = function(depend){
         productsGrid : null,
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
-        
-        
+
+
         init: function(){
             dep.init();
         },
-        
+
         initLayouts : function() {
                 var Layout = dep.getLayout('main');
-                
+
                 var Layout_Center = new Ext.BorderLayout( Ext.DomHelper.append(Layout.getEl(), {tag:'div'}, true), {
                      center:{
                          titlebar: true,
@@ -42,7 +42,7 @@ Mage.Catalog_Product = function(depend){
                          tabPosition: 'top'
                      }
                  });
-                 
+
                  this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
                      north : {
                         hideWhenEmpty : true,
@@ -72,37 +72,37 @@ Mage.Catalog_Product = function(depend){
                          hideTabs : true
                      }
                  });
-                
+
                 Layout_Center.beginUpdate();
                 this.parentProductLayut = Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLayout, {title:'Cat Name'}));
                 Layout_Center.endUpdate();
-                
-                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));                
+
+                Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
         },
-        
+
         initGrid: function(catId, prnt) {
-            
+
             var dataRecord = Ext.data.Record.create([
                 {name: 'id', mapping: 'product_id'},
                 {name: 'name', mapping: 'name'},
                 {name: 'price', mapping: 'price'},
                 {name: 'description', mapping: 'description'}
             ]);
-                
+
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
                 id: 'product_id'
             }, dataRecord);
-                
+
              var dataStore = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/'}),
                 reader: dataReader,
                 remoteSort: true
              });
-                
+
             dataStore.setDefaultSort('product_id', 'desc');
-      
+
 
             var colModel = new Ext.grid.ColumnModel([
                 {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
@@ -121,22 +121,22 @@ Mage.Catalog_Product = function(depend){
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
-            
+
             grid.on('rowclick', this.createItem.createDelegate(this));
-            
+
             grid.render();
-            grid.getDataSource().load({params:{start:0, limit:25}});            
-            
+
+
             var gridHead = grid.getView().getHeaderPanel(true);
             var gridFoot = grid.getView().getFooterPanel(true);
-           
+
             var paging = new Ext.PagingToolbar(gridHead, dataStore, {
                 pageSize: 25,
                 displayInfo: true,
                 displayMsg: 'Displaying products {0} - {1} of {2}',
-                emptyMsg: 'No products to display'                
+                emptyMsg: 'No products to display'
             });
-            
+
             paging.add('-', {
                 text: 'Create New',
                 cls: 'x-btn-text-icon product_new',
@@ -151,26 +151,26 @@ Mage.Catalog_Product = function(depend){
                 scope : this,
                 cls: 'x-btn-text-icon'
             });
-            
+
             this.grid = grid;
             return grid;
         },
-        
+
         addFilter : function(node, e) {
             var workZoneCenterPanel = null;
             if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
                 workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
             }
-            
+
             var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter'+Ext.id()}));
-                     
+
             filter.add({
                 text: 'Remove',
                 handler : this.delFilter.createDelegate(filter, [this]),
                 cls: 'x-btn-text-icon'
             });
 
-            
+
         	fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', children: [
     			{tag: 'option', value:'name', selected: 'true', html:'Name'},
@@ -182,23 +182,23 @@ Mage.Catalog_Product = function(depend){
         	condSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', children: [
     			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
-	       		{tag: 'option', value:'eq', html:'Equal'},    			
+	       		{tag: 'option', value:'eq', html:'Equal'},
     			{tag: 'option', value:'lt', html:'Lower Than'},
 			    {tag: 'option', value:'like', html:'Like'}
               ]
         	}, true);
-        	
+
         	textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		          tag:'input', type:'text', name:'filterValue'
 		    }, true);
-		    
-            filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);        	        	
-            
+
+            filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);
+
             this.updateSizeFilterPanel();
             return true;
         },
-        
-        
+
+
         updateSizeFilterPanel : function() {
             if (!this.productLayout.getRegion('north')) {
                 return false;
@@ -206,7 +206,7 @@ Mage.Catalog_Product = function(depend){
             if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
                 return false;
             }
-            
+
             var titleHeight = this.productLayout.getRegion('north').titleEl.getHeight();
             var filters = workZoneCenterPanel.getEl().dom.childNodes;
             var i = 0;
@@ -222,10 +222,10 @@ Mage.Catalog_Product = function(depend){
             this.productLayout.getRegion('north').resizeTo(height+1);
             return true;
         },
-        
+
         applyFilters : function() {
         },
-        
+
         delFilter : function(that) {
             for(var i=0; i< this.items.length; i++) {
                 if (this.items.get(i).destroy) {
@@ -236,29 +236,30 @@ Mage.Catalog_Product = function(depend){
             this.el.remove();
             that.updateSizeFilterPanel();
         },
-       
+
         viewGrid : function (treeNode) {
             this.init();
             if (!this.productLayout) {
                 this.initLayouts();
             }
-            this.parentProductLayut.setTitle(treeNode.text);            
+            this.parentProductLayut.setTitle(treeNode.text);
             if (!this.gridPanel) {
                 var grid = this.initGrid(treeNode.id);
                 this.productLayout.beginUpdate();
-                this.gridPanel = this.productLayout.add('center',new Ext.GridPanel(grid, {title: treeNode.text}));
+                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(grid, {title: treeNode.text}));
                 this.productLayout.endUpdate();
+                grid.getDataSource().load({params:{start:0, limit:25}});
             } else {
                 var grid = this.gridPanel.getGrid();
                 grid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/';
-                grid.getDataSource().load({params:{start:0, limit:25}});            
+                grid.getDataSource().load({params:{start:0, limit:25}});
             }
         },
-        
-        
+
+
         setUpNewItem : function(menuItem, e) {
             if(!this.newItemDialog){ // lazy initialize the dialog and only create it once
-                this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), { 
+                this.newItemDialog = new Ext.BasicDialog(Ext.DomHelper.append(document.body, {tag: 'div'}, true), {
                         title : 'Test',
                         autoTabs:true,
                         width:300,
@@ -277,10 +278,10 @@ Mage.Catalog_Product = function(depend){
                 //this.newItemDialog.on('show', function(){mgr.update(Mage.url + '/mage_catalog/product/newoption/')})
                 mgr.update(Mage.url + '/mage_catalog/product/newoption/');
             }
-            this.newItemDialog.show(menuItem.getEl().dom);     
-            
+            this.newItemDialog.show(menuItem.getEl().dom);
+
             var dialog = this.newItemDialog;
-            
+
             function submit() {
                 var set = Ext.DomQuery.selectNode('select#choose_attribute_set', dialog.body.dom);
                 var type = Ext.DomQuery.selectNode('select#choose_product_type', dialog.body.dom);
@@ -294,12 +295,12 @@ Mage.Catalog_Product = function(depend){
                 this.doCreateItem.createDelegate(this, [-1, 'yes', setId, typeId], 0)();
             }
         },
-        
+
         createItem: function() {
             var rowId = null;
             var menuItem = null;
             var e = null;
-            
+
             switch (arguments.length) {
                 case 2 :
                    menuItem = arguments[0];
@@ -326,8 +327,8 @@ Mage.Catalog_Product = function(depend){
                     return false;
             };
         },
-        
-        
+
+
         doCreateItem: function(rowId, btn, setId, typeId) {
             var prodId = 0;
             setId = Number(setId);
@@ -335,13 +336,13 @@ Mage.Catalog_Product = function(depend){
             if (btn == 'no') {
                 return false;
             }
-            var title = 'New Product'; // title for from layout            
-            
+            var title = 'New Product'; // title for from layout
+
             if (this.productLayout.getRegion('south').getActivePanel()) {
                 this.productLayout.getRegion('south').clearPanels();
                 this.editablePanels = [];
             }
-            
+
             if (rowId >= 0) {
              try {
                   prodId = this.grid.getDataSource().getAt(rowId).id;
@@ -358,7 +359,7 @@ Mage.Catalog_Product = function(depend){
                         minSize:28,
                         maxSize:28,
                         autoScroll:false,
-                        titlebar:false,                        
+                        titlebar:false,
                         collapsible:false
                      },
                      center:{
@@ -378,8 +379,8 @@ Mage.Catalog_Product = function(depend){
                 failure : failure,
                 argument : {prod_id: prodId}
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);  
-            
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);
+
             this.productLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.productLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
             this.productLayout.endUpdate();
@@ -392,8 +393,8 @@ Mage.Catalog_Product = function(depend){
             //this.productLayout.getRegion('south').hide();
             return true;
         },
-        
-        
+
+
         onResetForm : function() {
             var i;
             for (i=0; i < this.editablePanels.length; i++) {
@@ -406,7 +407,7 @@ Mage.Catalog_Product = function(depend){
             this.editablePanels = [];
             return true;
         },
-        
+
         onCancelEdit : function() {
             if (this.editablePanels.length) {
                 Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.onRemovePanel.createDelegate(this));
@@ -416,19 +417,19 @@ Mage.Catalog_Product = function(depend){
             return true;
         },
 
-        // submit form to server        
+        // submit form to server
         saveItem : function() {
             var region = this.editPanel.getRegion('center');
             var i = 0;
             var k = 0;
             var panel = null;
             var form = null;
-            
+
             for(i = 0; i< region.panels.length; i++) {
                 panel = region.panels.get(i);
                 dq = Ext.DomQuery;
                 form = null;
-                
+
                 if (panel.loaded) {
                    formEl = dq.selectNode('form', panel.getEl().dom);
                    if (form = this.registeredForms.get(formEl.action)) {
@@ -439,29 +440,29 @@ Mage.Catalog_Product = function(depend){
                    }
                 }
             }
-            
+
             form = null;
             for(i=0; i < this.registeredForms.getCount(); i++) {
                 form = this.registeredForms.itemAt(i);
                 form.sendForm(this.saveItemCallBack.createDelegate(this));
             }
         },
-        
+
         saveItemCallBack : function(response, type) {
             Ext.dump(response.responseText);
         },
-        
-        
+
+
         loadTabs: function(response) {
             if (!this.editPanel) {
                 return false;
-            }            
+            }
             // decode responce from server - there is information about form tabs
-            dataCard = Ext.decode(response.responseText);  
-            
+            dataCard = Ext.decode(response.responseText);
+
             // begin update editPanel
             this.editPanel.beginUpdate();
-            
+
             // setup toolbar for forms
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
@@ -486,7 +487,7 @@ Mage.Catalog_Product = function(depend){
                disabled: false
             });
             toolbar.addSeparator();
-           
+
            // start draw panels and setup it to get infration from server
            var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
@@ -497,7 +498,7 @@ Mage.Catalog_Product = function(depend){
                    this.editPanel.add('center', panel);
                }
             }
-            
+
             for(var i=0; i < dataCard.tabs.length; i++) {
                 if (dataCard.tabs[i].active) {
                     this.editPanel.getRegion('center').showPanel('productCard_' + dataCard.tabs[i].name);
@@ -525,7 +526,7 @@ Mage.Catalog_Product = function(depend){
             }
             return panel;
         },
-        
+
         // set up form in panel - call after tab is updated by Ext.UpdateManager
         onLoadPanel : function(el, response) {
              var i=0;
@@ -533,7 +534,7 @@ Mage.Catalog_Product = function(depend){
             panel = this.editPanel.getRegion('center').getPanel(el.id);
             date = [];
             if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
-                var el;             
+                var el;
                 for(i=0; i < form.elements.length; i++) {
                     // add to each file onChange event if - field changed - mark tab and form changed
                     Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
@@ -541,9 +542,9 @@ Mage.Catalog_Product = function(depend){
                 this.loadedForms.add(form.id, form);
             }
         },
-       
-        
-        
+
+
+
         onFormChange : function(e, element, object, panel) {
             var i = 0;
             for(i=0; i<this.editablePanels.length; i++) {
@@ -556,23 +557,23 @@ Mage.Catalog_Product = function(depend){
             panel.setTitle(panel.getTitle() + '*');
             e.stopEvent();
         },
-        
+
         loadCategoryEditForm : function(treeNode) {
             if (!this.categoryEditFormPanel) {
-                var workZone = dep.getLayout('main');            
+                var workZone = dep.getLayout('main');
                 workZone.beginUpdate();
                 this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'/mage_catalog/category/new', title: 'Edit: ' + treeNode.text, background:true}));
-                workZone.endUpdate();           
+                workZone.endUpdate();
             } else {
                 this.categoryEditFormPanel.setTitle('Edit: ' + treeNode.text);
             }
         },
-        
-        
-        
+
+
+
         cancelNew: function() {
-            
-        } 
+
+        }
     }
 }(Mage.Catalog);
 
