@@ -49,6 +49,11 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     abstract public function changePassword($data, $checkCurrent=true);
     
     abstract public function delete();
+    
+    public function getName()
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
+    }
 
     public function addAddress(Mage_Customer_Model_Address $address)
     {

@@ -60,6 +60,9 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     public function toHtmlOptions($default=false)
     {
         $out = '';
+        if(!$default) {
+            $default = $this->getDefault()->getCountryId();
+        }
         foreach ($this->getItems() as $index => $item) {
             $out.='<option value="'.$item->countryId.'"';
             if ($default == $item->countryId) {

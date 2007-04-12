@@ -58,14 +58,18 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session
             $login = $action->getRequest()->getPost('login');
             if (!empty($login)) {
                 extract($login);
-                if (!empty($customer_email) && !empty($customer_pass)) {
-                    if ($this->login($customer_email, $customer_pass)) {
+                if (!empty($username) && !empty($password)) {
+                    if ($this->login($username, $password)) {
                         $action->getResponse()->setRedirect($action->getRequest()->getRequestUri());
                         return false;
                     }
+                    else {
+                        Mage::getSingleton('customer_model', 'session')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE000'));
+                    }
                 }
             }
-            $block = Mage::createBlock('customer_login', 'customer.login');
+            $block = Mage::createBlock('customer_login', 'customer.login')
+                ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             Mage::getBlock('content')->append($block);
             return false;
         }

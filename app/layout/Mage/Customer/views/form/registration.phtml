@@ -48,12 +48,13 @@
             <li>
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
-                <?if($regions):?>
+                <?if($regions->getSize()):?>
                     <select name="region_id" value="" title="State/Province" id="state"  class="required-entry validate-select" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                         <option value="">Select State/Province...</option>
                         <?=$regions->toHtmlOptions($data->getRegionId())?>
                     </select>
                 <?else:?>
+                    <input type="text" name="region" value="<?=$data->getRegion()?>"  title="State/Province" id="state" class="required-entry input-text" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)"/>
                 <?endif?>
                 </div>
                 <div class="input-right">
@@ -64,7 +65,7 @@
             </li>
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
-                <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select">
+                <select name="country_id" id="country" title="Country" onfocus="fieldset_highlight(this,true)" onblur="fieldset_highlight(this,false)" class="validate-select" onchange="">
                     <?=$countries->toHtmlOptions($data->getCountryId())?>
                 </select>
             </li>
