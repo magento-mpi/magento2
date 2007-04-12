@@ -27,7 +27,15 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         if (empty($paymentEntity)) {
             $paymentEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('payment');
         }
-        $payment = $paymentEntity->asArray();
+        $payment = $paymentEntity->asModel('customer', 'payment');
+        if ($payment) {
+            $className = Mage::getConfig()->getGlobalCollection('salesPayment', $payment->getMethod())->getClassName();
+            $paymentModel = new $className();
+            $paymentBlock = $paymentModel->setPayment($payment)->createInfoBlock($this->getInfo('name').'.payment');
+            $this->setChild('payment', $paymentBlock);
+        } else {
+            $this->assign('payment', '');
+        }
                 
         $shippingEntity = $quote->getAddressByType('shipping');
         if (empty($shippingEntity)) {
@@ -38,7 +46,8 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         $shippingMethod = array();
         
         $this->assign('checkout', $checkout)->assign('quote', $quote)
-            ->assign('billing', $billing)->assign('payment', $payment)
-            ->assign('shipping', $shipping)->assign('shippingMethod', $shippingMethod);
+            ->assign('billing', $billing)
+            ->assign('shipping', $shipping)
+            ->assign('shippingMethod', $shippingMethod);
     }
 }

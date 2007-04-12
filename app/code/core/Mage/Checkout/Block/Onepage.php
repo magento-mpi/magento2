@@ -119,7 +119,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $className = $methodConfig->getClassName();
             $method = new $className();
             $method->setPayment($payment);
-            $methodBlock = $method->createBlock('checkout.payment.methods.'.$methodName);
+            $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
             if (!empty($methodBlock)) {
                 $listBlock->append($methodBlock);
             }

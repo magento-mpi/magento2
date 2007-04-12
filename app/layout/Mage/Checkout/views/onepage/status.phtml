@@ -5,7 +5,10 @@
         <li class="complete">
             <h4>Billing Address</h4>
             <div class="step-body">
-            <?=print_r($billing,1)?>
+            <?=$billing['firstname']?> <?=$billing['lastname']?><br>
+            <?if (!empty($billing['company'])):?><?=$billing['company']?><?endif?><br>
+            <?=nl2br($billing['street'])?><br>
+            <?=$billing['city']?>, <?=$billing['region_id']?> <?=$billing['postcode']?>
             </div>
             <a href="#" onclick="checkout.accordion.openSection('billing');return false;">edit</a>
         </li>
@@ -31,7 +34,10 @@
         <li class="complete">
             <h4>Shipping Address</h4>
             <div class="step-body">
-            <?=print_r($shipping,1)?>
+            <?=$shipping['firstname']?> <?=$shipping['lastname']?><br>
+            <?if (!empty($shipping['company'])):?><?=$shipping['company']?><?endif?><br>
+            <?=nl2br($shipping['street'])?><br>
+            <?=$shipping['city']?>, <?=$shipping['region_id']?> <?=$shipping['postcode']?>
             </div>
             <a href="#" onclick="checkout.accordion.openSection('shipping');return false;">edit</a>
         </li>
