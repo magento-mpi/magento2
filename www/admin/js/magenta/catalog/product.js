@@ -16,12 +16,14 @@ Mage.Catalog_Product = function(depend){
         editPanel : null,
         formLoading: null,
         loadedForms : new Ext.util.MixedCollection(),
+        activeFilters : new Ext.util.MixedCollection(),
         editablePanels : [],
         categoryEditFormPanel : null, // panel for category from
         productLayout : null,
         parentProductLayut : null,
         gridPanel : null,
         productsGrid : null,
+        productsGridPageSize : 30, 
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
 
@@ -111,7 +113,7 @@ Mage.Catalog_Product = function(depend){
                 {header: "Description", sortable: false, dataIndex: 'description'}
             ]);
 
-            var grid = new Ext.grid.Grid(this.productLayout.getEl().createChild({tag: 'div'}), {
+            this.productsGrid = new Ext.grid.Grid(this.productLayout.getEl().createChild({tag: 'div'}), {
                 ds: dataStore,
                 cm: colModel,
                 autoSizeColumns : true,
@@ -122,16 +124,15 @@ Mage.Catalog_Product = function(depend){
                 enableColLock : false
             });
 
-            grid.on('rowclick', this.createItem.createDelegate(this));
+            this.productsGrid.on('rowclick', this.createItem.createDelegate(this));
 
-            grid.render();
+            this.productsGrid.render();
 
-
-            var gridHead = grid.getView().getHeaderPanel(true);
-            var gridFoot = grid.getView().getFooterPanel(true);
+            var gridHead = this.productsGrid.getView().getHeaderPanel(true);
+            var gridFoot = this.productsGrid.getView().getFooterPanel(true);
 
             var paging = new Ext.PagingToolbar(gridHead, dataStore, {
-                pageSize: 25,
+                pageSize: this.productsGridPageSize,
                 displayInfo: true,
                 displayMsg: 'Displaying products {0} - {1} of {2}',
                 emptyMsg: 'No products to display'
@@ -142,45 +143,45 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon product_new',
                 handler : this.createItem.createDelegate(this)
             },{
-                text: 'Add Filter',
+                text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon bedit_add'
+             },{
+                text: 'Filters',
+                handler : this.applyFilters.createDelegate(this),
+                cls: 'x-btn-text-icon bapply'
             },{
-                text: 'Apply Filters',
-                handler : this.applyFilters,
-                scope : this,
-                cls: 'x-btn-text-icon'
+                text: 'Filters',
+                handler : this.deleteFilters.createDelegate(this),
+                cls: 'x-btn-text-icon bedit_delete'
             });
-
-            this.grid = grid;
-            return grid;
         },
 
         addFilter : function(node, e) {
+            
             var workZoneCenterPanel = null;
             if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
                 workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable:true}));
             }
 
-            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter'+Ext.id()}));
+            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter_'+Ext.id()}));
 
             filter.add({
-                text: 'Remove',
                 handler : this.delFilter.createDelegate(filter, [this]),
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-icon bedit_remove'
             });
 
 
-        	fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
-		      tag:'select', children: [
+        	var fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
+		      tag:'select', name:'filterField', children: [
     			{tag: 'option', value:'name', selected: 'true', html:'Name'},
 	       		{tag: 'option', value:'size', html:'File Size'},
 			    {tag: 'option', value:'lastmod', html:'Last Modified'}
               ]
         	}, true);
 
-        	condSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
-		      tag:'select', children: [
+        	var condSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
+		      tag:'select', name:'filterType', children: [
     			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
 	       		{tag: 'option', value:'eq', html:'Equal'},
     			{tag: 'option', value:'lt', html:'Lower Than'},
@@ -188,11 +189,13 @@ Mage.Catalog_Product = function(depend){
               ]
         	}, true);
 
-        	textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
+        	var textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		          tag:'input', type:'text', name:'filterValue'
 		    }, true);
 
             filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);
+            
+            this.activeFilters.add(Ext.id(), filter);
 
             this.updateSizeFilterPanel();
             return true;
@@ -224,7 +227,26 @@ Mage.Catalog_Product = function(depend){
         },
 
         applyFilters : function() {
+            var i = 0;
+            var k = 0;
+            var filter = [];
+            for (i=0; i < this.activeFilters.getCount(); i++) {
+                var toolbar = this.activeFilters.itemAt(i);
+                filter[i] = {};
+                filter[i].index = i;
+                filter[i].data = {};
+                for (k=0; k< toolbar.items.getCount(); k++) {
+                    if (toolbar.items.itemAt(k).getEl().name != 'undefined') {
+                        filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;
+                    }
+                }
+            }
+            this.productsGrid.getDataSource().load({params : {start:0, limit:this.productsGridPageSize, filters : Ext.encode(filter)}});
         },
+        
+        deleteFilters : function() {
+        },
+        
 
         delFilter : function(that) {
             for(var i=0; i< this.items.length; i++) {
@@ -244,15 +266,15 @@ Mage.Catalog_Product = function(depend){
             }
             this.parentProductLayut.setTitle(treeNode.text);
             if (!this.gridPanel) {
-                var grid = this.initGrid(treeNode.id);
+                this.initGrid(treeNode.id);
                 this.productLayout.beginUpdate();
-                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(grid, {title: treeNode.text}));
+                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: treeNode.text}));
                 this.productLayout.endUpdate();
-                grid.getDataSource().load({params:{start:0, limit:25}});
+                this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
             } else {
-                var grid = this.gridPanel.getGrid();
-                grid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/';
-                grid.getDataSource().load({params:{start:0, limit:25}});
+                this.gridPanel.getGrid();
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/';
+                this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
             }
         },
 
@@ -345,8 +367,8 @@ Mage.Catalog_Product = function(depend){
 
             if (rowId >= 0) {
              try {
-                  prodId = this.grid.getDataSource().getAt(rowId).id;
-                  title = 'Edit: ' + this.grid.getDataSource().getById(prodId).get('name');
+                  prodId = this.productsGrid.getDataSource().getAt(rowId).id;
+                  title = 'Edit: ' + this.productsGrid.getDataSource().getById(prodId).get('name');
               } catch (e) {
                   Ext.MessageBox.alert('Error!', e.getMessage());
               }

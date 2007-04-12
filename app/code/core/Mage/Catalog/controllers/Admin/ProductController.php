@@ -98,8 +98,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $prodCollection->load();
 
         $arrGridFields = array('product_id', 'name', 'price', 'description');
-
-        $this->getResponse()->setBody(Zend_Json::encode($prodCollection->__toArray($arrGridFields)));
+        $data = $prodCollection->__toArray($arrGridFields);
+        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
 
     /**

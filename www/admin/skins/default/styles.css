@@ -35,3 +35,27 @@
 .address-view {
 	cursor : pointer
 }
+
+/* 
+* Menu Buttons
+*/
+
+.bedit_add .x-btn-text {
+	background-image:url(./ico/edit_add.gif);
+}
+
+.bedit_delete .x-btn-text {
+	background-image:url(./ico/edit_delete.gif);
+}
+
+.bedit_remove .x-btn-text {
+	background-image:url(./ico/edit_remove.gif);
+}
+
+.bapply .x-btn-text {
+	background-image:url(./ico/apply.gif);
+}
+
+.bok .x-btn-text {
+	background-image:url(./ico/button_ok.gif);
+}
