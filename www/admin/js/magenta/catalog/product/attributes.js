@@ -23,6 +23,7 @@ Mage.Catalog_Product_Attributes = function(){
                 Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
                         split:true,
+                        initialSize : 300,
                         autoScroll:true,
                         collapsible:false,
                         titlebar:false
@@ -48,8 +49,9 @@ Mage.Catalog_Product_Attributes = function(){
                         hideWhenEmpty : true,
                         initialSize : 200,
                         autoScroll : true,
+                        collapsible:false,
                         titlebar : false,
-                        hideTabs : false,
+                        hideTabs : true
                     }
                 });
 
@@ -214,7 +216,9 @@ Mage.Catalog_Product_Attributes = function(){
         loadEditSetGrid : function(setId) {
             if (this.editSetGrid == null) {
                 this.initEditSetGrid(setId);
+                this.westLayout.beginUpdate();
                 this.westLayout.add('south', new Ext.GridPanel(this.editSetGrid));
+                this.westLayout.endUpdate();
             } else {
                 this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  '/set/'+setId+'/';
                 this.editSetGrid.getDataSource().load();
@@ -224,6 +228,7 @@ Mage.Catalog_Product_Attributes = function(){
         initEditSetGrid : function(setId) {
 
             var dataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'id'},
                 {name: 'name', mapping: 'name'},
                 {name: 'value', mapping: 'value'}
             ]);
@@ -237,18 +242,25 @@ Mage.Catalog_Product_Attributes = function(){
             var dataStore = new Ext.data.Store({
                 proxy : new Ext.data.HttpProxy({url: this.editSetGridUrl +  'set/'+setId+'/'}),
                 reader : dataReader,
-                remoteSort: false
+                remoteSort: true
             });
 
+            dataStore.setDefaultSort('id', 'asc');
+
             var colModel = new Ext.grid.ColumnModel([
-                {header: "Name", sortable: true, locked:true, dataIndex: 'name'},
-                {header: "Value", sortable: true, locked:true, dataIndex: 'value'}
+                {header: "#ID",  width : 60, locked:true, dataIndex: 'id'},
+                {header: "Name",  width : 60, locked:true, dataIndex: 'name'},
+                {header: "Value", width : 40, locked:true, dataIndex: 'value'}
             ]);
 
-            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
+            this.editSetGrid = new Ext.grid.Grid(Ext.DomHelper.append(this.westLayout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
+                cm: colModel,
                 loadMask : true,
-                cm: colModel
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                autoSizeColumns: true,
+                monitorWindowResize: true,
+                enableColLock : false
             });
 
             this.editSetGrid.render();
@@ -258,6 +270,7 @@ Mage.Catalog_Product_Attributes = function(){
         onAdd : function() {
             this.btnEdit.enable();
             this.btnEdit.toggle(true);
+            this.westLayout.getRegion('south').show();
             this.loadEditSetGrid(0);
         },
 
@@ -299,7 +312,7 @@ Mage.Catalog_Product_Attributes = function(){
                 return false;
             }
             e.stopEvent();
-        },
+        }
 
     }
 }();
