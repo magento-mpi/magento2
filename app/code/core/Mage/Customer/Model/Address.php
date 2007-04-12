@@ -33,7 +33,7 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
 
     abstract public function delete();
     
-    public function getStreet($line=0)
+/*    public function getStreet($line=0)
     {
         if (-1===$line) {
             return $this->getData('street');
@@ -47,7 +47,7 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
                 return '';
             }
         }
-    }
+    }*/
     
     public function setStreet($street)
     {
@@ -55,29 +55,6 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
             $street = trim(implode("\n", $street));
         }
         $this->setData('street', $street);
-    }
-    
-    /**
-     * Create fields street1, street2, etc.
-     * 
-     * To be used in controllers for views data
-     *
-     */
-    public function explodeStreetAddress()
-    {
-        $streetLines = $this->getStreet();
-        foreach ($streetLines as $i=>$line) {
-            $this->setData('street'.($i+1), $line);
-        }
-    }
-    
-    /**
-     * To be used when processing _POST
-     *
-     */
-    public function implodeStreetAddress()
-    {
-        $this->setStreet($this->getData('street'));
     }
     
     public function getType($type='', $is_primary=null)
@@ -129,30 +106,5 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
             $str = '// TODO: address string format';
         }
         return $str;
-    }
-    
-    public function validate()
-    {
-        $arrData= $this->_prepareArray($this->_data, 
-            array(
-                'firstname', 
-                'lastname', 
-                'company',
-                'street',
-                'city',
-                'region_id',
-                'postcode',
-                'country_id',
-                'telephone',
-                'fax',
-            )
-        );
-        
-        if (is_array($arrData['street'])) {
-            $this->implodeStreetAddress();
-        }
-        
-        $this->_data = $arrData;
-        return true;
     }
 }

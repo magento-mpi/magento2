@@ -292,13 +292,14 @@ final class Mage {
         
         Mage::prepareFileSystem();
         
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
-        Zend_Session::start();
-        
         Mage::register('events', new Varien_Event());
         Mage::register('resources', new Mage_Core_Resource());
 
         Mage::getConfig()->init();
+
+        // Session must be start after init resources
+        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
+        Zend_Session::start();
 
         Mage::register('session', Mage::getSingleton('core_model', 'session'));
         Mage::register('website', Mage::getSingleton('core_model', 'website'));

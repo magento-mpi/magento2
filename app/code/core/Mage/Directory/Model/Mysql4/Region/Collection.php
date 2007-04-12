@@ -37,8 +37,8 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         $out = '';
         foreach ($this->_items as $index => $item) {
-            $out.='<option value="'.$item->countryId.'"';
-            if ($default == $item->countryId) {
+            $out.='<option value="'.$item->getRegionId().'"';
+            if ($default == $item->getRegionId()) {
                 $out.=' selected';
             }
             $out.='>' . $item->name;

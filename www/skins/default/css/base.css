@@ -83,3 +83,6 @@ input.validation-failed, textarea.validation-failed {
 
 /* messages */
 .error {font-weight:bold;color:#d40707;border:1px solid #d40707;padding:5px}
+.warning {}
+.notice {}
+.success {font-weight:bold;color:green;border:1px solid green;padding:5px}

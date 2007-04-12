@@ -39,7 +39,7 @@ h2#title-newsletter {height:22px;background:url(../images/tit_newsletter.jpg) no
 .content{padding:20px;}
 .content fieldset.group-single, #page-oscom fieldset.group-single { padding:10px; }
 .content fieldset, #page-oscom fieldset { margin-bottom:10px; }
-.content fieldset .input-text, #page-oscom fieldset .input-text { width:526px; }
+.content fieldset .input-text, #page-oscom fieldset .input-text { width:518px; }
 .content fieldset select, #page-oscom fieldset select { width:532px; }
 .content fieldset .input-left .input-text, #page-oscom fieldset .input-left .input-text,
 .content fieldset .input-right .input-text, #page-oscom fieldset .input-right .input-text {width:250px; } 

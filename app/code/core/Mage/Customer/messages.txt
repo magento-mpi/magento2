@@ -2,6 +2,11 @@
 CSTE001 customer save error
 CSTE002 customer email exist (update)
 CSTE003 customer email exist (insert)
+CSTE004 empty customer_id when address save
+CSTE005 empty current password when password change
+CSTE006 wrong current password when password change
+CSTE007 password != confirmation when password change
+CSTE008 change password error
 
 [warning]
 
@@ -9,3 +14,5 @@ CSTE003 customer email exist (insert)
 
 [success]
 CSTS001 customer create success
+CSTS002 customer information is saved
+CSTS003 password changed

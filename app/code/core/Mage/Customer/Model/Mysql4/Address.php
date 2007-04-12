@@ -9,21 +9,33 @@
  */
 class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
 {
-    static protected $_addressTable = null;
-    static protected $_typeTable = null;
-    static protected $_typeLinkTable = null;
-    static protected $_read = null;
-    static protected $_write = null;
+    static protected $_addressTable;
+    static protected $_typeTable;
+    static protected $_typeLinkTable;
+
+    /**
+     * DB read object
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
+    static protected $_read;
+    
+    /**
+     * DB write object
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
+    static protected $_write;
     
     public function __construct($data=array()) 
     {
         parent::__construct($data);
         
-        self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
-        self::$_typeTable = Mage::registry('resources')->getTableName('customer', 'address_type');
-        self::$_typeLinkTable = Mage::registry('resources')->getTableName('customer', 'address_type_link');
-        self::$_read = Mage::registry('resources')->getConnection('customer_read');
-        self::$_write = Mage::registry('resources')->getConnection('customer_write');
+        self::$_addressTable    = Mage::registry('resources')->getTableName('customer', 'address');
+        self::$_typeTable       = Mage::registry('resources')->getTableName('customer', 'address_type');
+        self::$_typeLinkTable   = Mage::registry('resources')->getTableName('customer', 'address_type_link');
+        self::$_read    = Mage::registry('resources')->getConnection('customer_read');
+        self::$_write   = Mage::registry('resources')->getConnection('customer_write');
     }
     
     /**
@@ -36,31 +48,61 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
     {
         $select = self::$_read->select()->from(self::$_addressTable)
             ->where(self::$_read->quoteInto('address_id=?', $addressId));
-        $row = self::$_read->fetchRow($select);
-        if (!$row) {
-            return false;
-        }
-        $this->setData($row);
+        
+        $this->setData(self::$_read->fetchRow($select));
         $this->setType($this->getTypesByAddressId($this->getAddressId()));
         return $this;
     }
     
-    public function save()
+    public function save($useTransaction=true)
     {
-        $addressModel = Mage::getModel('customer', 'address');
+        if ($useTransaction) {
+            self::$_write->beginTransaction();
+        }        
         
-        if ($this->getAddressId()) {
-            $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
-            $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
-            if ($result) {
-                $this->updateTypes();
-            }
-        } else {
-            if (self::$_write->insert(self::$_addressTable, $this->getData())) {
+        $this->_prepareSaveData();
+        try {
+            if ($this->getAddressId()) {
+                $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
+                $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
+                if ($result) {
+                    $this->updateTypes();
+                }
+            } else {
+                self::$_write->insert(self::$_addressTable, $this->getData());
                 $this->setAddressId(self::$_write->lastInsertId());
                 $this->insertTypes();
             }
+            
+            if ($useTransaction) {
+                self::$_write->commit();
+            }
         }
+        catch (Exeption $e) {
+            if ($useTransaction) {
+                self::$_write->rollBack();
+            }
+            throw $e;
+        }
+        
+        return $this;
+    }
+    
+    protected function _prepareSaveData()
+    {
+        $data= $this->__toArray(array('customer_id', 'firstname', 'lastname', 'postcode', 'street', 'city', 
+            'region', 'region_id', 'country_id', 'company', 'telephone', 'fax'));
+        
+        if (empty($data['customer_id'])) {
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE004'));
+        }
+        
+        $this->setData($data);
+        
+        if (!empty($data['street'])) {
+            $this->setStreet($data['street']);
+        }
+        
         return $this;
     }
     

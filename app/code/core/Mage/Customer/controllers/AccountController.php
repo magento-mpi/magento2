@@ -27,7 +27,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
-        $block = Mage::createBlock('customer_account', 'customer.account');
+        $block = Mage::createBlock('customer_account', 'customer.account')
+            ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
+            
         Mage::getBlock('content')->append($block);
     }
     
@@ -43,6 +45,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
+        // if customer logged in
+        if (Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
+            $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+        }
+        
         $countries = Mage::getModel('directory', 'country_collection');
 
         $block = Mage::createBlock('tpl', 'customer.regform')
@@ -88,20 +95,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function editAction()
     {
-        $formData = Mage::registry('session')->getNamespaceData('customer_edit');
-        if ($formData->isEmpty()) {
-            $customerModel = Mage::getModel('customer', 'customer');
-            $formData = $customerModel->load(Mage_Customer_Front::getCustomerId());
+        $data = Mage::getSingleton('customer_model', 'session')->getData(true);
+        if ($data->isEmpty()) {
+            $data = Mage::getSingleton('customer_model', 'session')->getCustomer();
         }
         
-        $message = Mage::createBlock('message', 'customer.edit.message');
-        $message->setMessage(Mage::registry('session')->getNamespaceMessage('customer_edit'));
-
         $block = Mage::createBlock('tpl', 'customer.edit')
             ->setViewName('Mage_Customer', 'form/edit.phtml')
-            ->assign('formData', $formData)
-            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/editPost/')
-            ->setChild('message', $message);
+            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer').'/account/editPost/')
+            ->assign('data',        $data)
+            ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
     }
@@ -109,26 +112,22 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function editPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer', 'customer')->setData($_POST);
+            $customer = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            $customer->setCustomerId(Mage::getSingleton('customer_model', 'session')->getCustomerId());
             
-            if ($customer->validate()) {
-                $customer->setCustomerId(Mage::getSingleton('customer_model', 'session')->getCustomerId());
-                if ($customer->save()) {
-                    
-                } else {
-                    // problem saving customer
-                }
-                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
-                return;
+            try {
+                $customer->save();
+                Mage::getSingleton('customer_model', 'session')
+                    ->setCustomer($customer)
+                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS002'));
+                
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
             }
-
-            Mage::registry('session')
-                ->getNamespaceMessage('customer_edit', false)
-                    ->addMessage($customer->getMessage(), 'error');
-
-            Mage::registry('session')
-                ->getNamespaceData('customer_edit', false)
-                    ->setData($customerValidator->getData());
+            catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('customer_model', 'session')
+                    ->setData($this->getRequest()->getPost())
+                    ->addMessages($e->getMessages());
+            }
         }
         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/edit/');
     }
@@ -141,7 +140,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $block = Mage::createBlock('tpl', 'customer.changepassword')
             ->setViewName('Mage_Customer', 'form/changepassword.phtml')
-            ->assign('action', Mage::getBaseUrl('', 'Mage_Customer').'/account/changePasswordPost/');
+            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer').'/account/changePasswordPost/')
+            ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
     }
@@ -150,17 +150,18 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $customer = Mage::getSingleton('customer_model', 'session')->getCustomer();
-            $currentPassword = $this->getRequest()->getPost('current_password');
-            $newPassword = $this->getRequest()->getPost('password');
             
-            if ($customer && $customer->validatePassword($currentPassword)) {
-                $customer->setCustomerPass($newPassword);
-                $customer->save();
+            try {
+                $customer->changePassword($this->getRequest()->getPost());
                 
-                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/');
+                Mage::getSingleton('customer_model', 'session')
+                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS003'));
+                
+                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
             }
-            else {
-                // TODO: register error message
+            catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('customer_model', 'session')
+                    ->addMessages($e->getMessages());
             }
         }
         

@@ -27,6 +27,17 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         }
     }
     
+    public function __sleep()
+    {
+        unset($this->_addresses);
+        return parent::__sleep();
+    }
+    
+    public function __wakeup()
+    {
+        
+    }
+
     abstract public function authenticate($login, $password);
     
     abstract public function load($customerId);
@@ -34,6 +45,8 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     abstract public function loadByEmail($customerEmail);
     
     abstract public function save();
+    
+    abstract public function changePassword($data, $checkCurrent=true);
     
     abstract public function delete();
 
@@ -46,14 +59,6 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         $this->_addresses->addItem($address);
         return $this;
     }   
-    
-    public function getAddress($addresType='')
-    {
-        if ('' == $addresType) {
-            return $this->getAddressCollection()->getFirstItem();
-        }
-        //TODO: get by address type
-    }
     
     public function getAddressById($addressId)
     {
@@ -78,20 +83,20 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         return $this->_addresses;
     }
     
-    public function setCustomerPassword($password)
-    {
-        $this->setData('password', $this->_hashPassword($password));
-        return $this;
-    }
-        
     protected function _hashPassword($password)
     {
         return md5($password);
     }
     
-    public function __sleep()
+    /**
+     * Send email to customer
+     *
+     * @param   string $subject
+     * @param   string $body
+     * @return  Mage_Customer_Model_Customer
+     */
+    public function sendMail($subject, $body)
     {
-        unset($this->_addresses);
-        return parent::__sleep();
+        return $this;
     }
 }
