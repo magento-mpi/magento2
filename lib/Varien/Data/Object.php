@@ -31,6 +31,14 @@ class Varien_Data_Object
     {
         return $this->_isChanged;
     }
+    
+    public function addData($arr)
+    {
+        foreach($arr as $index=>$value) {
+            $this->_data[$index] = $value;
+        }
+        return $this;
+    }
 
     public function setData($key, $value='', $isChanged=true)
     {
@@ -39,9 +47,11 @@ class Varien_Data_Object
         }
         
         if(is_array($key)) {
-            /*foreach($key as $index=>$value) {
+            /*
+            foreach($key as $index=>$value) {
                 $this->_data[$index] = $value;
-            }*/
+            }
+            */
             $this->_data = $key;
         } else {
             $this->_data[$key] = $value;
@@ -60,6 +70,11 @@ class Varien_Data_Object
             return $this->_data[$key];
         }
         return null;
+    }
+    
+    public function hasData($key='')
+    {
+        return isset($this->_data[$key]);
     }
 
     /**

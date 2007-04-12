@@ -63,6 +63,10 @@
                
             </entities>
          </sales>
+         
+         <sales_model>
+            <class>Mage_Sales_Model</class>
+         </sales_model>
       </models>
 
       <resources>
@@ -146,31 +150,31 @@
       
       <salesQuoteAttributes>
          <subtotal>
-            <class>Mage_Sales_Model_Quote_Attribute_Subtotal</class>
+            <class>Mage_Sales_Model_Method_Attribute_Subtotal</class>
 
             <sortOrder>10</sortOrder>
          </subtotal>
 
          <discount>
-            <class>Mage_Sales_Model_Quote_Attribute_Discount</class>
+            <class>Mage_Sales_Model_Method_Attribute_Discount</class>
 
             <sortOrder>20</sortOrder>
          </discount>
 
          <shipping>
-            <class>Mage_Sales_Model_Quote_Attribute_Shipping</class>
+            <class>Mage_Sales_Model_Method_Attribute_Shipping</class>
 
             <sortOrder>30</sortOrder>
          </shipping>
 
          <tax>
-            <class>Mage_Sales_Model_Quote_Attribute_Tax</class>
+            <class>Mage_Sales_Model_Method_Attribute_Tax</class>
 
             <sortOrder>40</sortOrder>
          </tax>
 
          <grand>
-            <class>Mage_Sales_Model_Quote_Attribute_Grand</class>
+            <class>Mage_Sales_Model_Method_Attribute_Grand</class>
 
             <sortOrder>100</sortOrder>
          </grand>

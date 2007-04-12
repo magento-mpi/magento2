@@ -16,8 +16,6 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Quote
     
     public function load($quoteId)
     {
-        $this->reset();
-        
         $quoteTable = Mage::registry('resources')->getTableName('sales', 'quote');
         $select = self::$_read->select()->from($quoteTable)
             ->where(self::$_read->quoteInto("quote_id=?", $quoteId));

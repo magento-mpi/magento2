@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abstract
+class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abstract
 {
     protected $_request = null;
     protected $_result = null;
@@ -16,11 +16,14 @@ class Mage_Usa_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abst
         return $this->_defaults;    
     }
     
-    public function fetchServices(Mage_Sales_Model_Shipping_Method_Request $request, $requestType='cgi')
+    public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         $this->setRequest($request);
+        if (!$request->getUpsRequestMethod()) {
+            $request->setUpsRequestMethod('cgi');
+        }
 
-        switch ($requestType) {
+        switch ($request->getUpsRequestMethod()) {
             case 'cgi':
                 $this->_getCgiQuotes();
                 break;

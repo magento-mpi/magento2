@@ -49,6 +49,9 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
         $fields = $this->getDefaultAttributeType('', $type);
         
         foreach ($fields as $fieldName=>$fieldType) {
+            if (!$source->hasData($fieldName)) {
+                continue;
+            }
             $this->setAttribute($fieldName.'/'.$fieldType, $source->getData($fieldName));
         }
         return $this;

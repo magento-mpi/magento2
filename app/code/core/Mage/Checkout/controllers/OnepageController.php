@@ -93,8 +93,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('customer', 'address');
-            $address->setData($data);
+            $address = Mage::getModel('customer', 'address')->setData($data);
             $address->implodeStreetAddress();
             $this->_quote->setAddress('billing', $address);
             $this->_quote->save();
@@ -127,8 +126,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('customer', 'address');
-            $address->setData($data);
+            $address = Mage::getModel('customer', 'address')->setData($data);
             $address->implodeStreetAddress();
             $this->_quote->setAddress('shipping', $address);
             $this->_quote->save();

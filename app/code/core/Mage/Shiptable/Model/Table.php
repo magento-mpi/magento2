@@ -15,7 +15,7 @@ abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vend
 	 * @param Mage_Sales_Model_Shipping_Request $data
 	 * @return Mage_Sales_Model_Shipping_Result
 	 */
-	public function fetchServices(Mage_Sales_Model_Shipping_Method_Request $request)
+	public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
     {
         if (!$request->getConditionName()) {
             $request->setConditionName($this->_conditionName);

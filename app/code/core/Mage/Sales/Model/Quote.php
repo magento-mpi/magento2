@@ -200,21 +200,19 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
             $address->setQuoteAddressType($addressType);
             $this->addEntity('address', $address);
         } else {
-            $data = $address->getData();
-            $fields = $existingAddress->getDefaultAttributeType();
-            foreach ($data as $fieldName=>$fieldValue) {
-                if (!isset($fields[$fieldName])) {
-                    continue;
-                }
-                $existingAddress->setAttribute($fieldName, $fieldValue);
-            }
+            $existingAddress->importDataObject($address, 'address');
         }
         return $this;
     }
     
     public function setPayment(Mage_Customer_Model_Payment $payment)
     {
-        $this->addEntity('payment', $payment);
+        $existingPayment = $this->getPayment();
+        if (empty($existingPayment)) {
+            $this->addEntity('payment', $payment);
+        } else {
+            $existingPayment->importDataObject($payment, 'payment');
+        }
     }
     
     public function getPayment()
@@ -262,7 +260,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     
     public function collectShippingMethods()
     {
-        $shippingAddress = $this->getAddressByType('shipping');
+        $shippingAddress = $this->getAddressByType('shipping')->asModel('customer', 'address');
 
         $request = Mage::getModel('sales_model', 'shipping_method_request');
         $request->setDestCountryId($shippingAddress->getCountryId());
@@ -270,7 +268,6 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         $request->setDestPostcode($shippingAddress->getPostcode());
         $request->setOrderSubtotal($this->getQuoteEntity()->getAttribute('subtotal'));
         $request->setPackageWeight($this->getQuoteEntity()->getAttribute('weight'));
-
         $shipping = Mage::getModel('sales_model', 'shipping');
         $result = $shipping->collectMethods($request);
         $allMethods = $result->getAllMethods();
@@ -278,15 +275,15 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         $methods = array();
         if (!empty($allMethods)) {
             foreach ($allMethods as $method) {
-                $methods[$service->getVendor()]['title'] = $method->getVendorTitle();
-                $methods[$service->getVendor()]['methods'][$method->getService()] = array(
+                $methods[$method->getVendor()]['title'] = $method->getVendorTitle();
+                $methods[$method->getVendor()]['methods'][$method->getService()] = array(
                     'title'=>$method->getServiceTitle(),
-                    'price'=>$priceFilter->filter($method->getPrice()),
+                    'price'=>$method->getPrice(),
                 );
             }
         }
 
-        return $services;
+        return $methods;
     }
     
     public function hasItems()

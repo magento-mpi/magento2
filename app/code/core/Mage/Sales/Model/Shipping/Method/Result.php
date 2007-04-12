@@ -45,7 +45,7 @@ class Mage_Sales_Model_Shipping_Method_Result
 	/**
 	 * Return all quotes in the result
 	 */
-	public function getAllServices()
+	public function getAllMethods()
 	{
 		return $this->_methods;
 	}

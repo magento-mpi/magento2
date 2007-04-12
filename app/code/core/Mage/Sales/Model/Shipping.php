@@ -60,7 +60,7 @@ class Mage_Sales_Model_Shipping
 	public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
     {
     	if (!$request->getOrig()) {
-    		$request->setData($this->getOrigData());
+    		$request->addData($this->getOrigData());
     	}
 
     	if (!$request->limitVendor) { 
