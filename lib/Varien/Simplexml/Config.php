@@ -197,6 +197,11 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.stat'; 
     }
     
+    protected function _processCacheData($text)
+    {
+        return $text;
+    }
+    
     public function loadCache($key='')
     {
         if (''===$key) {
@@ -222,7 +227,9 @@ class Varien_Simplexml_Config
         // read cache file
         $cacheFile = $this->getCacheFileName($key);
         if (is_readable($cacheFile)) {
-            $xml = $this->loadFile($cacheFile);
+            $cacheData = file_get_contents($cacheFile);
+            $cacheData = $this->_processCacheData($cacheData);
+            $xml = $this->loadString($cacheData);
             if (!empty($xml)) {
                 $this->_cacheLoaded = true;
                 return $xml;

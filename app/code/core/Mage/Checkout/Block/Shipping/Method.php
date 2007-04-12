@@ -14,7 +14,12 @@ class Mage_Checkout_Block_Shipping_Method extends Mage_Core_Block_Template
         }
         $methods = $checkout->getShippingMethods();
 
-        $selectedMethod = $quote->getAddressByType('shipping')->getAttribute('shipping_method');
+        $addressEntity = $quote->getAddressByType('shipping');
+        if (!empty($addressEntity)) {
+            $selectedMethod = $addressEntity->getAttribute('shipping_method');
+        } else {
+            $selectedMethod = '';
+        }
 
         $this->setViewName('Mage_Checkout', 'onepage/shipping_method/box.phtml');
 	    $this->assign('methods', $methods)->assign('selectedMethod', $selectedMethod);

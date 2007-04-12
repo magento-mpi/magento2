@@ -334,12 +334,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      * @param array|string $args Module name if string
      * @return array
      */
-    public function getPathVars($args)
+    public function getPathVars($args=null)
     {
         $path = array();
         
         $path['baseUrl'] = Mage::getBaseUrl();
         $path['baseSkinUrl'] = Mage::getBaseUrl('skin');
+        $path['baseJsUrl'] = Mage::getBaseUrl('js');
         
         if(is_array($args)) {
             $moduleName = isset($args['moduleName']) ? $args['moduleName'] : '';
@@ -353,7 +354,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         } else {
             $path['moduleBaseUrl'] = '';
         }
-        $path['baseJsUrl'] = Mage::getBaseUrl('js');
         
         return $path;
     }

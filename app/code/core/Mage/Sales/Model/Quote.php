@@ -260,7 +260,11 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     
     public function collectShippingMethods()
     {
-        $shippingAddress = $this->getAddressByType('shipping')->asModel('customer', 'address');
+        $shippingEntity = $this->getAddressByType('shipping');
+        if (empty($shippingEntity)) {
+            return array();
+        }
+        $shippingAddress = $shippingEntity->asModel('customer', 'address');
 
         $request = Mage::getModel('sales_model', 'shipping_method_request');
         $request->setDestCountryId($shippingAddress->getCountryId());

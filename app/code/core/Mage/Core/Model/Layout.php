@@ -48,9 +48,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $moduleName = (string)$args->module;
         $fileName = Mage::getBaseDir('layout', $moduleName).DS.$fileName;
         $this->addCacheStat($fileName);
-        $xmlText = file_get_contents($fileName);
-        $xmlText = str_replace($this->_subst['keys'], $this->_subst['values'], $xmlText);
-        $update = $this->loadString($xmlText);
+        
+        $update = $this->loadFile($fileName);
+        
         $update->prepare($args);
         foreach ($update as $child) {
             $this->getXml()->appendChild($child);
@@ -77,9 +77,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this;
     }
     
-    protected function _processSubstitutions($orig, $subst)
+    protected function _processCacheData($data)
     {
-        str_replace(array_keys($subst), array_values($subst), $test);
+        $substKeys = array();
+        $substValues = array();
+        $subst = Mage::getConfig()->getPathVars();
+        foreach ($subst as $k=>$v) {
+            $substKeys[] = '{'.$k.'}';
+            $substValues[] = $v;
+        }
+        return str_replace($substKeys, $substValues, $data);
     }
     
     /**

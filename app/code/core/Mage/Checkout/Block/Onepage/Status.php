@@ -32,10 +32,15 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
             if ($payment->getCcNumber()) {
                 $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
             }
-            $className = Mage::getConfig()->getGlobalCollection('salesPayment', $payment->getMethod())->getClassName();
-            $paymentModel = new $className();
-            $paymentBlock = $paymentModel->setPayment($payment)->createInfoBlock($this->getInfo('name').'.payment');
-            $this->setChild('payment', $paymentBlock);
+            $paymentConfig = Mage::getConfig()->getGlobalCollection('salesPayment', $payment->getMethod());
+            if (!empty($paymentConfig)) {
+                $className = $paymentConfig->getClassName();
+                $paymentModel = new $className();
+                $paymentBlock = $paymentModel->setPayment($payment)->createInfoBlock($this->getInfo('name').'.payment');
+                $this->setChild('payment', $paymentBlock);
+            } else {
+                $this->assign('payment', '');
+            }
         } else {
             $this->assign('payment', '');
         }
