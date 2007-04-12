@@ -140,8 +140,8 @@ Mage.Catalog_Product = function(depend){
             });
 
             paging.add('-', {
-                text: 'Create New',
-                cls: 'x-btn-text-icon product_new',
+                text: 'Product',
+                cls: 'x-btn-text-icon bedit_add',
                 handler : this.createItem.createDelegate(this)
             });
             
@@ -226,7 +226,7 @@ Mage.Catalog_Product = function(depend){
                 var el = Ext.get(filters[i]);
                 height = height + el.getHeight();
             }
-            
+                   //Ext.dump(this.productLayout.getRegion('north').baseParams);
             if (this.productLayout.getRegion('north').maxSize) {
                 if (height+1 > this.productLayout.getRegion('north').maxSize) {
                     this.productLayout.getRegion('north').resizeTo(this.productLayout.getRegion('north').maxSize);
