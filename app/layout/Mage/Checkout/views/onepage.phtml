@@ -16,7 +16,7 @@ Checkout.prototype = {
     },
     
     reloadShippingMethodBlock: function(){
-    	var updater = new Ajax.Updater('checkout-shipping-method', '<?=$moduleBaseUrl?>/onepage/shippingMethod/', {method: 'get'});
+    	var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$moduleBaseUrl?>/onepage/shippingMethod/', {method: 'get'});
     },
 
     setType: function(){
