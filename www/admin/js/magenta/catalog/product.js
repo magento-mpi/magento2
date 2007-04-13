@@ -585,12 +585,16 @@ Mage.Catalog_Product = function(depend){
              var i=0;
             // we can ignore panel.loaded - because next step set it to ture version Ext alpha 3r4
             panel = this.editPanel.getRegion('center').getPanel(el.id);
+            if (!panel) {
+                return false;
+            }
             date = [];
             if (form = Ext.DomQuery.selectNode('form', panel.getEl().dom))  {
                 var el;
                 for(i=0; i < form.elements.length; i++) {
-                    // add to each file onChange event if - field changed - mark tab and form changed
-                    Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
+                    if (form.elements[i]) {
+                        Ext.EventManager.addListener(form.elements[i], 'change', this.onFormChange.createDelegate(this, [panel], true));
+                    }
                 }
                 this.loadedForms.add(form.id, form);
             }
