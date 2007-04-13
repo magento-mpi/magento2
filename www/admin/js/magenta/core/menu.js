@@ -78,7 +78,7 @@ Mage.Menu_Core = function(){
                 hideTrigger:true,
                 tpl: resultTpl,
                 onSelect: function(record){ // override default onSelect to do redirect
-                    Mage.Catalog_Product.viewGrid(1);
+                    Mage.Catalog_Product.viewGrid({load:true, catId:1, catTitle:'grid category title'});
                     Mage.Catalog_Product.doCreateItem(440, 'yes');
                 }
            });

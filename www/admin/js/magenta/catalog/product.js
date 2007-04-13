@@ -123,7 +123,9 @@ Mage.Catalog_Product = function(depend){
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
-
+            
+            this.productsGrid.mageCategoryId = catId;
+            
             this.productsGrid.on('rowclick', this.createItem.createDelegate(this));
 
             this.productsGrid.render();
@@ -275,23 +277,36 @@ Mage.Catalog_Product = function(depend){
             this.el.remove();
             that.updateSizeFilterPanel();
         },
-
-        viewGrid : function (catId) {
+    
+        /**
+         *  @param : load  boolean (load grid data)
+         *  @param : catId  integer (category id required)
+         *  @param : catTitle string (category title required)
+         */
+        viewGrid : function (config) {
+            if (!config.catId) {
+                return false;
+            }
             this.init();
             if (!this.productLayout) {
                 this.initLayouts();
             }
             //this.parentProductLayut.setTitle(treeNode.text);
             if (!this.gridPanel) {
-                this.initGrid(catId);
+                this.initGrid(config.catId);
                 this.productLayout.beginUpdate();
-                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: 'Category Title'}));
+                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: config.catTitle}));
                 this.productLayout.endUpdate();
-                this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                if (config.load) {
+                    this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                }
             } else {
                 this.gridPanel.getGrid();
-                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/';
-                this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + config.catId + '/';
+                if (config.load && this.productsGrid.mageCategoryId != config.catId) {
+                    this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                }
+                this.productsGrid.mageCategoryId = config.catId;                
             }
         },
 

@@ -150,11 +150,11 @@ Mage.Catalog_Category_Tree = function(){
         //////////////// Context menu handlers /////////////
         showProducts: function(item, event, selectedNode) {
             if (selectedNode) {
-                Mage.Catalog_Product.viewGrid(selectedNode.id);        
+                Mage.Catalog_Product.viewGrid({load: true, catId: selectedNode.id, catTitle: selectedNode.text});        
                 Mage.Catalog_Product.loadCategoryEditForm(selectedNode);
                 //Mage.Catalog_Category.init(selectedNode);
             } else {
-                Mage.Catalog_Product.viewGrid(item.parentMenu.selectedNode.id);        
+                Mage.Catalog_Product.viewGrid({load: true, catId: item.parentMenu.selectedNode.id, catTitle: item.parentMenu.selectedNode.text});        
                 Mage.Catalog_Product.loadCategoryEditForm(item.parentMenu.selectedNode);                
                 //Mage.Catalog_Category.init(item.parentMenu.selectedNode);                
             }
