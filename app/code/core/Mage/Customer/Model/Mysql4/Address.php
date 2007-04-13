@@ -145,8 +145,16 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
      */
     public function delete()
     {
-        $condition = self::$_write->quoteInto('address_id=?', $addressId = $this->getAddressId());
-        $result = self::$_write->delete(self::$_addressTable, $condition);
+        self::$_write->beginTransaction();
+        try {
+            $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
+            $result = self::$_write->delete(self::$_addressTable, $condition);
+            self::$_write->commit();
+        }
+        catch (Exception $e){
+            self::$_write->rollBack();
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE023'));
+        }
         return $this;
     }
 

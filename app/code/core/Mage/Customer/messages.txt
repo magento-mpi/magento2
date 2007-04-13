@@ -13,6 +13,7 @@ CSTE008 change password error
 CSTE020 wrong address id for customer id
 CSTE021 empty customer_id when address save
 CSTE022 wrong region_id when address save
+CSTE023 address delete error
 
 [warning]
 
@@ -23,3 +24,4 @@ CSTS001 customer create success
 CSTS002 customer information is saved
 CSTS003 password changed
 CSTS004 address saved
+CSTS005 address deleted

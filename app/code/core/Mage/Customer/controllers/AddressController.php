@@ -121,22 +121,31 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     
     public function deleteAction()
     {
-        if (!Mage::getSingleton('customer_model', 'session')->authenticate($this)) {
-            return;
-        }
-
         $addressId = $this->getRequest()->getParam('address', false);
         
         if ($addressId) {
             $address = Mage::getModel('customer', 'address')->load($addressId);
             
             // Validate address_id <=> customer_id
-            if (!$addressValidator->hasCustomer($addressId, Mage::getSingleton('customer_model', 'session')->getCustomerId())) {
+            if ($address->getCustomerId() != Mage::getSingleton('customer_model', 'session')->getCustomerId()) {
+                Mage::getSingleton('customer_model', 'session')
+                    ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE020'));
                 $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
                 return;
             }
-            $addressModel = Mage::getModel('customer', 'address');
-            $addressModel->delete($addressId);
+            
+            try {
+                $address->delete();
+                Mage::getSingleton('customer_model', 'session')
+                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS005'));
+            }
+            catch (Mage_Core_Exception $e){
+                Mage::getSingleton('customer_model', 'session')
+                    ->addMessages($e->getMessages());
+            }
+            catch (Exception $e){
+                
+            }
         }
         
         $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/address/');
