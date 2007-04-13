@@ -1,36 +1,42 @@
-review
-<form action="<{$page.links.checkout_process}>" method="POST" id="co-form-place">
-    <div class="step-body" id="co-review-cont">&nbsp;</div>
-    <input type="hidden" name="billing[address_book_id]" id="billing[address_book_id]" value="" />
-    <input type="hidden" name="billing[firstname]" id="billing[firstname]" value="" />
-    <input type="hidden" name="billing[lastname]" id="billing[lastname]" value="" />
-    <input type="hidden" name="billing[email_address]" id="billing[email_address]" value="" />
-    <input type="hidden" name="billing[street_address]" id="billing[street_address]" value="" />
-    <input type="hidden" name="billing[street_address2]" id="billing[street_address2]" value="" />
-    <input type="hidden" name="billing[telephone]" id="billing[telephone]" value="" />
-    <input type="hidden" name="billing[fax]" id="billing[fax]" value="" />
-    <input type="hidden" name="billing[postcode]" id="billing[postcode]" value="" />
-    <input type="hidden" name="billing[city]" id="billing[city]" value="" />
-    <input type="hidden" name="billing[country_id]" id="billing[country_id]" value="" />
-    <input type="hidden" name="billing[company]" id="billing[company]" value="" />
-    <input type="hidden" name="billing[zone_id]" id="billing[zone_id]" value="" />
-    <input type="hidden" name="shipping[address_book_id]" id="shipping[address_book_id]" value="" />
-    <input type="hidden" name="shipping[firstname]" id="shipping[firstname]" value="" />
-    <input type="hidden" name="shipping[lastname]" id="shipping[lastname]" value="" />
-    <input type="hidden" name="shipping[email_address]" id="shipping[email_address]" value="" />
-    <input type="hidden" name="shipping[street_address]" id="shipping[street_address]" value="" />
-    <input type="hidden" name="shipping[street_address2]" id="shipping[street_address2]" value="" />
-    <input type="hidden" name="shipping[telephone]" id="shipping[telephone]" value="" />
-    <input type="hidden" name="shipping[fax]" id="shipping[fax]" value="" />
-    <input type="hidden" name="shipping[postcode]" id="shipping[postcode]" value="" />
-    <input type="hidden" name="shipping[city]" id="shipping[city]" value="" />
-    <input type="hidden" name="shipping[country_id]" id="shipping[country_id]" value="" />
-    <input type="hidden" name="shipping[company]" id="shipping[company]" value="" />
-    <input type="hidden" name="shipping[zone_id]" id="shipping[zone_id]" value="" />
-    <input type="hidden" name="payment[cc_type]" id="payment[cc_type]" value="" />
-    <input type="hidden" name="payment[cc_owner]" id="payment[cc_owner]" value="" />
-    <input type="hidden" name="payment[cc_number]" id="payment[cc_number]" value="" />
-    <input type="hidden" name="payment[cc_expires]" id="payment[cc_expires]" value="" />
-    <input type="hidden" name="payment[cc_cvv2]" id="payment[cc_cvv2]" value="" />
-    <input type="hidden" name="payment[coupon_code]" id="payment[coupon_code]" value="" />
-</form>
+<script type="text/javascript">
+var Review = Class.create();
+Review.prototype = {
+    initialize: function(form){
+        this.form = form;
+        this.onSave = this.continue.bindAsEventListener(this);
+    },
+    
+    save: function(){
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+            var request = new Ajax.Request(
+                '<?=$moduleBaseUrl?>/onepage/saveOrder/',
+                {
+                    method:'post',
+                    onSuccess: this.onSave,
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    },
+
+    continue: function(){
+        checkout.setBilling();
+    }
+}
+</script>
+
+<div class="step-body" id="co-review-cont">
+    <div class="default-box">
+        <?=$status?>
+    </div>
+    
+    <div class="note-box">
+        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
+        <input type="button" onclick="review.save();" class="input-button float-right" value="Submit Order"/>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var review = new Review('co-billing-form');
+</script>

@@ -19,12 +19,12 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
         $condition = self::$_read->quoteInto("quote_entity_id=?", $entityId);
         $select = self::$_read->select()->from(self::$_entityTable)->where($condition);
         $this->setData(self::$_read->fetchRow($select));
-        $this->resetChanged(false);
+        $this->setIsChanged(false);
     }
     
     public function save()
     {
-        if ($this->getDeleteFlag()) {
+        if ($this->isDeleted()) {
             return $this->delete();
         }
         
@@ -42,7 +42,7 @@ class Mage_Sales_Model_Mysql4_Quote_Entity extends Mage_Sales_Model_Quote_Entity
                 $condition = self::$_write->quoteInto('quote_entity_id=?', $this->getQuoteEntityId());
                 self::$_write->update(self::$_entityTable, $this->getData(), $condition);
             }
-            $this->resetChanged(false);
+            $this->setIsChanged(false);
         }
         
         foreach ($this->_attributes as $attr) {

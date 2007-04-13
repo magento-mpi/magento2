@@ -23,7 +23,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         $this->_newEntityId = 0;
         $this->_newAttributeId = 0;
 
-        $this->resetChanged(false);
+        $this->setIsChanged(false);
     }
     
     public function getNewEntityId()
@@ -161,7 +161,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
         unset($this->_entitiesById[$entityId]);
         unset($this->_entitiesByType[$entityToRemove->getEntityType()][$entityId]);
 
-        $entityToRemove->setDeleteFlag(true);       
+        $entityToRemove->setIsDeleted(true);       
     }
     
     protected function _afterLoad()
@@ -324,7 +324,7 @@ class Mage_Sales_Model_Quote extends Varien_Data_Object
     {
         foreach ($itemsArr as $id=>$itemUpd) {
             if (!empty($itemUpd['remove'])) {
-                $this->getEntityById($id)->setDeleteFlag(true);
+                $this->getEntityById($id)->setIsDeleted(true);
             } else {
                 $item = $this->getEntityById($id);
                 if (!$item) {

@@ -19,16 +19,16 @@ class Mage_Sales_Model_Mysql4_Quote_Attribute extends Mage_Sales_Model_Quote_Att
         $condition = self::$_read->quoteInto("quote_address_id=?", $attributeId);
         $select = self::$_read->select()->from(self::$_attrTable)->where($condition);
         $this->setData(self::$_read->fetchRow($select));
-        $this->resetChanged(false);
+        $this->setIsChanged(false);
     }
     
     public function save()
     {
         if ($this->isEmpty()) {
             $this->getEntity()->removeAttribute($this->getAttributeCode());
-            $this->setDeleteFlag(true);
+            $this->setIsDeleted(true);
         }
-        if ($this->getDeleteFlag()) {
+        if ($this->isDeleted()) {
             return $this->delete();
         }
 
@@ -47,7 +47,7 @@ class Mage_Sales_Model_Mysql4_Quote_Attribute extends Mage_Sales_Model_Quote_Att
             $condition = self::$_write->quoteInto('quote_attribute_id=?', $this->getQuoteAttributeId());
             self::$_write->update(self::$_attrTable, $this->getData(), $condition);
         }
-        $this->resetChanged(false);
+        $this->setIsChanged(false);
 
         return $this;
     }

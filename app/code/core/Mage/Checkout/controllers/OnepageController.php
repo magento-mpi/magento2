@@ -24,7 +24,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->_redirect($this->_data['url']['cart']);
         }
         
-        foreach (array('status','shippingMethod','getAddress','saveBilling','savePayment','saveShipping','saveShippingMethod') as $action) {
+        foreach (array('status', 'shippingMethod', 'getAddress', 'saveBilling', 'savePayment', 'saveShipping', 'saveShippingMethod', 'saveOrder') as $action) {
             $this->setFlag($action, 'no-renderLayout', true);
         }
     }
@@ -146,5 +146,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->_checkout->setAllowOrderReview(true);
         }
 
+    }
+    
+    public function saveOrderAction()
+    {
+        echo "TEST";
     }
 }

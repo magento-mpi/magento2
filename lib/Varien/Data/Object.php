@@ -15,13 +15,14 @@ class Varien_Data_Object
 {
     protected $_data = array();
     protected $_isChanged = false;
+    protected $_isDeleted = false;
     
     public function __construct($data = array())
     {
         $this->_data = $data;
     }
     
-    public function resetChanged($changed=false)
+    public function setIsChanged($changed=false)
     {
         $this->_isChanged = $changed;
         return $this;
@@ -30,6 +31,17 @@ class Varien_Data_Object
     public function isChanged()
     {
         return $this->_isChanged;
+    }
+    
+    public function setIsDeleted($deleted=false)
+    {
+        $this->_isDeleted = $deleted;
+        return $this;
+    }
+    
+    public function isDeleted()
+    {
+        return $this->_isDeleted;
     }
     
     public function addData($arr)
@@ -43,7 +55,7 @@ class Varien_Data_Object
     public function setData($key, $value='', $isChanged=true)
     {
         if ($isChanged) {
-            $this->resetChanged(true);
+            $this->setIsChanged(true);
         }
         
         if(is_array($key)) {
@@ -74,6 +86,9 @@ class Varien_Data_Object
     
     public function hasData($key='')
     {
+        if (empty($key) || !is_string($key)) {
+            return false;
+        }
         return isset($this->_data[$key]);
     }
 
@@ -183,7 +198,7 @@ class Varien_Data_Object
     
     public function __set($var, $value)
     {
-        $this->resetChanged(true);
+        $this->setIsChanged(true);
         $var = $this->_underscore($var);
         $this->setData($var, $value);
     }

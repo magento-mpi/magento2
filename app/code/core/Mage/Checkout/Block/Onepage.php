@@ -164,8 +164,11 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createReviewBlock()
     {
+        $status = Mage::createBlock('checkout_onepage_status', 'checkout.review.stub');
+        
         $block = Mage::createBlock('tpl', 'checkout.review')
             ->setViewName('Mage_Checkout', 'onepage/review.phtml')
+            ->setChild('status', $status)
             ->assign('data', $this->_quote);
             
         $this->setChild('review', $block);

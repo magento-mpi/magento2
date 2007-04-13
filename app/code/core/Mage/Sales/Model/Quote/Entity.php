@@ -106,7 +106,26 @@ class Mage_Sales_Model_Quote_Entity extends Varien_Data_Object
         }
         return $this->_attributes[$varArr[0]]->getData('attribute_'.$varArr[1]);
     }
+/*
+    public function setData($var, $value='', $isChanged=true)
+    {
+        if (($var instanceof Mage_Sales_Model_Quote_Attribute) || 
+            (is_string($var) && !('quote_entity_id'==$var || 'quote_id'==$var || 'entity_type'==$var))) {
+            return $this->setAttribute($var, $value, $isChanged);
+        }
+        return Varien_Data_Object::setData($var, $value, $isChanged);
+        
+    }
     
+    public function getData($var='', $index=false)
+    {
+        if (($var instanceof Mage_Sales_Model_Quote_Attribute) || 
+            (is_string($var) && !('quote_entity_id'==$var || 'quote_id'==$var || 'entity_type'==$var))) {
+            return $this->getAttribute($var);
+        }
+        return Varien_Data_Object::getData($var, $index);
+    }
+*/
     public function removeAttribute($attrName)
     {
         unset($this->_attributes[$attrName]);
