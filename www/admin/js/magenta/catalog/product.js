@@ -7,7 +7,7 @@ Mage.Catalog_Product = function(depend){
         editPanel : null,
         formLoading: null,
         loadedForms : new Ext.util.MixedCollection(),
-        activeFilters : new Ext.util.MixedCollection(),
+        activeFilters : new Ext.util.MixedCollection(true),
         filterButtons : new Ext.util.MixedCollection(),
         editablePanels : [],
         categoryEditFormPanel : null, // panel for category from
@@ -177,8 +177,8 @@ Mage.Catalog_Product = function(depend){
             Ext.EventManager.addListener(type.getEl(), 'change', function(filter, type){
                var sType = type.getEl().options[type.getEl().options.selectedIndex].getAttribute('ftype');
                var lastItem = filter.items.itemAt(filter.items.getCount()-1);
-               lastItem.getEl().remove;
-               lastItem.destroy();
+               filter.items.remove(lastItem);
+               lastItem.destroy();               
                switch (sType) {
                    case 'date' :
                         var dateValue = new Ext.form.DateField({
@@ -268,8 +268,9 @@ Mage.Catalog_Product = function(depend){
                 filter[i].data = {};
                 for (k=0; k< toolbar.items.getCount(); k++) {
                     if (toolbar.items.itemAt(k).getEl().name != 'undefined') {
-                        if (toolbar.items.itemAt(k).getValue) {
-                            filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getValue();
+                       if (typeof toolbar.items.itemAt(k).getEl().getValue == 'function') {
+                            //Ext.dump(toolbar.items.itemAt(k).getEl().getValue());    
+                            filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().getValue();
                         } else {
                             filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;
                         }
@@ -291,14 +292,16 @@ Mage.Catalog_Product = function(depend){
         
 
         delFilter : function(filter) {
-//            for(var i=0; i< filter.items.length; i++) {
-//                if (filter.items.get(i).destroy) {
-//                    filter.items.get(i).destroy();
-//                }
-//            }
-            this.activeFilters.remove(filter);
+            for(var i=0; i< filter.items.getCount(); i++) {
+                var item = filter.items.itemAt(i);
+                filter.items.remove(item);
+                if (item.destroy) {
+                    filter.items.get(i).destroy();
+                }
+            }
             filter.getEl().removeAllListeners();
             filter.getEl().remove();
+            this.activeFilters.remove(filter);            
             this.updateSizeFilterPanel();
         },
     
