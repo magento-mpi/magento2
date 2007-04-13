@@ -19,7 +19,7 @@
 
 .x-view-selected{background: #c3daf9;border: 2px solid #6593cf;padding: 5px;}
 .address-view {cursor:pointer;padding: 5px 3px;font:normal 11px tahoma,verdana,helvetica;background:#efefef;margin-bottom:5px}
-.data-form input, .data-form textarea, .data-form select{width:400px}
+
 
 /* 
 * Menu Buttons

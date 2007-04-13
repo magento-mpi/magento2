@@ -197,7 +197,8 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
     
     protected function _setAsPrimaryByType($typeId)
     {
-        self::$_write->update(self::$_typeLinkTable, array('is_primary'=>0),self::$_write->quoteInto('address_type_id=?',$typeId));
+        // TODO: set is_primary=0 for all custmer address by type
+        //self::$_write->update(self::$_typeLinkTable, array('is_primary'=>0),self::$_write->quoteInto('address_type_id=?',$typeId));
         
         $condition = self::$_write->quoteInto('address_id=?',$this->getAddressId()) . 
             ' AND ' .self::$_write->quoteInto('address_type_id=?',$typeId);

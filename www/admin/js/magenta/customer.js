@@ -499,7 +499,7 @@ Mage.Customer = function(depend){
             if (view.jsonData.length > 0 ) {
                 this.addressView.select(index);
                 var panel = this.addressLayout.getRegion('center').getActivePanel();
-                panel.setUrl(this.addressViewForm + 'id/' + node.id);
+                panel.setUrl(this.addressViewForm + 'id/' + node.id + '/customer/' + this.customerCardId);
                 panel.refresh();
             }
         },
@@ -587,7 +587,7 @@ Mage.Customer = function(depend){
 
         onAddressNew : function() {
               var panel = this.addressLayout.getRegion('center').getActivePanel();
-              panel.setUrl(this.addressViewForm + 'id/0/');
+              panel.setUrl(this.addressViewForm + 'id/0/customer/' + this.customerCardId);
               panel.refresh();
         },
 
