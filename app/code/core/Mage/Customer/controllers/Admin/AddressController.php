@@ -14,26 +14,19 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
      */
     public function gridDataAction()
     {
-        $arrRes = array(
-            0 => array(
-                'address_id' => 1,
-                'address' => 'Formated address string'
-            ),
-            
-            1 => array(
-            'address_id' => 2,
-            'address' => 'Formated address string'
-            )
-            );
-
-            //$this->getResponse()->setBody(Zend_Json::encode($arrRes));
-            $this->getResponse()->setBody('{addresses:[{addr_id:0, address: "street lines", city: "Los Angeles", state:"California", zip: "09210", country: "USA"}, 
-													   {addr_id:1, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
-													   {addr_id:2, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
-													   {addr_id:3, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
-													   {addr_id:4, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"},
-													   {addr_id:5, address: "street lines2", city: "New York", state:"New York", zip: "02950", country: "USA"}
-											]}');
+        $arrRes = array();
+        $customerId = $this->getRequest()->getParam('id', false);
+        if ($customerId) {
+            $addressCollection = Mage::getModel('customer', 'address_collection')->loadByCustomerId($customerId);
+            foreach ($addressCollection as $address) {
+                $arrRes[] = array(
+                    'address_id'=> $address->getAddressId(),
+                    'address'   => $address->toString()
+                );
+            }
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode(array('addresses'=>$arrRes)));
     }
 
     /**
@@ -42,8 +35,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
     public function formAction()
     {
         $addressId = $this->getRequest()->getParam('id', false);
-        $address = Mage::getModel('customer', 'address');
-        $address->load($addressId);
+        $address = Mage::getModel('customer', 'address')->load($addressId);
 
         $form = Mage::createBlock('form', 'customer.form');
         $form->setViewName('Mage_Core', 'form.phtml');
@@ -61,40 +53,112 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
             )
         );
 
-        $form->addField(
-            'customer_firstname',
-            'text',
+        $form->addField( 'firstname', 'text',
             array(
-                'name'  => 'customer_firstname',
+                'name'  => 'firstname',
                 'label' => __('Firstname'),
-                'id'    => 'customer_firstname',
-                'title' => __('Customer Firstname'),
+                'id'    => 'address_firstname',
+                'title' => __('Firstname'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )
         );
 
-        $form->addField(
-            'customer_lastname',
-            'text',
+        $form->addField('lastname', 'text',
             array(
-                'name'  => 'customer_lastname',
+                'name'  => 'lastname',
                 'label' => __('Lastname'),
-                'id'    => 'customer_lastname',
-                'title' => __('Customer Lastname'),
+                'id'    => 'address_lastname',
+                'title' => __('Lastname'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
         	)
         );
 
-        $form->addField(
-            'customer_email',
-            'text',
+        $form->addField('company', 'text',
             array(
-                'name'  => 'customer_email',
-                'label' => __('Email'),
-                'id'    => 'customer_email',
-                'title' => __('Customer Email'),
+                'name'  => 'company',
+                'label' => __('Company'),
+                'id'    => 'address_company',
+                'title' => __('Company'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('country_id', 'select',
+            array(
+                'name'  => 'country_id',
+                'label' => __('Country'),
+                'id'    => 'address_country',
+                'title' => __('Country'),
+                'values'=> Mage::getModel('directory', 'country_collection')->load()->toOptionArray(),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+        
+        $form->addField('region', 'text',
+            array(
+                'name'  => 'region',
+                'label' => __('State/Province'),
+                'id'    => 'address_region',
+                'title' => __('State/Province'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('city', 'text',
+            array(
+                'name'  => 'city',
+                'label' => __('City'),
+                'id'    => 'address_city',
+                'title' => __('City'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('street', 'textarea',
+            array(
+                'name'  => 'street',
+                'label' => __('Street Address'),
+                'id'    => 'address_street',
+                'title' => __('Street Address'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('postcode', 'text',
+            array(
+                'name'  => 'postcode',
+                'label' => __('Zip/Post Code'),
+                'id'    => 'address_postcode',
+                'title' => __('Zip/Post code'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('telephone', 'text',
+            array(
+                'name'  => 'telephone',
+                'label' => __('Telephone'),
+                'id'    => 'address_telephone',
+                'title' => __('Telephone'),
+                'validation'=> '',
+                'ext_type'  => 'TextField'
+            )
+        );
+
+        $form->addField('fax', 'text',
+            array(
+                'name'  => 'fax',
+                'label' => __('Fax'),
+                'id'    => 'address_fax',
+                'title' => __('Fax'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
             )

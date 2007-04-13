@@ -1,72 +1,43 @@
-.x-toolbar{
-    border-left:0px;
-}
+.x-toolbar {border-left:0px;}
 
-.left-menu-toolbar{
-    border-right:0px;
-}
+.left-menu-toolbar {border-right:0px;}
 
-.right-menu-toolbar{
-    float:right;
-    width:400px;    
-    text-align:right;
-    border-left:0px;
-}
+.right-menu-toolbar {float:right;width:400px;text-align:right;border-left:0px;}
 
 #loading{
-	position:absolute;
-	left:45%;
-	top:40%;
-	border:3px solid #B2D0F7;
-	background:white url(block-bg.gif) repeat-x;
-	padding:10px;
-	font:bold 14px verdana,tahoma,helvetica;
-	color:#003366;
-	width:150px;
-	text-align:center;
+    position:absolute;
+    left:45%;
+    top:40%;
+    border:3px solid #B2D0F7;
+    background:white url(block-bg.gif) repeat-x;
+    padding:10px;
+    font:bold 14px verdana,tahoma,helvetica;
+    color:#003366;
+    width:150px;
+    text-align:center;
 }
 
-.x-view-selected{
-	background: #c3daf9;
-	border: 2px solid #6593cf;
-	padding: 3px;
-}
-
-.address-view {
-	cursor : pointer
-}
+.x-view-selected{background: #c3daf9;border: 2px solid #6593cf;padding: 5px;}
+.address-view {cursor:pointer;padding: 5px 3px;font:normal 11px tahoma,verdana,helvetica;background:#efefef;margin-bottom:5px}
+.data-form input, .data-form textarea, .data-form select{width:400px}
 
 /* 
 * Menu Buttons
 */
 
-.bedit_add .x-btn-text {
-	background-image:url(./ico/edit_add.gif);
-}
-
-.bedit_delete .x-btn-text {
-	background-image:url(./ico/edit_delete.gif);
-}
-
-.bedit_remove .x-btn-text {
-	background-image:url(./ico/edit_remove.gif);
-}
-
-.bapply .x-btn-text {
-	background-image:url(./ico/apply.gif);
-}
-
-.bok .x-btn-text {
-	background-image:url(./ico/button_ok.gif);
-}
+.bedit_add .x-btn-text {background-image:url(./ico/edit_add.gif);}
+.bedit_delete .x-btn-text {background-image:url(./ico/edit_delete.gif);}
+.bedit_remove .x-btn-text {background-image:url(./ico/edit_remove.gif);}
+.bapply .x-btn-text {background-image:url(./ico/apply.gif);}
+.bok .x-btn-text {background-image:url(./ico/button_ok.gif);}
 
 .search-input {
-	background-color : #FFFFFF;
-	background-image : url(./icon/magnifier_desat.gif);
-	background-repeat : no-repeat;
-	background-attachment :	scroll;
-	opacity : 1;
-	padding-leff : 23px;
+    background-color : #FFFFFF;
+    background-image : url(./icon/magnifier_desat.gif);
+    background-repeat : no-repeat;
+    background-attachment : scroll;
+    opacity : 1;
+    padding-leff : 23px;
 }
 
 .search-item {

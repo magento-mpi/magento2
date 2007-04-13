@@ -428,18 +428,14 @@ Mage.Customer = function(depend){
 
         	// create the required templates
         	this.addressTemplate = new Ext.Template(
-                '<div id="{addr_id}" class="address-view"><address>'+
-            		'{address}<br/>'+
-            		'{city}, {state} {zip}<br/>'+
-            		'{country}'+
-                '</address></div>'
+                '<div id="{address_id}" class="address-view"><address>{address}</address></div>'
         	);
         	this.addressTemplate.compile();
 
         	this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
         		singleSelect: true,
         		jsonRoot: 'addresses',
-        		emptyText : '<div style="padding:10px;">No address found</div>'
+        		emptyText : '<div class="address-view"><h3>No address found</h3></div>'
         	});
 
         	this.addressView.on({
