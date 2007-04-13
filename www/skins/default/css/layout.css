@@ -49,6 +49,10 @@ h2#title-newsletter {height:22px;background:url(../images/tit_newsletter.jpg) no
 .content fieldset .input-left select, #page-oscom fieldset  .input-left select, 
 .content fieldset .input-right select, #page-oscom fieldset  .input-right select{width:256px; } 
 
+.data-table td, .data-table th { background-color:#fff; padding:3px 5px;}
+.data-table { background-color:#f2f3ce;}
+
+
 .page-heading {font-size:1.45em; padding-bottom:4px; border-bottom: 1px solid #754D24; } 
 
 .footer {background:#FFF4DE;padding:15px}
