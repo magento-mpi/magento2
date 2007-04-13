@@ -92,6 +92,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->_quote->setAddress('billing', $address);
             $this->_quote->save();
 
+            $this->_checkout->setAllowBilling(true);
             $this->_checkout->setCompletedBilling(true);
             $this->_checkout->setAllowPayment(true);
         }
