@@ -74,11 +74,11 @@ Mage.Menu_Core = function(){
                 typeAhead: false,
                 loadingText: 'Searching...',
                 width: 250,
-                pageSize:2,
+                pageSize:10,
                 hideTrigger:true,
                 tpl: resultTpl,
                 onSelect: function(record){ // override default onSelect to do redirect
-                    Ext.dump(record);
+                    Ext.dump(record.data);
                 }
            });
            // apply it to the exsting input element
