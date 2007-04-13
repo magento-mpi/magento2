@@ -41,7 +41,50 @@ Mage.Menu_Core = function(){
 
             ////////////////////////
             // Temp - need load websites
-            Mage.Core.addRightToolbarItem({
+            var ds = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({
+                    url: Mage.url + '/mage_core/search/do/'
+                }),
+                reader: new Ext.data.JsonReader({
+                    root: 'topics',
+                    totalProperty: 'totalCount',
+                    id: 'post_id'
+                }, [
+                    {name: 'title', mapping: 'topic_title'},
+                    {name: 'topicId', mapping: 'topic_id'},
+                    {name: 'author', mapping: 'author'},
+                    {name: 'excerpt', mapping: 'post_text'}
+                ])
+            });
+
+            // Custom rendering Template
+            var resultTpl = new Ext.Template(
+                '<div class="search-item">',
+                    '<h3><span>Date<br />by {author}</span>{title}</h3>',
+                    '{excerpt}',
+                '</div>'
+            );            
+            
+            var search = Ext.DomHelper.append(document.body, {tag:'input', type:'text', style:'visibility:hidden'}, true);
+            Ext.EventManager.onDocumentReady(function(){this.toggle(true)}, search, true);
+            
+            var comboSearch = new Ext.form.ComboBox({
+                store: ds,
+                displayField:'title',
+                typeAhead: false,
+                loadingText: 'Searching...',
+                width: 400,
+                pageSize:10,
+                hideTrigger:true,
+                tpl: resultTpl,
+           });
+           // apply it to the exsting input element
+           comboSearch.applyTo(search);            
+           
+           
+           Mage.Core.addRightToolbarItem(new Ext.Toolbar.Item(comboSearch.getEl().dom));
+            
+           Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Theme',
                 menu: new Ext.menu.Menu({

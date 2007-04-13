@@ -54,8 +54,10 @@ Mage.Core = function(){
     var _lToolbarItems = new Ext.util.MixedCollection();
     var _rToolbarItems = new Ext.util.MixedCollection();
     return {
+        layout : null,
+        
         init: function(){
-            //Ext.get('loading').remove();            
+            Ext.get('loading').remove();            
             _layout = new Ext.BorderLayout(document.body, {
                     "hideOnLayout":true,
                     "north":{
@@ -101,6 +103,7 @@ Mage.Core = function(){
             // For testing
             //Mage.Catalog_Category.loadAttributesPanel();
         },
+        
         _initToolbar : function(){
             _leftToolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(_layout.getRegion('north').getEl().dom,{tag:'div'},true));
             _leftToolbar.add(_lToolbarItems.items);

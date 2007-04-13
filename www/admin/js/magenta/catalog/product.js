@@ -179,9 +179,9 @@ Mage.Catalog_Product = function(depend){
 
         	var fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
 		      tag:'select', name:'filterField', children: [
-    			{tag: 'option', value:'name', selected: 'true', html:'Name'},
-	       		{tag: 'option', value:'size', html:'File Size'},
-			    {tag: 'option', value:'lastmod', html:'Last Modified'}
+    			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
+	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
+			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
               ]
         	}, true);
 
@@ -194,13 +194,13 @@ Mage.Catalog_Product = function(depend){
               ]
         	}, true);
 
-        	var textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
-		          tag:'input', type:'text', name:'filterValue'
-		    }, true);
+        	var textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {tag:'input', type:'text', name:'textValue'}, true);
 
-            filter.add(fieldSelect.dom, condSelect.dom, textValue.dom);
+            filter.add(fieldSelect.dom, condSelect.dom)
+            filter.add(textValue.dom);
             
             this.activeFilters.add(Ext.id(), filter);
+
 
             this.updateSizeFilterPanel();
             return true;
