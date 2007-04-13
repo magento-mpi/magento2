@@ -240,7 +240,7 @@ Mage.Catalog_Product = function(depend){
                 selectOnFocus:true,
                 width:135
             });
-            filter.addField(fildName);        	
+            //filter.addField(fildName);        	
 
             var compareTypes = [
                 ['ASD', 'Greater_Than'],
@@ -266,14 +266,28 @@ Mage.Catalog_Product = function(depend){
                 width:135
             });
             
-            filter.addField(compType);        	
+            //filter.addField(compType);        	
+            
+            filter.addDom({tag:'select', name:'filterField', children: [
+    			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
+	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
+			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
+            ]});
+            
+            filter.addDom({tag:'select', name:'filterType', children: [
+    			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
+	       		{tag: 'option', value:'eq', html:'Equal'},
+    			{tag: 'option', value:'lt', html:'Lower Than'},
+			    {tag: 'option', value:'like', html:'Like'}
+            ]});
 
-        	var textValue = new Ext.form.DateField({
-                fieldLabel: 'Date of Birth',
-                name: 'dob',
-                width:135,
+        	var textValue = new Ext.form.TextField({
+                grow : true,
+                growMin : 135,
+                growMax : 600,
                 allowBlank:true        	    
         	});
+        	
             filter.addField(textValue);
             
             this.activeFilters.add(Ext.id(), filter);
