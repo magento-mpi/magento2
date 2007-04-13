@@ -1,21 +1,41 @@
 <?=$breadcrumbs?>
+<script src="<?=$baseUrl?>/js/scriptaculous/scriptaculous.js" type="text/javascript"></script>
 <script src="<?=$moduleSkinUrl?>/js/product.js" type="text/javascript"></script>
 <div class="product-image">
-    <a href="#" onclick="openLargeImageWin('<?=$product->getLargeImageLink()?>', 400, 400);return false;">
-        <img src="<?=$moduleImagesUrl?>/placeholder_product_main.jpg" alt="<?=$product->getName()?>" width="245"/>
-    </a>    
-    <div style="margin-top:10px;">
-        <span class="product-look-inside">
-            <a href="#"><img src="<?=$moduleImagesUrl?>/magnifying.png" alt="Look Inside"/></a>             
-            <a href="#" title="Look Inside">Look Inside</a>        
-        </span>        
-        <span class="product-zoom">            
-            <a href="#" onclick="openLargeImageWin('<?=$product->getLargeImageLink()?>', 400, 400);return false;">
-               <img src="<?=$moduleImagesUrl?>/icon_zoom.gif" alt="Larger View" class="vmiddle"/>
-            </a>&nbsp;            
-            <a href="#" onclick="openLargeImageWin('<?=$product->getLargeImageLink()?>', 400, 400);return false;">Larger View</a>        
-        </span>        
-        <div class="clearfix"></div>    
+    <div style="position:relative; overflow:hidden; width:245px; height:300px;">
+        <img id="image" src="http://www.animationarchive.org/pics/nature03-big.jpg" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move;"/>
+    </div>   
+    <div style="margin-top:10px; margin-left:20px;">
+        <div id="track1" style="width: 200px; height:18px; background:#CCC;">
+          <div id="handle1"" style="width: 8px; height: 18px; background:#557;">
+            
+          </div>
+        </div>
+        <script type="text/javascript">
+            var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false});
+            
+            var slider = new Control.Slider('handle1','track1', {axis:'horizontal', minimum: 0, maximum:200, alignX: 1, increment: 1, sliderValue: 0});
+            slider.options.onSlide = function(value) { scaleIt(value); }
+            slider.options.onChange = function(value) { scaleIt(value); }
+
+            var origWidth = 245;
+            var origHeight = 300;
+            var floorSize = 1.0;
+            var ceilingSize = 5.0;
+            var lastScale = 1.0;
+            
+            function scaleIt(v) {
+              var image = $('image');
+              var diff = lastScale-v;
+              lastScale = v;
+              
+              v = floorSize + (v * (ceilingSize - floorSize));
+
+              //image.style.left = (image.offsetLeft-image.offsetLeft*2)+'px';
+              //image.style.top = (image.offsetTop+diff)+'px';
+              image.style.width = (v*origWidth)+'px';
+            } 
+        </script>
     </div>
 </div>
 <form action="<?=Mage::getBaseUrl('', 'Mage_Checkout');?>/cart/add/" method="POST">

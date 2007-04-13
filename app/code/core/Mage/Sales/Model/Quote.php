@@ -2,6 +2,11 @@
 
 class Mage_Sales_Model_Quote extends Varien_Data_Object
 {
+    const ENTITY_TYPE_QUOTE = 0;
+    const ENTITY_TYPE_ITEM = 1;
+    const ENTITY_TYPE_ADDRESS = 2;
+    const ENTITY_TYPE_PAYMENT = 3;
+    
     protected $_entities = null;
     protected $_attributes = null;
     protected $_entitiesByType = array();

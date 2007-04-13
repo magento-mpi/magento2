@@ -46,22 +46,21 @@ Mage.Menu_Core = function(){
                     url: Mage.url + '/mage_core/search/do/'
                 }),
                 reader: new Ext.data.JsonReader({
-                    root: 'topics',
+                    root: 'items',
                     totalProperty: 'totalCount',
-                    id: 'post_id'
+                    id: 'id'
                 }, [
-                    {name: 'title', mapping: 'topic_title'},
-                    {name: 'topicId', mapping: 'topic_id'},
-                    {name: 'author', mapping: 'author'},
-                    {name: 'excerpt', mapping: 'post_text'}
+                    {name: 'type', mapping: 'type'},
+                    {name: 'name', mapping: 'name'},
+                    {name: 'description', mapping: 'description'}
                 ])
             });
 
             // Custom rendering Template
             var resultTpl = new Ext.Template(
                 '<div class="search-item">',
-                    '<h3><span>Date<br />by {author}</span>{title}</h3>',
-                    '{excerpt}',
+                    '<h3><span>{type}</span>{name}</h3>',
+                    '{description}',
                 '</div>'
             );            
             
@@ -78,8 +77,13 @@ Mage.Menu_Core = function(){
                 hideTrigger:true,
                 tpl: resultTpl,
                 onSelect: function(record){ // override default onSelect to do redirect
-                    Mage.Catalog_Product.viewGrid({load:true, catId:1, catTitle:'grid category title'});
-                    Mage.Catalog_Product.doCreateItem(440, 'yes');
+                    var id = record.id.split('/');
+                    switch (id[0]) {
+                        case 'product':
+                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:'grid category title'});
+                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
+                            break;
+                    }
                 }
            });
            // apply it to the exsting input element

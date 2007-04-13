@@ -3,17 +3,14 @@ class Mage_Core_SearchController extends Mage_Core_Controller_Admin_Action
 {
     function doAction()
     {
-        $data = '{
-			totalCount : 6,
-			topics : [
-				{topic_title:"sdfsdfasdf", topic_id:"1", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-				{topic_title:"sdfsdfasdf", topic_id:"2", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-				{topic_title:"sdfsdfasdf", topic_id:"3", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-				{topic_title:"sdfsdfasdf", topic_id:"4", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-				{topic_title:"sdfsdfasdf", topic_id:"5", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-				{topic_title:"sdfsdfasdf", topic_id:"6", author:"begemot", post_text:"sfdasdfasdfasdf asdf asdfas dfas dasf dfasdf asdf"},
-			]}';
+        for ($i=0; $i<10; $i++) {
+            $items[] = array('id'=>'product/1/'.$i, 'type'=>'Product', 'name'=>'blah blah', 'description'=>'afg lasfh glsjfh glsfjg slfjhg sljfg lwjrht qprht');
+        }
+        $totalCount = 100;
+
+        $data = array('totalCount'=>$totalCount, 'items'=>$items);
+        $json = Zend_Json::encode($data);
         
-        $this->getResponse()->setBody($data);
+        $this->getResponse()->setBody($json);
     }
 }
