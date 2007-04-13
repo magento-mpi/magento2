@@ -8,7 +8,7 @@
 
 .right-menu-toolbar{
     float:right;
-    width:570px;    
+    width:400px;    
     text-align:right;
     border-left:0px;
 }
@@ -60,6 +60,14 @@
 	background-image:url(./ico/button_ok.gif);
 }
 
+.search-input {
+	background-color : #FFFFFF;
+	background-image : url(./icon/magnifier_desat.gif);
+	background-repeat : no-repeat;
+	background-attachment :	scroll;
+	opacity : 1;
+	padding-leff : 23px;
+}
 
 .search-item {
     font:normal 11px tahoma, arial, helvetica, sans-serif;

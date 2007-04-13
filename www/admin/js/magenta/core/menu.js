@@ -65,7 +65,7 @@ Mage.Menu_Core = function(){
                 '</div>'
             );            
             
-            var search = Ext.DomHelper.append(document.body, {tag:'input', type:'text', style:'visibility:hidden'}, true);
+            var search = Ext.DomHelper.append(document.body, {tag:'input', cls : 'search-input', type:'text', style:'visibility:hidden'}, true);
             Ext.EventManager.onDocumentReady(function(){this.toggle(true)}, search, true);
             
             var comboSearch = new Ext.form.ComboBox({
@@ -73,10 +73,13 @@ Mage.Menu_Core = function(){
                 displayField:'title',
                 typeAhead: false,
                 loadingText: 'Searching...',
-                width: 400,
-                pageSize:10,
+                width: 250,
+                pageSize:2,
                 hideTrigger:true,
                 tpl: resultTpl,
+                onSelect: function(record){ // override default onSelect to do redirect
+                    Ext.dump(record);
+                }
            });
            // apply it to the exsting input element
            comboSearch.applyTo(search);            
