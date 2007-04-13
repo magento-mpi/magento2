@@ -31,6 +31,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         $countryId = (int) $countryId;
         $this->addFilter('country', "$this->_regionTable.country_id=$countryId", 'string');
+        return $this;
     }
     
     public function toHtmlOptions($default=false)

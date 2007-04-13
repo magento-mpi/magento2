@@ -24,9 +24,35 @@ function MM_swapImage() { //v3.0
 function popWin(url,win,para) { window.open(url,win,para); }
 
 function fieldset_highlight(obj,state) {
-	for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
-	if (fieldset && fieldset.tagName=='FIELDSET') {
-		if (state) fieldset.className += ' highlight'; 
-		else fieldset.className = fieldset.className.replace(/ highlight/,'');
-	}
+    for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
+    if (fieldset && fieldset.tagName=='FIELDSET') {
+        if (state) fieldset.className += ' highlight'; 
+        else fieldset.className = fieldset.className.replace(/ highlight/,'');
+    }
 }
+
+// Version 1.0
+var isIE = navigator.appVersion.match(/MSIE/) == "MSIE";
+
+if (!window.Varien)
+    var Varien = new Object();
+
+Varien.showLoading = function(){
+    Element.show('loading-process');
+}
+Varien.hideLoading = function(){
+    Element.hide('loading-process');
+}
+Varien.GlobalHandlers = {
+    onCreate: function() {
+        Varien.showLoading();
+    },
+
+    onComplete: function() {
+        if(Ajax.activeRequestCount == 0) {
+            Varien.hideLoading();
+        }
+    }
+};
+
+Ajax.Responders.register(Varien.GlobalHandlers);
