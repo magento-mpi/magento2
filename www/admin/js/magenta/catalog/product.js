@@ -177,10 +177,12 @@ Mage.Catalog_Product = function(depend){
             Ext.EventManager.addListener(type.getEl(), 'change', function(filter, type){
                var sType = type.getEl().options[type.getEl().options.selectedIndex].getAttribute('ftype');
                var lastItem = filter.items.itemAt(filter.items.getCount()-1);
+               lastItem.getEl().remove;
                lastItem.destroy();
                switch (sType) {
                    case 'date' :
                         var dateValue = new Ext.form.DateField({
+                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             allowBlank:true        	    
                         });
                         filter.addField(dateValue);                   
@@ -188,6 +190,7 @@ Mage.Catalog_Product = function(depend){
                    case 'text' : 
                    default :
                         var textValue = new Ext.form.TextField({
+                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             grow : true,
                             growMin : 135,
                             growMax : 600,
@@ -205,6 +208,7 @@ Mage.Catalog_Product = function(depend){
             ]});
 
         	var textValue = new Ext.form.TextField({
+                autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                 grow : true,
                 growMin : 135,
                 growMax : 600,
@@ -264,7 +268,13 @@ Mage.Catalog_Product = function(depend){
                 filter[i].data = {};
                 for (k=0; k< toolbar.items.getCount(); k++) {
                     if (toolbar.items.itemAt(k).getEl().name != 'undefined') {
-                        filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;
+                        if (toolbar.items.itemAt(k).getValue) {
+                            filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getValue();
+                        } else {
+                            filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;
+                        }
+                    } else {
+                        Ext.dump(toolbar.items.itemAt(k));
                     }
                 }
             }
@@ -286,6 +296,7 @@ Mage.Catalog_Product = function(depend){
 //                    filter.items.get(i).destroy();
 //                }
 //            }
+            this.activeFilters.remove(filter);
             filter.getEl().removeAllListeners();
             filter.getEl().remove();
             this.updateSizeFilterPanel();
