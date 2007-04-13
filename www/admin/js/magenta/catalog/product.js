@@ -9,6 +9,7 @@ Mage.Catalog_Product = function(depend){
         loadedForms : new Ext.util.MixedCollection(),
         activeFilters : new Ext.util.MixedCollection(true),
         filterButtons : new Ext.util.MixedCollection(),
+        filterSettings : null,
         editablePanels : [],
         categoryEditFormPanel : null, // panel for category from
         productLayout : null,
@@ -18,6 +19,7 @@ Mage.Catalog_Product = function(depend){
         productsGridPageSize : 30, 
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
+        
 
 
         init: function(){
@@ -152,6 +154,8 @@ Mage.Catalog_Product = function(depend){
                 handler : this.deleteFilters.createDelegate(this),
                 cls: 'x-btn-text-icon bedit_delete'
             }));
+            
+            this.loadFilterSettings();
         },
 
         addFilter : function(node, e) {
@@ -161,14 +165,14 @@ Mage.Catalog_Product = function(depend){
                 workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable : true}));
             }
 
-            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter_'+Ext.id()}));
+            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter-'+Ext.id()}));
 
             filter.add({
                 handler : this.delFilter.createDelegate(this, [filter], 0),
                 cls: 'x-btn-icon bedit_remove'
             });
             
-            var type = filter.addDom({tag:'select', name:'filterField', children: [
+            var type = filter.addDom({tag:'select', name:'filterField', id : filter.getEl().id + '-filterField', children: [
     			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
 	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
 			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
@@ -182,6 +186,7 @@ Mage.Catalog_Product = function(depend){
                switch (sType) {
                    case 'date' :
                         var dateValue = new Ext.form.DateField({
+                            id : filter.getEl().id + '-textValue',
                             autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             allowBlank:true        	    
                         });
@@ -190,6 +195,7 @@ Mage.Catalog_Product = function(depend){
                    case 'text' : 
                    default :
                         var textValue = new Ext.form.TextField({
+                            id : filter.getEl().id + '-textValue',
                             autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             grow : true,
                             growMin : 135,
@@ -200,7 +206,7 @@ Mage.Catalog_Product = function(depend){
                }
             }.createDelegate(this, [filter, type], 0));
             
-            filter.addDom({tag:'select', name:'filterType', children: [
+            filter.addDom({tag:'select', name:'filterType', id : filter.getEl().id + '-filterType', children: [
     			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
 	       		{tag: 'option', value:'eq', html:'Equal'},
     			{tag: 'option', value:'lt', html:'Lower Than'},
@@ -208,6 +214,7 @@ Mage.Catalog_Product = function(depend){
             ]});
 
         	var textValue = new Ext.form.TextField({
+        	    id : filter.getEl().id + '-textValue',
                 autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                 grow : true,
                 growMin : 135,
@@ -222,6 +229,30 @@ Mage.Catalog_Product = function(depend){
 
             this.updateSizeFilterPanel();
             return true;
+        },
+
+
+        loadFilterSettings : function() {
+            var dataRecord = Ext.data.Record.create([
+                {name: 'filterId', mapping: 'filter_id'},
+                {name: 'filterField', mapping: 'filter_field'},
+                {name: 'filterType', mapping: 'filter_type'},
+                {name: 'filterComp', mapping: 'filter_comp'},
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'filers',
+                totalProperty: 'totalRecords',
+                id: 'filter_id'
+            }, dataRecord);
+
+             this.filterSettings = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/filtersettings/', method: 'POST'}),
+                reader: dataReader,
+                remoteSort: true
+             });
+
+             this.filterSettings.load();
         },
 
 
@@ -266,16 +297,10 @@ Mage.Catalog_Product = function(depend){
                 filter[i] = {};
                 filter[i].index = i;
                 filter[i].data = {};
+                filter[i].data['textValue'] = Ext.ComponentMgr.get(toolbar.getEl().id + '-textValue').getValue();
                 for (k=0; k< toolbar.items.getCount(); k++) {
-                    if (toolbar.items.itemAt(k).getEl().name != 'undefined') {
-                       if (typeof toolbar.items.itemAt(k).getEl().getValue == 'function') {
-                            //Ext.dump(toolbar.items.itemAt(k).getEl().getValue());    
-                            filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().getValue();
-                        } else {
+                    if (toolbar.items.itemAt(k).getEl().name == 'filterType' || toolbar.items.itemAt(k).getEl().name == 'filterField') {
                             filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;
-                        }
-                    } else {
-                        Ext.dump(toolbar.items.itemAt(k));
                     }
                 }
             }

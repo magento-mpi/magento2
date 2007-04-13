@@ -415,14 +415,13 @@ Mage.Customer = function(depend){
             });
 
             this.addressViewLayout.add('north', new Ext.ContentPanel(Ext.id(), {autoCreate: true, toolbar: toolbar}));
-            var addressPanel = this.addressViewLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true}));
+            var addressPanel = this.addressViewLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true, loadOnce : true}));
             this.addressLayout.endUpdate();
 
             // setup toolbar for address
 
             this.addressLayout.add('west', new Ext.NestedLayoutPanel(this.addressViewLayout));
-            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true}, 'center'));
-
+            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true, loadOnce : true}, 'center'));
             var addressBody = addressPanel.getEl().createChild({tag:'div'});
 
 

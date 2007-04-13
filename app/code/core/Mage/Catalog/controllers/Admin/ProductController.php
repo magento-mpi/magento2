@@ -200,5 +200,32 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
         $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
     }
+    
+    public function filtersettingsAction()
+    {
+        $data = array(
+            'totalRecords' => 2,
+            'filters' => array(
+                0 => array(
+                    'filter_field' => 'name',
+                    'filter_type' => 'text',
+                    'filter_comp' => array(
+                        'eq' => 'Equal',
+                        'neq' => 'Not Equal',
+                        'like' => 'Like'
+                	)          
+                ),
+                1 => array(
+                    'filter_field' => 'name',
+                    'filter_type' => 'date',
+                    'filter_comp' => array(
+                         'gt' => 'Greate Than',
+                         'lt' => 'Lower Than'
+                 	)          
+                )      
+            )
+       );  
+       $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
 
 }
