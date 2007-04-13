@@ -164,115 +164,38 @@ Mage.Catalog_Product = function(depend){
             var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter_'+Ext.id()}));
 
             filter.add({
-                handler : this.delFilter.createDelegate(filter, [this]),
+                handler : this.delFilter.createDelegate(this, [filter], 0),
                 cls: 'x-btn-icon bedit_remove'
             });
-
-
-            var states = [
-                ['AL', 'Alabama'],
-                ['AL', 'Alaska'],
-                ['AZ', 'Arizona'],
-                ['AR', 'Arkansas'],
-                ['CA', 'California'],
-                ['CO', 'Colorado'],
-                ['CN', 'Connecticut'],
-                ['DE', 'Delaware'],
-                ['DC', 'District of Columbia'],
-                ['FL', 'Florida'],
-                ['GA', 'Georgia'],
-                ['HW', 'Hawaii'],
-                ['ID', 'Idaho'],
-                ['IL', 'Illinois'],
-                ['IN', 'Indiana'],
-                ['IA', 'Iowa'],
-                ['KS', 'Kansas'],
-                ['KY', 'Kentucky'],
-                ['LA', 'Louisiana'],
-                ['MA', 'Maine'],
-                ['MD', 'Maryland'],
-                ['MS', 'Massachusetts'],
-                ['MI', 'Michigan'],
-                ['MN', 'Minnesota'],
-                ['MS', 'Mississippi'],
-                ['MO', 'Missouri'],
-                ['MT', 'Montana'],
-                ['NE', 'Nebraska'],
-                ['NV', 'Nevada'],
-                ['NH', 'New Hampshire'],
-                ['NJ', 'New Jersey'],
-                ['NM', 'New Mexico'],
-                ['NY', 'New York'],
-                ['NC', 'North Carolina'],
-                ['ND', 'North Dakota'],
-                ['OH', 'Ohio'],
-                ['OK', 'Oklahoma'],
-                ['OR', 'Oregon'],
-                ['PA', 'Pennsylvania'],
-                ['RH', 'Rhode Island'],
-                ['SC', 'South Carolina'],
-                ['SD', 'South Dakota'],
-                ['TE', 'Tennessee'],
-                ['TX', 'Texas'],
-                ['UT', 'Utah'],
-                ['VE', 'Vermont'],
-                ['VA', 'Virginia'],
-                ['WA', 'Washington'],
-                ['WV', 'West Virginia'],
-                ['WI', 'Wisconsin'],
-                ['WY', 'Wyoming']
-            ];
-
-            // add a combobox to the toolbar
-            var store = new Ext.data.SimpleStore({
-                fields: ['abbr', 'state'],
-                data : states // from states.js
-            });
             
-            var fildName = new Ext.form.ComboBox({
-                store: store,
-                displayField:'state',
-                typeAhead: true,
-              	editable : false,
-                mode: 'local',
-                triggerAction: 'all',
-                emptyText:'Select a state...',
-                selectOnFocus:true,
-                width:135
-            });
-            //filter.addField(fildName);        	
-
-            var compareTypes = [
-                ['ASD', 'Greater_Than'],
-                ['FGH', 'Equal'],
-                ['JKL', 'Lower_Than'],
-                ['QWE', 'Like']
-            ]
-
-            // add a combobox to the toolbar
-            var cTypes = new Ext.data.SimpleStore({
-                fields: ['abr', 'type'],
-                data : compareTypes
-            });
-            
-            var compType = new Ext.form.ComboBox({
-                store: cTypes,
-                displayField:'comType',
-                typeAhead: true,
-                mode: 'local',
-                triggerAction: 'all',
-                emptyText:'Select a compType',
-                selectOnFocus:true,
-                width:135
-            });
-            
-            //filter.addField(compType);        	
-            
-            filter.addDom({tag:'select', name:'filterField', children: [
+            var type = filter.addDom({tag:'select', name:'filterField', children: [
     			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
 	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
 			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
             ]});
+            
+            Ext.EventManager.addListener(type.getEl(), 'change', function(filter, type){
+               var sType = type.getEl().options[type.getEl().options.selectedIndex].getAttribute('ftype');
+               var lastItem = filter.items.itemAt(filter.items.getCount()-1);
+               lastItem.destroy();
+               switch (sType) {
+                   case 'date' :
+                        var dateValue = new Ext.form.DateField({
+                            allowBlank:true        	    
+                        });
+                        filter.addField(dateValue);                   
+                       break;
+                   case 'text' : 
+                   default :
+                        var textValue = new Ext.form.TextField({
+                            grow : true,
+                            growMin : 135,
+                            growMax : 600,
+                            allowBlank:true        	    
+                        });
+                        filter.addField(textValue);
+               }
+            }.createDelegate(this, [filter, type], 0));
             
             filter.addDom({tag:'select', name:'filterType', children: [
     			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
@@ -357,15 +280,15 @@ Mage.Catalog_Product = function(depend){
         },
         
 
-        delFilter : function(that) {
-            for(var i=0; i< this.items.length; i++) {
-                if (this.items.get(i).destroy) {
-                    this.items.get(i).destroy();
-                }
-            }
-            this.el.removeAllListeners();
-            this.el.remove();
-            that.updateSizeFilterPanel();
+        delFilter : function(filter) {
+//            for(var i=0; i< filter.items.length; i++) {
+//                if (filter.items.get(i).destroy) {
+//                    filter.items.get(i).destroy();
+//                }
+//            }
+            filter.getEl().removeAllListeners();
+            filter.getEl().remove();
+            this.updateSizeFilterPanel();
         },
     
         /**
