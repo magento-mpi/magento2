@@ -1,12 +1,3 @@
-//create renderer for new product
-Mage.Catalog_Product_Renderer = function(){};
-
-Mage.Catalog_Product_Renderer.prototype = {
-    render :  function(el, response, updateManager, callback) {
-        el.dom.innerHTML = '';
-    }
-}
-
 Mage.Catalog_Product = function(depend){
     var dep = depend;
     return {
@@ -178,27 +169,112 @@ Mage.Catalog_Product = function(depend){
             });
 
 
-        	var fieldSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
-		      tag:'select', name:'filterField', children: [
-    			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
-	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
-			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
-              ]
-        	}, true);
+            var states = [
+                ['AL', 'Alabama'],
+                ['AL', 'Alaska'],
+                ['AZ', 'Arizona'],
+                ['AR', 'Arkansas'],
+                ['CA', 'California'],
+                ['CO', 'Colorado'],
+                ['CN', 'Connecticut'],
+                ['DE', 'Delaware'],
+                ['DC', 'District of Columbia'],
+                ['FL', 'Florida'],
+                ['GA', 'Georgia'],
+                ['HW', 'Hawaii'],
+                ['ID', 'Idaho'],
+                ['IL', 'Illinois'],
+                ['IN', 'Indiana'],
+                ['IA', 'Iowa'],
+                ['KS', 'Kansas'],
+                ['KY', 'Kentucky'],
+                ['LA', 'Louisiana'],
+                ['MA', 'Maine'],
+                ['MD', 'Maryland'],
+                ['MS', 'Massachusetts'],
+                ['MI', 'Michigan'],
+                ['MN', 'Minnesota'],
+                ['MS', 'Mississippi'],
+                ['MO', 'Missouri'],
+                ['MT', 'Montana'],
+                ['NE', 'Nebraska'],
+                ['NV', 'Nevada'],
+                ['NH', 'New Hampshire'],
+                ['NJ', 'New Jersey'],
+                ['NM', 'New Mexico'],
+                ['NY', 'New York'],
+                ['NC', 'North Carolina'],
+                ['ND', 'North Dakota'],
+                ['OH', 'Ohio'],
+                ['OK', 'Oklahoma'],
+                ['OR', 'Oregon'],
+                ['PA', 'Pennsylvania'],
+                ['RH', 'Rhode Island'],
+                ['SC', 'South Carolina'],
+                ['SD', 'South Dakota'],
+                ['TE', 'Tennessee'],
+                ['TX', 'Texas'],
+                ['UT', 'Utah'],
+                ['VE', 'Vermont'],
+                ['VA', 'Virginia'],
+                ['WA', 'Washington'],
+                ['WV', 'West Virginia'],
+                ['WI', 'Wisconsin'],
+                ['WY', 'Wyoming']
+            ];
 
-        	var condSelect = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {
-		      tag:'select', name:'filterType', children: [
-    			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
-	       		{tag: 'option', value:'eq', html:'Equal'},
-    			{tag: 'option', value:'lt', html:'Lower Than'},
-			    {tag: 'option', value:'like', html:'Like'}
-              ]
-        	}, true);
+            // add a combobox to the toolbar
+            var store = new Ext.data.SimpleStore({
+                fields: ['abbr', 'state'],
+                data : states // from states.js
+            });
+            
+            var fildName = new Ext.form.ComboBox({
+                store: store,
+                displayField:'state',
+                typeAhead: true,
+              	editable : false,
+                mode: 'local',
+                triggerAction: 'all',
+                emptyText:'Select a state...',
+                selectOnFocus:true,
+                width:135
+            });
+            filter.addField(fildName);        	
 
-        	var textValue = Ext.DomHelper.append(workZoneCenterPanel.getEl(), {tag:'input', type:'text', name:'textValue'}, true);
+            var compareTypes = [
+                ['ASD', 'Greater_Than'],
+                ['FGH', 'Equal'],
+                ['JKL', 'Lower_Than'],
+                ['QWE', 'Like']
+            ]
 
-            filter.add(fieldSelect.dom, condSelect.dom)
-            filter.add(textValue.dom);
+            // add a combobox to the toolbar
+            var cTypes = new Ext.data.SimpleStore({
+                fields: ['abr', 'type'],
+                data : compareTypes
+            });
+            
+            var compType = new Ext.form.ComboBox({
+                store: cTypes,
+                displayField:'comType',
+                typeAhead: true,
+                mode: 'local',
+                triggerAction: 'all',
+                emptyText:'Select a compType',
+                selectOnFocus:true,
+                width:135
+            });
+            
+            filter.addField(compType);        	
+
+        	var textValue = new Ext.form.DateField({
+                fieldLabel: 'Date of Birth',
+                name: 'dob',
+                width:135,
+                allowBlank:true        	    
+        	});
+            filter.addField(textValue);
             
             this.activeFilters.add(Ext.id(), filter);
 

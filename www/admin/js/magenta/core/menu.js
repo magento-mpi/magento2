@@ -41,57 +41,6 @@ Mage.Menu_Core = function(){
 
             ////////////////////////
             // Temp - need load websites
-            var ds = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({
-                    url: Mage.url + '/mage_core/search/do/'
-                }),
-                reader: new Ext.data.JsonReader({
-                    root: 'items',
-                    totalProperty: 'totalCount',
-                    id: 'id'
-                }, [
-                    {name: 'type', mapping: 'type'},
-                    {name: 'name', mapping: 'name'},
-                    {name: 'description', mapping: 'description'}
-                ])
-            });
-
-            // Custom rendering Template
-            var resultTpl = new Ext.Template(
-                '<div class="search-item">',
-                    '<h3><span>{type}</span>{name}</h3>',
-                    '{description}',
-                '</div>'
-            );            
-            
-            var search = Ext.DomHelper.append(document.body, {tag:'input', cls : 'search-input', type:'text', style:'visibility:hidden'}, true);
-            Ext.EventManager.onDocumentReady(function(){this.toggle(true)}, search, true);
-            
-            var comboSearch = new Ext.form.ComboBox({
-                store: ds,
-                displayField:'title',
-                typeAhead: false,
-                loadingText: 'Searching...',
-                width: 250,
-                pageSize:10,
-                hideTrigger:true,
-                tpl: resultTpl,
-                onSelect: function(record){ // override default onSelect to do redirect
-                    var id = record.id.split('/');
-                    switch (id[0]) {
-                        case 'product':
-                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:'grid category title'});
-                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
-                            break;
-                    }
-                }
-           });
-           // apply it to the exsting input element
-           comboSearch.applyTo(search);            
-           
-           
-           Mage.Core.addRightToolbarItem(new Ext.Toolbar.Item(comboSearch.getEl().dom));
-            
            Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Theme',

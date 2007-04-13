@@ -119,6 +119,9 @@ Mage.Core = function(){
         getLayout : function(){
             return _layout;
         },
+        getRighToolbar : function() {
+           return _rightToolbar;
+        },
         addLeftToolbarItem : function(item){
             _lToolbarItems.add(item);
         },
@@ -141,6 +144,57 @@ Mage.Core = function(){
     }
 }();
 Ext.EventManager.onDocumentReady(Mage.Core.init, Mage.Core, true);
+
+Mage.Search = function() {
+    return {
+        init : function() {
+           var ds = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({
+                    url: Mage.url + '/mage_core/search/do/'
+                }),
+                reader: new Ext.data.JsonReader({
+                    root: 'items',
+                    totalProperty: 'totalCount',
+                    id: 'id'
+                }, [
+                    {name: 'type', mapping: 'type'},
+                    {name: 'name', mapping: 'name'},
+                    {name: 'description', mapping: 'description'}
+                ])
+            });
+
+            // Custom rendering Template
+            var resultTpl = new Ext.Template(
+                '<div class="search-item">',
+                    '<h3><span>{type}</span>{name}</h3>',
+                    '{description}',
+                '</div>'
+            );            
+            
+            var comboSearch = new Ext.form.ComboBox({
+                store: ds,
+                displayField:'title',
+                typeAhead: false,
+                loadingText: 'Searching...',
+                width: 250,
+                pageSize:10,
+                hideTrigger:true,
+                tpl: resultTpl,
+                onSelect: function(record){ // override default onSelect to do redirect
+                    var id = record.id.split('/');
+                    switch (id[0]) {
+                        case 'product':
+                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:'grid category title'});
+                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
+                            break;
+                    }
+                }
+           });
+           Mage.Core.getRighToolbar().addField(comboSearch, 0);
+        }
+    }
+}();
+Ext.EventManager.onDocumentReady(Mage.Search.init, Mage.Search, true);
 
 Mage.Loader = function(){
     return{
