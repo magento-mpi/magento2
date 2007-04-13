@@ -66,9 +66,8 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function formAction()
     {
         $customerId = $this->getRequest()->getParam('id', false);
-        $customer = Mage::getModel('customer', 'customer');
-        $customer->load($customerId);
-        
+        $customer = Mage::getModel('customer', 'customer')->load($customerId);
+
         $form = Mage::createBlock('form', 'customer.form');
         $form->setViewName('Mage_Core', 'form.phtml');
         
@@ -86,10 +85,10 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         );
                 
         $form->addField(
-            'customer_firstname', 
+            'firstname', 
             'text', 
             array(
-                'name'  => 'customer_firstname',
+                'name'  => 'firstname',
                 'label' => __('Firstname'),
                 'id'    => 'customer_firstname',
                 'title' => __('Customer Firstname'),
@@ -99,10 +98,10 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         );
 
         $form->addField(
-            'customer_lastname', 
+            'lastname', 
             'text', 
             array(
-                'name'  => 'customer_lastname',
+                'name'  => 'lastname',
                 'label' => __('Lastname'),
                 'id'    => 'customer_lastname',
                 'title' => __('Customer Lastname'),
@@ -112,10 +111,10 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         );
 
         $form->addField(
-            'customer_email', 
+            'email', 
             'text', 
             array(
-                'name'  => 'customer_email',
+                'name'  => 'email',
                 'label' => __('Email'),
                 'id'    => 'customer_email',
                 'title' => __('Customer Email'),
@@ -125,37 +124,62 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         );
 
        $form->setElementsValues($customer->__toArray());
+       
+       if ($customerId) {
+           $form->addField(
+                'password', 
+                'password', 
+                array(
+                    'name'  => 'password',
+                    'label' => __('New Password'),
+                    'id'    => 'customer_pass',
+                    'title' => __('New Password'),
+                    'validation'=> '',
+                    'ext_type'  => 'TextField'
+                )
+            );
+       }
+       else {
+           $form->addField(
+                'password', 
+                'password', 
+                array(
+                    'name'  => 'password',
+                    'label' => __('Password'),
+                    'id'    => 'customer_pass',
+                    'title' => __('Password'),
+                    'validation'=> '',
+                    'ext_type'  => 'TextField'
+                )
+            );
+           $form->addField(
+                'password_confirmation', 
+                'password', 
+                array(
+                    'name'  => 'password_confirmation',
+                    'label' => __('Password Confirm'),
+                    'id'    => 'customer_pass',
+                    'title' => __('Password Confirmation'),
+                    'validation'=> '',
+                    'ext_type'  => 'TextField'
+                )
+            );
+       }
             
-       $form->addField(
-            'customer_pass', 
-            'password', 
-            array(
-                'name'  => 'customer_pass',
-                'label' => __('Password'),
-                'id'    => 'customer_pass',
-                'title' => __('Customer Password'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
-            )
-        );
         
         $this->getResponse()->setBody($form->toString());
     }
 
     public function formPostAction()
     {
-        /*$customerId = $this->getRequest()->getPost('customer_id', 0);
-        $customer = Mage::getModel('customer', 'customer', array($customerId));
-        $customer->setEmail($this->getRequest()->getPost('customer_email', false));
-        $customer->setFirstName($this->getRequest()->getPost('customer_firstname', false));
-        $customer->setLastName($this->getRequest()->getPost('customer_lasttname', false));
-        $customer->save();*/
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer', 'customer');
-            $customer->setData($this->getRequest()->getPost());
+            $customer = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
             
-            if ($customer->validateSave() && $customer->save()) {
-
+            try {
+                $customer->save();
+            }
+            catch (Exception $e){
+                
             }
         }
     }

@@ -227,7 +227,8 @@ Mage.Customer = function(depend){
                 var title = 'New Customer';
             } else {
                 var deleteDisabled = false;
-                // var title = this.grid.getDataSource().get(this.customerCardId).customer_firstname + ' ' + this.grid.getDataSource().get(this.customerCardId).customer_lastname;
+                var title = 'Edit Customer #'+this.customerCardId;
+                //var title = this.grid.getDataSource().get(this.customerCardId).firstname + ' ' + this.grid.getDataSource().get(this.customerCardId).lastname;
             }
             // setup toolbar for forms
             toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
