@@ -50,7 +50,22 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
             ->where(self::$_read->quoteInto('address_id=?', $addressId));
         
         $this->setData(self::$_read->fetchRow($select));
-        $this->setType($this->getTypesByAddressId($this->getAddressId()));
+        
+        $sql = 'SELECT
+                    t.code,
+                    t.address_type_id,
+                    at.is_primary
+                FROM
+                    '.self::$_typeLinkTable.' AS at,
+                    '.self::$_typeTable.' AS t
+                WHERE
+                    at.address_type_id=t.address_type_id
+                    AND at.address_id=:address_id';
+        $types = self::$_read->fetchAll($sql, array('address_id'=>$addressId));
+        foreach ($types as $type) {
+            $this->setType($type['address_type_id'], $type['code'], $type['is_primary']);
+        }
+
         return $this;
     }
     
@@ -64,14 +79,12 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
         try {
             if ($this->getAddressId()) {
                 $condition = self::$_write->quoteInto('address_id=?', $this->getAddressId());
-                $result = self::$_write->update(self::$_addressTable, $this->getData(), $condition);
-                if ($result) {
-                    $this->updateTypes();
-                }
+                self::$_write->update(self::$_addressTable, $this->getData(), $condition);
+                $this->saveTypes();
             } else {
                 self::$_write->insert(self::$_addressTable, $this->getData());
                 $this->setAddressId(self::$_write->lastInsertId());
-                $this->insertTypes();
+                $this->saveTypes();
             }
             
             if ($useTransaction) {
@@ -90,11 +103,30 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
     
     protected function _prepareSaveData()
     {
-        $data= $this->__toArray(array('customer_id', 'firstname', 'lastname', 'postcode', 'street', 'city', 
+        $data= $this->__toArray(array('address_id', 'customer_id', 'firstname', 'lastname', 'postcode', 'street', 'city', 
             'region', 'region_id', 'country_id', 'company', 'telephone', 'fax'));
         
         if (empty($data['customer_id'])) {
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE004'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE021'));
+        }
+
+        // Validate region id
+        if (!empty($data['region_id'])) {
+            $region = Mage::getModel('directory', 'region')->load($data['region_id']);
+            if ($region && $region->getCountryId() && $region->getCountryId() == $data['country_id']) {
+                $data['region'] = $region->getName();
+            }
+            else {
+                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE022'));
+            }
+        }
+
+        if ($types = $this->getData('types')) {
+            $this->setTypes($types);
+        }
+        
+        if ($primaryTypes = $this->getData('primary_types')) {
+            $this->setPrimaryTypes($primaryTypes);
         }
         
         $this->setData($data);
@@ -111,57 +143,13 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
      *
      * @param   Mage_Customer_Model_Address|int $rowId
      */
-    public function delete($addressId=null)
+    public function delete()
     {
-        if (is_null($addressId)) {
-            $addressId = $this->getAddressId();
-        }
-        $condition = self::$_write->quoteInto('address_id=?', $addressId);
+        $condition = self::$_write->quoteInto('address_id=?', $addressId = $this->getAddressId());
         $result = self::$_write->delete(self::$_addressTable, $condition);
-        $this->deleteTypes($this);
         return $this;
     }
 
-    
-    public function getTypesByCondition($condition)
-    {
-        // fetch all types for address
-        $select = self::$_read->select()->from(self::$_typeLinkTable);
-        $select->join(self::$_typeTable, 
-            self::$_typeTable.".address_type_id=".self::$_typeLinkTable.".address_type_id", 
-            self::$_typeTable.".address_type_code");
-        $select->where($condition);
-        $typesArr = self::$_read->fetchAll($select);
-        return $typesArr;
-    }
-    
-    public function getTypesByAddressId($addressId)
-    {
-        $condition = self::$_read->quoteInto(self::$_typeLinkTable.".address_id=?", $addressId);
-        $typesArr = $this->getTypesByCondition($condition);
-        
-        // process result
-        $types = array();
-        foreach ($typesArr as $type) {
-            $types[$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
-        }
-        
-        return $types;
-    }
-    
-    public function getTypesByCustomerId($customerId)
-    {
-        $condition = self::$_read->quoteInto(self::$_typeLinkTable.".customer_id=?", $customerId);
-        $typesArr = $this->getTypesByCondition($condition);
-        
-        // process result
-        $types = array();
-        foreach ($typesArr as $type) {
-            $types[$type['address_id']][$type['address_type_code']] = array('is_primary'=>$type['is_primary']);
-        }
-        
-        return $types;
-    }
     
     /**
      * Retrieve available address types with their name by language
@@ -177,43 +165,35 @@ class Mage_Customer_Model_Mysql4_Address extends Mage_Customer_Model_Address
         $langTable = Mage::registry('resources')->getTableName('customer', 'address_type_language');
         
         $select = self::$_read->select()->from(self::$_typeTable)
-            ->join($langTable, "$langTable.address_type_id=".self::$_typeTable.".address_type_id", "$langTable.address_type_name");
+            ->join($langTable, "$langTable.address_type_id=".self::$_typeTable.".address_type_id", "$langTable.name");
             
         $typesArr = self::$_read->fetchAll($select);
         $types = array();
         foreach ($typesArr as $type) {
-            $types[$type['address_type_'.$by]] = $type;
+            $types[$type[$by]] = $type;
         }
 
         return $types;
     }
     
-    /**
-     * Address type can be identified by both id and name, choose the appropriate
-     *
-     * @param integer|string $id
-     */
-    public function getTypeIdCondition($id)
+    public function saveTypes()
     {
-        if (is_numeric($id)) {
-            $condition = self::$_read->quoteInto(self::$_typeTable.".address_type_id=?", $id);
-        } else {
-            $condition = self::$_read->quoteInto(self::$_typeTable.".address_type_code=?", $id);
+        // TODO: save types
+        $primaryTypes = $this->getPrimaryTypes();
+        if (is_array($primaryTypes)) {
+            foreach ($primaryTypes as $typeId) {
+                $this->_setAsPrimaryByType($typeId);
+            }
         }
     }
     
-    public function insertTypes()
+    protected function _setAsPrimaryByType($typeId)
     {
+        self::$_write->update(self::$_typeLinkTable, array('is_primary'=>0),self::$_write->quoteInto('address_type_id=?',$typeId));
         
-    }
-    
-    public function updateTypes()
-    {
-        
-    }
-    
-    public function deleteTypes()
-    {
-        
+        $condition = self::$_write->quoteInto('address_id=?',$this->getAddressId()) . 
+            ' AND ' .self::$_write->quoteInto('address_type_id=?',$typeId);
+        self::$_write->delete(self::$_typeLinkTable, $condition);
+        self::$_write->insert(self::$_typeLinkTable, array('address_id'=>$this->getAddressId(), 'address_type_id'=>$typeId, 'is_primary'=>1));
     }
 }

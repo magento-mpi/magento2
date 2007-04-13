@@ -9,12 +9,16 @@
  */
 class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collection_Db
 {
-    static protected $_addressTable = null;
+    static protected $_addressTable;
+    static protected $_typeTable;
+    static protected $_typeLinkTable;
 
     public function __construct() 
     {
         parent::__construct(Mage::registry('resources')->getConnection('customer_read'));
-        self::$_addressTable = Mage::registry('resources')->getTableName('customer', 'address');
+        self::$_addressTable  = Mage::registry('resources')->getTableName('customer', 'address');
+        self::$_typeTable = Mage::registry('resources')->getTableName('customer', 'address_type');
+        self::$_typeLinkTable = Mage::registry('resources')->getTableName('customer', 'address_type_link');
         $this->_sqlSelect->from(self::$_addressTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer', 'address'));
     }
@@ -24,33 +28,39 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
         // try load addresses data
         if (!parent::load($printQuery, $logQuery)) {
             // if empty return
-            return false;
+            return $this;
         }
         
         // collect address ids
-        $addressIds = array();
+        $arrId = array();
         foreach ($this->_items as $item) {
-            $addressIds[] = $item->getAddressId();
+            $arrId[] = $item->getAddressId();
         }
+
+        $sql = 'SELECT
+                    at.address_id,
+                    t.code,
+                    t.address_type_id,
+                    at.is_primary
+                FROM
+                    '.self::$_typeLinkTable.' AS at,
+                    '.self::$_typeTable.' AS t
+                WHERE
+                    at.address_type_id=t.address_type_id
+                    AND at.address_id IN ('.implode(',', $arrId).')';
         
-        // fetch all types for collection addresses
-        $condition = $this->getConnection()->quoteInto("address_id in (?)", $addressIds);
-        $typesArr = Mage::getModel('customer', 'address')->getTypesByCondition($condition);
-        
-        // process result
-        $types = array('primary_types'=>array(), 'alternative_types'=>array());
-        foreach ($typesArr as $type) {
-            $priority = $type['is_primary'] ? 'primary_types' : 'alternative_types';
-            $types[$type['address_id']][$priority][] = $type['address_type_code'];
+        $arrTypes = $this->getConnection()->fetchAll($sql);
+
+        foreach ($arrTypes as $type) {
+            $types[$type['address_id']][] = $type;
         }
        
         // set types to address objects and explode street address
         foreach ($this->_items as $item) {
-            if (isset($types[$item->getAddressId()]['primary_types'])) {
-                $item->setPrimaryTypes($types[$item->getAddressId()]['primary_types']);
-            }
-            if (isset($types[$item->getAddressId()]['alternative_types'])) {
-                $item->setAlternativeTypes($types[$item->getAddressId()]['alternative_types']);
+            if (isset($types[$item->getAddressId()])) {
+                foreach ($types[$item->getAddressId()] as $type) {
+                    $item->setType($type['address_type_id'], $type['code'], $type['is_primary']);
+                }
             }
         }
     }

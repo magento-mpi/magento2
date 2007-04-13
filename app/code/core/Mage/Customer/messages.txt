@@ -9,6 +9,11 @@ CSTE006 wrong current password when password change
 CSTE007 password != confirmation when password change
 CSTE008 change password error
 
+// Addresses
+CSTE020 wrong address id for customer id
+CSTE021 empty customer_id when address save
+CSTE022 wrong region_id when address save
+
 [warning]
 
 [notice]
@@ -17,3 +22,4 @@ CSTE008 change password error
 CSTS001 customer create success
 CSTS002 customer information is saved
 CSTS003 password changed
+CSTS004 address saved

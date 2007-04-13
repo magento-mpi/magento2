@@ -42,8 +42,11 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         return $this;
     }
     
-    public function getDefault()
+    public function getDefault($usedId=false)
     {
+        if($usedId) {
+            return $this->getItemById($usedId);
+        }
         return $this->_defaultCountry ? $this->_defaultCountry : Mage::getModel('directory', 'country');
     }
     
@@ -54,7 +57,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
                 return $country;
             }
         }
-        return false;
+        return Mage::getModel('directory', 'country');
     }
     
     public function toHtmlOptions($default=false)

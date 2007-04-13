@@ -11,7 +11,9 @@ class Mage_Directory_JsonController extends Mage_Core_Controller_Front_Action
 {
     protected function _construct()
     {
+        $this->setFlag('', 'no-preDispatch', true);
         $this->setFlag('', 'no-defaultLayout', true);
+        $this->setFlag('', 'no-postDispatch', true);
     }
     
     public function childRegionAction()

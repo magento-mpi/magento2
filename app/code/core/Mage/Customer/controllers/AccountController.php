@@ -51,13 +51,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
         
         $countries = Mage::getModel('directory', 'country_collection');
+        $data = Mage::getSingleton('customer_model', 'session')->getData(true);
 
         $block = Mage::createBlock('tpl', 'customer.regform')
             ->setViewName('Mage_Customer', 'form/registration.phtml')
             ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
             ->assign('countries',   $countries->loadByCurrentDomain())
-            ->assign('regions',     $countries->getDefault()->getRegions())
-            ->assign('data',        Mage::getSingleton('customer_model', 'session')->getData(true))
+            ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
+            ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
@@ -71,6 +72,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             
             $address  = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
+            $address->setPrimaryTypes(array_keys($address->getAvailableTypes('address_type_id')));
             $customer = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
 
             $customer->addAddress($address);

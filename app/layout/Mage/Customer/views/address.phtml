@@ -1,5 +1,6 @@
 <div class="content">
 <h1 class="page-heading">Address Book</h1>
+<?=$messages->__toHtml()?>
 <table cellspacing="0" width="100%">
     <tr>
         <td style="width:50%;"><h3>Primary</h3>
@@ -12,7 +13,7 @@
                         <?=$_address->toString()?>
                     </address>
                     <p>
-                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
+                        <strong><a href="<?=$moduleBaseUrl?>/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -54,16 +55,18 @@
     </tr>
 </table>
 <div class="buttons-container">
-    <div class="button-left"><input type="button" onclick="window.location='<?=$moduleBaseUrl?>/account/';" value="Back" class="input-button"></div>
-    <div class="button-right"><input type="button" onclick="window.location='<?=$moduleBaseUrl?>/address/form/';" value="New Address" class="input-button"></div>
+    <div class="button-left">
+        <input type="button" onclick="window.location='<?=$moduleBaseUrl?>/account/';" value="Back" class="input-button">
+    </div>
+    <div class="button-right">
+        <input type="button" onclick="window.location='<?=$moduleBaseUrl?>/address/form/';" value="New Address" class="input-button">
+    </div>
     <div class="clearfix"></div>
 </div>
 </div>
 <script type="text/javascript">
-    function deleteAddress(addressId)
-    {
-        if(confirm('Do you whant delete address?'))
-        {
+    function deleteAddress(addressId) {
+        if(confirm('Do you whant delete address?')) {
             window.location='<?=$moduleBaseUrl?>/address/delete/address/'+addressId;
         }
         return false;
