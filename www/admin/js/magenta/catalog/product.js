@@ -83,8 +83,7 @@ Mage.Catalog_Product = function(depend){
                 Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
         },
 
-        initGrid: function(catId, prnt) {
-
+        initGrid: function(catId) {
             var dataRecord = Ext.data.Record.create([
                 {name: 'id', mapping: 'product_id'},
                 {name: 'name', mapping: 'name'},
@@ -277,21 +276,21 @@ Mage.Catalog_Product = function(depend){
             that.updateSizeFilterPanel();
         },
 
-        viewGrid : function (treeNode) {
+        viewGrid : function (catId) {
             this.init();
             if (!this.productLayout) {
                 this.initLayouts();
             }
-            this.parentProductLayut.setTitle(treeNode.text);
+            //this.parentProductLayut.setTitle(treeNode.text);
             if (!this.gridPanel) {
-                this.initGrid(treeNode.id);
+                this.initGrid(catId);
                 this.productLayout.beginUpdate();
-                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: treeNode.text}));
+                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: 'Category Title'}));
                 this.productLayout.endUpdate();
                 this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
             } else {
                 this.gridPanel.getGrid();
-                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + treeNode.id + '/';
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/';
                 this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
             }
         },
@@ -359,7 +358,15 @@ Mage.Catalog_Product = function(depend){
                    if (this.editablePanels.length) {
                         Ext.MessageBox.confirm('Product Card', 'You have unsaved product. Do you whant continue ?', this.doCreateItem.createDelegate(this, [rowId], 0));
                    } else {
-                        this.doCreateItem(rowId, 'yes');
+                        if (rowId >= 0) {
+                            try {
+                                  prodId = this.productsGrid.getDataSource().getAt(rowId).id;
+                                  //title = 'Edit: ' + this.productsGrid.getDataSource().getById(prodId).get('name');
+                            } catch (e) {
+                              Ext.MessageBox.alert('Error!', e.getMessage());
+                            }
+                        }
+                        this.doCreateItem(prodId, 'yes');
                         return true;
                    }
                    break;
@@ -369,8 +376,7 @@ Mage.Catalog_Product = function(depend){
         },
 
 
-        doCreateItem: function(rowId, btn, setId, typeId) {
-            var prodId = 0;
+        doCreateItem: function(prodId, btn, setId, typeId) {
             setId = Number(setId);
             typeId = Number(typeId);
             if (btn == 'no') {
@@ -383,14 +389,6 @@ Mage.Catalog_Product = function(depend){
                 this.editablePanels = [];
             }
 
-            if (rowId >= 0) {
-             try {
-                  prodId = this.productsGrid.getDataSource().getAt(rowId).id;
-                  title = 'Edit: ' + this.productsGrid.getDataSource().getById(prodId).get('name');
-              } catch (e) {
-                  Ext.MessageBox.alert('Error!', e.getMessage());
-              }
-            }
             this.editPanel = new Ext.BorderLayout(this.productLayout.getEl().createChild({tag:'div'}), {
                     hideOnLayout:true,
                     north: {

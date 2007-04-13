@@ -78,7 +78,8 @@ Mage.Menu_Core = function(){
                 hideTrigger:true,
                 tpl: resultTpl,
                 onSelect: function(record){ // override default onSelect to do redirect
-                    Ext.dump(record.data);
+                    Mage.Catalog_Product.viewGrid(1);
+                    Mage.Catalog_Product.doCreateItem(440, 'yes');
                 }
            });
            // apply it to the exsting input element
