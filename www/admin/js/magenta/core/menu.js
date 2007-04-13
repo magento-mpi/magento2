@@ -39,8 +39,6 @@ Mage.Menu_Core = function(){
                 }, 250);                
             }
 
-            ////////////////////////
-            // Temp - need load websites
            Mage.Core.addRightToolbarItem({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Theme',
