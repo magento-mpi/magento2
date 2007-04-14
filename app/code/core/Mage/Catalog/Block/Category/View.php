@@ -32,8 +32,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $prodCollection->addAttributeToSelect('name', 'varchar');
         $prodCollection->addAttributeToSelect('price', 'decimal');
         
-        Mage::getBlock('catalog.leftnav.bytopic')->assign('currentCategoryId',$category->getId());
-        //Mage::getBlock('catalog.leftnav.byproduct')->assign('currentCategoryId',$this->currentCategory->getId());
+        Mage::getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
         $page = $request->getParam('p',1);
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));

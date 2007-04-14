@@ -225,6 +225,10 @@
             <class>Mage_Catalog_Block_Category_List</class>
          </catalog_category_list>
 
+         <catalog_navigation>
+            <class>Mage_Catalog_Block_Navigation</class>
+         </catalog_navigation>
+
          <catalog_breadcrumbs>
             <class>Mage_Catalog_Block_Breadcrumbs</class>
          </catalog_breadcrumbs>

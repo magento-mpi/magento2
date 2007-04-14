@@ -2,7 +2,7 @@
 <layoutUpdate>
     <reference name="content">
         <block type="text" name="content.noRoute">
-            <action method="setText"><text><![CDATA[<br>Page not found.]]></text></action>
+            <action method="setText"><text><![CDATA[<div class="content"><h1 class="page-heading">404 Error</h1><p>Page not found.</p></div>]]></text></action>
         </block>
     </reference>
 </layoutUpdate>

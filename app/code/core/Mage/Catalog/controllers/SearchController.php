@@ -23,15 +23,22 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         }
     }
     
-    protected function _getSearchQuery()
+    public function byAction()
     {
-        if (!empty($_GET['q'])) {
-            return $_GET['q'];
+        $attribute = $this->getRequest()->getParam('attr', false);
+        $value = $this->getRequest()->getParam('value', false);
+        if (!$attribute || !$value) {
+            //$this->_forward('noroute');
+            $this->_redirect('noroute');
         }
-        elseif($this->getRequest()->getParam('q'))
-        {
-            return $this->getRequest()->getParam('q');
+        
+        // check if attr exist
+        $attributes = Mage::getModel('catalog','product_attribute_option')->getOptionsId(array('option_type'=>$attribute));
+
+        if (empty($attributes) || !is_array($attributes) || !in_array($value, $attributes)) {
+            $this->_redirect('noroute');
         }
-        return false;
+        
+        Mage::getBlock('catalog.leftnav')->assign($attribute, $value);
     }
 }

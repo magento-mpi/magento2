@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
     protected $_optionTypeTable;
     
     public function __construct() 
-    {
+        {
         parent::__construct();
         $this->_optionTable     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_option');
         $this->_optionTypeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_option_type');
@@ -46,6 +46,32 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
         return $arrRes;
     }
     
+    /**
+     * Get options id for attribute values
+     *
+     * @param   array $params
+     * @return  array
+     */
+    public function getOptionsId($params)
+    {
+        $arrRes = array();
+        $sql = "SELECT
+                    $this->_optionTable.option_id 
+                FROM
+                    $this->_optionTable,
+                    $this->_optionTypeTable
+                WHERE
+                    $this->_optionTable.option_type_id=$this->_optionTypeTable.option_type_id
+                    AND $this->_optionTable.website_id=:website_id
+                    AND $this->_optionTypeTable.option_type_code=:option_type";
+        $arrParam = array();
+        $arrParam['website_id']     = Mage::registry('website')->getId();
+        $arrParam['option_type']    = isset($params['option_type']) ? $params['option_type'] : '';
+        
+        $arrRes = self::$_read->fetchCol($sql,$arrParam);
+        return $arrRes;
+    }
+
     /**
      * Insert row in database table
      *
