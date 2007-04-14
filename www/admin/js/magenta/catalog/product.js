@@ -44,9 +44,9 @@ Mage.Catalog_Product = function(depend){
                         hideWhenEmpty : true,
                         titlebar:false,
                         split:true,
-                        initialSize:21,
-                        minSize:21,
-                        maxSize:21,
+                        initialSize:27,
+                        minSize:27,
+                        maxSize:27,
                         autoScroll:true,
                         collapsible:true
                      },
@@ -185,7 +185,7 @@ Mage.Catalog_Product = function(depend){
                 workZoneCenterPanel = this.productLayout.add('north', new Ext.ContentPanel('filters_panel', {autoCreate: true, title:'Filters', closable : true}));
             }
 
-            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().insertFirst({tag: 'div', id:'filter-'+Ext.id()}));
+            var filter = new Ext.Toolbar(workZoneCenterPanel.getEl().createChild({tag: 'div', id:'filter-'+Ext.id()}));
 
             filter.add({
                 handler : this.delFilter.createDelegate(this, [filter], 0),
