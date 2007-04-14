@@ -238,39 +238,11 @@ Mage.Catalog_Product = function(depend){
                var lastItem = filter.items.itemAt(filter.items.getCount()-1);
                filter.items.remove(lastItem);
                lastItem.destroy();               
-               switch (sType) {
-                   case 'date' :
-                        var dateValue = new Ext.form.DateField({
-                            id : filter.getEl().id + '-textValue',
-                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
-                            allowBlank:true        	    
-                        });
-                        filter.addField(dateValue);                   
-                       break;
-                   case 'text' : 
-                   default :
-                        var textValue = new Ext.form.TextField({
-                            id : filter.getEl().id + '-textValue',
-                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
-                            grow : true,
-                            growMin : 135,
-                            growMax : 600,
-                            allowBlank:true        	    
-                        });
-                        filter.addField(textValue);
-               }
+               var textValue = this.createFilterTextValue(filter.getEl().id, sType);
+               filter.addField(textValue);
             }.createDelegate(this, [filter, type, comp.getEl(), compData], 0));
             
-
-        	var textValue = new Ext.form.TextField({
-        	    id : filter.getEl().id + '-textValue',
-                autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
-                grow : true,
-                growMin : 135,
-                growMax : 600,
-                allowBlank:true        	    
-        	});
-        	
+            var textValue = this.createFilterTextValue(filter.getEl().id, startComp);
             filter.addField(textValue);
             
             this.activeFilters.add(Ext.id(), filter);
@@ -280,6 +252,28 @@ Mage.Catalog_Product = function(depend){
             return true;
         },
 
+        createFilterTextValue : function(filterId, sType) {
+               switch (sType) {
+                   case 'date' :
+                        var textValue = new Ext.form.DateField({
+                            id : filterId + '-textValue',
+                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
+                            allowBlank:true        	    
+                        });
+                       break;
+                   case 'text' : 
+                   default :
+                        var textValue = new Ext.form.TextField({
+                            id : filterId + '-textValue',
+                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
+                            grow : true,
+                            growMin : 135,
+                            growMax : 600,
+                            allowBlank:true        	    
+                        });
+               }
+            return textValue;   
+        },
 
         loadFilterSettings : function() {
             var dataRecord = Ext.data.Record.create([
