@@ -204,27 +204,46 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function filtersettingsAction()
     {
         $data = array(
-            'totalRecords' => 2,
-            'filters' => array(
+        'totalRecords' => 2,
+        'filters' => array(
                 0 => array(
+                    'filter_id' => '0',
                     'filter_field' => 'name',
+                    'filter_name' => 'Name',
                     'filter_type' => 'text',
                     'filter_comp' => array(
-                        'eq' => 'Equal',
-                        'neq' => 'Not Equal',
-                        'like' => 'Like'
-                	)          
+                        0 => array(
+                            'v' => 'eq',
+                            'n' => 'Equal' 
+                        ),
+                        1 => array(
+                            'v' => 'neq',
+                            'n' => 'Not Equal' 
+                        ),                            
+                            2 => array(
+                            'v' => 'like',
+                            'n' => 'Like'
+                        )                            
+                    )
                 ),
                 1 => array(
-                    'filter_field' => 'name',
+                    'filter_id' => '1',
+                    'filter_field' => 'create_date',
+                    'filter_name'  => 'Added Date',
                     'filter_type' => 'date',
-                    'filter_comp' => array(
-                         'gt' => 'Greate Than',
-                         'lt' => 'Lower Than'
-                 	)          
-                )      
-            )
-       );  
+                    'filter_comp' => array (
+                         0 => array(
+                            'v' => 'gt',
+                            'n' => 'Greater Than' 
+                        ),
+                        1 => array(
+                            'v' => 'lt',
+                            'n' => 'Lower Than' 
+                   		)
+                   )
+               )                            
+           )      
+       );
        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
 

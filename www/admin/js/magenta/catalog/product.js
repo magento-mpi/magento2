@@ -95,6 +95,12 @@ Mage.Catalog_Product = function(depend){
                 reader: dataReader,
                 remoteSort: true
              });
+             
+             dataStore.on('load', function(){
+                 if (!this.filterSettings) {
+                     this.loadFilterSettings();
+                 }
+             }.createDelegate(this));
 
             dataStore.setDefaultSort('product_id', 'desc');
 
@@ -139,26 +145,40 @@ Mage.Catalog_Product = function(depend){
                 handler : this.createItem.createDelegate(this)
             });
             
-            this.filterButtons.add('add', paging.add({
+            var btnAdd = new Ext.Toolbar.Button({
                 text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
-                cls: 'x-btn-text-icon bedit_add'
-             }));
-             this.filterButtons.add('apply', paging.add({
+                cls: 'x-btn-text-icon bedit_add',
+                disabled : true
+             });
+             paging.add(btnAdd);
+             this.filterButtons.add('add', btnAdd);
+            
+             var btnApply = new Ext.Toolbar.Button({
                 text: 'Apply',
                 handler : this.applyFilters.createDelegate(this),
-                cls: 'x-btn-text-icon bapply'
-            }));
-            this.filterButtons.add('clear', paging.add({
+                cls: 'x-btn-text-icon bapply',
+                disabled : true
+             });
+             paging.add(btnApply);            
+             this.filterButtons.add('apply', btnApply);
+             
+             var bntReset = new Ext.Toolbar.Button({
                 text: 'Reset',
                 handler : this.deleteFilters.createDelegate(this),
-                cls: 'x-btn-text-icon bedit_delete'
-            }));
-            
-            this.loadFilterSettings();
+                cls: 'x-btn-text-icon bedit_delete',
+                disabled : true
+             });
+             paging.add(bntReset);            
+             this.filterButtons.add('clear', bntReset);
         },
 
         addFilter : function(node, e) {
+            
+            if (!this.filterSettings) {
+                Ext.MessageBox.alert('Filters','Filters Settings Not Loaded');
+                return false;
+            }
             
             var workZoneCenterPanel = null;
             if (!(workZoneCenterPanel = this.productLayout.getRegion('north').getPanel('filters_panel'))) {
@@ -172,13 +192,48 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-icon bedit_remove'
             });
             
-            var type = filter.addDom({tag:'select', name:'filterField', id : filter.getEl().id + '-filterField', children: [
-    			{tag: 'option', value:'name', selected: 'true', html:'Name', ftype:'text'},
-	       		{tag: 'option', value:'size', html:'File Size', ftype:'text'},
-			    {tag: 'option', value:'lastmod', html:'Last Modified', ftype:'date'}
-            ]});
+            var startType = null;
+            var startComp = null;
+            var compData = {};  // information about fieldName compare types
+            var options = [];
+            var i = 0;
+            for (i=0; i < this.filterSettings.getCount(); i++) {
+                var record = this.filterSettings.getAt(i);                
+                if (i == 0) {
+                    startComp = record.data.filterComp;
+                    startType = record.data.filterType;
+                }
+                
+                compData[record.data.filterField] = record.data.filterComp;
+                
+                options.push(
+       			  {tag: 'option', value:record.data.filterField, html:record.data.filterName, ftype:record.data.filterType}
+                )
+            }
+            var type = filter.addDom({tag:'select', name:'filterField', id : filter.getEl().id + '-filterField', children: options});
             
-            Ext.EventManager.addListener(type.getEl(), 'change', function(filter, type){
+            var options = []
+            for (i=0; i < startComp.length; i++) {
+                options.push(
+                    {tag: 'option', value:startComp[i].v, html:startComp[i].n}
+                );
+            }
+            var comp = filter.addDom({tag:'select', name:'filterType', id : filter.getEl().id + '-filterType', children: options});
+
+                
+            Ext.EventManager.addListener(type.getEl(), 'change', function(filter, type, compEl, compData){
+                var selectedValue = type.getEl().value;
+               
+                while (compEl.options.length > 0) {
+                    compEl.options[0] = null;
+                }
+
+                var i=0;
+                for (i=0; i < compData[selectedValue].length; i++) {
+                    opt = compData[selectedValue][i];
+                    compEl.options[compEl.options.length] = new Option(opt.n, opt.v);
+                }
+               
                var sType = type.getEl().options[type.getEl().options.selectedIndex].getAttribute('ftype');
                var lastItem = filter.items.itemAt(filter.items.getCount()-1);
                filter.items.remove(lastItem);
@@ -204,14 +259,8 @@ Mage.Catalog_Product = function(depend){
                         });
                         filter.addField(textValue);
                }
-            }.createDelegate(this, [filter, type], 0));
+            }.createDelegate(this, [filter, type, comp.getEl(), compData], 0));
             
-            filter.addDom({tag:'select', name:'filterType', id : filter.getEl().id + '-filterType', children: [
-    			{tag: 'option', value:'gt', selected: 'true', html:'Greater Than'},
-	       		{tag: 'option', value:'eq', html:'Equal'},
-    			{tag: 'option', value:'lt', html:'Lower Than'},
-			    {tag: 'option', value:'like', html:'Like'}
-            ]});
 
         	var textValue = new Ext.form.TextField({
         	    id : filter.getEl().id + '-textValue',
@@ -236,12 +285,13 @@ Mage.Catalog_Product = function(depend){
             var dataRecord = Ext.data.Record.create([
                 {name: 'filterId', mapping: 'filter_id'},
                 {name: 'filterField', mapping: 'filter_field'},
+                {name: 'filterName', mapping: 'filter_name'},
                 {name: 'filterType', mapping: 'filter_type'},
                 {name: 'filterComp', mapping: 'filter_comp'},
             ]);
 
             var dataReader = new Ext.data.JsonReader({
-                root: 'filers',
+                root: 'filters',
                 totalProperty: 'totalRecords',
                 id: 'filter_id'
             }, dataRecord);
@@ -251,6 +301,14 @@ Mage.Catalog_Product = function(depend){
                 reader: dataReader,
                 remoteSort: true
              });
+             
+             this.filterSettings.on('load', function(){
+                 var i=0;
+                 for(i=0; i < this.filterButtons.getCount(); i++) {
+                     var btn = this.filterButtons.itemAt(i);
+                     btn.enable();
+                 }
+             }.createDelegate(this));
 
              this.filterSettings.load();
         },
