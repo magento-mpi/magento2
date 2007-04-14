@@ -62,13 +62,14 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
 
         $this->addFilter('category', $condition, 'string');
+        return $this;
     } 
     
     function addSearchFilter($query)
     {
         $query = trim(strip_tags($query));
         if (!empty($query)) {
-            $condition = $this->getConnection()->quoteInto("(name LIKE ? OR description LIKE ?)", "%$query%");
+            $condition = $this->getConnection()->quoteInto("(name_varchar.attribute_value LIKE ?)", "%$query%");
             $this->addFilter('search', $condition, 'string');
         }
         return $this;
@@ -115,11 +116,13 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
         
         $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeCode"));
+        return $this;
     }
     
     public function setWebsiteId($websiteId)
     {
         $this->_websiteId = $websiteId;
+        return $this;
     }
     
     public function getWebsiteId()

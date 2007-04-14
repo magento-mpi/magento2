@@ -1,29 +1,24 @@
-<?=$breadcrumbs?>
-<div class="category-intro">
-    <h1>Search Result for: <?=$query?></h1>
+<div class="content">
+    <h1 class="page-heading">Search Result</h1>
+    <p>Search query: <?=$query?></p>
     <p>Found: <strong><?=$productCollection->getSize()?></strong> rows</p>
-</div>
-<div class="catalog-spacer">&nbsp;</div>
-
-<?include $moduleViewsDir.'/product/pager.phtml'?>
-
-<div class="catalog-spacer">&nbsp;</div>
-
-<div class="catalog-collection">
-    <?foreach ($productCollection as $product):?>
-    <div class="item">
-        <a href="<?=$product->getLink()?>"><img src="<?=$moduleImagesUrl?>/placeholder_product_small.gif" alt="product name" width="175" height="175"/></a>
-        <p><a href="<?=$product->getLink()?>"><?=$product->getName()?></a></p>
-        <p>As low as <strong><?=$product->getPrice()?></strong> (<?=$product->getBase_Prop1()?> Qty)</p>
-    </div>
-    <?endforeach?>
-    <div class="clearfix"></div>
+</div>    
     <div class="catalog-spacer">&nbsp;</div>
-</div>
+    <?include $moduleViewsDir.'/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
 
-<?include $moduleViewsDir.'/product/pager.phtml'?>
+    <div class="catalog-collection">
+        <?foreach ($productCollection as $product):?>
+        <div class="item">
+            <a href="<?=$product->getLink()?>"><img src="<?=$moduleImagesUrl?>/placeholder_product_small.gif" alt="product name" width="175" height="175"/></a>
+            <p><a href="<?=$product->getLink()?>"><?=$product->getName()?></a></p>
+            <p>As low as <strong><?=$product->getPrice()?></strong> (<?=$product->getBase_Prop1()?> Qty)</p>
+        </div>
+        <?endforeach?>
+        <div class="clearfix"></div>
+        <div class="catalog-spacer">&nbsp;</div>
+    </div>
 
-<div class="catalog-spacer">&nbsp;</div>
-<script>
+    <?include $moduleViewsDir.'/product/pager.phtml'?>
 
-</script>
+    <div class="catalog-spacer">&nbsp;</div>

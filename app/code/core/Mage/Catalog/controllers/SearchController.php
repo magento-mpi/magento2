@@ -10,7 +10,8 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
 {
     public function resultAction() 
     {
-        if ($searchQuery = $this->_getSearchQuery()) {
+        $searchQuery = $this->getRequest()->getParam('q', false);
+        if ($searchQuery) {
             Mage::getBlock('search.form.mini')->assign('query', $searchQuery);
             $searchResBlock = Mage::createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
             $searchResBlock->loadData($this->getRequest());

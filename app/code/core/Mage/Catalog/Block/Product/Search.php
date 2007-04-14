@@ -21,22 +21,18 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
     {
         $query = $this->getAttribute('query');
         $queryEscaped = htmlspecialchars($query);
-        $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
-        $breadcrumbs->addCrumb('home', array('label'=>'Home','title'=>'Go to home page','link'=>Mage::getBaseUrl()));
-        $breadcrumbs->addCrumb('query', array('label'=>$queryEscaped));
-        $this->setChild('breadcrumbs', $breadcrumbs);
 
         Mage::getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
 
-        $prodCollection = Mage::getModel('catalog','product_collection');
-
-        //$prodCollection->addFilter('website_id', Mage_Core_Environment::getCurrentWebsite(), 'and');
-        $prodCollection->addSearchFilter($query);
-
         $page = $request->getParam('p',1);
-        $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
-        $prodCollection->setCurPage($page);
-        $prodCollection->loadData();
+        $prodCollection = Mage::getModel('catalog','product_collection')
+            ->addAttributeToSelect('name', 'varchar')
+            ->addAttributeToSelect('price', 'decimal')
+            ->addAttributeToSelect('description', 'text')
+            ->addSearchFilter($query)
+            ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
+            ->setCurPage($page)
+            ->loadData();
 
         $this->assign('query', $queryEscaped);
         $this->assign('productCollection', $prodCollection);
