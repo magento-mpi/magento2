@@ -257,7 +257,6 @@ Mage.Catalog_Product = function(depend){
                    case 'date' :
                         var textValue = new Ext.form.DateField({
                             id : filterId + '-textValue',
-                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             allowBlank:true        	    
                         });
                        break;
@@ -265,7 +264,6 @@ Mage.Catalog_Product = function(depend){
                    default :
                         var textValue = new Ext.form.TextField({
                             id : filterId + '-textValue',
-                            autoCreate : {name: 'textValue', tag: "input", type: "text", size: "20", autocomplete: "off"},
                             grow : true,
                             growMin : 135,
                             growMax : 600,
