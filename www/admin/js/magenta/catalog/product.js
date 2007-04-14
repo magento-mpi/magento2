@@ -139,19 +139,13 @@ Mage.Catalog_Product = function(depend){
                 emptyMsg: 'No products to display'
             });
 
-            paging.add('-', {
-                text: 'Product',
-                cls: 'x-btn-text-icon bedit_add',
-                handler : this.createItem.createDelegate(this)
-            });
-            
             var btnAdd = new Ext.Toolbar.Button({
                 text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
                 cls: 'x-btn-text-icon bedit_add',
                 disabled : true
              });
-             paging.add(btnAdd);
+             paging.insertButton(0, btnAdd);
              this.filterButtons.add('add', btnAdd);
             
              var btnApply = new Ext.Toolbar.Button({
@@ -160,7 +154,7 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon bapply',
                 disabled : true
              });
-             paging.add(btnApply);            
+             paging.insertButton(1, btnApply);            
              this.filterButtons.add('apply', btnApply);
              
              var bntReset = new Ext.Toolbar.Button({
@@ -169,13 +163,21 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-text-icon bedit_delete',
                 disabled : true
              });
-             paging.add(bntReset);            
+             paging.insertButton(2, bntReset);            
              this.filterButtons.add('clear', bntReset);
+             
+             paging.insertButton(3, {
+                text: 'Product',
+                cls: 'x-btn-text-icon bedit_add',
+                handler : this.createItem.createDelegate(this)
+             });
+            
+             paging.insertButton(4, new Ext.Toolbar.Separator());
         },
 
         addFilter : function(node, e) {
             
-            if (!this.filterSettings) {
+            if (this.filterSettings == null) {
                 Ext.MessageBox.alert('Filters','Filters Settings Not Loaded');
                 return false;
             }
@@ -192,8 +194,8 @@ Mage.Catalog_Product = function(depend){
                 cls: 'x-btn-icon bedit_remove'
             });
             
-            var startType = null;
-            var startComp = null;
+            var startType = null;  // first item time
+            var startComp = null;  // first item condition
             var compData = {};  // information about fieldName compare types
             var options = [];
             var i = 0;
