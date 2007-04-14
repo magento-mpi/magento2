@@ -46,7 +46,7 @@ Mage.Catalog_Product = function(depend){
                         split:true,
                         initialSize:21,
                         minSize:21,
-                        maxSize:100,
+                        maxSize:21,
                         autoScroll:true,
                         collapsible:true
                      },
@@ -326,15 +326,17 @@ Mage.Catalog_Product = function(depend){
                 height = height + el.getHeight();
             }
             
-            if (this.productLayout.getRegion('north').config.maxSize) {
-                if (height+1 > this.productLayout.getRegion('north').config.maxSize) {
-                    this.productLayout.getRegion('north').resizeTo(this.productLayout.getRegion('north').config.maxSize);
-                } else {
-                    this.productLayout.getRegion('north').resizeTo(height+1);                                       
-                }
-            } else {
-                this.productLayout.getRegion('north').resizeTo(height+1);                    
-            }
+            this.productLayout.getRegion('north').resizeTo(height+1);
+            this.productLayout.getRegion('north').config.maxSize = height+1;
+//            if (this.productLayout.getRegion('north').config.maxSize) {
+//                if (height+1 > this.productLayout.getRegion('north').config.maxSize) {
+//                    this.productLayout.getRegion('north').resizeTo(this.productLayout.getRegion('north').config.maxSize);
+//                } else {
+//                    this.productLayout.getRegion('north').resizeTo(height+1);                                       
+//                }
+//            } else {
+//                this.productLayout.getRegion('north').resizeTo(height+1);                    
+//            }
             return true;
         },
 
