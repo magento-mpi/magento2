@@ -325,10 +325,10 @@ Mage.Catalog_Product = function(depend){
                 var el = Ext.get(filters[i]);
                 height = height + el.getHeight();
             }
-                   //Ext.dump(this.productLayout.getRegion('north').baseParams);
-            if (this.productLayout.getRegion('north').maxSize) {
-                if (height+1 > this.productLayout.getRegion('north').maxSize) {
-                    this.productLayout.getRegion('north').resizeTo(this.productLayout.getRegion('north').maxSize);
+            
+            if (this.productLayout.getRegion('north').config.maxSize) {
+                if (height+1 > this.productLayout.getRegion('north').config.maxSize) {
+                    this.productLayout.getRegion('north').resizeTo(this.productLayout.getRegion('north').config.maxSize);
                 } else {
                     this.productLayout.getRegion('north').resizeTo(height+1);                                       
                 }
