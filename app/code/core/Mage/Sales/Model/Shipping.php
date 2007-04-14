@@ -84,4 +84,16 @@ class Mage_Sales_Model_Shipping
     	
         return $this->_result;
     }
+    
+    public function collectMethodsByAddress(Varien_Data_Object $address)
+    {
+        $request = Mage::getModel('sales', 'shipping_method_request');
+        $request->setDestCountryId($address->getCountryId());
+        $request->setDestRegionId($address->getRegionId());
+        $request->setDestPostcode($address->getPostcode());
+        $request->setPackageValue($address->getSubtotal());
+        $request->setPackageWeight($address->getWeight());
+
+        return $this->collectMethods($request)->asArray();
+    }
 }

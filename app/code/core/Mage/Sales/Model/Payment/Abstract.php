@@ -14,7 +14,7 @@ abstract class Mage_Sales_Model_Payment_Abstract
         return false;
     }
     
-    public function setPayment(Mage_Customer_Model_Payment $payment)
+    public function setPayment($payment)
     {
         $this->_payment = $payment;
         return $this;

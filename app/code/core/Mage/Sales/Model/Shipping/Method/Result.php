@@ -65,4 +65,20 @@ class Mage_Sales_Model_Shipping_Method_Result
 		}
 		return $result;
 	}
+	
+	public function asArray()
+	{
+        $currencyFilter = new Varien_Filter_Sprintf('$%s', 2);
+        $methods = array();
+        $allMethods = $this->getAllMethods();
+        foreach ($allMethods as $method) {
+            $methods[$method->getVendor()]['title'] = $method->getVendorTitle();
+            $methods[$method->getVendor()]['methods'][$method->getService()] = array(
+                'title'=>$method->getServiceTitle(),
+                'price'=>$method->getPrice(),
+                'price_formatted'=>$currencyFilter->filter($method->getPrice()),
+            );
+        }
+        return $methods;
+	}
 }
