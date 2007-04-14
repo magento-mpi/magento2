@@ -265,6 +265,7 @@ Mage.Catalog_Product = function(depend){
                         var textValue = new Ext.form.TextField({
                             id : filterId + '-textValue',
                             grow : true,
+                            width : 135,
                             growMin : 135,
                             growMax : 600,
                             allowBlank:true        	    
