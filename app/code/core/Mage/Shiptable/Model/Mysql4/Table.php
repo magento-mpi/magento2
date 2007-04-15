@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Shiptable_Model_Mysql4_Table extends Mage_Shiptable_Model_Table
+class Mage_Shiptable_Model_Mysql4_Table
 {
     protected static $_read;
     protected static $_write;
@@ -10,7 +10,7 @@ class Mage_Shiptable_Model_Mysql4_Table extends Mage_Shiptable_Model_Table
     {
         self::$_read = Mage::registry('resources')->getConnection('shiptable_read');
         self::$_write = Mage::registry('resources')->getConnection('shiptable_write');
-        self::$_shipTable = Mage::registry('resources')->getTableName('shiptable', 'shiptable');
+        self::$_shipTable = Mage::registry('resources')->getTableName('shiptable_resource', 'shiptable');
     }
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)

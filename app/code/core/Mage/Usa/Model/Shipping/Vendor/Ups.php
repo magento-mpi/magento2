@@ -137,16 +137,16 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
             }
         }
         
-        $result = Mage::getModel('sales_model', 'shipping_method_result');
+        $result = Mage::getModel('sales', 'shipping_method_result');
         if (empty($rArr)) {
-            $error = Mage::getModel('sales_model', 'shipping_method_service_error');
+            $error = Mage::getModel('sales', 'shipping_method_service_error');
             $error->setTitle($errorTitle);
             $result->append($error);
         } else {
             $defaults = $this->getDefaults();
             
             foreach ($rArr as $r) {
-                $quote = Mage::getModel('sales_model', 'shipping_method_service');
+                $quote = Mage::getModel('sales', 'shipping_method_service');
                 $quote->setVendor($this->_data['vendor']);
                 $quote->setVendorTitle((string)$defaults->title);
                 $quote->setService($r['service']);

@@ -18,7 +18,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         parent::__construct();
         $this->setViewName('Mage_Checkout', 'onepage.phtml');
         
-        $this->_checkout = Mage::getSingleton('checkout_model', 'session');
+        $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
 
         $this->_initSteps();
@@ -81,11 +81,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $block = Mage::createBlock('tpl', 'checkout.billing')
             ->setViewName('Mage_Checkout', 'onepage/billing.phtml');
             
-        $billingEntity = $this->_quote->getAddressByType('billing');
-        if (empty($billingEntity)) {
-            $billingEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('address');
+        $billing = $this->_quote->getAddressByType('billing');
+        if (empty($billing)) {
+            $billing = Mage::getModel('sales', 'quote_entity_address');
         }
-        $billing = $billingEntity->asModel('customer', 'address');
         
         // assign customer addresses
         $customerSession = Mage::getSingleton('customer_model', 'session');
@@ -102,11 +101,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createPaymentBlock()
     {
-        $paymentEntity = $this->_quote->getPayment();
-        if (empty($paymentEntity)) {
-            $paymentEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('payment');
+        $payment = $this->_quote->getPayment();
+        if (empty($payment)) {
+            $payment = Mage::getModel('sales', 'quote_entity_payment');
         }
-        $payment = $paymentEntity->asModel('customer', 'payment');
         if ($payment->getCcNumber()) {
             $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
         }
@@ -136,11 +134,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $block = Mage::createBlock('tpl', 'checkout.shipping')
             ->setViewName('Mage_Checkout', 'onepage/shipping.phtml');
             
-        $shippingEntity = $this->_quote->getAddressByType('shipping');
-        if (empty($shippingEntity)) {
-            $shippingEntity = Mage::getModel('sales', 'quote_entity')->setEntityType('address');
+        $shipping = $this->_quote->getAddressByType('shipping');
+        if (empty($shipping)) {
+            $shipping = Mage::getModel('sales', 'quote_entity_address');
         }
-        $shipping = $shippingEntity->asModel('customer', 'address');
         
         // assign customer addresses
         $customerSession = Mage::getSingleton('customer_model', 'session');

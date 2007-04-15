@@ -7,12 +7,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         $this->_data['url']['base'] = Mage::getBaseUrl();
+        $this->_data['url']['catalog'] = Mage::getBaseUrl('', 'Mage_Catalog').'/';
         $this->_data['url']['cart'] = Mage::getBaseUrl('', 'Mage_Checkout').'/cart/';
         $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/';
         
         $this->_data['params'] = $this->getRequest()->getParams();
        
-        $this->_data['quote'] = Mage::getSingleton('checkout_model', 'session')->getQuote();
+        $this->_data['quote'] = Mage::getSingleton('checkout', 'session')->getQuote();
         
         foreach (array('add','clean','updatePost','estimatePost','couponPost') as $action) {
             $this->setFlag($action, 'no-defaultLayout', true);
@@ -28,16 +29,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         } else {
             $cartView = 'cart/view.phtml';
             
-            $quoteItems = $quote->getItemsAsArray(array('product_name'=>'text', 'qty'=>'decimal', 'tier_price'=>'decimal', 'row_total'=>'decimal'));
-            $itemsFilter = new Varien_Filter_Array_Grid();
+            $itemsFilter = new Varien_Filter_Object_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'item_price');
+            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
-            $cartData['items'] = $itemsFilter->filter($quoteItems);
-            
+            $cartData['items'] = $itemsFilter->filter($quote->getItems());
+
             $totalsFilter = new Varien_Filter_Array_Grid();
             $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
-            $cartData['totals'] = $totalsFilter->filter($quote->collectTotals('_output'));
+            $cartData['totals'] = $totalsFilter->filter($quote->getTotals());
 
             $this->_data['cart'] = $cartData;
         }        
@@ -57,13 +57,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $quote = $this->_data['quote'];
 
-        if (!$quote->getQuoteId()) {
-            $quote->save();
-            Mage::getSingleton('checkout_model', 'session')->setQuoteId($quote->getQuoteId());
-        }
-        
         $product = Mage::getModel('catalog', 'product')->load($productId);
-        $quote->addProduct($product->setQty($qty))->save();
+        $quote->addProduct($product->setQty($qty));
+        
+        $quoteSession = Mage::getSingleton('checkout', 'session');
+        $quote->save();
+        
+        Mage::getSingleton('checkout', 'session')->setQuoteId($quote->getQuoteId());
         
         $this->_redirect($this->_data['url']['cart']);
     }

@@ -1,6 +1,6 @@
 <?php
 
-class Varien_Filter_Array extends Zend_Filter
+class Varien_Filter_Object extends Zend_Filter
 {
     protected $_columnFilters = array();
     
@@ -16,10 +16,10 @@ class Varien_Filter_Array extends Zend_Filter
         }
     }
     
-    function filter($array)
+    function filter($object)
     {
         $out = array();
-        foreach ($array as $column=>$value) {
+        foreach ($object->getData() as $column=>$value) {
             $value = parent::filter($value);
             if (isset($this->_columnFilters[$column])) {
                 $value = $this->_columnFilters[$column]->filter($value);

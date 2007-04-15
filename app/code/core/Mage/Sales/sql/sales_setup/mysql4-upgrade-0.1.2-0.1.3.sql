@@ -25,40 +25,78 @@ drop table if exists sales_order_payment_type;
 drop table if exists sales_order_status;
 drop table if exists sales_order_status_history;
 
+drop table if exists sales_quote;
+drop table if exists sales_quote_entity;
+drop table if exists sales_quote_attribute;
+drop table if exists sales_quote_attribute_text;
+drop table if exists sales_quote_attribute_int;
+drop table if exists sales_quote_attribute_datetime;
+drop table if exists sales_quote_attribute_varchar;
+drop table if exists sales_quote_attribute_decimal;
 
-CREATE TABLE `sales_order` (
-  `order_id` int(11) unsigned NOT NULL auto_increment,
-  `customer_id` int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`order_id`),
-  KEY `customer_id` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='orders info';
+CREATE TABLE `sales_quote` (
+  `quote_id` int(11) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`quote_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quotes info';
 
-CREATE TABLE `sales_order_entity` (
-  `order_entity_id` int(11) unsigned NOT NULL auto_increment,
-  `order_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` varchar(32) NOT NULL default '',
-  PRIMARY KEY  (`order_entity_id`),
-  KEY `FK_ENTITY_order` (`order_id`),
-  CONSTRAINT `FK_ENTITY_order` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='order entity';
-
-CREATE TABLE `sales_order_attribute` (
-  `order_attribute_id` int(11) unsigned NOT NULL auto_increment,
-  `order_id` int(11) unsigned NOT NULL default '0',
-  `order_entity_id` int(11) NOT NULL default '0',
+CREATE TABLE `sales_quote_attribute_text` (
+  `quote_id` int(11) unsigned NOT NULL default '0',
+  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
-  `attribute_decimal` decimal(12,4) NOT NULL default '0.0000',
-  `attribute_text` text NOT NULL,
-  `attribute_int` int(11) NOT NULL default '0',
-  `attribute_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
-  `attribute_varchar` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`order_attribute_id`),
-  KEY `FK_order_ATTRIBUTE` (`order_id`),
-  KEY `FK_order_ATTRIBUTE_CODE` (`attribute_code`),
-  KEY `order_id` (`order_id`,`order_entity_id`),
-  CONSTRAINT `FK_order_ATTRIBUTE` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='order attributes';
+  `attribute_value` text NOT NULL,
+  KEY `document_id` (`quote_id`,`entity_id`),
+  KEY `entity_id` (`entity_id`,`attribute_code`),
+  CONSTRAINT `FK_sales_quote_attribute_text` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes TEXT';
 
+CREATE TABLE `sales_quote_attribute_int` (
+  `quote_id` int(11) unsigned NOT NULL default '0',
+  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_id` int(11) NOT NULL default '0',
+  `attribute_code` varchar(32) NOT NULL default '',
+  `attribute_value` int(11) NOT NULL default '0',
+  KEY `document_id` (`quote_id`,`entity_id`),
+  KEY `entity_id` (`entity_id`,`attribute_code`),
+  KEY `key` (`attribute_code`,`attribute_value`),
+  CONSTRAINT `FK_sales_quote_attribute_int` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes INT';
+
+CREATE TABLE `sales_quote_attribute_decimal` (
+  `quote_id` int(11) unsigned NOT NULL default '0',
+  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_id` int(11) NOT NULL default '0',
+  `attribute_code` varchar(32) NOT NULL default '',
+  `attribute_value` decimal(12,4) NOT NULL default '0.0000',
+  KEY `document_id` (`quote_id`,`entity_id`),
+  KEY `entity_id` (`entity_id`,`attribute_code`),
+  KEY `key` (`attribute_code`,`attribute_value`),
+  CONSTRAINT `FK_sales_quote_attribute_decimal` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes DECIMAL';
+
+CREATE TABLE `sales_quote_attribute_varchar` (
+  `quote_id` int(11) unsigned NOT NULL default '0',
+  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_id` int(11) NOT NULL default '0',
+  `attribute_code` varchar(32) NOT NULL default '',
+  `attribute_value` varchar(255) NOT NULL default '',
+  KEY `document_id` (`quote_id`,`entity_id`),
+  KEY `entity_id` (`entity_id`,`attribute_code`),
+  KEY `key` (`attribute_code`,`attribute_value`),
+  CONSTRAINT `FK_sales_quote_attribute_varchar` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes VARCHAR';
+
+CREATE TABLE `sales_quote_attribute_datetime` (
+  `quote_id` int(11) unsigned NOT NULL default '0',
+  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_id` int(11) NOT NULL default '0',
+  `attribute_code` varchar(32) NOT NULL default '',
+  `attribute_value` datetime NOT NULL default '0000-00-00 00:00:00',
+  KEY `document_id` (`quote_id`,`entity_id`),
+  KEY `entity_id` (`entity_id`,`attribute_code`),
+  KEY `key` (`attribute_code`,`attribute_value`),
+  CONSTRAINT `FK_sales_quote_attribute_datetime` FOREIGN KEY (`quote_id`) REFERENCES `sales_quote` (`quote_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote attributes DATETIME';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

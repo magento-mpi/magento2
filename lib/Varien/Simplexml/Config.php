@@ -89,7 +89,9 @@ class Varien_Simplexml_Config
             throw new Exception('Can not read xml file '.$filePath);
         }
 
-        $xml = simplexml_load_file($filePath, $this->_elementClass);
+        $fileData = file_get_contents($filePath);
+        $fileData = $this->_processFileData($fileData);
+        $xml = $this->loadString($fileData, $this->_elementClass);
         
         return $xml;
     }
@@ -197,7 +199,7 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.stat'; 
     }
     
-    protected function _processCacheData($text)
+    protected function _processFileData($text)
     {
         return $text;
     }
@@ -227,9 +229,7 @@ class Varien_Simplexml_Config
         // read cache file
         $cacheFile = $this->getCacheFileName($key);
         if (is_readable($cacheFile)) {
-            $cacheData = file_get_contents($cacheFile);
-            $cacheData = $this->_processCacheData($cacheData);
-            $xml = $this->loadString($cacheData);
+            $xml = $this->loadFile($cacheFile);
             if (!empty($xml)) {
                 $this->_cacheLoaded = true;
                 return $xml;

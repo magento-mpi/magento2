@@ -1,0 +1,20 @@
+<fieldset>
+    <ul>
+        <li>
+            <div class="left">
+                <input type="radio" title="<?=__("Purchase Order")?>" id="payment_method_purchaseorder" name="payment[method]" value="purchaseorder" <?if($payment->getMethod()=='purchaseorder'):?>checked<?endif?>/>
+                <label for="payment_method_purchaseorder"><?=__("Use purchase order")?></label><br/>
+            </div>
+            <br>
+        </li>
+
+        <li>
+            <div class="left">
+                <label for="po_number"><?=__("PO Number")?> <span class="required">*</span></label><br/>
+                <input type="text" id="po_number" name="payment[po_number]" title="<?=__("PO Number")?> class="required-entry input-text" value="<?=$payment->getPoNumber()?>"/>
+            </div>
+        </li>
+
+        <li class="a-right"><span class="required">* <?=__("Required Fields")?></span></li>
+    </ul>
+</fieldset>

@@ -33,9 +33,9 @@
       </blockTypes>
 
       <models>
-         <checkout_model>
+         <checkout>
             <class>Mage_Checkout_Model</class>
-         </checkout_model>
+         </checkout>
       </models>
 
       <resources>

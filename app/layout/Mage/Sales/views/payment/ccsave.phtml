@@ -2,8 +2,8 @@
     <ul>
         <li>
             <div class="left">
-                <input type="radio" title="Payment Method" id="payment_method" name="payment[method]" value="ccsave" <?if($payment->getMethod()=='ccsave'):?>checked<?endif?>/>
-                <label for="payment_method">Pay by credit card</label><br/>
+                <input type="radio" title="<?=__("Credit Card")?>" id="payment_method_ccsave" name="payment[method]" value="ccsave" <?if($payment->getMethod()=='ccsave'):?>checked<?endif?>/>
+                <label for="payment_method_ccsave">Pay by credit card</label><br/>
             </div>
             <br>
         </li>

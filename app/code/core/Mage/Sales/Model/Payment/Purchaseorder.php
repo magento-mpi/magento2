@@ -1,11 +1,11 @@
 <?php
 
-class Mage_Sales_Model_Payment_Checkmo extends Mage_Sales_Model_Payment_Abstract 
+class Mage_Sales_Model_Payment_PurchaseOrder extends Mage_Sales_Model_Payment_Abstract 
 {
     public function createFormBlock($name)
     {        
         $block = Mage::createBlock('tpl', $name)
-            ->setViewName('Mage_Sales', 'payment/checkmo.phtml')
+            ->setViewName('Mage_Sales', 'payment/purchaseorder.phtml')
             ->assign('payment', $this->_payment);
         
         return $block;
@@ -13,7 +13,8 @@ class Mage_Sales_Model_Payment_Checkmo extends Mage_Sales_Model_Payment_Abstract
     
     public function createInfoBlock($name)
     {
-        $out = __('Check / MO');
+        $out = __('Purchase Order')."\n".
+            __('PO Number').': '.$this->_payment->getPoNumber();
             
         $block = Mage::createBlock('text', $name)->setText(nl2br($out));
         

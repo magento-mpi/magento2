@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
+class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
 {
     protected $_conditionName = 'package_weight';
     
@@ -21,11 +21,11 @@ abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vend
             $request->setConditionName($this->_conditionName);
         }
 
-        $result = Mage::getModel('sales_model', 'shipping_method_result');
+        $result = Mage::getModel('sales', 'shipping_method_result');
 
         $rate = $this->getRate($request);
         if (!empty($rate)) {
-	    	$quote = Mage::getModel('sales_model', 'shipping_method_service');
+	    	$quote = Mage::getModel('sales', 'shipping_method_service');
 	    	
 	    	$vendor = 'shiptable';
 	    	$vendorTitle = (string)Mage::getConfig('Mage_Sales')->getShippingDefaults($vendor)->title;
@@ -46,6 +46,6 @@ abstract class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vend
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
     {
-        
+        return Mage::getModel('shiptable_resource', 'table')->getRate($request);
     }
 }

@@ -12,12 +12,12 @@ class Mage_Checkout_Front
     
     public static function unsetAll()
     {
-        Mage::getSingleton('checkout_model', 'session')->unsetAll();
+        Mage::getSingleton('checkout', 'session')->unsetAll();
     }
     
     public static function loadCustomerQuote()
     {
-        Mage::getSingleton('checkout_model', 'session')->loadCustomerQuote();
+        Mage::getSingleton('checkout', 'session')->loadCustomerQuote();
     }
 
 }

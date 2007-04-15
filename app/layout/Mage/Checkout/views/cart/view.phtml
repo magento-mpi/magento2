@@ -5,22 +5,22 @@
         <tr>
             <th class="align-left">Product Name</th>
             <th style="width:68px;" class="align-center">Remove</th>
-            <th style="width:88px;" class="align-right">Unit Price</th>
+            <th style="width:88px;" class="align-center">Unit Price</th>
             <th style="width:45px;" class="align-center">Qty</th>
-            <th style="width:70px;" class="align-right">Subtotal</th>
+            <th style="width:70px;" class="align-center">Total</th>
         </tr>
         <?foreach($data['cart']['items'] as $item):?>
         <tr>
-            <td><a href=""><?=$item['name']?></a></td>
-            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['id']?>][remove]"/></td>
+            <td><a href="<?=$data['url']['catalog']?>product/view/id/<?=$item['product_id']?>"><?=$item['name']?></a></td>
+            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][remove]"/></td>
             <td class="align-center"><?=$item['price']?></td>
-            <td class="align-center"><input name="cart[<?=$item['id']?>][qty]" value="<?=$item['qty']?>" size="2" class="input-text qty"/></td>
+            <td class="align-center"><input name="cart[<?=$item['entity_id']?>][qty]" value="<?=$item['qty']?>" size="2" class="input-text qty"/></td>
             <td class="align-right"><?=$item['row_total']?></td>
         </tr>
         <?endforeach?>
         <?foreach($data['cart']['totals'] as $total):?>
         <tr>
-            <th colspan=4><?=$total['title']?></th><td><?=$total['value']?></td>
+            <th colspan=4 class="align-right"><?=$total['title']?>:</th><td class="align-right"><?=$total['value']?></td>
         </tr>
         <?endforeach?>
     </table>

@@ -77,7 +77,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this;
     }
     
-    protected function _processCacheData($data)
+    protected function _processFileData($data)
     {
         $substKeys = array();
         $substValues = array();

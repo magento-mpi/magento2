@@ -39,13 +39,13 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
         }
     }
     
-    abstract public function load($addressId);
+    public function load($addressId) {}
 
-    abstract public function save();
+    public function save() {}
 
-    abstract public function delete();
+    public function delete() {}
     
-    abstract public function getAvailableTypes($by='code', $langCode='en');
+    public function getAvailableTypes($by='code', $langCode='en') {}
     
     public function setPrimaryTypes($types)
     {

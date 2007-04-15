@@ -5,10 +5,10 @@
         <li class="complete">
             <h4>Billing Address</h4>
             <div class="step-body">
-                <?=$billing['firstname']?> <?=$billing['lastname']?><br>
-                <?if (!empty($billing['company'])):?><?=$billing['company']?><?endif?><br>
-                <?=nl2br($billing['street'])?><br>
-                <?=$billing['city']?>, <?=$billing['region_id']?> <?=$billing['postcode']?>
+                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br>
+                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br>
+                <?=nl2br($billing->getStreet(-1))?><br>
+                <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
                 <br><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
             </div>
         </li>
@@ -34,10 +34,10 @@
         <li class="complete">
             <h4>Shipping Address</h4>
             <div class="step-body">
-                <?=$shipping['firstname']?> <?=$shipping['lastname']?><br>
-                <?if (!empty($shipping['company'])):?><?=$shipping['company']?><?endif?><br>
-                <?=nl2br($shipping['street'])?><br>
-                <?=$shipping['city']?>, <?=$shipping['region_id']?> <?=$shipping['postcode']?>
+                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br>
+                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br>
+                <?=nl2br($shipping->getStreet(-1))?><br>
+                <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
                 <br><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
             </div>
         </li>
@@ -50,7 +50,7 @@
         <li class="complete">
             <h4>Shipping Method</h4>
             <div class="step-body">
-                <?=print_r($shippingMethod,1)?>
+                <?=print_r($shipping->getSippingMethod(),1)?>
                 <br><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
             </div>
         </li>

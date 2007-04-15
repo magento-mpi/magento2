@@ -50,11 +50,11 @@ class Mage_Checkout_Model_Session extends Varien_Data_Object
     public function loadCustomerQuote()
     {
         $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();
-        $customerQuote = Mage::getModel('sales', 'quote')->loadByCustomerId($customerId);
-        if ($customerQuote->getQuoteId()) {
+        $customerQuote = Mage::getModel('sales', 'quote');
+        if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getEntitiesByType('item') as $item) {
-                    $customerQuote->addProduct($item->asModel('catalog', 'product'));
+                    $customerQuote->addProduct($item->setEntityId(null));
                 }
                 $customerQuote->save();
             }

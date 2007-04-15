@@ -15,7 +15,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_data['url']['cart'] = Mage::getBaseUrl('', 'Mage_Checkout').'/cart/';
         $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/';
 
-        $this->_checkout = Mage::getSingleton('checkout_model', 'session');
+        $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
         
         if (!$this->_quote->hasItems()) {
@@ -69,8 +69,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
-            $address = Mage::getModel('customer', 'address');
-            $address->load((int) $addressId);
+            $address = Mage::getModel('customer', 'address')->load((int)$addressId);
             $address->explodeStreetAddress();
             $this->getResponse()->setHeader('Content-type', 'application/x-json');
             $this->getResponse()->appendBody($address->__toJson());
@@ -87,9 +86,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('customer', 'address')->setData($data);
+            $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
             $address->implodeStreetAddress();
-            $this->_quote->setAddress('billing', $address);
+            $this->_quote->setBillingAddress($address);
             $this->_quote->save();
 
             $this->_checkout->setAllowBilling(true);
@@ -105,7 +104,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $payment = Mage::getModel('customer', 'payment')->setData($data);
+            $payment = Mage::getModel('sales', 'quote_entity_payment')->addData($data);
             $payment->setCcNumber($payment->encrypt($payment->getCcNumber()));
             $this->_quote->setPayment($payment);
             $this->_quote->save();
@@ -122,9 +121,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('customer', 'address')->setData($data);
+            $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
             $address->implodeStreetAddress();
-            $this->_quote->setAddress('shipping', $address);
+            $this->_quote->setShippingAddress($address);
             $this->_quote->save();
 
             $this->_checkout->setShippingMethods(null);
@@ -140,7 +139,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $this->_quote->getAddressByType('shipping')->setAttribute('shipping_method', $data['method']);
+            $this->_quote->getAddressByType('shipping')->setShippingMethod($data['method']);
             $this->_quote->save();
             
             $this->_checkout->setCompletedShippingMethod(true);
