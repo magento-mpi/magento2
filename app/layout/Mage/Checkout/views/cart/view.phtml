@@ -20,7 +20,7 @@
         <?endforeach?>
         <?foreach($data['cart']['totals'] as $total):?>
         <tr>
-            <th colspan=4 class="align-right"><?=$total['title']?>:</th><td class="align-right"><?=$total['value']?></td>
+            <th colspan=4 class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
         </tr>
         <?endforeach?>
     </table>
@@ -50,6 +50,7 @@
                 	<fieldset>
                     	<ul>
             	        <?foreach ($data['cart']['estimate_methods'] as $method):?>
+            	           <?if (!isset($method['vendor'])) continue; ?>
                     		<li>
                     		    <input id="estimate_method_<?=$method['code']?>" name="estimate_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$data['cart']['estimate_method'])echo"checked"?> />
                     		    <label for="estimate_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
@@ -64,10 +65,15 @@
             <?endif?>
         </div>
         <div class="input-right">
-            <h2>Coupon discount</h2>
+            <h2>Discounts</h2>
             <form action="<?=$data['url']['cart']?>couponPost/" method="post">
-                <label for="">Coupon code:</label><br />
-                <input class="input-text" name="coupon_code" value="<?=$data['cart']['coupon_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
+                <label for="coupon_code">Coupon code:</label><br />
+                <input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
+            </form>
+            <br>
+            <form action="<?=$data['url']['cart']?>giftCertPost/" method="post">
+                <label for="giftcert_code">Gift certificate:</label><br />
+                <input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
             </form>
         </div>
         <div class="clearfix"></div>

@@ -228,5 +228,28 @@ CREATE TABLE `sales_invoice_attribute_datetime` (
   CONSTRAINT `FK_sales_invoice_attribute_datetime` FOREIGN KEY (`invoice_id`) REFERENCES `sales_invoice` (`invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invoice attributes DATETIME';
 
+
+drop table if exists `sales_discount_coupon`;
+CREATE TABLE `sales_discount_coupon` (
+  `coupon_id` int(10) unsigned NOT NULL auto_increment,
+  `coupon_code` varchar(50) NOT NULL default '',
+  `discount_percent` decimal(10,4) NOT NULL default '0.0000',
+  PRIMARY KEY  (`coupon_id`),
+  unique (`coupon_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into `sales_discount_coupon` (coupon_code, discount_percent) values ('test', 10);
+
+drop table if exists `sales_giftcert`;
+CREATE TABLE `sales_giftcert` (
+  `giftcert_id` int(10) unsigned NOT NULL auto_increment,
+  `giftcert_code` varchar(50) NOT NULL default '',
+  `balance_amount` decimal(12,4) NOT NULL default '0.0000',
+  PRIMARY KEY  (`giftcert_id`),
+  UNIQUE KEY `gift_code` (`giftcert_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into `sales_discount_coupon` (giftcert_code, balance_amount) values ('test', 10);
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

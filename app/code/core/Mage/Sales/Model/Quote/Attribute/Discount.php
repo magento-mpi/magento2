@@ -32,7 +32,7 @@ class Mage_Sales_Model_Quote_Attribute_Discount extends Mage_Sales_Model_Quote_A
         
         $amount = $quote->getDiscountAmount();
         if ($amount) {
-            $arr['discount'] = array('code'=>'discount', 'title'=>__('Discount').' ('.$quote->getCouponCode().')', 'value'=>$amount, 'output'=>true);
+            $arr['discount'] = array('code'=>'discount', 'title'=>__('Discount').' ('.$quote->getCouponCode().')', 'value'=>-$amount, 'output'=>true);
         }
 
         return $arr;

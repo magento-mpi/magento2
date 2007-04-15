@@ -42,6 +42,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $alnumFilter = new Zend_Filter_Alnum();
             $cartData['estimate_postcode'] = $alnumFilter->filter($quote->getEstimatePostcode());
             $cartData['coupon_code'] = $alnumFilter->filter($quote->getCouponCode());
+            $cartData['giftcert_code'] = $alnumFilter->filter($quote->getGiftcertCode());
             
             $estimateFilter = new Varien_Filter_Object_Grid();
             $estimateFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'amount');
@@ -124,9 +125,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $couponCode = $this->getRequest()->getPost('coupon_code');
         
-        if (empty($couponCode) || Mage::getModel('sales_resource', 'discount')->getCouponByCode($couponCode)) {
-            $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
-        }
+        $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
+        
+        $this->_redirect($this->_data['url']['cart']);
+    }
+    
+    public function giftCertPostAction()
+    {
+        $giftCode = $this->getRequest()->getPost('giftcert_code');
+        
+        $this->_data['quote']->setGiftcertCode($giftCode)->collectTotals()->save();
         
         $this->_redirect($this->_data['url']['cart']);
     }

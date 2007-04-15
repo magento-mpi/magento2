@@ -9,8 +9,7 @@ class Mage_Sales_Model_Quote_Attribute_Grand extends Mage_Sales_Model_Quote_Attr
         $grandTotal = $quote->getSubtotal();
         $grandTotal -= $quote->getDiscountAmount();
         $grandTotal += $quote->getShippingAmount();
-        $grandTotal += $quote->getTaxAmount();        
-        $grandTotal -= $quote->getCustbalanceAmount();
+        $grandTotal += $quote->getTaxAmount();
         
         $quote->setGrandTotal($grandTotal);
         
@@ -21,7 +20,7 @@ class Mage_Sales_Model_Quote_Attribute_Grand extends Mage_Sales_Model_Quote_Attr
     {
         $arr = array();
 
-        $arr['grand_total'] = array('code'=>'grand_total', 'title'=>__('Grand total'), 'value'=>$quote->getGrandTotal(), 'output'=>true);
+        $arr['grand_total'] = array('code'=>'grand_total', 'title'=>__('Grand total'), 'value'=>$quote->getGrandTotal(), 'output'=>true, 'style'=>'font-weight:bold');
 
         return $arr;
     }

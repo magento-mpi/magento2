@@ -148,25 +148,47 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function estimateShippingMethods()
     {
-        foreach ($this->getEntitiesByType('shipping') as $entity) {
-            if (!$entity->getAddressEntityId()) {
-                $this->removeEntity($entity);
-            }
-        }
-        
         $request = Mage::getModel('sales', 'shipping_method_request');
         $request->setDestCountryId(223);
         $request->setDestRegionId(1);
         $request->setDestPostcode($this->getEstimatePostcode());
         $request->setPackageValue($this->getGrandTotal());
         $request->setPackageWeight($this->getWeight());
+
+        $this->collectAddressShippingMethods($request);
+
+        return $this;
+    }
+    
+    public function collectAllShippingMethods()
+    {
+        $addresses = $this->getEntitiesByType('address');
+        foreach ($addresses as $address) {
+            $request = Mage::getModel('sales', 'shipping_method_request');
+            $request->setDestCountryId($address->getCountryId());
+            $request->setDestRegionId($address->getRegionId());
+            $request->setDestPostcode($address->getPostcode());
+            $request->setPackageValue($address->getSubtotal());
+            $request->setPackageWeight($address->getRowWeight());
+            $request->setAddressEntityId($address->getEntityId());
+            $this->collectAddressShippingMethods($request);
+        }
+    }
+    
+    public function collectAddressShippingMethods(Mage_Sales_Model_Shipping_Method_Request $request)
+    {
+        $this->removeAddressShippingMethods($request->getAddressEntityId());
         
-        $shipping = Mage::getModel('sales', 'shipping');
-        $methods = $shipping->collectMethods($request)->getAllMethods();
+        $result = Mage::getModel('sales', 'shipping')->collectMethods($request);
+        if (!$result) {
+            return $this;
+        }
+        $methods = $result->getAllMethods();
         
         foreach ($methods as $method) {
             $shipping = Mage::getModel('sales', 'quote_entity_shipping');
             $shipping->setCode($method->getVendor().'_'.$method->getService());
+            $shipping->setAddressEntityId($request->getAddressEntityId());
             $shipping->setVendor($method->getVendor());
             $shipping->setService($method->getService());
             $shipping->setServiceDescription($method->getServiceTitle());
@@ -177,23 +199,16 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                 $this->setShippingAmount($shipping->getAmount());
             }
         }
-        
         return $this;
     }
     
-    public function collectShippingMethods()
+    public function removeAddressShippingMethods($addressEntityId)
     {
-        $shipping = Mage::getModel('sales', 'shipping');
-        $addresses = $this->getEntitiesByType('address');
-        foreach ($addresses as $address) {
-            $request = Mage::getModel('sales', 'shipping_method_request');
-            $request->setDestCountryId($address->getCountryId());
-            $request->setDestRegionId($address->getRegionId());
-            $request->setDestPostcode($address->getPostcode());
-            $request->setPackageValue($address->getSubtotal());
-            $request->setPackageWeight($address->getRowWeight());
-
-            $methods = $shipping->collectMethods($request);
+        foreach ($this->getEntitiesByType('shipping') as $entity) {
+            if ($entity->getAddressEntityId()==$addressEntityId) {
+                $this->removeEntity($entity);
+            }
         }
+        return $this;
     }
 }
