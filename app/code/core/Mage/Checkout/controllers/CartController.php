@@ -38,6 +38,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $totalsFilter = new Varien_Filter_Array_Grid();
             $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
             $cartData['totals'] = $totalsFilter->filter($quote->getTotals());
+            
+            $alnumFilter = new Zend_Filter_Alnum();
+            $cartData['estimate_postcode'] = $alnumFilter->filter($quote->getEstimatePostcode());
+            $cartData['coupon_code'] = $alnumFilter->filter($quote->getCouponCode());
+            
+            $estimateFilter = new Varien_Filter_Object_Grid();
+            $estimateFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'amount');
+            $cartData['estimate_methods'] = $estimateFilter->filter($quote->getEntitiesByType('shipping'));
+            $cartData['estimate_method'] = $quote->getShippingMethod();
 
             $this->_data['cart'] = $cartData;
         }        
@@ -86,12 +95,38 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     function estimatePostAction()
     {
+        $postcode = $this->getRequest()->getPost('estimate_postcode');
+        $this->_data['quote']->setEstimatePostcode($postcode);
+        $this->_data['quote']->estimateShippingMethods();
+        $this->_data['quote']->save();
+        
+        $this->_redirect($this->_data['url']['cart']);
+    }
+    
+    function estimateUpdatePostAction()
+    {
+        $code = $this->getRequest()->getPost('estimate_method');
+        $this->_data['quote']->setShippingMethod($code);
+        $entities = $this->_data['quote']->getEntitiesByType('shipping');
+        foreach ($entities as $entity) {
+            if ($entity->getCode()==$code) {
+                $this->_data['quote']->setShippingDescription($entity->getVendor().' '.$entity->getServiceDescription());
+                $this->_data['quote']->setShippingAmount($entity->getAmount());
+                $this->_data['quote']->save();
+                break;
+            }
+        }
         
         $this->_redirect($this->_data['url']['cart']);
     }
     
     function couponPostAction()
     {
+        $couponCode = $this->getRequest()->getPost('coupon_code');
+        
+        if (empty($couponCode) || Mage::getModel('sales_resource', 'discount')->getCouponByCode($couponCode)) {
+            $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
+        }
         
         $this->_redirect($this->_data['url']['cart']);
     }

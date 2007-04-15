@@ -33,9 +33,6 @@
                <quote_attribute>
                   <table>sales_quote_attribute</table>
                </quote_attribute>
-               <quote_entity>
-                  <table>sales_quote_entity</table>
-               </quote_entity>
                
                <order>
                   <table>sales_order</table>
@@ -43,9 +40,6 @@
                <order_attribute>
                   <table>sales_order_attribute</table>
                </order_attribute>
-               <order_entity>
-                  <table>sales_order_entity</table>
-               </order_entity>
                               
                <invoice>
                   <table>sales_invoice</table>
@@ -53,9 +47,10 @@
                <invoice_attribute>
                   <table>sales_invoice_attribute</table>
                </invoice_attribute>
-               <invoice_entity>
-                  <table>sales_invoice_entity</table>
-               </invoice_entity>
+               
+               <discount_coupon>
+                  <table>sales_discount_coupon</table>
+               </discount_coupon>
                
             </entities>
          </sales_resource>
@@ -153,11 +148,18 @@
                 <updated_at><type>datetime</type></updated_at>
                 <status><type>int</type></status>
 
+                <coupon_code><type>varchar</type></coupon_code>
+                
+                <estimate_postcode><type>varchar</type></estimate_postcode>
+                <shipping_method><type>varchar</type></shipping_method>
+                <shipping_description><type>text</type></shipping_description>
                 <weight><type>decimal</type></weight>
+                
                 <subtotal><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Subtotal</class><sortOrder>10</sortOrder></subtotal>
-                <discount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Discount</class><sortOrder>20</sortOrder></discount>
-                <shipping><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Shipping</class><sortOrder>30</sortOrder></shipping>
-                <tax><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Tax</class><sortOrder>40</sortOrder></tax>
+                <discount_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Discount</class><sortOrder>20</sortOrder></discount_amount>
+                <tax_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Tax</class><sortOrder>40</sortOrder></tax_amount>
+                <shipping_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Shipping</class><sortOrder>30</sortOrder></shipping_amount>
+                <custbalance_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Custbalance</class><sortOrder>90</sortOrder></custbalance_amount>
                 <grand_total><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Grand</class><sortOrder>100</sortOrder></grand_total>
            </self>
            <address>
@@ -193,9 +195,15 @@
                 <qty><type>decimal</type></qty>
                 <price><type>decimal</type></price>
                 <tier_price><type>decimal</type></tier_price>
-                <discount><type>decimal</type></discount>
-                <tax><type>decimal</type></tax>
+                
                 <cost><type>decimal</type></cost>
+                
+                <discount_percent><type>decimal</type></discount_percent>
+                <discount_amount><type>decimal</type></discount_amount>
+                
+                <tax_percent><type>decimal</type></tax_percent>
+                <tax_amount><type>decimal</type></tax_amount>
+                
                 <row_total><type>decimal</type></row_total>
                 <row_weight><type>decimal</type></row_weight>
                 
@@ -213,7 +221,23 @@
                 <cc_exp_year><type>int</type></cc_exp_year>
                 <cc_cvv2><type>int</type></cc_cvv2>
             </payment>
+            <shipping>
+                <address_entity_id><type>int</type></address_entity_id>
+                <code><type>varchar</type></code>
+                <vendor><type>varchar</type></vendor>
+                <service><type>varchar</type></service>
+                <service_description><type>text</type></service_description>
+                <amount><type>decimal</type></amount>
+            </shipping>
          </quote>
+         
+         <order>
+         
+         </order>
+         
+         <invoice>
+         
+         </invoice>
       </salesAttributes>
    </global>
 

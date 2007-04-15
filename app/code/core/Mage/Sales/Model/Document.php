@@ -155,57 +155,9 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
         return $totalsArr;
     }
     
-    public function hasItems()
-    {
-        return !empty($this->_entitiesByType['item']);
-    }
-    
-    public function addProduct(Varien_Data_Object $product)
-    {
-        if (!$product->getAsNewItem()) {
-            foreach ($this->getEntitiesByType('item') as $item) {
-                if ($item->getProductId()==$product->getProductId()) {
-                    $item->setQty($item->getQty()+$product->getQty());
-                    $this->collectTotals();
-                    return $this;
-                }
-            }
-        } 
-        $item = Mage::getModel('sales', $this->getDocType().'_entity_item');
-        $item->setEntityType('item')->addData($product->getData());
-        $this->addEntity($item);
-        $this->collectTotals();
-        return $this;
-    }
-    
-    public function updateItems(array $itemsArr)
-    {
-        foreach ($itemsArr as $id=>$itemUpd) {
-            if (!is_numeric($itemUpd['qty']) || $itemUpd['qty']<=0) {
-                continue;
-            }
-            if (!empty($itemUpd['remove'])) {
-                $this->removeEntity($id);
-            } else {
-                $item = $this->getEntitiesById($id);
-                if (!$item) {
-                    continue;
-                }
-                $item->setQty($itemUpd['qty']);
-            }
-        }
-        $this->collectTotals();
-        return $this;
-    }
-    
     public function getEntityTemplates()
     {
-        $prefix = $this->getDocType()."_entity_";
-        return array(
-            'item'=>Mage::getModel('sales', $prefix.'item'),
-            'address'=>Mage::getModel('sales', $prefix.'address'),
-            'payment'=>Mage::getModel('sales', $prefix.'payment'),
-        );
+        return array();
     }
     
     public function getResource()

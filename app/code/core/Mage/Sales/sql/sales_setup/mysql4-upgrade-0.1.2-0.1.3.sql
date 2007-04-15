@@ -41,7 +41,7 @@ CREATE TABLE `sales_quote` (
 
 CREATE TABLE `sales_quote_attribute_text` (
   `quote_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_type` enum('self','item','address','payment','shipping') NOT NULL default 'self',
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_value` text NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `sales_quote_attribute_text` (
 
 CREATE TABLE `sales_quote_attribute_int` (
   `quote_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_type` enum('self','item','address','payment','shipping') NOT NULL default 'self',
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_value` int(11) NOT NULL default '0',
@@ -64,7 +64,7 @@ CREATE TABLE `sales_quote_attribute_int` (
 
 CREATE TABLE `sales_quote_attribute_decimal` (
   `quote_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_type` enum('self','item','address','payment','shipping') NOT NULL default 'self',
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_value` decimal(12,4) NOT NULL default '0.0000',
@@ -76,7 +76,7 @@ CREATE TABLE `sales_quote_attribute_decimal` (
 
 CREATE TABLE `sales_quote_attribute_varchar` (
   `quote_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_type` enum('self','item','address','payment','shipping') NOT NULL default 'self',
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_value` varchar(255) NOT NULL default '',
@@ -88,7 +88,7 @@ CREATE TABLE `sales_quote_attribute_varchar` (
 
 CREATE TABLE `sales_quote_attribute_datetime` (
   `quote_id` int(11) unsigned NOT NULL default '0',
-  `entity_type` enum('self','item','address','payment') NOT NULL default 'self',
+  `entity_type` enum('self','item','address','payment','shipping') NOT NULL default 'self',
   `entity_id` int(11) NOT NULL default '0',
   `attribute_code` varchar(32) NOT NULL default '',
   `attribute_value` datetime NOT NULL default '0000-00-00 00:00:00',

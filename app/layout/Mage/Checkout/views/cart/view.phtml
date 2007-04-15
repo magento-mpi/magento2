@@ -42,14 +42,32 @@
             <h2>Estimate</h2>
             <form action="<?=$data['url']['cart']?>estimatePost/" method="post">
                 <label for="">Zipcode:</label><br />
-                <input class="input-text"/> <input type="submit" value="Estimate" class="input-button"/>
+                <input class="input-text" name="estimate_postcode" value="<?=$data['cart']['estimate_postcode']?>"/> <input type="submit" value="Estimate" class="input-button"/>
             </form>
+            <?if (!empty($data['cart']['estimate_methods'])):?>
+                <br><br>
+                <form action="<?=$data['url']['cart']?>estimateUpdatePost/" method="post">
+                	<fieldset>
+                    	<ul>
+            	        <?foreach ($data['cart']['estimate_methods'] as $method):?>
+                    		<li>
+                    		    <input id="estimate_method_<?=$method['code']?>" name="estimate_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$data['cart']['estimate_method'])echo"checked"?> />
+                    		    <label for="estimate_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
+                    		    <strong><?=$method['amount']?></strong>
+                    		</li>
+                		<?endforeach?>
+    	   	           </ul>
+    	   	           <br>
+    	   	           <input type="submit" value="Update totals" class="input-button"/>
+    	   	        </fieldset>
+    	        </form>
+            <?endif?>
         </div>
         <div class="input-right">
             <h2>Coupon discount</h2>
             <form action="<?=$data['url']['cart']?>couponPost/" method="post">
                 <label for="">Coupon code:</label><br />
-                <input class="input-text"/> <input type="submit" value="Apply" class="input-button"/>
+                <input class="input-text" name="coupon_code" value="<?=$data['cart']['coupon_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
             </form>
         </div>
         <div class="clearfix"></div>

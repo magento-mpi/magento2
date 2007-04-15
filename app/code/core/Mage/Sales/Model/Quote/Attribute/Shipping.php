@@ -7,10 +7,10 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
         $addressEntities = $quote->getEntitiesByType('address');
         $method = $quote->getShippingMethod();
         if ($method) {
-            $price = $quote->getShippingPrice();
-            if (!$price) {
+            $amount = $quote->getShippingAmount();
+            if (!$amount) {
                 
-                $quote->setShippingPrice($price);
+                $quote->setShippingAmount($amount);
             }
         }
         return $this;
@@ -19,9 +19,9 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
     function getTotals(Mage_Sales_Model_Quote $quote)
     {
         $arr = array();
-        $method = $quote->getShippingMethod();
-        if ($method) {
-            $arr['shipping'] = array('code'=>'shipping', 'title'=>__('Shipping & Handling').' ('.$quote->getShippingDescription().')', 'value'=>$quote->getShippingPrice(), 'output'=>true);
+        $amount = $quote->getShippingAmount();
+        if ($amount) {
+            $arr['shipping'] = array('code'=>'shipping', 'title'=>__('Shipping & Handling').' ('.$quote->getShippingDescription().')', 'value'=>$quote->getShippingAmount(), 'output'=>true);
         }
         return $arr;
     }

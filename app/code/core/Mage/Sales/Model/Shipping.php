@@ -94,6 +94,6 @@ class Mage_Sales_Model_Shipping
         $request->setPackageValue($address->getSubtotal());
         $request->setPackageWeight($address->getWeight());
 
-        return $this->collectMethods($request)->asArray();
+        return $this->collectMethods($request);
     }
 }
