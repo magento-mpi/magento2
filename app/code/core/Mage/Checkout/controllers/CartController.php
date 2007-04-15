@@ -112,8 +112,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         foreach ($entities as $entity) {
             if ($entity->getCode()==$code) {
                 $this->_data['quote']->setShippingDescription($entity->getVendor().' '.$entity->getServiceDescription());
-                $this->_data['quote']->setShippingAmount($entity->getAmount());
-                $this->_data['quote']->save();
+                $this->_data['quote']->setShippingAmount($entity->getAmount())->collectTotals()->save();
                 break;
             }
         }
