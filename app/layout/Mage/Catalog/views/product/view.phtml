@@ -12,29 +12,45 @@
           </div>
         </div>
         <script type="text/javascript">
-            var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false});
+            var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
             
-            var slider = new Control.Slider('handle1','track1', {axis:'horizontal', minimum: 0, maximum:200, alignX: 1, increment: 1, sliderValue: 0});
-            slider.options.onSlide = function(value) { scaleIt(value); }
-            slider.options.onChange = function(value) { scaleIt(value); }
+            var slider = new Control.Slider('handle1','track1', {axis:'horizontal', minimum:0, maximum:200, alignX:1, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
 
             var origWidth = 245;
             var origHeight = 300;
             var floorSize = 1.0;
-            var ceilingSize = 5.0;
-            var lastScale = 1.0;
+            var ceilingSize = 10.0;
+            var imageX = 0;
+            var imageY = 0;
+            var imageV = 1;
             
             function scaleIt(v) {
-              var image = $('image');
-              var diff = lastScale-v;
-              lastScale = v;
-              
-              v = floorSize + (v * (ceilingSize - floorSize));
+              var centerX = origWidth*(1-imageV)/(2*imageV)-imageX/imageV;
+              var centerY = origHeight*(1-imageV)/(2*imageV)-imageY/imageV;
 
-              //image.style.left = (image.offsetLeft-image.offsetLeft*2)+'px';
-              //image.style.top = (image.offsetTop+diff)+'px';
-              image.style.width = (v*origWidth)+'px';
-            } 
+              imageV = floorSize+(v*(ceilingSize-floorSize));
+              image.element.style.width = (imageV*origWidth)+'px';
+              
+              imageX = origWidth*(1-imageV)/2-centerX*imageV;
+              imageY = origHeight*(1-imageV)/2-centerY*imageV;
+              containIt(imageX, imageY, image)
+              image.element.style.left = imageX+'px';
+              image.element.style.top = imageY+'px';
+            }
+            
+            function containIt(x,y,draggable) {
+                var pDim = Element.getDimensions(draggable.element.parentNode); 
+                var eDim = Element.getDimensions(draggable.element);
+                var xMin = 0, xMax = pDim.width-eDim.width;
+                var yMin = 0, yMax = pDim.height-eDim.height;
+                x = x>xMin ? xMin : x;
+                x = x<xMax ? xMax : x;
+                y = y>yMin ? yMin : y;
+                y = y<yMax ? yMax : y;
+                imageX = x;
+                imageY = y;
+                return [x,y];
+            }
         </script>
     </div>
 </div>
