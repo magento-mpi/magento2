@@ -1,13 +1,12 @@
 <?if($productCollection->getSize()):?>
 <div class="category-pager">
     <ul>
+        <li><strong>Page</strong></li>
         <?if ($productCollection->getCurPage() != 1):?>
-        <li class="previous">
-            <a href="#"><img src="<?=$moduleImagesUrl?>/arrow_pager_previous.gif" alt="Previous"/></a>
-            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(-1))->buildUrl()?>">Previous</a>
+        <li>
+            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(-1))->buildUrl()?>">«</a>
         </li>
         <?endif?>
-        <li><strong>Page</strong></li>
         <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
         <?if ($i == $productCollection->getCurPage()):?>
             <li><strong><?=$i?></strong>&nbsp;|</li>
@@ -16,20 +15,19 @@
         <?endif?>
         <?endfor?>
         <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
-        <li class="next">
-            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(1))->buildUrl()?>">Next</a>
-            <a href="#"><img src="<?=$moduleImagesUrl?>/arrow_pager_next.gif" alt="Next"/></a>
+        <li>
+            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(1))->buildUrl()?>">»</a>
         </li>
         <?endif?>
         <li>
          Total: <?=$productCollection->getSize()?> items
         </li>
     </ul>
-    <span class="sort-by">Sort by <select name="sort" onchange="location.href=this.options[this.selectedIndex].label">
-        <option value="name_desc" label="<?=$sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->buildUrl()?>" <?=$sortValue=='name_desc'?'selected':''?>>Name</option>
-        <option value="price_asc" label="<?=$sortUrl->setParam('order', 'price')->buildUrl()?>" <?=$sortValue=='price_asc'?'selected':''?>>Price Low-High</option>
-        <option value="price_desc" label="<?=$sortUrl->setParam('dir', 'desc')->buildUrl()?>" <?=$sortValue=='price_desc'?'selected':''?>>Price High-Low</option>
-        </select></span>
+    <span class="sort-by">
+        Sort by: 
+        <a href="<?=$sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->buildUrl()?>">Name</a> | 
+        <a href="<?=$sortUrl->setParam('order', 'price')->buildUrl()?>">Price</a>
+    </span>
     <div class="clearfix"></div>
 </div>
 <?endif?>

@@ -14,7 +14,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         if ($searchQuery) {
             Mage::getBlock('search.form.mini')->assign('query', $searchQuery);
             $searchResBlock = Mage::createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
-            $searchResBlock->loadData($this->getRequest());
+            $searchResBlock->loadByQuery($this->getRequest());
             
             Mage::getBlock('content')->append($searchResBlock);
         }
@@ -40,5 +40,11 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         }
         
         Mage::getBlock('catalog.leftnav')->assign($attribute, $value);
+        
+        $block = Mage::createBlock('catalog_search_result', 'search.byattribute');
+        $block->loadByAttribute($this->getRequest());
+        
+        Mage::getBlock('content')->append($block);
+        
     }
 }

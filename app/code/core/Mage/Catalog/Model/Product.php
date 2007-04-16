@@ -67,6 +67,12 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
     {
         return $this->getPrice();
     }
+
+    public function getFormatedPrice()
+    {
+        $filter = new Varien_Filter_Sprintf('$%s', 2);
+        return $filter->filter($this->getPrice());
+    }
     
     /**
      * Get product attributes

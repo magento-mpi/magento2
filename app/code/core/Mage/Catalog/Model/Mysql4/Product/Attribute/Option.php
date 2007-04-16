@@ -18,6 +18,24 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
         $this->_optionTable     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_option');
         $this->_optionTypeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_option_type');
     }
+
+    public function getOptionValue($optionId)
+    {
+        $arrRes = array();
+        $sql = "SELECT
+                    $this->_optionTable.option_value
+                FROM
+                    $this->_optionTable
+                WHERE
+                    $this->_optionTable.website_id=:website_id
+                    AND $this->_optionTable.option_id=:option_id";
+        $arrParam = array();
+        $arrParam['website_id']   = Mage::registry('website')->getId();
+        $arrParam['option_id']    = $optionId;
+        
+        $arrRes = self::$_read->fetchOne($sql,$arrParam);
+        return $arrRes;
+    }
     
     /**
      * Get options for attribute values

@@ -10,18 +10,18 @@
     <?if(!empty($manufacturers)):?>
     <h2 id="title-brand"><span>Shop by brand</span></h2>
         <select name="manufacturer" onchange="productBy('manufacturer',this)">
-            <option>Choose brand...</option>
+            <option>Choose brand</option>
         <?foreach($manufacturers as $_item):?>
-            <option value="<?=$_item['value']?>" <?if(!empty($manufacturer) && $manufacturer==$_item['value']):?> selected<?endif?>><?=$_item['label']?></option>
+            <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
         <?endforeach?>
         </select>
     <?endif?>
     <?if(!empty($types)):?>
     <h2 id="title-shoe-type"><span>Shop by shoe type</span></h2>
         <select name="type" onchange="productBy('type',this)">
-            <option>Choose shoe type...</option>
+            <option>Choose shoe type</option>
         <?foreach($types as $_item):?>
-            <option value="<?=$_item['value']?>" <?if(!empty($type) && $type==$_item['value']):?> selected<?endif?>><?=$_item['label']?></option>
+            <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
         <?endforeach?>
         </select>
     <?endif?>

@@ -90,29 +90,25 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return parent::setOrder($field, $direction);
     }
         
-    /**
-     * Get sql for get record count
-     *
-     * @return  string
-     */
-    public function getSelectCountSql()
-    {
-        return 'SELECT FOUND_ROWS()';
-    }
-    
-    function addAttributeToSelect($attributeCode, $attributeType)
+    function addAttributeToSelect($attributeCode, $attributeType, $attributeValue=false)
     {
         if (!isset($this->_attributeTables[$attributeType])) {
             Mage::exception('Wrong attribute type:'.$attributeType, 0, 'Mage_Catalog');
         }
+        
         $attributeId = $this->getConnection()->fetchOne("SELECT attribute_id FROM $this->_attributeTable WHERE attribute_code=?", $attributeCode);
         $tableAlias= $attributeCode . '_' . $attributeType;
-        //$tableName = new Zend_Db_Expr($this->_attributeTables[$attributeType] . ' AS ' . $tableAlias);
         $tableName = $this->_attributeTables[$attributeType] . ' AS ' . $tableAlias;
         
         $condition = "$tableAlias.product_id=$this->_productTable.product_id AND $tableAlias.attribute_id=$attributeId";
+        
         if ($this->_websiteId) {
             $condition.= " AND $tableAlias.website_id=".(int) $this->_websiteId;
+        }
+        
+        if ($attributeValue) {
+            //$this->addFilter("$tableAlias.attribute_value", $attributeValue);
+            $condition.= " AND $tableAlias.attribute_value='".$attributeValue."'";
         }
         
         $this->_sqlSelect->join($tableName, $condition, new Zend_Db_Expr("$tableAlias.attribute_value AS $attributeCode"));
@@ -139,5 +135,30 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
         return false;
     }
+    
+    /**
+     * Load data
+     * 
+     * Redeclared for SELECT FOUND_ROWS()
+     *
+     * @return  Varien_Data_Collection_Db
+     */
+    public function loadData($printQuery = false, $logQuery = false)
+    {
+        parent::loadData($printQuery, $logQuery);
+        $this->getSize();
+        return $this;
+    }
+
+    /**
+     * Get sql for get record count
+     *
+     * @return  string
+     */
+    public function getSelectCountSql()
+    {
+        return 'SELECT FOUND_ROWS()';
+    }
+    
     
 }

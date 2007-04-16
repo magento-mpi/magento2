@@ -1,0 +1,5 @@
+update `catalog_product_attribute` set `attribute_id`='10',`attribute_code`='manufacturer',`data_input`='select',`input_html_param`=NULL,`data_saver`='attribute_int',`data_source`='product_manufacturer',`data_type`='int',`validation`=NULL,`input_format`=NULL,`output_format`=NULL,`required`='0',`inheritable`='1',`searchable`='1',`filterable`='1',`multiple`='0' where `attribute_id`='10';
+
+update `catalog_product_attribute_option` set `option_id`='4',`website_id`='1',`option_type_id`='2',`option_value`='Clogs' where `option_id`='4' ;
+update `catalog_product_attribute_option` set `option_id`='5',`website_id`='1',`option_type_id`='2',`option_value`='Sandals' where `option_id`='5';
+insert into `catalog_product_attribute` (`attribute_id`,`attribute_code`,`data_input`,`input_html_param`,`data_saver`,`data_source`,`data_type`,`validation`,`input_format`,`output_format`,`required`,`inheritable`,`searchable`,`filterable`,`multiple`) values ( NULL,'type','select',NULL,'attribute_int','product_type','int',NULL,NULL,NULL,'0','1','1','1','0');
