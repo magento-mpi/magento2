@@ -176,7 +176,9 @@ Mage.Catalog_Product_Attributes = function(){
                 {name: 'attribute_code', mapping: 'attribute_code'},
                 {name: 'data_input', mapping: 'data_input'},
                 {name: 'data_type', mapping: 'data_type'},
-                {name: 'required', mapping: 'required'}
+                {name: 'required', mapping: 'required'},
+                {name: 'filterable', mapping: 'filterable'},
+                {name: 'searchable', mapping: 'searchable'}
             ]);
 
             var dataReader = new Ext.data.JsonReader({
@@ -243,6 +245,18 @@ Mage.Catalog_Product_Attributes = function(){
                 dataIndex: 'required',
                 renderer: formatBoolean,
                 editor: new Ed(new fm.Checkbox())
+            },{
+                header: "Searchable",
+                sortable: true,
+                dataIndex: 'searchable',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
+            },{
+                header: "Filterable",
+                sortable: true,
+                dataIndex: 'filterable',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
             }]);
             
             var ProductAttribute = Ext.data.Record.create([
@@ -259,6 +273,7 @@ Mage.Catalog_Product_Attributes = function(){
                 loadMask : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
+                trackMouseOver: true,
                 autoHeight : true,
                 //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
