@@ -50,6 +50,9 @@ drop table if exists sales_invoice_attribute_datetime;
 drop table if exists sales_invoice_attribute_varchar;
 drop table if exists sales_invoice_attribute_decimal;
 
+drop table if exists sales_discount_coupon;
+drop table if exists sales_giftcert;
+
 
 CREATE TABLE `sales_quote` (
   `quote_id` int(11) unsigned NOT NULL auto_increment,
