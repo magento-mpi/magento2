@@ -25,10 +25,12 @@
 * Menu Buttons
 */
 
-.bedit_add .x-btn-text {background-image:url(./ico/edit_add.gif);}
-.bedit_delete .x-btn-text {background-image:url(./ico/edit_delete.gif);}
-.bedit_remove .x-btn-text {background-image:url(./ico/edit_remove.gif);}
-.bapply .x-btn-text {background-image:url(./ico/apply.gif);}
+.btn_add    .x-btn-text {background-image:url(./ico/fam/add.png);}
+.btn_cross  .x-btn-text {background-image:url(./ico/fam/cross.png);}
+.btn_delete .x-btn-text {background-image:url(./ico/fam/delete.png);}
+.btn_package_add .x-btn-text {background-image:url(./ico/fam/package_add.png);}
+.btn_application_form_edit .x-btn-text {background-image:url(./ico/fam/application_form_edit.png);}
+.btn_accept .x-btn-text {background-image:url(./ico/fam/accept.png);}
 .bok .x-btn-text {background-image:url(./ico/button_ok.gif);}
 
 .search-input {

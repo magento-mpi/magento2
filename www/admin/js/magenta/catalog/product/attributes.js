@@ -134,18 +134,21 @@ Mage.Catalog_Product_Attributes = function(){
             var tb = new Ext.Toolbar(gridHead);
             tb.addButton ({
                 text: 'Add',
-                handler : this.onAdd.createDelegate(this)
+                handler : this.onAdd.createDelegate(this),
+                cls: 'x-btn-text-icon btn_add'
             });
 
             this.btnEdit = tb.addButton({
                 text: 'Edit',
                 enableToggle : true,
                 handler : this.onEditToogle.createDelegate(this),
+                cls: 'x-btn-text-icon btn_application_form_edit',
                 disabled : true
             });
 
             this.btnDelete = tb.addButton ({
                 text: 'Delete',
+                cls: 'x-btn-text-icon btn_delete',
                 disabled : true
             });
         },
@@ -190,6 +193,18 @@ Mage.Catalog_Product_Attributes = function(){
 
             dataStore.setDefaultSort('attribute_code', 'asc');
 
+            // shorthand alias
+            var fm = Ext.form, Ed = Ext.grid.GridEditor;
+
+            function formatBoolean(value){
+                return value ? 'Yes' : 'No';  
+            };            
+
+            var data_inputs = [
+                ['string', 'String'],
+                ['int', 'Number'],
+                ['float', 'Dec']
+            ];
 
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
@@ -199,11 +214,25 @@ Mage.Catalog_Product_Attributes = function(){
             },{
                 header: "Code",
                 sortable: true,
-                dataIndex: 'attribute_code'
+                dataIndex: 'attribute_code',
+                editor: new Ed(new fm.TextField({
+                     allowBlank: false
+               }))
             },{
                 header: "Input type",
                 sortable: true,
-                dataIndex: 'data_input'
+                dataIndex: 'data_input',
+                editor: new Ed(new Ext.form.ComboBox({
+                   typeAhead: true,
+                   triggerAction: 'all',
+                   mode: 'local',
+                   store: new Ext.data.SimpleStore({
+                        fields: ['type', 'value'],
+                        mode : 'local',
+                        data : data_inputs // from states.js
+                   }),
+                   lazyRender:true
+                }))                
             },{
                 header: "Data type",
                 sortable: true,
@@ -211,8 +240,18 @@ Mage.Catalog_Product_Attributes = function(){
             },{
                 header: "Required",
                 sortable: true,
-                dataIndex: 'required'
+                dataIndex: 'required',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
             }]);
+            
+            var ProductAttribute = Ext.data.Record.create([
+               {name: 'attribute_id', type: 'string'},
+               {name: 'attribute_code', type: 'string'},
+               {name: 'data_input'},
+               {name: 'data_type'},
+               {name: 'required'}
+            ]);
 
             this.attributeGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
@@ -221,11 +260,43 @@ Mage.Catalog_Product_Attributes = function(){
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 autoHeight : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
 
             this.attributeGrid.render();
+            var gridHead = this.attributeGrid.getView().getHeaderPanel(true);
+            var tb = new Ext.Toolbar(gridHead);
+            tb.addButton({
+                text : 'New',
+                cls: 'x-btn-text-icon btn_add',
+                handler : function(){
+                    var pa = new ProductAttribute({
+                        attribute_id : '###',
+                        attribute_code: 'new_attribute',
+                        data_input: 'text',
+                        data_type: 'decimal',
+                        required : false
+                    });
+                    this.attributeGrid.stopEditing();
+                    dataStore.insert(0, pa);
+                    this.attributeGrid.startEditing(0, 1);
+                }.createDelegate(this)
+            });
+            
+            tb.addButton({
+                text : 'Save',
+                cls: 'x-btn-text-icon btn_accept'
+            });
+            
+            tb.addButton({
+                text : 'Delete',
+                cls: 'x-btn-text-icon btn_delete',
+                handler : function(){
+                    var sm = this.attributeGrid.getSelectionModel();
+                    Ext.dump(sm);
+                }.createDelegate(this)
+            });
         },
 
         loadMainPanel : function() {

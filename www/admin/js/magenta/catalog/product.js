@@ -142,7 +142,7 @@ Mage.Catalog_Product = function(depend){
             var btnAdd = new Ext.Toolbar.Button({
                 text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
-                cls: 'x-btn-text-icon bedit_add',
+                cls: 'x-btn-text-icon btn_add',
                 disabled : true
              });
              paging.insertButton(0, btnAdd);
@@ -151,7 +151,7 @@ Mage.Catalog_Product = function(depend){
              var btnApply = new Ext.Toolbar.Button({
                 text: 'Apply',
                 handler : this.applyFilters.createDelegate(this),
-                cls: 'x-btn-text-icon bapply',
+                cls: 'x-btn-text-icon btn_accept',
                 disabled : true
              });
              paging.insertButton(1, btnApply);            
@@ -160,7 +160,7 @@ Mage.Catalog_Product = function(depend){
              var bntReset = new Ext.Toolbar.Button({
                 text: 'Reset',
                 handler : this.deleteFilters.createDelegate(this),
-                cls: 'x-btn-text-icon bedit_delete',
+                cls: 'x-btn-text-icon btn_delete',
                 disabled : true
              });
              paging.insertButton(2, bntReset);            
@@ -168,7 +168,7 @@ Mage.Catalog_Product = function(depend){
              
              paging.insertButton(3, {
                 text: 'Product',
-                cls: 'x-btn-text-icon bedit_add',
+                cls: 'x-btn-text-icon btn_package_add',
                 handler : this.createItem.createDelegate(this)
              });
             
@@ -191,7 +191,7 @@ Mage.Catalog_Product = function(depend){
 
             filter.add({
                 handler : this.delFilter.createDelegate(this, [filter], 0),
-                cls: 'x-btn-icon bedit_remove'
+                cls: 'x-btn-icon btn_cross'
             });
             
             var startType = null;  // first item time
