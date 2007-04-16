@@ -10,6 +10,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGrid : null,
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
+        attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
 
         setGrid : null,
         setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
@@ -35,8 +36,6 @@ Mage.Catalog_Product_Attributes = function(){
                         tabPosition : 'top'
                     }
                 });
-
-
 
                 this.westLayout = new Ext.BorderLayout(Layout.getRegion('west').getEl().createChild({tag:'div'}), {
                     center: {
@@ -231,7 +230,7 @@ Mage.Catalog_Product_Attributes = function(){
                    store: new Ext.data.SimpleStore({
                         fields: ['type', 'value'],
                         mode : 'local',
-                        data : data_inputs // from states.js
+                        data : data_inputs
                    }),
                    lazyRender:true
                 }))                
@@ -301,18 +300,49 @@ Mage.Catalog_Product_Attributes = function(){
             
             tb.addButton({
                 text : 'Save',
-                cls: 'x-btn-text-icon btn_accept'
+                cls: 'x-btn-text-icon btn_accept',
+                handler : function() {
+                    this.attributeGrid.getDataSource().commitChanges();
+                }.createDelegate(this)
             });
             
             tb.addButton({
                 text : 'Delete',
                 cls: 'x-btn-text-icon btn_delete',
                 handler : function(){
-                    var sm = this.attributeGrid.getSelectionModel();
-                    Ext.dump(sm);
+                   var sm =  this.attributeGrid.getSelectionModel();        
+                   if (sm.hasSelection()) {
+                       var cell = sm.getSelectedCell();
+                       rowIndex = cell[0];
+                       var cb = {
+                           success : this.onAttributeDeleteSuccess.createDelegate(this),
+                           failure : this.onAttributeDeleteFailure.createDelegate(this),
+                           argument : {rowIndex : rowIndex}
+                       }
+                       var record = this.attributeGrid.getDataSource().getAt(rowIndex);
+                       Ext.lib.Ajax.request('POST', this.attributesDeleteUrl + 'attrId/'+ record.id +'/', cb);
+                   }
+                   
+                }.createDelegate(this)
+            });
+            
+            tb.addButton({
+                text : 'Reload',
+                cls: 'x-btn-text-icon btn_delete',
+                handler : function() {
+                    this.attributeGrid.getDataSource().load();
                 }.createDelegate(this)
             });
         },
+        
+        onAttributeDeleteSuccess : function(response) {
+            var record = this.attributeGrid.getDataSource().getAt(response.argument.rowIndex);
+            this.attributeGrid.getDataSource().remove(record);
+        },
+        
+        onAttributeDeleteFailure : function(response) {
+            Ext.MessageBox.alert('Attribute Grid','Database Error');
+        },        
 
         loadMainPanel : function() {
             this.init();
