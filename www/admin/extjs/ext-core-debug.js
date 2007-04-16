@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0 Beta 2
+ * Ext JS Library 1.0
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -2018,6 +2018,11 @@ El.prototype = {
     findParentNode : function(simpleSelector, maxDepth, returnEl){
         var p = Ext.fly(this.dom.parentNode, '_internal');
         return p ? p.findParent(simpleSelector, maxDepth, returnEl) : null;
+    },
+
+    
+    up : function(simpleSelector, maxDepth){
+        return this.findParentNode(simpleSelector, maxDepth, true);
     },
 
 

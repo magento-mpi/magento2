@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0 Beta 2
+ * Ext JS Library 1.0
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -126,7 +126,7 @@ if(Ext.QuickTips){Ext.QuickTips.disable();}
 var data=this.getDragData(e);if(data&&this.onBeforeDrag(data,e)!==false){this.dragData=data;this.proxy.stop();Ext.dd.DragSource.superclass.handleMouseDown.apply(this,arguments);}},handleMouseUp:function(e){if(Ext.QuickTips){Ext.QuickTips.enable();}},onBeforeDrag:function(data,e){return true;},onStartDrag:Ext.emptyFn,startDrag:function(e){this.proxy.reset();this.dragging=true;this.proxy.update("");this.onInitDrag(e);this.proxy.show();},onInitDrag:function(e){var clone=this.el.dom.cloneNode(true);clone.id=Ext.id();this.proxy.update(clone);this.onStartDrag(e);return true;},getProxy:function(){return this.proxy;},hideProxy:function(){this.proxy.hide();this.proxy.reset(true);this.dragging=false;},triggerCacheRefresh:function(){Ext.dd.DDM.refreshCache(this.groups);},b4EndDrag:function(e){},endDrag:function(e){this.onEndDrag(this.dragData,e);},onEndDrag:function(data,e){},autoOffset:function(x,y){this.setDelta(-12,-20);}});
 
 Ext.dd.DropTarget=function(el,config){this.el=Ext.get(el);Ext.apply(this,config);if(this.containerScroll){Ext.dd.ScrollManager.register(this.el);}
-Ext.dd.DropTarget.superclass.constructor.call(this,this.el.dom,this.ddGroup||this.group,{isTarget:true});};Ext.extend(Ext.dd.DropTarget,Ext.dd.DDTarget,{isTarget:true,isNotifyTarget:true,dropAllowed:"x-dd-drop-ok",dropNotAllowed:"x-dd-drop-nodrop",notifyEnter:function(dd,e,data){if(this.overClass){this.el.addClass(this.overClass);}
+Ext.dd.DropTarget.superclass.constructor.call(this,this.el.dom,this.ddGroup||this.group,{isTarget:true});};Ext.extend(Ext.dd.DropTarget,Ext.dd.DDTarget,{dropAllowed:"x-dd-drop-ok",dropNotAllowed:"x-dd-drop-nodrop",isTarget:true,isNotifyTarget:true,notifyEnter:function(dd,e,data){if(this.overClass){this.el.addClass(this.overClass);}
 return this.dropAllowed;},notifyOver:function(dd,e,data){return this.dropAllowed;},notifyOut:function(dd,e,data){if(this.overClass){this.el.removeClass(this.overClass);}},notifyDrop:function(dd,e,data){return false;}});
 
 Ext.dd.DragZone=function(el,config){Ext.dd.DragZone.superclass.constructor.call(this,el,config);if(this.containerScroll){Ext.dd.ScrollManager.register(this.el);}};Ext.extend(Ext.dd.DragZone,Ext.dd.DragSource,{getDragData:function(e){return Ext.dd.Registry.getHandleFromEvent(e);},onInitDrag:function(e){this.proxy.update(this.dragData.ddel.cloneNode(true));this.onStartDrag(e);return true;},afterRepair:function(){if(Ext.enableFx){Ext.Element.fly(this.dragData.ddel).highlight(this.hlColor||"c3daf9");}

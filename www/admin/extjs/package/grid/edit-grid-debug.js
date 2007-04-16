@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0 Beta 2
+ * Ext JS Library 1.0
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -105,6 +105,8 @@ Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
         this.activeEditor = null;
     }
 });
+// private
+// This is a support class used internally by the Grid components
 Ext.grid.GridEditor = function(field, config){
     Ext.grid.GridEditor.superclass.constructor.call(this, field, config);
 };

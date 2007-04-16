@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0 Beta 2
+ * Ext JS Library 1.0
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -99,6 +99,8 @@ if(this.checked){this.setValue(true);}},initValue:Ext.emptyFn,getValue:function(
 return false;},onClick:function(){if(this.el.dom.checked!=this.checked){this.setValue(this.el.dom.checked);}},setValue:function(v){this.checked=(v===true||v==='true'||v=='1');if(this.el&&this.el.dom){this.el.dom.checked=this.checked;}
 this.fireEvent("check",this,this.checked);}});
 
+Ext.form.Radio=function(){Ext.form.Radio.superclass.constructor.apply(this,arguments);};Ext.extend(Ext.form.Radio,Ext.form.Checkbox,{inputType:'radio'});
+
 Ext.form.ComboBox=function(config){Ext.form.ComboBox.superclass.constructor.call(this,config);this.addEvents({'expand':true,'collapse':true,'beforeselect':true,'select':true,'beforequery':true});if(this.transform){var s=Ext.getDom(this.transform);if(!this.hiddenName){this.hiddenName=s.name;}
 if(!this.store){this.mode='local';var d=[],opts=s.options;for(var i=0,len=opts.length;i<len;i++){var o=opts[i];var value=(Ext.isIE?o.getAttributeNode('value').specified:o.hasAttribute('value'))?o.value:o.text;if(o.selected){this.value=value;}
 d.push([value,o.text]);}
@@ -183,7 +185,7 @@ return Ext.decode(response.responseText);}});Ext.form.Action.Load=function(form,
 this.form.clearInvalid();this.form.setValues(result.data);this.form.afterAction(this,true);},handleResponse:function(response){if(this.form.reader){var rs=this.form.reader.read(response);var data=rs.records&&rs.records[0]?rs.records[0].data:null;return{success:rs.success,data:data};}
 return Ext.decode(response.responseText);}});Ext.form.Action.ACTION_TYPES={'load':Ext.form.Action.Load,'submit':Ext.form.Action.Submit};
 
-Ext.form.Layout=function(config){Ext.form.Layout.superclass.constructor.call(this,config);this.stack=[];};Ext.extend(Ext.form.Layout,Ext.Component,{defaultAutoCreate:{tag:'div',cls:'x-form-ct'},clear:true,labelSeparator:':',hideLabels:false,onRender:function(ct){if(this.el){this.el=Ext.get(this.el);}else{var cfg=this.getAutoCreate();this.el=ct.createChild(cfg);}
+Ext.form.Layout=function(config){Ext.form.Layout.superclass.constructor.call(this,config);this.stack=[];};Ext.extend(Ext.form.Layout,Ext.Component,{clear:true,labelSeparator:':',hideLabels:false,defaultAutoCreate:{tag:'div',cls:'x-form-ct'},onRender:function(ct){if(this.el){this.el=Ext.get(this.el);}else{var cfg=this.getAutoCreate();this.el=ct.createChild(cfg);}
 if(this.style){this.el.applyStyles(this.style);}
 if(this.labelAlign){this.el.addClass('x-form-label-'+this.labelAlign);}
 if(this.hideLabels){this.labelStyle="display:none";this.elementStyle="padding-left:0;";}else{if(typeof this.labelWidth=='number'){this.labelStyle="width:"+this.labelWidth+"px;";this.elementStyle="padding-left:"+((this.labelWidth+(typeof this.labelPad=='number'?this.labelPad:5))+'px')+";";}

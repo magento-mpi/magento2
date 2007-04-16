@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0 Beta 2
+ * Ext JS Library 1.0
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -961,6 +961,8 @@ Ext.extend(Ext.form.DateField, Ext.form.TriggerField,  {
     
     triggerClass : 'x-form-date-trigger',
     
+
+    // private
     defaultAutoCreate : {tag: "input", type: "text", size: "10", autocomplete: "off"},
 
     // private
@@ -1158,6 +1160,13 @@ Ext.extend(Ext.form.Checkbox, Ext.form.Field,  {
         }
         this.fireEvent("check", this, this.checked);
     }
+});
+
+Ext.form.Radio = function(){
+    Ext.form.Radio.superclass.constructor.apply(this, arguments);
+};
+Ext.extend(Ext.form.Radio, Ext.form.Checkbox, {
+    inputType: 'radio'
 });
 
 Ext.form.ComboBox = function(config){
@@ -2566,10 +2575,21 @@ Ext.form.Layout = function(config){
 };
 
 Ext.extend(Ext.form.Layout, Ext.Component, {
-    defaultAutoCreate : {tag: 'div', cls: 'x-form-ct'},
-    clear:true,
+    
+    
+    
+    
+    
+    clear : true,
+    
     labelSeparator : ':',
-    hideLabels:false,
+    
+    hideLabels : false,
+
+    // private
+    defaultAutoCreate : {tag: 'div', cls: 'x-form-ct'},
+
+    // private
     onRender : function(ct){
         if(this.el){ // from markup
             this.el = Ext.get(this.el);
@@ -2624,10 +2644,12 @@ Ext.extend(Ext.form.Layout, Ext.Component, {
         }
     },
 
+    // private
     renderField : function(f){
        this.fieldTpl.append(this.el, [f.id, f.fieldLabel, f.labelStyle||this.labelStyle||'', this.elementStyle||'', f.labelSeparator||this.labelSeparator, f.itemCls||this.itemCls||'']);
     },
 
+    // private
     renderComponent : function(c){
         c.render(this.el);
     }
@@ -2639,8 +2661,13 @@ Ext.form.Column = function(config){
 };
 
 Ext.extend(Ext.form.Column, Ext.form.Layout, {
+    
+    
+
+    // private
     defaultAutoCreate : {tag: 'div', cls: 'x-form-ct x-form-column'},
 
+    // private
     onRender : function(ct){
         Ext.form.Column.superclass.onRender.call(this, ct);
         if(this.width){
@@ -2655,8 +2682,13 @@ Ext.form.FieldSet = function(config){
 };
 
 Ext.extend(Ext.form.FieldSet, Ext.form.Layout, {
+    
+    
+
+    // private
     defaultAutoCreate : {tag: 'fieldset', cn: {tag:'legend'}},
 
+    // private
     onRender : function(ct){
         Ext.form.FieldSet.superclass.onRender.call(this, ct);
         if(this.legend){
@@ -2664,6 +2696,7 @@ Ext.extend(Ext.form.FieldSet, Ext.form.Layout, {
         }
     },
 
+    // private
     setLegend : function(text){
         if(this.rendered){
             this.el.child('legend').update(text);
