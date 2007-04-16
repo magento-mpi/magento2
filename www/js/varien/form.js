@@ -1,6 +1,9 @@
 VarienForm = Class.create();
 VarienForm.prototype = {
     initialize: function(formId){
+        this.cache      = $A();
+        this.currLoader = false;
+        this.currDataIndex = false; 
         this.form       = $(formId);
         this.validator  = new Validation(this.form);
         this.elementFocus   = this.elementOnFocus.bindAsEventListener(this);
@@ -30,12 +33,16 @@ VarienForm.prototype = {
         var element = Event.findElement(event, 'fieldset');
         Element.removeClassName(element, this.highlightClass);
     },
-
+    
     setElementsRelation: function(parent, child, dataUrl){
         if (parent=$(parent)) {
             // TODO: array of relation and caching
-            this.tmpChild=child;
-            this.tmpUrl=dataUrl;
+            if (!this.cache[parent.id]){
+                this.cache[parent.id] = $A();
+                this.cache[parent.id]['child']     = child;
+                this.cache[parent.id]['dataUrl']   = dataUrl;
+                this.cache[parent.id]['data']      = $A();
+            }
             Event.observe(parent,'change',this.childLoader);
         }
     },
@@ -43,26 +50,38 @@ VarienForm.prototype = {
     elementChildLoad: function(event){
         element = Event.element(event);
         if (element.value) {
-            new Ajax.Request(this.tmpUrl,{
-                    method: 'post',
-                    parameters: {"parent":element.value},
-                    onComplete: this.reloadChildren.bind(this)
-            });
+            this.currLoader = element.id;
+            this.currDataIndex = element.value;
+            if (this.cache[element.id]['data'][element.value]) {
+                this.setDataToChild(this.cache[element.id]['data'][element.value]);
+            }
+            else{
+                new Ajax.Request(this.cache[this.currLoader]['dataUrl'],{
+                        method: 'post',
+                        parameters: {"parent":element.value},
+                        onComplete: this.reloadChildren.bind(this)
+                });
+            }
         }
     },
     
     reloadChildren: function(transport){
         var data = eval('(' + transport.responseText + ')');
+        this.cache[this.currLoader]['data'][this.currDataIndex] = data;
         this.setDataToChild(data);
     },
     
     setDataToChild: function(data){
         if (data.length) {
-            var child = $(this.tmpChild);
+            var child = $(this.cache[this.currLoader]['child']);
             if (child){
                 var html = '<select name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
                 for (var i in data){
-                    if(data[i].value) html+= '<option value="'+data[i].value+'">'+data[i].label+'</option>';
+                    if(data[i].value) html+= '<option value="'+data[i].value+'"';
+                    if(data[i].index && child.value && child.value == data[i].index){
+                        html+= ' selected';
+                    }
+                    html+='>'+data[i].label+'</option>';
                 }
                 html+= '</select>';
                 new Insertion.Before(child,html);
@@ -70,7 +89,7 @@ VarienForm.prototype = {
             }
         }
         else{
-            var child = $(this.tmpChild);
+            var child = $(this.cache[this.currLoader]['child']);
             if (child){
                 var html = '<input type="text" name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
                 new Insertion.Before(child,html);

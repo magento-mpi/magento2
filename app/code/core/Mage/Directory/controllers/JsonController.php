@@ -30,7 +30,8 @@ class Mage_Directory_JsonController extends Mage_Core_Controller_Front_Action
             foreach ($arrRegions as $region) {
                 $arrRes[] = array(
                     'value' => $region->getRegionId(),
-                    'label' => $region->getName()
+                    'label' => $region->getName(),
+                    'index' => $region->getCode()
                 );
             }
         }
