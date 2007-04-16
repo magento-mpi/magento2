@@ -3,14 +3,16 @@
 <script src="<?=$moduleSkinUrl?>/js/product.js" type="text/javascript"></script>
 <div class="product-image">
     <div style="position:relative; overflow:hidden; width:245px; height:300px;">
-        <img id="image" src="http://www.animationarchive.org/pics/nature03-big.jpg" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move;"/>
+        <img id="image" src="http://static.panoramio.com/photos/original/61005.jpg" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move;"/>
     </div>   
-    <div style="margin-top:10px; margin-left:20px;">
+    <div style="margin-top:10px;">
+        <table border=0 cellspacing=2><tr><td><img src="<?=$moduleSkinUrl?>/images/zoomo_16.gif" width=16></td><td>
         <div id="track1" style="width: 200px; height:18px; background:#CCC;">
           <div id="handle1"" style="width: 8px; height: 18px; background:#557;">
             
           </div>
         </div>
+        </td><td><img src="<?=$moduleSkinUrl?>/images/zoomi_16.gif" width=16></td></tr></table>
         <script type="text/javascript">
             var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
             
@@ -29,11 +31,13 @@
               var centerY = origHeight*(1-imageV)/(2*imageV)-imageY/imageV;
 
               imageV = floorSize+(v*(ceilingSize-floorSize));
+              
               image.element.style.width = (imageV*origWidth)+'px';
               
               imageX = origWidth*(1-imageV)/2-centerX*imageV;
               imageY = origHeight*(1-imageV)/2-centerY*imageV;
-              containIt(imageX, imageY, image)
+              containIt(imageX, imageY, image);
+              
               image.element.style.left = imageX+'px';
               image.element.style.top = imageY+'px';
             }

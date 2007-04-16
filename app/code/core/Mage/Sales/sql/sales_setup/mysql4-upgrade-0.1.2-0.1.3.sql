@@ -249,7 +249,7 @@ CREATE TABLE `sales_giftcert` (
   UNIQUE KEY `gift_code` (`giftcert_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into `sales_discount_coupon` (giftcert_code, balance_amount) values ('test', 10);
+insert into `sales_giftcert` (giftcert_code, balance_amount) values ('test', 10);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
