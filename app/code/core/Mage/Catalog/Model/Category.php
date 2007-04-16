@@ -50,7 +50,7 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
      */
     public function getProductCollection()
     {
-        $collection = Mage::getModel('catalog', 'product_collection');
+        $collection = Mage::getModel('catalog_resource', 'product_collection');
         $collection->addCategoryFilter($this->getCategoryId());
         return $collection;
     }
@@ -73,7 +73,7 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
      */
     public function getAttributeCollection()
     {
-        $collection = Mage::getModel('catalog', 'category_attribute_collection');
+        $collection = Mage::getModel('catalog_resource', 'category_attribute_collection');
         $collection->addSetFilter($this->getAttributeSetId());
         return $collection;
     }

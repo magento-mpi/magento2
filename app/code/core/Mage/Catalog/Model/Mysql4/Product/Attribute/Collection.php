@@ -16,8 +16,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
         
-        $this->_attributeTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
-        $this->_attributeInSetTable= Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        $this->_attributeTable    = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
+        $this->_attributeInSetTable= Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_attributeTable);
         $this->_sqlSelect->join($this->_attributeInSetTable, "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id");

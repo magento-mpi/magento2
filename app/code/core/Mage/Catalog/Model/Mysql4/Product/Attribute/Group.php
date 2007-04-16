@@ -14,7 +14,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     public function __construct() 
     {
         parent::__construct();
-        $this->_attributeGeoupTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_group');
+        $this->_attributeGeoupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
     }
     
     /**
@@ -45,9 +45,9 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group extends Mage_Catalog_Mod
     public function getAttributes($groupId, $setId)
     {
         $arrRes = array();
-        $attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $attributeTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
         
-        $attributeInSetTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        $attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         
         $sql = "SELECT
                     $attributeTable.*

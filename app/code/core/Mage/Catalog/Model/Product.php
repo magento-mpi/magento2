@@ -93,7 +93,7 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
      */
     public function getAttributeCollection()
     {
-        $collection = Mage::getModel('catalog', 'product_attribute_collection');
+        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection');
         $collection->addSetFilter($this->getAttributeSetId());
         return $collection;
     }

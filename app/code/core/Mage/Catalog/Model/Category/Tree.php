@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
     {
         parent::__construct();
 
-        $treeTable = Mage::registry('resources')->getTableName('catalog', 'category');
+        $treeTable = Mage::registry('resources')->getTableName('catalog_resource', 'category');
 
         $config = array();
         $config['db']   = self::$_read;
@@ -36,13 +36,13 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
                 ->setPidField('pid')
                 ->setLevelField('level');
 
-            $attributeValueTable = Mage::registry('resources')->getTableName('catalog', 'category_attribute_value');
+            $attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
             $condition = "$attributeValueTable.category_id=$treeTable.category_id
                           AND $attributeValueTable.website_id=".Mage::registry('website')->getId();
 
             $this->_dbTree->addTable($attributeValueTable, $condition);
 
-            $attributeTable = Mage::registry('resources')->getTableName('catalog', 'category_attribute');
+            $attributeTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
             $condition = "$attributeValueTable.attribute_id=$attributeTable.attribute_id
                           AND $attributeTable.attribute_code='name'";
 
@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
     }
 
     function appendChild($id, $data = array()) {
-        $attributeValueTable = Mage::registry('resources')->getTableName('catalog', 'category_attribute_value');
+        $attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
         $data['category_id'] = $this->_dbTree->appendChild($id, array('website_id'=>1));
         $data['website_id'] = 1;
         $data['attribute_id'] = 1;

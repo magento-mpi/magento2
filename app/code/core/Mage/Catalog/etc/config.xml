@@ -21,14 +21,10 @@
             <controller>
                <active>true</active>
             </controller>
-            
-        
               <dataSources>
                  <product_status>
                     <model>product_attribute_option</model>
-        
                     <method>getOptions</method>
-        
                     <params>
                        <option_type>status</option_type>
                     </params>
@@ -36,9 +32,7 @@
         
                  <product_type>
                     <model>product_attribute_option</model>
-        
                     <method>getOptions</method>
-        
                     <params>
                        <option_type>type</option_type>
                     </params>
@@ -46,9 +40,7 @@
         
                  <product_manufacturer>
                     <model>product_attribute_option</model>
-        
                     <method>getOptions</method>
-        
                     <params>
                        <option_type>manufacturer</option_type>
                     </params>
@@ -61,6 +53,10 @@
    <global>
       <models>
          <catalog>
+            <class>Mage_Catalog_Model</class>
+         </catalog>
+
+         <catalog_resource>
             <class>Mage_Catalog_Model_Mysql4</class>
 
             <entities>
@@ -160,7 +156,7 @@
                   <table>catalog_product_link_attribute_varchar</table>
                </product_link_attribute_varchar>
             </entities>
-         </catalog>
+         </catalog_resource>
       </models>
 
       <resources>

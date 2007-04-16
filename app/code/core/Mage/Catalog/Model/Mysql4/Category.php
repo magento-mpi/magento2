@@ -25,9 +25,9 @@ class Mage_Catalog_Model_Mysql4_Category extends Mage_Catalog_Model_Category
     {
         parent::__construct($data);
         
-        self::$_categoryTable   = Mage::registry('resources')->getTableName('catalog', 'category');
-        self::$_attributeTable  = Mage::registry('resources')->getTableName('catalog', 'category_attribute');
-        self::$_attributeValueTable  = Mage::registry('resources')->getTableName('catalog', 'category_attribute_value');
+        self::$_categoryTable   = Mage::registry('resources')->getTableName('catalog_resource', 'category');
+        self::$_attributeTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
+        self::$_attributeValueTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
         self::$_read = Mage::registry('resources')->getConnection('catalog_read');
         self::$_write = Mage::registry('resources')->getConnection('catalog_write');
     }

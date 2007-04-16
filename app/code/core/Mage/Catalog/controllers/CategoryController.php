@@ -14,7 +14,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
      */
     function viewAction()
     {
-        $category = Mage::getModel('catalog', 'category');
+        $category = Mage::getModel('catalog_resource', 'category');
         $category->load($this->getRequest()->getParam('id', false));
         
         // Valid category id

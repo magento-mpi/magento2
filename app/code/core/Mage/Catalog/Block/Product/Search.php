@@ -25,7 +25,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         Mage::getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
 
         $page = $request->getParam('p',1);
-        $prodCollection = Mage::getModel('catalog','product_collection')
+        $prodCollection = Mage::getModel('catalog_resource','product_collection')
             ->addAttributeToSelect('name', 'varchar')
             ->addAttributeToSelect('price', 'decimal')
             ->addAttributeToSelect('description', 'text')
@@ -56,7 +56,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
 
         $page = $request->getParam('p',1);
-        $prodCollection = Mage::getModel('catalog','product_collection')
+        $prodCollection = Mage::getModel('catalog_resource','product_collection')
             ->addAttributeToSelect('name', 'varchar')
             ->addAttributeToSelect('price', 'decimal')
             ->addAttributeToSelect('description', 'text')
@@ -67,7 +67,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             ->loadData();
 
         $this->assign('productCollection', $prodCollection);
-        $this->assign('optionName', Mage::getModel('catalog', 'product_attribute_option')->getOptionValue($attributeValue));
+        $this->assign('optionName', Mage::getModel('catalog_resource', 'product_attribute_option')->getOptionValue($attributeValue));
 
         $pageUrl = clone $request;
         $this->assign('pageUrl', $pageUrl);

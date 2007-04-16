@@ -33,7 +33,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         }
         
         // check if attr exist
-        $attributes = Mage::getModel('catalog','product_attribute_option')->getOptionsId(array('option_type'=>$attribute));
+        $attributes = Mage::getModel('catalog_resource','product_attribute_option')->getOptionsId(array('option_type'=>$attribute));
 
         if (empty($attributes) || !is_array($attributes) || !in_array($value, $attributes)) {
             $this->_redirect('noroute');

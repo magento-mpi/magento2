@@ -12,7 +12,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Factory implements Mage_Core_M
     protected function _getModel($dataType)
     {
         $model_name = 'product_attribute_' . $dataType;
-        return Mage::getModel('catalog', $model_name);
+        return Mage::getModel('catalog_resource', $model_name);
     }
     
     /**

@@ -11,6 +11,6 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Decimal extends Mage_Catalog_M
 {
     public function __construct() 
     {
-        $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_decimal');
+        $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_decimal');
     }
 }

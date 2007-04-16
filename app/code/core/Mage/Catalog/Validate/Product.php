@@ -23,7 +23,7 @@ class Mage_Catalog_Validate_Product extends Mage_Core_Validate
         }
         
         // Validate attributes
-        $attributeSetModel = Mage::getModel('catalog', 'product_attribute_set');
+        $attributeSetModel = Mage::getModel('catalog_resource', 'product_attribute_set');
         $attributes = $attributeSetModel->getAttributesInfo($this->_data['attribute_set_id']);
 
         foreach ($attributes as $attribute) {

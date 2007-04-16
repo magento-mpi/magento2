@@ -22,20 +22,20 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
 
-        $this->_productTable   = Mage::registry('resources')->getTableName('catalog', 'product');
-        $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog', 'category_product');
-        $this->_attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
-        $this->_attributeTables['varchar']  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_varchar');
-        $this->_attributeTables['text']     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_text');
-        $this->_attributeTables['decimal']  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_decimal');
-        $this->_attributeTables['int']      = Mage::registry('resources')->getTableName('catalog', 'product_attribute_int');
-        $this->_attributeTables['date']     = Mage::registry('resources')->getTableName('catalog', 'product_attribute_date');
+        $this->_productTable   = Mage::registry('resources')->getTableName('catalog_resource', 'product');
+        $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
+        $this->_attributeTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
+        $this->_attributeTables['varchar']  = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_varchar');
+        $this->_attributeTables['text']     = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_text');
+        $this->_attributeTables['decimal']  = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_decimal');
+        $this->_attributeTables['int']      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_int');
+        $this->_attributeTables['date']     = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_date');
 
         $productColumns = new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*");
         $this->_sqlSelect->from($this->_productTable, $productColumns);
        
         $this->setPageSize(9);
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog_resource', 'product'));
         $this->setWebsiteId(Mage::registry('website')->getId());
     }
     
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     public function setOrder($field, $direction = 'desc')
     {
         if ($field == 'product_id') {
-            $field = Mage::registry('resources')->getTableName('catalog', 'product').'.'.$field;
+            $field = Mage::registry('resources')->getTableName('catalog_resource', 'product').'.'.$field;
         }
         return parent::setOrder($field, $direction);
     }

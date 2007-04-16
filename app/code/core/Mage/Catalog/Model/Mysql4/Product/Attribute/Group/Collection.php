@@ -14,9 +14,9 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Varie
     
     public function __construct() 
     {
-        parent::__construct(Mage::getModel('catalog')->getReadConnection());
-        $this->_groupTable  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_group');
-        $this->_inGroupTable= Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_group');
+        parent::__construct(Mage::getModel('catalog_resource')->getReadConnection());
+        $this->_groupTable  = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
+        $this->_inGroupTable= Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_group');
         
         $this->_sqlSelect->from($this->_groupTable);
         $this->_sqlSelect->join(

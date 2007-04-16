@@ -25,9 +25,9 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
     {
         parent::__construct($data);
         
-        self::$_productTable        = Mage::registry('resources')->getTableName('catalog', 'product');
-        self::$_attributeTable      = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
-        self::$_attributeInSetTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        self::$_productTable        = Mage::registry('resources')->getTableName('catalog_resource', 'product');
+        self::$_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
+        self::$_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         
         self::$_read = Mage::registry('resources')->getConnection('catalog_read');
         self::$_write = Mage::registry('resources')->getConnection('catalog_write');
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
 
             // Prepare join
             $tableCode = 'product_attribute_'.$attribute['data_type'];
-            $tableName = Mage::registry('resources')->getTableName('catalog', $tableCode);
+            $tableName = Mage::registry('resources')->getTableName('catalog_resource', $tableCode);
             $tableAlias= $tableName . '_' . $attribute['attribute_code'];
             
             $selectTable = $tableName . ' AS ' . $tableAlias;

@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
     public function __construct() 
     {
         parent::__construct();
-        $this->_setTable    = Mage::registry('resources')->getTableName('catalog', 'product_attribute_set');
-        $this->_inSetTable  = Mage::registry('resources')->getTableName('catalog', 'product_attribute_in_set');
+        $this->_setTable    = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_set');
+        $this->_inSetTable  = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
     }
     
     /**
@@ -46,7 +46,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
      */
     public function getAttributesInfo($setId)
     {
-        $attributeTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute');
+        $attributeTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
         $arrRes =array();
         $sql = "SELECT
                     $attributeTable.*
@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set extends Mage_Catalog_Model
     public function getGroups($setId)
     {
         $arrRes =array();
-        $groupTable = Mage::registry('resources')->getTableName('catalog', 'product_attribute_group');
+        $groupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
         $sql = "SELECT
                     DISTINCT $groupTable.*
                 FROM
