@@ -34,6 +34,23 @@ drop table if exists sales_quote_attribute_datetime;
 drop table if exists sales_quote_attribute_varchar;
 drop table if exists sales_quote_attribute_decimal;
 
+drop table if exists sales_order;
+drop table if exists sales_order_attribute;
+drop table if exists sales_order_attribute_text;
+drop table if exists sales_order_attribute_int;
+drop table if exists sales_order_attribute_datetime;
+drop table if exists sales_order_attribute_varchar;
+drop table if exists sales_order_attribute_decimal;
+
+drop table if exists sales_invoice;
+drop table if exists sales_invoice_attribute;
+drop table if exists sales_invoice_attribute_text;
+drop table if exists sales_invoice_attribute_int;
+drop table if exists sales_invoice_attribute_datetime;
+drop table if exists sales_invoice_attribute_varchar;
+drop table if exists sales_invoice_attribute_decimal;
+
+
 CREATE TABLE `sales_quote` (
   `quote_id` int(11) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`quote_id`)
