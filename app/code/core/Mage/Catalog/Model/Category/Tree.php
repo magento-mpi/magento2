@@ -8,7 +8,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
+class Mage_Catalog_Model_Category_Tree
 {
     /**
      * DB tree object
@@ -19,12 +19,10 @@ class Mage_Catalog_Model_Category_Tree extends Mage_Catalog_Model_Mysql4
 
     public function __construct()
     {
-        parent::__construct();
-
         $treeTable = Mage::registry('resources')->getTableName('catalog_resource', 'category');
 
         $config = array();
-        $config['db']   = self::$_read;
+        $config['db']   = Mage::registry('resources')->getConnection('catalog_read');
         $config['table']= $treeTable;
         $config['id']   = 'category_id';
 

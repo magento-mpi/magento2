@@ -11,7 +11,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         $form = Mage::createBlock('admin_catalog_product_create_option', 'product_create_option');
         $this->getResponse()->setBody($form->toString());
-        //echo '<form id="test" action="'.Mage::getBaseUrl().'/mage_catalog/product/card/">test form<input type="text" name="set" value="1"></form>';
     }
 
     /**
@@ -45,13 +44,50 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($block->toString());
     }
 
-    /**
-     * GRid
-     *
-     */
-    public function gridAction()
+    public function filtersettingsAction()
     {
-        #Mage_Core_Block::loadJsonFile('Mage/Catalog/Admin/product/initGridLayout.json', 'mage_catalog');
+        $data = array(
+        'totalRecords' => 2,
+        'filters' => array(
+                0 => array(
+                    'filter_id' => '0',
+                    'filter_field' => 'name',
+                    'filter_name' => 'Name',
+                    'filter_type' => 'text',
+                    'filter_comp' => array(
+                        0 => array(
+                            'v' => 'eq',
+                            'n' => 'Equal' 
+                        ),
+                        1 => array(
+                            'v' => 'neq',
+                            'n' => 'Not Equal' 
+                        ),                            
+                            2 => array(
+                            'v' => 'like',
+                            'n' => 'Like'
+                        )                            
+                    )
+                ),
+                1 => array(
+                    'filter_id' => '1',
+                    'filter_field' => 'create_date',
+                    'filter_name'  => 'Added Date',
+                    'filter_type' => 'date',
+                    'filter_comp' => array (
+                         0 => array(
+                            'v' => 'gt',
+                            'n' => 'Greater Than' 
+                        ),
+                        1 => array(
+                            'v' => 'lt',
+                            'n' => 'Lower Than' 
+                        )
+                   )
+               )                            
+           )      
+       );
+       $this->getResponse()->setBody(Zend_Json::encode($data));
     }
 
     /**
@@ -60,14 +96,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function gridDataAction()
     {
-        $pageSize = isset($_POST['limit']) ? $_POST['limit'] : 30;
-        $prodCollection = Mage::getModel('catalog_resource','product_collection');
-
-        $prodCollection->addAttributeToSelect('name', 'varchar');
-        $prodCollection->addAttributeToSelect('price', 'decimal');
-        $prodCollection->addAttributeToSelect('description', 'text');
-
-        $prodCollection->setPageSize($pageSize);
+        $pageSize = $this->getRequest()->getPost('limit', 30);
+        $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->addAttributeToSelect('name', 'varchar')
+            ->addAttributeToSelect('price', 'decimal')
+            ->addAttributeToSelect('description', 'text')
+            ->setPageSize($pageSize);
 
         if ($categoryId = $this->getRequest()->getParam('category')) {
 
@@ -87,12 +121,13 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $prodCollection->addCategoryFilter($arrCategories);
         }
 
+        $page = $this->getRequest()->getPost('start', 1);
+        if ($page>1) {
+            $page = $page/$pageSize+1;
+        }
 
-
-        $page = isset($_POST['start']) ? $_POST['start']/$pageSize+1 : 1;
-
-        $order = isset($_POST['sort']) ? $_POST['sort'] : 'product_id';
-        $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
+        $order = $this->getRequest()->getPost('sort', 'product_id');
+        $dir   = $this->getRequest()->getPost('dir', 'desc');
         $prodCollection->setOrder($order, $dir);
         $prodCollection->setCurPage($page);
         $prodCollection->load();
@@ -100,15 +135,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $arrGridFields = array('product_id', 'name', 'price', 'description');
         $data = $prodCollection->__toArray($arrGridFields);
         $this->getResponse()->setBody(Zend_Json::encode($data));
-    }
-
-    /**
-     * Save product attributes
-     *
-     */
-    public function saveAttributesAction()
-    {
-
     }
 
     /**
@@ -161,6 +187,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 
         $this->getResponse()->setBody(Zend_Json::encode($arrSets));
     }
+    
+    public function attributeGroupListAction()
+    {
+        
+    }
 
     public function attributeSetPropertiesAction() {
         $arrSets = array ("totalRecords"=> 2,
@@ -186,65 +217,13 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     }
 
     /**
-     * Product attribute set JSON
+     * Save product attributes
      *
      */
-    public function attributeListAction()
+    public function saveAttributesAction()
     {
-        $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection');
-        $order = isset($_POST['sort']) ? $_POST['sort'] : 'attribute_code';
-        $dir   = isset($_POST['dir']) ? $_POST['dir'] : 'desc';
-        $collection->setOrder($order, $dir);
-        $collection->load();
 
-        $arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
-        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
     }
-    
-    public function filtersettingsAction()
-    {
-        $data = array(
-        'totalRecords' => 2,
-        'filters' => array(
-                0 => array(
-                    'filter_id' => '0',
-                    'filter_field' => 'name',
-                    'filter_name' => 'Name',
-                    'filter_type' => 'text',
-                    'filter_comp' => array(
-                        0 => array(
-                            'v' => 'eq',
-                            'n' => 'Equal' 
-                        ),
-                        1 => array(
-                            'v' => 'neq',
-                            'n' => 'Not Equal' 
-                        ),                            
-                            2 => array(
-                            'v' => 'like',
-                            'n' => 'Like'
-                        )                            
-                    )
-                ),
-                1 => array(
-                    'filter_id' => '1',
-                    'filter_field' => 'create_date',
-                    'filter_name'  => 'Added Date',
-                    'filter_type' => 'date',
-                    'filter_comp' => array (
-                         0 => array(
-                            'v' => 'gt',
-                            'n' => 'Greater Than' 
-                        ),
-                        1 => array(
-                            'v' => 'lt',
-                            'n' => 'Lower Than' 
-                        )
-                   )
-               )                            
-           )      
-       );
-       $this->getResponse()->setBody(Zend_Json::encode($data));
-    }
+
 
 }
