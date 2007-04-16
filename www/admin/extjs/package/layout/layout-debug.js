@@ -256,6 +256,7 @@ Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
         sm.init(this, provider);
     },
 
+
     batchAdd : function(regions){
         this.beginUpdate();
         for(var rname in regions){
@@ -278,9 +279,9 @@ Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
             }
         }
         else if(!ps.events){ // raw config?
-            var el = p.el;
-            delete p.el; // prevent conflict
-            lr.add(new Ext.ContentPanel(el || Ext.id(), p));
+            var el = ps.el;
+            delete ps.el; // prevent conflict
+            lr.add(new Ext.ContentPanel(el || Ext.id(), ps));
         }
         else {  // panel object assumed!
             lr.add(ps);
@@ -1587,17 +1588,17 @@ Ext.ContentPanel = function(el, config, content){
         config = el;
         el = Ext.id();
     }
-    this.el = Ext.get(el, true);
+    this.el = Ext.get(el);
     if(!this.el && config && config.autoCreate){
         if(typeof config.autoCreate == "object"){
             if(!config.autoCreate.id){
-                config.autoCreate.id = el;
+                config.autoCreate.id = config.id||el;
             }
             this.el = Ext.DomHelper.append(document.body,
                         config.autoCreate, true);
         }else{
             this.el = Ext.DomHelper.append(document.body,
-                        {tag: "div", cls: "x-layout-inactive-content", id: el}, true);
+                        {tag: "div", cls: "x-layout-inactive-content", id: config.id||el}, true);
         }
     }
     this.closable = false;
@@ -1675,7 +1676,14 @@ Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
     getUpdateManager : function(){
         return this.el.getUpdateManager();
     },
-    
+     
+    load : function(){
+        var um = this.el.getUpdateManager();
+        um.update.apply(um, arguments);
+        return this;
+    },
+
+
     
     setUrl : function(url, params, loadOnce){
         if(this.refreshDelegate){
@@ -1925,9 +1933,9 @@ Ext.extend(Ext.ScrollPanel, Ext.ContentPanel, {
 
 });
 
-Ext.ReaderLayout = function(config){
+Ext.ReaderLayout = function(config, renderTo){
     var c = config || {size:{}};
-    Ext.ReaderLayout.superclass.constructor.call(this, document.body, {
+    Ext.ReaderLayout.superclass.constructor.call(this, renderTo || document.body, {
         north: c.north !== false ? Ext.apply({
             split:false,
             initialSize: 32,
@@ -1969,7 +1977,7 @@ Ext.ReaderLayout = function(config){
     this.beginUpdate();
 
     var inner = new Ext.BorderLayout(Ext.get(document.body).createChild(), {
-        south: Ext.apply({
+        south: c.east !== false ? Ext.apply({
             split:true,
             initialSize: 200,
             minSize: 100,
@@ -1977,7 +1985,7 @@ Ext.ReaderLayout = function(config){
             collapsible:true,
             titlebar: true,
             cmargins:{top:5,left:0, right:0, bottom:0}
-        }, c.preview),
+        }, c.preview) : false,
         center: Ext.apply({
             autoScroll:false,
             titlebar:false,

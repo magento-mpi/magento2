@@ -428,7 +428,11 @@ Ext.extend(Ext.form.TextField, Ext.form.Field,  {
     // private
     initEvents : function(){
         Ext.form.TextField.superclass.initEvents.call(this);
-        if(this.validationEvent !== false){
+        if(this.validationEvent == 'keyup'){
+            this.validationTask = new Ext.util.DelayedTask(this.validate, this);
+            this.el.on('keyup', this.filterValidation, this);
+        }
+        else if(this.validationEvent !== false){
             this.el.on(this.validationEvent, this.validate, this, {buffer: this.validationDelay});
         }
         if(this.selectOnFocus || this.emptyText){
@@ -447,6 +451,12 @@ Ext.extend(Ext.form.TextField, Ext.form.Field,  {
         if(this.grow){
             this.el.on("keyup", this.onKeyUp,  this, {buffer:50});
             this.el.on("click", this.autoSize,  this);
+        }
+    },
+
+    filterValidation : function(e){
+        if(!e.isNavKeyPress()){
+            this.validationTask.delay(this.validationDelay);
         }
     },
 
@@ -1785,24 +1795,39 @@ Ext.extend(Ext.form.ComboBox, Ext.form.TriggerField, {
         }
     }
 });
+
 Ext.Editor = function(field, config){
     Ext.Editor.superclass.constructor.call(this, config);
     this.field = field;
     this.addEvents({
+        
         "beforestartedit" : true,
+        
         "startedit" : true,
+        
         "beforecomplete" : true,
+        
         "complete" : true,
+        
         "specialkey" : true
     });
 };
 
 Ext.extend(Ext.Editor, Ext.Component, {
+    
+    
+    
+    
     value : "",
+    
     alignment: "c-c?",
+    
     shadow : "frame",
+
+    // private
     updateEl : false,
 
+    // private
     onRender : function(ct){
         this.el = new Ext.Layer({
             shadow: this.shadow,
@@ -1825,6 +1850,7 @@ Ext.extend(Ext.Editor, Ext.Component, {
         }
     },
 
+    // private
     startEdit : function(el, value){
         if(this.editing){
             this.completeEdit();
@@ -1860,6 +1886,7 @@ Ext.extend(Ext.Editor, Ext.Component, {
         this.show();
     },
 
+    
     setSize : function(w, h){
         this.field.setSize(w, h);
         if(this.el){
@@ -1867,10 +1894,12 @@ Ext.extend(Ext.Editor, Ext.Component, {
         }
     },
 
+    
     realign : function(){
         this.el.alignTo(this.boundEl, this.alignment);
     },
 
+    
     completeEdit : function(remainVisible){
         if(!this.editing){
             return;
@@ -1897,6 +1926,7 @@ Ext.extend(Ext.Editor, Ext.Component, {
         }
     },
 
+    // private
     onShow : function(){
         this.el.show();
         if(this.hideEl !== false){
@@ -1907,6 +1937,7 @@ Ext.extend(Ext.Editor, Ext.Component, {
         this.fireEvent("startedit", this.boundEl, this.startValue);
     },
 
+    
     cancelEdit : function(remainVisible){
         if(this.editing){
             this.setValue(this.startValue);
@@ -1916,12 +1947,14 @@ Ext.extend(Ext.Editor, Ext.Component, {
         }
     },
 
+    // private
     onBlur : function(){
         if(this.allowBlur !== true && this.editing){
             this.completeEdit();
         }
     },
 
+    // private
     onHide : function(){
         if(this.editing){
             this.completeEdit();
@@ -1940,10 +1973,12 @@ Ext.extend(Ext.Editor, Ext.Component, {
         }
     },
 
+    
     setValue : function(v){
         this.field.setValue(v);
     },
 
+    
     getValue : function(){
         return this.field.getValue();
     }

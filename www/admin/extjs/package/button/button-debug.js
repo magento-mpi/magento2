@@ -14,8 +14,9 @@ Ext.Button = function(renderTo, config){
 	    "click" : true,
         
 	    "toggle" : true,
-
+        
         'mouseover' : true,
+        
         'mouseout': true
     };
     if(this.menu){
@@ -35,18 +36,20 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
     
     pressed : false,
 
+    
     enableToggle: false,
-
     
     menu : undefined,
     
     menuAlign : "tl-bl?",
 
+    // private
     menuClassTarget: 'tr',
 
     
     tooltipType : 'qtip',
 
+    // private
     render : function(renderTo){
         var btn;
         if(this.hideParent){
@@ -132,7 +135,8 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         this.purgeListeners();
         this.el.remove();
     },
-    
+
+    // private
     autoWidth : function(){
         if(this.el){
             this.el.setWidth("auto");
@@ -156,6 +160,7 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
             }
         }
     },
+
     
     setHandler : function(handler, scope){
         this.handler = handler;
@@ -241,10 +246,12 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         this.disabled = false;
     },
 
+    
     setDisabled : function(v){
         this[v !== true ? "enable" : "disable"]();
     },
 
+    // private
     onClick : function(e){
         if(e){
             e.preventDefault();
@@ -263,36 +270,43 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
             }
         }
     },
+    // private
     onMouseOver : function(e){
         if(!this.disabled){
             this.el.addClass("x-btn-over");
             this.fireEvent('mouseover', this, e);
         }
     },
+    // private
     onMouseOut : function(e){
         if(!e.within(this.el,  true)){
             this.el.removeClass("x-btn-over");
             this.fireEvent('mouseout', this, e);
         }
     },
+    // private
     onMouseDown : function(){
         if(!this.disabled){
             this.el.addClass("x-btn-click");
             Ext.get(document).on('mouseup', this.onMouseUp, this);
         }
     },
+    // private
     onMouseUp : function(){
         this.el.removeClass("x-btn-click");
         Ext.get(document).un('mouseup', this.onMouseUp, this);
     },
+    // private
     onMenuShow : function(e){
         this.el.addClass("x-btn-menu-active");
     },
+    // private
     onMenuHide : function(e){
         this.el.removeClass("x-btn-menu-active");
     }   
 });
 
+// Private utility class used by Button
 Ext.ButtonToggleMgr = function(){
    var groups = {};
    

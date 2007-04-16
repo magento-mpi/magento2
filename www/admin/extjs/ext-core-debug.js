@@ -1375,7 +1375,8 @@ Ext.util.Observable.releaseCapture = function(o){
                 if(!this.firing){ // if we are currently firing this event, don't disturb the listener loop
                     this.listeners.push(l);
                 }else{
-                    this.listeners = this.listeners.slice(0).push(l);
+                    this.listeners = this.listeners.slice(0);
+                    this.listeners.push(l);
                 }
             }
         },
@@ -3109,7 +3110,7 @@ El.prototype = {
         
         E.onAvailable(id, function(){
             var hd = document.getElementsByTagName("head")[0];
-            var re = /(?:<script([^>]*)?>)((\n|\r\n|.)*?)(?:<\/script>)/img;
+            var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/img;
             var srcRe = /\ssrc=([\'\"])(.*?)\1/i;
             var match;
             while(match = re.exec(html)){
@@ -3128,7 +3129,7 @@ El.prototype = {
                 callback();
             }
         });
-        dom.innerHTML = html.replace(/(?:<script.*?>)((\n|\r\n|.)*?)(?:<\/script>)/img, "");
+        dom.innerHTML = html.replace(/(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)/img, "");
         return this;
     },
     
