@@ -11,6 +11,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
+        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributecommit/',
 
         setGrid : null,
         setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
@@ -193,6 +194,7 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             dataStore.setDefaultSort('attribute_code', 'asc');
+            dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             // shorthand alias
             var fm = Ext.form, Ed = Ext.grid.GridEditor;
@@ -201,11 +203,19 @@ Mage.Catalog_Product_Attributes = function(){
                 return value ? 'Yes' : 'No';  
             };            
 
-            var data_inputs = [
+            var data_types = [
                 ['string', 'String'],
                 ['int', 'Number'],
-                ['float', 'Dec']
+                ['decimal', 'Dec']
             ];
+            
+            var data_inputs = [
+                ['hidden', 'Hidden'],
+                ['text', 'Text'],
+                ['textarea', 'Textarea'],
+                ['select', 'ComboBox']
+            ];
+            
 
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
@@ -224,7 +234,7 @@ Mage.Catalog_Product_Attributes = function(){
                 sortable: true,
                 dataIndex: 'data_input',
                 editor: new Ed(new Ext.form.ComboBox({
-                   typeAhead: true,
+                   typeAhead: false,
                    triggerAction: 'all',
                    mode: 'local',
                    store: new Ext.data.SimpleStore({
@@ -232,12 +242,27 @@ Mage.Catalog_Product_Attributes = function(){
                         mode : 'local',
                         data : data_inputs
                    }),
+                   displayField : 'value',
+                   valueField : 'type',
                    lazyRender:true
                 }))                
             },{
                 header: "Data type",
                 sortable: true,
-                dataIndex: 'data_type'
+                dataIndex: 'data_type',
+                editor: new Ed(new Ext.form.ComboBox({
+                   typeAhead: false,
+                   triggerAction: 'all',
+                   mode: 'local',
+                   store: new Ext.data.SimpleStore({
+                        fields: ['type', 'value'],
+                        mode : 'local',
+                        data : data_types
+                   }),
+                   displayField : 'value',
+                   valueField : 'type',
+                   lazyRender:true
+                }))                
             },{
                 header: "Required",
                 sortable: true,
@@ -272,9 +297,9 @@ Mage.Catalog_Product_Attributes = function(){
                 loadMask : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
-                trackMouseOver: true,
+                trackMouseOver: false,
                 autoHeight : true,
-                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
 
@@ -327,8 +352,8 @@ Mage.Catalog_Product_Attributes = function(){
             });
             
             tb.addButton({
-                text : 'Reload',
-                cls: 'x-btn-text-icon btn_delete',
+                text : 'Refresh',
+                cls: 'x-btn-text-icon btn_arrow_refresh',
                 handler : function() {
                     this.attributeGrid.getDataSource().load();
                 }.createDelegate(this)
@@ -347,7 +372,29 @@ Mage.Catalog_Product_Attributes = function(){
         
         onAttributeDeleteFailure : function(response) {
             Ext.MessageBox.alert('Attribute Grid','Database Error');
-        },        
+        },   
+        
+        onAttributeDataStoreUpdate : function(store, record , operation) {
+            var i = 0;
+            if (operation  == Ext.data.Record.EDIT) {
+                var conn = new Ext.data.Connection();
+        		conn.on('requestcomplete', function(dm,response,option) {
+		      	   record.commit();
+        		});
+		        conn.on('requestexception', function(dm, response, option, e) {
+			         Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+			         record.reject();
+		        });
+		        conn.request( {
+                    url: this.attributesCommitUrl,
+                    method: "POST",
+                    params: {
+                        id: record.id,
+                        data : Ext.encode(record.data)
+                    }
+		        });                
+            }
+        },     
 
         loadMainPanel : function() {
             this.init();
