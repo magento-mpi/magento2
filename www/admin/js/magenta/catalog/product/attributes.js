@@ -336,8 +336,13 @@ Mage.Catalog_Product_Attributes = function(){
         },
         
         onAttributeDeleteSuccess : function(response) {
-            var record = this.attributeGrid.getDataSource().getAt(response.argument.rowIndex);
-            this.attributeGrid.getDataSource().remove(record);
+            var datarep = Ext.decode(response);
+            if (datarep.success) {
+                var record = this.attributeGrid.getDataSource().getAt(response.argument.rowIndex);
+                this.attributeGrid.getDataSource().remove(record);
+            } else {
+                Ext.MessageBox.alert('Attribute Grid', datarep.message);
+            }
         },
         
         onAttributeDeleteFailure : function(response) {
