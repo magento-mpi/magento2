@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product 
+class Mage_Catalog_Model_Mysql4_Product
 {
     /**
      * These made static to avoid saving in object
@@ -23,8 +23,6 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
 
     public function __construct($data=array()) 
     {
-        parent::__construct($data);
-        
         self::$_productTable        = Mage::registry('resources')->getTableName('catalog_resource', 'product');
         self::$_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
         self::$_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
@@ -35,89 +33,78 @@ class Mage_Catalog_Model_Mysql4_Product extends Mage_Catalog_Model_Product
     
     public function load($productId)
     {
-        $arrRes = array();
-        $sql = 'SELECT * FROM ' . self::$_productTable . ' WHERE product_id=:product_id';
-        $this->setData(self::$_read->fetchRow($sql, array('product_id'=>$productId)));
+        $productId = (int) $productId;
+        $arr = array();
         
-        $attributes = $this->getAttributes();
+        $sql = 'SELECT * FROM ' . self::$_productTable . ' WHERE product_id=:product_id';
+        $baseInfo = self::$_read->fetchRow($sql, array('product_id'=>$productId));
+        if (empty($baseInfo)) {
+            return $arr;
+        }
         
         $select = self::$_read->select();
         $select->from(self::$_productTable);
         
-        $multipleAtributes = array();
+        $attributes = $this->getAttributes($baseInfo['attribute_set_id']);
+
         foreach ($attributes as $attribute) {
-
-            // Multiples
-            if ($attribute['multiple'] && !$this->_useMultipleValues) {
-                continue;
-            }
-
             // Prepare join
-            $tableCode = 'product_attribute_'.$attribute['data_type'];
-            $tableName = Mage::registry('resources')->getTableName('catalog_resource', $tableCode);
-            $tableAlias= $tableName . '_' . $attribute['attribute_code'];
+            $tableName = $attribute->getTableName();
+            $tableAlias= $attribute->getTableAlias();
             
-            $selectTable = $tableName . ' AS ' . $tableAlias;
             $condition = "$tableAlias.product_id=".self::$_productTable.".product_id
-                          AND $tableAlias.attribute_id=".$attribute['attribute_id']."
+                          AND $tableAlias.attribute_id=".$attribute->getId()."
                           AND $tableAlias.website_id=".Mage::registry('website')->getId();
             
-            // If data_type==decimal, then is qty field
-            if ($attribute['data_type'] == 'decimal') {
-                $columns = array(
-                    new Zend_Db_Expr("$tableAlias.attribute_value AS " . $attribute['attribute_code']),
-                    new Zend_Db_Expr("$tableAlias.attribute_qty AS " . $attribute['attribute_code'] . '_qty'),
-                );
-            }
-            else {
-                $columns = array(
-                    new Zend_Db_Expr("$tableAlias.attribute_value AS " . $attribute['attribute_code']),
-                );
-            }
-
-            // Multiples
-            if ($attribute['multiple']) {
-                $multipleAtributes[$attribute['attribute_code']] = array(
-                    'table'     => $tableName,
-                    'alias'     => $tableAlias,
-                    'columns'   => $columns,
-                    'attribute_id' => $attribute['attribute_id']
-                );
-                continue;
-            }
-            
             // Join
-            if ($attribute['required']) {
-                $select->join($selectTable, $condition, $columns);
+            if ($attribute->isRequired()) {
+                $select->join($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }
             else {
-                $select->joinLeft($selectTable, $condition, $columns);
+                $select->joinLeft($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }
         }
         
-        $select->where(self::$_productTable.".product_id=$productId");
+        $select->where(self::$_productTable.".product_id=:product_id");
         
-        $arrRes = self::$_read->fetchRow($select);
+        $arr = self::$_read->fetchRow($select, array('product_id'=>$productId));
 
         // Add multiple attributes to result       
-        foreach ($multipleAtributes as $attributeCode => $selectParam) {
+        $multipleAtributes = $attributes->getMultiples();
+        foreach ($multipleAtributes as $attribute) {
             $select = self::$_read->select();
-            $select->from($selectParam['table'] . ' AS ' . $selectParam['alias'], $selectParam['columns']);
-            $select->where('product_id='.$productId);
-            $select->where('attribute_id='.$selectParam['attribute_id']);
-            $select->where('website_id='.Mage::registry('website')->getId());
+            $select->from($attribute->getSelectTable(), $attribute->getTableColumns())
+                ->where('product_id='.$productId)
+                ->where('attribute_id='.$attribute->getId())
+                ->where('website_id='.Mage::registry('website')->getId());
             
-            if (count($selectParam['columns'])>1) {
-                $arrRes[$attributeCode] = self::$_read->fetchAll($select);
+            if (count($attribute->getTableColumns())>1) {
+                $arrRes[$attribute->getCode()] = self::$_read->fetchAll($select);
             }
             else {
-                $arrRes[$attributeCode] = self::$_read->fetchCol($select);
+                $arrRes[$attribute->getCode()] = self::$_read->fetchCol($select);
             }
-            
         }
         
-        $this->setData($arrRes);
+        return $arr;
+    }
+    
+    public function save()
+    {
         
-        return $this;
+    }
+    
+    /**
+     * Get product attributes collection
+     *
+     * @param   int $productId
+     * @return  array
+     */
+    public function getAttributes($attributeSetId)
+    {
+        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
+            ->addSetFilter($attributeSetId)
+            ->load();
+        return $collection;
     }
 }

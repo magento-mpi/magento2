@@ -19,7 +19,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $arrSets = $setCollection->__toArray();
         
         if ($productId) {
-            $productModel   = Mage::getModel('catalog_resource', 'product');
+            $productModel   = Mage::getModel('catalog', 'product');
             $attributeSetId = $productModel->getAttributeSetId($productId);
         }
         

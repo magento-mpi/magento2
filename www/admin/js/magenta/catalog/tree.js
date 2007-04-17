@@ -3,14 +3,38 @@ Mage.Catalog_Category_Tree = function(){
     var categoryContextMenu = null;
 
     return{
+        loadTreeUrl: Mage.url+'/mage_catalog/category/treeChildren',
+
         create: function(panel){
             if (!tree) {
+                Ext.QuickTips.init();
                 var layout = Mage.Catalog.getLayout('tree');
                 var treeContainer = layout.getEl().createChild({tag:'div', id:'catalog_category_tree_cont'});
-                /*var tb = new Ext.Toolbar(treeContainer.createChild({tag:'div'}));
-                tb.addButton({
-                    text: 'Test btn'
-                });*/
+                var tb = new Ext.Toolbar(treeContainer.createChild({tag:'div'}));
+                var data_inputs = [
+                    ['0', 'All Websites'],
+                    ['1', 'Magento'],
+                    ['2', 'Website 2'],
+                    ['3', 'Website 3'],
+                    ['4', 'Website 4']
+                ];
+
+                var websitesCombo = new Ext.form.ComboBox({
+                   typeAhead: true,
+                   editable: false,
+                   triggerAction: 'all',
+                   mode: 'local',
+                   store: new Ext.data.SimpleStore({
+                        fields: ['website_id', 'website_code'],
+                        mode : 'local',
+                        data : data_inputs
+                   }),
+                   displayField : 'website_code',
+                   valueField : 'website_id',
+                   value:'0'
+                });
+                
+                tb.addField(websitesCombo);
                 
                 categoryContextMenu = new Ext.menu.Menu({
                         id : 'category_context_menu',
@@ -23,7 +47,7 @@ Mage.Catalog_Category_Tree = function(){
 
                 var viewEl = treeContainer.createChild({tag:'div', id:'catalog_category_tree'});
                 var treePanel = layout.add('center', new Ext.ContentPanel(treeContainer, {
-                    title:'Catalog', 
+                    title:'<b>Catalog</b>', 
                     fitToFrame:true,
                     autoScroll:true,
                     autoCreate:true,

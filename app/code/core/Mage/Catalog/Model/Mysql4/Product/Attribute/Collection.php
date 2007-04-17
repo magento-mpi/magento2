@@ -33,6 +33,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
     public function addSetFilter($attributeSetId)
     {
         $this->addFilter("$this->_attributeInSetTable.product_attribute_set_id", $attributeSetId);
+        return $this;
     }
     
     public function getItemByCode($attributeCode)
@@ -43,5 +44,21 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
             }
         }
         return new $this->_itemObjectClass();
+    }
+    
+    /**
+     * Get attributes with true multiple flag
+     *
+     * @return unknown
+     */
+    public function getMultiples()
+    {
+        $arr = array();
+        foreach ($this as $attribute) {
+            if ($attribute->isMultiple()) {
+                $arr[] = $attribute;
+            }
+        }
+        return $arr;
     }
 }

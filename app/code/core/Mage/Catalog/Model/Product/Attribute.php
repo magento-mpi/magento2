@@ -33,6 +33,16 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     {
         return $this->getSearchable();
     }
+
+    public function isRequired()
+    {
+        return $this->getRequired();
+    }
+
+    public function isMultiple()
+    {
+        return $this->getMultiple();
+    }
     
     public function getTableName()
     {
@@ -46,5 +56,26 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     public function getTableAlias()
     {
         return $this->getAttributeCode() . '_' . $this->getDataType();
+    }
+    
+    public function getSelectTable()
+    {
+        return $this->getTableName() . ' as ' . $this->getTableAlias();
+    }
+
+    public function getTableColumns()
+    {
+        if ('decimal' == $this->getDataType()) {
+            $columns = array(
+                new Zend_Db_Expr($this->getTableAlias().".attribute_value AS " . $this->getCode()),
+                new Zend_Db_Expr($this->getTableAlias().".attribute_qty AS " . $this->getCode() . '_qty'),
+            );
+        }
+        else {
+            $columns = array(
+                new Zend_Db_Expr($this->getTableAlias().".attribute_value AS " . $this->getCode()),
+            );
+        }
+        return $columns;
     }
 }

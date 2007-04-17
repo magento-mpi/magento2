@@ -22,7 +22,11 @@ class Mage_Core_Model_Website extends Varien_Data_Object
     
     public function getId()
     {
-        return $this->getWebsiteId();
+        if($this->getWebsiteId())
+        {
+            return $this->getWebsiteId();
+        }
+        return 1;
     }
 
     public function getDomain()

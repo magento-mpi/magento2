@@ -148,33 +148,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function saveAction()
     {
-        $validator = new Mage_Catalog_Validate_Product($_POST);
-        if ($validator->isValid()) {
-            Mage::log('begin product saving');
-            $productModel = Mage::getModel('catalog_resource', 'product');
-
-            if ($productId = $validator->getProductId()) {
-                if ($productModel->update($validator->getData(), $productId)) {
-
-                }
-                else {
-
-                }
-            }
-            else {
-                if ($productId = $productModel->insert($validator->getData())) {
-
-                }
-                else {
-
-                }
-            }
-            Mage::log('end product saving');
-        }
-        else {
-            Mage::log($validator->getMessage());
-            $this->getResponse()->setBody($validator->getMessage('json'));
-        }
+        
     }
 
     /////////////////////////////////

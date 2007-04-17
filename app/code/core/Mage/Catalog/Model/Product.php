@@ -7,15 +7,8 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Catalog_Model_Product extends Varien_Data_Object 
+class Mage_Catalog_Model_Product extends Varien_Data_Object 
 {
-    /**
-     * Use multiple values flag
-     *
-     * @var bool
-     */
-    protected $_useMultipleValues = true;
-    
     public function __construct($product=false) 
     {
         parent::__construct();
@@ -28,19 +21,35 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
         }
     }
     
+    public function getId()
+    {
+        return $this->getProductId();
+    }
+    
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('catalog_resource', 'product');
+        }
+        return $resource;
+    }
+    
     public function load($productId)
     {
-        $this->setProductId($productId);
+        $this->setData($this->getResource()->load($productId));
+        return $this;
     }
     
     public function save()
     {
-        // save product
+        $this->getResource()->save($this);
+        return $this;
     }
     
     public function getLink()
     {
-        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getProductId();
+        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getId();
         return $url;
     }
     
@@ -73,29 +82,4 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
         $filter = new Varien_Filter_Sprintf('$%s', 2);
         return $filter->filter($this->getPrice());
     }
-    
-    /**
-     * Get product attributes
-     *
-     * @param   int $productId
-     * @return  array
-     */
-    public function getAttributes()
-    {
-        $collection = $this->getAttributeCollection()->load()->__toArray();
-        return isset($collection['items']) ? $collection['items'] : array();
-    }
-    
-    /**
-     * Get product attributes collection object
-     *
-     * @return Varien_Data_Collection_Db
-     */
-    public function getAttributeCollection()
-    {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection');
-        $collection->addSetFilter($this->getAttributeSetId());
-        return $collection;
-    }
-
 }

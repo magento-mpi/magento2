@@ -64,7 +64,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         }
         
         if ($productId) {
-            $product = Mage::getModel('catalog_resource','product')->load($productId);
+            $product = Mage::getModel('catalog','product')->load($productId);
             $productInfo = $product->getData();
             $this->setElementsValues($productInfo);
         }

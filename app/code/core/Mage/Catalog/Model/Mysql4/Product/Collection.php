@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog_resource', 'product'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product'));
         $this->setWebsiteId(Mage::registry('website')->getId());
     }
     
@@ -59,9 +59,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
         
         $tAlias= $attribute->getTableAlias();
-        $tName = $attribute->getTableName() . ' AS ' . $tAlias;
-        
-        // 
         if (!isset($this->_joinedAttributes[$attribute->getCode()])) {
             $condition = "$tAlias.product_id=$this->_productTable.product_id AND $tAlias.attribute_id=".$attribute->getId();
             
@@ -69,7 +66,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
                 $condition.= " AND $tAlias.website_id=".(int) $this->_websiteId;
             }
             
-            $this->_sqlSelect->join($tName, $condition, new Zend_Db_Expr("$tAlias.attribute_value AS ".$attribute->getCode()));
+            $this->_sqlSelect->join($attribute->getSelectTable(), $condition, new Zend_Db_Expr("$tAlias.attribute_value AS ".$attribute->getCode()));
             $this->_joinedAttributes[$attribute->getCode()] = array();
         }
         
@@ -119,10 +116,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
                 $this->_sqlSelect->orWhere($attribute->getTableAlias().".attribute_value LIKE '%$query%'");
             }
         }
-        /*if (!empty($query)) {
-            $condition = $this->getConnection()->quoteInto("(name_varchar.attribute_value LIKE ?)", "%$query%");
-            $this->addFilter('search', $condition, 'string');
-        }*/
         return $this;
     }
 
@@ -190,12 +183,12 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     {
         foreach ($filters as $filter) {
             switch ($filter['data']['filterType']) {
-            	case 'like':
-            	    $comparasion = 'LIKE';
-            		break;
-            	case 'lt':
-            	    $comparasion = '<';
-            	    break;
+                case 'like':
+                    $comparasion = 'LIKE';
+                    break;
+                case 'lt':
+                    $comparasion = '<';
+                    break;
                 case 'gt':
                     $comparasion = '>';
                     break;
