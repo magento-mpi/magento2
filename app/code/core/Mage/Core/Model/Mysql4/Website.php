@@ -13,13 +13,12 @@ class Mage_Core_Model_Mysql4_Website
         $this->_websiteTable = Mage::registry('resources')->getTableName('core_resource', 'website');
     }
     
-    public function getWebsiteById($id)
+    public function load($website)
     {
-        return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_id=?", $id);
-    }
-    
-    public function getWebsiteByCode($code)
-    {
-        return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_code=?", $code);
+        if (is_numeric($website)) {
+            return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_id=?", $website);
+        } elseif (is_string($website)) {
+            return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_code=?", $website);
+        }
     }
 }
