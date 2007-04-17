@@ -9,10 +9,6 @@
  */
 class Mage_Core_Model_Website extends Varien_Data_Object
 {
-    public function __construct() 
-    {
-        
-    }
         
     public function load($website)
     {
