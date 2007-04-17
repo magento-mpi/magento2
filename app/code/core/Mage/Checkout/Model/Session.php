@@ -10,6 +10,16 @@ class Mage_Checkout_Model_Session extends Varien_Data_Object
         $this->_session = new Zend_Session_Namespace('checkout', Zend_Session_Namespace::SINGLE_INSTANCE);
     }
     
+    public function setData($var, $value='', $isChanged=true)
+    {
+        $this->_session->$var = $value;
+    }
+    
+    public function getData($var='', $index=false)
+    {
+        return $this->_session->$var;
+    }
+
     public function unsetAll()
     {
         $this->_session->unsetAll();
@@ -36,17 +46,7 @@ class Mage_Checkout_Model_Session extends Varien_Data_Object
         }
         return $this->_quote;
     }
-    
-    public function setData($var, $value='', $isChanged=true)
-    {
-        $this->_session->$var = $value;
-    }
-    
-    public function getData($var='', $index=false)
-    {
-        return $this->_session->$var;
-    }
-    
+
     public function loadCustomerQuote()
     {
         $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();

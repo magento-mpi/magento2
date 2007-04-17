@@ -12,7 +12,7 @@ class Mage_Auth_Model_Mysql4_Auth
     {
         self::$_read = Mage::registry('resources')->getConnection('auth_read');
         self::$_write = Mage::registry('resources')->getConnection('auth_write');
-        self::$_userTable = Mage::registry('resources')->getTableName('auth', 'user');
+        self::$_userTable = Mage::registry('resources')->getTableName('auth_resource', 'user');
 
         $this->_authAdapter = new Zend_Auth_Adapter_DbTable(self::$_read, self::$_userTable, 'username', 'password', 'md5(?)');
     }

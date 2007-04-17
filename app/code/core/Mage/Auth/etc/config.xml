@@ -37,6 +37,10 @@
 
       <models>
          <auth>
+            <class>Mage_Auth_Model</class>
+         </auth>
+         
+         <auth_resource>
             <class>Mage_Auth_Model_Mysql4</class>
 
             <entities>
@@ -56,7 +60,7 @@
                   <table>auth_assert</table>
                </assert>
             </entities>
-         </auth>
+         </auth_resource>
       </models>
    </global>
 
@@ -64,11 +68,11 @@
       <acl>
          <asserts>
             <ip>
-               <class>Mage_Auth_Acl_Assert_Ip</class>
+               <class>Mage_Auth_Model_Acl_Assert_Ip</class>
             </ip>
 
             <time>
-               <class>Mage_Auth_Acl_Assert_Time</class>
+               <class>Mage_Auth_Model_Acl_Assert_Time</class>
             </time>
          </asserts>
 

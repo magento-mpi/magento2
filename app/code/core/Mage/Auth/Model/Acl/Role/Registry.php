@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Auth_Acl_Role_Registry extends Zend_Acl_Role_Registry 
+class Mage_Auth_Model_Acl_Role_Registry extends Zend_Acl_Role_Registry 
 {
     function addParent($role, $parents)
     {

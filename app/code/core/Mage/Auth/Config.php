@@ -9,7 +9,7 @@ class Mage_Auth_Config
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(new Mage_Auth_Acl_Resource($resourceName), $parentName);
+            $acl->add(Mage::getModel('auth', 'acl_resource', $resourceName), $parentName);
         }
         $children = $resource->children();
         

@@ -26,14 +26,14 @@ class Mage_Auth_Model_Mysql4_Acl
         Mage::getConfig('Mage_Auth')->loadAclResources($acl);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
-        $roleTable = Mage::registry('resources')->getTableName('auth', 'role');
+        $roleTable = Mage::registry('resources')->getTableName('auth_resource', 'role');
         $rolesSelect = self::$_read->select()->from($roleTable)->order(array('tree_level'));
         $rolesArr = self::$_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
-        $ruleTable = Mage::registry('resources')->getTableName('auth', 'rule');
-        $assertTable = Mage::registry('resources')->getTableName('auth', 'assert');
+        $ruleTable = Mage::registry('resources')->getTableName('auth_resource', 'rule');
+        $assertTable = Mage::registry('resources')->getTableName('auth_resource', 'assert');
         $rulesSelect = self::$_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
         $rulesArr = self::$_read->fetchAll($rulesSelect);        
@@ -51,13 +51,13 @@ class Mage_Auth_Model_Mysql4_Acl
             switch ($role['role_type']) {
                 case self::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
-                    $acl->addRole(new Mage_Auth_Acl_Role_Group($roleId), $parent);
+                    $acl->addRole(Mage::getModel('auth', 'acl_role_group', $roleId), $parent);
                     break;
                     
                 case self::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(new Mage_Auth_Acl_Role_User($roleId), $parent);
+                        $acl->addRole(Mage::getModel('auth', 'acl_role_user', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
