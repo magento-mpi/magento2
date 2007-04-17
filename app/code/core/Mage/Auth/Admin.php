@@ -33,6 +33,7 @@ class Mage_Auth_Admin
 
 /*
 Example of acl query: Mage::getSingleton('auth', 'session')->getAcl()->isAllowed('U2', 'system/websites')
+                  or: Mage::registry('acl')->isAllowed('U2', 'system/websites')
 */
 
 }

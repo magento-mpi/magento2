@@ -2,6 +2,7 @@
 <config>
    <modules>
       <Mage_Usa>
+         <version>0.1.1</version>
          <depends>
          	<Mage_Sales/>
          </depends>
@@ -9,6 +10,15 @@
    </modules>
 
    <global>
+      <resources>
+         <usa_setup>
+            <setup>
+                <module>Mage_Usa</module>
+            </setup>
+            <connection><use>directory_setup</use></connection>
+         </usa_setup>
+      </resources>
+      
       <models>
          <usa>
             <class>Mage_Usa_Model_Mysql4</class>

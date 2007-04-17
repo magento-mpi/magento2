@@ -294,7 +294,12 @@
                 <name><type>text</type></name>
                 <weight><type>decimal</type></weight>
 
-                <qty><type>decimal</type></qty>
+                <qty_ordered><type>decimal</type></qty_ordered>
+                <qty_backordered><type>decimal</type></qty_backordered>
+                <qty_canceled><type>decimal</type></qty_canceled>
+                <qty_shipped><type>decimal</type></qty_shipped>
+                <qty_returned><type>decimal</type></qty_returned>
+                
                 <price><type>decimal</type></price>
                 <tier_price><type>decimal</type></tier_price>
                 
