@@ -4,8 +4,6 @@ class Mage_Sales_Model_Quote_Attribute_Giftcert extends Mage_Sales_Model_Quote_A
 {
     public function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $arr = array();
-        
         $code = $quote->getGiftcertCode();
         $gift = Mage::getModel('sales_resource', 'giftcert')->getGiftcertByCode($code);
         if ($gift) {

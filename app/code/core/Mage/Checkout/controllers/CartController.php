@@ -112,7 +112,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         foreach ($entities as $entity) {
             if ($entity->getCode()==$code) {
                 $this->_data['quote']->setShippingDescription($entity->getVendor().' '.$entity->getServiceDescription());
-                $this->_data['quote']->setShippingAmount($entity->getAmount())->collectTotals()->save();
+                $this->_data['quote']->setShippingAmount($entity->getAmount())->collectTotals();
+                $this->_data['quote']->save();
                 break;
             }
         }
@@ -122,7 +123,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     function couponPostAction()
     {
-        $couponCode = $this->getRequest()->getPost('coupon_code');
+        if ($this->getRequest()->getPost('do')==__('Clear')) {
+            $couponCode = '';
+        } else {
+            $couponCode = $this->getRequest()->getPost('coupon_code');
+        }
         
         $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
         
@@ -131,7 +136,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function giftCertPostAction()
     {
-        $giftCode = $this->getRequest()->getPost('giftcert_code');
+        if ($this->getRequest()->getPost('do')==__('Clear')) {
+            $giftCode = '';
+        } else {
+            $giftCode = $this->getRequest()->getPost('giftcert_code');
+        }
         
         $this->_data['quote']->setGiftcertCode($giftCode)->collectTotals()->save();
         

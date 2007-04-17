@@ -4,8 +4,6 @@ class Mage_Sales_Model_Quote_Attribute_Subtotal extends Mage_Sales_Model_Quote_A
 {
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $arr = array();
-        
         $subtotal = 0;
         $weight = 0;
 

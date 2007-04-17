@@ -4,8 +4,6 @@ class Mage_Sales_Model_Quote_Attribute_Discount extends Mage_Sales_Model_Quote_A
 {
     public function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $arr = array();
-        
         $couponCode = $quote->getCouponCode();
         $coupon = Mage::getModel('sales_resource', 'discount')->getCouponByCode($couponCode);
         if ($coupon) {

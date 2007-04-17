@@ -24,7 +24,7 @@ class Mage_Sales_Model_Quote_Attribute_Tax extends Mage_Sales_Model_Quote_Attrib
         
         $amount = $quote->getTaxAmount();
         if ($amount) {
-            $arr['tax'] = array('code'=>'tax', 'title'=>__('Tax').' (CA 8.25%)', 'value'=>$amount, 'output'=>true);
+            $arr['tax'] = array('code'=>'tax', 'title'=>__('Tax').' (CA '.number_format($quote->getTaxPercent(),3).'%)', 'value'=>$amount, 'output'=>true);
         }
 
         return $arr;

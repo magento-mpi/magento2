@@ -6,13 +6,13 @@
         <img id="image" src="http://static.panoramio.com/photos/original/61005.jpg" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move;"/>
     </div>   
     <div style="margin-top:10px;">
-        <table border=0 cellspacing=2><tr><td><img src="<?=$moduleSkinUrl?>/images/zoomo_16.gif" width=16></td><td>
+        <table border=0 cellspacing=2><tr><td><img src="<?=$moduleSkinUrl?>/images/magnifier_zoom_out.png" width=16></td><td>
         <div id="track1" style="width: 200px; height:18px; background:#CCC;">
           <div id="handle1"" style="width: 8px; height: 18px; background:#557;">
             
           </div>
         </div>
-        </td><td><img src="<?=$moduleSkinUrl?>/images/zoomi_16.gif" width=16></td></tr></table>
+        </td><td><img src="<?=$moduleSkinUrl?>/images/magnifier_zoom_in.png" width=16></td></tr></table>
         <script type="text/javascript">
             var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
             
@@ -27,8 +27,8 @@
             var imageV = 1;
             
             function scaleIt(v) {
-              var centerX = origWidth*(1-imageV)/(2*imageV)-imageX/imageV;
-              var centerY = origHeight*(1-imageV)/(2*imageV)-imageY/imageV;
+              var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
+              var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
 
               imageV = floorSize+(v*(ceilingSize-floorSize));
               

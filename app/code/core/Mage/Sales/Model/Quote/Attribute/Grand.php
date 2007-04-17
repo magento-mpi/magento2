@@ -4,8 +4,6 @@ class Mage_Sales_Model_Quote_Attribute_Grand extends Mage_Sales_Model_Quote_Attr
 {
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $arr = array();
-
         $grandTotal = $quote->getSubtotal();
         $grandTotal -= $quote->getDiscountAmount();
         $grandTotal += $quote->getShippingAmount();

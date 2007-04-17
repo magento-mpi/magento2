@@ -97,5 +97,5 @@ abstract class Mage_Catalog_Model_Product extends Varien_Data_Object
         $collection->addSetFilter($this->getAttributeSetId());
         return $collection;
     }
-    
+
 }

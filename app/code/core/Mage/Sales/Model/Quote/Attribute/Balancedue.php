@@ -4,8 +4,6 @@ class Mage_Sales_Model_Quote_Attribute_Balancedue extends Mage_Sales_Model_Quote
 {
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $arr = array();
-
         $balanceDue = $quote->getGrandTotal();
         $balanceDue -= $quote->getCustbalanceAmount();
         $balanceDue -= $quote->getGiftcertAmount();

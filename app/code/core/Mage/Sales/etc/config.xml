@@ -116,16 +116,18 @@
       <salesPayment>
          <checkmo>
             <class>Mage_Sales_Model_Payment_Checkmo</class>
+            <orderStatus>1</orderStatus>
          </checkmo>
 
          <ccsave>
             <class>Mage_Sales_Model_Payment_Ccsave</class>
+            <orderStatus>2</orderStatus>
          </ccsave>
 
          <purchaseorder>
             <class>Mage_Sales_Model_Payment_Purchaseorder</class>
+            <orderStatus>3</orderStatus>
          </purchaseorder>
-
       </salesPayment>
 
       <salesDiscount>
@@ -146,7 +148,12 @@
                 <customer_id><type>int</type></customer_id>
                 <created_at><type>datetime</type></created_at>
                 <updated_at><type>datetime</type></updated_at>
-                <status><type>int</type></status>
+                <status><type>varchar</type></status>
+                <website_id><type>int</type></website_id>
+                
+                <currency_id><type>int</type></currency_id>
+                <currency_base_id><type>int</type></currency_base_id>
+                <currency_rate><type>decimal</type></currency_rate>
 
                 <coupon_code><type>varchar</type></coupon_code>
                 <giftcert_code><type>varchar</type></giftcert_code>
@@ -155,6 +162,8 @@
                 <shipping_method><type>varchar</type></shipping_method>
                 <shipping_description><type>text</type></shipping_description>
                 <weight><type>decimal</type></weight>
+                
+                <tax_percent><type>decimal</type></tax_percent>
                 
                 <subtotal><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Subtotal</class><sortOrder>10</sortOrder></subtotal>
                 <discount_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Discount</class><sortOrder>20</sortOrder></discount_amount>
@@ -198,9 +207,7 @@
                 <qty><type>decimal</type></qty>
                 <price><type>decimal</type></price>
                 <tier_price><type>decimal</type></tier_price>
-                
-                <cost><type>decimal</type></cost>
-                
+
                 <discount_percent><type>decimal</type></discount_percent>
                 <discount_amount><type>decimal</type></discount_amount>
                 
@@ -235,7 +242,90 @@
          </quote>
          
          <order>
-         
+             <self>
+                <customer_id><type>int</type></customer_id>
+                <created_at><type>datetime</type></created_at>
+                <updated_at><type>datetime</type></updated_at>
+                <status><type>varchar</type></status>
+                <website_id><type>int</type></website_id>
+                
+                <currency_id><type>int</type></currency_id>
+                <currency_base_id><type>int</type></currency_base_id>
+                <currency_rate><type>decimal</type></currency_rate>
+
+                <coupon_code><type>varchar</type></coupon_code>
+                <giftcert_code><type>varchar</type></giftcert_code>
+                
+                <shipping_method><type>varchar</type></shipping_method>
+                <shipping_description><type>text</type></shipping_description>
+                <weight><type>decimal</type></weight>
+                
+                <tax_percent><type>decimal</type></tax_percent>
+                
+                <subtotal><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Subtotal</class><sortOrder>10</sortOrder></subtotal>
+                <discount_amount><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Discount</class><sortOrder>20</sortOrder></discount_amount>
+                <tax_amount><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Tax</class><sortOrder>40</sortOrder></tax_amount>
+                <shipping_amount><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Shipping</class><sortOrder>30</sortOrder></shipping_amount>
+                <grand_total><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Grand</class><sortOrder>100</sortOrder></grand_total>
+                <giftcert_amount><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Giftcert</class><sortOrder>120</sortOrder></giftcert_amount>
+                <custbalance_amount><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Custbalance</class><sortOrder>130</sortOrder></custbalance_amount>
+                <balance_due><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Balancedue</class><sortOrder>200</sortOrder></balance_due>
+           </self>
+           <address>
+                <address_id><type>int</type></address_id>
+                <firstname><type>varchar</type></firstname> 
+                <lastname><type>varchar</type></lastname> 
+                <company><type>varchar</type></company> 
+                <street><type>text</type></street> 
+                <city><type>varchar</type></city> 
+                <region><type>varchar</type></region> 
+                <region_id><type>int</type></region_id> 
+                <postcode><type>varchar</type></postcode> 
+                <country_id><type>int</type></country_id> 
+                <telephone><type>varchar</type></telephone> 
+                <fax><type>varchar</type></fax>
+                
+                <address_type><type>varchar</type></address_type>
+            </address>
+            <item>
+                <product_id><type>int</type></product_id>
+                <model><type>varchar</type></model>
+                <image><type>text</type></image>
+                <name><type>text</type></name>
+                <weight><type>decimal</type></weight>
+
+                <qty><type>decimal</type></qty>
+                <price><type>decimal</type></price>
+                <tier_price><type>decimal</type></tier_price>
+                
+                <cost><type>decimal</type></cost>
+                
+                <discount_percent><type>decimal</type></discount_percent>
+                <discount_amount><type>decimal</type></discount_amount>
+                
+                <tax_percent><type>decimal</type></tax_percent>
+                <tax_amount><type>decimal</type></tax_amount>
+                
+                <row_total><type>decimal</type></row_total>
+                <row_weight><type>decimal</type></row_weight>
+            </item>
+            <payment>
+                <method><type>varchar</type></method>
+
+                <po_number><type>varchar</type></po_number>
+                
+                <cc_type><type>varchar</type></cc_type>
+                <cc_number><type>varchar</type></cc_number>
+                <cc_owner><type>varchar</type></cc_owner>
+                <cc_exp_month><type>int</type></cc_exp_month>
+                <cc_exp_year><type>int</type></cc_exp_year>
+                <cc_cvv2><type>int</type></cc_cvv2>
+            </payment>
+            <status>
+                <status_id><type>int</type></status_id>
+                <updated_at><type>datetime</type></updated_at>
+                <comments><type>text</type></comments>
+            </status>
          </order>
          
          <invoice>

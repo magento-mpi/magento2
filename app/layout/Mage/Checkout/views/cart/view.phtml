@@ -29,7 +29,7 @@
             <input type="button" value="Continue Shopping" onclick="location.href='<?=$data['url']['base']?>'" class="input-button"/>
         </div>
         <div class="input-right align-right">
-            <input type="submit" value="Update" class="input-button"/>
+            <input type="submit" value="Update" class="input-button" name="do"/>
             <input type="button" value="Checkout" onclick="location.href='<?=$data['url']['checkout']?>'" class="input-button"/>
         </div>
         <div class="clearfix"></div>
@@ -42,7 +42,7 @@
             <h2>Estimate</h2>
             <form action="<?=$data['url']['cart']?>estimatePost/" method="post">
                 <label for="">Zipcode:</label><br />
-                <input class="input-text" name="estimate_postcode" value="<?=$data['cart']['estimate_postcode']?>"/> <input type="submit" value="Estimate" class="input-button"/>
+                <input class="input-text" name="estimate_postcode" value="<?=$data['cart']['estimate_postcode']?>"/> <input type="submit" value="Estimate" class="input-button" name="do"/>
             </form>
             <?if (!empty($data['cart']['estimate_methods'])):?>
                 <br><br>
@@ -59,7 +59,7 @@
                 		<?endforeach?>
     	   	           </ul>
     	   	           <br>
-    	   	           <input type="submit" value="Update totals" class="input-button"/>
+    	   	           <input type="submit" value="Update totals" class="input-button" name="do"/>
     	   	        </fieldset>
     	        </form>
             <?endif?>
@@ -68,12 +68,12 @@
             <h2>Discounts</h2>
             <form action="<?=$data['url']['cart']?>couponPost/" method="post">
                 <label for="coupon_code">Coupon code:</label><br />
-                <input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
+                <input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>"/> <input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button" name="do"/>
             </form>
             <br>
             <form action="<?=$data['url']['cart']?>giftCertPost/" method="post">
                 <label for="giftcert_code">Gift certificate:</label><br />
-                <input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/> <input type="submit" value="Apply" class="input-button"/>
+                <input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/> <input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button" name="do"/>
             </form>
         </div>
         <div class="clearfix"></div>

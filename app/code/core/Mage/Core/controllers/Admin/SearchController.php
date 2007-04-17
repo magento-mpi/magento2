@@ -13,9 +13,10 @@ class Mage_Core_SearchController extends Mage_Core_Controller_Admin_Action
             foreach ($searchModules->children() as $searchConfig) {
                 $className = $searchConfig->getClassName();
                 $searchInstance = new $className();
-                $results = $searchInstance->setStart($request['start'])->setLimit($request['limit'])->setQuery($request['query'])->load();
+                $results = $searchInstance->setStart($request['start'])->setLimit($request['limit'])->setQuery($request['query'])->load()->getResults();
+                $items = array_merge_recursive($items, $results);
             }
-            $totalCount = 100;
+            $totalCount = sizeof($items);
         }
 
         $data = array('totalCount'=>$totalCount, 'items'=>$items);

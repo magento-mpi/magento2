@@ -117,7 +117,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $item->setEntityType('item')->addData($product->getData());
         $this->addEntity($item);
         if ($this->getEstimatePostcode()) {
-            $this->estimateShippingMethods();
+            $this->collectTotals()->estimateShippingMethods();
         }
         $this->collectTotals();
         return $this;
@@ -140,7 +140,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             }
         }
         if ($this->getEstimatePostcode()) {
-            $this->estimateShippingMethods();
+            $this->collectTotals()->estimateShippingMethods();
         }
         $this->collectTotals();
         return $this;
@@ -210,5 +210,10 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             }
         }
         return $this;
+    }
+    
+    public function createOrders()
+    {
+        
     }
 }

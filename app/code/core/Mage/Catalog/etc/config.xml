@@ -291,6 +291,12 @@
             </updates>
          </default>
       </layouts>
+      
+      <globalSearch>
+         <products>
+            <class>Mage_Catalog_Model_Admin_Search</class>
+         </products>
+      </globalSearch>
    </admin>
 </config>
 
