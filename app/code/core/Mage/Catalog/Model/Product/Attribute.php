@@ -29,6 +29,11 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         return $this->getAttributeCode();
     }
     
+    public function isSearchable()
+    {
+        return $this->getSearchable();
+    }
+    
     public function getTableName()
     {
         $type = $this->getDataType();

@@ -112,10 +112,17 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     function addSearchFilter($query)
     {
         $query = trim(strip_tags($query));
-        if (!empty($query)) {
+        
+        foreach ($this->_attributes as $attribute) {
+            if ($attribute->isSearchable()) {
+                $this->_joinAttributeTable($attribute->getCode());
+                $this->_sqlSelect->orWhere($attribute->getTableAlias().".attribute_value LIKE '%$query%'");
+            }
+        }
+        /*if (!empty($query)) {
             $condition = $this->getConnection()->quoteInto("(name_varchar.attribute_value LIKE ?)", "%$query%");
             $this->addFilter('search', $condition, 'string');
-        }
+        }*/
         return $this;
     }
 
