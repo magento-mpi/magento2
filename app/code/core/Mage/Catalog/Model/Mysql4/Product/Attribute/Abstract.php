@@ -10,6 +10,14 @@
 abstract class Mage_Catalog_Model_Mysql4_Product_Attribute_Abstract
 {
     protected $_attributeValueTable;
+    static protected $_read;
+    static protected $_write;
+
+    public function __construct()
+    {
+        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
+    }
 
     /**
      * Insert row in database table

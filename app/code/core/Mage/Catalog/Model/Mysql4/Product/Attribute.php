@@ -7,13 +7,18 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Product_Attribute extends Mage_Catalog_Model_Mysql4 implements Mage_Core_Model_Db_Table_Interface 
+class Mage_Catalog_Model_Mysql4_Product_Attribute
 {
+    static protected $_read;
+    static protected $_write;
+
     protected $_attributeTable;
     
     public function __construct()
     {
         $this->_attributeTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
+        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
+        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
     }
     
     /**
