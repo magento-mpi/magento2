@@ -158,6 +158,14 @@
             </entities>
          </catalog_resource>
       </models>
+      
+      <productAttributeTypes>
+        <varchar><table>catalog_product_attribute_varchar</table></varchar>
+        <decimal><table>catalog_product_attribute_decimal</table></decimal>
+        <date><table>catalog_product_attribute_date</table></date>
+        <text><table>catalog_product_attribute_text</table></text>
+        <int><table>catalog_product_attribute_int</table></int>
+      </productAttributeTypes>
 
       <resources>
          <catalog_setup>

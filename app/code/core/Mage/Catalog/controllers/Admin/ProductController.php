@@ -49,42 +49,42 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $data = array(
         'totalRecords' => 2,
         'filters' => array(
-                0 => array(
+                array(
                     'filter_id' => '0',
                     'filter_field' => 'name',
                     'filter_name' => 'Name',
                     'filter_type' => 'text',
                     'filter_comp' => array(
-                        0 => array(
+                        array(
                             'v' => 'eq',
                             'n' => 'Equal' 
                         ),
-                        1 => array(
+                        array(
                             'v' => 'neq',
                             'n' => 'Not Equal' 
                         ),                            
-                            2 => array(
+                        array(
                             'v' => 'like',
                             'n' => 'Like'
-                        )                            
+                        ),                            
                     )
                 ),
-                1 => array(
+                array(
                     'filter_id' => '1',
-                    'filter_field' => 'create_date',
-                    'filter_name'  => 'Added Date',
-                    'filter_type' => 'date',
+                    'filter_field' => 'price',
+                    'filter_name'  => 'Price',
+                    'filter_type' => 'number',
                     'filter_comp' => array (
-                         0 => array(
+                        array(
                             'v' => 'gt',
                             'n' => 'Greater Than' 
                         ),
-                        1 => array(
+                        array(
                             'v' => 'lt',
                             'n' => 'Lower Than' 
-                        )
+                        ),
                    )
-               )                            
+               ),                            
            )      
        );
        $this->getResponse()->setBody(Zend_Json::encode($data));
@@ -98,9 +98,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
-            ->addAttributeToSelect('name', 'varchar')
-            ->addAttributeToSelect('price', 'decimal')
-            ->addAttributeToSelect('description', 'text')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description')
             ->setPageSize($pageSize);
 
         if ($categoryId = $this->getRequest()->getParam('category')) {
@@ -119,6 +119,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 }
             }
             $prodCollection->addCategoryFilter($arrCategories);
+        }
+        
+        $filters = $this->getRequest()->getPost('filters', false);
+        if ($filters) {
+            $prodCollection->addAdminFilters(Zend_Json::decode($filters));
         }
 
         $page = $this->getRequest()->getPost('start', 1);

@@ -26,12 +26,13 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
-            ->addAttributeToSelect('name', 'varchar')
-            ->addAttributeToSelect('price', 'decimal')
-            ->addAttributeToSelect('description', 'text')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description')
             ->addSearchFilter($query)
             ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($page)
+            ->setPageSize(9)
             ->loadData();
 
         $this->assign('query', $queryEscaped);
@@ -57,13 +58,13 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
-            ->addAttributeToSelect('name', 'varchar')
-            ->addAttributeToSelect('price', 'decimal')
-            ->addAttributeToSelect('description', 'text')
-            ->addAttributeToSelect($attribute, 'int', $attributeValue)
-            //->addSearchFilter($query)
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description')
+            ->addAttributeToSelect($attribute, $attributeValue)
             ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($page)
+            ->setPageSize(9)
             ->loadData();
 
         $this->assign('productCollection', $prodCollection);

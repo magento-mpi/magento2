@@ -28,9 +28,10 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->setChild('breadcrumbs', $breadcrumbs);
         
         // Init collection
-        $prodCollection = $category->getProductCollection();
-        $prodCollection->addAttributeToSelect('name', 'varchar');
-        $prodCollection->addAttributeToSelect('price', 'decimal');
+        $prodCollection = $category->getProductCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->setPageSize(9);
         
         Mage::getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 

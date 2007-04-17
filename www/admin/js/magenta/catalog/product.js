@@ -262,6 +262,20 @@ Mage.Catalog_Product = function(depend){
                             allowBlank:true        	    
                         });
                        break;
+                   case 'combobox' :
+                       break;
+                   case 'between' :
+                       break;
+                   case 'number' :
+                        var textValue = new Ext.form.NumberField({
+                            allowNegative : false,
+                            id : filterId + '-textValue',
+                            grow : true,
+                            width : 135,
+                            growMin : 135,
+                            growMax : 600,
+                            allowBlank:true        	    
+                        });
                    case 'text' : 
                    default :
                         var textValue = new Ext.form.TextField({
@@ -352,7 +366,7 @@ Mage.Catalog_Product = function(depend){
                 filter[i] = {};
                 filter[i].index = i;
                 filter[i].data = {};
-                filter[i].data['textValue'] = Ext.ComponentMgr.get(toolbar.getEl().id + '-textValue').getValue();
+                filter[i].data['filterValue'] = Ext.ComponentMgr.get(toolbar.getEl().id + '-textValue').getValue();
                 for (k=0; k< toolbar.items.getCount(); k++) {
                     if (toolbar.items.itemAt(k).getEl().name == 'filterType' || toolbar.items.itemAt(k).getEl().name == 'filterField') {
                             filter[i].data[toolbar.items.itemAt(k).getEl().name] = toolbar.items.itemAt(k).getEl().value;

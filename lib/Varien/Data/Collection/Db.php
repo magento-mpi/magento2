@@ -12,8 +12,11 @@
  */
 class Varien_Data_Collection_Db extends Varien_Data_Collection
 {
-
-    // DB connection
+    /**
+     * DB connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_conn;
     
     /**

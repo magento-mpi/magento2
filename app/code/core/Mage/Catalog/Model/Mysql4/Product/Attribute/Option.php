@@ -7,14 +7,17 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Model_Mysql4 implements Mage_Core_Model_Db_Table_Interface 
+class Mage_Catalog_Model_Mysql4_Product_Attribute_Option
 {
+    protected $_read;
+    protected $_write;
     protected $_optionTable;
     protected $_optionTypeTable;
     
     public function __construct() 
-        {
-        parent::__construct();
+    {
+        $this->_read            = Mage::registry('resources')->getConnection('catalog_read');
+        $this->_write           = Mage::registry('resources')->getConnection('catalog_write');
         $this->_optionTable     = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_option');
         $this->_optionTypeTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_option_type');
     }
@@ -33,7 +36,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
         $arrParam['website_id']   = Mage::registry('website')->getId();
         $arrParam['option_id']    = $optionId;
         
-        $arrRes = self::$_read->fetchOne($sql,$arrParam);
+        $arrRes = $this->_read->fetchOne($sql,$arrParam);
         return $arrRes;
     }
     
@@ -60,7 +63,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
         $arrParam['website_id']     = Mage::registry('website')->getId();
         $arrParam['option_type']    = isset($params['option_type']) ? $params['option_type'] : '';
         
-        $arrRes = self::$_read->fetchAll($sql,$arrParam);
+        $arrRes = $this->_read->fetchAll($sql,$arrParam);
         return $arrRes;
     }
     
@@ -86,7 +89,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
         $arrParam['website_id']     = Mage::registry('website')->getId();
         $arrParam['option_type']    = isset($params['option_type']) ? $params['option_type'] : '';
         
-        $arrRes = self::$_read->fetchCol($sql,$arrParam);
+        $arrRes = $this->_read->fetchCol($sql,$arrParam);
         return $arrRes;
     }
 
@@ -97,7 +100,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function insert($data)
     {
-        if (self::$_write->insert($this->_optionTable, $data)) {
+        if ($this->_write->insert($this->_optionTable, $data)) {
             return self::$_write->lastInsertId();
         }
         return false;
@@ -111,7 +114,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function update($data, $rowId)
     {
-        $condition = self::$_write->quoteInto('option_id=?', $rowId);
+        $condition = $this->_write->quoteInto('option_id=?', $rowId);
         return self::$_write->update($this->_optionTable, $data, $condition);
     }
     
@@ -122,7 +125,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option extends Mage_Catalog_Mo
      */
     public function delete($rowId)
     {
-        $condition = self::$_write->quoteInto('option_id=?', $rowId);
+        $condition = $this->_write->quoteInto('option_id=?', $rowId);
         return self::$_write->delete($this->_optionTable, $condition);
     }
     
