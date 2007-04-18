@@ -8,13 +8,6 @@
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        
-        $this->setFlag('image', 'no-preDispatch', true);
-    }
-    
     public function indexAction()
     {
 
@@ -22,10 +15,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
+        $action = 'product_view_'.$this->getRequest()->getParam('id', false);
+        $this->loadLayout('front', array('default', $action), $action);
+            
         $productInfoBlock = Mage::createBlock('catalog_product_view', 'product.info');
         $productInfoBlock->loadData($this->getRequest());
 
         Mage::getBlock('content')->append($productInfoBlock);
+        
+        $this->renderLayout();
     }
 
     public function imageAction()

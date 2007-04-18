@@ -7,16 +7,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         $this->_data['params'] = $this->getRequest()->getParams();
-       
         $this->_data['quote'] = Mage::getSingleton('checkout', 'session')->getQuote();
-        
-        foreach (array('add','clean','updatePost','estimatePost','couponPost') as $action) {
-            $this->setFlag($action, 'no-defaultLayout', true);
-        }
     }
     
     function indexAction()
     {
+        $this->loadLayout();
+        
         $quote = $this->_data['quote'];
         
         if (!$quote->hasItems()) {
@@ -52,6 +49,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             ->assign('data', $this->_data);
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     function addAction()

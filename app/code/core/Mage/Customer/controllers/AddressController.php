@@ -24,6 +24,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
+        $this->loadLayout();
+        
         // Load addresses
         $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();
         $addressCollection = Mage::getModel('customer', 'address_collection');
@@ -36,6 +38,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             ->assign('messages', Mage::getSingleton('customer_model', 'session')->getMessages(true));
         
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     /**
@@ -44,6 +48,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
+        $this->loadLayout();
+        
         $addressId = $this->getRequest()->getParam('address', false);
         $address = Mage::getModel('customer', 'address');
         $data = Mage::getSingleton('customer_model', 'session')->getAddressFormData(true);
@@ -82,6 +88,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             ->assign('primaryTypes',$address->getAvailableTypes());
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function formPostAction()

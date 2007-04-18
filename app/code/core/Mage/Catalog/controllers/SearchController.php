@@ -10,6 +10,8 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
 {
     public function resultAction() 
     {
+        $this->loadLayout();
+            
         $searchQuery = $this->getRequest()->getParam('q', false);
         if ($searchQuery) {
             Mage::getBlock('search.form.mini')->assign('query', $searchQuery);
@@ -21,10 +23,14 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         else {
             
         }
+        
+        $this->renderLayout();
     }
     
     public function byAction()
     {
+        $this->loadLayout('front');
+        
         $attribute = $this->getRequest()->getParam('attr', false);
         $value = $this->getRequest()->getParam('value', false);
         if (!$attribute || !$value) {
@@ -49,5 +55,6 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         
         Mage::getBlock('content')->append($block);
         
+        $this->renderLayout();
     }
 }

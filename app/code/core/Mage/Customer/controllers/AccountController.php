@@ -27,10 +27,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction() 
     {
+        $this->loadLayout();
+        
         $block = Mage::createBlock('customer_account', 'customer.account')
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function logoutAction()
@@ -45,6 +49,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
+        $this->loadLayout();
+        
         // if customer logged in
         if (Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
             $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
@@ -62,6 +68,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     /**
@@ -97,6 +105,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function editAction()
     {
+        $this->loadLayout();
+        
         $data = Mage::getSingleton('customer_model', 'session')->getCustomerFormData(true);
         if ($data->isEmpty()) {
             $data = Mage::getSingleton('customer_model', 'session')->getCustomer();
@@ -109,6 +119,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function editPostAction()
@@ -140,12 +152,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function changePasswordAction()
     {
+        $this->loadLayout();
+        
         $block = Mage::createBlock('tpl', 'customer.changepassword')
             ->setViewName('Mage_Customer', 'form/changepassword.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost')))
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function changePasswordPostAction()
@@ -176,9 +192,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function forgotPasswordAction()
     {
+        $this->loadLayout();
+        
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
             ->setViewName('Mage_Customer', 'form/forgotpassword.phtml');
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function forgotPasswordPostAction()
@@ -188,9 +208,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     public function newsletterAction()
     {
+        $this->loadLayout();
+        
         $block = Mage::createBlock('tpl', 'customer.newsletter')
             ->setViewName('Mage_Customer', 'form/newsletter.phtml');
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function newsletterPostAction()

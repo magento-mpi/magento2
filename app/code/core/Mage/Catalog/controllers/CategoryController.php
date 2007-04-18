@@ -14,6 +14,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
      */
     function viewAction()
     {
+        $action = 'catalog_category_'.$this->getRequest()->getParam('id', false);
+        $this->loadLayout('front', array('default', $action), $action);
+            
         $category = Mage::getModel('catalog_resource', 'category');
         $category->load($this->getRequest()->getParam('id', false));
         
@@ -27,6 +30,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         else { // TODO: forvard to error action
             echo 'Category id is not defined';
         }
+        
+        $this->renderLayout();
     }
 
     function fillAction()

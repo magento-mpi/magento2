@@ -19,10 +19,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->setFlag('', 'no-dispatch', true);
             $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
         }
-        
-        foreach (array('status', 'shippingMethod', 'getAddress', 'saveBilling', 'savePayment', 'saveShipping', 'saveShippingMethod', 'saveOrder') as $action) {
-            $this->setFlag($action, 'no-renderLayout', true);
-        }
     }
     
     /**
@@ -30,6 +26,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
+        $this->loadLayout();
+        
         $statusBlock =  Mage::createBlock('checkout_onepage_status', 'checkout.status');
             
         Mage::getBlock('left')->unsetChildren()
@@ -37,6 +35,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             
         $block = Mage::createBlock('checkout_onepage', 'checkout.onepage');
         Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
 
     /**

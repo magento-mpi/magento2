@@ -66,7 +66,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return Mage::getSingleton('core', 'layout');
      }
      
-     function loadLayout($area, $ids, $key='')
+     function loadLayout($area='front', $ids='default', $key='')
      {
         Varien_Profiler::setTimer('loadLayout');
          
