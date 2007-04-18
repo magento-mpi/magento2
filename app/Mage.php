@@ -315,15 +315,15 @@ final class Mage {
      *
      * @param string $appRoot
      */
-    public static function runFront($appRoot='')
+    public static function runFront($websiteCode)
     {
         try {
             Varien_Profiler::setTimer('totalApp');
 
-            Mage::init($appRoot);
+            Mage::init();
             Mage::getConfig()->loadEventObservers('front');
             
-            Mage::getSingleton('core', 'session')->setWebsite('base');
+            Mage::registry('website')->setCode($websiteCode);
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
@@ -351,14 +351,14 @@ final class Mage {
      *
      * @param string $appRoot
      */
-    public static function runAdmin($appRoot='')
+    public static function runAdmin()
     {
         try {
-            Mage::init($appRoot);
+            Mage::init();
         
             Mage::getConfig()->loadEventObservers('admin');
             
-            Mage::getSingleton('core', 'session')->setWebsite('admin');
+            Mage::registry('website')->setCode('base')->setIsAdmin(true);
             
             Mage::register('controller', new Mage_Core_Controller_Zend_Admin());
             Mage::registry('controller')->run();

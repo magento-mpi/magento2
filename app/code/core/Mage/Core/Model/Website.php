@@ -9,37 +9,20 @@
  */
 class Mage_Core_Model_Website extends Varien_Data_Object
 {
-        
-    public function load($website)
+    public function setCode($code)
     {
-        $row = Mage::getModel('core_resource', 'website')->load($website);
-        if (!empty($row)) {
-            $this->setData($row);
-        }
+        $this->setData('code', $code);
+        
+        $config = $this->getConfig();
+        $this->setId((int)$config->id);
+        $this->setLanguage((string)$config->language);
+        $this->setGroup((string)$config->group);
+        
         return $this;
     }
     
     public function getConfig()
     {
-        return Mage::getConfig()->getWebsiteConfig($this->getWebsiteCode());
-    }
-    
-    public function getId()
-    {
-        if($this->getWebsiteId())
-        {
-            return $this->getWebsiteId();
-        }
-        return 1;
-    }
-
-    public function getLanguage()
-    {
-        return $this->getLanguageCode();
-    }
-    
-    public function getDomain()
-    {
-        return (string)$this->getConfig()->group;
+        return Mage::getConfig()->getWebsiteConfig($this->getCode());
     }
 }

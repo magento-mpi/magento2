@@ -265,7 +265,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     public function getBaseUrl($params=array())
     {
         if (empty($params['_website'])) {
-            $params['_website'] = Mage::getSingleton('core', 'session')->getWebsite()->getWebsiteCode();
+            $params['_website'] = Mage::registry('website')->getCode();
         }
         $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
         $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
@@ -278,6 +278,10 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
         $url .= empty($basePath) ? '/' : $basePath;
+        
+        if (Mage::registry('website')->getIsAdmin()) {
+            $url .= 'admin/';
+        }
         
         if (isset($params['_type'])) {
             switch ($params['_type']) {
