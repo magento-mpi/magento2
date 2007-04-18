@@ -13,6 +13,8 @@ Mage.Catalog_Product_Attributes = function(){
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributecommit/',
 
+        setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
+
         setGrid : null,
         setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
 
@@ -56,17 +58,15 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                 });
 
-                this.initSetGrid();
+         //       this.initSetGrid();
 
-                this.westLayout.beginUpdate();
-                this.westLayout.add('center', new Ext.GridPanel(this.setGrid));
-                this.westLayout.endUpdate();
-
+                this.initSetTree();
+                
                 Layout.beginUpdate();
                 Layout.add('west', new Ext.NestedLayoutPanel(this.westLayout));
                 Layout.endUpdate();
 
-                this.setGrid.getDataSource().load({params:{start:0, limit:10}});
+//                this.setGrid.getDataSource().load({params:{start:0, limit:10}});
 
                 Core_Layout.beginUpdate();
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Product Attributes",closable:false}));
@@ -151,6 +151,181 @@ Mage.Catalog_Product_Attributes = function(){
                 cls: 'x-btn-text-icon btn_delete',
                 disabled : true
             });
+        },
+
+        initSetTree : function() {
+            
+                var sseed = 0;
+                var gseed = 0;   
+            
+                var sview = Ext.DomHelper.append(Layout.getEl().dom,
+                      {cn:[{id:'main-tb'},{id:'sbody'}]}
+                );
+                
+                // create the primary toolbar
+                var tb = new Ext.Toolbar('main-tb');
+                tb.add({
+                    id:'save',
+                    text:'Save',
+                    disabled:true,
+                   // handler:save,
+                    cls:'x-btn-text-icon btn_accept',
+                    tooltip:'Saves all components to the server'
+                },'-',{
+                    id:'add',
+                    text:'Set',
+                    handler : addSet,
+                    cls:'x-btn-text-icon b btn_add',
+                    tooltip:'Add a new Set to the product attributes'
+                }, {
+                    id:'group',
+                    text:'Group',
+                    disabled:true,
+                    handler:addGroup,
+                    cls:'x-btn-text-icon btn_add',
+                    tooltip:'Add a new group to the selected component'
+                },'-',{
+                    id:'remove',
+                    text:'Remove',
+                    disabled:true,
+                  //  handler:removeNode,
+                    cls:'x-btn-text-icon btn_delete',
+                    tooltip:'Remove the selected item'
+                });
+                
+                // for enabling and disabling
+                var btns = tb.items.map;                
+                
+                this.westLayout.beginUpdate();
+                this.westLayout.add('center', new Ext.ContentPanel(sview, { 
+                    autoScroll:true,
+                    fitToFrame:true,
+                    toolbar: tb,
+                    resizeEl:'sbody'
+                }));
+                this.westLayout.endUpdate();
+                
+                var ctree = new Ext.tree.TreePanel('sbody', {
+                    animate:true,
+                    enableDD:true,
+                    containerScroll: true,
+                    lines:false,
+                    rootVisible:false,
+                    loader: new Ext.tree.TreeLoader()
+                });                
+                
+                //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
+                
+                var croot = new Ext.tree.AsyncTreeNode({
+                    allowDrag:false,
+                    allowDrop:true,
+                    id:'croot',
+                    text:'Sets',
+                    cls:'croot',
+                    loader:new Ext.tree.TreeLoader({
+                        dataUrl: this.setTreeUrl,
+                        createNode: readNode
+                    })
+                });
+                ctree.setRootNode(croot);
+                ctree.render();
+                croot.expand();                
+                
+                var sm = ctree.getSelectionModel();
+                sm.on('selectionchange', function(){
+                    var n = sm.getSelectedNode();
+                    if(!n){
+                        btns.remove.disable();
+                        btns.group.disable();
+                        return;
+                     }
+                     var a = n.attributes;
+                     btns.remove.setDisabled(!a.allowDelete);
+                     btns.group.setDisabled(!a.cmpId);
+                });                
+                
+                function readNode(o){
+                    createSet(o.id, o.text, o.groups);
+                }  
+                
+                // semi unique ids across edits
+                function guid(prefix){
+                    return prefix+(new Date().getTime());
+                }                
+                
+                
+                function addSet(){
+                    var id = guid('s-');
+                    var text = 'Set '+(++sseed);
+                    var node = createSet(id, text);
+                    node.expand(false, false);
+                    node.select();
+                    if (node.lastChild) {
+                        node.lastChild.ensureVisible();
+                    }
+                    ge.triggerEdit(node);
+                }                              
+                
+                function createSet(id, text, groups){
+                    var node = new Ext.tree.AsyncTreeNode({
+                        text: text,
+                        iconCls: 'set',
+                        cls: 'set',
+                        type:'fileCt',                        
+                        id: id,
+                        cmpId:id,
+                        allowDelete:true,
+                        children: groups||[],
+                        expanded:true,                       
+                        allowEdit:true
+                    });
+                    if (node.lastChild) {
+                        node.lastChild.ensureVisible();
+                    }
+                    croot.appendChild(node);
+                    return node;
+            }
+            
+            // create the editor for the component tree
+            var ge = new Ext.tree.TreeEditor(ctree, {
+                allowBlank:false,
+                blankText:'A name is required',
+                selectOnFocus:true
+            });            
+            
+            ge.on('beforestartedit', function(){
+                if(!ge.editNode.attributes.allowEdit){
+                    return false;
+                }
+            });       
+            
+            // add option handler
+            function addGroup(){
+                var n = sm.getSelectedNode();
+                if(n){
+                    createGroup(n, 'Group'+(++gseed));
+                    node.select();
+                    ge.triggerEdit(node);
+                }
+            }
+
+            function createGroup(n, text){
+                var cnode = ctree.getNodeById(n.attributes.cmpId);
+
+                var node = new Ext.tree.TreeNode({
+                    text: text,
+                    cmpId:cnode.id,
+                    iconCls:'folder',
+                    type:'fileCt',
+                    allowDelete:true,
+                    allowEdit:true,
+                    id:guid('o-')
+                });
+                cnode.childNodes[2].appendChild(node);
+                cnode.childNodes[2].expand(false, false);
+    
+                return node;
+            }                     
         },
 
         loadAttributeGrid : function(setId) {

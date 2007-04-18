@@ -64,3 +64,22 @@
     display:block;
     clear:none;
 }
+
+/*
+* Product Attributes
+*/
+
+.x-tree-node .sroot{
+    background:#c3daf9;
+}
+.x-tree-node img.set{
+    background-image:url(./ico/fam/plugin.png);
+}
+.x-tree-node div.set{
+    background:#eee url(./images/set-bg.gif) repeat-x;
+    margin-top:1px;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ccc;
+    padding-top:2px;
+    padding-bottom:1px;
+}
