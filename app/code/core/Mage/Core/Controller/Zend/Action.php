@@ -171,6 +171,8 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
     function norouteAction()
     {
         //$this->getResponse()->setHeader('HTTP/1.0 404 Not Found');
+        $this->loadLayout('front', array('default', 'noRoute'), 'noRoute');
         Mage::dispatchEvent('action_noRoute');
+        $this->renderLayout();
     }
 }

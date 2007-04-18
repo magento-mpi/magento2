@@ -205,7 +205,7 @@
 
    <front>
       <layouts>
-         <default_index_noRoute>
+         <noRoute>
             <updates>
                <core>
                   <module>Mage_Core</module>
@@ -213,7 +213,7 @@
                   <file>noRoute.xml</file>
                </core>
             </updates>
-         </default_index_noRoute>
+         </noRoute>
       </layouts>
 
    </front>
