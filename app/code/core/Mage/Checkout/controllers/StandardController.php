@@ -13,7 +13,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function indexAction()
     {
-        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shipping'));
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shipping')));
     }
     
     function shippingAction()
@@ -37,7 +37,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function shippingPostAction()
     {
-        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'payment'));
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'payment')));
     }
     
     function paymentAction()
@@ -50,7 +50,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function paymentPostAction()
     {
-        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'overview'));
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'overview')));
     }
     
     function overviewAction()
@@ -63,7 +63,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function overviewPostAction()
     {
-        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'checkout'));
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'checkout')));
     }
     
     function successAction()
