@@ -177,44 +177,6 @@
             <class>Mage_Core_Block_Admin_Js_Tree</class>
          </tree>
       </blockTypes>
-
-      <dataInputs>
-         <text>
-            <class>Mage_Core_Block_Form_Element_Text</class>
-
-            <code>Simple text</code>
-
-            <htmlParams>
-               <size>70</size>
-
-               <maxLength>255</maxLength>
-            </htmlParams>
-         </text>
-
-         <textarea>
-            <class>Mage_Core_Block_Form_Element_Textarea</class>
-
-            <code>Big text</code>
-
-            <htmlParams>
-               <cols>70</cols>
-
-               <rows>5</rows>
-            </htmlParams>
-         </textarea>
-
-         <select>
-            <class>Mage_Core_Block_Form_Element_Select</class>
-
-            <code>Dropdown</code>
-         </select>
-
-         <file>
-            <class>Mage_Core_Block_Form_Element_File</class>
-
-            <code>Upload file</code>
-         </file>
-      </dataInputs>
    </global>
 
    <admin>

@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Mysql4_Product
         $select = self::$_read->select();
         $select->from(self::$_productTable);
         
-        $attributes = $this->getAttributes($baseInfo['attribute_set_id']);
+        $attributes = $this->getAttributes($baseInfo['set_id']);
 
         foreach ($attributes as $attribute) {
             // Prepare join

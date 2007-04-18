@@ -31,13 +31,19 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     
     public function loadProductManufacturers()
     {
-        $manufacturers = Mage::getModel('catalog_resource','product_attribute_option')->getOptions(array('option_type'=>'manufacturer'));
+        $manufacturers = Mage::getModel('catalog','product_attribute')
+            ->loadByCode('manufacturer')
+            ->getOptions()
+                ->getHtmlOptions();
         $this->assign('manufacturers', $manufacturers);
     }
     
     public function loadProductTypes()
     {
-        $types = Mage::getModel('catalog_resource','product_attribute_option')->getOptions(array('option_type'=>'type'));
+        $types = Mage::getModel('catalog','product_attribute')
+            ->loadByCode('type')
+            ->getOptions()
+                ->getHtmlOptions();
         $this->assign('types', $types);
     }    
 }// Class Mage_Core_Block_List END

@@ -33,16 +33,19 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         }
         
         // check if attr exist
-        $attributes = Mage::getModel('catalog_resource','product_attribute_option')->getOptionsId(array('option_type'=>$attribute));
+        $arrOptionId = Mage::getModel('catalog','product_attribute')
+            ->loadByCode($attribute)
+            ->getOptions()
+                ->getArrItemId();
 
-        if (empty($attributes) || !is_array($attributes) || !in_array($value, $attributes)) {
+        if (empty($arrOptionId) || !in_array($value, $arrOptionId)) {
             $this->_redirect('noroute');
         }
         
         Mage::getBlock('catalog.leftnav')->assign($attribute, $value);
         
         $block = Mage::createBlock('catalog_search_result', 'search.byattribute');
-        $block->loadByAttribute($this->getRequest());
+        $block->loadByAttributeOption($this->getRequest());
         
         Mage::getBlock('content')->append($block);
         

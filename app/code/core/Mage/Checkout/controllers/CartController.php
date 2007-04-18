@@ -67,7 +67,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $quote = $this->_data['quote'];
 
-        $product = Mage::getModel('catalog_resource', 'product')->load($productId);
+        $product = Mage::getModel('catalog', 'product')->load($productId);
         $quote->addProduct($product->setQty($qty));
         
         $quoteSession = Mage::getSingleton('checkout', 'session');

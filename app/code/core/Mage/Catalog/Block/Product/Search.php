@@ -48,7 +48,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
     }
     
-    public function loadByAttribute(Zend_Controller_Request_Http $request)
+    public function loadByAttributeOption(Zend_Controller_Request_Http $request)
     {
         $this->setViewName('Mage_Catalog', 'search.attribute.phtml');
         
@@ -68,7 +68,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             ->loadData();
 
         $this->assign('productCollection', $prodCollection);
-        $this->assign('optionName', Mage::getModel('catalog_resource', 'product_attribute_option')->getOptionValue($attributeValue));
+        $this->assign('option', Mage::getModel('catalog', 'product_attribute_option')->load($attributeValue));
 
         $pageUrl = clone $request;
         $this->assign('pageUrl', $pageUrl);

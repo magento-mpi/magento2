@@ -7,7 +7,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      * Create new product dialog form
      *
      */
-    public function newoptionAction()
+    public function createAction()
     {
         $form = Mage::createBlock('admin_catalog_product_create_option', 'product_create_option');
         $this->getResponse()->setBody($form->toString());

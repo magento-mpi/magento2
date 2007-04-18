@@ -21,52 +21,15 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
         self::$_write = Mage::registry('resources')->getConnection('catalog_write');
     }
     
-    /**
-     * Insert row in database table
-     *
-     * @param   array $data
-     * @return  int || false
-     */
-    public function insert($data)
-    {
-        if (self::$_write->insert($this->_attributeTable, $data)) {
-            return self::$_write->lastInsertId();
-        }
-        return false;
-    }
-    
-    /**
-     * Update row in database table
-     *
-     * @param   array $data
-     * @param   int   $rowId
-     * @return  int
-     */
-    public function update($data, $rowId)
-    {
-        $condition = self::$_write->quoteInto('attribute_id=?', $rowId);
-        return self::$_write->update($this->_attributeTable, $data, $condition);
-    }
-    
-    /**
-     * Delete row from database table
-     *
-     * @param   int $rowId
-     */
-    public function delete($rowId)
-    {
-        $condition = self::$_write->quoteInto('attribute_id=?', $rowId);
-        return self::$_write->delete($this->_attributeTable, $condition);
-    }
-    
-    /**
-     * Get row from database table
-     *
-     * @param   int $rowId
-     */
-    public function getRow($rowId)
+    public function load($attributeId)
     {
         $sql = "SELECT * FROM $this->_attributeTable WHERE attribute_id=:attribute_id";
-        return self::$_read->fetchRow($sql, array('attribute_id'=>$rowId));
+        return self::$_read->fetchRow($sql, array('attribute_id'=>$attributeId));
+    }    
+
+    public function loadByCode($attributeCode)
+    {
+        $sql = "SELECT * FROM $this->_attributeTable WHERE attribute_code=:attribute_code";
+        return self::$_read->fetchRow($sql, array('attribute_code'=>$attributeCode));
     }    
 }

@@ -451,7 +451,7 @@ Mage.Catalog_Product = function(depend){
                 var mgr = new Ext.UpdateManager(this.newItemDialog.body);
                 mgr.on('update', function(){sbmt.enable()});
                 //this.newItemDialog.on('show', function(){mgr.update(Mage.url + '/mage_catalog/product/newoption/')})
-                mgr.update(Mage.url + '/mage_catalog/product/newoption/');
+                mgr.update(Mage.url + '/mage_catalog/product/create/');
             }
             this.newItemDialog.show(menuItem.getEl().dom);
 

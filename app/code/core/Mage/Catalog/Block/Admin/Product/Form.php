@@ -9,7 +9,6 @@
  */
 class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
 {
-    protected $_group;
     protected $_dataInputs;
     protected $_dataSources;
     
@@ -32,14 +31,10 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $setId    = Mage::registry('controller')->getRequest()->getParam('set', false);
         $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
         $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
-        
-        if ($groupId) {
-            $this->_group = Mage::getModel('catalog_resource', 'product_attribute_group')->get($groupId);
-            if ($this->_group) {
-                $this->setAttribute('legend', $this->_group['product_attribute_group_code']);
-                $this->setAttribute('id', 'form_'.$groupId);
-            }
-        }
+
+        $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
+        $this->setAttribute('legend', $group->getCode());
+        $this->setAttribute('id', 'form_'.$groupId);
         
         if ($isDefault) {
             $this->addField('product_id', 'hidden',
@@ -51,14 +46,14 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             );
             $this->addField('attribute_set_id', 'hidden',
                 array(
-                    'name'  => 'attribute_set_id',
+                    'name'  => 'set_id',
                     'value' => $setId,
-                    'id'    => 'attribute_set_id'
+                    'id'    => 'set_id'
                 )
             );
         }
         
-        $attributes = Mage::getModel('catalog_resource', 'product_attribute_group')->getAttributes($groupId, $setId);
+        $attributes = $group->getAttributesBySet($setId);
         foreach ($attributes as $attribute) {
             $this->attribute2field($attribute);
         }
@@ -72,21 +67,21 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
     
     public function attribute2field($attribute)
     {
-        $elementId      = $attribute['attribute_code'];
-        $elementType    = $attribute['data_input'];
+        $elementId      = $attribute->getCode();
+        $elementType    = $attribute->getDataInput();
         
         $elementConfig  = array();
-        $elementConfig['name'] = 'attribute['.$attribute['attribute_id'].']';
-        $elementConfig['label']= $attribute['attribute_code'];
-        $elementConfig['id']   = $attribute['attribute_code'];
+        $elementConfig['name'] = 'attribute['.$attribute->getId().']';
+        $elementConfig['label']= $attribute->getCode();
+        $elementConfig['id']   = $attribute->getCode();
         $elementConfig['value']= '';
-        $elementConfig['title']= $attribute['attribute_code'];
+        $elementConfig['title']= $attribute->getCode();
         $elementConfig['validation']= '';
         $elementConfig['ext_type']  = 'TextField';
         
         // Parse input element params
-        if (isset($this->_dataInputs[$attribute['data_input']])) {
-            $htmlParams = (array) $this->_dataInputs[$attribute['data_input']];
+        if (isset($this->_dataInputs[$attribute->getDataInput()])) {
+            $htmlParams = (array) $this->_dataInputs[$attribute->getDataInput()];
             $htmlParams = isset($htmlParams['htmlParams']) ? (array) $htmlParams['htmlParams'] : array();
             foreach ($htmlParams as $paramName=>$paramValue) {
                 if (!isset($elementConfig[$paramName])) {
@@ -95,11 +90,13 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             }
         }
         
+        // TODO:
         // Parse option values
-        if (isset($this->_dataSources[$attribute['data_source']])) {
-            $dataSource = (array) $this->_dataSources[$attribute['data_source']];
+        if (isset($this->_dataSources[$attribute->getDataSource()])) {
+            $dataSource = (array) $this->_dataSources[$attribute->getDataSource()];
             $elementConfig['ext_type']  = 'ComboBox';
-            $elementConfig['values'] = Mage::getModel('catalog_resource', $dataSource['model'])->$dataSource['method']((array) $dataSource['params']);
+            
+            $elementConfig['values'] = $attribute->getOptions()->getHtmlOptions();
         }
                 
         $this->addField($elementId, $elementType, $elementConfig);

@@ -28,14 +28,25 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
     /**
      * Add filter by product attribute set id
      *
-     * @param int $attributeSetId
+     * @param int $setId
      */
-    public function addSetFilter($attributeSetId)
+    public function addSetFilter($setId)
     {
-        $this->addFilter("$this->_attributeInSetTable.product_attribute_set_id", $attributeSetId);
+        $this->addFilter("$this->_attributeInSetTable.set_id", $setId);
         return $this;
     }
     
+    /**
+     * Add filter by product attribute group id
+     *
+     * @param int $attributeSetId
+     */
+    public function addGroupFilter($groupId)
+    {
+        $this->addFilter("$this->_attributeInSetTable.group_id", $groupId);
+        return $this;
+    }
+
     public function getItemByCode($attributeCode)
     {
         foreach ($this as $attribute) {

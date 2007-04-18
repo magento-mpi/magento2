@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.1.8</version>
+         <version>0.1.9</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -131,10 +131,6 @@
                <product_attribute_option>
                   <table>catalog_product_attribute_option</table>
                </product_attribute_option>
-
-               <product_attribute_option_type>
-                  <table>catalog_product_attribute_option_type</table>
-               </product_attribute_option_type>
 
                <product_link>
                   <table>catalog_product_link</table>

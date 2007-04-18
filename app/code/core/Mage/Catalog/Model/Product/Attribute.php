@@ -14,9 +14,25 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         parent::__construct($data);
     }
     
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('catalog_resource', 'product_attribute');
+        }
+        return $resource;
+    }
+
     public function load($attributeId)
     {
-        
+        $this->setData($this->getResource()->load($attributeId));
+        return $this;
+    }
+    
+    public function loadByCode($attributeCode)
+    {
+        $this->setData($this->getResource()->loadByCode($attributeCode));
+        return $this;
     }
     
     public function getId()
@@ -77,5 +93,13 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
             );
         }
         return $columns;
+    }
+    
+    public function getOptions()
+    {
+        $collection = Mage::getModel('catalog_resource', 'product_attribute_option_collection')
+            ->addAttributeFilter($this->getId())
+            ->load();
+        return $collection;
     }
 }
