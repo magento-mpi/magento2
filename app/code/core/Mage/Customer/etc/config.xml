@@ -6,15 +6,7 @@
          <depends>
             <Mage_Page />
          </depends>
-
-         <front>
-            <controller>
-               <active>true</active>
-
-               <frontName>customer</frontName>
-            </controller>
-         </front>
-
+         
          <admin>
             <controller>
                <active>true</active>
@@ -128,6 +120,16 @@
             </observers>
          </action_postDispatch>
       </events>
+      
+      <routers>
+         <customer>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+                <module>Mage_Customer</module>
+                <frontName>customer</frontName>
+            </args>
+         </customer>
+      </routers>
    </front>
    
    <admin>

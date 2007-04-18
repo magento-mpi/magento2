@@ -74,13 +74,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
 
         $moduleViewsDir = Mage::getBaseDir('views', $moduleName);
-        $moduleBaseUrl = Mage::getBaseUrl('', $moduleName);
-        $moduleBaseSkinUrl = Mage::getBaseUrl('skin', $moduleName);
 
         $this->assign('baseUrl', Mage::getBaseUrl());
-        $this->assign('moduleBaseUrl', $moduleBaseUrl);
-        $this->assign('moduleImagesUrl', $moduleBaseSkinUrl . '/images');
-        $this->assign('moduleSkinUrl', $moduleBaseSkinUrl);
+        $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
+        $this->assign('baseJsUrl', Mage::getBaseUrl(array('_type'=>'js')));
         $this->assign('moduleViewsDir', $moduleViewsDir);
         $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
         $this->assign('currentBlock', $this);

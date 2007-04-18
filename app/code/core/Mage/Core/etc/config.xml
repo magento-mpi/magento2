@@ -38,6 +38,10 @@
 
       <models>
          <core>
+            <class>Mage_Core_Model</class>
+         </core>
+         
+         <core_resource>
             <class>Mage_Core_Model_Mysql4</class>
 
             <entities>
@@ -93,11 +97,7 @@
                   <table>core_data_change_info</table>
                </data_change_info>
             </entities>
-         </core>
-         
-         <core_model>
-            <class>Mage_Core_Model</class>
-         </core_model>
+         </core_resource>
       </models>
 
       <blockTypes>

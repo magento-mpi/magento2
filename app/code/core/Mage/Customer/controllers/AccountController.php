@@ -14,7 +14,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^[create|forgotpassword]#', $action)) {
+        if (!preg_match('#^(create|forgotpassword)#', $action)) {
             if (!Mage::getSingleton('customer_model', 'session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -47,15 +47,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         // if customer logged in
         if (Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
-            $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+            $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
         }
         
         $countries = Mage::getModel('directory', 'country_collection');
-        $data = Mage::getSingleton('customer_model', 'session')->getData(true);
+        $data = Mage::getSingleton('customer_model', 'session')->getCustomerFormData(true);
 
         $block = Mage::createBlock('tpl', 'customer.regform')
             ->setViewName('Mage_Customer', 'form/registration.phtml')
-            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer') . '/account/createPost/')
+            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'createPost')))
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
             ->assign('data',        $data)
@@ -83,28 +83,28 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS001'));
                 
-                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer_model', 'session')
-                    ->setData($this->getRequest()->getPost())
+                    ->setCustomerFormData($this->getRequest()->getPost())
                     ->addMessages($e->getMessages());
             }
         }
         
-        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/create/');
+        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create')));
     }
     
     public function editAction()
     {
-        $data = Mage::getSingleton('customer_model', 'session')->getData(true);
+        $data = Mage::getSingleton('customer_model', 'session')->getCustomerFormData(true);
         if ($data->isEmpty()) {
             $data = Mage::getSingleton('customer_model', 'session')->getCustomer();
         }
         
         $block = Mage::createBlock('tpl', 'customer.edit')
             ->setViewName('Mage_Customer', 'form/edit.phtml')
-            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer').'/account/editPost/')
+            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'editPost')))
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
@@ -123,15 +123,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS002'));
                 
-                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer_model', 'session')
-                    ->setData($this->getRequest()->getPost())
+                    ->setCustomerFormData($this->getRequest()->getPost())
                     ->addMessages($e->getMessages());
             }
         }
-        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/edit/');
+        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'edit')));
     }
     
     /**
@@ -142,7 +142,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $block = Mage::createBlock('tpl', 'customer.changepassword')
             ->setViewName('Mage_Customer', 'form/changepassword.phtml')
-            ->assign('action',      Mage::getBaseUrl('', 'Mage_Customer').'/account/changePasswordPost/')
+            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost')))
             ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
@@ -159,7 +159,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer_model', 'session')
                     ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS003'));
                 
-                $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer') . '/account/');
+                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer_model', 'session')
@@ -167,7 +167,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->_redirect(Mage::getBaseUrl('', 'Mage_Customer').'/account/changePassword/');
+        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword')));
     }
     
     /**

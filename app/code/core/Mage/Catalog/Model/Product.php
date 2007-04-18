@@ -49,14 +49,13 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getLink()
     {
-        $url = Mage::getBaseUrl().'/catalog/product/view/id/'.$this->getId();
+        $url = Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$this->getId()));
         return $url;
     }
     
     public function getCategoryLink()
     {
-        // TODO : default category id attribute
-        $url = Mage::getBaseUrl().'/catalog/category/view/id/3';
+        $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getDefaultCategoryId()));
         return $url;
     }
     
@@ -65,11 +64,6 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         // TODO : default category id attribute
         $category = Mage::getModel('catalog', 'category_tree')->getNode(3);
         return $category->getData('attribute_value');
-    }
-    
-    public function getLargeImageLink()
-    {
-        return Mage::getBaseUrl().'/catalog/product/image/id/'.$this->getProductId();
     }
     
     public function getTierPrice($qty=1)

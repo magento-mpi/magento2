@@ -3,7 +3,7 @@
     <div class="category-nav">
         <ul class="categories">
             <?foreach ($categories as $_item):?>
-                <li><a href="<?=$baseUrl?>/catalog/category/view/id/<?=$_item['id']?>/" <?if (!empty($currentCategoryId) && $_item['id']==$currentCategoryId):?> class="active"<?endif?>><?=$_item['title']?></a></li>
+                <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_item['id']?>/" <?if (!empty($currentCategoryId) && $_item['id']==$currentCategoryId):?> class="active"<?endif?>><?=$_item['title']?></a></li>
             <?endforeach?>
         </ul>
     </div>
@@ -28,6 +28,6 @@
 </div>
 <script type="text/javascript">
 function productBy(attribute, element){
-    location.href = '<?=$baseUrl?>/catalog/search/by/attr/'+attribute+'/value/'+element.value+'/';
+    location.href = '<?=$baseUrl?>catalog/search/by/attr/'+attribute+'/value/'+element.value+'/';
 }
 </script>

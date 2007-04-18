@@ -10,10 +10,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         parent::_construct();
-        
-        $this->_data['url']['base'] = Mage::getBaseUrl();
-        $this->_data['url']['cart'] = Mage::getBaseUrl('', 'Mage_Checkout').'/cart/';
-        $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/';
 
         $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
@@ -21,7 +17,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if (!$this->_quote->hasItems()) {
             $this->setFlag('', 'no-renderLayout', true);
             $this->setFlag('', 'no-dispatch', true);
-            $this->_redirect($this->_data['url']['cart']);
+            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
         }
         
         foreach (array('status', 'shippingMethod', 'getAddress', 'saveBilling', 'savePayment', 'saveShipping', 'saveShippingMethod', 'saveOrder') as $action) {

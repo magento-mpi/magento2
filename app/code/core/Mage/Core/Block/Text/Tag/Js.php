@@ -23,9 +23,9 @@ class Mage_Core_Block_Text_Tag_Js extends Mage_Core_Block_Text_Tag
         ));
     }
     
-    function setSrc($src, $locate='js')
+    function setSrc($src, $type='js')
     {
-        $url = Mage::getBaseUrl($locate).$src;
+        $url = Mage::getBaseUrl(array('_type'=>$type)).$src;
         return $this->setTagParam('src', $url);
     }
 }// Class Mage_Core_Block_List END

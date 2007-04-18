@@ -12,7 +12,7 @@ class Mage_Core_Model_Mysql4_Resource
     
     public function __construct()
     {
-        self::$_resTable = Mage::registry('resources')->getTableName('core', 'resource');
+        self::$_resTable = Mage::registry('resources')->getTableName('core_resource', 'resource');
         self::$_read = Mage::registry('resources')->getConnection('core_read');
         self::$_write = Mage::registry('resources')->getConnection('core_write');
     }
@@ -27,7 +27,7 @@ class Mage_Core_Model_Mysql4_Resource
     {
         // if Core module not instaled
         try {
-            $select = self::$_read->select()->from(self::$_resTable)
+            $select = self::$_read->select()->from(self::$_resTable, 'resource_db_version')
                 ->where(self::$_read->quoteInto('resource_name=?', $resName));
             $dbVersion = self::$_read->fetchOne($select);
         }

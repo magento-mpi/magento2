@@ -6,11 +6,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     protected function _construct()
     {
-        $this->_data['url']['base'] = Mage::getBaseUrl();
-        $this->_data['url']['catalog'] = Mage::getBaseUrl('', 'Mage_Catalog').'/';
-        $this->_data['url']['cart'] = Mage::getBaseUrl('', 'Mage_Checkout').'/cart/';
-        $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/';
-        
         $this->_data['params'] = $this->getRequest()->getParams();
        
         $this->_data['quote'] = Mage::getSingleton('checkout', 'session')->getQuote();
@@ -75,7 +70,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         Mage::getSingleton('checkout', 'session')->setQuoteId($quote->getQuoteId());
         
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
     
     function updatePostAction()
@@ -86,7 +81,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         $this->_data['quote']->updateItems($cart)->save();
 
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
     
     function cleanAction()
@@ -101,7 +96,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_data['quote']->estimateShippingMethods();
         $this->_data['quote']->save();
         
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
     
     function estimateUpdatePostAction()
@@ -118,7 +113,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
     
     function couponPostAction()
@@ -131,7 +126,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
         
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
     
     public function giftCertPostAction()
@@ -144,6 +139,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         $this->_data['quote']->setGiftcertCode($giftCode)->collectTotals()->save();
         
-        $this->_redirect($this->_data['url']['cart']);
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }
 }

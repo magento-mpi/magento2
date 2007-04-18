@@ -15,7 +15,7 @@ class Mage_Customer_Front
         if (Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
             Mage::getBlock('top.links')
                 ->append(Mage::createBlock('list_link', 'top.links.logout')
-                    ->setLink('', 'href="'.Mage::getBaseUrl('','Mage_Customer').'/account/logout/"', 'Logout', ''))
+                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''))
                 ->insert(Mage::createBlock('tag', 'top.links.welcome')
                     ->setTagName('strong')
                     ->setContents('Welcome, ' . Mage::getSingleton('customer_model', 'session')->getCustomer()->getName()));

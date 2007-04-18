@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=$baseUrl?>/js/varien/telephone.js"></script>
-<script type="text/javascript" src="<?=$baseUrl?>/js/varien/accordion.js"></script>
+<script type="text/javascript" src="<?=$baseJsUrl?>/varien/telephone.js"></script>
+<script type="text/javascript" src="<?=$baseJsUrl?>/varien/accordion.js"></script>
 <script type="text/javascript">
 var Checkout = Class.create();
 Checkout.prototype = {
@@ -12,11 +12,11 @@ Checkout.prototype = {
     }, 
     
     reloadStatusBlock: function(){
-        var updater = new Ajax.Updater('column-left', '<?=$moduleBaseUrl?>/onepage/status/', {method: 'get'});
+        var updater = new Ajax.Updater('column-left', '<?=$baseUrl?>checkout/onepage/status/', {method: 'get'});
     },
     
     reloadShippingMethodBlock: function(){
-    	var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$moduleBaseUrl?>/onepage/shippingMethod/', {method: 'get'});
+    	var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$baseUrl?>checkout/onepage/shippingMethod/', {method: 'get'});
     },
 
     setType: function(){

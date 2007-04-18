@@ -2,10 +2,10 @@
 <layoutUpdate>
     <reference name="jscripts">
         <block type="tag_js" name="jscripts.js.customer">
-            <action method="setSrc"><src>/magenta/customer.js</src></action>
+            <action method="setSrc"><src>magenta/customer.js</src></action>
         </block>
         <block type="tag_js" name="jscripts.js.customer.menu">
-            <action method="setSrc"><src>/magenta/customer/menu.js</src></action>
+            <action method="setSrc"><src>magenta/customer/menu.js</src></action>
         </block>
     </reference>
 </layoutUpdate>

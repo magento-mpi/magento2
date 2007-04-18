@@ -1,28 +1,17 @@
 <?php
 
-class Mage_Checkout_Model_Session extends Varien_Data_Object
+class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 {
-    protected $_session = null;
     protected $_quote = null;
     
     public function __construct()
     {
-        $this->_session = new Zend_Session_Namespace('checkout', Zend_Session_Namespace::SINGLE_INSTANCE);
-    }
-    
-    public function setData($var, $value='', $isChanged=true)
-    {
-        $this->_session->$var = $value;
-    }
-    
-    public function getData($var='', $index=false)
-    {
-        return $this->_session->$var;
+        $this->init('checkout');
     }
 
     public function unsetAll()
     {
-        $this->_session->unsetAll();
+        parent::unsetAll();
         $this->_quote = null;
     }
     

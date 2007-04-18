@@ -10,7 +10,7 @@ Billing.prototype = {
     setAddress: function(addressId){
         if (addressId) {
             request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/getAddress/address/'+addressId,
+                '<?=$baseUrl?>checkout/onepage/getAddress/address/'+addressId,
                 {
                     method:'get',
                     onSuccess: this.onAddressLoad
@@ -55,7 +55,7 @@ Billing.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/saveBilling/',
+                '<?=$baseUrl?>checkout/onepage/saveBilling/',
                 {
                     method:'post',
                     onSuccess: this.onSave,

@@ -4,19 +4,19 @@
         <li><strong>Page</strong></li>
         <?if ($productCollection->getCurPage() != 1):?>
         <li>
-            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(-1))->buildUrl()?>">«</a>
+            <a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">«</a>
         </li>
         <?endif?>
         <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
         <?if ($i == $productCollection->getCurPage()):?>
             <li><strong><?=$i?></strong>&nbsp;|</li>
         <?else:?>
-            <li><a href="<?=$pageUrl->setParam('p', $i)->buildUrl()?>"><?=$i?></a>&nbsp;|</li>
+            <li><a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
         <?endif?>
         <?endfor?>
         <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
         <li>
-            <a href="<?=$pageUrl->setParam('p', $productCollection->getCurPage(1))->buildUrl()?>">»</a>
+            <a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">»</a>
         </li>
         <?endif?>
         <li>
@@ -25,8 +25,8 @@
     </ul>
     <span class="sort-by">
         Sort by: 
-        <a href="<?=$sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->buildUrl()?>">Name</a> | 
-        <a href="<?=$sortUrl->setParam('order', 'price')->buildUrl()?>">Price</a>
+        <a href="<?=Mage::getUrl('catalog', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>">Name</a> | 
+        <a href="<?=Mage::getUrl('catalog', $sortUrl->setParam('order', 'price')->getParams())?>">Price</a>
     </span>
     <div class="clearfix"></div>
 </div>

@@ -10,7 +10,7 @@ ShippingMethod.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/saveShippingMethod/',
+                '<?=$baseUrl?>checkout/onepage/saveShippingMethod/',
                 {
                     method:'post',
                     onSuccess: this.onSave,

@@ -45,7 +45,7 @@ class Mage_Core_Resource_Setup
     
     public function applyUpdates()
     {
-        $dbVer = Mage::getModel('core', 'resource')->getDbVersion($this->_resourceName);
+        $dbVer = Mage::getModel('core_resource', 'resource')->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
 
         // Module is installed
@@ -80,7 +80,7 @@ class Mage_Core_Resource_Setup
     protected function _installResourceDb($version)
     {
         $this->_modifyResourceDb('install', '', $version);
-        Mage::getModel('core', 'resource') -> setDbVersion($this->_resourceName, $version);
+        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $version);
     }
 
     /**
@@ -92,7 +92,7 @@ class Mage_Core_Resource_Setup
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb('upgrade', $oldVersion, $newVersion);
-        Mage::getModel('core', 'resource') -> setDbVersion($this->_resourceName, $newVersion);
+        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $newVersion);
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Core_Resource_Setup
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
         $this->_modifyResourceDb('rollback', $newVersion, $oldVersion);
-        Mage::getModel('core', 'resource') -> setDbVersion($this->_resourceName, $oldVersion);
+        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $oldVersion);
     }
 
     /**
@@ -120,7 +120,7 @@ class Mage_Core_Resource_Setup
     protected function _uninstallResourceDb($version)
     {
         $this->_modifyResourceDb('uninstall', $version, '');
-        Mage::getModel('core', 'resource') -> setDbVersion($this->_resourceName);
+        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName);
 
     }
 

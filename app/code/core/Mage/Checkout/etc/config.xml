@@ -6,13 +6,6 @@
          <depends>
             <Mage_Sales />
          </depends>
-         <front>
-          <controller>
-             <active>true</active>
-    
-             <frontName>checkout</frontName>
-          </controller>
-          </front>
       </Mage_Checkout>
    </modules>
 
@@ -96,6 +89,16 @@
          <cart_view>checkout/cart</cart_view>
          <checkout_start>checkout</checkout_start>
       </urls>
+      
+      <routers>
+         <checkout>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+                <module>Mage_Checkout</module>
+                <frontName>checkout</frontName>
+            </args>
+         </checkout>
+      </routers>
    </front>
 </config>
 

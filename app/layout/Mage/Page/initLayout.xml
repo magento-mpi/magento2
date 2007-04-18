@@ -2,7 +2,7 @@
 <layoutUpdate>
     <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Page</module><view>layout.2column.phtml</view></action>
-        <action method="assign"><var>imagesUrl</var><value>{baseSkinUrl}/default/images</value></action>
+        <action method="assign"><var>imagesUrl</var><value>{baseSkinUrl}default/images</value></action>
         
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
@@ -12,32 +12,32 @@
             <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}/favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
             <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}/favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
             <block type="tag_js" name="head.js.prototype">
-                <action method="setSrc"><src>/prototype/prototype.js</src></action>
+                <action method="setSrc"><src>prototype/prototype.js</src></action>
             </block>
             <block type="tag_js" name="head.js.prototype.validation">
-                <action method="setSrc"><src>/prototype/validation.js</src></action>
+                <action method="setSrc"><src>prototype/validation.js</src></action>
             </block>
             <block type="tag_js" name="head.js.prototype.effects">
-                <action method="setSrc"><src>/scriptaculous/effects.js</src></action>
+                <action method="setSrc"><src>scriptaculous/effects.js</src></action>
             </block>
             <block type="tag_js" name="head.js.varien">
-                <action method="setSrc"><src>/varien/js.js</src></action>
+                <action method="setSrc"><src>varien/js.js</src></action>
             </block>
             <block type="tag_js" name="head.js.varien.form">
-                <action method="setSrc"><src>/varien/form.js</src></action>
+                <action method="setSrc"><src>varien/form.js</src></action>
             </block>
             <block type="tag_css" name="head.css.main">
-                <action method="setHref"><href>/css/styles.css</href></action>
+                <action method="setHref"><href>css/styles.css</href></action>
             </block>
         </block>
         

@@ -9,6 +9,6 @@ class Mage_Checkout_IndexController extends Mage_Core_Controller_Front_Action
             return;
         }*/
         Mage::getSingleton('customer_model', 'session')->authenticate($this);
-        $this->_redirect(Mage::getbaseUrl('', 'Mage_Checkout').'/onepage/');
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'onepage')));
     }
 }

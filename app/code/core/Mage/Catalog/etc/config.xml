@@ -7,16 +7,6 @@
             <Mage_Page />
          </depends>
 
-         <front>
-            <controller>
-               <active>true</active>
-
-               <frontName>catalog</frontName>
-
-               <default>true</default>
-            </controller>
-         </front>
-
          <admin>
             <controller>
                <active>true</active>
@@ -259,6 +249,17 @@
             </updates>
          </default>
       </layouts>
+      
+      <routers>
+         <catalog>
+            <default>true</default>
+            <class>Mage_Catalog_Router</class>
+            <args>
+                <module>Mage_Catalog</module>
+                <frontName>catalog</frontName>
+            </args>
+         </catalog>
+      </routers>
    </front>
 
    <admin>

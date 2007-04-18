@@ -1,7 +1,7 @@
 <div class="step-body">
     <h4>Login</h4>
     <div class="note-box">
-    <form action="<?=$moduleBaseUrl?>" method="post">
+    <form action="<?=$baseUrl?>checkout" method="post">
         <fieldset>
         <p>
             <strong>Already Registered?</strong><br/>
@@ -20,7 +20,7 @@
                     <label for="password">Password</label></br>
                     <input type="password" class="input-text" id="password" name="login[password]" />
                 </div>
-                <div class="input-right" style="padding-top:20px;"><a href="<?=Mage::getBaseUrl('', 'Mage_Customer')?>/account/forgotpassword/">Forgot your password?</a></div>
+                <div class="input-right" style="padding-top:20px;"><a href="<?=Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword'))?>">Forgot your password?</a></div>
                 <div class="clearfix"></div>
             </li>
         </ul>

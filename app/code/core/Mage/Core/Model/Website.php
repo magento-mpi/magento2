@@ -12,7 +12,11 @@ class Mage_Core_Model_Website extends Varien_Data_Object
         
     public function load($website)
     {
-        $this->setData(Mage::getModel('core_resource', 'website')->load($website));
+        $row = Mage::getModel('core_resource', 'website')->load($website);
+        if (!empty($row)) {
+            $this->setData($row);
+        }
+        return $this;
     }
     
     public function getConfig()
@@ -29,13 +33,13 @@ class Mage_Core_Model_Website extends Varien_Data_Object
         return 1;
     }
 
+    public function getLanguage()
+    {
+        return $this->getLanguageCode();
+    }
+    
     public function getDomain()
     {
         return (string)$this->getConfig()->group;
-    }
-
-    public function getLanguage()
-    {
-        return (string)$this->getConfig()->language;
     }
 }

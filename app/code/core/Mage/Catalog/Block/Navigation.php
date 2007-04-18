@@ -9,13 +9,6 @@
  */
 class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
-    function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
-        
-        //$this->assign('base_url', Mage::getBaseUrl());
-    }
-    
     function loadCategories($parent)
     {
         $categoryTree = Mage::getModel('catalog','category_tree')->getLevel($parent);

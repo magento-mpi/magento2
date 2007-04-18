@@ -23,9 +23,9 @@ class Mage_Core_Block_Text_Tag_Css extends Mage_Core_Block_Text_Tag
         ));
     }
     
-    function setHref($href, $locate='skin')
+    function setHref($href, $type='skin')
     {
-        $url = Mage::getBaseUrl($locate).$href;
+        $url = Mage::getBaseUrl(array('_type'=>$type)).$href;
         return $this->setTagParam('href', $url);
     }
 }// Class Mage_Core_Block_List END

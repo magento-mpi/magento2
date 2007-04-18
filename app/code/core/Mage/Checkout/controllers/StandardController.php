@@ -7,16 +7,13 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     protected function _construct()
     {
         parent::_construct();
-        
-        $this->_data['url']['base'] = Mage::getBaseUrl();
-        $this->_data['url']['checkout'] = Mage::getBaseUrl('', 'Mage_Checkout').'/standard';
-        
+
         $this->_data['params'] = $this->getRequest()->getParams();
     }
     
     function indexAction()
     {
-        $this->_redirect($this->_data['url']['checkout'].'/shipping');
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shipping'));
     }
     
     function shippingAction()
@@ -34,13 +31,13 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
             ->setViewName('Mage_Checkout', 'shipping.phtml')
             ->assign('data', $this->_data)
             ->assign('address', $address)
-            ->assign('action', Mage::getBaseUrl('', 'Mage_Checkout').'/standard/shippingPost/');
+            ->assign('action', Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shippingPost')));
         Mage::getBlock('content')->append($block);
     }
     
     function shippingPostAction()
     {
-        $this->_redirect($this->_data['url']['checkout'].'/payment');
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'payment'));
     }
     
     function paymentAction()
@@ -53,7 +50,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function paymentPostAction()
     {
-        $this->_redirect($this->_data['url']['checkout'].'/overview');
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'overview'));
     }
     
     function overviewAction()
@@ -66,7 +63,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function overviewPostAction()
     {
-        $this->_redirect($this->_data['url']['checkout'].'/success');
+        $this->_redirect(Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'checkout'));
     }
     
     function successAction()

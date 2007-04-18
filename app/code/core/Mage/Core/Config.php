@@ -123,7 +123,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function loadFromDb()
     {
         try{
-            Mage::getModel('core', 'config')->updateXmlFromDb($this->_xml);
+            Mage::getModel('core_resource', 'config')->updateXmlFromDb($this->_xml);
         }
         catch (Exception $e) {
             
@@ -262,46 +262,65 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return $dir;
     }
     
-    /**
-     * Get base URL path. depends on $type
-     * 
-     * If $moduleName is specified retrieves specific value for the module.
-     *
-     * @param string $type
-     * @param string $moduleName
-     * @return string
-     */
-    function getBaseUrl($type='', $moduleName='')
+    public function getBaseUrl($params=array())
     {
-        if (''!==$moduleName) {
-            $module = $this->getModule($moduleName);
-            $url = $this->getBaseUrl($type);
-            
-            switch ($type) {
-                default:
-                    if (isset($module->front->controller->frontName)) {
-                        $url .= '/'.(string)$module->front->controller->frontName;
-                    } else {
-                        $url .= '/'.strtolower($moduleName);
-                    }
-                    break;
-            }
-        } else {
-            $url = Mage::registry('controller')->getRequest()->getBaseAppUrl();
-
-            switch ($type) {
+        if (empty($params['_website'])) {
+            $params['_website'] = Mage::getSingleton('core', 'session')->getWebsite()->getWebsiteCode();
+        }
+        $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
+        $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
+        
+        $protocol = (string)$urlConfig->protocol;
+        $host = (string)$urlConfig->host;
+        $port = (int)$urlConfig->port;
+        $basePath = (string)$urlConfig->basePath;
+        
+        $url = $protocol.'://'.$host;
+        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+        $url .= empty($basePath) ? '/' : $basePath;
+        
+        if (isset($params['_type'])) {
+            switch ($params['_type']) {
                 case 'skin':
-                    $url .= '/skins/default';
+                    $url .= 'skins/default/';
                     break;
     
                 case 'js':
-                    //$url = preg_replace('#/admin$#', '', $url).'/js';
-                    $url .= '/js';
-                    break;                
+                    $url .= 'js/';
+                    break;       
             }
         }
         
         return $url;
+    }
+    
+    
+    public function getRouterInstance($routerName='', $singleton=true)
+    {
+        $routers = $this->getXml()->front->routers;
+        if (!empty($routerName)) {
+            $routerConfig = $routers->$routerName;
+        } else {
+            foreach ($routers as $routerConfig) {
+                if ($routerConfig->is('default')) {
+                    break;
+                }
+            }
+        }
+        $className = $routerConfig->getClassName();
+        $constructArgs = $routerConfig->args;
+        if (!$className) {
+            $className = 'Mage_Core_Controller_Front_Router';
+        }
+        if ($singleton) {
+            $regKey = '_singleton_router_'.$routerName;
+            if (!Mage::registry($regKey)) {
+                Mage::register($regKey, new $className($constructArgs));
+            }
+            return Mage::registry($regKey);
+        } else {
+            return new $className($constructArgs);
+        }
     }
     
     /**
@@ -339,21 +358,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $path = array();
         
         $path['baseUrl'] = Mage::getBaseUrl();
-        $path['baseSkinUrl'] = Mage::getBaseUrl('skin');
-        $path['baseJsUrl'] = Mage::getBaseUrl('js');
-        
-        if(is_array($args)) {
-            $moduleName = isset($args['moduleName']) ? $args['moduleName'] : '';
-        }
-        else {
-            $moduleName = $args;
-        }
-        
-        if (!empty($moduleName)) {
-            $path['moduleBaseUrl'] = $this->getBaseUrl('', $moduleName);
-        } else {
-            $path['moduleBaseUrl'] = '';
-        }
+        $path['baseSkinUrl'] = Mage::getBaseUrl(array('_type'=>'skin'));
+        $path['baseJsUrl'] = Mage::getBaseUrl(array('_type'=>'js'));
         
         return $path;
     }
@@ -472,6 +478,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         } else {
             return $types->$type;
         }
+    }
+    
+    public function getWebsiteConfig($website='default')
+    {
+        return $this->getXml()->global->websites->$website;
     }
     
     /**

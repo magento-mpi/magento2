@@ -7,14 +7,6 @@
             <Mage_Auth />
          </depends>
 
-         <front>
-            <controller>
-               <active>true</active>
-
-               <frontName>page</frontName>
-            </controller>
-         </front>
-
          <admin>
             <controller>
                <active>true</active>
@@ -54,6 +46,16 @@
             </updates>
          </default>
       </layouts>
+      
+      <routers>
+         <page>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+                <module>Mage_Page</module>
+                <frontName>page</frontName>
+            </args>
+         </page>
+      </routers>
    </front>
 
    <admin>

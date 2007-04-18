@@ -34,10 +34,10 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
         return Mage::registry('website')->getId();
     }
     
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
         $this->addFilter('website_id', $this->getWebsiteId());
-        parent::loadData();
+        parent::loadData($printQuery, $logQuery);
         return $this;
     }
     

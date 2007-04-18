@@ -1,10 +1,10 @@
 <?php
 
-class Mage_Customer_Model_Session extends Mage_Core_Model_Session
+class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     public function __construct()
     {
-        parent::__construct('customer');
+        $this->init('customer');
     }
     
     public function setCustomer(Mage_Customer_Model_Customer $customer)

@@ -35,7 +35,41 @@
          <core_read>
             <connection><use>dev_read</use></connection>
          </core_read>
-      </resources>
+       </resources>
+         
+       <websites>
+          <default>
+            <code>base</code>
+          </default>
+          
+            <base>
+                <unsecure>
+                    <protocol>http</protocol>
+                    <host>var-dev.varien.com</host>
+                    <port>81</port>
+                    <basePath>/dev/moshe/magenta/www/</basePath>
+                </unsecure>
+                <secure extends="//websites/base/unsecure">
+                    <protocol>https</protocol>
+                    <port>444</port>
+                </secure>
+                <group>default</group>
+            </base>
+          
+            <admin>
+                <unsecure>
+                    <protocol>http</protocol>
+                    <host>var-dev.varien.com</host>
+                    <port>81</port>
+                    <basePath>/dev/moshe/magenta/www/admin/</basePath>
+                </unsecure>
+                <secure extends="//websites/admin/unsecure">
+                    <protocol>https</protocol>
+                    <port>444</port>
+                </secure>
+            </admin>
+       </websites>
    </global>
+
 </config>
 

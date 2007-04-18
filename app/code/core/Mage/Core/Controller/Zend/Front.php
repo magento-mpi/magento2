@@ -56,39 +56,6 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->setDispatcher($this->_dispatcher);
     }
     
-    public function loadModule($modInfo)
-    {
-        if (is_string($modInfo)) {
-            $modInfo = Mage::getModule($modInfo);
-        }
-        if (!$modInfo instanceof Varien_Simplexml_Element) {
-            Mage::exception('Argument suppose to be module name or module info object');
-        }
-        $controller = $modInfo->front->controller;
-        if (!$modInfo->is('active') || !isset($controller) || !$controller->is('active')) {
-            return false;
-        }
-        
-        $name = $modInfo->getName();
-        $nameLower = strtolower($name);
-        $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $name), strtolower($name));
-        
-        
-        if ($modInfo->front->controller->is('default')) {
-            $this->_defaultModule = $nameLower;
-        }
-        
-        if (strcasecmp((string)$modInfo->front->controller->frontName, $name)!==0) {
-            $routeMatch = ((string)$modInfo->front->controller->frontName).'/:controller/:action/*';
-            $route = new Zend_Controller_Router_Route($routeMatch, array('module'=>$nameLower, 'controller'=>'index', 'action'=>'index'));
-            $this->_front->getRouter()->addRoute($name, $route);
-        }
-        
-//        if (($class = $modInfo->getSetupClass()) && is_callable(array($class, 'loadFront'))) {
-//            $class->loadFront();
-//        }
-    }
-    
     public function getRequest()
     {
         return $this->_request;
@@ -122,15 +89,26 @@ class Mage_Core_Controller_Zend_Front {
     {
         $default = Mage::getBaseDir('controllers', 'Mage_Core');
         $this->_front->addControllerDirectory($default, 'default');
-
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
-        foreach (Mage::getConfig()->getXml()->modules->children() as $module) {
-            $this->loadModule($module);
+        $defaultModule = 'Mage_Core';
+        
+        $routers = Mage::getConfig()->getXml()->front->routers->children();
+        foreach ($routers as $routerName=>$routerConfig) {
+            $router = Mage::getConfig()->getRouterInstance($routerName);
+            if (empty($router)) {
+                continue;
+            }
+            $moduleName = (string)$routerConfig->args->module;
+            $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $moduleName), $moduleName);
+            $router->addRoutes($this->_front->getRouter());
+            if ($routerConfig->is('default')) {
+                $defaultModule = $moduleName;
+            }
         }
 
-        if (!empty($this->_defaultModule)) {
-            $this->_dispatcher->setDefaultModuleName($this->_defaultModule);
+        if (!empty($defaultModule)) {
+            $this->_dispatcher->setDefaultModuleName($defaultModule);
         }
         Varien_Profiler::setTimer('controllerInit', true);
         

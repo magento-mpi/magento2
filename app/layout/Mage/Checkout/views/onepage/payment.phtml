@@ -10,7 +10,7 @@ Payment.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$moduleBaseUrl?>/onepage/savePayment/',
+                '<?=$baseUrl?>checkout/onepage/savePayment/',
                 {
                     method:'post',
                     onSuccess: this.onSave,

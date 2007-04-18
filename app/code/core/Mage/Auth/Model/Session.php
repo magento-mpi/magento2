@@ -1,22 +1,9 @@
 <?php
 
-class Mage_Auth_Model_Session extends Varien_Data_Object 
+class Mage_Auth_Model_Session extends Mage_Core_Model_Session_Abstract 
 {
-    protected $_session = null;
-    
     public function __construct()
     {
-        $this->_session = new Zend_Session_Namespace('auth', Zend_Session_Namespace::SINGLE_INSTANCE);
+        $this->init('auth');
     }
-    
-    public function setData($var, $value='', $isChanged=true)
-    {
-        $this->_session->$var = $value;
-    }
-    
-    public function getData($var='', $index=false)
-    {
-        return $this->_session->$var;
-    }
-
 }

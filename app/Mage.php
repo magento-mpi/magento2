@@ -101,9 +101,14 @@ final class Mage {
      * @param string $type
      * @return string
      */
-    public static function getBaseUrl($type='', $moduleName='')
+    public static function getBaseUrl($params=array())
     {
-        return Mage::getConfig()->getBaseUrl($type, $moduleName);
+        return Mage::getConfig()->getBaseUrl($params);
+    }
+    
+    public static function getUrl($routeName='', $params=array())
+    {
+        return Mage::getConfig()->getRouterInstance($routeName)->getUrl($params);
     }
 
     /**
@@ -232,16 +237,6 @@ final class Mage {
     }
 
     /**
-     * Get current website id on frontend
-     *
-     * @return integer
-     */
-    public static function getCurrentWebsite()
-    {
-        return Mage_Core_Website::getWebsiteId();
-    }
-
-    /**
      * Throw new exception by module
      *
      * @param string $message
@@ -303,9 +298,9 @@ final class Mage {
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));
         Zend_Session::start();
 
-        Mage::register('session', Mage::getSingleton('core_model', 'session'));
-        Mage::register('website', Mage::getSingleton('core_model', 'website'));
-        Mage::register('blocks', Mage::getSingleton('core_model', 'block'));
+        Mage::register('session', Mage::getSingleton('core', 'session'));
+        Mage::register('website', Mage::getSingleton('core', 'website'));
+        Mage::register('blocks', Mage::getSingleton('core', 'block'));
         
         Varien_Profiler::setTimer('init', true);
 
@@ -327,18 +322,20 @@ final class Mage {
 
             Mage::init($appRoot);
             Mage::getConfig()->loadEventObservers('front');
+            
+            Mage::getSingleton('core', 'session')->setWebsite('base');
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
             
             Varien_Profiler::setTimer('totalApp', true);
             
-            /*
+            
             echo '<hr><table border=1 align=center>';
             $timers = Varien_Profiler::getCumulativeTimer();
             foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
             echo '</table>';
-            */
+            
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             
@@ -360,6 +357,8 @@ final class Mage {
             Mage::init($appRoot);
         
             Mage::getConfig()->loadEventObservers('admin');
+            
+            Mage::getSingleton('core', 'session')->setWebsite('admin');
             
             Mage::register('controller', new Mage_Core_Controller_Zend_Admin());
             Mage::registry('controller')->run();

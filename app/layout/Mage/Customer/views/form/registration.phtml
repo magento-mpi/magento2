@@ -101,13 +101,13 @@
         <div class="clearfix"></div>
         <div class="buttons-container">
             <p class="required">* Required Fields</p>
-            <input type="button" onclick="window.location='<?=$moduleBaseUrl?>/account/';" value="Back" class="input-button float-left"/>
+            <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
             <input type="submit" class="input-button float-right" value="Continue"/>
             <div class="clearfix"></div>
         </div>
     </form>
     <script type="text/javascript">
         var dataForm = new VarienForm('form-validate');
-        dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>/directory/json/childRegion/');
+        dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>customer/directory/json/childRegion/');
     </script>
 </div>

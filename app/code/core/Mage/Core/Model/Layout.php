@@ -15,7 +15,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function init($id)
     {
-        $this->_elementClass = Mage::getConfig()->getModelClassName('core_model', 'layout_element');
+        $this->_elementClass = Mage::getConfig()->getModelClassName('core', 'layout_element');
 
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'layout');
         $this->setCacheKey($id);
