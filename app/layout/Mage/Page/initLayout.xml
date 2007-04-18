@@ -5,6 +5,11 @@
         <action method="assign"><var>imagesUrl</var><value>{baseSkinUrl}default/images</value></action>
         
         <block type="list" name="head" as="head">
+            <block type="tag" name="head.content_type">
+                <action method="setTagName"><tagName>meta</tagName></action>
+                <action method="setTagParam"><name>http-equiv</name><value>Content-Type</value></action>
+                <action method="setTagParam"><name>content</name><value>text/html; charset=utf8</value></action>
+            </block>
             <block type="tag" name="head.title">
                 <action method="setTagName"><tagName>title</tagName></action>
                 <action method="setContents"><contents>Magento Commerce</contents></action>

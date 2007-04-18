@@ -6,38 +6,30 @@ class Mage_Catalog_Model_Admin_Search extends Varien_Data_Object
     {
         $arr = array();
         
-        if (!$this->getStart() || !$this->getLimit() || !$this->getQuery()) {
-            return $arr;
+        if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
+            $this->setResults($arr);
+            return $this;
         }
         
         $collection = Mage::getModel('catalog_resource', 'product_collection')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())
-            ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($this->getStart())
             ->setPageSize($this->getLimit())
             ->loadData();
         
         foreach ($collection as $product) {
             $arr[] = array(
-                'id'            => $product->getProductId(),
-                'type'          => 'product',
+                'id'            => 'product/1/'.$product->getProductId(),
+                'type'          => 'Product',
                 'name'          => $product->getName(),
                 'description'   => $product->getDescription(),
             );
         }
         
-        if (empty($arr)) {
-            $arr = array(
-                'id'=>'error', 
-                'type'=>'Error', 
-                'name'=>'No search modules registered', 
-                'description'=>'Please make sure that all global admin search modules are installed and activated.'
-            );
-        }
+        $this->setResults($arr);
         
-        return $arr;
+        return $this;
     }
 }
