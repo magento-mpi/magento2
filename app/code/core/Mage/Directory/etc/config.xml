@@ -70,5 +70,17 @@
          </directory_read>
       </resources>
    </global>
+   
+   <front>
+      <routers>
+         <directory>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+                <module>Mage_Directory</module>
+                <frontName>directory</frontName>
+            </args>
+         </directory>
+      </routers>
+   </front>
 </config>
 
