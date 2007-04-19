@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.1.9</version>
+         <version>0.1.10</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -35,6 +35,14 @@
                        <option_type>manufacturer</option_type>
                     </params>
                  </product_manufacturer>
+
+                 <product_category>
+                    <model>product_attribute_option</model>
+                    <method>getOptions</method>
+                    <params>
+                       <option_type>manufacturer</option_type>
+                    </params>
+                 </product_category>
               </dataSources>
          </admin>
       </Mage_Catalog>
@@ -69,6 +77,14 @@
                <category_attribute_in_set>
                   <table>catalog_category_attribute_in_set</table>
                </category_attribute_in_set>
+
+               <category_filter>
+                  <table>catalog_category_filter</table>
+               </category_filter>
+
+               <category_filter_value>
+                  <table>catalog_category_filter_value</table>
+               </category_filter_value>
 
                <category_product>
                   <table>catalog_category_product</table>

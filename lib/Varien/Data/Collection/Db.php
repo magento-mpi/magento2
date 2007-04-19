@@ -138,6 +138,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                     $this->_sqlSelect->where($condition);
             }
         }
+        $this->_isFiltersRendered = true;
         return $this;
     }
     

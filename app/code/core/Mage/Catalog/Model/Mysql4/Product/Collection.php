@@ -39,6 +39,17 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         $this->setWebsiteId(Mage::registry('website')->getId());
     }
     
+    public function setWebsiteId($websiteId)
+    {
+        $this->_websiteId = $websiteId;
+        return $this;
+    }
+    
+    public function getWebsiteId()
+    {
+        return $this->_websiteId;
+    }
+    
     /**
      * Join attribute value table for select product collection
      *
@@ -58,15 +69,8 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
             throw Mage::exception('Mage_Catalog', 'Attribute with code "'.$attributeCode .' do not exist');
         }
         
-        $tAlias= $attribute->getTableAlias();
-        if (!isset($this->_joinedAttributes[$attribute->getCode()])) {
-            $condition = "$tAlias.product_id=$this->_productTable.product_id AND $tAlias.attribute_id=".$attribute->getId();
-            
-            if ($this->_websiteId) {
-                $condition.= " AND $tAlias.website_id=".(int) $this->_websiteId;
-            }
-            
-            $this->_sqlSelect->join($attribute->getSelectTable(), $condition, new Zend_Db_Expr("$tAlias.attribute_value AS ".$attribute->getCode()));
+        if (!$this->_isAttributeJoined($attribute)) {
+            $this->_sqlSelect->join($attribute->getSelectTable(), $this->_getAttributeJoinCondition($attribute), $attribute->getTableColumns());
             $this->_joinedAttributes[$attribute->getCode()] = array();
         }
         
@@ -76,9 +80,26 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
             
             $condition = $this->_conn->quoteInto($tAlias.".attribute_value $comparisonType ?", $attributeValue); 
             $this->_sqlSelect->where($condition);
+            $this->_joinedAttributes[$attribute->getCode()][$comparisonType] = $attributeValue;
         }
         
         return $this;
+    }
+    
+    protected function _isAttributeJoined(Mage_Catalog_Model_Product_Attribute $attribute)
+    {
+        return isset($this->_joinedAttributes[$attribute->getCode()]);
+    }
+    
+    protected function _getAttributeJoinCondition(Mage_Catalog_Model_Product_Attribute $attribute)
+    {
+        $condition = $attribute->getTableAlias().".product_id=$this->_productTable.product_id AND ".
+                     $attribute->getTableAlias().'.attribute_id='.$attribute->getId();
+        
+        if ($this->_websiteId) {
+            $condition.= ' AND '.$attribute->getTableAlias().'.website_id='.(int) $this->_websiteId;
+        }
+        return $condition;
     }
 
     /**
@@ -134,17 +155,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return parent::setOrder($field, $direction);
     }
         
-    public function setWebsiteId($websiteId)
-    {
-        $this->_websiteId = $websiteId;
-        return $this;
-    }
-    
-    public function getWebsiteId()
-    {
-        return $this->_websiteId;
-    }
-    
     public function getItemById($idValue)
     {
         foreach ($this->_items as $product) {
@@ -201,5 +211,60 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
             }
             $this->_joinAttributeTable($filter['data']['filterField'], $filter['data']['filterValue'], $comparasion);
         }
-    }   
+    }
+    
+    public function addFrontFilters(array $filters)
+    {
+        foreach ($filters as $filter) {
+            $attribute = $filter->getAttribute();
+            $value  = $filter->getValue();
+            if (!empty($value)) {
+                $this->_joinAttributeTable($attribute->getCode());
+                $condition = $this->_conn->quoteInto($attribute->getTableAlias().'.attribute_value IN(?)', $value);
+                $this->_sqlSelect->where($condition);
+            }
+        }
+        return $this;
+    }
+    
+    public function getAttributeValues($attributeId)
+    {
+        $this->_renderFilters();
+        $attribute = $this->_attributes->getItemById($attributeId);
+
+        $select = clone $this->_sqlSelect;
+        $select->distinct(true)
+            ->reset(Zend_Db_Select::COLUMNS);
+        $column = $attribute->getTableAlias().'.attribute_value';
+        
+        if ($this->_isAttributeJoined($attribute)) {
+            $select->from('', $column);
+        }
+        else {
+            $select->join($attribute->getSelectTable(), $this->_getAttributeJoinCondition($attribute), $column);
+        }
+            
+        return $this->_conn->fetchCol($select);
+    }
+    
+    public function getAttributeMinMax($attributeId)
+    {
+        $this->_renderFilters();
+        $attribute = $this->_attributes->getItemById($attributeId);
+
+        $select = clone $this->_sqlSelect;
+        $select->reset(Zend_Db_Select::COLUMNS);
+        
+        $columns = 'MIN('.$attribute->getTableAlias().'.attribute_value) AS min, '. 
+                   'MAX('.$attribute->getTableAlias().'.attribute_value) AS max';
+
+        if ($this->_isAttributeJoined($attribute)){
+            $select->from('', $columns);
+        }
+        else {
+            $select->join($attribute->getSelectTable(), $this->_getAttributeJoinCondition($attribute), $columns);
+        }
+            
+        return $this->_conn->fetchRow($select);
+    }
 }

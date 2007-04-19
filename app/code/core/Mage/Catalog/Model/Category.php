@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
+class Mage_Catalog_Model_Category extends Varien_Data_Object
 {
     public function __construct($category=false) 
     {
@@ -22,18 +22,6 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
     }
 
     /**
-     * Load category data
-     *
-     * @param   int $categoryId
-     * @return  Mage_Catalog_Model_Category
-     */
-    public function load($categoryId)
-    {
-        $this->setCategoryId($categoryId);
-        return $this;
-    }
-    
-    /**
      * Get category id
      *
      * @return int
@@ -43,6 +31,27 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
         return $this->getCategoryId();
     }
     
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('catalog_resource', 'category');
+        }
+        return $resource;
+    }
+
+    /**
+     * Load category data
+     *
+     * @param   int $categoryId
+     * @return  Mage_Catalog_Model_Category
+     */
+    public function load($categoryId)
+    {
+        $this->setData($this->getResource()->load($categoryId));
+        return $this;
+    }
+    
     /**
      * Get category products collection
      *
@@ -50,31 +59,16 @@ abstract class Mage_Catalog_Model_Category extends Varien_Data_Object
      */
     public function getProductCollection()
     {
-        $collection = Mage::getModel('catalog_resource', 'product_collection');
-        $collection->addCategoryFilter($this->getCategoryId());
+        $collection = Mage::getModel('catalog_resource', 'product_collection')
+            ->addCategoryFilter($this->getId());
         return $collection;
     }
     
-    /**
-     * Get category attributes
-     *
-     * @return unknown
-     */
-    public function getAttributes()
+    public function getFilters()
     {
-        $attributes = $this->getAttributeCollection()->load()->__toArray();
-        return isset($attributes['items']) ? $attributes['items'] : array();
-    }
-    
-    /**
-     * Get category attributes collection
-     *
-     * @return Varien_Data_Collection_Db
-     */
-    public function getAttributeCollection()
-    {
-        $collection = Mage::getModel('catalog_resource', 'category_attribute_collection');
-        $collection->addSetFilter($this->getAttributeSetId());
+        $collection = Mage::getModel('catalog_resource', 'category_filter_collection')
+            ->addCategoryFilter($this->getId())
+            ->load();
         return $collection;
     }
 }

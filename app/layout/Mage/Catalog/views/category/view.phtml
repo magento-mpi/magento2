@@ -4,7 +4,7 @@
     <p><?=$category->getData('description')?></p>
     <div class="catalog-spacer">&nbsp;</div>
     <?include $moduleViewsDir.'/product/pager.phtml'?>
-
+    <?include $moduleViewsDir.'/category/filters.phtml'?>
     <div class="catalog-collection">
         <?foreach ($productCollection as $product):?>
         <div class="item">

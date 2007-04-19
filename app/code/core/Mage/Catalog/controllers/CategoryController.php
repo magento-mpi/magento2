@@ -17,9 +17,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         $action = 'catalog_category_'.$this->getRequest()->getParam('id', false);
         $this->loadLayout('front', array('default', $action), $action);
             
-        $category = Mage::getModel('catalog_resource', 'category');
-        $category->load($this->getRequest()->getParam('id', false));
-        
+        $category = Mage::getModel('catalog', 'category')
+            ->load($this->getRequest()->getParam('id', false));
+            
         // Valid category id
         if (!$category->isEmpty()) {
             $block = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
@@ -27,11 +27,17 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             
             Mage::getBlock('content')->append($block);
         }
-        else { // TODO: forvard to error action
-            echo 'Category id is not defined';
+        else {
+            $this->_forward('noRoute');
+            return ;
         }
         
         $this->renderLayout();
+    }
+    
+    public function filterAction()
+    {
+        
     }
 
     function fillAction()

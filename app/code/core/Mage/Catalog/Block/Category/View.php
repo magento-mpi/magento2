@@ -27,29 +27,48 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('category', array('label'=>$category->getName()));
         $this->setChild('breadcrumbs', $breadcrumbs);
         
+        // filters
+        $filters = $category->getFilters();
+        $filterValues = $request->getQuery('filter', array());
+        $filters->walk('setCurrentValues', array($filterValues));
+        $request->setParam('filter', false);
+        
         // Init collection
         $prodCollection = $category->getProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
+            ->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
             ->setPageSize(9);
+        
+        foreach ($filters as $filter) {
+            if ($filter->useOption()) {
+                $filter->setAvailableValues($prodCollection->getAttributeValues($filter->getAttributeId()));
+            }
+            else {
+                $filter->setAvailableValues($prodCollection->getAttributeMinMax($filter->getAttributeId()));
+            }
+        }
         
         Mage::getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
         $page = $request->getParam('p',1);
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
         $prodCollection->setCurPage($page);
-        $prodCollection->loadData();
+        $prodCollection->load();
 
         $this->assign('category', $category);
         $this->assign('productCollection', $prodCollection);
         
         $pageUrl = clone $request;
+        $pageUrl->setParam('array', array('filter'=>$filterValues));
         $this->assign('pageUrl', $pageUrl);
         
         $sortUrl = clone $request;
+        $sortUrl->setParam('array', array('filter'=>$filterValues));
         $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
-        $this->assign('sortUrl', $sortUrl);
         
+        $this->assign('sortUrl', $sortUrl);
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+        $this->assign('filters', $filters);
     }
 }

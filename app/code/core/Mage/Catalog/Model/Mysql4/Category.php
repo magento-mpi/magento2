@@ -8,63 +8,72 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Category extends Mage_Catalog_Model_Category  
+class Mage_Catalog_Model_Mysql4_Category
 {
-    /**
-     * These made static to avoid saving in object
-     *
-     * @var string
-     */
-    static protected $_categoryTable;
-    static protected $_attributeTable;
-    static protected $_attributeValueTable;
-    static protected $_read;
-    static protected $_write;
+    protected $_categoryTable;
+    protected $_attributeTable;
+    protected $_attributeValueTable;
+    protected $_read;
+    protected $_write;
     
-    public function __construct($data=array()) 
+    public function __construct() 
     {
-        parent::__construct($data);
+        $this->_categoryTable   = Mage::registry('resources')->getTableName('catalog_resource', 'category');
+        $this->_attributeTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeValueTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
         
-        self::$_categoryTable   = Mage::registry('resources')->getTableName('catalog_resource', 'category');
-        self::$_attributeTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
-        self::$_attributeValueTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
-        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
-        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
+        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
     }
-
+    
+    /**
+     * Load category
+     *
+     * @param   int $categoryId
+     * @return  array
+     */
     public function load($categoryId)
     {
-        $sql = 'SELECT
-                    *
-                FROM
-                    '.self::$_categoryTable.'
-                WHERE
-                    category_id=:category_id';
-        $this->setData(self::$_read->fetchRow($sql, array('category_id'=>$categoryId)));
+        $arr = array();
+        $sql = "SELECT * FROM $this->_categoryTable WHERE category_id=:category_id";
         
-        $attributes = $this->getAttributes();
+        $categoryRow = $this->_read->fetchRow($sql, array('category_id'=>$categoryId));
         
-        if (!empty($attributes)) {
-            $select = self::$_read->select();
-            $select->from(self::$_categoryTable);
+        if (empty($categoryRow)) {
+            return $arr;
+        }
+        
+        $attributes = $this->getAttributesBySet($categoryRow['attribute_set_id']);
+        if ($attributes->getSize()) {
+            
+            $select = $this->_read->select();
+            $select->from($this->_categoryTable);
 
             foreach ($attributes as $index => $attribute) {
                 // Prepare join
-                $tableAlias= self::$_attributeValueTable . '_' . $attribute['attribute_code'];
-                
-                $selectTable = self::$_attributeValueTable . ' AS ' . $tableAlias;
-                $condition = "$tableAlias.category_id=".self::$_categoryTable.".category_id
-                              AND $tableAlias.attribute_id=".$attribute['attribute_id']."
+                $tableAlias= $attribute->getTableAlias();
+                $condition = "$tableAlias.category_id=".$this->_categoryTable.".category_id
+                              AND $tableAlias.attribute_id=".$attribute->getId()."
                               AND $tableAlias.website_id=".Mage::registry('website')->getId();
                 
-                $columns = array(new Zend_Db_Expr("$tableAlias.attribute_value AS " . $attribute['attribute_code']));
-
-    
-                $select->joinLeft($selectTable, $condition, $columns);
+                $select->joinLeft($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }
-            $select->where(self::$_categoryTable . ".category_id=$categoryId");
-            $this->setData(self::$_read->fetchRow($select));
+            $select->where($this->_categoryTable . ".category_id=$categoryId");
+            $arr = $this->_read->fetchRow($select);
         }
-        return $this;
+        return $arr;
+    }
+    
+    /**
+     * Get category attributes
+     *
+     * @return unknown
+     */
+    public function getAttributesBySet($setId)
+    {
+        $collection = Mage::getModel('catalog_resource', 'category_attribute_collection')
+            ->addSetFilter($setId)
+            ->load();
+        return $collection;
     }
 }

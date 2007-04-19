@@ -57,6 +57,16 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
         return new $this->_itemObjectClass();
     }
     
+    public function getItemById($attributeId)
+    {
+        foreach ($this as $attribute) {
+            if ($attribute->getId()==$attributeId) {
+                return $attribute;
+            }
+        }
+        return new $this->_itemObjectClass();
+    }
+
     /**
      * Get attributes with true multiple flag
      *

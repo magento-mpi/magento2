@@ -55,7 +55,6 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $attribute = $request->getParam('attr');
         $attributeValue = $request->getParam('value');
 
-
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
             ->addAttributeToSelect('name')
@@ -79,4 +78,3 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
     }
 }
-

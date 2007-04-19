@@ -26,6 +26,12 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         return $this->getProductId();
     }
     
+    public function getCategoryId()
+    {
+        $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategoryId();
+        return $categoryId;
+    }
+    
     public function getResource()
     {
         static $resource;
@@ -55,14 +61,14 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getCategoryLink()
     {
-        $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getDefaultCategoryId()));
+        $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getCategoryId()));
         return $url;
     }
     
     public function getCategoryName()
     {
         // TODO : default category id attribute
-        $category = Mage::getModel('catalog', 'category_tree')->getNode(3);
+        $category = Mage::getModel('catalog', 'category_tree')->getNode($this->getCategoryId());
         return $category->getData('attribute_value');
     }
     

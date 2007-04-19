@@ -34,8 +34,9 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         $attribute = $this->getRequest()->getParam('attr', false);
         $value = $this->getRequest()->getParam('value', false);
         if (!$attribute || !$value) {
-            //$this->_forward('noroute');
-            $this->_redirect('noroute');
+            $this->_forward('noroute');
+            return;
+            //$this->_redirect('noroute');
         }
         
         // check if attr exist
@@ -45,7 +46,9 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
                 ->getArrItemId();
 
         if (empty($arrOptionId) || !in_array($value, $arrOptionId)) {
-            $this->_redirect('noroute');
+            $this->_forward('noroute');
+            return;
+            //$this->_redirect('noroute');
         }
         
         Mage::getBlock('catalog.leftnav')->assign($attribute, $value);

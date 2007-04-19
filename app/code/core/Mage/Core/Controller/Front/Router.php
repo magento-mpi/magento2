@@ -28,7 +28,7 @@ class Mage_Core_Controller_Front_Router
     
     public function getUrl($params=array())
     {
-        static $reservedKeys = array('module'=>1, 'controller'=>1, 'action'=>1);
+        static $reservedKeys = array('module'=>1, 'controller'=>1, 'action'=>1, 'array'=>1);
         
         if (is_string($params)) {
             $paramsArr = explode('/', $params);
@@ -62,6 +62,8 @@ class Mage_Core_Controller_Front_Router
             $url .= empty($params['action']) ? '' : $params['action'].'/';
             
             $url .= $paramsStr;
+            
+            $url .= empty($params['array']) ? '' : '?' . http_build_query($params['array']);
         }
         
         return $url;
