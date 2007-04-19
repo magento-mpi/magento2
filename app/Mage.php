@@ -246,30 +246,6 @@ final class Mage {
     }
 
     /**
-     * Prepare folders and permissions
-     *
-     */
-    public static function prepareFileSystem()
-    {
-        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'config';
-        if (!is_writable($xmlCacheDir)) {
-            mkdir($xmlCacheDir, 0777, true);
-        }
-        $xmlCacheDir = Mage::getBaseDir('var').DS.'cache'.DS.'layout';
-        if (!is_writable($xmlCacheDir)) {
-            mkdir($xmlCacheDir, 0777, true);
-        }
-        $logDir =  Mage::getBaseDir('var').DS.'log';
-        if (!is_writable($logDir)) {
-            mkdir($logDir, 0777, true);
-        }
-        $sessionDir =  Mage::getBaseDir('var').DS.'session';
-        if (!is_writable($sessionDir)) {
-            mkdir($sessionDir, 0777, true);
-        }
-    }
-
-    /**
      * Initialize Mage
      *
      * @param string $appRoot
