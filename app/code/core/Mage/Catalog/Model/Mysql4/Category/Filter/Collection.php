@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Mysql4_Category_Filter_Collection extends Varien_Data_C
         
         $this->_sqlSelect->from($this->_filterTable);
         $this->_sqlSelect->joinLeft($this->_attributeTable, "$this->_filterTable.attribute_id=$this->_attributeTable.attribute_id");
-        $this->setOrder('position', 'asc');
+        $this->setOrder($this->_filterTable.'.position', 'asc');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'category_filter'));
     }
