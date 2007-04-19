@@ -39,16 +39,18 @@ class Mage_Sales_Model_Payment_Authorizenet extends Mage_Sales_Model_Payment_Ccs
      */
     public function buildRequest(Varien_Data_Object $payment, Varien_Data_Object $billing, Varien_Data_Object $shipping)
     {
+        $config = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet');
+        
         $request = Mage::getModel('sales', 'payment_authorizenet_request')
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXDelimChar(self::REQUEST_DELIM_CHAR)
             ->setXRelayResponse('False');
         
-        $request->setXTestRequest($isTestRequest);
+        $request->setXTestRequest($config->is('test') ? 'TRUE' : 'FALSE');
             
-        $request->setXLogin($login)
-            ->setXTranKey($transKey)
+        $request->setXLogin($config->login)
+            ->setXTranKey($config->transKey)
             ->setXAmount($payment->getAmount())
             ->setXType($payment->getAnetTransType());
         

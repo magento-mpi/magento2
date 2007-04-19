@@ -113,7 +113,7 @@
          </method>
       </salesShippingRuleActions>
 
-      <salesPayment>
+      <salesPaymentMethods>
          <checkmo>
             <class>Mage_Sales_Model_Payment_Checkmo</class>
             <orderStatus>1</orderStatus>
@@ -152,7 +152,7 @@
             <class>Mage_Sales_Model_Payment_Verisign</class>
             <orderStatus>4</orderStatus>
          </verisign>
-      </salesPayment>
+      </salesPaymentMethods>
 
       <salesDiscount>
          <coupon>

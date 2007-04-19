@@ -27,31 +27,31 @@
 
       <salesShippingVendors>
          <ups>
-            <active>true</active>
+           <active>true</active>
 
-            <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
+           <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
 
-            <defaults>
-               <title>United Parcel Service</title>
 
-               <pickup>CC</pickup>
+           <title>United Parcel Service</title>
 
-               <container>CP</container>
+           <pickup>CC</pickup>
 
-               <destType>RES</destType>
+           <container>CP</container>
 
-               <handling>0</handling>
+           <destType>RES</destType>
 
-               <cgi>
-                  <protocol>http</protocol>
+           <handling>0</handling>
 
-                  <host>www.ups.com</host>
+           <cgi>
+              <protocol>http</protocol>
 
-                  <port>80</port>
+              <host>www.ups.com</host>
 
-                  <url>/using/services/rave/qcostcgi.cgi</url>
-               </cgi>
-            </defaults>
+              <port>80</port>
+
+              <url>/using/services/rave/qcostcgi.cgi</url>
+           </cgi>
+
          </ups>
 
          <usps>

@@ -12,15 +12,15 @@ class Mage_Sales_Model_Config
         return $orig;
     }
     
-    public function getShippingDefaults($vendor)
+    public function getShippingConfig($vendor)
     {
         $config = Mage::getConfig()->getXml()->global->salesShippingVendors->$vendor;
-        return $config->defaults;
+        return $config;
     }    
     
-    public function getPaymentDefaults($method)
+    public function getPaymentConfig($method)
     {
-        $config = Mage::getConfig()->getXml()->global->salesPayment->$method;
-        return $config->defaults;
+        $config = Mage::getConfig()->getXml()->global->salesPaymentMethods->$method;
+        return $config;
     }
 }
