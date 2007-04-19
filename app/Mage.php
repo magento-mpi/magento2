@@ -262,8 +262,6 @@ final class Mage {
         Mage::register('config', new Mage_Core_Config());
         Mage::register('resources', new Mage_Core_Resource());
 
-        Mage::prepareFileSystem();
-        
         Mage::getConfig()->init();
 
         // Session must be start after init resources
