@@ -47,9 +47,9 @@
                 <language>en</language>
                 <unsecure>
                     <protocol>http</protocol>
-                    <host>pepper.home.net</host>
-                    <port>80</port>
-		    <basePath>/</basePath>
+                    <host>{DOMAIN}</host>
+                    <port>{PORT}</port>
+		    <basePath>{URL}</basePath>
                 </unsecure>
                 <secure extends="//websites/base/unsecure">
                     <protocol>https</protocol>

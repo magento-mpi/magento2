@@ -282,8 +282,8 @@ final class Mage {
 
         Mage::setRoot($appRoot);
         
-        Mage::register('config', new Mage_Core_Config());
         Mage::register('events', new Varien_Event());
+        Mage::register('config', new Mage_Core_Config());
         Mage::register('resources', new Mage_Core_Resource());
 
         Mage::prepareFileSystem();
