@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p var/cache/config
-mkdir -p var/cache
+mkdir -p var/cache/layout
 mkdir var/session
 mkdir var/log
 chmod 0777 var -R
