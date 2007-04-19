@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         if ( $attributeValue !== false && (!isset($this->_joinedAttributes[$attribute->getCode()][$comparisonType]) 
              || $this->_joinedAttributes[$attribute->getCode()][$comparisonType] != $attributeValue) ) {
             
-            $condition = $this->_conn->quoteInto($tAlias.".attribute_value $comparisonType ?", $attributeValue); 
+            $condition = $this->_conn->quoteInto($attribute->getTableAlias().".attribute_value $comparisonType ?", $attributeValue); 
             $this->_sqlSelect->where($condition);
             $this->_joinedAttributes[$attribute->getCode()][$comparisonType] = $attributeValue;
         }

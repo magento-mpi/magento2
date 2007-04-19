@@ -27,7 +27,7 @@ class Mage_Catalog_Model_Mysql4_Category_Filter_Collection extends Varien_Data_C
     
     public function addCategoryFilter($categoryId)
     {
-        $this->addFilter('category_id', $categoryId);
+        $this->addFilter($this->_filterTable.'.category_id', $categoryId);
         return $this;
     }
     
