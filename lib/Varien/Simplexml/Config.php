@@ -3,7 +3,7 @@
 class Varien_Simplexml_Config
 {
     const XPATH_EXTENDS = "//*[@extends]";
-    
+
     /**
      * Configuration xml
      *
@@ -15,22 +15,22 @@ class Varien_Simplexml_Config
     protected $_cacheDir = null;
     protected $_cacheLoaded = false;
     protected $_elementClass = 'Varien_Simplexml_Element';
-    
+
     public function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
     }
-    
+
     public function getConstant($const)
     {
         return constant(get_class($this).'::'.$const);
     }
-    
+
     public function isCacheLoaded()
     {
         return $this->_cacheLoaded;
     }
-    
-    public function setXml($sourceData, $sourceType='') 
+
+    public function setXml($sourceData, $sourceType='')
     {
         if (''===$sourceType) {
             if ($sourceData instanceof SimpleXMLElement) {
@@ -45,31 +45,31 @@ class Varien_Simplexml_Config
                 }
             }
         }
-        
+
         switch ($sourceType) {
             case 'xml':
                 $this->_xml = $sourceData;
                 break;
-                
+
             case 'dom':
                 $this->_xml = $this->loadDom($sourceData);
                 break;
-                
+
             case 'file':
                 $this->_xml = $this->loadFile($sourceData);
                 break;
-                
+
             case 'string':
                 $this->_xml = $this->loadString($sourceData);
                 break;
         }
     }
-    
+
     public function getXml()
     {
         return $this->_xml;
     }
-    
+
     public function getXpath($xpath)
     {
         if (empty($this->_xml)) {
@@ -82,7 +82,7 @@ class Varien_Simplexml_Config
 
         return $result;
     }
-    
+
     public function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
@@ -92,24 +92,24 @@ class Varien_Simplexml_Config
         $fileData = file_get_contents($filePath);
         $fileData = $this->_processFileData($fileData);
         $xml = $this->loadString($fileData, $this->_elementClass);
-        
+
         return $xml;
     }
-    
+
     public function loadString($string)
     {
         $xml = simplexml_load_string($string, $this->_elementClass);
-        
+
         return $xml;
     }
-    
+
     public function loadDom($dom)
     {
         $xml = simplexml_import_dom($dom, $this->_elementClass);
-        
+
         return $xml;
     }
-    
+
     public function setKeyValue($key, $value, $overwrite=true)
     {
         $arr1 = explode('/', $key);
@@ -135,12 +135,12 @@ class Varien_Simplexml_Config
         }
         return $this;
     }
-    
+
     public function saveFile($filePath)
     {
         $xmlText = $this->_xml->asXml();
         file_put_contents($filePath, $xmlText);
-        
+
         return true;
     }
 
@@ -150,7 +150,7 @@ class Varien_Simplexml_Config
         if (!$targets) {
             return false;
         }
-        
+
         foreach ($targets as $target) {
             $sources = $this->getXpath((string)$target['extends']);
             if ($sources) {
@@ -164,12 +164,12 @@ class Varien_Simplexml_Config
         }
         return true;
     }
-    
+
     public function setCacheDir($dir)
     {
         $this->_cacheDir = $dir;
     }
-    
+
     public function setCacheKey($key)
     {
         $this->_cacheKey = $key;
@@ -180,36 +180,36 @@ class Varien_Simplexml_Config
     {
         $this->_cacheStat[$fileName] = filemtime($fileName);
     }
-    
+
     public function getCacheFileName($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
         }
 
-        return $this->_cacheDir.DS.$key.'.xml'; 
+        return $this->_cacheDir.DS.$key.'.xml';
     }
-    
+
     public function getCacheStatFileName($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
         }
 
-        return $this->_cacheDir.DS.$key.'.stat'; 
+        return $this->_cacheDir.DS.$key.'.stat';
     }
-    
+
     protected function _processFileData($text)
     {
         return $text;
     }
-    
+
     public function loadCache($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
         }
-        
+
         // get cache status file
         $statFile = $this->getCacheStatFileName($key);
         if (!is_readable($statFile)) {
@@ -220,9 +220,9 @@ class Varien_Simplexml_Config
         if (empty($data) || !is_array($data)) {
             return false;
         }
-        // check that no source files were changed
+        // check that no source files were changed or check file exsists
         foreach ($data as $sourceFile=>$mtime) {
-            if (filemtime($sourceFile)!==$mtime) {
+            if (!is_file($sourceFile) && filemtime($sourceFile)!==$mtime) {
                 return false;
             }
         }
@@ -237,16 +237,16 @@ class Varien_Simplexml_Config
         }
         return false;
     }
-    
+
     public function saveCache($key='')
     {
         if (''===$key) {
             $key = $this->_cacheKey;
         }
-        
+
         $statFile = $this->getCacheStatFileName($key);
         file_put_contents($statFile, serialize($this->_cacheStat));
-        
+
         $cacheFile = $this->getCacheFileName($key);
         $this->saveFile($cacheFile);
     }
