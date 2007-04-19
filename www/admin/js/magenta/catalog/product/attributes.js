@@ -71,6 +71,8 @@ Mage.Catalog_Product_Attributes = function(){
                 Core_Layout.beginUpdate();
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Product Attributes",closable:false}));
                 Core_Layout.endUpdate();
+                
+                this.loadAttributeGrid();
 
             } else {
                 Mage.Core.getLayout().getRegion('center').showPanel(Layout);
@@ -196,7 +198,7 @@ Mage.Catalog_Product_Attributes = function(){
                     text:'Reload',
                     disabled:false,
                     handler:refreshTree,
-                    cls:'x-btn-text-icon btn_reload',
+                    cls:'x-btn-text-icon btn_arrow_refresh',
                     tooltip:'Remove the selected item'
                 });
                 
@@ -225,7 +227,7 @@ Mage.Catalog_Product_Attributes = function(){
                 
                 var croot = new Ext.tree.AsyncTreeNode({
                     allowDrag:false,
-                    allowDrop:true,
+                    allowDrop:false,
                     id:'croot',
                     text:'Sets',
                     cls:'croot',
@@ -237,8 +239,6 @@ Mage.Catalog_Product_Attributes = function(){
                 function refreshTree() {
                     croot.reload();
                 }
-                
-                
                 
                 ctree.setRootNode(croot);
                 ctree.render();
@@ -335,24 +335,21 @@ Mage.Catalog_Product_Attributes = function(){
             }                     
         },
 
-        loadAttributeGrid : function(setId) {
+        loadAttributeGrid : function() {
             if (this.attributeGrid == null) {
-                this.initAttributesGrid(setId);
+                this.initAttributesGrid();
                 Layout.beginUpdate();
                 Layout.add('center', new Ext.GridPanel(this.attributeGrid));
                 Layout.endUpdate();
                 this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
             } else {
-                this.attributeGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/attributeList/set/'+setId+'/';
+                this.attributeGrid.getDataSource().proxy.getConnection().url = this.attributeGridUrl;
                 this.attributeGrid.getDataSource().load({params:{start:0, limit:10}});
             }
         },
 
 
-        initAttributesGrid : function(setId) {
-            if (!setId) {
-                return false;
-            }
+        initAttributesGrid : function() {
             var dataRecord = Ext.data.Record.create([
                 {name: 'attribute_id', mapping: 'attribute_id'},
                 {name: 'attribute_code', mapping: 'attribute_code'},
@@ -370,7 +367,7 @@ Mage.Catalog_Product_Attributes = function(){
             }, dataRecord);
 
             var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: this.attributeGridUrl +  'set/'+setId+'/'}),
+                proxy: new Ext.data.HttpProxy({url: this.attributeGridUrl}),
                 reader: dataReader,
                 remoteSort: true
             });
@@ -476,12 +473,13 @@ Mage.Catalog_Product_Attributes = function(){
             this.attributeGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
+                enableDragDrop : true,
                 loadMask : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 trackMouseOver: false,
                 autoHeight : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
                 enableColLock : false
             });
 
