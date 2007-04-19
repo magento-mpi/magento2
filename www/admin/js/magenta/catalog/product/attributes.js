@@ -191,6 +191,13 @@ Mage.Catalog_Product_Attributes = function(){
                   //  handler:removeNode,
                     cls:'x-btn-text-icon btn_delete',
                     tooltip:'Remove the selected item'
+                },'-',{
+                    id:'remove',
+                    text:'Reload',
+                    disabled:false,
+                    handler:refreshTree,
+                    cls:'x-btn-text-icon btn_reload',
+                    tooltip:'Remove the selected item'
                 });
                 
                 // for enabling and disabling
@@ -224,9 +231,15 @@ Mage.Catalog_Product_Attributes = function(){
                     cls:'croot',
                     loader:new Ext.tree.TreeLoader({
                         dataUrl: this.setTreeUrl,
-                        createNode: readNode
                     })
                 });
+                
+                function refreshTree() {
+                    croot.reload();
+                }
+                
+                
+                
                 ctree.setRootNode(croot);
                 ctree.render();
                 croot.expand();                
@@ -243,10 +256,6 @@ Mage.Catalog_Product_Attributes = function(){
                      btns.remove.setDisabled(!a.allowDelete);
                      btns.group.setDisabled(!a.cmpId);
                 });                
-                
-                function readNode(o){
-                    createSet(o.id, o.text, o.groups);
-                }  
                 
                 // semi unique ids across edits
                 function guid(prefix){
@@ -300,12 +309,12 @@ Mage.Catalog_Product_Attributes = function(){
             });       
             
             // add option handler
-            function addGroup(){
+            function addGroup(btn, e){
                 var n = sm.getSelectedNode();
                 if(n){
                     createGroup(n, 'Group'+(++gseed));
-                    node.select();
-                    ge.triggerEdit(node);
+                    n.select();
+                    ge.triggerEdit(n);
                 }
             }
 
@@ -321,9 +330,7 @@ Mage.Catalog_Product_Attributes = function(){
                     allowEdit:true,
                     id:guid('o-')
                 });
-                cnode.childNodes[2].appendChild(node);
-                cnode.childNodes[2].expand(false, false);
-    
+                cnode.appendChild(node);
                 return node;
             }                     
         },

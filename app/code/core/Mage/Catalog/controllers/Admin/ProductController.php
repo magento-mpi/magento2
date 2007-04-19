@@ -167,6 +167,61 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($arrSets));
     }
     
+    public function attributeSetTreeAction() {
+        $rootNode = $this->getRequest()->getPost('node', false);
+        $data  = array();
+                
+        if ($rootNode == 'croot') {
+            $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection');
+            $setCollection->load();
+            $arrSets = $setCollection->__toArray();
+            foreach($arrSets['items'] as $item) {
+                $data[] = array(
+                    'text' => $item['code'],
+                    'id' => 'set:' . $item['set_id'],
+                    'iconCls' => 'set',
+                    'cls' => 'set',
+                    'type' => 'fileCt',
+                    'cmpId' => 'set:' . $item['set_id'],
+                    'allowDelete' => 'true',
+                    'expanded' => 'true',
+                    'allowEdit' => 'true'
+            	);
+            }
+        } elseif (preg_match('/^set:\d?$/', $rootNode)) {
+            for($i = 0; $i < 3; $i++) {
+                $data[] = array(
+                    'text' => 'Group' . $i,
+                    'id' => $rootNode.'/group:'.$i,
+                    'iconCls' => 'group',
+                    'cls' => 'group',
+                    'type' => 'fileCt',
+                    'cmpId' => $rootNode.'/group:'.$i,
+                    'allowDelete' => 'true',
+                    'expanded' => 'true',
+                    'allowEdit' => 'true'
+            	);
+            }
+        } elseif (preg_match('/^set:\d?\/group:\d?$/', $rootNode)) {
+            $groupInfo = explode(':', $rootNode, 4);
+            for($i = 0; $i < 5; $i++) {
+                $data[] = array(
+                    'text' => 'Attribute' . $i,
+                    'id' => $rootNode.'/attr:'.$i,
+                    'iconCls' => 'attr',
+                    'cls' => 'attr',
+                    'leaf' => 'false',
+                    'type' => 'fileCt',                        
+                    'cmpId' => $rootNode.'/attr:'.$i,
+                    'allowDelete' => 'true',
+                    'expanded' => 'true',                       
+                    'allowEdit' => 'false'                
+            	);
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
     public function attributeGroupListAction()
     {
         
