@@ -68,9 +68,11 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
                     }
                 }
             }
+            $action->loadLayout();
             $block = Mage::createBlock('customer_login', 'customer.login')
                 ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true));
             Mage::getBlock('content')->append($block);
+            $action->renderLayout();
             return false;
         }
         return true;
