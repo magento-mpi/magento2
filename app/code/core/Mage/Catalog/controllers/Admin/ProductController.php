@@ -215,6 +215,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'cls' => 'attr',
                     'leaf' => 'false',
                     'allowDrop' => 'false',
+                    'allowChildren' => 'false',
                     'type' => 'typeAttr',                        
                     'cmpId' => $rootNode.'/attr:'.$i,
                     'allowDelete' => 'true',

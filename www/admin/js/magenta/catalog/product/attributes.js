@@ -223,11 +223,26 @@ Mage.Catalog_Product_Attributes = function(){
                     loader: new Ext.tree.TreeLoader()
                 });                
                 
+                 ctree.on('nodedragover', function(e){
+                    var na = e.dropNode.attributes;
+                    var ta = e.target.attributes;
+                    if (
+                       (na.type == 'typeGroup' && ta.type == 'typeSet' && e.point == 'append') ||
+                       (na.type == 'typeGroup' && ta.type == 'typeGroup' && e.point != 'append') ||
+                       (na.type == 'typeAttr' && ta.type == 'typeGroup' && e.point == 'append') ||
+                       (na.type == 'typeAttr' && ta.type == 'typeAttr' && e.point != 'append')
+                     ) {
+                        return true;
+                     } else {
+                        return false;
+                     }
+                });
+                
                 //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
                 
                 var croot = new Ext.tree.AsyncTreeNode({
-                    allowDrag:false,
-                    allowDrop:false,
+                    allowDrag:true,
+                    allowDrop:true,
                     id:'croot',
                     text:'Sets',
                     cls:'croot',
@@ -284,6 +299,8 @@ Mage.Catalog_Product_Attributes = function(){
                         id: id,
                         cmpId:id,
                         allowDelete:true,
+                        allowDrop : true,
+                        allowDrag : true,
                         children: groups||[],
                         expanded:true,                       
                         allowEdit:true
@@ -327,6 +344,8 @@ Mage.Catalog_Product_Attributes = function(){
                     iconCls:'folder',
                     type:'fileCt',
                     allowDelete:true,
+                    allowDrop : true,
+                    allowDrag : true,
                     allowEdit:true,
                     id:guid('o-')
                 });
