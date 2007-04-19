@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
                 elseif (in_array($value->getId(), $currentValues)) {
                     unset($arrParam['filter'][$this->getId()]);
                     $arr[] = array(
-                        'label' => 'Clear filter',
+                        'label' => 'Clear (' . $value->getValue() . ')',
                         'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
