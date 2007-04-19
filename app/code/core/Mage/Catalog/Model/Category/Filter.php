@@ -33,11 +33,6 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
         
     }
 
-    public function useOption()
-    {
-        return $this->getUseOption();
-    }
-    
     public function getLabel()
     {
         return $this->getAttribute()->getCode();
@@ -48,18 +43,18 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
         $data = array(
             'attribute_id'  => $this->getAttributeId(),
             'attribute_code'=> $this->getAttributeCode(),
-            //'data_input'    => $this->getAttributeId(),
+            'data_type'     => $this->getDataType(),
+            'multiple'      => $this->getMultiple(),
+            /*'data_input'    => $this->getAttributeId(),
             'data_saver',
             'data_source',
-            'data_type'     => $this->getDataType(),
+            'delitable',
             'validation',
             'input_format',
             'output_format',
             'required',
             'searchable',
-            'comparale',
-            'multiple'      => $this->getMultiple(),
-            'delitable'
+            'comparale',*/
         );
         return Mage::getModel('catalog', 'product_attribute')->setData($data);
     }
@@ -84,35 +79,35 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
         
         $request = clone Mage::registry('controller')->getRequest();
         
-        if ($this->useOption()) {
-            $values = Mage::getModel('catalog', 'product_attribute')
-                ->setAttributeId($this->getAttributeId())
-                ->getOptions();
-            foreach ($values as $value) {
-                if (null !== $available) {
-                    //var_dump($currentValues);
-                    if (in_array($value->getId(), $available) && !in_array($value->getId(), $currentValues)) {
-                        $arrParam = array('filter' => $current);
-                        $arrParam['filter'][$this->getId()][] = $value->getId();
-        
-                        $arr[] = array(
-                            'label' => $value->getValue(),
-                            'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
-                        );
-                    }
-                }
-                else {
-                    $arr[] = array( 
+
+        $values = Mage::getModel('catalog', 'product_attribute')
+            ->setAttributeId($this->getAttributeId())
+            ->getOptions();
+            
+        foreach ($values as $value) {
+            if (null !== $available) {
+                $arrParam = array('filter' => $current);
+                if (in_array($value->getId(), $available) && !in_array($value->getId(), $currentValues)) {
+                    $arrParam['filter'][$this->getId()][] = $value->getId();
+    
+                    $arr[] = array(
                         'label' => $value->getValue(),
-                        'url'   => Mage::getUrl(),
+                        'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
+                    );
+                }
+                elseif (in_array($value->getId(), $currentValues)) {
+                    unset($arrParam['filter'][$this->getId()]);
+                    $arr[] = array(
+                        'label' => 'Clear filter',
+                        'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
             }
-        }
-        else {
-            $values = $this->getResource()->getValues($this->getId());
-            foreach ($values as $value) {
-                
+            else {
+                $arr[] = array( 
+                    'label' => $value->getValue(),
+                    'url'   => Mage::getUrl(),
+                );
             }
         }
         return $arr;

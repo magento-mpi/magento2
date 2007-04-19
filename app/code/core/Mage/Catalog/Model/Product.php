@@ -55,7 +55,13 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getLink()
     {
-        $url = Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$this->getId()));
+        $url = Mage::getUrl('catalog', 
+            array(
+                'controller'=>'product', 
+                'action'=>'view', 
+                'id'=>$this->getId(),
+                'category'=>$this->getCategoryId()
+            ));
         return $url;
     }
     

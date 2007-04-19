@@ -27,27 +27,29 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('category', array('label'=>$category->getName()));
         $this->setChild('breadcrumbs', $breadcrumbs);
         
-        // filters
+        // get category filters
         $filters = $category->getFilters();
+        // get filter values from request
         $filterValues = $request->getQuery('filter', array());
+        // set values current values to all items
         $filters->walk('setCurrentValues', array($filterValues));
+        // clear request param
         $request->setParam('filter', false);
         
         // Init collection
         $prodCollection = $category->getProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
+            // add filters
             ->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
             ->setPageSize(9);
         
+        // get avilable filter values from collection
         foreach ($filters as $filter) {
-            if ($filter->useOption()) {
-                $filter->setAvailableValues($prodCollection->getAttributeValues($filter->getAttributeId()));
-            }
-            else {
-                $filter->setAvailableValues($prodCollection->getAttributeMinMax($filter->getAttributeId()));
-            }
+            $filter->setAvailableValues($prodCollection->getAttributeValues($filter->getAttributeId()));
         }
+        // assign
+        $this->assign('filters', $filters);
         
         Mage::getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
@@ -55,11 +57,13 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
         $prodCollection->setCurPage($page);
         $prodCollection->load();
+        $prodCollection->walk('setCategoryId', $category->getId());
 
         $this->assign('category', $category);
         $this->assign('productCollection', $prodCollection);
         
         $pageUrl = clone $request;
+        // set filter values
         $pageUrl->setParam('array', array('filter'=>$filterValues));
         $this->assign('pageUrl', $pageUrl);
         
@@ -69,6 +73,5 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         
         $this->assign('sortUrl', $sortUrl);
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
-        $this->assign('filters', $filters);
     }
 }

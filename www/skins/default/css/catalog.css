@@ -22,8 +22,13 @@
 .category-pager .sort-by { float:right; width:30%; text-align:right;}
 .category-pager .sort-by select { font:1em Verdana, sans-serif;margin-right:10px}
 
+.catalog .catalog-filters{width:100px;float:left;}
+.catalog .catalog-filters h3{margin:0}
+.catalog .catalog-collection{width:410px;float:right;}
+.catalog .catalog-collection .item{width:115px}
+
 /*Categoty items collection*/
-.catalog-collection {border-top:1px dotted #C68D19;border-left:1px dotted #C68D19;}
+.catalog-collection {border-left:1px dotted #C68D19;}
 .catalog-collection .item {float:left;width:164px;padding:10px;border-right:1px dotted #C68D19;border-bottom:1px dotted #C68D19;}
 .catalog-collection .product-name a{color:#939393;font-weight:bold}
 .catalog-collection .product-price{color:#4A0B71;font-weight:bold}

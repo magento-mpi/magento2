@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     {
         foreach ($filters as $filter) {
             $attribute = $filter->getAttribute();
-            $value  = $filter->getValue();
+            $value     = $filter->getValue();
             if (!empty($value)) {
                 $this->_joinAttributeTable($attribute->getCode());
                 $condition = $this->_conn->quoteInto($attribute->getTableAlias().'.attribute_value IN(?)', $value);
@@ -227,6 +227,12 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return $this;
     }
     
+    /**
+     * Get uniq attribute values for current collection
+     *
+     * @param   int $attributeId
+     * @return  array
+     */
     public function getAttributeValues($attributeId)
     {
         $this->_renderFilters();
@@ -247,6 +253,15 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return $this->_conn->fetchCol($select);
     }
     
+    /**
+     * Get MAX and MIN attribute values for current collection
+     *
+     * @param   int $attributeId
+     * @return  array(
+     *      'min' => 
+     *      'max' =>
+     *  )
+     */
     public function getAttributeMinMax($attributeId)
     {
         $this->_renderFilters();

@@ -19,8 +19,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
     public function loadData(Zend_Controller_Request_Http $request)
     {
+        $categoryId = $request->getParam('category', false);
         $productId = $request->getParam('id');
-        $product = Mage::getModel('catalog', 'product')->load($productId);
+        $product = Mage::getModel('catalog', 'product')->load($productId)->setCategoryId($categoryId);
         
         $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>__('Home'),'title'=>__('Go to home page'),'link'=>Mage::getBaseUrl()));

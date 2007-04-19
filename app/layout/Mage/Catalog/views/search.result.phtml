@@ -4,7 +4,7 @@
 <?if($productCollection->getSize()):?>
     <div class="catalog-spacer">&nbsp;</div>
     <?include $moduleViewsDir.'/product/pager.phtml'?>
-
+    <div class="catalog-spacer">&nbsp;</div>
     <div class="catalog-collection">
         <?foreach ($productCollection as $product):?>
         <div class="item">
@@ -19,6 +19,8 @@
         <?endforeach?>
         <div class="clearfix"></div>
     </div>
+    <br />
+    <div class="catalog-spacer">&nbsp;</div>
     <?include $moduleViewsDir.'/product/pager.phtml'?>
     <div class="catalog-spacer">&nbsp;</div>
 <?else:?>
