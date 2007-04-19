@@ -1,8 +1,8 @@
 <?php
 
-class Mage_Auth_Config
+class Mage_Auth_Model_Config
 {
-    static public function loadAclResources(Zend_Acl $acl, $resource=null, $parentName=null)
+    public function loadAclResources(Zend_Acl $acl, $resource=null, $parentName=null)
     {
         if (is_null($resource)) {
             $resource = Mage::getConfig()->getXml()->admin->acl->resources;
@@ -22,7 +22,7 @@ class Mage_Auth_Config
         }
     }
     
-    static public function getAclAssert($name='')
+    public function getAclAssert($name='')
     {
         $asserts = Mage::getConfig()->getXml()->admin->acl->asserts;
         if (''===$name) {
@@ -36,7 +36,7 @@ class Mage_Auth_Config
         return false;
     }
     
-    static public function getAclPrivilegeSet($name='')
+    public function getAclPrivilegeSet($name='')
     {
         $sets = Mage::getConfig()->getXml()->admin->acl->privilegeSets;
         if (''===$name) {

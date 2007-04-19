@@ -43,7 +43,7 @@
                <handling>0</handling>
 
                <cgi>
-                  <proto>http</proto>
+                  <protocol>http</protocol>
 
                   <host>www.ups.com</host>
 

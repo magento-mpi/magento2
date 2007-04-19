@@ -117,14 +117,9 @@ final class Mage {
      * @param string $moduleName
      * @return object
      */
-    public static function getConfig($moduleName='Mage_Core')
+    public static function getConfig()
     {
-        $key = 'config_'.$moduleName;
-        if (is_null(Mage::registry($key))) {
-            $className = uc_words($moduleName).'_Config';
-            Mage::register($key, new $className());
-        }
-        return Mage::registry($key);
+        return Mage::registry('config');
     }
 
     /**
@@ -287,11 +282,12 @@ final class Mage {
 
         Mage::setRoot($appRoot);
         
-        Mage::prepareFileSystem();
-        
+        Mage::register('config', new Mage_Core_Config());
         Mage::register('events', new Varien_Event());
         Mage::register('resources', new Mage_Core_Resource());
 
+        Mage::prepareFileSystem();
+        
         Mage::getConfig()->init();
 
         // Session must be start after init resources

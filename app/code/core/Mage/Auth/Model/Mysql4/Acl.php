@@ -23,7 +23,7 @@ class Mage_Auth_Model_Mysql4_Acl
     {
         $acl = new Zend_Acl();
         
-        Mage::getConfig('Mage_Auth')->loadAclResources($acl);
+        Mage::getSingleton('auth', 'config')->loadAclResources($acl);
 #echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
         $roleTable = Mage::registry('resources')->getTableName('auth_resource', 'role');
@@ -75,7 +75,7 @@ class Mage_Auth_Model_Mysql4_Acl
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = Mage::getConfig('Mage_Auth')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = Mage::getSingleton('auth', 'config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             switch ($rule['permission']) {

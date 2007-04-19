@@ -11,7 +11,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     public function getDefaults()
     {
         if (empty($this->_defaults)) {
-            $this->_defaults = Mage::getConfig('Mage_Sales')->getShippingDefaults($this->_data['vendor']);
+            $this->_defaults = Mage::getSingleton('sales', 'config')->getShippingDefaults($this->_data['vendor']);
         }
         return $this->_defaults;    
     }
@@ -91,7 +91,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     {
         $r = $this->_data;
         
-        $cgi = Mage::getConfig('Mage_Sales')->getShippingDefaults($r['vendor'])->cgi;
+        $cgi = Mage::getSingleton('sales', 'config')->getShippingDefaults($r['vendor'])->cgi;
         
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
@@ -108,7 +108,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
         );
 
         $client = new Zend_Http_Client();
-        $uri = ((string)$cgi->proto).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
+        $uri = ((string)$cgi->protocol).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
         $client->setUri($uri);
         $client->setParameterGet($params);
         $response = $client->request();

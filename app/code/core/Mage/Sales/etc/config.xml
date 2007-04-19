@@ -128,6 +128,30 @@
             <class>Mage_Sales_Model_Payment_Purchaseorder</class>
             <orderStatus>3</orderStatus>
          </purchaseorder>
+         
+         <authorizenet>
+            <class>Mage_Sales_Model_Payment_Authorizenet</class>
+            <orderStatus>4</orderStatus>
+            <cgi>
+              <protocol>https</protocol>
+
+              <host>secure.authorize.net</host>
+
+              <port>443</port>
+
+              <url>/gateway/transact.dll</url>
+            </cgi>
+         </authorizenet>
+         
+         <paypal>
+            <class>Mage_Sales_Model_Payment_Paypal</class>
+            <orderStatus>4</orderStatus>
+         </paypal>
+         
+         <verisign>
+            <class>Mage_Sales_Model_Payment_Verisign</class>
+            <orderStatus>4</orderStatus>
+         </verisign>
       </salesPayment>
 
       <salesDiscount>
@@ -243,6 +267,7 @@
          
          <order>
              <self>
+                <custom_order_id>varchar</custom_order_id>
                 <customer_id><type>int</type></customer_id>
                 <created_at><type>datetime</type></created_at>
                 <updated_at><type>datetime</type></updated_at>
@@ -334,7 +359,18 @@
          </order>
          
          <invoice>
-         
+            <self>
+            
+            </self>
+            <item>
+            
+            </item>
+            <transaction>
+            
+            </transaction>
+            <shipment>
+            
+            </shipment>
          </invoice>
       </salesAttributes>
    </global>

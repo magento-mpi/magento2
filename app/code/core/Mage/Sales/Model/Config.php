@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Config
+class Mage_Sales_Model_Config
 {
     public function getShippingOrig()
     {
@@ -15,6 +15,12 @@ class Mage_Sales_Config
     public function getShippingDefaults($vendor)
     {
         $config = Mage::getConfig()->getXml()->global->salesShippingVendors->$vendor;
+        return $config->defaults;
+    }    
+    
+    public function getPaymentDefaults($method)
+    {
+        $config = Mage::getConfig()->getXml()->global->salesPayment->$method;
         return $config->defaults;
     }
 }

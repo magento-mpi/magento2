@@ -46,7 +46,7 @@ class Mage_Sales_Model_Shipping
 	public function getOrigData()
 	{
 	    if (!isset($this->_orig)) {
-            $this->setOrigData(Mage::getConfig('Mage_Sales')->getShippingOrig());
+            $this->setOrigData(Mage::getSingleton('sales', 'config')->getShippingOrig());
 	    }
 	    return $this->_orig;
 	}
