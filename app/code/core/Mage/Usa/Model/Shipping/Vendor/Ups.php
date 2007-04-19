@@ -110,6 +110,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
         $client = new Zend_Http_Client();
         $uri = ((string)$cgi->protocol).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
         $client->setUri($uri);
+        $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterGet($params);
         $response = $client->request();
         $responseBody = $response->getBody();
