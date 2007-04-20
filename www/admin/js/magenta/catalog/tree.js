@@ -3,7 +3,9 @@ Mage.Catalog_Category_Tree = function(){
     var categoryContextMenu = null;
 
     return{
-        loadTreeUrl: Mage.url+'mage_catalog/category/treeChildren/',
+        loadChildrenUrl: Mage.url+'mage_catalog/category/treeChildren/',
+        loadWebsiteUrl: Mage.url+'mage_catalog/category/treeWebsite/',
+        websiteListUrl : Mage.url + 'mage_core/website/list/',
         tree: null,
         websiteId: null,
 
@@ -14,28 +16,29 @@ Mage.Catalog_Category_Tree = function(){
                 var baseEl = layout.getEl().createChild({tag:'div'});
                 var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
                 var treeContainer = baseEl.createChild({tag:'div'});
-                var data_inputs = [
-                    ['0', 'All Websites'],
-                    ['1', 'Magento'],
-                    ['2', 'Website 2'],
-                    ['3', 'Website 3'],
-                    ['4', 'Website 4']
-                ];
-
-                var websitesCombo = new Ext.form.ComboBox({
-                   typeAhead: true,
-                   editable: false,
-                   triggerAction: 'all',
-                   mode: 'local',
-                   store: new Ext.data.SimpleStore({
-                        fields: ['website_id', 'website_code'],
-                        mode : 'local',
-                        data : data_inputs
-                   }),
-                   displayField : 'website_code',
-                   valueField : 'website_id',
-                   value:'0'
+                
+                var ds = new Ext.data.Store({
+                    proxy: new Ext.data.HttpProxy({
+                        url: this.websiteListUrl
+                    }),
+                    reader: new Ext.data.JsonReader({id: 'value'}, [
+                        {name: 'value', mapping: 'value'},
+                        {name: 'text', mapping: 'text'}
+                    ])
                 });
+                
+                var websitesCombo = new Ext.form.ComboBox({
+                    store : ds,
+                    displayField :'text',
+                    valueField : 'value',
+                    typeAhead: false,
+                    value : 'All websites',
+                    disableKeyFilter : true,
+                    editable : false,
+                    triggerAction : 'all',
+                    loadingText: 'Loading...',
+                });
+
                 websitesCombo.on('select', this.setWebsite, this);
 
                 tb.addField(websitesCombo);
@@ -60,9 +63,10 @@ Mage.Catalog_Category_Tree = function(){
                 var viewEl = treeContainer.createChild({tag:'div'});
                 this.tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:this.loadTreeUrl}),
+                    loader: new Ext.tree.TreeLoader({dataUrl:this.loadWebsiteUrl}),
                     enableDD:true,
                     containerScroll: true,
+                    rootVisible:false,
                     dropConfig: {appendOnly:true}
                 });
                 
@@ -78,13 +82,20 @@ Mage.Catalog_Category_Tree = function(){
                 });
                 this.tree.setRootNode(root);
                 this.tree.render();
+                this.loadWebsiteRoot();
             }
         },
 
-        setWebsite: function(select, record, index){
-            this.tree.loader = new Ext.tree.TreeLoader({dataUrl:this.loadTreeUrl+'website/'+index});
+        setWebsite: function(select, record){
+            this.loadWebsiteRoot(record.id);
+            this.websiteId = record.id;
+        },
+
+        loadWebsiteRoot: function(websiteId){
+            this.tree.loader.dataUrl = this.loadWebsiteUrl;
+            this.tree.loader.baseParams.website = websiteId;
             this.tree.root.reload();
-            this.websiteId = index;
+            this.tree.loader.dataUrl = this.loadChildrenUrl;
         },
 
         addChildDialog: function(){

@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Mysql4_Website_Collection extends Varien_Data_Collection_Db
+class Mage_Core_Model_Mysql4_Website_Collection extends Varien_Data_Collection_Db
 {
     protected $_websiteTable;
     
@@ -15,7 +15,7 @@ class Mage_Catalog_Model_Mysql4_Website_Collection extends Varien_Data_Collectio
     {
         parent::__construct(Mage::registry('resources')->getConnection('core_read'));
         
-        $this->_websiteTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
-        $this->_sqlSelect->from($this->_attributeTable);
+        $this->_websiteTable = Mage::registry('resources')->getTableName('core_resource', 'website');
+        $this->_sqlSelect->from($this->_websiteTable);
     }
 }

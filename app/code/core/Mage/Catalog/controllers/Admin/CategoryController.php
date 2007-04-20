@@ -58,17 +58,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     public function treeChildrenAction()
     {
         $tree = Mage::getModel('catalog','category_tree');
-        $parentNodeId = (int) $this->getRequest()->getPost('node',false);
-        if (!$parentNodeId) {
-            $websiteId = $this->getRequest()->getParam('website', false);
-            if ($websiteId) {
-                $parentNodeId = Mage::getModel('core', 'website')->load($websiteId)->getRootCategoryId();
-            }
-            else {
-                // TODO: get root tree node from...
-                $parentNodeId = 1;
-            }
-        }
+        $parentNodeId = (int) $this->getRequest()->getPost('node',1);
 
         $children = $tree->getLevel($parentNodeId);
 
@@ -85,6 +75,25 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($items));
+    }
+    
+    public function treeWebsiteAction()
+    {
+            $websiteId = (int) $this->getRequest()->getParam('website', false);
+            if ($websiteId) {
+                $website = Mage::getModel('core', 'website')->load($websiteId);
+            }
+            else {
+                $website = Mage::getModel('core', 'website')->setRootCategoryId(1);
+            }
+            
+            $item = array(
+                'text'  => __('Catalog categories'),
+                'id'    => $website->getRootCategoryId(),
+                'cls'   => 'folder',
+                'expanded' => 'true'
+            );
+            $this->getResponse()->setBody(Zend_Json::encode(array($item)));
     }
 
     //Category attributes
