@@ -17,7 +17,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
         $arrRes = array();
         $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
-            $addressCollection = Mage::getModel('customer', 'address_collection')->loadByCustomerId($customerId);
+            $addressCollection = Mage::getModel('customer_resource', 'address_collection')->loadByCustomerId($customerId);
             foreach ($addressCollection as $address) {
                 $arrRes[] = array(
                     'address_id'=> $address->getAddressId(),
@@ -90,7 +90,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
                 'title' => __('Lastname'),
                 'validation'=> '',
                 'ext_type'  => 'TextField'
-        	)
+            )
         );
 
         $form->addField('company', 'text',

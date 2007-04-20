@@ -10,7 +10,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=$_address->toString()?>
+                        <?=$_address->toString(':firstname :lastname<br />:street1<br />:street2')?>
                     </address>
                     <p>
                         <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>

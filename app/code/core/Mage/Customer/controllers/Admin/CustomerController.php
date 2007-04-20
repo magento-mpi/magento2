@@ -15,7 +15,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
     public function gridDataAction()
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
-        $collection = Mage::getModel('customer', 'customer_collection');
+        $collection = Mage::getModel('customer_resource', 'customer_collection');
         $collection->setPageSize($pageSize);
         
         
@@ -53,7 +53,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             ),
             1 => array(
                 'type' => 'address',
-			    'active' => false
+                'active' => false
             ),
         );
         
@@ -80,7 +80,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             'hidden', 
             array (
                 'name'=>'customer_id',
-            	'value' => $customerId
+                'value' => $customerId
             )
         );
                 
