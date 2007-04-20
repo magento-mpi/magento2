@@ -267,25 +267,23 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     public function getBaseUrl($params=array())
     {
-        if (empty($params['_website'])) {
-            $params['_website'] = Mage::registry('website')->getCode();
-        }
-        $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
-        $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
+        if (!Mage::registry('website')->getIsAdmin()) {
+            if (empty($params['_website'])) {
+                $params['_website'] = Mage::registry('website')->getCode();
+            }
+            $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
+            $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
+    
+            $protocol = (string)$urlConfig->protocol;
+            $host = (string)$urlConfig->host;
+            $port = (int)$urlConfig->port;
+            $basePath = (string)$urlConfig->basePath;
 
-        $protocol = (string)$urlConfig->protocol;
-        $host = (string)$urlConfig->host;
-        $port = (int)$urlConfig->port;
-        $basePath = (string)$urlConfig->basePath;
-        $basePath = empty($basePath) ? '/' : $basePath;
-
-        $isAdmin = Mage::registry('website')->getIsAdmin();
-        if (!$isAdmin) {
             $url = $protocol.'://'.$host;
             $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-            $url .= $basePath;
+            $url .= empty($basePath) ? '/' : $basePath;
         } else {
-            $url = $basePath.'admin/';
+            $url = dirname($_SERVER['SCRIPT_NAME']).'/';
         }
 
         if (isset($params['_type'])) {

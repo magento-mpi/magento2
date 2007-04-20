@@ -226,7 +226,7 @@ class Varien_Simplexml_Config
         }
         // check that no source files were changed or check file exsists
         foreach ($data as $sourceFile=>$mtime) {
-            if (!is_file($sourceFile) && filemtime($sourceFile)!==$mtime) {
+            if (!is_file($sourceFile) || filemtime($sourceFile)!==$mtime) {
                 return false;
             }
         }

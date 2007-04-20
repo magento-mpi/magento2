@@ -385,7 +385,17 @@ function __()
     return call_user_func_array('sprintf', $args);
 }
 
-function uc_words($str, $sep='_')
+/**
+ * Tiny function to enhance functionality of ucwords
+ * 
+ * Will capitalize first letters and convert separators if needed
+ *
+ * @param string $str
+ * @param string $destSep
+ * @param string $srcSep
+ * @return string
+ */
+function uc_words($str, $destSep='_', $srcSep='_')
 {
-    return str_replace(' ', $sep, ucwords(str_replace('_', ' ', $str)));
+    return str_replace(' ', $destSep, ucwords(str_replace($srcSep, ' ', $str)));
 }
