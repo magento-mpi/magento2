@@ -231,7 +231,12 @@ class Mage_Customer_Model_Mysql4_Address
     
     protected function _setAsPrimaryByType(Mage_Customer_Model_Address $address, $typeId)
     {
-        // TODO: set is_primary=0 for all custmer address by type
+        $sql = 'UPDATE '.self::$_typeLinkTable.' 
+                SET is_primary=0 
+                WHERE 
+                    address_id IN(SELECT address_id FROM '.self::$_addressTable.' WHERE customer_id=:customer_id)
+                    AND address_type_id=:type_id';
+        self::$_write->query($sql, array('customer_id'=>$address->getCustomerId(), 'type_id'=>$typeId));
         //self::$_write->update(self::$_typeLinkTable, array('is_primary'=>0),self::$_write->quoteInto('address_type_id=?',$typeId));
         
         $condition = self::$_write->quoteInto('address_id=?',$address->getId()) . 
