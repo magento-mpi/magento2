@@ -52,26 +52,25 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     }
     
     /**
-     * Categories tree
-     *
-     */
-    public function treeAction()
-    {
-        $this->loadLayout('admin', 'catalog_category_tree');
-        
-        $this->renderLayout();
-    }
-    
-    /**
      * Category tree json
      *
      */
     public function treeChildrenAction()
     {
         $tree = Mage::getModel('catalog','category_tree');
+        $parentNodeId = (int) $this->getRequest()->getPost('node',false);
+        if (!$parentNodeId) {
+            $websiteId = $this->getRequest()->getParam('website', false);
+            if ($websiteId) {
+                $parentNodeId = Mage::getModel('core', 'website')->load($websiteId)->getRootCategoryId();
+            }
+            else {
+                // TODO: get root tree node from...
+                $parentNodeId = 1;
+            }
+        }
 
-        $children = $tree->getLevel($this->getRequest()->getPost('node',1));
-        //$data = $tree->getLevel(1);
+        $children = $tree->getLevel($parentNodeId);
 
         $items = array();
         foreach ($children as $child) {

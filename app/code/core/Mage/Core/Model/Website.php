@@ -21,6 +21,29 @@ class Mage_Core_Model_Website extends Varien_Data_Object
         return $this;
     }
     
+    public function getId()
+    {
+        if ($this->getWebsiteId()) {
+            return $this->getWebsiteId();
+        }
+        return (int) $this->getConfig()->id;
+    }
+    
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('core_resource', 'website');
+        }
+        return $resource;
+    }
+    
+    public function load($websiteId)
+    {
+        $this->setData($this->getResource()->load($websiteId));
+        return $this;
+    }
+    
     public function getConfig()
     {
         return Mage::getConfig()->getWebsiteConfig($this->getCode());

@@ -3,14 +3,17 @@ Mage.Catalog_Category_Tree = function(){
     var categoryContextMenu = null;
 
     return{
-        loadTreeUrl: Mage.url+'/mage_catalog/category/treeChildren',
+        loadTreeUrl: Mage.url+'mage_catalog/category/treeChildren/',
+        tree: null,
+        websiteId: null,
 
         create: function(panel){
-            if (!tree) {
+            if (!this.tree) {
                 Ext.QuickTips.init();
                 var layout = Mage.Catalog.getLayout('tree');
-                var treeContainer = layout.getEl().createChild({tag:'div', id:'catalog_category_tree_cont'});
-                var tb = new Ext.Toolbar(treeContainer.createChild({tag:'div'}));
+                var baseEl = layout.getEl().createChild({tag:'div'});
+                var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
+                var treeContainer = baseEl.createChild({tag:'div'});
                 var data_inputs = [
                     ['0', 'All Websites'],
                     ['1', 'Magento'],
@@ -33,7 +36,8 @@ Mage.Catalog_Category_Tree = function(){
                    valueField : 'website_id',
                    value:'0'
                 });
-                
+                websitesCombo.on('select', this.setWebsite, this);
+
                 tb.addField(websitesCombo);
                 
                 categoryContextMenu = new Ext.menu.Menu({
@@ -45,38 +49,42 @@ Mage.Catalog_Category_Tree = function(){
                                 {text: 'Delete Category',handler:this.deleteCategoryConfirm.createDelegate(this)}]
                     });
 
-                var viewEl = treeContainer.createChild({tag:'div', id:'catalog_category_tree'});
-                var treePanel = layout.add('center', new Ext.ContentPanel(treeContainer, {
-                    title:'<b>Catalog</b>', 
+                var treePanel = layout.add('center', new Ext.ContentPanel(baseEl, {
                     fitToFrame:true,
                     autoScroll:true,
                     autoCreate:true,
-                    //toolbar: tb,
-                    resizeEl:viewEl
+                    toolbar: tb,
+                    resizeEl:treeContainer
                 }));
                 
-                tree = new Ext.tree.TreePanel(viewEl, {
+                var viewEl = treeContainer.createChild({tag:'div'});
+                this.tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_catalog/category/treeChildren'}),
+                    loader: new Ext.tree.TreeLoader({dataUrl:this.loadTreeUrl}),
                     enableDD:true,
                     containerScroll: true,
                     dropConfig: {appendOnly:true}
                 });
                 
-                tree.addListener('contextmenu',this.categoryRightClick,this);
-                tree.addListener('click',this.categoryClick.createDelegate(this));
-                tree.addListener('dblclick',this.categoryDblClick,this);
-                tree.addListener('beforenodedrop', this.moveNode, this);
+                this.tree.addListener('contextmenu',this.categoryRightClick,this);
+                this.tree.addListener('click',this.categoryClick.createDelegate(this));
+                this.tree.addListener('dblclick',this.categoryDblClick,this);
+                this.tree.addListener('beforenodedrop', this.moveNode, this);
 
                 var root = new Ext.tree.AsyncTreeNode({
                     text: 'Catalog Categories', 
                     draggable:false,
-                    id:'1',
                     expanded:false
                 });
-                tree.setRootNode(root);
-                tree.render();
+                this.tree.setRootNode(root);
+                this.tree.render();
             }
+        },
+
+        setWebsite: function(select, record, index){
+            this.tree.loader = new Ext.tree.TreeLoader({dataUrl:this.loadTreeUrl+'website/'+index});
+            this.tree.root.reload();
+            this.websiteId = index;
         },
 
         addChildDialog: function(){

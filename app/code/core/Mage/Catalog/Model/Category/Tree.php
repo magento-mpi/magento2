@@ -16,6 +16,8 @@ class Mage_Catalog_Model_Category_Tree
      * @var Varien_Db_Tree
      */
     private $_dbTree;
+    
+    protected $_websiteId;
 
     public function __construct()
     {
@@ -36,7 +38,7 @@ class Mage_Catalog_Model_Category_Tree
 
             $attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
             $condition = "$attributeValueTable.category_id=$treeTable.category_id
-                          AND $attributeValueTable.website_id=".Mage::registry('website')->getId();
+                          AND $attributeValueTable.website_id=".$this->getWebsiteId();
 
             $this->_dbTree->addTable($attributeValueTable, $condition);
 
@@ -57,7 +59,22 @@ class Mage_Catalog_Model_Category_Tree
     function getObject() {
         return $this->_dbTree;
     }
-
+    
+    public function getWebsiteId()
+    {
+        if ($this->_websiteId) {
+            return $this->_websiteId;
+        }
+        else {
+            return Mage::registry('website')->getId();
+        }
+    }
+    
+    public function setWebsiteId($websiteId)
+    {
+        $this->_websiteId = $websiteId;
+    }
+    
     /**
      * Retrieve tree of attributes (currently categories)
      *
@@ -94,9 +111,8 @@ class Mage_Catalog_Model_Category_Tree
             echo $e->getMessage();
         } catch (Zend_Exception $e) {
             echo $e->getMessage();
-            exit();
         }
-
+        return array();
     }
 
     /**

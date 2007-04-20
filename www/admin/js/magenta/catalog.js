@@ -28,10 +28,21 @@ Mage.Catalog = function(depend){
                 
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
+                            split:true,
+                            initialSize: 200,
+                            minSize: 175,
+                            maxSize: 400,
+                            //titlebar: true,
+                            collapsible: true,
+                            animate: true,
+                            autoScroll:false,
+                            useShim:true,
+                            cmargins: {top:0,bottom:2,right:2,left:2}
+                            /*
                             hideWhenEmpty : true,
                             autoScroll:false,
                             titlebar:false,
-                            tabPosition : 'top'
+                            tabPosition : 'top'*/
                         }, 
                         south: {
                             hideWhenEmpty : true,
@@ -54,7 +65,7 @@ Mage.Catalog = function(depend){
                 Layout_West.endUpdate();
                 
                 Layout.beginUpdate();
-                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : 'Catalog'}));
+                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : '<b>Catalog</b>'}));
                 Layout.endUpdate();
                 
                 Core_Layout.beginUpdate();
