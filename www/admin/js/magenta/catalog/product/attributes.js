@@ -258,7 +258,9 @@ Mage.Catalog_Product_Attributes = function(){
                         
                         var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
                             allowDrop:false,
-                            type : 'dropped',
+                            allowDrag:true,
+                            type : 'typeAttr',
+                            setId : e.target.attributes.setId,
                             cls : 'x-tree-node-loading',
                             text: s[i].data.attribute_code
                         });
