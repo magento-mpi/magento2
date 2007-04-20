@@ -13,6 +13,8 @@ Mage.Catalog_Product_Attributes = function(){
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributecommit/',
 
+        addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes',
+        
         setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
 
         setGrid : null,
@@ -253,16 +255,34 @@ Mage.Catalog_Product_Attributes = function(){
                     var s = e.data.selections, r = [];
                     for(var i = 0, len = s.length; i < len; i++){
                         var attrId = s[i].id; // s[i] is a Record from the grid
-                        r.push(new Ext.tree.TreeNode({ // build array of TreeNodes to add
+                        
+                        var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
                             allowDrop:false,
-                            text: s[i].data.attribute_code,
-                            type : 'typeAttr'
-                        }));
+                            type : 'dropped',
+                            cls : 'x-tree-node-loading',
+                            text: s[i].data.attribute_code
+                        });
+                        node.on('click', function(){
+                            node.ui.afterLoad();
+                        })
+                        r.push(node);
                     }
-                    var conn = new Ext.data.Connection();
+//                    var conn = new Ext.data.Connection();
+//            		conn.on('requestcomplete', function(dm, response, option) {
+//                        
+//                    });
+//                    conn.on('requestexception', function(dm, response, option, e) {
+//                    });
+//                    conn.request( {
+//                        url: this.addGroupAttributes,
+//                        method: "POST",
+//                        params: {
+//                        }
+//                    });                
+                    
                     e.dropNode = r;  // return the new nodes to the Tree DD
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
-                });                
+                });    
                 
                 //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
                 
@@ -364,7 +384,7 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                 } else {
                     var newnode = createGroup(n, 'Group'+(++gseed));
-                    newnode.select();
+                    //newnode.ui.addClass('x-tree-node-loading');
                     ge.triggerEdit(newnode);
                 }
             }
