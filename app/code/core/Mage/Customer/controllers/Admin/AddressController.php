@@ -21,7 +21,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
             foreach ($addressCollection as $address) {
                 $arrRes[] = array(
                     'address_id'=> $address->getAddressId(),
-                    'address'   => $address->toString()
+                    'address'   => $address->toString("<b>{{firstname}} {{lastname}}</b><br />{{street}}<br />T: {{telephone}}")
                 );
             }
         }
