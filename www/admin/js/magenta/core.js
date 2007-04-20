@@ -150,7 +150,7 @@ Mage.Search = function() {
         init : function() {
            var ds = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({
-                    url: Mage.url + '/mage_core/search/do/'
+                    url: Mage.url + 'mage_core/search/do/'
                 }),
                 reader: new Ext.data.JsonReader({
                     root: 'items',

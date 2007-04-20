@@ -1,58 +1,126 @@
 Mage.Sales = function(depend){
-    var loaded = false;
-    var Layout = null;
     return {
-        _layouts : new Ext.util.MixedCollection(true),
+        layout : null,
+        
+        webSiteTree : null,
+        
+        oTree : null,
+        websiteCBUrl : Mage.url + 'mage_core/website/list/',
+        websitesTreeUrl : Mage.url + 'mage_core/website/treelist',
+        
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
-            if (!Layout) {
-                Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
+            if (!this.layout) {
+                this.layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     center : {
                         autoScroll : false,
                         titlebar : false,
                         hideTabs:true
                     },
-                    south: {
+                    west: {
                         split:true,
                         initialSize:200,
                         minSize:100,
                         maxSize:400,
-                        autoScroll:true,
+                        autoScroll:false,
                         collapsible:true,
-                        collapsedTitle : '<b>Order info</b>'
+                        hideTabs:true
                      }
                 });
-                
-                this._layouts.add('main', Layout);
-                
 
-                Layout.beginUpdate();
-                Layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                this.layout.beginUpdate();
+                this.layout.add('center', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
                 }));
-                Layout.add('south', new Ext.ContentPanel(Ext.id(), {
+                this.layout.add('west', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
                 }));
-                Layout.endUpdate();
+                this.layout.endUpdate();
                 
                 Core_Layout.beginUpdate();
-                Core_Layout.add('center', new Ext.NestedLayoutPanel(Layout, {title:"Orders",closable:false}));
+                Core_Layout.add('center', new Ext.NestedLayoutPanel(this.layout, {title:"Orders", closable:false}));
                 Core_Layout.endUpdate();            
-                loaded = true;
                 
+                this.loadWebSitesTree();
             } else { // not loaded condition
-                Mage.Core.getLayout().getRegion('center').showPanel(Layout);
+                Mage.Core.getLayout().getRegion('center').showPanel(this.layout);
             }
-        },
-        
-        getLayout : function(name) {
-            return this._layouts.get(name);
         },
         
         loadMainPanel : function() {
             this.init();
+
+        },
+        
+        loadWebSitesTree : function() {
+            this.initWebSiteTree();            
+        },
+        
+        initWebSiteTree : function() {
+            var layoutEl = this.layout.getEl();
+            if (!layoutEl) {
+                return false;
+            }
+            
+            panelEl = layoutEl.createChild({children:[{id:'tree-tb'},{id:'tree-body'}]});
+            var tb = new Ext.Toolbar('tree-tb');
+            var ds = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({
+                    url: this.websiteCBUrl
+                }),
+                reader: new Ext.data.JsonReader({
+                    root: 'websites',
+                    totalProperty: 'totalCount',
+                    id: 'website_id'
+                }, [
+                    {name: 'id', mapping: 'id'},
+                    {name: 'name', mapping: 'name'}
+                ])
+            });
+
+            tb.addField(new Ext.form.ComboBox({
+                store : ds,
+                displayField :'name',
+                valueField : 'value',
+                typeAhead: false,
+                disableKeyFilter : true,
+                editable : false,
+               	triggerAction : 'all',
+                loadingText: 'Loading...',
+            }));
+            
+            var panel = this.layout.add('west', new Ext.ContentPanel(panelEl, {
+                fitToFrame : true,
+                autoScroll:true,
+                resizeEl : panelEl,
+                toolbar : tb
+            }))
+            
+            this.oTree = new Ext.tree.TreePanel(panel.getEl().createChild({id:Ext.id()}),{
+                animate:true,
+                enableDD:true,
+                containerScroll: true,
+                lines:false,
+                rootVisible:false,
+                loader: new Ext.tree.TreeLoader()
+            });
+            
+            var wsRoot = new Ext.tree.AsyncTreeNode({
+                allowDrag:true,
+                allowDrop:true,
+                id:'wsroot',
+                text:'WebSites',
+                cls:'wsroot',
+                loader:new Ext.tree.TreeLoader({
+                    dataUrl: this.websitesTreeUrl
+                })
+            });
+                
+            this.oTree.setRootNode(wsRoot);
+            this.oTree.render();
+            wsRoot.expand();            
         }
     }
 }();

@@ -272,7 +272,7 @@ Mage.Catalog_Product_Attributes = function(){
                     text:'Sets',
                     cls:'croot',
                     loader:new Ext.tree.TreeLoader({
-                        dataUrl: this.setTreeUrl,
+                        dataUrl: this.setTreeUrl
                     })
                 });
                 
