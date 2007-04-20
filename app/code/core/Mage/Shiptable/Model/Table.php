@@ -28,7 +28,7 @@ class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstra
 	    	$quote = Mage::getModel('sales', 'shipping_method_service');
 	    	
 	    	$vendor = 'shiptable';
-	    	$vendorTitle = (string)Mage::getSingleton('sales', 'config')->getShippingDefaults($vendor)->title;
+	    	$vendorTitle = (string)Mage::getSingleton('sales', 'config')->getShippingConfig($vendor)->title;
 	    	$quote->setVendor($vendor);
 	    	$quote->setVendorTitle($vendorTitle);
 	    	

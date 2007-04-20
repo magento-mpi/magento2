@@ -7,9 +7,10 @@ class Mage_Auth_Admin
         $auth = Mage::getSingleton('auth', 'session');
 
 #$auth->acl = null;
+        $request = Mage::registry('controller')->getRequest();
 
-        if (!$auth->getUser() && isset($_POST['login'])) {
-            extract($_POST['login']);
+        if (!$auth->getUser() && $request->getPost('login')) {
+            extract($request->getPost('login'));
             if (!empty($username) && !empty($password)) {
                 $auth->setUser(Mage::getModel('auth_resource', 'auth')->authenticate($username, $password));
             }

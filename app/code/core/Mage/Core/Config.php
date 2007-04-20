@@ -277,13 +277,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $host = (string)$urlConfig->host;
         $port = (int)$urlConfig->port;
         $basePath = (string)$urlConfig->basePath;
+        $basePath = empty($basePath) ? '/' : $basePath;
 
-        $url = $protocol.'://'.$host;
-        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-        $url .= empty($basePath) ? '/' : $basePath;
-
-        if (Mage::registry('website')->getIsAdmin()) {
-            $url .= 'admin/';
+        $isAdmin = Mage::registry('website')->getIsAdmin();
+        if (!$isAdmin) {
+            $url = $protocol.'://'.$host;
+            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+            $url .= $basePath;
+        } else {
+            $url = $basePath.'admin/';
         }
 
         if (isset($params['_type'])) {
