@@ -28,7 +28,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     {
         $this->_steps = array();
         
-        if (!Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
+        if (!Mage::getSingleton('customer', 'session')->isLoggedIn()) {
             $this->_steps['method'] = array();
             $this->_steps['method']['label'] = 'Checkout';
             $this->_steps['method']['allow'] = true;
@@ -87,7 +87,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         // assign customer addresses
-        $customerSession = Mage::getSingleton('customer_model', 'session');
+        $customerSession = Mage::getSingleton('customer', 'session');
         if ($customerSession->isLoggedIn()) {
             $customer = $customerSession->getCustomer();
             $addresses = $customer->getAddressCollection();
@@ -140,7 +140,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         // assign customer addresses
-        $customerSession = Mage::getSingleton('customer_model', 'session');
+        $customerSession = Mage::getSingleton('customer', 'session');
         if ($customerSession->isLoggedIn()) {
             $customer = $customerSession->getCustomer();
             $addresses = $customer->getAddressCollection();

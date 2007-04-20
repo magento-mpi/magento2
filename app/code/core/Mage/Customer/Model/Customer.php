@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
+class Mage_Customer_Model_Customer extends Varien_Data_Object
 {
     /**
      * Customer address collection
@@ -33,22 +33,69 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         return parent::__sleep();
     }
     
-    public function __wakeup()
+    public function getId()
     {
-        
+        return $this->getCustomerId();
     }
 
-    abstract public function authenticate($login, $password);
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('customer_resource', 'customer');
+        }
+        return $resource;
+    }
     
-    abstract public function load($customerId);
+    public function authenticate($login, $password)
+    {
+        if ($this->getResource()->authenticate($this, $login, $password)) {
+            return $this;
+        }
+        return false;
+    }
     
-    abstract public function loadByEmail($customerEmail);
+    public function load($customerId)
+    {
+        $this->setData($this->getResource()->load($customerId));
+        return $this;
+    }
     
-    abstract public function save();
+    public function loadByEmail($customerEmail)
+    {
+        $this->setData($this->getResource()->loadByEmail($customerEmail));
+        return $this;
+    }
     
-    abstract public function changePassword($data, $checkCurrent=true);
+    public function save()
+    {
+        $this->getResource()->save($this);
+        return $this;
+    }
     
-    abstract public function delete();
+    /**
+     * Change customer password
+     * $data = array(
+     *      ['password']
+     *      ['confirmation']
+     *      ['current_password']
+     * )
+     * 
+     * @param   array $data
+     * @param   bool $checkCurrent
+     * @return  this
+     */
+    public function changePassword($data, $checkCurrent=true)
+    {
+        $this->getResource()->changePassword($this->getId(), $data, $checkCurrent);
+        return $this;
+    }
+    
+    public function delete()
+    {
+        $this->getResource()->delete($this->getId());
+        return $this;
+    }
     
     public function getName()
     {
@@ -67,8 +114,8 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
     
     public function getAddressById($addressId)
     {
-        $address = Mage::getConfig()->getModelClassName('customer', 'address');
-        $address->load($addressId);
+        $address = Mage::getConfig()->getModelClassName('customer', 'address')
+            ->load($addressId);
         return $address;
     }
 
@@ -79,18 +126,18 @@ abstract class Mage_Customer_Model_Customer extends Varien_Data_Object
         }
         
         if ($this->getCustomerId()) {
-            $this->_addresses = Mage::getModel('customer', 'address_collection')->loadByCustomerId($this->getCustomerId());
+            $this->_addresses = Mage::getModel('customer_resource', 'address_collection')->loadByCustomerId($this->getCustomerId());
         }
         else {
-            $this->_addresses = Mage::getModel('customer', 'address_collection');
+            $this->_addresses = Mage::getModel('customer_resource', 'address_collection');
         }
         
         return $this->_addresses;
     }
     
-    protected function _hashPassword($password)
+    public function getHashPassword()
     {
-        return md5($password);
+        return $this->getResource()->hashPassword($this->getPassword());
     }
     
     /**

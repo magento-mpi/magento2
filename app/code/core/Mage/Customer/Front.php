@@ -9,10 +9,10 @@
  */
 class Mage_Customer_Front
 {
-    public static function action_postDispatch()
+    public static function beforeRenderLayout()
     {
         // Add logout link
-        if (Mage::getSingleton('customer_model', 'session')->isLoggedIn()) {
+        if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
             $topLinks = Mage::getBlock('top.links');
             if (!$topLinks) {
                 return;
@@ -22,7 +22,7 @@ class Mage_Customer_Front
                     ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''))
                 ->insert(Mage::createBlock('tag', 'top.links.welcome')
                     ->setTagName('strong')
-                    ->setContents('Welcome, ' . Mage::getSingleton('customer_model', 'session')->getCustomer()->getName()));
+                    ->setContents('Welcome, ' . Mage::getSingleton('customer', 'session')->getCustomer()->getName()));
         }
     }
 }

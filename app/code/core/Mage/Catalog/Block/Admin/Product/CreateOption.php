@@ -26,8 +26,8 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         $setOptions = array();
         foreach ($arrSets['items'] as $item) {
             $setOptions[] = array(
-                'label' => $item['product_set_code'],
-                'value' => $item['product_attribute_set_id']
+                'label' => $item['code'],
+                'value' => $item['set_id']
             );
         }
 

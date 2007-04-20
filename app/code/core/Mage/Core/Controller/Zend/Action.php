@@ -70,28 +70,28 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      {
         Varien_Profiler::setTimer('loadLayout');
          
-		if (''===$key) {
-		    if (is_array($ids)) {
-		        Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
-		    }
-		    $key = $area.'_'.$ids;
-		}
-		 
-		$layout = $this->getLayout()->init($key);
-		
-		if (!$layout->isCacheLoaded()) {
-		    foreach ((array)$ids as $id) {
-		        $layout->loadUpdatesFromConfig($area, $id);
-		    }
-		    $layout->saveCache();
-		}
-		Varien_Profiler::setTimer('loadLayout', true);
-		
-		Varien_Profiler::setTimer('createBlocks');
-		$layout->createBlocks();
-		Varien_Profiler::setTimer('createBlocks', true);
-		
-		return $this;
+        if (''===$key) {
+            if (is_array($ids)) {
+                Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
+            }
+            $key = $area.'_'.$ids;
+        }
+         
+        $layout = $this->getLayout()->init($key);
+        
+        if (!$layout->isCacheLoaded()) {
+            foreach ((array)$ids as $id) {
+                $layout->loadUpdatesFromConfig($area, $id);
+            }
+            $layout->saveCache();
+        }
+        Varien_Profiler::setTimer('loadLayout', true);
+        
+        Varien_Profiler::setTimer('createBlocks');
+        $layout->createBlocks();
+        Varien_Profiler::setTimer('createBlocks', true);
+        
+        return $this;
      }
      
      function renderLayout($output='')

@@ -32,6 +32,10 @@
 
       <models>
          <customer>
+            <class>Mage_Customer_Model</class>
+         </customer>
+
+         <customer_resource>
             <class>Mage_Customer_Model_Mysql4</class>
 
             <entities>
@@ -71,11 +75,7 @@
             <subs>
                 <session></session>
             </subs>
-         </customer>
-         
-         <customer_model>
-            <class>Mage_Customer_Model</class>
-         </customer_model>
+         </customer_resource>
       </models>
 
       <resources>
@@ -110,15 +110,15 @@
       </layouts>
 
       <events>
-         <action_postDispatch>
+         <beforeRenderLayout>
             <observers>
                <auth>
                   <class>Mage_Customer_Front</class>
 
-                  <method>action_postDispatch</method>
+                  <method>beforeRenderLayout</method>
                </auth>
             </observers>
-         </action_postDispatch>
+         </beforeRenderLayout>
       </events>
       
       <routers>

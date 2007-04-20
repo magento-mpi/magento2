@@ -46,7 +46,7 @@
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
                 <?if($regions->getSize()):?>
-                    <select name="region_id" value="" title="State/Province" id="state"  class="input-text required-entry"/>
+                    <select name="region" value="" title="State/Province" id="state"  class="input-text required-entry"/>
                         <option value="">Select State/Province...</option>
                         <?=$regions->toHtmlOptions($data->getRegionId())?>
                     </select>
@@ -97,6 +97,6 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate');
-    dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>/directory/json/childRegion/');
+    dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
 </script>
 </div>

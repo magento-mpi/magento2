@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Customer_Model_Address extends Varien_Data_Object 
+class Mage_Customer_Model_Address extends Varien_Data_Object 
 {
     /**
      * address types
@@ -39,13 +39,47 @@ abstract class Mage_Customer_Model_Address extends Varien_Data_Object
         }
     }
     
-    public function load($addressId) {}
-
-    public function save() {}
-
-    public function delete() {}
+    public function getId()
+    {
+        return $this->getAddressId();
+    }
     
-    public function getAvailableTypes($by='code', $langCode='en') {}
+    public function getResource()
+    {
+        static $resource;
+        if (!$resource) {
+            $resource = Mage::getModel('customer_resource', 'address');
+        }
+        return $resource;
+    }
+    
+    public function load($addressId) 
+    {
+        $this->setData($this->getResource()->load($addressId));
+        $types = $this->getResource()->loadTypes($addressId);
+        foreach ($types as $typeId => $typeInfo) {
+            $this->setType($typeId, $typeInfo['code'], $typeInfo['primary']);
+        }
+        return $this;
+    }
+
+    public function save($useTransaction=true) 
+    {
+        $this->getResource()->save($this, $useTransaction);
+        return $this;
+    }
+
+    public function delete() 
+    {
+        $this->getResource()->delete($this->getId());
+        $this->setData(array());
+        return $this;
+    }
+    
+    public function getAvailableTypes($by='code', $langCode='en') 
+    {
+        return $this->getResource()->getAvailableTypes($by, $langCode);
+    }
     
     public function setPrimaryTypes($types)
     {

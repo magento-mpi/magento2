@@ -14,7 +14,7 @@ class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collect
     public function __construct() 
     {
         parent::__construct(Mage::registry('resources')->getConnection('customer_read'));
-        $this->_customerTable = Mage::registry('resources')->getTableName('customer', 'customer');
+        $this->_customerTable = Mage::registry('resources')->getTableName('customer_resource', 'customer');
         $this->_sqlSelect->from($this->_customerTable);
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer', 'customer'));

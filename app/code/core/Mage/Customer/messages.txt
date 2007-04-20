@@ -8,6 +8,8 @@ CSTE005 empty current password when password change
 CSTE006 wrong current password when password change
 CSTE007 password != confirmation when password change
 CSTE008 change password error
+CSTE009 empty customer id
+CSTE010 Customer delete error
 
 // Addresses
 CSTE020 wrong address id for customer id

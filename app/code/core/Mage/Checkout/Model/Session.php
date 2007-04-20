@@ -26,7 +26,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
             if ($this->getQuoteId() && !$quote->getCustomerId()) {
-                $customerSession = Mage::getSingleton('customer_model', 'session');
+                $customerSession = Mage::getSingleton('customer', 'session');
                 if ($customerSession->isLoggedIn()) {
                     $quote->setCustomerId($customerSession->getCustomerId())->save();
                 }
@@ -38,7 +38,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function loadCustomerQuote()
     {
-        $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();
+        $customerId = Mage::getSingleton('customer', 'session')->getCustomerId();
         $customerQuote = Mage::getModel('sales', 'quote');
         if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {

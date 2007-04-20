@@ -13,7 +13,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
         
-        if (!Mage::getSingleton('customer_model', 'session')->authenticate($this)) {
+        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -27,15 +27,15 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         // Load addresses
-        $customerId = Mage::getSingleton('customer_model', 'session')->getCustomerId();
-        $addressCollection = Mage::getModel('customer', 'address_collection');
+        $customerId = Mage::getSingleton('customer', 'session')->getCustomerId();
+        $addressCollection = Mage::getModel('customer_resource', 'address_collection');
         $addressCollection->loadByCustomerId($customerId);
         
         $block = Mage::createBlock('tpl', 'customer.address')
             ->setViewName('Mage_Customer', 'address.phtml')
             ->assign('primaryAddresses', $addressCollection->getPrimaryAddresses())
             ->assign('alternativeAddresses', $addressCollection->getPrimaryAddresses(false))
-            ->assign('messages', Mage::getSingleton('customer_model', 'session')->getMessages(true));
+            ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
         
         Mage::getBlock('content')->append($block);
         
@@ -52,22 +52,22 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         
         $addressId = $this->getRequest()->getParam('address', false);
         $address = Mage::getModel('customer', 'address');
-        $data = Mage::getSingleton('customer_model', 'session')->getAddressFormData(true);
+        $data = Mage::getSingleton('customer', 'session')->getAddressFormData(true);
         
         if ($addressId) {
             $address->load($addressId);
             
             // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!=Mage::getSingleton('customer_model', 'session')->getCustomerId()) {
-                Mage::getSingleton('customer_model', 'session')
-                    ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE020'));
+            if ($address->getCustomerId()!=Mage::getSingleton('customer', 'session')->getCustomerId()) {
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->error('CSTE020'));
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'address')));
                 return;
             }
             
             $primary = $address->getPrimaryTypes();
         } else {
-            $address->setCustomerId(Mage::getSingleton('customer_model', 'session')->getCustomerId());
+            $address->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomerId());
             $primary = array();
         }
 
@@ -84,7 +84,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             ->assign('regions',     $countries->getDefault($address->getCountryId())->getRegions())
             ->assign('address',     $address)
             ->assign('data',        $data)
-            ->assign('messages',    Mage::getSingleton('customer_model', 'session')->getMessages(true))
+            ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('primaryTypes',$address->getAvailableTypes());
             
         Mage::getBlock('content')->append($block);
@@ -101,21 +101,21 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $url = Mage::getUrl('customer', array('controller'=>'address', 'action'=>'form', 'address'=>$address->getAddressId()));
 
             // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!==Mage::getSingleton('customer_model', 'session')->getCustomerId()) {
-                Mage::getSingleton('customer_model', 'session')
-                    ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE020'));
+            if ($address->getCustomerId()!==Mage::getSingleton('customer', 'session')->getCustomerId()) {
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->error('CSTE020'));
                 $this->_redirect($url);
                 return;
             }
             
             try {
                 $address->save();
-                Mage::getSingleton('customer_model', 'session')
-                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS004'));
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->success('CSTS004'));
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'address')));
             }
             catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('customer_model', 'session')
+                Mage::getSingleton('customer', 'session')
                     ->setAddressFormData($this->getRequest()->getPost())
                     ->addMessages($e->getMessages());
             }
@@ -132,20 +132,20 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address = Mage::getModel('customer', 'address')->load($addressId);
             
             // Validate address_id <=> customer_id
-            if ($address->getCustomerId() != Mage::getSingleton('customer_model', 'session')->getCustomerId()) {
-                Mage::getSingleton('customer_model', 'session')
-                    ->addMessage(Mage::getModel('customer_model', 'message')->error('CSTE020'));
+            if ($address->getCustomerId() != Mage::getSingleton('customer', 'session')->getCustomerId()) {
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->error('CSTE020'));
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'address')));
                 return;
             }
             
             try {
                 $address->delete();
-                Mage::getSingleton('customer_model', 'session')
-                    ->addMessage(Mage::getModel('customer_model', 'message')->success('CSTS005'));
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->success('CSTS005'));
             }
             catch (Mage_Core_Exception $e){
-                Mage::getSingleton('customer_model', 'session')
+                Mage::getSingleton('customer', 'session')
                     ->addMessages($e->getMessages());
             }
             catch (Exception $e){
