@@ -10,7 +10,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=$_address->toString(':firstname :lastname<br />:street1<br />:street2')?>
+                        <?=$_address->toString("<b>:firstname :lastname</b>\n:street\nT: :telephone")?>
                     </address>
                     <p>
                         <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
@@ -34,7 +34,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=$_address->toString()?>
+                        <?=$_address->toString("<b>:firstname :lastname</b>\n:street\nT: :telephone")?>
                     </address>
                     <p>
                         <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;

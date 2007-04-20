@@ -124,14 +124,11 @@ class Mage_Customer_Model_Address extends Varien_Data_Object
         if (empty($format)) {
             $str = implode(', ', $this->getData());
         } else {
-            preg_match('/\:([[:alpha:]])/', $format, $matches);
-            echo('<pre>');
-            print_r($matches);
-            echo('</pre>');
-            /*foreach ($data as $key => $value) {
-                
-            }*/
-            $str = '// TODO: address string format';
+            preg_match_all('/:([[:alnum:]]{1,})/is', $format, $matches);
+            foreach ($matches[1] as $var) {
+                $format = str_replace(':'.$var, $this->getData($var), $format);
+            }
+            $str = nl2br($format);//'// TODO: address string format';
         }
         return $str;
     }
