@@ -28,7 +28,7 @@ Mage.Catalog_Product_Attributes = function(){
                     west: {
                         split:true,
                         initialSize : 300,
-                        autoScroll:true,
+                        autoScroll:false,
                         collapsible:false,
                         titlebar:false
                     },
@@ -43,7 +43,7 @@ Mage.Catalog_Product_Attributes = function(){
                 this.westLayout = new Ext.BorderLayout(Layout.getRegion('west').getEl().createChild({tag:'div'}), {
                     center: {
                         split:true,
-                        autoScroll:true,
+                        autoScroll:false,
                         collapsible:false,
                         titlebar:false
                     },
@@ -51,7 +51,7 @@ Mage.Catalog_Product_Attributes = function(){
                         split:true,
                         hideWhenEmpty : true,
                         initialSize : 200,
-                        autoScroll : true,
+                        autoScroll : false,
                         collapsible:false,
                         titlebar : false,
                         hideTabs : true
