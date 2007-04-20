@@ -225,4 +225,18 @@ class Varien_Data_Object
     {
         $this->_isChanged = false;
     }
+
+    public function toString($format='')
+    {
+        if (empty($format)) {
+            $str = implode(', ', $this->getData());
+        } else {
+            preg_match_all('/\{\{([a-z0-9_]+)\}\}/is', $format, $matches);
+            foreach ($matches[1] as $var) {
+                $format = str_replace('{{'.$var.'}}', $this->getData($var), $format);
+            }
+            $str = $format;
+        }
+        return $str;
+    }
 }

@@ -119,20 +119,6 @@ class Mage_Customer_Model_Address extends Varien_Data_Object
         }
     }
     
-    public function toString($format='')
-    {
-        if (empty($format)) {
-            $str = implode(', ', $this->getData());
-        } else {
-            preg_match_all('/:([[:alnum:]]{1,})/is', $format, $matches);
-            foreach ($matches[1] as $var) {
-                $format = str_replace(':'.$var, $this->getData($var), $format);
-            }
-            $str = nl2br($format);//'// TODO: address string format';
-        }
-        return $str;
-    }
-
     public function getStreet($line=0)
     {
         if (-1===$line) {
