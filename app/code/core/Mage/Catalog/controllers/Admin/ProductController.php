@@ -184,13 +184,14 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'draggable' => 'false', 
                     'allowDrop' => 'true',
                     'type' => 'typeSet',
-                    'cmpId' => 'set:' . $item['set_id'],
+                    'setId' => 'set:' . $item['set_id'],
                     'allowDelete' => 'true',
                     'expanded' => 'true',
                     'allowEdit' => 'true'
             	);
             }
         } elseif (preg_match('/^set:\d?$/', $rootNode)) {
+            $setInfo = explode(':', $rootNode, 2);
             for($i = 0; $i < 3; $i++) {
                 $data[] = array(
                     'text' => 'Group' . $i,
@@ -199,14 +200,16 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'cls' => 'group',
                     'allowDrop' => 'true',
                     'type' => 'typeGroup',
-                    'cmpId' => $rootNode.'/group:'.$i,
+                    'setId' => 'set:' . $setInfo[1],
                     'allowDelete' => 'true',
                     'expanded' => 'true',
                     'allowEdit' => 'true'
             	);
             }
         } elseif (preg_match('/^set:\d?\/group:\d?$/', $rootNode)) {
-            $groupInfo = explode(':', $rootNode, 4);
+            $tmpInfo = explode('/', $rootNode, 2);
+            $setInfo = explode(':',$tmpInfo[0]);
+            $groupInfo = explode(':',$tmpInfo[1]);
             for($i = 0; $i < 5; $i++) {
                 $data[] = array(
                     'text' => 'Attribute' . $i,
@@ -217,7 +220,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'allowDrop' => 'false',
                     'allowChildren' => 'false',
                     'type' => 'typeAttr',                        
-                    'cmpId' => $rootNode.'/attr:'.$i,
+                    'setId' => 'set:' . $setInfo[1],
                     'allowDelete' => 'true',
                     'expanded' => 'true',                       
                     'allowEdit' => 'false'                

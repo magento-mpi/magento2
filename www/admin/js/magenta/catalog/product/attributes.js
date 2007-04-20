@@ -223,7 +223,15 @@ Mage.Catalog_Product_Attributes = function(){
                     loader: new Ext.tree.TreeLoader()
                 });                
                 
-                 ctree.on('nodedragover', function(e){
+                ctree.on('nodedragover', function(e){
+                    if (!e.dropNode) {
+                        if ((e.target.attributes.type == 'typeGroup' && e.point == 'append') ||
+                            (e.target.attributes.type == 'typeAttr' && e.point != 'append')) { 
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }  
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
                     if (
@@ -237,6 +245,23 @@ Mage.Catalog_Product_Attributes = function(){
                         return false;
                      }
                 });
+                
+                ctree.on('beforenodedrop', function(e){
+                    if (e.dropNode) {
+                        return true;
+                    }
+                    var s = e.data.selections, r = [];
+                    for(var i = 0, len = s.length; i < len; i++){
+                        var attrId = s[i].id; // s[i] is a Record from the grid
+                            r.push(new Ext.tree.TreeNode({ // build array of TreeNodes to add
+                                allowDrop:false,
+                                text: 'Ticket #' + attrId,
+                                qtip: String.format('<b>{0}</b><br />{1}', s[i].data.attribute_code, s[i].data.attribute_name)
+                            }));
+                    }
+                    e.dropNode = r;  // return the new nodes to the Tree DD
+                    e.cancel = r.length < 1; // cancel if all nodes were duplicates
+                });                
                 
                 //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
                 
@@ -269,7 +294,7 @@ Mage.Catalog_Product_Attributes = function(){
                      }
                      var a = n.attributes;
                      btns.remove.setDisabled(!a.allowDelete);
-                     btns.group.setDisabled(!a.cmpId);
+                     btns.group.setDisabled(!a.setId);
                 });                
                 
                 // semi unique ids across edits
@@ -295,9 +320,9 @@ Mage.Catalog_Product_Attributes = function(){
                         text: text,
                         iconCls: 'set',
                         cls: 'set',
-                        type:'fileCt',                        
+                        type:'typeSet',                        
                         id: id,
-                        cmpId:id,
+                        setId:id,
                         allowDelete:true,
                         allowDrop : true,
                         allowDrag : true,
@@ -328,28 +353,30 @@ Mage.Catalog_Product_Attributes = function(){
             // add option handler
             function addGroup(btn, e){
                 var n = sm.getSelectedNode();
-                if(n){
-                    createGroup(n, 'Group'+(++gseed));
-                    n.select();
-                    ge.triggerEdit(n);
+                if(n.isLoaded()) {
+                    var newnode = createGroup(n, 'Group'+(++gseed));
+                    newnode.select();
+                    ge.triggerEdit(newnode);
+                } else {
+                    n.reload(addGroup);
                 }
             }
 
             function createGroup(n, text){
-                var cnode = ctree.getNodeById(n.attributes.cmpId);
+                var snode = ctree.getNodeById(n.attributes.setId);
 
                 var node = new Ext.tree.TreeNode({
                     text: text,
-                    cmpId:cnode.id,
+                    setId : snode.id,
                     iconCls:'folder',
-                    type:'fileCt',
+                    type:'typeGroup',
                     allowDelete:true,
                     allowDrop : true,
                     allowDrag : true,
-                    allowEdit:true,
+                    allowEdit : true,
                     id:guid('o-')
                 });
-                cnode.appendChild(node);
+                snode.appendChild(node);
                 return node;
             }                     
         },
@@ -496,6 +523,7 @@ Mage.Catalog_Product_Attributes = function(){
                 loadMask : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
+                ddGroup : 'TreeDD',
                 trackMouseOver: false,
                 autoHeight : true,
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
