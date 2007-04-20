@@ -121,10 +121,11 @@ class Mage_Customer_Model_Address extends Varien_Data_Object
     
     public function getStreet($line=0)
     {
+        $street = parent::getData('street');
         if (-1===$line) {
-            return $this->getData('street');
+            return $street;
         } else {
-            $arr = explode("\n", trim($this->getData('street')));
+            $arr = explode("\n", $street);
             if (0===$line) {
                 return $arr;
             } elseif (isset($arr[$line-1])) {
@@ -141,6 +142,17 @@ class Mage_Customer_Model_Address extends Varien_Data_Object
             $street = trim(implode("\n", $street));
         }
         $this->setData('street', $street);
+    }
+    
+    public function getData($key='', $index=false)
+    {
+        if (strncmp($key, 'street', 6)) {
+            $index = substr($key, 6);
+            if (!is_numeric($index)) {
+                $index = false;
+            }
+        }
+        return parent::getData($key, $index);
     }
     
     /**

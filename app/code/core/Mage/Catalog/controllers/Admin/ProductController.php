@@ -210,7 +210,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $tmpInfo = explode('/', $rootNode, 2);
             $setInfo = explode(':',$tmpInfo[0]);
             $groupInfo = explode(':',$tmpInfo[1]);
-            for($i = 0; $i < 50; $i++) {
+            for($i = 0; $i < 5; $i++) {
                 $data[] = array(
                     'text' => 'Attribute' . $i,
                     'id' => $rootNode.'/attr:'.$i,

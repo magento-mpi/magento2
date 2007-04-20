@@ -71,10 +71,7 @@
                   <table>customer_payment_method</table>
                </payment_method>
             </entities>
-            
-            <subs>
-                <session></session>
-            </subs>
+
          </customer_resource>
       </models>
 

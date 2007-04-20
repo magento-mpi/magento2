@@ -2,8 +2,8 @@
 <layoutUpdate>
     <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Core</module><view>Admin/layout.phtml</view></action>
-        <action method="assign"><var>baseUrl</var><value>{baseUrl}</value></action>
-        <action method="assign"><var>baseSkinUrl</var><value>{baseUrl}skins/default</value></action>
+        <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
+        <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/default</value></action>
 
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
@@ -14,13 +14,13 @@
             <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
 		    <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
 

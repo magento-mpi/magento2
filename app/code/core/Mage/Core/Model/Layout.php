@@ -31,7 +31,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function setSubst($subst)
     {
         foreach ($subst as $k=>$v) {
-            $this->_subst['keys'][] = '{'.$k.'}';
+            $this->_subst['keys'][] = '{{'.$k.'}}';
             $this->_subst['values'][] = $v;
         }
         return $this;

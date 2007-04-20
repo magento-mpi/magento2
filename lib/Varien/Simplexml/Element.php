@@ -42,6 +42,40 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     	
     	return $r;
 	}
+	
+	public function asNiceXml($level=0)
+	{
+	    $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
+	    $out = $pad."<".$this->getName();
+	    
+	    if ($attributes = $this->attributes()) {
+	        foreach ($attributes as $key=>$value) {
+	            $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
+	        }
+	    }
+	    
+	    if ($children = $this->children()) {
+	        $out .= ">\n";
+	        foreach ($children as $child) {
+	            $out .= $child->asNiceXml($level+1);
+	        }
+	        $out .= $pad."</".$this->getName().">\n";    
+	    } else {
+	        $value = (string)$this;
+	        if (empty($value)) {
+	            $out .= " />\n";
+	        } else {
+	            $out .= ">".$this->xmlentities($value)."</".$this->getName().">\n";
+	        }
+	    }
+	    
+	    return $out;
+	}
+	
+	public function xmlentities()
+	{
+	    return str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), (string)$this);
+	}
     
     function appendChild($source)
     {

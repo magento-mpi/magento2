@@ -136,12 +136,16 @@ class Varien_Simplexml_Config
         return $this;
     }
 
+    /**
+     * Nicely ident resulting XML file
+     *
+     * @param string $filePath
+     * @return Varien_Simplexml_Config
+     */
     public function saveFile($filePath)
     {
-        $xmlText = $this->_xml->asXml();
-        file_put_contents($filePath, $xmlText);
-
-        return true;
+        file_put_contents($filePath, $this->_xml->asNiceXml());
+        return $this;
     }
 
     public function applyExtends()

@@ -2,7 +2,7 @@
 <layoutUpdate>
     <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Page</module><view>layout.2column.phtml</view></action>
-        <action method="assign"><var>imagesUrl</var><value>{baseSkinUrl}default/images</value></action>
+        <action method="assign"><var>imagesUrl</var><value>{{baseSkinUrl}}default/images</value></action>
         
         <block type="list" name="head" as="head">
             <block type="tag" name="head.content_type">
@@ -17,13 +17,13 @@
             <block type="tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
             <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
-                <action method="setTagParam"><name>href</name><value>{baseUrl}favicon.ico</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>            
             <block type="tag_js" name="head.js.prototype">
@@ -50,13 +50,13 @@
         
         <block type="list" name="top.menu" as="topMenu">
             <block type="list_link" name="top.menu.locations">
-                <action method="setLink"><li></li><a>href="{baseUrl}"</a><label><![CDATA[<span>Store Locations</span>]]></label></action>
+                <action method="setLink"><li></li><a>href="{{baseUrl}}"</a><label><![CDATA[<span>Store Locations</span>]]></label></action>
             </block>
             <block type="list_link" name="top.menu.guide">
-                <action method="setLink"><li></li><a>href="{baseUrl}"</a><label><![CDATA[<span>Fit Guide</span>]]></label></action>
+                <action method="setLink"><li></li><a>href="{{baseUrl}}"</a><label><![CDATA[<span>Fit Guide</span>]]></label></action>
             </block>
             <block type="list_link" name="top.menu.tips">
-                <action method="setLink"><li></li><a>href="{baseUrl}"</a><label><![CDATA[<span>Care tips</span>]]></label></action>
+                <action method="setLink"><li></li><a>href="{{baseUrl}}"</a><label><![CDATA[<span>Care tips</span>]]></label></action>
             </block>
         </block>
         
@@ -68,16 +68,16 @@
         
         <block type="list" name="botom.links" as="bottomLinks">
             <block type="list_link" name="bottom.links.about">
-                <action method="setLink"><li/><a>href="{baseUrl}"</a><label>About Us</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>About Us</label></action>
             </block>
             <block type="list_link" name="bottom.links.contact">
-                <action method="setLink"><li/><a>href="{baseUrl}"</a><label>Contact Us</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Contact Us</label></action>
             </block>
             <block type="list_link" name="bottom.links.exchange">
-                <action method="setLink"><li/><a>href="{baseUrl}"</a><label>Exchange and Returns</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Exchange and Returns</label></action>
             </block>
             <block type="list_link" name="bottom.links.sitemap">
-                <action method="setLink"><li/><a>href="{baseUrl}/sitemap"</a><label>Site Map</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}/sitemap"</a><label>Site Map</label></action>
             </block>
         </block>
     </block>

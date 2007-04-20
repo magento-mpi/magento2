@@ -59,11 +59,6 @@ class Varien_Data_Object
         }
         
         if(is_array($key)) {
-            /*
-            foreach($key as $index=>$value) {
-                $this->_data[$index] = $value;
-            }
-            */
             $this->_data = $key;
         } else {
             $this->_data[$key] = $value;
@@ -77,7 +72,16 @@ class Varien_Data_Object
             return $this->_data;
         } elseif (isset($this->_data[$key])) {
             if ($index) {
-                return (is_array($this->_data[$key]) && !empty($this->_data[$key][$index])) ? $this->_data[$key][$index] : null;
+                $value = $this->_data[$key];
+                if (is_array($value)) {
+                    return (!empty($value[$index])) ? $value[$index] : false;
+                } elseif (is_string($value)) {
+                    $arr = explode("\n", $value);
+                    return (!empty($arr[$index])) ? $arr[$index] : false;
+                } elseif ($value instanceof Varien_Data_Object) {
+                    return $value->getData($index);
+                }
+                return null;
             }
             return $this->_data[$key];
         }

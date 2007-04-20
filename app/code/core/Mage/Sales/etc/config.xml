@@ -132,6 +132,9 @@
          <authorizenet>
             <class>Mage_Sales_Model_Payment_Authorizenet</class>
             <orderStatus>4</orderStatus>
+            <test>True</test>
+            <login>moshe</login>
+            <transKey>4u3h45uh3o4u5ho34hu5</transKey>
             <cgi>
               <protocol>https</protocol>
 
@@ -170,13 +173,14 @@
          <quote>
             <self>
                 <customer_id><type>int</type></customer_id>
+                <remote_ip><type>varchar</type></remote_ip>
                 <created_at><type>datetime</type></created_at>
                 <updated_at><type>datetime</type></updated_at>
                 <status><type>varchar</type></status>
-                <website_id><type>int</type></website_id>
+                <website_code><type>varchar</type></website_code>
                 
-                <currency_id><type>int</type></currency_id>
-                <currency_base_id><type>int</type></currency_base_id>
+                <currency_code><type>varchar</type></currency_code>
+                <currency_base_code><type>varchar</type></currency_base_code>
                 <currency_rate><type>decimal</type></currency_rate>
 
                 <coupon_code><type>varchar</type></coupon_code>
@@ -199,7 +203,9 @@
                 <balance_due><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Balancedue</class><sortOrder>200</sortOrder></balance_due>
            </self>
            <address>
+                <customer_id><type>int</type></customer_id>
                 <address_id><type>int</type></address_id>
+                <email><type>varchar</type></email>
                 <firstname><type>varchar</type></firstname> 
                 <lastname><type>varchar</type></lastname> 
                 <company><type>varchar</type></company> 
@@ -213,6 +219,7 @@
                 <fax><type>varchar</type></fax>
                 
                 <address_type><type>varchar</type></address_type>
+                <tax_id><type>varchar</type></tax_id>
                 
                 <subtotal><type>decimal</type></subtotal>
                 <weight><type>decimal</type></weight>
@@ -250,10 +257,9 @@
                 
                 <cc_type><type>varchar</type></cc_type>
                 <cc_number><type>varchar</type></cc_number>
+                <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
-                <cc_exp_month><type>int</type></cc_exp_month>
-                <cc_exp_year><type>int</type></cc_exp_year>
-                <cc_cvv2><type>int</type></cc_cvv2>
+                <cc_expires><type>varchar</type></cc_expires>
             </payment>
             <shipping>
                 <address_entity_id><type>int</type></address_entity_id>
@@ -267,7 +273,8 @@
          
          <order>
              <self>
-                <custom_order_id>varchar</custom_order_id>
+                <real_order_id><type>varchar</type></real_order_id>
+                <remote_ip><type>varhar</type></remote_ip>
                 <customer_id><type>int</type></customer_id>
                 <created_at><type>datetime</type></created_at>
                 <updated_at><type>datetime</type></updated_at>
@@ -297,6 +304,8 @@
                 <balance_due><type>decimal</type><class>Mage_Sales_Model_Order_Attribute_Balancedue</class><sortOrder>200</sortOrder></balance_due>
            </self>
            <address>
+                <customer_id><type>int</type></customer_id>
+                <email><type>varchar</type></email>
                 <address_id><type>int</type></address_id>
                 <firstname><type>varchar</type></firstname> 
                 <lastname><type>varchar</type></lastname> 
@@ -310,6 +319,8 @@
                 <telephone><type>varchar</type></telephone> 
                 <fax><type>varchar</type></fax>
                 
+                <tax_id><type>varchar</type></tax_id>
+
                 <address_type><type>varchar</type></address_type>
             </address>
             <item>
@@ -346,10 +357,9 @@
                 
                 <cc_type><type>varchar</type></cc_type>
                 <cc_number><type>varchar</type></cc_number>
+                <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
-                <cc_exp_month><type>int</type></cc_exp_month>
-                <cc_exp_year><type>int</type></cc_exp_year>
-                <cc_cvv2><type>int</type></cc_cvv2>
+                <cc_expires><type>varchar</type></cc_expires>
             </payment>
             <status>
                 <status_id><type>int</type></status_id>

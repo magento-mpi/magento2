@@ -66,6 +66,12 @@
 
          <codePool>core</codePool>
       </Mage_Usa>
+      
+      <Mage_Paygate>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Paygate>
    </modules>
 </config>
 

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Paygate>
+         <version>0.1.0</version>
+         <depends>
+            <Mage_Sales />
+         </depends>
+
+         <admin>
+            <controller>
+               <active>true</active>
+            </controller>
+         </admin>
+      </Mage_Paygate>
+   </modules>
+
+   <global>
+      <models>
+         <paygates>
+            <class>Mage_Paygate_Model</class>
+         </paygates>
+         
+         <paygates_resource>
+            <class>Mage_Paygate_Model_Mysql4</class>
+
+            <entities>
+               
+            </entities>
+         </paygates_resource>
+      </models>
+
+      <resources>
+         <paygates_setup>
+            <setup>
+                <module>Mage_Paygate</module>
+            </setup>
+            <connection><use>core_setup</use></connection>
+         </paygates_setup>
+
+         <paygates_write>
+            <connection><use>core_write</use></connection>
+         </paygates_write>
+
+         <paygates_read>
+            <connection><use>core_read</use></connection>
+         </paygates_read>
+      </resources>
+
+      <salesPaymentMethods>         
+         <authorizenet>
+            <class>Mage_Paygate_Model_Authorizenet</class>
+            <orderStatus>4</orderStatus>
+            <test>True</test>
+            <login>moshe</login>
+            <transKey>4u3h45uh3o4u5ho34hu5</transKey>
+            <cgi>
+              <protocol>https</protocol>
+
+              <host>secure.authorize.net</host>
+
+              <port>443</port>
+
+              <url>/gateway/transact.dll</url>
+            </cgi>
+         </authorizenet>
+         
+         <paypal>
+            <class>Mage_Paygate_Model_Paypal</class>
+            <orderStatus>4</orderStatus>
+         </paypal>
+         
+         <verisign>
+            <class>Mage_Paygate_Model_Verisign</class>
+            <orderStatus>4</orderStatus>
+         </verisign>
+      </salesPaymentMethods>
+      
+      <salesAttributes>
+         <order>
+            <payment>
+                <anet_trans_id><type>varchar</type></anet_trans_id>
+                <anet_auth_code><type>varchar</type></anet_auth_code>
+                
+                <echeck_routing_number><type>varchar</type></echeck_routing_number>
+                <echeck_bank_name><type>varchar</type></echeck_bank_name>
+                <echeck_account_type><type>varchar</type></echeck_account_type>
+                <echeck_account_name><type>varchar</type></echeck_account_name>
+                <echeck_type><type>varchar</type></echeck_type>
+            </payment>
+         </order>
+      </salesAttributes>
+
+   </global>
+
+   <admin>
+      <acl>
+         <resources>
+            <paygate>
+               <authorizenet />
+               <paypal />
+               <verisign />
+            </paygate>
+         </resources>
+      </acl>
+   </admin>
+</config>
+
