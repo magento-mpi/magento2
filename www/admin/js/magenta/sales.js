@@ -73,16 +73,16 @@ Mage.Sales = function(depend){
                 reader: new Ext.data.JsonReader({
                     root: 'websites',
                     totalProperty: 'totalCount',
-                    id: 'website_id'
+                    id: 'value'
                 }, [
-                    {name: 'id', mapping: 'id'},
-                    {name: 'name', mapping: 'name'}
+                    {name: 'value', mapping: 'value'},
+                    {name: 'text', mapping: 'text'}
                 ])
             });
 
             tb.addField(new Ext.form.ComboBox({
                 store : ds,
-                displayField :'name',
+                displayField :'text',
                 valueField : 'value',
                 typeAhead: false,
                 disableKeyFilter : true,

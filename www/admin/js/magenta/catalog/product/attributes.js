@@ -253,12 +253,13 @@ Mage.Catalog_Product_Attributes = function(){
                     var s = e.data.selections, r = [];
                     for(var i = 0, len = s.length; i < len; i++){
                         var attrId = s[i].id; // s[i] is a Record from the grid
-                            r.push(new Ext.tree.TreeNode({ // build array of TreeNodes to add
-                                allowDrop:false,
-                                text: s[i].data.attribute_code,
-                                type : 'typeAttr'
-                            }));
+                        r.push(new Ext.tree.TreeNode({ // build array of TreeNodes to add
+                            allowDrop:false,
+                            text: s[i].data.attribute_code,
+                            type : 'typeAttr'
+                        }));
                     }
+                    var conn = new Ext.data.Connection();
                     e.dropNode = r;  // return the new nodes to the Tree DD
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
                 });                
