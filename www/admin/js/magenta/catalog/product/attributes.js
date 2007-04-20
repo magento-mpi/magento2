@@ -255,7 +255,7 @@ Mage.Catalog_Product_Attributes = function(){
                         var attrId = s[i].id; // s[i] is a Record from the grid
                             r.push(new Ext.tree.TreeNode({ // build array of TreeNodes to add
                                 allowDrop:false,
-                                text: 'Ticket #' + attrId,
+                                text: s[i].data.attribute_code,
                                 qtip: String.format('<b>{0}</b><br />{1}', s[i].data.attribute_code, s[i].data.attribute_name)
                             }));
                     }
@@ -353,12 +353,18 @@ Mage.Catalog_Product_Attributes = function(){
             // add option handler
             function addGroup(btn, e){
                 var n = sm.getSelectedNode();
-                if(n.isLoaded()) {
+                if ((typeof n.isLoaded == 'function') ) {
+                    if (n.isLoaded()) {
+                        var newnode = createGroup(n, 'Group'+(++gseed));
+                        newnode.select();
+                        ge.triggerEdit(newnode);
+                    } else {
+                        n.reload(addGroup);
+                    }
+                } else {
                     var newnode = createGroup(n, 'Group'+(++gseed));
                     newnode.select();
                     ge.triggerEdit(newnode);
-                } else {
-                    n.reload(addGroup);
                 }
             }
 
