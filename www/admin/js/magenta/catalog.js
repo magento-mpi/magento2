@@ -11,7 +11,7 @@ Mage.Catalog = function(depend){
                     west: {
                         initialSize : 200,
                         split:true,
-                        autoScroll:true,
+                        autoScroll:false,
                         collapsible:true,
                         collapsedTitle : 'Categories Tree',
                         titlebar:true
@@ -29,7 +29,7 @@ Mage.Catalog = function(depend){
                 var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
                             hideWhenEmpty : true,
-                            autoScroll:true,
+                            autoScroll:false,
                             titlebar:false,
                             tabPosition : 'top'
                         }, 
