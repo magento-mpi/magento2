@@ -85,6 +85,7 @@ Mage.Sales = function(depend){
                 displayField :'text',
                 valueField : 'value',
                 typeAhead: false,
+                value : 'All',
                 disableKeyFilter : true,
                 editable : false,
                	triggerAction : 'all',
