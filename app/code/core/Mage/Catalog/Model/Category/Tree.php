@@ -55,10 +55,6 @@ class Mage_Catalog_Model_Category_Tree
             echo $e->getMessage();
         }
     }
-
-    function getObject() {
-        return $this->_dbTree;
-    }
     
     public function getWebsiteId()
     {
@@ -73,6 +69,7 @@ class Mage_Catalog_Model_Category_Tree
     public function setWebsiteId($websiteId)
     {
         $this->_websiteId = $websiteId;
+        return $this;
     }
     
     /**

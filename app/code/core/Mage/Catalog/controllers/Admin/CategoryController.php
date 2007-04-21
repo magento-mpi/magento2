@@ -59,8 +59,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     {
         $tree = Mage::getModel('catalog','category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
+        $websiteId = (int) $this->getRequest()->getPost('website',1);
 
-        $children = $tree->getLevel($parentNodeId);
+        $children = $tree->setWebsiteId($websiteId)->getLevel($parentNodeId);
 
         $items = array();
         foreach ($children as $child) {
