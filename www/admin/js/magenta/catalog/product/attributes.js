@@ -259,32 +259,34 @@ Mage.Catalog_Product_Attributes = function(){
                         var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
                             allowDrop:false,
                             allowDrag:true,
-                            type : 'typeAttr',
+                            type : 'dropped',
                             setId : e.target.attributes.setId,
                             cls : 'x-tree-node-loading',
                             text: s[i].data.attribute_code
                         });
-                        node.on('click', function(){
-                            node.ui.afterLoad();
-                        })
                         r.push(node);
                     }
-//                    var conn = new Ext.data.Connection();
-//            		conn.on('requestcomplete', function(dm, response, option) {
-//                        
-//                    });
-//                    conn.on('requestexception', function(dm, response, option, e) {
-//                    });
-//                    conn.request( {
-//                        url: this.addGroupAttributes,
-//                        method: "POST",
-//                        params: {
-//                        }
-//                    });                
+                    
+                    var conn = new Ext.data.Connection();
+                    
+            		conn.on('requestcomplete', function() {
+            		    var i = 0;
+                        for(i=0; i < r.length; i++) {
+                            r[i].attributes.type = 'typeAttr';
+                            r[i].ui.afterLoad();
+                        }
+                    });
+                    
+                    conn.on('requestexception', function() {
+                    });
+                    conn.request( {
+                        url: this.addGroupAttributes,
+                        method: "POST"
+                    });                
                     
                     e.dropNode = r;  // return the new nodes to the Tree DD
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
-                });    
+                }.createDelegate(this));    
                 
                 //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
                 
