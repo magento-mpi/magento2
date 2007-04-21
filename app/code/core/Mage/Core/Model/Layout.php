@@ -83,7 +83,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $substValues = array();
         $subst = Mage::getConfig()->getPathVars();
         foreach ($subst as $k=>$v) {
-            $substKeys[] = '{'.$k.'}';
+            $substKeys[] = '{{'.$k.'}}';
             $substValues[] = $v;
         }
         return str_replace($substKeys, $substValues, $data);

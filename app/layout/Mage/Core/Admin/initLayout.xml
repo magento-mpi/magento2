@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<layoutUpdate>
+<layoutUpdate> 
     <block type="tpl" name="root" output="toString">
         <action method="setViewName"><module>Mage_Core</module><view>Admin/layout.phtml</view></action>
         <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
