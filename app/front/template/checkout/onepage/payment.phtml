@@ -5,6 +5,14 @@ Payment.prototype = {
         this.form = form;
         this.onSave = this.continue.bindAsEventListener(this);
     },
+    
+    switchMethod: function(method){
+        if (this.currentMethod) {
+            $('payment_form_'+this.currentMethod).style.display = 'none';
+        }
+        $('payment_form_'+method).style.display = '';
+        this.currentMethod = method;
+    },
 
     save: function(){
         var validator = new Validation(this.form);
@@ -30,6 +38,7 @@ Payment.prototype = {
     <div class="default-box">
         <form id="co-payment-form">
             <?=$paymentMethods?>
+            <span class="required">* <?=__("Required Fields")?></span>
         </form>
     </div>
     <div class="note-box buttons">
@@ -40,4 +49,5 @@ Payment.prototype = {
 </div>
 <script type="text/javascript">
     var payment = new Payment('co-payment-form');
+    payment.currentMethod = "<?=$payment->getMethod()?>";
 </script>

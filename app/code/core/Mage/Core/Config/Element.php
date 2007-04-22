@@ -5,7 +5,7 @@ class Mage_Core_Config_Element extends Varien_Simplexml_Element
     public function is($var, $value='true')
     {
         $flag = $this->$var;
-        return !empty($flag) && ($value===strtolower((string)$value));
+        return !empty($flag) && (0===strcasecmp($value, (string)$flag));
     }
     
     public function getClassName()

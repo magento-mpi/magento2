@@ -49,6 +49,12 @@ abstract class Mage_Core_Block_Abstract
     public function __construct($attributes=array())
     {
         $this->_attributes = $attributes;
+        $this->_construct();
+    }
+    
+    protected function _construct()
+    {
+        
     }
 
     /**

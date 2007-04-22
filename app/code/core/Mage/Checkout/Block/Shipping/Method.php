@@ -2,7 +2,7 @@
 
 class Mage_Checkout_Block_Shipping_Method extends Mage_Core_Block_Template 
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 

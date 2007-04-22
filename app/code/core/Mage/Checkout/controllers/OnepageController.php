@@ -15,7 +15,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_quote = $this->_checkout->getQuote();
         
         if (!$this->_quote->hasItems()) {
-            $this->setFlag('', 'no-renderLayout', true);
             $this->setFlag('', 'no-dispatch', true);
             $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
         }

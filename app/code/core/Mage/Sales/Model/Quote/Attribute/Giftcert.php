@@ -4,15 +4,14 @@ class Mage_Sales_Model_Quote_Attribute_Giftcert extends Mage_Sales_Model_Quote_A
 {
     public function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $code = $quote->getGiftcertCode();
-        $gift = Mage::getModel('sales_resource', 'giftcert')->getGiftcertByCode($code);
+        $gift = Mage::getModel('sales_resource', 'giftcert')->getGiftcertByCode($quote->getGiftcertCode());
         if ($gift) {
-            $giftAmount = min($quote->getGrandTotal(), $gift['balance_amount']);
+            $quote->setGiftcertAmount(min($quote->getGrandTotal(), $gift['balance_amount']));
         } else {
-            $giftAmount = 0;
+            $quote->setGiftcertAmount(0);
         }
-
-        $quote->setGiftcertAmount($giftAmount);
+        
+        $quote->setGrandTotal($quote->getGrandTotal()-$quote->getGiftcertAmount());
         
         return $this;
     }

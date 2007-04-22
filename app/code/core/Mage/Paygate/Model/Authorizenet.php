@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Ccsave
+class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
 {
     const REQUEST_METHOD_CC = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';
@@ -22,6 +22,21 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Ccsave
     const ECHECK_TRANS_TYPE_WEB = 'WEB';
 
     const RESPONSE_DELIM_CHAR = ',';
+
+    public function createFormBlock($name)
+    {
+        $block = Mage::createBlock('payment_cc_form', $name)
+            ->assign('method', 'authorizenet')
+            ->init($this->_payment);
+        return $block;
+    }
+    
+    public function createInfoBlock($name)
+    {
+        $block = Mage::createBlock('payment_cc_info', $name)
+            ->init($this->_payment);
+        return $block;
+    }
     
     public function onOrderCreate(Mage_Sales_Model_Order $order)
     {
@@ -118,13 +133,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Ccsave
         }
         
         switch ($payment->getAnetRequestType()) {
-            case 'cc':
+            case self::REQUEST_METHOD_CC:
                 $request->setXCardNum($payment->getCcNumber())
                     ->setXExpDate($payment->getCcExpires())
                     ->setXCardCode($payment->getCcCvv2());
                 break;
                 
-            case 'echeck':
+            case self::REQUEST_METHOD_ECHECK:
                 $request->setXBankAbaCode($payment->getEcheckRoutingNumber())
                     ->setXBankName($payment->getEcheckBankName())
                     ->setXBankAcctNum($payment->getEcheckAccountNumber())

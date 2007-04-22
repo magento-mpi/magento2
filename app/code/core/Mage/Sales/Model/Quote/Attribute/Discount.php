@@ -4,23 +4,24 @@ class Mage_Sales_Model_Quote_Attribute_Discount extends Mage_Sales_Model_Quote_A
 {
     public function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $couponCode = $quote->getCouponCode();
-        $coupon = Mage::getModel('sales_resource', 'discount')->getCouponByCode($couponCode);
-        if ($coupon) {
-            $discountPercent = $coupon['discount_percent'];
-        } else {
-            $discountPercent = 0;
-        }
+        $quote->setDiscountAmount(0);
 
-        $totalDiscount = 0;
-        foreach ($quote->getEntitiesByType('item') as $item) {
-            $item->setDiscountPercent($discountPercent);
-            $discountAmount = $item->getRowTotal()*$discountPercent/100;
-            $item->setDiscountAmount($discountAmount);
-            $totalDiscount += $discountAmount;
-        }
-        $quote->setDiscountPercent($discountPercent)->setDiscountAmount($totalDiscount);
+        $coupon = Mage::getModel('sales_resource', 'discount')->getCouponByCode($quote->getCouponCode());
+        if ($coupon) {
+            $quote->setDiscountPercent($coupon['discount_percent']);
             
+            foreach ($quote->getEntitiesByType('item') as $item) {
+                $item->setDiscountPercent($quote->getDiscountPercent());
+                $item->setDiscountAmount($item->getRowTotal()*$item->getDiscountPercent()/100);
+                $quote->setDiscountAmount($quote->getDiscountAmount()+$item->getDiscountAmount());
+            }
+        } else {
+            $quote->setCouponCode('');
+            $quote->setDiscountPercent(0);
+        }
+            
+        $quote->setGrandTotal($quote->getGrandTotal()-$quote->getDiscountAmount());
+
         return $this;
     }
     

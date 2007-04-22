@@ -98,6 +98,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     
     function extend($source, $overwrite=false)
     {
+        if (!$source instanceof Varien_Simplexml_Element) {
+            return $this;
+        }
+        
         $sourceChildren = $source->children();
         
         foreach ($sourceChildren as $child) {

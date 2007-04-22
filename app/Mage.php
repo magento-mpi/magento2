@@ -262,7 +262,9 @@ final class Mage {
         Mage::register('config', new Mage_Core_Config());
         Mage::register('resources', new Mage_Core_Resource());
 
+        Varien_Profiler::setTimer('config');
         Mage::getConfig()->init();
+        Varien_Profiler::setTimer('config', true);
 
         // Session must be start after init resources
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('var').DS.'session'));

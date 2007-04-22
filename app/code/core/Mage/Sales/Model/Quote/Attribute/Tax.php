@@ -4,17 +4,16 @@ class Mage_Sales_Model_Quote_Attribute_Tax extends Mage_Sales_Model_Quote_Attrib
 {
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $taxPercent = 8.25;
+        $quote->setTaxPercent(8.25);
+        $quote->setTaxAmount(0);
         
-        $totalTax = 0;
         foreach ($quote->getEntitiesByType('item') as $item) {
-            $item->setTaxPercent($taxPercent);
-            $taxAmount = $item->getRowTotal()*$taxPercent/100;
-            $item->setTaxAmount($taxAmount);
-            $totalTax += $taxAmount;
+            $item->setTaxPercent($quote->getTaxPercent());
+            $item->setTaxAmount($item->getRowTotal()*$item->getTaxPercent()/100);
+            $quote->setTaxAmount($quote->getTaxAmount()+$item->getTaxAmount());
         }
-        $quote->setTaxPercent($taxPercent)->setTaxAmount($totalTax);
         
+        $quote->setGrandTotal($quote->getGrandTotal()+$quote->getTaxAmount());
         return $this;
     }
         

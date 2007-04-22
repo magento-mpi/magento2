@@ -1,11 +1,9 @@
 <fieldset>
-    <ul>
-        <li>
-            <div class="left">
-                <input type="radio" title="<?=__("Check or Money Order")?>" id="payment_method_checkmo" name="payment[method]" value="checkmo" <?if($payment->getMethod()=='checkmo'):?>checked<?endif?>/>
-                <label for="payment_method_checkmo"><?=__("Check or Money Order")?></label><br/>
-            </div>
-            <br>
-        </li>
-    </ul>
+    <div class="left">
+        <input type="radio" title="<?=__("Check or Money Order")?>" id="payment_method_checkmo" name="payment[method]" value="checkmo" <?if($payment->getMethod()=='checkmo'):?>checked<?endif?> onclick="payment.switchMethod('checkmo')"/>
+        <label for="payment_method_checkmo"><?=__("Check or Money Order")?></label><br/>
+    </div>
+    <div id="payment_form_checkmo" style="<?if($payment->getMethod()!=='checkmo'):?>display:none<?endif?>">
+    </div>
+    <br>
 </fieldset>

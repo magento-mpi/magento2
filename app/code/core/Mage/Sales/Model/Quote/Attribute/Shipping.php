@@ -4,6 +4,7 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
 {
     function collectTotals(Mage_Sales_Model_Quote $quote)
     {
+        /*
         $addressEntities = $quote->getEntitiesByType('address');
         $method = $quote->getShippingMethod();
         if ($method) {
@@ -13,6 +14,9 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
                 $quote->setShippingAmount($amount);
             }
         }
+        */ 
+        
+        $quote->setGrandTotal($quote->getGrandTotal()+$quote->getShippingAmount());
         return $this;
     }
     

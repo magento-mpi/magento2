@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Wishlist>
+         <version>0.1.0</version>
+         <depends>
+         	<Mage_Sales/>
+         </depends>
+      </Mage_Wishlist>
+   </modules>
+</config>
