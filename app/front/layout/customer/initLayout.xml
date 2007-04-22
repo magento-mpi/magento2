@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="left">
+        <block type="tpl" name="left.newsletter">
+            <action method="setTemplate"><template>customer/form/mini.newsletter.phtml</template></action>
+        </block>
+    </reference>
+    
+    <reference name="top.links">
+        <block type="list_link" name="top.links.myaccount">
+            <action method="setLink"><li/><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
+        </block>
+    </reference>
+</layoutUpdate>

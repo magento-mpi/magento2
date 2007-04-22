@@ -5,7 +5,7 @@ class Mage_Sales_Model_Payment_PurchaseOrder extends Mage_Sales_Model_Payment_Ab
     public function createFormBlock($name)
     {        
         $block = Mage::createBlock('tpl', $name)
-            ->setViewName('Mage_Sales', 'payment/purchaseorder.phtml')
+            ->setTemplate('sales/payment/purchaseorder.phtml')
             ->assign('payment', $this->_payment);
         
         return $block;

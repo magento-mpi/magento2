@@ -12,7 +12,7 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setViewName('Mage_Checkout', 'onepage/status.phtml');
+        $this->setTemplate('checkout/onepage/status.phtml');
         
         $checkout = Mage::getSingleton('checkout', 'session');
         $quote = $checkout->getQuote();

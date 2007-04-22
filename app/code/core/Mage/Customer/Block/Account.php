@@ -12,7 +12,7 @@ class Mage_Customer_Block_Account extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setViewName('Mage_Customer', 'account.phtml');
+        $this->setTemplate('customer/account.phtml');
         
     }
 }

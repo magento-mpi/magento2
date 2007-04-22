@@ -98,9 +98,7 @@
          <default>
             <updates>
                <customer>
-                  <module>Mage_Customer</module>
-
-                  <file>initLayout.xml</file>
+                  <file>customer/initLayout.xml</file>
                </customer>
             </updates>
          </default>
@@ -142,9 +140,7 @@
         <default>
            <updates>
               <customer>
-                 <module>Mage_Customer</module>
-
-                 <file>Admin/initLayout.xml</file>
+                 <file>customer/initLayout.xml</file>
               </customer>
            </updates>
         </default>

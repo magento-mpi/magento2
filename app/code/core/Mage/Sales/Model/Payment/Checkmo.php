@@ -5,7 +5,7 @@ class Mage_Sales_Model_Payment_Checkmo extends Mage_Sales_Model_Payment_Abstract
     public function createFormBlock($name)
     {        
         $block = Mage::createBlock('tpl', $name)
-            ->setViewName('Mage_Sales', 'payment/checkmo.phtml')
+            ->setTemplate('sales/payment/checkmo.phtml')
             ->assign('payment', $this->_payment);
         
         return $block;

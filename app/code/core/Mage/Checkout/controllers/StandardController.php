@@ -28,7 +28,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
         $address = Mage::getModel('customer', 'address')->getRow($addressId);
         
         $block = Mage::createBlock('tpl', 'checkout.shipping')
-            ->setViewName('Mage_Checkout', 'shipping.phtml')
+            ->setTemplate('checkout/shipping.phtml')
             ->assign('data', $this->_data)
             ->assign('address', $address)
             ->assign('action', Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shippingPost')));
@@ -43,7 +43,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     function paymentAction()
     {
         $block = Mage::createBlock('tpl', 'checkout.payment')
-            ->setViewName('Mage_Checkout', 'payment.phtml')
+            ->setTemplate('checkout/payment.phtml')
             ->assign('data', $this->_data);
         Mage::getBlock('content')->append($block);
     }
@@ -56,7 +56,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     function overviewAction()
     {
         $block = Mage::createBlock('tpl', 'checkout.overview')
-            ->setViewName('Mage_Checkout', 'overview.phtml')
+            ->setTemplate('checkout/overview.phtml')
             ->assign('data', $this->_data);
         Mage::getBlock('content')->append($block);
     }
@@ -69,7 +69,7 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     function successAction()
     {
         $block = Mage::createBlock('tpl', 'checkout.success')
-            ->setViewName('Mage_Checkout', 'success.phtml')
+            ->setTemplate('checkout/success.phtml')
             ->assign('data', $this->_data);
         Mage::getBlock('content')->append($block);
     }

@@ -1,0 +1,42 @@
+<?=$breadcrumbs?>
+<div class="content">
+    <h1><?=$category->getData('name')?></h1>
+    <p><?=$category->getData('description')?></p>
+    <div class="catalog-spacer">&nbsp;</div>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+    <div class="catalog">
+        <div class="catalog-filters">
+         <?foreach($filters as $_filter):?>
+            <?$_arrLinks = $_filter->getLinks()?>
+            <?if(!empty($_arrLinks)):?>
+                <h3><?=$_filter->getLabel()?></h3>
+                <ul>
+                <?foreach($_arrLinks as $_link):?>
+                    <li><a href="<?=$_link['url']?>"><?=$_link['label']?></a></li>
+                <?endforeach?>
+                </ul>
+            <?endif?>
+         <?endforeach;?>
+        </div>
+        <div class="catalog-collection">
+            <?foreach ($productCollection as $product):?>
+            <div class="item">
+                <div class="item-image">
+                    <a href="<?=$product->getLink()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+                </div>
+                <div class="item-info">
+                    <div class="product-name"><a href="<?=$product->getLink()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
+                    <div class="product-price"><?=$product->getFormatedPrice()?></div>
+                </div>
+            </div>
+            <?endforeach?>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <br />
+    <div class="catalog-spacer">&nbsp;</div>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+</div>

@@ -223,15 +223,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $dir = Mage::getBaseDir('code').DS.$module->codePool.DS.$modulePath;
 
             switch ($type) {
-                case 'layout':
-                    $dir = $this->getBaseDir('layout').DS.$modulePath;
-                    break;
-
-                case 'views':
-                    //$dir .= DS.'views';
-                    $dir = $this->getBaseDir('layout').DS.$modulePath.DS.'views';
-                    break;
-
                 case 'etc':
                     $dir .= DS.'etc';
                     break;
@@ -250,12 +241,29 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 case 'etc':
                     $dir .= DS.'etc';
                     break;
+                    
                 case 'code':
                     $dir .= DS.'code';
                     break;
+                    
+                case 'template':
+                    if (Mage::registry('website')->getIsAdmin()) {
+                        $dir .= DS.'admin';
+                    } else {
+                        $dir .= DS.'front';
+                    }
+                    $dir .= DS.'template';
+                    break;
+                    
                 case 'layout':
+                    if (Mage::registry('website')->getIsAdmin()) {
+                        $dir .= DS.'admin';
+                    } else {
+                        $dir .= DS.'front';
+                    }
                     $dir .= DS.'layout';
                     break;
+                    
                 case 'var':
                     $dir = dirname($dir).DS.'var';
                     break;

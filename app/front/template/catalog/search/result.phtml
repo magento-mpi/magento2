@@ -1,0 +1,29 @@
+<div class="content">
+    <h1 class="page-heading">Search Result</h1>
+    <p>Search Result for : "<?=$query?>"</p>
+<?if($productCollection->getSize()):?>
+    <div class="catalog-spacer">&nbsp;</div>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+    <div class="catalog-collection">
+        <?foreach ($productCollection as $product):?>
+        <div class="item">
+            <div class="item-image">
+                <a href="<?=$product->getLink()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+            </div>
+            <div class="item-info">
+                <div class="product-name"><a href="<?=$product->getLink()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
+                <div class="product-price"><?=$product->getFormatedPrice()?></div>
+            </div>
+        </div>
+        <?endforeach?>
+        <div class="clearfix"></div>
+    </div>
+    <br />
+    <div class="catalog-spacer">&nbsp;</div>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+<?else:?>
+    <p>There are no products under search term "<?=$query?>"</p>
+<?endif;?>
+</div>    

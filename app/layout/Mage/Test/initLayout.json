@@ -1,3 +1,0 @@
-[':test.initLayout',
-    ['#catalog.leftnav.byproduct', ['.setViewName', 'Mage_Test', 'list']]
-]

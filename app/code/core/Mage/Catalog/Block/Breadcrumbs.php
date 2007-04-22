@@ -29,7 +29,7 @@ class Mage_Catalog_Block_Breadcrumbs extends Mage_Core_Block_Template
     function __construct()
     {
     	parent::__construct();
-    	$this->setViewName('Mage_Catalog', 'breadcrumbs.phtml');
+    	$this->setTemplate('catalog/breadcrumbs.phtml');
     }
     
     function addCrumb($crumbName, $crumbInfo, $after = false)

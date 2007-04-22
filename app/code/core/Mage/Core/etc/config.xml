@@ -194,9 +194,7 @@
          <default>
             <updates>
                <core>
-                  <module>Mage_Core</module>
-
-                  <file>Admin/initLayout.xml</file>
+                  <file>core/initLayout.xml</file>
                </core>
             </updates>
          </default>
@@ -208,9 +206,7 @@
          <noRoute>
             <updates>
                <core>
-                  <module>Mage_Core</module>
-
-                  <file>noRoute.xml</file>
+                  <file>core/noRoute.xml</file>
                </core>
             </updates>
          </noRoute>

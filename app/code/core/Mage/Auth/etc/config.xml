@@ -99,9 +99,7 @@
          <default>
             <updates>
                <auth>
-                  <module>Mage_Auth</module>
-
-                  <file>Admin/initLayout.xml</file>
+                  <file>auth/initLayout.xml</file>
                </auth>
             </updates>
          </default>

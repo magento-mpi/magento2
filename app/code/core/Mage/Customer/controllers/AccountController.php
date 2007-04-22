@@ -63,7 +63,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         $block = Mage::createBlock('tpl', 'customer.regform')
-            ->setViewName('Mage_Customer', 'form/registration.phtml')
+            ->setTemplate('customer/form/registration.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'createPost')))
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
@@ -116,7 +116,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
         
         $block = Mage::createBlock('tpl', 'customer.edit')
-            ->setViewName('Mage_Customer', 'form/edit.phtml')
+            ->setTemplate('customer/form/edit.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'editPost')))
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
@@ -158,7 +158,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = Mage::createBlock('tpl', 'customer.changepassword')
-            ->setViewName('Mage_Customer', 'form/changepassword.phtml')
+            ->setTemplate('customer/form/changepassword.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost')))
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
             
@@ -197,7 +197,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = Mage::createBlock('tpl', 'customer.forgotpassword')
-            ->setViewName('Mage_Customer', 'form/forgotpassword.phtml');
+            ->setTemplate('customer/form/forgotpassword.phtml');
         Mage::getBlock('content')->append($block);
         
         $this->renderLayout();
@@ -213,7 +213,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = Mage::createBlock('tpl', 'customer.newsletter')
-            ->setViewName('Mage_Customer', 'form/newsletter.phtml');
+            ->setTemplate('customer/form/newsletter.phtml');
         Mage::getBlock('content')->append($block);
         
         $this->renderLayout();

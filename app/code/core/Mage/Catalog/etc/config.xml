@@ -258,9 +258,7 @@
          <default>
             <updates>
                <catalog>
-                  <module>Mage_Catalog</module>
-
-                  <file>initLayout.xml</file>
+                  <file>catalog/initLayout.xml</file>
                </catalog>
             </updates>
          </default>
@@ -297,9 +295,7 @@
          <default>
             <updates>
                <catalog>
-                  <module>Mage_Catalog</module>
-
-                  <file>Admin/initLayout.xml</file>
+                  <file>catalog/initLayout.xml</file>
                </catalog>
             </updates>
          </default>

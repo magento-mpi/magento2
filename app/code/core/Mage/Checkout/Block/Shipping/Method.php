@@ -24,7 +24,7 @@ class Mage_Checkout_Block_Shipping_Method extends Mage_Core_Block_Template
             $selectedMethod = '';
         }
 
-        $this->setViewName('Mage_Checkout', 'onepage/shipping_method/box.phtml');
+        $this->setTemplate('checkout/onepage/shipping_method/box.phtml');
 	    $this->assign('methods', $methods)->assign('selectedMethod', $selectedMethod);
     }
 }

@@ -69,7 +69,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $customer = Mage::getModel('customer', 'customer')->load($customerId);
 
         $form = Mage::createBlock('form', 'customer.form');
-        $form->setViewName('Mage_Core', 'form.phtml');
+        $form->setTemplate('form.phtml');
         
         $form->setAttribute('legend', 'Customer information');
         $form->setAttribute('class', 'x-form');

@@ -34,7 +34,7 @@ class Mage_Sales_Model_Payment_Ccsave extends Mage_Sales_Model_Payment_Abstract
         $this->_payment->setCcCvv2('');
         
         $block = Mage::createBlock('tpl', $name)
-            ->setViewName('Mage_Sales', 'payment/ccsave.phtml')
+            ->setTemplate('sales/payment/ccsave.phtml')
             ->assign('ccTypesArr', $ccTypesArr)
             ->assign('monthsArr', $monthsArr)
             ->assign('yearsArr', $yearsArr)

@@ -398,9 +398,7 @@
          <default>
             <updates>
                <sales>
-                  <module>Mage_Sales</module>
-
-                  <file>Admin/initLayout.xml</file>
+                  <file>sales/initLayout.xml</file>
                </sales>
             </updates>
          </default>

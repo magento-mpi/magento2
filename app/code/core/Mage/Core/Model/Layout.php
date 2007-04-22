@@ -46,7 +46,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $fileName = (string)$args->file;
         $moduleName = (string)$args->module;
-        $fileName = Mage::getBaseDir('layout', $moduleName).DS.$fileName;
+        $fileName = Mage::getBaseDir('layout').DS.$fileName;
         $this->addCacheStat($fileName);
         
         $update = $this->loadFile($fileName);

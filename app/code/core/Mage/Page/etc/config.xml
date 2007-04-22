@@ -39,9 +39,7 @@
          <default>
             <updates>
                <page>
-                  <module>Mage_Page</module>
-
-                  <file>initLayout.xml</file>
+                  <file>page/initLayout.xml</file>
                </page>
             </updates>
          </default>

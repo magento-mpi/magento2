@@ -30,7 +30,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     {
         $product = Mage::getModel('catalog_resource', 'product');
         $product->load($this->getRequest()->getParam('id'));
-        Mage::createBlock('tpl', 'root')->setViewName('Mage_Catalog', 'product/large.image.phtml')
+        Mage::createBlock('tpl', 'root')->setTemplate('catalog/product/large.image.phtml')
             ->assign('product', $product);
         
     }

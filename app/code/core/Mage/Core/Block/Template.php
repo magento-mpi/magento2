@@ -26,11 +26,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
     
-    public function setViewName($viewModule, $viewName)
+    public function setTemplate($templateName)
     {
-#echo "<hr>Module:"; print_r($viewModule); echo ", Name:"; print_r($viewName);
-        $this->setAttribute('viewModule', $viewModule);
-        $this->setAttribute('viewName', $viewName);
+        #echo "<hr>Module:"; print_r($viewModule); echo ", Name:"; print_r($viewName);
+        #$this->setAttribute('viewModule', $viewModule);
+        $this->setAttribute('templateName', $templateName);
         return $this;
     }
     
@@ -67,23 +67,17 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function renderView()
     {
-        $moduleName = $this->getAttribute('viewModule');
-        
-        if (!Mage::getConfig()->getModule($moduleName)) {
-            Mage::exception('Invalid view module name specified in block '.$this->getInfo('name').': '.$moduleName);
-        }
-
-        $moduleViewsDir = Mage::getBaseDir('views', $moduleName);
+        $templatesDir = Mage::getBaseDir('template');
 
         $this->assign('baseUrl', Mage::getBaseUrl());
         $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
         $this->assign('baseJsUrl', Mage::getBaseUrl(array('_type'=>'js')));
-        $this->assign('moduleViewsDir', $moduleViewsDir);
+        $this->assign('templatesDir', $templatesDir);
         $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
         $this->assign('currentBlock', $this);
         
-        $this->setScriptPath($moduleViewsDir.DS);
-        $html = $this->fetchView($this->getAttribute('viewName'));
+        $this->setScriptPath($templatesDir.DS);
+        $html = $this->fetchView($this->getAttribute('templateName'));
         
         return $html;
     }

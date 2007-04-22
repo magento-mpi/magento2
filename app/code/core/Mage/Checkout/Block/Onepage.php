@@ -16,7 +16,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setViewName('Mage_Checkout', 'onepage.phtml');
+        $this->setTemplate('checkout/onepage.phtml');
         
         $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
@@ -70,7 +70,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $data = $this->_checkout->getCheckoutMethodData();
         
         $block = Mage::createBlock('tpl', 'checkout.method')
-            ->setViewName('Mage_Checkout', 'onepage/method.phtml')
+            ->setTemplate('checkout/onepage/method.phtml')
             ->assign('data', $data);
             
         $this->setChild('method', $block);
@@ -79,7 +79,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     protected function _createBillingBlock()
     {
         $block = Mage::createBlock('tpl', 'checkout.billing')
-            ->setViewName('Mage_Checkout', 'onepage/billing.phtml');
+            ->setTemplate('checkout/onepage/billing.phtml');
             
         $billing = $this->_quote->getAddressByType('billing');
         if (empty($billing)) {
@@ -110,7 +110,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         $paymentBlock = Mage::createBlock('tpl', 'checkout.payment')
-            ->setViewName('Mage_Checkout', 'onepage/payment.phtml');
+            ->setTemplate('checkout/onepage/payment.phtml');
         $listBlock = Mage::createBlock('list', 'checkout.payment.methods');    
         $paymentBlock->setChild('paymentMethods', $listBlock);
         
@@ -132,7 +132,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     protected function _createShippingBlock()
     {
         $block = Mage::createBlock('tpl', 'checkout.shipping')
-            ->setViewName('Mage_Checkout', 'onepage/shipping.phtml');
+            ->setTemplate('checkout/onepage/shipping.phtml');
             
         $shipping = $this->_quote->getAddressByType('shipping');
         if (empty($shipping)) {
@@ -164,7 +164,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $status = Mage::createBlock('checkout_onepage_status', 'checkout.review.stub');
         
         $block = Mage::createBlock('tpl', 'checkout.review')
-            ->setViewName('Mage_Checkout', 'onepage/review.phtml')
+            ->setTemplate('checkout/onepage/review.phtml')
             ->setChild('status', $status)
             ->assign('data', $this->_quote);
             

@@ -17,9 +17,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $quote = $this->_data['quote'];
         
         if (!$quote->hasItems()) {
-            $cartView = 'cart/noItems.phtml';
+            $cartView = 'checkout/cart/noItems.phtml';
         } else {
-            $cartView = 'cart/view.phtml';
+            $cartView = 'checkout/cart/view.phtml';
             
             $itemsFilter = new Varien_Filter_Object_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
@@ -45,7 +45,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }        
         
         $block = Mage::createBlock('tpl', 'cart.view')
-            ->setViewName('Mage_Checkout', $cartView)
+            ->setTemplate($cartView)
             ->assign('data', $this->_data);
             
         Mage::getBlock('content')->append($block);

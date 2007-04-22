@@ -19,7 +19,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         $this->_dataInputs = (array) Mage::getConfig()->getXml()->admin->dataInputs;
         $this->_dataSources= (array) Mage::getConfig()->getXml()->modules->Mage_Catalog->admin->dataSources;
 
-        $this->setViewName('Mage_Core', 'form.phtml');
+        $this->setTemplate('form.phtml');
         
         // Set form attributes
         $this->setAttribute('method', 'POST');

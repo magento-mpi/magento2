@@ -55,9 +55,7 @@
          <default>
             <updates>
                <checkout>
-                  <module>Mage_Checkout</module>
-
-                  <file>initLayout.xml</file>
+                  <file>checkout/initLayout.xml</file>
                </checkout>
             </updates>
          </default>
