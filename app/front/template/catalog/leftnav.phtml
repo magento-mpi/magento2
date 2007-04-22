@@ -2,8 +2,8 @@
     <h2 id="title-department"><span>Shop by department</span></h2>
     <div class="category-nav">
         <ul class="categories">
-            <?foreach ($categories as $_item):?>
-                <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_item['id']?>/" <?if (!empty($currentCategoryId) && $_item['id']==$currentCategoryId):?> class="active"<?endif?>><?=$_item['title']?></a></li>
+            <?foreach ($categories as $_node):?>
+                <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?> class="active"<?endif?>><?=$_node->getName()?></a></li>
             <?endforeach?>
         </ul>
     </div>

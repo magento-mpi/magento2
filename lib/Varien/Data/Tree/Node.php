@@ -30,12 +30,19 @@ class Varien_Data_Tree_Node extends Varien_Data_Object
      */
     protected $_childNodes;
     
+    /**
+     * Node ID field name
+     *
+     * @var string
+     */
     protected $_idField;
     
-    public function __construct($tree, $parent = null) 
+    public function __construct($data, $idFeild, $tree, $parent = null) 
     {
         $this->_tree    = $tree;
         $this->_parent  = $parent;
+        $this->_idField = $idFeild;
+        $this->setData($data);
         $this->_childNodes = new Varien_Data_Tree_Node_Collection($this);
     }
     
@@ -57,6 +64,7 @@ class Varien_Data_Tree_Node extends Varien_Data_Object
     public function setTree($tree)
     {
         $this->_tree = $tree;
+        return $this;
     }
     
     public function getTree()
@@ -67,6 +75,7 @@ class Varien_Data_Tree_Node extends Varien_Data_Object
     public function setParent($parent)
     {
         $this->_parent = $parent;
+        return $this;
     }
     
     public function getParent()
@@ -77,6 +86,27 @@ class Varien_Data_Tree_Node extends Varien_Data_Object
     public function hasChildren()
     {
         return $this->_childNodes->count() > 0;
+    }
+    
+    public function loadChildren($recursionLevel=0)
+    {
+        $this->_tree->load($this, $recursionLevel);
+        return $this;
+    }
+    
+    public function getChildren()
+    {
+        return $this->_childNodes;
+    }
+    
+    public function addChild($node)
+    {
+        $this->_childNodes->add($node);
+    }
+    
+    public function appendChild($prevNode=null)
+    {
+        $this->_tree->appendChild($this, $prevNode);
     }
     
     public function moveTo($node)

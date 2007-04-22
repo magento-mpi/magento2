@@ -105,18 +105,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 
         if ($categoryId = $this->getRequest()->getParam('category')) {
 
-            $tree = Mage::getModel('catalog','category_tree');
-            $data = $tree->getLevel($categoryId, 0);
+            $nodes = Mage::getModel('catalog_resource','category_tree')
+                        ->load($categoryId, 10)
+                        ->getNodes();
 
-            if (empty($data)) {
-                $arrCategories = array($categoryId);
-            }
-            else {
+            if ($nodes->count()) {
+                
                 $arrCategories = array();
                 $prodCollection->distinct(true);
-                foreach ($data as $node) {
+                foreach ($nodes as $node) {
                     $arrCategories[] = $node->getId();
                 }
+            }
+            else {
+                $arrCategories = array($categoryId);
             }
             $prodCollection->addCategoryFilter($arrCategories);
         }
@@ -188,7 +190,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'allowDelete' => 'true',
                     'expanded' => 'true',
                     'allowEdit' => 'true'
-            	);
+                );
             }
         } elseif (preg_match('/^set:\d?$/', $rootNode)) {
             $setInfo = explode(':', $rootNode, 2);
@@ -204,7 +206,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'allowDelete' => 'true',
                     'expanded' => 'true',
                     'allowEdit' => 'true'
-            	);
+                );
             }
         } elseif (preg_match('/^set:\d?\/group:\d?$/', $rootNode)) {
             $tmpInfo = explode('/', $rootNode, 2);
@@ -224,7 +226,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'allowDelete' => 'true',
                     'expanded' => 'true',                       
                     'allowEdit' => 'false'                
-            	);
+                );
             }
         }
         $this->getResponse()->setBody(Zend_Json::encode($data));

@@ -26,24 +26,29 @@ class Varien_Data_Tree
         return $this;
     }
     
-    public function load($rootId, $recurcive=false)
-    {
-        
-    }
+    public function load($parentNode, $recursive=false) {}
+    public function loadNode($nodeId) {}
+    public function appendChild($parentNode, $prevNode=null) {}
     
     public function addNode($node, $parent=null)
     {
         $this->_nodes->add($node);
-        if ($parent instanceof Varien_Data_Tree_Node) {
-            $parent->add($node);
+        if (!is_null($parent) && ($parent instanceof Varien_Data_Tree_Node) ) {
+            $parent->addChild($node);
         }
     }
-    public function moveNodeTo();
-    public function copyNodeTo();
-    public function removeNode();
-    public function createNode();
     
-    public function getPath();
-    public function getChild();
-    public function getChildren();
+    public function moveNodeTo($node, $parentNode, $prevNode=null) {}
+    public function copyNodeTo($node, $parentNode, $prevNode=null) {}
+    public function removeNode($node) {}
+    public function createNode($parentNode, $prevNode=null) {}
+    
+    public function getPath($node) {}
+    public function getChild($node) {}
+    public function getChildren($node) {}
+    
+    public function getNodes()
+    {
+        return $this->_nodes;
+    }
 }

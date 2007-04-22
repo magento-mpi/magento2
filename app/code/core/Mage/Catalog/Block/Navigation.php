@@ -11,15 +11,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
     function loadCategories($parent)
     {
-        $categoryTree = Mage::getModel('catalog','category_tree')->getLevel($parent);
-        $data  = array();
-        foreach ($categoryTree as $item) {
-            $data[] = array(
-                'title' => $item->getData('attribute_value'),
-                'id'    => $item->getId(),
-            );
-        }
-        $this->assign('categories', $data);
+        $nodes = Mage::getModel('catalog_resource','category_tree')
+            ->joinAttribute('name')
+            ->load($parent)
+            ->getNodes();
+        $this->assign('categories', $nodes);
     }
     
     public function loadProductManufacturers()

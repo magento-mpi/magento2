@@ -73,9 +73,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getCategoryName()
     {
-        // TODO : default category id attribute
-        $category = Mage::getModel('catalog', 'category_tree')->getNode($this->getCategoryId());
-        return $category->getData('attribute_value');
+        return Mage::getModel('catalog_resource', 'category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
     
     public function getTierPrice($qty=1)

@@ -63,11 +63,11 @@ class Varien_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
     */
     public function add(Varien_Data_Tree_Node $node)
     {
-        $node->setParent($this->container);
+        $node->setParent($this->_container);
 
         // Set the Tree for the node
-        if ($this->container->getTree() instanceof Varien_Data_Tree) {
-            $node->setTree($this->container->getTree());
+        if ($this->_container->getTree() instanceof Varien_Data_Tree) {
+            $node->setTree($this->_container->getTree());
         }
 
         $this->_nodes[] = $node;

@@ -38,6 +38,11 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
      */
     protected $_select;
     
+    /**
+     * Tree ctructure field names
+     *
+     * @var string
+     */
     protected $_idField;
     protected $_parentField;
     protected $_levelField;
@@ -63,7 +68,6 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         
         $this->_conn    = $connection;
         $this->_table   = $table;
-        $this->_select  = $this->_conn->select();
         
         if (!isset($fields[self::ID_FIELD]) || 
             !isset($fields[self::PARENT_FIELD]) || 
@@ -77,6 +81,10 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         $this->_parentField = $fields[self::PARENT_FIELD];
         $this->_levelField  = $fields[self::LEVEL_FIELD];
         $this->_orderField  = $fields[self::ORDER_FIELD];
+        
+        $this->_select  = $this->_conn->select();
+        $this->_select->from($this->_table, array_values($fields));
+        $this->_select->order("$this->_table.$this->_orderField");
     }
     
     public function getDbSelect()
@@ -87,5 +95,54 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
     public function setDbSelect($select)
     {
         $this->_select = $select;
+    }
+    
+    /**
+     * Load tree
+     *
+     * @param   int || Varien_Data_Tree_Node $parentNode
+     * @param   int $recursionLevel recursion level
+     * @return  this
+     */
+    public function load($parentNode, $recursionLevel=0)
+    {
+        if ($parentNode instanceof Varien_Data_Tree_Node) {
+            $parentId = $parentNode->getId();
+        }
+        elseif (is_numeric($parentNode)) {
+            $parentId = $parentNode;
+            $parentNode = null;
+        }
+        else {
+            throw new Exception('root node id is not defined');
+        }
+        
+        $select = clone $this->_select;
+        $condition = $this->_conn->quoteInto("$this->_table.$this->_parentField=?", $parentId);
+        $select->where($condition);
+        
+        $arrNodes = $this->_conn->fetchAll($select);
+        foreach ($arrNodes as $nodeInfo) {
+            $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this, $parentNode);
+            $this->addNode($node, $parentNode);
+            if ($recursionLevel) {
+                $node->loadChildren($recursionLevel-1);
+            }
+        }
+        return $this;
+    }
+    
+    public function loadNode($nodeId)
+    {
+        $select = clone $this->_select;
+        $condition = $this->_conn->quoteInto("$this->_table.$this->_idField=?", $nodeId);
+        $select->where($condition);
+        
+        return new Varien_Data_Tree_Node($this->_conn->fetchRow($select), $this->_idField, $this);
+    }
+    
+    public function appendChild($parentNode, $prevNode=null)
+    {
+        
     }
 }

@@ -31,45 +31,34 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     }
 
     public function removeAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        if (intval($_GET['id'])) {
-            $obj->removeNode($_GET['id']);
-        }
     }
 
     public function moveAction() {
-        $obj = Mage::getModel('catalog', 'category_tree')->getObject();
-        if (intval($_POST['id']) && intval($_POST['pid'])) {
-            $obj->moveNode($_POST['id'], $_POST['pid']);
-        }
     }
 
-    public function deleteAction() {
-        $id = $this->getRequest()->getParam('id', null);
-        if (!empty($id)) {
-            Mage::getModel('catalog', 'category_tree')->deleteNode($id);
-        }
-    }
-    
     /**
      * Category tree json
      *
      */
     public function treeChildrenAction()
     {
-        $tree = Mage::getModel('catalog','category_tree');
+        $tree = Mage::getModel('catalog_resource','category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
         $websiteId = (int) $this->getRequest()->getPost('website',1);
 
-        $children = $tree->setWebsiteId($websiteId)->getLevel($parentNodeId);
+        $nodes = $tree->setWebsiteId($websiteId)
+                    ->joinAttribute('name')
+                    ->loadNode($parentNodeId)
+                        ->loadChildren(1)
+                        ->getChildren();
 
         $items = array();
-        foreach ($children as $child) {
+        foreach ($nodes as $node) {
             $item = array();
-            $item['text']= $child->getData('attribute_value'); //.'(id #'.$child->getId().')';
-            $item['id']  = $child->getId();
+            $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+            $item['id']  = $node->getId();
             $item['cls'] = 'folder';
-            if (!$child->isParent()) {
+            if (!$node->hasChildren()) {
                 $item['leaf'] = 'true';    
             }
             $items[] = $item;
