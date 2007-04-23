@@ -295,4 +295,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $data = array('error' => 0);
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
+    
+    public function newSetAction() {
+        $data = array('error' => 0);
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
 }

@@ -15,6 +15,7 @@ Mage.Catalog_Product_Attributes = function(){
 
         addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes/',
         removeElementUrl : Mage.url + '/mage_catalog/product/removelement/',        
+        newSetUrl : Mage.url + '/mage_catalog/product/newset/',
         setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
 
         setGrid : null,
@@ -387,7 +388,7 @@ Mage.Catalog_Product_Attributes = function(){
                         text: text,
                         iconCls: 'set',
                         cls: 'set',
-                        type:'typeSet',                        
+                        type:'newSet',                        
                         id: id,
                         setId:id,
                         allowDelete:true,
@@ -457,9 +458,38 @@ Mage.Catalog_Product_Attributes = function(){
                 }
             });    
             
-            ge.on('afteredit', function() {
-                alert(test);
-            })   
+            ge.on('complete', function() {
+                var node = ge.editNode;
+                if (node.attributes.type !== 'newSet') {
+                    return true;
+                }
+                
+                var conn = new Ext.data.Connection();
+                    
+                conn.on('requestcomplete', function(conn, response, options) {
+                    var i = 0;
+                	var result =  Ext.decode(response.responseText);
+                    if (result.error === 0) { 
+                        node.enable();
+           		    } else {
+           		        node.parentNode.removeChild(node);
+           		        Ext.MessageBox.alert('Error', result.errorMessage);
+       	       	    }
+               });
+
+                conn.on('requestexception', function() {
+                    Ext.MessageBox.alert('Error', 'requestException');
+                });
+                        
+                conn.request( {
+                    url: this.newSetUrl,
+                    method: "POST",
+                    params: {
+                        nodeType : 'typeSet',
+                        nodeId : 0
+                    }
+                });                
+            }.createDelegate(this));
             
             // add option handler
             function addGroup(btn, e){
