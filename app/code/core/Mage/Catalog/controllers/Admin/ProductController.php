@@ -216,6 +216,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 $data[] = array(
                     'text' => 'Attribute' . $i,
                     'id' => $rootNode.'/attr:'.$i,
+                    'attrId' => $setInfo[1].$i,
                     'iconCls' => 'attr',
                     'cls' => 'attr',
                     'leaf' => 'false',
@@ -265,8 +266,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     "id" => 1,
                     "name" => "Active",
                     "value" => false
-                ),
-                array(
+                    ),
+                    array(
                     "id" => 2,
                     "name" => "Type",
                     "value" => "1"
@@ -285,5 +286,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 
     }
 
+    public function addGroupAttributesAction() {
+        $data = array('error' => 1, 'errorMessage' => 'error Message', 'errorNodes' => array(1,2,3,4,5,6,7));
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
 
 }

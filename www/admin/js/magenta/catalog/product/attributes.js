@@ -169,13 +169,6 @@ Mage.Catalog_Product_Attributes = function(){
                 // create the primary toolbar
                 var tb = new Ext.Toolbar('main-tb');
                 tb.add({
-                    id:'save',
-                    text:'Save',
-                    disabled:true,
-                   // handler:save,
-                    cls:'x-btn-text-icon btn_accept',
-                    tooltip:'Saves all components to the server'
-                },'-',{
                     id:'add',
                     text:'Set',
                     handler : addSet,
@@ -255,35 +248,60 @@ Mage.Catalog_Product_Attributes = function(){
                     var s = e.data.selections, r = [];
                     for(var i = 0, len = s.length; i < len; i++){
                         var attrId = s[i].id; // s[i] is a Record from the grid
+                        var res = [];
+                        e.target.cascade(function(params){
+                            //Ext.dump(this);
+                            if (this.attributes.attrId == params[0]) {
+                                res.push(this);
+                            }
+                        }, node, [attrId]);
                         
-                        var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
-                            allowDrop:false,
-                            allowDrag:true,
-                            type : 'dropped',
-                            setId : e.target.attributes.setId,
-                            cls : 'x-tree-node-loading',
-                            text: s[i].data.attribute_code
-                        });
-                        r.push(node);
-                    }
-                    
-                    var conn = new Ext.data.Connection();
-                    
-            		conn.on('requestcomplete', function() {
-            		    var i = 0;
-                        for(i=0; i < r.length; i++) {
-                            r[i].attributes.type = 'typeAttr';
-                            r[i].ui.afterLoad();
+                        if (res.length == 0) {
+                            var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
+                                allowDrop:false,
+                                allowDrag:true,
+                                attrId : attrId,
+                                type : 'dropped',
+                                setId : e.target.attributes.setId,
+                                cls : 'x-tree-node-loading',
+                                text: s[i].data.attribute_code
+                            });
+                            r.push(node);
                         }
-                    });
+                    }
+
+                    if (res.length == 0) {
                     
-                    conn.on('requestexception', function() {
-                    });
-                    conn.request( {
-                        url: this.addGroupAttributes,
-                        method: "POST"
-                    });                
+                        var conn = new Ext.data.Connection();
                     
+                		conn.on('requestcomplete', function(conn, response, options) {
+                		    var i = 0;
+                		    var result =  Ext.decode(response.responseText);
+                		    if (result.error === 0) { 
+                                for(i=0; i < r.length; i++) {
+                                    r[i].attributes.type = 'typeAttr';
+                                    r[i].ui.removeClass('x-tree-node-loading');
+                                }
+                		    } else {
+                                for(i=0; i < r.length; i++) {
+                                    if (result.errorNodes.indexOf(Number(r[i].attributes.attrId)) >= 0) {
+                                        r[i].parentNode.removeChild(r[i]);
+                                    }
+                                }
+                		        Ext.MessageBox.alert('Error',result.errorMessage);
+                		    }
+                        });
+
+                        conn.on('requestexception', function() {
+                        });
+                        
+                        conn.request( {
+                            url: this.addGroupAttributes,
+                            method: "POST"
+                        });                
+                    } else {
+                        Ext.MessageBox.alert('Error', 'This attributes exists in sets');
+                    }                     
                     e.dropNode = r;  // return the new nodes to the Tree DD
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
                 }.createDelegate(this));    
