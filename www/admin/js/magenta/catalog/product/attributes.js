@@ -368,7 +368,22 @@ Mage.Catalog_Product_Attributes = function(){
                 }                              
                 
                 function createSet(id, text, groups){
-                    var node = new Ext.tree.AsyncTreeNode({
+                    var group = new Ext.tree.TreeNode({
+                        text : 'General',
+                        id : 'group10',
+                        iconCls : 'group',
+                        cls : 'group',
+                        leaf : false,
+                        allowDrop : true,
+                        allowDrag : false,
+                        type : 'typeGroup',
+                        setId : 'set:'+id,
+                        allowDelete : true,
+                        expanded : true,
+                        allowEdit : true
+                    });
+                    
+                    var node = new Ext.tree.TreeNode({
                         text: text,
                         iconCls: 'set',
                         cls: 'set',
@@ -378,14 +393,15 @@ Mage.Catalog_Product_Attributes = function(){
                         allowDelete:true,
                         allowDrop : true,
                         allowDrag : true,
-                        children: groups||[],
                         expanded:true,                       
                         allowEdit:true
                     });
-                    if (node.lastChild) {
-                        node.lastChild.ensureVisible();
-                    }
+                    
+                    node.appendChild(group);
                     croot.appendChild(node);
+                                        
+                    group.ensureVisible();
+
                     return node;
                 }
                 
@@ -402,6 +418,7 @@ Mage.Catalog_Product_Attributes = function(){
                     		    if (result.error === 0) { 
                     		        if (a.type == 'typeGroup') {
                     		            while (n.childNodes.length) {
+                    		                n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attrId;
                         		            n.parentNode.firstChild.appendChild(n.childNodes[0]);
                     		            }
                     		        }
@@ -438,7 +455,11 @@ Mage.Catalog_Product_Attributes = function(){
                 if(!ge.editNode.attributes.allowEdit){
                     return false;
                 }
-            });       
+            });    
+            
+            ge.on('afteredit', function() {
+                alert(test);
+            })   
             
             // add option handler
             function addGroup(btn, e){
