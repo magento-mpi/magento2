@@ -6,25 +6,22 @@ class Mage_Checkout_Block_Shipping_Method extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        $checkout = Mage::getSingleton('checkout', 'session');
-        $quote = $checkout->getQuote();
+        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
 
         $address = $quote->getAddressByType('shipping');
 
-        if (!$checkout->getShippingMethods() && !empty($address)) {
-            $methods = Mage::getModel('sales', 'shipping')->collectMethodsByAddress($address);
-            $checkout->setShippingMethods($methods);
+        $methodEntities = $quote->getEntitiesByType('shipping'); 
+        if (!empty($methodEntities) && !empty($address)) {
+            $estimateFilter = new Varien_Filter_Object_Grid();
+            $estimateFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'amount');
+            $methods = $estimateFilter->filter($methodEntities);
+            $selectedMethod = $quote->getShippingMethod();
+            $this->assign('methods', $methods)->assign('selectedMethod', $selectedMethod);
         } else {
-            $methods = $checkout->getShippingMethods();
+            $this->assign('methods', array())->assign('selectedMethod', '');
         }
 
-        if (!empty($address)) {
-            $selectedMethod = $address->getShippingMethod();
-        } else {
-            $selectedMethod = '';
-        }
-
-        $this->setTemplate('checkout/onepage/shipping_method/box.phtml');
-	    $this->assign('methods', $methods)->assign('selectedMethod', $selectedMethod);
+        $this->setTemplate('checkout/onepage/shipping_method/available.phtml');
+	    
     }
 }

@@ -15,6 +15,18 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
             }
         }
         */ 
+        $oldWeight = $quote->getWeight();
+        
+        $quote->setWeight(0);
+
+        foreach ($quote->getEntitiesByType('item') as $item) {
+            $item->setRowWeight($item->getWeight()*$item->getQty());
+            $quote->setWeight($quote->getWeight()+$item->getRowWeight());
+        }
+        
+        if ($quote->getEstimatePostcode() && $oldWeight!==$quote->getWeight()) {
+            $quote->estimateShippingMethods();
+        }
         
         $quote->setGrandTotal($quote->getGrandTotal()+$quote->getShippingAmount());
         return $this;

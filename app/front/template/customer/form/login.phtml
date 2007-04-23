@@ -1,7 +1,7 @@
 <div class="content">
 <h1 class="page-heading">Login</h1>
 <?=$messages->__toHtml()?>
-<form action="<?=$_SERVER['REQUEST_URI']?>" method="post" onSubmit="">
+<form action="<?=$postAction?>" method="post" onSubmit="">
 <table cellspacing="0" width="100%">
     <tr>
         <td style="width:50%; padding-right:5px;"><h3>I am a new customer.</h3>
@@ -20,7 +20,7 @@
     </tr>
     <tr>
         <td>
-            <input type="button" onClick="window.location='<?=$baseUrl?>customer/account/create/';" class="input-button" value="Register"/></td>
+            <input type="button" onClick="window.location='<?=$baseSecureUrl?>customer/account/create/';" class="input-button" value="Register"/></td>
         <td>
             <ul class="input-list">
                 <li><input name="send" type="submit" class="input-button" id="send2" value="Login"/></li>

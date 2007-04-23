@@ -12,13 +12,13 @@ Checkout.prototype = {
     }, 
     
     reloadStatusBlock: function(){
-        var updater = new Ajax.Updater('column-left', '<?=$baseUrl?>checkout/onepage/status/', {method: 'get'});
+        var updater = new Ajax.Updater('column-left', '<?=$baseSecureUrl?>checkout/onepage/status/', {method: 'get'});
+    },
+        
+    reloadReviewBlock: function(){
+        var updater = new Ajax.Updater('checkout-review-load', '<?=$baseSecureUrl?>checkout/onepage/review/', {method: 'get'});
     },
     
-    reloadShippingMethodBlock: function(){
-    	var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$baseUrl?>checkout/onepage/shippingMethod/', {method: 'get'});
-    },
-
     setType: function(){
         if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
             //alert('guest');
@@ -41,7 +41,6 @@ Checkout.prototype = {
     },
 
     setShipping: function() {
-        this.reloadShippingMethodBlock();
         this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
@@ -53,6 +52,7 @@ Checkout.prototype = {
     
     setReview: function() {
         this.reloadStatusBlock();
+        this.reloadReviewBlock();
     	this.accordion.openNextSection(true);
     },
     

@@ -56,6 +56,24 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         
         $this->getResponse()->appendBody($block->toString());
     }
+    
+    public function reviewAction()
+    {
+        $block = Mage::createBlock('checkout_onepage_review', 'root');
+        
+        $this->getResponse()->appendBody($block->toString());
+    }
+    
+    public function successAction()
+    {
+        $this->loadLayout();
+            
+        $block = Mage::createBlock('tpl', 'checkout.success')
+            ->setTemplate('checkout/success.phtml');
+        Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
+    }
 
     /**
      * Address JSON
@@ -100,7 +118,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 return;
             }
             $payment = Mage::getModel('sales', 'quote_entity_payment')->addData($data);
-            $payment->setCcNumber($payment->encrypt($payment->getCcNumber()));
+            $payment->encryptCcNumber();
             $this->_quote->setPayment($payment);
             $this->_quote->save();
             
@@ -130,21 +148,24 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function saveShippingMethodAction()
     {
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost('shipping_method', array());
+            $data = $this->getRequest()->getPost('shipping_method', '');
             if (empty($data)) {
                 return;
             }
-            $this->_quote->getAddressByType('shipping')->setShippingMethod($data['method']);
+            $this->_quote->setShippingMethod($data);
             $this->_quote->save();
             
             $this->_checkout->setCompletedShippingMethod(true);
-            $this->_checkout->setAllowOrderReview(true);
+            $this->_checkout->setAllowReview(true);
         }
 
     }
     
     public function saveOrderAction()
     {
-        echo "TEST";
+        if ($this->getRequest()->isPost()) {
+            $this->_quote->createOrders();
+            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'onepage', 'action'=>'success')));
+        }
     }
 }

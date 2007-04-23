@@ -116,45 +116,6 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
         unset($this->_entitiesByType[$entityToRemove->getEntityType()][$entityId]);
     }
 
-
-    public function collectTotals($type='')
-    {
-        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
-        foreach ($attrLogicClasses as $attrName=>$attrConfig) {
-            $className = $attrConfig->getClassName();
-            if (empty($className)) {
-                continue;
-            }
-            $attrLogic = new $className();
-            $arr = $attrLogic->collectTotals($this);
-        }
-        return $this;
-    }
-    
-    public function getTotals($type='_output')
-    {
-        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
-        
-        $totalsArr = array();
-        foreach ($attrLogicClasses as $attrName=>$attrConfig) {
-            $className = $attrConfig->getClassName();
-            if (empty($className)) {
-                continue;
-            }
-            $attrLogic = new $className();
-            $arr = $attrLogic->getTotals($this);
-            foreach ($arr as $i=>$row) {
-                if ('_output'!==$type && ''!==$type && $row['code']!==$type 
-                    || '_output'===$type && empty($row['output'])) {
-                    unset($arr[$i]);
-                }
-            }
-
-            $totalsArr = array_merge_recursive($totalsArr, $arr);
-        }
-        return $totalsArr;
-    }
-    
     public function getEntityTemplates()
     {
         return array();

@@ -279,6 +279,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             if (empty($params['_website'])) {
                 $params['_website'] = Mage::registry('website')->getCode();
             }
+            if (!empty($_SERVER['HTTPS'])) {
+                if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
+                    $params['_secure'] = true;
+                }
+            }
             $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
             $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
     
@@ -375,6 +380,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $path['baseUrl'] = Mage::getBaseUrl();
         $path['baseSkinUrl'] = Mage::getBaseUrl(array('_type'=>'skin'));
         $path['baseJsUrl'] = Mage::getBaseUrl(array('_type'=>'js'));
+        $path['baseSecureUrl'] = Mage::getBaseUrl(array('_secure'=>true));
 
         return $path;
     }

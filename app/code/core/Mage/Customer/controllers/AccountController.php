@@ -14,7 +14,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^(create|forgotpassword)#', $action)) {
+        if (!preg_match('#^(create|login|forgotpassword)#', $action)) {
             if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -30,11 +30,45 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = Mage::createBlock('customer_account', 'customer.account')
-            ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
+            ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
             
         Mage::getBlock('content')->append($block);
         
         $this->renderLayout();
+    }
+    
+    public function loginAction()
+    {
+        $this->loadLayout();
+        
+        $block = Mage::createBlock('customer_login', 'customer.login')
+            ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
+            ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)));
+        Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
+    }
+    
+    public function loginPostAction()
+    {
+        $session = Mage::getSingleton('customer', 'session');
+        
+        if ($this->getRequest()->isPost()) {
+            $login = $this->getRequest()->getPost('login');
+            if (!empty($login)) {
+                extract($login);
+                if (!empty($username) && !empty($password)) {
+                    if ($session->login($username, $password)) {
+                        $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
+                        return true;
+                    }
+                    else {
+                        $session->addMessage(Mage::getModel('customer', 'message')->error('CSTE000'));
+                    }
+                }
+            }
+        }
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
     }
     
     public function logoutAction()

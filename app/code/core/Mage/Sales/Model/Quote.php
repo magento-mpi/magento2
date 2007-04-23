@@ -116,9 +116,6 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $item = Mage::getModel('sales', 'quote_entity_item');
         $item->setEntityType('item')->addData($product->getData());
         $this->addEntity($item);
-        if ($this->getEstimatePostcode()) {
-            $this->collectTotals()->estimateShippingMethods();
-        }
         $this->collectTotals();
         return $this;
     }
@@ -139,11 +136,46 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                 $item->setQty($itemUpd['qty']);
             }
         }
-        if ($this->getEstimatePostcode()) {
-            $this->collectTotals()->estimateShippingMethods();
-        }
         $this->collectTotals();
         return $this;
+    }
+
+    public function collectTotals($type='')
+    {
+        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
+        foreach ($attrLogicClasses as $attrName=>$attrConfig) {
+            $className = $attrConfig->getClassName();
+            if (empty($className)) {
+                continue;
+            }
+            $attrLogic = new $className();
+            $arr = $attrLogic->collectTotals($this);
+        }
+        return $this;
+    }
+    
+    public function getTotals($type='_output')
+    {
+        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
+        
+        $totalsArr = array();
+        foreach ($attrLogicClasses as $attrName=>$attrConfig) {
+            $className = $attrConfig->getClassName();
+            if (empty($className)) {
+                continue;
+            }
+            $attrLogic = new $className();
+            $arr = $attrLogic->getTotals($this);
+            foreach ($arr as $i=>$row) {
+                if ('_output'!==$type && ''!==$type && $row['code']!==$type 
+                    || '_output'===$type && empty($row['output'])) {
+                    unset($arr[$i]);
+                }
+            }
+
+            $totalsArr = array_merge_recursive($totalsArr, $arr);
+        }
+        return $totalsArr;
     }
     
     public function estimateShippingMethods()
@@ -152,11 +184,36 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $request->setDestCountryId(223);
         $request->setDestRegionId(1);
         $request->setDestPostcode($this->getEstimatePostcode());
-        $request->setPackageValue($this->getGrandTotal());
+        $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
 
         $this->collectAddressShippingMethods($request);
+        $this->setShippingMethod($this->getShippingMethod());
 
+        return $this;
+    }
+    
+    public function setShippingMethod($code, $isChanged=true)
+    {
+        $found = false;
+        if ($code) {
+            foreach ($this->getEntitiesByType('shipping') as $method) {
+                if ($method->getCode()===$code) {
+                    $this->setShippingAmount($method->getAmount(), $isChanged);
+                    $this->setShippingDescription($method->getVendor().' '.$method->getServiceDescription(), $isChanged);
+                    $found = true;
+                    break;
+                }
+            }
+        }
+        if (!$found) {
+            $this->setShippingAmount(0, $isChanged);
+            $this->setShippingDescription('', $isChanged);
+            $code = '';
+        }
+        
+        $this->setData('shipping_method', $code, $isChanged);
+        
         return $this;
     }
     

@@ -6,13 +6,12 @@
 
     <div id="payment_form_purchaseorder" style="<?if($payment->getMethod()!=='purchaseorder'):?>display:none<?endif?>">
         <ul>
-        <li>
-        <div class="left">
-            <label for="po_number"><?=__("PO Number")?> <span class="required">*</span></label><br/>
-            <input type="text" id="po_number" name="payment[po_number]" title="<?=__("PO Number")?> class="required-entry input-text" value="<?=$payment->getPoNumber()?>"/>
-        </div>
-        <br>
-        </li>
+            <li>
+                <div class="left">
+                    <label for="po_number"><?=__("PO Number")?> <span class="required">*</span></label><br/>
+                    <input type="text" id="po_number" name="payment[po_number]" title="<?=__("PO Number")?> class="required-entry input-text" value="<?=$payment->getPoNumber()?>"/>
+                </div>
+            </li>
         </ul>
     </div>
 </fieldset>

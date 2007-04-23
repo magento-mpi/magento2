@@ -10,7 +10,7 @@ ShippingMethod.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$baseUrl?>checkout/onepage/saveShippingMethod/',
+                '<?=$baseSecureUrl?>checkout/onepage/saveShippingMethod/',
                 {
                     method:'post',
                     onSuccess: this.onSave,
@@ -26,13 +26,15 @@ ShippingMethod.prototype = {
 }
 </script>
 <div id="checkout-shipping-method" class="step-body">
-  	<div id="checkout-shipping-method-wait" class="default-box" style="display:block;">
-  	     Please wait, retrieving the shipping quotes...
+  	<div id="checkout-shipping-method-load" class="default-box">
+  	    <?=$availableMethods?>
   	</div>
-  	
-  	<div id="checkout-shipping-method-load" style="display:block;">
-  	    <?include "shipping_method/box.phtml"?>
-  	</div>
+
+    <div class="note-box buttons">
+    	<input type="button" onclick="checkout.back();" value="Back" class="input-button float-left" />
+    	<input type="button" onclick="shippingMethod.save();" class="input-button float-right" value="Continue" />
+    	<div class="clearfix"></div>
+    </div>
 </div>
 <script type="text/javascript">
     var shippingMethod = new ShippingMethod('co-shipping-method-form');

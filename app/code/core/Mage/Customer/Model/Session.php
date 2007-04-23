@@ -55,24 +55,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function authenticate($action)
     {
         if (!$this->isLoggedIn()) {
-            $login = $action->getRequest()->getPost('login');
-            if (!empty($login)) {
-                extract($login);
-                if (!empty($username) && !empty($password)) {
-                    if ($this->login($username, $password)) {
-                        $action->getResponse()->setRedirect($action->getRequest()->getRequestUri());
-                        return false;
-                    }
-                    else {
-                        Mage::getSingleton('customer', 'session')->addMessage(Mage::getModel('customer', 'message')->error('CSTE000'));
-                    }
-                }
-            }
-            $action->loadLayout();
-            $block = Mage::createBlock('customer_login', 'customer.login')
-                ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
-            Mage::getBlock('content')->append($block);
-            $action->renderLayout();
+            Mage::getSingleton('customer', 'session')->setUrlBeforeAuthentication($action->getRequest()->getRequestUri());
+            $action->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
             return false;
         }
         return true;

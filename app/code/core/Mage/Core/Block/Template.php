@@ -70,6 +70,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $templatesDir = Mage::getBaseDir('template');
 
         $this->assign('baseUrl', Mage::getBaseUrl());
+        $this->assign('baseSecureUrl', Mage::getBaseUrl(array('_secure'=>true)));
         $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
         $this->assign('baseJsUrl', Mage::getBaseUrl(array('_type'=>'js')));
         $this->assign('templatesDir', $templatesDir);

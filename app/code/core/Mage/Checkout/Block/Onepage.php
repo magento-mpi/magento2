@@ -155,19 +155,22 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingMethodBlock()
     {
-        $block = Mage::createBlock('checkout_shipping_method', 'checkout.onepage.shipping_method');
+        $availableMethods = Mage::createBlock('checkout_shipping_method', 'checkout.onepage.shipping_method.available');
+
+        $block = Mage::createBlock('tpl', 'checkout.onepage.shipping_method')
+            ->setTemplate('checkout/onepage/shipping_method.phtml')
+            ->setChild('availableMethods', $availableMethods);
 
         $this->setChild('shipping_method', $block);
     }
 
     protected function _createReviewBlock()
     {
-        $status = Mage::createBlock('checkout_onepage_status', 'checkout.review.stub');
+        $reviewInformation = Mage::createBlock('checkout_onepage_review', 'checkout.review.info');
         
         $block = Mage::createBlock('tpl', 'checkout.review')
             ->setTemplate('checkout/onepage/review.phtml')
-            ->setChild('status', $status)
-            ->assign('data', $this->_quote);
+            ->setChild('reviewInformation', $reviewInformation);
             
         $this->setChild('review', $block);
     }

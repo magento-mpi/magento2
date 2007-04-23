@@ -19,10 +19,14 @@
          <checkout_onepage_status>
             <class>Mage_Checkout_Block_Onepage_Status</class>
          </checkout_onepage_status>
+               
+         <checkout_onepage_review>
+            <class>Mage_Checkout_Block_Onepage_Review</class>
+         </checkout_onepage_review>
          
          <checkout_shipping_method>
             <class>Mage_Checkout_Block_Shipping_Method</class>
-         </checkout_shipping_method>
+         </checkout_shipping_method>   
       </blockTypes>
 
       <models>

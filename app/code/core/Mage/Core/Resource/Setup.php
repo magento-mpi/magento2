@@ -80,7 +80,7 @@ class Mage_Core_Resource_Setup
     protected function _installResourceDb($version)
     {
         $this->_modifyResourceDb('install', '', $version);
-        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $version);
+        $this->_modifyResourceDb('upgrade', '', $version);
     }
 
     /**
@@ -92,7 +92,6 @@ class Mage_Core_Resource_Setup
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb('upgrade', $oldVersion, $newVersion);
-        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $newVersion);
     }
 
     /**
@@ -106,7 +105,6 @@ class Mage_Core_Resource_Setup
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
         $this->_modifyResourceDb('rollback', $newVersion, $oldVersion);
-        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName, $oldVersion);
     }
 
     /**
@@ -120,8 +118,6 @@ class Mage_Core_Resource_Setup
     protected function _uninstallResourceDb($version)
     {
         $this->_modifyResourceDb('uninstall', $version, '');
-        Mage::getModel('core_resource', 'resource') -> setDbVersion($this->_resourceName);
-
     }
 
     /**
@@ -163,12 +159,15 @@ class Mage_Core_Resource_Setup
             return false;
         }
         
-        foreach ($arrModifyFiles as $fileName) {
-            $sqlFile = $sqlFilesDir.DS.$fileName;
+        foreach ($arrModifyFiles as $resourceFile) {
+            $sqlFile = $sqlFilesDir.DS.$$resourceFile['fileName'];
             $sql = file_get_contents($sqlFile);
 
             // Execute SQL
-            Mage::registry('resources')->getConnection($this->_resourceName)->multi_query($sql);
+            $result = Mage::registry('resources')->getConnection($this->_resourceName)->multi_query($sql);
+            if ($result) {
+                Mage::getModel('core_resource', 'resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+            }
         }
     }
     
@@ -189,7 +188,7 @@ class Mage_Core_Resource_Setup
                 ksort($arrFiles);
                 foreach ($arrFiles as $version => $file) {
                     if (version_compare($version, $toVersion)!==self::VERSION_COMPARE_GREATER) {
-                        $arrRes[0] = $file;
+                        $arrRes[0] = array('toVersion'=>$version, 'fileName'=>$file);
                     }
                 }
                 break;
@@ -207,7 +206,7 @@ class Mage_Core_Resource_Setup
                     $infoTo   = $version_info[1];
                     if (version_compare($infoFrom, $fromVersion)!==self::VERSION_COMPARE_LOWER
                         && version_compare($infoTo, $toVersion)!==self::VERSION_COMPARE_GREATER) {
-                        $arrRes[] = $file;
+                        $arrRes[] = array('toVersion'=>$infoTo, 'fileName'=>$file);
                     }
                 }
                 break;

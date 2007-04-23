@@ -10,7 +10,7 @@ Shipping.prototype = {
     setAddress: function(addressId){
         if (addressId) {
             request = new Ajax.Request(
-                '<?=$baseUrl?>checkout/onepage/getAddress/address/'+addressId,
+                '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/'+addressId,
                 {
                     method:'get',
                     onSuccess: this.onAddressLoad
@@ -55,7 +55,7 @@ Shipping.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$baseUrl?>checkout/onepage/saveShipping/',
+                '<?=$baseSecureUrl?>checkout/onepage/saveShipping/',
                 {
                     method:'post',
                     onSuccess: this.onSave,
@@ -66,6 +66,7 @@ Shipping.prototype = {
     },
 
     continue: function(){
+        var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/', {method:'get'});
         checkout.setShipping();
     }
 }

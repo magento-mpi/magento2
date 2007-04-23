@@ -10,7 +10,7 @@ Review.prototype = {
         var validator = new Validation(this.form);
         if (validator.validate()) {
             var request = new Ajax.Request(
-                '<?=$baseUrl?>checkout/onepage/saveOrder/',
+                '<?=$baseSecureUrl?>checkout/onepage/saveOrder/',
                 {
                     method:'post',
                     onSuccess: this.onSave,
@@ -27,13 +27,13 @@ Review.prototype = {
 </script>
 
 <div class="step-body" id="co-review-cont">
-    <div class="default-box">
-        <?=$status?>
+    <div id="checkout-review-load" class="default-box">
+        <?=$reviewInformation?>
     </div>
     
     <div class="note-box">
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="review.save();" class="input-button float-right" value="Submit Order"/>
+        <input type="button" onclick="review.save();" class="input-button float-right" value="Submit Order" style="background:red"/>
         <div class="clearfix"></div>
     </div>
 </div>

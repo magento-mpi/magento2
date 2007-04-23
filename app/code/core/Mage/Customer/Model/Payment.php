@@ -2,6 +2,12 @@
 
 class Mage_Customer_Model_Payment extends Varien_Data_Object
 {
+    public function encryptCcNumber()
+    {
+        $this->setCcLast4(substr($this->getCcNumber(),-4));
+        $this->setCcNumber($this->encrypt($this->getCcNumber()));
+    }
+    
     public function encrypt($data)
     {
         $key = (string)Mage::getConfig()->getModule('Mage_Customer')->crypt->key;

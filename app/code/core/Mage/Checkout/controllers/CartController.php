@@ -102,16 +102,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function estimateUpdatePostAction()
     {
         $code = $this->getRequest()->getPost('estimate_method');
-        $this->_data['quote']->setShippingMethod($code);
-        $entities = $this->_data['quote']->getEntitiesByType('shipping');
-        foreach ($entities as $entity) {
-            if ($entity->getCode()==$code) {
-                $this->_data['quote']->setShippingDescription($entity->getVendor().' '.$entity->getServiceDescription());
-                $this->_data['quote']->setShippingAmount($entity->getAmount())->collectTotals();
-                $this->_data['quote']->save();
-                break;
-            }
-        }
+        $this->_data['quote']->setShippingMethod($code)->save();
         
         $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
     }

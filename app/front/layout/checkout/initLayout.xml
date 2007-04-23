@@ -11,7 +11,7 @@
             <action method="setLink"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>Cart</label></action>
         </block>
         <block type="list_link" name="top.links.checkout">
-            <action method="setLink"><li/><a>href="{{baseUrl}}checkout/"</a><label>Checkout</label></action>
+            <action method="setLink"><li/><a>href="{{baseSecureUrl}}checkout/"</a><label>Checkout</label></action>
         </block>
     </reference>
 </layoutUpdate>
