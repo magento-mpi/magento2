@@ -114,7 +114,7 @@ Mage.Catalog_Category_Tree = function(){
             var data = {
                 id: obj.dropNode.id
             }
-
+alert('123');
             switch (obj.point) {
                 case 'above' :
                     data.pid = obj.target.parentNode.id;
@@ -137,7 +137,7 @@ Mage.Catalog_Category_Tree = function(){
                     }
                 break;
                 default :
-                    obj.cancel = true;
+                    //obj.cancel = true;
                     return obj;
             }
 

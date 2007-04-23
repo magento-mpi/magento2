@@ -18,7 +18,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
     public function loadByQuery(Zend_Controller_Request_Http $request)
     {
-        $this->setTemplate('catalog/search.result.phtml');
+        $this->setTemplate('catalog/search/result.phtml');
         $query = $this->getAttribute('query');
         $queryEscaped = htmlspecialchars($query);
 
@@ -50,7 +50,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
     
     public function loadByAttributeOption(Zend_Controller_Request_Http $request)
     {
-        $this->setTemplate('catalog/search.attribute.phtml');
+        $this->setTemplate('catalog/search/attribute.phtml');
         
         $attribute = $request->getParam('attr');
         $attributeValue = $request->getParam('value');

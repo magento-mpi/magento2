@@ -89,9 +89,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     //Category attributes
     public function attributesSetGridDataAction()
     {
-        /*$block = Mage::createBlock('tpl', 'category_attributes_grid');
-        $block->setTemplate('catalog/Admin/category/attributes_set_grid.phtml');
-        $this->getResponse()->setBody($block->toString());*/
     }
     
     public function attributesGridAction()
