@@ -203,7 +203,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'allowDrop' => true,
                     'type' => 'typeGroup',
                     'setId' => 'set:' . $setInfo[1],
-                    'allowDelete' => false,
+                    'allowDelete' => true,
                     'expanded' => true,
                     'allowEdit' => true
                 );
@@ -291,4 +291,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
 
+    public function removElementAction() {
+        $data = array('error' => 0);
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
 }

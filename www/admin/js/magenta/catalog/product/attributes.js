@@ -398,18 +398,18 @@ Mage.Catalog_Product_Attributes = function(){
                     
                 		conn.on('requestcomplete', function(conn, response, options) {
                 		    var i = 0;
-                		    try {
                 		    var result =  Ext.decode(response.responseText);
                     		    if (result.error === 0) { 
+                    		        if (a.type == 'typeGroup') {
+                    		            while (n.childNodes.length) {
+                        		            n.parentNode.firstChild.appendChild(n.childNodes[0]);
+                    		            }
+                    		        }
                     		        n.parentNode.removeChild(n);
                     		    } else {
                     		        n.enable();
                     		        Ext.MessageBox.alert('Error', result.errorMessage);
                 	       	    }
-                		    } catch (e){
-                                n.enable();        
-                                Ext.MessageBox.alert('Critical Error', response.responseText);
-                		    }
                         });
 
                         conn.on('requestexception', function() {
