@@ -514,7 +514,7 @@ Mage.Catalog_Product_Attributes = function(){
                 remoteSort: true
             });
 
-            dataStore.setDefaultSort('attribute_id', 'asc');
+            dataStore.setDefaultSort('attribute_code', 'asc');
             dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             // shorthand alias
