@@ -79,4 +79,9 @@ class Varien_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
     {
         return count($this->_nodes);
     }
+
+    public function lastNode()
+    {
+        return !empty($this->_nodes) ? $this->_nodes[count($this->_nodes) - 1] : null;
+    }
 }

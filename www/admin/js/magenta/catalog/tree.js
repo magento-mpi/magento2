@@ -4,6 +4,8 @@ Mage.Catalog_Category_Tree = function(){
 
     return{
         loadChildrenUrl: Mage.url+'mage_catalog/category/treeChildren/',
+        moveNodeUrl: Mage.url+'/mage_catalog/category/move/',
+        removeNodeUrl: Mage.url+'/mage_catalog/category/remove/',
         loadWebsiteUrl: Mage.url+'mage_catalog/category/treeWebsite/',
         websiteListUrl : Mage.url + 'mage_core/website/list/',
         tree: null,
@@ -66,8 +68,7 @@ Mage.Catalog_Category_Tree = function(){
                     loader: new Ext.tree.TreeLoader({dataUrl:this.loadWebsiteUrl}),
                     enableDD:true,
                     containerScroll: true,
-                    rootVisible:false,
-                    dropConfig: {appendOnly:true}
+                    rootVisible:false
                 });
                 
                 this.tree.addListener('contextmenu',this.categoryRightClick,this);
@@ -103,18 +104,11 @@ Mage.Catalog_Category_Tree = function(){
         },
 
         moveNode: function(obj){
-            if ((obj.target.parentNode.id == obj.dropNode.parentNode.id) && (obj.point != 'append')) {
-                Ext.MessageBox.alert("Tree Message","Can't move node here. Will be Fixed");
-                obj.cancel = true;
-                return obj;
-            }
-
-            var url = BASE_URL + '/mage_catalog/category/move/';
-
             var data = {
                 id: obj.dropNode.id
             }
-alert('123');
+            
+            data.point = obj.point;
             switch (obj.point) {
                 case 'above' :
                     data.pid = obj.target.parentNode.id;
@@ -137,7 +131,7 @@ alert('123');
                     }
                 break;
                 default :
-                    //obj.cancel = true;
+                    obj.cancel = true;
                     return obj;
             }
 
@@ -153,7 +147,7 @@ alert('123');
                 pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
             }
             pd.splice(pd.length-1,1);
-            var con = new Ext.lib.Ajax.request('POST', url, {success:success,failure:failure, scope:obj}, pd.join(""));
+            var con = new Ext.lib.Ajax.request('POST', this.moveNodeUrl, {success:success,failure:failure, scope:obj}, pd.join(""));
         },
 
         editNodeDialog: function(){
@@ -169,7 +163,7 @@ alert('123');
                 var node = tree.getSelectionModel().getSelectedNode();
                 var success = function(o) { this.parentNode.removeChild(this);};
                 var failure = function(o) { Ext.dump(o.statusText); };
-                var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/category/delete/id/'+node.id+'/', {success:success,failure:failure,scope:node});
+                var con = new Ext.lib.Ajax.request('GET', this.removeNodeUrl+'id/'+node.id+'/', {success:success,failure:failure,scope:node});
             }
         },
 

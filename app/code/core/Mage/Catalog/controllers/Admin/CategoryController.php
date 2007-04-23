@@ -34,6 +34,24 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     }
 
     public function moveAction() {
+        $nodeId = $this->getRequest()->getPost('id', false);
+        $parentNodeId = $this->getRequest()->getPost('pid', false);
+        $prevNodeId = $this->getRequest()->getPost('aid', false);
+        
+        try {
+            $tree = Mage::getModel('catalog_resource', 'category_tree');
+            $node = $tree->loadNode($nodeId);
+            $parentNode = $tree->loadNode($parentNodeId)->loadChildren();
+            $prevNode = $tree->loadNode($prevNodeId);
+            if ($prevNode->isEmpty()) {
+                $prevNode = $parentNode->getLastChild();
+            }
+            
+            $tree->moveNodeTo($node, $parentNode, $prevNode);
+        }
+        catch (Exception $e){
+            
+        }
     }
 
     /**
@@ -58,6 +76,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
             $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
             $item['id']  = $node->getId();
             $item['cls'] = 'folder';
+            $item['allowDrop'] = true;
+            $item['allowDrag'] = true;
             if (!$node->hasChildren()) {
                 $item['leaf'] = 'true';    
             }

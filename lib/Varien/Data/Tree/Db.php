@@ -125,6 +125,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         foreach ($arrNodes as $nodeInfo) {
             $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this, $parentNode);
             $this->addNode($node, $parentNode);
+            
             if ($recursionLevel) {
                 $node->loadChildren($recursionLevel-1);
             }
@@ -143,6 +144,58 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
     
     public function appendChild($parentNode, $prevNode=null)
     {
+        
+    }
+    
+    /**
+     * Move tree node
+     *
+     * @param Varien_Data_Tree_Node $node
+     * @param Varien_Data_Tree_Node $parentNode
+     * @param Varien_Data_Tree_Node $prevNode
+     */
+    public function moveNodeTo($node, $parentNode, $prevNode=null) 
+    {
+        $data = array();
+        $data[$this->_parentField]  = $parentNode->getId();
+        $data[$this->_levelField]   = $parentNode->getData($this->_levelField)+1;
+        // New node order
+        if (is_null($prevNode) || is_null($prevNode->getData($this->_orderField))) {
+            $data[$this->_orderField] = 1;
+        }
+        else {
+            $data[$this->_orderField] = $prevNode->getData($this->_orderField)+1;
+        }
+        $condition = $this->_conn->quoteInto("$this->_idField=?", $node->getId());
+        
+        // For reorder new node branch
+        $dataReorderNew = array(
+            $this->_orderField => new Zend_Db_Expr($this->_conn->quoteIdentifier($this->_orderField).'+1')
+        );
+        $conditionReorderNew = $this->_conn->quoteIdentifier($this->_parentField).'='.$parentNode->getId().
+                            ' AND '.$this->_conn->quoteIdentifier($this->_orderField).'>='. $data[$this->_orderField];
+
+        // For reorder old node branch
+        $dataReorderOld = array(
+            $this->_orderField => new Zend_Db_Expr($this->_conn->quoteIdentifier($this->_orderField).'-1')
+        );
+        $conditionReorderOld = $this->_conn->quoteIdentifier($this->_parentField).'='.$node->getData($this->_parentField).
+                            ' AND '.$this->_conn->quoteIdentifier($this->_orderField).'>'.$node->getData($this->_orderField);
+        
+        $this->_conn->beginTransaction();
+        try {
+            // Prepare new node branch
+            $this->_conn->update($this->_table, $dataReorderNew, $conditionReorderNew);
+            // Move node
+            $this->_conn->update($this->_table, $data, $condition);
+            // Update old node branch
+            $this->_conn->update($this->_table, $dataReorderOld, $conditionReorderOld);
+            $this->_conn->commit();
+        }
+        catch (Exception $e){
+            $this->_conn->rollBack();
+            echo $e->getMessage();
+        }
         
     }
 }
