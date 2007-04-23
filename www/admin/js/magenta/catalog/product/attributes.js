@@ -13,8 +13,8 @@ Mage.Catalog_Product_Attributes = function(){
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributecommit/',
 
-        addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes',
-        
+        addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes/',
+        removeElementUrl : Mage.url + '/mage_catalog/product/removelement/',        
         setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
 
         setGrid : null,
@@ -185,7 +185,7 @@ Mage.Catalog_Product_Attributes = function(){
                     id:'remove',
                     text:'Remove',
                     disabled:true,
-                    //handler:removeNode,
+                    handler:removeHandler.createDelegate(this),
                     cls:'x-btn-text-icon btn_delete',
                     tooltip:'Remove the selected item'
                 },'-',{
@@ -215,6 +215,7 @@ Mage.Catalog_Product_Attributes = function(){
                     containerScroll: true,
                     lines:false,
                     rootVisible:false,
+                    dropConfig: {appendOnly:true},
                     loader: new Ext.tree.TreeLoader()
                 });                
                 
@@ -276,20 +277,28 @@ Mage.Catalog_Product_Attributes = function(){
                     
                 		conn.on('requestcomplete', function(conn, response, options) {
                 		    var i = 0;
-                		    var result =  Ext.decode(response.responseText);
-                		    if (result.error === 0) { 
-                                for(i=0; i < r.length; i++) {
-                                    r[i].attributes.type = 'typeAttr';
-                                    r[i].ui.removeClass('x-tree-node-loading');
-                                }
-                		    } else {
-                                for(i=0; i < r.length; i++) {
-                                    if (result.errorNodes.indexOf(Number(r[i].attributes.attrId)) >= 0) {
-                                        r[i].parentNode.removeChild(r[i]);
+                		    try {
+                    		    var result =  Ext.decode(response.responseText);
+                    		    if (result.error === 0) { 
+                                    for(i=0; i < r.length; i++) {
+                                        r[i].attributes.type = 'typeAttr';
+                                        r[i].ui.removeClass('x-tree-node-loading');
                                     }
-                                }
-                		        Ext.MessageBox.alert('Error',result.errorMessage);
+                                } else {
+                                    for(i=0; i < r.length; i++) {
+                                        if (result.errorNodes.indexOf(Number(r[i].attributes.attrId)) >= 0) {
+                                            r[i].parentNode.removeChild(r[i]);
+                                        }
+                                    }   
+                    		        Ext.MessageBox.alert('Error',result.errorMessage);
+                    		    }
+                		    } catch (e){
+                                for(i=0; i < r.length; i++) {
+                                    r[i].parentNode.removeChild(r[i]);
+                                }   
+                                Ext.MessageBox.alert('Critical Error', response.responseText);
                 		    }
+                		    
                         });
 
                         conn.on('requestexception', function() {
@@ -378,7 +387,45 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                     croot.appendChild(node);
                     return node;
-            }
+                }
+                
+                function removeHandler() {
+                    var n = sm.getSelectedNode();
+                    var a = n.attributes;
+                    if (a.allowDelete) {
+                        n.disable();
+                        var conn = new Ext.data.Connection();
+                    
+                		conn.on('requestcomplete', function(conn, response, options) {
+                		    var i = 0;
+                		    try {
+                		    var result =  Ext.decode(response.responseText);
+                    		    if (result.error === 0) { 
+                    		        n.parentNode.removeChild(n);
+                    		    } else {
+                    		        n.enable();
+                    		        Ext.MessageBox.alert('Error', result.errorMessage);
+                	       	    }
+                		    } catch (e){
+                                n.enable();        
+                                Ext.MessageBox.alert('Critical Error', response.responseText);
+                		    }
+                        });
+
+                        conn.on('requestexception', function() {
+                            Ext.MessageBox.alert('Error', 'requestException');
+                        });
+                        
+                        conn.request( {
+                            url: this.removeElementUrl,
+                            method: "POST",
+                            params: {
+                                nodeType : a.type,
+                                nodeId : n.id
+                            }
+                        });                
+                    }
+                }
             
             // create the editor for the component tree
             var ge = new Ext.tree.TreeEditor(ctree, {
@@ -467,7 +514,7 @@ Mage.Catalog_Product_Attributes = function(){
                 remoteSort: true
             });
 
-            dataStore.setDefaultSort('attribute_code', 'asc');
+            dataStore.setDefaultSort('attribute_id', 'asc');
             dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             // shorthand alias

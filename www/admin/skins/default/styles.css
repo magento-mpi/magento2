@@ -83,3 +83,8 @@
     padding-top:2px;
     padding-bottom:1px;
 }
+
+.x-tree-node div.deleted {
+	color:#888;
+	font-style:italic;
+}
