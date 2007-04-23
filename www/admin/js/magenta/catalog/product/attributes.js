@@ -185,11 +185,11 @@ Mage.Catalog_Product_Attributes = function(){
                     id:'remove',
                     text:'Remove',
                     disabled:true,
-                  //  handler:removeNode,
+                    //handler:removeNode,
                     cls:'x-btn-text-icon btn_delete',
                     tooltip:'Remove the selected item'
                 },'-',{
-                    id:'remove',
+                    id:'reload',
                     text:'Reload',
                     disabled:false,
                     handler:refreshTree,

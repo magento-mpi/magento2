@@ -183,13 +183,13 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'id' => 'set:' . $item['set_id'],
                     'iconCls' => 'set',
                     'cls' => 'set',
-                    'draggable' => 'false', 
-                    'allowDrop' => 'true',
+                    'draggable' => false, 
+                    'allowDrop' => true,
                     'type' => 'typeSet',
                     'setId' => 'set:' . $item['set_id'],
-                    'allowDelete' => 'true',
-                    'expanded' => 'true',
-                    'allowEdit' => 'true'
+                    'allowDelete' => true,
+                    'expanded' => false,
+                    'allowEdit' => true
                 );
             }
         } elseif (preg_match('/^set:\d?$/', $rootNode)) {
@@ -200,12 +200,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'id' => $rootNode.'/group:'.$i,
                     'iconCls' => 'group',
                     'cls' => 'group',
-                    'allowDrop' => 'true',
+                    'allowDrop' => true,
                     'type' => 'typeGroup',
                     'setId' => 'set:' . $setInfo[1],
-                    'allowDelete' => 'true',
-                    'expanded' => 'true',
-                    'allowEdit' => 'true'
+                    'allowDelete' => false,
+                    'expanded' => true,
+                    'allowEdit' => true
                 );
             }
         } elseif (preg_match('/^set:\d?\/group:\d?$/', $rootNode)) {
@@ -219,14 +219,14 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'attrId' => $setInfo[1].$i,
                     'iconCls' => 'attr',
                     'cls' => 'attr',
-                    'leaf' => 'false',
-                    'allowDrop' => 'false',
-                    'allowChildren' => 'false',
+                    'leaf' => true,
+                    'allowDrop' => false,
+                    'allowChildren' => false,
                     'type' => 'typeAttr',                        
                     'setId' => 'set:' . $setInfo[1],
-                    'allowDelete' => 'true',
-                    'expanded' => 'true',                       
-                    'allowEdit' => 'false'                
+                    'allowDelete' => true,
+                    'expanded' => false,                       
+                    'allowEdit' => false                
                 );
             }
         }
