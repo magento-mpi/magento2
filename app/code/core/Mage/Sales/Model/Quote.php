@@ -271,6 +271,11 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function createOrders()
     {
+        $order = Mage::getModel('sales', 'order');
         
+        $order->setRealOrderId(Mage::getModel('sales_resource', 'counter')->getCounter('order'));
+        $order->setQuoteId($this->getQuoteId());
+        
+        $order->save();
     }
 }

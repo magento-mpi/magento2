@@ -77,5 +77,14 @@ CREATE TABLE `sales_order_attribute_datetime` (
   CONSTRAINT `FK_sales_order_attribute_datetime` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Order attributes DATETIME';
 
+CREATE TABLE `sales_counter` (
+  `counter_id` int(10) unsigned NOT NULL auto_increment,
+  `website_id` int(10) unsigned NOT NULL default '0',
+  `counter_type` varchar(50) NOT NULL default '',
+  `counter_value` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`counter_id`),
+  UNIQUE KEY `website_id` (`website_id`,`counter_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Sales>
-         <version>0.1.3</version>
+         <version>0.1.4</version>
          <depends>
             <Mage_Catalog />
 
@@ -56,6 +56,9 @@
                   <table>sales_giftcert</table>
                </giftcert>
                
+               <counter>
+                  <table>sales_counter</table>
+               </counter>
             </entities>
          </sales_resource>
       </models>
@@ -252,6 +255,7 @@
          <order>
              <self>
                 <real_order_id><type>varchar</type></real_order_id>
+                <quote_id><type>int</type></quote_id>
                 <remote_ip><type>varhar</type></remote_ip>
                 <customer_id><type>int</type></customer_id>
                 <created_at><type>datetime</type></created_at>
