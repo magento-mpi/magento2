@@ -468,7 +468,7 @@ Mage.Catalog_Product_Attributes = function(){
 
                         var requestParams = {
                             code: ge.getValue(),
-                            id: node.attributes.setId.indexOf(':')<0 ? 0 : node.attributes.setId.substr(node.attributes.setId.indexOf(':'), node.attributes.setId.length)
+                            id: node.attributes.setId.indexOf(':')<0 ? 0 : node.attributes.setId.substr(node.attributes.setId.indexOf(':')+1, node.attributes.setId.length)
                         };
                         
                         if (!requestParams.id) {
