@@ -11,15 +11,22 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set
 {
     protected $_setTable;
     protected $_inSetTable;
+    
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_read;
 
-    static protected $_read;
-    static protected $_write;
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_write;
 
     
     public function __construct() 
     {
-        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
-        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
+        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
 
         $this->_setTable    = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_set');
         $this->_inSetTable  = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
@@ -27,6 +34,31 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set
     
     public function load($setId)
     {
-        return self::$_read->fetchRow("SELECT * FROM $this->_setTable WHERE set_id=:id", array('id'=>$setId));
+        return $this->_read->fetchRow("SELECT * FROM $this->_setTable WHERE set_id=:id", array('id'=>$setId));
+    }
+    
+    public function save(Mage_Catalog_Model_Product_Attribute_Set $set)
+    {
+        $this->_write->beginTransaction();
+        try {
+            $data = array(
+                'code' => $set->getCode()
+            );
+            
+            if ($set->getId()) {
+                $condition = $this->_write->quoteInto('set_id=?', $set->getId());
+                $this->_write->update($this->_setTable, $data, $condition);
+            }
+            else {
+                $this->_write->insert($this->_setTable, $data);
+                $set->setSetId($this->_write->lastInsertId());
+            }
+            
+            $this->_write->commit();
+        }
+        catch (Exception $e){
+            $this->_write->rollBack();
+            throw $e;
+        }
     }
 }

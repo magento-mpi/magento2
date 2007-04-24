@@ -241,11 +241,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
-    public function attributeGroupListAction()
-    {
-        
-    }
-
     /**
      * Product attribute set JSON
      *
@@ -262,29 +257,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
     }
     
-    public function attributeSetPropertiesAction() {
-        $arrSets = array ("totalRecords"=> 2,
-            "items" => array(
-                array(
-                    "id" => 0,
-                    "name" => "Name",
-                    "value" => "Simple"
-                ),
-                array(
-                    "id" => 1,
-                    "name" => "Active",
-                    "value" => false
-                    ),
-                    array(
-                    "id" => 2,
-                    "name" => "Type",
-                    "value" => "1"
-                )
-            )
-        );
-        $this->getResponse()->setBody(Zend_Json::encode($arrSets));
-    }
-
     /**
      * Save product attributes
      *
@@ -304,8 +276,30 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
-    public function newSetAction() {
-        $data = array('error' => 0);
-        $this->getResponse()->setBody(Zend_Json::encode($data));
+    /**
+     * Save product attribute set
+     *
+     */
+    public function saveSetAction() {
+        $res = array('error' => 0);
+        $setId      = $this->getRequest()->getPost('set_id', false);
+        $setCode    = $this->getRequest()->getPost('code', false);
+        
+        $set = Mage::getModel('catalog', 'product_attribute_set')
+            ->setSetId($setId)
+            ->setCode($setCode);
+            
+        try {
+            $set->save();
+            $res['setId'] = $set->getId();
+        }
+        catch (Exception $e){
+            $res = array(
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
+            );
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
 }

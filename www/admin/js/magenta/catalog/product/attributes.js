@@ -15,7 +15,7 @@ Mage.Catalog_Product_Attributes = function(){
 
         addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes/',
         removeElementUrl : Mage.url + '/mage_catalog/product/removelement/',        
-        newSetUrl : Mage.url + '/mage_catalog/product/newset/',
+        saveSetUrl : Mage.url + '/mage_catalog/product/saveSet/',
         setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
 
         setGrid : null,
@@ -482,11 +482,12 @@ Mage.Catalog_Product_Attributes = function(){
                 });
                         
                 conn.request( {
-                    url: this.newSetUrl,
+                    url: this.saveSetUrl,
                     method: "POST",
                     params: {
-                        nodeType : 'typeSet',
-                        nodeId : 0
+                        //nodeType : 'set',
+                        code: ge.getValue(),
+                        set_id : 0
                     }
                 });                
             }.createDelegate(this));
