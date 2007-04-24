@@ -194,7 +194,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         }
         catch (Exception $e){
             $this->_conn->rollBack();
-            echo $e->getMessage();
+            throw new Exception('Can\'t move tree node');
         }
         
     }

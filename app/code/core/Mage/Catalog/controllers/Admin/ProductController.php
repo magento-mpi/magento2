@@ -174,56 +174,64 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $data  = array();
                 
         if ($rootNode == 'croot') {
-            $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection');
-            $setCollection->load();
-            $arrSets = $setCollection->__toArray();
-            foreach($arrSets['items'] as $item) {
+            $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection')
+                ->load();
+
+            foreach($setCollection as $set) {
                 $data[] = array(
-                    'text' => $item['code'],
-                    'id' => 'set:' . $item['set_id'],
+                    'text' => $set->getCode(),
+                    'id' => 'set:' . $set->getSetId(),
                     'iconCls' => 'set',
                     'cls' => 'set',
                     'draggable' => false, 
                     'allowDrop' => true,
                     'type' => 'typeSet',
-                    'setId' => 'set:' . $item['set_id'],
+                    'setId' => 'set:' . $set->getSetId(),
                     'allowDelete' => true,
                     'expanded' => false,
                     'allowEdit' => true
                 );
             }
-        } elseif (preg_match('/^set:\d?$/', $rootNode)) {
-            $setInfo = explode(':', $rootNode, 2);
-            for($i = 0; $i < 3; $i++) {
+        } elseif (preg_match('/^set:(\d?)$/', $rootNode, $matches)) {
+            $setId = $matches[1];
+            $groups = Mage::getModel('catalog', 'product_attribute_set')
+                        ->load($setId)
+                        ->getGroups();
+            
+            foreach ($groups as $group) {
                 $data[] = array(
-                    'text' => 'Group' . $i,
-                    'id' => $rootNode.'/group:'.$i,
+                    'text' => $group->getCode(),
+                    'id' => $rootNode.'/group:'.$group->getId(),
                     'iconCls' => 'group',
                     'cls' => 'group',
                     'allowDrop' => true,
                     'type' => 'typeGroup',
-                    'setId' => 'set:' . $setInfo[1],
+                    'setId' => 'set:' . $setId,
                     'allowDelete' => true,
                     'expanded' => true,
                     'allowEdit' => true
                 );
             }
-        } elseif (preg_match('/^set:\d?\/group:\d?$/', $rootNode)) {
-            $tmpInfo = explode('/', $rootNode, 2);
-            $setInfo = explode(':',$tmpInfo[0]);
-            $groupInfo = explode(':',$tmpInfo[1]);
-            for($i = 0; $i < 5; $i++) {
+        } elseif (preg_match('/^set:(\d?)\/group:(\d?)$/', $rootNode, $matches)) {
+            $setId  = $matches[1];
+            $groupId= $matches[2];
+            
+            $attributes = Mage::getModel('catalog', 'product_attribute_group')
+                            ->load($groupId)
+                            ->getAttributesBySet($setId);
+                            
+            foreach ($attributes as $attribute) {
                 $data[] = array(
-                    'text' => 'Attribute' . $i,
-                    'id' => $rootNode.'/attr:'.$i,
-                    'attrId' => $setInfo[1].$i,
+                    'text' => $attribute->getCode(),
+                    'id' => $rootNode.'/attr:'.$attribute->getId(),
+                    'attrId' => $setId . $attribute->getId(),
                     'iconCls' => 'attr',
                     'cls' => 'attr',
                     'leaf' => true,
                     'allowDrop' => false,
                     'allowChildren' => false,
                     'type' => 'typeAttr',                        
-                    'setId' => 'set:' . $setInfo[1],
+                    'setId' => 'set:' . $setId,
                     'allowDelete' => true,
                     'expanded' => false,                       
                     'allowEdit' => false                
