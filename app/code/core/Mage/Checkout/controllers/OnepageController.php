@@ -118,7 +118,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 return;
             }
             $payment = Mage::getModel('sales', 'quote_entity_payment')->addData($data);
-            $payment->encryptCcNumber();
             $this->_quote->setPayment($payment);
             $this->_quote->save();
             
@@ -165,7 +164,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $this->_quote->createOrders();
-            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'onepage', 'action'=>'success')));
         }
     }
 }

@@ -2,10 +2,27 @@
 
 class Mage_Customer_Model_Payment extends Varien_Data_Object
 {
-    public function encryptCcNumber()
+    public function setData($var, $value='', $isChanged=true)
     {
-        $this->setCcLast4(substr($this->getCcNumber(),-4));
-        $this->setCcNumber($this->encrypt($this->getCcNumber()));
+        if ('cc_number'===$var) {
+            $this->setCcLast4(substr($value,-4));
+            if (!empty($value)) {
+                $this->setCcNumberEnc($this->encrypt($value));
+            } else {
+                $this->setCcNumberEnc('');
+            }
+        }
+        return parent::setData($var, $value, $isChanged);
+    }
+    
+    public function getData($key='', $index=false)
+    {
+        if ('cc_number'===$key) {
+            if (empty($this->_data['cc_number']) && !empty($this->_data['cc_number_enc'])) {
+                $this->_data['cc_number'] = $this->decrypt($this->getCcNumberEnc());
+            }
+        }
+        return parent::getData($key, $index);
     }
     
     public function encrypt($data)

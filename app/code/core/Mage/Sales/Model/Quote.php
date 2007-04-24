@@ -271,11 +271,37 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function createOrders()
     {
-        $order = Mage::getModel('sales', 'order');
+        $website = Mage::registry('website');
+        $now = new Zend_Db_Expr("now()");
         
-        $order->setRealOrderId(Mage::getModel('sales_resource', 'counter')->getCounter('order'));
-        $order->setQuoteId($this->getQuoteId());
+        $order = Mage::getModel('sales', 'order')->addData($this->getData());
+        
+        $order->setRealOrderId(Mage::getModel('sales_resource', 'counter')->getCounter('order'))            
+            ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
+            ->setCreatedAt($now)
+            ->setWebsiteId($website->getId())
+            ->setCurrencyId($website->getCurrencyId())
+            ->setCurrencyBaseId($website->getCurrencyBaseId())
+            ->setCurrencyRate($website->getCurrencyRate());
+        
+        foreach (array('item', 'address', 'payment') as $entityType) {
+            $entities = $this->getEntitiesByType($entityType);
+            foreach ($entities as $quoteEntity) {
+                $entity = Mage::getModel('sales', 'order_entity_'.$entityType)->addData($quoteEntity->getData());
+                $order->addEntity($entity);
+            }
+        }
+        
+        $statusId = $this->getPayment()->getOrderStatusId();
+        $order->setStatus($statusId);
+        $statusEntity = Mage::getModel('sales', 'order_entity_status')
+            ->setStatusId($statusId)
+            ->setCreatedAt($now);
         
         $order->save();
+        
+        $this->setConvertedAt($now)->save();
+        
+        return $this;
     }
 }

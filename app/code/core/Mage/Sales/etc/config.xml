@@ -157,11 +157,13 @@
             <self>
                 <customer_id><type>int</type></customer_id>
                 <remote_ip><type>varchar</type></remote_ip>
-                <created_at><type>datetime</type></created_at>
-                <updated_at><type>datetime</type></updated_at>
                 <status><type>varchar</type></status>
                 <website_code><type>varchar</type></website_code>
-                
+
+                <created_at><type>datetime</type></created_at>
+                <updated_at><type>datetime</type></updated_at>
+                <converted_at><type>datetime</type></converted_at>
+
                 <currency_code><type>varchar</type></currency_code>
                 <currency_base_code><type>varchar</type></currency_base_code>
                 <currency_rate><type>decimal</type></currency_rate>
@@ -233,6 +235,7 @@
                 <address_entity_id><type>int</type></address_entity_id>
             </item>
             <payment>
+                <customer_payment_id><type>int</type></customer_payment_id>
                 <method><type>varchar</type></method>
 
                 <po_number><type>varchar</type></po_number>
@@ -241,6 +244,8 @@
                 <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
                 <cc_expires><type>varchar</type></cc_expires>
+
+                <order_status_id><type>int</type></order_status_id>
             </payment>
             <shipping>
                 <address_entity_id><type>int</type></address_entity_id>
@@ -256,7 +261,7 @@
              <self>
                 <real_order_id><type>varchar</type></real_order_id>
                 <quote_id><type>int</type></quote_id>
-                <remote_ip><type>varhar</type></remote_ip>
+                <remote_ip><type>varchar</type></remote_ip>
                 <customer_id><type>int</type></customer_id>
                 <created_at><type>datetime</type></created_at>
                 <updated_at><type>datetime</type></updated_at>
@@ -337,14 +342,14 @@
                 <po_number><type>varchar</type></po_number>
                 
                 <cc_type><type>varchar</type></cc_type>
-                <cc_number><type>varchar</type></cc_number>
+                <cc_number_enc><type>varchar</type></cc_number_enc>
                 <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
                 <cc_expires><type>varchar</type></cc_expires>
             </payment>
             <status>
                 <status_id><type>int</type></status_id>
-                <updated_at><type>datetime</type></updated_at>
+                <created_at><type>datetime</type></created_at>
                 <comments><type>text</type></comments>
             </status>
          </order>
