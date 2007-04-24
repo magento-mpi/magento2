@@ -68,6 +68,8 @@ Mage.Catalog_Product = function(depend){
                          hideTabs : true
                      }
                  });
+                this.productLayout.getRegion('center').getEl().addClass('products-grid-region');
+                this.productLayout.getRegion('south').getEl().addClass('product-form-region');
 
                 Layout_Center.beginUpdate();
                 this.parentProductLayut = Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLayout, {title:'Cat Name'}));

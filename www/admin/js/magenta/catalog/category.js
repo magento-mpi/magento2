@@ -13,8 +13,7 @@ Mage.Catalog_Category = function(dep){
         buildGrid : function() {
             
             
-            var gridEl = this.treeLayout.getEl().createChild({tag:'div'});
-            
+            var gridEl = this.treeLayout.getEl().createChild({tag:'div'});            
             
             var propsGrid = new Ext.grid.PropertyGrid(gridEl);
 

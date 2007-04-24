@@ -91,7 +91,8 @@ Mage.Core = function(){
                         "animate":false
                     }
                 });
-
+            _layout.getRegion('east').getEl().addClass('my-tasks-region');
+            
             _layout.beginUpdate();
             _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
             _layout.add('center', new Ext.ContentPanel('center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));

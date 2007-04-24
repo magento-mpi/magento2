@@ -23,6 +23,7 @@ Mage.Catalog = function(depend){
                        	alwaysShowTabs : true
                     }
                 });
+                Layout.getRegion('west').getEl().addClass('categories-tree-region');
                 
                 this._layouts.add('main', Layout);
                 
@@ -56,7 +57,6 @@ Mage.Catalog = function(depend){
                          }
                      }
                 );
-                Layout.getRegion('west').getEl().addClass('categories-tree');
                 
                 this._layouts.add('tree', Layout_West);
                 
