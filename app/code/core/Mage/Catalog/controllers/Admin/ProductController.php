@@ -185,7 +185,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'cls' => 'set',
                     'draggable' => false, 
                     'allowDrop' => true,
-                    'type' => 'typeSet',
+                    'type' => 'set',
                     'setId' => 'set:' . $set->getSetId(),
                     'allowDelete' => true,
                     'expanded' => false,
@@ -201,11 +201,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             foreach ($groups as $group) {
                 $data[] = array(
                     'text' => $group->getCode(),
+                    'groupId' => $group->getId(),
                     'id' => $rootNode.'/group:'.$group->getId(),
                     'iconCls' => 'group',
                     'cls' => 'group',
                     'allowDrop' => true,
-                    'type' => 'typeGroup',
+                    'type' => 'group',
                     'setId' => 'set:' . $setId,
                     'allowDelete' => true,
                     'expanded' => true,
@@ -230,7 +231,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'leaf' => true,
                     'allowDrop' => false,
                     'allowChildren' => false,
-                    'type' => 'typeAttr',                        
+                    'type' => 'attribute',                        
                     'setId' => 'set:' . $setId,
                     'allowDelete' => true,
                     'expanded' => false,                       
@@ -276,14 +277,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
+    public function saveGroupAction()
+    {
+        
+    }
+    
     /**
      * Save product attribute set
      *
      */
     public function saveSetAction() {
         $res = array('error' => 0);
-        $setId      = $this->getRequest()->getPost('set_id', false);
+        $setId      = $this->getRequest()->getPost('id', false);
         $setCode    = $this->getRequest()->getPost('code', false);
+        $groupCode  = $this->getRequest()->getPost('groupCode', false);
         
         $set = Mage::getModel('catalog', 'product_attribute_set')
             ->setSetId($setId)
@@ -292,6 +299,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         try {
             $set->save();
             $res['setId'] = $set->getId();
+            if ($groupCode) {
+                /*$group = Mage::getModel('catalog', 'category_attribute_group')
+                    ->set*/
+            }
         }
         catch (Exception $e){
             $res = array(

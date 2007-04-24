@@ -11,12 +11,13 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
-        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributecommit/',
+        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeCommit/',
 
-        addGroupAttributes : Mage.url + '/mage_catalog/product/addgroupattributes/',
-        removeElementUrl : Mage.url + '/mage_catalog/product/removelement/',        
+        addGroupAttributes : Mage.url + '/mage_catalog/product/addGroupAttributes/',
+        removeElementUrl : Mage.url + '/mage_catalog/product/removElement/',        
         saveSetUrl : Mage.url + '/mage_catalog/product/saveSet/',
-        setTreeUrl : Mage.url + '/mage_catalog/product/attributesettree/',
+        saveGroupUrl : Mage.url + '/mage_catalog/product/saveGroup/',
+        setTreeUrl : Mage.url + '/mage_catalog/product/attributeSetTree/',
 
         setGrid : null,
         setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
@@ -222,8 +223,8 @@ Mage.Catalog_Product_Attributes = function(){
                 
                 ctree.on('nodedragover', function(e){
                     if (!e.dropNode) {
-                        if ((e.target.attributes.type == 'typeGroup' && e.point == 'append') ||
-                            (e.target.attributes.type == 'typeAttr' && e.point != 'append')) { 
+                        if ((e.target.attributes.type == 'group' && e.point == 'append') ||
+                            (e.target.attributes.type == 'attribute' && e.point != 'append')) { 
                             return true;
                         } else {
                             return false;
@@ -232,10 +233,10 @@ Mage.Catalog_Product_Attributes = function(){
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
                     if (
-                       (na.type == 'typeGroup' && ta.type == 'typeSet' && e.point == 'append') ||
-                       (na.type == 'typeGroup' && ta.type == 'typeGroup' && e.point != 'append') ||
-                       (na.type == 'typeAttr' && ta.type == 'typeGroup' && e.point == 'append') ||
-                       (na.type == 'typeAttr' && ta.type == 'typeAttr' && e.point != 'append')
+                       (na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
+                       (na.type == 'group' && ta.type == 'group' && e.point != 'append') ||
+                       (na.type == 'attribute' && ta.type == 'group' && e.point == 'append') ||
+                       (na.type == 'attribute' && ta.type == 'attribute' && e.point != 'append')
                      ) {
                         return true;
                      } else {
@@ -282,7 +283,7 @@ Mage.Catalog_Product_Attributes = function(){
                     		    var result =  Ext.decode(response.responseText);
                     		    if (result.error === 0) { 
                                     for(i=0; i < r.length; i++) {
-                                        r[i].attributes.type = 'typeAttr';
+                                        r[i].attributes.type = 'attribute';
                                         r[i].ui.removeClass('x-tree-node-loading');
                                     }
                                 } else {
@@ -371,15 +372,16 @@ Mage.Catalog_Product_Attributes = function(){
                 function createSet(id, text, groups){
                     var group = new Ext.tree.TreeNode({
                         text : 'General',
+                        groupId: 0,
                         id : 'group10',
                         iconCls : 'group',
                         cls : 'group',
                         leaf : false,
                         allowDrop : true,
                         allowDrag : false,
-                        type : 'typeGroup',
+                        type : 'group',
                         setId : 'set:'+id,
-                        allowDelete : true,
+                        allowDelete : false,
                         expanded : true,
                         allowEdit : true
                     });
@@ -388,7 +390,7 @@ Mage.Catalog_Product_Attributes = function(){
                         text: text,
                         iconCls: 'set',
                         cls: 'set',
-                        type:'newSet',                        
+                        type:'set',                        
                         id: id,
                         setId:id,
                         allowDelete:true,
@@ -417,7 +419,7 @@ Mage.Catalog_Product_Attributes = function(){
                 		    var i = 0;
                 		    var result =  Ext.decode(response.responseText);
                     		    if (result.error === 0) { 
-                    		        if (a.type == 'typeGroup') {
+                    		        if (a.type == 'group') {
                     		            while (n.childNodes.length) {
                     		                n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attrId;
                         		            n.parentNode.firstChild.appendChild(n.childNodes[0]);
@@ -460,8 +462,29 @@ Mage.Catalog_Product_Attributes = function(){
             
             ge.on('complete', function() {
                 var node = ge.editNode;
-                if (node.attributes.type !== 'newSet') {
-                    return true;
+                switch (node.attributes.type) {
+                    case 'set':
+                        var requestUrl = this.saveSetUrl;
+
+                        var requestParams = {
+                            code: ge.getValue(),
+                            id: node.attributes.setId.indexOf(':')<0 ? 0 : node.attributes.setId.substr(node.attributes.setId.indexOf(':'), node.attributes.setId.length)
+                        };
+                        
+                        if (!requestParams.id) {
+                            requestParams.groupCode = 'General';
+                        }
+                        break;
+                    case 'group':
+                        var requestUrl = this.saveGroupUrl;
+                        var requestParams = {
+                            code: ge.getValue(),
+                            setId: node.attributes.setId.substr(node.attributes.setId.indexOf(':'), node.attributes.setId.length),
+                            id: node.attributes.groupId
+                        };
+                        break;
+                    default:
+                        return true;
                 }
                 
                 var conn = new Ext.data.Connection();
@@ -482,13 +505,9 @@ Mage.Catalog_Product_Attributes = function(){
                 });
                         
                 conn.request( {
-                    url: this.saveSetUrl,
+                    url: requestUrl,
                     method: "POST",
-                    params: {
-                        //nodeType : 'set',
-                        code: ge.getValue(),
-                        set_id : 0
-                    }
+                    params: requestParams
                 });                
             }.createDelegate(this));
             
@@ -517,7 +536,7 @@ Mage.Catalog_Product_Attributes = function(){
                     text: text,
                     setId : snode.id,
                     iconCls:'folder',
-                    type:'typeGroup',
+                    type:'group',
                     allowDelete:true,
                     allowDrop : true,
                     allowDrag : true,

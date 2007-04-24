@@ -10,13 +10,13 @@
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
 {
     protected $_attributeGeoupTable;
-    static protected $_read;
-    static protected $_write;
+    protected $_read;
+    protected $_write;
 
     public function __construct() 
     {
-        self::$_read = Mage::registry('resources')->getConnection('catalog_read');
-        self::$_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
+        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
         $this->_attributeGeoupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
     }
     
@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     public function load($groupId)
     {
         $sql = "SELECT * FROM $this->_attributeGeoupTable WHERE group_id=:group_id";
-        $arr = self::$_read->fetchRow($sql, array('group_id'=>$groupId));
+        $arr = $this->_read->fetchRow($sql, array('group_id'=>$groupId));
         return $arr;
     }
 
@@ -51,6 +51,27 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     
     public function save(Mage_Catalog_Model_Product_Attribute_Group $group)
     {
-        
+        $this->_write->beginTransaction();
+        try {
+            $data = array(
+                'code' => $group->getCode(),
+                
+            );
+            
+            if ($group->getId()) {
+                $condition = $this->_write->quoteInto('group_id=?', $group->getId());
+                $this->_write->update($this->_attributeGeoupTable, $data, $condition);
+            }
+            else {
+                $this->_write->insert($this->_attributeGeoupTable, $data);
+                $group->setGroupId($this->_write->lastInsertId());
+            }
+            
+            $this->_write->commit();
+        }
+        catch (Exception $e){
+            $this->_write->rollBack();
+            throw $e;
+        }
     }
 }
