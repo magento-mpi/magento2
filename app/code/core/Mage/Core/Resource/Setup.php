@@ -133,7 +133,7 @@ class Mage_Core_Resource_Setup
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
         $resModel = (string)$this->_connectionConfig->model;
-        $modName = (string)$this->_moduleConfig->getName();
+        $modName = (string)$this->_moduleConfig[0]->getName();
         
         $sqlFilesDir = Mage::getBaseDir('sql', $modName).DS.$this->_resourceName;
         if (!file_exists($sqlFilesDir)) {
@@ -160,7 +160,7 @@ class Mage_Core_Resource_Setup
         }
         
         foreach ($arrModifyFiles as $resourceFile) {
-            $sqlFile = $sqlFilesDir.DS.$$resourceFile['fileName'];
+            $sqlFile = $sqlFilesDir.DS.$resourceFile['fileName'];
             $sql = file_get_contents($sqlFile);
 
             // Execute SQL

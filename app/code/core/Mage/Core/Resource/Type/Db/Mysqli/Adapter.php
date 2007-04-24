@@ -38,5 +38,6 @@ class Mage_Core_Resource_Type_Db_Mysqli_Adapter extends Zend_Db_Adapter_Mysqli
 			}
 			while ($this->getConnection()->next_result());
 		}
+		return true;
 	}
 }

@@ -216,7 +216,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         return $sql;
     }
     
-    protected function _loadAttributes()
+    protected function ()
     {
         if (!$this->getSize()) {
             return false;
