@@ -1,8 +1,8 @@
 <?php
 
-class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
+class Mage_Core_ConfigController extends Mage_Core_Controller_Admin_Action
 {
-    public function blockChildrenAction()
+    public function configChildrenAction()
     {
         $path = $this->getRequest()->getParam('node', false);
         if ($path==='config') {
@@ -16,6 +16,7 @@ class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
             $node['text']   = $child->getName();
             $node['id']     = (!empty($path) ? $path.'/' : '').$child->getName();
             $node['cls']    = 'folder';
+            $node['leaf']   = !$child->children();
             
             $arrNodes[] = $node;
         }

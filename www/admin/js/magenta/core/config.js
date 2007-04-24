@@ -1,17 +1,17 @@
-Mage.Core_Blocks = function(){
-    var blockDialog = null;
+Mage.Core_Config = function(){
+    var configDialog = null;
     return {
         init: function(){
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
-                text: 'Blocks & Layouts',
-                handler: Mage.Core_Blocks.showDialog.createDelegate(Mage.Catalog_Blocks)
+                text: 'Configuration',
+                handler: Mage.Core_Config.showDialog.createDelegate(Mage.Catalog_Config)
             });
         },
         showDialog: function(){
             Ext.QuickTips.init();
-            if (!blockDialog) {
-                blockDialog = new Ext.LayoutDialog(Ext.id(), {
+            if (!configDialog) {
+                configDialog = new Ext.LayoutDialog(Ext.id(), {
                     autoCreate : true,
                     width:700,
                     height:500,
@@ -21,21 +21,21 @@ Mage.Core_Blocks = function(){
                     shadow:true,
                     fixedcenter:true,
                     center:{autoScroll:false},
-                    west:{split:true,initialSize:200,minSize:150}
+                    west:{split:true,initialSize:200}
                 });
-                blockDialog.setTitle('Blocks & Layouts');
-                blockDialog.setDefaultButton(blockDialog.addButton('Cancel', blockDialog.hide, blockDialog));
+                configDialog.setTitle('Configuration');
+                configDialog.setDefaultButton(configDialog.addButton('Cancel', configDialog.hide, configDialog));
 
-                var layout = blockDialog.getLayout();
-                var blocks = layout.getEl().createChild({tag:'div', id:'blocks'});
-                var tb = new Ext.Toolbar(blocks.createChild({tag:'div'}));
+                var layout = configDialog.getLayout();
+                var config = layout.getEl().createChild({tag:'div', id:'config'});
+                var tb = new Ext.Toolbar(config.createChild({tag:'div'}));
                 tb.addButton({
-                    text: 'New Block'
+                    text: 'New Node'
                 });
-                var viewEl = blocks.createChild({tag:'div', id:'folders'});
+                var viewEl = config.createChild({tag:'div', id:'folders'});
 
-                var treePanel = layout.add('west', new Ext.ContentPanel(blocks, {
-                    title:'Blocks', 
+                var treePanel = layout.add('west', new Ext.ContentPanel(config, {
+                    title:'Config', 
                     fitToFrame:true,
                     autoScroll:true,
                     autoCreate:true,
@@ -45,7 +45,7 @@ Mage.Core_Blocks = function(){
                 
                 var tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/block/blockChildren'}),
+                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/config/configChildren'}),
                     enableDD:true,
                     containerScroll: true,
                     dropConfig: {appendOnly:true}
@@ -66,9 +66,9 @@ Mage.Core_Blocks = function(){
                 }));
             }
 
-            blockDialog.show();
+            configDialog.show();
         }
     }
 }();
 
-Mage.Core_Blocks.init();
+Mage.Core_Config.init();

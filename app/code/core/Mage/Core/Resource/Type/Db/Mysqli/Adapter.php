@@ -17,7 +17,6 @@ class Mage_Core_Resource_Type_Db_Mysqli_Adapter extends Zend_Db_Adapter_Mysqli
         // Throw an exception instead.
         @$conn = new mysqli();
         if (false===$conn || mysqli_connect_errno()) {
-            require_once 'Zend/Db/Adapter/Mysqli/Exception.php';
             throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_errno());
         }
         

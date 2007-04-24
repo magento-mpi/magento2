@@ -67,7 +67,7 @@ class Varien_Simplexml_Config
 
     public function getXml($path=null)
     {
-        if (is_null($path)) {
+        if (empty($path)) {
             return $this->_xml;
         } else {
             return $this->_xml->descend($path);
