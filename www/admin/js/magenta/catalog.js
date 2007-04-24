@@ -26,7 +26,7 @@ Mage.Catalog = function(depend){
                 
                 this._layouts.add('main', Layout);
                 
-                var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div', cls:'categories-tree'}, true), {
+                var Layout_West = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                         center: {
                             split:true,
                             initialSize: 200,
@@ -56,6 +56,7 @@ Mage.Catalog = function(depend){
                          }
                      }
                 );
+                Layout.getRegion('west').getEl().addClass('categories-tree');
                 
                 this._layouts.add('tree', Layout_West);
                 
