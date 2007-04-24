@@ -129,7 +129,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
                 $sql = $this->_conn->quoteInto("$fieldName between ?", $condition['from']);
                 $sql = $this->_conn->quoteInto("$sql and ?", $condition['to']);
             } elseif (!empty($condition['neq'])) {
-                $sql = $this->_conn->quoteInto("$fieldName!=?", $condition['neq']);
+                $sql = $this->_conn->quoteInto("$fieldName != ?", $condition['neq']);
             } elseif (!empty($condition['like'])) {
                 $sql = $this->_conn->quoteInto("$fieldName like ?", $condition['like']);
             } elseif (!empty($condition['in'])) {
@@ -144,7 +144,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
                 $sql = "(".join(" or ", $orSql).")";
             }
         } else {
-            $sql = $this->_conn->quoteInto("$fieldName=?", $condition);
+            $sql = $this->_conn->quoteInto("$fieldName = ?", $condition);
         }
         return $sql;
     }
@@ -252,15 +252,15 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
              ->_renderLimit();
 
         if($printQuery) {
-            echo $this->_sqlSelect->__toString();
+            echo $this->_sqlSelectStr;
         }
         
         if($logQuery){
-            Mage::log($this->_sqlSelect->__toString());
+            Mage::log($this->_sqlSelectStr);
         }
 
         $docs = array();
-        $data = $this->_conn->fetchAll($this->_sqlSelect);
+        $data = $this->_conn->fetchAll($this->_sqlSelectStr);
         if (is_array($data)) {
             foreach ($data as $attr) {
                 $docs[$attr[$this->_idField]][$attr['entity_id']]['type'] = $attr['entity_type'];
