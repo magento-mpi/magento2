@@ -30,7 +30,12 @@ Mage.Core_Config = function(){
                 var config = layout.getEl().createChild({tag:'div', id:'config'});
                 var tb = new Ext.Toolbar(config.createChild({tag:'div'}));
                 tb.addButton({
-                    text: 'New Node'
+                    text: 'New Node',
+                    cls: 'x-btn-text-icon btn_add'
+                });
+                tb.addButton({
+                    text: 'Remove Node',
+                    cls: 'x-btn-text-icon btn_delete'
                 });
                 var viewEl = config.createChild({tag:'div', id:'folders'});
 
