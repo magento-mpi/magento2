@@ -412,7 +412,10 @@ Mage.Catalog_Product = function(depend){
             if (!this.productLayout) {
                 this.initLayouts();
             }
-            //this.parentProductLayut.setTitle(treeNode.text);
+            if (config.catTitle) {
+                this.parentProductLayut.setTitle(config.catTitle);
+            }
+            
             if (!this.gridPanel) {
                 this.initGrid(config.catId);
                 this.productLayout.beginUpdate();
@@ -518,7 +521,14 @@ Mage.Catalog_Product = function(depend){
             if (btn == 'no') {
                 return false;
             }
-            var title = 'New Product'; // title for from layout
+            
+            if (prodId) {
+                var title = 'Product #'+prodId; // title for from layout
+            }
+            else {
+                var title = 'New Product'; // title for from layout
+            }
+            
 
             if (this.productLayout.getRegion('south').getActivePanel()) {
                 this.productLayout.getRegion('south').clearPanels();
