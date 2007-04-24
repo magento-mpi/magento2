@@ -65,9 +65,13 @@ class Varien_Simplexml_Config
         }
     }
 
-    public function getXml()
+    public function getXml($path=null)
     {
-        return $this->_xml;
+        if (is_null($path)) {
+            return $this->_xml;
+        } else {
+            return $this->_xml->descend($path);
+        }
     }
 
     public function getXpath($xpath)

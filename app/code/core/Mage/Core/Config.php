@@ -81,7 +81,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function loadModules()
     {
-        $modules = $this->getXml()->modules->children();
+        $modules = $this->getXml('modules')->children();
         if (!$modules) {
             return false;
         }
@@ -142,7 +142,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function getGlobalCollection($collection, $name='')
     {
-        $config = Mage::getConfig()->getXml()->global->$collection;
+        $config = Mage::getConfig()->getXml("global/$collection");
         if (''===$name) {
             return $config;
         }
@@ -317,7 +317,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     public function getRouterInstance($routerName='', $singleton=true)
     {
-        $routers = $this->getXml()->front->routers;
+        $routers = $this->getXml('front/routers');
         if (!empty($routerName)) {
             $routerConfig = $routers->$routerName;
         } else {
@@ -351,7 +351,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function loadEventObservers($area)
     {
-        $events = $this->getXml()->$area->events->children();
+        $events = $this->getXml("$area/events")->children();
         foreach ($events as $event) {
             $eventName = $event->getName();
             $observers = $event->observers->children();
@@ -399,7 +399,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $this->loadStep('all', $methodName);
 
-        $modules = $this->getXml()->modules;
+        $modules = $this->getXml('modules');
         foreach ($modules as $module) {
             $area = $module->$areaName;
             if (empty($area)) {
@@ -460,7 +460,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceConfig($name)
     {
-        return $this->getXml()->global->resources->$name;
+        return $this->getXml("global/resources/$name");
     }
 
     public function getResourceConnectionConfig($name)
@@ -482,7 +482,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceTypeConfig($type)
     {
-        return $this->getXml()->global->resourceConnectionTypes->$type;
+        return $this->getXml("global/resourceConnectionTypes/$type");
     }
 
      /**
@@ -493,7 +493,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getBlockTypeConfig($type='')
     {
-        $types = $this->getXml()->global->blockTypes;
+        $types = $this->getXml("global/blockTypes");
         if (''===$type) {
             return $types;
         } else {
@@ -503,7 +503,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     public function getWebsiteConfig($website='default')
     {
-        return $this->getXml()->global->websites->$website;
+        return $this->getXml("global/websites/$website");
     }
 
     /**
@@ -514,7 +514,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getDomain($name)
     {
-        return $this->getXml()->domains->$name;
+        return $this->getXml("domains/$name");
     }
 
     /**

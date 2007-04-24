@@ -6,7 +6,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     protected $_attributeTypes;
     protected $_documentTable;
     protected $_attributeTable;
-    protected $_retrieveAttributes = array();
+    protected $_selectAttributes = array();
     protected $_filterIds = array();
     protected $_filterAttributes = array();
     protected $_sqlSelectStr = '';
@@ -25,6 +25,8 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales', $docType));
+        
+        $this->_sqlSelect->from($this->_documentTable);
     }
     
     public function addEntitiesToSelect(array $entities)
@@ -40,7 +42,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     /**
      * Add an entity attribute to select
      * 
-     * if no $attributeCode is specified will retrieve all attributes for this $entityType
+     * if no $attributeCode is specified will select all attributes for this $entityType
      *
      * @param string $entityType
      * @param string $attributeCode
@@ -53,9 +55,9 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             return $this;
         }
         if (is_null($attributeCode)) {
-            $this->_retrieveAttributes[$attributeType][$entityType] = array();
+            $this->_selectAttributes[$attributeType][$entityType] = array();
         } else {
-            $this->_retrieveAttributes[$attributeType][$entityType][] = $attributeCode;
+            $this->_selectAttributes[$attributeType][$entityType][] = $attributeCode;
         }
         return $this;
     }
@@ -76,7 +78,14 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         if (false===$attributeType) {
             return $this;
         }
-        $this->_filterAttributes[$attributeType][$entityType][$attributeCode] = $attributeCondition;
+        $attributeTable = $this->_attributeTable.'_'.$attributeType;
+        $attributeTableAlias = $entityType.'_'.$attributeCode;
+        $attributeAlias = ($entityType!=='self' ? $entityType.'_' : '').$attributeCode;
+        $joinCondition = "$attributeTableAlias.$this->_idField=$this->_documentTable.$this->_idField"
+            ." and ".$this->_conn->quoteInto("$attributeTableAlias.entity_type=?", $entityType)
+            ." and ".$this->_conn->quoteInto("$attributeTableAlias.attribute_code=?", $attributeCode)
+            ." and ".$this->_getConditionSql("$attributeTableAlias.attribute_value", $attributeCondition);
+        $this->_sqlSelect->join("$attributeTable as $attributeTableAlias", $joinCondition, array("$attributeTableAlias.attribute_value"=>$attributeAlias));
         return $this;
     }
     
@@ -88,19 +97,29 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      * @param integer|array $value
      * @return Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function addIdToFilter($value)
+    public function addIdToFilter($condition)
     {
-        $this->_filterIds[] = $value;
+        $this->_sqlSelect->where($this->_getConditionSql("$this->_documentTable.$this->_idField", $condition));
+        return $this;
+    }    
+    
+    /**
+     * Load data
+     *
+     * @return  Mage_Sales_Model_Mysql4_Document_Collection
+     */
+    public function loadData($printQuery = false, $logQuery = false)
+    {
+        parent::loadData($printQuery = false, $logQuery = false);
+        
+        $this->_loadAttributes();
+
         return $this;
     }
         
     protected function _getAttributeType($entityType, $attributeCode)
     {
-        $attributeConfig = $this->_attributeTypes->$entityType->$attributeCode;
-        if (isset($attributeConfig)) {
-            return (string)$attributeConfig->type;
-        }
-        return false;
+        return $this->_attributeTypes->descend("$entityType/$attributeCode/type");
     }
     
     /**
@@ -150,138 +169,95 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     }
     
     /**
-     * Build the filters part of sql statement
+     * Build sql to select attributes of filtered documents
      *
-     * @return Mage_Sales_Model_Mysql4_Document_Collection
+     * @param array $ids document ids to retrieve
+     * @return string
      */
-    protected function _renderFilters()
+    protected function _getAttributesSql(array $ids)
     {
         $sqlUnionArr = array();
                 
-        if (!empty($this->_retrieveAttributes)) {
-            foreach ($this->_retrieveAttributes as $attributeType=>$entities) {
+        if (empty($this->_selectAttributes) || empty($ids)) {
+            return false;
+        }
+        
+        $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $ids);
+        
+        foreach ($this->_selectAttributes as $attributeType=>$entities) {
+            if (empty($sqlUnionArr[$attributeType])) {
                 $sqlUnionArr[$attributeType]['select'] = 'select * from '.$this->_attributeTable.'_'.$attributeType;
-    
-                $entityWhereArr = array();
-                foreach ($entities as $entityType=>$attributes) {
-                    $where = $this->_conn->quoteInto("$attributeTable.entity_type=?", $entityType);
-                    if (!empty($attributes)) {
-                        $where .= $this->_conn->quoteInto("and $attributeTable.attribute_code in (?)", $attributes);
-                    }
-                    $entityWhereArr[] = "(".$where.")";
+                $sqlUnionArr[$attributeType]['where'][] = $idsSql;
+            }
+
+            $entityWhereArr = array();
+            foreach ($entities as $entityType=>$attributes) {
+                $where = $this->_conn->quoteInto("$attributeTable.entity_type=?", $entityType);
+                if (!empty($attributes)) {
+                    $where .= $this->_conn->quoteInto("and $attributeTable.attribute_code in (?)", $attributes);
                 }
-                if (!empty($entityWhereArr)) {
-                    $sqlUnionArr[$attributeType]['where'][] = "(".join(" or ", $entityWhereArr).")";
-                }
+                $entityWhereArr[] = "(".$where.")";
+            }
+            if (!empty($entityWhereArr)) {
+                $sqlUnionArr[$attributeType]['where'][] = "(".join(" or ", $entityWhereArr).")";
             }
         }
 
-        if (!empty($this->_filterAttributes)) {
-            foreach ($this->_filterAttributes as $attributeType=>$entities) {
-                if (empty($sqlUnionArr[$attributeTable])) {
-                    $sqlUnionArr[$attributeType]['select'] = 'select * from '.$this->_attributeTable.'_'.$attributeType;
-                }
-                
-                foreach ($entities as $entityType=>$attributes) {
-                    $where = $this->_conn->quoteInto("$attributeTable.entity_type=?", $entityType);
-                    foreach ($attributes as $attributeCode=>$attributeCondition) {
-                        $where .= " and ".$this->_getConditionSql("$attributeTable.attribute_value", $attributeCondition);
-                    }
-                    $sqlUnionArr[$attributeType]['where'][] = "(".$where.")";
-                }
+        $sqlUnionStrArr = array();
+        foreach ($sqlUnionArr as $sqlSelectArr) {
+            $sqlSelect = $sqlSelectArr['select'];
+            if (!empty($sqlSelectArr['where'])) {
+                $sqlSelect .= ' where '.join(" and ", $sqlSelectArr['where']);
             }
+            $sqlUnionStrArr[] = $sqlSelect;
         }
+        $sql = join(" union ", $sqlUnionStrArr);
         
-        if (!empty($this->_filterIds)) {
-            foreach ($this->_filterIds as $idCondition) {
-                $sqlIdsArr[] = "(".$this->_getConditionSql("$this->_documentTable.$this->_idField", $idCondition).")";
-            }
-            $sqlWhereIds = "(".join(" and ", $sqlIdsArr).")";
-            foreach ($sqlUnionArr as $sqlSelectArr) {
-                $sqlSelectArr['where'][] = $sqlWhereIds;
-            }
-        }
-        
-        if (!empty($sqlUnionArr)) {
-            $sqlUnionStrArr = array();
-            foreach ($sqlUnionArr as $sqlSelectArr) {
-                $sqlSelect = $sqlSelectArr['select'];
-                if (!empty($sqlSelectArr['where'])) {
-                    $sqlSelect .= ' where '.join(" and ", $sqlSelectArr['where']);
-                }
-                $sqlUnionStrArr[] = $sqlSelect;
-            }
-            $this->_sqlSelectStr = join(" union ", $sqlUnionStrArr);
-        }
-        
-        return $this;
+        return $sql;
     }
     
-    protected function _renderOrders()
+    protected function _loadAttributes()
     {
-        $this->_sqlSelectStr .= " order by ".join(', ', $this->_orders);
-        
-        return $this;
-    }
-    
-    protected function _renderLimit()
-    {
-        if ($this->_curPage<1) {
-            $this->_curPage=1;
+        if (!$this->getSize()) {
+            return false;
         }
         
-        if ($this->_pageSize) {
-            $this->_curPage = ($this->_curPage > 0) ? $this->_curPage : 1;
-            $this->_pageSize = ($this->_pageSize > 0) ? $this->_pageSize : 1;
-            $this->_sqlSelectStr .= " limit ".(int)$this->_pageSize;
-            $this->_sqlSelectStr .= " offset ".((int)$this->_pageSize*($this->_curPage-1));
+        $ids = array();
+        foreach ($this->getItems() as $doc) {
+            $ids[] = $doc->getDocumentId();
         }
         
-        return $this;
-    }
-    
-    /**
-     * Load data
-     *
-     * @return  Mage_Sales_Model_Mysql4_Document_Collection
-     */
-    public function loadData($printQuery = false, $logQuery = false)
-    {
-        $this->_renderFilters()
-             ->_renderOrders()
-             ->_renderLimit();
-
-        if($printQuery) {
-            echo $this->_sqlSelectStr;
+        $attributesSql = $this->_getAttributesSql($ids);
+        if (empty($attributesSql)) {
+            return false;
         }
         
-        if($logQuery){
-            Mage::log($this->_sqlSelectStr);
+        $attributes = $this->_conn->fetchAll($attributesSql);
+        if (!is_array($attributes) || empty($attributes)) {
+            return false;
         }
-
+        
         $docs = array();
-        $data = $this->_conn->fetchAll($this->_sqlSelectStr);
-        if (is_array($data)) {
-            foreach ($data as $attr) {
-                $docs[$attr[$this->_idField]][$attr['entity_id']]['type'] = $attr['entity_type'];
-                $docs[$attr[$this->_idField]][$attr['entity_id']]['data'][$attr['attribute_code']] = $attr['attribute_value'];
+        foreach ($attributes as $attr) {
+            $docs[$attr[$this->_idField]][$attr['entity_id']]['type'] = $attr['entity_type'];
+            $docs[$attr[$this->_idField]][$attr['entity_id']]['data'][$attr['attribute_code']] = $attr['attribute_value'];
+        }
+        foreach ($this->getItems() as $docObj) {
+            $docId = $docObj->getDocumentId();
+            if (!is_array($docs[$docId]) || empty($docs[$docId])) {
+                continue;
             }
-            foreach ($docs as $docId=>$entities) {
-                $docObj = Mage::getModel('sales', $this->_docType)->setDocumentId($docId);
-                foreach ($entities as $entityId=>$entityData) {
-                    if ('self'===$entity['type']) {
-                        $docObj->addData($entityData);
-                    } else {
-                        $entity = Mage::getModel('sales', $this->_docType.'_entity_'.$entity['type'])
-                            ->setEntityId($entityId)
-                            ->addData($entityData);
-                        $docObj->addEntity($entity);
-                    }
+            foreach ($docs[$docId] as $entityId=>$entityArr) {
+                if ('self'===$entityArr['type']) {
+                    $docObj->addData($entityArr['data']);
+                } else {
+                    $entity = Mage::getModel('sales', $this->_docType.'_entity_'.$entity['type'])
+                        ->setEntityId($entityId)
+                        ->addData($entityArr['data']);
+                    $docObj->addEntity($entity);
                 }
-                $this->addItem($docObj);
             }
         }
-        return $this;
+        return true;
     }
-
 }

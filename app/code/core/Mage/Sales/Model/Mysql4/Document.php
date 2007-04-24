@@ -107,10 +107,7 @@ class Mage_Sales_Model_Mysql4_Document
             if (empty($value)) {
                 continue;
             }
-            if (!isset($attributesConfig->self->$key)) {
-                continue;
-            }
-            $attributeType = (string)$attributesConfig->self->$key->type;
+            $attributeType = (string)$attributesConfig->descend("self/$key/type");
             if (empty($attributeType)) {
                 continue;
             }
@@ -130,10 +127,7 @@ class Mage_Sales_Model_Mysql4_Document
                     if (empty($value)) {
                         continue;
                     }
-                    if (!isset($attributesConfig->$entityType->$key)) {
-                        continue;
-                    }
-                    $attributeType = (string)$attributesConfig->$entityType->$key->type;
+                    $attributeType = (string)$attributesConfig->descend("$entityType/$key/type");
                     if (empty($attributeType)) {
                         continue;
                     }

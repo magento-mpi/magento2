@@ -67,7 +67,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdatesFromConfig($area, $id)
     {
-        $layoutConfig = Mage::getConfig()->getXml()->$area->layouts->$id;
+        $layoutConfig = Mage::getConfig()->getXml("$area/layouts/$id");
         if (!empty($layoutConfig)) {
             $updates = $layoutConfig->updates->children();
             foreach ($updates as $update) {

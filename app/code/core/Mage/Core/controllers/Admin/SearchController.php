@@ -3,7 +3,7 @@ class Mage_Core_SearchController extends Mage_Core_Controller_Admin_Action
 {
     function doAction()
     {
-        $searchModules = Mage::getConfig()->getXml()->admin->globalSearch;
+        $searchModules = Mage::getConfig()->getXml("admin/globalSearch");
         $items = array();
         if (empty($searchModules)) {
             $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>'No search modules registered', 'description'=>'Please make sure that all global admin search modules are installed and activated.');

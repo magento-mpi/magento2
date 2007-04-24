@@ -19,6 +19,42 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         }
         return $parent;
     }
+    
+    /**
+     * Find a descendant of a node by path
+     *
+     * @param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
+     * @return Varien_Simplexml_Element
+     */
+    public function descend($path)
+    {
+        $pathArr = explode('/', $path);
+        $desc = $this;
+        foreach ($pathArr as $nodeName) {
+            if (strpos($nodeName, '[')!==false) {
+                if (!preg_match('#^([^[]+)\[@([^=]+)=\'([^]]+)\'\]$#', $nodeName, $match)) {
+                    return false;
+                }
+                list($nodeName, $attributeName, $attributeValue) = $match;
+                $found = false;
+                foreach ($this->$nodeName as $desc) {
+                    if ((string)$nodeChild[$attributeName]===$attributeValue) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $desc = false;
+                }
+            } else {
+                $desc = $desc->$nodeName;
+            }
+            if (!$desc) {
+                return false;
+            }
+        }
+        return $desc;
+    }
 
     public function asArray()
     {
