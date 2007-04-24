@@ -179,17 +179,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 
             foreach($setCollection as $set) {
                 $data[] = array(
-                    'text' => $set->getCode(),
-                    'id' => 'set:' . $set->getSetId(),
-                    'iconCls' => 'set',
-                    'cls' => 'set',
+                    'text'      => $set->getCode(),
+                    'id'        => 'set:' . $set->getSetId(),
+                    'iconCls'   => 'set',
+                    'cls'       => 'set',
                     'draggable' => false, 
                     'allowDrop' => true,
-                    'type' => 'set',
-                    'setId' => 'set:' . $set->getSetId(),
+                    'type'      => 'set',
                     'allowDelete' => true,
-                    'expanded' => false,
-                    'allowEdit' => true
+                    'expanded'  => false,
+                    'allowEdit' => true,
+                    'setId'     => $set->getSetId(),
                 );
             }
         } elseif (preg_match('/^set:(\d?)$/', $rootNode, $matches)) {
@@ -200,17 +200,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             
             foreach ($groups as $group) {
                 $data[] = array(
-                    'text' => $group->getCode(),
-                    'groupId' => $group->getId(),
-                    'id' => $rootNode.'/group:'.$group->getId(),
-                    'iconCls' => 'group',
-                    'cls' => 'group',
+                    'text'      => $group->getCode(),
+                    'id'        => $rootNode.'/group:'.$group->getId(),
+                    'iconCls'   => 'group',
+                    'cls'       => 'group',
                     'allowDrop' => true,
-                    'type' => 'group',
-                    'setId' => 'set:' . $setId,
+                    'type'      => 'group',
                     'allowDelete' => true,
-                    'expanded' => true,
-                    'allowEdit' => true
+                    //'expanded'  => true,
+                    'allowEdit' => true,
+                    'groupId'   => $group->getId(),
+                    'setId'     => $setId,
                 );
             }
         } elseif (preg_match('/^set:(\d?)\/group:(\d?)$/', $rootNode, $matches)) {
@@ -223,19 +223,21 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                             
             foreach ($attributes as $attribute) {
                 $data[] = array(
-                    'text' => $attribute->getCode(),
-                    'id' => $rootNode.'/attr:'.$attribute->getId(),
-                    'attrId' => $setId . $attribute->getId(),
-                    'iconCls' => 'attr',
-                    'cls' => 'attr',
-                    'leaf' => true,
+                    'text'      => $attribute->getCode(),
+                    'id'        => $rootNode.'/attr:'.$attribute->getId(),
+                    'attrId'    => $setId . $attribute->getId(),
+                    'iconCls'   => 'attr',
+                    'cls'       => 'attr',
+                    'leaf'      => true,
                     'allowDrop' => false,
                     'allowChildren' => false,
-                    'type' => 'attribute',                        
-                    'setId' => 'set:' . $setId,
+                    'type'      => 'attribute',                        
                     'allowDelete' => true,
-                    'expanded' => false,                       
-                    'allowEdit' => false                
+                    'expanded'  => false,                       
+                    'allowEdit' => false,
+                    'setId'     => $setId,
+                    'groupId'   => $groupId,
+                    'attributeId' => $attribute->getId(),
                 );
             }
         }
@@ -271,15 +273,69 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $data = array('error' => 1, 'errorMessage' => 'error Message', 'errorNodes' => array(1,2,3,4,5,6,7));
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
-
+    
+    /**
+     * Remove atribute set/group tree element
+     *
+     */
     public function removElementAction() {
-        $data = array('error' => 0);
-        $this->getResponse()->setBody(Zend_Json::encode($data));
+        $element = $this->getRequest()->getPost('element');
+        $res = array('error' => 0);
+        try {
+            switch ($element) {
+            	case 'set':
+            	    Mage::getModel('catalog', 'product_attribute_set')
+            	       ->setSetId($this->getRequest()->getPost('setId', false))
+            	       ->delete();
+            		break;
+            	case 'group':
+            	    Mage::getModel('catalog', 'product_attribute_group')
+            	       ->setGroupId($this->getRequest()->getPost('groupId', false))
+            	       ->delete();
+            	    break;
+            	case 'attribute':
+            	    break;
+            	default:
+            		break;
+            }
+        }
+        catch (Exception $e){
+            $res = array(
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
+            );
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
+    /**
+     * Save attribute group
+     *
+     */
     public function saveGroupAction()
     {
+        $res = array('error' => 0);
+        $groupId    = (int) $this->getRequest()->getPost('id', false);
+        $setId      = (int) $this->getRequest()->getPost('setId', false);
+        $groupCode  = $this->getRequest()->getPost('code', false);
         
+        $group = Mage::getModel('catalog', 'product_attribute_group')
+            ->setGroupId($groupId)
+            ->setCode($groupCode)
+            ->setSetId($setId);
+            
+        try {
+            $group->save();
+            $res['groupId'] = $group->getId();
+        }
+        catch (Exception $e){
+            $res = array(
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
+            );
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
     /**
@@ -288,7 +344,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function saveSetAction() {
         $res = array('error' => 0);
-        $setId      = $this->getRequest()->getPost('id', false);
+        $setId      = (int) $this->getRequest()->getPost('id', false);
         $setCode    = $this->getRequest()->getPost('code', false);
         $groupCode  = $this->getRequest()->getPost('groupCode', false);
         
@@ -300,8 +356,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $set->save();
             $res['setId'] = $set->getId();
             if ($groupCode) {
-                /*$group = Mage::getModel('catalog', 'category_attribute_group')
-                    ->set*/
+                $group = Mage::getModel('catalog', 'product_attribute_group')
+                    ->setSetId($set->getId())
+                    ->setCode($groupCode)
+                    ->save();
             }
         }
         catch (Exception $e){

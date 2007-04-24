@@ -380,7 +380,7 @@ Mage.Catalog_Product_Attributes = function(){
                         allowDrop : true,
                         allowDrag : false,
                         type : 'group',
-                        setId : 'set:'+id,
+                        setId : id,
                         allowDelete : false,
                         expanded : true,
                         allowEdit : true
@@ -436,13 +436,29 @@ Mage.Catalog_Product_Attributes = function(){
                             Ext.MessageBox.alert('Error', 'requestException');
                         });
                         
+                        var requestParams = {};
+                        requestParams.element = a.type;
+                        switch (a.type) {
+                            case 'set':
+                                requestParams.setId = a.setId;
+                                break;
+                            case 'group':
+                                requestParams.setId = a.setId;
+                                requestParams.groupId = a.groupId;
+                                break;
+                            case 'attribute':
+                                requestParams.setId = a.setId;
+                                requestParams.groupId = a.groupId;
+                                requestParams.attributeId = a.attributeId;
+                                break;
+                            default:
+                                return false;
+                        }
+
                         conn.request( {
                             url: this.removeElementUrl,
                             method: "POST",
-                            params: {
-                                nodeType : a.type,
-                                nodeId : n.id
-                            }
+                            params: requestParams
                         });                
                     }
                 }
@@ -468,7 +484,7 @@ Mage.Catalog_Product_Attributes = function(){
 
                         var requestParams = {
                             code: ge.getValue(),
-                            id: node.attributes.setId.indexOf(':')<0 ? 0 : node.attributes.setId.substr(node.attributes.setId.indexOf(':')+1, node.attributes.setId.length)
+                            id: node.attributes.setId
                         };
                         
                         if (!requestParams.id) {
@@ -479,7 +495,7 @@ Mage.Catalog_Product_Attributes = function(){
                         var requestUrl = this.saveGroupUrl;
                         var requestParams = {
                             code: ge.getValue(),
-                            setId: node.attributes.setId.substr(node.attributes.setId.indexOf(':'), node.attributes.setId.length),
+                            setId: node.attributes.setId,
                             id: node.attributes.groupId
                         };
                         break;
@@ -492,7 +508,13 @@ Mage.Catalog_Product_Attributes = function(){
                 conn.on('requestcomplete', function(conn, response, options) {
                     var i = 0;
                 	var result =  Ext.decode(response.responseText);
-                    if (result.error === 0) { 
+                    if (result.error === 0) {
+                        if (result.setId) {
+                            node.attributes.setId = result.setId;
+                        }
+                        if (result.groupId) {
+                            node.attributes.groupId = result.groupId;
+                        }
                         node.enable();
            		    } else {
            		        node.parentNode.removeChild(node);
@@ -530,11 +552,11 @@ Mage.Catalog_Product_Attributes = function(){
             }
 
             function createGroup(n, text){
-                var snode = ctree.getNodeById(n.attributes.setId);
+                var snode = ctree.getNodeById('set:'+n.attributes.setId);
 
                 var node = new Ext.tree.TreeNode({
                     text: text,
-                    setId : snode.id,
+                    setId : n.attributes.setId,
                     iconCls:'folder',
                     type:'group',
                     allowDelete:true,

@@ -61,4 +61,19 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Set
             throw $e;
         }
     }
+    
+    public function delete($setId)
+    {
+        $condition = $this->_write->quoteInto('set_id=?', $setId);
+        $this->_write->beginTransaction();
+        try {
+            $this->_write->delete($this->_setTable, $condition);
+            $this->_write->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
 }

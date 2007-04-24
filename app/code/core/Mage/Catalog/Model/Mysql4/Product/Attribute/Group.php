@@ -9,7 +9,7 @@
  */
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
 {
-    protected $_attributeGeoupTable;
+    protected $_groupTable;
     protected $_read;
     protected $_write;
 
@@ -17,7 +17,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     {
         $this->_read = Mage::registry('resources')->getConnection('catalog_read');
         $this->_write = Mage::registry('resources')->getConnection('catalog_write');
-        $this->_attributeGeoupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
+        $this->_groupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
     }
     
     /**
@@ -29,7 +29,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
      */
     public function load($groupId)
     {
-        $sql = "SELECT * FROM $this->_attributeGeoupTable WHERE group_id=:group_id";
+        $sql = "SELECT * FROM $this->_groupTable WHERE group_id=:group_id";
         $arr = $this->_read->fetchRow($sql, array('group_id'=>$groupId));
         return $arr;
     }
@@ -54,22 +54,42 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
         $this->_write->beginTransaction();
         try {
             $data = array(
-                'code' => $group->getCode(),
-                
+                'code'  => $group->getCode(),
+                'set_id'=> $group->getSetId()
             );
             
             if ($group->getId()) {
                 $condition = $this->_write->quoteInto('group_id=?', $group->getId());
-                $this->_write->update($this->_attributeGeoupTable, $data, $condition);
+                $this->_write->update($this->_groupTable, $data, $condition);
             }
             else {
-                $this->_write->insert($this->_attributeGeoupTable, $data);
+                $this->_write->insert($this->_groupTable, $data);
                 $group->setGroupId($this->_write->lastInsertId());
             }
             
             $this->_write->commit();
         }
         catch (Exception $e){
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
+    
+    public function moveAfter(Mage_Catalog_Model_Product_Attribute_Group $group, $prevGroup)
+    {
+        
+    }
+    
+    public function delete($groupId)
+    {
+        $condition = $this->_write->quoteInto('group_id=?', $groupId);
+        $this->_write->beginTransaction();
+        try {
+            $this->_write->delete($this->_groupTable, $condition);
+            $this->_write->commit();
+        }
+        catch (Exception $e)
+        {
             $this->_write->rollBack();
             throw $e;
         }

@@ -40,6 +40,24 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Data_Object
         return $this;
     }
     
+    public function delete()
+    {
+        $this->getResource()->delete($this->getId());
+        return $this;
+    }
+    
+    /**
+     * Change group position
+     *
+     * @param  Mage_Catalog_Model_Product_Attribute_Group  $prevGroup
+     * @return this
+     */
+    public function moveAfter(Mage_Catalog_Model_Product_Attribute_Group $prevGroup)
+    {
+        $this->getResource()->moveAfter($prevGroup);
+        return $this;
+    }
+    
     public function getAttributesBySet($setId)
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')

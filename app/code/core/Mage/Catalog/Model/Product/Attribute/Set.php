@@ -35,6 +35,12 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Data_Object
         return $this;
     }
     
+    public function delete()
+    {
+        $this->getResource()->delete($this->getId());
+        return $this;
+    }
+    
     public function getId()
     {
         return $this->getSetId();
