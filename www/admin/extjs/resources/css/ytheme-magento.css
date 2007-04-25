@@ -34,7 +34,7 @@
 }
 
 .x-tree-node-loading .x-tree-node-icon{
-	background:transparent url(../images/default/loading.gif) !important;
+	background:transparent url(../images/default/grid/loading.gif) !important;
 }
 .x-tree-node-loading a span{
 	 font-style: italic;
