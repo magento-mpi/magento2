@@ -224,6 +224,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             }
             
             foreach ($groups as $group) {
+                $isGeneral = $group->getCode()==='general';
                 $data[] = array(
                     'text'      => $group->getCode(),
                     'id'        => $rootNode.'/group:'.$group->getId(),
@@ -231,9 +232,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'cls'       => 'group',
                     'allowDrop' => true,
                     'type'      => 'group',
-                    'allowDelete' => true,
+                    'allowDelete' => !$isGeneral,
                     //'expanded'  => true,
-                    'allowEdit' => true,
+                    'allowEdit' => !$isGeneral,
+                    'draggable' => !$isGeneral,
                     'groupId'   => $group->getId(),
                     'setId'     => $setId,
                     'children'  => $attrs[$group->getId()],
