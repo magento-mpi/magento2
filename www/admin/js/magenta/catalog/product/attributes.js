@@ -233,10 +233,10 @@ Mage.Catalog_Product_Attributes = function(){
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
                     if (
-                       (na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
-                       (na.type == 'group' && ta.type == 'group' && e.point != 'append') ||
+                       //(na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
+                       //(na.type == 'group' && ta.type == 'group' && na.setId==ta.setId && e.point == 'below') ||
                        (na.type == 'attribute' && ta.type == 'group' && e.point == 'append') ||
-                       (na.type == 'attribute' && ta.type == 'attribute' && e.point != 'append')
+                       (na.type == 'attribute' && ta.type == 'attribute' && na.setId==ta.setId  && e.point == 'below')
                      ) {
                         return true;
                      } else {
