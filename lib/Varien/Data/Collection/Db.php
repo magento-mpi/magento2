@@ -204,8 +204,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         $data = $this->_conn->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
-            foreach ($data as $item) {
-                $this->addItem(new $this->_itemObjectClass($item));
+            foreach ($data as $row) {
+                $item = new $this->_itemObjectClass();
+                $item->addData($row);
+                $this->addItem($item);
             }
         }
         return $this;

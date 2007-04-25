@@ -50,13 +50,15 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      */
     public function addAttributeToSelect($entityType, $attributeCode=null)
     {
-        $attributeType = $this->_getAttributeType($entityType, $attributeCode);
-        if (false===$attributeType) {
-            return $this;
-        }
         if (is_null($attributeCode)) {
-            $this->_selectAttributes[$attributeType][$entityType] = array();
+            foreach (array('datetime', 'decimal', 'int', 'text', 'varchar') as $attributeType) {
+                $this->_selectAttributes[$attributeType][$entityType] = array();
+            }
         } else {
+            $attributeType = $this->_getAttributeType($entityType, $attributeCode);
+            if (false===$attributeType) {
+                return $this;
+            }
             $this->_selectAttributes[$attributeType][$entityType][] = $attributeCode;
         }
         return $this;
@@ -119,7 +121,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         
     protected function _getAttributeType($entityType, $attributeCode)
     {
-        return $this->_attributeTypes->descend("$entityType/$attributeCode/type");
+        return (string)$this->_attributeTypes->descend("$entityType/$attributeCode/type");
     }
     
     /**
@@ -185,8 +187,9 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $ids);
         
         foreach ($this->_selectAttributes as $attributeType=>$entities) {
+            $attributeTable = $this->_attributeTable.'_'.$attributeType;
             if (empty($sqlUnionArr[$attributeType])) {
-                $sqlUnionArr[$attributeType]['select'] = 'select * from '.$this->_attributeTable.'_'.$attributeType;
+                $sqlUnionArr[$attributeType]['select'] = "select * from $attributeTable";
                 $sqlUnionArr[$attributeType]['where'][] = $idsSql;
             }
 
@@ -251,7 +254,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
                 if ('self'===$entityArr['type']) {
                     $docObj->addData($entityArr['data']);
                 } else {
-                    $entity = Mage::getModel('sales', $this->_docType.'_entity_'.$entity['type'])
+                    $entity = Mage::getModel('sales', $this->_docType.'_entity_'.$entityArr['type'])
                         ->setEntityId($entityId)
                         ->addData($entityArr['data']);
                     $docObj->addEntity($entity);

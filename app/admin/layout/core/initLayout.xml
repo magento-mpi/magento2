@@ -75,6 +75,10 @@
             
             <block type="tag_js" name="jscripts.js.magenta.core.config">
                 <action method="setSrc"><src>magenta/core/config.js</src></action>
+            </block>            
+            
+            <block type="tag_js" name="jscripts.js.magenta.core.media">
+                <action method="setSrc"><src>magenta/core/media.js</src></action>
             </block>
         </block>
     </block>

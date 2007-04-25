@@ -4,8 +4,8 @@ Mage.Core_Config = function(){
         init: function(){
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
-                text: 'Configuration',
-                handler: Mage.Core_Config.showDialog.createDelegate(Mage.Catalog_Config)
+                text: 'Configuration Browser',
+                handler: Mage.Core_Config.showDialog.createDelegate(Mage.Core_Config)
             });
         },
         showDialog: function(){
@@ -23,7 +23,7 @@ Mage.Core_Config = function(){
                     center:{autoScroll:false},
                     west:{split:true,initialSize:200}
                 });
-                configDialog.setTitle('Configuration');
+                configDialog.setTitle('Configuration Browser');
                 configDialog.setDefaultButton(configDialog.addButton('Cancel', configDialog.hide, configDialog));
 
                 var layout = configDialog.getLayout();

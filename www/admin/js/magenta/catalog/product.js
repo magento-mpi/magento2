@@ -13,7 +13,7 @@ Mage.Catalog_Product = function(depend){
         editablePanels : [],
         categoryEditFormPanel : null, // panel for category from
         productLayout : null,
-        parentProductLayut : null,
+        parentProductLayout : null,
         gridPanel : null,
         productsGrid : null,
         productsGridPageSize : 30, 
@@ -73,7 +73,7 @@ Mage.Catalog_Product = function(depend){
                 this.productLayout.getRegion('south').getEl().addClass('product-form-region');
 
                 Layout_Center.beginUpdate();
-                this.parentProductLayut = Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLayout, {title:'Cat Name'}));
+                this.parentProductLayout = Layout_Center.add('center', new Ext.NestedLayoutPanel(this.productLayout, {title:'Cat Name'}));
                 Layout_Center.endUpdate();
 
                 Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
@@ -416,7 +416,7 @@ Mage.Catalog_Product = function(depend){
                 this.initLayouts();
             }
             if (config.catTitle) {
-                this.parentProductLayut.setTitle(config.catTitle);
+                this.parentProductLayout.setTitle(config.catTitle);
             }
             
             if (!this.gridPanel) {
