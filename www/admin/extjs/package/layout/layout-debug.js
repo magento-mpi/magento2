@@ -555,7 +555,7 @@ Ext.LayoutRegion = function(mgr, config, pos){
 };
 
 Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
-    
+
     createBody : function(){
         
         this.bodyEl = this.el.createChild({tag: "div", cls: "x-layout-panel-body"});
@@ -585,7 +585,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
                 this.collapsedTitleTextEl = dh.append(this.collapsedEl.dom, {tag: "div", cls: "x-unselectable x-layout-panel-hd-text",
                    id: "message", unselectable: "on", style:{"float":"left"}});
                this.collapsedTitleTextEl.innerHTML = c.collapsedTitle;
-             } 
+             }
             this.expandBtn = this.createTool(this.collapsedEl.dom.firstChild.firstChild, "x-layout-expand-"+this.position);
             this.expandBtn.on("click", this.expand, this);
         }
@@ -594,7 +594,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         this.cmargins = c.cmargins || this.cmargins ||
                          (this.position == "west" || this.position == "east" ?
-                             {top: 0, left: 2, right:2, bottom: 0} : 
+                             {top: 0, left: 2, right:2, bottom: 0} :
                              {top: 2, left: 0, right:0, bottom: 2});
         this.margins = c.margins || this.margins || {top: 0, left: 0, right:0, bottom: 0};
         this.bottomTabs = c.tabPosition != "top";
@@ -626,7 +626,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
     isVisible : function(){
         return this.visible;
     },
-    
+
     
     setCollapsedTitle : function(title){
         title = title || "&#160;";
@@ -634,7 +634,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.collapsedTitleTextEl.innerHTML = title;
         }
     },
-   
+
     getBox : function(){
         var b;
         if(!this.collapsed){
@@ -644,19 +644,19 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return b;
     },
-    
+
     getMargins : function(){
         return this.collapsed ? this.cmargins : this.margins;
     },
-    
+
     highlight : function(){
         this.el.addClass("x-layout-panel-dragover");
     },
-    
+
     unhighlight : function(){
         this.el.removeClass("x-layout-panel-dragover");
     },
-    
+
     updateBox : function(box){
         this.box = box;
         if(!this.collapsed){
@@ -713,7 +713,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
     getEl : function(){
         return this.el;
     },
-    
+
     
     hide : function(){
         if(!this.collapsed){
@@ -726,7 +726,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.visible = false;
         this.fireEvent("visibilitychange", this, false);
     },
-    
+
     
     show : function(){
         if(!this.collapsed){
@@ -737,13 +737,13 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.visible = true;
         this.fireEvent("visibilitychange", this, true);
     },
-    
+
     closeClicked : function(){
         if(this.activePanel){
             this.remove(this.activePanel);
         }
     },
-    
+
     collapseClick : function(e){
         if(this.isSlid){
            e.stopPropagation();
@@ -753,7 +753,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
            this.slideOut();
         }
     },
-    
+
     
     collapse : function(skipAnim){
         if(this.collapsed) return;
@@ -772,11 +772,11 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.fireEvent("invalidated", this);
         }
     },
-    
+
     animateCollapse : function(){
         // overridden
     },
-    
+
     
     expand : function(e, skipAnim){
         if(e) e.stopPropagation();
@@ -799,11 +799,11 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.fireEvent("expanded", this);
         }
     },
-    
+
     animateExpand : function(){
         // overridden
     },
-    
+
     initTabs : function(){
         this.bodyEl.setStyle("overflow", "hidden");
         var ts = new Ext.TabPanel(this.bodyEl.dom, {
@@ -823,15 +823,15 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         ts.bodyEl.addClass('x-layout-tabs-body');
         this.panels.each(this.initPanelAsTab, this);
     },
-    
+
     initPanelAsTab : function(panel){
-        var ti = this.tabs.addTab(panel.getEl().id, panel.getTitle(), null, 
+        var ti = this.tabs.addTab(panel.getEl().id, panel.getTitle(), null,
                     this.config.closeOnTab && panel.isClosable());
         if(panel.tabTip !== undefined){
             ti.setTooltip(panel.tabTip);
         }
         ti.on("activate", function(){
-              this.setActivePanel(panel); 
+              this.setActivePanel(panel);
         }, this);
         if(this.config.closeOnTab){
             ti.on("beforeclose", function(t, e){
@@ -841,7 +841,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return ti;
     },
-    
+
     updatePanelTitle : function(panel, title){
         if(this.activePanel == panel){
             this.updateTitle(title);
@@ -854,13 +854,13 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             }
         }
     },
-    
+
     updateTitle : function(title){
         if(this.titleTextEl && !this.config.title){
             this.titleTextEl.innerHTML = (typeof title != "undefined" && title.length > 0 ? title : "&#160;");
         }
     },
-    
+
     setActivePanel : function(panel){
         panel = this.getPanel(panel);
         if(this.activePanel && this.activePanel != panel){
@@ -878,7 +878,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         this.fireEvent("panelactivated", this, panel);
     },
-    
+
     
     showPanel : function(panel){
         if(panel = this.getPanel(panel)){
@@ -894,12 +894,12 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return panel;
     },
-    
+
     
     getActivePanel : function(){
         return this.activePanel;
     },
-    
+
     validateVisibility : function(){
         if(this.panels.getCount() < 1){
             this.updateTitle("&#160;");
@@ -911,7 +911,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             }
         }
     },
-    
+
     
     add : function(panel){
         if(arguments.length > 1){
@@ -945,27 +945,27 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.fireEvent("paneladded", this, panel);
         return panel;
     },
-    
+
     
     hidePanel : function(panel){
         if(this.tabs && (panel = this.getPanel(panel))){
             this.tabs.hideTab(panel.getEl().id);
         }
     },
-    
+
     
     unhidePanel : function(panel){
         if(this.tabs && (panel = this.getPanel(panel))){
             this.tabs.unhideTab(panel.getEl().id);
         }
     },
-    
+
     clearPanels : function(){
         while(this.panels.getCount() > 0){
              this.remove(this.panels.first());
         }
     },
-    
+
     
     remove : function(panel, preservePanel){
         panel = this.getPanel(panel);
@@ -1010,12 +1010,12 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.fireEvent("panelremoved", this, panel);
         return panel;
     },
-    
+
     
     getTabs : function(){
-        return this.tabs;    
+        return this.tabs;
     },
-    
+
     createTool : function(parentEl, className){
         var btn = Ext.DomHelper.append(parentEl, {tag: "div", cls: "x-layout-tools-button",
             children: [{tag: "div", cls: "x-layout-tools-button-inner " + className, html: "&#160;"}]}, true);

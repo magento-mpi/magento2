@@ -91,10 +91,10 @@ Ext.DomHelper = function(){
         if(cn){
             if(cn instanceof Array){
                 for(var i = 0, len = cn.length; i < len; i++) {
-                    createDom(cn[i], b);
+                    createDom(cn[i], el);
                 }
             }else{
-                createDom(cn, b);
+                createDom(cn, el);
             }
         }
         if(o.html){
@@ -422,11 +422,11 @@ Ext.Template.prototype = {
         // branched to use + in gecko and [].join() in others
         if(Ext.isGecko){
             body = "this.compiled = function(values){ return '" +
-                   this.html.replace(/(\r\n\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn) +
+                   this.html.replace(/(\r\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn) +
                     "';};";
         }else{
             body = ["this.compiled = function(values){ return ['"];
-            body.push(this.html.replace(/(\r\n\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn));
+            body.push(this.html.replace(/(\r\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn));
             body.push("'].join('');};");
             body = body.join('');
         }
@@ -5951,7 +5951,7 @@ Ext.util.JSON = new (function(){
     var useHasOwn = {}.hasOwnProperty ? true : false;
     
     // crashes Safari in some instances
-    //var validRE = /^("(\\.|[^"\\\n\r\n])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\n\t])+?$/;
+    //var validRE = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
     
     var pad = function(n) {
         return n < 10 ? "0" + n : n;
@@ -5962,7 +5962,7 @@ Ext.util.JSON = new (function(){
         "\t": '\\t',
         "\n": '\\n',
         "\f": '\\f',
-        "\r\n": '\\r\n',
+        "\r": '\\r',
         '"' : '\\"',
         "\\": '\\\\'
     };
@@ -7793,7 +7793,6 @@ Ext.dd.DragDropMgr = function() {
                 this.dragCurrent.b4Drag(e);
                 this.dragCurrent.onDrag(e);
                 if(!this.dragCurrent.moveOnly){
-                    console.log('wtf')
                     this.fireEvents(e, false);
                 }
             }
@@ -15554,14 +15553,14 @@ Ext.BasicDialog = function(el, config){
     el.hide = this.hideAction;
     this.id = el.id;
     el.addClass("x-dlg");
-        
+
     Ext.apply(this, config);
-    
+
     this.proxy = el.createProxy("x-dlg-proxy");
     this.proxy.hide = this.hideAction;
     this.proxy.setOpacity(.5);
     this.proxy.hide();
-    
+
     if(config.width){
         el.setWidth(config.width);
     }
@@ -15609,8 +15608,8 @@ Ext.BasicDialog = function(el, config){
         html: '<div class="x-dlg-bg-left"><div class="x-dlg-bg-right"><div class="x-dlg-bg-center">&#160;</div></div></div>'
     });
     this.centerBg = this.bg.child("div.x-dlg-bg-center");
-    
-    
+
+
     if(this.autoScroll !== false && !this.autoTabs){
         this.body.setStyle("overflow", "auto");
     }
@@ -15632,8 +15631,8 @@ Ext.BasicDialog = function(el, config){
     if(this.resizable !== false){
         this.el.addClass("x-dlg-resizable");
         this.resizer = new Ext.Resizable(el, {
-            minWidth: this.minWidth || 80, 
-            minHeight:this.minHeight || 80, 
+            minWidth: this.minWidth || 80,
+            minHeight:this.minHeight || 80,
             handles: this.resizeHandles || "all",
             pinned: true
         });
@@ -15716,12 +15715,12 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
     
     setTitle : function(text){
         this.header.update(text);
-        return this; 
+        return this;
     },
 
     // private
     closeClick : function(){
-        this.hide();  
+        this.hide();
     },
 
     // private
@@ -15783,7 +15782,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.fireEvent("keydown", this, e);
         }
     },
-    
+
     
     resizeTo : function(width, height){
         this.el.setSize(width, height);
@@ -15799,8 +15798,8 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         this.fireEvent("resize", this, width, height);
         return this;
     },
-    
-    
+
+
     
     setContentSize : function(w, h){
         h += this.getHeaderFooterHeight() + this.body.getMargins("tb");
@@ -15816,7 +15815,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         this.resizeTo(w, h);
         return this;
     },
-    
+
     
     addKeyListener : function(key, fn, scope){
         var keyCode, shift, ctrl, alt;
@@ -15846,9 +15845,9 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             }
         };
         this.on("keydown", handler);
-        return this; 
+        return this;
     },
-    
+
     
     getTabs : function(){
         if(!this.tabs){
@@ -15856,9 +15855,9 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.body.addClass(this.tabPosition == "bottom" ? "x-tabs-bottom" : "x-tabs-top");
             this.tabs = new Ext.TabPanel(this.body.dom, this.tabPosition == "bottom");
         }
-        return this.tabs;    
+        return this.tabs;
     },
-    
+
     
     addButton : function(config, handler, scope){
         var dh = Ext.DomHelper;
@@ -15903,7 +15902,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
 
     
     setDefaultButton : function(btn){
-        this.defaultButton = btn;  
+        this.defaultButton = btn;
         return this;
     },
 
@@ -15941,7 +15940,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             }
         }
     },
-    
+
     
     restoreState : function(){
         var box = Ext.state.Manager.get(this.stateId || (this.el.id + "-state"));
@@ -15949,7 +15948,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.xy = [box.x, box.y];
             this.resizeTo(box.width, box.height);
         }
-        return this; 
+        return this;
     },
 
     // private
@@ -15972,10 +15971,10 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         this.proxy.setSize(b.width, b.height);
         this.proxy.setLocation(b.x, b.y);
         this.proxy.show();
-        this.proxy.setBounds(this.xy[0], this.xy[1], this.size.width, this.size.height, 
+        this.proxy.setBounds(this.xy[0], this.xy[1], this.size.width, this.size.height,
                     true, .35, this.showEl.createDelegate(this));
     },
-    
+
     
     show : function(animateTarget){
         if (this.fireEvent("beforeshow", this) === false){
@@ -15996,7 +15995,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
                 this.showEl();
             }
         }
-        return this; 
+        return this;
     },
 
     // private
@@ -16020,7 +16019,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.defaultButton.focus();
         }else{
             this.focusEl.focus();
-        }  
+        }
     },
 
     // private
@@ -16075,7 +16074,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         if(!this.proxyDrag){
             this.xy = this.el.getXY();
             this.adjustAssets();
-        }   
+        }
     },
 
     // private
@@ -16097,7 +16096,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.shim.setBounds(x, y, w, h);
         }
     },
-    
+
     // private
     adjustViewport : function(w, h){
         if(!w || !h){
@@ -16114,7 +16113,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.constrainXY();
         }
     },
-    
+
     
     destroy : function(removeEl){
         if(this.isVisible()){
@@ -16171,26 +16170,26 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         this.focus();
         this.fireEvent("move", this, this.xy[0], this.xy[1]);
     },
-    
+
     
     toFront : function(){
-        Ext.DialogManager.bringToFront(this);  
-        return this; 
+        Ext.DialogManager.bringToFront(this);
+        return this;
     },
-    
+
     
     toBack : function(){
-        Ext.DialogManager.sendToBack(this);  
-        return this; 
+        Ext.DialogManager.sendToBack(this);
+        return this;
     },
-    
+
     
     center : function(){
         var xy = this.el.getCenterXY(true);
         this.moveTo(xy[0], xy[1]);
-        return this; 
+        return this;
     },
-    
+
     
     moveTo : function(x, y){
         this.xy = [x,y];
@@ -16228,7 +16227,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
 
     
     isVisible : function(){
-        return this.el.isVisible();    
+        return this.el.isVisible();
     },
 
     // private
@@ -16237,10 +16236,10 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         this.proxy.show();
         this.proxy.setBounds(this.xy[0], this.xy[1], this.size.width, this.size.height);
         this.el.hide();
-        this.proxy.setBounds(b.x, b.y, b.width, b.height, true, .35, 
+        this.proxy.setBounds(b.x, b.y, b.width, b.height, true, .35,
                     this.hideEl.createDelegate(this, [callback]));
     },
-    
+
     
     hide : function(callback){
         if (this.fireEvent("beforehide", this) === false){
@@ -16258,7 +16257,7 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
             this.el.hide();
             this.hideEl(callback);
         }
-        return this; 
+        return this;
     },
 
     // private
@@ -16307,10 +16306,10 @@ Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
         if(this.resizer){
             this.resizer.proxy.setStyle("z-index", ++index);
         }
-        
+
         this.lastZIndex = index;
     },
-    
+
     
     getEl : function(){
         return this.el;
@@ -16335,14 +16334,14 @@ Ext.DialogManager = function(){
         for(var i = 0, len = accessList.length; i < len; i++){
             if(accessList[i]){
                 accessList[i].setZIndex(seed + (i*10));
-            }  
+            }
         }
     };
-    
+
     return {
         
         zseed : 9000,
-        
+
         // private
         register : function(dlg){
             list[dlg.id] = dlg;
@@ -16366,12 +16365,12 @@ Ext.DialogManager = function(){
                 }
             }
         },
-        
+
         
         get : function(id){
             return typeof id == "object" ? id : list[id];
         },
-        
+
         
         bringToFront : function(dlg){
             dlg = this.get(dlg);
@@ -16382,7 +16381,7 @@ Ext.DialogManager = function(){
             }
             return dlg;
         },
-        
+
         
         sendToBack : function(dlg){
             dlg = this.get(dlg);
@@ -23114,7 +23113,7 @@ Ext.LayoutRegion = function(mgr, config, pos){
 };
 
 Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
-    
+
     createBody : function(){
         
         this.bodyEl = this.el.createChild({tag: "div", cls: "x-layout-panel-body"});
@@ -23144,7 +23143,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
                 this.collapsedTitleTextEl = dh.append(this.collapsedEl.dom, {tag: "div", cls: "x-unselectable x-layout-panel-hd-text",
                    id: "message", unselectable: "on", style:{"float":"left"}});
                this.collapsedTitleTextEl.innerHTML = c.collapsedTitle;
-             } 
+             }
             this.expandBtn = this.createTool(this.collapsedEl.dom.firstChild.firstChild, "x-layout-expand-"+this.position);
             this.expandBtn.on("click", this.expand, this);
         }
@@ -23153,7 +23152,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         this.cmargins = c.cmargins || this.cmargins ||
                          (this.position == "west" || this.position == "east" ?
-                             {top: 0, left: 2, right:2, bottom: 0} : 
+                             {top: 0, left: 2, right:2, bottom: 0} :
                              {top: 2, left: 0, right:0, bottom: 2});
         this.margins = c.margins || this.margins || {top: 0, left: 0, right:0, bottom: 0};
         this.bottomTabs = c.tabPosition != "top";
@@ -23185,7 +23184,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
     isVisible : function(){
         return this.visible;
     },
-    
+
     
     setCollapsedTitle : function(title){
         title = title || "&#160;";
@@ -23193,7 +23192,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.collapsedTitleTextEl.innerHTML = title;
         }
     },
-   
+
     getBox : function(){
         var b;
         if(!this.collapsed){
@@ -23203,19 +23202,19 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return b;
     },
-    
+
     getMargins : function(){
         return this.collapsed ? this.cmargins : this.margins;
     },
-    
+
     highlight : function(){
         this.el.addClass("x-layout-panel-dragover");
     },
-    
+
     unhighlight : function(){
         this.el.removeClass("x-layout-panel-dragover");
     },
-    
+
     updateBox : function(box){
         this.box = box;
         if(!this.collapsed){
@@ -23272,7 +23271,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
     getEl : function(){
         return this.el;
     },
-    
+
     
     hide : function(){
         if(!this.collapsed){
@@ -23285,7 +23284,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.visible = false;
         this.fireEvent("visibilitychange", this, false);
     },
-    
+
     
     show : function(){
         if(!this.collapsed){
@@ -23296,13 +23295,13 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.visible = true;
         this.fireEvent("visibilitychange", this, true);
     },
-    
+
     closeClicked : function(){
         if(this.activePanel){
             this.remove(this.activePanel);
         }
     },
-    
+
     collapseClick : function(e){
         if(this.isSlid){
            e.stopPropagation();
@@ -23312,7 +23311,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
            this.slideOut();
         }
     },
-    
+
     
     collapse : function(skipAnim){
         if(this.collapsed) return;
@@ -23331,11 +23330,11 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.fireEvent("invalidated", this);
         }
     },
-    
+
     animateCollapse : function(){
         // overridden
     },
-    
+
     
     expand : function(e, skipAnim){
         if(e) e.stopPropagation();
@@ -23358,11 +23357,11 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             this.fireEvent("expanded", this);
         }
     },
-    
+
     animateExpand : function(){
         // overridden
     },
-    
+
     initTabs : function(){
         this.bodyEl.setStyle("overflow", "hidden");
         var ts = new Ext.TabPanel(this.bodyEl.dom, {
@@ -23382,15 +23381,15 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         ts.bodyEl.addClass('x-layout-tabs-body');
         this.panels.each(this.initPanelAsTab, this);
     },
-    
+
     initPanelAsTab : function(panel){
-        var ti = this.tabs.addTab(panel.getEl().id, panel.getTitle(), null, 
+        var ti = this.tabs.addTab(panel.getEl().id, panel.getTitle(), null,
                     this.config.closeOnTab && panel.isClosable());
         if(panel.tabTip !== undefined){
             ti.setTooltip(panel.tabTip);
         }
         ti.on("activate", function(){
-              this.setActivePanel(panel); 
+              this.setActivePanel(panel);
         }, this);
         if(this.config.closeOnTab){
             ti.on("beforeclose", function(t, e){
@@ -23400,7 +23399,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return ti;
     },
-    
+
     updatePanelTitle : function(panel, title){
         if(this.activePanel == panel){
             this.updateTitle(title);
@@ -23413,13 +23412,13 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             }
         }
     },
-    
+
     updateTitle : function(title){
         if(this.titleTextEl && !this.config.title){
             this.titleTextEl.innerHTML = (typeof title != "undefined" && title.length > 0 ? title : "&#160;");
         }
     },
-    
+
     setActivePanel : function(panel){
         panel = this.getPanel(panel);
         if(this.activePanel && this.activePanel != panel){
@@ -23437,7 +23436,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         this.fireEvent("panelactivated", this, panel);
     },
-    
+
     
     showPanel : function(panel){
         if(panel = this.getPanel(panel)){
@@ -23453,12 +23452,12 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         return panel;
     },
-    
+
     
     getActivePanel : function(){
         return this.activePanel;
     },
-    
+
     validateVisibility : function(){
         if(this.panels.getCount() < 1){
             this.updateTitle("&#160;");
@@ -23470,7 +23469,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
             }
         }
     },
-    
+
     
     add : function(panel){
         if(arguments.length > 1){
@@ -23504,27 +23503,27 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.fireEvent("paneladded", this, panel);
         return panel;
     },
-    
+
     
     hidePanel : function(panel){
         if(this.tabs && (panel = this.getPanel(panel))){
             this.tabs.hideTab(panel.getEl().id);
         }
     },
-    
+
     
     unhidePanel : function(panel){
         if(this.tabs && (panel = this.getPanel(panel))){
             this.tabs.unhideTab(panel.getEl().id);
         }
     },
-    
+
     clearPanels : function(){
         while(this.panels.getCount() > 0){
              this.remove(this.panels.first());
         }
     },
-    
+
     
     remove : function(panel, preservePanel){
         panel = this.getPanel(panel);
@@ -23569,12 +23568,12 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         this.fireEvent("panelremoved", this, panel);
         return panel;
     },
-    
+
     
     getTabs : function(){
-        return this.tabs;    
+        return this.tabs;
     },
-    
+
     createTool : function(parentEl, className){
         var btn = Ext.DomHelper.append(parentEl, {tag: "div", cls: "x-layout-tools-button",
             children: [{tag: "div", cls: "x-layout-tools-button-inner " + className, html: "&#160;"}]}, true);

@@ -91,10 +91,10 @@ Ext.DomHelper = function(){
         if(cn){
             if(cn instanceof Array){
                 for(var i = 0, len = cn.length; i < len; i++) {
-                    createDom(cn[i], b);
+                    createDom(cn[i], el);
                 }
             }else{
-                createDom(cn, b);
+                createDom(cn, el);
             }
         }
         if(o.html){
@@ -422,11 +422,11 @@ Ext.Template.prototype = {
         // branched to use + in gecko and [].join() in others
         if(Ext.isGecko){
             body = "this.compiled = function(values){ return '" +
-                   this.html.replace(/(\r\n\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn) +
+                   this.html.replace(/(\r\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn) +
                     "';};";
         }else{
             body = ["this.compiled = function(values){ return ['"];
-            body.push(this.html.replace(/(\r\n\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn));
+            body.push(this.html.replace(/(\r\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn));
             body.push("'].join('');};");
             body = body.join('');
         }

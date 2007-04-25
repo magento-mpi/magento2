@@ -217,9 +217,10 @@ Mage.Catalog_Product_Attributes = function(){
                     containerScroll: true,
                     lines:false,
                     rootVisible:false,
-                    dropConfig: {appendOnly:true},
-                    loader: new Ext.tree.TreeLoader()
+                    dropConfig: {appendOnly:true}
                 });                
+                
+                
                 
                 ctree.on('nodedragover', function(e){
                     if (!e.dropNode) {
@@ -383,41 +384,40 @@ Mage.Catalog_Product_Attributes = function(){
                 }                              
                 
                 function createSet(id, text, groups){
-                    var group = new Ext.tree.TreeNode({
-                        text : 'General',
-                        groupId: 0,
-                        id : 'group10',
-                        iconCls : 'group',
-                        cls : 'group',
-                        leaf : false,
-                        allowDrop : true,
-                        allowDrag : false,
-                        type : 'group',
-                        setId : id,
-                        allowDelete : false,
-                        expanded : true,
-                        allowEdit : true
-                    });
+                    if (id="-1") {
+                        var group = new Ext.tree.TreeNode({
+                            text : 'General',
+                            groupId: 0,
+                            id : 'group10',
+                            iconCls : 'group',
+                            cls : 'group',
+                            leaf : false,
+                            allowDrop : true,
+                            allowDrag : false,
+                            type : 'group',
+                            setId : id,
+                            allowDelete : false,
+                            expanded : true,
+                            allowEdit : true
+                        });
+                    }
                     
-                    var node = new Ext.tree.TreeNode({
+                    var node = new Ext.tree.AsyncTreeNode({
                         text: text,
                         iconCls: 'set',
                         cls: 'set',
                         type:'set',                        
                         id: id,
                         setId:id,
+                        children : groups || [],
                         allowDelete:true,
                         allowDrop : true,
                         allowDrag : true,
                         expanded:true,                       
                         allowEdit:true
                     });
-                    
                     node.appendChild(group);
                     croot.appendChild(node);
-                                        
-                    group.ensureVisible();
-
                     return node;
                 }
                 
@@ -933,4 +933,3 @@ Mage.Catalog_Product_Attributes = function(){
 
     }
 }();
-
