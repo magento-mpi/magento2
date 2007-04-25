@@ -38,6 +38,8 @@ Mage.Catalog_Product = function(depend){
                          tabPosition: 'top'
                      }
                  });
+                 Layout_Center.getRegion('center').getEl().addClass('products-grid-region');
+
 
                  this.productLayout = new Ext.BorderLayout(Layout.getEl().createChild({tag:'div'}), {
                      north : {
@@ -68,7 +70,6 @@ Mage.Catalog_Product = function(depend){
                          hideTabs : true
                      }
                  });
-                this.productLayout.getRegion('center').getEl().addClass('products-grid-region');
                 this.productLayout.getRegion('south').getEl().addClass('product-form-region');
 
                 Layout_Center.beginUpdate();

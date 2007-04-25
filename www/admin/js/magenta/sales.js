@@ -6,7 +6,7 @@ Mage.Sales = function(depend){
         
         oTree : null,
         websiteCBUrl : Mage.url + 'mage_core/website/list/',
-        websitesTreeUrl : Mage.url + 'mage_core/website/treelist',
+        websitesTreeUrl : Mage.url + 'mage_sales/order/tree/',
         
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
