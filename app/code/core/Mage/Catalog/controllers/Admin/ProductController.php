@@ -4,6 +4,68 @@
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 {
     /**
+     * Product collection JSON
+     */
+    public function gridDataAction()
+    {
+        $pageSize = $this->getRequest()->getPost('limit', 30);
+        $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description')
+            ->setPageSize($pageSize);
+
+        if ($categoryId = $this->getRequest()->getParam('category')) {
+
+            $nodes = Mage::getModel('catalog_resource','category_tree')
+                        ->load($categoryId, 10)
+                        ->getNodes();
+
+            if ($nodes->count()) {
+                
+                $arrCategories = array();
+                $prodCollection->distinct(true);
+                foreach ($nodes as $node) {
+                    $arrCategories[] = $node->getId();
+                }
+            }
+            else {
+                $arrCategories = array($categoryId);
+            }
+            $prodCollection->addCategoryFilter($arrCategories);
+        }
+        
+        $filters = $this->getRequest()->getPost('filters', false);
+        if ($filters) {
+            $prodCollection->addAdminFilters(Zend_Json::decode($filters));
+        }
+
+        $page = $this->getRequest()->getPost('start', 1);
+        if ($page>1) {
+            $page = $page/$pageSize+1;
+        }
+
+        $order = $this->getRequest()->getPost('sort', 'product_id');
+        $dir   = $this->getRequest()->getPost('dir', 'desc');
+        $prodCollection->setOrder($order, $dir);
+        $prodCollection->setCurPage($page);
+        $prodCollection->load();
+
+        $arrGridFields = array('product_id', 'name', 'price', 'description');
+        $data = $prodCollection->__toArray($arrGridFields);
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
+    public function allowWebsitesAction()
+    {
+        $categoryId = (int) $this->getRequest()->getPost('category', false);
+        $category = Mage::getModel('catalog', 'category')->setCategoryId($categoryId);
+        $websites = $category->getWebsites();
+        
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+        
+    /**
      * Create new product dialog form
      *
      */
@@ -89,61 +151,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
        );
        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
-
-    /**
-     * Product collection JSON
-     *
-     */
-    public function gridDataAction()
-    {
-        $pageSize = $this->getRequest()->getPost('limit', 30);
-        $prodCollection = Mage::getModel('catalog_resource','product_collection')
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('description')
-            ->setPageSize($pageSize);
-
-        if ($categoryId = $this->getRequest()->getParam('category')) {
-
-            $nodes = Mage::getModel('catalog_resource','category_tree')
-                        ->load($categoryId, 10)
-                        ->getNodes();
-
-            if ($nodes->count()) {
-                
-                $arrCategories = array();
-                $prodCollection->distinct(true);
-                foreach ($nodes as $node) {
-                    $arrCategories[] = $node->getId();
-                }
-            }
-            else {
-                $arrCategories = array($categoryId);
-            }
-            $prodCollection->addCategoryFilter($arrCategories);
-        }
-        
-        $filters = $this->getRequest()->getPost('filters', false);
-        if ($filters) {
-            $prodCollection->addAdminFilters(Zend_Json::decode($filters));
-        }
-
-        $page = $this->getRequest()->getPost('start', 1);
-        if ($page>1) {
-            $page = $page/$pageSize+1;
-        }
-
-        $order = $this->getRequest()->getPost('sort', 'product_id');
-        $dir   = $this->getRequest()->getPost('dir', 'desc');
-        $prodCollection->setOrder($order, $dir);
-        $prodCollection->setCurPage($page);
-        $prodCollection->load();
-
-        $arrGridFields = array('product_id', 'name', 'price', 'description');
-        $data = $prodCollection->__toArray($arrGridFields);
-        $this->getResponse()->setBody(Zend_Json::encode($data));
-    }
-
+    
     /**
      * Save product
      *
@@ -382,11 +390,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         try {
             $set->save();
             $res['setId'] = $set->getId();
-            if ($groupCode) {
+            if (!$setId) {
                 $group = Mage::getModel('catalog', 'product_attribute_group')
-                    ->setSetId($set->getId())
-                    ->setCode($groupCode)
+                    ->setCode('General')
                     ->save();
+                $res['groupId'] = $group->getId();
             }
         }
         catch (Exception $e){
