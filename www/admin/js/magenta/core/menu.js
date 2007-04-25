@@ -45,7 +45,14 @@ Mage.Menu_Core = function(){
                 menu: new Ext.menu.Menu({
                     id: 'website',
                     items: [
-                        '<b>Choose the site theme</b>',
+                        '<strong>Choose the site theme</strong>',
+                        new Ext.menu.CheckItem({
+                            text: 'Magento',
+                            checked: (Cookies.get('admtheme') == 'magento') || false,
+                            group: 'theme',
+                            value : 'magento',
+                            handler : chooseTheme
+                        }),
                         new Ext.menu.CheckItem({
                             text: 'Aero Glass',
                             checked: (Cookies.get('admtheme') == 'aero') || false,

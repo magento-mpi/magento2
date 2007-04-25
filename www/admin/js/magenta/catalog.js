@@ -66,7 +66,7 @@ Mage.Catalog = function(depend){
                 Layout_West.endUpdate();
                 
                 Layout.beginUpdate();
-                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : '<b>Catalog</b>'}));
+                Layout.add('west', new Ext.NestedLayoutPanel(Layout_West, {title : '<strong>Catalog</strong>'}));
                 Layout.endUpdate();
                 
                 Core_Layout.beginUpdate();
