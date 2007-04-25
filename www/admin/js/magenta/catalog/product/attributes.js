@@ -257,7 +257,7 @@ Mage.Catalog_Product_Attributes = function(){
                     for(var i = 0, len = s.length; i < len; i++){
                         var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
-                        stree.root.cascade(function(params){
+                        e.target.cascade(function(params){
                             if (this.attributes.attributeId == params[0]) {
                                 res.push(this);
                             }
