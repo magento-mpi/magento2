@@ -9,7 +9,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function gridDataAction()
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
+        $websiteId = $this->getRequest()->getParam('website');
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->setWebsiteId($websiteId)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -58,9 +60,18 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     
     public function allowWebsitesAction()
     {
-        $categoryId = (int) $this->getRequest()->getPost('category', false);
+        $categoryId = (int) $this->getRequest()->getParam('category', false);
+
         $category = Mage::getModel('catalog', 'category')->setCategoryId($categoryId);
         $websites = $category->getWebsites();
+        
+        $data = array();
+        foreach ($websites as $website) {
+            $data[] = array(
+                'value' => $website->getWebsiteId(),
+                'text'  => $website->getWebsiteCode()
+            );
+        }
         
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
@@ -266,7 +277,26 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $collection->load();
 
         $arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
-        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
+        $data = $collection->__toArray($arrGridFields);
+        
+        $data['dropdown'] = array(
+            'input_type' => array(
+                array(
+                    'value' => 'text',
+                    'text'  => 'Text'
+                ),
+                array(
+                    'value' => 'select',
+                    'text'  => 'Combobox'
+                ),
+                array(
+                    'value' => 'image',
+                    'text'  => 'Image'
+                ),
+            )
+        );
+        
+        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
     /**

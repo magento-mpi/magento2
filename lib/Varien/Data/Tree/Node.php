@@ -207,4 +207,13 @@ class Varien_Data_Tree_Node extends Varien_Data_Object
         $this->_tree->removeNode($this);
         return $this;
     }
+    
+    public function getPath(&$prevNodes = array())
+    {
+        if ($this->_parent) {
+            array_push($prevNodes, $this);
+            $this->_parent->getPath($prevNodes);
+        }
+        return $prevNodes;
+    }
 }

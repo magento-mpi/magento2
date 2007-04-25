@@ -26,7 +26,7 @@ class Varien_Data_Tree
         return $this;
     }
     
-    public function load($parentNode, $recursive=false) {}
+    public function load($parentNode=null, $recursive=false) {}
     public function loadNode($nodeId) {}
     public function appendChild($parentNode, $prevNode=null) {}
     
@@ -43,12 +43,29 @@ class Varien_Data_Tree
     public function removeNode($node) {}
     public function createNode($parentNode, $prevNode=null) {}
     
-    public function getPath($node) {}
     public function getChild($node) {}
     public function getChildren($node) {}
-    
+
     public function getNodes()
     {
         return $this->_nodes;
+    }
+    
+    public function getNodeById($nodeId)
+    {
+        return $this->_nodes->searchById($nodeId);
+    }
+
+    public function getPath($node)
+    {
+        if ($node instanceof Varien_Data_Tree_Node ) {
+            
+        }
+        elseif (is_numeric($node)){
+            if ($_node = $this->getNodeById($node)) {
+                return $_node->getPath();
+            }
+        }
+        return array();
     }
 }

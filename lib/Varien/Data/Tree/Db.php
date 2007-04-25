@@ -104,9 +104,13 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
      * @param   int $recursionLevel recursion level
      * @return  this
      */
-    public function load($parentNode, $recursionLevel=0)
+    public function load($parentNode=null, $recursionLevel=0)
     {
-        if ($parentNode instanceof Varien_Data_Tree_Node) {
+        if (is_null($parentNode)) {
+            $this->_loadFullTree();
+            return $this;
+        }
+        elseif ($parentNode instanceof Varien_Data_Tree_Node) {
             $parentId = $parentNode->getId();
         }
         elseif (is_numeric($parentNode)) {
@@ -196,6 +200,20 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             $this->_conn->rollBack();
             throw new Exception('Can\'t move tree node');
         }
+    }
+    
+    protected function _loadFullTree()
+    {
+        $select = clone $this->_select;
+        $select->order($this->_table . '.' . $this->_levelField);
         
+        $arrNodes = $this->_conn->fetchAll($select);
+        foreach ($arrNodes as $nodeInfo) {
+            $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this);
+            $parentNode = $this->getNodeById($nodeInfo[$this->_parentField]);
+            $this->addNode($node, $parentNode);
+        }
+        
+        return $this;
     }
 }

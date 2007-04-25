@@ -84,4 +84,14 @@ class Varien_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
     {
         return !empty($this->_nodes) ? $this->_nodes[count($this->_nodes) - 1] : null;
     }
+
+    public function searchById($nodeId)
+    {
+        foreach ($this->_nodes as $node) {
+            if ($node->getId() == $nodeId) {
+                return $node;
+            }
+        }
+        return null;
+    }
 }

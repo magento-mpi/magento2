@@ -64,10 +64,37 @@ class Mage_Catalog_Model_Category extends Varien_Data_Object
         return $collection;
     }
     
+    /**
+     * Get category filters
+     *
+     * @return Varien_Data_Collection_Db
+     */
     public function getFilters()
     {
         $collection = Mage::getModel('catalog_resource', 'category_filter_collection')
             ->addCategoryFilter($this->getId())
+            ->load();
+        return $collection;
+    }
+    
+    /**
+     * Get websites collection for category
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function getWebsites()
+    {
+        $arrNodes = Mage::getModel('catalog_resource', 'category_tree')
+            ->load()
+            ->getPath($this->getId());
+        $arrCategoryId = array();
+        
+        foreach ($arrNodes as $node) {
+            $arrCategoryId[] = $node->getId();
+        }
+        
+        $collection = Mage::getModel('core_resource', 'website_collection')
+            ->addCategoryFilter($arrCategoryId)
             ->load();
         return $collection;
     }
