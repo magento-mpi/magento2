@@ -276,8 +276,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $collection->setOrder($order, $dir);
         $collection->load();
 
-        $arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
-        $data = $collection->__toArray($arrGridFields);
+        //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
+        $data = $collection->__toArray();
         
         $data['dropdown'] = array(
             'input_type' => array(
