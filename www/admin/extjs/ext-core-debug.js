@@ -251,25 +251,25 @@ Ext.DomHelper = function(){
                 el.parentNode.insertBefore(frag, el);
                 return el.previousSibling;
              case "afterbegin":
-                if(el.firstChild){ // faster
+                if(el.firstChild){
                     range.setStartBefore(el.firstChild);
+                    frag = range.createContextualFragment(html);
+                    el.insertBefore(frag, el.firstChild);
+                    return el.firstChild;
                 }else{
-                    range.selectNodeContents(el);
-                    range.collapse(true);
+                    el.innerHTML = html;
+                    return el.firstChild;
                 }
-                frag = range.createContextualFragment(html);
-                el.insertBefore(frag, el.firstChild);
-                return el.firstChild;
             case "beforeend":
                 if(el.lastChild){
-                    range.setStartAfter(el.lastChild); // faster
+                    range.setStartAfter(el.lastChild);
+                    frag = range.createContextualFragment(html);
+                    el.appendChild(frag);
+                    return el.lastChild;
                 }else{
-                    range.selectNodeContents(el);
-                    range.collapse(false);
+                    el.innerHTML = html;
+                    return el.lastChild;
                 }
-                frag = range.createContextualFragment(html);
-                el.appendChild(frag);
-                return el.lastChild;
             case "afterend":
                 range.setStartAfter(el);
                 frag = range.createContextualFragment(html);
@@ -440,26 +440,31 @@ Ext.Template.prototype = {
     },
     
     
-    insertBefore: function(el, values, returnElement){
-        el = Ext.getDom(el);
-        var newNode = Ext.DomHelper.insertHtml("beforeBegin", el, this.applyTemplate(values));
-        return returnElement ? Ext.get(newNode, true) : newNode;
+    insertFirst: function(el, values, returnElement){
+        return this.doInsert('afterBegin', el, values, returnElement);
     },
+
     
+    insertBefore: function(el, values, returnElement){
+        return this.doInsert('beforeBegin', el, values, returnElement);
+    },
+
     
     insertAfter : function(el, values, returnElement){
-        el = Ext.getDom(el);
-        var newNode = Ext.DomHelper.insertHtml("afterEnd", el, this.applyTemplate(values));
-        return returnElement ? Ext.get(newNode, true) : newNode;
+        return this.doInsert('afterEnd', el, values, returnElement);
     },
     
     
     append : function(el, values, returnElement){
-        el = Ext.getDom(el);
-        var newNode = Ext.DomHelper.insertHtml("beforeEnd", el, this.applyTemplate(values));
-        return returnElement ? Ext.get(newNode, true) : newNode;
+        return this.doInsert('beforeEnd', el, values, returnElement);
     },
-    
+
+    doInsert : function(where, el, values, returnEl){
+        el = Ext.getDom(el);
+        var newNode = Ext.DomHelper.insertHtml(where, el, this.applyTemplate(values));
+        return returnEl ? Ext.get(newNode, true) : newNode;
+    },
+
     
     overwrite : function(el, values, returnElement){
         el = Ext.getDom(el);
@@ -1464,11 +1469,14 @@ Ext.EventManager = function(){
         }else if(Ext.isIE){
             // inspired by  http://www.thefutureoftheweb.com/blog/2006/6/adddomloadevent
             document.write("<s"+'cript id="ie-deferred-loader" defer="defer" src="/'+'/:"></s'+"cript>");
-            E.on("ie-deferred-loader", "readystatechange", function(){
+            var defer = document.getElementById("ie-deferred-loader");
+            defer.onreadystatechange = function(){
                 if(this.readyState == "complete"){
                     fireDocReady();
+                    defer.onreadystatechange = null;
+                    defer.parentNode.removeChild(defer);
                 }
-            });
+            };
         }else if(Ext.isSafari){ 
             docReadyProcId = setInterval(function(){
                 var rs = document.readyState;
@@ -1512,7 +1520,7 @@ Ext.EventManager = function(){
         fn = fn || o.fn; scope = scope || o.scope;
         var el = Ext.getDom(element);
         if(!el){
-            throw "Error listening for " + ename + '. Element ' + element + ' doesn\'t exist.';
+            throw "Error listening for \"" + ename + '\". Element "' + element + '" doesn\'t exist.';
         }
         var h = function(e){
             e = Ext.EventObject.setEvent(e);
@@ -2191,15 +2199,21 @@ El.prototype = {
     
     
     query : function(selector, unique){
-        return Ext.DomQuery.select(selector, this.dom);  
+        return Ext.DomQuery.select("#" + Ext.id(this.dom) + " " + selector);
     },
     
     
     child : function(selector, returnDom){
-        var n = Ext.DomQuery.selectNode(selector, this.dom);
+        var n = Ext.DomQuery.selectNode("#" + Ext.id(this.dom) + " " + selector);
         return returnDom ? n : Ext.get(n);
     },
+
     
+    down : function(selector, returnDom){
+        var n = Ext.DomQuery.selectNode("#" + Ext.id(this.dom) + " > " + selector);
+        return returnDom ? n : Ext.get(n);
+    },
+
     
     initDD : function(group, config, overrides){
         var dd = new Ext.dd.DD(Ext.id(this.dom), group, config);
@@ -3190,13 +3204,13 @@ El.prototype = {
         }
         var el = this.dom, w = el.offsetWidth, h = el.offsetHeight, bx;
         if(!contentBox){
-            bx = {x: xy[0], y: xy[1], width: w, height: h};
+            bx = {x: xy[0], y: xy[1], 0: xy[0], 1: xy[1], width: w, height: h};
         }else{
             var l = this.getBorderWidth("l")+this.getPadding("l");
             var r = this.getBorderWidth("r")+this.getPadding("r");
             var t = this.getBorderWidth("t")+this.getPadding("t");
             var b = this.getBorderWidth("b")+this.getPadding("b");
-            bx = {x: xy[0]+l, y: xy[1]+t, width: w-(l+r), height: h-(t+b)};
+            bx = {x: xy[0]+l, y: xy[1]+t, 0: xy[0]+l, 1: xy[1]+t, width: w-(l+r), height: h-(t+b)};
         }
         bx.right = bx.x + bx.width;
         bx.bottom = bx.y + bx.height;
@@ -3318,16 +3332,14 @@ El.prototype = {
 
     
     createShim : function(){
-        var config = {
-            tag : "iframe",
-            frameBorder:"no",
-            cls: "yiframe-shim",
-            style: "position:absolute;visibility:hidden;left:0;top:0;overflow:hidden;",
-            src: Ext.SSL_SECURE_URL
-        };
-        var shim = Ext.DomHelper.insertBefore(this.dom, config, true);
-        shim.setOpacity(.01);
-        shim.setBox(this.getBox());
+        var el = document.createElement('iframe');
+        el.frameBorder = 'no';
+        el.className = 'ext-shim';
+        if(Ext.isIE){
+            el.src = Ext.SSL_SECURE_URL;
+        }
+        var shim = Ext.get(this.dom.parentNode.insertBefore(el, this.dom));
+        shim.autoBoxAdjust = false;
         return shim;
     },
     
@@ -3438,7 +3450,7 @@ El.prototype = {
         if(insertBefore){
             return Ext.DomHelper.insertBefore(insertBefore, config, returnDom !== true);
         }
-        return Ext.DomHelper.append(this.dom, config,  returnDom !== true);
+        return Ext.DomHelper[!this.dom.firstChild ? 'overwrite' : 'append'](this.dom, config,  returnDom !== true);
     },
     
     
@@ -3699,7 +3711,7 @@ El.prototype = {
 
     boxWrap : function(cls){
         cls = cls || 'x-box';
-        var el = Ext.get(this.insertHtml('beforeBegin', String.format('<div class="{0}"><div class="{0}-tl"><div class="{0}-tr"><div class="{0}-tc"></div></div></div><div class="{0}-ml"><div class="{0}-mr"><div class="{0}-mc"></div></div></div><div class="{0}-bl"><div class="{0}-br"><div class="{0}-bc"></div></div></div></div>', cls)));
+        var el = Ext.get(this.insertHtml('beforeBegin', String.format('<div class="{0}">'+El.boxMarkup+'</div>', cls)));
         el.child('.'+cls+'-mc').dom.appendChild(this.dom);
         return el;
     },
@@ -3747,6 +3759,8 @@ El.addUnits = function(v, defaultUnit){
     return v;
 };
 
+// special markup used throughout Ext when box wrapping elements
+El.boxMarkup = '<div class="{0}-tl"><div class="{0}-tr"><div class="{0}-tc"></div></div></div><div class="{0}-ml"><div class="{0}-mr"><div class="{0}-mc"></div></div></div><div class="{0}-bl"><div class="{0}-br"><div class="{0}-bc"></div></div></div>';
 
 El.VISIBILITY = 1;
 
@@ -3811,6 +3825,14 @@ El.get = function(el){
     return null;
 };
 
+El.uncache = function(el){
+    for(var i = 0, a = arguments, len = a.length; i < len; i++) {
+        if(a[i]){
+            delete El.cache[a[i].id || a[i]];
+        }
+    }
+};
+
 // dom is optional
 El.Flyweight = function(dom){
     this.dom = dom;
@@ -3846,6 +3868,12 @@ var noBoxAdjust = Ext.isStrict ? {
 if(Ext.isIE || Ext.isGecko){
     noBoxAdjust['button'] = 1;
 }
+
+
+Ext.EventManager.on(window, 'unload', function(){
+    delete El.cache;
+    delete El._flyweights;
+});
 })();
 
 
@@ -4490,6 +4518,9 @@ Ext.Fx = {
     afterFx : function(o){
         if(o.afterStyle){
             this.applyStyles(o.afterStyle);
+        }
+        if(o.afterCls){
+            this.addClass(o.afterCls);
         }
         if(o.remove === true){
             this.remove();

@@ -68,6 +68,8 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
             }
             btn = this.template.append(renderTo, [this.text || '&#160;'], true);
             var btnEl = btn.child("button:first");
+            btnEl.on('focus', this.onFocus, this);
+            btnEl.on('blur', this.onBlur, this);
             if(this.cls){
                 btn.addClass(this.cls);
             }
@@ -283,6 +285,16 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
             this.el.removeClass("x-btn-over");
             this.fireEvent('mouseout', this, e);
         }
+    },
+    // private
+    onFocus : function(e){
+        if(!this.disabled){
+            this.el.addClass("x-btn-focus");
+        }
+    },
+    // private
+    onBlur : function(e){
+        this.el.removeClass("x-btn-focus");
     },
     // private
     onMouseDown : function(){

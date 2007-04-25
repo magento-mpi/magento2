@@ -97,10 +97,6 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
         if(!this.customSize && (this.width || this.height)){
             this.setSize(this.width || "", this.height || "");
         }
-        if(this.style){
-            this.el.applyStyles(this.style);
-            delete this.style;
-        }
         if(this.readOnly){
             this.el.dom.readOnly = true;
         }
@@ -120,6 +116,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
 
     // private
     afterRender : function(){
+        Ext.form.Field.superclass.afterRender.call(this);
         this.initEvents();
     },
 
@@ -188,13 +185,20 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
     },
 
     
-    isValid : function(){
-        return this.validateValue(this.getRawValue());
+    isValid : function(preventMark){
+        if(this.disabled){
+            return true;
+        }
+        var restore = this.preventMark;
+        this.preventMark = preventMark === true;
+        var v = this.validateValue(this.getRawValue());
+        this.preventMark = restore;
+        return v;
     },
 
     
     validate : function(){
-        if(this.validateValue(this.getRawValue())){
+        if(this.disabled || this.validateValue(this.getRawValue())){
             this.clearInvalid();
             return true;
         }
@@ -209,7 +213,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
 
     
     markInvalid : function(msg){
-        if(!this.rendered){ // not rendered
+        if(!this.rendered || this.preventMark){ // not rendered
             return;
         }
         this.el.addClass(this.invalidClass);
@@ -257,7 +261,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
 
     
     clearInvalid : function(){
-        if(!this.rendered){ // not rendered
+        if(!this.rendered || this.preventMark){ // not rendered
             return;
         }
         this.el.removeClass(this.invalidClass);
@@ -439,10 +443,7 @@ Ext.extend(Ext.form.TextField, Ext.form.Field,  {
             this.on("focus", this.preFocus, this);
             if(this.emptyText){
                 this.on('blur', this.postBlur, this);
-                if(!this.value && this.getRawValue().length < 1){
-                    this.setRawValue(this.emptyText);
-                    this.el.addClass(this.emptyClass);
-                }
+                this.applyEmptyText();
             }
         }
         if(this.maskRe || (this.vtype && this.disableKeyFilter !== true && (this.maskRe = Ext.form.VTypes[this.vtype+'Mask']))){
@@ -470,7 +471,11 @@ Ext.extend(Ext.form.TextField, Ext.form.Field,  {
     
     reset : function(){
         Ext.form.TextField.superclass.reset.call(this);
-        if(this.emptyText && this.getRawValue().length < 1){
+        this.applyEmptyText();
+    },
+
+    applyEmptyText : function(){
+        if(this.rendered && this.emptyText && this.getRawValue().length < 1){
             this.setRawValue(this.emptyText);
             this.el.addClass(this.emptyClass);
         }
@@ -491,10 +496,7 @@ Ext.extend(Ext.form.TextField, Ext.form.Field,  {
 
     // private
     postBlur : function(){
-        if(this.emptyText && this.getRawValue().length < 1){
-            this.setRawValue(this.emptyText);
-            this.el.addClass(this.emptyClass);
-        }
+        this.applyEmptyText();
     },
 
     // private
@@ -809,8 +811,11 @@ Ext.extend(Ext.form.TextArea, Ext.form.TextField,  {
         }
         ts.innerHTML = v;
         var h = Math.min(this.growMax, Math.max(ts.offsetHeight, this.growMin));
-        this.el.setHeight(h);
-        this.fireEvent("autosize", this, h);
+        if(h != this.lastHeight){
+            this.lastHeight = h;
+            this.el.setHeight(h);
+            this.fireEvent("autosize", this, h);
+        }
     },
 
     // private
@@ -874,9 +879,10 @@ Ext.extend(Ext.form.NumberField, Ext.form.TextField,  {
         if(!Ext.form.NumberField.superclass.validateValue.call(this, value)){
             return false;
         }
-        if(value.length < 1){ // if it"s blank and textfield didn"t flag it then it's valid
+        if(value.length < 1){ // if it's blank and textfield didn't flag it then it's valid
              return true;
         }
+        value = String(value).replace(this.decimalSeparator, ".");
         if(isNaN(value)){
             this.markInvalid(String.format(this.nanText, value));
             return false;
@@ -971,7 +977,7 @@ Ext.extend(Ext.form.DateField, Ext.form.TriggerField,  {
         if(!Ext.form.DateField.superclass.validateValue.call(this, value)){
             return false;
         }
-        if(value.length < 1){ // if it"s blank and textfield didn"t flag it then it's valid
+        if(value.length < 1){ // if it's blank and textfield didn't flag it then it's valid
              return true;
         }
         var svalue = value;
@@ -1060,7 +1066,7 @@ Ext.extend(Ext.form.DateField, Ext.form.TriggerField,  {
         if(this.menu == null){
             this.menu = new Ext.menu.DateMenu();
         }
-        Ext.apply(this.menu,  {
+        Ext.apply(this.menu.picker,  {
             minDate : this.minValue,
             maxDate : this.maxValue,
             disabledDatesRE : this.ddMatch,
@@ -1704,6 +1710,7 @@ Ext.extend(Ext.form.ComboBox, Ext.form.TriggerField, {
         if(this.el.dom.value.length > 0){
             this.el.dom.value =
                 this.lastSelectionText === undefined ? '' : this.lastSelectionText;
+            this.applyEmptyText();
         }
     },
 
@@ -1778,7 +1785,7 @@ Ext.extend(Ext.form.ComboBox, Ext.form.TriggerField, {
 
     
     expand : function(){
-        if(this.isExpanded()){
+        if(this.isExpanded() || !this.hasFocus){
             return;
         }
         this.list.alignTo(this.el, this.listAlign);
@@ -2026,6 +2033,9 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
     // private
     activeAction : null,
 
+    
+    waitMsgTarget : undefined,
+
     // private
     initEl : function(el){
         this.el = Ext.get(el);
@@ -2076,7 +2086,7 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
         record.beginEdit();
         var fs = record.fields;
         fs.each(function(f){
-            var field = this.fieldField(f.name);
+            var field = this.findField(f.name);
             if(field){
                 record.set(f.name, field.getValue());
             }
@@ -2088,7 +2098,14 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
     beforeAction : function(action){
         var o = action.options;
         if(o.waitMsg){
-            Ext.MessageBox.wait(o.waitMsg, o.waitTitle || this.waitTitle || 'Please Wait...');
+            if(this.waitMsgTarget === true){
+                this.el.mask(o.waitMsg, 'x-mask-loading');
+            }else if(this.waitMsgTarget){
+                this.waitMsgTarget = Ext.get(this.waitMsgTarget);
+                this.waitMsgTarget.mask(o.waitMsg, 'x-mask-loading');
+            }else{
+                Ext.MessageBox.wait(o.waitMsg, o.waitTitle || this.waitTitle || 'Please Wait...');
+            }
         }
     },
 
@@ -2097,8 +2114,14 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
         this.activeAction = null;
         var o = action.options;
         if(o.waitMsg){
-            Ext.MessageBox.updateProgress(1);
-            Ext.MessageBox.hide();
+            if(this.waitMsgTarget === true){
+                this.el.unmask();
+            }else if(this.waitMsgTarget){
+                this.waitMsgTarget.unmask();
+            }else{
+                Ext.MessageBox.updateProgress(1);
+                Ext.MessageBox.hide();
+            }
         }
         if(success){
             if(o.reset){
@@ -2168,8 +2191,11 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
     },
 
     
-    getValues : function(){
+    getValues : function(asString){
         var fs = Ext.lib.Ajax.serializeForm(this.el.dom);
+        if(asString === true){
+            return fs;
+        }
         return Ext.urlDecode(fs);
     },
 
@@ -2229,11 +2255,17 @@ Ext.form.Form = function(config){
     Ext.form.Form.superclass.constructor.call(this, null, config);
     this.url = this.url || this.action;
     if(!this.root){
-        this.root = new Ext.form.Layout(config);
+        this.root = new Ext.form.Layout(Ext.applyIf({
+            id: Ext.id()
+        }, config));
     }
     this.active = this.root;
     
     this.buttons = [];
+    this.addEvents({
+        
+        clientvalidation: true
+    });
 };
 
 Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
@@ -2249,6 +2281,12 @@ Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
 
     
     labelAlign:'left',
+
+    
+    monitorValid : false,
+
+    
+    monitorPoll : 200,
 
     
     column : function(c){
@@ -2347,6 +2385,9 @@ Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
                 b.render(tr.appendChild(td));
             }
         }
+        if(this.monitorValid){ // initialize after render
+            this.startMonitoring();
+        }
         return this;
     },
 
@@ -2366,6 +2407,44 @@ Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
         var btn = new Ext.Button(null, bc);
         this.buttons.push(btn);
         return btn;
+    },
+
+    
+    startMonitoring : function(){
+        if(!this.bound){
+            this.bound = true;
+            Ext.TaskMgr.start({
+                run : this.bindHandler,
+                interval : this.monitorPoll || 200,
+                scope: this
+            });
+        }
+    },
+
+    
+    stopMonitoring : function(){
+        this.bound = false;
+    },
+
+    // private
+    bindHandler : function(){
+        if(!this.bound){
+            return false; // stops binding
+        }
+        var valid = true;
+        this.items.each(function(f){
+            if(!f.isValid(true)){
+                valid = false;
+                return false;
+            }
+        });
+        for(var i = 0, len = this.buttons.length; i < len; i++){
+            var btn = this.buttons[i];
+            if(btn.formBind === true && btn.disabled === valid){
+                btn.setDisabled(!valid);
+            }
+        }
+        this.fireEvent('clientvalidation', this, valid);
     }
 });
 
@@ -2408,6 +2487,7 @@ Ext.form.Action.prototype = {
 
     // default connection failure
     failure : function(response){
+        this.response = response;
         this.failureType = Ext.form.Action.CONNECT_FAILURE;
         this.form.afterAction(this, false);
     },
@@ -2495,8 +2575,8 @@ Ext.extend(Ext.form.Action.Submit, Ext.form.Action, {
         if(result.errors){
             this.form.markInvalid(result.errors);
             this.failureType = Ext.form.Action.SERVER_INVALID;
-            this.form.afterAction(this, false);
         }
+        this.form.afterAction(this, false);
     },
 
     handleResponse : function(response){
@@ -2646,7 +2726,13 @@ Ext.extend(Ext.form.Layout, Ext.Component, {
 
     // private
     renderField : function(f){
-       this.fieldTpl.append(this.el, [f.id, f.fieldLabel, f.labelStyle||this.labelStyle||'', this.elementStyle||'', f.labelSeparator||this.labelSeparator, f.itemCls||this.itemCls||'']);
+       this.fieldTpl.append(this.el, [
+               f.id, f.fieldLabel,
+               f.labelStyle||this.labelStyle||'',
+               this.elementStyle||'',
+               typeof f.labelSeparator == 'undefined' ? this.labelSeparator : f.labelSeparator,
+               f.itemCls||this.itemCls||''
+       ]);
     },
 
     // private
@@ -2708,7 +2794,7 @@ Ext.form.VTypes = function(){
     // closure these in so they are only created once.
     var alpha = /^[a-zA-Z_]+$/;
     var alphanum = /^[a-zA-Z0-9_]+$/;
-    var email = /^([\w]+)(.[\w]+)*@([\w]+)(.[\w]{2,4}){1,2}$/;
+    var email = /^([\w]+)(.[\w]+)*@([\w-]+\.){1,5}([A-Za-z]){2,4}$/;
     var url = /(((https?)|(ftp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
 
     // All these messages and functions are configurable

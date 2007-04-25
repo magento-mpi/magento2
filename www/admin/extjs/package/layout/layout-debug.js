@@ -7,11 +7,11 @@
  */
 
 
-Ext.LayoutManager = function(container){
+Ext.LayoutManager = function(container, config){
     Ext.LayoutManager.superclass.constructor.call(this);
     this.el = Ext.get(container);
     // ie scrollbar fix
-    if(this.el.dom == document.body && Ext.isIE){
+    if(this.el.dom == document.body && Ext.isIE && !config.allowScroll){
         document.body.scroll = "no";
     }else if(this.el.dom != document.body && this.el.getStyle('position') == 'static'){
         this.el.position('relative');
@@ -103,7 +103,7 @@ Ext.extend(Ext.LayoutManager, Ext.util.Observable, {
 
 Ext.BorderLayout = function(container, config){
     config = config || {};
-    Ext.BorderLayout.superclass.constructor.call(this, container);
+    Ext.BorderLayout.superclass.constructor.call(this, container, config);
     this.factory = config.factory || Ext.BorderLayout.RegionFactory;
     for(var i = 0, len = this.factory.validRegions.length; i < len; i++) {
     	var target = this.factory.validRegions[i];
@@ -118,16 +118,21 @@ Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
     addRegion : function(target, config){
         if(!this.regions[target]){
             var r = this.factory.create(target, this, config);
-    	    this.regions[target] = r;
-    	    r.on("visibilitychange", this.layout, this);
-            r.on("paneladded", this.layout, this);
-            r.on("panelremoved", this.layout, this);
-            r.on("invalidated", this.layout, this);
-            r.on("resized", this.onRegionResized, this);
-            r.on("collapsed", this.onRegionCollapsed, this);
-            r.on("expanded", this.onRegionExpanded, this);
+    	    this.bindRegion(target, r);
         }
         return this.regions[target];
+    },
+
+    // private (kinda)
+    bindRegion : function(name, r){
+        this.regions[name] = r;
+        r.on("visibilitychange", this.layout, this);
+        r.on("paneladded", this.layout, this);
+        r.on("panelremoved", this.layout, this);
+        r.on("invalidated", this.layout, this);
+        r.on("resized", this.onRegionResized, this);
+        r.on("collapsed", this.onRegionCollapsed, this);
+        r.on("expanded", this.onRegionExpanded, this);
     },
     
     
@@ -409,7 +414,7 @@ Ext.extend(Ext.BasicLayoutRegion, Ext.util.Observable, {
         var el = this.activePanel.getEl();
         el.dom.style.left = box.x + "px";
         el.dom.style.top = box.y + "px";
-        el.setSize(box.width, box.height);
+        this.activePanel.setSize(box.width, box.height);
     },
     
     
@@ -426,7 +431,7 @@ Ext.extend(Ext.BasicLayoutRegion, Ext.util.Observable, {
         panel = this.getPanel(panel);
         if(this.activePanel && this.activePanel != panel){
             this.activePanel.setActiveState(false);
-            this.activePanel.getEl().setStyle({left:-10000,right:-10000});
+            this.activePanel.getEl().setLeftTop(-10000,-10000);
         }
         this.activePanel = panel;
         panel.setActiveState(true);
@@ -466,7 +471,9 @@ Ext.extend(Ext.BasicLayoutRegion, Ext.util.Observable, {
         if(el.dom.parentNode != this.mgr.el.dom){
             this.mgr.el.dom.appendChild(el.dom);
         }
-        panel.setRegion(this);
+        if(panel.setRegion){
+            panel.setRegion(this);
+        }
         this.panels.add(panel);
         el.setStyle("position", "absolute");
         if(!panel.background){
@@ -535,8 +542,7 @@ Ext.LayoutRegion = function(mgr, config, pos){
     this.closeBtn.enableDisplayMode();
     this.closeBtn.on("click", this.closeClicked, this);
     this.closeBtn.hide();
-    
-    this.bodyEl = dh.append(this.el.dom, {tag: "div", cls: "x-layout-panel-body"}, true);
+    this.createBody(config);
     this.visible = true;
     this.collapsed = false;
 
@@ -549,6 +555,12 @@ Ext.LayoutRegion = function(mgr, config, pos){
 };
 
 Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
+    
+    createBody : function(){
+        
+        this.bodyEl = this.el.createChild({tag: "div", cls: "x-layout-panel-body"});
+    },
+
     applyConfig : function(c){
         if(c.collapsible && this.position != "center" && !this.collapsedEl){
             var dh = Ext.DomHelper;
@@ -665,11 +677,17 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         if(w !== null){
             this.el.setWidth(w);
             w -= this.el.getBorderWidth("rl");
+            if(this.config.adjustments){
+                w += this.config.adjustments[0];
+            }
         }
         if(h !== null){
             this.el.setHeight(h);
             h = this.titleEl.isDisplayed() ? h - (this.titleEl.getHeight()||0) : h;
             h -= this.el.getBorderWidth("tb");
+            if(this.config.adjustments){
+                h += this.config.adjustments[1];
+            }
             this.bodyEl.setHeight(h);
             if(this.tabs){
                 h = this.tabs.syncHeight(h);
@@ -1738,7 +1756,7 @@ Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
                 this.el.setSize(width, height);
             }
             var size = this.adjustForComponents(width, height);
-            this.resizeEl.setSize(this.autoWidth ? "auto" : size.width, size.height);
+            this.resizeEl.setSize(this.autoWidth ? "auto" : size.width, this.autoHeight ? "auto" : size.height);
             this.fireEvent('resize', this, size.width, size.height);
         }
     },
