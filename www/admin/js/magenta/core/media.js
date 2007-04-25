@@ -8,10 +8,12 @@ Mage.Core_Media = function(){
                 handler: Mage.Core_Media.showDialog.createDelegate(Mage.Core_Media)
             });
         },
+        
         showDialog: function(){
             Ext.QuickTips.init();
             if (!mediaDialog) {
                 mediaDialog = new Ext.LayoutDialog(Ext.id(), {
+                    title:'Media Browser',
                     autoCreate : true,
                     width:700,
                     height:500,
@@ -20,105 +22,237 @@ Mage.Core_Media = function(){
                     syncHeightBeforeShow: true,
                     shadow:true,
                     fixedcenter:true,
-                    center:{autoScroll:false},
-                    west:{split:true,initialSize:300}
+                    west:{split:true, initialSize:300, collapsible:true},
+                    center:{autoScroll:false, hideTabs:true}
                 });
-                mediaDialog.setTitle('Media Browser');
-                mediaDialog.setDefaultButton(mediaDialog.addButton('Cancel', mediaDialog.hide, mediaDialog));
+                mediaDialog.setDefaultButton(mediaDialog.addButton('Close', mediaDialog.hide, mediaDialog));
 
-                var layout = mediaDialog.getLayout();
-                var media = layout.getEl().createChild({tag:'div', id:'media'});
-                var tb = new Ext.Toolbar(media.createChild({tag:'div'}));
-
-                var viewEl = media.createChild({tag:'div', id:'folders'});                
-                
-                var treePanel = layout.add('west', new Ext.ContentPanel(media, {
-                    title:'Media', 
-                    fitToFrame:true,
-                    autoScroll:true,
-                    autoCreate:true,
-                    toolbar: tb,
-                    resizeEl:viewEl
-                }));
-                
-                var centerLayout = new Ext.BorderLayout(layout.getEl().createChild({tag:'div'}), {
+                var centerLayout = new Ext.BorderLayout(mediaDialog.getLayout().getEl().createChild({tag:'div'}), {
                      center:{
-                         title: 'Folder name here (1)',
-                         titlebar: true,
+                         title:'Folder name here',
+                         titlebar:true,
                          autoScroll:true,
-                         hideTabs : true
+                         hideTabs:true
                      },
                      south : {
-                         hideWhenEmpty : false,
+                         hideWhenEmpty:false,
                          split:true,
                          initialSize:300,
                          minSize:50,
-                         titlebar: true,
-                         autoScroll: true,
-                         collapsible: true,
-                         hideTabs : true
+                         titlebar:true,
+                         autoScroll:true,
+                         collapsible:true,
+                         hideTabs:true
                      }
                  });
-                 var centerPanel = layout.add('center', new Ext.NestedLayoutPanel(centerLayout, {title:'Folder name here (2)'}));
-                
-                var centerPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
-                    autoCreate : true,
-                    fitToFrame:true
-                }));
-                
-                var tree = new Ext.tree.TreePanel(viewEl, {
-                    animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/media/foldersTree'}),
-                    enableDD:true,
-                    containerScroll: true,
-                    dropConfig: {appendOnly:true}
-                });
-
-                var root = new Ext.tree.AsyncTreeNode({
-                    text: 'Root', 
-                    draggable:false, // disable root node dragging
-                    id:'/'
-                });
-
-                tb.addButton({
-                    id:'add',
-                    text: 'New Folder',
-                    cls: 'x-btn-text-icon btn_add',
-                    disabled: true
-                });
-                tb.addButton({
-                    id:'remove',
-                    text: 'Remove Folder',
-                    cls: 'x-btn-text-icon btn_delete',
-                    disabled: true
-                });
-                tb.addButton({
-                    id:'reload',
-                    text:'Reload',
-                    handler:function(){root.reload()},
-                    cls:'x-btn-text-icon btn_arrow_refresh',
-                    tooltip:'Reload the tree'
-                });
-                btns = tb.items.map;
-                
-                var sm = tree.getSelectionModel();
-                sm.on('selectionchange', function(){
-                    var n = sm.getSelectedNode();
-                    if(!n){
-                        btns.add.disable();
-                        btns.remove.disable();
-                        return;
-                     }
-                     var a = n.attributes;
-                     btns.add.setDisabled(false);
-                     btns.remove.setDisabled(false);
-                });
-
-                tree.setRootNode(root);
-                tree.render();
+                 var centerPanel = mediaDialog.getLayout().add('center', new Ext.NestedLayoutPanel(centerLayout, {autoCreate:true, fitToFrame:true}));
+               
+                 this.initTree();
             }
 
             mediaDialog.show();
+        },
+        
+        initTree: function() {
+            var layout = mediaDialog.getLayout();
+            var media = layout.getEl().createChild({tag:'div', id:'media'});
+            var tb = new Ext.Toolbar(media.createChild({tag:'div'}));
+
+            var viewEl = media.createChild({tag:'div', id:'folders'});                
+            
+            var treePanel = layout.add('west', new Ext.ContentPanel(media, {
+                title:'Media', 
+                fitToFrame:true,
+                autoScroll:true,
+                autoCreate:true,
+                toolbar: tb,
+                resizeEl:viewEl
+            }));
+            
+            var tree = new Ext.tree.TreePanel(viewEl, {
+                animate:true, 
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/media/foldersTree'}),
+                enableDD:true,
+                containerScroll: true,
+                dropConfig: {appendOnly:true}
+            });
+
+            var root = new Ext.tree.AsyncTreeNode({
+                text: 'Root', 
+                draggable:false, // disable root node dragging
+                id:'/'
+            });
+
+            tb.addButton({
+                id:'add',
+                text: 'New Folder',
+                cls: 'x-btn-text-icon btn_add',
+                disabled: true
+            });
+            tb.addButton({
+                id:'remove',
+                text: 'Remove Folder',
+                cls: 'x-btn-text-icon btn_delete',
+                disabled: true
+            });
+            tb.addButton({
+                id:'reload',
+                text:'Reload',
+                handler:function(){root.reload()},
+                cls:'x-btn-text-icon btn_arrow_refresh',
+                tooltip:'Reload the tree'
+            });
+            btns = tb.items.map;
+            
+            var sm = tree.getSelectionModel();
+            sm.on('selectionchange', function(){
+                var n = sm.getSelectedNode();
+                if(!n){
+                    btns.add.disable();
+                    btns.remove.disable();
+                    return;
+                 }
+                 var a = n.attributes;
+                 btns.add.setDisabled(false);
+                 btns.remove.setDisabled(false);
+            });
+
+            tree.setRootNode(root);
+            tree.render();
+        },
+        
+        initGrid: function(path) {
+            var dataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'product_id'},
+                {name: 'name', mapping: 'name'},
+                {name: 'price', mapping: 'price'},
+                {name: 'description', mapping: 'description'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'product_id'
+            }, dataRecord);
+
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/'}),
+                reader: dataReader,
+                remoteSort: true
+             });
+             
+             dataStore.on('load', function(){
+                 if (!this.filterSettings) {
+                     this.loadFilterSettings();
+                 }
+             }.createDelegate(this));
+
+            dataStore.setDefaultSort('product_id', 'desc');
+
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
+                {header: "Name", sortable: true, dataIndex: 'name'},
+                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+                {header: "Description", sortable: false, dataIndex: 'description'}
+            ]);
+
+            this.productsGrid = new Ext.grid.Grid(this.productLayout.getEl().createChild({tag: 'div'}), {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns : true,
+                loadMask: true,
+                monitorWindowResize : true,
+                autoHeight : true,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                enableColLock : false
+            });
+            
+            this.productsGrid.mageCategoryId = catId;
+            
+            this.productsGrid.on('rowclick', this.createItem.createDelegate(this));
+
+            this.productsGrid.render();
+
+            var gridHead = this.productsGrid.getView().getHeaderPanel(true);
+            var gridFoot = this.productsGrid.getView().getFooterPanel(true);
+
+            var paging = new Ext.PagingToolbar(gridHead, dataStore, {
+                pageSize: this.productsGridPageSize,
+                displayInfo: true,
+                displayMsg: 'Displaying products {0} - {1} of {2}',
+                emptyMsg: 'No products to display'
+            });
+
+            var btnAdd = new Ext.Toolbar.Button({
+                text: 'Filter',
+                handler : this.addFilter.createDelegate(this),
+                cls: 'x-btn-text-icon btn_add',
+                disabled : true
+             });
+             paging.insertButton(0, btnAdd);
+             this.filterButtons.add('add', btnAdd);
+            
+             var btnApply = new Ext.Toolbar.Button({
+                text: 'Apply',
+                handler : this.applyFilters.createDelegate(this),
+                cls: 'x-btn-text-icon btn_accept',
+                disabled : true
+             });
+             paging.insertButton(1, btnApply);            
+             this.filterButtons.add('apply', btnApply);
+             
+             var bntReset = new Ext.Toolbar.Button({
+                text: 'Reset',
+                handler : this.deleteFilters.createDelegate(this),
+                cls: 'x-btn-text-icon btn_delete',
+                disabled : true
+             });
+             paging.insertButton(2, bntReset);            
+             this.filterButtons.add('clear', bntReset);
+             
+             paging.insertButton(3, {
+                text: 'Product',
+                cls: 'x-btn-text-icon btn_package_add',
+                handler : this.createItem.createDelegate(this)
+             });
+            
+             paging.insertButton(4, new Ext.Toolbar.Separator());
+        },
+        
+        /**
+         *  @param : load  boolean (load grid data)
+         *  @param : catId  integer (category id required)
+         *  @param : catTitle string (category title required)
+         */
+        viewGrid : function (config) {
+            if (!config.catId) {
+                return false;
+            }
+            this.init();
+            if (!this.productLayout) {
+                this.initLayouts();
+            }
+            if (config.catTitle) {
+                this.parentProductLayut.setTitle(config.catTitle);
+            }
+            
+            if (!this.gridPanel) {
+                this.initGrid(config.catId);
+                this.productLayout.beginUpdate();
+                this.gridPanel = this.productLayout.add('center', new Ext.GridPanel(this.productsGrid, {title: config.catTitle}));
+                this.productLayout.endUpdate();
+                if (config.load) {
+                    this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                }
+            } else {
+                this.gridPanel.getGrid();
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + config.catId + '/';
+                if (config.load && this.productsGrid.mageCategoryId != config.catId) {
+                    this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
+                }
+                this.productsGrid.mageCategoryId = config.catId;                
+            }
         }
     }
 }();
