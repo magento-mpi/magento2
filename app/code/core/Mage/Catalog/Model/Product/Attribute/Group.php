@@ -58,10 +58,22 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Data_Object
         return $this;
     }
     
-    public function getAttributesBySet($setId)
+    public function addAttribute(Mage_Catalog_Model_Product_Attribute $attribute)
+    {
+        $this->getResource()->addAttribute($this, $attribute);
+        return $this;
+    }
+
+    public function removeAttribute(Mage_Catalog_Model_Product_Attribute $attribute)
+    {
+        $this->getResource()->removeAttribute($this, $attribute);
+        return $this;
+    }
+    
+    public function getAttributes()
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
-            ->addSetFilter($setId)
+            ->addSetFilter($this->getSetId())
             ->addGroupFilter($this->getId())
             ->load();
         return $collection;

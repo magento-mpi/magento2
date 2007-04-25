@@ -53,7 +53,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
             );
         }
         
-        $attributes = $group->getAttributesBySet($setId);
+        $attributes = $group->getAttributes();
         foreach ($attributes as $attribute) {
             $this->attribute2field($attribute);
         }

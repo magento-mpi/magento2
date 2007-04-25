@@ -250,24 +250,24 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                     var s = e.data.selections, r = [];
                     for(var i = 0, len = s.length; i < len; i++){
-                        var attrId = s[i].id; // s[i] is a Record from the grid
+                        var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
                         e.target.cascade(function(params){
                             //Ext.dump(this);
-                            if (this.attributes.attrId == params[0]) {
+                            if (this.attributes.attributeId == params[0]) {
                                 res.push(this);
                             }
-                        }, node, [attrId]);
+                        }, node, [attributeId]);
                         
                         if (res.length == 0) {
                             var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
                                 allowDrop:false,
                                 allowDrag:true,
-                                attrId : attrId,
                                 type : 'dropped',
-                                setId : e.target.attributes.setId,
                                 cls : 'x-tree-node-loading',
-                                text: s[i].data.attribute_code
+                                text: s[i].data.attribute_code,
+                                setId : e.target.attributes.setId,
+                                attributeId : attributeId
                             });
                             r.push(node);
                         }
@@ -284,11 +284,12 @@ Mage.Catalog_Product_Attributes = function(){
                     		    if (result.error === 0) { 
                                     for(i=0; i < r.length; i++) {
                                         r[i].attributes.type = 'attribute';
+                                        r[i].attributes.attributeId = response.attributeId;
                                         r[i].ui.removeClass('x-tree-node-loading');
                                     }
                                 } else {
                                     for(i=0; i < r.length; i++) {
-                                        if (result.errorNodes.indexOf(Number(r[i].attributes.attrId)) >= 0) {
+                                        if (result.errorNodes.indexOf(r[i].attributes.attributeId) >= 0) {
                                             r[i].parentNode.removeChild(r[i]);
                                         }
                                     }   
@@ -306,10 +307,22 @@ Mage.Catalog_Product_Attributes = function(){
                         conn.on('requestexception', function() {
                         });
                         
+                        var requestParams = {};
+                        requestParams.groupId = e.target.attributes.groupId;
+                        var groupAttributes = [];
+                        for (var i in r){
+                            if (r[i].attributes && r[i].attributes.attributeId) {
+                                groupAttributes.push(r[i].attributes.attributeId);
+                            }
+                        }
+                        
+                        requestParams.attributes = Ext.encode(groupAttributes);
+                        
                         conn.request( {
                             url: this.addGroupAttributes,
-                            method: "POST"
-                        });                
+                            method: "POST",
+                            params: requestParams
+                        });
                     } else {
                         Ext.MessageBox.alert('Error', 'This attributes exists in sets');
                     }                     
@@ -421,7 +434,7 @@ Mage.Catalog_Product_Attributes = function(){
                     		    if (result.error === 0) { 
                     		        if (a.type == 'group') {
                     		            while (n.childNodes.length) {
-                    		                n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attrId;
+                    		                n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attributeId;
                         		            n.parentNode.firstChild.appendChild(n.childNodes[0]);
                     		            }
                     		        }

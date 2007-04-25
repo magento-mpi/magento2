@@ -1,6 +1,8 @@
 <?php
 /**
  * Product attributes groups
+ * 
+ * TODO: group and attributes position
  *
  * @package    Ecom
  * @subpackage Catalog
@@ -10,6 +12,7 @@
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
 {
     protected $_groupTable;
+    protected $_inSetTable;
     protected $_read;
     protected $_write;
 
@@ -18,6 +21,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
         $this->_read = Mage::registry('resources')->getConnection('catalog_read');
         $this->_write = Mage::registry('resources')->getConnection('catalog_write');
         $this->_groupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
+        $this->_inSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
     }
     
     /**
@@ -86,6 +90,41 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
         $this->_write->beginTransaction();
         try {
             $this->_write->delete($this->_groupTable, $condition);
+            $this->_write->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
+    
+    public function addAttribute($group, $attribute)
+    {
+        $this->_write->beginTransaction();
+        try {
+            $data = array(
+                'attribute_id'  => $attribute->getId(),
+                'set_id'        => $group->getSetId(),
+                'group_id'      => $group->getId()
+            );
+            $this->_write->insert($this->_inSetTable, $data);
+            $this->_write->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
+    
+    public function removeAttribute($group, $attribute)
+    {
+        $condition = $this->_write->quoteInto('group_id=?', $group->getId()) .
+                    ' AND ' . $this->_write->quoteInto('attribute_id=?', $attribute->getId());
+        $this->_write->beginTransaction();
+        try {
+            $this->_write->delete($this->_inSetTable, $condition);
             $this->_write->commit();
         }
         catch (Exception $e)

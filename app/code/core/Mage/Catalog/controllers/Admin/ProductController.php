@@ -219,7 +219,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             
             $attributes = Mage::getModel('catalog', 'product_attribute_group')
                             ->load($groupId)
-                            ->getAttributesBySet($setId);
+                            ->getAttributes();
                             
             foreach ($attributes as $attribute) {
                 $data[] = array(
@@ -270,8 +270,27 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     }
 
     public function addGroupAttributesAction() {
-        $data = array('error' => 1, 'errorMessage' => 'error Message', 'errorNodes' => array(1,2,3,4,5,6,7));
-        $this->getResponse()->setBody(Zend_Json::encode($data));
+        $res = array(
+            'error' => 0,
+            'errorNodes' => array()
+        );
+        $groupId = $this->getRequest()->getPost('groupId', false);
+        $arrAttributes = Zend_Json::decode($this->getRequest()->getPost('attributes','[]'));
+        
+        $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
+        foreach ($arrAttributes as $attributeId) {
+            $attribute = Mage::getModel('catalog', 'product_attribute')->setAttributeId($attributeId);
+            try {
+                $group->addAttribute($attribute);
+            }
+            catch (Exception $e){
+                $res['error'] = 1;
+                $res['errorMessage'] = $e->getMessage();
+                $res['errorNodes'][] = $attributeId;
+            }
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
     /**
@@ -283,20 +302,26 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $res = array('error' => 0);
         try {
             switch ($element) {
-            	case 'set':
-            	    Mage::getModel('catalog', 'product_attribute_set')
-            	       ->setSetId($this->getRequest()->getPost('setId', false))
-            	       ->delete();
-            		break;
-            	case 'group':
-            	    Mage::getModel('catalog', 'product_attribute_group')
-            	       ->setGroupId($this->getRequest()->getPost('groupId', false))
-            	       ->delete();
-            	    break;
-            	case 'attribute':
-            	    break;
-            	default:
-            		break;
+                case 'set':
+                    Mage::getModel('catalog', 'product_attribute_set')
+                       ->setSetId($this->getRequest()->getPost('setId', false))
+                       ->delete();
+                    break;
+                case 'group':
+                    Mage::getModel('catalog', 'product_attribute_group')
+                       ->setGroupId($this->getRequest()->getPost('groupId', false))
+                       ->delete();
+                    break;
+                case 'attribute':
+                    $attribute = Mage::getModel('catalog', 'product_attribute')
+                        ->setAttributeId($this->getRequest()->getPost('attributeId', false));
+                        
+                    Mage::getModel('catalog', 'product_attribute_group')
+                       ->load($this->getRequest()->getPost('groupId', false))
+                       ->removeAttribute($attribute);
+                    break;
+                default:
+                    break;
             }
         }
         catch (Exception $e){
