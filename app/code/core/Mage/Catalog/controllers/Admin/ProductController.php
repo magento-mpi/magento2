@@ -215,7 +215,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 $attrs[$attribute->getGroupId()][] = array(
                     'text'      => $attribute->getCode(),
                     'id'        => $rootNode.'/group:'.$attribute->getGroupId().'/attr:'.$attribute->getId(),
-                    'attrId'    => $setId . $attribute->getId(),
                     'iconCls'   => 'attr',
                     'cls'       => 'attr',
                     'leaf'      => true,

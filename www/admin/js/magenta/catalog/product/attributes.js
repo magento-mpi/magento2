@@ -216,8 +216,10 @@ Mage.Catalog_Product_Attributes = function(){
                     enableDD:true,
                     containerScroll: true,
                     lines:false,
-                   	singleExpand : true,
-                    rootVisible:false
+                    rootVisible:false,
+                    loader:new Ext.tree.TreeLoader({
+                        dataUrl: this.setTreeUrl
+                    })
                 });                
                 
                 
@@ -263,13 +265,19 @@ Mage.Catalog_Product_Attributes = function(){
                         
                         if (res.length == 0) {
                             var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
-                                allowDrop:false,
-                                allowDrag:true,
+                                allowDrop : false,
+                                allowDrag : true,
+                                allowEdit : true,
+                                allowDelete : false,
                                 type : 'dropped',
                                 cls : 'x-tree-node-loading',
                                 text: s[i].data.attribute_code,
                                 setId : e.target.attributes.setId,
-                                attributeId : attributeId
+                                groupId : e.target.attributes.groupId,
+                                attributeId : attributeId,
+                                iconCls : 'attr',
+                                leaf : true,
+                                allowChildren : false,
                             });
                             r.push(node);
                         }
@@ -286,7 +294,7 @@ Mage.Catalog_Product_Attributes = function(){
                     		    if (result.error === 0) { 
                                     for(i=0; i < r.length; i++) {
                                         r[i].attributes.type = 'attribute';
-                                        r[i].attributes.attributeId = response.attributeId;
+                                        r[i].attributes.allowDelete = true;
                                         r[i].ui.removeClass('x-tree-node-loading');
                                     }
                                 } else {
@@ -339,10 +347,7 @@ Mage.Catalog_Product_Attributes = function(){
                     allowDrop:true,
                     id:'croot',
                     text:'Sets',
-                    cls:'croot',
-                    loader:new Ext.tree.TreeLoader({
-                        dataUrl: this.setTreeUrl
-                    })
+                    cls:'croot'
                 });
                 
                 function refreshTree() {
@@ -376,31 +381,11 @@ Mage.Catalog_Product_Attributes = function(){
                     var id = guid('s-');
                     var text = 'Set '+(++sseed);
                     var node = createSet(id, text);
-                    node.expand(false, false);
                     node.select();
-                    if (node.lastChild) {
-                        node.lastChild.ensureVisible();
-                    }
                     ge.triggerEdit(node);
                 }                              
                 
                 function createSet(id, text, groups){
-                    var group = new Ext.tree.TreeNode({
-                        text : 'General',
-                        groupId: 0,
-                        id : 'group10',
-                        iconCls : 'group',
-                        cls : 'group',
-                        leaf : false,
-                        allowDrop : true,
-                        allowDrag : false,
-                        type : 'group',
-                        setId : id,
-                        allowDelete : false,
-                        expanded : true,
-                        allowEdit : true
-                    });
-                    
                     var node = new Ext.tree.AsyncTreeNode({
                         text: text,
                         iconCls: 'set',
@@ -408,15 +393,14 @@ Mage.Catalog_Product_Attributes = function(){
                         type:'set',                        
                         id: id,
                         setId:id,
-                        children : groups || [],
-                        allowDelete:true,
+                        leaf : false,
+                        expanded : false,
+                        allowDelete : true,
                         allowDrop : true,
                         allowDrag : true,
-                        expanded:true,                       
-                        allowEdit:true
+                        allowEdit : true
                     });
-                    
-                    node.appendChild(group);
+
                     croot.appendChild(node);
                     return node;
                 }
@@ -499,10 +483,6 @@ Mage.Catalog_Product_Attributes = function(){
                             code: ge.getValue(),
                             id: node.attributes.setId
                         };
-                        
-                        if (!requestParams.id) {
-                            requestParams.groupCode = 'General';
-                        }
                         break;
                     case 'group':
                         var requestUrl = this.saveGroupUrl;
@@ -524,11 +504,12 @@ Mage.Catalog_Product_Attributes = function(){
                     if (result.error === 0) {
                         if (result.setId) {
                             node.attributes.setId = result.setId;
+                            node.id = 'set:' + result.setId;
+                            node.reload();
                         }
                         if (result.groupId) {
                             node.attributes.groupId = result.groupId;
                         }
-                        node.enable();
            		    } else {
            		        node.parentNode.removeChild(node);
            		        Ext.MessageBox.alert('Error', result.errorMessage);
