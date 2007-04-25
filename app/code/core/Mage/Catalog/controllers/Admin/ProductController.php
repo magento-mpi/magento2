@@ -192,7 +192,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'setId'     => $set->getSetId(),
                 );
             }
-        } elseif (preg_match('/^set:(\d?)$/', $rootNode, $matches)) {
+        } elseif (preg_match('/^set:([0-9]+)$/', $rootNode, $matches)) {
             $setId = $matches[1];
             
             $groups = Mage::getModel('catalog', 'product_attribute_set')
@@ -238,7 +238,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     'draggable' => !$isGeneral,
                     'groupId'   => $group->getId(),
                     'setId'     => $setId,
-                    'children'  => $attrs[$group->getId()],
+                    'children'  => isset($attrs[$group->getId()]) ? $attrs[$group->getId()] : null,
                 );
             }
         }
