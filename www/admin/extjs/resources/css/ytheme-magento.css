@@ -154,7 +154,9 @@
 .x-grid-row-alt { background:#fbfaf7; }
 .x-grid-row-over td{ background:#f1f1f1; cursor:pointer; }
 .x-grid-row-selected, .x-grid-locked .x-grid-row-selected {background:#f5d6c7; }
-.x-grid-row-selected td, .x-grid-locked .x-grid-row-selected td {background:#f5d6c7 !important; color:#000 !important; }
+.x-grid-row-selected td, .x-grid-locked .x-grid-row-selected td {background:#f5d6c7 !important; }
+.x-grid-row-selected span, .x-grid-row-selected b, .x-grid-row-selected div, .x-grid-row-selected strong, .x-grid-row-selected i { color:#000 !important; }
+
 .x-grid-body { background:url(../images/magento/grid/grid-body-bg.gif) repeat; border-bottom:1px solid #c2b483; }
 .x-grid-locked .x-grid-body td {
 	background: #f0efe4;
@@ -524,7 +526,6 @@
 	background:none;
 }
 .x-paging-info {
-		top:6px;
     color:#222222;
 }
 .x-toolbar .x-btn-menu-arrow-wrap .x-btn-center button {
@@ -541,7 +542,7 @@
     background:transparent url(../images/magento/toolbar/btn-arrow.gif) no-repeat right 50%;
 		padding-right:13px;
 }
-.x-btn-text-icon .x-btn-center .x-btn-text {padding-left:20px; }
+.x-btn-text-icon .x-btn-center .x-btn-text {padding-left:3px; }
 .x-toolbar .x-btn-text-icon .x-btn-menu-arrow-wrap .x-btn-center button {
     width:12px;
     background:transparent url(../images/magento/toolbar/btn-arrow.gif) no-repeat 0 50%;
