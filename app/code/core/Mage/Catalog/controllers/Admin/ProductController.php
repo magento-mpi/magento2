@@ -279,20 +279,32 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
         $data = $collection->__toArray();
         
-        $data['dropdown'] = array(
+        $data['elements'] = array(
             'input_type' => array(
-                array(
-                    'value' => 'text',
-                    'text'  => 'Text'
-                ),
-                array(
-                    'value' => 'select',
-                    'text'  => 'Combobox'
-                ),
-                array(
-                    'value' => 'image',
-                    'text'  => 'Image'
-                ),
+                'type'      => 'combobox',
+                'default'   => 'text',
+                'values'=> array(
+                    array(
+                        'value' => 'text',
+                        'text'  => 'Text'
+                    ),
+                    array(
+                        'value' => 'select',
+                        'text'  => 'Combobox'
+                    ),
+                    array(
+                        'value' => 'image',
+                        'text'  => 'Image'
+                    ),
+                )
+            ),
+            'attribute_code' => array(
+                'type'      => 'textfield',
+                'default'   => 'uniq code'
+            ),
+            'searchable' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
             )
         );
         
