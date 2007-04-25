@@ -211,17 +211,18 @@ Mage.Catalog_Product_Attributes = function(){
                 }));
                 this.westLayout.endUpdate();
                 
-                var ctree = new Ext.tree.TreePanel('sbody', {
+                var stree = new Ext.tree.TreePanel('sbody', {
                     animate:true,
                     enableDD:true,
                     containerScroll: true,
                     lines:false,
+                   	singleExpand : true,
                     rootVisible:false
                 });                
                 
                 
                 
-                ctree.on('nodedragover', function(e){
+                stree.on('nodedragover', function(e){
                     if (!e.dropNode) {
                         if ((e.target.attributes.type == 'group' && e.point == 'append') ||
                             (e.target.attributes.type == 'attribute' && e.point != 'append')) { 
@@ -246,7 +247,7 @@ Mage.Catalog_Product_Attributes = function(){
                      }
                 });
                 
-                ctree.on('beforenodedrop', function(e){
+                stree.on('beforenodedrop', function(e){
                     if (e.dropNode) {
                         return true;
                     }
@@ -254,8 +255,7 @@ Mage.Catalog_Product_Attributes = function(){
                     for(var i = 0, len = s.length; i < len; i++){
                         var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
-                        e.target.cascade(function(params){
-                            //Ext.dump(this);
+                        stree.root.cascade(function(params){
                             if (this.attributes.attributeId == params[0]) {
                                 res.push(this);
                             }
@@ -332,7 +332,7 @@ Mage.Catalog_Product_Attributes = function(){
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
                 }.createDelegate(this));    
                 
-                //ctree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
+                //stree.el.addKeyListener(Ext.EventObject.DELETE, removeNode);
                 
                 var croot = new Ext.tree.AsyncTreeNode({
                     allowDrag:true,
@@ -349,11 +349,11 @@ Mage.Catalog_Product_Attributes = function(){
                     croot.reload();
                 }
                 
-                ctree.setRootNode(croot);
-                ctree.render();
+                stree.setRootNode(croot);
+                stree.render();
                 croot.expand();                
                 
-                var sm = ctree.getSelectionModel();
+                var sm = stree.getSelectionModel();
                 sm.on('selectionchange', function(){
                     var n = sm.getSelectedNode();
                     if(!n){
@@ -385,23 +385,21 @@ Mage.Catalog_Product_Attributes = function(){
                 }                              
                 
                 function createSet(id, text, groups){
-                    if (id="-1") {
-                        var group = new Ext.tree.TreeNode({
-                            text : 'General',
-                            groupId: 0,
-                            id : 'group10',
-                            iconCls : 'group',
-                            cls : 'group',
-                            leaf : false,
-                            allowDrop : true,
-                            allowDrag : false,
-                            type : 'group',
-                            setId : id,
-                            allowDelete : false,
-                            expanded : true,
-                            allowEdit : true
-                        });
-                    }
+                    var group = new Ext.tree.TreeNode({
+                        text : 'General',
+                        groupId: 0,
+                        id : 'group10',
+                        iconCls : 'group',
+                        cls : 'group',
+                        leaf : false,
+                        allowDrop : true,
+                        allowDrag : false,
+                        type : 'group',
+                        setId : id,
+                        allowDelete : false,
+                        expanded : true,
+                        allowEdit : true
+                    });
                     
                     var node = new Ext.tree.AsyncTreeNode({
                         text: text,
@@ -417,6 +415,7 @@ Mage.Catalog_Product_Attributes = function(){
                         expanded:true,                       
                         allowEdit:true
                     });
+                    
                     node.appendChild(group);
                     croot.appendChild(node);
                     return node;
@@ -478,7 +477,7 @@ Mage.Catalog_Product_Attributes = function(){
                 }
             
             // create the editor for the component tree
-            var ge = new Ext.tree.TreeEditor(ctree, {
+            var ge = new Ext.tree.TreeEditor(stree, {
                 allowBlank:false,
                 blankText:'A name is required',
                 selectOnFocus:true
@@ -566,7 +565,7 @@ Mage.Catalog_Product_Attributes = function(){
             }
 
             function createGroup(n, text){
-                var snode = ctree.getNodeById('set:'+n.attributes.setId);
+                var snode = stree.getNodeById('set:'+n.attributes.setId);
 
                 var node = new Ext.tree.TreeNode({
                     text: text,
