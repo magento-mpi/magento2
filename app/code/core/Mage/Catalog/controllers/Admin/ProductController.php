@@ -393,6 +393,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             if (!$setId) {
                 $group = Mage::getModel('catalog', 'product_attribute_group')
                     ->setCode('General')
+                    ->setSetId($set->getId())
                     ->save();
                 $res['groupId'] = $group->getId();
             }
