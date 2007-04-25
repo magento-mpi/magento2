@@ -216,8 +216,7 @@ Mage.Catalog_Product_Attributes = function(){
                     enableDD:true,
                     containerScroll: true,
                     lines:false,
-                    rootVisible:false,
-                    dropConfig: {appendOnly:true}
+                    rootVisible:false
                 });                
                 
                 
@@ -231,13 +230,15 @@ Mage.Catalog_Product_Attributes = function(){
                             return false;
                         }
                     }  
+                    
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
+                    console.log(na.setId + ':' + na.type + ':' + ta.type + ':' + e.point + ':' + ta.isGeneral);
                     if (
-                       //(na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
-                       //(na.type == 'group' && ta.type == 'group' && na.setId==ta.setId && e.point == 'below') ||
-                       (na.type == 'attribute' && ta.type == 'group' && e.point == 'append') ||
-                       (na.type == 'attribute' && ta.type == 'attribute' && na.setId==ta.setId  && e.point == 'below')
+                       (na.setId === ta.setId && na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
+                       (na.setId === ta.setId && na.type == 'group' && ta.type == 'group' && e.point != 'append') ||
+                       (na.setId === ta.setId && na.type == 'attribute' && ta.type == 'group' && e.point == 'append') ||
+                       (na.setId === ta.setId && na.type == 'attribute' && ta.type == 'attribute' && e.point != 'append')
                      ) {
                         return true;
                      } else {
