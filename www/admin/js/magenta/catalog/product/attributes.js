@@ -236,7 +236,6 @@ Mage.Catalog_Product_Attributes = function(){
                     
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
-                    console.log(na.setId + ':' + na.type + ':' + ta.type + ':' + e.point + ':' + ta.isGeneral);
                     if (
                        (na.setId === ta.setId && na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
                        (na.setId === ta.setId && na.type == 'group' && ta.type == 'group' && e.point != 'append') ||
@@ -253,15 +252,17 @@ Mage.Catalog_Product_Attributes = function(){
                     if (e.dropNode) {
                         return true;
                     }
-                    var s = e.data.selections, r = [];
-                    for(var i = 0, len = s.length; i < len; i++){
+                    var s = e.data.selections, r = [], flag = false;
+                    for(var i = 0, len = s.length; i < len; i++) {
                         var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
-                        e.target.cascade(function(params){
-                            if (this.attributes.attributeId == params[0]) {
+                        
+                        e.target.parentNode.cascade(function() {
+                            if (this.attributes.attributeId == attributeId) {
+                                flag = true;
                                 res.push(this);
                             }
-                        }, node, [attributeId]);
+                        });
                         
                         if (res.length == 0) {
                             var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
@@ -283,7 +284,11 @@ Mage.Catalog_Product_Attributes = function(){
                         }
                     }
 
-                    if (res.length == 0) {
+                    if (flag == true) {
+                        Ext.MessageBox.alert('Warrning','Some of attrbiutes exists in this set.');
+                    }
+                    
+                    if (r.length > 0) {
                     
                         var conn = new Ext.data.Connection();
                     
