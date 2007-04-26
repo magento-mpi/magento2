@@ -1,4 +1,10 @@
 <?php
+
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+
+require_once 'CatalogTest.php';
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Mage_AllTests::main');
 }
@@ -15,11 +21,11 @@ class Mage_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage tests');
         //$suite->addTest(Mage_AllTests::suite());
-        $suite->addTest(Mage_Catalog_AllTests::suite());
+        $suite->addTest(Mage_Catalog_Tests::suite());
         return $suite;
     }
 }
 
 if (PHPUnit_MAIN_METHOD == 'Mage_AllTests::main') {
-    MAge_AllTests::main();
+    Mage_AllTests::main();
 }
