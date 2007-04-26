@@ -562,6 +562,18 @@ Mage.Catalog_Product_Attributes = function(){
             // shorthand alias
             var fm = Ext.form, Ed = Ext.grid.GridEditor;
 
+           var codeEditor = new Ed(new fm.TextField({
+                     allowBlank: false,
+                     revertInvalid : true
+               }));
+           codeEditor.on('beforecomplete', function(editor, value, startvalue){
+               console.log(arguments);
+               if (value === '') {
+                 return false;    
+               }
+               
+           });
+           
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
                 sortable: true,
@@ -571,10 +583,7 @@ Mage.Catalog_Product_Attributes = function(){
                 header: "Code",
                 sortable: true,
                 dataIndex: 'attribute_code',
-                editor: new Ed(new fm.TextField({
-                     allowBlank: false,
-                     ignoreNoChange : true
-               }))
+                editor: codeEditor
             },{
                 header: "Input type",
                 sortable: true,
@@ -657,7 +666,7 @@ Mage.Catalog_Product_Attributes = function(){
             
             this.attributeGrid.on('afteredit', function(e) {
                 console.log('afteredit');
-                console.log(e);
+                console.log(arguments);
             });
             
             this.attributeGrid.on('dragout', function(){
