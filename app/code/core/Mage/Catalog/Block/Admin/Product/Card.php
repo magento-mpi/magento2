@@ -58,12 +58,14 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             );
         }
 
-        $cardStructure['tabs'][] = array(
-            'name'  => 'images',
-            'type'  => 'images',
-            'url'   => Mage::getBaseUrl().'/mage_catalog/product/images/',
-            'title' => 'Images',
-        );
+        if ($productId) {
+            $cardStructure['tabs'][] = array(
+                'name'  => 'images',
+                'type'  => 'images',
+                'url'   => Mage::getBaseUrl()."/mage_catalog/product/images/product/$productId",
+                'title' => 'Images',
+            );
+        }
         
         $cardStructure['tabs'][] = array(
             'name'  => 'related',

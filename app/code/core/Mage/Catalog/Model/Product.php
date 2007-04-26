@@ -71,6 +71,12 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         return $url;
     }
     
+    public function getImageUrl()
+    {
+        $url = Mage::getBaseUrl(array('_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        return $url;
+    }
+    
     public function getCategoryName()
     {
         return Mage::getModel('catalog_resource', 'category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();

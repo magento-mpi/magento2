@@ -267,6 +267,10 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 case 'var':
                     $dir = dirname($dir).DS.'var';
                     break;
+                    
+                case 'media':
+                    $dir = dirname($dir).DS.'www'.DS.'media';
+                    break;
             }
         }
 
@@ -307,6 +311,10 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
                 case 'js':
                     $url .= 'js/';
+                    break;
+                    
+                case 'media':
+                    $url .= 'media/';
                     break;
             }
         }

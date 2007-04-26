@@ -752,7 +752,7 @@ Mage.Catalog_Product = function(depend){
             var panel = null;
             /*
             if (tabInfo.type){
-                // Relatet, bundle and super products panels
+                // Related, bundle and super products panels
             }
             else{
             */

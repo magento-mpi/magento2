@@ -6,8 +6,8 @@ mkdir -p var/catalog/category
 mkdir -p var/catalog/product
 mkdir -p var/session
 mkdir -p var/log
-mkdir -p var/media
 chmod 0777 var -R
+chmod 0777 www/media -R
 
 echo "Enter your web server domain name:"
 read domain

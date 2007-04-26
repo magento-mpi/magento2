@@ -123,9 +123,36 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     
     public function imagesAction()
     {
-        $block = Mage::createBlock('tpl', 'related_products_panel');
-        $block->setTemplate('catalog/product/images.phtml');
+        $id = $this->getRequest()->getParam('product', -1);
+        $product = Mage::getModel('catalog', 'product')->load($id);
+        $block = Mage::createBlock('tpl', 'root');
+        if ($this->getRequest()->getParam('iframe')) {
+            $block->setTemplate('catalog/product/images/iframe.phtml');
+            $block->assign('imagePreviewUrl', $product->getImageUrl());
+            $block->assign('uploadAction', Mage::getBaseUrl()."mage_catalog/product/upload/product/$id/");
+        } else {
+            $block->setTemplate('catalog/product/images.phtml');
+            $block->assign('iframeSrc', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
+        }
         $this->getResponse()->setBody($block->toString());
+    }
+    
+    public function uploadAction()
+    {
+        if (isset($_FILES['image'])) {
+            $id = $this->getRequest()->getParam('product', -1);
+            $fileDir = Mage::getBaseDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
+            if (!file_exists($fileDir)) {
+                mkdir($fileDir, 0777, true);
+                chmod($fileDir, 0777);
+            }
+            $fileName = $id.'.orig.'.$_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], $fileDir.DS.$fileName);
+            chmod($fileDir.DS.$fileName, 0777);
+            
+            Mage::getModel('catalog', 'product')->load($id)->setImage($_FILES['image']['name'])->save();
+        }
+        $this->getResponse()->setHeader('Location', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
     }
 
     public function filtersettingsAction()
