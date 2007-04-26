@@ -750,10 +750,12 @@ Mage.Catalog_Product = function(depend){
 
         createTabPanel: function(tabInfo){
             var panel = null;
+            /*
             if (tabInfo.type){
                 // Relatet, bundle and super products panels
             }
             else{
+            */
                 panel = new Ext.ContentPanel('productCard_' + tabInfo.name,{
                     title : tabInfo.title,
                     autoCreate: true,
@@ -762,7 +764,9 @@ Mage.Catalog_Product = function(depend){
                     loadOnce: true,
                     background: true
                 });
+            /*
             }
+            */
             return panel;
         },
 
