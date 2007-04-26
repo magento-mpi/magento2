@@ -24,6 +24,7 @@ Mage.Catalog_Product_Attributes = function(){
 
         editSetGrid : null,
         editSetGridUrl : Mage.url + '/mage_catalog/product/attributesetproperties/',
+        stree : null,
 
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
@@ -135,6 +136,7 @@ Mage.Catalog_Product_Attributes = function(){
                 }));
                 this.westLayout.endUpdate();
                 
+
                 var stree = new Ext.tree.TreePanel('sbody', {
                     animate:true,
                     enableDD:true,
@@ -146,6 +148,7 @@ Mage.Catalog_Product_Attributes = function(){
                     })
                 });                
                 
+                this.stree = stree;                
                 
                 
                 stree.on('nodedragover', function(e){
@@ -192,7 +195,7 @@ Mage.Catalog_Product_Attributes = function(){
                             var node = new Ext.tree.TreeNode({ // build array of TreeNodes to add
                                 allowDrop : false,
                                 allowDrag : true,
-                                allowEdit : true,
+                                allowEdit : false,
                                 allowDelete : false,
                                 type : 'dropped',
                                 cls : 'x-tree-node-loading',
@@ -537,7 +540,7 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             dataStore.setDefaultSort('attribute_code', 'asc');
-            //dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
+            dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             function formatBoolean(value){
                 return value ? 'Yes' : 'No';  
@@ -559,7 +562,6 @@ Mage.Catalog_Product_Attributes = function(){
             // shorthand alias
             var fm = Ext.form, Ed = Ext.grid.GridEditor;
 
-
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
                 sortable: true,
@@ -570,7 +572,8 @@ Mage.Catalog_Product_Attributes = function(){
                 sortable: true,
                 dataIndex: 'attribute_code',
                 editor: new Ed(new fm.TextField({
-                     allowBlank: false
+                     allowBlank: false,
+                     ignoreNoChange : true
                }))
             },{
                 header: "Input type",
@@ -637,8 +640,8 @@ Mage.Catalog_Product_Attributes = function(){
             this.attributeGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
                 ds: dataStore,
                 cm: colModel,
-                enableDragDrop : true,
                 loadMask : true,
+                enableDragDrop : true,
                 autoSizeColumns : true,
                 monitorWindowResize : true,
                 ddGroup : 'TreeDD',
@@ -647,17 +650,34 @@ Mage.Catalog_Product_Attributes = function(){
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
                 enableColLock : false
             });
-
+            
+            this.attributeGrid.on('startdrag', function(dd, e){
+//                console.log(dd);    
+            });
+            
+            this.attributeGrid.on('afteredit', function(e) {
+                console.log('afteredit');
+                console.log(e);
+            });
+            
+            this.attributeGrid.on('dragout', function(){
+                alert('test');
+            });
+            
             this.attributeGrid.render();
+            
+
+            
             var gridHead = this.attributeGrid.getView().getHeaderPanel(true);
             var tb = new Ext.Toolbar(gridHead);
+            
             tb.addButton({
                 text : 'New',
                 cls: 'x-btn-text-icon btn_add',
                 handler : function(){
                     var pa = new ProductAttribute({
                         attribute_id : '###',
-                        attribute_code: 'new_attribute',
+                        attribute_code: '',
                         data_input: 'text',
                         data_type: 'decimal',
                         required : false
@@ -679,7 +699,6 @@ Mage.Catalog_Product_Attributes = function(){
                 cls: 'x-btn-text-icon btn_delete',
                 handler : function(){
                    var sm =  this.attributeGrid.getSelectionModel();
-                   console.log(sm);
                    if (sm.hasSelection()) {
                        var cell = sm.selections;
                        var i = 0;
@@ -695,6 +714,7 @@ Mage.Catalog_Product_Attributes = function(){
                            if (result.error == 0) {
                                while(sm.selections.items.length) {
                                    this.attributeGrid.getDataSource().remove(sm.selections.items[0]);
+                                   this.stree.root.reload();
                                }
                            } else {
                                Ext.MessageBox.alert('Error', result.ErrorMessage);
@@ -724,6 +744,29 @@ Mage.Catalog_Product_Attributes = function(){
                     this.attributeGrid.getDataSource().load();
                 }.createDelegate(this)
             });
+        },
+        
+        onAttributeDataStoreUpdate : function(store, record, operation) {
+
+            if (operation == Ext.data.Record.EDIT) {
+                var conn = new Ext.data.Connection();
+//                console.log(record);
+           
+//                conn.on('requestcomplete', function(transId, response, option) {
+//                    store.commitChanges();
+//                });
+//           
+//                conn.on('requestexception', function(transId, response, option, e) {
+//                    Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+//                    store.rejectChanges();
+//                });
+//		   
+//                conn.request( {
+//                    url: this.attributesCommitUrl,
+//                    method: "POST",
+//                    params: Ext.encode(data)
+//                });                
+            }        
         },
         
         onSaveClick : function() {

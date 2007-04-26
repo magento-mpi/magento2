@@ -577,8 +577,8 @@ Mage.Catalog_Product = function(depend){
                         collapsible:false
                      },
                      center:{
-                         autoScroll:true,
-                         titlebar:false,
+                         autoScroll : true,
+                         titlebar : false,
                          resizeTabs : true,
                          tabPosition: 'top'
                      }
