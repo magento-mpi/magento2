@@ -4,8 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require '../../app/Mage.php';
-Mage::init();
-Mage::getConfig()->loadEventObservers('admin');
+Mage::initAdmin();
 
 require_once 'config.php';
 require_once 'PHPUnit/Framework/TestSuite.php';

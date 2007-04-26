@@ -317,7 +317,16 @@ final class Mage {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         }
     }
-
+    
+    /**
+     * Init admin config and registry (for Unit Test)
+     */
+    public function initAdmin()
+    {
+        Mage::init();
+        Mage::getConfig()->loadEventObservers('admin');
+        Mage::registry('website')->setCode('base')->setIsAdmin(true);
+    }
     /**
      * Admin main entry point
      *
@@ -326,12 +335,7 @@ final class Mage {
     public static function runAdmin()
     {
         try {
-            Mage::init();
-        
-            Mage::getConfig()->loadEventObservers('admin');
-            
-            Mage::registry('website')->setCode('base')->setIsAdmin(true);
-            
+            self::initAdmin();
             Mage::register('controller', new Mage_Core_Controller_Zend_Admin());
             Mage::registry('controller')->run();
 
