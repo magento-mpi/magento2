@@ -11,7 +11,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
-        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeCommit/',
+        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeSave/',
 
         addGroupAttributes : Mage.url + '/mage_catalog/product/addGroupAttributes/',
         removeElementUrl : Mage.url + '/mage_catalog/product/removElement/',        
