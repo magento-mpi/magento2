@@ -321,7 +321,7 @@ final class Mage {
     /**
      * Init admin config and registry (for Unit Test)
      */
-    public function initAdmin()
+    public static function initAdmin()
     {
         Mage::init();
         Mage::getConfig()->loadEventObservers('admin');

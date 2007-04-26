@@ -89,9 +89,14 @@ class Mage_Catalog_Model_Mysql4_Product
         return $arr;
     }
     
-    public function save()
+    public function save(Mage_Catalog_Model_Product $product)
     {
         
+    }
+    
+    protected function _prepareSaveData(Mage_Catalog_Model_Product $product)
+    {
+        $data = array();
     }
     
     /**
