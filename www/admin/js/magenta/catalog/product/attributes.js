@@ -545,13 +545,20 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                 } else {
                     var newnode = createGroup(n, 'Group'+(++gseed));
-                    //newnode.ui.addClass('x-tree-node-loading');
                     ge.triggerEdit(newnode);
                 }
             }
 
             function createGroup(n, text){
+                
                 var snode = stree.getNodeById('set:'+n.attributes.setId);
+                var csetId = n.attributes.setId;
+                var snode = null;
+                croot.eachChild(function(node){
+                    if (node.attributes.setId == csetId) {
+                        snode = node;
+                    }
+                });
 
                 var node = new Ext.tree.TreeNode({
                     text: text,
