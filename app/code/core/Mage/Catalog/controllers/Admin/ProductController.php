@@ -452,4 +452,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         
         $this->getResponse()->setBody(Zend_Json::encode($res));
     }
+    
+    public function attributedeleteAction() {
+            $res = array(
+                'error' => 0
+            );
+       $this->getResponse()->setBody(Zend_Json::encode($res));
+    }
 }

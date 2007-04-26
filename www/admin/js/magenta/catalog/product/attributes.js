@@ -10,7 +10,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGrid : null,
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
-        attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributedel/',
+        attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributeDelete/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeSave/',
 
         addGroupAttributes : Mage.url + '/mage_catalog/product/addGroupAttributes/',
@@ -678,17 +678,40 @@ Mage.Catalog_Product_Attributes = function(){
                 text : 'Delete',
                 cls: 'x-btn-text-icon btn_delete',
                 handler : function(){
-                   var sm =  this.attributeGrid.getSelectionModel();        
+                   var sm =  this.attributeGrid.getSelectionModel();
+                   console.log(sm);
                    if (sm.hasSelection()) {
-                       var cell = sm.getSelectedCell();
-                       rowIndex = cell[0];
-                       var cb = {
-                           success : this.onAttributeDeleteSuccess.createDelegate(this),
-                           failure : this.onAttributeDeleteFailure.createDelegate(this),
-                           argument : {rowIndex : rowIndex}
+                       var cell = sm.selections;
+                       var i = 0;
+                       var data = [];
+                       for (i=0; i< sm.selections.items.length; i++) {
+                           data.push(sm.selections.items[i].id);
                        }
-                       var record = this.attributeGrid.getDataSource().getAt(rowIndex);
-                       Ext.lib.Ajax.request('POST', this.attributesDeleteUrl + 'attrId/'+ record.id +'/', cb);
+                       
+                       var conn = new Ext.data.Connection();
+                       
+                       conn.on('requestcomplete', function(dm,response,option) {
+                           var result = Ext.decode(response.responseText);
+                           if (result.error == 0) {
+                               while(sm.selections.items.length) {
+                                   this.attributeGrid.getDataSource().remove(sm.selections.items[0]);
+                               }
+                           } else {
+                               Ext.MessageBox.alert('Error', result.ErrorMessage);
+                           }
+        		       }.createDelegate(this));
+        		       
+		               conn.on('requestexception', function(dm, response, option, e) {
+			             Ext.MessageBox.alert('Error', 'RequestException.');
+                       });
+                       
+                       conn.request( {
+                            url: this.attributesDeleteUrl,
+                            method: "POST",
+                            params: {
+                              data: data
+                           }
+                       });                
                    }
                    
                 }.createDelegate(this)
@@ -702,42 +725,6 @@ Mage.Catalog_Product_Attributes = function(){
                 }.createDelegate(this)
             });
         },
-        
-        onAttributeDeleteSuccess : function(response) {
-            var datarep = Ext.decode(response);
-            if (datarep.success) {
-                var record = this.attributeGrid.getDataSource().getAt(response.argument.rowIndex);
-                this.attributeGrid.getDataSource().remove(record);
-            } else {
-                Ext.MessageBox.alert('Attribute Grid', datarep.message);
-            }
-        },
-        
-        onAttributeDeleteFailure : function(response) {
-            Ext.MessageBox.alert('Attribute Grid','Database Error');
-        },   
-        
-        onAttributeDataStoreUpdate : function(store, record , operation) {
-            var i = 0;
-            if (operation  == Ext.data.Record.EDIT) {
-                var conn = new Ext.data.Connection();
-        		conn.on('requestcomplete', function(dm,response,option) {
-		      	   record.commit();
-        		});
-		        conn.on('requestexception', function(dm, response, option, e) {
-			         Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
-			         record.reject();
-		        });
-		        conn.request( {
-                    url: this.attributesCommitUrl,
-                    method: "POST",
-                    params: {
-                        id: record.id,
-                        data : Ext.encode(record.data)
-                    }
-		        });                
-            }
-        },     
         
         onSaveClick : function() {
            var ds = this.attributeGrid.getDataSource();
