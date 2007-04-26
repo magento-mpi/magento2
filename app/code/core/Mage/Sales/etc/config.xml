@@ -85,6 +85,17 @@
          
          <payment_cc_info><class>Mage_Sales_Block_Payment_Cc_Info</class></payment_cc_info>
       </blockTypes>
+      
+      <salesShippingVendors>
+         <pickup>
+            <active>true</active>
+
+            <model>sales</model>
+            <class>shipping_vendor_pickup</class>
+
+            <title>Pickup</title>
+         </pickup>
+      </salesShippingVendors>
 
       <salesShippingRuleConditions>
          <dest_country>

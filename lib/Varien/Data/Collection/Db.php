@@ -141,6 +141,52 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_isFiltersRendered = true;
         return $this;
     }
+        
+    /**
+     * Build SQL statement for condition
+     * 
+     * If $condition integer or string - exact value will be filtered
+     * 
+     * If $condition is array is - one of the following structures is expected:
+     * - array("from"=>$fromValue, "to"=>$toValue)
+     * - array("like"=>$likeValue)
+     * - array("neq"=>$notEqualValue)
+     * - array("in"=>array($inValues))
+     * - array("nin"=>array($notInValues))
+     * 
+     * If non matched - sequential array is expected and OR conditions 
+     * will be built using above mentioned structure
+     *
+     * @param string $fieldName
+     * @param integer|string|array $condition
+     * @return string
+     */
+    protected function _getConditionSql($fieldName, $condition) {
+        $sql = '';
+        if (is_array($condition)) {
+            if (!empty($condition['from']) && !empty($condition['to'])) {
+                $sql = $this->_conn->quoteInto("$fieldName between ?", $condition['from']);
+                $sql = $this->_conn->quoteInto("$sql and ?", $condition['to']);
+            } elseif (!empty($condition['neq'])) {
+                $sql = $this->_conn->quoteInto("$fieldName != ?", $condition['neq']);
+            } elseif (!empty($condition['like'])) {
+                $sql = $this->_conn->quoteInto("$fieldName like ?", $condition['like']);
+            } elseif (!empty($condition['in'])) {
+                $sql = $this->_conn->quoteInto("$fieldName in (?)", $condition['in']);
+            } elseif (!empty($condition['nin'])) {
+                $sql = $this->_conn->quoteInto("$fieldName not in (?)", $condition['nin']);
+            } else {
+                $orSql = array();
+                foreach ($condition as $orCondition) {
+                    $orSql[] = "(".$this->_getConditionSql($fieldName, $orCondition).")";
+                }
+                $sql = "(".join(" or ", $orSql).")";
+            }
+        } else {
+            $sql = $this->_conn->quoteInto("$fieldName = ?", $condition);
+        }
+        return $sql;
+    }
     
     /**
      * Render sql select orders

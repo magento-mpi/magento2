@@ -13,7 +13,19 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
      * Default account page
      *
      */
-    public function indexAction() 
+    public function historyAction() 
     {
+        $this->loadLayout();
+        
+        $orders = Mage::getModel('sales_resource', 'order_collection');
+        $orders->addAttributeSelect('self');
+        $orders->addAttributeFilter('self/customer_id', Mage::getSingleton('customer', 'session')->getCustomerId());
+        $orders->setOrder('self/created_at');
+        $orders->loadData();
+        
+        $block = Mage::createBlock('tpl', 'customer.orders')->setTemplate('customer/orders.phtml')->assign('orders', $orders);
+        Mage::getBlock('content')->append($block);
+
+        $this->renderLayout();        
     }
 }// Class Mage_Customer_AccountController END

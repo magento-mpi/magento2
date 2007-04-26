@@ -94,7 +94,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $block->assign('addresses', $addresses->getItems());
         }
         
-        $block->assign('address', $billing);
+        $countries = Mage::getModel('directory', 'country_collection');
+        $block->assign('address', $billing)
+            ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('regions',     $countries->getDefault($billing->getCountryId())->getRegions());
         
         $this->setChild('billing', $block);
     }
@@ -148,7 +151,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $block->assign('addresses', $addresses->getItems());
         }
 
-        $block->assign('address', $shipping);
+        $countries = Mage::getModel('directory', 'country_collection');
+        $block->assign('address', $shipping)
+            ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('regions',     $countries->getDefault($shipping->getCountryId())->getRegions());
         
         $this->setChild('shipping', $block);
     }

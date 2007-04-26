@@ -52,9 +52,7 @@
             <model>shiptable</model>
             <class>table</class>
 
-            <defaults>
-               <title>Table rate</title>
-            </defaults>
+            <title>Table rate</title>
          </shiptable>
       </salesShippingVendors>
    </global>

@@ -7,7 +7,6 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     protected $_documentTable;
     protected $_attributeTable;
     protected $_selectAttributes = array();
-    protected $_filterIds = array();
     protected $_filterAttributes = array();
     protected $_sqlSelectStr = '';
     
@@ -29,11 +28,11 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $this->_sqlSelect->from($this->_documentTable);
     }
     
-    public function addEntitiesToSelect(array $entities)
+    public function addEntitiesSelect(array $entities)
     {
         foreach ($entities as $entityType=>$attributes) {
             foreach ($attributes as $attributeCode=>$attributeName) {
-                $this->addAttributeToSelect($entityType, $attributeCode, $attributeName);
+                $this->addAttributeSelect($entityType.'/'.$attributeCode, $attributeName);
             }
         }
         return $this;
@@ -44,18 +43,24 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      * 
      * if no $attributeCode is specified will select all attributes for this $entityType
      *
-     * @param string $entityType
+     * @param string $entityType entityType[/attributeCode]
      * @param string $attributeCode
      * @return Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function addAttributeToSelect($entityType, $attributeCode=null)
+    public function addAttributeSelect($entityAttribute)
     {
-        if (is_null($attributeCode)) {
+        $arr = explode('/', $entityAttribute);
+        if (empty($arr[1])) {
+            $arr[1] = null;
+        }
+        list($entityType, $attributeCode) = $arr;
+
+        if (empty($attributeCode)) {
             foreach (array('datetime', 'decimal', 'int', 'text', 'varchar') as $attributeType) {
                 $this->_selectAttributes[$attributeType][$entityType] = array();
             }
         } else {
-            $attributeType = $this->_getAttributeType($entityType, $attributeCode);
+            $attributeType = $this->_getAttributeType($entityAttribute);
             if (false===$attributeType) {
                 return $this;
             }
@@ -66,44 +71,66 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     
     /**
      * Add an entity attribute to collection filter
-     * 
-     * Condition will be used by self::_getConditionSql method
      *
-     * @param string $entityType
+     * @param string $entityType entityType/attributeCode
      * @param string $attributeCode
      * @param integer|string|array $value
      * @return Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function addAttributeToFilter($entityType, $attributeCode, $attributeCondition=null)
+    public function addAttributeFilter($entityAttribute, $attributeCondition=null)
     {
-        $attributeType = $this->_getAttributeType($entityType, $attributeCode);
+        if (!empty($this->_filterAttrubutes[$entityAttribute])) {
+            return $this; //todo: make adding conditions to existing attribute filter
+        }
+        $arr = explode('/', $entityAttribute);
+        if (empty($arr[1])) {
+            throw new Exception("$entityAttribute: Attribute name should be entityType/attributeCode.");
+            return $this;
+        }
+        list($entityType, $attributeCode) = $arr;
+
+        $attributeType = $this->_getAttributeType($entityAttribute);
         if (false===$attributeType) {
             return $this;
         }
         $attributeTable = $this->_attributeTable.'_'.$attributeType;
-        $attributeTableAlias = $entityType.'_'.$attributeCode;
-        $attributeAlias = ($entityType!=='self' ? $entityType.'_' : '').$attributeCode;
+        $attributeAlias = $this->_getAttributeAlias($entityAttribute);
+        $attributeTableAlias = $attributeAlias;#$entityType.'_'.$attributeCode;
         $joinCondition = "$attributeTableAlias.$this->_idField=$this->_documentTable.$this->_idField"
             ." and ".$this->_conn->quoteInto("$attributeTableAlias.entity_type=?", $entityType)
-            ." and ".$this->_conn->quoteInto("$attributeTableAlias.attribute_code=?", $attributeCode)
-            ." and ".$this->_getConditionSql("$attributeTableAlias.attribute_value", $attributeCondition);
-        $this->_sqlSelect->join("$attributeTable as $attributeTableAlias", $joinCondition, array("$attributeTableAlias.attribute_value"=>$attributeAlias));
+            ." and ".$this->_conn->quoteInto("$attributeTableAlias.attribute_code=?", $attributeCode);
+        if (!empty($attributeCondition)) {
+            $joinCondition .= " and ".$this->_getConditionSql("$attributeTableAlias.attribute_value", $attributeCondition);
+        }
+        $this->_sqlSelect->join("$attributeTable as $attributeTableAlias", $joinCondition, array($attributeAlias=>"$attributeAlias.attribute_value"));
+        $this->_filterAttrubutes[$entityAttribute] = true;
         return $this;
     }
     
     /**
      * Add a document id condition to collection filter
-     * 
-     * Condition will be used by self::_getConditionSql method
      *
      * @param integer|array $value
      * @return Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function addIdToFilter($condition)
+    public function addIdFilter($condition)
     {
         $this->_sqlSelect->where($this->_getConditionSql("$this->_documentTable.$this->_idField", $condition));
         return $this;
     }    
+    
+    /**
+     * Set sort order for the collection
+     *
+     * @param string $field entityType/attributeCode
+     * @param string $direction
+     * @return Mage_Sales_Model_Mysql4_Document_Collection
+     */
+    public function setOrder($entityAttribute, $direction = 'desc')
+    {
+        $this->addAttributeFilter($entityAttribute);
+        return parent::setOrder($this->_getAttributeAlias($entityAttribute), $direction);
+    }
     
     /**
      * Load data
@@ -113,61 +140,26 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     public function loadData($printQuery = false, $logQuery = false)
     {
         parent::loadData($printQuery = false, $logQuery = false);
-        
         $this->_loadAttributes();
 
         return $this;
     }
-        
-    protected function _getAttributeType($entityType, $attributeCode)
-    {
-        return (string)$this->_attributeTypes->descend("$entityType/$attributeCode/type");
-    }
     
-    /**
-     * Build SQL statement for condition
-     * 
-     * If $condition integer or string - exact value will be filtered
-     * 
-     * If $condition is array is - one of the following structures is expected:
-     * - array("from"=>$fromValue, "to"=>$toValue)
-     * - array("like"=>$likeValue)
-     * - array("neq"=>$notEqualValue)
-     * - array("in"=>array($inValues))
-     * - array("nin"=>array($notInValues))
-     * 
-     * If non matched - sequential array is expected and OR conditions 
-     * will be built using above mentioned structure
-     *
-     * @param string $fieldName
-     * @param integer|string|array $condition
-     * @return string
-     */
-    protected function _getConditionSql($fieldName, $condition) {
-        $sql = '';
-        if (is_array($condition)) {
-            if (!empty($condition['from']) && !empty($condition['to'])) {
-                $sql = $this->_conn->quoteInto("$fieldName between ?", $condition['from']);
-                $sql = $this->_conn->quoteInto("$sql and ?", $condition['to']);
-            } elseif (!empty($condition['neq'])) {
-                $sql = $this->_conn->quoteInto("$fieldName != ?", $condition['neq']);
-            } elseif (!empty($condition['like'])) {
-                $sql = $this->_conn->quoteInto("$fieldName like ?", $condition['like']);
-            } elseif (!empty($condition['in'])) {
-                $sql = $this->_conn->quoteInto("$fieldName in (?)", $condition['in']);
-            } elseif (!empty($condition['nin'])) {
-                $sql = $this->_conn->quoteInto("$fieldName not in (?)", $condition['nin']);
-            } else {
-                $orSql = array();
-                foreach ($condition as $orCondition) {
-                    $orSql[] = "(".$this->_getConditionSql($fieldName, $orCondition).")";
-                }
-                $sql = "(".join(" or ", $orSql).")";
-            }
-        } else {
-            $sql = $this->_conn->quoteInto("$fieldName = ?", $condition);
+    protected function _getAttributeAlias($entityAttribute)
+    {
+        $arr = explode('/', $entityAttribute);
+        if (empty($arr[1])) {
+            throw new Exception("$entityAttribute: Attribute name should be entityType/attributeCode.");
+            return $this;
         }
-        return $sql;
+        list($entityType, $attributeCode) = $arr;   
+        #return ($entityType!=='self' ? $entityType.'_' : '').$attributeCode;
+        return $entityType.'_'.$attributeCode;
+    }
+        
+    protected function _getAttributeType($entityAttribute)
+    {
+        return (string)$this->_attributeTypes->descend("$entityAttribute/type");
     }
     
     /**
@@ -176,21 +168,19 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      * @param array $ids document ids to retrieve
      * @return string
      */
-    protected function _getAttributesSql(array $ids)
+    protected function _getAttributesSql($globalWhere)
     {
         $sqlUnionArr = array();
                 
-        if (empty($this->_selectAttributes) || empty($ids)) {
+        if (empty($this->_selectAttributes)) {
             return false;
         }
-        
-        $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $ids);
         
         foreach ($this->_selectAttributes as $attributeType=>$entities) {
             $attributeTable = $this->_attributeTable.'_'.$attributeType;
             if (empty($sqlUnionArr[$attributeType])) {
                 $sqlUnionArr[$attributeType]['select'] = "select * from $attributeTable";
-                $sqlUnionArr[$attributeType]['where'][] = $idsSql;
+                $sqlUnionArr[$attributeType]['where'][] = $globalWhere;
             }
 
             $entityWhereArr = array();
@@ -230,11 +220,8 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             $ids[] = $doc->getDocumentId();
         }
         
-        $attributesSql = $this->_getAttributesSql($ids);
-        if (empty($attributesSql)) {
-            return false;
-        }
-        
+        $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $ids);
+        $attributesSql = $this->_getAttributesSql($idsSql);        
         $attributes = $this->_conn->fetchAll($attributesSql);
         if (!is_array($attributes) || empty($attributes)) {
             return false;

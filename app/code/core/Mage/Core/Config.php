@@ -524,7 +524,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getCurrentDomain()
     {
-        return $this->getDomain(Mage::registry('website')->getDomain());
+        return $this->getDomain('base');#::registry('website')->getDomain());
     }
 
 }

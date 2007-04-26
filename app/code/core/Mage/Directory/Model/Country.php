@@ -9,7 +9,7 @@
  */
 class Mage_Directory_Model_Country extends Varien_Data_Object 
 {
-    public function __construct($country) 
+    public function __construct($country=null) 
     {
         parent::__construct($country);
     }

@@ -1,9 +1,12 @@
 #!/bin/bash
 
-mkdir -p var/cache/config
+mkdir -p var/etc
 mkdir -p var/cache/layout
-mkdir var/session
-mkdir var/log
+mkdir -p var/catalog/category
+mkdir -p var/catalog/product
+mkdir -p var/session
+mkdir -p var/log
+mkdir -p var/media
 chmod 0777 var -R
 
 echo "Enter your web server domain name:"

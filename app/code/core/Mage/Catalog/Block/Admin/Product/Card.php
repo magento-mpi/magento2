@@ -59,6 +59,13 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         }
 
         $cardStructure['tabs'][] = array(
+            'name'  => 'images',
+            'type'  => 'images',
+            'url'   => Mage::getBaseUrl().'/mage_catalog/product/images/',
+            'title' => 'Images',
+        );
+        
+        $cardStructure['tabs'][] = array(
             'name'  => 'related',
             'type'  => 'related',
             'url'   => Mage::getBaseUrl().'/mage_catalog/product/relatedProducts/',

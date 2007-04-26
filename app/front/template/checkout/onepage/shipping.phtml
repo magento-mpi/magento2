@@ -132,9 +132,15 @@ Shipping.prototype = {
                 <li>
                     <div class="input-left">
                         <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
-                        <select title="State/Province" id="shipping:region_id" name="shipping[region_id]" class="validate-select required-entry">
-                            <option value="1">LA</option>
-                        </select></div>
+                        <?if($regions->getSize()):?>
+                            <select title="State/Province" id="shipping:region" name="shipping[region_id]" class="validate-select required-entry">
+                                <option value="">Select State/Province...</option>
+                                <?=$regions->toHtmlOptions($address->getRegionId())?>
+                            </select>
+                        <?else:?>
+                            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text"/>
+                        <?endif?>
+                    </div>
                     <div class="input-right">
                         <label for="shipping:postcode">Zip <span class="required">*</span></label><br/>
                         <input type="text" title="ZIP/Post Code" name="shipping[postcode]" id="shipping:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text"/>
@@ -144,7 +150,7 @@ Shipping.prototype = {
                 <li>
                     <label for="shipping:country_id">Country <span class="required">*</span></label><br/>
                     <select id="shipping:country_id" name="shipping[country_id]" title="Country">
-                        <option value="223" selected="selected">USA</option>
+                        <?=$countries->toHtmlOptions($address->getCountryId())?>
                     </select>
                 </li>
                 <li>
@@ -171,4 +177,6 @@ Shipping.prototype = {
 
 <script type="text/javascript">
     var shipping = new Shipping('co-shipping-form');
+    var dataForm = new VarienForm('co-shipping-form');
+    dataForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>
