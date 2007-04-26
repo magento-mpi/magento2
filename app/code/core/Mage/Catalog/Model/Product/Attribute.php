@@ -29,6 +29,12 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         return $this;
     }
     
+    public function save()
+    {
+        $this->getResource()->save($this);
+        return $this;
+    }
+    
     public function loadByCode($attributeCode)
     {
         $this->setData($this->getResource()->loadByCode($attributeCode));

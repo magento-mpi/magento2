@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        parent::loadData(true, $logQuery);
+        parent::loadData($printQuery, $logQuery);
         $this->getSize();
         return $this;
     }

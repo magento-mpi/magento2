@@ -58,6 +58,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
+    /**
+     * List allowed websites for category
+     *
+     */
     public function allowWebsitesAction()
     {
         $categoryId = (int) $this->getRequest()->getParam('category', false);
