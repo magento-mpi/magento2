@@ -3,6 +3,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Mage_Catalog_Model_AllTests::main');
 }
 
+require_once('Mage/Catalog/Model/ProductTest.php');
 
 class Mage_Catalog_Model_AllTests
 {
