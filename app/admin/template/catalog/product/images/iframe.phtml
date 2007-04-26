@@ -1,4 +1,4 @@
-<img src="<?=$imagePreviewUrl?>">
+<img src="<?=$imagePreviewUrl?>" onerror="this.style.display='none'">
 <form action="<?=$uploadAction?>" method="POST" enctype="multipart/form-data">
     <input type="file" name="image">
     <input type="submit" value="Upload">
