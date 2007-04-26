@@ -83,82 +83,6 @@ Mage.Catalog_Product_Attributes = function(){
             }
         },
 
-        initSetGrid : function() {
-            var dataRecord = Ext.data.Record.create([
-            {name: 'id', mapping: 'product_attribute_set_id'},
-            {name: 'name', mapping: 'product_set_code'}
-            ]);
-
-            var dataReader = new Ext.data.JsonReader({
-                root: 'items',
-                totalProperty: 'totalRecords',
-                id: 'product_attribute_set_id'
-            }, dataRecord);
-
-            var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: this.setGridUrl}),
-                reader: dataReader,
-                remoteSort: true
-            });
-
-            dataStore.setDefaultSort('product_id', 'desc');
-
-
-            var colModel = new Ext.grid.ColumnModel([{
-                header: "Set Code",
-                sortable: false,
-                dataIndex: 'name',
-                editor: new Ext.grid.GridEditor(new Ext.form.TextField({
-                    allowBlank: false
-                }))
-            }]);
-
-            var Set = Ext.data.Record.create([
-                {name: 'name', type: 'string'},
-            ]);
-
-            this.setGrid = new Ext.grid.Grid(Ext.DomHelper.append(Layout.getEl().dom, {tag: 'div'}, true), {
-                ds: dataStore,
-                cm: colModel,
-                loadMask : true,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
-                autoSizeColumns: true,
-                monitorWindowResize: true,
-                enableColLock : false
-            });
-
-            this.setGrid.on('rowclick', this.onRowClick.createDelegate(this));
-            this.setGrid.getSelectionModel().on('rowselect', function(){
-                    this.btnEdit.enable();
-                    this.btnDelete.enable();
-                }.createDelegate(this)
-            );
-
-            this.setGrid.render();
-
-            var gridHead = this.setGrid.getView().getHeaderPanel(true);
-            var tb = new Ext.Toolbar(gridHead);
-            tb.addButton ({
-                text: 'Add',
-                handler : this.onAdd.createDelegate(this),
-                cls: 'x-btn-text-icon btn_add'
-            });
-
-            this.btnEdit = tb.addButton({
-                text: 'Edit',
-                enableToggle : true,
-                handler : this.onEditToogle.createDelegate(this),
-                cls: 'x-btn-text-icon btn_application_form_edit',
-                disabled : true
-            });
-
-            this.btnDelete = tb.addButton ({
-                text: 'Delete',
-                cls: 'x-btn-text-icon btn_delete',
-                disabled : true
-            });
-        },
-
         initSetTree : function() {
             
                 var sseed = 0;
@@ -589,7 +513,6 @@ Mage.Catalog_Product_Attributes = function(){
             }
         },
 
-
         initAttributesGrid : function() {
             var dataRecord = Ext.data.Record.create([
                 {name: 'attribute_id', mapping: 'attribute_id'},
@@ -614,10 +537,7 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             dataStore.setDefaultSort('attribute_code', 'asc');
-            dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
-
-            // shorthand alias
-            var fm = Ext.form, Ed = Ext.grid.GridEditor;
+            //dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             function formatBoolean(value){
                 return value ? 'Yes' : 'No';  
@@ -636,6 +556,9 @@ Mage.Catalog_Product_Attributes = function(){
                 ['select', 'ComboBox']
             ];
             
+            // shorthand alias
+            var fm = Ext.form, Ed = Ext.grid.GridEditor;
+
 
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
@@ -748,9 +671,7 @@ Mage.Catalog_Product_Attributes = function(){
             tb.addButton({
                 text : 'Save',
                 cls: 'x-btn-text-icon btn_accept',
-                handler : function() {
-                    this.attributeGrid.getDataSource().commitChanges();
-                }.createDelegate(this)
+                handler : this.onSaveClick.createDelegate(this)
             });
             
             tb.addButton({
@@ -817,112 +738,36 @@ Mage.Catalog_Product_Attributes = function(){
 		        });                
             }
         },     
+        
+        onSaveClick : function() {
+           var ds = this.attributeGrid.getDataSource();
+           var i = 0;
+           
+           var data = {};              
+           for(i=0; i < ds.modified.length; i++) {
+               data[i] = ds.modified[i].data;
+           }
+            
+           var conn = new Ext.data.Connection();
+           
+           conn.on('requestcomplete', function(transId, response, option) {
+               ds.commitChanges();
+           });
+           
+		   conn.on('requestexception', function(transId, response, option, e) {
+               Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+	           ds.rejectChanges();
+		   });
+		   
+		   conn.request( {
+              url: this.attributesCommitUrl,
+                method: "POST",
+                params: Ext.encode(data)
+            });                
+        },
 
         loadMainPanel : function() {
             this.init();
         },
-
-        loadEditSetGrid : function(setId) {
-            if (this.editSetGrid == null) {
-                this.initEditSetGrid(setId);
-                this.westLayout.beginUpdate();
-                this.westLayout.add('south', new Ext.GridPanel(this.editSetGrid));
-                this.westLayout.endUpdate();
-                this.editSetGrid.getDataSource().load();
-            } else {
-                this.editSetGrid.getDataSource().proxy.getConnection().url = this.editSetGridUrl +  'set/'+setId+'/';
-                this.editSetGrid.getDataSource().load();
-            }
-        },
-
-        initEditSetGrid : function(setId) {
-
-            var dataRecord = Ext.data.Record.create([
-                {name: 'name', mapping: 'name'},
-                {name: 'value', mapping: 'value'}
-            ]);
-
-            var dataReader = new Ext.data.JsonReader({
-                root: 'items',
-                totalProperty: 'totalRecords',
-                id: 'name'
-            }, dataRecord);
-
-            var dataStore = new Ext.data.Store({
-                proxy : new Ext.data.HttpProxy({url: this.editSetGridUrl +  'set/'+setId+'/'}),
-                reader : dataReader
-            });
-
-            var colModel = new Ext.grid.ColumnModel([
-                {header: "Name",  dataIndex: 'name'},
-                {header: "Value", dataIndex: 'value',  editor: new Ext.grid.GridEditor(new Ext.form.TextField({allowBlank: false}))}
-            ]);
-
-            this.editSetGrid = new Ext.grid.EditorGrid(Ext.DomHelper.append(this.westLayout.getRegion('south').getEl().dom, {tag: 'div'}, true), {
-                ds: dataStore,
-                cm: colModel,
-                loadMask : true,
-                //selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
-                autoSizeColumns: true,
-                monitorWindowResize: true,
-                enableColLock : false
-            });
-
-            this.editSetGrid.render();
-
-            var gridHead = this.editSetGrid.getView().getHeaderPanel(true);
-            var tb = new Ext.Toolbar(gridHead);
-            tb.addButton ({
-                text: 'Save'
-            });
-        },
-
-        onAdd : function() {
-            this.btnEdit.enable();
-            this.btnEdit.toggle(true);
-            this.westLayout.getRegion('south').show();
-            this.loadEditSetGrid(0);
-        },
-
-        onEditToogle : function(btn, e) {
-
-            if (btn.pressed == true) {
-                try {
-                    row = this.setGrid.getSelectionModel().getSelected();
-                    setId = row.id;
-                } catch(e){
-                    alert(e);
-                };
-
-                if (setId) {
-                    this.loadEditSetGrid(setId);
-                    this.westLayout.getRegion('south').show();
-                } else {
-                    alert('error');
-                }
-            } else {
-                this.westLayout.getRegion('south').hide();
-            }
-        },
-
-
-        onRowClick : function(grid, rowIndex, e) {
-            var setId = 0;
-            try {
-                setId =  this.setGrid.getDataSource().getAt(rowIndex).id;
-            } catch (e){};
-
-            if (setId) {
-                if (this.btnEdit.pressed == true) {
-                    this.loadEditSetGrid(setId);
-                } else {
-                    this.loadAttributeGrid(setId)
-                }
-            } else {
-                return false;
-            }
-            e.stopEvent();
-        }
-
     }
 }();
