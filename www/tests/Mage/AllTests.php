@@ -21,7 +21,7 @@ class Mage_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage tests');
         //$suite->addTest(Mage_AllTests::suite());
-        $suite->addTest(Mage_Catalog_Tests::suite());
+        $suite->addTest(Mage_Catalog_AllTests::suite());
         return $suite;
     }
 }
