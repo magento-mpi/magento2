@@ -22,8 +22,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $manufacturers = Mage::getModel('catalog','product_attribute')
             ->loadByCode('manufacturer')
-            ->getOptions()
-                ->getHtmlOptions();
+            ->getSource()
+                ->getArrOptions();
         $this->assign('manufacturers', $manufacturers);
     }
     
@@ -31,8 +31,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $types = Mage::getModel('catalog','product_attribute')
             ->loadByCode('type')
-            ->getOptions()
-                ->getHtmlOptions();
+            ->getSource()
+                ->getArrOptions();
         $this->assign('types', $types);
     }    
 }// Class Mage_Core_Block_List END
