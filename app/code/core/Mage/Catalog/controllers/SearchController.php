@@ -91,5 +91,13 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     
     public function advancedResultAction()
     {
-    }
+        $this->loadLayout();
+            
+        $block = Mage::createBlock('catalog_search_result', 'search.result');
+        $block->loadByAdvancedSearch($this->getRequest());
+        
+        Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
+   }
 }

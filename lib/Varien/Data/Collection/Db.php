@@ -227,6 +227,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     public function distinct($flag)
     {
         $this->_sqlSelect->distinct($flag);
+        return $this;
     }
     
     /**

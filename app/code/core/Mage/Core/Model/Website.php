@@ -48,4 +48,18 @@ class Mage_Core_Model_Website extends Varien_Data_Object
     {
         return Mage::getConfig()->getWebsiteConfig($this->getCode());
     }
+    
+    public function getArrCategoriesId()
+    {
+        $arr = array();
+        // TODO: depended from website id
+        $nodes = Mage::getModel('catalog_resource','category_tree')
+            ->load(2,10) // TODO: from config
+            ->getNodes();
+        foreach ($nodes as $node) {
+            $arr[] = $node->getId();
+        }
+        
+        return $arr;
+    }
 }

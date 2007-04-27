@@ -26,6 +26,8 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->distinct(true)
+            ->addCategoryFilter(Mage::registry('website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -56,7 +58,10 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $attributeValue = $request->getParam('value');
 
         $page = $request->getParam('p',1);
+        
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->distinct(true)
+            ->addCategoryFilter(Mage::registry('website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -75,6 +80,60 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $sortUrl = clone $request;
         $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
         $this->assign('sortUrl', $sortUrl);
+        $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+    }
+    
+    public function loadByAdvancedSearch(Zend_Controller_Request_Http $request)
+    {
+        $this->setTemplate('catalog/search/result.phtml');
+        $search = $request->getParam('search', array());
+        $request->setParam('search', false);
+        
+        Mage::getBlock('head.title')->setContents('Advanced search result');
+
+        $page = $request->getParam('p',1);
+        $prodCollection = Mage::getModel('catalog_resource','product_collection')
+            ->distinct(true)
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description')
+            ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
+            ->setCurPage($page)
+            ->setPageSize(9);
+        
+        if (!empty($search['query'])) {
+            $prodCollection->addSearchFilter($search['query']);
+        }
+        if (!empty($search['category'])) {
+            $prodCollection->addCategoryFilter($search['category']);
+        }
+        else {
+            $prodCollection->addCategoryFilter(Mage::registry('website')->getArrCategoriesId());
+        }
+        if (!empty($search['price'])) {
+            
+        }
+        if (!empty($search['type'])) {
+            $prodCollection->addAttributeToSelect('type', $search['type']);
+        }
+        if (!empty($search['manufacturer'])) {
+            $prodCollection->addAttributeToSelect('manufacturer', $search['manufacturer']);
+        }
+        
+        $prodCollection->load();
+        
+        $this->assign('query', 'Advanced search');
+        $this->assign('productCollection', $prodCollection);
+
+        $pageUrl = clone $request;
+        $pageUrl->setParam('array', array('search'=>$search));
+        $this->assign('pageUrl', $pageUrl);
+        
+        $sortUrl = clone $request;
+        $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
+        $sortUrl->setParam('array', array('search'=>$search));
+        $this->assign('sortUrl', $sortUrl);
+        
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
     }
 }
