@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
         }
 
         $attributes = $this->_conn->fetchAll(join(" union ", $sqlUnionStrArr));
-        if (!is_array($attributes) || empty($attributes)) {
+        if (empty($attributes) || !is_array($attributes)) {
             return false;
         }
         
