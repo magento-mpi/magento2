@@ -117,7 +117,13 @@ class Mage_Catalog_Model_Mysql4_Product
     {
         $attributes = $this->getAttributes($product->getSetId());
         foreach ($attributes as $attribute) {
-            $data = $product->getData('attributes', $attribute->getId());
+            if ($product->getData('attributes', $attribute->getId())) {
+                $data = $product->getData('attributes', $attribute->getId());
+            }
+            else {
+                $data = $product->getData($attribute->getCode());
+            }
+            
             
             // Check required attributes
             if ($attribute->isRequired() && empty($data)) {
