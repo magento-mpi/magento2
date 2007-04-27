@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.1.15</version>
+         <version>0.1.16</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -11,39 +11,6 @@
             <controller>
                <active>true</active>
             </controller>
-              <dataSources>
-                 <product_status>
-                    <model>product_attribute_option</model>
-                    <method>getOptions</method>
-                    <params>
-                       <option_type>status</option_type>
-                    </params>
-                 </product_status>
-        
-                 <product_type>
-                    <model>product_attribute_option</model>
-                    <method>getOptions</method>
-                    <params>
-                       <option_type>type</option_type>
-                    </params>
-                 </product_type>
-        
-                 <product_manufacturer>
-                    <model>product_attribute_option</model>
-                    <method>getOptions</method>
-                    <params>
-                       <option_type>manufacturer</option_type>
-                    </params>
-                 </product_manufacturer>
-
-                 <product_category>
-                    <model>product_attribute_option</model>
-                    <method>getOptions</method>
-                    <params>
-                       <option_type>manufacturer</option_type>
-                    </params>
-                 </product_category>
-              </dataSources>
          </admin>
       </Mage_Catalog>
    </modules>
@@ -160,15 +127,63 @@
             </entities>
          </catalog_resource>
       </models>
-      
-      <productAttributeTypes>
-        <varchar><table>catalog_product_attribute_varchar</table></varchar>
-        <decimal><table>catalog_product_attribute_decimal</table></decimal>
-        <date><table>catalog_product_attribute_date</table></date>
-        <text><table>catalog_product_attribute_text</table></text>
-        <int><table>catalog_product_attribute_int</table></int>
-      </productAttributeTypes>
-
+      <product_attributes>
+        <inputs>
+            <text></text>
+            <textarea></textarea>
+            <select></select>
+        </inputs>
+        <sources>
+            <type>
+                <module>catalog</module>
+                <model>product_attribute_source</model>
+            </type>
+            <status>
+                <module>catalog</module>
+                <model>product_attribute_source</model>
+            </status>
+            <manufacturer>
+                <module>catalog</module>
+                <model>product_attribute_source</model>
+            </manufacturer>
+            <category>
+                <module>catalog</module>
+                <model>product_attribute_source_category</model>
+            </category>
+        </sources>
+        <types>
+        <!-- define table names as XPATH -->
+            <varchar>
+                <table>catalog_product_attribute_varchar</table>
+            </varchar>
+            <decimal>
+                <table>catalog_product_attribute_decimal</table>
+            </decimal>
+            <date>
+                <table>catalog_product_attribute_date</table>
+            </date>
+            <text>
+                <table>catalog_product_attribute_text</table>
+            </text>
+            <int>
+                <table>catalog_product_attribute_int</table>
+            </int>
+        </types>
+        <savers>
+            <default>
+                <module>catalog</module>
+                <model>product_attribute_saver</model>
+            </default>
+            <image>
+                <module>catalog</module>
+                <model>product_attribute_saver_image</model>
+            </image>
+            <date>
+                <module>catalog</module>
+                <model>product_attribute_saver_date</model>
+            </date>
+        </savers>
+      </product_attributes>
       <resources>
          <catalog_setup>
             <setup>

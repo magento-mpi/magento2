@@ -4,6 +4,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require_once('Mage/Catalog/Model/ProductTest.php');
+require_once('Mage/Catalog/Model/CategoryTest.php');
 
 class Mage_Catalog_Model_AllTests
 {
@@ -16,6 +17,7 @@ class Mage_Catalog_Model_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage Catalog Model');
         $suite->addTestSuite('Mage_Catalog_Model_ProductTest');
+        $suite->addTestSuite('Mage_Catalog_Model_CategoryTest');
         return $suite;
     }
 }

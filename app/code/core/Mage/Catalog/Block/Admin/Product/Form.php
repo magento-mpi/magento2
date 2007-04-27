@@ -17,7 +17,6 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         parent::__construct();
         // Config settings
         $this->_dataInputs = (array) Mage::getConfig()->getXml('admin/dataInputs');
-        $this->_dataSources= (array) Mage::getConfig()->getXml('modules/Mage_Catalog/admin/dataSources');
 
         $this->setTemplate('form.phtml');
         
@@ -92,11 +91,10 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         
         // TODO:
         // Parse option values
-        if (isset($this->_dataSources[$attribute->getDataSource()])) {
-            $dataSource = (array) $this->_dataSources[$attribute->getDataSource()];
+        if ($source = $attribute->getSource()) {
+            //$dataSource = (array) $this->_dataSources[$attribute->getDataSource()];
             $elementConfig['ext_type']  = 'ComboBox';
-            
-            $elementConfig['values'] = $attribute->getOptions()->getHtmlOptions();
+            $elementConfig['values'] = $source->getArrOptions();
         }
                 
         $this->addField($elementId, $elementType, $elementConfig);

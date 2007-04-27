@@ -28,7 +28,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getCategoryId()
     {
-        $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategoryId();
+        $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategory();
         return $categoryId;
     }
     

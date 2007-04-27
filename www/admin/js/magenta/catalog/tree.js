@@ -28,7 +28,7 @@ Mage.Catalog_Category_Tree = function(){
                         {name: 'text', mapping: 'text'}
                     ])
                 });
-                
+                /*
                 var websitesCombo = new Ext.form.ComboBox({
                     store : ds,
                     displayField :'text',
@@ -44,7 +44,12 @@ Mage.Catalog_Category_Tree = function(){
                 websitesCombo.on('select', this.setWebsite, this);
 
                 tb.addField(websitesCombo);
-                
+                */
+                tb.addButton ({
+                    text: 'Add',
+                    //handler : this.onAdd.createDelegate(this),
+                    cls: 'x-btn-text-icon btn_add'
+                });
                 categoryContextMenu = new Ext.menu.Menu({
                         id : 'category_context_menu',
                         items: [{text: 'Show Category Products', handler: this.showProducts.createDelegate(this)},

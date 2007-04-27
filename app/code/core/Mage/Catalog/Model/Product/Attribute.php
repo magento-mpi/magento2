@@ -35,6 +35,12 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         return $this;
     }
     
+    public function delete()
+    {
+        $this->getResource()->delete($this->getId());
+        return $this;
+    }
+    
     public function loadByCode($attributeCode)
     {
         $this->setData($this->getResource()->loadByCode($attributeCode));
@@ -69,7 +75,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     public function getTableName()
     {
         $type = $this->getDataType();
-        if ($type && $config = Mage::getConfig()->getGlobalCollection('productAttributeTypes', $type)) {
+        if ($type && $config = Mage::getConfig()->getGlobalCollection('product_attributes/types', $type)) {
             return (string) $config->table;
         }
         return false;
@@ -106,6 +112,48 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         $collection = Mage::getModel('catalog_resource', 'product_attribute_option_collection')
             ->addAttributeFilter($this->getId())
             ->load();
+            
         return $collection;
+    }
+    
+    /**
+     * Retrieve attribute save object
+     *
+     * @return 
+     */
+    public function getSaver()
+    {
+        $saverName = $this->getDataSaver();
+        if (empty($saverName)) {
+            $saverName = 'default';
+        }
+        
+        if ($config = Mage::getConfig()->getGlobalCollection('product_attributes/savers', $saverName)) {
+            $module = (string) $config->module;
+            $model  = (string) $config->model;
+            $model = Mage::getModel($module, $model)->setAttribute($this);
+            // TODO: check instanceof
+            return $model;
+        }
+        
+        throw new Exception('Attribute saver "'.$saverName.'" not found');
+    }
+    
+    public function getSource()
+    {
+        $sourceName = $this->getDataSource();
+        if (empty($sourceName)) {
+            return false;
+        }
+        
+        if ($config = Mage::getConfig()->getGlobalCollection('product_attributes/sources', $sourceName)) {
+            $module = (string) $config->module;
+            $model  = (string) $config->model;
+            $model = Mage::getModel($module, $model)->setAttribute($this);
+            // TODO: check instanceof
+            return $model;
+        }
+        
+        throw new Exception('Attribute source "'.$saverName.'" not found');
     }
 }

@@ -55,16 +55,4 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
         }
         return $arr;
     }
-    
-    public function getHtmlOptions()
-    {
-        $arr = array();
-        foreach ($this as $option) {
-            $arr[] = array(
-                'value' => $option->getId(),
-                'label' => $option->getValue(),
-            );
-        }
-        return $arr;
-    }
 }

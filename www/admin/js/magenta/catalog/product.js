@@ -178,7 +178,7 @@ Mage.Catalog_Product = function(depend){
             paging.insertButton(4, new Ext.Toolbar.Separator());
             
 ////////////////////////////////// Grid website combobox
-            var testds = new Ext.data.Store({
+/*            var testds = new Ext.data.Store({
                     proxy: new Ext.data.HttpProxy({
                         url: Mage.url + 'mage_core/website/list/'
                     }),
@@ -201,7 +201,7 @@ Mage.Catalog_Product = function(depend){
             
             //websitesCombo.on('select', this.setWebsite, this);
             paging.insertButton(5, websitesCombo);
-            paging.insertButton(6, new Ext.Toolbar.Separator());
+            paging.insertButton(6, new Ext.Toolbar.Separator());*/
 //////////////////////////////////////////////////////
         },
 
@@ -702,7 +702,7 @@ Mage.Catalog_Product = function(depend){
             });
             toolbar.addSeparator();
 //////////////////////////////////////////////////////////////////////
-            var testds = new Ext.data.Store({
+/*            var testds = new Ext.data.Store({
                     proxy: new Ext.data.HttpProxy({
                         url: Mage.url + 'mage_core/website/list/'
                     }),
@@ -724,7 +724,7 @@ Mage.Catalog_Product = function(depend){
             });
             
             //websitesCombo.on('select', this.setWebsite, this);
-            toolbar.addField(websitesCombo);
+            toolbar.addField(websitesCombo);*/
 ////////////////////////////////////////////////////////////////////////
 
            // start draw panels and setup it to get infration from server

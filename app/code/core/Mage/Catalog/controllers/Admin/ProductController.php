@@ -207,7 +207,24 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function saveAction()
     {
-        
+        $res = array('error' => 0);
+        $product = Mage::getModel('catalog', 'product')
+            ->setProductId($this->getRequest()->getParam('product_id'))
+            ->setSetId($this->getRequest()->getParam('set_id', 1))
+            ->setTypeId($this->getRequest()->getParam('type_id', 1))
+            ->setAttributes($this->getRequest()->getParam('attribute', array()));
+
+        try {
+            $product->save();
+            $res['product_id'] = $product->getId();
+        }
+        catch (Exception $e){
+            $res = array(
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
+            );
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
 
     /////////////////////////////////

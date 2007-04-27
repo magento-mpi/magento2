@@ -62,4 +62,19 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
         $data = $attribute->getData();
         return $data;
     }
+    
+    public function delete($atrtibuteId)
+    {
+        $condition = $this->_write->quoteInto('attribute_id=?', $atrtibuteId);
+        $this->_write->beginTransaction();
+        try {
+            $this->_write->delete($this->_attributeTable, $condition);
+            $this->_write->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
 }
