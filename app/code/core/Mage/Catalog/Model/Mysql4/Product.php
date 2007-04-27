@@ -71,6 +71,7 @@ class Mage_Catalog_Model_Mysql4_Product
 
         // Add multiple attributes to result       
         $multipleAtributes = $attributes->getMultiples();
+        
         foreach ($multipleAtributes as $attribute) {
             $select = $this->_read->select();
             $select->from($attribute->getSelectTable(), $attribute->getTableColumns())
@@ -78,11 +79,15 @@ class Mage_Catalog_Model_Mysql4_Product
                 ->where('attribute_id='.$attribute->getId())
                 ->where('website_id='.Mage::registry('website')->getId());
             
+            if ($order = $attribute->getMultipleOrder()) {
+                $select->order($order);
+            }
+            
             if (count($attribute->getTableColumns())>1) {
-                $arrRes[$attribute->getCode()] = $this->_read->fetchAll($select);
+                $arr[$attribute->getCode()] = $this->_read->fetchAll($select);
             }
             else {
-                $arrRes[$attribute->getCode()] = $this->_read->fetchCol($select);
+                $arr[$attribute->getCode()] = $this->_read->fetchCol($select);
             }
         }
         

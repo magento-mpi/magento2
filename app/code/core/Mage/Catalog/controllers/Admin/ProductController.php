@@ -334,33 +334,55 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
         $data = $collection->__toArray();
         
+        $attribute = Mage::getModel('catalog', 'product_attribute');
         $data['elements'] = array(
-            'input_type' => array(
-                'type'      => 'combobox',
-                'default'   => 'text',
-                'values'=> array(
-                    array(
-                        'value' => 'text',
-                        'text'  => 'Text'
-                    ),
-                    array(
-                        'value' => 'select',
-                        'text'  => 'Combobox'
-                    ),
-                    array(
-                        'value' => 'image',
-                        'text'  => 'Image'
-                    ),
-                )
-            ),
             'attribute_code' => array(
                 'type'      => 'textfield',
-                'default'   => 'uniq code'
+                'default'   => 'newAttributeCode'
+            ),
+            'data_input' => array(
+                'type'      => 'combobox',
+                'default'   => 'text',
+                'values'    => '',
+            ),
+            'data_saver' => array(
+                'type'      => 'combobox',
+                'default'   => 'text',
+                'values'    => '',
+            ),
+            'data_source' => array(
+                'type'      => 'combobox',
+                'default'   => 'text',
+                'values'    => '',
+            ),
+            'validation' => array(
+                'type'      => 'textfield',
+                'default'   => ''
+            ),
+            'input_format' => array(
+                'type'      => 'textfield',
+                'default'   => ''
+            ),
+            'output_format' => array(
+                'type'      => 'textfield',
+                'default'   => ''
+            ),
+            'required' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
             ),
             'searchable' => array(
                 'type'      => 'checkbox',
                 'default'   => 0
-            )
+            ),
+            'comparable' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
+            ),
+            'multiple' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
+            ),
         );
         
         $this->getResponse()->setBody(Zend_Json::encode($data));

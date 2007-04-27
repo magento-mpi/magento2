@@ -127,6 +127,7 @@
             </entities>
          </catalog_resource>
       </models>
+      
       <product_attributes>
         <inputs>
             <text></text>
@@ -135,18 +136,22 @@
         </inputs>
         <sources>
             <type>
+                <name>Product Types</name>
                 <module>catalog</module>
                 <model>product_attribute_source</model>
             </type>
             <status>
+                <name>Product Statuses</name>
                 <module>catalog</module>
                 <model>product_attribute_source</model>
             </status>
             <manufacturer>
+                <name>Manufacturers</name>
                 <module>catalog</module>
                 <model>product_attribute_source</model>
             </manufacturer>
             <category>
+                <name>Categories</name>
                 <module>catalog</module>
                 <model>product_attribute_source_category</model>
             </category>
@@ -171,19 +176,23 @@
         </types>
         <savers>
             <default>
+                <name>Default</name>
                 <module>catalog</module>
                 <model>product_attribute_saver</model>
             </default>
             <image>
+                <name>Image</name>
                 <module>catalog</module>
                 <model>product_attribute_saver_image</model>
             </image>
             <date>
+                <name>Date</name>
                 <module>catalog</module>
                 <model>product_attribute_saver_date</model>
             </date>
         </savers>
       </product_attributes>
+      
       <resources>
          <catalog_setup>
             <setup>

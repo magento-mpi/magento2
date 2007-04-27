@@ -107,6 +107,17 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         return $columns;
     }
     
+    public function getMultipleOrder()
+    {
+        if ('decimal' == $this->getDataType()) {
+            $order = new Zend_Db_Expr($this->getCode() . '_qty ASC');
+        }
+        else {
+            $order = new Zend_Db_Expr($this->getCode() . ' ASC');
+        }
+        return $order;
+    }
+    
     public function getOptions()
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_option_collection')

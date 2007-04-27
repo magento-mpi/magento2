@@ -82,9 +82,35 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         return Mage::getModel('catalog_resource', 'category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
     
-    public function getTierPrice($qty=1)
+    public function getPrice()
     {
-        return $this->getPrice();
+        $price = $this->getData('price');
+        if (is_array($price) && isset($price[0])) {
+            return $price[0]['price'];
+        }
+        elseif(is_numeric($price)) {
+            return $price;
+        }
+        return null;
+    }
+    
+    public function getTierPrice($qty=null)
+    {
+        $prices = $this->getData('price');
+        if ($qty && is_array($prices)) {
+            $prevQty = 0;
+            $prevPrice = $prices[0]['price'];
+            foreach ($prices as $price) {
+                if (($prevQty <= $qty) && ($qty < $price['price_qty'])) {
+                    return $prevPrice;
+                }
+                $prevPrice = $price['price'];
+                $prevQty = $price['price_qty'];
+            }
+            return $prevPrice;
+        }
+        
+        return $prices;
     }
 
     public function getFormatedPrice()
