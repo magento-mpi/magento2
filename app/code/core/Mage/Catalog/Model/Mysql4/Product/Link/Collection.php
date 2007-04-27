@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
         
         foreach ($this->getItems() as $link) {
             $linkId = $link->getLinkId();
-            if (is_array($linkAttributes[$linkId]) && !empty($linkAttributes[$linkId])) {
+            if (!empty($linkAttributes[$linkId]) && is_array($linkAttributes[$linkId])) {
                 $link->addData($linkAttributes[$linkId]);
             }
         }
