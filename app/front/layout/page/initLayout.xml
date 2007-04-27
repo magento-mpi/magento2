@@ -77,7 +77,10 @@
                 <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Exchange and Returns</label></action>
             </block>
             <block type="list_link" name="bottom.links.sitemap">
-                <action method="setLink"><li/><a>href="{{baseUrl}}/sitemap"</a><label>Site Map</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}/sitemap/"</a><label>Site Map</label></action>
+            </block>
+            <block type="list_link" name="bottom.links.advancedsearch">
+                <action method="setLink"><li/><a>href="{{baseUrl}}catalog/search/advanced/"</a><label>Advanced Search</label></action>
             </block>
         </block>
     </block>

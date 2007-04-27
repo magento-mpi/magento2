@@ -64,10 +64,27 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     public function advancedAction()
     {
         $this->loadLayout('front');
+        
+        $categories = Mage::getModel('catalog_resource','category_tree')
+            ->joinAttribute('name')
+            ->load(2) // TODO: from config
+            ->getNodes();
+        $types = Mage::getModel('catalog','product_attribute')
+            ->loadByCode('type')
+            ->getSource()
+                ->getArrOptions();
+        $manufacturers = Mage::getModel('catalog','product_attribute')
+            ->loadByCode('manufacturer')
+            ->getSource()
+                ->getArrOptions();
+        
         $block = Mage::createBlock('tpl', 'catalog.search.advanced')
-            ->setTemplate('catalog/search/form.advanced.phtml');
-            //->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
-            //->assign('customer', Mage::getSingleton('customer', 'session')->getCustomer());
+            ->setTemplate('catalog/search/form.advanced.phtml')
+            ->assign('action', Mage::getUrl('catalog', array('controller'=>'search', 'action'=>'advancedResult')))
+            ->assign('categories', $categories)
+            ->assign('types', $types)
+            ->assign('manufacturers', $manufacturers);
+
         Mage::getBlock('content')->append($block);
         $this->renderLayout();
     }

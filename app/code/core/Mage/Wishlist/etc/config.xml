@@ -15,7 +15,7 @@
       
       <routers>
          <wishlist>
-            <default>true</default>
+            <default>false</default>
             <class>Mage_Wishlist_Router</class>
             <args>
                 <module>Mage_Wishlist</module>

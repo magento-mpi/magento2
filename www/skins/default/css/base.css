@@ -39,6 +39,8 @@ a:hover { color:#152a4e; text-decoration:underline; }
 .vmiddle {vertical-align:middle;}
 .vbottom {vertical-align:bottom;}
 
+.width100{width:100%}
+
 /* Clearfix */
 .clearfix {display:block; clear:both; height:0; font-size:0; line-height:0px; overflow:hidden;}
 
