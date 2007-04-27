@@ -215,12 +215,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             return false;
         }
         
-        $ids = array();
-        foreach ($this->getItems() as $doc) {
-            $ids[] = $doc->getDocumentId();
-        }
-        
-        $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $ids);
+        $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $this->getColumnValues($this->_idField));
         $attributesSql = $this->_getAttributesSql($idsSql);        
         $attributes = $this->_conn->fetchAll($attributesSql);
         if (!is_array($attributes) || empty($attributes)) {
