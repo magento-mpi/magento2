@@ -10,6 +10,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGrid : null,
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
+        attributeGridPropUrl : Mage.url + '/mage_catalog/product/attributePropList/',
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributeDelete/',
         attributesCreateUrl : Mage.url + '/mage_catalog/product/attributeCreate/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeSave/',
@@ -218,7 +219,6 @@ Mage.Catalog_Product_Attributes = function(){
                         data.id = e.dropNode.id;
 
                         var success = function(o) {
-                            console.log(o.responseText); 
                             
                             na = e.dropNode.attributes;
                             tpa = e.target.parentNode.attributes;
@@ -240,6 +240,7 @@ Mage.Catalog_Product_Attributes = function(){
                         
                         return true;
                     }
+                    
                     var s = e.data.selections, r = [], flag = false;
                     for(var i = 0, len = s.length; i < len; i++) {
                         var attributeId = s[i].id; // s[i] is a Record from the grid
@@ -609,8 +610,8 @@ Mage.Catalog_Product_Attributes = function(){
             }, dataRecord);
 
             var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: this.attributeGridUrl}),
-                reader: dataReader,
+                proxy : new Ext.data.HttpProxy({url: this.attributeGridUrl}),
+                reader : dataReader,
                 remoteSort: true
             });
 
@@ -618,38 +619,33 @@ Mage.Catalog_Product_Attributes = function(){
             dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             function formatBoolean(value){
-                return value=='1' ? 'Yes' : 'No';  
+                return (value === true) ? 'Yes' : 'No';  
             };            
-
-            var data_types = [
-                ['date', 'date'],
-                ['decimal', 'decimal'],
-                ['int', 'int'],
-                ['text', 'text'],
-                ['varchar', 'varchar']
-            ];
-            
-            var data_inputs = [
-                ['hidden', 'hidden'],
-                ['text', 'text'],
-                ['textarea', 'textarea'],
-                ['select', 'select']
-            ];
             
             // shorthand alias
             var fm = Ext.form, Ed = Ext.grid.GridEditor;
 
-           var codeEditor = new Ed(new fm.TextField({
-                     allowBlank: false,
-                     revertInvalid : true
-               }));
+            var codeEditor = new Ed(new fm.TextField({
+                allowBlank: false,
+                revertInvalid : true
+            }));
                
-           codeEditor.on('beforecomplete', function(editor, value, startvalue){
+            codeEditor.on('beforecomplete', function(editor, value, startvalue){
                if (value === '') {
                    this.attributeGrid.getDataSource().remove(editor.record);
                }
-           }.createDelegate(this));
-           
+            }.createDelegate(this));
+            
+            
+            
+            
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'attribute_id'
+            }, dataRecord);
+
+            
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
                 sortable: true,
@@ -668,13 +664,8 @@ Mage.Catalog_Product_Attributes = function(){
                    typeAhead: false,
                    triggerAction: 'all',
                    mode: 'local',
-                   store: new Ext.data.SimpleStore({
-                        fields: ['type', 'value'],
-                        mode : 'local',
-                        data : data_inputs
-                   }),
-                   displayField : 'value',
-                   valueField : 'type',
+                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_input'),
+                   displayField : 'text',
                    lazyRender:true
                 }))                
             },{
@@ -685,13 +676,8 @@ Mage.Catalog_Product_Attributes = function(){
                    typeAhead: false,
                    triggerAction: 'all',
                    mode: 'local',
-                   store: new Ext.data.SimpleStore({
-                        fields: ['type', 'value'],
-                        mode : 'local',
-                        data : data_types
-                   }),
-                   displayField : 'value',
-                   valueField : 'type',
+                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_type'),
+                   displayField : 'text',
                    lazyRender:true
                 }))                
             },{
@@ -759,6 +745,7 @@ Mage.Catalog_Product_Attributes = function(){
             });
             
             this.attributeGrid.on('afteredit', function(e) {
+                
                 if (e.record.data.attribute_id == '###') {
                    var conn = new Ext.data.Connection();
                    var store = this.attributeGrid.getDataSource();
@@ -768,6 +755,7 @@ Mage.Catalog_Product_Attributes = function(){
                        if (result.error == 0) {
                           e.record.data.id = result.attributeId;
                           e.record.data.attribute_id = result.attributeId;
+//                          e.record
                           store.commitChanges();
                        } else {
                             Ext.MessageBox.alert('Error', result.errorMessage);                           
@@ -851,7 +839,7 @@ Mage.Catalog_Product_Attributes = function(){
         		       }.createDelegate(this));
         		       
 		               conn.on('requestexception', function(dm, response, option, e) {
-			             Ext.MessageBox.alert('Error', 'RequestException.');
+			                Ext.MessageBox.alert('Error', 'RequestException.');
                        });
                        
                        conn.request( {
@@ -910,12 +898,18 @@ Mage.Catalog_Product_Attributes = function(){
            var conn = new Ext.data.Connection();
            
            conn.on('requestcomplete', function(transId, response, option) {
-               ds.commitChanges();
+               var result = Ext.decode(response.responseText);
+               if (result.error == 0) {
+                  ds.commitChanges();
+               } else {
+                   ds.rejectChanges();                   
+                   Ext.MessageBox.alert('Error', result.errorMessage);
+               }
            });
            
 				 conn.on('requestexception', function(transId, response, option, e) {
-								 Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
-							 ds.rejectChanges();
+	  					 Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+						 ds.rejectChanges();
 				 });
 				 
 				 conn.request( {
@@ -927,6 +921,27 @@ Mage.Catalog_Product_Attributes = function(){
 
         loadMainPanel : function() {
             this.init();
+        }
+    }
+}();
+
+Mage.Catalog_Product_Attributes_DropDownStore = function() {
+    return {
+        get : function(url, type) {
+           var store = new Ext.data.Store({
+               proxy: new Ext.data.HttpProxy({url: url}),                
+               remoteSort : false,
+               reader :  new Ext.data.JsonReader({
+            root : 'items',
+            totalProperty : 'totalRecords',
+            id : 'id'
+           }, Ext.data.Record.create([
+                   {name: 'text'},
+                   {name: 'value'},
+              ]))
+           });
+            store.load({method:'POST', params:{type: type}});
+            return store;
         }
     }
 }();

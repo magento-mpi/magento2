@@ -639,4 +639,29 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         }
         $this->getResponse()->setBody(Zend_Json::encode($res));
     }
+    
+    public function attributePropListAction() {
+        $res = array(
+            'totalRecords' => 5,
+            'items' => array(
+                array (
+                'id' => 0,
+                'text' => 'string'
+				),array (
+                'id' => 1,
+                'text' => 'string'
+				),array (
+                'id' => 2,
+                'text' => 'string'
+				),array (
+                'id' => 3,
+                'text' => 'string'
+				),array (
+                'id' => 4,
+                'text' => 'string'
+				)
+            )
+        );
+        $this->getResponse()->setBody(Zend_Json::encode($res));
+    }
 }
