@@ -13,6 +13,8 @@ class Mage_Auth_Admin
             extract($request->getPost('login'));
             if (!empty($username) && !empty($password)) {
                 $auth->setUser(Mage::getModel('auth_resource', 'auth')->authenticate($username, $password));
+                Mage::registry('controller')->getResponse()->setHeader('Location', $request->getRequestUri());
+                return;
             }
         }
         

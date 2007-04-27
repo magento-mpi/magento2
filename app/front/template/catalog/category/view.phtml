@@ -23,10 +23,10 @@
             <?foreach ($productCollection as $product):?>
             <div class="item">
                 <div class="item-image">
-                    <a href="<?=$product->getLink()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+                    <a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
                 </div>
                 <div class="item-info">
-                    <div class="product-name"><a href="<?=$product->getLink()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
+                    <div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
                     <div class="product-price"><?=$product->getFormatedPrice()?></div>
                 </div>
             </div>

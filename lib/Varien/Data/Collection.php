@@ -115,6 +115,15 @@ class Varien_Data_Collection implements Iterator
         return $this->_items;
     }
     
+    public function getColumnValues($colName)
+    {
+        $col = array();
+        foreach ($this->getItems() as $item) {
+            $col[] = $item->getData($colName);
+        }
+        return $col;
+    }
+    
     public function addItem(Varien_Data_Object $item)
     {
         $this->_items[] = $item;

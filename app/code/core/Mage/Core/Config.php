@@ -279,7 +279,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     public function getBaseUrl($params=array())
     {
-        if (!Mage::registry('website')->getIsAdmin()) {
+        if (isset($params['_admin'])) {
+            $isAdmin = $params['_admin'];
+        } else {
+            $isAdmin = Mage::registry('website')->getIsAdmin();
+        }
+        if (!$isAdmin) {
             if (empty($params['_website'])) {
                 $params['_website'] = Mage::registry('website')->getCode();
             }

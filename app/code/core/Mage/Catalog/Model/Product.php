@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         return $this;
     }
     
-    public function getLink()
+    public function getProductUrl()
     {
         $url = Mage::getUrl('catalog', 
             array(
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
         return $url;
     }
     
-    public function getCategoryLink()
+    public function getCategoryUrl()
     {
         $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getCategoryId()));
         return $url;
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getImageUrl()
     {
-        $url = Mage::getBaseUrl(array('_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
         return $url;
     }
     
@@ -117,5 +117,15 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     {
         $filter = new Varien_Filter_Sprintf('$%s', 2);
         return $filter->filter($this->getPrice());
+    }
+    
+    public function getLinkedProducts($linkType)
+    {
+        $linkedProducts = Mage::getModel('catalog_resource', 'product_link_collection')
+            ->addProductFilter($this->getProductId())
+            ->addTypeFilter($linkType)
+            ->loadData();
+            
+        return $linkedProducts;
     }
 }

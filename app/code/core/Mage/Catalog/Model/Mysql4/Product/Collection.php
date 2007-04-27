@@ -15,6 +15,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     
     protected $_websiteId;
     protected $_isCategoryJoined=false;
+    protected $_isLinkJoined=false;
     
     /**
      * All attributes collection
@@ -101,6 +102,12 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
         return $condition;
     }
+    
+    function addProductFilter($condition)
+    {
+        $this->_sqlSelect->where($this->_getConditionSql("$this->_productTable.product_id", $condition));
+        return $this;
+    }
 
     /**
      * Add category condotion for collection
@@ -125,7 +132,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 
         $this->addFilter('category', $condition, 'string');
         return $this;
-    } 
+    }
     
     function addSearchFilter($query)
     {
