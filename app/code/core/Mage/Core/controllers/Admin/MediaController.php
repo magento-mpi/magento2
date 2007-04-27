@@ -12,21 +12,22 @@ class Mage_Core_MediaController extends Mage_Core_Controller_Admin_Action
             $path = str_replace('/', DS, $path);
         }
         
-        $root = Mage::getConfig()->getBaseDir('var').'/media';
+        $root = Mage::getConfig()->getBaseDir('media');
         
         $arrNodes = array();
         $dir = dir($root.$path);
         while (false !== ($entry = $dir->read())) {
-            if ('.'===$entry || '..'===$entry || !is_dir($root.$path.$entry)) {
+            if ('.'===$entry{0} || !is_dir($root.$path.$entry)) {
                 continue;
             }
-            $node = array();
-            $node['text']   = $entry;
-            $node['id']     = $path.$entry.'/';
-            $node['cls']    = 'folder';
-            $node['leaf']   = false;
             
-            $arrNodes[] = $node;
+            $arrNodes[] = array(
+                'text'=>$entry,
+                'id'=>$path.$entry.'/',
+                'cls'=>'folder',
+                'iconCls'=>'folder',
+                'leaf'=>false,
+            );
         }
         $dir->close();
         
