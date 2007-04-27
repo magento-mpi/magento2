@@ -493,4 +493,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             );
        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
+    
+    public function attributecreateAction() {
+            $res = array(
+                'error' => 0,
+                'data' => array(
+                    'id' => 100
+                ) 
+            );
+       $this->getResponse()->setBody(Zend_Json::encode($res));
+        
+    }
 }

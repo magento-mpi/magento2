@@ -11,6 +11,7 @@ Mage.Catalog_Product_Attributes = function(){
         attributeGridToolbar : null,
         attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
         attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributeDelete/',
+        attributesCreateUrl : Mage.url + '/mage_catalog/product/attributeCreate/',
         attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeSave/',
 
         addGroupAttributes : Mage.url + '/mage_catalog/product/addGroupAttributes/',
@@ -566,13 +567,12 @@ Mage.Catalog_Product_Attributes = function(){
                      allowBlank: false,
                      revertInvalid : true
                }));
-           codeEditor.on('beforecomplete', function(editor, value, startvalue){
-               console.log(arguments);
-               if (value === '') {
-                 return false;    
-               }
                
-           });
+           codeEditor.on('beforecomplete', function(editor, value, startvalue){
+               if (value === '') {
+                   this.attributeGrid.getDataSource().remove(editor.record);
+               }
+           }.createDelegate(this));
            
             var colModel = new Ext.grid.ColumnModel([{
                 header: "ID#",
@@ -665,9 +665,34 @@ Mage.Catalog_Product_Attributes = function(){
             });
             
             this.attributeGrid.on('afteredit', function(e) {
-                console.log('afteredit');
-                console.log(arguments);
-            });
+                if (e.record.data.attribute_id == '###') {
+                   var conn = new Ext.data.Connection();
+                   var store = this.attributeGrid.getDataSource();
+                     
+                   conn.on('requestcomplete', function(transId, response, option) {
+                       var result = Ext.decode(response.responseText);
+                       if (result.error == 0) {
+                          e.record.data.id = result.data.id;
+                          store.commitChanges();
+                       } else {
+                            Ext.MessageBox.alert('Error', result.errorMessage);                           
+                            store.remove(e.record);
+                       }
+
+                   });
+
+                   conn.on('requestexception', function(transId, response, option, e) {
+                       Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+                       store.rejectChanges();
+                   });
+		   
+                  conn.request( {
+                       url: this.attributesCreateUrl,
+                       method: "POST",
+                       params: Ext.encode(e.record.data)
+                  });                
+                }
+            }.createDelegate(this));
             
             this.attributeGrid.on('dragout', function(){
                 alert('test');
