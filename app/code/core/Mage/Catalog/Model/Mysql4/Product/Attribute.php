@@ -58,9 +58,22 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
     
     protected function _prepareSaveData(Mage_Catalog_Model_Product_Attribute $attribute)
     {
-        /*$data = array(
-        );*/
-        $data = $attribute->getData();
+        $data = array(
+            'attribute_code'  => $attribute->getAttributeCode(),
+            'data_input'      => $attribute->getDataInput(),
+            'data_saver'      => $attribute->getDataSaver(),
+            'data_source'     => $attribute->getDataSource(),
+            'data_type'       => $attribute->getDataType(),
+            'validation'      => $attribute->getValidation(),
+            'input_format'    => $attribute->getInputFormat(),
+            'output_format'   => $attribute->getOutputFormat(),
+            'required'        => (bool) $attribute->getRequired(),
+            'searchable'      => (bool) $attribute->getSearchable(),
+            'comparable'      => (bool) $attribute->getComparable(),
+            'multiple'        => (bool) $attribute->getMultiple(),
+            'deletable'       => (bool) $attribute->getDeletable(),
+        );
+        //$data = $attribute->getData();
         return $data;
     }
     
