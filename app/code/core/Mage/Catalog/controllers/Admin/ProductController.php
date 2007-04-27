@@ -408,11 +408,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             ),
             'editable' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => 1
             ),
             'deletable' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => 1
             ),
             'searchable' => array(
                 'type'      => 'checkbox',

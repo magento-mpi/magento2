@@ -284,7 +284,7 @@ Mage.Catalog_Product_Attributes = function(){
                     }
 
                     if (flag == true) {
-                        Ext.MessageBox.alert('Warrning','Some of attributes already exist in this set and weren\'t added.');
+                        Ext.MessageBox.alert('Warning','Some of attributes already exist in this set and weren\'t added.');
                     }
                     
                     if (r.length > 0) {
@@ -622,7 +622,7 @@ Mage.Catalog_Product_Attributes = function(){
             };            
 
             var data_types = [
-                ['datetime', 'datetime'],
+                ['date', 'date'],
                 ['decimal', 'decimal'],
                 ['int', 'int'],
                 ['text', 'text'],

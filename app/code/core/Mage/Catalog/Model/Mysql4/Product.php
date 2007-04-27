@@ -66,7 +66,7 @@ class Mage_Catalog_Model_Mysql4_Product
         }
         
         $select->where($this->_productTable.".product_id=:product_id");
-        
+        #print_r($select->__toString());
         $arr = $this->_read->fetchRow($select, array('product_id'=>$productId));
 
         // Add multiple attributes to result       
