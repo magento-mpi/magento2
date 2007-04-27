@@ -18,7 +18,9 @@ Mage.Catalog_Product_Attributes = function(){
         removeElementUrl : Mage.url + '/mage_catalog/product/removElement/',        
         saveSetUrl : Mage.url + '/mage_catalog/product/saveSet/',
         saveGroupUrl : Mage.url + '/mage_catalog/product/saveGroup/',
+        
         setTreeUrl : Mage.url + '/mage_catalog/product/attributeSetTree/',
+        moveNodeUrl : Mage.url + '/mage_catalog/product/moveAttributeInSet/',
 
         setGrid : null,
         setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
@@ -153,25 +155,27 @@ Mage.Catalog_Product_Attributes = function(){
                 
                 
                 stree.on('nodedragover', function(e){
+                    var ta = e.target.attributes;
+
                     if (!e.dropNode) {
-                        if ((e.target.attributes.type == 'group' && e.point == 'append') ||
-                            (e.target.attributes.type == 'attribute' && e.point != 'append')) { 
+                        if ((ta.type == 'group' && e.point == 'append') ||
+                            (ta.type == 'attribute' && e.point != 'append')) { 
                             return true;
                         } else {
                             return false;
                         }
                     }  
                     
-                    if (e.target.attributes.isGeneral && e.point === 'above') {
+                    if (ta.isGeneral && e.point === 'above') {
                         return false;
                     }
                     
                     var na = e.dropNode.attributes;
-                    var ta = e.target.attributes;
+
                     if (
                        (na.setId === ta.setId && na.type == 'group' && ta.type == 'set' && e.point == 'append') ||
                        (na.setId === ta.setId && na.type == 'group' && ta.type == 'group' && e.point != 'append') ||
-                       (na.setId === ta.setId && na.type == 'attribute' && ta.type == 'group' && e.point == 'append') ||
+                       (na.setId === ta.setId && na.type == 'attribute' && ta.type == 'group' && e.point == 'append' && na.groupId != ta.groupId) ||
                        (na.setId === ta.setId && na.type == 'attribute' && ta.type == 'attribute' && e.point != 'append')
                      ) {
                         return true;
@@ -181,7 +185,59 @@ Mage.Catalog_Product_Attributes = function(){
                 });
                 
                 stree.on('beforenodedrop', function(e){
+                    var data = {};
+                    
+                    data.point = e.point;
+                    switch (e.point) {
+                        case 'above' :
+                            data.pid = e.target.parentNode.id;
+                            if (e.target.previousSibling) {
+                                data.aid = e.target.previousSibling.id;
+                            } else {
+                                data.aid = 0;
+                            }
+                            break;
+                        case 'below' :
+                            data.pid = e.target.parentNode.id;
+                            data.aid = e.target.id;
+                        break;
+                        case 'append' :
+                            data.pid = e.target.id;
+                            if (e.target.lastChild) {
+                                data.aid = e.target.lastChild.id;
+                            } else {
+                                data.aid = 0;
+                            }
+                        break;
+                        default :
+                            e.cancel = true;
+                            return e;
+                    }
+                        
                     if (e.dropNode) {
+                        data.id = e.dropNode.id;
+
+                        var success = function(o) {
+                            console.log(o.responseText); 
+                            
+                            na = e.dropNode.attributes;
+                            tpa = e.target.parentNode.attributes;
+                            
+                            if (na.groupId != tpa.groupId) {
+                                na.id = 'set:'+na.setId+'/group:'+tpa.groupId+'/attr:'+na.attributeId;
+                            }
+                        };
+                        var failure = function(o) {
+                            Ext.dump(o.statusText);
+                        };
+
+                        var pd = [];
+                        for(var key in data) {
+                            pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
+                        }
+                        pd.splice(pd.length-1,1);
+                        var con = new Ext.lib.Ajax.request('POST', this.moveNodeUrl, {success:success,failure:failure, scope:e}, pd.join(""));
+                        
                         return true;
                     }
                     var s = e.data.selections, r = [], flag = false;
@@ -533,14 +589,17 @@ Mage.Catalog_Product_Attributes = function(){
         },
 
         initAttributesGrid : function() {
-            var dataRecord = Ext.data.Record.create([
+			var dataRecord = Ext.data.Record.create([
                 {name: 'attribute_id', mapping: 'attribute_id'},
                 {name: 'attribute_code', mapping: 'attribute_code'},
                 {name: 'data_input', mapping: 'data_input'},
                 {name: 'data_type', mapping: 'data_type'},
+                {name: 'editable', mapping: 'editable'},
+                {name: 'deletable', mapping: 'deletable'},
                 {name: 'required', mapping: 'required'},
-                {name: 'filterable', mapping: 'filterable'},
-                {name: 'searchable', mapping: 'searchable'}
+                {name: 'searchable', mapping: 'searchable'},
+                {name: 'comparable', mapping: 'comparable'},
+                {name: 'multiple', mapping: 'multiple'}
             ]);
 
             var dataReader = new Ext.data.JsonReader({
@@ -559,20 +618,22 @@ Mage.Catalog_Product_Attributes = function(){
             dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             function formatBoolean(value){
-                return value ? 'Yes' : 'No';  
+                return value=='1' ? 'Yes' : 'No';  
             };            
 
             var data_types = [
-                ['string', 'String'],
-                ['int', 'Number'],
-                ['decimal', 'Dec']
+                ['datetime', 'datetime'],
+                ['decimal', 'decimal'],
+                ['int', 'int'],
+                ['text', 'text'],
+                ['varchar', 'varchar']
             ];
             
             var data_inputs = [
-                ['hidden', 'Hidden'],
-                ['text', 'Text'],
-                ['textarea', 'Textarea'],
-                ['select', 'ComboBox']
+                ['hidden', 'hidden'],
+                ['text', 'text'],
+                ['textarea', 'textarea'],
+                ['select', 'select']
             ];
             
             // shorthand alias
@@ -634,6 +695,18 @@ Mage.Catalog_Product_Attributes = function(){
                    lazyRender:true
                 }))                
             },{
+                header: "Editable",
+                sortable: true,
+                dataIndex: 'editable',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
+            },{
+                header: "Deletable",
+                sortable: true,
+                dataIndex: 'deletable',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
+            },{
                 header: "Required",
                 sortable: true,
                 dataIndex: 'required',
@@ -646,9 +719,15 @@ Mage.Catalog_Product_Attributes = function(){
                 renderer: formatBoolean,
                 editor: new Ed(new fm.Checkbox())
             },{
-                header: "Filterable",
+                header: "Comparable",
                 sortable: true,
-                dataIndex: 'filterable',
+                dataIndex: 'comparable',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
+            },{
+                header: "Multiple",
+                sortable: true,
+                dataIndex: 'multiple',
                 renderer: formatBoolean,
                 editor: new Ed(new fm.Checkbox())
             }]);
@@ -834,16 +913,16 @@ Mage.Catalog_Product_Attributes = function(){
                ds.commitChanges();
            });
            
-		   conn.on('requestexception', function(transId, response, option, e) {
-               Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
-	           ds.rejectChanges();
-		   });
-		   
-		   conn.request( {
-              url: this.attributesCommitUrl,
-                method: "POST",
-                params: Ext.encode(data)
-            });                
+				 conn.on('requestexception', function(transId, response, option, e) {
+								 Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+							 ds.rejectChanges();
+				 });
+				 
+				 conn.request( {
+							url: this.attributesCommitUrl,
+								method: "POST",
+								params: {attributes:Ext.encode(data)}
+						});                
         },
 
         loadMainPanel : function() {

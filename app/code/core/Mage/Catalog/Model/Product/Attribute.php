@@ -206,4 +206,13 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         }
         return $arr;
     }
+        
+    public function getPositionInGroup($group)
+    {
+        if (!$group instanceof Mage_Catalog_Model_Product_Attribute_Group) {
+            $group = Mage::getModel('catalog', 'product_attribute_group')->load($group);
+        }
+         
+        return $group->getResource()->getAttributePosition($group, $this);
+    }   
 }

@@ -99,14 +99,24 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
         }
     }
     
-    public function addAttribute($group, $attribute)
+    public function addAttribute($group, $attribute, $position=null)
     {
         $this->_write->beginTransaction();
         try {
+            $groupId = (int)$group->getId();
+            if (is_null($position)) {
+                $position = (int)$this->_write->fetchOne("select max(position) from $this->_inSetTable where group_id=$groupId");
+                $position++;
+            } else {
+                $position = (int)$position;
+                $this->_write->query("update $this->_inSetTable set position=position+1 where group_id=$groupId and position>=$position");
+            }
+            
             $data = array(
                 'attribute_id'  => $attribute->getId(),
                 'set_id'        => $group->getSetId(),
-                'group_id'      => $group->getId()
+                'group_id'      => $groupId,
+                'position'      => $position,
             );
             $this->_write->insert($this->_inSetTable, $data);
             $this->_write->commit();
@@ -120,11 +130,20 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     
     public function removeAttribute($group, $attribute)
     {
-        $condition = $this->_write->quoteInto('group_id=?', $group->getId()) .
-                    ' AND ' . $this->_write->quoteInto('attribute_id=?', $attribute->getId());
         $this->_write->beginTransaction();
         try {
+            $groupId = (int)$group->getId();
+            
+            $position = (int)$this->getAttributePosition($group, $attribute);
+            
+            $condition = $this->_write->quoteInto('group_id=?', $groupId) .
+                    ' AND ' . $this->_write->quoteInto('attribute_id=?', $attribute->getId());
             $this->_write->delete($this->_inSetTable, $condition);
+            
+            if (!empty($position)) {
+                $this->_write->query("update $this->_inSetTable set position=position-1 where group_id=$groupId and position>=$position");
+            }
+            
             $this->_write->commit();
         }
         catch (Exception $e)
@@ -132,5 +151,13 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
             $this->_write->rollBack();
             throw $e;
         }
+    }
+    
+    public function getAttributePosition($group, $attribute)
+    {
+        $groupId = (int)$group->getId();
+        $attributeId = (int)$attribute->getId();
+        $position = $this->_read->fetchOne("select position from $this->_inSetTable where group_id=$groupId and attribute_id=$attributeId");
+        return $position;
     }
 }

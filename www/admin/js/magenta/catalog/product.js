@@ -326,7 +326,7 @@ Mage.Catalog_Product = function(depend){
                 {name: 'filterField', mapping: 'filter_field'},
                 {name: 'filterName', mapping: 'filter_name'},
                 {name: 'filterType', mapping: 'filter_type'},
-                {name: 'filterComp', mapping: 'filter_comp'},
+                {name: 'filterComp', mapping: 'filter_comp'}
             ]);
 
             var dataReader = new Ext.data.JsonReader({

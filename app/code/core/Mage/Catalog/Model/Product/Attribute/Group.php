@@ -58,9 +58,9 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Data_Object
         return $this;
     }
     
-    public function addAttribute(Mage_Catalog_Model_Product_Attribute $attribute)
+    public function addAttribute(Mage_Catalog_Model_Product_Attribute $attribute, $position=null)
     {
-        $this->getResource()->addAttribute($this, $attribute);
+        $this->getResource()->addAttribute($this, $attribute, $position);
         return $this;
     }
 
@@ -77,5 +77,10 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Data_Object
             ->addGroupFilter($this->getId())
             ->load();
         return $collection;
+    }
+    
+    public function getAttributePosition($attribute)
+    {
+        $this->getResource->getAttributePosition($attribute);
     }
 }

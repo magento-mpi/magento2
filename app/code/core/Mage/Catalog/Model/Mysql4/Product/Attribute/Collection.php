@@ -22,6 +22,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
         $this->_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_attributeTable);
+        
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute'));
     }
     
@@ -33,8 +34,10 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
                                     array(
                                         "$this->_attributeInSetTable.attribute_id AS joined_attribute_id",
                                         "$this->_attributeInSetTable.group_id",
-                                        "$this->_attributeInSetTable.set_id"
+                                        "$this->_attributeInSetTable.set_id",
+                                        "$this->_attributeInSetTable.position",
                                     ));
+            $this->_inSetTableJoined = true;
         }
         return $this;
     }
@@ -81,6 +84,12 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
             }
         }
         return new $this->_itemObjectClass();
+    }
+    
+    public function setPositionOrder()
+    {
+        $this->_joinInSetTable()->setOrder($this->_attributeInSetTable.'.position', 'asc');
+        return $this;
     }
 
     /**

@@ -269,13 +269,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         } elseif (preg_match('/^set:([0-9]+)$/', $rootNode, $matches)) {
             $setId = $matches[1];
             
-            $groups = Mage::getModel('catalog', 'product_attribute_set')
-                ->load($setId)
-                ->getGroups();
-                
-            $attributes = Mage::getModel('catalog_resource', 'product_attribute_collection')
-                ->addSetFilter($setId)
-                ->loadData();
+            $set = Mage::getModel('catalog', 'product_attribute_set')->load($setId);
+            $groups = $set->getGroups();
+            $attributes = $set->getAttributes();
                 
             foreach ($attributes as $attribute) {
                 $attrs[$attribute->getGroupId()][] = array(
@@ -316,6 +312,45 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 );
             }
         }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
+    public function moveAttributeInSetAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+        
+        $p = $this->getRequest()->getPost();
+        
+        if (preg_match('#group:([0-9]+)/attr:([0-9]+)#', $p['id'], $match)) {
+            $fromGroupId = $match[1];
+            $attribute = Mage::getModel('catalog', 'product_attribute')->load($match[2]);
+        } else {
+            return;
+        }
+        
+        if (preg_match('#set:([0-9]+)/group:([0-9]+)#', $p['pid'], $match)) {
+            $setId = (int)$match[1];
+            $toGroupId = (int)$match[2];
+        } else {
+            return;
+        }
+        
+        if ($p['aid']=='0') {
+            $position = 1;
+        } elseif (preg_match('#attr:([0-9]+)#', $p['aid'], $match)) {
+            $sibling = Mage::getModel('catalog', 'product_attribute')->load($match[1]);
+            $position = $sibling->getPositionInGroup($toGroupId)+($p['point']=='above' ? -1 : 1);
+        } else {
+            return;
+        }
+        
+
+        $set = Mage::getModel('catalog', 'product_attribute_set')->load($setId);
+        $set->moveAttribute($attribute, $fromGroupId, $toGroupId, $position);
+        
+        $data = array('error'=>0);
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
@@ -371,6 +406,14 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 'type'      => 'checkbox',
                 'default'   => 0
             ),
+            'editable' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
+            ),
+            'deletable' => array(
+                'type'      => 'checkbox',
+                'default'   => 0
+            ),
             'searchable' => array(
                 'type'      => 'checkbox',
                 'default'   => 0
@@ -386,15 +429,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         );
         
         $this->getResponse()->setBody(Zend_Json::encode($data));
-    }
-    
-    /**
-     * Save product attributes
-     *
-     */
-    public function saveAttributesAction()
-    {
-
     }
 
     public function addGroupAttributesAction() {
@@ -572,5 +606,37 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         
        $this->getResponse()->setBody(Zend_Json::encode($res));
         
+    }
+        
+    /**
+     * Save product attributes
+     *
+     */
+    public function attributeSaveAction()
+    {
+        $res = array('error' => 0);
+        
+        $rowsJson = $this->getRequest()->getPost('attributes', false);
+        if (!empty($rowsJson)) {
+            $rowsData = Zend_Json::decode($rowsJson);
+        }
+        if (empty($rowsData)) {
+            $res = array(
+                'error' => 1,
+                'errorMessage' => 'Invalid input data',
+            );
+        } else {
+            try {
+                foreach ($rowsData as $row) {
+                    Mage::getModel('catalog', 'product_attribute')->addData($row)->save();
+                }
+            } catch (Exception $e){
+                $res = array(
+                    'error' => 1,
+                    'errorMessage' => $e->getMessage()
+                );
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
 }
