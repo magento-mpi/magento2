@@ -327,7 +327,7 @@
                 <name><type>text</type></name>
                 <weight><type>decimal</type></weight>
 
-                <qty_ordered><type>decimal</type></qty_ordered>
+                <qty><type>decimal</type></qty>
                 <qty_backordered><type>decimal</type></qty_backordered>
                 <qty_canceled><type>decimal</type></qty_canceled>
                 <qty_shipped><type>decimal</type></qty_shipped>
