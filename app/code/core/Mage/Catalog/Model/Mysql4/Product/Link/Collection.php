@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
         return true;
     }
     
-    public function _loadLinkedProducts()
+    protected function _loadLinkedProducts()
     {
         $this->getProductCollection()->addProductFilter(array('in'=>$this->getColumnValues('linked_product_id')));
         $linkedProducts = $this->getProductCollection()->loadData();
