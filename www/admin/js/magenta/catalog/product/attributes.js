@@ -162,6 +162,10 @@ Mage.Catalog_Product_Attributes = function(){
                         }
                     }  
                     
+                    if (e.target.attributes.isGeneral && e.point === 'above') {
+                        return false;
+                    }
+                    
                     var na = e.dropNode.attributes;
                     var ta = e.target.attributes;
                     if (
@@ -185,7 +189,18 @@ Mage.Catalog_Product_Attributes = function(){
                         var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
                         
-                        e.target.parentNode.cascade(function() {
+                        var node = null;
+                        if (e.target === 'append') {
+                            node = e.target.parentNode;
+                        } else {
+                            node = e.target.parentNode.parentNode;
+                        }
+                        
+                        if (node === null) {
+                            return false;
+                        }
+                        
+                        node.cascade(function() {
                             if (this.attributes.attributeId == attributeId) {
                                 flag = true;
                                 res.push(this);
@@ -213,7 +228,7 @@ Mage.Catalog_Product_Attributes = function(){
                     }
 
                     if (flag == true) {
-                        Ext.MessageBox.alert('Warrning','Some of attrbiutes exists in this set.');
+                        Ext.MessageBox.alert('Warrning','Some of attributes already exist in this set and weren\'t added.');
                     }
                     
                     if (r.length > 0) {
@@ -267,7 +282,7 @@ Mage.Catalog_Product_Attributes = function(){
                             params: requestParams
                         });
                     } else {
-                        Ext.MessageBox.alert('Error', 'This attributes exists in sets');
+                        Ext.MessageBox.alert('Error', 'The attribute already exists in set.');
                     }                     
                     e.dropNode = r;  // return the new nodes to the Tree DD
                     e.cancel = r.length < 1; // cancel if all nodes were duplicates
