@@ -140,6 +140,27 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create')));
     }
     
+    /**
+     * Forgot password
+     *
+     */
+    public function forgotPasswordAction()
+    {
+        $this->loadLayout();
+        
+        $block = Mage::createBlock('tpl', 'customer.forgotpassword')
+            ->setTemplate('customer/form/forgotpassword.phtml');
+        Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
+    }
+    
+    public function forgotPasswordPostAction()
+    {
+        
+    }
+
+
     public function editAction()
     {
         $this->loadLayout();
@@ -222,26 +243,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword')));
     }
     
-    /**
-     * Forgot password
-     *
-     */
-    public function forgotPasswordAction()
-    {
-        $this->loadLayout();
-        
-        $block = Mage::createBlock('tpl', 'customer.forgotpassword')
-            ->setTemplate('customer/form/forgotpassword.phtml');
-        Mage::getBlock('content')->append($block);
-        
-        $this->renderLayout();
-    }
-    
-    public function forgotPasswordPostAction()
-    {
-        
-    }
-
     public function newsletterAction()
     {
         $this->loadLayout();
@@ -256,5 +257,18 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function newsletterPostAction()
     {
         
+    }
+    
+    public function balanceAction()
+    {
+        $this->loadLayout();
+        
+        $block = Mage::createBlock('tpl', 'customer.balance')
+            ->setTemplate('customer/balance.phtml')
+            ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
+            ->assign('customer', Mage::getSingleton('customer', 'session')->getCustomer());
+        Mage::getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
 }// Class Mage_Customer_AccountController END

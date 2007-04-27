@@ -60,4 +60,19 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         
         $this->renderLayout();
     }
+    
+    public function advancedAction()
+    {
+        $this->loadLayout('front');
+        $block = Mage::createBlock('tpl', 'catalog.search.advanced')
+            ->setTemplate('catalog/search/form.advanced.phtml');
+            //->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
+            //->assign('customer', Mage::getSingleton('customer', 'session')->getCustomer());
+        Mage::getBlock('content')->append($block);
+        $this->renderLayout();
+    }
+    
+    public function advancedResultAction()
+    {
+    }
 }

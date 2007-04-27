@@ -4,8 +4,25 @@
       <Mage_Wishlist>
          <version>0.1.0</version>
          <depends>
-         	<Mage_Sales/>
+            <Mage_Sales/>
          </depends>
       </Mage_Wishlist>
    </modules>
+
+   <front>
+      <layouts>
+      </layouts>
+      
+      <routers>
+         <wishlist>
+            <default>true</default>
+            <class>Mage_Wishlist_Router</class>
+            <args>
+                <module>Mage_Wishlist</module>
+                <frontName>wishlist</frontName>
+            </args>
+         </wishlist>
+      </routers>
+   </front>
+
 </config>

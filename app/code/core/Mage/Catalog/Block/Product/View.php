@@ -29,6 +29,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('product', array('label'=>$product->getName()));
         $this->setChild('breadcrumbs', $breadcrumbs);
         
+        $currencyFilter = new Varien_Filter_Sprintf('$%s', 2);
+        
+        $this->assign('currencyFilter', $currencyFilter);
         $this->assign('product', $product);
+        
+        $prices = $product->getTierPrice();
+        foreach ($prices as $index => $price) {
+            
+        }
     }
 }

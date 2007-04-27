@@ -1,0 +1,10 @@
+<div class="content">
+    <h1 class="page-heading">My Balance</h1>
+    <?=$messages->__toHtml()?>
+    You account balance is: <strong><?=$customer->getBalance()?></strong>
+    <div class="dotted-separator"></div>
+    <div class="buttons-container">
+        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
+        <div class="clearfix"></div>
+    </div>
+</div>
