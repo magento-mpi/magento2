@@ -16,6 +16,9 @@
         <block type="tag_js" name="jscripts.js.catalog.category">
             <action method="setSrc"><src>magenta/catalog/category.js</src></action>
         </block>
+        <block type="tag_js" name="jscripts.js.catalog.category.createform">
+            <action method="setSrc"><src>magenta/catalog/category/createform.js</src></action>
+        </block>
         <block type="tag_js" name="jscripts.js.catalog.category.tree">
             <action method="setSrc"><src>magenta/catalog/tree.js</src></action>
         </block>

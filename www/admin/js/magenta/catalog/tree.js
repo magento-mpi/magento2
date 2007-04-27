@@ -47,7 +47,7 @@ Mage.Catalog_Category_Tree = function(){
                 */
                 tb.addButton ({
                     text: 'Add',
-                    //handler : this.onAdd.createDelegate(this),
+                    handler : this.onAddCategory.createDelegate(this),
                     cls: 'x-btn-text-icon btn_add'
                 });
                 categoryContextMenu = new Ext.menu.Menu({
@@ -90,6 +90,13 @@ Mage.Catalog_Category_Tree = function(){
                 this.tree.render();
                 this.loadWebsiteRoot();
             }
+        },
+
+        onAddCategory : function(btn, event) {
+            Mage.Catalog_Category_Create.show({
+                button : btn,
+                isnew : true
+            });    
         },
 
         setWebsite: function(select, record){
