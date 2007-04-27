@@ -95,7 +95,7 @@ class Mage_Sales_Model_Mysql4_Document
         $documentId = $document->getDocumentId();
         $this->_deleteEntities($documentId);
         
-        $attributesConfig = Mage::getConfig()->getGlobalCollection('salesAttributes', $document->getDocType());
+        $attributesConfig = Mage::getConfig()->getXml('global/salesAttributes/'.$document->getDocType());
         
         $attributes = array();
 

@@ -28,7 +28,7 @@ class Mage_Core_Resource_Setup
      */
     static public function applyAllUpdates()
     {
-        $resources = Mage::getConfig()->getGlobalCollection('resources')->children();
+        $resources = Mage::getConfig()->getXml('global/resources')->children();
         foreach ($resources as $resource) {
             if (!$resource->setup) {
                 continue;

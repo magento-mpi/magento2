@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     public function getTableName()
     {
         $type = $this->getDataType();
-        if ($type && $config = Mage::getConfig()->getGlobalCollection('product_attributes/types', $type)) {
+        if ($type && $config = Mage::getConfig()->getXml('global/product_attributes/types/'.$type)) {
             return (string) $config->table;
         }
         return false;
@@ -139,7 +139,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
             $saverName = 'default';
         }
         
-        if ($config = Mage::getConfig()->getGlobalCollection('product_attributes/savers', $saverName)) {
+        if ($config = Mage::getConfig()->getXml('global/product_attributes/savers/'.$saverName)) {
             $module = (string) $config->module;
             $model  = (string) $config->model;
             $model = Mage::getModel($module, $model)->setAttribute($this);
@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
             return false;
         }
         
-        if ($config = Mage::getConfig()->getGlobalCollection('product_attributes/sources', $sourceName)) {
+        if ($config = Mage::getConfig()->getXml('global/product_attributes/sources/'.$sourceName)) {
             $module = (string) $config->module;
             $model  = (string) $config->model;
             $model = Mage::getModel($module, $model)->setAttribute($this);
@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     
     public function getAllowInput()
     {
-        $config = (array) Mage::getConfig()->getGlobalCollection('product_attributes/inputs');
+        $config = (array) Mage::getConfig()->getXml('global/product_attributes/inputs');
         $arr = array();
         foreach ($config as $input=>$inputInfo) {
             $arr[] = array(
@@ -183,7 +183,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
 
     public function getAllowSaver()
     {
-        $config = (array) Mage::getConfig()->getGlobalCollection('product_attributes/savers');
+        $config = (array) Mage::getConfig()->getXml('global/product_attributes/savers');
         $arr = array();
         foreach ($config as $saver=>$saverInfo) {
             $arr[] = array(
@@ -196,7 +196,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
 
     public function getAllowSource()
     {
-        $config = (array) Mage::getConfig()->getGlobalCollection('product_attributes/sources');
+        $config = (array) Mage::getConfig()->getXml('global/product_attributes/sources');
         $arr = array();
         foreach ($config as $source=>$sourceInfo) {
             $arr[] = array(

@@ -18,7 +18,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     public function setDocType($docType)
     {
         $this->_docType = $docType;
-        $this->_attributeTypes = Mage::getConfig()->getGlobalCollection('salesAttributes')->$docType;
+        $this->_attributeTypes = Mage::getConfig()->getXml('global/salesAttributes/'.$docType);
         $this->_documentTable = Mage::registry('resources')->getTableName('sales_resource', $docType);
         $this->_idField = $docType.'_id';
         $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');

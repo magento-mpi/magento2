@@ -26,7 +26,7 @@ class Mage_Checkout_Block_Onepage_Review extends Mage_Core_Block_Template
         
         $payment = $quote->getPayment();
         if ($payment) {
-            $paymentMethodConfig = Mage::getConfig()->getGlobalCollection('salesPaymentMethods', $payment->getMethod());
+            $paymentMethodConfig = Mage::getConfig()->getXml('global/salesPaymentMethods/'.$payment->getMethod());
             if (!empty($paymentMethodConfig)) {
                 $className = $paymentMethodConfig->getClassName();
                 $paymentMethod = new $className();

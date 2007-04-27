@@ -134,42 +134,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * General function to retrieve collection or item from global configuration
-     *
-     * @param   string $collection
-     * @param   string $name
-     * @return  array|Varien_Simplexml_Object
-     */
-    function getGlobalCollection($collection, $name='')
-    {
-        $config = Mage::getConfig()->getXml("global/$collection");
-        if (''===$name) {
-            return $config;
-        }
-        if (isset($config->$name)) {
-            return $config->$name;
-        }
-        return false;
-    }
-
-    /**
-     * Get instance of class if available from global collection
-     *
-     * @param string $collection
-     * @param string $name
-     * @return object
-     */
-    function getGlobalInstance($collection, $name)
-    {
-        $x = $this->getGlobalCollection($collection, $name);
-        if (!$x) {
-            return false;
-        }
-        $className = $x->getClassName();
-        return new $className();
-    }
-
-    /**
      * Get module config node
      *
      * @param string $moduleName
@@ -177,10 +141,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     function getModule($moduleName='')
     {
+        $modules = $this->getXml('modules');
         if (''===$moduleName) {
-            return $this->_xml->modules;
+            return $modules;
         } else {
-            return $this->_xml->modules->$moduleName;
+            return $modules->$moduleName;
         }
     }
 
@@ -431,7 +396,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
 
     public function getModelClassName($model, $class)
     {
-        $config = $this->getGlobalCollection('models', $model);
+        $config = $this->getXml('global/models/'.$model);
 
         if (isset($config->subs->$class)) {
             $className = (string)$config->subs->$class;

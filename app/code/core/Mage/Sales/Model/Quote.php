@@ -146,7 +146,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
 
     public function collectTotals($type='')
     {
-        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
+        $attrLogicClasses = Mage::getConfig()->getXml('global/salesAttributes/'.$this->getDocType())->self->children();
         foreach ($attrLogicClasses as $attrName=>$attrConfig) {
             $className = $attrConfig->getClassName();
             if (empty($className)) {
@@ -160,7 +160,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function getTotals($type='_output')
     {
-        $attrLogicClasses = Mage::getConfig()->getGlobalCollection('salesAttributes', $this->getDocType())->self->children();
+        $attrLogicClasses = Mage::getConfig()->getXml('global/salesAttributes/'.$this->getDocType())->self->children();
         
         $totalsArr = array();
         foreach ($attrLogicClasses as $attrName=>$attrConfig) {
