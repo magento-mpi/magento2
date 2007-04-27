@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Product_Link extends Varien_Data_Object
 
     public function load($linkId)
     {
-        $this->setData($this->getResource()->load($attributeId));
+        $this->setData($this->getResource()->load($linkId));
         return $this;
     }
     
