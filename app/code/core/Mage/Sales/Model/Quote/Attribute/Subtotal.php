@@ -7,7 +7,7 @@ class Mage_Sales_Model_Quote_Attribute_Subtotal extends Mage_Sales_Model_Quote_A
         $quote->setSubtotal(0);
 
         foreach ($quote->getEntitiesByType('item') as $item) {
-            $item->setRowTotal($item->getTierPrice($item->getQty())*$item->getQty());
+            $item->setRowTotal($item->getPrice()*$item->getQty());
             $quote->setSubtotal($quote->getSubtotal()+$item->getRowTotal());
         }
        

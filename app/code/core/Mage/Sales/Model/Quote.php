@@ -108,13 +108,15 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             foreach ($this->getEntitiesByType('item') as $item) {
                 if ($item->getProductId()==$product->getProductId()) {
                     $item->setQty($item->getQty()+$product->getQty());
+                    $item->setPrice($product->getTierPrice($item->getQty()));
                     $this->collectTotals();
                     return $this;
                 }
             }
-        } 
+        }
         $item = Mage::getModel('sales', 'quote_entity_item');
         $item->setEntityType('item')->addData($product->getData());
+        $item->setPrice($product->getTierPrice($item->getQty()));
         $this->addEntity($item);
         $this->collectTotals();
         return $this;
@@ -133,7 +135,9 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                 if (!$item) {
                     continue;
                 }
+                $product = Mage::getModel('catalog', 'product')->load($item->getProductId());
                 $item->setQty($itemUpd['qty']);
+                $item->setPrice($product->getTierPrice($item->getQty()));
             }
         }
         $this->collectTotals();
