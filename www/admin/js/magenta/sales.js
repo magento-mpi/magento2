@@ -89,7 +89,7 @@ Mage.Sales = function(depend){
                 disableKeyFilter : true,
                 editable : false,
                	triggerAction : 'all',
-                loadingText: 'Loading...',
+                loadingText: 'Loading...'
             }));
             
             var panel = this.layout.add('west', new Ext.ContentPanel(panelEl, {

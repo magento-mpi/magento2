@@ -196,7 +196,7 @@ Mage.Catalog_Product = function(depend){
                     disableKeyFilter : true,
                     editable : false,
                     triggerAction : 'all',
-                    loadingText: 'Loading...',
+                    loadingText: 'Loading...'
             });
             
             //websitesCombo.on('select', this.setWebsite, this);
@@ -720,7 +720,7 @@ Mage.Catalog_Product = function(depend){
                     disableKeyFilter : true,
                     editable : false,
                     triggerAction : 'all',
-                    loadingText: 'Loading...',
+                    loadingText: 'Loading...'
             });
             
             //websitesCombo.on('select', this.setWebsite, this);

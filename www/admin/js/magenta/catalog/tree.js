@@ -38,7 +38,7 @@ Mage.Catalog_Category_Tree = function(){
                     disableKeyFilter : true,
                     editable : false,
                     triggerAction : 'all',
-                    loadingText: 'Loading...',
+                    loadingText: 'Loading...'
                 });
 
                 websitesCombo.on('select', this.setWebsite, this);

@@ -206,7 +206,7 @@ Mage.Catalog_Product_Attributes = function(){
                                 attributeId : attributeId,
                                 iconCls : 'attr',
                                 leaf : true,
-                                allowChildren : false,
+                                allowChildren : false
                             });
                             r.push(node);
                         }
@@ -832,6 +832,6 @@ Mage.Catalog_Product_Attributes = function(){
 
         loadMainPanel : function() {
             this.init();
-        },
+        }
     }
 }();

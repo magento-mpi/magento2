@@ -14,7 +14,7 @@ Mage.Catalog = function(depend){
                         autoScroll:false,
                         collapsible:true,
                         collapsedTitle : 'Categories Tree',
-                        titlebar:true,
+                        titlebar:true
                     },
                     center : {
                         autoScroll : true,
@@ -39,11 +39,6 @@ Mage.Catalog = function(depend){
                             autoScroll:false,
                             useShim:true,
                             cmargins: {top:0,bottom:2,right:2,left:2}
-                            /*
-                            hideWhenEmpty : true,
-                            autoScroll:false,
-                            titlebar:false,
-                            tabPosition : 'top'*/
                         }, 
                         south: {
                             hideWhenEmpty : true,
