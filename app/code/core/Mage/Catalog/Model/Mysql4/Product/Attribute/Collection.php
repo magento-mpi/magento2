@@ -12,6 +12,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
     protected $_attributeTable;
     protected $_attributeInSetTable;
     
+    protected $_inSetTableJoined;
+    
     public function __construct() 
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
@@ -20,9 +22,21 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
         $this->_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_attributeTable);
-        $this->_sqlSelect->join($this->_attributeInSetTable, "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id");
-        
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute'));
+    }
+    
+    protected function _joinInSetTable()
+    {
+        if (!$this->_inSetTableJoined) {
+            $this->_sqlSelect->join($this->_attributeInSetTable, 
+                                    "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id",
+                                    array(
+                                        "$this->_attributeInSetTable.attribute_id AS joined_attribute_id",
+                                        "$this->_attributeInSetTable.group_id",
+                                        "$this->_attributeInSetTable.set_id"
+                                    ));
+        }
+        return $this;
     }
     
     /**
@@ -32,6 +46,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
      */
     public function addSetFilter($setId)
     {
+        $this->_joinInSetTable();
         $this->addFilter("$this->_attributeInSetTable.set_id", $setId);
         return $this;
     }
@@ -43,6 +58,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
      */
     public function addGroupFilter($groupId)
     {
+        $this->_joinInSetTable();
         $this->addFilter("$this->_attributeInSetTable.group_id", $groupId);
         return $this;
     }

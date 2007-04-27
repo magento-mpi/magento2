@@ -687,7 +687,8 @@ Mage.Catalog_Product_Attributes = function(){
                    conn.on('requestcomplete', function(transId, response, option) {
                        var result = Ext.decode(response.responseText);
                        if (result.error == 0) {
-                          e.record.data.id = result.data.id;
+                          e.record.data.id = result.attributeId;
+                          e.record.data.attribute_id = result.attributeId;
                           store.commitChanges();
                        } else {
                             Ext.MessageBox.alert('Error', result.errorMessage);                           
@@ -704,7 +705,7 @@ Mage.Catalog_Product_Attributes = function(){
                   conn.request( {
                        url: this.attributesCreateUrl,
                        method: "POST",
-                       params: Ext.encode(e.record.data)
+                       params: {attribute: Ext.encode(e.record.data)}
                   });                
                 }
             }.createDelegate(this));
@@ -778,7 +779,7 @@ Mage.Catalog_Product_Attributes = function(){
                             url: this.attributesDeleteUrl,
                             method: "POST",
                             params: {
-                              data: data
+                              data: Ext.encode(data)
                            }
                        });                
                    }

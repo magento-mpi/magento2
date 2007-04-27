@@ -35,8 +35,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
     
     public function save(Mage_Catalog_Model_Product_Attribute $attribute)
     {
-        $data = $this->_prepareSaveData();
-        $this->_write->beginTrabsaction();
+        $data = $this->_prepareSaveData($attribute);
+        $this->_write->beginTransaction();
         
         try {
             if ($attribute->getId()) {
@@ -52,6 +52,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
         }
         catch (Exception $e){
             $this->_write->rollBack();
+            throw $e;
         }
     }
     

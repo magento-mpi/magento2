@@ -325,15 +325,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function attributeListAction()
     {
-        $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection');
-        $order = $this->getRequest()->getPost('sort','attribute_code');
-        $dir   = $this->getRequest()->getPost('dir','desc');
-        $collection->setOrder($order, $dir);
-        $collection->load();
+        $order = $this->getRequest()->getPost('sort', 'attribute_id');
+        $dir   = $this->getRequest()->getPost('dir', 'asc');
+        $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection')
+            ->setOrder($order, $dir)
+            ->load();
 
         //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
         $data = $collection->__toArray();
-        
+
         $attribute = Mage::getModel('catalog', 'product_attribute');
         $data['elements'] = array(
             'attribute_code' => array(
@@ -343,17 +343,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             'data_input' => array(
                 'type'      => 'combobox',
                 'default'   => 'text',
-                'values'    => '',
+                'values'    => $attribute->getAllowInput(),
             ),
             'data_saver' => array(
                 'type'      => 'combobox',
                 'default'   => 'text',
-                'values'    => '',
+                'values'    => $attribute->getAllowSaver(),
             ),
             'data_source' => array(
                 'type'      => 'combobox',
                 'default'   => 'text',
-                'values'    => '',
+                'values'    => $attribute->getAllowSource(),
             ),
             'validation' => array(
                 'type'      => 'textfield',
@@ -526,20 +526,50 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
-    public function attributedeleteAction() {
+    public function attributeDeleteAction() {
+        $res = array('error' => 0);
+        $attributes = $this->getRequest()->getPost('data', array());
+        $attributes = Zend_Json::decode($attributes);
+        $attribute = Mage::getModel('catalog', 'product_attribute');
+            
+
+        try {
+            foreach ($attributes as $attributeId) {
+                $attribute->setAttributeId($attributeId);
+                $attribute->delete();
+            }
+        }
+        catch (Exception $e){
             $res = array(
-                'error' => 0
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
             );
-       $this->getResponse()->setBody(Zend_Json::encode($res));
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
-    public function attributecreateAction() {
+    public function attributeCreateAction() {
+        $res = array('error' => 0);
+        $data = $this->getRequest()->getPost('attribute', array());
+        
+        $attribute = Mage::getModel('catalog', 'product_attribute')
+            ->setData(Zend_Json::decode($data));
+        
+        $attribute->setAttributeId(null);
+            
+        try {
+            $attribute->save();
+            $res['attribute'] = $attribute->getData();
+            $res['attributeId'] = $attribute->getId();
+        }
+        catch (Exception $e){
             $res = array(
-                'error' => 0,
-                'data' => array(
-                    'id' => 100
-                ) 
+                'error' => 1,
+                'errorMessage' => $e->getMessage()
             );
+        }
+        
        $this->getResponse()->setBody(Zend_Json::encode($res));
         
     }
