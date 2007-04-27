@@ -35,10 +35,9 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
     }
     
     /**
-     * Build sql to select attributes of filtered documents
+     * Build sql to select attributes of found links
      *
-     * @param array $ids document ids to retrieve
-     * @return string
+     * @return boolean
      */
     protected function _loadAttributes()
     {
