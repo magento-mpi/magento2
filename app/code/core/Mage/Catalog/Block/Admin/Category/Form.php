@@ -16,7 +16,7 @@ class Mage_Catalog_Block_Admin_Category_Form extends Mage_Core_Block_Form
         $this->setAttribute('id', 'add_child_category_form');
         $this->setAttribute('legend', 'Category form');
         $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/category/save/');
+        $this->setAttribute('action', Mage::getBaseUrl().'mage_catalog/category/save/');
         
         $parentId = Mage::registry('controller')->getRequest()->getParam('parent', false);
         $this->addField('parent', 'hidden', array('name'=>'parent', 'value'=>$parentId));

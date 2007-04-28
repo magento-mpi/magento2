@@ -17,7 +17,7 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         // Set form attributes
         $this->setAttribute('method', 'POST');
         $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', Mage::getBaseUrl().'/mage_catalog/product/card/');
+        $this->setAttribute('action', Mage::getBaseUrl().'mage_catalog/product/card/');
         
         $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection');
         $setCollection->load();

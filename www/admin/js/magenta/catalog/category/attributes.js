@@ -46,7 +46,7 @@ Mage.Catalog_Category_Attributes = function(){
                     }));
                 Layout_West.add('south', new Ext.ContentPanel('category_attr_set_tree_panel', {
                         autoCreate:true,
-                        url:Mage.url + '/mage_catalog/category/arrtibutesSetTree'
+                        url:Mage.url + 'mage_catalog/category/arrtibutesSetTree/'
                     }));
                 Layout_West.endUpdate();
                 
@@ -73,7 +73,7 @@ Mage.Catalog_Category_Attributes = function(){
                         title:"Dashboard",
                         loadOnce:true,
                         autoCreate:true,
-                        url:Mage.url + '/mage_catalog/category/attributesGrid'
+                        url:Mage.url + 'mage_catalog/category/attributesGrid/'
                     }));
                 Layout_Center.add('south', new Ext.ContentPanel('category_attribute_form_panel', {autoCreate:true}));
                 Layout_Center.endUpdate();
@@ -109,7 +109,7 @@ Mage.Catalog_Category_Attributes = function(){
             ]);
             
             var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url+'/mage_catalog/category/attributesSetGridData/'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url+'mage_catalog/category/attributesSetGridData/'}),
                 reader: new Ext.data.JsonReader({
                        record: 'items'
                    }, dataRecord)

@@ -47,7 +47,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             0 => array(
                 'name' => 'general',
                 'title' => __('General Information'),
-                'url' => Mage::getBaseUrl().'/mage_customer/customer/form/id/'.$customerId.'/',
+                'url' => Mage::getBaseUrl().'mage_customer/customer/form/id/'.$customerId.'/',
                 'type' => 'form',
                 'active' => true
             ),
@@ -73,7 +73,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         
         $form->setAttribute('legend', 'Customer information');
         $form->setAttribute('class', 'x-form');
-        $form->setAttribute('action', Mage::getBaseUrl().'/mage_customer/customer/formPost/');
+        $form->setAttribute('action', Mage::getBaseUrl().'mage_customer/customer/formPost/');
         
         $form->addField(
             'customer_id', 

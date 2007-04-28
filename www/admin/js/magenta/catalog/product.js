@@ -94,7 +94,7 @@ Mage.Catalog_Product = function(depend){
             }, dataRecord);
 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'mage_catalog/product/gridData/category/' + catId + '/'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -336,7 +336,7 @@ Mage.Catalog_Product = function(depend){
             }, dataRecord);
 
              this.filterSettings = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/filtersettings/', method: 'POST'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'mage_catalog/product/filtersettings/', method: 'POST'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -456,7 +456,7 @@ Mage.Catalog_Product = function(depend){
                 }
             } else {
                 this.gridPanel.getGrid();
-                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + config.catId + '/';
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + 'mage_catalog/product/gridData/category/' + config.catId + '/';
                 if (config.load && this.productsGrid.mageCategoryId != config.catId) {
                     this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
                 }
@@ -483,8 +483,8 @@ Mage.Catalog_Product = function(depend){
                 this.newItemDialog.addButton('Cancel', this.newItemDialog.hide, this.newItemDialog);
                 var mgr = new Ext.UpdateManager(this.newItemDialog.body);
                 mgr.on('update', function(){sbmt.enable()});
-                //this.newItemDialog.on('show', function(){mgr.update(Mage.url + '/mage_catalog/product/newoption/')})
-                mgr.update(Mage.url + '/mage_catalog/product/create/');
+                //this.newItemDialog.on('show', function(){mgr.update(Mage.url + 'mage_catalog/product/newoption/')})
+                mgr.update(Mage.url + 'mage_catalog/product/create/');
             }
             this.newItemDialog.show(menuItem.getEl().dom);
 
@@ -593,7 +593,7 @@ Mage.Catalog_Product = function(depend){
                 failure : failure,
                 argument : {prod_id: prodId}
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + '/mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + 'mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);
 
             this.productLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.productLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
@@ -809,7 +809,7 @@ Mage.Catalog_Product = function(depend){
             if (!this.categoryEditFormPanel) {
                 var workZone = dep.getLayout('main');
                 workZone.beginUpdate();
-                this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'/mage_catalog/category/new', title: 'Edit: ' + treeNode.text, background:true}));
+                this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'mage_catalog/category/new/', title: 'Edit: ' + treeNode.text, background:true}));
                 workZone.endUpdate();
             } else {
                 this.categoryEditFormPanel.setTitle('Edit: ' + treeNode.text);

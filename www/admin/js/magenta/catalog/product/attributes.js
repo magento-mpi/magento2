@@ -9,25 +9,25 @@ Mage.Catalog_Product_Attributes = function(){
 
         attributeGrid : null,
         attributeGridToolbar : null,
-        attributeGridUrl : Mage.url + '/mage_catalog/product/attributeList/',
-        attributeGridPropUrl : Mage.url + '/mage_catalog/product/attributePropList/',
-        attributesDeleteUrl : Mage.url + '/mage_catalog/product/attributeDelete/',
-        attributesCreateUrl : Mage.url + '/mage_catalog/product/attributeCreate/',
-        attributesCommitUrl : Mage.url + '/mage_catalog/product/attributeSave/',
+        attributeGridUrl : Mage.url + 'mage_catalog/product/attributeList/',
+        attributeGridPropUrl : Mage.url + 'mage_catalog/product/attributePropList/',
+        attributesDeleteUrl : Mage.url + 'mage_catalog/product/attributeDelete/',
+        attributesCreateUrl : Mage.url + 'mage_catalog/product/attributeCreate/',
+        attributesCommitUrl : Mage.url + 'mage_catalog/product/attributeSave/',
 
-        addGroupAttributes : Mage.url + '/mage_catalog/product/addGroupAttributes/',
-        removeElementUrl : Mage.url + '/mage_catalog/product/removElement/',        
-        saveSetUrl : Mage.url + '/mage_catalog/product/saveSet/',
-        saveGroupUrl : Mage.url + '/mage_catalog/product/saveGroup/',
+        addGroupAttributes : Mage.url + 'mage_catalog/product/addGroupAttributes/',
+        removeElementUrl : Mage.url + 'mage_catalog/product/removElement/',        
+        saveSetUrl : Mage.url + 'mage_catalog/product/saveSet/',
+        saveGroupUrl : Mage.url + 'mage_catalog/product/saveGroup/',
         
-        setTreeUrl : Mage.url + '/mage_catalog/product/attributeSetTree/',
-        moveNodeUrl : Mage.url + '/mage_catalog/product/moveAttributeInSet/',
+        setTreeUrl : Mage.url + 'mage_catalog/product/attributeSetTree/',
+        moveNodeUrl : Mage.url + 'mage_catalog/product/moveAttributeInSet/',
 
         setGrid : null,
-        setGridUrl :  Mage.url + '/mage_catalog/product/attributeSetList/',
+        setGridUrl :  Mage.url + 'mage_catalog/product/attributeSetList/',
 
         editSetGrid : null,
-        editSetGridUrl : Mage.url + '/mage_catalog/product/attributesetproperties/',
+        editSetGridUrl : Mage.url + 'mage_catalog/product/attributesetproperties/',
         stree : null,
 
         init : function() {

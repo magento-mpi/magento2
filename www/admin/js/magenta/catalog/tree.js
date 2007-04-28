@@ -4,8 +4,8 @@ Mage.Catalog_Category_Tree = function(){
 
     return{
         loadChildrenUrl: Mage.url+'mage_catalog/category/treeChildren/',
-        moveNodeUrl: Mage.url+'/mage_catalog/category/move/',
-        removeNodeUrl: Mage.url+'/mage_catalog/category/remove/',
+        moveNodeUrl: Mage.url+'mage_catalog/category/move/',
+        removeNodeUrl: Mage.url+'mage_catalog/category/remove/',
         loadWebsiteUrl: Mage.url+'mage_catalog/category/treeWebsite/',
         websiteListUrl : Mage.url + 'mage_core/website/list/',
         tree: null,

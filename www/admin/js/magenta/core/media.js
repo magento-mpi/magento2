@@ -71,7 +71,7 @@ Mage.Core_Media = function(){
             
             var tree = new Ext.tree.TreePanel(viewEl, {
                 animate:true, 
-                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'/mage_core/media/foldersTree'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'mage_core/media/foldersTree/'}),
                 enableDD:true,
                 containerScroll: true,
                 dropConfig: {appendOnly:true}
@@ -136,7 +136,7 @@ Mage.Core_Media = function(){
             }, dataRecord);
 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + '/mage_catalog/product/gridData/category/' + catId + '/'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'mage_catalog/product/gridData/category/' + catId + '/'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -247,7 +247,7 @@ Mage.Core_Media = function(){
                 }
             } else {
                 this.gridPanel.getGrid();
-                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + '/mage_catalog/product/gridData/category/' + config.catId + '/';
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + 'mage_catalog/product/gridData/category/' + config.catId + '/';
                 if (config.load && this.productsGrid.mageCategoryId != config.catId) {
                     this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
                 }

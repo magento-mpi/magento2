@@ -43,7 +43,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure['tabs'] = array();
         
         // Tabs description JSON
-        $baseTabUrl = Mage::getBaseUrl().'/mage_catalog/product/form/';
+        $baseTabUrl = Mage::getBaseUrl().'mage_catalog/product/form/';
         if ($productId) {
             $baseTabUrl.= 'product/' . $productId . '/';
         }
@@ -62,7 +62,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
                 'type'  => 'images',
-                'url'   => Mage::getBaseUrl()."/mage_catalog/product/images/product/$productId",
+                'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
                 'title' => 'Images',
             );
         }
@@ -70,7 +70,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure['tabs'][] = array(
             'name'  => 'related',
             'type'  => 'related',
-            'url'   => Mage::getBaseUrl().'/mage_catalog/product/relatedProducts/',
+            'url'   => Mage::getBaseUrl().'mage_catalog/product/relatedProducts/',
             'title' => 'Related products',
         );
         
