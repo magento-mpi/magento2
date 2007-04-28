@@ -83,9 +83,11 @@ class Mage_Core_Resource
     }
     
     public function cleanDbRow(&$row) {
-        foreach ($row as $key=>&$value) {
-            if (is_string($value) && $value==='0000-00-00 00:00:00') {
-                $value = '';
+        if (!empty($row) && is_array($row)) {
+            foreach ($row as $key=>&$value) {
+                if (is_string($value) && $value==='0000-00-00 00:00:00') {
+                    $value = '';
+                }
             }
         }
         return $this;
