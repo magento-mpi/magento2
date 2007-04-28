@@ -125,6 +125,11 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                 if (!$item) {
                     continue;
                 }
+                if (!empty($itemUpd['wishlist'])) {
+                    Mage::getModel('customer', 'wishlist')->setProductId($item->getProductId())->save();
+                    $this->removeEntity($id);
+                }
+                
                 $product = Mage::getModel('catalog', 'product')->load($item->getProductId());
                 $item->setQty($itemUpd['qty']);
                 $item->setPrice($product->getTierPrice($item->getQty()));
