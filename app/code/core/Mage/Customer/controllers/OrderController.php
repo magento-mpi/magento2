@@ -23,7 +23,30 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         $orders->setOrder('self/created_at');
         $orders->loadData();
         
-        $block = Mage::createBlock('tpl', 'customer.orders')->setTemplate('customer/orders.phtml')->assign('orders', $orders);
+        $block = Mage::createBlock('tpl', 'customer.orders')
+            ->setTemplate('customer/orders.phtml')
+            ->assign('orders', $orders);
+        Mage::getBlock('content')->append($block);
+
+        $this->renderLayout();        
+    }
+    
+    public function viewAction()
+    {
+        $this->loadLayout();
+        $orderId = $this->getRequest()->getParam('order', false);
+        if (!$orderId) {
+            $this->_forward('noRoute');
+            return;
+        }
+        
+        $order = Mage::getModel('sales', 'order')->load($orderId);
+/*echo('<pre>');
+print_r($order);
+echo('</pre>');*/
+        $block = Mage::createBlock('tpl', 'customer.orders')
+            ->setTemplate('customer/order/view.phtml')
+            ->assign('order', $order);
         Mage::getBlock('content')->append($block);
 
         $this->renderLayout();        

@@ -1,3 +1,33 @@
-<?foreach ($orders as $order):?>
-<?=print_r($order->getData())?><br>
-<?endforeach?>
+<div class="content">
+<h1 class="page-heading">Orders hystory</h1>
+<?if($orders->getSize()):?>
+    <table cellspacing="6" width="100%" class="data-table">
+        <thead>
+            <tr>
+                <th class="align-center" style="width:60px;">Order #</th>
+                <th class="align-center" style="width:100;">Date</th>
+                <!--<th class="align-center">Shipped To</th>-->
+                <th class="align-center" style="width:95px;">Total</th>
+                <th class="align-center" style="width:85px;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?foreach ($orders as $order):?>
+            <tr>
+                <td class="align-center"><?=$order->getOrderId()?></td>
+                <td class="align-center"><?=$order->getCreatedAt()?></td>
+                <!--<td class="align-center">{$page.orders[io].customer}</td>-->
+                <td class="align-center"><?=$order->getGrandTotal()?></td>
+                <td class="align-center"><a href="<?=$baseUrl?>customer/order/view/order/<?=$order->getOrderId()?>">View</a></td>
+            </tr>
+        <?endforeach?>
+        </tbody>
+    </table>
+<?else:?>
+    <p>You have not placed any orders yet.</p>
+<?endif?>
+    <div class="buttons-container">
+        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
+        <div class="clearfix"></div>
+    </div>
+</div>
