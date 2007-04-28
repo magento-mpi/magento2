@@ -41,9 +41,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         }
         
         $order = Mage::getModel('sales', 'order')->load($orderId);
-/*echo('<pre>');
-print_r($order);
-echo('</pre>');*/
+        
         $block = Mage::createBlock('tpl', 'customer.orders')
             ->setTemplate('customer/order/view.phtml')
             ->assign('order', $order);

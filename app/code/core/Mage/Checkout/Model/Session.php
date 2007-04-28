@@ -52,4 +52,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return $this;
     }
+
+    public function clear()
+    {
+        $this->_quote = null;
+    }
 }

@@ -1,64 +1,11 @@
-<table width=100% class="data-table">
-    <tr>
-        <td>
-            <h4>Billing Address</h4>
-            <div class="step-body">
-                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br>
-                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br>
-                <?=nl2br($billing->getStreet(-1))?><br>
-                <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
-                <br><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
-            </div>
-        </td>
-    
-        <td>
-            <h4>Shipping Address</h4>
-            <div class="step-body">
-                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br>
-                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br>
-                <?=nl2br($shipping->getStreet(-1))?><br>
-                <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
-                <br><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <h4>Payment Method</h4>
-            <div class="step-body">
-                <?=$payment?>
-                <br><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">EDIT</a>
-            </div>
-        </td>
-
-
-        <td>
-            <h4>Shipping Method</h4>
-            <div class="step-body">
-                <?=$shippingDescription?>
-                <br><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
-            </div>
-        </td>
-    </tr>
-</table>
-<table cellspacing="2" width="100%" class="data-table">
-    <tr>
-        <th class="align-left">Product Name</th>
-        <th style="width:70px;" class="align-center">Unit Price</th>
-        <th style="width:40px;" class="align-center">Qty</th>
-        <th style="width:70px;" class="align-center">Total</th>
-    </tr>
-    <?foreach($items as $item):?>
-    <tr>
-        <td><a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item['product_id']))?>"><?=$item['name']?></a></td>
-        <td class="align-center"><?=$item['price']?></td>
-        <td class="align-center"><?=$item['qty']?></td>
-        <td class="align-right"><?=$item['row_total']?></td>
-    </tr>
-    <?endforeach?>
-    <?foreach($totals as $total):?>
-    <tr>
-        <th colspan="3" class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
-    </tr>
-    <?endforeach?>
-</table>
+<div class="content">
+    <h1 class="page-heading">Your order has been received</h1>
+    <p><strong>Thank you for your purchase!</strong></p>
+    <p>
+        Your order # is: <?=$orderId?>.<br/>
+        You will receive an order confirmation email with details of your order and a link to track its progress.
+    </p>
+    <div class="buttons-container">
+        <input onclick="window.location='<?=$baseUrl?>'" type="button" class="input-button float-right" value="Continue"/>
+    </div>
+</div>

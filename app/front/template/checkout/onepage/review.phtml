@@ -1,27 +1,35 @@
 <script type="text/javascript">
 var Review = Class.create();
 Review.prototype = {
-    initialize: function(form){
-        this.form = form;
+    initialize: function(){
         this.onSave = this.continue.bindAsEventListener(this);
     },
     
     save: function(){
-        var validator = new Validation(this.form);
-        if (validator.validate()) {
-            var request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/saveOrder/',
-                {
-                    method:'post',
-                    onSuccess: this.onSave,
-                    parameters: Form.serialize(this.form)
-                }
-            );
-        }
+        var request = new Ajax.Request(
+            '<?=$baseSecureUrl?>checkout/onepage/saveOrder/',
+            {
+                method:'post',
+                onSuccess: this.onSave
+            }
+        );
     },
 
-    continue: function(){
-        checkout.setBilling();
+    continue: function(transport){
+        if (transport && transport.responseText) {
+            try{
+                responce = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                responce = {};
+            }
+            if (responce.success) {
+                window.location='<?=$baseUrl?>checkout/onepage/success/';
+            }
+            else{
+                alert('error');
+            }
+        }
     }
 }
 </script>
@@ -38,5 +46,5 @@ Review.prototype = {
     </div>
 </div>
 <script type="text/javascript">
-    var review = new Review('co-billing-form');
+    var review = new Review();
 </script>

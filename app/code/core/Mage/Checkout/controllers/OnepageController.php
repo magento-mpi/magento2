@@ -67,10 +67,13 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function successAction()
     {
         $this->loadLayout();
-            
         $block = Mage::createBlock('tpl', 'checkout.success')
-            ->setTemplate('checkout/success.phtml');
+            ->setTemplate('checkout/success.phtml')
+            ->assign('orderId', $this->_quote->getQuoteId());
         Mage::getBlock('content')->append($block);
+        
+        // TODO: clear quote and checkout 
+        //$this->_checkout->clear();
         
         $this->renderLayout();
     }
@@ -162,8 +165,20 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function saveOrderAction()
     {
+        $res = array('error'=>1);
         if ($this->getRequest()->isPost()) {
-            $this->_quote->createOrders();
+            try {
+                $this->_quote->createOrders();
+                $res['success'] = true;
+                $res['error']   = false;
+            }
+            catch (Exception $e){
+                // TODO: create responce for open checkout card with error
+                
+            }
         }
+        
+        $this->getResponse()->setHeader('Content-type', 'application/x-json');
+        $this->getResponse()->appendBody(Zend_Json::encode($res));
     }
 }
