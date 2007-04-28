@@ -148,4 +148,15 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
         $this->getResource()->delete($this->getDocumentId());
         return $this;
     }
+    
+    public function getAddressByType($type)
+    {
+        foreach ($this->getEntitiesByType('address') as $addr) {
+            if ($addr->getAddressType()==$type) {
+                return $addr;
+            }
+        }
+        return false;
+    }
+    
 }

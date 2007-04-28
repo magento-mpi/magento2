@@ -128,4 +128,13 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
             
         return $linkedProducts;
     }
+    
+    public function getCategories()
+    {
+        $categories = Mage::getModel('catalog_resource', 'category_collection')
+            ->addProductFilter($this->getProductId())
+            ->loadData();
+            
+        return $categories;
+    }
 }

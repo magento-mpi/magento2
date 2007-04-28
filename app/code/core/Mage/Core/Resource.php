@@ -81,4 +81,13 @@ class Mage_Core_Resource
     {
         return (string)$this->getEntity($model, $entity)->table;
     }
+    
+    public function cleanDbRow(&$row) {
+        foreach ($row as $key=>&$value) {
+            if (is_string($value) && $value==='0000-00-00 00:00:00') {
+                $value = '';
+            }
+        }
+        return $this;
+    }
 }

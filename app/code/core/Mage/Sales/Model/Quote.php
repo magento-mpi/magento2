@@ -22,16 +22,6 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return $this->getEntitiesByType('item');
     }
 
-    public function getAddressByType($type)
-    {
-        foreach ($this->getEntitiesByType('address') as $addr) {
-            if ($addr->getAddressType()==$type) {
-                return $addr;
-            }
-        }
-        return false;
-    }
-    
     public function setBillingAddress(Varien_Data_Object $address)
     {
         $old = $this->getAddressByType('billing');
