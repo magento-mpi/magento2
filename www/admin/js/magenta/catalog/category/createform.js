@@ -2,6 +2,7 @@ Mage.Catalog_Category_Create = function(){
     var _dialog = false;
     var _el = null
     var _config = null
+    var _formUlr = Mage.url + 'mage_catalog/category/form/';
     
     function _init() {
         if (!_dialog) {
@@ -22,7 +23,9 @@ Mage.Catalog_Category_Create = function(){
                 }
             });
             _dialog.addKeyListener(27, _dialog.hide, _dialog);
+            _dialog.setDefaultButton(_dialog.addButton("Save", saveFrom));            
             _dialog.setDefaultButton(_dialog.addButton("Close", _dialog.hide, _dialog));
+
             
             _buildLayouts();    
         }
@@ -33,29 +36,19 @@ Mage.Catalog_Category_Create = function(){
         }
     }
     
-    function _buildLayouts() {
-            // we can even add nested layouts
-            var innerLayout = new Ext.BorderLayout(_el.createChild({tag:'div'}), {
-                east: {
-                    initialSize: 200,
-                    autoScroll:true,
-                    split:true
-                },
-                center: {
-                    autoScroll:true
-                }
-            });
-            innerLayout.beginUpdate();
-            innerLayout.add("east", new Ext.ContentPanel(_el.createChild({tag:'div'})));
-            innerLayout.add("center", new Ext.ContentPanel(_el.createChild({tag:'div'})));
-            innerLayout.endUpdate(true);
+    function saveFrom() {
+        var panel = _dialog.getLayout().getRegion('center').getActivePanel();
+        console.log(panel);
+    }
     
+    function _buildLayouts() {
             var layout = _dialog.getLayout();
             layout.beginUpdate();
-            layout.add("center", new Ext.ContentPanel(_el.createChild({tag:'div'}),
-                        {title: "Download the Source", fitToFrame:true}));
-            layout.add("center", new Ext.NestedLayoutPanel(innerLayout,
-               {title: "Build your own ext.js"}));
+            layout.add("center", new Ext.ContentPanel(_el.createChild({tag:'div'}),{
+                title: "New Category", 
+                fitToFrame:true,
+                url : _formUlr
+            }));
             layout.endUpdate();                
     }
     
@@ -64,6 +57,10 @@ Mage.Catalog_Category_Create = function(){
     }
     
     return {
+        events : {
+            load : true
+        },
+        
         show : function(cfg) {
             _config = cfg;            
             _init();
@@ -74,3 +71,10 @@ Mage.Catalog_Category_Create = function(){
     }    
 }();
 
+//Ext.extend(Mage.Catalog_Category_Create, Ext.util.Observable, {
+//    onLoad : function() {
+//        fireEvent('load', this);
+//    }    
+//});
+//
+//Ext.EventManager.addListener(Mage.Catalog_Category_Create, 'load', function(){console.log(this)});

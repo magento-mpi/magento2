@@ -10,6 +10,7 @@ Mage.Catalog_Category_Tree = function(){
         websiteListUrl : Mage.url + 'mage_core/website/list/',
         tree: null,
         websiteId: null,
+        btns : null,
 
         create: function(panel){
             if (!this.tree) {
@@ -47,9 +48,15 @@ Mage.Catalog_Category_Tree = function(){
                 */
                 tb.addButton ({
                     text: 'Add',
+                    id : 'add',
+                    disabled : true,
                     handler : this.onAddCategory.createDelegate(this),
                     cls: 'x-btn-text-icon btn_add'
                 });
+                
+                this.btns = tb.items.map;
+                
+                
                 categoryContextMenu = new Ext.menu.Menu({
                         id : 'category_context_menu',
                         items: [{text: 'Show Category Products', handler: this.showProducts.createDelegate(this)},
@@ -57,7 +64,7 @@ Mage.Catalog_Category_Tree = function(){
                                 {text: 'Add child',handler:this.addChild.createDelegate(this)},
                                 {text: 'Edit Catecory',handler:this.editCategory.createDelegate(this)},
                                 {text: 'Delete Category',handler:this.deleteCategoryConfirm.createDelegate(this)}]
-                    });
+                });
 
                 var treePanel = layout.add('center', new Ext.ContentPanel(baseEl, {
                     fitToFrame:true,
@@ -67,6 +74,7 @@ Mage.Catalog_Category_Tree = function(){
                     resizeEl:treeContainer
                 }));
                 
+                
                 var viewEl = treeContainer.createChild({tag:'div'});
                 this.tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
@@ -75,6 +83,12 @@ Mage.Catalog_Category_Tree = function(){
                     containerScroll: true,
                     rootVisible:false
                 });
+                
+                var sm = this.tree.getSelectionModel();
+                sm.on('selectionchange', function(){
+                     this.btns.add.setDisabled(false);
+                }.createDelegate(this));                
+                
                 
                 this.tree.addListener('contextmenu',this.categoryRightClick,this);
                 this.tree.addListener('click',this.categoryClick.createDelegate(this));
