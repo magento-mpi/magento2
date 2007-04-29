@@ -33,7 +33,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->assign('wishlistActive', Mage::getConfig()->getModule('Mage_Customer')->is('wishlistActive'))
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
             
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }
@@ -45,7 +45,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $block = $this->getLayout()->createBlock('customer_login', 'customer.login')
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)));
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }
@@ -105,7 +105,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
             
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }

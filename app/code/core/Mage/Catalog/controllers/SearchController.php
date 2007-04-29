@@ -14,7 +14,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
             
         $searchQuery = $this->getRequest()->getParam('q', false);
         if ($searchQuery) {
-            Mage::getBlock('search.form.mini')->assign('query', $searchQuery);
+            $this->getLayout()->getBlock('search.form.mini')->assign('query', $searchQuery);
             $searchResBlock = $this->getLayout()->createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
             $searchResBlock->loadByQuery($this->getRequest());
             
