@@ -2,8 +2,7 @@ Mage.Catalog_Category_Create = function(){
     var _dialog = false;
     var _el = null
     var _config = null
-    var _formUlr = Mage.url + 'mage_catalog/category/form/';
-    var _formUlr = Mage.url + 'mage_catalog/category/form/';
+    var _formUrl = Mage.url + 'mage_catalog/category/form/';
     
     function _init() {
         var flag = false;
@@ -38,6 +37,11 @@ Mage.Catalog_Category_Create = function(){
         }
         var panel = _dialog.getLayout().getRegion('center').getActivePanel();
         if (flag === false) {
+            var formUrl = _formUrl;
+            if (_config.edit === true && _config.activeNode) {
+                formUrl = _formUrl + 'catid/' + _config.activeNode.id + '/';
+            }
+            panel.setUrl(formUrl);
             panel.refresh();
         }
     }
@@ -48,25 +52,37 @@ Mage.Catalog_Category_Create = function(){
         var pEl = panel.getEl();
         var form = Ext.DomQuery.selectNode('form', pEl.dom);
         if (form) {
+            if (_config.edit === false && _config.activeNode) {
+                var tpl = new Ext.Template('<input type="hidden" name="parentId" value="{val}">');
+                tpl.append(form, {val:_config.activeNode.id});
+            } else if (_config.edit === true && _config.activeNode) {
+                var tpl = new Ext.Template('<input type="hidden" name="nodeId" value="{val}"><input type="hidden" name="edit" value="true">');
+                tpl.append(form, {val:_config.activeNode.id});
+            }
             var um = panel.getUpdateManager();
             
             function  callBack(oElement, bSuccess, oResponse) {
-                console.log(arguments);
-                panel.refresh();
+                // there we can proccess responce
+                //panel.refresh();
             }
-            
             um.formUpdate(form, form.action, true, callBack);
         }
     }
     
     function _buildLayouts() {
             var layout = _dialog.getLayout();
-            layout.beginUpdate();
+
+            var formUrl = _formUrl
+            if (_config.edit === true && _config.activeNode) {
+                formUrl = _formUrl + 'catid/' + _config.activeNode.id + '/';
+            }
+            
+            layout.beginUpdate();            
             layout.add("center", new Ext.ContentPanel(_el.createChild({tag:'div'}),{
                 title: "New Category", 
                 fitToFrame:true,
                 loadOnce : false,
-                url : _formUlr
+                url : formUrl
             }));
             layout.endUpdate();                
     }

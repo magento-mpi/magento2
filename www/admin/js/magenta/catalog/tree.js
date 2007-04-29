@@ -53,6 +53,14 @@ Mage.Catalog_Category_Tree = function(){
                     handler : this.onAddCategory.createDelegate(this),
                     cls: 'x-btn-text-icon btn_add'
                 });
+
+                tb.addButton ({
+                    text: 'Edit',
+                    id : 'edit',
+                    disabled : true,
+                    handler : this.onEditCategory.createDelegate(this),
+                    cls: 'x-btn-text-icon btn_edit'
+                });
                 
                 this.btns = tb.items.map;
                 
@@ -87,6 +95,7 @@ Mage.Catalog_Category_Tree = function(){
                 var sm = this.tree.getSelectionModel();
                 sm.on('selectionchange', function(){
                      this.btns.add.setDisabled(false);
+                     this.btns.edit.setDisabled(false);
                 }.createDelegate(this));                
                 
                 
@@ -107,11 +116,23 @@ Mage.Catalog_Category_Tree = function(){
         },
 
         onAddCategory : function(btn, event) {
+            var sm = this.tree.getSelectionModel();
             Mage.Catalog_Category_Create.show({
                 button : btn,
-                isnew : true
+                activeNode : sm.getSelectedNode(),
+                edit : false
             });    
         },
+
+        onEditCategory : function(btn, event) {
+            var sm = this.tree.getSelectionModel();
+            Mage.Catalog_Category_Create.show({
+                button : btn,
+                activeNode : sm.getSelectedNode(),
+                edit : true
+            });    
+        },
+
 
         setWebsite: function(select, record){
             this.loadWebsiteRoot(record.id);
