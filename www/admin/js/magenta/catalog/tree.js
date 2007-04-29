@@ -59,7 +59,7 @@ Mage.Catalog_Category_Tree = function(){
                     id : 'edit',
                     disabled : true,
                     handler : this.onEditCategory.createDelegate(this),
-                    cls: 'x-btn-text-icon btn_edit'
+                    cls: 'x-btn-text-icon btn_folder_edit'
                 });
                 
                 this.btns = tb.items.map;

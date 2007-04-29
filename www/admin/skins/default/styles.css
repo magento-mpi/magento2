@@ -32,7 +32,10 @@
 .btn_application_form_edit .x-btn-text {background-image:url(./ico/fam/application_form_edit.png);}
 .btn_accept .x-btn-text {background-image:url(./ico/fam/accept.png);}
 .btn_arrow_refresh .x-btn-text {background-image:url(./ico/fam/arrow_refresh.png);}
+.btn_folder_edit .x-btn-text {background-image:url(./ico/fam/folder_edit.png);}
+
 .bok .x-btn-text {background-image:url(./ico/button_ok.gif);}
+
 
 .search-input {
     background-color : #FFFFFF;
