@@ -14,7 +14,7 @@ class Mage_Customer_Block_Regform extends Mage_Core_Block_Form
         $this->setTemplate('customer/form/registration.phtml');
         
         $this->setAttribute('method', 'post');
-        $this->setAttribute('action', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'register'));
+        $this->setAttribute('action', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'register')));
         $this->setAttribute('class', 'regform');
         
         $countries = Mage::getModel('directory', 'country_collection');
