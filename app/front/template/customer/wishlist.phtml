@@ -5,13 +5,19 @@
     <table cellspacing="2" width="100%" class="data-table">
         <tr>
             <th class="align-left">Product</th>
+            <th style="width:60px;" class="align-center">Status</th>
             <th style="width:60px;" class="align-center">To cart</th>
+            <th style="width:60px;" class="align-center">Remove</th>
         </tr>
         <?foreach($wishlist as $item):?>
         <tr>
             <td>
-                <a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item->getProduct()->getId()))?>"><?=$item->getProduct()->getName()?></a></td>
-            <td class="align-center"><input type="checkbox" value="<?=$item->getItemId()?>" name="to_cart[]"/></td>
+                <input type="hidden" value="1" name="wishlist[<?=$item->getItemId()?>]"/>
+                <a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item->getProduct()->getId()))?>"><?=$item->getProduct()->getName()?></a>
+            </td>
+            <td class="align-center"><?=$item->getStatus()?></td>
+            <td class="align-center"><input type="checkbox" value="1" name="to_cart[<?=$item->getItemId()?>]"/></td>
+            <td class="align-center"><input type="checkbox" value="1" name="remove[<?=$item->getItemId()?>]"/></td>
         </tr>
         <?endforeach?>
     </table>

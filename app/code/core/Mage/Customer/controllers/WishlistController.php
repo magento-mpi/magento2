@@ -39,15 +39,22 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
     
     public function updatePostAction()
     {
-        $items = $this->getRequest()->getPost('to_cart', array());
-        if (!empty($items)) {
-            foreach ($items as $itemId) {
-                $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
-                //TODO: add to cart (add method to quote model)
-                
-                $wishlist->delete();
+        $p = $this->getRequest()->getPost();
+        if (!empty($p['wishlist'])) {
+            foreach ($p['wishlist'] as $itemId) {
+                if (isset($p['to_cart'][$itemId])) {
+                    $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
+                    //TODO: add to cart (add method to quote model)
+                    $wishlist->delete();
+                }
+                if (isset($p['remove'][$itemId])) {
+                    $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
+                    $wishlist->delete();
+                }
             }
-            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            if (isset($p['to_cart'])) {
+                $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            }
         }
         $this->_redirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
     }

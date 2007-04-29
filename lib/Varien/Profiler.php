@@ -25,7 +25,7 @@ class Varien_Profiler
      */
     public static function setTimer($timerName, $cumulative=false)
     {
-        return true;
+        #return true;
         if (!$cumulative) {
             $oldTimer = isset(self::$_timers[$timerName]) ? self::$_timers[$timerName] : false;
             self::$_timers[$timerName] = microtime(true);

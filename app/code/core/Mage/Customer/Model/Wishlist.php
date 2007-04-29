@@ -16,11 +16,7 @@ class Mage_Customer_Model_Wishlist extends Varien_Data_Object
 
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getModel('customer_resource', 'wishlist');
-        }
-        return $resource;
+        return Mage::getSingleton('customer_resource', 'wishlist');
     }
     
     public function load($itemId)

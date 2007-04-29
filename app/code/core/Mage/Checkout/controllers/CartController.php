@@ -20,7 +20,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartView = 'checkout/cart/noItems.phtml';
         } else {
             $cartView = 'checkout/cart/view.phtml';
-            
             $itemsFilter = new Varien_Filter_Object_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');

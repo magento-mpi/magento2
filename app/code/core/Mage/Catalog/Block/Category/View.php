@@ -21,7 +21,8 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function loadData()
     {
         $request = Mage::registry('controller')->getRequest();
-        $category = $this->getCategory();
+        $category = Mage::getModel('catalog', 'category')
+            ->load($request->getParam('id', false));
         
         // Breadcrumbs
         $breadcrumbs = $this->getLayout()->createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
