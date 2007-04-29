@@ -22,6 +22,8 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
          parent::__construct($request, $response, $invokeArgs);
+         
+         Mage::register('action', $this);
           
          $this->_construct();
      }
@@ -88,7 +90,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         Varien_Profiler::setTimer('loadLayout', true);
         
         Varien_Profiler::setTimer('createBlocks');
-        $layout->createBlocks();
+        $layout->generateBlocks();
         Varien_Profiler::setTimer('createBlocks', true);
         
         return $this;
@@ -103,18 +105,18 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          }
 
          if (''!==$output) {
-             Mage::registry('blocks')->addOutputBlock($output);
+             $this->getLayout()->addOutputBlock($output);
          }
           
          Mage::dispatchEvent('beforeRenderLayout');
          Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          
-         $blocks = Mage::registry('blocks')->getOutputBlocks();
+         $blocks = $this->getLayout()->getOutputBlocks();
 
          if (!empty($blocks)) {
              $response = $this->getResponse();
              foreach ($blocks as $callback) {
-                 $out = Mage::getBlock($callback[0])->$callback[1]();
+                 $out = $this->getLayout()->getBlock($callback[0])->$callback[1]();
                  $response->appendBody($out);
              }
          }

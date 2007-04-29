@@ -119,6 +119,23 @@ class Varien_Data_Object
         }
         return $arrRes;
     }
+    
+    /**
+     * Set required array elements
+     *
+     * @param   array $arr
+     * @param   array $elements
+     * @return  array
+     */
+    protected function _prepareArray(&$arr, $elements=array())
+    {
+        foreach ($elements as $element) {
+            if (!isset($arr[$element])) {
+                $arr[$element] = null;
+            }
+        }
+        return $arr;
+    }
 
     /**
      * Convert object attributes to XML

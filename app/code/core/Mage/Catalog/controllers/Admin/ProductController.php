@@ -86,8 +86,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function createAction()
     {
-        $form = Mage::createBlock('admin_catalog_product_create_option', 'product_create_option');
-        $this->getResponse()->setBody($form->toString());
+        $form = $this->getLayout()->createBlock('admin_catalog_product_create_option', 'product_create_option');
+        $this->getResponse()->setBody($form->toHtml());
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function cardAction()
     {
-        $card = Mage::createBlock('admin_catalog_product_card', 'product_card');
+        $card = $this->getLayout()->createBlock('admin_catalog_product_card', 'product_card');
         $this->getResponse()->setBody($card->toJson());
     }
 
@@ -106,8 +106,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function formAction()
     {
-        $form = Mage::createBlock('admin_catalog_product_form', 'product_form');
-        $this->getResponse()->setBody($form->toString());
+        $form = $this->getLayout()->createBlock('admin_catalog_product_form', 'product_form');
+        $this->getResponse()->setBody($form->toHtml());
     }
 
     /**
@@ -116,16 +116,16 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function relatedProductsAction()
     {
-        $block = Mage::createBlock('tpl', 'related_products_panel');
+        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel');
         $block->setTemplate('catalog/product/related_products.phtml');
-        $this->getResponse()->setBody($block->toString());
+        $this->getResponse()->setBody($block->toHtml());
     }
     
     public function imagesAction()
     {
         $id = $this->getRequest()->getParam('product', -1);
         $product = Mage::getModel('catalog', 'product')->load($id);
-        $block = Mage::createBlock('tpl', 'root');
+        $block = $this->getLayout()->createBlock('tpl', 'root');
         if ($this->getRequest()->getParam('iframe')) {
             $block->setTemplate('catalog/product/images/iframe.phtml');
             $block->assign('imagePreviewUrl', $product->getImageUrl());
@@ -134,7 +134,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $block->setTemplate('catalog/product/images.phtml');
             $block->assign('iframeSrc', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
         }
-        $this->getResponse()->setBody($block->toString());
+        $this->getResponse()->setBody($block->toHtml());
     }
     
     public function uploadAction()
@@ -365,6 +365,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection')
             ->setOrder($order, $dir)
             ->load();
+            
+        foreach ($collection->getItems() as $item) {
+            $item->setRequired((boolean)$item->getRequired());
+            $item->setEditable((boolean)$item->getEditable());
+            $item->setDeletable((boolean)$item->getDeletable());
+            $item->setSearchable((boolean)$item->getSearchable());
+            $item->setComparable((boolean)$item->getComparable());
+            $item->setMultiple((boolean)$item->getMultiple());
+        }
 
         //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
         $data = $collection->__toArray();
@@ -404,27 +413,27 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             ),
             'required' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => false
             ),
             'editable' => array(
                 'type'      => 'checkbox',
-                'default'   => 1
+                'default'   => true
             ),
             'deletable' => array(
                 'type'      => 'checkbox',
-                'default'   => 1
+                'default'   => true
             ),
             'searchable' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => false
             ),
             'comparable' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => false
             ),
             'multiple' => array(
                 'type'      => 'checkbox',
-                'default'   => 0
+                'default'   => false
             ),
         );
         

@@ -14,6 +14,6 @@ class Mage_Core_Block_Admin_Js_Layout_Panel_Grid extends Mage_Core_Block_Admin_J
     {
         parent::construct($container, $config);
         
-        $this->setAttribute('jsClassName', 'Ext.GridPanel');
+        $this->setJsClassName('Ext.GridPanel');
     }
 }

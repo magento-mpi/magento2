@@ -7,7 +7,7 @@ class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
         if (!isset($config['items'])) {
             $config['items'] = array();
         }
-        $config['id'] = $this->getInfo('name');
+        $config['id'] = $this->getName();
         $this->setAttribute('config', $config);
     }
     
@@ -82,7 +82,7 @@ class Mage_Core_Block_Admin_Js_Menu extends Mage_Core_Block_Admin_Js
         return $out;
     }
 
-    function toString()
+    function toHtml()
     {
         return $this->toJs();
     }

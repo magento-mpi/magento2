@@ -28,9 +28,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     
     public function setTemplate($templateName)
     {
-        #echo "<hr>Module:"; print_r($viewModule); echo ", Name:"; print_r($viewName);
-        #$this->setAttribute('viewModule', $viewModule);
-        $this->setAttribute('templateName', $templateName);
+        $this->setTemplateName($templateName);
         return $this;
     }
     
@@ -78,7 +76,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->assign('currentBlock', $this);
         
         $this->setScriptPath($templatesDir.DS);
-        $html = $this->fetchView($this->getAttribute('templateName'));
+        $html = $this->fetchView($this->getTemplateName());
         
         return $html;
     }
@@ -98,13 +96,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      *
      * @return string
      */
-    public function toString()
+    public function toHtml()
     {
         if (!empty($this->_children)) {
             // Render child elements
             foreach ($this->_children as $name=>$block) {
                 if ($block instanceof Mage_Core_Block_Abstract) {
-                   $childHtml = $block->toString();
+                   $childHtml = $block->toHtml();
                 } elseif (is_string($block)) {
                    $childHtml = $block;
                 }

@@ -7,7 +7,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         $this->setAttribute('container', $container);
         $this->setAttribute('config', $config);
 
-        $this->setAttribute('jsClassName', 'Ext.BorderLayout');
+        $this->setJsClassName('Ext.BorderLayout');
     }
     
     function addPanel($target, $panel)
@@ -16,9 +16,9 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         
         if ($panel instanceof Mage_Core_Block_Admin_Js_Layout_Panel) {
             $block = $panel;
-            $name = $panel->getInfo('name');
+            $name = $panel->getName();
         } else {
-            $block = Mage::registry('blocks')->getBlockByName($panel);
+            $block = $this->getLayout()->getBlock($panel);
             $name = $panel;
         }
         $this->setChild($name, $block);
@@ -32,27 +32,27 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     {
         if ($toolbar instanceof Mage_Core_Block_Admin_Js_Toolbar) {
             $block = $toolbar;
-            $name = $toolbar->getInfo('name');
+            $name = $toolbar->getName();
         } else {
-            $block = Mage::registry('blocks')->getBlockByName($toolbar);
+            $block = $this->getLayout()->getBlock($toolbar);
             $name = $toolbar;
         }
         $this->setChild($name, $block);
         $block->setAttribute('region', $target);
-        $block->setAttribute('outAfterParent', true);
+        $block->setOutAfterParent(true);
     }
     
     function addMenu($menu)
     {
         if ($menu instanceof Mage_Core_Block_Admin_Js_Menu) {
             $block = $menu;
-            $name = $menu->getInfo('name');
+            $name = $menu->getName();
         } else {
-            $block = Mage::registry('blocks')->getBlockByName($menu);
+            $block = $this->getLayout()->getBlock($menu);
             $name = $menu;
         }
         $this->setChild($name, $block);
-        $this->setAttribute('outAfterParent', true);
+        $this->setOutAfterParent(true);
     }
     
     function getUseExistingPanelJs($name, $js, $show=false)
@@ -70,15 +70,15 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     
     function toJs()
     {
-        $name = $this->getInfo('name');
+        $name = $this->getName();
         $jsGetObject = $this->getObjectJs();
-        $regions  = $this->getAttribute('regions');
-        $config = $this->getAttribute('config');
+        $regions  = $this->getRegions();
+        $config = $this->getConfig();
         $uep = empty($config['useExistingPanels']) ? false : true;
         
         $out = '';
         
-        $parent = $this->getInfo('parent');
+        $parent = $this->getParent();
         if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
             $container = $this->getObjectJs($this->getAttribute('container')).'.getEl()';
             $container = "Ext.DomHelper.append($container, {tag:'div'}, true)";
@@ -91,10 +91,10 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
 
         $children = $this->getChild();
         foreach ($children as $block) {
-            if (!$block->getAttribute('outAfterParent')) {
+            if (!$block->getOutAfterParent()) {
                 $js = $block->toJs();
                 if ($uep) {
-                    $js = $this->getUseExistingPanelJs($block->getInfo('name'), $js, true);
+                    $js = $this->getUseExistingPanelJs($block->getName(), $js, true);
                 }
                 $out .= $js;
             }
@@ -107,7 +107,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
                     $panelJs = $block->getObjectJs();
                     $js = "$jsGetObject.add('$target', $panelJs);\n";
                     if ($uep) {
-                        $js = $this->getUseExistingPanelJs($block->getInfo('name'), $js);
+                        $js = $this->getUseExistingPanelJs($block->getName(), $js);
                     }
                     $out .= $js;
                 }
@@ -115,7 +115,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         }
 
         foreach ($children as $block) {
-            if ($block->getAttribute('outAfterParent')) {
+            if ($block->getOutAfterParent()) {
                 $out .= $block->toJs();
             }
         }
@@ -125,11 +125,11 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         return $out;
     }
     
-    function toString()
+    function toHtml()
     {
-        $parent = $this->getInfo('parent');
+        $parent = $this->getParent();
         if (isset($parent) && ($parent['block'] instanceof Mage_Core_Block_Admin_Js_Layout_Panel_Nested)) {
-            return parent::toString();
+            return parent::toHtml();
         } else {
             return "<script type=\"text/javascript\" language=\"Javascript\">\n".$this->toJs()."</script>\n";
         }

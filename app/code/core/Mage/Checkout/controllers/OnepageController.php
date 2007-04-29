@@ -27,13 +27,13 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $statusBlock =  Mage::createBlock('checkout_onepage_status', 'checkout.status');
+        $statusBlock =  $this->getLayout()->createBlock('checkout_onepage_status', 'checkout.status');
             
-        Mage::getBlock('left')->unsetChildren()
+        $this->getLayout()->getBlock('left')->unsetChildren()
             ->insert($statusBlock);
             
-        $block = Mage::createBlock('checkout_onepage', 'checkout.onepage');
-        Mage::getBlock('content')->append($block);
+        $block = $this->getLayout()->createBlock('checkout_onepage', 'checkout.onepage');
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }
@@ -43,8 +43,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $statusBlock = Mage::createBlock('checkout_onepage_status', 'root');
-        $this->getResponse()->appendBody($statusBlock->toString());
+        $statusBlock = $this->getLayout()->createBlock('checkout_onepage_status', 'root');
+        $this->getResponse()->appendBody($statusBlock->toHtml());
     }
 
     /**
@@ -52,25 +52,25 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function shippingMethodAction()
     {
-        $block = Mage::createBlock('checkout_shipping_method', 'root');
+        $block = $this->getLayout()->createBlock('checkout_shipping_method', 'root');
         
-        $this->getResponse()->appendBody($block->toString());
+        $this->getResponse()->appendBody($block->toHtml());
     }
     
     public function reviewAction()
     {
-        $block = Mage::createBlock('checkout_onepage_review', 'root');
+        $block = $this->getLayout()->createBlock('checkout_onepage_review', 'root');
         
-        $this->getResponse()->appendBody($block->toString());
+        $this->getResponse()->appendBody($block->toHtml());
     }
     
     public function successAction()
     {
         $this->loadLayout();
-        $block = Mage::createBlock('tpl', 'checkout.success')
+        $block = $this->getLayout()->createBlock('tpl', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
             ->assign('orderId', $this->_quote->getQuoteId());
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         // TODO: clear quote and checkout 
         //$this->_checkout->clear();

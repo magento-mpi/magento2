@@ -19,10 +19,10 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 
     public function loadData(Zend_Controller_Request_Http $request)
     {
-        $category = $this->getAttribute('category');
+        $category = $this->getCategory();
         
         // Breadcrumbs
-        $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
+        $breadcrumbs = $this->getLayout()->createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>__('Home'),'title'=>__('Go to home page'),'link'=>Mage::getBaseUrl()));
         $breadcrumbs->addCrumb('category', array('label'=>$category->getName()));
         $this->setChild('breadcrumbs', $breadcrumbs);
@@ -51,7 +51,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         // assign
         $this->assign('filters', $filters);
         
-        Mage::getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
+        Mage::registry('action')->getLayout()->getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
         $page = $request->getParam('p',1);
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));

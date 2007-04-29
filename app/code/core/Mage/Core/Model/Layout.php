@@ -6,7 +6,26 @@
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
+    /**
+     * Layout arguments substitution
+     *
+     * @var array
+     */
     protected $_subst = array('keys'=>array(), 'values'=>array());
+        
+    /**
+     * Blocks registry
+     *
+     * @var array
+     */
+    protected $_blocks = array();
+    
+    /**
+     * Cache of block callbacks to output during rendering
+     *
+     * @var array
+     */
+    protected $_output = array();
     
     /**
      * Initialize layout configuration for $id key
@@ -94,7 +113,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @param Mage_Core_Layout_Element|null $parent
      */
-    public function createBlocks($parent=null)
+    public function generateBlocks($parent=null)
     {
         if (empty($parent)) {
             $parent = $this->getXml();
@@ -104,11 +123,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case 'block':
                     $className = (string)$node['class'];
                     $blockName = (string)$node['name'];
-                    $block = Mage::registry('blocks')->addBlock($className, $blockName);
+                    $block = $this->addBlock($className, $blockName);
                     
                     if (!empty($node['parent'])) {
                         $parentName = (string)$node['parent'];
-                        $parent = Mage::registry('blocks')->getBlockByName($parentName);
+                        $parent = $this->getBlock($parentName);
                         
                         if (isset($node['as'])) {
                             $as = (string)$node['as'];
@@ -131,18 +150,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     }
                     if (!empty($node['output'])) {
                         $method = (string)$node['output'];
-                        Mage::registry('blocks')->addOutputBlock($blockName, $method);
+                        $this->addOutputBlock($blockName, $method);
                     }
-                    $this->createBlocks($node);
+                    $this->generateBlocks($node);
                     break;
                     
                 case 'reference':
-                    $this->createBlocks($node);
+                    $this->generateBlocks($node);
                     break;
 
                 case 'action':
                     $name = (string)$node['block'];
-                    $block = Mage::registry('blocks')->getBlockByName($name);
+                    $block = $this->getBlock($name);
                     $method = (string)$node['method'];
                     $args = (array)$node->children();
                     unset($args['@attributes']);
@@ -159,4 +178,130 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
     }
     
+    
+    /**
+     * Save block in blocks registry
+     *
+     * @param string $name
+     * @param Mage_Core_Block_Abstract $block
+     */
+    public function setBlock($name, $block)
+    {
+        $this->_blocks[$name] = $block;
+    }
+    
+    /**
+     * Remove block from registry
+     *
+     * @param string $name
+     */
+    public function unsetBlock($name)
+    {
+        $this->_blocks[$name] = null;
+        unset($this->_blocks[$name]);
+    }
+    
+    /**
+     * Block Factory
+     * 
+     * @param     string $type
+     * @param     string $blockName
+     * @param     array $attributes
+     * @return    Mage_Core_Block_Abtract
+     * @author    Moshe Gurvich <moshe@varien.com>
+     * @author    Soroka Dmitriy <dmitriy@varien.com>
+     */
+    public function createBlock($type, $name='', array $attributes = array())
+    {
+        #Mage::setTimer(__METHOD__);
+
+        if (!$className = Mage::getConfig()->getBlockTypeConfig($type)->getClassName()) {
+            Mage::exception('Invalid block type ' . $type);
+        }
+
+        $block = new $className();
+        
+        if (empty($name) || '.'===$name{0}) {
+            $block->setIsAnonymous(true);
+            if (!empty($name)) {
+                $block->setAnonSuffix(substr($name, 1));
+            }
+            $name = 'ANONYMOUS_'.sizeof($this->_blocks);
+        }
+        
+        $block->setType($type)->setName($name)->setLayout($this);
+        $block->addData($attributes);
+        
+        $this->_blocks[$name] = $block;
+        
+        #Mage::setTimer(__METHOD__, true);
+
+        return $this->_blocks[$name];
+    }
+    
+    /**
+     * Add a block to registry, create new object if needed
+     *
+     * @param string|Mage_Core_Block_Abstract $blockClass
+     * @param string $blockName
+     * @return Mage_Core_Block_Abstract
+     */
+    public function addBlock($block, $blockName)
+    {
+        if (is_string($block)) {
+            $blockObj = new $block();
+        } else {
+            $blockObj = $block;
+        }
+            
+        $blockObj->setName($blockName)->setLayout($this);
+        $this->_blocks[$blockName] = $blockObj;
+        return $blockObj;
+    }
+    
+    /**
+     * Retrieve all blocks from registry as array
+     *
+     * @return array
+     */
+    public function getAllBlocks()
+    {
+        return $this->_blocks;
+    }
+    
+    /**
+     * Get block object by name
+     *
+     * @param string $name
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getBlock($name)
+    {
+        if (isset($this->_blocks[$name])) {
+            return $this->_blocks[$name];
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Add a block to output
+     *
+     * @param string $blockName
+     * @param string $method
+     */
+    public function addOutputBlock($blockName, $method='toHtml')
+    {
+        $this->_output[] = array($blockName, $method);
+    }
+    
+    /**
+     * Get all blocks marked for output
+     *
+     * @return array
+     */
+    public function getOutputBlocks()
+    {
+        return $this->_output;
+    }    
 }

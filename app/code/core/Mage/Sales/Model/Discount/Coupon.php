@@ -46,6 +46,9 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
         $quote->setDiscountPercent($this->getDiscountPercent());
         
         foreach ($quote->getEntitiesByType('item') as $item) {
+            if (!$this->isValidForQuoteItem($item)) {
+                continue;
+            }
             $item->setDiscountPercent($quote->getDiscountPercent());
             $item->setDiscountAmount($item->getRowTotal() * $item->getDiscountPercent()/100);
             $quote->setDiscountAmount($quote->getDiscountAmount() + $item->getDiscountAmount());
@@ -58,8 +61,10 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
     {
         // first pass - collect valid items for discount
         $couponSubtotal = 0;
+        $validItems = array();
         foreach ($quote->getEntitiesByType('item') as $item) {
             if ($this->isValidForQuoteItem($item)) {
+                $validItems[] = $item;
                 $couponSubtotal += $item->getRowTotal();
             }
         }
@@ -67,12 +72,12 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
             return $this;
         }
 
-        $quote->setDiscountAmount($this->getDiscountFixed());
+        $quote->setDiscountAmount(min($this->getDiscountFixed(), $couponSubtotal));
         
-        $quote->setDiscountPercent($this->getDiscountFixed() / $couponSubtotal);
+        $quote->setDiscountPercent($quote->getDiscountAmount() / $couponSubtotal);
         
         // second pass - set calculated percentages for items
-        foreach ($quote->getEntitiesByType('item') as $item) {
+        foreach ($validItems as $item) {
             $item->setDiscountPercent($quote->getDiscountPercent());
             $item->setDiscountAmount($item->getRowTotal() * $item->getDiscountPercent() / 100);
         }

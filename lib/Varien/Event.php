@@ -155,5 +155,6 @@ class Varien_Event
     public function stopDispatch()
     {
         $this->_stopDispatchFlag = true;
+        return $this;
     }
 }

@@ -19,10 +19,10 @@ class Mage_Auth_Admin
         }
         
         if (!$auth->getUser()) {
-            echo Mage::createBlock('tpl', 'root')
+            echo Mage::getModel('core', 'layout')->createBlock('tpl', 'root')
                 ->setTemplate('auth/login.phtml')
                 ->assign('username', '')
-                ->toString();
+                ->toHtml();
             exit;
         }
        

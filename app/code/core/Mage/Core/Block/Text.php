@@ -34,7 +34,7 @@ class Mage_Core_Block_Text extends Mage_Core_Block_Abstract
         }
     }
     
-	function toString()
+	function toHtml()
 	{
     	return $this->getText();
 	}

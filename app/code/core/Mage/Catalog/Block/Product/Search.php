@@ -19,10 +19,10 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
     public function loadByQuery(Zend_Controller_Request_Http $request)
     {
         $this->setTemplate('catalog/search/result.phtml');
-        $query = $this->getAttribute('query');
+        $query = $this->getQuery();
         $queryEscaped = htmlspecialchars($query);
 
-        Mage::getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
+        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
@@ -89,7 +89,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $search = $request->getParam('search', array());
         $request->setParam('search', false);
         
-        Mage::getBlock('head.title')->setContents('Advanced search result');
+        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Advanced search result');
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')

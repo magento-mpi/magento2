@@ -13,19 +13,19 @@
 
 class Mage_Core_Block_Text_List extends Mage_Core_Block_Text 
 {
-	function toString()
+	function toHtml()
 	{
 	    $this->setText('');
-	    $list = $this->getAttribute('sortedChildrenList');
+	    $list = $this->getSortedChildrenList();
 	    if (!empty($list)) {
     	    foreach ($list as $name) {
-    	        $block = Mage::getBlock($name);
+    	        $block = $this->getLayout()->getBlock($name);
     	        if (!$block) {
     	            Mage::exception('Invalid block: '.$name);
     	        }
-    	        $this->addText($block->toString());
+    	        $this->addText($block->toHtml());
     	    }
 	    }
-	    return parent::toString();
+	    return parent::toHtml();
 	}
 }// Class Mage_Core_Block_List END

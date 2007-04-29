@@ -14,9 +14,9 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     {
         $this->loadLayout();
             
-        $breadcrumbs = Mage::createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
+        $breadcrumbs = $this->getLayout()->createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', array('label'=>'Home'));
-        Mage::getBlock('content')->append($breadcrumbs);
+        $this->getLayout()->getBlock('content')->append($breadcrumbs);
         
         $this->renderLayout();
     }

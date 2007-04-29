@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <block type="tpl" name="root" output="toString">
+    <block type="tpl" name="root" output="toHtml">
         <action method="setTemplate"><template>core/layout.phtml</template></action>
         <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
         <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/default</value></action>

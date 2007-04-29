@@ -77,7 +77,7 @@ class Mage_Core_ConfigController extends Mage_Core_Controller_Admin_Action
         $node = $_POST['node'];
 
         Mage_Core_Block::loadJsonFile($node);        
-        $res = Mage::registry('blocks')->getAllBlocks();
+        $res = $this->getLayout()->getAllBlocks();
         foreach($res as $block) {
             echo get_class($block)."<br>";
         }

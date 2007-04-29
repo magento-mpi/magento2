@@ -38,9 +38,9 @@ class Mage_Catalog_Block_Breadcrumbs extends Mage_Core_Block_Template
     	$this->_crumbs[$crumbName]=$crumbInfo;
     }
     
-    function toString()
+    function toHtml()
     {
     	$this->assign('crumbs', $this->_crumbs);
-    	return parent::toString();
+    	return parent::toHtml();
     }
 }

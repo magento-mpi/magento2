@@ -15,7 +15,7 @@
  * @date       Wed Feb 07 03:59:31 EET 2007
  */
 
-abstract class Mage_Core_Block_Abstract
+abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
 {
     /**
      * Info contains block id (db pk), name, parent, group
@@ -58,120 +58,52 @@ abstract class Mage_Core_Block_Abstract
     }
 
     /**
-     * Get block data
-     * 
-     * @param     none
-     * @return    array
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
-     */
-    
-    public function getInfo($name='')
-    {
-        if (''===$name) {
-            return $this->_info ;
-        } elseif (isset($this->_info[$name])) {
-            return $this->_info[$name];
-        }
-        return false;
-    }
-    
-    /**
-     * Set info variable value
-     *
-     * @param  string $info
-     * @param  mixed  $value
-     * @return Mage_Core_Block_Abstract
-     */
-    public function setInfo($info, $value='')
-    {
-        if (is_array($info) && ''===$value) {
-            foreach ($info as $name=>$value) {
-                $this->setInfo($name, $value);
-            }
-        } else {
-          if (is_null($value)) {
-              unset($this->_info[$info]);
-          } else {
-              $this->_info[$info] = $value;
-          }
-        }
-        return $this;
-    }
-    
-    /**
-     * Get attribute value
-     *
-     * @param  string $name
-     * @return mixed
-     */
-    public function getAttribute($name='')
-    {
-        if (''===$name) {
-            return $this->_attributes ;
-        } else {
-            if (isset($this->_attributes[$name])) {
-               return $this->_attributes[$name];
-            }
-        }
-        return null;    
-    }
-    
-    /**
-     * Set data to _attributes array
-     * 
-     * @param     string $var_name
-     * @return    Mage_Core_Block_Abstract
-     */
-    
-    public function setAttribute($info, $value='')
-    {
-        if (is_array($info) && ''===$value) {
-            foreach ($info as $name=>$value) {
-                $this->setAttribute($name, $value);
-            }
-        } else {
-            $this->_attributes[$info] = $value;
-        }
-        return $this;
-    }
-
-    /**
      * Set child block
      * 
      * @param     string $name
      * @param     mixed  $block
      * @return    Mage_Core_Block_Abstract
      */
+
+    public function getAttribute($name)
+    {
+        return $this->getData($name);
+    }
+
+    public function setAttribute($name, $value=null)
+    {
+        return $this->setData($name, $value);
+    }
     
     public function setChild($name, $block)
     {
         if (is_string($block)) {
-            $block = Mage::getBlock($block);
+            $block = $this->getLayout()->getBlock($block);
             if (!$block) {
                 Mage::exception('Invalid block name to set child '.$name.': '.$block);
             }
         }
         
-        if ($block->getInfo('anonymous')) {
+        if ($block->getIsAnonymous()) {
             
-            $suffix = $block->getInfo('anonSuffix');
+            $suffix = $block->getAnonSuffix();
             if (empty($suffix)) {
                 $suffix = 'child'.sizeof($this->_children);
             }
-            $blockName = $this->getInfo('name').'.'.$suffix;
+            $blockName = $this->getName().'.'.$suffix;
 
-            Mage::registry('blocks')->unsetBlock($block->getInfo('name'));
-            Mage::registry('blocks')->setBlock($blockName, $block);
+            $this->getLayout()->unsetBlock($block->getName());
+            $this->getLayout()->setBlock($blockName, $block);
             
-            $block->setInfo('name', $blockName);
-            $block->setInfo('anonymous', false);
+            $block->setName($blockName);
+            $block->setIsAnonymous(false);
             
             if (empty($name)) {
                $name = $blockName;
             }
         }
         
-        $block->setInfo('parent', array('var'=>$name, 'block'=>$this));
+        $block->setParent(array('var'=>$name, 'block'=>$this));
         $this->_children[$name] = $block;
 
         return $this;
@@ -180,18 +112,18 @@ abstract class Mage_Core_Block_Abstract
     public function unsetChild($name)
     {
         unset($this->_children[$name]);
-        $list = $this->getAttribute('sortedChildrenList');
+        $list = $this->getSortedChildrenList();
         $key = array_search($name, $list);
         if (!empty($key)) {
             unset($list[$key]);
-            $this->setAttribute('sortedChildrenList', $list);
+            $this->setSortedChildrenList($list);
         }
     }
     
     public function unsetChildren()
     {
         $this->_children = array();
-        $this->setAttribute('sortedChildrenList', array());
+        $this->setSortedChildrenList(array());
         return $this;
     }
 
@@ -222,15 +154,15 @@ abstract class Mage_Core_Block_Abstract
      */
     function insert($block, $siblingName='', $after=false)
     {
-        if ($block->getInfo('anonymous')) {
+        if ($block->getIsAnonymous()) {
             $this->setChild('', $block);        
-            $name = $block->getInfo('name');
+            $name = $block->getName();
         } else {
-            $name = $block->getInfo('name');
+            $name = $block->getName();
             $this->setChild($name, $block);        
         }
         
-        $list = $this->getAttribute('sortedChildrenList');
+        $list = $this->getSortedChildrenList();
         if (empty($list)) {
             $list = array();
         }
@@ -251,7 +183,7 @@ abstract class Mage_Core_Block_Abstract
             }
         }
         
-        $this->setAttribute('sortedChildrenList', $list);
+        $this->setSortedChildrenList($list);
         
         return $this;
     }
@@ -261,48 +193,6 @@ abstract class Mage_Core_Block_Abstract
         return $this->insert($block, '', true);
     }
 
-    public function toArray()
-    {
-        $arr = array();
-        
-        $arr['attributes'] = $this->getAttribute();
-        
-        if ($parent = $this->getInfo('parent')) {
-            $arr['parent'] = array('var'=>$parent['var'], 'block'=>$parent['block']->getInfo('name'));
-        }
-
-        return $arr;
-    }
-    
-    public function loadFromArray($arr)
-    {
-        $this->_attributes = $arr['attributes'];
-
-        if (!empty($arr['parent'])) {
-            $arr['parent']['block'] = Mage::getBlock($arr['parent']['block']);
-            $arr['parent']['block']->setChild($arr['parent']['var'], $this);
-            $this->setInfo('parent', $arr['parent']);
-        }
-        
-        return $this;
-    }
-
-    /**
-     * Set required array elements
-     *
-     * @param   array $arr
-     * @param   array $elements
-     * @return  array
-     */
-    protected function _prepareArray(&$arr, $elements=array())
-    {
-        foreach ($elements as $element) {
-            if (!isset($arr[$element])) {
-                $arr[$element] = null;
-            }
-        }
-        return $arr;
-    }
     
     /**
      * Convert _attributes array to string
@@ -334,7 +224,7 @@ abstract class Mage_Core_Block_Abstract
         return implode($separator, $arrValues);
     }
         
-    public function toString()
+    public function toHtml()
     {
         
     }

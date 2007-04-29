@@ -4,7 +4,7 @@ abstract class Mage_Core_Block_Admin_Js_Layout extends Mage_Core_Block_Admin_Js
 {
     function getNewObjectJs()
     {
-        $class = $this->getAttribute('jsClassName');
+        $class = $this->getJsClassName();
         $container = $this->getAttribute('container');
         $config = $this->getAttribute('config');
         $jsConfig = Zend_Json::encode($config);

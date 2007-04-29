@@ -17,7 +17,7 @@ class Mage_Core_Block_Form_Element_Imagefile extends Mage_Core_Block_Form_Elemen
         parent::__construct($attributes);
     }
     
-    public function toString()
+    public function toHtml()
     {
         $html = $this->renderElementLabel();
         $html.= '<input type="file" ';

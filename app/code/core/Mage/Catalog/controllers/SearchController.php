@@ -15,10 +15,10 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         $searchQuery = $this->getRequest()->getParam('q', false);
         if ($searchQuery) {
             Mage::getBlock('search.form.mini')->assign('query', $searchQuery);
-            $searchResBlock = Mage::createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
+            $searchResBlock = $this->getLayout()->createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
             $searchResBlock->loadByQuery($this->getRequest());
             
-            Mage::getBlock('content')->append($searchResBlock);
+            $this->getLayout()->getBlock('content')->append($searchResBlock);
         }
         else {
             
@@ -51,12 +51,12 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
             //$this->_redirect('noroute');
         }
         
-        Mage::getBlock('catalog.leftnav')->assign($attribute, $value);
+        $this->getLayout()->getBlock('catalog.leftnav')->assign($attribute, $value);
         
-        $block = Mage::createBlock('catalog_search_result', 'search.byattribute');
+        $block = $this->getLayout()->createBlock('catalog_search_result', 'search.byattribute');
         $block->loadByAttributeOption($this->getRequest());
         
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }
@@ -78,14 +78,14 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
             ->getSource()
                 ->getArrOptions();
         
-        $block = Mage::createBlock('tpl', 'catalog.search.advanced')
+        $block = $this->getLayout()->createBlock('tpl', 'catalog.search.advanced')
             ->setTemplate('catalog/search/form.advanced.phtml')
             ->assign('action', Mage::getUrl('catalog', array('controller'=>'search', 'action'=>'advancedResult')))
             ->assign('categories', $categories)
             ->assign('types', $types)
             ->assign('manufacturers', $manufacturers);
 
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
     }
     
@@ -93,10 +93,10 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
             
-        $block = Mage::createBlock('catalog_search_result', 'search.result');
+        $block = $this->getLayout()->createBlock('catalog_search_result', 'search.result');
         $block->loadByAdvancedSearch($this->getRequest());
         
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
    }

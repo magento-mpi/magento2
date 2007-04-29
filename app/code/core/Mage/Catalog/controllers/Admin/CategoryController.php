@@ -15,14 +15,14 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
      */
     public function newAction()
     {
-        $form = Mage::createBlock('admin_catalog_category_form', 'category_form');
-        $this->getResponse()->setBody($form->toString());
+        $form = $this->getLayout()->createBlock('admin_catalog_category_form', 'category_form');
+        $this->getResponse()->setBody($form->toHtml());
     }
     
     public function formAction()
     {
-        $form = Mage::createBlock('admin_catalog_category_form', 'category_form');
-        $this->getResponse()->setBody($form->toString());
+        $form = $this->getLayout()->createBlock('admin_catalog_category_form', 'category_form');
+        $this->getResponse()->setBody($form->toHtml());
     }
     
     public function saveAction()

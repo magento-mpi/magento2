@@ -636,9 +636,6 @@ Mage.Catalog_Product_Attributes = function(){
                }
             }.createDelegate(this));
             
-            
-            
-            
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',

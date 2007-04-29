@@ -17,7 +17,7 @@ class Mage_Core_Block_Form_Element_Text extends Mage_Core_Block_Form_Element_Abs
         parent::__construct($attributes);
     }
     
-    public function toString()
+    public function toHtml()
     {
         $html = $this->renderElementLabel();
         if(empty($this->_attributes['class'])){

@@ -17,10 +17,8 @@ class Mage_Core_Block_Text_Tag_Css extends Mage_Core_Block_Text_Tag
     {
         parent::__construct();
 
-        $this->setAttribute(array(
-          'tagName'=>'link',
-          'tagParams'=>array('rel'=>'stylesheet', 'type'=>'text/css', 'media'=>'all'),
-        ));
+        $this->setTagName('link');
+        $this->setTagParams(array('rel'=>'stylesheet', 'type'=>'text/css', 'media'=>'all'));
     }
     
     function setHref($href, $type='skin')

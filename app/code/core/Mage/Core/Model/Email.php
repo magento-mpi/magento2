@@ -21,8 +21,8 @@ class Mage_Core_Model_Email extends Varien_Data_Object
         
         $body = $this->getBody();
         if (empty($body) && $this->getTemplate()) {
-            $block = Mage::createBlock('tpl', 'email')->setTemplate($this->getTemplate());
-            $body = $block->toString();
+            $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'email')->setTemplate($this->getTemplate());
+            $body = $block->toHtml();
         }
         
         $this->setResult(mail($to, $subject, $body, $headers));

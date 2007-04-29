@@ -31,13 +31,13 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressCollection = Mage::getModel('customer_resource', 'address_collection');
         $addressCollection->loadByCustomerId($customerId);
         
-        $block = Mage::createBlock('tpl', 'customer.address')
+        $block = $this->getLayout()->createBlock('tpl', 'customer.address')
             ->setTemplate('customer/address.phtml')
             ->assign('primaryAddresses', $addressCollection->getPrimaryAddresses())
             ->assign('alternativeAddresses', $addressCollection->getPrimaryAddresses(false))
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
         
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }
@@ -77,7 +77,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
         $countries = Mage::getModel('directory', 'country_collection');       
         // Form block
-        $block = Mage::createBlock('tpl', 'customer.address.form')
+        $block = $this->getLayout()->createBlock('tpl', 'customer.address.form')
             ->setTemplate('customer/form/address.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'address', 'action'=>'formPost')))
             ->assign('countries',   $countries->loadByCurrentDomain())
@@ -87,7 +87,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('primaryTypes',$address->getAvailableTypes());
             
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
     }

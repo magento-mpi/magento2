@@ -130,10 +130,10 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         
         $out = '';
         $out.= $this->setObjectJs('', "new Ext.tree.TreePanel('$container', $config)");
-        $out.= $this->_nodesToJs($nodes, $this->getInfo('name')); 
+        $out.= $this->_nodesToJs($nodes, $this->getName()); 
 
         if (!empty($nodes['root'])) {
-            $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getInfo('name').'_root').');';
+            $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getName().'_root').');';
         }
         
         // TODO: object init in json
@@ -144,11 +144,11 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         return $out;
     }
     
-    public function toString()
+    public function toHtml()
     {
         $container  = $this->getAttribute('container');
         $out = '<div id="'.$container.'"></div>';
-        $out.= parent::toString();
+        $out.= parent::toHtml();
         return $out;
     }
 }

@@ -57,14 +57,14 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
 	{
 		parent::__construct($attributes);
 		
-		if (is_null($this->getAttribute('isFormFramed'))) {
-			$this->setAttribute('isFormFramed', true);
+		if (is_null($this->getIsFormFramed())) {
+			$this->setIsFormFramed(true);
 		}
-		if (is_null($this->getAttribute('method'))) {
-			$this->setAttribute('method', 'post');
+		if (is_null($this->getMethod())) {
+			$this->setMethod('post');
 		}
-		if (is_null($this->getAttribute('enctype'))) {
-			$this->setAttribute('enctype', 'multipart/form-data');
+		if (is_null($this->getEnctype())) {
+			$this->setEnctype('multipart/form-data');
 		}
 	}
 	

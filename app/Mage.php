@@ -193,19 +193,19 @@ final class Mage {
      */
     public static function createBlock($type, $name='', array $attributes=array())
     {
-        return Mage::registry('blocks')->createBlock($type, $name, $attributes);
+        return Mage::registry('controller')->getLayout()->createBlock($type, $name, $attributes);
     }
     
     /**
      * Return Block object for block id
      *
-     * @link    Mage_Core_Block::getBlockByName
+     * @link    Mage_Core_Block::getBlock
      * @param   string $id
      * @return  Mage_Core_Block_Abstract
      */
     public static function getBlock($name)
     {
-        return Mage::registry('blocks')->getBlockByName($name);
+        return Mage::registry('controller')->getLayout()->getBlock($name);
     }
 
     /**
@@ -272,7 +272,6 @@ final class Mage {
 
         Mage::register('session', Mage::getSingleton('core', 'session'));
         Mage::register('website', Mage::getSingleton('core', 'website'));
-        Mage::register('blocks', Mage::getSingleton('core', 'block'));
         
         Varien_Profiler::setTimer('init', true);
 

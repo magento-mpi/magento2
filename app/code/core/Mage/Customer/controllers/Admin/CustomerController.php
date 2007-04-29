@@ -68,7 +68,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $customerId = $this->getRequest()->getParam('id', false);
         $customer = Mage::getModel('customer', 'customer')->load($customerId);
 
-        $form = Mage::createBlock('form', 'customer.form');
+        $form = $this->getLayout()->createBlock('form', 'customer.form');
         $form->setTemplate('form.phtml');
         
         $form->setAttribute('legend', 'Customer information');
@@ -167,7 +167,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
        }
             
         
-        $this->getResponse()->setBody($form->toString());
+        $this->getResponse()->setBody($form->toHtml());
     }
 
     public function formPostAction()

@@ -6,7 +6,7 @@ class IndexController extends Mage_Core_Controller_Admin_Action
     {
         $this->loadLayout('admin', 'default'); 
         
-        $head = Mage::getBlock('head');
+        $head = $this->getLayout()->getBlock('head');
         $children = $head->getChild();
         
 //        foreach ($children as $name=>$child) {

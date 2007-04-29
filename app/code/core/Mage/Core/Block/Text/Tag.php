@@ -17,13 +17,7 @@ class Mage_Core_Block_Text_Tag extends Mage_Core_Block_Text
 	{
 		parent::__construct();
 		
-		$this->setAttribute('tagParams', array());
-	}
-
-	function setTagName($name)
-	{
-	    $this->setAttribute('tagName', $name);
-	    return $this;
+		$this->setTagParams(array());
 	}
 
 	function setTagParam($param, $value=null)
@@ -33,29 +27,29 @@ class Mage_Core_Block_Text_Tag extends Mage_Core_Block_Text
 	            $this->setTagParam($k, $v);
 	        }
 	    } else {
-	        $params = $this->getAttribute('tagParams');
+	        $params = $this->getTagParams();
 	        $params[$param] = $value;
-	        $this->setAttribute('tagParams', $params);
+	        $this->setTagParams($params);
 	    }
 	    return $this;
 	}
 
 	function setContents($text)
 	{
-	    $this->setAttribute('tagContents', $text);
+	    $this->setTagContents($text);
 	    return $this;
 	}
 
-	function toString()
+	function toHtml()
 	{
-	    $this->setText('<'.$this->getAttribute('tagName').' ');
-	    if ($this->getAttribute('tagParams')) {
-    	    foreach ($this->getAttribute('tagParams') as $k=>$v) {
+	    $this->setText('<'.$this->getTagName().' ');
+	    if ($this->getTagParams()) {
+    	    foreach ($this->getTagParams() as $k=>$v) {
     	        $this->addText($k.'="'.$v.'" ');
     	    }
 	    }
 
-        $this->addText('>'.$this->getAttribute('tagContents').'</'.$this->getAttribute('tagName').'>'."\r\n");
-	    return parent::toString();
+        $this->addText('>'.$this->getTagContents().'</'.$this->getTagName().'>'."\r\n");
+	    return parent::toHtml();
 	}
 }// Class Mage_Core_Block_List END

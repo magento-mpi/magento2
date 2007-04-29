@@ -22,10 +22,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             
         // Valid category id
         if (!$category->isEmpty()) {
-            $block = Mage::createBlock('catalog_category_view', 'category.products', array('category'=>$category));
+            $block = $this->getLayout()->createBlock('catalog_category_view', 'category.products', array('category'=>$category));
             $block->loadData($this->getRequest());
             
-            Mage::getBlock('content')->append($block);
+            $this->getLayout()->getBlock('content')->append($block);
         }
         else {
             $this->_forward('noRoute');

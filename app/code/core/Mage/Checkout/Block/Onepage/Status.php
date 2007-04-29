@@ -31,7 +31,7 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
             if (!empty($paymentMethodConfig)) {
                 $className = $paymentMethodConfig->getClassName();
                 $paymentMethod = new $className();
-                $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($this->getInfo('name').'.payment');
+                $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($this->getName().'.payment');
                 $this->setChild('payment', $paymentBlock);
             } else {
                 $this->assign('payment', '');

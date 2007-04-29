@@ -15,17 +15,17 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
 {
     function setLink($liParams, $aParams, $innerText, $afterText='')
     {
-        $this->setAttribute('liParams', $liParams);
-        $this->setAttribute('aParams', $aParams);
-        $this->setAttribute('innerText', $innerText);
-        $this->setAttribute('afterText', $afterText);
+        $this->setLiParams($liParams);
+        $this->setAParams($aParams);
+        $this->setInnerText($innerText);
+        $this->setAfterText($afterText);
         return $this;
     }
 
-    function toString()
+    function toHtml()
     {
         $this->setText('<li');
-        $params = $this->getAttribute('liParams');
+        $params = $this->getLiParams();
         if (!empty($params) && is_array($params)) {
             foreach ($params as $key=>$value) {
                 $this->addText(' '.$key.'="'.addslashes($value).'"');
@@ -35,7 +35,7 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
         }
         $this->addText('><a');
 
-        $params = $this->getAttribute('aParams');
+        $params = $this->getAParams();
         if (!empty($params) && is_array($params)) {
             foreach ($params as $key=>$value) {
                 $this->addText(' '.$key.'="'.addslashes($value).'"');
@@ -44,8 +44,8 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
             $this->addText(' '.$params);
         }
 
-        $this->addText('>'.$this->getAttribute('innerText').'</a>'.$this->getAttribute('afterText').'</li>'."\r\n");
+        $this->addText('>'.$this->getInnerText().'</a>'.$this->getAfterText().'</li>'."\r\n");
         
-        return parent::toString();
+        return parent::toHtml();
     }
 }// Class Mage_Core_Block_List END

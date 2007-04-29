@@ -15,7 +15,7 @@ class Mage_Core_Block_Form_Element_Image extends Mage_Core_Block_Form_Element_Ab
         parent::__construct($attributes);
     }
     
-    public function toString()
+    public function toHtml()
     {
         $html = $this->renderElementLabel();
         $html.= '<input type="image" ';

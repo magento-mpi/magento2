@@ -44,7 +44,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
         
         $address = Mage::getModel('customer', 'address')->load($addressId);
 
-        $form = Mage::createBlock('form', 'customer.form');
+        $form = $this->getLayout()->createBlock('form', 'customer.form');
         $form->setTemplate('form.phtml');
 
         $form->setAttribute('legend', 'Address information');
@@ -201,7 +201,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
             }
         }
         
-        $this->getResponse()->setBody($form->toString());
+        $this->getResponse()->setBody($form->toHtml());
     }
 
     /**

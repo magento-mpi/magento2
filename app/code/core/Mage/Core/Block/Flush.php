@@ -14,18 +14,18 @@
 
 class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 {
-	function toString()
+	function toHtml()
 	{
 	    ob_implicit_flush();
 	    
-	    $list = $this->getAttribute('sortedChildrenList');
+	    $list = $this->getSortedChildrenList();
 	    if (!empty($list)) {
     	    foreach ($list as $name) {
-    	        $block = Mage::getBlock($name);
+    	        $block = $this->getLayout()->getBlock($name);
     	        if (!$block) {
     	            Mage::exception('Invalid block: '.$name);
     	        }
-    	        echo $block->toString();
+    	        echo $block->toHtml();
     	    }
 	    }
 	}

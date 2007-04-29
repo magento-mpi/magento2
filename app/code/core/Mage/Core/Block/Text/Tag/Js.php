@@ -17,10 +17,8 @@ class Mage_Core_Block_Text_Tag_Js extends Mage_Core_Block_Text_Tag
     {
         parent::__construct();
         
-        $this->setAttribute(array(
-          'tagName'=>'script',
-          'tagParams'=>array('language'=>'javascript', 'type'=>'text/javascript'),
-        ));
+        $this->setTagName('script');
+        $this->setTagParams(array('language'=>'javascript', 'type'=>'text/javascript'));
     }
     
     function setSrc($src, $type='js')

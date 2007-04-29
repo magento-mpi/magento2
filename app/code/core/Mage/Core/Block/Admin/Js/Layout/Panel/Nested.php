@@ -7,10 +7,10 @@ class Mage_Core_Block_Admin_Js_Layout_Panel_Nested extends Mage_Core_Block_Admin
         if ($border instanceof Mage_Core_Block_Admin_Js_Layout_Border) {
             $block = $border;
             $border = $block->getObjectJs();
-            $this->setChild($block->getInfo('name'), $block);
+            $this->setChild($block->getName(), $block);
         }
         parent::construct($border, $config);
         
-        $this->setAttribute('jsClassName', 'Ext.NestedLayoutPanel');
+        $this->setJsClassName('Ext.NestedLayoutPanel');
     }
 }

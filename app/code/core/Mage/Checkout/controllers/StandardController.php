@@ -27,12 +27,12 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
         $addressId = Mage::getSingleton('customer', 'session')->getCustomer()->getPrimaryAddress('shipping');
         $address = Mage::getModel('customer', 'address')->getRow($addressId);
         
-        $block = Mage::createBlock('tpl', 'checkout.shipping')
+        $block = $this->getLayout()->createBlock('tpl', 'checkout.shipping')
             ->setTemplate('checkout/shipping.phtml')
             ->assign('data', $this->_data)
             ->assign('address', $address)
             ->assign('action', Mage::getUrl('checkout', array('controller'=>'standard', 'action'=>'shippingPost')));
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
     }
     
     function shippingPostAction()
@@ -42,10 +42,10 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function paymentAction()
     {
-        $block = Mage::createBlock('tpl', 'checkout.payment')
+        $block = $this->getLayout()->createBlock('tpl', 'checkout.payment')
             ->setTemplate('checkout/payment.phtml')
             ->assign('data', $this->_data);
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
     }
     
     function paymentPostAction()
@@ -55,10 +55,10 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function overviewAction()
     {
-        $block = Mage::createBlock('tpl', 'checkout.overview')
+        $block = $this->getLayout()->createBlock('tpl', 'checkout.overview')
             ->setTemplate('checkout/overview.phtml')
             ->assign('data', $this->_data);
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
     }
     
     function overviewPostAction()
@@ -68,9 +68,9 @@ class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action
     
     function successAction()
     {
-        $block = Mage::createBlock('tpl', 'checkout.success')
+        $block = $this->getLayout()->createBlock('tpl', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
             ->assign('data', $this->_data);
-        Mage::getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append($block);
     }
 }

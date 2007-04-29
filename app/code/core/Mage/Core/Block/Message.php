@@ -21,7 +21,7 @@ class Mage_Core_Block_Message extends Mage_Core_Block_Abstract
         $this->_message = $message;
     }
     
-    public function toString()
+    public function toHtml()
     {
         //TODO: genedate by mesage types
         $arrMessages = $this->_message->getMessages();

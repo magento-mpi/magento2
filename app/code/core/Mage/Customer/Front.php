@@ -13,16 +13,17 @@ class Mage_Customer_Front
     {
         // Add logout link
         if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
-            $topLinks = Mage::getBlock('top.links');
+            $layout = Mage::registry('action')->getLayout();
+            $topLinks = $layout->getBlock('top.links');
             if (!$topLinks) {
                 return;
             }
             $topLinks
-                ->append(Mage::createBlock('list_link', 'top.links.logout')
+                ->append($layout->createBlock('list_link', 'top.links.logout')
                     ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''))
-                ->insert(Mage::createBlock('tag', 'top.links.welcome')
+                ->insert($layout->createBlock('tag', 'top.links.welcome')
                     ->setTagName('strong')
                     ->setContents('Welcome, ' . Mage::getSingleton('customer', 'session')->getCustomer()->getName()));
         }
     }
-}
+} 

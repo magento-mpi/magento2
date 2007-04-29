@@ -17,7 +17,7 @@ class Mage_Core_Block_Form_Element_Button extends Mage_Core_Block_Form_Element_A
         parent::__construct($attributes);
     }
     
-    public function toString()
+    public function toHtml()
     {
         $html = $this->renderElementLabel();
         $html.= '<input type="button" ';
