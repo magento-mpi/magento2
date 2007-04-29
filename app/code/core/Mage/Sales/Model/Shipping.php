@@ -64,7 +64,7 @@ class Mage_Sales_Model_Shipping
     	}
 
     	if (!$request->limitVendor) { 
-	    	$vendors = Mage::getConfig()->getXml('global/salesShippingVendors')->children();
+	    	$vendors = Mage::getConfig()->getNode('global/salesShippingVendors')->children();
 
 	        foreach ($vendors as $vendor) {
 	            if (!$vendor->is('active')) {
@@ -77,7 +77,7 @@ class Mage_Sales_Model_Shipping
 	            $this->_result->append($result);
 	        }
     	} else {
-    	    $className = Mage::getConfig()->getXml('global/salesShippingVendors/'.$request->limitVendor)->getClassName();
+    	    $className = Mage::getConfig()->getNode('global/salesShippingVendors/'.$request->limitVendor)->getClassName();
             $obj = new $className();
     	    $result = $obj->collectMethods($request);
     	    $this->_result->append($result);

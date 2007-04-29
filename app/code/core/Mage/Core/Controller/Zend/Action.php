@@ -89,9 +89,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         }
         Varien_Profiler::setTimer('loadLayout', true);
         
-        Varien_Profiler::setTimer('createBlocks');
+        Varien_Profiler::setTimer('generateBlocks');
         $layout->generateBlocks();
-        Varien_Profiler::setTimer('createBlocks', true);
+        Varien_Profiler::setTimer('generateBlocks', true);
         
         return $this;
      }

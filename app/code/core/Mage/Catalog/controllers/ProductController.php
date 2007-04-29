@@ -16,7 +16,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         $action = 'product_view_'.$this->getRequest()->getParam('id', false);
-        $this->loadLayout('front', array('default', $action), $action);
+        $this->loadLayout();
             
         $productInfoBlock = $this->getLayout()->createBlock('catalog_product_view', 'product.info');
         $productInfoBlock->loadData($this->getRequest());

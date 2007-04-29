@@ -10,7 +10,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
     function setObjectJs($name, $value)
     {
         if (''===$name) {
-            $name = $this->getName();
+            $name = $this->getData('name');
         }
         return "Mage.Collection.add('$name', $value);\n";
     }
@@ -18,7 +18,7 @@ abstract class Mage_Core_Block_Admin_Js extends Mage_Core_Block_Abstract
     function getObjectJs($name='')
     {
         if (''===$name) {
-            $name = $this->getName();
+            $name = $this->getData('name');
         }
         return "Mage.Collection.get('$name')";
     }

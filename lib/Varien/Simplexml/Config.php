@@ -65,7 +65,7 @@ class Varien_Simplexml_Config
         }
     }
 
-    public function getXml($path=null)
+    public function getNode($path=null)
     {
         if (empty($path)) {
             return $this->_xml;

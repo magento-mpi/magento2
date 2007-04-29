@@ -27,11 +27,11 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
             $payment = Mage::getModel('sales', 'quote_entity_payment');
         }
         if ($payment) {
-            $paymentMethodConfig = Mage::getConfig()->getXml('global/salesPaymentMethods/'.$payment->getMethod());
+            $paymentMethodConfig = Mage::getConfig()->getNode('global/salesPaymentMethods/'.$payment->getMethod());
             if (!empty($paymentMethodConfig)) {
                 $className = $paymentMethodConfig->getClassName();
                 $paymentMethod = new $className();
-                $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($this->getName().'.payment');
+                $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($this->getData('name').'.payment');
                 $this->setChild('payment', $paymentBlock);
             } else {
                 $this->assign('payment', '');

@@ -20,12 +20,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_blocks = array();
     
+    protected $_blockTypes = null;
+    
     /**
      * Cache of block callbacks to output during rendering
      *
      * @var array
      */
     protected $_output = array();
+    
+    public function __construct($data=array())
+    {
+        parent::__construct($data);
+        $this->_blockTypes = Mage::getConfig()->getNode("global/blockTypes");
+    }
     
     /**
      * Initialize layout configuration for $id key
@@ -70,9 +78,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         
         $update = $this->loadFile($fileName);
         
-        $update->prepare($args);
+        #$update->prepare($args);
         foreach ($update as $child) {
-            $this->getXml()->appendChild($child);
+            $this->getNode()->appendChild($child);
         }
         return $this;
     }
@@ -86,7 +94,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdatesFromConfig($area, $id)
     {
-        $layoutConfig = Mage::getConfig()->getXml("$area/layouts/$id");
+        $layoutConfig = Mage::getConfig()->getNode("$area/layouts/$id");
         if (!empty($layoutConfig)) {
             $updates = $layoutConfig->updates->children();
             foreach ($updates as $update) {
@@ -116,42 +124,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function generateBlocks($parent=null)
     {
         if (empty($parent)) {
-            $parent = $this->getXml();
+            $parent = $this->getNode();
         }
         foreach ($parent as $node) {
             switch ($node->getName()) {
                 case 'block':
-                    $className = (string)$node['class'];
-                    $blockName = (string)$node['name'];
-                    $block = $this->addBlock($className, $blockName);
-                    
-                    if (!empty($node['parent'])) {
-                        $parentName = (string)$node['parent'];
-                        $parent = $this->getBlock($parentName);
-                        
-                        if (isset($node['as'])) {
-                            $as = (string)$node['as'];
-                            $parent->setChild($as, $block);
-                        } elseif (isset($node['before'])) {
-                            $sibling = (string)$node['before'];
-                            if ('-'===$sibling) {
-                                $sibling = '';
-                            }
-                            $parent->insert($block, $sibling);
-                        } elseif (isset($node['after'])) {
-                            $sibling = (string)$node['after'];
-                            if ('-'===$sibling) {
-                                $sibling = '';
-                            }
-                            $parent->insert($block, $sibling, true);
-                        } else {
-                            $parent->append($block);
-                        }
-                    }
-                    if (!empty($node['output'])) {
-                        $method = (string)$node['output'];
-                        $this->addOutputBlock($blockName, $method);
-                    }
+                    $this->_generateBlock($node, $parent);
                     $this->generateBlocks($node);
                     break;
                     
@@ -160,22 +138,83 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     break;
 
                 case 'action':
-                    $name = (string)$node['block'];
-                    $block = $this->getBlock($name);
-                    $method = (string)$node['method'];
-                    $args = (array)$node->children();
-                    unset($args['@attributes']);
-                    if (isset($node['json'])) {
-                        $json = explode(' ', (string)$node['json']);
-                        foreach ($json as $arg) {
-                            $args[$arg] = Zend_Json::decode($args[$arg]);
-                        }
-                    }
-#echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
-                    call_user_func_array(array($block, $method), $args);
+                    $this->_generateAction($node, $parent);
                     break;
             }
         }
+    }
+    
+    protected function _generateBlock($node, $parent)
+    {
+#Varien_Profiler::setTimer('block');
+        if (!empty($node['class'])) {
+            $className = (string)$node['class'];
+        } else {
+            $className = $this->_blockTypes->$node['type']->getClassName();
+        }
+        $blockName = (string)$node['name'];
+        $block = $this->addBlock($className, $blockName);
+        
+        if (!empty($node['parent'])) {
+            $parentBlock = $this->getBlock((string)$node['parent']);
+        } else {
+            $parentName = $parent->getBlockName();
+            if (!empty($parentName)) {
+                $parentBlock = $this->getBlock($parentName);
+            }
+        }
+        if (!empty($parentBlock)) {   
+            if (isset($node['as'])) {
+                $as = (string)$node['as'];
+                $parentBlock->setChild($as, $block);
+            } elseif (isset($node['before'])) {
+                $sibling = (string)$node['before'];
+                if ('-'===$sibling) {
+                    $sibling = '';
+                }
+                $parentBlock->insert($block, $sibling);
+            } elseif (isset($node['after'])) {
+                $sibling = (string)$node['after'];
+                if ('-'===$sibling) {
+                    $sibling = '';
+                }
+                $parentBlock->insert($block, $sibling, true);
+            } else {
+                $parentBlock->append($block);
+            }
+        }
+
+        if (!empty($node['output'])) {
+            $method = (string)$node['output'];
+            $this->addOutputBlock($blockName, $method);
+        }
+#Varien_Profiler::setTimer('block', true);
+    }
+    
+    protected function _generateAction($node, $parent)
+    {
+        if (!empty($node['block'])) {
+            $block = $this->getBlock((string)$node['block']);
+        } else {
+            $parentName = $parent->getBlockName();
+            if (!empty($parentName)) {
+                $block = $this->getBlock($parentName);
+            }
+        }
+        $method = (string)$node['method'];
+        $args = (array)$node->children();
+        unset($args['@attributes']);
+        if (isset($node['json'])) {
+            $json = explode(' ', (string)$node['json']);
+            foreach ($json as $arg) {
+                $args[$arg] = Zend_Json::decode($args[$arg]);
+            }
+        }
+#echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
+#$timerName = 'action';#-'.$block->getName().'-'.$method;
+#Varien_Profiler::setTimer($timerName);
+        call_user_func_array(array($block, $method), $args);
+#Varien_Profiler::setTimer($timerName, true);
     }
     
     
@@ -254,8 +293,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $blockObj = $block;
         }
             
-        $blockObj->setName($blockName)->setLayout($this);
+        $blockObj->setData('name', $blockName);
+        $blockObj->setLayout($this);
         $this->_blocks[$blockName] = $blockObj;
+
         return $blockObj;
     }
     

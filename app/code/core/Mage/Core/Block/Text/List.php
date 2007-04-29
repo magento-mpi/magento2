@@ -16,7 +16,7 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 	function toHtml()
 	{
 	    $this->setText('');
-	    $list = $this->getSortedChildrenList();
+	    $list = $this->getData('sorted_children_list');
 	    if (!empty($list)) {
     	    foreach ($list as $name) {
     	        $block = $this->getLayout()->getBlock($name);

@@ -93,7 +93,7 @@ class Mage_Core_Controller_Zend_Front {
         
         $defaultModule = 'Mage_Core';
         
-        $routers = Mage::getConfig()->getXml('front/routers')->children();
+        $routers = Mage::getConfig()->getNode('front/routers')->children();
         foreach ($routers as $routerName=>$routerConfig) {
             $router = Mage::getConfig()->getRouterInstance($routerName);
             if (empty($router)) {

@@ -18,19 +18,12 @@
 abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
 {
     /**
-     * Info contains block id (db pk), name, parent, group
+     * Parent layout of the block
      *
-     * @var array
+     * @var Mage_Core_Model_Layout
      */
-    protected $_info = array();
-    
-    /**
-     * Attributes is whatever is being saved serialized in db
-     *
-     * @var array
-     */
-    protected $_attributes = array();
-    
+    protected $_layout = null;   
+
     /**
      * Contains references to child block objects
      *
@@ -56,6 +49,17 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
     {
         
     }
+    
+    public function setLayout(Mage_Core_Model_Layout $layout)
+    {
+        $this->_layout = $layout;
+        return $this;
+    }
+    
+    public function getLayout()
+    {
+        return $this->_layout;
+    }
 
     /**
      * Set child block
@@ -78,32 +82,32 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
     public function setChild($name, $block)
     {
         if (is_string($block)) {
-            $block = $this->getLayout()->getBlock($block);
+            $block = $this->getData('layout')->getBlock($block);
             if (!$block) {
                 Mage::exception('Invalid block name to set child '.$name.': '.$block);
             }
         }
         
-        if ($block->getIsAnonymous()) {
+        if ($block->getData('is_anonymous')) {
             
-            $suffix = $block->getAnonSuffix();
+            $suffix = $block->getData('anon_suffix');
             if (empty($suffix)) {
                 $suffix = 'child'.sizeof($this->_children);
             }
-            $blockName = $this->getName().'.'.$suffix;
+            $blockName = $this->getData('name').'.'.$suffix;
 
-            $this->getLayout()->unsetBlock($block->getName());
-            $this->getLayout()->setBlock($blockName, $block);
+            $this->getData('layout')->unsetBlock($block->getData('name'));
+            $this->getData('layout')->setBlock($blockName, $block);
             
-            $block->setName($blockName);
-            $block->setIsAnonymous(false);
+            $block->setData($blockName);
+            $block->setData('is_anonymous', false);
             
             if (empty($name)) {
                $name = $blockName;
             }
         }
         
-        $block->setParent(array('var'=>$name, 'block'=>$this));
+        $block->setData('parent', array('var'=>$name, 'block'=>$this));
         $this->_children[$name] = $block;
 
         return $this;
@@ -112,18 +116,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
     public function unsetChild($name)
     {
         unset($this->_children[$name]);
-        $list = $this->getSortedChildrenList();
+        $list = $this->getData('sorted_children_list');
         $key = array_search($name, $list);
         if (!empty($key)) {
             unset($list[$key]);
-            $this->setSortedChildrenList($list);
+            $this->setData('sorted_children_list', $list);
         }
     }
     
     public function unsetChildren()
     {
         $this->_children = array();
-        $this->setSortedChildrenList(array());
+        $this->setData('sorted_children_list', array());
         return $this;
     }
 
@@ -154,15 +158,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
      */
     function insert($block, $siblingName='', $after=false)
     {
-        if ($block->getIsAnonymous()) {
+        if ($block->getData('is_anonymous')) {
             $this->setChild('', $block);        
-            $name = $block->getName();
+            $name = $block->getData('name');
         } else {
-            $name = $block->getName();
+            $name = $block->getData('name');
             $this->setChild($name, $block);        
         }
         
-        $list = $this->getSortedChildrenList();
+        $list = $this->getData('sorted_children_list');
         if (empty($list)) {
             $list = array();
         }
@@ -183,14 +187,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
             }
         }
         
-        $this->setSortedChildrenList($list);
+        $this->setData('sorted_children_list', $list);
         
         return $this;
     }
     
     function append($block)
     {
-        return $this->insert($block, '', true);
+        $this->insert($block, '', true);
+        return $this;
     }
 
     

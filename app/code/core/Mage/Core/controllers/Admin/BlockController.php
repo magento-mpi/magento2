@@ -8,7 +8,7 @@ class Mage_Core_BlockController extends Mage_Core_Controller_Admin_Action
         if ($path==='config') {
             $path = null;
         }
-        $xml = Mage::getConfig()->getXml($path);
+        $xml = Mage::getConfig()->getNode($path);
         $arrNodes = array();
         
         foreach ($xml->children() as $child) {

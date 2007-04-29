@@ -130,10 +130,10 @@ class Mage_Core_Block_Admin_Js_Tree extends Mage_Core_Block_Admin_Js
         
         $out = '';
         $out.= $this->setObjectJs('', "new Ext.tree.TreePanel('$container', $config)");
-        $out.= $this->_nodesToJs($nodes, $this->getName()); 
+        $out.= $this->_nodesToJs($nodes, $this->getData('name')); 
 
         if (!empty($nodes['root'])) {
-            $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getName().'_root').');';
+            $out.= $this->getObjectJs().'.setRootNode('.$this->getObjectJs($this->getData('name').'_root').');';
         }
         
         // TODO: object init in json

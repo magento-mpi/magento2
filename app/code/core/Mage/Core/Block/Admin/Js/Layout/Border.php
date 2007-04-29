@@ -16,7 +16,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
         
         if ($panel instanceof Mage_Core_Block_Admin_Js_Layout_Panel) {
             $block = $panel;
-            $name = $panel->getName();
+            $name = $panel->getData('name');
         } else {
             $block = $this->getLayout()->getBlock($panel);
             $name = $panel;
@@ -32,7 +32,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     {
         if ($toolbar instanceof Mage_Core_Block_Admin_Js_Toolbar) {
             $block = $toolbar;
-            $name = $toolbar->getName();
+            $name = $toolbar->getData('name');
         } else {
             $block = $this->getLayout()->getBlock($toolbar);
             $name = $toolbar;
@@ -46,7 +46,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     {
         if ($menu instanceof Mage_Core_Block_Admin_Js_Menu) {
             $block = $menu;
-            $name = $menu->getName();
+            $name = $menu->getData('name');
         } else {
             $block = $this->getLayout()->getBlock($menu);
             $name = $menu;
@@ -70,7 +70,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
     
     function toJs()
     {
-        $name = $this->getName();
+        $name = $this->getData('name');
         $jsGetObject = $this->getObjectJs();
         $regions  = $this->getRegions();
         $config = $this->getConfig();
@@ -94,7 +94,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
             if (!$block->getOutAfterParent()) {
                 $js = $block->toJs();
                 if ($uep) {
-                    $js = $this->getUseExistingPanelJs($block->getName(), $js, true);
+                    $js = $this->getUseExistingPanelJs($block->getData('name'), $js, true);
                 }
                 $out .= $js;
             }
@@ -107,7 +107,7 @@ class Mage_Core_Block_Admin_Js_Layout_Border extends Mage_Core_Block_Admin_Js_La
                     $panelJs = $block->getObjectJs();
                     $js = "$jsGetObject.add('$target', $panelJs);\n";
                     if ($uep) {
-                        $js = $this->getUseExistingPanelJs($block->getName(), $js);
+                        $js = $this->getUseExistingPanelJs($block->getData('name'), $js);
                     }
                     $out .= $js;
                 }

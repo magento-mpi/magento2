@@ -15,6 +15,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->joinAttribute('name')
             ->load($parent)
             ->getNodes();
+
         $this->assign('categories', $nodes);
     }
     
@@ -24,6 +25,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->loadByCode('manufacturer')
             ->getSource()
                 ->getArrOptions();
+
         $this->assign('manufacturers', $manufacturers);
     }
     
@@ -33,6 +35,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->loadByCode('type')
             ->getSource()
                 ->getArrOptions();
+
         $this->assign('types', $types);
     }    
 }// Class Mage_Core_Block_List END

@@ -5,7 +5,7 @@ class Mage_Core_Block_Admin_Js_Layout_Panel extends Mage_Core_Block_Admin_Js_Lay
     function construct($container='', $config=array())
     {
         if (''===$container) {
-            $container = "'".$this->getName()."'";
+            $container = "'".$this->getData('name')."'";
             $config['autoCreate'] = true;
         }
         $this->setAttribute('container', $container);

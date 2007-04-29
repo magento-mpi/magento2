@@ -118,7 +118,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $listBlock = $this->getLayout()->createBlock('list', 'checkout.payment.methods');    
         $paymentBlock->setChild('paymentMethods', $listBlock);
         
-        $methods = Mage::getConfig()->getXml('global/salesPaymentMethods')->children();
+        $methods = Mage::getConfig()->getNode('global/salesPaymentMethods')->children();
         foreach ($methods as $methodConfig) {
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();

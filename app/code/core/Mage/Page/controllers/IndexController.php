@@ -14,7 +14,7 @@ class Mage_Page_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction()
     {
-        print_r($this->getLayout()->getXml());
+        print_r($this->getLayout()->getNode());
     }
 
 }// Class IndexController ENDclass

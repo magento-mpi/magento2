@@ -18,7 +18,7 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 	{
 	    ob_implicit_flush();
 	    
-	    $list = $this->getSortedChildrenList();
+	    $list = $this->getData('sorted_children_list');
 	    if (!empty($list)) {
     	    foreach ($list as $name) {
     	        $block = $this->getLayout()->getBlock($name);

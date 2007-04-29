@@ -13,6 +13,8 @@
 
 class Varien_Data_Object
 {
+    protected static $_underscoreCache = array();
+    
     protected $_data = array();
     protected $_isChanged = false;
     protected $_isDeleted = false;
@@ -219,7 +221,7 @@ class Varien_Data_Object
     
     public function __set($var, $value)
     {
-        $this->setIsChanged(true);
+        $this->setData('is_changed', true);
         $var = $this->_underscore($var);
         $this->setData($var, $value);
     }
@@ -234,7 +236,16 @@ class Varien_Data_Object
     
     protected function _underscore($name)
     {
-        return strtolower(preg_replace('/([a-z])([A-Z])/', "$1_$2", $name));
+        #Varien_Profiler::setTimer('object-underscore');
+        
+        if (isset(self::$_underscoreCache[$name])) {
+            return self::$_underscoreCache[$name];
+        }
+        $result = strtolower(preg_replace('/([a-z])([A-Z])/', "$1_$2", $name));
+        self::$_underscoreCache[$name] = $result;
+        
+        #Varien_Profiler::setTimer('object-underscore', true);
+        return $result;
     }
     
     public function __sleep()

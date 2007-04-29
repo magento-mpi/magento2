@@ -71,7 +71,7 @@ class Mage_Core_Resource
     public function getEntity($model, $entity)
     {
         if (!isset($this->_entities[$model][$entity])) {
-            $entities = Mage::getConfig()->getXml('global/models/'.$model)->entities;
+            $entities = Mage::getConfig()->getNode('global/models/'.$model)->entities;
             $this->_entities[$model][$entity] = $entities->$entity;
         }
         return $this->_entities[$model][$entity];

@@ -31,11 +31,12 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         $pathArr = explode('/', $path);
         $desc = $this;
         foreach ($pathArr as $nodeName) {
-            if (strpos($nodeName, '[')!==false) {
-                if (!preg_match('#^([^[]+)\[@([^=]+)=\'([^]]+)\'\]$#', $nodeName, $match)) {
-                    return false;
-                }
-                list($nodeName, $attributeName, $attributeValue) = $match;
+            if (strpos($nodeName, '@')!==false) {
+                $a = explode('@', $nodeName);
+                $b = explode('=', $a[1]);
+                $nodeName = $a[0];
+                $attributeName = $b[0];
+                $attributeValue = $b[1];
                 $found = false;
                 foreach ($this->$nodeName as $desc) {
                     if ((string)$nodeChild[$attributeName]===$attributeValue) {
