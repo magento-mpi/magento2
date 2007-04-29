@@ -33,6 +33,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         parent::__construct($data);
         $this->_blockTypes = Mage::getConfig()->getNode("global/blockTypes");
+        $this->_elementClass = Mage::getConfig()->getModelClassName('core', 'layout_element');
     }
     
     /**
@@ -42,8 +43,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function init($id)
     {
-        $this->_elementClass = Mage::getConfig()->getModelClassName('core', 'layout_element');
-
         $this->setCacheDir(Mage::getBaseDir('var').DS.'cache'.DS.'layout');
         $this->setCacheKey($id);
         
@@ -69,10 +68,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @param Varien_Simplexml_Element $args
      */
-    public function loadUpdate($args)
+    public function loadUpdateFile($fileName)
     {
         $fileName = (string)$args->file;
-        $moduleName = (string)$args->module;
         $fileName = Mage::getBaseDir('layout').DS.$fileName;
         $this->addCacheStat($fileName);
         
@@ -94,11 +92,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdatesFromConfig($area, $id)
     {
-        $layoutConfig = Mage::getConfig()->getNode("$area/layouts/$id");
-        if (!empty($layoutConfig)) {
-            $updates = $layoutConfig->updates->children();
+        $updates = Mage::getConfig()->getNode("$area/layouts/$id/updates");
+        if (!empty($updates)) {
             foreach ($updates as $update) {
-                $this->loadUpdate($update);
+                $fileName = Mage::getBaseDir('layout').DS.(string)$update->file;
+                $this->loadUpdateFile($fileName);
             }
         }
         return $this;
@@ -341,8 +339,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @return array
      */
-    public function getOutputBlocks()
+    public function getOutput()
     {
-        return $this->_output;
+        $out = '';
+        if (!empty($this->_output)) {
+            foreach ($this->_output as $callback) {
+                $out .= $this->getBlock($callback[0])->$callback[1]();
+            }
+        }
+        return $out;
     }    
 }

@@ -111,16 +111,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          Mage::dispatchEvent('beforeRenderLayout');
          Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
          
-         $blocks = $this->getLayout()->getOutputBlocks();
+         $output = $this->getLayout()->getOutput();
 
-         if (!empty($blocks)) {
-             $response = $this->getResponse();
-             foreach ($blocks as $callback) {
-                 $out = $this->getLayout()->getBlock($callback[0])->$callback[1]();
-                 $response->appendBody($out);
-             }
-         }
-         
+         $this->getResponse()->appendBody($output);
          Varien_Profiler::setTimer('renderLayout', true);
          
          return $this;

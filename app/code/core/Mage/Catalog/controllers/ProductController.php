@@ -15,13 +15,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
-        $action = 'product_view_'.$this->getRequest()->getParam('id', false);
+        $id = $this->getRequest()->getParam('id', false);
         $this->loadLayout();
-            
-        $productInfoBlock = $this->getLayout()->createBlock('catalog_product_view', 'product.info');
-        $productInfoBlock->loadData($this->getRequest());
-
-        $this->getLayout()->getBlock('content')->append($productInfoBlock);
+        
+        $product = Mage::getModel('catalog', 'product')->load($id);
+        
+        if ($product->getCustomLayout()) {
+            $output = Mage::getModel('core', 'layout')->setXml($product->getCustomLayout())->getOutput();
+            $customBlock = $this->getLayout()->createBlock('text')->setText($output);
+            $this->getLayout()->getBlock('content')->append($customBlock);
+        } else {
+            $productInfoBlock = $this->getLayout()->createBlock('catalog_product_view', 'product.info');
+            $productInfoBlock->loadData();
+            $this->getLayout()->getBlock('content')->append($productInfoBlock);
+        }
         
         $this->renderLayout();
     }

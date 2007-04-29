@@ -15,10 +15,12 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('catalog/product/view.phtml');
+        #$this->loadData(Mage::registry('controller')->getRequest());
     }
 
-    public function loadData(Zend_Controller_Request_Http $request)
+    public function loadData()
     {
+        $request = Mage::registry('controller')->getRequest();
         $categoryId = $request->getParam('category', false);
         $productId = $request->getParam('id');
         $product = Mage::getModel('catalog', 'product')->load($productId)->setCategoryId($categoryId);
@@ -38,5 +40,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         foreach ($prices as $index => $price) {
             
         }
+        return $this;
     }
 }

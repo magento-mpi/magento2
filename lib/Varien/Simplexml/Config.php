@@ -215,6 +215,9 @@ class Varien_Simplexml_Config
     public function loadCache($key='')
     {
         if (''===$key) {
+            if (empty($this->_cacheKey)) {
+                return false;
+            }
             $key = $this->_cacheKey;
         }
 
@@ -250,6 +253,9 @@ class Varien_Simplexml_Config
     {
         if (''===$key) {
             $key = $this->_cacheKey;
+            if (empty($this->_cacheKey)) {
+                return false;
+            }
         }
 
         $statFile = $this->getCacheStatFileName($key);
@@ -257,5 +263,7 @@ class Varien_Simplexml_Config
 
         $cacheFile = $this->getCacheFileName($key);
         $this->saveFile($cacheFile);
+        
+        return true;
     }
 }

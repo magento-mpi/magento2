@@ -15,10 +15,12 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('catalog/category/view.phtml');
+        #$this->loadData(Mage::registry('controller')->getRequest());
     }
 
-    public function loadData(Zend_Controller_Request_Http $request)
+    public function loadData()
     {
+        $request = Mage::registry('controller')->getRequest();
         $category = $this->getCategory();
         
         // Breadcrumbs
@@ -73,5 +75,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         
         $this->assign('sortUrl', $sortUrl);
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+        
+        return $this;
     }
 }

@@ -22,10 +22,15 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             
         // Valid category id
         if (!$category->isEmpty()) {
-            $block = $this->getLayout()->createBlock('catalog_category_view', 'category.products', array('category'=>$category));
-            $block->loadData($this->getRequest());
-            
-            $this->getLayout()->getBlock('content')->append($block);
+            if ($category->getCustomLayout()) {
+                $output = Mage::getModel('core', 'layout')->setXml($category->getCustomLayout())->getOutput();
+                $customBlock = $this->getLayout()->createBlock('text')->setText($output);
+                $this->getLayout()->getBlock('content')->append($customBlock);
+            } else {
+                $block = $this->getLayout()->createBlock('catalog_category_view', 'category.products', array('category'=>$category));
+                $block->loadData();
+                $this->getLayout()->getBlock('content')->append($block);
+            }
         }
         else {
             $this->_forward('noRoute');
