@@ -28,7 +28,33 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
     
     public function isValidForQuoteItem(Mage_Sales_Model_Quote_Entity_Item $item)
     {
+        $products = $this->getLimitProducts();
+        $categories = $this->getLimitCategories();
+        $attributes = $this->getLimitAttributes();
         
+        if (empty($products) && empty($categories) && empty($attributes)) {
+            return true;
+        }
+        if (!empty($products)) {
+            $product = explode(',', $products);
+            if (array_search($item->getProductId(), $products)) {
+                return true;
+            }
+        }
+        if (!empty($categories)) {
+            $categories = explode(',', $categories);
+            if (array_search($item->getCategoryId(), $categories)) {
+                return true;
+            }
+        }
+        if (!empty($attributes)) {
+            $attributes = explode(',', $attributes);
+            if (array_search($item->getProductId(), $attributes)) {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     public function setQuoteDiscount(Mage_Sales_Model_Quote $quote)
@@ -74,7 +100,7 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
 
         $quote->setDiscountAmount(min($this->getDiscountFixed(), $couponSubtotal));
         
-        $quote->setDiscountPercent($quote->getDiscountAmount() / $couponSubtotal);
+        $quote->setDiscountPercent($quote->getDiscountAmount() / $couponSubtotal * 100);
         
         // second pass - set calculated percentages for items
         foreach ($validItems as $item) {

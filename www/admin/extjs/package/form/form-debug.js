@@ -35,8 +35,6 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
     
     validationEvent : "keyup",
     
-    validateOnBlur : true,
-    
     validationDelay : 250,
     
     defaultAutoCreate : {tag: "input", type: "text", size: "20", autocomplete: "off"},
@@ -70,7 +68,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
     },
 
     // private
-    onRender : function(ct, position){
+    onRender : function(ct){
         if(this.el){
             this.el = Ext.get(this.el);
             if(!this.target){
@@ -87,7 +85,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
             if(this.tabIndex !== undefined){
                 cfg.tabIndex = this.tabIndex;
             }
-            this.el = ct.createChild(cfg, position);
+            this.el = ct.createChild(cfg);
         }
         var type = this.el.dom.type;
         if(type){
@@ -159,7 +157,7 @@ Ext.extend(Ext.form.Field, Ext.Component,  {
     onBlur : function(){
         this.el.removeClass(this.focusClass);
         this.hasFocus = false;
-        if(this.validationEvent !== false && this.validateOnBlur && this.validationEvent != "blur"){
+        if(this.validationEvent != "blur"){
             this.validate();
         }
         var v = this.getValue();
@@ -616,8 +614,6 @@ Ext.extend(Ext.form.TriggerField, Ext.form.TextField,  {
     
     autoSize: Ext.emptyFn,
 
-    monitorTab : true,
-
     // private
     customSize : true,
 
@@ -648,8 +644,8 @@ Ext.extend(Ext.form.TriggerField, Ext.form.TextField,  {
     },
 
     // private
-    onRender : function(ct, position){
-        Ext.form.TriggerField.superclass.onRender.call(this, ct, position);
+    onRender : function(ct){
+        Ext.form.TriggerField.superclass.onRender.call(this, ct);
         this.wrap = this.el.wrap({cls: "x-form-field-wrap"});
         this.trigger = this.wrap.createChild({
             tag: "img", src: Ext.BLANK_IMAGE_URL, cls: "x-form-trigger "+this.triggerClass});
@@ -678,10 +674,8 @@ Ext.extend(Ext.form.TriggerField, Ext.form.TextField,  {
         Ext.form.TriggerField.superclass.onFocus.call(this);
         if(!this.mimicing){
             this.mimicing = true;
-            Ext.get(Ext.isIE ? document.body : document).on("mousedown", this.mimicBlur, this);
-            if(this.monitorTab){
-                this.el.on("keydown", this.checkTab, this);
-            }
+            Ext.get(document).on("mousedown", this.mimicBlur, this);
+            this.el.on("keydown", this.checkTab, this);
         }
     },
 
@@ -707,10 +701,8 @@ Ext.extend(Ext.form.TriggerField, Ext.form.TextField,  {
     // private
     triggerBlur : function(){
         this.mimicing = false;
-        Ext.get(Ext.isIE ? document.body : document).un("mousedown", this.mimicBlur);
-        if(this.monitorTab){
-            this.el.un("keydown", this.checkTab, this);
-        }
+        Ext.get(document).un("mousedown", this.mimicBlur);
+        this.el.un("keydown", this.checkTab, this);
         Ext.form.TriggerField.superclass.onBlur.call(this);
     },
 
@@ -773,7 +765,7 @@ Ext.extend(Ext.form.TextArea, Ext.form.TextField,  {
     preventScrollbars: false,
 
     // private
-    onRender : function(ct, position){
+    onRender : function(ct){
         if(!this.el){
             this.defaultAutoCreate = {
                 tag: "textarea",
@@ -781,7 +773,7 @@ Ext.extend(Ext.form.TextArea, Ext.form.TextField,  {
                 autocomplete: "off"
             };
         }
-        Ext.form.TextArea.superclass.onRender.call(this, ct, position);
+        Ext.form.TextArea.superclass.onRender.call(this, ct);
         if(this.grow){
             this.textSizeEl = Ext.DomHelper.append(document.body, {
                 tag: "pre", cls: "x-form-grow-sizer"
@@ -1135,8 +1127,8 @@ Ext.extend(Ext.form.Checkbox, Ext.form.Field,  {
 
     
     // private
-    onRender : function(ct, position){
-        Ext.form.Checkbox.superclass.onRender.call(this, ct, position);
+    onRender : function(ct){
+        Ext.form.Checkbox.superclass.onRender.call(this, ct);
         if(this.inputValue !== undefined){
             this.el.dom.value = this.inputValue;
         }
@@ -1306,8 +1298,8 @@ Ext.extend(Ext.form.ComboBox, Ext.form.TriggerField, {
     valueNotFoundText : undefined,
 
     // private
-    onRender : function(ct, position){
-        Ext.form.ComboBox.superclass.onRender.call(this, ct, position);
+    onRender : function(ct){
+        Ext.form.ComboBox.superclass.onRender.call(this, ct);
         if(this.hiddenName){
             this.hiddenField = this.el.insertSibling({tag:'input', type:'hidden', name: this.hiddenName, id: this.hiddenName},
                     'before', true);
@@ -1852,7 +1844,7 @@ Ext.extend(Ext.Editor, Ext.Component, {
     updateEl : false,
 
     // private
-    onRender : function(ct, position){
+    onRender : function(ct){
         this.el = new Ext.Layer({
             shadow: this.shadow,
             cls: "x-editor",
@@ -2280,6 +2272,8 @@ Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
     
     
     
+    buttonPosition:'bottom',
+    
     buttonAlign:'center',
 
     
@@ -2676,12 +2670,12 @@ Ext.extend(Ext.form.Layout, Ext.Component, {
     defaultAutoCreate : {tag: 'div', cls: 'x-form-ct'},
 
     // private
-    onRender : function(ct, position){
+    onRender : function(ct){
         if(this.el){ // from markup
             this.el = Ext.get(this.el);
         }else {  // generate
             var cfg = this.getAutoCreate();
-            this.el = ct.createChild(cfg, position);
+            this.el = ct.createChild(cfg);
         }
         if(this.style){
             this.el.applyStyles(this.style);
@@ -2760,8 +2754,8 @@ Ext.extend(Ext.form.Column, Ext.form.Layout, {
     defaultAutoCreate : {tag: 'div', cls: 'x-form-ct x-form-column'},
 
     // private
-    onRender : function(ct, position){
-        Ext.form.Column.superclass.onRender.call(this, ct, position);
+    onRender : function(ct){
+        Ext.form.Column.superclass.onRender.call(this, ct);
         if(this.width){
             this.el.setWidth(this.width);
         }
@@ -2781,8 +2775,8 @@ Ext.extend(Ext.form.FieldSet, Ext.form.Layout, {
     defaultAutoCreate : {tag: 'fieldset', cn: {tag:'legend'}},
 
     // private
-    onRender : function(ct, position){
-        Ext.form.FieldSet.superclass.onRender.call(this, ct, position);
+    onRender : function(ct){
+        Ext.form.FieldSet.superclass.onRender.call(this, ct);
         if(this.legend){
             this.setLegend(this.legend);
         }

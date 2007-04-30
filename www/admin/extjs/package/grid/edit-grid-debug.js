@@ -109,7 +109,6 @@ Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
 // This is a support class used internally by the Grid components
 Ext.grid.GridEditor = function(field, config){
     Ext.grid.GridEditor.superclass.constructor.call(this, field, config);
-    field.monitorTab = false;
 };
 
 Ext.extend(Ext.grid.GridEditor, Ext.Editor, {
