@@ -98,6 +98,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
                      $attribute->getTableAlias().'.attribute_id='.$attribute->getId();
         
         if ($this->_websiteId) {
+            
             $condition.= ' AND '.$attribute->getTableAlias().'.website_id='.(int) $this->_websiteId;
         }
         return $condition;

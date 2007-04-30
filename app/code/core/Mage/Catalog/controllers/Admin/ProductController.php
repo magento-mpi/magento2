@@ -10,8 +10,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
         $websiteId = $this->getRequest()->getParam('website');
+        
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
-            ->setWebsiteId($websiteId)
+            ->setWebsiteId(Mage::registry('website')->getId())
+            ->distinct(true)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -658,17 +660,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             case 'data_type':
                 $data = $attribute->getAllowType();
                 break;
-        	case 'data_source':
-        		$data = $attribute->getAllowSource();
-        		break;
-        	case 'data_input':
-        	    $data = $attribute->getAllowInput();
-        	    break;
-        	case 'data_saver':
-        	    $data = $attribute->getAllowSaver();
+            case 'data_source':
+                $data = $attribute->getAllowSource();
                 break;
-        	default:
-        		break;
+            case 'data_input':
+                $data = $attribute->getAllowInput();
+                break;
+            case 'data_saver':
+                $data = $attribute->getAllowSaver();
+                break;
+            default:
+                break;
         }
 
         if (!empty($data)) {

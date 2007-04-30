@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     {
         return Mage::getModel('catalog_resource', 'category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
-    
+    /*
     public function getPrice()
     {
         $price = $this->getData('price');
@@ -92,11 +92,11 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
             return $price;
         }
         return null;
-    }
+    }*/
     
     public function getTierPrice($qty=null)
     {
-        $prices = $this->getData('price');
+        $prices = $this->getData('tier_price');
         if ($qty && is_array($prices)) {
             $prevQty = 0;
             $prevPrice = $prices[0]['price'];
@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
             return $prevPrice;
         }
         
-        return $prices;
+        return ($prices) ? $prices : array();
     }
 
     public function getFormatedPrice()
