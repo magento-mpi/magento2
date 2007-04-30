@@ -249,7 +249,8 @@ Mage.Catalog_Product_Attributes = function(){
                         var res = [];
                         
                         var node = null;
-                        if (e.target === 'append') {
+                        
+                        if (e.point === 'append') {
                             node = e.target.parentNode;
                         } else {
                             node = e.target.parentNode.parentNode;
@@ -423,6 +424,9 @@ Mage.Catalog_Product_Attributes = function(){
                 
                 function removeHandler() {
                     var n = sm.getSelectedNode();
+                    if (!n) {
+                        return false;
+                    }
                     var a = n.attributes;
                     if (a.allowDelete) {
                         n.disable();
