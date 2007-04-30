@@ -10,6 +10,9 @@
         <block type="tag_js" name="jscripts.js.catalog.product.attributes">
             <action method="setSrc"><src>magenta/catalog/product/attributes.js</src></action>
         </block>
+        <block type="tag_js" name="jscripts.js.catalog.product.link">
+            <action method="setSrc"><src>magenta/catalog/product/link.js</src></action>
+        </block>
         <block type="tag_js" name="jscripts.js.catalog.category.attributes">
             <action method="setSrc"><src>magenta/catalog/category/attributes.js</src></action>
         </block>
