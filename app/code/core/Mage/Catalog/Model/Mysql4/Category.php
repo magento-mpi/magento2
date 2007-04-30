@@ -64,6 +64,55 @@ class Mage_Catalog_Model_Mysql4_Category
         return $arr;
     }
     
+    public function save(Mage_Catalog_Model_Category $category)
+    {
+        $this->_write->beginTransaction();
+        try {
+            if (!$category->getId()) {
+                $parentId = $category->getParentId();
+                if (!$parentId) {
+                    throw new Exception('Empty parent id for category');
+                }
+                
+                $tree = Mage::getModel('catalog_resource', 'category_tree');
+                $parentNode = $tree->loadNode($parentId);
+                
+                $node = $tree->appendChild(array('attribute_set_id'=>$category->getAttributeSetId()), $parentNode);
+                $category->setCategoryId($node->getId());
+            }
+
+            $this->_saveAttributes($category);
+            $this->_write->commit();
+        }
+        catch (Exception $e){
+            $this->_write->rollBack();
+            throw $e;
+        }
+    }
+    
+    protected function _saveAttributes(Mage_Catalog_Model_Category $category)
+    {
+        $attributes = $this->getAttributesBySet($category->getAttributeSetId());
+        foreach ($attributes as $attribute) {
+            if ($category->getData('attributes', $attribute->getId())) {
+                $data = $category->getData('attributes', $attribute->getId());
+            }
+            else {
+                $data = $category->getData($attribute->getCode());
+            }
+            
+            
+            // Check required attributes
+            if ($attribute->isRequired() && empty($data)) {
+                throw new Exception('Attribute "'.$attribute->getCode().'" is required');
+            }
+            
+            $saver = $attribute->getSaver()->save($category->getId(), $data);
+            $category->setData($attribute->getCode(), $data);
+        }
+        return $this;
+    }
+    
     /**
      * Get category attributes
      *

@@ -426,7 +426,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     public function getModelInstance($model, $class='', $constructArguments=array())
     {
         $className = $this->getModelClassName($model, $class);
-
+        
         return new $className($constructArguments);
     }
 

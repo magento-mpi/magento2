@@ -77,4 +77,22 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Data_Object
         );
         return $columns;
     }
+    
+    public function getSaver()
+    {
+        $saverName = $this->getDataSaver();
+        if (empty($saverName)) {
+            $saverName = 'default';
+        }
+        
+        if ($config = Mage::getConfig()->getNode('global/category_attributes/savers/'.$saverName)) {
+            $module = (string) $config->module;
+            $model  = (string) $config->model;
+            $model = Mage::getModel($module, $model)->setAttribute($this);
+            // TODO: check instanceof
+            return $model;
+        }
+        
+        throw new Exception('Attribute saver "'.$saverName.'" not found');
+    }
 }

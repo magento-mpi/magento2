@@ -20,8 +20,8 @@ class Mage_Catalog_Block_Admin_Category_Form extends Mage_Core_Block_Form
         
         $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catid', false);
         
-        $parentId = Mage::registry('controller')->getRequest()->getParam('parent', false);
-        $this->addField('parent', 'hidden', array('name'=>'parent', 'value'=>$parentId));
+        $this->addField('category_id', 'hidden', array('name'=>'category_id', 'value'=>$categoryId));
+        $this->addField('attribute_set_id', 'hidden', array('name'=>'attribute_set_id', 'value'=>1));
         
         $attributes = Mage::getModel('catalog', 'category_attribute_set')
             ->setAttributeSetId(1)

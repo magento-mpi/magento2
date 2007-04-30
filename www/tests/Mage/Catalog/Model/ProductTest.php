@@ -43,6 +43,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $product->save();
         
         $product = Mage::getModel('catalog', 'product')->load(501);
-        var_dump($product->getTierPrice());
+        //var_dump($product->getTierPrice());
     }
 }

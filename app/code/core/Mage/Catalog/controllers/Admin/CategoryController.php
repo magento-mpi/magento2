@@ -27,7 +27,23 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     
     public function saveAction()
     {
-        var_dump($_POST);
+        $res = array();
+        $category = Mage::getModel('catalog', 'category');
+        $category->setAttributeSetId($this->getRequest()->getPost('attribute_set_id'));
+        $category->setAttributes($this->getRequest()->getPost('attribute'));
+        $category->setCategoryId($this->getRequest()->getPost('category_id'));
+        $category->setParentId($this->getRequest()->getPost('parentId'));
+        
+        try {
+            $category->save();
+            $res['error'] = 0;
+            $res['categoryId'] = $category->getId();
+        }
+        catch (Exception $e){
+            $res['error'] = 1;
+            $res['errorMessage'] = $e->getMessage();
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
 
     public function removeAction() {

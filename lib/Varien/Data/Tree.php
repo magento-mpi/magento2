@@ -28,7 +28,7 @@ class Varien_Data_Tree
     
     public function load($parentNode=null, $recursive=false) {}
     public function loadNode($nodeId) {}
-    public function appendChild($parentNode, $prevNode=null) {}
+    public function appendChild($data=array(), $parentNode, $prevNode=null) {}
     
     public function addNode($node, $parent=null)
     {

@@ -146,9 +146,21 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         return new Varien_Data_Tree_Node($this->_conn->fetchRow($select), $this->_idField, $this);
     }
     
-    public function appendChild($parentNode, $prevNode=null)
+    public function appendChild($data=array(), $parentNode, $prevNode=null)
     {
+        $orderSelect = $this->_conn->select();
+        $orderSelect->from($this->_table, new Zend_Db_Expr('MAX('.$this->_conn->quoteIdentifier($this->_orderField).')'))
+            ->where($this->_conn->quoteIdentifier($this->_parentField).'='.$parentNode->getId());
         
+        $order = $this->_conn->fetchOne($orderSelect);
+        $data[$this->_parentField] = $parentNode->getId();
+        $data[$this->_levelField]  = $parentNode->getData($this->_levelField)+1;
+        $data[$this->_orderField]  = $order+1;
+
+        $this->_conn->insert($this->_table, $data);
+        $data[$this->_idField] = $this->_conn->lastInsertId();
+        
+        return new Varien_Data_Tree_Node($data, $this->_idField, $this);
     }
     
     /**

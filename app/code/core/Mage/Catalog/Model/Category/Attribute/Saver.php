@@ -36,9 +36,9 @@ class Mage_Catalog_Model_Category_Attribute_Saver
         return $resource;
     }
     
-    public function save($productId, $value)
+    public function save($categoryId, $value)
     {
-        $this->getResource()->save($this->_attribute, $productId, $value);
+        $this->getResource()->save($this->_attribute, $categoryId, $value);
         return $this;
     }
 }

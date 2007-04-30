@@ -22,7 +22,7 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Saver
         $websiteId = Mage::registry('website')->getId();
         $attributeId = $attribute->getId();
         
-        $condition = $this->_write->quoteInto('product_id=?',$productId)
+        $condition = $this->_write->quoteInto('category_id=?',$categoryId)
                      . ' AND ' . $this->_write->quoteInto('attribute_id=?',$attributeId)
                      . ' AND ' . $this->_write->quoteInto('website_id=?',$websiteId);
         
@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Saver
             $this->_write->delete($table, $condition);
             
             $data = array(
-                'product_id'    => $productId,
+                'category_id'   => $categoryId,
                 'attribute_id'  => $attributeId,
                 'website_id'    => $websiteId
             );
