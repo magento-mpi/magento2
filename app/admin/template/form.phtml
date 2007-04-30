@@ -1,4 +1,4 @@
-<?if ($currentBlock->getAttribute('isFormFramed')):?>
+<?if ($currentBlock->getIsFormFramed()):?>
 <form <?=$formAttributes?>>
 <?endif?>
 <?$_processedElements=array()?>
@@ -30,6 +30,6 @@
 </div></div></div>
 <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 </div>
-<?if ($currentBlock->getAttribute('isFormFramed')):?>
+<?if ($currentBlock->getIsFormFramed()):?>
 </form>
 <?endif?>
