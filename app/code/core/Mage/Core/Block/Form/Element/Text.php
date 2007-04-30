@@ -20,8 +20,8 @@ class Mage_Core_Block_Form_Element_Text extends Mage_Core_Block_Form_Element_Abs
     public function toHtml()
     {
         $html = $this->renderElementLabel();
-        if(empty($this->_attributes['class'])){
-            $this->_attributes['class'] = 'x-form-field x-form-text';
+        if(!$this->getClass()){
+            $this->setClass('x-form-field x-form-text');
         }
         $html.= '<input type="text" ';
         $html.= $this->_attributesToString(array(
