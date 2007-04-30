@@ -41,7 +41,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
     
     public function __construct($attributes=array())
     {
-        $this->_attributes = $attributes;
+        parent::__construct($attributes);
         $this->_construct();
     }
     
