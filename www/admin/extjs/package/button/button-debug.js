@@ -9,7 +9,7 @@
 
 Ext.Button = function(renderTo, config){
     Ext.apply(this, config);
-    this.events = {
+    this.addEvents({
         
 	    "click" : true,
         
@@ -18,7 +18,7 @@ Ext.Button = function(renderTo, config){
         'mouseover' : true,
         
         'mouseout': true
-    };
+    });
     if(this.menu){
         this.menu = Ext.menu.MenuMgr.get(this.menu);
     }
@@ -45,6 +45,9 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
 
     // private
     menuClassTarget: 'tr',
+
+    clickEvent : 'click',
+    handleMouseEvents : true,
 
     
     tooltipType : 'qtip',
@@ -103,10 +106,12 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         }else{
             this.autoWidth();
         }
-        btn.on("click", this.onClick, this);
-        btn.on("mouseover", this.onMouseOver, this);
-        btn.on("mouseout", this.onMouseOut, this);
-        btn.on("mousedown", this.onMouseDown, this);
+        if(this.handleMouseEvents){
+            btn.on("mouseover", this.onMouseOver, this);
+            btn.on("mouseout", this.onMouseOut, this);
+            btn.on("mousedown", this.onMouseDown, this);
+        }
+        btn.on(this.clickEvent, this.onClick, this);
         //btn.on("mouseup", this.onMouseUp, this);
         if(this.hidden){
             this.hide();

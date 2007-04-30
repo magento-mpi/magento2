@@ -664,6 +664,10 @@ Mage.Catalog_Product = function(depend){
             }
         },
 
+        onDeleteItem : function() {
+            var sm = this.productsGrid.getSelectModel();
+        },
+
         saveItemCallBack : function(response, type) {
             Ext.dump(response.responseText);
         },
@@ -687,6 +691,7 @@ Mage.Catalog_Product = function(depend){
                 handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
+                handler : this.onDeleteItem.createDelegate(this),
                 cls: 'x-btn-text-icon'
             },{
                 text: 'Reset',

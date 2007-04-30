@@ -7,9 +7,9 @@
  */
 
 
-Ext.Button=function(renderTo,config){Ext.apply(this,config);this.events={"click":true,"toggle":true,'mouseover':true,'mouseout':true};if(this.menu){this.menu=Ext.menu.MenuMgr.get(this.menu);}
+Ext.Button=function(renderTo,config){Ext.apply(this,config);this.addEvents({"click":true,"toggle":true,'mouseover':true,'mouseout':true});if(this.menu){this.menu=Ext.menu.MenuMgr.get(this.menu);}
 if(renderTo){this.render(renderTo);}
-Ext.Button.superclass.constructor.call(this);};Ext.extend(Ext.Button,Ext.util.Observable,{hidden:false,disabled:false,pressed:false,enableToggle:false,menu:undefined,menuAlign:"tl-bl?",menuClassTarget:'tr',tooltipType:'qtip',render:function(renderTo){var btn;if(this.hideParent){this.parentEl=Ext.get(renderTo);}
+Ext.Button.superclass.constructor.call(this);};Ext.extend(Ext.Button,Ext.util.Observable,{hidden:false,disabled:false,pressed:false,enableToggle:false,menu:undefined,menuAlign:"tl-bl?",menuClassTarget:'tr',clickEvent:'click',handleMouseEvents:true,tooltipType:'qtip',render:function(renderTo){var btn;if(this.hideParent){this.parentEl=Ext.get(renderTo);}
 if(!this.dhconfig){if(!this.template){if(!Ext.Button.buttonTemplate){Ext.Button.buttonTemplate=new Ext.Template('<table border="0" cellpadding="0" cellspacing="0" class="x-btn-wrap"><tbody><tr>','<td class="x-btn-left"><i>&#160;</i></td><td class="x-btn-center"><em><button class="x-btn-text">{0}</button></em></td><td class="x-btn-right"><i>&#160;</i></td>',"</tr></tbody></table>");}
 this.template=Ext.Button.buttonTemplate;}
 btn=this.template.append(renderTo,[this.text||'&#160;'],true);var btnEl=btn.child("button:first");btnEl.on('focus',this.onFocus,this);btnEl.on('blur',this.onBlur,this);if(this.cls){btn.addClass(this.cls);}
@@ -18,7 +18,8 @@ if(this.tooltip){if(typeof this.tooltip=='object'){Ext.QuickTips.tips(Ext.apply(
 this.el=btn;if(this.id){this.el.dom.id=this.el.id=this.id;}
 if(this.menu){this.el.child(this.menuClassTarget).addClass("x-btn-with-menu");this.menu.on("show",this.onMenuShow,this);this.menu.on("hide",this.onMenuHide,this);}
 btn.addClass("x-btn");if(Ext.isIE&&!Ext.isIE7){this.autoWidth.defer(1,this);}else{this.autoWidth();}
-btn.on("click",this.onClick,this);btn.on("mouseover",this.onMouseOver,this);btn.on("mouseout",this.onMouseOut,this);btn.on("mousedown",this.onMouseDown,this);if(this.hidden){this.hide();}
+if(this.handleMouseEvents){btn.on("mouseover",this.onMouseOver,this);btn.on("mouseout",this.onMouseOut,this);btn.on("mousedown",this.onMouseDown,this);}
+btn.on(this.clickEvent,this.onClick,this);if(this.hidden){this.hide();}
 if(this.disabled){this.disable();}
 Ext.ButtonToggleMgr.register(this);if(this.pressed){this.el.addClass("x-btn-pressed");}
 if(this.repeat){var repeater=new Ext.util.ClickRepeater(btn,typeof this.repeat=="object"?this.repeat:{});repeater.on("click",this.onClick,this);}},getEl:function(){return this.el;},destroy:function(){Ext.ButtonToggleMgr.unregister(this);this.el.removeAllListeners();this.purgeListeners();this.el.remove();},autoWidth:function(){if(this.el){this.el.setWidth("auto");if(Ext.isIE7&&Ext.isStrict){var ib=this.el.child('button');if(ib&&ib.getWidth()>20){ib.clip();ib.setWidth(Ext.util.TextMetrics.measure(ib,this.text).width+ib.getFrameWidth('lr'));}}

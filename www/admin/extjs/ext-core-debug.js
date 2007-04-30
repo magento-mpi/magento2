@@ -1449,6 +1449,7 @@ Ext.EventManager = function(){
     var fireDocReady = function(){
         if(!docReadyState){
             docReadyState = true;
+            Ext.isReady = true;
             if(docReadyProcId){
                 clearInterval(docReadyProcId);
             }
@@ -1575,24 +1576,24 @@ Ext.EventManager = function(){
     };
 
     var stopListening = function(el, ename, fn){
-        var id = Ext.id(el), hds = fn._handlers;
+        var id = Ext.id(el), hds = fn._handlers, hd = fn;
         if(hds){
             for(var i = 0, len = hds.length; i < len; i++){
                 var h = hds[i];
                 if(h[0] == id && h[1] == ename){
-                    var hd = h[2];
+                    hd = h[2];
                     hds.splice(i, 1);
-                    return E.un(el, ename, hd);
+                    break;
                 }
             }
         }
-        E.un(el, ename, fn);
+        E.un(el, ename, hd);
         el = Ext.getDom(el);
         if(ename == "mousewheel" && el.addEventListener){
-            el.removeEventListener("DOMMouseScroll", fn, false);
+            el.removeEventListener("DOMMouseScroll", hd, false);
         }
         if(ename == "mousedown" && el == document){ // fix stopped mousedowns on the document
-            Ext.EventManager.stoppedMouseDownEvent.removeListener(fn);
+            Ext.EventManager.stoppedMouseDownEvent.removeListener(hd);
         }
     };
 
@@ -2583,7 +2584,19 @@ El.prototype = {
     getSize : function(contentSize){
         return {width: this.getWidth(contentSize), height: this.getHeight(contentSize)};
     },
-    
+
+    getViewSize : function(){
+        var d = this.dom, doc = document, aw = 0, ah = 0;
+        if(d == doc || d == doc.body){
+            return {width : D.getViewWidth(), height: D.getViewHeight()};
+        }else{
+            return {
+                width : d.clientWidth,
+                height: d.clientHeight
+            };
+        }
+    },
+
     
     getValue : function(asNumber){
         return asNumber ? parseInt(this.dom.value, 10) : this.dom.value;
@@ -3022,7 +3035,68 @@ El.prototype = {
         }
         return [x,y];
     },
-    
+
+    getConstrainToXY : function(){
+        var os = {top:0, left:0, bottom:0, right: 0};
+
+        return function(el, local, offsets){
+            el = Ext.get(el);
+            offsets = offsets ? Ext.applyIf(offsets, os) : os;
+
+            var vw, vh, vx = 0, vy = 0;
+            if(el.dom == document.body || el.dom == document){
+                vw = Ext.lib.Dom.getViewWidth();
+                vh = Ext.lib.Dom.getViewHeight();
+            }else{
+                vw = el.dom.clientWidth;
+                vh = el.dom.clientHeight;
+                if(!local){
+                    var vxy = el.getXY();
+                    vx = vxy[0];
+                    vy = vxy[1];
+                }
+            }
+
+            var s = el.getScroll();
+
+            vx += offsets.left + s.left;
+            vy += offsets.top + s.top;
+
+            vw -= offsets.right;
+            vh -= offsets.bottom;
+
+            var vr = vx+vw;
+            var vb = vy+vh;
+
+            var xy = !local ? this.getXY() : [this.getLeft(true), this.getTop(true)];
+            var x = xy[0], y = xy[1];
+            var w = this.dom.offsetWidth, h = this.dom.offsetHeight;
+
+            // only move it if it needs it
+            var moved = false;
+
+            // first validate right/bottom
+            if((x + w) > vr){
+                x = vr - w;
+                moved = true;
+            }
+            if((y + h) > vb){
+                y = vb - h;
+                moved = true;
+            }
+            // then make sure top/left isn't negative
+            if(x < vx){
+                x = vx;
+                moved = true;
+            }
+            if(y < vy){
+                y = vy;
+                moved = true;
+            }
+            return moved ? [x, y] : false;
+        };
+    }(),
+
     
     alignTo : function(element, position, offsets, animate){
         var xy = this.getAlignToXY(element, position, offsets);
@@ -3129,14 +3203,21 @@ El.prototype = {
         
         E.onAvailable(id, function(){
             var hd = document.getElementsByTagName("head")[0];
-            var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/img;
+            var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig;
             var srcRe = /\ssrc=([\'\"])(.*?)\1/i;
+            var typeRe = /\stype=([\'\"])(.*?)\1/i;
+            
             var match;
             while(match = re.exec(html)){
-                var srcMatch = match[1] ? match[1].match(srcRe) : false;
+                var attrs = match[1];
+                var srcMatch = attrs ? attrs.match(srcRe) : false;
                 if(srcMatch && srcMatch[2]){
                    var s = document.createElement("script");
                    s.src = srcMatch[2];
+                   var typeMatch = attrs.match(typeRe);
+                   if(typeMatch && typeMatch[2]){
+                       s.type = typeMatch[2];
+                   }
                    hd.appendChild(s);
                 }else if(match[2] && match[2].length > 0){
                    eval(match[2]);
@@ -3148,7 +3229,7 @@ El.prototype = {
                 callback();
             }
         });
-        dom.innerHTML = html.replace(/(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)/img, "");
+        dom.innerHTML = html.replace(/(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)/ig, "");
         return this;
     },
     
@@ -3335,14 +3416,14 @@ El.prototype = {
         var el = document.createElement('iframe');
         el.frameBorder = 'no';
         el.className = 'ext-shim';
-        if(Ext.isIE){
+        if(Ext.isIE && Ext.isSecure){
             el.src = Ext.SSL_SECURE_URL;
         }
         var shim = Ext.get(this.dom.parentNode.insertBefore(el, this.dom));
         shim.autoBoxAdjust = false;
         return shim;
     },
-    
+
     
     remove : function(){
         if(this.dom.parentNode){
@@ -4722,14 +4803,14 @@ Ext.UpdateManager = function(el, forceNew){
     
     this.defaultUrl = null;
     
-    this.events = {
+    this.addEvents({
         
         "beforeupdate": true,
         
         "update": true,
         
         "failure": true
-    };
+    });
     var d = Ext.UpdateManager.defaults;
     
     this.sslBlankUrl = d.sslBlankUrl;
