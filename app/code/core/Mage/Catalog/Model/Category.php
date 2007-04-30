@@ -52,6 +52,18 @@ class Mage_Catalog_Model_Category extends Varien_Data_Object
         return $this;
     }
     
+    public function save()
+    {
+        $this->setData($this->getResource()->save($this));
+        return $this;
+    }
+    
+    public function delete()
+    {
+        $this->setData($this->getResource()->delete($this->getId()));
+        return $this;
+    }
+    
     /**
      * Get category products collection
      *

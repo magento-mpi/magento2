@@ -39,4 +39,10 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Collection extends Varien_Dat
         }
         return new $this->_itemObjectClass();
     }
+
+    public function setPositionOrder()
+    {
+        $this->setOrder($this->_attributeInSetTable.'.position', 'asc');
+        return $this;
+    }
 }

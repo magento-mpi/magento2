@@ -132,7 +132,7 @@
         <inputs>
             <text></text>
             <textarea></textarea>
-            <image></image>
+            <imagefile></imagefile>
         </inputs>
         
         <savers>
@@ -149,7 +149,7 @@
             <text></text>
             <textarea></textarea>
             <select></select>
-            <image></image>
+            <imagefile></imagefile>
         </inputs>
         <sources>
             <type>

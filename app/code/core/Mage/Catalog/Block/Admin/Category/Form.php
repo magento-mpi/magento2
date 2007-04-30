@@ -18,8 +18,35 @@ class Mage_Catalog_Block_Admin_Category_Form extends Mage_Core_Block_Form
         $this->setAttribute('class', 'x-form');
         $this->setAttribute('action', Mage::getBaseUrl().'mage_catalog/category/save/');
         
+        $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catid', false);
+        
         $parentId = Mage::registry('controller')->getRequest()->getParam('parent', false);
-        //$this->addField('parent', 'hidden', array('name'=>'parent', 'value'=>$parentId));
+        $this->addField('parent', 'hidden', array('name'=>'parent', 'value'=>$parentId));
+        
+        $attributes = Mage::getModel('catalog', 'category_attribute_set')
+            ->setAttributeSetId(1)
+            ->getAttributes();
+        
+            foreach ($attributes as $attribute) {
+            $elementId      = $attribute->getCode();
+            $elementType    = $attribute->getDataInput();
+            
+            $elementConfig  = array();
+            $elementConfig['name'] = 'attribute['.$attribute->getId().']';
+            $elementConfig['label']= $attribute->getCode();
+            $elementConfig['id']   = $attribute->getCode();
+            $elementConfig['value']= '';
+            $elementConfig['title']= $attribute->getCode();
+            $elementConfig['validation']= '';
+            $elementConfig['ext_type']  = 'TextField';
+            
+            $this->addField($elementId, $elementType, $elementConfig);
+        }
+        
+        if ($categoryId) {
+            $category = Mage::getModel('catalog','category')->load($categoryId);
+            $this->setElementsValues($category->getData());
+        }
         //$this->addField('name', 'text', array('name'=>'name', 'id'=>'new_category_name', 'label'=>'Category name'));
     }
 }
