@@ -50,7 +50,7 @@
       <salesPaymentMethods>         
          <authorizenet>
             <class>Mage_Paygate_Model_Authorizenet</class>
-            <orderStatus>4</orderStatus>
+            <orderStatus>pending</orderStatus>
             <test>True</test>
             <login>moshe</login>
             <transKey>4u3h45uh3o4u5ho34hu5</transKey>
@@ -67,12 +67,12 @@
          
          <paypal>
             <class>Mage_Paygate_Model_Paypal</class>
-            <orderStatus>4</orderStatus>
+            <orderStatus>pending</orderStatus>
          </paypal>
          
          <verisign>
             <class>Mage_Paygate_Model_Verisign</class>
-            <orderStatus>4</orderStatus>
+            <orderStatus>pending</orderStatus>
          </verisign>
       </salesPaymentMethods>
       

@@ -136,17 +136,17 @@
       <salesPaymentMethods>
          <checkmo>
             <class>Mage_Sales_Model_Payment_Checkmo</class>
-            <orderStatus>1</orderStatus>
+            <orderStatus>pending</orderStatus>
          </checkmo>
 
          <ccsave>
             <class>Mage_Sales_Model_Payment_Ccsave</class>
-            <orderStatus>2</orderStatus>
+            <orderStatus>pending</orderStatus>
          </ccsave>
 
          <purchaseorder>
             <class>Mage_Sales_Model_Payment_Purchaseorder</class>
-            <orderStatus>3</orderStatus>
+            <orderStatus>pending</orderStatus>
          </purchaseorder>
         
       </salesPaymentMethods>
@@ -401,5 +401,29 @@
          </default>
       </layouts>
    </admin>
+
+   <sales>
+      <quote>
+         <attributes>
+
+         </attributes>
+      </quote>
+      <order>
+         <attributes>
+
+         </attributes>
+         <statuses>
+            <pending><title>Pending</title></pending>
+            <backordered><title>Backordered</title></backordered>
+            <part_back><title>Partially Backordered</title></part_back>
+            <cancelled><title>Cencelled</title></cancelled>
+            <void><title>Void</title></void>
+            <shipped><title>Shipped</title></shipped>
+         </statuses>
+      </order>
+      <invoice>
+
+      </invoice>
+   </sales>
 </config>
 

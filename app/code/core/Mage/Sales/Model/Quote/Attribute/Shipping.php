@@ -24,7 +24,7 @@ class Mage_Sales_Model_Quote_Attribute_Shipping extends Mage_Sales_Model_Quote_A
             $quote->setWeight($quote->getWeight()+$item->getRowWeight());
         }
         
-        if ($quote->getEstimatePostcode() && $oldWeight!==$quote->getWeight()) {
+        if ($quote->getEstimatePostcode() && $oldWeight!=$quote->getWeight()) {
             $quote->estimateShippingMethods();
         }
         

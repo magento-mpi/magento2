@@ -7,13 +7,11 @@
             <Mage_Core />
          </depends>
 
-         <load>
-            <admin>
-               <controller>
-                  <active>true</active>
-               </controller>
-            </admin>
-         </load>
+        <admin>
+           <controller>
+              <active>true</active>
+           </controller>
+        </admin>
       </Mage_Auth>
    </modules>
 
