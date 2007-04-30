@@ -48,6 +48,14 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $baseTabUrl.= 'product/' . $productId . '/';
         }
         
+        if ($productId) {
+            $cardStructure['tabs'][] = array(
+                'name'  => 'product_view',
+                'url'   => Mage::getBaseUrl()."mage_catalog/product/view/product/$productId/",
+                'title' => 'Product Info',
+            );
+        }
+        
         foreach ($groups as $group) {
             $url = $baseTabUrl . 'group/' . $group->getId().'/';
             $url.= 'set/'.$set->getId().'/';

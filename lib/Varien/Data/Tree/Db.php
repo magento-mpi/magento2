@@ -228,4 +228,28 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         
         return $this;
     }
+    
+    public function removeNode($node)
+    {
+        // For reorder old node branch
+        $dataReorderOld = array(
+            $this->_orderField => new Zend_Db_Expr($this->_conn->quoteIdentifier($this->_orderField).'-1')
+        );
+        $conditionReorderOld = $this->_conn->quoteIdentifier($this->_parentField).'='.$node->getData($this->_parentField).
+                            ' AND '.$this->_conn->quoteIdentifier($this->_orderField).'>'.$node->getData($this->_orderField);
+        
+        $this->_conn->beginTransaction();
+        try {
+            $condition = $this->_conn->quoteInto("$this->_idField=?", $node->getId());
+            $this->_conn->delete($this->_table, $condition);
+            // Update old node branch
+            $this->_conn->update($this->_table, $dataReorderOld, $conditionReorderOld);
+            $this->_conn->commit();
+        }
+        catch (Exception $e){
+            $this->_conn->rollBack();
+            throw new Exception('Can\'t remove tree node');
+        }
+        return $this;
+    }
 }

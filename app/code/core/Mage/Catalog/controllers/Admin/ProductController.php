@@ -101,6 +101,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $card = $this->getLayout()->createBlock('admin_catalog_product_card', 'product_card');
         $this->getResponse()->setBody($card->toJson());
     }
+    
+    public function viewAction()
+    {
+        $product = Mage::getModel('catalog', 'product')->load($this->getRequest()->getParam('product'));
+        $block = $this->getLayout()->createBlock('tpl', 'product.view')
+            ->setTemplate('catalog/product/view.phtml')
+            ->assign('product', $product);
+        $this->getResponse()->setBody($block->renderView());
+    }
 
     /**
      * Attributes group form
