@@ -205,6 +205,7 @@ Mage.Catalog_Product = function(depend){
 //////////////////////////////////////////////////////
         },
 
+/*################ FILTER #####################*/
         addFilter : function(node, e) {
             
             if (this.filterSettings == null) {
@@ -429,6 +430,8 @@ Mage.Catalog_Product = function(depend){
             this.updateSizeFilterPanel();
         },
     
+/*################ END FILTER #####################*/
+    
         /**
          *  @param : load  boolean (load grid data)
          *  @param : catId  integer (category id required)
@@ -608,7 +611,6 @@ Mage.Catalog_Product = function(depend){
             return true;
         },
 
-
         onResetForm : function() {
             var i;
             for (i=0; i < this.editablePanels.length; i++) {
@@ -701,6 +703,7 @@ Mage.Catalog_Product = function(depend){
                disabled: false
             });
             toolbar.addSeparator();
+            
 //////////////////////////////////////////////////////////////////////
 /*            var testds = new Ext.data.Store({
                     proxy: new Ext.data.HttpProxy({
@@ -796,8 +799,6 @@ Mage.Catalog_Product = function(depend){
                 this.loadedForms.add(form.id, form);
             }
         },
-
-
 
         onFormChange : function(e, element, object, panel) {
             var i = 0;

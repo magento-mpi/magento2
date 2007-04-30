@@ -189,6 +189,7 @@ Mage.Catalog_Product_Attributes = function(){
                     var data = {};
                     
                     data.point = e.point;
+                   
                     switch (e.point) {
                         case 'above' :
                             data.pid = e.target.parentNode.id;
@@ -242,6 +243,7 @@ Mage.Catalog_Product_Attributes = function(){
                     }
                     
                     var s = e.data.selections, r = [], flag = false;
+                    
                     for(var i = 0, len = s.length; i < len; i++) {
                         var attributeId = s[i].id; // s[i] is a Record from the grid
                         var res = [];
@@ -332,6 +334,15 @@ Mage.Catalog_Product_Attributes = function(){
                         }
                         
                         requestParams.attributes = Ext.encode(groupAttributes);
+                        requestParams.point = e.point;
+                        if (e.point == 'below') {
+                            
+                        } else if (e.point == 'above') {
+                            
+                        } else if (e.point == 'append') {
+                            
+                        }
+                        console.log(requestParams);
                         
                         conn.request( {
                             url: this.addGroupAttributes,
