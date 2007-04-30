@@ -86,20 +86,20 @@ Mage.Core_Media = function(){
             tb.addButton({
                 id:'add',
                 text: 'New Folder',
-                cls: 'x-btn-text-icon btn_add',
+                cls: 'x-btn-text-icon btn-add',
                 disabled: true
             });
             tb.addButton({
                 id:'remove',
                 text: 'Remove Folder',
-                cls: 'x-btn-text-icon btn_delete',
+                cls: 'x-btn-text-icon btn-delete',
                 disabled: true
             });
             tb.addButton({
                 id:'reload',
                 text:'Reload',
                 handler:function(){root.reload()},
-                cls:'x-btn-text-icon btn_arrow_refresh',
+                cls:'x-btn-text-icon btn-arrow-refresh',
                 tooltip:'Reload the tree'
             });
             btns = tb.items.map;
@@ -187,7 +187,7 @@ Mage.Core_Media = function(){
             var btnAdd = new Ext.Toolbar.Button({
                 text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
-                cls: 'x-btn-text-icon btn_add',
+                cls: 'x-btn-text-icon btn-add',
                 disabled : true
              });
              paging.insertButton(0, btnAdd);
@@ -196,7 +196,7 @@ Mage.Core_Media = function(){
              var btnApply = new Ext.Toolbar.Button({
                 text: 'Apply',
                 handler : this.applyFilters.createDelegate(this),
-                cls: 'x-btn-text-icon btn_accept',
+                cls: 'x-btn-text-icon btn-accept',
                 disabled : true
              });
              paging.insertButton(1, btnApply);            
@@ -205,7 +205,7 @@ Mage.Core_Media = function(){
              var bntReset = new Ext.Toolbar.Button({
                 text: 'Reset',
                 handler : this.deleteFilters.createDelegate(this),
-                cls: 'x-btn-text-icon btn_delete',
+                cls: 'x-btn-text-icon btn-delete',
                 disabled : true
              });
              paging.insertButton(2, bntReset);            
@@ -213,7 +213,7 @@ Mage.Core_Media = function(){
              
              paging.insertButton(3, {
                 text: 'Product',
-                cls: 'x-btn-text-icon btn_package_add',
+                cls: 'x-btn-text-icon btn-package-add',
                 handler : this.createItem.createDelegate(this)
              });
             

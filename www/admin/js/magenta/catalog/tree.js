@@ -51,7 +51,7 @@ Mage.Catalog_Category_Tree = function(){
                     id : 'add',
                     disabled : true,
                     handler : this.onAddCategory.createDelegate(this),
-                    cls: 'x-btn-text-icon btn_add'
+                    cls: 'x-btn-text-icon btn-add'
                 });
 
                 tb.addButton ({
@@ -59,7 +59,7 @@ Mage.Catalog_Category_Tree = function(){
                     id : 'edit',
                     disabled : true,
                     handler : this.onEditCategory.createDelegate(this),
-                    cls: 'x-btn-text-icon btn_folder_edit'
+                    cls: 'x-btn-text-icon btn-folder-edit'
                 });
                 
                 this.btns = tb.items.map;

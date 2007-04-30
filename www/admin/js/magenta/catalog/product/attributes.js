@@ -103,28 +103,28 @@ Mage.Catalog_Product_Attributes = function(){
                     id:'add',
                     text:'Set',
                     handler : addSet,
-                    cls:'x-btn-text-icon b btn_add',
+                    cls:'x-btn-text-icon b btn-add',
                     tooltip:'Add a new Set to the product attributes'
                 }, {
                     id:'group',
                     text:'Group',
                     disabled:true,
                     handler:addGroup,
-                    cls:'x-btn-text-icon btn_add',
+                    cls:'x-btn-text-icon btn-add',
                     tooltip:'Add a new group to the selected component'
                 },'-',{
                     id:'remove',
                     text:'Remove',
                     disabled:true,
                     handler:removeHandler.createDelegate(this),
-                    cls:'x-btn-text-icon btn_delete',
+                    cls:'x-btn-text-icon btn-delete',
                     tooltip:'Remove the selected item'
                 },'-',{
                     id:'reload',
                     text:'Reload',
                     disabled:false,
                     handler:refreshTree,
-                    cls:'x-btn-text-icon btn_arrow_refresh',
+                    cls:'x-btn-text-icon btn-arrow-refresh',
                     tooltip:'Remove the selected item'
                 });
                 
@@ -798,7 +798,7 @@ Mage.Catalog_Product_Attributes = function(){
             
             tb.addButton({
                 text : 'New',
-                cls: 'x-btn-text-icon btn_add',
+                cls: 'x-btn-text-icon btn-add',
                 handler : function(){
                     var pa = new ProductAttribute({
                         attribute_id : '###',
@@ -815,13 +815,13 @@ Mage.Catalog_Product_Attributes = function(){
             
             tb.addButton({
                 text : 'Save',
-                cls: 'x-btn-text-icon btn_accept',
+                cls: 'x-btn-text-icon btn-accept',
                 handler : this.onSaveClick.createDelegate(this)
             });
             
             tb.addButton({
                 text : 'Delete',
-                cls: 'x-btn-text-icon btn_delete',
+                cls: 'x-btn-text-icon btn-delete',
                 handler : function(){
                    var sm =  this.attributeGrid.getSelectionModel();
                    if (sm.hasSelection()) {
@@ -864,7 +864,7 @@ Mage.Catalog_Product_Attributes = function(){
             
             tb.addButton({
                 text : 'Refresh',
-                cls: 'x-btn-text-icon btn_arrow_refresh',
+                cls: 'x-btn-text-icon btn-arrow-refresh',
                 handler : function() {
                     this.attributeGrid.getDataSource().load();
                 }.createDelegate(this)

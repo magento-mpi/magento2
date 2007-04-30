@@ -146,7 +146,7 @@ Mage.Catalog_Product = function(depend){
             var btnAdd = new Ext.Toolbar.Button({
                 text: 'Filter',
                 handler : this.addFilter.createDelegate(this),
-                cls: 'x-btn-text-icon btn_add',
+                cls: 'x-btn-text-icon btn-add',
                 disabled : true
              });
             paging.insertButton(0, btnAdd);
@@ -155,7 +155,7 @@ Mage.Catalog_Product = function(depend){
             var btnApply = new Ext.Toolbar.Button({
                 text: 'Apply',
                 handler : this.applyFilters.createDelegate(this),
-                cls: 'x-btn-text-icon btn_accept',
+                cls: 'x-btn-text-icon btn-accept',
                 disabled : true
              });
              paging.insertButton(1, btnApply);            
@@ -164,7 +164,7 @@ Mage.Catalog_Product = function(depend){
              var bntReset = new Ext.Toolbar.Button({
                 text: 'Reset',
                 handler : this.deleteFilters.createDelegate(this),
-                cls: 'x-btn-text-icon btn_delete',
+                cls: 'x-btn-text-icon btn-delete',
                 disabled : true
              });
              paging.insertButton(2, bntReset);            
@@ -172,7 +172,7 @@ Mage.Catalog_Product = function(depend){
              
              paging.insertButton(3, {
                 text: 'Product',
-                cls: 'x-btn-text-icon btn_package_add',
+                cls: 'x-btn-text-icon btn-package-add',
                 handler : this.createItem.createDelegate(this)
              });
             
@@ -223,7 +223,7 @@ Mage.Catalog_Product = function(depend){
 
             filter.add({
                 handler : this.delFilter.createDelegate(this, [filter], 0),
-                cls: 'x-btn-icon btn_cross'
+                cls: 'x-btn-icon btn-cross'
             });
             
             var startType = null;  // first item time
@@ -710,12 +710,12 @@ Mage.Catalog_Product = function(depend){
             // setup toolbar for forms
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
-                text: 'Save',
-                cls: 'x-btn-text-icon',
+                text: 'Apply',
+                cls: 'x-btn-text-icon btn-accept',
                 handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-bin-closed',
                 handler: function(e) { 
                     Ext.MessageBox.confirm('Delete Product','Are you sure ?!', function(btn, text){
                         if (btn == 'yes' ) {
@@ -725,11 +725,11 @@ Mage.Catalog_Product = function(depend){
                 }.createDelegate(this)
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-reset',
                 handler : this.onResetForm.createDelegate(this)
             },{
                 text: 'Cancel',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-cancel',
                 handler : this.onCancelEdit.createDelegate(this)
             },'-');
             this.formLoading = toolbar.addButton({
