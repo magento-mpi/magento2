@@ -70,8 +70,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdateFile($fileName)
     {
-        $fileName = (string)$args->file;
-        $fileName = Mage::getBaseDir('layout').DS.$fileName;
+        #$fileName = (string)$args->file;
+        #$fileName = Mage::getBaseDir('layout').DS.$fileName;
         $this->addCacheStat($fileName);
         
         $update = $this->loadFile($fileName);
@@ -94,7 +94,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $updates = Mage::getConfig()->getNode("$area/layouts/$id/updates");
         if (!empty($updates)) {
-            foreach ($updates as $update) {
+            foreach ($updates->children() as $update) {
                 $fileName = Mage::getBaseDir('layout').DS.(string)$update->file;
                 $this->loadUpdateFile($fileName);
             }
