@@ -19,6 +19,7 @@ Mage.Catalog_Product = function(depend){
         productsGridPageSize : 30, 
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
+        deleteProductUrl : Mage.url + 'mage_catalog/product/delete/',
         
 
 
@@ -663,13 +664,36 @@ Mage.Catalog_Product = function(depend){
                 form.sendForm(this.saveItemCallBack.createDelegate(this));
             }
         },
-
-        onDeleteItem : function() {
-            var sm = this.productsGrid.getSelectModel();
-        },
-
+        
         saveItemCallBack : function(response, type) {
             Ext.dump(response.responseText);
+        },
+        
+        onDeleteItem : function() {
+            var sm = this.productsGrid.getSelectionModel();
+            var ds = this.productsGrid.getDataSource();
+            var conn = new Ext.data.Connection();
+
+            conn.on('requestcomplete', function(trId, response, options){
+                var result = Ext.decode(response.responseText);
+                if (result.error === 0) {
+                    ds.remove(sm.selections.items[0]);
+                } else {
+                    Ext.MessageBox.alert('Error', result.errorMessage);
+                }
+            });
+            
+            conn.on('requestexception', function() {
+                Ext.MessageBox.alert('Critical Error', 'requestexception');
+            });
+            
+            conn.request({
+                url : this.deleteProductUrl,
+                params : {
+                    id : sm.selections.items[0].id
+                },
+                method : "POST"
+            });
         },
 
 
@@ -691,8 +715,14 @@ Mage.Catalog_Product = function(depend){
                 handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
-                handler : this.onDeleteItem.createDelegate(this),
-                cls: 'x-btn-text-icon'
+                cls: 'x-btn-text-icon',
+                handler: function(e) { 
+                    Ext.MessageBox.confirm('Delete Product','Are you sure ?!', function(btn, text){
+                        if (btn == 'yes' ) {
+                            this.onDeleteItem();
+                        }
+                    }, this)
+                }.createDelegate(this)
             },{
                 text: 'Reset',
                 cls: 'x-btn-text-icon',
