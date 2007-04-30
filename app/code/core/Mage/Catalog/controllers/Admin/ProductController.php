@@ -650,27 +650,37 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     }
     
     public function attributePropListAction() {
-        $res = array(
-            'totalRecords' => 5,
-            'items' => array(
-                array (
-                'id' => 0,
-                'text' => 'string'
-				),array (
-                'id' => 1,
-                'text' => 'string'
-				),array (
-                'id' => 2,
-                'text' => 'string'
-				),array (
-                'id' => 3,
-                'text' => 'string'
-				),array (
-                'id' => 4,
-                'text' => 'string'
-				)
-            )
-        );
+        $res = array();
+        $attribute = Mage::getModel('catalog', 'product_attribute');
+        $type = $this->getRequest()->getParam('type');
+        
+        switch ($type) {
+            case 'data_type':
+                $data = $attribute->getAllowType();
+                break;
+        	case 'data_source':
+        		$data = $attribute->getAllowSource();
+        		break;
+        	case 'data_input':
+        	    $data = $attribute->getAllowInput();
+        	    break;
+        	case 'data_saver':
+        	    $data = $attribute->getAllowSaver();
+                break;
+        	default:
+        		break;
+        }
+
+        if (!empty($data)) {
+            $res['totalRecords'] = count($data);
+            foreach ($data as $item) {
+                $res['items'][] = array(
+                    'id'    => $item['value'],
+                    'text'  => $item['label']
+                );
+            }
+        }
+        
         $this->getResponse()->setBody(Zend_Json::encode($res));
     }
 }

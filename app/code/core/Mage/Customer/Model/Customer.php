@@ -149,6 +149,12 @@ class Mage_Customer_Model_Customer extends Varien_Data_Object
      */
     public function sendMail($subject, $body)
     {
+        $email = new Mage_Customer_Model_Email();
+        $email->setFrom('Magenta')
+            ->setTo($this->getEmail())
+            ->setSubject($subject)
+            ->setBody($body)
+            ->send();
         return $this;
     }
     

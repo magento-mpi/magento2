@@ -233,7 +233,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 
                 Mage::getSingleton('customer', 'session')
                     ->addMessage(Mage::getModel('customer', 'message')->success('CSTS003'));
-                
+                $customer->sendMail('Change password', 'New customer password');
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {

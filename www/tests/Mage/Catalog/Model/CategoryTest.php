@@ -11,5 +11,10 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $tree = Mage::getModel('catalog_resource', 'category_tree');
         $tree->load();
     }
+    
+    public function testSave()
+    {
+        $category = '';
+    }
 }
 

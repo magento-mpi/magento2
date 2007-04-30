@@ -167,6 +167,19 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         
         throw new Exception('Attribute source "'.$saverName.'" not found');
     }
+
+    public function getAllowType()
+    {
+        $config = (array) Mage::getConfig()->getNode('global/product_attributes/types');
+        $arr = array();
+        foreach ($config as $input=>$inputInfo) {
+            $arr[] = array(
+                'value' => $input,
+                'label' => $input
+            );
+        }
+        return $arr;
+    }
     
     public function getAllowInput()
     {

@@ -67,13 +67,13 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute
             'validation'      => $attribute->getValidation(),
             'input_format'    => $attribute->getInputFormat(),
             'output_format'   => $attribute->getOutputFormat(),
-            'required'        => (bool) $attribute->getRequired(),
-            'searchable'      => (bool) $attribute->getSearchable(),
-            'comparable'      => (bool) $attribute->getComparable(),
-            'multiple'        => (bool) $attribute->getMultiple(),
-            'deletable'       => (bool) $attribute->getDeletable(),
+            'required'        => (int) (bool) $attribute->getRequired(),
+            'searchable'      => (int) (bool) $attribute->getSearchable(),
+            'comparable'      => (int) (bool) $attribute->getComparable(),
+            'multiple'        => (int) (bool) $attribute->getMultiple(),
+            'deletable'       => (int) (bool) $attribute->getDeletable(),
         );
-        //$data = $attribute->getData();
+        
         return $data;
     }
     

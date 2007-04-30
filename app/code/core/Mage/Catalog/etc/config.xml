@@ -128,11 +128,28 @@
          </catalog_resource>
       </models>
       
+      <category_attributes>
+        <inputs>
+            <text></text>
+            <textarea></textarea>
+            <image></image>
+        </inputs>
+        
+        <savers>
+            <default>
+                <name>Default</name>
+                <module>catalog</module>
+                <model>category_attribute_saver</model>
+            </default>
+        </savers>
+      </category_attributes>
+
       <product_attributes>
         <inputs>
             <text></text>
             <textarea></textarea>
             <select></select>
+            <image></image>
         </inputs>
         <sources>
             <type>
