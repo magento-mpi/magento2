@@ -37,7 +37,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
         try {
             $category->save();
             $res['error'] = 0;
-            $res['categoryId'] = $category->getId();
+            $res['categoryId']   = $category->getId();
+            $res['categoryName'] = $category->getName();
         }
         catch (Exception $e){
             $res['error'] = 1;
