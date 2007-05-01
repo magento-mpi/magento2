@@ -336,8 +336,6 @@ Mage.Catalog_Product_Attributes = function(){
                             }
                         }
                         
-                        console.log(r);
-                        
                         requestParams.attributes = Ext.encode(groupAttributes);
                         requestParams.point = e.point;
                         
@@ -644,7 +642,6 @@ Mage.Catalog_Product_Attributes = function(){
             });
 
             dataStore.setDefaultSort('attribute_code', 'asc');
-            dataStore.on('update', this.onAttributeDataStoreUpdate.createDelegate(this));
 
             function formatBoolean(value){
                 return (value === true) ? 'Yes' : 'No';  
@@ -882,29 +879,6 @@ Mage.Catalog_Product_Attributes = function(){
                     this.attributeGrid.getDataSource().load();
                 }.createDelegate(this)
             });
-        },
-        
-        onAttributeDataStoreUpdate : function(store, record, operation) {
-
-//            if (operation == Ext.data.Record.EDIT) {
-//                var conn = new Ext.data.Connection();
-//                console.log(record);
-           
-//                conn.on('requestcomplete', function(transId, response, option) {
-//                    store.commitChanges();
-//                });
-//           
-//                conn.on('requestexception', function(transId, response, option, e) {
-//                    Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
-//                    store.rejectChanges();
-//                });
-//		   
-//                conn.request( {
-//                    url: this.attributesCommitUrl,
-//                    method: "POST",
-//                    params: Ext.encode(data)
-//                });                
-//            }        
         },
         
         onSaveClick : function() {
