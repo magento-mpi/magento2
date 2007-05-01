@@ -4,7 +4,8 @@ Mage.Catalog_Product_RelatedPanel = function(){
         cPanel : null,
         grid : null,
         gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
-        gridPageSize : 20,
+        gridPageSize : 30,
+        productSelector : null,
         
         create : function(config) {
             this.config = config;
@@ -34,6 +35,9 @@ Mage.Catalog_Product_RelatedPanel = function(){
         onUpdate : function() {
             var div = Ext.DomQuery.selectNode('div#relation_tab', this.cPanel.getEl().dom);    
             if (div) {
+                this.productSelector = new Mage.Catalog_Product_ProductSelect({
+                    gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/'
+                });
                 this.initGrid({baseEl : Ext.get(div)});
             }
         },        
@@ -44,15 +48,6 @@ Mage.Catalog_Product_RelatedPanel = function(){
             }
             
             var baseEl = config.baseEl;
-            var resizeBaseEl = new Ext.Resizable(baseEl, {
-                wrap:true,
-                pinned:true,
-                width:450,
-                height:150,
-                minWidth:200,
-                minHeight: 50,
-                dynamic: true
-            });
 
             var dataRecord = Ext.data.Record.create([
                 {name: 'id', mapping: 'product_id'},
@@ -70,6 +65,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
              var dataStore = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({url: this.gridUrl}),
                 reader: dataReader,
+                baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
              });
 
@@ -86,10 +82,21 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 autoSizeColumns : true,
                 loadMask: true,
                 monitorWindowResize : true,
-                autoHeight : true,
+                autoHeight : false,
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
                 enableColLock : false
             });
+
+            var resizeBaseEl = new Ext.Resizable(baseEl, {
+                wrap:true,
+                pinned:true,
+                width:540,
+                height:200,
+                minWidth:200,
+                minHeight: 50,
+                dynamic: false
+            });
+            resizeBaseEl.on('resize', this.grid.autoSize, this.grid);
 
             this.grid.render();
             this.buildGridToolbar();            
@@ -107,6 +114,23 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 displayMsg: 'Displaying products {0} - {1} of {2}',
                 emptyMsg: 'No items to display'
             });
+
+            paging.insertButton(0, new Ext.Toolbar.Separator({
+            }));
+
+            
+            paging.insertButton(0, new Ext.ToolbarButton({
+                text : 'Button 2',
+            }));
+            
+            paging.insertButton(0, new Ext.ToolbarButton({
+                text : 'Select Product',
+                handler : this.productSelector.show,
+                scope : this.productSelector
+            }));
+
+            
+            
         },
         
         loadGrid : function() {

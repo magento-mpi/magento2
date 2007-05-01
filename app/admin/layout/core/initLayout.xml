@@ -50,6 +50,11 @@
             <block type="tag_js" name="jscripts.js.ext.all.debug">
                 <action method="setSrc"><src>extjs/ext-all-debug.js</src><locate/></action>
             </block>
+            
+            <block type="tag_js" name="jscripts.js.ext.filteredViewGrid">
+                <action method="setSrc"><src>magenta/filteredViewGrid.js</src></action>
+            </block>
+
 
             <!--  END LOAD EXT-YUI -->
 

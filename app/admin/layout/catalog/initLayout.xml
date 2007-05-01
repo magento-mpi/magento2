@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="jscripts">
+        <block type="tag_js" name="jscripts.js.catalog.product.productselect">
+            <action method="setSrc"><src>magenta/catalog/product/productselect.js</src></action>
+        </block>
         <block type="tag_js" name="jscripts.js.catalog">
             <action method="setSrc"><src>magenta/catalog.js</src></action>
         </block>
