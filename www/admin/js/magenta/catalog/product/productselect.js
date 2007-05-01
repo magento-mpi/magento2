@@ -40,7 +40,40 @@ Mage.Catalog_Product_ProductSelect = function(config) {
         }
     });
     innerLayout.beginUpdate();
-    innerLayout.add("west", new Ext.ContentPanel(innerLayout.getEl().createChild({tag : 'div'})));
+    var treePanel = innerLayout.add("west", new Ext.ContentPanel(innerLayout.getEl().createChild({tag : 'div'})));
+    
+    /*####################### INIT Category Tree ####################*/ 
+        var treeContainer = treePanel.getEl().createChild({tag:'div'});
+        this.tree = new Ext.tree.TreePanel(treeContainer, {
+            animate:true, 
+            loader: new Ext.tree.TreeLoader({dataUrl: Mage.url + 'mage_catalog/category/treeChildren/'}),
+            enableDD:true,
+            containerScroll: true,
+            rootVisible:false
+        });
+        
+        var mask = new Ext.LoadMask(treePanel.getEl(), {
+            store : this.tree
+        });
+        
+        var sm = this.tree.getSelectionModel();
+        sm.on('selectionchange', function(){
+            var node = sm.getSelectedNode();
+            
+        }.createDelegate(this));     
+                   
+        var root = new Ext.tree.AsyncTreeNode({
+            id : 1,
+            text: 'Catalog Categories', 
+            draggable : false,
+            expanded : false
+        });
+        
+        this.tree.setRootNode(root);
+        this.tree.render();
+ 
+    /*####################### END INIT Category Tree ####################*/ 
+    
     
     /*####################### INIT GRID ####################*/ 
             var dataRecord = Ext.data.Record.create([
@@ -57,7 +90,7 @@ Mage.Catalog_Product_ProductSelect = function(config) {
             }, dataRecord);
 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: this.gridUrl}),
+                proxy: new Ext.data.HttpProxy({url : this.gridUrl}),
                 reader: dataReader,
                 baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
@@ -97,8 +130,15 @@ Mage.Catalog_Product_ProductSelect = function(config) {
 
     /*####################### END GRID ####################*/ 
     innerLayout.endUpdate(true);
-    /*####################### LOAD GRID ###################*/
-
+    
+    
+    this.loadGrid = function(config) {
+        if (!config || !config.catId) {
+            return false;
+        }
+        this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'category/'+config.catId + '/';
+        this.grid.getDataSource().load();
+    };
 
     this.layout.beginUpdate();            
     
@@ -112,10 +152,11 @@ Mage.Catalog_Product_ProductSelect = function(config) {
 };
 
 Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
-    
+   
     show : function() {
         this.dialog.show();
-        this.grid.getDataSource().load();
+        this.loadGrid();
+        this.tree.root.reload();
     },
     
     hide : function() {
