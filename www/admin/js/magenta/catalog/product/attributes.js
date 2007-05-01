@@ -245,7 +245,7 @@ Mage.Catalog_Product_Attributes = function(){
                     var s = e.data.selections, r = [], flag = false;
                     
                     for(var i = 0, len = s.length; i < len; i++) {
-                        var attributeId = s[i].id; // s[i] is a Record from the grid
+                        var attributeId = s[i].data.attribute_id; // s[i] is a Record from the grid
                         var res = [];
                         
                         var node = null;
@@ -323,10 +323,12 @@ Mage.Catalog_Product_Attributes = function(){
                         });
 
                         conn.on('requestexception', function() {
+                            Ext.MessageBox.alert('Critical Error', 'Request Eception');
                         });
                         
                         var requestParams = {};
                         requestParams.groupId = e.target.attributes.groupId;
+
                         var groupAttributes = [];
                         for (var i in r){
                             if (r[i].attributes && r[i].attributes.attributeId) {
@@ -334,16 +336,27 @@ Mage.Catalog_Product_Attributes = function(){
                             }
                         }
                         
+                        console.log(r);
+                        
                         requestParams.attributes = Ext.encode(groupAttributes);
                         requestParams.point = e.point;
+                        
+                        requestParams.sibling = -1;
                         if (e.point == 'below') {
-                            
+                            requestParams.sibling = e.target.attributes.attributeId;
                         } else if (e.point == 'above') {
-                            
+                            if (e.target.previousSibling) {
+                                requestParams.sibling = e.target.previousSibling.attributes.attributeId;
+                            } else {
+                                requestParams.sibling = -1;
+                            }
                         } else if (e.point == 'append') {
-                            
+                            if (e.target.lastChild) {
+                                requestParams.sibling = e.target.lastChild.attributes.attributeId;
+                            } else {
+                                requestParams.sibling = -1;
+                            }
                         }
-                        console.log(requestParams);
                         
                         conn.request( {
                             url: this.addGroupAttributes,
@@ -752,9 +765,6 @@ Mage.Catalog_Product_Attributes = function(){
                 enableColLock : false
             });
             
-            this.attributeGrid.on('startdrag', function(dd, e){
-//                console.log(dd);    
-            });
             
             this.attributeGrid.on('afteredit', function(e) {
                 
@@ -767,7 +777,6 @@ Mage.Catalog_Product_Attributes = function(){
                        if (result.error == 0) {
                           e.record.data.id = result.attributeId;
                           e.record.data.attribute_id = result.attributeId;
-//                          e.record
                           store.commitChanges();
                        } else {
                             Ext.MessageBox.alert('Error', result.errorMessage);                           
@@ -877,8 +886,8 @@ Mage.Catalog_Product_Attributes = function(){
         
         onAttributeDataStoreUpdate : function(store, record, operation) {
 
-            if (operation == Ext.data.Record.EDIT) {
-                var conn = new Ext.data.Connection();
+//            if (operation == Ext.data.Record.EDIT) {
+//                var conn = new Ext.data.Connection();
 //                console.log(record);
            
 //                conn.on('requestcomplete', function(transId, response, option) {
@@ -895,7 +904,7 @@ Mage.Catalog_Product_Attributes = function(){
 //                    method: "POST",
 //                    params: Ext.encode(data)
 //                });                
-            }        
+//            }        
         },
         
         onSaveClick : function() {
