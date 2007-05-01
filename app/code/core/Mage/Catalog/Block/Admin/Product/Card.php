@@ -69,7 +69,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         if ($productId) {
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
-                'type'  => 'images',
+                //'type'  => 'images',
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
                 'title' => 'Images',
             );
