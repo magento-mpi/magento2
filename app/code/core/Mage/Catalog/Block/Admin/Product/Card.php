@@ -77,6 +77,13 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
                 'title' => 'Images',
             );
+            
+            $cardStructure['tabs'][] = array(
+                'name'  => 'categories',
+                'type'  => 'categories',
+                //'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
+                'title' => 'Categories',
+            );
         }
         
         if ($productType && $productType != 'default') {

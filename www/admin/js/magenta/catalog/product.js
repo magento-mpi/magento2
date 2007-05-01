@@ -802,6 +802,9 @@ Mage.Catalog_Product = function(depend){
                     case 'super':
                         panel = Mage.Catalog_Product_SuperPanel.create({ panel : this.editPanel, tabInfo: tabInfo});
                         break;
+                    case 'categories':
+                        panel = Mage.Catalog_Product_CategoriesPanel.create({ panel:this.editPanel, tabInfo:tabInfo});
+                        break;
                 }
             }
             else{
@@ -863,3 +866,57 @@ Mage.Catalog_Product = function(depend){
         }
     }
 }(Mage.Catalog);
+
+Mage.Catalog_Product_CategoriesPanel = function(){
+    return{
+        rowTemplate: null,
+
+        create : function(config){
+            this.config = config;
+            
+            if (!config.panel || !config.tabInfo) {
+                return false;
+            }
+            Ext.apply(this, config);
+
+            var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
+            var tb = new Ext.Toolbar(this.panel.getRegion('center').getEl().createChild({tag:'div'}));
+            tb.add({
+                text: 'Delete',
+                cls: 'x-btn-text-icon'
+                //handler : this.saveItem.createDelegate(this)
+            });
+            
+            this.rowTemplate = new Ext.Template('<div class="address-view">{product}</div>');
+            this.rowTemplate.compile();
+
+            this.cPanel = new Ext.ContentPanel('productCard_' + this.tabInfo.name,{
+                    title : this.tabInfo.title,
+                    toolbar: tb,
+                    autoCreate: true,
+                    closable : false,
+                    //url: this.tabInfo.url,
+                    loadOnce: true,
+                    background: true
+            });
+            
+            var container = this.cPanel.getEl().createChild({tag:'div'});
+        	this.categoriesView = new Ext.JsonView(container, this.rowTemplate, {
+        		singleSelect: true,
+        		jsonRoot: 'addresses',
+        		emptyText : '<div class="address-view"><h3>Empty</h3></div>'
+        	});
+            
+            this.cPanel.on('activate', function(){
+                if(!this.dataLoaded){
+                    this.categoriesView.load({url:Mage.url + 'mage_catalog/product/gridData/category/', scripts:false});
+                    this.dataLoaded = true;
+                }
+            }.createDelegate(this));
+            
+            var dropZone = Ext.dd.DropZone(container, 'TreeDD', {});
+
+            return this.cPanel;            
+        }
+    }
+}();

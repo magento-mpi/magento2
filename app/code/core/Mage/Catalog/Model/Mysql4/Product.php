@@ -134,10 +134,14 @@ class Mage_Catalog_Model_Mysql4_Product
             if ($attribute->isRequired() && empty($data)) {
                 throw new Exception('Attribute "'.$attribute->getCode().'" is required');
             }
+            elseif (empty($data) && !$attribute->isRequired()) {
+                continue;
+            }
             
             $saver = $attribute->getSaver()->save($product->getId(), $data);
             $product->setData($attribute->getCode(), $data);
         }
+        return $this;
     }
     
     protected function _saveCategories(Mage_Catalog_Model_Product $product)

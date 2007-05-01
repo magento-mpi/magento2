@@ -19,7 +19,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             ->addAttributeToSelect('description')
             ->setPageSize($pageSize);
 
-        if ($categoryId = $this->getRequest()->getParam('category')) {
+        if (($categoryId = (int) $this->getRequest()->getParam('category')) && $categoryId != 1) {
 
             $nodes = Mage::getModel('catalog_resource','category_tree')
                         ->load($categoryId, 10)
