@@ -91,6 +91,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $form = $this->getLayout()->createBlock('admin_catalog_product_create_option', 'product_create_option');
         $this->getResponse()->setBody($form->toHtml());
     }
+    
+    public function deleteAction()
+    {
+        
+    }
 
     /**
      * Product card structure (json)

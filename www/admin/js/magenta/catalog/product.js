@@ -794,18 +794,13 @@ Mage.Catalog_Product = function(depend){
                 switch (tabInfo.type)
                 {
                     case 'related':
-                        panel = new Ext.ContentPanel('productCard_' + tabInfo.name,{
-                            title : tabInfo.title,
-                            autoCreate: true,
-                            closable : false,
-                            loadOnce: true,
-                            background: true
-                        });
-                        Mage.Catalog_Product_Link.relatedPanel(panel);
+                        panel = Mage.Catalog_Product_Link.createRelatedPanel(this.editPanel, tabInfo);
                         break;
                     case 'bundle':
+                        panel = Mage.Catalog_Product_Link.createBundlePanel(this.editPanel);
                         break;
                     case 'super':
+                        panel = Mage.Catalog_Product_Link.createSuperPanel(this.editPanel);
                         break;
                 }
             }
