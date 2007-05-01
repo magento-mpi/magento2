@@ -426,8 +426,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                     break;
                 case 'attribute':
                     $attribute = Mage::getModel('catalog', 'product_attribute')
-                        ->setAttributeId($this->getRequest()->getPost('attributeId', false));
-                        
+                        ->load($this->getRequest()->getPost('attributeId', false));
+                    
+                    if (!$attribute->isDeletable()) {
+                        throw new Exception('Attribute is not deletable');
+                    }
+                            
                     Mage::getModel('catalog', 'product_attribute_group')
                        ->load($this->getRequest()->getPost('groupId', false))
                        ->removeAttribute($attribute);

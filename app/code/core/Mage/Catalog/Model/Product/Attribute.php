@@ -72,6 +72,11 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         return $this->getMultiple();
     }
     
+    public function isDeletable()
+    {
+        return $this->getDeletable();
+    }
+
     public function getTableName()
     {
         $type = $this->getDataType();
