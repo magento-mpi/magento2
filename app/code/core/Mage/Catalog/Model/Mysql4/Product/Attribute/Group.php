@@ -45,11 +45,11 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
      * @param   int $setId
      * @return  array
      */
-    public function getAttributes($groupId, $setId)
+    public function getAttributes($groupId)
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
             ->addGroupFilter($groupId)
-            ->addSetFilter($setId);
+            ->load();
         return $collection;
     }
     
@@ -87,6 +87,14 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     public function delete($groupId)
     {
         $condition = $this->_write->quoteInto('group_id=?', $groupId);
+        $siblingGroup = false;
+        $generalGroupId = $this->getGeneralSiblingId($groupId);
+        if ($generalGroupId) {
+            $siblingGroup = Mage::getModel('catalog', 'product_attribute_group')->load($generalGroupId);
+            $attributes = $this->getAttributes($groupId);
+        }
+
+        
         $this->_write->beginTransaction();
         try {
             $this->_write->delete($this->_groupTable, $condition);
@@ -97,6 +105,26 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
             $this->_write->rollBack();
             throw $e;
         }
+        
+        if ($siblingGroup) {
+            foreach ($attributes as $attribute) {
+                $siblingGroup->addAttribute($attribute);
+            }
+        }
+    }
+    
+    public function getGeneralSiblingId($groupId)
+    {
+        $sql = "SELECT 
+                    group_id
+                FROM
+                    $this->_groupTable
+                WHERE
+                    set_id IN (SELECT set_id FROM $this->_groupTable WHERE group_id=:group_id)
+                    AND group_id<>:group_id_not
+                ORDER BY
+                    position";
+        return $this->_write->fetchOne($sql, array('group_id'=>$groupId, 'group_id_not'=>$groupId));
     }
     
     public function addAttribute($group, $attribute, $position=null)
