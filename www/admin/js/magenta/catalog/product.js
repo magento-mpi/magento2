@@ -794,13 +794,13 @@ Mage.Catalog_Product = function(depend){
                 switch (tabInfo.type)
                 {
                     case 'related':
-                        panel = Mage.Catalog_Product_Link.createRelatedPanel(this.editPanel, tabInfo);
+                        panel = Mage.Catalog_Product_RelatedPanel.create({ panel : this.editPanel, tabInfo: tabInfo});
                         break;
                     case 'bundle':
-                        panel = Mage.Catalog_Product_Link.createBundlePanel(this.editPanel);
+                        panel = Mage.Catalog_Product_BundlePanel.create({ panel : this.editPanel, tabInfo: tabInfo});
                         break;
                     case 'super':
-                        panel = Mage.Catalog_Product_Link.createSuperPanel(this.editPanel);
+                        panel = Mage.Catalog_Product_SuperPanel.create({ panel : this.editPanel, tabInfo: tabInfo});
                         break;
                 }
             }
