@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Category_Attribute_Saver
     {
         static $resource;
         if (!$resource) {
-            $resource = Mage::getModel('catalog_resource', 'category_attribute_saver');
+            $resource = Mage::getSingleton('catalog_resource', 'category_attribute_saver');
         }
         return $resource;
     }

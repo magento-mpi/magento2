@@ -242,7 +242,64 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         }
         $this->getResponse()->setBody(Zend_Json::encode($res));
     }
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Product links
 
+    public function relatedListAction()
+    {
+        $data = array();
+        $productId = $this->getRequest()->getParam('product');
+        if ($productId) {
+            $linkedProducts = Mage::getModel('catalog', 'product')
+                ->load($productId)
+                ->getLinkedProducts('relation');
+            
+            foreach ($linkedProducts as $product) {
+                $data[] = array(
+                    'product_id' => $product->getId()
+                );
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
+    public function bundleListAction()
+    {
+        $data = array();
+        $productId = $this->getRequest()->getParam('product');
+        if ($productId) {
+            $linkedProducts = Mage::getModel('catalog', 'product')
+                ->load($productId)
+                ->getLinkedProducts('bundle');
+            
+            foreach ($linkedProducts as $product) {
+                $data[] = array(
+                    'product_id' => $product->getId()
+                );
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
+    public function superListAction()
+    {
+        $data = array();
+        $productId = $this->getRequest()->getParam('product');
+        if ($productId) {
+            $linkedProducts = Mage::getModel('catalog', 'product')
+                ->load($productId)
+                ->getLinkedProducts('super');
+            
+            foreach ($linkedProducts as $product) {
+                $data[] = array(
+                    'product_id' => $product->getId()
+                );
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////
     // Attributes
 

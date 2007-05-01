@@ -3,6 +3,9 @@ Mage.Catalog_Product_RelatedPanel = function(){
         config : null,
         cPanel : null,
         grid : null,
+        // mage_catalog/product/relatedList/product/:id
+        // mage_catalog/product/bundleList/product/:id
+        // mage_catalog/product/superList/product/:id
         gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
         gridPageSize : 30,
         productSelector : null,

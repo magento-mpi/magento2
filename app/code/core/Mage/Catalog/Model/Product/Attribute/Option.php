@@ -18,7 +18,7 @@ class Mage_Catalog_Model_Product_Attribute_Option extends Varien_Data_Object
     {
         static $resource;
         if (!$resource) {
-            $resource = Mage::getModel('catalog_resource', 'product_attribute_option');
+            $resource = Mage::getSingleton('catalog_resource', 'product_attribute_option');
         }
         return $resource;
     }

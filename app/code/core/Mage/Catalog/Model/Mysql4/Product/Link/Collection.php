@@ -44,8 +44,12 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
         $sqlUnionStrArr = array();
         
         $attrTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_link_attribute');
+        $arrLinkId = $this->getColumnValues('link_id');
+        if (empty($arrLinkId)) {
+            return false;
+        }
 
-        $linkIdsWhere = $this->_getConditionSql("`$attrTable`.`link_id`", array('in'=>$this->getColumnValues('link_id')));
+        $linkIdsWhere = $this->_getConditionSql("`$attrTable`.`link_id`", array('in'=>$arrLinkId));
         
         foreach (array('decimal', 'varchar') as $attributeType) {
             $attrValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_link_attribute_'.$attributeType);
@@ -76,7 +80,12 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
     
     protected function _loadLinkedProducts()
     {
-        $this->getProductCollection()->addProductFilter(array('in'=>$this->getColumnValues('linked_product_id')));
+        $arrProductId = $this->getColumnValues('linked_product_id');
+        if (empty($arrProductId)) {
+            return false;
+        }
+        
+        $this->getProductCollection()->addProductFilter(array('in'=>$arrProductId));
         $linkedProducts = $this->getProductCollection()->loadData();
             
         foreach ($this->getItems() as $item) {

@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
     {
         static $resource;
         if (!$resource) {
-            $resource = Mage::getModel('catalog_resource', 'category_filter');
+            $resource = Mage::getSingleton('catalog_resource', 'category_filter');
         }
         return $resource;
     }
