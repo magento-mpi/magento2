@@ -622,7 +622,7 @@ Mage.Catalog_Product_Attributes = function(){
                 {name: 'data_input', mapping: 'data_input'},
                 {name: 'data_type', mapping: 'data_type'},
                 {name: 'data_saver', mapping: 'data_saver'},
-                {name: 'data_srouce', mapping: 'data_source'},
+                {name: 'data_source', mapping: 'data_source'},
                 {name: 'editable', mapping: 'editable'},
                 {name: 'deletable', mapping: 'deletable'},
                 {name: 'required', mapping: 'required'},
@@ -717,14 +717,14 @@ Mage.Catalog_Product_Attributes = function(){
                    lazyRender:true
                 }))                
             },{
-                header: "Srouce",
+                header: "Source",
                 sortable: true,
-                dataIndex: 'data_srouce',
+                dataIndex: 'data_source',
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
                    triggerAction: 'all',
                    mode: 'remote',
-                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_srouce'),
+                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_source'),
                    displayField : 'text',
                    lazyRender:true
                 }))                
