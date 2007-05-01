@@ -621,6 +621,8 @@ Mage.Catalog_Product_Attributes = function(){
                 {name: 'attribute_code', mapping: 'attribute_code'},
                 {name: 'data_input', mapping: 'data_input'},
                 {name: 'data_type', mapping: 'data_type'},
+                {name: 'data_saver', mapping: 'data_saver'},
+                {name: 'data_srouce', mapping: 'data_source'},
                 {name: 'editable', mapping: 'editable'},
                 {name: 'deletable', mapping: 'deletable'},
                 {name: 'required', mapping: 'required'},
@@ -685,7 +687,7 @@ Mage.Catalog_Product_Attributes = function(){
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
                    triggerAction: 'all',
-                   mode: 'local',
+                   mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_input'),
                    displayField : 'text',
                    lazyRender:true
@@ -697,11 +699,36 @@ Mage.Catalog_Product_Attributes = function(){
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
                    triggerAction: 'all',
-                   mode: 'local',
+                   mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_type'),
                    displayField : 'text',
                    lazyRender:true
                 }))                
+            },{
+                header: "Saver",
+                sortable: true,
+                dataIndex: 'data_saver',
+                editor: new Ed(new Ext.form.ComboBox({
+                   typeAhead: false,
+                   triggerAction: 'all',
+                   mode: 'remote',
+                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_saver'),
+                   displayField : 'text',
+                   lazyRender:true
+                }))                
+            },{
+                header: "Srouce",
+                sortable: true,
+                dataIndex: 'data_srouce',
+                editor: new Ed(new Ext.form.ComboBox({
+                   typeAhead: false,
+                   triggerAction: 'all',
+                   mode: 'remote',
+                   store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_srouce'),
+                   displayField : 'text',
+                   lazyRender:true
+                }))                
+                
             },{
                 header: "Editable",
                 sortable: true,
@@ -925,6 +952,7 @@ Mage.Catalog_Product_Attributes_DropDownStore = function() {
         get : function(url, type) {
            var store = new Ext.data.Store({
                proxy: new Ext.data.HttpProxy({url: url}),                
+               baseParams : {type : type},
                remoteSort : false,
                reader :  new Ext.data.JsonReader({
             root : 'items',
@@ -935,7 +963,7 @@ Mage.Catalog_Product_Attributes_DropDownStore = function() {
                    {name: 'value'},
               ]))
            });
-            store.load({method:'POST', params:{type: type}});
+           // store.load({method:'POST', params:{type: type}});
             return store;
         }
     }
