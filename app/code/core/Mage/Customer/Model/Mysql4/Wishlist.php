@@ -34,6 +34,13 @@ class Mage_Customer_Model_Mysql4_Wishlist
         $arr = $this->_read->fetchRow($sql, array('item_id'=>$itemId));
         return $arr;
     }
+    
+    public function loadByCustomerProduct($customerId, $productId) 
+    {
+        $sql = "SELECT * FROM $this->_wishlistTable WHERE customer_id=:customer_id and product_id=:product_id";
+        $arr = $this->_read->fetchRow($sql, array('customer_id'=>$customerId, 'product_id'=>$productId));
+        return $arr;
+    }
 
     public function save(Mage_Customer_Model_Wishlist $wishlist)
     {

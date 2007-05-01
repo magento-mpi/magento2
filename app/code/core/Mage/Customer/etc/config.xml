@@ -151,6 +151,12 @@
            </updates>
         </default>
      </layouts>
+      
+      <globalSearch>
+         <customers>
+            <class>Mage_Customer_Model_Admin_Search</class>
+         </customers>
+      </globalSearch>
    </admin>
 
    <domains>

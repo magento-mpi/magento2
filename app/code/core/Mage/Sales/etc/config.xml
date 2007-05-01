@@ -400,6 +400,12 @@
             </updates>
          </default>
       </layouts>
+      
+      <globalSearch>
+         <sales>
+            <class>Mage_Sales_Model_Admin_Search</class>
+         </sales>
+      </globalSearch>
    </admin>
 
    <sales>

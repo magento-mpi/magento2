@@ -110,6 +110,7 @@
 </table>
 <input type="image" src="<?=$baseSkinUrl?>catalog/images/btn_add_to_cart.gif" alt="Add to Cart" class="float-left" />
 <ul class="product-options">
+<!--
     <li>
         <a href="#" title="Request a Sample"><img src="<?=$baseSkinUrl?>catalog/images/icon_request_sample.gif" alt="Request a Sample" /></a> 
         <a href="#" title="Request a Sample"><strong>Request a Sample</strong></a>
@@ -118,9 +119,10 @@
         <a href="#" title="Tell-a-Friend"><img src="<?=$baseSkinUrl?>catalog/images/icon_tell_friend.gif" alt="Request a Sample" /></a> 
         <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a>
     </li>
+-->
     <li>
         <a href="#"><img src="<?=$baseSkinUrl?>catalog/images/icon_add_favorites.gif" alt="Add to Favorite" /></a> 
-        <a href="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'add'))?>product/<?=$product->getId()?>"><strong>Add to Favorites</strong></a>
+        <a href="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'add', 'product'=>$product->getId()))?>"><strong>Add to Wishlist</strong></a>
     </li>
 </ul>
 <div class="dotted-separator"></div>

@@ -2,6 +2,7 @@
 
 class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection_Db
 {
+    protected $_idField;
     protected $_docType;
     protected $_attributeTypes;
     protected $_documentTable;
@@ -77,11 +78,30 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      * @param integer|string|array $value
      * @return Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function addAttributeFilter($entityAttribute, $attributeCondition=null)
+    public function addAttributeFilter($entityAttribute, $attributeCondition=null, $conditionType='and')
     {
         if (!empty($this->_filterAttrubutes[$entityAttribute])) {
             return $this; //todo: make adding conditions to existing attribute filter
         }
+        $selectSql = $this->_getAttributeSelect($entityAttribute, $attributeCondition);
+        $condition = "$this->_idField in ($selectSql)"; 
+
+        switch ($conditionType) {
+            case 'and':
+                $this->_sqlSelect->where($condition);
+                break;
+                
+            case 'or':
+                $this->_sqlSelect->orWhere($condition);
+                break;
+        }
+        #$this->_sqlSelect->join("$attributeTable as $attributeTableAlias", $joinCondition, array($attributeAlias=>"$attributeAlias.attribute_value"));
+        $this->_filterAttrubutes[$entityAttribute] = true;
+        return $this;
+    }
+    
+    protected function _getAttributeSelect($entityAttribute, $attributeCondition=null)
+    {
         $arr = explode('/', $entityAttribute);
         if (empty($arr[1])) {
             throw new Exception("$entityAttribute: Attribute name should be entityType/attributeCode.");
@@ -96,15 +116,17 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $attributeTable = $this->_attributeTable.'_'.$attributeType;
         $attributeAlias = $this->_getAttributeAlias($entityAttribute);
         $attributeTableAlias = $attributeAlias;#$entityType.'_'.$attributeCode;
-        $joinCondition = "$attributeTableAlias.$this->_idField=$this->_documentTable.$this->_idField"
+        $condition = "$attributeTableAlias.$this->_idField=$this->_documentTable.$this->_idField"
             ." and ".$this->_conn->quoteInto("$attributeTableAlias.entity_type=?", $entityType)
             ." and ".$this->_conn->quoteInto("$attributeTableAlias.attribute_code=?", $attributeCode);
         if (!empty($attributeCondition)) {
-            $joinCondition .= " and ".$this->_getConditionSql("$attributeTableAlias.attribute_value", $attributeCondition);
+            $condition .= " and ".$this->_getConditionSql("$attributeTableAlias.attribute_value", $attributeCondition);
+            $selectField = $this->_idField;
+        } else {
+            $selectField = 'attribute_value';
         }
-        $this->_sqlSelect->join("$attributeTable as $attributeTableAlias", $joinCondition, array($attributeAlias=>"$attributeAlias.attribute_value"));
-        $this->_filterAttrubutes[$entityAttribute] = true;
-        return $this;
+        $selectSql = "select $selectField from $attributeTable as $attributeTableAlias where $condition";
+        return $selectSql;
     }
     
     /**
@@ -128,8 +150,8 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      */
     public function setOrder($entityAttribute, $direction = 'desc')
     {
-        $this->addAttributeFilter($entityAttribute);
-        return parent::setOrder($this->_getAttributeAlias($entityAttribute), $direction);
+        $selectSql = $this->_getAttributeSelect($entityAttribute);
+        return parent::setOrder("($selectSql)", $direction);
     }
     
     /**
@@ -139,7 +161,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        parent::loadData($printQuery = false, $logQuery = false);
+        parent::loadData($printQuery, $logQuery);
         $this->_loadAttributes();
 
         return $this;

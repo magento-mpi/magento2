@@ -68,7 +68,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
         catch (Exception $e){
             
         }
-        if ($url = $this->getRequest()->getServer('HTTP_REFERER')) {
+        if (false && $url = $this->getRequest()->getServer('HTTP_REFERER')) {
             $this->_redirect($url);
         }
         $this->_redirect(Mage::getUrl('customer', array('controller'=>'wishlist')));

@@ -185,7 +185,17 @@ Mage.Search = function() {
                     var id = record.id.split('/');
                     switch (id[0]) {
                         case 'product':
-                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:'grid category title'});
+                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:''});
+                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
+                            break;
+                            
+                        case 'customer':
+                            Mage.Customer.viewGrid({load:true, catId:id[1], catTitle:''});
+                            Mage.Customer.doCreateItem(id[2], 'yes');
+                            break;
+                            
+                        case 'order':
+                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:''});
                             Mage.Catalog_Product.doCreateItem(id[2], 'yes');
                             break;
                     }
