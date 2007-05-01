@@ -643,7 +643,7 @@ Mage.Catalog_Product_Attributes = function(){
                 remoteSort: true
             });
 
-            dataStore.setDefaultSort('attribute_code', 'asc');
+            dataStore.setDefaultSort('attribute_id', 'asc');
 
             function formatBoolean(value){
                 return (value === true) ? 'Yes' : 'No';  
@@ -728,19 +728,6 @@ Mage.Catalog_Product_Attributes = function(){
                    displayField : 'text',
                    lazyRender:true
                 }))                
-                
-            },{
-                header: "Editable",
-                sortable: true,
-                dataIndex: 'editable',
-                renderer: formatBoolean,
-                editor: new Ed(new fm.Checkbox())
-            },{
-                header: "Deletable",
-                sortable: true,
-                dataIndex: 'deletable',
-                renderer: formatBoolean,
-                editor: new Ed(new fm.Checkbox())
             },{
                 header: "Required",
                 sortable: true,
@@ -763,6 +750,12 @@ Mage.Catalog_Product_Attributes = function(){
                 header: "Multiple",
                 sortable: true,
                 dataIndex: 'multiple',
+                renderer: formatBoolean,
+                editor: new Ed(new fm.Checkbox())
+            },{
+                header: "Deletable",
+                sortable: true,
+                dataIndex: 'deletable',
                 renderer: formatBoolean,
                 editor: new Ed(new fm.Checkbox())
             }]);

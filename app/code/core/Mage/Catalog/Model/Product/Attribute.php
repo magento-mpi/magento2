@@ -201,7 +201,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         foreach ($config as $saver=>$saverInfo) {
             $arr[] = array(
                 'value' => $saver,
-                'label' => (string) $saverInfo->name
+                'label' => $saver
             );
         }
         return $arr;
@@ -214,7 +214,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
         foreach ($config as $source=>$sourceInfo) {
             $arr[] = array(
                 'value' => $source,
-                'label' => (string) $sourceInfo->name
+                'label' => $source
             );
         }
         return $arr;

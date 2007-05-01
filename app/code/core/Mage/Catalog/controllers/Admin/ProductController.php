@@ -113,7 +113,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $block = $this->getLayout()->createBlock('tpl', 'product.view')
             ->setTemplate('catalog/product/view.phtml')
             ->assign('product', $product);
-        $this->getResponse()->setBody($block->renderView());
+        $this->getResponse()->setBody($block->toHtml());
     }
 
     /**
@@ -246,19 +246,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     /////////////////////////////////
     // Attributes
 
-    /**
-     * Product attribute set JSON
-     *
-     */
-    public function attributeSetListAction()
-    {
-        $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection');
-        $setCollection->load();
-        $arrSets = $setCollection->__toArray();
-
-        $this->getResponse()->setBody(Zend_Json::encode($arrSets));
-    }
-    
     public function attributeSetTreeAction() {
         $rootNode = $this->getRequest()->getPost('node', false);
         $data  = array();
