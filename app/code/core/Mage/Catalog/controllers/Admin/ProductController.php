@@ -371,76 +371,13 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             
         foreach ($collection->getItems() as $item) {
             $item->setRequired((boolean)$item->getRequired());
-            $item->setEditable((boolean)$item->getEditable());
             $item->setDeletable((boolean)$item->getDeletable());
             $item->setSearchable((boolean)$item->getSearchable());
             $item->setComparable((boolean)$item->getComparable());
             $item->setMultiple((boolean)$item->getMultiple());
         }
 
-        //$arrGridFields = array('attribute_id', 'attribute_code', 'data_input', 'data_type', 'required');
-        $data = $collection->__toArray();
-
-        $attribute = Mage::getModel('catalog', 'product_attribute');
-        $data['elements'] = array(
-            'attribute_code' => array(
-                'type'      => 'textfield',
-                'default'   => 'newAttributeCode'
-            ),
-            'data_input' => array(
-                'type'      => 'combobox',
-                'default'   => 'text',
-                'values'    => $attribute->getAllowInput(),
-            ),
-            'data_saver' => array(
-                'type'      => 'combobox',
-                'default'   => 'text',
-                'values'    => $attribute->getAllowSaver(),
-            ),
-            'data_source' => array(
-                'type'      => 'combobox',
-                'default'   => 'text',
-                'values'    => $attribute->getAllowSource(),
-            ),
-            'validation' => array(
-                'type'      => 'textfield',
-                'default'   => ''
-            ),
-            'input_format' => array(
-                'type'      => 'textfield',
-                'default'   => ''
-            ),
-            'output_format' => array(
-                'type'      => 'textfield',
-                'default'   => ''
-            ),
-            'required' => array(
-                'type'      => 'checkbox',
-                'default'   => false
-            ),
-            'editable' => array(
-                'type'      => 'checkbox',
-                'default'   => true
-            ),
-            'deletable' => array(
-                'type'      => 'checkbox',
-                'default'   => true
-            ),
-            'searchable' => array(
-                'type'      => 'checkbox',
-                'default'   => false
-            ),
-            'comparable' => array(
-                'type'      => 'checkbox',
-                'default'   => false
-            ),
-            'multiple' => array(
-                'type'      => 'checkbox',
-                'default'   => false
-            ),
-        );
-        
-        $this->getResponse()->setBody(Zend_Json::encode($data));
+        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray()));
     }
 
     public function addGroupAttributesAction() {
@@ -448,6 +385,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             'error' => 0,
             'errorNodes' => array()
         );
+        
         $groupId = $this->getRequest()->getPost('groupId', false);
         $arrAttributes = Zend_Json::decode($this->getRequest()->getPost('attributes','[]'));
         
@@ -554,11 +492,23 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         try {
             $set->save();
             $res['setId'] = $set->getId();
+            
+            // Create new set
             if (!$setId) {
+                // Create default "General" group
                 $group = Mage::getModel('catalog', 'product_attribute_group')
                     ->setCode('General')
                     ->setSetId($set->getId())
                     ->save();
+                
+                // Add defaults group attributes
+                // TODO: get arr atrributes id from config
+                $arrAttributes = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
+                foreach ($arrAttributes as $attributeId) {
+                    $attribute = Mage::getModel('catalog', 'product_attribute')->setAttributeId($attributeId);
+                    $group->addAttribute($attribute);
+                }
+                
                 $res['groupId'] = $group->getId();
             }
         }
