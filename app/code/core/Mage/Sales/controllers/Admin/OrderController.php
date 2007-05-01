@@ -14,30 +14,30 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
     public function treeAction()
     {
         $parent = $this->getRequest()->getParam('node', '');
+        $data = array();
         
         if ($parent==='wsroot') {
             $data = array(array(
-                'value' => 'all',
+                'id' => 'all',
                 'text'  => __('All websites'),
             ));
             $arrSites = Mage::getModel('core_resource', 'website_collection')->load();
             foreach ($arrSites as $website) {
                 $data[] = array(
-                    'value' => $website->getWebsiteId(),
+                    'id' => $website->getWebsiteId(),
                     'text'  => $website->getWebsiteCode()
                 );
+            } 
+        } else {
+            $statuses = Mage::getConfig()->getNode('sales/order/statuses');
+            foreach ($statuses->children() as $status) {
+                $data[] = array(
+                    'id' => $parent.'/'.$status->getName(),
+                    'text'  => (string)$status->title,
+                    'leaf' => true,
+                );
             }
-            $this->getResponse()->setBody(Zend_Json::encode($data));
-            return;   
         }
-        
-        $data = array();
-        $statuses = Mage::getConfig()->getNode('sales/order/statuses');
-        foreach ($statuses->children() as $status) {
-            $data[] = array(
-                'value' => $status->getName(),
-                'text'  => (string)$status->title,
-            );
-        }
+        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
 }

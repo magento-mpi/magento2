@@ -52,8 +52,8 @@
             <class>Mage_Paygate_Model_Authorizenet</class>
             <orderStatus>pending</orderStatus>
             <test>True</test>
-            <login>moshe</login>
-            <transKey>4u3h45uh3o4u5ho34hu5</transKey>
+            <login>irub782</login>
+            <transKey>3Ryyz3x99mZ68Z94</transKey>
             <cgi>
               <protocol>https</protocol>
 
@@ -79,6 +79,7 @@
       <salesAttributes>
          <order>
             <payment>
+                <anet_trans_method><type>varchar</type></anet_trans_method>
                 <anet_trans_id><type>varchar</type></anet_trans_id>
                 <anet_auth_code><type>varchar</type></anet_auth_code>
                 

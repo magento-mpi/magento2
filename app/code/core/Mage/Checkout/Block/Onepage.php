@@ -20,11 +20,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
-
-        $this->_initSteps();
     }
     
-    protected function _initSteps()
+    public function init()
     {
         $this->_steps = array();
         
@@ -63,6 +61,8 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             }
         }
         $this->assign('steps', $this->_steps);
+        
+        return $this;
     }
 
     protected function _createMethodBlock()

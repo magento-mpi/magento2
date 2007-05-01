@@ -25,8 +25,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
 
     public function createFormBlock($name)
     {
+        $hidden = array(
+            'anet_trans_method'=>'CC',
+        );
+        
         $block = $this->getLayout()->createBlock('payment_cc_form', $name)
             ->assign('method', 'authorizenet')
+            ->assign('hidden', $hidden)
             ->init($this->_payment);
         return $block;
     }
@@ -38,14 +43,30 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
         return $block;
     }
     
-    public function onOrderCreate(Mage_Sales_Model_Order $order)
+    public function authorizeOrder(Mage_Sales_Model_Order $order)
     {
-        #$request = $this->buildRequest($order->)
+        foreach ($order->getEntitiesByType('payment') as $payment) {
+            break;
+        }
+        $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
+        $request = $this->buildRequest($payment, $order);
+        $result = $this->postRequest($request);
+        
     }
     
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice $invoice)
+    public function captureInvoice(Mage_Sales_Model_Invoice $invoice)
     {
+        foreach ($order->getEntitiesByType('transaction') as $transaction) {
+            break;
+        }
+        if ($payment->getAnetTransId()) {
+            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
+        }
+        if ($payment->getAnetAuthCode()) {
+            $payment->setAnetTransType(self::REQUEST_TYPE_CAPTURE_ONLY);
+        }
         
+        $request = $this->buildRequest($transaction, $order);
     }
     
     /**

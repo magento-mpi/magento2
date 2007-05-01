@@ -77,11 +77,13 @@ VarienForm.prototype = {
             if (child){
                 var html = '<select name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
                 for (var i in data){
-                    if(data[i].value) html+= '<option value="'+data[i].value+'"';
-                    if(data[i].index && child.value && child.value == data[i].index){
-                        html+= ' selected';
+                    if(data[i].value) {
+                        html+= '<option value="'+data[i].value+'"';
+                        if(child.value && child.value == data[i].value){
+                            html+= ' selected';
+                        }
+                        html+='>'+data[i].label+'</option>';
                     }
-                    html+='>'+data[i].label+'</option>';
                 }
                 html+= '</select>';
                 new Insertion.Before(child,html);

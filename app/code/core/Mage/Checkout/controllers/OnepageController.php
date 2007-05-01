@@ -27,12 +27,21 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
+        $this->_checkout->setCompletedBilling(false);
+        $this->_checkout->setCompletedPayment(false);
+        $this->_checkout->setCompletedShipping(false);
+        $this->_checkout->setCompletedShippingMethod(false);
+        $this->_checkout->setAllowPayment(false);
+        $this->_checkout->setAllowShipping(false);
+        $this->_checkout->setAllowShippingMethod(false);
+        $this->_checkout->setAllowReview(false);
+        
         $statusBlock =  $this->getLayout()->createBlock('checkout_onepage_status', 'checkout.status');
             
         $this->getLayout()->getBlock('left')->unsetChildren()
             ->insert($statusBlock);
             
-        $block = $this->getLayout()->createBlock('checkout_onepage', 'checkout.onepage');
+        $block = $this->getLayout()->createBlock('checkout_onepage', 'checkout.onepage')->init();
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();

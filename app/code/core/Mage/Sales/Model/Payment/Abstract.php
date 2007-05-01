@@ -24,4 +24,9 @@ abstract class Mage_Sales_Model_Payment_Abstract
     {
         return $this->_payment;
     }
+    
+    public function getLayout()
+    {
+        return Mage::registry('action')->getLayout();
+    }
 }

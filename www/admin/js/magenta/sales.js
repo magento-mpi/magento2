@@ -1,6 +1,7 @@
 Mage.Sales = function(depend){
     return {
         layout : null,
+        centerLayout : null,
         
         webSiteTree : null,
         
@@ -11,7 +12,7 @@ Mage.Sales = function(depend){
         init : function() {
             var Core_Layout = Mage.Core.getLayout();
             if (!this.layout) {
-                this.layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
+                this.layout =  new Ext.BorderLayout(Core_Layout.getEl().createChild({tag:'div'}), {
                     center : {
                         autoScroll : false,
                         titlebar : false,
@@ -27,9 +28,40 @@ Mage.Sales = function(depend){
                         hideTabs:true
                      }
                 });
+                
+                this.centerLayout = new Ext.BorderLayout(Core_Layout.getEl().createChild({tag:'div'}), {
+                     center:{
+                         titlebar: true,
+                         autoScroll:true,
+                         resizeTabs : true,
+                         hideTabs : false,
+                         tabPosition: 'top'
+                     },
+                     south : {
+                         hideWhenEmpty : true,
+                         split:true,
+                         initialSize:300,
+                         minSize:50,
+                         titlebar: true,
+                         autoScroll: true,
+                         collapsible: true,
+                         hideTabs : true
+                     }
+                 });
+                 
+                this.centerLayout.beginUpdate();
+                this.centerLayout.add('center', new Ext.ContentPanel(Ext.id(), {
+                    autoCreate : true,
+                    fitToFrame:true
+                }));
+                this.centerLayout.add('south', new Ext.ContentPanel(Ext.id(), {
+                    autoCreate : true,
+                    fitToFrame:true
+                }));
+                this.centerLayout.endUpdate();
 
                 this.layout.beginUpdate();
-                this.layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                this.layout.add('center', new Ext.NestedLayoutPanel(this.centerLayout, {
                     autoCreate : true,
                     fitToFrame:true
                 }));
@@ -66,31 +98,6 @@ Mage.Sales = function(depend){
             
             panelEl = layoutEl.createChild({children:[{id:'tree-tb'},{id:'tree-body'}]});
             var tb = new Ext.Toolbar('tree-tb');
-            var ds = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({
-                    url: this.websiteCBUrl
-                }),
-                reader: new Ext.data.JsonReader({
-                    root: 'websites',
-                    totalProperty: 'totalCount',
-                    id: 'value'
-                }, [
-                    {name: 'value', mapping: 'value'},
-                    {name: 'text', mapping: 'text'}
-                ])
-            });
-
-            tb.addField(new Ext.form.ComboBox({
-                store : ds,
-                displayField :'text',
-                valueField : 'value',
-                typeAhead: false,
-                value : 'All',
-                disableKeyFilter : true,
-                editable : false,
-               	triggerAction : 'all',
-                loadingText: 'Loading...'
-            }));
             
             var panel = this.layout.add('west', new Ext.ContentPanel(panelEl, {
                 fitToFrame : true,

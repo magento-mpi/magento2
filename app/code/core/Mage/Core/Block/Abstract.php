@@ -96,8 +96,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
             }
             $blockName = $this->getData('name').'.'.$suffix;
 
-            $this->getData('layout')->unsetBlock($block->getData('name'));
-            $this->getData('layout')->setBlock($blockName, $block);
+            if ($this->getData('layout')) {
+                $this->getData('layout')->unsetBlock($block->getData('name'));
+                $this->getData('layout')->setBlock($blockName, $block);
+            }
             
             $block->setData($blockName);
             $block->setData('is_anonymous', false);
