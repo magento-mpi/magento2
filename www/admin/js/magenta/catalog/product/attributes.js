@@ -858,7 +858,7 @@ Mage.Catalog_Product_Attributes = function(){
             
             tb.addButton({
                 text : 'Delete',
-                cls: 'x-btn-text-icon btn-delete',
+                cls: 'x-btn-text-icon btn-bin-closed',
                 handler : function(){
                    var sm =  this.attributeGrid.getSelectionModel();
                    if (sm.hasSelection()) {

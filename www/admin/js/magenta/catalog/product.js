@@ -710,7 +710,7 @@ Mage.Catalog_Product = function(depend){
             // setup toolbar for forms
             var toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
-                text: 'Apply',
+                text: 'Save',
                 cls: 'x-btn-text-icon btn-accept',
                 handler : this.saveItem.createDelegate(this)
             },{
@@ -725,7 +725,7 @@ Mage.Catalog_Product = function(depend){
                 }.createDelegate(this)
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon btn-reset',
+                cls: 'x-btn-text-icon btn-arrow-undo',
                 handler : this.onResetForm.createDelegate(this)
             },{
                 text: 'Cancel',
