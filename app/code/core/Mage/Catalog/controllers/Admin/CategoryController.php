@@ -47,7 +47,17 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     }
 
     public function removeAction() {
-        
+        $categoryId = $this->getRequest()->getParam('id',false);
+        if ($categoryId) {
+            $tree = Mage::getModel('catalog_resource', 'category_tree');
+            $node = Mage::getModel('catalog_resource', 'category_tree')->loadNode($categoryId);
+            try {
+                $tree->removeNode($node);
+            }
+            catch (Exception $e){
+                
+            }
+        }
     }
 
     public function moveAction() {

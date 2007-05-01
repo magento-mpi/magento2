@@ -62,6 +62,14 @@ Mage.Catalog_Category_Tree = function(){
                     cls: 'x-btn-text-icon btn-folder-edit'
                 });
                 
+                tb.addButton ({
+                    text: 'Delete',
+                    id : 'delete',
+                    disabled : true,
+                    handler : this.deleteCategoryConfirm.createDelegate(this),
+                    cls: 'x-btn-text-icon btn-delete'
+                });
+
                 this.btns = tb.items.map;
                 
                 
@@ -69,8 +77,10 @@ Mage.Catalog_Category_Tree = function(){
                         id : 'category_context_menu',
                         items: [{text: 'Show Category Products', handler: this.showProducts.createDelegate(this)},
                                 '-',
-                                {text: 'Add child',handler:this.addChild.createDelegate(this)},
-                                {text: 'Edit Catecory',handler:this.editCategory.createDelegate(this)},
+                                //{text: 'Add child',handler:this.addChild.createDelegate(this)},
+                                //{text: 'Edit Catecory',handler:this.editCategory.createDelegate(this)},
+                                {text: 'Add child',handler:this.onAddCategory.createDelegate(this)},
+                                {text: 'Edit Catecory',handler:this.onEditCategory.createDelegate(this)},
                                 {text: 'Delete Category',handler:this.deleteCategoryConfirm.createDelegate(this)}]
                 });
 
@@ -95,7 +105,14 @@ Mage.Catalog_Category_Tree = function(){
                 var sm = this.tree.getSelectionModel();
                 sm.on('selectionchange', function(){
                      this.btns.add.setDisabled(false);
-                     this.btns.edit.setDisabled(false);
+                     if (this.tree.getSelectionModel().getSelectedNode() && this.tree.getSelectionModel().getSelectedNode().id != '1') {
+                         this.btns.edit.setDisabled(false);
+                         this.btns.delete.setDisabled(false);
+                     }
+                     else {
+                         this.btns.edit.setDisabled(true);
+                         this.btns.delete.setDisabled(true);
+                     }
                 }.createDelegate(this));                
                 
                 
@@ -207,7 +224,7 @@ Mage.Catalog_Category_Tree = function(){
 
         deleteCategory: function(flag){
             if (flag == 'yes') {
-                var node = tree.getSelectionModel().getSelectedNode();
+                var node = this.tree.getSelectionModel().getSelectedNode();
                 var success = function(o) { this.parentNode.removeChild(this);};
                 var failure = function(o) { Ext.dump(o.statusText); };
                 var con = new Ext.lib.Ajax.request('GET', this.removeNodeUrl+'id/'+node.id+'/', {success:success,failure:failure,scope:node});
