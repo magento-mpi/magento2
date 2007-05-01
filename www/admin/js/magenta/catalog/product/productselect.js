@@ -52,14 +52,16 @@ Mage.Catalog_Product_ProductSelect = function(config) {
             rootVisible:false
         });
         
-        var mask = new Ext.LoadMask(treePanel.getEl(), {
+        var mask = new Ext.LoadMask(innerLayout.getRegion('west').getEl(), {
             store : this.tree
         });
         
         var sm = this.tree.getSelectionModel();
         sm.on('selectionchange', function(){
             var node = sm.getSelectedNode();
-            
+            this.loadGrid({
+                catId : node.id
+            });
         }.createDelegate(this));     
                    
         var root = new Ext.tree.AsyncTreeNode({
@@ -134,9 +136,11 @@ Mage.Catalog_Product_ProductSelect = function(config) {
     
     this.loadGrid = function(config) {
         if (!config || !config.catId) {
-            return false;
+            var catId = 1;
+        } else {
+            var catId = config.catId;
         }
-        this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'category/'+config.catId + '/';
+        this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'category/'+catId + '/';
         this.grid.getDataSource().load();
     };
 
@@ -155,7 +159,6 @@ Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
    
     show : function() {
         this.dialog.show();
-        this.loadGrid();
         this.tree.root.reload();
     },
     
