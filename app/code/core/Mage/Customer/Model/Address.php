@@ -46,11 +46,7 @@ class Mage_Customer_Model_Address extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getModel('customer_resource', 'address');
-        }
-        return $resource;
+        return Mage::getSingleton('customer_resource', 'address');
     }
     
     public function load($addressId) 

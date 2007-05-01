@@ -21,11 +21,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getSingleton('catalog_resource', 'category_filter');
-        }
-        return $resource;
+        return Mage::getSingleton('catalog_resource', 'category_filter');
     }
     
     public function load($filterId)

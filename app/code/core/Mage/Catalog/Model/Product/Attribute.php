@@ -16,11 +16,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getSingleton('catalog_resource', 'product_attribute');
-        }
-        return $resource;
+        return Mage::getSingleton('catalog_resource', 'product_attribute');
     }
 
     public function load($attributeId)

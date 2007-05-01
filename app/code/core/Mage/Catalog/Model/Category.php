@@ -33,11 +33,7 @@ class Mage_Catalog_Model_Category extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getSingleton('catalog_resource', 'category');
-        }
-        return $resource;
+        return Mage::getSingleton('catalog_resource', 'category');
     }
 
     /**

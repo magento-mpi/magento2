@@ -31,11 +31,7 @@ class Mage_Core_Model_Website extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getModel('core_resource', 'website');
-        }
-        return $resource;
+        return Mage::getSingleton('core_resource', 'website');
     }
     
     public function load($websiteId)

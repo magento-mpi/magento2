@@ -123,11 +123,7 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (empty($resource)) {
-            $resource = Mage::getModel('sales_resource', $this->getDocType(), array('docType'=>$this->getDocType()));
-        }
-        return $resource;
+        return Mage::getSingleton('sales_resource', $this->getDocType(), array('docType'=>$this->getDocType()));
     }
     
     public function load($documentId)

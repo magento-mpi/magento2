@@ -34,11 +34,7 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getSingleton('catalog_resource', 'product');
-        }
-        return $resource;
+        return Mage::getSingleton('catalog_resource', 'product');
     }
     
     public function load($productId)

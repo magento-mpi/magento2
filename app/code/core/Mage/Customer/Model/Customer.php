@@ -40,11 +40,7 @@ class Mage_Customer_Model_Customer extends Varien_Data_Object
 
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getModel('customer_resource', 'customer');
-        }
-        return $resource;
+        return Mage::getSingleton('customer_resource', 'customer');
     }
     
     public function authenticate($login, $password)

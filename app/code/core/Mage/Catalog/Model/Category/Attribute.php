@@ -16,11 +16,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Data_Object
     
     public function getResource()
     {
-        static $resource;
-        if (!$resource) {
-            $resource = Mage::getSingleton('catalog_resource', 'category_attribute');
-        }
-        return $resource;
+        return Mage::getSingleton('catalog_resource', 'category_attribute');
     }
 
     public function load($attributeId)
