@@ -551,7 +551,7 @@ Mage.Catalog_Product = function(depend){
 
         doCreateItem: function(prodId, btn, setId, typeId) {
             setId = Number(setId);
-            typeId = Number(typeId);
+            typeId = typeId;
             if (btn == 'no') {
                 return false;
             }
@@ -597,7 +597,7 @@ Mage.Catalog_Product = function(depend){
                 failure : failure,
                 argument : {prod_id: prodId}
             };
-            var con = new Ext.lib.Ajax.request('GET', Mage.url + 'mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/typeid/'+typeId+'/', cb);
+            var con = new Ext.lib.Ajax.request('GET', Mage.url + 'mage_catalog/product/card/product/'+prodId+'/setid/'+setId+'/type/'+typeId+'/', cb);
 
             this.productLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
             this.productLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));

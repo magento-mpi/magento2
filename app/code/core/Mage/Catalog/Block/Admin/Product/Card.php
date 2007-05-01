@@ -12,7 +12,11 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
     public function toJson()
     {
         $productId      = (int) Mage::registry('controller')->getRequest()->getParam('product', false);
+        if ($productId<0) {
+            $productId = false;
+        }
         $attributeSetId = (int) Mage::registry('controller')->getRequest()->getParam('setid', false);
+        $productType    = Mage::registry('controller')->getRequest()->getParam('type', false);
         
         // 
         if ($productId) {
@@ -72,6 +76,15 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
                 //'type'  => 'images',
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
                 'title' => 'Images',
+            );
+        }
+        
+        if ($productType && $productType != 'default') {
+            $cardStructure['tabs'][] = array(
+                'name'  => $productType,
+                'type'  => $productType,
+                'url'   => Mage::getBaseUrl().'mage_catalog/product/'.$productType.'Products/',
+                'title' => $productType,
             );
         }
         

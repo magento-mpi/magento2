@@ -73,7 +73,7 @@ class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_A
             $html.= ' selected="selected"';
         }
         $html.= '>';
-        $html.= htmlspecialchars($optionInfo['label'], ENT_COMPAT);
+        $html.= $optionInfo['label'];
         $html.= '</option>';
         return $html;
     }

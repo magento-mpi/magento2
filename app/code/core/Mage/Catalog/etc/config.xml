@@ -128,6 +128,17 @@
          </catalog_resource>
       </models>
       
+      <catalog>
+        <product>
+            <types>
+                <default></default>
+                <bundle></bundle>
+                <super></super>
+            </types>
+        </product>
+        <!-- TODO: move atributes in this section -->
+      </catalog>
+
       <category_attributes>
         <inputs>
             <text></text>

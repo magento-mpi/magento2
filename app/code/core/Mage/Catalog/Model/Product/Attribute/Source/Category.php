@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Category extends Mage_Catalog_
         foreach ($options as $option) {
             $arr[] = array(
                 'value' => $option->getId(),
-                'label' => str_repeat('-', $option->getLevel()).$option->getName(),
+                'label' => str_repeat('&nbsp;&nbsp;&nbsp;', $option->getLevel()-1).$option->getName(),
             );
         }
         return $arr;
