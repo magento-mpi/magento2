@@ -32,12 +32,6 @@ class Mage_Customer_Model_Mysql4_Wishlist_Collection extends Varien_Data_Collect
         return $this;
     }   
     
-    public function addUniqCodeFilter($condition)
-    {
-        $this->_sqlSelect->where($this->_getConditionSql("$this->_wishlistTable.uniq_code", $condition));
-        return $this;
-    }
-    
     protected function _loadLinkedProducts()
     {
         $arrProductId = $this->getColumnValues('product_id');

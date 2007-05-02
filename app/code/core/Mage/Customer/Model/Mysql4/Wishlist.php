@@ -42,13 +42,6 @@ class Mage_Customer_Model_Mysql4_Wishlist
         return $arr;
     }
     
-    public function loadByUniqCodeProduct($uniqCode, $productId) 
-    {
-        $sql = "SELECT * FROM $this->_wishlistTable WHERE uniq_code=:uniq_code and product_id=:product_id";
-        $arr = $this->_read->fetchRow($sql, array('uniq_code'=>$uniqCode, 'product_id'=>$productId));
-        return $arr;
-    }
-
     public function save(Mage_Customer_Model_Wishlist $wishlist)
     {
         $this->_write->beginTransaction();
@@ -56,7 +49,7 @@ class Mage_Customer_Model_Mysql4_Wishlist
             $data = array(
                 'product_id'  => $wishlist->getProductId(),
                 'customer_id' => $wishlist->getCustomerId(),
-                'uniq_code'   => $wishlist->getUniqCode()
+                'add_date'    => $wishlist->getAddDate(),
             );
             if ($wishlist->getId()) {
                 $condition = $this->_write->quoteInto('item_id=?', $wishlist->getId());

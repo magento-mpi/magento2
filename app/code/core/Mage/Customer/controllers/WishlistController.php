@@ -16,6 +16,10 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
         if (!Mage::getConfig()->getModule('Mage_Customer')->is('wishlistActive')) {
             $this->_redirect('noRoute');
         }
+        
+        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
+            $this->setFlag('', 'no-dispatch', true);
+        }
     }
     
     public function indexAction()

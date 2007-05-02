@@ -33,6 +33,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         
         $this->assign('currencyFilter', $currencyFilter);
         $this->assign('product', $product);
+        $this->assign('customerIsLogin', Mage::getSingleton('customer', 'session')->isLoggedIn());
         
         $prices = $product->getTierPrice();
         foreach ($prices as $index => $price) {

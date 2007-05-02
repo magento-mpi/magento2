@@ -120,10 +120,14 @@
         <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a>
     </li>
 -->
+    <?if($customerIsLogin):?>
     <li>
         <a href="#"><img src="<?=$baseSkinUrl?>catalog/images/icon_add_favorites.gif" alt="Add to Favorite" /></a> 
         <a href="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'add', 'product'=>$product->getId()))?>"><strong>Add to Wishlist</strong></a>
     </li>
+    <?else:?>
+    <li>&nbsp;</li>
+    <?endif?>
 </ul>
 <div class="dotted-separator"></div>
 <h3 class="red">Satisfaction Guaranteed</h3>

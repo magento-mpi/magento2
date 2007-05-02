@@ -7,9 +7,6 @@
     </reference>
     
     <reference name="top.links">
-        <block type="list_link" name="top.links.wishlist">
-            <action method="setLink"><li/><a>href="{{baseUrl}}customer/wishlist"</a><label>Wishlist</label></action>
-        </block>
         <block type="list_link" name="top.links.myaccount">
             <action method="setLink"><li/><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
         </block>

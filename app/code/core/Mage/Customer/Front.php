@@ -19,6 +19,8 @@ class Mage_Customer_Front
                 return;
             }
             $topLinks
+                ->append($layout->createBlock('list_link', 'top.links.wishlist')
+                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', 'Wishlist', ''))
                 ->append($layout->createBlock('list_link', 'top.links.logout')
                     ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''))
                 ->insert($layout->createBlock('tag', 'top.links.welcome')

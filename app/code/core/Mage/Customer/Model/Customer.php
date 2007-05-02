@@ -157,12 +157,8 @@ class Mage_Customer_Model_Customer extends Varien_Data_Object
     public function getWishlistCollection()
     {
         $collection = Mage::getModel('customer_resource', 'wishlist_collection');
-        if ($this->getId()) {
-            $collection->addCustomerFilter($this->getId());
-        }
-        else {
-            $collection->addUniqCodeFilter(Mage::getSingleton('core', 'cookie')->getId());
-        }
+        $collection->addCustomerFilter($this->getId());
+
         return $collection;
     }
 }

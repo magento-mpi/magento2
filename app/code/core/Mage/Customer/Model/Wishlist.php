@@ -30,19 +30,13 @@ class Mage_Customer_Model_Wishlist extends Varien_Data_Object
         if (!$this->getId()) {
             $this->setAddDate(new Zend_Db_Expr('NOW()'));
         }
-        if (!$this->getCustomerId()) {
-            $this->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomerId());
+        
+        $this->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomerId());
+
+        if ($this->getResource()->loadByCustomerProduct($this->getCustomerId(), $this->getProductId())) {
+            return $this;
         }
-        if (!$this->getCustomerId()) {
-            $this->setUniqCode(Mage::getSingleton('core', 'cookie')->getId());
-            if ($this->getResource()->loadByUniqCodeProduct($this->getUniqCode(), $this->getProductId())) {
-                return $this;
-            }
-        } else {
-            if ($this->getResource()->loadByCustomerProduct($this->getCustomerId(), $this->getProductId())) {
-                return $this;
-            }
-        }
+        
         $this->getResource()->save($this);
         return $this;
     }
