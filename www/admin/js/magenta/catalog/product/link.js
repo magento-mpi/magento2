@@ -21,54 +21,35 @@ Mage.Catalog_Product_RelatedPanel = function(){
             Ext.apply(this, config);
             
             var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
-            //var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
 
-//            this.cPanel = new Ext.ContentPanel(baseEl, {
-//                            title : this.tabInfo.title || 'Related products',
-//                            closable : false,
-//                            url : this.tabInfo.url,
-//                            loadOnce: true,
-//                            background: true
-//                        });
-
-            this.initGrid({
-                baseEl : baseEl.createChild({tag : 'div'})
-            });
+            this.cPanel = new Ext.ContentPanel(baseEl, {
+                            title : this.tabInfo.title || 'Related products',
+                            closable : false,
+                            url : this.tabInfo.url,
+                            loadOnce: true,
+                            background: true
+                        });
             
-            this.productSelector = new Mage.Catalog_Product_ProductSelect({
-                gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
-                parentGrid : this.grid,
-                dataRecord : this.dataRecord
-            });
-            
-            this.buildGridToolbar();            
-            
-            this.cPanel = new Ext.GridPanel(this.grid,{
-                title : this.tabInfo.title || 'Related products',
-                closable : false,
-                background: true
-            });
-            
-            var firstTimeLoad = false;
-            this.cPanel.on('activate', function(){
-                if (!firstTimeLoad){
-                    this.loadGrid();
-                    firstTimeLoad = true;
-                }
-            }.createDelegate(this));
-
-//            var um = this.cPanel.getUpdateManager();
-//            um.on('update', this.onUpdate.createDelegate(this));
+            var um = this.cPanel.getUpdateManager();
+            um.on('update', this.onUpdate.createDelegate(this));
             return this.cPanel;            
         },
 
         onUpdate : function() {
             var div = Ext.DomQuery.selectNode('div#relation_tab', this.cPanel.getEl().dom);    
             if (div) {
-                this.productSelector = new Mage.Catalog_Product_ProductSelect({
-                    gridUrl : Mage.url + 'mage_catalog/product/gridData/'
+                this.initGrid({
+                    baseEl : Ext.get(div)
                 });
-                this.initGrid({baseEl : Ext.get(div)});
+            
+                this.productSelector = new Mage.Catalog_Product_ProductSelect({
+                    gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
+                    parentGrid : this.grid,
+                    dataRecord : this.dataRecord
+                });
+            
+                this.buildGridToolbar();    
+                this.loadGrid();        
             }
         },        
         

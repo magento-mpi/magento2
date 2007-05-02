@@ -892,7 +892,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                 //handler : this.saveItem.createDelegate(this)
             });
             
-            this.rowTemplate = new Ext.Template('<div class="address-view">{product}</div>');
+            this.rowTemplate = new Ext.Template('<div class="address-view" id="product-categories-view">{product}</div>');
             this.rowTemplate.compile();
 
             this.cPanel = new Ext.ContentPanel(baseEl,{
@@ -910,7 +910,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
         	this.categoriesView = new Ext.JsonView(container, this.rowTemplate, {
         		singleSelect: true,
         		jsonRoot: 'addresses',
-        		emptyText : '<div class="address-view"><h3>Empty</h3></div>'
+        		emptyText : '<div class="address-view" id="product-categories-view-empty"><h3>Empty</h3></div>'
         	});
             
             this.cPanel.on('activate', function(){
@@ -919,28 +919,15 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                     this.dataLoaded = true;
                 }
             }.createDelegate(this));
-
-            Ext.dd.Registry.register(container,{
-                isHandle: false,
-                handles: container.dom.parentNode
-            });
             
-            var dd = new Ext.dd.DropZone(container, {
-                ddGroup : 'TreeDD', 
-               	dropAllowed : true,
-                notifyDrop: function() {
-                    console.log(arguments);
-                }
-            });
-           
-           
-//            var dd = new Ext.dd.DragDrop(container, 'TreeDD', {
-//                onDragDrop : function() {
-//                    console.log(arguments);
-//                }
-//            });
+            dd = new Ext.dd.DragDrop(this.categoriesView.getEl(), "TreeDD");
             
-
+            var dropzone=new Ext.dd.DropTarget(container, {});
+            
+            dropzone.notifyDrop = function(n, dd, e, data){
+               console.log(n, dd, e, data);
+               return true;
+            }
             return this.cPanel;            
         }
     }
