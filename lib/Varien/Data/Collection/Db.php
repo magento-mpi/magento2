@@ -80,7 +80,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         
         // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
         $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select (.*)(?!from) from/is', 'select count(*) from', $sql);
+        $sql = preg_replace('/^select\s(.*)(?!from)\sfrom/is', 'select count(*) from', $sql);
         return $sql;
     }
     
