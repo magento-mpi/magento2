@@ -4,7 +4,7 @@
     <table cellspacing="2" width="100%" class="data-table">
         <tr>
             <th class="align-left">Product Name</th>
-<?if(!empty($wishlistActive)):?>            
+<?if(!empty($wishlistActive) && $customerIsLogin):?>            
             <th style="width:60px;" class="align-center">Wishlist</th>
 <?endif?>
             <th style="width:60px;" class="align-center">Remove</th>
@@ -15,7 +15,7 @@
         <?foreach($data['cart']['items'] as $item):?>
         <tr>
             <td><a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item['product_id']))?>"><?=$item['name']?></a></td>
-<?if(!empty($wishlistActive)):?>            
+<?if(!empty($wishlistActive) && $customerIsLogin):?>            
             <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][wishlist]"/></td>
 <?endif?>
             <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][remove]"/></td>
@@ -26,7 +26,7 @@
         <?endforeach?>
         <?foreach($data['cart']['totals'] as $total):?>
         <tr>
-            <th colspan=<?if(!empty($wishlistActive)):?>5<?else:?>4<?endif?> class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
+            <th colspan=<?if(!empty($wishlistActive) && $customerIsLogin):?>5<?else:?>4<?endif?> class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
         </tr>
         <?endforeach?>
     </table>
