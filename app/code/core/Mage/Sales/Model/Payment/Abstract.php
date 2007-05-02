@@ -4,6 +4,11 @@ abstract class Mage_Sales_Model_Payment_Abstract
 {
     protected $_payment = null;
     
+    public function __construct()
+    {
+        
+    }
+    
     public function createFormBlock($name) 
     {
         return false;
@@ -28,5 +33,15 @@ abstract class Mage_Sales_Model_Payment_Abstract
     public function getLayout()
     {
         return Mage::registry('action')->getLayout();
+    }
+    
+    public function onOrderValidate(Mage_Sales_Model_Order_Entity_Payment $payment)
+    {
+        return $this;
+    }
+    
+    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Entity_Payment $payment)
+    {
+        return $this;
     }
 }

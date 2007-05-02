@@ -148,7 +148,7 @@ Payment.prototype = {
                 elements[i].disabled = true;
             }
         }
-        this.switchMethod(method);
+        if (method) this.switchMethod(method);
     },
     
     switchMethod: function(method){

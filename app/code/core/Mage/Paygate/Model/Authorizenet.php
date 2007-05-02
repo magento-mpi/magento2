@@ -22,6 +22,19 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     const ECHECK_TRANS_TYPE_WEB = 'WEB';
 
     const RESPONSE_DELIM_CHAR = ',';
+    
+    const RESPONSE_CODE_APPROVED = 1;
+    const RESPONSE_CODE_DECLINED = 2;
+    const RESPONSE_CODE_ERROR = 3;
+    const RESPONSE_CODE_HELD = 4;
+    
+    protected $_config;
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_config = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet');
+    }
 
     public function createFormBlock($name)
     {
@@ -43,30 +56,49 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
         return $block;
     }
     
-    public function authorizeOrder(Mage_Sales_Model_Order $order)
+    public function onOrderValidate(Mage_Sales_Model_Order_Entity_Payment $payment)
     {
-        foreach ($order->getEntitiesByType('payment') as $payment) {
-            break;
-        }
         $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
-        $request = $this->buildRequest($payment, $order);
+        $request = $this->buildRequest($payment);
         $result = $this->postRequest($request);
         
+        $payment->setCcApproval($result->getApprovalCode())
+            ->setCcTransId($result->getTransactionId())
+            ->setCcAvsStatus($result->getAvsResultCode())
+            ->setCcCidStatus($result->getCardCodeResponseCode());
+        
+        if ($this->_config->is('test')) {
+            $payment->setCcRawRequest($result->getRawRequest())
+                ->setCcRawResponse($result->getRawResponse());
+        }
+            
+        switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                break;
+                
+            case self::RESPONSE_CODE_DECLINED:
+                break;
+                
+            default:
+                break;
+        }
+        
+        return $this;
     }
     
-    public function captureInvoice(Mage_Sales_Model_Invoice $invoice)
+    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Entity_Payment $payment)
     {
         foreach ($order->getEntitiesByType('transaction') as $transaction) {
             break;
         }
-        if ($payment->getAnetTransId()) {
-            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
+        if ($transaction->getAnetTransId()) {
+            $transaction->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
         }
-        if ($payment->getAnetAuthCode()) {
-            $payment->setAnetTransType(self::REQUEST_TYPE_CAPTURE_ONLY);
+        if ($transaction->getAnetAuthCode()) {
+            $transaction->setAnetTransType(self::REQUEST_TYPE_CAPTURE_ONLY);
         }
         
-        $request = $this->buildRequest($transaction, $order);
+        $request = $this->buildRequest($transaction);
     }
     
     /**
@@ -76,9 +108,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
      * @param Mage_Sales_Model_Document $document
      * @return unknown
      */
-    public function buildRequest(Varien_Data_Object $payment, Varien_Data_Object $document=null)
+    public function buildRequest(Varien_Data_Object $payment)
     {
-        $config = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet');
+        $document = $payment->getDocument();
+        
+        if (!$payment->getAnetTransMethod()) {
+            $payment->setAnetTransMethod(self::REQUEST_METHOD_CC);
+        }
         
         $request = Mage::getModel('paygate', 'authorizenet_request')
             ->setXVersion(3.1)
@@ -86,11 +122,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
             ->setXRelayResponse('False');
         
-        $request->setXTestRequest($config->is('test') ? 'TRUE' : 'FALSE');
+        $request->setXTestRequest($this->_config->is('test') ? 'TRUE' : 'FALSE');
             
-        $request->setXLogin($config->login)
-            ->setXTranKey($config->transKey)
-            ->setXAmount($payment->getAmount())
+        $request->setXLogin((string)$this->_config->login)
+            ->setXTranKey((string)$this->_config->transKey)
+            ->setXAmount($document->getGrandTotal())
             ->setXType($payment->getAnetTransType())
             ->setXMethod($payment->getAnetTransMethod());
             
@@ -98,43 +134,43 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
             case self::REQUEST_TYPE_CREDIT:
             case self::REQUEST_TYPE_VOID:
             case self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
-                $request->setXTransId($payment->getAnetTransId());
+                $request->setXTransId($payment->getCcTransId());
                 break;
                 
             case self::REQUEST_TYPE_CAPTURE_ONLY:
-                $request->setXAuthCode($payment->getAnetAuthCode());
+                $request->setXAuthCode($payment->getCcAuthCode());
                 break;
         }
             
         if (!empty($document)) {
+            $request->setXInvoiceNum($document->getId());
             
-            $billing = $document->getBillingAddress();
+            $billing = $document->getAddressByType('billing');
             if (!empty($billing)) {
-                $request->setXFirstName($billing->getFirstName())
-                    ->setXLastName($bililng->getLastName())
+                $request->setXFirstName($billing->getFirstname())
+                    ->setXLastName($billing->getLastname())
                     ->setXCompany($billing->getCompany())
-                    ->setXAddress($billing->getStreet())
-                    ->setXCity($bililng->getCity())
+                    ->setXAddress($billing->getStreet(1))
+                    ->setXCity($billing->getCity())
                     ->setXState($billing->getRegionName())
-                    ->setXZip($bililng->getPostcode())
-                    ->setXCountry($biling->getCountryName())
+                    ->setXZip($billing->getPostcode())
+                    ->setXCountry($billing->getCountryName())
                     ->setXPhone($billing->getPhone())
                     ->setXFax($billing->getFax())
                     ->setXCustId($billing->getCustomerId())
                     ->setXCustomerIp($billing->getRemoteIp())
                     ->setXCustomerTaxId($billing->getTaxId())
-                    ->setXEmail($bililng->getEmail())
-                    ->setXEmailCustomer($config->is('emailCustomer'))
-                    ->setXMerchantEmail($config->is('emailMerchant'))
-                    ->setXInvoiceNum($b);
+                    ->setXEmail($billing->getEmail())
+                    ->setXEmailCustomer($this->_config->is('emailCustomer'))
+                    ->setXMerchantEmail((string)$this->_config->merchantEmail);
             }
             
-            $shipping = $document->getShippingAddress();
+            $shipping = $document->getAddressByType('shipping');
             if (!empty($shipping)) {
-                $request->setXShipToFirstName($shipping->getFirstName())
-                    ->setXShipToLastName($shipping->getLastName())
+                $request->setXShipToFirstName($shipping->getFirstname())
+                    ->setXShipToLastName($shipping->getLastname())
                     ->setXShipToCompany($shipping->getCompany())
-                    ->setXShipToAddress($shipping->getStreet())
+                    ->setXShipToAddress($shipping->getStreet(1))
                     ->setXShipToCity($shipping->getCity())
                     ->setXShipToState($shipping->getRegionName())
                     ->setXShipToZip($shipping->getPostcode())
@@ -153,11 +189,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
                 ->setXFreight($document->getShippingAmount);
         }
         
-        switch ($payment->getAnetRequestType()) {
+        switch ($payment->getAnetTransMethod()) {
             case self::REQUEST_METHOD_CC:
                 $request->setXCardNum($payment->getCcNumber())
-                    ->setXExpDate($payment->getCcExpires())
-                    ->setXCardCode($payment->getCcCvv2());
+                    ->setXExpDate(sprintf('%02d-%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
+                    ->setXCardCode($payment->getCcCid());
                 break;
                 
             case self::REQUEST_METHOD_ECHECK:
@@ -175,26 +211,28 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     
     public function postRequest(Varien_Data_Object $request)
     {
-        $cgi = Mage::getSingleton('sales', 'config')->getPaymentDefaults($r['vendor'])->cgi;
+        $cgi = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet')->cgi;
         $client = new Zend_Http_Client();
         $uri = ((string)$cgi->protocol).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
         $client->setUri($uri);
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-        $client->setParameterGet();
-        $response = $client->request($request->getData());
-        $responseBody = $response->getBody();
+        $client->setParameterPost($request->getData());
+        $client->setMethod(Zend_Http_Client::POST);
+        $response = $client->request();
+        
+        $result = Mage::getModel('paygate', 'authorizenet_result');
         
         $requestArr = array();
         foreach ($request->getData() as $key=>$value) {
             $requestArr[] = urlencode($key).'='.urlencode($value);
         }
         $requestBody = join('&', $requestArr);        
-        $r = explode(self::REQUEST_DELIM_CHAR, $responseBody);
-
-        $result = Mage::getModel('paygate', 'authorizenet_result');
         $result->setRawRequest($requestBody);
+        
+        $responseBody = $response->getBody();
         $result->setRawResponse($responseBody);
         
+        $r = explode(self::RESPONSE_DELIM_CHAR, $responseBody);        
         $result->setResponseCode($r[0])
             ->setResponseSubcode($r[1])
             ->setResponseReasonCode($r[2])

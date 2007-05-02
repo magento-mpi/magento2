@@ -17,34 +17,34 @@
 
    <global>
       <models>
-         <paygates>
+         <paygate>
             <class>Mage_Paygate_Model</class>
-         </paygates>
+         </paygate>
          
-         <paygates_resource>
+         <paygate_resource>
             <class>Mage_Paygate_Model_Mysql4</class>
 
             <entities>
                
             </entities>
-         </paygates_resource>
+         </paygate_resource>
       </models>
 
       <resources>
-         <paygates_setup>
+         <paygate_setup>
             <setup>
                 <module>Mage_Paygate</module>
             </setup>
             <connection><use>core_setup</use></connection>
-         </paygates_setup>
+         </paygate_setup>
 
-         <paygates_write>
+         <paygate_write>
             <connection><use>core_write</use></connection>
-         </paygates_write>
+         </paygate_write>
 
-         <paygates_read>
+         <paygate_read>
             <connection><use>core_read</use></connection>
-         </paygates_read>
+         </paygate_read>
       </resources>
 
       <salesPaymentMethods>         
@@ -80,8 +80,6 @@
          <order>
             <payment>
                 <anet_trans_method><type>varchar</type></anet_trans_method>
-                <anet_trans_id><type>varchar</type></anet_trans_id>
-                <anet_auth_code><type>varchar</type></anet_auth_code>
                 
                 <echeck_routing_number><type>varchar</type></echeck_routing_number>
                 <echeck_bank_name><type>varchar</type></echeck_bank_name>

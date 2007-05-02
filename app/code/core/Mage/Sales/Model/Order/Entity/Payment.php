@@ -7,4 +7,17 @@ class Mage_Sales_Model_Order_Entity_Payment extends Mage_Customer_Model_Payment
         parent::__construct($data);
         $this->setEntityType('payment');
     }
+    
+    public function onOrderValidate()
+    {
+        $modelConfig = Mage::getConfig()->getNode('global/salesPaymentMethods/'.$this->getMethod());
+        if (!$modelConfig) {
+            return $this;
+        }
+        $modelClassName = $modelConfig->getClassName();
+        $model = new $modelClassName();
+        $model->onOrderValidate($this);
+        
+        return $this;
+    }
 }

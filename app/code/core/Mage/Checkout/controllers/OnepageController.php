@@ -151,9 +151,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
             $address->implodeStreetAddress();
             $this->_quote->setShippingAddress($address);
+            $this->_quote->collectAllShippingMethods();
             $this->_quote->save();
 
-            $this->_checkout->setShippingMethods(null);
             $this->_checkout->setCompletedShipping(true);
             $this->_checkout->setAllowShippingMethod(true);
         }

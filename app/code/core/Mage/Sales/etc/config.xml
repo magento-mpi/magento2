@@ -257,8 +257,7 @@
                 <cc_owner><type>varchar</type></cc_owner>
                 <cc_exp_month><type>int</type></cc_exp_month>
                 <cc_exp_year><type>int</type></cc_exp_year>
-
-                <order_status_id><type>int</type></order_status_id>
+                <cc_cid><type>int</type></cc_cid>
             </payment>
             <shipping>
                 <address_entity_id><type>int</type></address_entity_id>
@@ -361,6 +360,14 @@
                 <cc_owner><type>varchar</type></cc_owner>
                 <cc_exp_month><type>int</type></cc_exp_month>
                 <cc_exp_year><type>int</type></cc_exp_year>
+                
+                <cc_raw_request><type>text</type></cc_raw_request>
+                <cc_raw_response><type>text</type></cc_raw_response>
+                <cc_trans_id><type>varchar</type></cc_trans_id>
+                <cc_approval><type>varchar</type></cc_approval>
+
+                <cc_avs_status><type>varchar</type></cc_avs_status>
+                <cc_cid_status><type>varchar</type></cc_cid_status>
             </payment>
             <status>
                 <status><type>varchar</type></status>

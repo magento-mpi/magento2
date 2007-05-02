@@ -17,4 +17,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Document
         );
     }
     
+    public function validate()
+    {
+        $payments = $this->getEntitiesByType('payment');
+        foreach ($payments as $payment) {
+            $payment->onOrderValidate();
+        }
+    }
+    
 }

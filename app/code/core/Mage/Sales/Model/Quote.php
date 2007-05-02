@@ -237,12 +237,16 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     {
         $addresses = $this->getEntitiesByType('address');
         foreach ($addresses as $address) {
+            if ($address->getAddressType()!='shipping') {
+                continue;
+            }
+            
             $request = Mage::getModel('sales', 'shipping_method_request');
             $request->setDestCountryId($address->getCountryId());
             $request->setDestRegionId($address->getRegionId());
             $request->setDestPostcode($address->getPostcode());
             $request->setPackageValue($address->getSubtotal());
-            $request->setPackageWeight($address->getRowWeight());
+            $request->setPackageWeight($this->getWeight());
             $request->setAddressEntityId($address->getEntityId());
             $this->collectAddressShippingMethods($request);
         }
@@ -283,6 +287,9 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     public function removeAddressShippingMethods($addressEntityId)
     {
         foreach ($this->getEntitiesByType('shipping') as $entity) {
+            if (!$this->getEntitiesById($entity->getAddressEntityId())) {
+                $this->removeEntity($entity);
+            }
             if ($entity->getAddressEntityId()==$addressEntityId) {
                 $this->removeEntity($entity);
             }
@@ -318,6 +325,11 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $statusEntity = Mage::getModel('sales', 'order_entity_status')
             ->setStatus($status)
             ->setCreatedAt($now);
+            
+        $order->validate();
+        if ($order->getErrors()) {
+            //TODO: handle errors (exception?)
+        }
         
         $order->save();
         
