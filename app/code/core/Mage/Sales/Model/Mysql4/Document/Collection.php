@@ -250,7 +250,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             $docs[$attr[$this->_idField]][$attr['entity_id']]['data'][$attr['attribute_code']] = $attr['attribute_value'];
         }
         foreach ($this->getItems() as $docObj) {
-            $docId = $docObj->getDocumentId();
+            $docId = $docObj->getId();
             if (!is_array($docs[$docId]) || empty($docs[$docId])) {
                 continue;
             }

@@ -41,10 +41,15 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
     {
         $p = $this->getRequest()->getPost();
         if (!empty($p['wishlist'])) {
-            foreach ($p['wishlist'] as $itemId) {
+            foreach ($p['wishlist'] as $itemId=>$dummy) {
                 if (isset($p['to_cart'][$itemId])) {
                     $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
-                    //TODO: add to cart (add method to quote model)
+                    
+                    $product = Mage::getModel('catalog', 'product')->load($wishlist->getProductId())->setQty(1);
+                    
+                    $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+                    $quote->addProduct($product)->save();
+                    
                     $wishlist->delete();
                 }
                 if (isset($p['remove'][$itemId])) {

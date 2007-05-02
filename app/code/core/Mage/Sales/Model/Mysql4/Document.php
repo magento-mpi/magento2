@@ -27,7 +27,7 @@ class Mage_Sales_Model_Mysql4_Document
     
     /**
      * This function expects document instance as argument with:
-     * - `document_id`
+     * - `(quote|order|invoice)_id`
      * - instance of object for each entity type in `entityTemplates`=array('self'=>...)
      *
      * @param Mage_Sales_Model_Document $document
@@ -35,9 +35,9 @@ class Mage_Sales_Model_Mysql4_Document
      */
     public function load(Mage_Sales_Model_Document $document)
     {
-        $rowData = $this->_read->fetchRow("select * from ".$this->_documentTable." where ".$this->_idField."=?", $document->getDocumentId());
+        $rowData = $this->_read->fetchRow("select * from ".$this->_documentTable." where ".$this->_idField."=?", $document->getId());
         if (empty($rowData)) {
-            $document->setDocumentId(null);
+            $document->setId(null);
             return false;
         }
         $document->setData($rowData);
@@ -54,7 +54,7 @@ class Mage_Sales_Model_Mysql4_Document
             if (''!==$sql) {
                 $sql .= ' union ';
             }
-            $sql .= "select entity_type, entity_id, attribute_code, attribute_value from ".$this->_attributeTable."_".$type." where ".$this->_idField."=".(int)$document->getDocumentId();
+            $sql .= "select entity_type, entity_id, attribute_code, attribute_value from ".$this->_attributeTable."_".$type." where ".$this->_idField."=".(int)$document->getId();
         }
         $attributes = $this->_read->fetchAll($sql);
         
@@ -79,9 +79,9 @@ class Mage_Sales_Model_Mysql4_Document
         
     public function save(Mage_Sales_Model_Document $document)
     {
-        if (!$document->getDocumentId()) {
+        if (!$document->getId()) {
             if ($this->_write->insert($this->_documentTable, array($this->_idField=>0))) {
-                $document->setDocumentId($this->_write->lastInsertId());
+                $document->setId($this->_write->lastInsertId());
             }
         }
         
@@ -92,7 +92,7 @@ class Mage_Sales_Model_Mysql4_Document
 
     protected function _saveEntities(Mage_Sales_Model_Document $document)
     {
-        $documentId = $document->getDocumentId();
+        $documentId = $document->getId();
         $this->_deleteEntities($documentId);
         
         $attributesConfig = Mage::getConfig()->getNode('global/salesAttributes/'.$document->getDocType());

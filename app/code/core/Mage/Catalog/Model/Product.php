@@ -93,12 +93,14 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
+        
         if (empty($prices) || !is_array($prices)) {
-            if ($qty) {
+            if (!is_null($qty)) {
                 return $this->getPrice();
             }
             return array(array('price'=>$this->getPrice(), 'price_qty'=>1));
         }
+        
         if ($qty) {
             $prevQty = 0;
             $prevPrice = $prices[0]['price'];

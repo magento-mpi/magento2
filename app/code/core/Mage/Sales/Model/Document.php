@@ -36,13 +36,13 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
         return $this->getDocType().'_id';
     }
     
-    public function setDocumentId($docId)
+    public function setId($docId)
     {
         $this->setData($this->getIdField(), $docId);
         return $this;
     }
     
-    public function getDocumentId()
+    public function getId()
     {
         return $this->getData($this->getIdField());
     }
@@ -128,7 +128,7 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
     
     public function load($documentId)
     {
-        $this->setDocumentId($documentId);
+        $this->setId($documentId);
         $this->getResource()->load($this);
         return $this;
     }
@@ -141,7 +141,7 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
     
     public function delete()
     {
-        $this->getResource()->delete($this->getDocumentId());
+        $this->getResource()->delete($this->getId());
         return $this;
     }
     

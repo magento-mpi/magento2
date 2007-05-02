@@ -94,6 +94,9 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function addProduct(Varien_Data_Object $product)
     {
+        if (!$product->getQty()) {
+            $product->setQty(1);
+        }
         if (!$product->getAsNewItem()) {
             foreach ($this->getEntitiesByType('item') as $item) {
                 if ($item->getProductId()==$product->getProductId()) {
