@@ -1,68 +1,7 @@
-<script type="text/javascript" src="<?=$baseJsUrl?>/varien/telephone.js"></script>
 <script type="text/javascript" src="<?=$baseJsUrl?>/varien/accordion.js"></script>
-<script type="text/javascript">
-var Checkout = Class.create();
-Checkout.prototype = {
-    initialize: function(accordion){
-        this.accordion = accordion;
-        this.type = '';
-        this.billing = '';
-        this.payment = '';
-        this.shipping= '';
-    }, 
-    
-    reloadStatusBlock: function(){
-        var updater = new Ajax.Updater('column-left', '<?=$baseSecureUrl?>checkout/onepage/status/', {method: 'get'});
-    },
-        
-    reloadReviewBlock: function(){
-        var updater = new Ajax.Updater('checkout-review-load', '<?=$baseSecureUrl?>checkout/onepage/review/', {method: 'get'});
-    },
-    
-    setType: function(){
-        if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
-            //alert('guest');
-        }
-        else if($('checkout_type:register') && $('checkout_type:register').checked) {
-            //alert('register');
-        }
-
-        this.accordion.openNextSection(true);
-    },
-
-    setBilling: function() {
-        this.reloadStatusBlock();
-        this.accordion.openNextSection(true);
-    },
-
-    setPayment: function() {
-        this.reloadStatusBlock();
-        this.accordion.openNextSection(true);
-    },
-
-    setShipping: function() {
-        this.reloadStatusBlock();
-        this.accordion.openNextSection(true);
-    },
-        
-    setShippingMethod: function() {
-        this.reloadStatusBlock();
-        this.accordion.openNextSection(true);
-    },
-    
-    setReview: function() {
-        this.reloadStatusBlock();
-        this.reloadReviewBlock();
-    	this.accordion.openNextSection(true);
-    },
-    
-    back: function(){
-        this.accordion.openPrevSection(true);
-    }
-}
-</script>
+<script type="text/javascript" src="<?=$baseJsUrl?>/varien/opcheckout.js"></script>
 <div class="content page-checkout">
-    <div id="checkoutSteps" class="page-checkout">
+    <div id="checkoutSteps">
     <?foreach($steps as $_stepId => $_stepInfo):?>
         <div class="section<?if(!empty($_stepInfo['allow'])):?> allow<?endif?>" id="<?=$_stepId?>">
             <h3><?=$_stepInfo['label']?></h3>
@@ -72,12 +11,12 @@ Checkout.prototype = {
         </div>
     <?endforeach?>
     </div>
-    <script>
+    <script type="text/javascript">
         var accordion = new Accordion('checkoutSteps','h3',true);
         <?if($_activeStep=$currentBlock->getLastAllowStep()):?>
         accordion.openSection('<?=$_activeStep?>');
         <?endif?>
         
-        var checkout = new Checkout(accordion);
+        var checkout = new Checkout(accordion, '<?=$baseSecureUrl?>checkout/onepage/status/', '<?=$baseSecureUrl?>checkout/onepage/review/');
     </script>
 </div>

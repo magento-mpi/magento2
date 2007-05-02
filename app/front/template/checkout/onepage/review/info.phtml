@@ -3,22 +3,22 @@
         <td>
             <h4>Billing Address</h4>
             <div class="step-body">
-                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br>
-                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br>
-                <?=nl2br($billing->getStreet(-1))?><br>
+                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br/>
+                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br/>
+                <?=nl2br($billing->getStreet(-1))?><br/>
                 <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
-                <br><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
+                <br/><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
             </div>
         </td>
     
         <td>
             <h4>Shipping Address</h4>
             <div class="step-body">
-                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br>
-                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br>
-                <?=nl2br($shipping->getStreet(-1))?><br>
+                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br/>
+                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br/>
+                <?=nl2br($shipping->getStreet(-1))?><br/>
                 <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
-                <br><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
+                <br/><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
             </div>
         </td>
     </tr>
@@ -27,7 +27,7 @@
             <h4>Payment Method</h4>
             <div class="step-body">
                 <?=$payment?>
-                <br><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">EDIT</a>
+                <br/><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">EDIT</a>
             </div>
         </td>
 
@@ -36,7 +36,7 @@
             <h4>Shipping Method</h4>
             <div class="step-body">
                 <?=$shippingDescription?>
-                <br><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
+                <br/><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
             </div>
         </td>
     </tr>

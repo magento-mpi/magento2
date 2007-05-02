@@ -1,80 +1,3 @@
-<script type="text/javascript">
-var Shipping = Class.create();
-Shipping.prototype = {
-    initialize: function(form){
-        this.form = form;
-        this.onAddressLoad = this.fillForm.bindAsEventListener(this);
-        this.onSave = this.continue.bindAsEventListener(this);
-    },
-
-    setAddress: function(addressId){
-        if (addressId) {
-            request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/'+addressId,
-                {
-                    method:'get',
-                    onSuccess: this.onAddressLoad
-                }
-            );
-        }
-        else {
-            this.fillForm(false);
-        }
-    },
-    
-    resetSelectedAddress: function(){
-        var selectElement = $('shipping-address-select')
-        if (selectElement) {
-            selectElement.value='';
-        }
-    },
-
-    fillForm: function(transport){
-        var elementValues = {};
-        if (transport && transport.responseText){
-            try{
-                elementValues = eval('(' + transport.responseText + ')');
-            }
-            catch (e) { 
-                elementValues = {};
-            }
-        }
-        else{
-            this.resetSelectedAddress();
-        }
-        arrElements = Form.getElements(this.form);
-        for (var elemIndex in arrElements) {
-            if (arrElements[elemIndex].id) {
-                var fieldName = arrElements[elemIndex].id.replace(/shipping:/, '');
-                arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
-                if (fieldName == 'country_id' && shippingForm){
-                    shippingForm.elementChildLoad(arrElements[elemIndex]);
-                }
-            }
-        }
-    },
-    
-    save: function(){
-        var validator = new Validation(this.form);
-        if (validator.validate()) {
-            var request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/saveShipping/',
-                {
-                    method:'post',
-                    onSuccess: this.onSave,
-                    parameters: Form.serialize(this.form)
-                }
-            );
-        }
-    },
-
-    continue: function(){
-        var updater = new Ajax.Updater('checkout-shipping-method-load', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/', {method:'get'});
-        checkout.setShipping();
-    }
-}
-</script>
-
 <div class="step-body">
     <?if(!empty($addresses)):?>
     <div class="note-box" style="display:block;">
@@ -94,7 +17,7 @@ Shipping.prototype = {
     <?endif?>
     <div class="default-box" style="display:block;">
         <form id="co-shipping-form">
-            <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id">
+            <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id"/>
             <fieldset>
             <ul class="input-list">
                 <li>
@@ -136,7 +59,7 @@ Shipping.prototype = {
                     <div class="input-left">
                         <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
                         <?if($regions->getSize()):?>
-                            <select title="State/Province" id="shipping:region" name="shipping[region_id]" class="validate-select required-entry">
+                            <select title="State/Province" id="shipping:region" name="shipping[region]" class="validate-select required-entry">
                                 <option value="">Select State/Province...</option>
                                 <?=$regions->toHtmlOptions($address->getRegionId())?>
                             </select>
@@ -179,7 +102,7 @@ Shipping.prototype = {
 </div>
 
 <script type="text/javascript">
-    var shipping = new Shipping('co-shipping-form');
+    var shipping = new Shipping('co-shipping-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveShipping/', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/');
     var shippingForm = new VarienForm('co-shipping-form');
     shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>

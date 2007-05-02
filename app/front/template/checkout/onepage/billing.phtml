@@ -1,78 +1,3 @@
-<script type="text/javascript">
-var Billing = Class.create();
-Billing.prototype = {
-    initialize: function(form){
-        this.form = form;
-        this.onAddressLoad = this.fillForm.bindAsEventListener(this);
-        this.onSave = this.continue.bindAsEventListener(this);
-    },
-
-    setAddress: function(addressId){
-        if (addressId) {
-            request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/'+addressId,
-                {
-                    method:'get',
-                    onSuccess: this.onAddressLoad
-                }
-            );
-        }
-        else {
-            this.fillForm(false);
-        }
-    },
-    
-    resetSelectedAddress: function(){
-        var selectElement = $('billing-address-select')
-        if (selectElement) {
-            selectElement.value='';
-        }
-    },
-
-    fillForm: function(transport){
-        var elementValues = {};
-        if (transport && transport.responseText){
-            try{
-                elementValues = eval('(' + transport.responseText + ')');
-            }
-            catch (e) { 
-                elementValues = {};
-            }
-        }
-        else{
-            this.resetSelectedAddress();
-        }
-        arrElements = Form.getElements(this.form);
-        for (var elemIndex in arrElements) {
-            if (arrElements[elemIndex].id) {
-                var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
-                arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
-                if (fieldName == 'country_id' && billingForm){
-                    billingForm.elementChildLoad(arrElements[elemIndex]);
-                }
-            }
-        }
-    },
-    
-    save: function(){
-        var validator = new Validation(this.form);
-        if (validator.validate()) {
-            var request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/saveBilling/',
-                {
-                    method:'post',
-                    onSuccess: this.onSave,
-                    parameters: Form.serialize(this.form)
-                }
-            );
-        }
-    },
-
-    continue: function(){
-        checkout.setBilling();
-    }
-}
-</script>
 <div class="step-body">
     <?if(!empty($addresses)):?>
     <div class="note-box" style="display:block;">
@@ -80,7 +5,7 @@ Billing.prototype = {
             Select a billing address from your address book or enter a &nbsp;
             <a href="#" onclick="billing.setAddress(false); return false;">new address</a>
         </p>
-        <select id="billing-address-select" name="" style="width:100%;" onchange="billing.setAddress(this.value);">
+        <select id="billing-address-select" name="billing_address_id" style="width:100%;" onchange="billing.setAddress(this.value);">
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
             <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
@@ -92,7 +17,7 @@ Billing.prototype = {
     <?endif?>
     <div class="default-box" style="display:block;">
         <form id="co-billing-form">
-            <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id">
+            <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id"/>
             <fieldset>
             <ul class="input-list">
                 <li>
@@ -111,12 +36,6 @@ Billing.prototype = {
                         <label for="billing:company">Company</label><br/>
                         <input type="text" id="billing:company" name="billing[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
                     </div>
-                    <!--
-                    <div class="input-right">
-                        <label for="billing:email_address">Email <span class="required">*</span></label><br/>
-                        <input type="text" id="billing:email_address" title="Email Address" class="validate-email required-entry input-text"/>
-                    </div>
-                    -->
                     <div class="clearfix"></div>
                 </li>
                 <li>
@@ -134,7 +53,7 @@ Billing.prototype = {
                     <div class="input-left">
                         <label for="billing:zone_id">State / Province <span class="required">*</span></label><br/>
                         <?if($regions->getSize()):?>
-                            <select title="State/Province" id="billing:region" name="billing[region_id]" class="validate-select required-entry">
+                            <select title="State/Province" id="billing:region" name="billing[region]" class="input-text required-entry">
                                 <option value="">Select State/Province...</option>
                                 <?=$regions->toHtmlOptions($address->getRegionId())?>
                             </select>
@@ -176,7 +95,7 @@ Billing.prototype = {
     </div>
 </div>
 <script type="text/javascript">
-    var billing = new Billing('co-billing-form');
+    var billing = new Billing('co-billing-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveBilling/');
     var billingForm = new VarienForm('co-billing-form');
     billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>

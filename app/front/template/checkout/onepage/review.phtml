@@ -2,7 +2,7 @@
 var Review = Class.create();
 Review.prototype = {
     initialize: function(){
-        this.onSave = this.continue.bindAsEventListener(this);
+        this.onSave = this.nextStep.bindAsEventListener(this);
     },
     
     save: function(){
@@ -15,7 +15,7 @@ Review.prototype = {
         );
     },
 
-    continue: function(transport){
+    nextStep: function(transport){
         if (transport && transport.responseText) {
             try{
                 responce = eval('(' + transport.responseText + ')');

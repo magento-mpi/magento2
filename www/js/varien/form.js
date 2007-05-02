@@ -11,7 +11,10 @@ VarienForm.prototype = {
         this.childLoader    = this.onChangeChildLoad.bindAsEventListener(this);
         this.highlightClass = 'highlight';
         this.bindElements();
-        Form.Element.focus(Form.findFirstElement(this.form))
+        try{
+            Form.Element.focus(Form.findFirstElement(this.form))
+        }
+        catch(e){}
     },
 
     bindElements:function (){

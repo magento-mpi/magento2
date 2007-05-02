@@ -1,30 +1,3 @@
-<script type="text/javascript">
-var ShippingMethod = Class.create();
-ShippingMethod.prototype = {
-    initialize: function(form){
-        this.form = form;
-        this.onSave = this.continue.bindAsEventListener(this);
-    },
-
-    save: function(){
-        var validator = new Validation(this.form);
-        if (validator.validate()) {
-            var request = new Ajax.Request(
-                '<?=$baseSecureUrl?>checkout/onepage/saveShippingMethod/',
-                {
-                    method:'post',
-                    onSuccess: this.onSave,
-                    parameters: Form.serialize(this.form)
-                }
-            );
-        }
-    },
-
-    continue: function(){
-        checkout.setReview();
-    }
-}
-</script>
 <div id="checkout-shipping-method" class="step-body">
   	<div id="checkout-shipping-method-load" class="default-box">
   	    <?=$availableMethods?>
@@ -37,5 +10,5 @@ ShippingMethod.prototype = {
     </div>
 </div>
 <script type="text/javascript">
-    var shippingMethod = new ShippingMethod('co-shipping-method-form');
+    var shippingMethod = new ShippingMethod('co-shipping-method-form', '<?=$baseSecureUrl?>checkout/onepage/saveShippingMethod/');
 </script>

@@ -1,7 +1,8 @@
+.page-checkout{padding:0;margin:0}
 .page-checkout-left ol li { list-style-type:none; }
 .page-checkout-left h3 {
         margin-bottom:2px;
-        padding:0 8px;
+        padding:0 0 0 8px;
         background:#dbd6ac; 
         color:#000;
         line-height:1.8em;}
@@ -72,7 +73,7 @@ html>body ol#one-pg-co li.on .step-body  { border : 1px solid #fbf9ea; }
     ol#one-pg-co li fieldset .disc li { list-style-type:disc; list-style-position:inside; margin:0;}
 .note-box { background-color:#f2f0c7; padding:10px 25px 14px 20px; }
 .note-box label strong { color: #000000; font-weight: bold; }
-.default-box { background-color:#fbf9ea; padding:10px 25px 14px 20px; }
+.default-box { background-color:#fbf9ea; padding:10px 10px 14px 10px; }
 .buttons { text-align:right; }
 ol#one-pg-co li#co-login h3 { background:#d9d5a5; color:#2C5200;  }
 ol#one-pg-co li#co-payment.on .step-body .default-box ul.btop { border-top:1px solid #D9D5A5; }
