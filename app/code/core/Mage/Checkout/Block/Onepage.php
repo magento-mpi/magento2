@@ -71,6 +71,8 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $block = $this->getLayout()->createBlock('tpl', 'checkout.method')
             ->setTemplate('checkout/onepage/method.phtml')
+            ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
+            ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)))
             ->assign('data', $data);
             
         $this->setChild('method', $block);

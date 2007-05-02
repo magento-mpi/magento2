@@ -60,8 +60,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 extract($login);
                 if (!empty($username) && !empty($password)) {
                     if ($session->login($username, $password)) {
-                        $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
-                        return true;
+                        //$this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
+                        //return true;
                     }
                     else {
                         $session->addMessage(Mage::getModel('customer', 'message')->error('CSTE000'));
@@ -69,7 +69,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
+        $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
+        //$this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
     }
     
     public function logoutAction()

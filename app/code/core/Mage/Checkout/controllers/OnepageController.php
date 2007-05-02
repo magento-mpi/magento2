@@ -41,7 +41,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('left')->unsetChildren()
             ->insert($statusBlock);
             
-        $block = $this->getLayout()->createBlock('checkout_onepage', 'checkout.onepage')->init();
+        $block = $this->getLayout()
+            ->createBlock('checkout_onepage', 'checkout.onepage')
+            ->init();
+        
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
