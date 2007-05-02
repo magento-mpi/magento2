@@ -79,9 +79,25 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function successAction()
     {
         $this->loadLayout();
+        
+        $customerSession = Mage::getSingleton('customer', 'session');
+        if (!$customerSession->isLoggedIn()) {
+            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            return;
+        }
+        $collection = Mage::getModel('sales_resource', 'order_collection')
+            ->addAttributeSelect('self/real_order_id')
+            ->addAttributeFilter('self/customer_id', $customerSession->getCustomerId())
+            ->setOrder('self/created_at', 'DESC')
+            ->setPageSize(1)
+            ->loadData();
+        foreach ($collection as $order) {
+            $orderId = $order->getRealOrderId();
+        }
+        
         $block = $this->getLayout()->createBlock('tpl', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
-            ->assign('orderId', $this->_quote->getQuoteId());
+            ->assign('orderId', $orderId);
         $this->getLayout()->getBlock('content')->append($block);
         
         // TODO: clear quote and checkout 

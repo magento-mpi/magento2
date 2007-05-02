@@ -238,7 +238,10 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         }
         
         $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $this->getColumnValues($this->_idField));
-        $attributesSql = $this->_getAttributesSql($idsSql);        
+        $attributesSql = $this->_getAttributesSql($idsSql);
+        if (!$attributesSql) {
+            return false;
+        }
         $attributes = $this->_conn->fetchAll($attributesSql);
         if (!is_array($attributes) || empty($attributes)) {
             return false;
