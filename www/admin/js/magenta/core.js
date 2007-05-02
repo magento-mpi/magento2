@@ -201,7 +201,7 @@ Mage.Search = function() {
                     }
                 }
            });
-           Mage.Core.getRighToolbar().addField(comboSearch, 0);
+           Mage.Core.getRighToolbar().addField(comboSearch);
         }
     }
 }();

@@ -132,8 +132,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function relatedProductsAction()
     {
-        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel');
-        $block->setTemplate('catalog/product/related_products.phtml');
+        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
+            ->setTemplate('catalog/product/related_products.phtml')
+            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/');
         $this->getResponse()->setBody($block->toHtml());
     }
     

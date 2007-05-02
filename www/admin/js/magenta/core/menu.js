@@ -39,7 +39,7 @@ Mage.Menu_Core = function(){
                 }, 250);                
             }
 
-           Mage.Core.addRightToolbarItem({
+           Mage.Core.getRighToolbar().add({
                 cls: 'x-btn-text-icon bmenu',
                 text:'Theme',
                 menu: new Ext.menu.Menu({
@@ -84,12 +84,12 @@ Mage.Menu_Core = function(){
                     ]
                 })
             });
-            
-            Mage.Core.addRightToolbarItem({
-                cls: 'x-btn-text-icon bmenu',
+            Mage.Core.getRighToolbar().add({
+                cls: 'x-btn-text-icon btn-logout',
                 text:'Logout'
             });
         }
     }
 }();
-Mage.Menu_Core.init();
+Ext.EventManager.onDocumentReady(Mage.Menu_Core.init, Mage.Menu_Core, true);
+//Mage.Menu_Core.init();
