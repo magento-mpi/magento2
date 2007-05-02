@@ -880,7 +880,9 @@ Mage.Catalog_Product_CategoriesPanel = function(){
             Ext.apply(this, config);
 
             var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
-            var tb = new Ext.Toolbar(this.panel.getRegion('center').getEl().createChild({tag:'div'}));
+            
+            var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
+            
             tb.add({
                 text: 'Delete',
                 cls: 'x-btn-text-icon'
@@ -890,7 +892,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
             this.rowTemplate = new Ext.Template('<div class="address-view">{product}</div>');
             this.rowTemplate.compile();
 
-            this.cPanel = new Ext.ContentPanel('productCard_' + this.tabInfo.name,{
+            this.cPanel = new Ext.ContentPanel(baseEl,{
                     title : this.tabInfo.title,
                     toolbar: tb,
                     autoCreate: true,
@@ -901,6 +903,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
             });
             
             var container = this.cPanel.getEl().createChild({tag:'div'});
+
         	this.categoriesView = new Ext.JsonView(container, this.rowTemplate, {
         		singleSelect: true,
         		jsonRoot: 'addresses',
@@ -914,7 +917,11 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                 }
             }.createDelegate(this));
             
-            var dropZone = Ext.dd.DropZone(container, 'TreeDD', {});
+            var dd = new Ext.dd.DragDrop(container, 'TreeDD');
+            dd.onDragDrop = function(e, id) {
+                console.log(arguments);
+                alert("dd was dropped on " + id);
+            }
 
             return this.cPanel;            
         }

@@ -47,9 +47,9 @@ Mage.Catalog_Product_ProductSelect = function(config) {
         this.tree = new Ext.tree.TreePanel(treeContainer, {
             animate:true, 
             loader: new Ext.tree.TreeLoader({dataUrl: Mage.url + 'mage_catalog/category/treeChildren/'}),
-            enableDD:true,
+            enableDD:false,
             containerScroll: true,
-            rootVisible:false
+            rootVisible : true
         });
         
         var mask = new Ext.LoadMask(innerLayout.getRegion('west').getEl(), {
@@ -94,7 +94,6 @@ Mage.Catalog_Product_ProductSelect = function(config) {
              var dataStore = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({url : this.gridUrl}),
                 reader: dataReader,
-                baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
              });
 
@@ -112,7 +111,7 @@ Mage.Catalog_Product_ProductSelect = function(config) {
                 loadMask: true,
                 monitorWindowResize : true,
                 autoHeight : false,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
                 enableColLock : false
             });
             
@@ -151,6 +150,7 @@ Mage.Catalog_Product_ProductSelect = function(config) {
     
     this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
     this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
+    this.dialog.setDefaultButton(this.dialog.addButton("Add", this.addElements.createDelegate(this)));
     
     Mage.Catalog_Product_ProductSelect.superclass.constructor.call(this);
 };
@@ -160,9 +160,17 @@ Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
     show : function() {
         this.dialog.show();
         this.tree.root.reload();
+        this.loadGrid();
     },
     
     hide : function() {
         this.dialog.hide();        
-    }    
+    }, 
+    
+    addElements : function() {
+        if (!this.parentGrid) {
+            Ext.MessageBox.alert('Error','Parent Grid is not Set');
+            return false;
+        }
+    }
 });
