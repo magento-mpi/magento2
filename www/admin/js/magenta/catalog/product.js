@@ -661,8 +661,8 @@ Mage.Catalog_Product = function(depend){
 
                 if (panel.loaded) {
                    formEl = dq.selectNode('form', panel.getEl().dom);
-                   if (!formEl.action) {
-                       return false
+                   if (!formEl || !formEl.action) {
+                       continue;
                    }
                    if (form = this.registeredForms.get(formEl.action)) {
                        form.appendForm(formEl);
@@ -681,7 +681,17 @@ Mage.Catalog_Product = function(depend){
         },
         
         saveItemCallBack : function(response, type) {
-            Ext.dump(response.responseText);
+            var result = Ext.decode(response.responseText);
+            if (result.error == 0) {
+               var i;
+               for (i=0; i < this.editablePanels.length; i++) {
+                  var panel = this.editPanel.getRegion('center').getPanel(this.editablePanels[i]);
+                  panel.setTitle(panel.getTitle().substr(0,panel.getTitle().length-1));
+               }
+               this.editablePanels = [];
+            } else {
+                Ext.MessageBox.alert('Error', error.errorMessage);
+            }
         },
         
         onDeleteItem : function() {
