@@ -8,7 +8,7 @@ VarienForm.prototype = {
         this.validator  = new Validation(this.form);
         this.elementFocus   = this.elementOnFocus.bindAsEventListener(this);
         this.elementBlur    = this.elementOnBlur.bindAsEventListener(this);
-        this.childLoader    = this.elementChildLoad.bindAsEventListener(this);
+        this.childLoader    = this.onChangeChildLoad.bindAsEventListener(this);
         this.highlightClass = 'highlight';
         this.bindElements();
         Form.Element.focus(Form.findFirstElement(this.form))
@@ -46,9 +46,13 @@ VarienForm.prototype = {
             Event.observe(parent,'change',this.childLoader);
         }
     },
-    
-    elementChildLoad: function(event){
+
+    onChangeChildLoad: function(event){
         element = Event.element(event);
+        this.elementChildLoad(element);
+    },
+    
+    elementChildLoad: function(element){
         if (element.value) {
             this.currLoader = element.id;
             this.currDataIndex = element.value;
@@ -79,7 +83,7 @@ VarienForm.prototype = {
                 for (var i in data){
                     if(data[i].value) {
                         html+= '<option value="'+data[i].value+'"';
-                        if(child.value && child.value == data[i].value){
+                        if(child.value && (child.value == data[i].value || child.value == data[i].label)){
                             html+= ' selected';
                         }
                         html+='>'+data[i].label+'</option>';

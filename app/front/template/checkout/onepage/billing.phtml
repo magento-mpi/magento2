@@ -48,6 +48,9 @@ Billing.prototype = {
                 console.log(fieldName);
                 var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
+                if (fieldName == 'country_id' && billingForm){
+                    billingForm.elementChildLoad(arrElements[elemIndex]);
+                }
             }
         }
     },
@@ -175,6 +178,6 @@ Billing.prototype = {
 </div>
 <script type="text/javascript">
     var billing = new Billing('co-billing-form');
-    var dataForm = new VarienForm('co-billing-form');
-    dataForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
+    var billingForm = new VarienForm('co-billing-form');
+    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>
