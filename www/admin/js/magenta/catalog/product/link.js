@@ -3,10 +3,11 @@ Mage.Catalog_Product_RelatedPanel = function(){
         config : null,
         cPanel : null,
         grid : null,
+        dataRecord : null,
         // mage_catalog/product/relatedList/product/:id
         // mage_catalog/product/bundleList/product/:id
         // mage_catalog/product/superList/product/:id
-        gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
+        gridUrl : Mage.url + 'mage_catalog/product/relatedList/',
         gridPageSize : 30,
         productSelector : null,
         
@@ -29,13 +30,18 @@ Mage.Catalog_Product_RelatedPanel = function(){
 //                            loadOnce: true,
 //                            background: true
 //                        });
-            this.productSelector = new Mage.Catalog_Product_ProductSelect({
-                gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/'
-            });
 
             this.initGrid({
                 baseEl : baseEl.createChild({tag : 'div'})
             });
+            
+            this.productSelector = new Mage.Catalog_Product_ProductSelect({
+                gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
+                parentGrid : this.grid,
+                dataRecord : this.dataRecord
+            });
+            
+            this.buildGridToolbar();            
             
             this.cPanel = new Ext.GridPanel(this.grid,{
                 title : this.tabInfo.title || 'Related products',
@@ -73,7 +79,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
             
             var baseEl = config.baseEl;
 
-            var dataRecord = Ext.data.Record.create([
+            this.dataRecord = Ext.data.Record.create([
                 {name: 'id', mapping: 'product_id'},
                 {name: 'name', mapping: 'name'},
                 {name: 'price', mapping: 'price'},
@@ -84,10 +90,12 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 root: 'items',
                 totalProperty: 'totalRecords',
                 id: 'product_id'
-            }, dataRecord);
+            }, this.dataRecord);
+
+             var productId = Mage.Catalog_Product.productsGrid.getSelectionModel().selections.items[0].id;
 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: this.gridUrl}),
+                proxy: new Ext.data.HttpProxy({url: this.gridUrl + 'product/' + productId + '/'}),
                 reader: dataReader,
                 baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
@@ -107,7 +115,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 loadMask: true,
                 monitorWindowResize : true,
                 autoHeight : false,
-                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
                 enableColLock : false
             });
 
@@ -123,7 +131,6 @@ Mage.Catalog_Product_RelatedPanel = function(){
             resizeBaseEl.on('resize', this.grid.autoSize, this.grid);
 
             this.grid.render();
-            this.buildGridToolbar();            
         },
         
         buildGridToolbar : function() {
@@ -143,7 +150,17 @@ Mage.Catalog_Product_RelatedPanel = function(){
 
             
             paging.insertButton(0, new Ext.ToolbarButton({
-                text : 'Button 2'
+                text : 'Delete',
+                handler : function(){
+                    Ext.MessageBox.confirm('Warning','Are you sure ?', function(btn, text){
+                        if (btn == 'yes') {
+                            var sm = this.grid.getSelectionModel();
+                            while(sm.selections.items.length) {
+                                this.grid.getDataSource().remove(sm.selections.items[0]);
+                            }
+                        }
+                    }.createDelegate(this))
+                }.createDelegate(this)
             }));
             
             paging.insertButton(0, new Ext.ToolbarButton({

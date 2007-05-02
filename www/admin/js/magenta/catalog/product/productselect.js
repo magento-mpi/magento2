@@ -172,5 +172,12 @@ Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
             Ext.MessageBox.alert('Error','Parent Grid is not Set');
             return false;
         }
+        
+        var sm = this.grid.getSelectionModel();
+        var i = 0;
+        for (i=0; i < sm.selections.items.length; i++) {
+            var obj = new this.dataRecord(sm.selections.items[i].data);
+            this.parentGrid.getDataSource().add(obj);
+        }
     }
 });
