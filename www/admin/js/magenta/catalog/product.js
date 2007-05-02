@@ -649,6 +649,9 @@ Mage.Catalog_Product = function(depend){
 
                 if (panel.loaded) {
                    formEl = dq.selectNode('form', panel.getEl().dom);
+                   if (!formEl.action) {
+                       return false
+                   }
                    if (form = this.registeredForms.get(formEl.action)) {
                        form.appendForm(formEl);
                    } else {
