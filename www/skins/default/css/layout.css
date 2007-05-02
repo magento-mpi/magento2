@@ -7,8 +7,8 @@
 .top-menu-nav{text-align:right;padding:10px;background:url(../images/free_shipping.gif) 0 50% no-repeat}
 .top-menu-nav li{display:inline;margin-left:15px}
 
-.top-form{width:38%} 
-.top-links{width:62%}
+.top-form{width:276px;} 
+.top-links{}
 .top-form form {padding-left:40px;margin:8px;background:url(../images/search_for.gif) 0 50% no-repeat}
 .top-form form input {margin-left:10px;}
     .top-form .input-text { width:140px; background-color:#f2f3ca; }

@@ -252,9 +252,11 @@
                 <po_number><type>varchar</type></po_number>
                 
                 <cc_type><type>varchar</type></cc_type>
+                <cc_number_enc><type>varchar</type></cc_number_enc>
                 <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
-                <cc_expires><type>varchar</type></cc_expires>
+                <cc_exp_month><type>int</type></cc_exp_month>
+                <cc_exp_year><type>int</type></cc_exp_year>
 
                 <order_status_id><type>int</type></order_status_id>
             </payment>
@@ -357,7 +359,8 @@
                 <cc_number_enc><type>varchar</type></cc_number_enc>
                 <cc_last4><type>varchar</type></cc_last4>
                 <cc_owner><type>varchar</type></cc_owner>
-                <cc_expires><type>varchar</type></cc_expires>
+                <cc_exp_month><type>int</type></cc_exp_month>
+                <cc_exp_year><type>int</type></cc_exp_year>
             </payment>
             <status>
                 <status_id><type>int</type></status_id>

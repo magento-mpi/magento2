@@ -117,6 +117,10 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
      */
     function addCategoryFilter($category)
     {
+        if (empty($category)) {
+            return $this;
+        }
+        
         if (!$this->_isCategoryJoined) {
             $this->_sqlSelect->join($this->_categoryProductTable, 
                 new Zend_Db_Expr("$this->_categoryProductTable.product_id=$this->_productTable.product_id"),
