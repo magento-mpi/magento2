@@ -47,6 +47,9 @@ Shipping.prototype = {
             if (arrElements[elemIndex].id) {
                 var fieldName = arrElements[elemIndex].id.replace(/shipping:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
+                if (fieldName == 'country_id' && shippingForm){
+                    shippingForm.elementChildLoad(arrElements[elemIndex]);
+                }
             }
         }
     },
@@ -177,6 +180,6 @@ Shipping.prototype = {
 
 <script type="text/javascript">
     var shipping = new Shipping('co-shipping-form');
-    var dataForm = new VarienForm('co-shipping-form');
-    dataForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
+    var shippingForm = new VarienForm('co-shipping-form');
+    shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>
