@@ -80,6 +80,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
+        /*
         $customerSession = Mage::getSingleton('customer', 'session');
         if (!$customerSession->isLoggedIn()) {
             $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
@@ -94,14 +95,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         foreach ($collection as $order) {
             $orderId = $order->getRealOrderId();
         }
+        */
+        $order = Mage::getModel('sales', 'order');
+        $order->load($this->_checkout->getLastOrderId());
+        if (!$order->getRealOrderId()) {
+            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            return;
+        }
+        $orderId = $order->getRealOrderId();
         
         $block = $this->getLayout()->createBlock('tpl', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
             ->assign('orderId', $orderId);
         $this->getLayout()->getBlock('content')->append($block);
-        
-        // TODO: clear quote and checkout 
-        //$this->_checkout->clear();
         
         $this->renderLayout();
     }
@@ -197,7 +203,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             try {
                 $this->_quote->createOrders();
-                $this->_checkout->setQuoteId(null);
+                $orderId = $this->_quote->getCreatedOrderId();
+                $this->_checkout->clear();
+                $this->_checkout->setLastOrderId($orderId);
                 $res['success'] = true;
                 $res['error']   = false;
             }
