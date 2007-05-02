@@ -29,6 +29,14 @@ Mage.Catalog_Product_RelatedPanel = function(){
                             loadOnce: true,
                             background: true
                         });
+                        
+           this.panel.getRegion('center').on('beforeremove', function(region, panel, e){
+                if (this.cPanel === panel) {
+                    if (this.grid) {
+                        this.grid.destroy(true);
+                    }
+                }
+            }.createDelegate(this));            
             
             var um = this.cPanel.getUpdateManager();
             um.on('update', this.onUpdate.createDelegate(this));

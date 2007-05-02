@@ -68,6 +68,7 @@ Mage.Catalog_Product = function(depend){
                          titlebar: true,
                          autoScroll: true,
                          collapsible: true,
+                         preservePanel : false,
                          hideTabs : true
                      }
                  });
@@ -584,9 +585,16 @@ Mage.Catalog_Product = function(depend){
                          autoScroll : true,
                          titlebar : false,
                          resizeTabs : true,
+                         preservePanel : false,
+                         autoDestroy : true,
                          tabPosition: 'top'
                      }
             });
+            
+            this.editPanel.getRegion('center').on('beforeremove', function(region, panel, e){
+            //    console.log(arguments);
+            }.createDelegate(this));            
+            
 
             this.editPanel.add('north', new Ext.ContentPanel(this.productLayout.getEl().createChild({tag:'div'})));
 
@@ -604,11 +612,15 @@ Mage.Catalog_Product = function(depend){
             this.productLayout.endUpdate();
         },
 
-        onRemovePanel : function() {
+        onRemovePanel : function(region, panel) {
             this.editablePanels = [];
             this.registeredForms.clear();
+            if (region && panel) {
+                panel.getLayout().getRegion('center').clearPanels();
+            } else {
+                this.productLayout.getRegion('south').getActivePanel().getLayout().getRegion('center').clearPanels();
+            }
             this.productLayout.getRegion('south').clearPanels();
-            //this.productLayout.getRegion('south').hide();
             return true;
         },
 
