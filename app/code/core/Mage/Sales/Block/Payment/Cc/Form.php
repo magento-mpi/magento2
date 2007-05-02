@@ -5,6 +5,7 @@ class Mage_Sales_Block_Payment_Cc_Form extends Mage_Core_Block_Template
     public function init(Varien_Data_Object $payment)
     {
         $ccTypesArr = array(
+            ''=>'Please select credit card type',
             'AE'=>'American Express',
             'VI'=>'Visa',
             'MC'=>'Master Card',
@@ -12,6 +13,7 @@ class Mage_Sales_Block_Payment_Cc_Form extends Mage_Core_Block_Template
         );
 
         $monthsArr = array(
+            ''=>'Month',
              1=>'01-'.__('January'),
              2=>'02-'.__('February'),
              3=>'03-'.__('March'),
@@ -26,7 +28,7 @@ class Mage_Sales_Block_Payment_Cc_Form extends Mage_Core_Block_Template
             12=>'12-'.__('December'),
         );
         
-        for ($yearsArr=array(), $y1=date("Y"), $y=0; $y<10; $y++) {
+        for ($yearsArr=array(''=>'Year'), $y1=date("Y"), $y=0; $y<10; $y++) {
             $yearsArr[$y1+$y] = $y1+$y;
         }
 

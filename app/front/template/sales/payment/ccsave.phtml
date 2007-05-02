@@ -3,7 +3,7 @@
         <input type="radio" title="<?=__("Credit Card")?>" id="payment_method_<?=$method?>" name="payment[method]" value="<?=$method?>" <?if($payment->getMethod()==$method):?>checked<?endif?> onclick="payment.switchMethod('<?=$method?>')"/>
         <label for="payment_method_<?=$method?>">Pay by credit card (<?=$method?>)</label><br/>
     </div>
-    <div id="payment_form_<?=$method?>" style="<?if($payment->getMethod()!==$method):?>display:none<?endif?>">
+    <div id="payment_form_<?=$method?>" style="display:none">
         <ul>
             <li>
                 <div class="left">
@@ -29,12 +29,12 @@
             </li>
             <li>
                 <label for="expiration">Expiration Date <span class="required">*</span></label><br/>
-                <select id="expiration" style="width:140px;" name="payment[cc_exp_month]">
+                <select id="expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
                 <?foreach ($monthsArr as $k=>$v):?>
                     <option value="<?=$k?>" <?if($k==$payment->getCcExpMonth()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select> 
-                <select id="expiration_yr" style="width:103px;" name="payment[cc_exp_year]">
+                <select id="expiration_yr" style="width:103px;" name="payment[cc_exp_year]" class="required-entry">
                 <?foreach ($yearsArr as $k=>$v):?>
                     <option value="<?=$k?>" <?if($k==$payment->getCcExpYear()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
@@ -44,8 +44,6 @@
                 <label for="cvn">Card Verification Number <span class="required">*</span> | <a href="">What is this?</a></label><br/>
                 <input type="text" title="Card Verification Number" class="required-entry input-text" id="cc_cvv2" name="payment[cc_cvv2]" style="width:3em;" value="<?=$payment->getCcCvv2()?>"/>
             </li>
-    
-            <li class="a-right"><span class="required">* Required Fields</span></li>
         </ul>
     </div>
 </fieldset>

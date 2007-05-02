@@ -110,9 +110,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         if (empty($payment)) {
             $payment = Mage::getModel('sales', 'quote_entity_payment');
         }
-        if ($payment->getCcNumber()) {
-            $payment->setCcNumber($payment->decrypt($payment->getCcNumber()));
-        }
+        $payment->setCcNumber(null)->setCvv2(null);
         
         $paymentBlock = $this->getLayout()->createBlock('tpl', 'checkout.payment')
             ->setTemplate('checkout/onepage/payment.phtml')

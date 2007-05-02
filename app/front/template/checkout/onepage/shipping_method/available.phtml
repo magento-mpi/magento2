@@ -5,12 +5,17 @@
     	<fieldset>
     	   <ul>
 	        <?foreach ($methods as $method):?>
-	           <?if (!isset($method['vendor'])) continue; ?>
+	           <?if (isset($method['error_message'])):?>
         		<li>
+        		    <strong><?=$method['vendor']?>: <?=$method['error_message']?></strong>
+        		</li>
+	           <?else:?>
+	           <li>
         		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$selectedMethod)echo"checked"?> />
         		    <label for="shipping_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
         		    <strong><?=$method['amount']?></strong>
         		</li>
+        	   <?endif?>
     		<?endforeach?>
     		</ul>
     	</fieldset>
