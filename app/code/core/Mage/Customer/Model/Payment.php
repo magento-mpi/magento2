@@ -43,4 +43,13 @@ class Mage_Customer_Model_Payment extends Varien_Data_Object
         $key = (string)Mage::getConfig()->getNode('modules/Mage_Customer/crypt/key');
         return trim(Varien_Crypt::factory()->init($key)->decrypt(base64_decode($data)));
     }
+    
+    public function getOrderStatus()
+    {
+        if (!$this->getMethod()) {
+            return false;
+        }
+        $status = (string)Mage::getConfig()->getNode('global/salesPaymentMethods/'.$this->getMethod().'/orderStatus');
+        return $status;
+    }
 }

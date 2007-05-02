@@ -45,7 +45,6 @@ Billing.prototype = {
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
-                console.log(fieldName);
                 var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
                 if (fieldName == 'country_id' && billingForm){

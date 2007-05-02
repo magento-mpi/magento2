@@ -363,7 +363,7 @@
                 <cc_exp_year><type>int</type></cc_exp_year>
             </payment>
             <status>
-                <status_id><type>int</type></status_id>
+                <status><type>varchar</type></status>
                 <created_at><type>datetime</type></created_at>
                 <comments><type>text</type></comments>
             </status>

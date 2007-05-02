@@ -14,7 +14,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_checkout = Mage::getSingleton('checkout', 'session');
         $this->_quote = $this->_checkout->getQuote();
         
-        if (!$this->_quote->hasItems()) {
+        if (!$this->_quote->hasItems() && $this->getRequest()->getParam('action')!='success') {
             $this->setFlag('', 'no-dispatch', true);
             $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
         }
@@ -181,6 +181,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             try {
                 $this->_quote->createOrders();
+                $this->_checkout->setQuoteId(null);
                 $res['success'] = true;
                 $res['error']   = false;
             }

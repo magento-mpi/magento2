@@ -313,10 +313,10 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             }
         }
         
-        $statusId = $this->getPayment()->getOrderStatusId();
-        $order->setStatus($statusId);
+        $status = $this->getPayment()->getOrderStatus();
+        $order->setStatus($status);
         $statusEntity = Mage::getModel('sales', 'order_entity_status')
-            ->setStatusId($statusId)
+            ->setStatus($status)
             ->setCreatedAt($now);
         
         $order->save();
