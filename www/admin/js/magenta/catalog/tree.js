@@ -64,7 +64,7 @@ Mage.Catalog_Category_Tree = function(){
                 
                 tb.addButton ({
                     text: 'Delete',
-                    id : 'delete',
+                    id : 'del',
                     disabled : true,
                     handler : this.deleteCategoryConfirm.createDelegate(this),
                     cls: 'x-btn-text-icon btn-delete'
@@ -107,11 +107,10 @@ Mage.Catalog_Category_Tree = function(){
                      this.btns.add.setDisabled(false);
                      if (this.tree.getSelectionModel().getSelectedNode() && this.tree.getSelectionModel().getSelectedNode().id != '1') {
                          this.btns.edit.setDisabled(false);
-                         this.btns.delete.setDisabled(false);
-                     }
-                     else {
+                         this.btns.del.setDisabled(false);
+                     } else {
                          this.btns.edit.setDisabled(true);
-                         this.btns.delete.setDisabled(true);
+                         this.btns.del.setDisabled(true);
                      }
                 }.createDelegate(this));                
                 

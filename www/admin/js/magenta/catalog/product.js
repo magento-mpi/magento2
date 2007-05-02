@@ -916,12 +916,27 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                     this.dataLoaded = true;
                 }
             }.createDelegate(this));
+
+            Ext.dd.Registry.register(container,{
+                isHandle: false,
+                handles: container.dom.parentNode
+            });
             
-            var dd = new Ext.dd.DragDrop(container, 'TreeDD');
-            dd.onDragDrop = function(e, id) {
-                console.log(arguments);
-                alert("dd was dropped on " + id);
-            }
+            var dd = new Ext.dd.DropZone(container, {
+                ddGroup : 'TreeDD', 
+               	dropAllowed : true,
+                notifyDrop: function() {
+                    console.log(arguments);
+                }
+            });
+           
+           
+//            var dd = new Ext.dd.DragDrop(container, 'TreeDD', {
+//                onDragDrop : function() {
+//                    console.log(arguments);
+//                }
+//            });
+            
 
             return this.cPanel;            
         }
