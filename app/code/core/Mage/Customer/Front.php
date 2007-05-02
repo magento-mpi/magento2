@@ -15,17 +15,21 @@ class Mage_Customer_Front
         if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
             $layout = Mage::registry('action')->getLayout();
             $topLinks = $layout->getBlock('top.links');
-            if (!$topLinks) {
-                return;
-            }
+            if ($topLinks) {
             $topLinks
                 ->append($layout->createBlock('list_link', 'top.links.wishlist')
                     ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', 'Wishlist', ''))
                 ->append($layout->createBlock('list_link', 'top.links.logout')
-                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''))
-                ->insert($layout->createBlock('tag', 'top.links.welcome')
+                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''));
+                
+            }
+            
+            $topMenu = $layout->getBlock('top.menu');
+            if ($topMenu) {
+                $topMenu ->insert($layout->createBlock('tag', 'top.links.welcome')
                     ->setTagName('strong')
                     ->setContents('Welcome, ' . Mage::getSingleton('customer', 'session')->getCustomer()->getName()));
+            }
         }
     }
 } 
