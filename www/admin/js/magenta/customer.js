@@ -164,7 +164,7 @@ Mage.Customer = function(depend){
 
             paging.add('-', {
                 text: 'Create New',
-                cls: 'x-btn-text-icon product_new',
+                cls: 'x-btn-text-icon btn-add-user',
                 handler : this.createItem.createDelegate(this, [this.customerLayout.getRegion('south')])
             });
 //            ,{
@@ -234,20 +234,20 @@ Mage.Customer = function(depend){
             toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
             toolbar.add({
                 text: 'Save',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-accept',
                 handler : this.saveItem.createDelegate(this)
             },{
                 text: 'Delete',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-bin-closed',
                 handler : this.onDelete.createDelegate(this),
                 disabled : deleteDisabled
             },{
                 text: 'Reset',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-arrow-undo',
                 handler : this.onReset.createDelegate(this)
             },{
                 text: 'Cancel',
-                cls: 'x-btn-text-icon',
+                cls: 'x-btn-text-icon btn-cancel',
                 handler : this.onCancelEdit.createDelegate(this)
             },'-');
             this.formLoading = toolbar.addButton({

@@ -23,7 +23,7 @@ Mage.Catalog_Product_ProductSelect = function(config) {
         // layout config merges with the dialog config
         center:{
             tabPosition: "top",
-            alwaysShowTabs: false,
+            alwaysShowTabs: false
         }
     });
     

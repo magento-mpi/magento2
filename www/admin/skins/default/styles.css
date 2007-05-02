@@ -36,6 +36,7 @@
 .btn-arrow-refresh .x-btn-text {background-image:url(./ico/fam/arrow_refresh.png);}
 .btn-arrow-undo .x-btn-text {background-image:url(./ico/fam/arrow_undo.png);}
 .btn-folder-edit .x-btn-text {background-image:url(./ico/fam/folder_edit.png);}
+.btn-add-user .x-btn-text {background-image:url(./ico/fam/user_add.png);}
 
 .bok .x-btn-text {background-image:url(./ico/button_ok.gif);}
 
@@ -91,6 +92,6 @@
 }
 
 .x-tree-node div.deleted {
-	color:#888;
-	font-style:italic;
+    color:#888;
+    font-style:italic;
 }

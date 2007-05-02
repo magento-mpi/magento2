@@ -143,7 +143,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
 
             
             paging.insertButton(0, new Ext.ToolbarButton({
-                text : 'Button 2',
+                text : 'Button 2'
             }));
             
             paging.insertButton(0, new Ext.ToolbarButton({

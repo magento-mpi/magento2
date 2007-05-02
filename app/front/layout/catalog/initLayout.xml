@@ -9,7 +9,7 @@
     <reference name="left">
         <block type="catalog_navigation" name="catalog.leftnav" before="-">
             <action method="setTemplate"><template>catalog/leftnav.phtml</template></action>
-            <action method="loadCategories"><parent>2</parent></action>
+            <action method="loadCategories"><parent>1</parent></action>
             <action method="loadProductManufacturers"></action>
             <action method="loadProductTypes"></action>
         </block>

@@ -49,33 +49,33 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         /**
          * @var $db Zend_Db_Adapter_Abstract
          */
-        $db = Mage::getConfig()->getResource('catalog_write')->getConnection();
-
-        for ($i=0;$i<100;$i++) {
+        $db = Mage::registry('resources')->getConnection('catalog_write');
+        
+        for ($i=1;$i<=1000;$i++){
+            $cat_data = array();
+            $cat_data['product_id'] = $i;
+            $cat_data['category_id']= rand(3,12);
+            $cat_data['position']   = 1;
+            $db->insert('catalog_category_product', $cat_data);
+        }
+return ;
+        for ($i=0;$i<1000;$i++) {
             $base = array();
             $base['create_date'] = date('Y-m-d H:i:s');
-            $base['attribute_set_id'] = 1;
+            $base['set_id'] = 1;
+            $base['type_id'] = 1;
 
             $db->insert('catalog_product', $base);
             $product_id = $db->lastInsertId();
-            $category_id   = rand(3,23);
+            $category_id   = rand(3,12);
 
             $cat_data = array();
             $cat_data['product_id'] = $product_id;
-            $cat_data['category_id']= rand(3,23);
+            $cat_data['category_id']= rand(3,12);
             $cat_data['position']   = 1;
-
-            $db->insert('catalog_category_product', $cat_data);
-            $new_cat_id = $cat_data['category_id']+1;
-
-            if ($new_cat_id>23) {
-                $new_cat_id=$new_cat_id-2;
-            }
-
-            $cat_data['category_id'] = $new_cat_id;
             $db->insert('catalog_category_product', $cat_data);
 
-            for ($website=1;$website<=2;$website++) {
+            for ($website=1;$website<=5;$website++) {
                 /**
                  * 1 - name
                  * 2 - description
@@ -83,10 +83,13 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
                  * 4 - model
                  * 5 - price
                  * 6 - cost
-                 * 7 - add_date
+                 * 7 - created_at
                  * 8 - weight
                  * 9 - status
                  * 10- manufacturers
+                 * 11- type
+                 * 12- default_category
+                 * 13- tier_price
                  */
                 $attr = array();
                 $attr['product_id']     = $product_id;
@@ -158,9 +161,39 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
                 $attr['product_id']     = $product_id;
                 $attr['attribute_id']   = 10    ;
                 $attr['website_id']     = $website;
-                $attr['attribute_value']= rand(1,10);
+                $attr['attribute_value']= rand(6,9);
                 $db->insert('catalog_product_attribute_int', $attr);
 
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 11    ;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(4,5);
+                $db->insert('catalog_product_attribute_int', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 12   ;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(3,12);
+                $db->insert('catalog_product_attribute_int', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 13;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(1,100);
+                $attr['attribute_qty']  = 1;
+                $db->insert('catalog_product_attribute_decimal', $attr);
+
+                $attr = array();
+                $attr['product_id']     = $product_id;
+                $attr['attribute_id']   = 13;
+                $attr['website_id']     = $website;
+                $attr['attribute_value']= rand(1,100);
+                $attr['attribute_qty']  = 10;
+                $db->insert('catalog_product_attribute_decimal', $attr);
+                
             }
         }
     }
