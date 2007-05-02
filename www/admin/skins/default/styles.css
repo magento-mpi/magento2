@@ -3,7 +3,7 @@
 .left-menu-toolbar {border-right:0px;}
 
 .right-menu-toolbar {float:right;width:400px;text-align:right;border-left:0px;}
-
+.choose-theme{font-weight:bold;margin:5px 5px 10px 27px}
 #loading{
     position:absolute;
     left:45%;
