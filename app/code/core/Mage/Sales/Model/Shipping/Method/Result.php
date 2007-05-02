@@ -81,4 +81,17 @@ class Mage_Sales_Model_Shipping_Method_Result
         }
         return $methods;
 	}
+	
+	public function getCheapestMethod()
+	{
+	    $cheapest = null;
+	    $minPrice = 100000;
+	    foreach ($this->getAllMethods() as $method) {
+	        if (is_numeric($method->getPrice()) && $method->getPrice()<$minPrice) {
+	            $cheapest = $method;
+	            $minPrice = $method->getPrice();
+	        }
+	    }
+	    return $cheapest;
+	}
 }

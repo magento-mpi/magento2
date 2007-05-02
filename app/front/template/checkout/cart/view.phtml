@@ -56,12 +56,17 @@
                 	<fieldset>
                     	<ul>
             	        <?foreach ($data['cart']['estimate_methods'] as $method):?>
-            	           <?if (!isset($method['vendor'])) continue; ?>
+            	           <?if (isset($method['error_message'])):?>
+                    		<li>
+                    		    <strong><?=$method['vendor']?>: <?=$method['error_message']?></strong>
+                    		</li>
+            	           <?else:?>
                     		<li>
                     		    <input id="estimate_method_<?=$method['code']?>" name="estimate_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$data['cart']['estimate_method'])echo"checked"?> />
                     		    <label for="estimate_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
                     		    <strong><?=$method['amount']?></strong>
                     		</li>
+                    		<?endif?>
                 		<?endforeach?>
     	   	           </ul>
     	   	           <br>

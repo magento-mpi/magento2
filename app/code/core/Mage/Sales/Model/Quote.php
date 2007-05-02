@@ -209,9 +209,23 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             }
         }
         if (!$found) {
-            $this->setShippingAmount(0, $isChanged);
-            $this->setShippingDescription('', $isChanged);
-            $code = '';
+            $minPrice = 10000;
+            $cheapest = null;
+            foreach ($this->getEntitiesByType('shipping') as $method) {
+                if ($method->getService() && $method->getAmount()<$minPrice) {
+                    $cheapest = $method;
+                    $minPrice = $method->getAmount();
+                }
+            }
+            if ($cheapest) {
+                $this->setShippingAmount($minPrice, $isChanged);
+                $this->setShippingDescription($cheapest->getVendor().' '.$cheapest->getServiceDescription(), $isChanged);
+                $code = $cheapest->getCode();
+            } else {
+                $this->setShippingAmount(0, $isChanged);
+                $this->setShippingDescription('', $isChanged);
+                $code = '';
+            }
         }
         
         $this->setData('shipping_method', $code, $isChanged);
@@ -246,12 +260,17 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         
         foreach ($methods as $method) {
             $shipping = Mage::getModel('sales', 'quote_entity_shipping');
-            $shipping->setCode($method->getVendor().'_'.$method->getService());
-            $shipping->setAddressEntityId($request->getAddressEntityId());
-            $shipping->setVendor($method->getVendor());
-            $shipping->setService($method->getService());
-            $shipping->setServiceDescription($method->getServiceTitle());
-            $shipping->setAmount($method->getPrice());
+            if ($method instanceof Mage_Sales_Model_Shipping_Method_Service_Error) {
+                $shipping->setVendor($method->getVendor());
+                $shipping->setErrorMessage($method->getErrorMessage());
+            } else {
+                $shipping->setCode($method->getVendor().'_'.$method->getService());
+                $shipping->setAddressEntityId($request->getAddressEntityId());
+                $shipping->setVendor($method->getVendor());
+                $shipping->setService($method->getService());
+                $shipping->setServiceDescription($method->getServiceTitle());
+                $shipping->setAmount($method->getPrice());
+            }
             $this->addEntity($shipping);
             
             if ($this->getShippingMethod()==$shipping->getCode()) {

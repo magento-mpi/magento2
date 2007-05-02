@@ -22,8 +22,8 @@ CSTE023 There has been an error deleting the address
 [notice]
 
 [success]
-CSTS001 customer create success
-CSTS002 customer information is saved
+CSTS001 The customer has been created successfully
+CSTS002 The information has been successfully saved
 CSTS003 The password has been successfully updated
 CSTS004 The address has been successfully saved
 CSTS005 The address has been successfully deleted

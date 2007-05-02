@@ -265,6 +265,7 @@
                 <service><type>varchar</type></service>
                 <service_description><type>text</type></service_description>
                 <amount><type>decimal</type></amount>
+                <error_message><type>text</type></error_message>
             </shipping>
          </quote>
          
