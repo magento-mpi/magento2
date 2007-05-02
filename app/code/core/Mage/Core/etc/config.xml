@@ -199,6 +199,10 @@
             </updates>
          </default>
       </layouts>
+
+      <translate>
+        
+      </translate>
    </admin>
 
    <front>
@@ -211,7 +215,10 @@
             </updates>
          </noRoute>
       </layouts>
-
+      
+      <translate>
+        
+      </translate>
    </front>
 </config>
 

@@ -229,6 +229,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                     $dir .= DS.'layout';
                     break;
                     
+                case 'translate':
+                    if (Mage::registry('website')->getIsAdmin()) {
+                        $dir .= DS.'admin';
+                    } else {
+                        $dir .= DS.'front';
+                    }
+                    $dir .= DS.'translate';
+                    break;
+
                 case 'var':
                     $dir = dirname($dir).DS.'var';
                     break;

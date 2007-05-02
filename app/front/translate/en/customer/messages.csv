@@ -1,0 +1,20 @@
+CSTE000;Invalid login or password
+CSTE001;There has been an error while saving the customer information
+CSTE002;There is already a customer with this email (update)
+CSTE003;There is already a customer with this email (insert)
+CSTE004;There has been an error while saving the address information
+CSTE005;Current password is required
+CSTE006;Invalid current password
+CSTE007;The new passwords do not match
+CSTE008;There has been an error updating the password
+CSTE009;Invalid customer ID to delete
+CSTE010;Customer delete error
+CSTE020;The address does not belong to this customer
+CSTE021;Invalid customer ID while saving the address
+CSTE022;Invalid region for country specified in this address
+CSTE023;There has been an error deleting the address
+CSTS001;customer create success
+CSTS002;customer information is saved
+CSTS003;The password has been successfully updated
+CSTS004;The address has been successfully saved
+CSTS005;The address has been successfully deleted

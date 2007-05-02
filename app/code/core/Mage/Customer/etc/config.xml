@@ -131,6 +131,10 @@
             </args>
          </customer>
       </routers>
+
+      <translate>
+        <customer>customer/messages.csv</customer>
+      </translate>
    </front>
    
    <admin>

@@ -381,13 +381,14 @@ final class Mage {
 function __()
 {
     $args = func_get_args();
-    $text = array_shift($args);
+    return Mage::getSingleton('core', 'translate')->translate($args);
+    /*$text = array_shift($args);
     
     //translate $text
     
     array_unshift($args, $text);
     
-    return call_user_func_array('sprintf', $args);
+    return call_user_func_array('sprintf', $args);*/
 }
 
 /**
