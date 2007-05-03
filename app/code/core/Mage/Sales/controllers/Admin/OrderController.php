@@ -96,7 +96,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
     
     public function formAction()
     {
-        $id = $this->getRequest()->getPost('id', 0);
+        $id = $this->getRequest()->getParam('id', 0);
         $order = Mage::getModel('sales', 'order')->load($id);
         
         $block = $this->getLayout()->createBlock('tpl', 'order.view')
@@ -108,6 +108,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
     
     public function saveOrderAction()
     {
-        $this->getResponse()->setRedirect(Mage::getBaseUrl().'mage_sales/order/form/');
+        $id = $this->getRequest()->getParam('id', 0);
+        $p = $this->getRequest()->getPost();
+        $this->getResponse()->setRedirect(Mage::getBaseUrl().'mage_sales/order/form/id/'.(int)$id);
     }
 }
