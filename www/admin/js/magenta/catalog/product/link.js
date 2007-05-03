@@ -150,20 +150,25 @@ Mage.Catalog_Product_RelatedPanel = function(){
         buildGridToolbar : function() {
             
             var gridHead = this.grid.getView().getHeaderPanel(true);
-            var gridFoot = this.grid.getView().getFooterPanel(true);
+//            var gridFoot = this.grid.getView().getFooterPanel(true);
+//
+//            var paging = new Ext.PagingToolbar(gridHead, this.grid.getDataSource(), {
+//                pageSize: this.gridPageSize,
+//                displayInfo: true,
+//                displayMsg: 'Displaying products {0} - {1} of {2}',
+//                emptyMsg: 'No items to display'
+//            });
 
-            var paging = new Ext.PagingToolbar(gridHead, this.grid.getDataSource(), {
-                pageSize: this.gridPageSize,
-                displayInfo: true,
-                displayMsg: 'Displaying products {0} - {1} of {2}',
-                emptyMsg: 'No items to display'
-            });
+            paging = new Ext.Toolbar(gridHead);
 
-            paging.insertButton(0, new Ext.Toolbar.Separator({
+            paging.add(new Ext.ToolbarButton({
+                text : 'Select Product',
+                handler : this.productSelector.show,
+                scope : this.productSelector
             }));
 
-            
-            paging.insertButton(0, new Ext.ToolbarButton({
+
+            paging.add(new Ext.ToolbarButton({
                 text : 'Remove',
                 handler : function(){
                     Ext.MessageBox.confirm('Warning','Are you sure ?', function(btn, text){
@@ -177,11 +182,6 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 }.createDelegate(this)
             }));
             
-            paging.insertButton(0, new Ext.ToolbarButton({
-                text : 'Select Product',
-                handler : this.productSelector.show,
-                scope : this.productSelector
-            }));
         },
         
         loadGrid : function() {
