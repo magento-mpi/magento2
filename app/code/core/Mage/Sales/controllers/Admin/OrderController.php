@@ -55,6 +55,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             $r['firstname'] = $billing->getFirstname();
             $r['lastname'] = $billing->getLastname();
             
+            $r['form_panel_title'] = 'Order # '.$r['real_order_id'].' ('.$r['firstname'].' '.$r['lastname'].')';
+            
             $data['items'][] = $r;
         }
         
