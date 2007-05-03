@@ -231,8 +231,12 @@ Mage.Sales = function(depend){
         },
         
         loadOrder : function(config) {
-            console.log(config);
-            this.createEditPanel(config.id || 0);
+            if (this.formPanel === null) {
+                this.createEditPanel(config.id || 0);
+            } else {
+                this.formPanel.setUrl(this.formUrl, {id : config.id});
+                this.formPanel.refresh();
+            }
         },
         
         createEditPanel : function(order_id) {
