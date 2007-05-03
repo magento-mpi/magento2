@@ -31,6 +31,7 @@
             function toggleFull()
             {
                 showFull = !showFull;
+                //TODO: hide selects for IE only
                 for (i=0; i<selects.length; i++) {
                     selects[i].style.visibility = showFull ? 'hidden' : 'visible';
                 }
@@ -120,14 +121,14 @@
         <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a>
     </li>
 -->
-    <?if($customerIsLogin):?>
+    <?#if($customerIsLogin):?>
     <li>
-        <a href="#"><img src="<?=$baseSkinUrl?>catalog/images/icon_add_favorites.gif" alt="Add to Favorite" /></a> 
+        <a href="#"><img src="<?=$baseSkinUrl?>catalog/images/icon_add_favorites.gif" alt="Add to Wishlist" /></a> 
         <a href="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'add', 'product'=>$product->getId()))?>"><strong>Add to Wishlist</strong></a>
     </li>
-    <?else:?>
+    <?#else:?>
     <li>&nbsp;</li>
-    <?endif?>
+    <?#endif?>
 </ul>
 <div class="dotted-separator"></div>
 <h3 class="red">Satisfaction Guaranteed</h3>
