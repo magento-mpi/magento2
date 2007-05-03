@@ -2,7 +2,7 @@ Mage.Core_Config = function(){
     var configDialog = null;
     return {
         init: function(){
-            Mage.Menu_Core.add('-');
+            //Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
                 text: 'Configuration Browser',
                 handler: Mage.Core_Config.showDialog.createDelegate(Mage.Core_Config)

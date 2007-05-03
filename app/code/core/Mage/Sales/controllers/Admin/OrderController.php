@@ -96,7 +96,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
     
     public function formAction()
     {
-        
+        echo "TEST";
     }
     
     public function saveOrderAction()
