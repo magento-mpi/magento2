@@ -4,7 +4,12 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
 {
     public function gridAction()
     {
-        
+        $websiteId = $this->getRequest()->getParam('siteId', '');
+        $orderStatus = $this->getRequest()->getParam('orderStatus', '');
+        $pageSize = $this->getRequest()->getParam('pageSize', '');
+        $sort = $this->getRequest()->getParam('sort', '');
+        $dir = $this->getRequest()->getParam('dir', '');
+
         $orders = Mage::getModel('sales_resource', 'order_collection')
             ->addAttributeSelect('self/real_order_id')
             ->addAttributeSelect('self/customer_id')
@@ -18,8 +23,6 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             
         $orders->addAttributeFilter('address/address_type', 'billing');
         
-        $websiteId = $this->getRequest()->getPost('siteId', '');
-        $orderStatus = $this->getRequest()->getPost('orderStatus', '');
 
         if (!empty($websiteId) && is_numeric($websiteId)) {
             $orders->addAttributeFilter('self/website_id', $websiteId);
@@ -28,11 +31,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             $orders->addAttributeFilter('self/status', $orderStatus);
         }
 
-        $pageSize = $this->getRequest()->getPost('pageSize', '');
         $orders->setPageSize($pageSize);
         
-        $sort = $this->getRequest()->getPost('sort', '');
-        $dir = $this->getRequest()->getPost('dir', '');
         if (!empty($sort)) {
             if ($sort=='firstname' || $sort=='lastname') {
                 $sort = 'address/'.$sort;
