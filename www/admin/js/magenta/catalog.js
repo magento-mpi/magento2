@@ -20,6 +20,7 @@ Mage.Catalog = function(depend){
                         autoScroll : true,
                         titlebar : false,
                         tabPosition : 'top',
+                        hideTabs : true,
                        	alwaysShowTabs : true
                     }
                 });
