@@ -161,6 +161,7 @@ Mage.Sales = function(depend){
             var baseEl = config.baseEl;
 
             this.dataRecord = Ext.data.Record.create([
+                {name: 'order_id', mapping: 'order_id'},
                 {name: 'real_order_id', mapping: 'real_order_id'},
                 {name: 'customer_id', mapping: 'customer_id'},
                 {name: 'firstname', mapping: 'firstname'},
@@ -174,7 +175,7 @@ Mage.Sales = function(depend){
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'real_order_id'
+                id: 'order_id'
             }, this.dataRecord);
 
              var dataStore = new Ext.data.Store({
@@ -210,7 +211,7 @@ Mage.Sales = function(depend){
                 if (this.lastSelectedRecord !== record) {
                     this.lastSelectedRecord = record;
                     this.loadOrder({
-                        id : record.data.real_order_id
+                        id : record.data.order_id
                     });
                 }
             }, this)
@@ -246,7 +247,7 @@ Mage.Sales = function(depend){
                     autoScroll:false
                 },
                 center : {
-                    
+                    autoScroll:true
                 }
             });
             
