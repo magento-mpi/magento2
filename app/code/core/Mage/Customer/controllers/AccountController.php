@@ -179,7 +179,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $mailer = Mage::getModel('customer', 'email')
                         ->setTemplate('email/forgot_password.phtml')
                         ->setCustomer($customer)
-                        ->setSubject('New password')
                         ->send();
                     
                     Mage::getSingleton('customer', 'session')

@@ -14,12 +14,14 @@
 class Mage_Core_Model_Email extends Varien_Data_Object
 {
     protected $_tplVars = array();
+    protected $_block;
     
     public function __construct()
     {
         // TODO: move to config
         $this->setFromName('Magenta');
         $this->setFromEmail('magenta@varien.com');
+        $this->setType('text');
     }
     
     public function setTemplateVar($var, $value = null)
@@ -43,21 +45,39 @@ class Mage_Core_Model_Email extends Varien_Data_Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'email')->setTemplate($this->getTemplate());
+            $this->_block = Mage::getModel('core', 'layout')->createBlock('tpl', 'email')->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {
-                $block->assign($var, $value);
+                $this->_block->assign($var, $value);
             }
-            $body = $block->toHtml();
+            $this->_block->assign('_type', strtolower($this->getType()))
+                ->assign('_section', 'body');
+            $body = $this->_block->toHtml();
         }
         return $body;
+    }
+    
+    public function getSubject()
+    {
+        $subject = $this->getData('subject');
+        if (empty($subject) && $this->_block) {
+            $this->_block->assign('_section', 'subject');
+            $subject = $this->_block->toHtml();
+        }
+        return $subject;
     }
     
     public function send()
     {
         $mail = new Zend_Mail();
         
-        $mail->setBodyText($this->getBody())
-            ->setFrom($this->getFromEmail(), $this->getFromName())
+        if (strtolower($this->getType()) == 'html') {
+            $mail->setBodyHtml($this->getBody());
+        }
+        else {
+            $mail->setBodyText($this->getBody());
+        }
+        
+        $mail->setFrom($this->getFromEmail(), $this->getFromName())
             ->addTo($this->getToEmail(), $this->getToName())
             ->setSubject($this->getSubject());
         $mail->send();
