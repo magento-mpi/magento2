@@ -35,10 +35,8 @@ Mage.Menu_Core = function(){
         
         initRight: function(){
             function chooseTheme(item, e) {
-                Cookies.set('admtheme', item.value);
-                setTimeout(function(){
-                    window.location.reload();
-                }, 250);                
+                var themeStyleEl =  Ext.get('theme_stylesheet');
+                themeStyleEl.dom.href = '/admin/extjs/resources/css/ytheme-' + item.value + '.css';
             }
 
            Mage.Core.getRighToolbar().add({
