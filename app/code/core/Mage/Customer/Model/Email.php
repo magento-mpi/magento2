@@ -9,10 +9,11 @@
  */
 class Mage_Customer_Model_Email extends Mage_Core_Model_Email 
 {
-    public function __construct() 
+    public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        
+        $this->setToName($customer->getName());
+        $this->setToEmail($customer->getEmail());
+        $this->setTemplateVar('customer', $customer);
+        return $this;
     }
-    
-    
 }

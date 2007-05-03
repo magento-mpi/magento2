@@ -1,0 +1,39 @@
+Dear {$customer.first_name},
+
+Thanks for your order!
+
+This is what you ordered: 
+
+{$order.products}
+
+{$order.order_totals}
+
+{if $order.shipping_address}
+
+This is where it's being shipped:
+
+{$order.shipping_address}
+{/if}
+
+This is the billing address:
+
+{$order.billing_address}
+
+{if $order.payment_method}
+Payment method: {$order.payment_method}
+{/if}
+
+You placed the order on {$order.date_long}. Your order number is: {$order.visible_id}
+
+You can review your full order at:
+
+{$order.order_info_url}
+{if $customer.no_reg}
+You can view your order history by log in:
+email: {$customer.email_address}
+password: {$customer.password}
+{/if}
+Thank you for shopping at McGruff Specialty Products Office.  Please visit us again soon!
+
+{$order.payment_footer}
+

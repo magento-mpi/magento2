@@ -13,8 +13,10 @@ CSTE020;The address does not belong to this customer
 CSTE021;Invalid customer ID while saving the address
 CSTE022;Invalid region for country specified in this address
 CSTE023;There has been an error deleting the address
+CSTE024;The E-Mail Address was not found in our records, please try again
 CSTS001;customer create success
 CSTS002;customer information is saved
 CSTS003;The password has been successfully updated
 CSTS004;The address has been successfully saved
 CSTS005;The address has been successfully deleted
+CSTS006;Your password has been sent to your e-mail address

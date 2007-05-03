@@ -14,7 +14,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^(create|login|forgotpassword)#', $action)) {
+        if (!preg_match('#^(create|login|forgotpassword|forgotpasswordpost)#', $action)) {
             if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -151,7 +151,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = $this->getLayout()->createBlock('tpl', 'customer.forgotpassword')
-            ->setTemplate('customer/form/forgotpassword.phtml');
+            ->setTemplate('customer/form/forgotpassword.phtml')
+            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpasswordpost')))
+            ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
+            
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
@@ -159,7 +162,40 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     
     public function forgotPasswordPostAction()
     {
-        
+        $email = $this->getRequest()->getPost('email');
+        if ($email) {
+            $customer = Mage::getModel('customer', 'customer')->loadByEmail($email);
+            if ($customer->getId()) {
+                try {
+                    $newPassword = Mage::getModel('core', 'cookie')->randomSequence(8);
+                    $data = array(
+                        'password'      => $newPassword,
+                        'confirmation'  => $newPassword
+                    );
+                    
+                    $customer->changePassword($data, false)
+                        ->setPassword($newPassword);
+                        
+                    $mailer = Mage::getModel('customer', 'email')
+                        ->setTemplate('email/forgot_password.phtml')
+                        ->setCustomer($customer)
+                        ->send();
+                    
+                    Mage::getSingleton('customer', 'session')
+                        ->addMessage(Mage::getModel('customer', 'message')->success('CSTS006'));
+                    
+                    $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+                }
+                catch (Exception $e){
+                    echo $e;
+                }
+            }
+            else {
+                Mage::getSingleton('customer', 'session')
+                    ->addMessage(Mage::getModel('customer', 'message')->error('CSTE024'));
+                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword')));
+            }
+        }
     }
 
 
@@ -234,7 +270,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 
                 Mage::getSingleton('customer', 'session')
                     ->addMessage(Mage::getModel('customer', 'message')->success('CSTS003'));
-                $customer->sendMail('Change password', 'New customer password');
+
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {

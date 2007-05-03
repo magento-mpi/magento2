@@ -136,24 +136,6 @@ class Mage_Customer_Model_Customer extends Varien_Data_Object
         return $this->getResource()->hashPassword($this->getPassword());
     }
     
-    /**
-     * Send email to customer
-     *
-     * @param   string $subject
-     * @param   string $body
-     * @return  Mage_Customer_Model_Customer
-     */
-    public function sendMail($subject, $body)
-    {
-        $email = new Mage_Customer_Model_Email();
-        $email->setFrom('Magenta')
-            ->setTo($this->getEmail())
-            ->setSubject($subject)
-            ->setBody($body)
-            ->send();
-        return $this;
-    }
-    
     public function getWishlistCollection()
     {
         $collection = Mage::getModel('customer_resource', 'wishlist_collection');
