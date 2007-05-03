@@ -5,6 +5,7 @@ Mage.Sales = function(depend){
         
         webSiteTree : null,
         grid : null,
+        gridPageSize : 30,
         gridUrl : Mage.url + 'mage_sales/order/grid/',
         
         oTree : null,
