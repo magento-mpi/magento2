@@ -110,6 +110,7 @@ Mage.Sales = function(depend){
             var tb = new Ext.Toolbar('tree-tb');
             tb.addButton({
                 text : 'Reload',
+                cls: 'x-btn-text-icon btn-arrow-refresh',
                 handler : function() {
                     this.oTree.root.reload();
                 },
@@ -294,10 +295,12 @@ Mage.Sales = function(depend){
             this.toolbar = new Ext.Toolbar(config.baseEl);
             this.toolbar.add(new Ext.ToolbarButton({
                 text : 'Save',
+                cls: 'x-btn-text-icon btn-accept',                
                 handler : this.onSaveForm.createDelegate(this)
             }));
             this.toolbar.add(new Ext.ToolbarButton({
                 text : 'Reset',
+                cls: 'x-btn-text-icon btn-arrow-undo',
                 handler : function() {
                     var form = Ext.DomQuery.selectNode("form", this.formPanel.getEl().dom);
                     if (form) {
@@ -308,6 +311,7 @@ Mage.Sales = function(depend){
             }));
             this.toolbar.add(new Ext.ToolbarButton({
                 text : 'Cancel',
+                cls: 'x-btn-text-icon btn-cancel',
                 handler : function() {
                     this.centerLayout.getRegion('south').remove(this.cardPanel);
                 },
