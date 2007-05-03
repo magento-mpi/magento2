@@ -190,13 +190,14 @@ Mage.Search = function() {
                             break;
                             
                         case 'customer':
-                            Mage.Customer.viewGrid({load:true, catId:id[1], catTitle:''});
-                            Mage.Customer.doCreateItem(id[2], 'yes');
+                            Mage.Customer.loadMainPanel();
+                            Mage.Customer.customerCardId = id[2];
+                            Mage.Customer.showEditPanel();
                             break;
                             
                         case 'order':
-                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:''});
-                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
+//                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:''});
+//                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
                             break;
                     }
                 }

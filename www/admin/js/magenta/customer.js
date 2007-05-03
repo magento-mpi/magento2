@@ -179,7 +179,7 @@ Mage.Customer = function(depend){
 
             return grid;
         },
-
+        
         createItem: function(grid, rowIndex, e){
             try {
                 if (typeof grid.getDataSource == 'function') {
@@ -195,8 +195,6 @@ Mage.Customer = function(depend){
         },
 
         showEditPanel: function(){
-
-
 
             if (this.customerLayout.getRegion('south') && this.customerLayout.getRegion('south').getActivePanel()) {
                 this.customerLayout.getRegion('south').clearPanels();
