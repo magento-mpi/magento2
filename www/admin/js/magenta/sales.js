@@ -156,14 +156,14 @@ Mage.Sales = function(depend){
             var baseEl = config.baseEl;
 
             this.dataRecord = Ext.data.Record.create([
-                {name: 'self_real_order_id', mapping: 'self_real_order_id'},
-                {name: 'self_customer_id', mapping: 'self_customer_id'},
-                {name: 'address_firstname', mapping: 'address_firstname'},
-                {name: 'address_lastname', mapping: 'address_lastname'},
-                {name: 'self_grand_total', mapping: 'self_grand_total'},
-                {name: 'self_status', mapping: 'self_status'},
-                {name: 'self_created_at', mapping: 'self_created_at'},
-                {name: 'self_website_id', mapping: 'self_website_id'}
+                {name: 'real_order_id', mapping: 'real_order_id'},
+                {name: 'customer_id', mapping: 'customer_id'},
+                {name: 'firstname', mapping: 'firstname'},
+                {name: 'lastname', mapping: 'lastname'},
+                {name: 'grand_total', mapping: 'grand_total'},
+                {name: 'status', mapping: 'status'},
+                {name: 'created_at', mapping: 'created_at'},
+                {name: 'website_id', mapping: 'website_id'}
             ]);
 
             var dataReader = new Ext.data.JsonReader({
@@ -180,14 +180,14 @@ Mage.Sales = function(depend){
              });
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "ID#", sortable: true, dataIndex: 'self_real_order_id'},
-                {header: "Customer ID#", sortable: true, dataIndex: 'self_customer_id'},
-                {header: "Address Firstname", sortable: true, dataIndex: 'address_firstname'},
-                {header: "Address Lastname", sortable: true, dataIndex: 'address_lastname'},
-                {header: "Self grand otal", sortable: true, dataIndex: 'self_grand_total'},
-                {header: "Self status", sortable: true, dataIndex: 'self_status'},
-                {header: "Self created at", sortable: true, dataIndex: 'self_created_at'},
-                {header: "Self website ID#", sortable: true, dataIndex: 'self_website_id'}
+                {header: "Order ID", sortable: true, dataIndex: 'real_order_id'},
+                {header: "Customer ID", sortable: true, dataIndex: 'customer_id'},
+                {header: "Firstname", sortable: true, dataIndex: 'firstname'},
+                {header: "Lastname", sortable: true, dataIndex: 'lastname'},
+                {header: "Grand total", sortable: true, dataIndex: 'grand_total'},
+                {header: "Status", sortable: true, dataIndex: 'status'},
+                {header: "Created at", sortable: true, dataIndex: 'created_at'},
+                {header: "Website", sortable: true, dataIndex: 'website_id'}
             ]);
 
             this.grid = new Ext.grid.Grid(baseEl, {

@@ -4,11 +4,44 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
 {
     public function gridAction()
     {
-        $quotes = Mage::getModel('sales_resource', 'quote_collection');
-        $quotes->addAttributeSelect('self');
-        $quotes->addAttributeSelect('item', 'row_total');
-        $quotes->loadData();
-        echo "<pre>"; print_r($quotes->getItems()); die;
+        $websiteId = $this->getRequest()->getPost('siteId', '');
+        $orderStatus = $this->getRequest()->getPost('orderStatus', '');
+        $pageSize = $this->getRequest()->getPost('pageSize', '');
+        
+        $orders = Mage::getModel('sales_resource', 'order_collection')
+            ->addAttributeSelect('self/real_order_id')
+            ->addAttributeSelect('self/customer_id')
+            ->addAttributeSelect('self/grand_total')
+            ->addAttributeSelect('self/status')
+            ->addAttributeSelect('self/created_at')
+            ->addAttributeSelect('self/website_id')
+            ->addAttributeSelect('address/firstname')
+            ->addAttributeSelect('address/lastname');
+            
+        $orders->addAttributeFilter('address/address_type', 'billing');
+        
+        if (!empty($websiteId) && is_numeric($websiteId)) {
+            $orders->addAttributeFilter('self/website_id', $websiteId);
+        }
+        if (!empty($orderStatus)) {
+            $orders->addAttributeFilter('self/status', $orderStatus);
+        }
+            
+        $orders->setPageSize($pageSize)->loadData();
+        $data['totalRecords'] = $orders->getSize();
+        $data['items'] = array();
+        
+        $currency = new Varien_Filter_Sprintf('$%s', 2);
+        foreach ($orders as $order) {
+            $r = $order->getData();
+            $billing = $order->getAddressByType('billing');
+            $r['grand_total'] = $currency->filter($r['grand_total']);
+            $r['firstname'] = $billing['firstname'];
+            $r['lastname'] = $billing['lastname'];
+            $data['items'][] = $r;
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
     public function treeAction()
@@ -42,5 +75,15 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             }
         }
         $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+    
+    public function formAction()
+    {
+        
+    }
+    
+    public function saveOrderAction()
+    {
+        
     }
 }
