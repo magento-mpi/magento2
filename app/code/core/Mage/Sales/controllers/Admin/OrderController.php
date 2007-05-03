@@ -34,6 +34,11 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
         $sort = $this->getRequest()->getPost('sort', '');
         $dir = $this->getRequest()->getPost('dir', '');
         if (!empty($sort)) {
+            if ($sort=='firstname' || $sort=='lastname') {
+                $sort = 'address/'.$sort;
+            } else {
+                $sort = 'self/'.$sort;
+            }
             $orders->setOrder($sort, $dir);
         }
         

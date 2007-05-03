@@ -169,7 +169,7 @@ Mage.Sales = function(depend){
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'self_real_order_id'
+                id: 'real_order_id'
             }, this.dataRecord);
 
              var dataStore = new Ext.data.Store({
