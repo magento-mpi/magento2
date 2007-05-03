@@ -4,6 +4,8 @@ Mage.Sales = function(depend){
         centerLayout : null,
         
         webSiteTree : null,
+        grid : null,
+        gridUrl : Mage.url + 'mage_sales/',
         
         oTree : null,
         websiteCBUrl : Mage.url + 'mage_core/website/list/',
@@ -50,10 +52,15 @@ Mage.Sales = function(depend){
                  });
                  
                 this.centerLayout.beginUpdate();
-                this.centerLayout.add('center', new Ext.ContentPanel(Ext.id(), {
+                this.initGrid({
+                    baseEl : this.centerLayout.getRegion('center').getEl().createChild({tag:'div'})
+                })
+                
+                this.centerLayout.add('center', new Ext.GridPanel(this.grid, {
                     autoCreate : true,
                     fitToFrame:true
                 }));
+                
                 this.centerLayout.add('south', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     fitToFrame:true
@@ -115,6 +122,15 @@ Mage.Sales = function(depend){
                 loader: new Ext.tree.TreeLoader()
             });
             
+            var sm = this.oTree.getSelectionModel();
+            sm.on('selectionchange', function(){
+                var node = sm.getSelectedNode();
+                var data = {};
+                data.siteId = node.attributes.siteId || null;
+                data.orderStatus = node.attributes.orderStatus || null;
+                this.grid.getDataSource.load(data);
+            }.createDelegate(this));
+            
             var wsRoot = new Ext.tree.AsyncTreeNode({
                 allowDrag:true,
                 allowDrop:true,
@@ -129,6 +145,91 @@ Mage.Sales = function(depend){
             this.oTree.setRootNode(wsRoot);
             this.oTree.render();
             wsRoot.expand();            
+        },
+        
+        initGrid : function(config) {
+            if (!config.baseEl) {
+                return false;
+            }
+            
+            var baseEl = config.baseEl;
+
+            this.dataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'product_id'},
+                {name: 'name', mapping: 'name'},
+                {name: 'price', mapping: 'price'},
+                {name: 'description', mapping: 'description'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'product_id'
+            }, this.dataRecord);
+
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: this.gridUrl}),
+                reader: dataReader,
+                baseParams : {pageSize : this.gridPageSize},
+                remoteSort: true
+             });
+             
+             dataStore.on('add',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('related_products');
+                 hiddenEl.dom.value = data.join();
+             });
+             
+             dataStore.on('remove',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('related_products');
+                 hiddenEl.dom.value = data.join();
+             });
+             
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
+                {header: "Name", sortable: true, dataIndex: 'name'},
+                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+                {header: "Description", sortable: false, dataIndex: 'description'}
+            ]);
+
+            this.grid = new Ext.grid.Grid(baseEl, {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns : true,
+                loadMask: true,
+                monitorWindowResize : true,
+                autoHeight : false,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
+                enableColLock : false
+            });
+
+            this.grid.render();
+            
+            var gridHead = this.grid.getView().getHeaderPanel(true);
+            var gridFoot = this.grid.getView().getFooterPanel(true);
+
+            var paging = new Ext.PagingToolbar(gridHead, this.grid.getDataSource(), {
+               pageSize: this.gridPageSize,
+               displayInfo: true,
+               displayMsg: 'Orders {0} - {1} of {2}',
+               emptyMsg: 'No orders to display'
+            });
+            
+            paging.items.map.item5.enable();
         }
     }
 }();
