@@ -2,6 +2,7 @@ Mage.Sales = function(depend){
     return {
         layout : null,
         centerLayout : null,
+        cardPanel : null,
         
         webSiteTree : null,
         grid : null,
@@ -45,6 +46,7 @@ Mage.Sales = function(depend){
                          tabPosition: 'top'
                      },
                      south : {
+                         preservePanels : true,
                          hideWhenEmpty : true,
                          split:true,
                          initialSize:300,
@@ -235,41 +237,45 @@ Mage.Sales = function(depend){
             if (this.formPanel === null) {
                 this.createEditPanel(config.id || 0);
             } else {
+                this.centerLayout.add('south', this.cardPanel);
+                this.centerLayout.getRegion('south').showPanel(this.cardPanel);
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
         },
         
         createEditPanel : function(order_id) {
-            var baseEl = this.centerLayout.getRegion('south').getEl().createChild({tag : 'div'});
-            var layout = new Ext.BorderLayout(baseEl,{
-                north : {
-                    autoScroll:false
-                },
-                center : {
-                    autoScroll:true
-                }
-            });
+                var baseEl = this.centerLayout.getRegion('south').getEl().createChild({tag : 'div'});
             
-            var layoutBaseEl = layout.getEl().createChild({tag : 'div'});
-            var toolbar = this.createFormToolbar({
-                baseEl : layoutBaseEl.createChild({tag : 'div'})
-            });
-            layout.add('north', new Ext.ContentPanel(layoutBaseEl, {
-                autoCreate : true,
-                toolbar : toolbar
-            }));
+                var layout = new Ext.BorderLayout(baseEl,{
+                    north : {
+                        autoScroll:false
+                    },
+                    center : {
+                        autoScroll:true
+                    }
+                });
             
-            this.formPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
-                autoCreate : true,
-                url : this.formUrl,
-                method : 'POST',
-                params : {real_order_id : order_id}
-            }));
+                var layoutBaseEl = layout.getEl().createChild({tag : 'div'});
+                var toolbar = this.createFormToolbar({
+                    baseEl : layoutBaseEl.createChild({tag : 'div'})
+                });
+                layout.add('north', new Ext.ContentPanel(layoutBaseEl, {
+                    autoCreate : true,
+                    toolbar : toolbar
+                }));
             
-            this.centerLayout.add('south', new Ext.NestedLayoutPanel(layout, {
-                title : 'Order Info'
-            }));
+                this.formPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                    autoCreate : true,
+                    url : this.formUrl,
+                    method : 'POST',
+                    params : {real_order_id : order_id}
+                }));
+            
+                this.cardPanel = this.centerLayout.add('south', new Ext.NestedLayoutPanel(layout, {
+                    closable : true,
+                    title : 'Order Info'
+                }));
         },
         
         createFormToolbar : function(config) {
