@@ -11,58 +11,52 @@ bottomLinks Links on the bottom
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<!--[if IE]> <link rel="stylesheet" href="<?=$baseSkinUrl?>css/iestyles.css" type="text/css" media="all" /> <![endif]-->
     <?=$head?>
 </head>
 <body>
-<div class="loading-process" id="loading-process" style="display:none">
-    <img src="<?=$baseSkinUrl?>page/images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
-</div>
-
-    <div class="page">
+	<div class="loading-process" id="loading-process" style="display:none">
+			<img src="<?=$baseSkinUrl?>page/images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
+	</div>
         <!-- [start] header -->
-        <div class="header">
-            <div class="top-menu-line">
-                <ul class="top-menu-nav">
-                    <?=$topMenu?>
-                </ul>
-                <?//=$topForms?>
-            </div>
-            <div class="top-links-line">
-                <div class="float-left top-form">
-                    <?=$topForms?>
-                </div>
-                <div class="float-right top-links">
-                    <ul>
-                        <?=$topLinks?>
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <!-- [end] header -->
-        <!-- [start] content -->
-        <div class="container">
-            <!-- [start] column-left -->
-            <div class="column-left" id="column-left">
-                <?=$left?>
-            </div>
-            <!-- [end] column-left -->
-            <!-- [start] column-right -->
-            <div class="column-right">
-                <?=$content?>
-            </div>
-            <!-- [end] column-right -->
-            <div class="clearfix"></div>
-        </div>
-        <!-- [end] content -->
-        <!-- [start] footer -->
-        <div class="footer">
-            <ul>
-                <?=$bottomLinks?>
-            </ul>
-            <div class="clearfix"></div>
-        </div>
-        <!-- [end] footer -->
-    </div>
-</body>
+		<div class="container">
+			<div class="header">
+				<div class="header-top">
+					<h1 id="logo"><a href="#"><span>Magento Commerce</span></a></h1>
+					<ul>
+							<?=$topMenu?>
+					</ul>
+					<ul>
+							<?=$topLinks?>
+					</ul>
+					<?//=$topForms?>
+				</div>
+				<div class="header-bottom">
+					<?=$topForms?>
+				</div>
+			</div>
+			<!-- [end] header -->
+			<!-- [start] content -->
+			<div class="middle">
+				<!-- [start] column-left -->
+				<div class="column-left" id="column-left">
+						<?=$left?>
+				</div>
+				<!-- [end] column-left -->
+				<!-- [start] column-right -->
+				<div class="column-right">
+						<?=$content?>
+				</div>
+				<!-- [end] column-right -->
+			</div>
+			<!-- [end] content -->
+			<!-- [start] footer -->
+			<div class="footer">
+				<ul>
+					<?=$bottomLinks?>
+				</ul>
+			<!-- [end] footer -->
+			</div>
+		</div>
+	</body>
 </html>

@@ -4,9 +4,9 @@ body, div, ul, ol, li, p, dt, dd, dl, h1, h2, h3, h4, h5, form, fieldset, tr, td
     margin: 0;
     padding : 0;
     font: 11px/1.55em Verdana, sans-serif;
-    color:#754D24;
+    color:#393939;
 }
-
+body { background:#f7f4ec; }
 h1 { font-size:1.6em; }
 h2 { font-size:1.3em; }
 h3 { font-size:1.2em; }
@@ -18,15 +18,14 @@ th { font-weight:bold;}
 p, address { margin-bottom:1em; }
 address { font-style:normal; }
 li { list-style-type:none; }
-
+form { display:inline; }
 
 /**************** In-line ******************/
-h1 span, h2 span, h3 span { display:none; }
 input, select { vertical-align:middle; }
 label { color:#C68D19; }
 a img { border:0; }
-a { color:#4a0b71; text-decoration:none; }
-a:hover { color:#152a4e; text-decoration:underline; }
+a { color:#724023; text-decoration:none; }
+a:hover { color:#724023; text-decoration:underline; }
 
 
 /* Positioning */
@@ -60,13 +59,15 @@ legend {display:none;}
 .input-right { width:50%; float:right; }    /* Column right of two column form */
 .input-single {}
 .input-button { 
-    padding:2px;
-    background-color:#754D24; 
-    border:none; 
-    color:#fff; 
-    font:bold 11px Verdana, sans-serif; 
-    cursor:pointer;
-    }
+	width:auto;
+	padding:2px;
+	background-color:#af6f23; 
+	border:none; 
+	color:#fff; 
+	font:bold 11px Verdana, sans-serif; 
+	cursor:pointer;
+	overflow:visible;
+	}
 
 .buttons-container { margin-top:20px; }
     .button-left { float:left; width:50%; text-align:left;}

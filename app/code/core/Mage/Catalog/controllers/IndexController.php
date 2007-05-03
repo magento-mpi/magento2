@@ -13,10 +13,9 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     function indexAction() 
     {
         $this->loadLayout();
-            
-        $breadcrumbs = $this->getLayout()->createBlock('catalog_breadcrumbs', 'catalog.breadcrumbs');
-        $breadcrumbs->addCrumb('home', array('label'=>'Home'));
-        $this->getLayout()->getBlock('content')->append($breadcrumbs);
+
+				$homeBlock = $this->getLayout()->createBlock('tpl', 'homecontent')->setTemplate('catalog/home.phtml');
+				$this->getLayout()->getBlock('content')->append($homeBlock);
         
         $this->renderLayout();
     }

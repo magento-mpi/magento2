@@ -1,14 +1,15 @@
 <div class="catalog-nav">
-    <h2 id="title-department"><span>Shop by department</span></h2>
+    <h2>Shop by department</h2>
     <div class="category-nav">
         <ul class="categories">
             <?foreach ($categories as $_node):?>
-                <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?> class="active"<?endif?>><?=$_node->getName()?></a></li>
+                <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?> 
+								class="active"<?endif?>><?=$_node->getName()?></a></li>
             <?endforeach?>
         </ul>
     </div>
     <?if(!empty($manufacturers)):?>
-    <h2 id="title-brand"><span>Shop by brand</span></h2>
+    <h2>Shop by brand</h2>
         <select name="manufacturer" onchange="productBy('manufacturer',this)">
             <option>Choose brand</option>
         <?foreach($manufacturers as $_item):?>
@@ -17,7 +18,7 @@
         </select>
     <?endif?>
     <?if(!empty($types)):?>
-    <h2 id="title-shoe-type"><span>Shop by shoe type</span></h2>
+    <h2>Shop by shoe type</h2>
         <select name="type" onchange="productBy('type',this)">
             <option>Choose shoe type</option>
         <?foreach($types as $_item):?>
