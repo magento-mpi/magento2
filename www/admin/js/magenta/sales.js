@@ -254,7 +254,6 @@ Mage.Sales = function(depend){
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
-            console.log(this.lastSelectedRecord);
             this.cardPanel.setTitle(this.lastSelectedRecord.json.form_panel_title || 'Order Info Panel');
         },
         
