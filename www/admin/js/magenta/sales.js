@@ -39,7 +39,7 @@ Mage.Sales = function(depend){
                 
                 this.centerLayout = new Ext.BorderLayout(Core_Layout.getEl().createChild({tag:'div'}), {
                      center:{
-                         titlebar: false,
+                         titlebar: true,
                          autoScroll:false,
                          resizeTabs : true,
                          hideTabs : true,
@@ -64,7 +64,8 @@ Mage.Sales = function(depend){
                 })
                 
                 this.centerLayout.add('center', new Ext.GridPanel(this.grid, {
-                    fitToFrame:true
+                    fitToFrame:true,
+                    title : 'Orders Info'
                 }));
 
                 this.centerLayout.endUpdate();
@@ -107,6 +108,13 @@ Mage.Sales = function(depend){
             
             panelEl = layoutEl.createChild({children:[{id:'tree-tb'},{id:'tree-body'}]});
             var tb = new Ext.Toolbar('tree-tb');
+            tb.addButton({
+                text : 'Reload',
+                handler : function() {
+                    this.oTree.root.reload();
+                },
+                scope : this
+            });
             
             var panel = this.layout.add('west', new Ext.ContentPanel(panelEl, {
                 fitToFrame : true,
@@ -135,6 +143,7 @@ Mage.Sales = function(depend){
                 if (node.attributes.orderStatus) {
                    url  =  url + 'orderstatus/'+ node.attributes.orderStatus + '/'    
                 }
+                this.centerLayout.getRegion('center').getActivePanel().setTitle(node.parentNode.text + ' - ' + node.text);
                 this.grid.getDataSource().proxy.getConnection().url = url
                 this.grid.getDataSource().load();
             }.createDelegate(this));
@@ -234,13 +243,14 @@ Mage.Sales = function(depend){
         },
         
         loadOrder : function(config) {
-            if (this.formPanel === null) {
+           if (this.formPanel === null) {
                 this.createEditPanel(config.id || 0);
             } else {
                 this.centerLayout.add('south', this.cardPanel);
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
+            this.cardPanel.setTitle(this.lastSelectedRecord.data.form_panel_title || 'Order Info Panel');
         },
         
         createEditPanel : function(order_id) {
