@@ -159,7 +159,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
      *
      * @return  Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function loadData($printQuery = false, $logQuery = true)
+    public function loadData($printQuery = false, $logQuery = false)
     {
         parent::loadData($printQuery, $logQuery);
         $this->_loadAttributes();
