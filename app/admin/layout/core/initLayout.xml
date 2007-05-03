@@ -51,13 +51,12 @@
             <block type="tag_js" name="jscripts.js.ext.all.debug">
                 <action method="setSrc"><src>extjs/ext-all-debug.js</src><locate/></action>
             </block>
-            
+
+            <!--  END LOAD EXT-YUI -->
+
             <block type="tag_js" name="jscripts.js.ext.filteredViewGrid">
                 <action method="setSrc"><src>magenta/filteredViewGrid.js</src></action>
             </block>
-
-
-            <!--  END LOAD EXT-YUI -->
 
             <block type="tag_js" name="jscripts.js.magenta.mage">
                 <action method="setSrc"><src>magenta/mage.js</src></action>
