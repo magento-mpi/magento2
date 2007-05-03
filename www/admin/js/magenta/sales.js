@@ -5,7 +5,7 @@ Mage.Sales = function(depend){
         
         webSiteTree : null,
         grid : null,
-        gridUrl : Mage.url + 'mage_sales/',
+        gridUrl : Mage.url + 'mage_sales/order/grid/',
         
         oTree : null,
         websiteCBUrl : Mage.url + 'mage_core/website/list/',
