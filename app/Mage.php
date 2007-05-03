@@ -352,15 +352,18 @@ final class Mage {
      * @param integer $level
      * @param string $file
      */
-    public static function log($message, $level=Zend_Log::LEVEL_DEBUG, $file = '')
+    public static function log($message, $level=Zend_Log::DEBUG, $file = '')
     {
+        static $loggers = array();
+        
         if (empty($file)) {
             $file = 'system.log';
         }
-        $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
 
-        if (!Zend_Log::hasLogger($file)) {
-            Zend_Log::registerLogger(new Zend_Log_Adapter_File($logFile), $file);
+        if (empty($loggers[$file])) {
+            $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
+            $writer = new Zend_Log_Writer_Stream($logFile);
+            $loggers[$file] = new Zend_Log($writer);
         }
         
         if (is_array($message) || is_object($message)) {
@@ -368,7 +371,7 @@ final class Mage {
         }
         $message = date("Y-m-d H:i:s\t") . $message;
         
-        Zend_Log::log($message, $level, $file);
+        $loggers[$file]->log($message, $level);
     }
 }
 
