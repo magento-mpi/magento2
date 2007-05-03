@@ -19,7 +19,7 @@ Mage.Menu_Catalog = function(){
                     new Ext.menu.Item({
                         text: 'Product attributes',  
                         handler: Mage.Catalog_Product_Attributes.loadMainPanel.createDelegate(Mage.Catalog_Product_Attributes)                                                
-                    }),
+                    })
 /*
                     '-',
                     new Ext.menu.Item({
