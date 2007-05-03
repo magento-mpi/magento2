@@ -98,17 +98,16 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
     {
         $id = $this->getRequest()->getPost('id', 0);
         $order = Mage::getModel('sales', 'order')->load($id);
-        $formAction = Mage::getBaseUrl().'mage_sales/order/save/';
         
         $block = $this->getLayout()->createBlock('tpl', 'order.view')
             ->setTemplate('sales/order/view.phtml')
             ->assign('order', $order)
-            ->assign('formAction', $formAction);
+            ->assign('formAction', Mage::getBaseUrl().'mage_sales/order/save/');
         $this->getResponse()->setBody($block->toHtml());
     }
     
     public function saveOrderAction()
     {
-        
+        $this->getResponse()->setRedirect(Mage::getBaseUrl().'mage_sales/order/form/');
     }
 }
