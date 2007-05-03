@@ -1,7 +1,8 @@
 Mage.Catalog_Product_ProductSelect = function(config) {
     this.gridPageSize = 30;
     this.gridUrl = '/';
-
+    this.loaded = false;
+    
     if (config && config.el) {
         this.el = config.el;
     } else {
@@ -151,6 +152,9 @@ Mage.Catalog_Product_ProductSelect = function(config) {
     this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
     this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
     this.dialog.setDefaultButton(this.dialog.addButton("Add", this.addElements.createDelegate(this)));
+    this.dialog.on('hide', function(){
+        this.grid.getSelectionModel().clearSelections();
+    }.createDelegate(this));
     
     Mage.Catalog_Product_ProductSelect.superclass.constructor.call(this);
 };
@@ -159,8 +163,11 @@ Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
    
     show : function() {
         this.dialog.show();
-        this.tree.root.reload();
-        this.loadGrid();
+        if (!this.loaded) {
+            this.tree.root.reload();
+            this.loadGrid();
+            this.loaded = true;
+        }
     },
     
     hide : function() {
@@ -174,10 +181,25 @@ Ext.extend(Mage.Catalog_Product_ProductSelect, Ext.util.Observable, {
         }
         
         var sm = this.grid.getSelectionModel();
-        var i = 0;
+        var ds = this.parentGrid.getDataSource();
+        var i = 0;        
+        var data = [];
+        for (i=0; i < ds.getCount(); i++) {
+            data.push(ds.getAt(i).data.id);
+        }
+
+        var k = 0;
         for (i=0; i < sm.selections.items.length; i++) {
-            var obj = new this.dataRecord(sm.selections.items[i].data);
-            this.parentGrid.getDataSource().add(obj);
+            if (data.indexOf(sm.selections.items[i].data.id) == -1) {
+                var obj = new this.dataRecord(sm.selections.items[i].data);                
+                ds.add(obj);
+                k++;
+            }
+        }
+        if (k == 1 || k == 0) {
+            Ext.MessageBox.alert('Message','Added ' + k + ' record');
+        } else {
+            Ext.MessageBox.alert('Message','Added ' + k + ' records');            
         }
     }
 });
