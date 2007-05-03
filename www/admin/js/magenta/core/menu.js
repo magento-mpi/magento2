@@ -40,7 +40,7 @@ Mage.Menu_Core = function(){
             }
 
            Mage.Core.getRighToolbar().add({
-                cls: 'x-btn-text-icon bmenu',
+                cls: 'x-btn-text-icon .btn-theme',
                 text:'Theme',
                 menu: new Ext.menu.Menu({
                     id: 'website',
@@ -86,7 +86,10 @@ Mage.Menu_Core = function(){
             });
             Mage.Core.getRighToolbar().add({
                 cls: 'x-btn-text-icon btn-logout',
-                text:'Logout'
+                text:'Logout',
+                handler: function(){
+                    window.location = Mage.url + 'index/logout/'
+                }
             });
         }
     }

@@ -12,7 +12,7 @@ Mage.Menu_Customer = function(){
                  ]
             });
             Mage.Core.addLeftToolbarItem({
-                cls: 'x-btn-text-icon bmenu',
+                cls: 'x-btn-text-icon .btn-customer',
                 text:'Customers',
                 menu: menu
             });

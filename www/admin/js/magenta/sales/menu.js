@@ -12,7 +12,7 @@ Mage.Menu_Sales = function(){
                  ]
             });
             Mage.Core.addLeftToolbarItem({
-                cls: 'x-btn-text-icon bmenu',
+                cls: 'x-btn-text-icon .btn-sales',
                 text:'Sales',
                 menu: menu
             });

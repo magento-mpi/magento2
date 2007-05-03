@@ -21,7 +21,7 @@
 .address-view {cursor:pointer;padding: 5px 3px;font:normal 11px tahoma,verdana,helvetica;background:#efefef;margin-bottom:5px}
 
 
-/* 
+/*                                                                                     tn
 * Menu Buttons
 */
 
@@ -37,7 +37,11 @@
 .btn-arrow-undo .x-btn-text {background-image:url(./ico/fam/arrow_undo.png);}
 .btn-folder-edit .x-btn-text {background-image:url(./ico/fam/folder_edit.png);}
 .btn-add-user .x-btn-text {background-image:url(./ico/fam/user_add.png);}
-.btn-logout    .x-btn-text {background-image:url(./ico/fam/group_go.png);}
+.btn-logout .x-btn-text {background-image:url(./ico/fam/key_go.png);}
+.btn-sales  .x-btn-text {background-image:url(./ico/fam/basket.png);}
+.btn-theme  .x-btn-text {background-image:url(./ico/fam/eye.png);}
+.btn-sales  .x-btn-text {background-image:url(./ico/fam/basket.png);}
+.btn-customer .x-btn-text {background-image:url(./ico/fam/user.png);}
 
 .bok .x-btn-text {background-image:url(./ico/button_ok.gif);}
 

@@ -54,4 +54,12 @@ class IndexController extends Mage_Core_Controller_Admin_Action
 	    Mage_Core_Resource_Setup::applyAllUpdates();
 	    echo "Successfully updated.";
 	}
+	
+	public function logoutAction()
+	{
+	    $auth = Mage::getSingleton('auth', 'session')->unsetAll();
+	    $this->getResponse()->setRedirect(Mage::getBaseUrl());
+	    //$this->getResponse()->setHeader('Location', Mage::getBaseUrl());
+	    //$this->_redirect(Mage::getBaseUrl());
+	}
 }
