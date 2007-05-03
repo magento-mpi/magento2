@@ -44,6 +44,10 @@ Mage.Catalog_Product_RelatedPanel = function(){
         },
 
         onUpdate : function() {
+            // Fix error for change product
+            if (!this.cPanel || !this.cPanel.getEl()) {
+                return;
+            }
             var div = Ext.DomQuery.selectNode('div#relation_tab', this.cPanel.getEl().dom);    
             if (div) {
                 this.initGrid({
