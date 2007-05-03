@@ -156,16 +156,20 @@ Mage.Sales = function(depend){
             var baseEl = config.baseEl;
 
             this.dataRecord = Ext.data.Record.create([
-                {name: 'id', mapping: 'product_id'},
-                {name: 'name', mapping: 'name'},
-                {name: 'price', mapping: 'price'},
-                {name: 'description', mapping: 'description'}
+                {name: 'self_real_order_id', mapping: 'self_real_order_id'},
+                {name: 'self_customer_id', mapping: 'self_customer_id'},
+                {name: 'address_firstname', mapping: 'address_firstname'},
+                {name: 'address_lastname', mapping: 'address_lastname'},
+                {name: 'self_grand_total', mapping: 'self_grand_total'},
+                {name: 'self_status', mapping: 'self_status'},
+                {name: 'self_created_at', mapping: 'self_created_at'},
+                {name: 'self_website_id', mapping: 'self_website_id'}
             ]);
 
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'product_id'
+                id: 'self_real_order_id'
             }, this.dataRecord);
 
              var dataStore = new Ext.data.Store({
@@ -174,37 +178,16 @@ Mage.Sales = function(depend){
                 baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
              });
-             
-             dataStore.on('add',function(store){
-                 var i = 0;
-                 var data = [];
-                 var record = null;
-                 for(i=0; i < store.getCount(); i++) {
-                     record = store.getAt(i);
-                     data.push(record.data.id);
-                 }
-                 var hiddenEl = Ext.get('related_products');
-                 hiddenEl.dom.value = data.join();
-             });
-             
-             dataStore.on('remove',function(store){
-                 var i = 0;
-                 var data = [];
-                 var record = null;
-                 for(i=0; i < store.getCount(); i++) {
-                     record = store.getAt(i);
-                     data.push(record.data.id);
-                 }
-                 var hiddenEl = Ext.get('related_products');
-                 hiddenEl.dom.value = data.join();
-             });
-             
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
-                {header: "Name", sortable: true, dataIndex: 'name'},
-                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
-                {header: "Description", sortable: false, dataIndex: 'description'}
+                {header: "ID#", sortable: true, dataIndex: 'self_real_order_id'},
+                {header: "Customer ID#", sortable: true, dataIndex: 'self_customer_id'},
+                {header: "Address Firstname", sortable: true, dataIndex: 'address_firstname'},
+                {header: "Address Lastname", sortable: true, dataIndex: 'address_lastname'},
+                {header: "Self grand otal", sortable: true, dataIndex: 'self_grand_total'},
+                {header: "Self status", sortable: true, dataIndex: 'self_status'},
+                {header: "Self created at", sortable: true, dataIndex: 'self_created_at'},
+                {header: "Self website ID#", sortable: true, dataIndex: 'self_website_id'}
             ]);
 
             this.grid = new Ext.grid.Grid(baseEl, {

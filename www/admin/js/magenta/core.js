@@ -207,13 +207,3 @@ Mage.Search = function() {
     }
 }();
 Ext.EventManager.onDocumentReady(Mage.Search.init, Mage.Search, true);
-
-Mage.Loader = function(){
-    return{
-        request : function (url) {
-            var success = function(o) { try { eval(o.responseText); } catch(e) { Ext.dump(e); } }
-            var failure = function(o) { Ext.dump(o.statusText); }
-            var con = new Ext.lib.Ajax.request('GET', url, {success:success,failure:failure});  
-        }
-    }    
-}();
