@@ -267,7 +267,6 @@ Mage.Sales = function(depend){
                 this.formPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     url : this.formUrl,
-                    method : 'POST',
                     params : {real_order_id : order_id}
                 }));
             
@@ -283,6 +282,24 @@ Mage.Sales = function(depend){
                 text : 'Save',
                 handler : this.onSaveForm.createDelegate(this)
             }));
+            this.toolbar.add(new Ext.ToolbarButton({
+                text : 'Reset',
+                handler : function() {
+                    var form = Ext.DomQuery.selectNode("form", this.formPanel.getEl().dom);
+                    if (form) {
+                        form.reset();
+                    }
+                },
+                scope : this
+            }));
+            this.toolbar.add(new Ext.ToolbarButton({
+                text : 'Cancel',
+                handler : function() {
+                    this.centerLayout.getRegion('south').remove(this.cardPanel);
+                },
+                scope : this
+            }));
+            
             return this.toolbar;
         },
         
