@@ -895,6 +895,7 @@ Mage.Catalog_Product = function(depend){
 Mage.Catalog_Product_CategoriesPanel = function(){
     return{
         rowTemplate: null,
+        dataUrl : Mage.url + 'mage_catalog/product/categoryList/',
 
         create : function(config){
             this.config = config;
@@ -914,7 +915,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                 //handler : this.saveItem.createDelegate(this)
             });
             
-            this.rowTemplate = new Ext.Template('<div class="address-view" id="product-categories-view">{product}</div>');
+            this.rowTemplate = new Ext.Template('<div class="address-view" id="product-category-{category_id}">{name}</div>');
             this.rowTemplate.compile();
 
             this.cPanel = new Ext.ContentPanel(baseEl,{
@@ -931,13 +932,14 @@ Mage.Catalog_Product_CategoriesPanel = function(){
 
         	this.categoriesView = new Ext.JsonView(container, this.rowTemplate, {
         		singleSelect: true,
-        		jsonRoot: 'addresses',
+        		jsonRoot: 'items',
         		emptyText : '<div class="address-view" id="product-categories-view-empty"><h3>Empty</h3></div>'
         	});
             
+            var productId = Mage.Catalog_Product.productsGrid.getSelectionModel().selections.items[0].id;
             this.cPanel.on('activate', function(){
                 if(!this.dataLoaded){
-                    this.categoriesView.load({url:Mage.url + 'mage_catalog/product/gridData/category/', scripts:false});
+                    this.categoriesView.load({url:this.dataUrl+'product/'+productId, scripts:false});
                     this.dataLoaded = true;
                 }
             }.createDelegate(this));

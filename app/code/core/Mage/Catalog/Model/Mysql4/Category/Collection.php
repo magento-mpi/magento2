@@ -4,22 +4,36 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
 {
     protected $_categoryTable;
     protected $_categoryProductTable;
+    protected $_attributeTable;
+    protected $_attributeValueTable;
+    protected $_websiteId;
     
     public function __construct() 
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
-        $this->_categoryTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category');
-        $this->_categoryProductTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_set');
-        
-        $this->_sqlSelect->from($this->_groupTable);
-        $this->_sqlSelect->join($this->_setTable, "$this->_groupTable.set_id=$this->_setTable.set_id", 'set_id');
-        $this->setOrder($this->_groupTable.'.position', 'asc');
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute_group'));
+        $this->_categoryTable       = Mage::registry('resources')->getTableName('catalog_resource', 'category');
+        $this->_categoryProductTable= Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
+        $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');;
+
+        $this->_websiteId = Mage::registry('website')->getId();
+               
+        $this->_sqlSelect->from($this->_categoryTable);
+        $this->_sqlSelect->join($this->_categoryProductTable, 
+            "$this->_categoryProductTable.category_id=$this->_categoryTable.category_id", 'category_id');
+        // TODO: dynamic add attribute
+        $this->_sqlSelect->join($this->_attributeValueTable, 
+            "$this->_attributeValueTable.category_id=$this->_categoryTable.category_id
+            AND $this->_attributeValueTable.website_id=$this->_websiteId
+            AND $this->_attributeValueTable.attribute_id=1", 'attribute_value AS name');
+            
+        $this->setOrder($this->_categoryProductTable.'.position', 'asc');
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'category'));
     }
     
-    public function addSetFilter($setId)
+    public function addProductFilter($productId)
     {
-        $this->addFilter('set', $this->_conn->quoteInto($this->_groupTable.'.set_id=?', $setId), 'string');
+        $this->addFilter('product', $this->_conn->quoteInto($this->_categoryProductTable.'.product_id=?', $productId), 'string');
         return $this;
     }
 }

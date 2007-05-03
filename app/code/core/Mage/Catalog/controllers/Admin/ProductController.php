@@ -126,19 +126,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($form->toHtml());
     }
 
-    /**
-     * Related products control panel
-     *
-     */
-    public function relatedProductsAction()
-    {
-        $productId = $this->getRequest()->getParam('product');
-        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
-            ->setTemplate('catalog/product/related_products.phtml')
-            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
-        $this->getResponse()->setBody($block->toHtml());
-    }
-    
     public function imagesAction()
     {
         $id = $this->getRequest()->getParam('product', -1);
@@ -251,6 +238,19 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Product links
 
+    /**
+     * Related products control panel
+     *
+     */
+    public function relatedTabAction()
+    {
+        $productId = $this->getRequest()->getParam('product');
+        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
+            ->setTemplate('catalog/product/related_products.phtml')
+            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
+        $this->getResponse()->setBody($block->toHtml());
+    }
+    
     public function relatedListAction()
     {
         $data = array();
@@ -306,6 +306,31 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             }
         }
         $this->getResponse()->setBody(Zend_Json::encode($data));
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Product categories
+    /**
+     * Product categories control panel
+     *
+     */
+    public function categoryTabAction()
+    {
+        $productId = $this->getRequest()->getParam('product');
+        $block = $this->getLayout()->createBlock('tpl', 'product_categories_panel')
+            ->setTemplate('catalog/product/categories.phtml')
+            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
+        $this->getResponse()->setBody($block->toHtml());
+    }
+
+    public function categoryListAction()
+    {
+        $productId = $this->getRequest()->getParam('product');
+        $categories = Mage::getModel('catalog', 'product')
+                ->load($productId)
+                ->getCategories();
+                
+        $this->getResponse()->setBody(Zend_Json::encode($categories->__toArray()));
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
