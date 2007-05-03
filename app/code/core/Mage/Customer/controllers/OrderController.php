@@ -45,6 +45,23 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         $block = $this->getLayout()->createBlock('tpl', 'customer.orders')
             ->setTemplate('customer/order/view.phtml')
             ->assign('order', $order);
+
+        $payment = $order->getPayment();
+        
+        if ($payment) {
+            $paymentMethodConfig = Mage::getConfig()->getNode('global/salesPaymentMethods/'.$payment->getMethod());
+            if (!empty($paymentMethodConfig)) {
+                $className = $paymentMethodConfig->getClassName();
+                $paymentMethod = new $className();
+                $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($block->getData('name').'.payment');
+                $block->setChild('payment', $paymentBlock);
+            } else {
+                $block->assign('payment', '');
+            }
+        } else {
+            $block->assign('payment', '');
+        }
+            
         $this->getLayout()->getBlock('content')->append($block);
 
         $this->renderLayout();        

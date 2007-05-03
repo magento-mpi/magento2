@@ -66,17 +66,6 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return $this;
     }
     
-    public function getPayment()
-    {
-        $payments = $this->getEntitiesByType('payment');
-        if (empty($payments)) {
-            return false;
-        }
-        foreach ($payments as $payment) {
-            return $payment;
-        }
-    }
-    
     public function loadByCustomerId($customerId)
     {
         $quotes = Mage::getModel('sales_resource', 'quote')->getQuoteIdsByCustomerId($customerId);
@@ -165,6 +154,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return $this;
     }
     
+
     public function getTotals($type='_output')
     {
         $attrLogicClasses = Mage::getConfig()->getNode('global/salesAttributes/'.$this->getDocType())->self->children();
@@ -188,7 +178,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         }
         return $totalsArr;
     }
-    
+
     public function estimateShippingMethods()
     {
         $request = Mage::getModel('sales', 'shipping_method_request');

@@ -13,11 +13,8 @@
                         <?=$order->getAddressByType('billing')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}"')?>
                     </address>
                 </td>
-                <td>
-                <?if($_payment=$order->getEntitiesByType('payment')):?>
-                    Method: <?//$_payment->getMethod()?>payment method
-                <?else:?>
-                <?endif?>
+                <td class="align-center">
+                <?=$payment?>
                 </td>
             </tr>
         </tbody>
@@ -36,8 +33,8 @@
                         <?=$order->getAddressByType('shipping')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}"')?>
                     </address>
                 </td>
-                <td>
-                    shipping method
+                <td class="align-center">
+                    <?=$order->getShippingDescription()?>
                 </td>
             </tr>
         </tbody>

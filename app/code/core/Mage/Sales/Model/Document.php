@@ -154,5 +154,15 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
         }
         return false;
     }
-    
+
+    public function getPayment()
+    {
+        $payments = $this->getEntitiesByType('payment');
+        if (empty($payments)) {
+            return false;
+        }
+        foreach ($payments as $payment) {
+            return $payment;
+        }
+    }
 }
