@@ -36,7 +36,9 @@ Mage.Menu_Core = function(){
         initRight: function(){
             function chooseTheme(item, e) {
                 var themeStyleEl =  Ext.get('theme_stylesheet');
-                themeStyleEl.dom.href = '/admin/extjs/resources/css/ytheme-' + item.value + '.css';
+                //themeStyleEl.dom.href = '/admin/extjs/resources/css/ytheme-' + item.value + '.css';
+                var href = themeStyleEl.dom.href;
+                themeStyleEl.dom.href = href.replace(/(ytheme-).*(\.css)$/, '$1'+item.value+'$2');
             }
 
            Mage.Core.getRighToolbar().add({
