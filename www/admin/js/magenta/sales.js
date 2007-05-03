@@ -7,6 +7,7 @@ Mage.Sales = function(depend){
         grid : null,
         gridPageSize : 30,
         gridUrl : Mage.url + 'mage_sales/order/grid/',
+        lastSelectedRecord : null,
         
         formUrl : Mage.url + 'mage_sales/order/form/',
         
@@ -36,10 +37,10 @@ Mage.Sales = function(depend){
                 
                 this.centerLayout = new Ext.BorderLayout(Core_Layout.getEl().createChild({tag:'div'}), {
                      center:{
-                         titlebar: true,
-                         autoScroll:true,
+                         titlebar: false,
+                         autoScroll:false,
                          resizeTabs : true,
-                         hideTabs : false,
+                         hideTabs : true,
                          tabPosition: 'top'
                      },
                      south : {
@@ -72,6 +73,7 @@ Mage.Sales = function(depend){
 //                    url : this.formUrl,
 //                    fitToFrame:true
 //                }));
+
                 this.centerLayout.endUpdate();
 
                 this.layout.beginUpdate();
@@ -168,7 +170,7 @@ Mage.Sales = function(depend){
             var baseEl = config.baseEl;
 
             this.dataRecord = Ext.data.Record.create([
-                {name: 'order_id', mapping: 'order_id'},
+                {name: 'real_order_id', mapping: 'real_order_id'},
                 {name: 'customer_id', mapping: 'customer_id'},
                 {name: 'firstname', mapping: 'firstname'},
                 {name: 'lastname', mapping: 'lastname'},
@@ -181,7 +183,7 @@ Mage.Sales = function(depend){
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'order_id'
+                id: 'real_order_id'
             }, this.dataRecord);
 
              var dataStore = new Ext.data.Store({
@@ -192,7 +194,7 @@ Mage.Sales = function(depend){
              });
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "Order ID", sortable: true, dataIndex: 'order_id'},
+                {header: "Order ID", sortable: true, dataIndex: 'real_order_id'},
                 {header: "Customer ID", sortable: true, dataIndex: 'customer_id'},
                 {header: "Firstname", sortable: true, dataIndex: 'firstname'},
                 {header: "Lastname", sortable: true, dataIndex: 'lastname'},
@@ -213,6 +215,15 @@ Mage.Sales = function(depend){
                 enableColLock : false
             });
 
+            this.grid.getSelectionModel().on('rowselect', function(sm, rowIndex, record){
+                if (this.lastSelectedRecord !== record) {
+                    this.lastSelectedRecord = record;
+                    this.loadOrder({
+                        id : record.data.order_id
+                    });
+                }
+            }, this)
+            
             this.grid.render();
             
             var gridHead = this.grid.getView().getHeaderPanel(true);
@@ -226,6 +237,40 @@ Mage.Sales = function(depend){
             });
             
             paging.items.map.item5.enable();
+        },
+        
+        loadOrder : function(config) {
+            console.log(config);
+            var baseEl = this.centerLayout.getRegion('south');
+            this.createEditPanel();
+            
+        },
+        
+        createEditPanel : function() {
+            var baseEl = this.centerLayout.getRegion('south').getEl().createChild({tag : 'div'});
+            var layout = new Ext.BorderLayout(baseEl,{
+                north : {
+                    
+                },
+                center : {
+                    
+                }
+            });
+            
+            layout.add('north', new Ext.ContentPanel(Ext.id(), {
+                autoCreate : true
+            }));
+            
+            layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                autoCreate : true,
+                url : this.formUrl
+            }));
+            
+            
+            this.centerLayout.add('south', new Ext.NestedLayoutPanel(layout, {
+                title : 'Order Info'
+            }));
+            
         },
         
         createFormtoolbar : function(config) {
