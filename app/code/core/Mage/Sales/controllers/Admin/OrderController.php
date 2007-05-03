@@ -102,7 +102,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
         $block = $this->getLayout()->createBlock('tpl', 'order.view')
             ->setTemplate('sales/order/view.phtml')
             ->assign('order', $order)
-            ->assign('formAction', Mage::getBaseUrl().'mage_sales/order/saveOrder/');
+            ->assign('formAction', Mage::getBaseUrl().'mage_sales/order/saveOrder/id/'.(int)$id);
         $this->getResponse()->setBody($block->toHtml());
     }
     
