@@ -8,7 +8,7 @@
             <li>
                 <div class="left">
                     <label for="cc_type">Credit Card Type <span class="required">*</span></label><br/>
-                    <select id="cc_type" name="payment[cc_type]">
+                    <select id="cc_type" name="payment[cc_type]" class="required-entry">
                     <?foreach ($ccTypesArr as $k=>$v):?>
                         <option value="<?=$k?>" <?if($k==$payment->getCcType()):?>selected<?endif?>><?=$v?></option>
                     <?endforeach?>

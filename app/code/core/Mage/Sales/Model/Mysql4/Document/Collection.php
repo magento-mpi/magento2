@@ -242,6 +242,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         if (!$attributesSql) {
             return false;
         }
+#print_r($attributesSql);
         $attributes = $this->_conn->fetchAll($attributesSql);
         if (!is_array($attributes) || empty($attributes)) {
             return false;

@@ -53,7 +53,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $customerQuote->save();
             }
             $this->setQuoteId($customerQuote->getQuoteId());
-            $this->_quote->delete();
+            if ($this->_quote) {
+                $this->_quote->delete();
+            }
             $this->_quote = $customerQuote;        
         }
         return $this;
