@@ -47,11 +47,13 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getEntitiesByType('item') as $item) {
-                    $customerQuote->addProduct($item->setEntityId(null));
+                    $item->setEntityId(null);
+                    $customerQuote->addProduct($item);
                 }
                 $customerQuote->save();
             }
             $this->setQuoteId($customerQuote->getQuoteId());
+            $this->_quote->delete();
             $this->_quote = $customerQuote;        
         }
         return $this;

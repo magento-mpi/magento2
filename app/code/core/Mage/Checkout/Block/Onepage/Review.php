@@ -35,6 +35,8 @@ class Mage_Checkout_Block_Onepage_Review extends Mage_Core_Block_Template
             } else {
                 $this->assign('payment', '');
             }
+        } else {
+            $this->assign('payment', '');
         }
         
         $shipping = $quote->getAddressByType('shipping');

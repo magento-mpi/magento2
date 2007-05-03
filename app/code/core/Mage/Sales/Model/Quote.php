@@ -97,20 +97,29 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         if (!$product->getQty()) {
             $product->setQty(1);
         }
+        
+        $itemFound = null;
         if (!$product->getAsNewItem()) {
             foreach ($this->getEntitiesByType('item') as $item) {
                 if ($item->getProductId()==$product->getProductId()) {
                     $item->setQty($item->getQty()+$product->getQty());
-                    $item->setPrice($product->getTierPrice($item->getQty()));
-                    $this->collectTotals();
-                    return $this;
+                    $itemFound = $item;
+                    break;
                 }
             }
         }
-        $item = Mage::getModel('sales', 'quote_entity_item');
-        $item->setEntityType('item')->addData($product->getData());
-        $this->addEntity($item);
-        $item->setPrice($product->getTierPrice($item->getQty()));
+        
+        if (!$itemFound) {
+            $itemFound = Mage::getModel('sales', 'quote_entity_item');
+            $itemFound->setEntityType('item')->addData($product->getData());
+            $this->addEntity($itemFound);
+        }
+        
+        $tierPrice = $product->getTierPrice($itemFound->getQty());
+        if ($tierPrice) {
+            $itemFound->setPrice($tierPrice);
+        }
+        
         $this->collectTotals();
         return $this;
     }
