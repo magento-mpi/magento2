@@ -4,11 +4,11 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
 {
     public function gridAction()
     {
-        $websiteId = $this->getRequest()->getParam('siteId', '');
-        $orderStatus = $this->getRequest()->getParam('orderStatus', '');
-        $pageSize = $this->getRequest()->getParam('pageSize', '');
-        $sort = $this->getRequest()->getParam('sort', '');
-        $dir = $this->getRequest()->getParam('dir', '');
+        $websiteId = $this->getRequest()->getParam('siteid', '');
+        $orderStatus = $this->getRequest()->getParam('orderstatus', '');
+        $pageSize = $this->getRequest()->getPost('pageSize', '');
+        $sort = $this->getRequest()->getPost('sort', '');
+        $dir = $this->getRequest()->getPost('dir', '');
 
         $orders = Mage::getModel('sales_resource', 'order_collection')
             ->addAttributeSelect('self/real_order_id')
