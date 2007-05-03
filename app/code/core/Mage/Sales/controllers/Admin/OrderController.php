@@ -12,6 +12,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             ->addAttributeSelect('self/status')
             ->addAttributeSelect('self/created_at')
             ->addAttributeSelect('self/website_id')
+            ->addAttributeSelect('address/address_type')
             ->addAttributeSelect('address/firstname')
             ->addAttributeSelect('address/lastname');
             
@@ -43,10 +44,12 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
         $currency = new Varien_Filter_Sprintf('$%s', 2);
         foreach ($orders as $order) {
             $r = $order->getData();
-            $billing = $order->getAddressByType('billing');
             $r['grand_total'] = $currency->filter($r['grand_total']);
-            $r['firstname'] = $billing['firstname'];
-            $r['lastname'] = $billing['lastname'];
+
+            $billing = $order->getAddressByType('billing');
+            $r['firstname'] = $billing->getFirstname();
+            $r['lastname'] = $billing->getLastname();
+            
             $data['items'][] = $r;
         }
         
