@@ -31,7 +31,9 @@ Mage.Menu_Core = function(){
                 text:'System',
                 menu: menu
             });
-            
+        },
+        
+        initRight: function(){
             function chooseTheme(item, e) {
                 Cookies.set('admtheme', item.value);
                 setTimeout(function(){
@@ -94,5 +96,5 @@ Mage.Menu_Core = function(){
         }
     }
 }();
-Ext.EventManager.onDocumentReady(Mage.Menu_Core.init, Mage.Menu_Core, true);
-//Mage.Menu_Core.init();
+Ext.EventManager.onDocumentReady(Mage.Menu_Core.initRight, Mage.Menu_Core, true);
+Mage.Menu_Core.init();
