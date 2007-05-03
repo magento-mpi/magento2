@@ -89,6 +89,31 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 baseParams : {pageSize : this.gridPageSize},
                 remoteSort: true
              });
+             
+             dataStore.on('add',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('related_products');
+                 hiddenEl.dom.value = data.join();
+             });
+             
+             dataStore.on('remove',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('related_products');
+                 hiddenEl.dom.value = data.join();
+             });
+             
 
             var colModel = new Ext.grid.ColumnModel([
                 {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
@@ -139,7 +164,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
 
             
             paging.insertButton(0, new Ext.ToolbarButton({
-                text : 'Delete',
+                text : 'Remove',
                 handler : function(){
                     Ext.MessageBox.confirm('Warning','Are you sure ?', function(btn, text){
                         if (btn == 'yes') {

@@ -690,7 +690,7 @@ Mage.Catalog_Product = function(depend){
                }
                this.editablePanels = [];
             } else {
-                Ext.MessageBox.alert('Error', error.errorMessage);
+                Ext.MessageBox.alert('Error', result.errorMessage);
             }
         },
         
