@@ -25,6 +25,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             foreach ($arrSites as $website) {
                 $data[] = array(
                     'id' => $website->getWebsiteId(),
+                    'siteId' => $website->getWebsiteId(),
                     'text'  => $website->getWebsiteCode()
                 );
             } 
@@ -33,6 +34,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
             foreach ($statuses->children() as $status) {
                 $data[] = array(
                     'id' => $parent.'/'.$status->getName(),
+                    'siteId' => $parent,
+                    'orderStatus' => $status->getName(),
                     'text'  => (string)$status->title,
                     'leaf' => true,
                 );
