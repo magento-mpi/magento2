@@ -31,6 +31,7 @@ class Mage_Sales_Model_Admin_Search extends Varien_Data_Object
                 'type'          => 'Order',
                 'name'          => 'Order # '.$order->getRealOrderId(),
                 'description'   => $billing->getFirstname().' '.$billing->getLastname(),
+                'form_panel_title' => 'Order # '.$order->getRealOrderId().' ('.$billing->getFirstname().' '.$billing->getLastname().')'
             );
         }
         
