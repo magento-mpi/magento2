@@ -128,7 +128,7 @@ Mage.Sales = function(depend){
                 var data = {};
                 data.siteId = node.attributes.siteId || null;
                 data.orderStatus = node.attributes.orderStatus || null;
-                this.grid.getDataSource.load(data);
+                this.grid.getDataSource().load({params : data});
             }.createDelegate(this));
             
             var wsRoot = new Ext.tree.AsyncTreeNode({
