@@ -238,7 +238,6 @@ Mage.Sales = function(depend){
                 this.createEditPanel(config.id || 0);
             } else {
                 this.centerLayout.add('south', this.cardPanel);
-                this.centerLayout.getRegion('south').showPanel(this.cardPanel);
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
@@ -281,9 +280,18 @@ Mage.Sales = function(depend){
         createFormToolbar : function(config) {
             this.toolbar = new Ext.Toolbar(config.baseEl);
             this.toolbar.add(new Ext.ToolbarButton({
-                text : 'Save'
+                text : 'Save',
+                handler : this.onSaveForm.createDelegate(this)
             }));
             return this.toolbar;
+        },
+        
+        onSaveForm : function() {
+            var form = Ext.DomQuery.selectNode("form", this.formPanel.getEl().dom);
+            if (form) {
+                var um = this.formPanel.getUpdateManager();
+                um.formUpdate(form, form.action);
+            }
         }
     }
 }();
