@@ -15,41 +15,33 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
     public function __construct() 
     {
         parent::__construct();
-        // Config settings
-        $this->_dataInputs = (array) Mage::getConfig()->getNode('admin/dataInputs');
-
-        $this->setTemplate('form.phtml');
-        
-        // Set form attributes
-        $this->setAttribute('method', 'POST');
-        $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', Mage::getBaseUrl().'mage_catalog/product/save/');
-        
         // Request params
         $groupId  = Mage::registry('controller')->getRequest()->getParam('group', false);
         $setId    = Mage::registry('controller')->getRequest()->getParam('set', false);
         $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
         $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
 
+        // Config settings
+        $this->_dataInputs = (array) Mage::getConfig()->getNode('admin/dataInputs');
+
+        $this->setTemplate('form.phtml');
+        
+        // Set form attributes
+        $postUrl = Mage::getBaseUrl().'mage_catalog/product/save/';
+        if ($productId) {
+            $postUrl.= 'product/'.$productId;
+        }
+        $this->setAttribute('method', 'POST');
+        $this->setAttribute('class', 'x-form');
+        $this->setAttribute('action', $postUrl);
+        
+
         $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
         $this->setAttribute('legend', $group->getCode());
         $this->setAttribute('id', 'form_'.$groupId);
         
-        if ($isDefault) {
-            $this->addField('product_id', 'hidden',
-                array(
-                    'name'  => 'product_id',
-                    'value' => $productId,
-                    'id'    => 'product_id'
-                )
-            );
-            $this->addField('attribute_set_id', 'hidden',
-                array(
-                    'name'  => 'set_id',
-                    'value' => $setId,
-                    'id'    => 'set_id'
-                )
-            );
+        if ($setId) {
+            $this->addField('set_id', 'hidden', array('name'=>'set_id', 'value'=>$setId));
         }
         
         $attributes = $group->getAttributes();

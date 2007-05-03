@@ -37,7 +37,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
                 $set = Mage::getModel('catalog', 'product_attribute_set')->load($attributeSetId);
             }
         }
-        
+        $urlPrefix = ($productId) ? 'product/'.$productId . '/' : '';
         
         $groups = $set->getGroups();
         
@@ -46,22 +46,18 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         //$cardStructure['attribute_set'] = $arrSets;
         $cardStructure['tabs'] = array();
         
-        // Tabs description JSON
-        $baseTabUrl = Mage::getBaseUrl().'mage_catalog/product/form/';
-        if ($productId) {
-            $baseTabUrl.= 'product/' . $productId . '/';
-        }
-        
         if ($productId) {
             $cardStructure['tabs'][] = array(
                 'name'  => 'product_view',
-                'url'   => Mage::getBaseUrl()."mage_catalog/product/view/product/$productId/",
+                'url'   => Mage::getBaseUrl()."mage_catalog/product/view/".$urlPrefix,
                 'title' => 'Product Info',
             );
         }
         
+        // Tabs description JSON
+        $baseTabUrl = Mage::getBaseUrl().'mage_catalog/product/form/';
         foreach ($groups as $group) {
-            $url = $baseTabUrl . 'group/' . $group->getId().'/';
+            $url = $baseTabUrl . 'group/' . $group->getId().'/' . $urlPrefix;
             $url.= 'set/'.$set->getId().'/';
             $cardStructure['tabs'][] = array(
                 'name'  => $group->getCode(),
@@ -74,14 +70,14 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
                 //'type'  => 'images',
-                'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
+                'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
                 'title' => 'Images',
             );
             
             $cardStructure['tabs'][] = array(
                 'name'  => 'categories',
                 'type'  => 'categories',
-                //'url'   => Mage::getBaseUrl()."mage_catalog/product/images/product/$productId/",
+                'url'   => Mage::getBaseUrl()."mage_catalog/product/categories/".$urlPrefix,
                 'title' => 'Categories',
             );
         }
@@ -90,7 +86,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => $productType,
                 'type'  => $productType,
-                'url'   => Mage::getBaseUrl().'mage_catalog/product/'.$productType.'Products/',
+                'url'   => Mage::getBaseUrl().'mage_catalog/product/'.$productType.'Products/'.$urlPrefix,
                 'title' => $productType,
             );
         }
@@ -98,13 +94,12 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure['tabs'][] = array(
             'name'  => 'related',
             'type'  => 'related',
-            'url'   => Mage::getBaseUrl().'mage_catalog/product/relatedProducts/',
+            'url'   => Mage::getBaseUrl().'mage_catalog/product/relatedProducts/' . $urlPrefix,
             'title' => 'Related products',
         );
         
         // Set first tab as active
         $cardStructure['tabs'][0]['active'] = true;
-        $cardStructure['tabs'][0]['url']    = $cardStructure['tabs'][0]['url'] . 'isdefault/1/';
         return Zend_Json::encode($cardStructure);
     }
 }

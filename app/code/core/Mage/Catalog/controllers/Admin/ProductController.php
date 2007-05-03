@@ -132,9 +132,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
      */
     public function relatedProductsAction()
     {
+        $productId = $this->getRequest()->getParam('product');
         $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
             ->setTemplate('catalog/product/related_products.phtml')
-            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/');
+            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
         $this->getResponse()->setBody($block->toHtml());
     }
     
@@ -226,11 +227,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         $res = array('error' => 0);
         $product = Mage::getModel('catalog', 'product')
-            ->setProductId($this->getRequest()->getParam('product_id'))
+            ->setProductId($this->getRequest()->getParam('product'))
             ->setSetId($this->getRequest()->getParam('set_id', 1))
             ->setTypeId($this->getRequest()->getParam('type_id', 1))
-            ->setAttributes($this->getRequest()->getParam('attribute', array()));
-
+            ->setAttributes($this->getRequest()->getParam('attribute'));
+        
+        if ($relatedProducts = $this->getRequest()->getParam('related_products')) {
+            $product->setRelatedLinks(explode(',',$relatedProducts));
+        }
+            
         try {
             $product->save();
             $res['product_id'] = $product->getId();
@@ -251,17 +256,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $data = array();
         $productId = $this->getRequest()->getParam('product');
         if ($productId) {
-            $linkedProducts = Mage::getModel('catalog', 'product')
+            $relatedLinks = Mage::getModel('catalog', 'product')
                 ->load($productId)
-                ->getLinkedProducts('relation');
+                ->getRelatedProducts();
             
-            foreach ($linkedProducts as $product) {
+            foreach ($relatedLinks as $link) {
                 $data[] = array(
-                    'product_id' => $product->getId()
+                    'product_id' => $link->getProduct()->getId(),
+                    'name'       => $link->getProduct()->getName(),
+                    'price'      => $link->getProduct()->getPrice(),
+                    'description'=> $link->getProduct()->getDescription(),
                 );
             }
         }
-        $this->getResponse()->setBody(Zend_Json::encode($data));
+        $this->getResponse()->setBody(Zend_Json::encode(array('totalRecords'=>$relatedLinks->getSize(), 'items'=>$data)));
     }
     
     public function bundleListAction()

@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
             return $this;
         }
         
-        $this->_loadAttributes();
+        //$this->_loadAttributes();
         $this->_loadLinkedProducts();        
 
         return $this;

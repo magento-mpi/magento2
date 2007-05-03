@@ -135,4 +135,24 @@
 <div class="dotted-separator"></div>
 <img src="<?=$baseSkinUrl?>catalog/images/icon_made_in_america.gif" alt="Made in USA" /></div>
 </form>
+<?$_relatedProducts=$product->getRelatedProducts()?>
+<?if($_relatedProducts->getSize()):?>
+<div class="clearfix"></div>
+<h1>Related products</h1>
+    <div class="catalog-spacer">&nbsp;</div>
+        <div class="catalog-collection">
+            <?foreach ($_relatedProducts as $_link):?>
+            <div class="item">
+                <div class="item-image">
+                    <a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+                </div>
+                <div class="item-info">
+                    <div class="product-name"><a href="<?=$_link->getProduct()->getProductUrl()?>" title="<?=$_link->getProduct()->getName()?>"><?=$_link->getProduct()->getName()?></a></div>
+                    <div class="product-price"><?=$_link->getProduct()->getFormatedPrice()?></div>
+                </div>
+            </div>
+            <?endforeach?>
+            <div class="clearfix"></div>
+    </div>
+<?endif?>
 <div class="clearfix" style="height: 20px;">&nbsp;</div>

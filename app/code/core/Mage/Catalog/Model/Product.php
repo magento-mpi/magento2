@@ -125,12 +125,23 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getLinkedProducts($linkType)
     {
-        $linkedProducts = Mage::getModel('catalog_resource', 'product_link_collection')
-            ->addProductFilter($this->getProductId())
+        $linkedProducts = Mage::getModel('catalog_resource', 'product_link_collection');
+        $linkedProducts->getProductCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('description');
+        
+
+        $linkedProducts->addProductFilter($this->getProductId())
             ->addTypeFilter($linkType)
             ->loadData();
             
         return $linkedProducts;
+    }
+    
+    public function getRelatedProducts()
+    {
+        return $this->getLinkedProducts(1);
     }
     
     public function getCategories()

@@ -17,6 +17,7 @@ class Mage_Catalog_Model_Mysql4_Product
     protected $_productTable;
     protected $_attributeTable;
     protected $_attributeInSetTable;
+    protected $_linkTable;
     
     protected $_read;
     protected $_write;
@@ -26,6 +27,7 @@ class Mage_Catalog_Model_Mysql4_Product
         $this->_productTable        = Mage::registry('resources')->getTableName('catalog_resource', 'product');
         $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
         $this->_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
+        $this->_linkTable           = Mage::registry('resources')->getTableName('catalog_resource', 'product_link');
         
         $this->_read = Mage::registry('resources')->getConnection('catalog_read');
         $this->_write = Mage::registry('resources')->getConnection('catalog_write');
@@ -107,8 +109,10 @@ class Mage_Catalog_Model_Mysql4_Product
                 $this->_write->insert($this->_productTable, $data);
                 $product->setProductId($this->_write->lastInsertId());
             }
+            
             $this->_saveAttributes($product);
             $this->_saveCategories($product);
+            $this->_saveLinks($product);
             
             $this->_write->commit();
         }
@@ -120,6 +124,9 @@ class Mage_Catalog_Model_Mysql4_Product
     
     protected function _saveAttributes(Mage_Catalog_Model_Product $product)
     {
+        if (!$product->getData('attributes')) {
+            return false;
+        }
         $attributes = $this->getAttributes($product->getSetId());
         foreach ($attributes as $attribute) {
             if ($product->getData('attributes', $attribute->getId())) {
@@ -147,6 +154,25 @@ class Mage_Catalog_Model_Mysql4_Product
     protected function _saveCategories(Mage_Catalog_Model_Product $product)
     {
         
+    }
+    
+    protected function _saveLinks(Mage_Catalog_Model_Product $product)
+    {
+        if (($related = $product->getRelatedLinks()) && is_array($related)) {
+            $linkType = 1; // TODO: get from config or model constant
+            $condition = $this->_write->quoteInto('product_id=?', $product->getId())
+                       . ' AND ' . $this->_write->quoteInto('link_type_id=?', $linkType);
+            $this->_write->delete($this->_linkTable, $condition);
+            $data = array(
+                'product_id'    => $product->getId(),
+                'link_type_id'  => $linkType,
+            );
+            
+            foreach ($related as $productId) {
+                $data['linked_product_id'] = $productId;
+                $this->_write->insert($this->_linkTable, $data);
+            }
+        }
     }
     
     protected function _prepareSaveData(Mage_Catalog_Model_Product $product)
