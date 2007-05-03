@@ -143,7 +143,11 @@ Mage.Sales = function(depend){
                 if (node.attributes.orderStatus) {
                    url  =  url + 'orderstatus/'+ node.attributes.orderStatus + '/'    
                 }
-                this.centerLayout.getRegion('center').getActivePanel().setTitle(node.parentNode.text + ' - ' + node.text);
+                if (node.parentNode === this.oTree.root) {
+                    this.centerLayout.getRegion('center').getActivePanel().setTitle(node.text);
+                } else {
+                    this.centerLayout.getRegion('center').getActivePanel().setTitle(node.parentNode.text + ' - ' + node.text);
+                }
                 this.grid.getDataSource().proxy.getConnection().url = url
                 this.grid.getDataSource().load();
             }.createDelegate(this));
@@ -250,7 +254,8 @@ Mage.Sales = function(depend){
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
-            this.cardPanel.setTitle(this.lastSelectedRecord.data.form_panel_title || 'Order Info Panel');
+            console.log(this.lastSelectedRecord);
+            this.cardPanel.setTitle(this.lastSelectedRecord.json.form_panel_title || 'Order Info Panel');
         },
         
         createEditPanel : function(order_id) {
