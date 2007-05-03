@@ -8,6 +8,8 @@ Mage.Sales = function(depend){
         gridPageSize : 30,
         gridUrl : Mage.url + 'mage_sales/order/grid/',
         
+        formUrl : Mage.url + 'mage_sales/order/form/',
+        
         oTree : null,
         websiteCBUrl : Mage.url + 'mage_core/website/list/',
         websitesTreeUrl : Mage.url + 'mage_sales/order/tree/',
@@ -58,14 +60,18 @@ Mage.Sales = function(depend){
                 })
                 
                 this.centerLayout.add('center', new Ext.GridPanel(this.grid, {
-                    autoCreate : true,
                     fitToFrame:true
                 }));
                 
-                this.centerLayout.add('south', new Ext.ContentPanel(Ext.id(), {
-                    autoCreate : true,
-                    fitToFrame:true
-                }));
+//                var formBaseEl = this.centerLayout.getRegion('south').getEl().createChild({tag:'div'});
+//                var toolbarFromBasEl = formBaseEl.createChild({tag : 'div'});
+//                var toolbar = this.createFormtoolbar({baseEl : toolbarFromBasEl});
+//                
+//                this.centerLayout.add('south', new Ext.ContentPanel(formBaseEl, {
+//                    toolbar : toolbar,
+//                    url : this.formUrl,
+//                    fitToFrame:true
+//                }));
                 this.centerLayout.endUpdate();
 
                 this.layout.beginUpdate();
@@ -127,9 +133,15 @@ Mage.Sales = function(depend){
             sm.on('selectionchange', function(){
                 var node = sm.getSelectedNode();
                 var data = {};
-                data.siteId = node.attributes.siteId || null;
-                data.orderStatus = node.attributes.orderStatus || null;
-                this.grid.getDataSource().load({params : data});
+                var url = this.gridUrl;
+                if (node.attributes.siteId) {
+                    url  =  url + 'siteid/'+ node.attributes.siteId + '/'
+                }
+                if (node.attributes.orderStatus) {
+                   url  =  url + 'orderstatus/'+ node.attributes.orderStatus + '/'    
+                }
+                this.grid.getDataSource().proxy.getConnection().url = url
+                this.grid.getDataSource().load();
             }.createDelegate(this));
             
             var wsRoot = new Ext.tree.AsyncTreeNode({
@@ -156,7 +168,7 @@ Mage.Sales = function(depend){
             var baseEl = config.baseEl;
 
             this.dataRecord = Ext.data.Record.create([
-                {name: 'real_order_id', mapping: 'real_order_id'},
+                {name: 'order_id', mapping: 'order_id'},
                 {name: 'customer_id', mapping: 'customer_id'},
                 {name: 'firstname', mapping: 'firstname'},
                 {name: 'lastname', mapping: 'lastname'},
@@ -169,7 +181,7 @@ Mage.Sales = function(depend){
             var dataReader = new Ext.data.JsonReader({
                 root: 'items',
                 totalProperty: 'totalRecords',
-                id: 'real_order_id'
+                id: 'order_id'
             }, this.dataRecord);
 
              var dataStore = new Ext.data.Store({
@@ -180,7 +192,7 @@ Mage.Sales = function(depend){
              });
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "Order ID", sortable: true, dataIndex: 'real_order_id'},
+                {header: "Order ID", sortable: true, dataIndex: 'order_id'},
                 {header: "Customer ID", sortable: true, dataIndex: 'customer_id'},
                 {header: "Firstname", sortable: true, dataIndex: 'firstname'},
                 {header: "Lastname", sortable: true, dataIndex: 'lastname'},
@@ -214,6 +226,14 @@ Mage.Sales = function(depend){
             });
             
             paging.items.map.item5.enable();
+        },
+        
+        createFormtoolbar : function(config) {
+            this.toolbar = new Ext.Toolbar(config.baseEl);
+            this.toolbar.add(new Ext.ToolbarButton({
+                text : 'Save'
+            }));
+            return this.toolbar;
         }
     }
 }();
