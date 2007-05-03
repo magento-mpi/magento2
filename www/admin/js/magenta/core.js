@@ -196,8 +196,11 @@ Mage.Search = function() {
                             break;
                             
                         case 'order':
-//                            Mage.Catalog_Product.viewGrid({load:true, catId:id[1], catTitle:''});
-//                            Mage.Catalog_Product.doCreateItem(id[2], 'yes');
+                            Mage.Sales.loadMainPanel();
+                            Mage.Sales.loadOrder({
+                                id : id[2],
+                                title : record.json.form_panel_title
+                            })
                             break;
                     }
                 }

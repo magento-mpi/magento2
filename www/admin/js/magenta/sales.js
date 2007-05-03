@@ -93,7 +93,6 @@ Mage.Sales = function(depend){
         
         loadMainPanel : function() {
             this.init();
-
         },
         
         loadWebSitesTree : function() {
@@ -255,7 +254,11 @@ Mage.Sales = function(depend){
                 this.formPanel.setUrl(this.formUrl, {id : config.id});
                 this.formPanel.refresh();
             }
-            this.cardPanel.setTitle(this.lastSelectedRecord.json.form_panel_title || 'Order Info Panel');
+            if (this.lastSelectedRecord) {
+                this.cardPanel.setTitle(this.lastSelectedRecord.json.form_panel_title || 'Order Info Panel');
+            } else {
+                this.cardPanel.setTitle(config.form_panel_title || 'Order Info Panel');
+            }
         },
         
         createEditPanel : function(order_id) {
@@ -282,7 +285,7 @@ Mage.Sales = function(depend){
                 this.formPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
                     autoCreate : true,
                     url : this.formUrl,
-                    params : {real_order_id : order_id}
+                    params : {id : order_id}
                 }));
             
                 this.cardPanel = this.centerLayout.add('south', new Ext.NestedLayoutPanel(layout, {
