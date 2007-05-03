@@ -36,6 +36,7 @@ Mage.Menu_Core = function(){
         initRight: function(){
             function chooseTheme(item, e) {
                 var themeStyleEl =  Ext.get('theme_stylesheet');
+                Cookies.set('admtheme', item.value);
                 themeStyleEl.dom.href = themeStyleEl.dom.href.replace(/(ytheme-).*(\.css)$/, '$1'+item.value+'$2');
             }
 
