@@ -9,6 +9,7 @@ Mage.Sales = function(depend){
         gridUrl : Mage.url + 'mage_sales/order/grid/',
         lastSelectedRecord : null,
         
+        formPanel : null,
         formUrl : Mage.url + 'mage_sales/order/form/',
         
         oTree : null,
@@ -22,7 +23,7 @@ Mage.Sales = function(depend){
                     center : {
                         autoScroll : false,
                         titlebar : false,
-                        hideTabs:true
+                        hideTabs : true
                     },
                     west: {
                         split:true,
@@ -63,16 +64,6 @@ Mage.Sales = function(depend){
                 this.centerLayout.add('center', new Ext.GridPanel(this.grid, {
                     fitToFrame:true
                 }));
-                
-//                var formBaseEl = this.centerLayout.getRegion('south').getEl().createChild({tag:'div'});
-//                var toolbarFromBasEl = formBaseEl.createChild({tag : 'div'});
-//                var toolbar = this.createFormtoolbar({baseEl : toolbarFromBasEl});
-//                
-//                this.centerLayout.add('south', new Ext.ContentPanel(formBaseEl, {
-//                    toolbar : toolbar,
-//                    url : this.formUrl,
-//                    fitToFrame:true
-//                }));
 
                 this.centerLayout.endUpdate();
 
@@ -219,7 +210,7 @@ Mage.Sales = function(depend){
                 if (this.lastSelectedRecord !== record) {
                     this.lastSelectedRecord = record;
                     this.loadOrder({
-                        id : record.data.order_id
+                        id : record.data.real_order_id
                     });
                 }
             }, this)
@@ -241,39 +232,42 @@ Mage.Sales = function(depend){
         
         loadOrder : function(config) {
             console.log(config);
-            var baseEl = this.centerLayout.getRegion('south');
-            this.createEditPanel();
-            
+            this.createEditPanel(config.id || 0);
         },
         
-        createEditPanel : function() {
+        createEditPanel : function(order_id) {
             var baseEl = this.centerLayout.getRegion('south').getEl().createChild({tag : 'div'});
             var layout = new Ext.BorderLayout(baseEl,{
                 north : {
-                    
+                    autoScroll:false
                 },
                 center : {
                     
                 }
             });
             
-            layout.add('north', new Ext.ContentPanel(Ext.id(), {
-                autoCreate : true
-            }));
-            
-            layout.add('center', new Ext.ContentPanel(Ext.id(), {
+            var layoutBaseEl = layout.getEl().createChild({tag : 'div'});
+            var toolbar = this.createFormToolbar({
+                baseEl : layoutBaseEl.createChild({tag : 'div'})
+            });
+            layout.add('north', new Ext.ContentPanel(layoutBaseEl, {
                 autoCreate : true,
-                url : this.formUrl
+                toolbar : toolbar
             }));
             
+            this.formPanel = layout.add('center', new Ext.ContentPanel(Ext.id(), {
+                autoCreate : true,
+                url : this.formUrl,
+                method : 'POST',
+                params : {real_order_id : order_id}
+            }));
             
             this.centerLayout.add('south', new Ext.NestedLayoutPanel(layout, {
                 title : 'Order Info'
             }));
-            
         },
         
-        createFormtoolbar : function(config) {
+        createFormToolbar : function(config) {
             this.toolbar = new Ext.Toolbar(config.baseEl);
             this.toolbar.add(new Ext.ToolbarButton({
                 text : 'Save'
