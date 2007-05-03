@@ -37,7 +37,7 @@ VarienForm.prototype = {
         Element.removeClassName(element, this.highlightClass);
     },
     
-    setElementsRelation: function(parent, child, dataUrl){
+    setElementsRelation: function(parent, child, dataUrl, first){
         if (parent=$(parent)) {
             // TODO: array of relation and caching
             if (!this.cache[parent.id]){
@@ -45,6 +45,7 @@ VarienForm.prototype = {
                 this.cache[parent.id]['child']     = child;
                 this.cache[parent.id]['dataUrl']   = dataUrl;
                 this.cache[parent.id]['data']      = $A();
+                this.cache[parent.id]['first']      = first || false;
             }
             Event.observe(parent,'change',this.childLoader);
         }
@@ -83,6 +84,9 @@ VarienForm.prototype = {
             var child = $(this.cache[this.currLoader]['child']);
             if (child){
                 var html = '<select name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
+                if(this.cache[this.currLoader]['first']){
+                    html+= '<option value="">'+this.cache[this.currLoader]['first']+'</option>';
+                }
                 for (var i in data){
                     if(data[i].value) {
                         html+= '<option value="'+data[i].value+'"';

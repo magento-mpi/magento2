@@ -52,7 +52,7 @@ Checkout.prototype = {
     setReview: function() {
         this.reloadStatusBlock();
         this.reloadReviewBlock();
-    	this.accordion.openNextSection(true);
+        this.accordion.openNextSection(true);
     },
     
     back: function(){

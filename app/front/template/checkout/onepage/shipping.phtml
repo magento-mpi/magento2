@@ -61,7 +61,7 @@
                         <?if($regions->getSize()):?>
                             <select title="State/Province" id="shipping:region" name="shipping[region]" class="validate-select required-entry">
                                 <option value="">Select State/Province...</option>
-                                <?=$regions->toHtmlOptions($address->getRegionId())?>
+                                <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>
                         <?else:?>
                             <input type="text" id="shipping:region" name="shipping[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text"/>
@@ -104,5 +104,5 @@
 <script type="text/javascript">
     var shipping = new Shipping('co-shipping-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveShipping/', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/');
     var shippingForm = new VarienForm('co-shipping-form');
-    shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
+    shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/', 'Select State/Province...');
 </script>

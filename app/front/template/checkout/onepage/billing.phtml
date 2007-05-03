@@ -18,7 +18,7 @@
     <div class="default-box" style="display:block;">
         <form id="co-billing-form">
             <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id"/>
-            <fieldset>
+            <fieldset class="group-single">
             <ul class="input-list">
                 <li>
                     <div class="input-left">
@@ -55,7 +55,7 @@
                         <?if($regions->getSize()):?>
                             <select title="State/Province" id="billing:region" name="billing[region]" class="input-text required-entry">
                                 <option value="">Select State/Province...</option>
-                                <?=$regions->toHtmlOptions($address->getRegionId())?>
+                                <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>
                         <?else:?>
                             <input type="text" id="billing:region" name="billing[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text"/>
@@ -97,5 +97,5 @@
 <script type="text/javascript">
     var billing = new Billing('co-billing-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveBilling/');
     var billingForm = new VarienForm('co-billing-form');
-    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$baseSecureUrl?>directory/json/childRegion/');
+    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$baseSecureUrl?>directory/json/childRegion/', 'Select State/Province...');
 </script>

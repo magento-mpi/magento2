@@ -121,6 +121,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($addressId) {
             $address = Mage::getModel('customer', 'address')->load((int)$addressId);
             $address->explodeStreetAddress();
+            if ($address->getRegionId()) {
+                $address->setRegion($address->getRegionId());
+            }
             $this->getResponse()->setHeader('Content-type', 'application/x-json');
             $this->getResponse()->appendBody($address->__toJson());
         }
