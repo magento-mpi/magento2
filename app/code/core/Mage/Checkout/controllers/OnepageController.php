@@ -286,7 +286,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $customer->setFirstname($billing->getFirstname());
         $customer->setLastname($billing->getLastname());
         $customer->setEmail($billing->getEmail());
-        $customer->setPasswordHash($this->_quote->getHashPassword());
+        $customer->setPasswordHash($this->_quote->getPasswordHash());
 
         $customer->save();
         
