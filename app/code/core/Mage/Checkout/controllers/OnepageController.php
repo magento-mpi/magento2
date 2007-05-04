@@ -29,6 +29,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_checkout->setCompletedPayment(false);
         $this->_checkout->setCompletedShipping(false);
         $this->_checkout->setCompletedShippingMethod(false);
+        $this->_checkout->setAllowBilling(false);
         $this->_checkout->setAllowPayment(false);
         $this->_checkout->setAllowShipping(false);
         $this->_checkout->setAllowShippingMethod(false);
@@ -149,7 +150,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 if ($customer->getId()) {
                     $res = array(
                         'error' => 1,
-                        'message' => __('There is already a customer with this email')
+                        'message' => __('There is already a customer registered using this email')
                     );
                     $this->getResponse()->setBody(Zend_Json::encode($res));
                     return;
@@ -158,16 +159,25 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             
             $address->implodeStreetAddress();
             $this->_quote->setBillingAddress($address);
-            
+
             if ($address->getUseForShipping()) {
-                //$this->_quote->setShippingAddress($address);
+                $address->setSameAsBilling(1);
+                $this->_quote->setShippingAddress($address);
+            } else {
+                $shipping = $this->_quote->getAddressByType('shipping');
+                $shipping->setSameAsBilling(0);
+            }
+            
+            if ($address->getCustomerPassword()) {
+                $customerResource = Mage::getModel('customer_resource', 'customer');
+                $this->_quote->setHashPassword($customerResource->hashPassword($address->getCustomerPassword()));
             }
             
             $this->_quote->save();
             $this->_checkout->setAllowBilling(true);
             $this->_checkout->setCompletedBilling(true);
             $this->_checkout->setAllowPayment(true);
-            $this->getResponse()->setBody(Zend_Json::encode(array()));
+            $this->getResponse()->setBody('[]');
         }
     }
     
@@ -184,6 +194,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             
             $this->_checkout->setCompletedPayment(true);
             $this->_checkout->setAllowShipping(true);
+            
+            $shipping = $this->_quote->getAddressByType('shipping');
+            if ($shipping && $shipping->getSameAsBilling()) {
+                $this->_checkout->setCompletedShipping(true);
+                $this->_checkout->setAllowShippingMethod(true);
+            }
         }
     }
     
@@ -226,6 +242,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $res = array('error'=>1);
         if ($this->getRequest()->isPost()) {
             try {
+                if ($this->_quote->getMethod()=='register') {
+                    $this->_createCustomer();
+                }
                 $this->_quote->createOrders();
                 $orderId = $this->_quote->getCreatedOrderId();
                 $this->_checkout->clear();
@@ -241,5 +260,38 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         
         $this->getResponse()->setHeader('Content-type', 'application/x-json');
         $this->getResponse()->appendBody(Zend_Json::encode($res));
+    }
+    
+    protected function _createCustomer()
+    {
+        $customer = Mage::getModel('customer', 'customer');
+        
+        $billingEntity = $this->_quote->getAddressByType('billing');
+        $billing = Mage::getModel('customer', 'address');
+        $billing->addData($billingEntity->getData());
+        $customer->addAddress($billing);
+        
+        $shippingEntity = $this->_quote->getAddressByType('shipping');
+        if (!$shippingEntity->getSameAsBilling()) {
+            $shipping = Mage::getModel('customer', 'address');
+            $shipping->addData($shippingEntity->getData());
+            $customer->addAddress($shipping);
+        } else {
+            $shipping = $billing;
+        }
+        //TODO: check that right primary types are assigned
+        
+        $customer->setFirstname($billing->getFirstname());
+        $customer->setLastname($billing->getLastname());
+        $customer->setEmail($billing->getEmail());
+        $customer->setHashPassword($this->_quote->getHashPassword());
+
+        $customer->save();
+        
+        $this->_quote->setCustomerId($customer->getId());
+        $billingEntity->setCustomerId($customer->getId())->setAddressId($billing->getId());
+        $shippingEntity->setCustomerId($customer->getId())->setAddressId($shipping->getId());
+        
+        Mage::getSingleton('customer', 'session')->loginById($customer->getId());
     }
 }

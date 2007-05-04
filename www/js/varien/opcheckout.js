@@ -21,10 +21,6 @@ Checkout.prototype = {
     reloadReviewBlock: function(){
         var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get'});
     },
-
-    syncForms: function(){
-        
-    },
     
     setMethod: function(){
         if ($('checkout_method:guest') && $('checkout_method:guest').checked) {
@@ -60,9 +56,12 @@ Checkout.prototype = {
     },
 
     setBilling: function() {
-        if ($('use_address_for_shipping') && $('use_address_for_shipping').checked){
-            this.syncForms();
+        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
+            shipping.syncWithBilling();
+        } else {
+            $('shipping:same_as_billing').checked = false;
         }
+        
         this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
@@ -139,7 +138,7 @@ Billing.prototype = {
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
-                var fieldName = arrElements[elemIndex].id.replace(/billing:/, '');
+                var fieldName = arrElements[elemIndex].id.replace(/^billing:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
                 if (fieldName == 'country_id' && billingForm){
                     billingForm.elementChildLoad(arrElements[elemIndex]);
@@ -148,9 +147,17 @@ Billing.prototype = {
         }
     },
     
+    setUseForShipping: function(flag) {
+        $('shipping:same_as_billing').checked = flag;
+    },
+    
     save: function(){
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            if (checkout.method=='register' && $('billing:customer_password').value != $('billing:confirm_password').value) {
+                alert('Error: Passwords do not match');
+                return;
+            }
             var request = new Ajax.Request(
                 this.saveUrl,
                 {method: 'post', onSuccess: this.onSave, parameters: Form.serialize(this.form)}
@@ -233,6 +240,9 @@ Payment.prototype = {
 
     nextStep: function(){
         checkout.setShipping();
+        if ($('billing:use_for_shipping').checked) {
+            checkout.setShippingMethod();
+        }
     }
 }
 
@@ -246,9 +256,6 @@ Shipping.prototype = {
         this.methodsUrl = methodsUrl;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onSave = this.nextStep.bindAsEventListener(this);
-        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
-            
-        }
     },
 
     setAddress: function(addressId){
@@ -286,13 +293,34 @@ Shipping.prototype = {
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
-                var fieldName = arrElements[elemIndex].id.replace(/shipping:/, '');
+                var fieldName = arrElements[elemIndex].id.replace(/^shipping:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
                 if (fieldName == 'country_id' && shippingForm){
                     shippingForm.elementChildLoad(arrElements[elemIndex]);
                 }
             }
         }
+    },
+    
+    setSameAsBilling: function(flag) {
+        $('shipping:same_as_billing').checked = flag;
+        $('billing:use_for_shipping').checked = flag;
+        if (flag) {
+            this.syncWithBilling();
+        }
+    },
+    
+    syncWithBilling: function () {
+        $('shipping:same_as_billing').checked = true;
+        arrElements = Form.getElements(this.form);
+        for (var elemIndex in arrElements) {
+            if (arrElements[elemIndex].id) {
+                var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
+                arrElements[elemIndex].value = sourceField.value;
+            }
+        }
+        shippingForm.elementChildLoad($('shipping:country_id'));
+        $('shipping:region').value = $('billing:region').value; //FIXME: works only after 1st time
     },
     
     save: function(){

@@ -66,19 +66,66 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Load layout configuration update from file
      *
-     * @param Varien_Simplexml_Element $args
+     * @param string $fileName
      */
     public function loadUpdateFile($fileName)
     {
-        #$fileName = (string)$args->file;
-        #$fileName = Mage::getBaseDir('layout').DS.$fileName;
         $this->addCacheStat($fileName);
-        
         $update = $this->loadFile($fileName);
-        
+        $this->mergeUpdate($update);
+
+        return $this;
+    }
+    
+    public function mergeUpdate($update)
+    {
         #$update->prepare($args);
-        foreach ($update as $child) {
-            $this->getNode()->appendChild($child);
+        foreach ($update->children() as $child) {
+            if ($child->getName()==='remove') {
+                if (isset($child['method'])) {
+                    $this->removeAction((string)$child['name'], (string)$child['method']);
+                } else {
+                    $this->removeBlock((string)$child['name']);
+                }
+            } else {
+                $this->getNode()->appendChild($child);
+            }
+        }
+        return $this;
+    }
+    
+    public function removeBlock($blockName, $parent=null)
+    {
+        if (is_null($parent)) {
+            $parent = $this->getNode();
+        }
+        foreach ($parent->children() as $children) {
+echo "TEST:".$children[0];
+            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
+                $child = $children[$i];
+                if ($child->getName()==='block' && $blockName===(string)$child['name']) {
+                    unset($parent->block[$i]);
+                }
+                $this->removeBlock($blockName, $child);
+            }
+        }
+        return $this;
+    }
+    
+    public function removeAction($blockName, $method, $parent=null)
+    {
+        if (is_null($parent)) {
+            $parent = $this->getNode();
+        }
+        foreach ($parent->children() as $children) {
+            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
+                $child = $children[$i];
+                if ($child->getName()==='action' && $blockName===(string)$child['name'] && $method===(string)$child['method']) {
+echo "TEST:".$i;
+                    unset($parent->action[$i]);
+                }
+                $this->removeAction($blockName, $method, $child);
+            }
         }
         return $this;
     }

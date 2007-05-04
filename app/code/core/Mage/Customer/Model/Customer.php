@@ -133,7 +133,10 @@ class Mage_Customer_Model_Customer extends Varien_Data_Object
     
     public function getHashPassword()
     {
-        return $this->getResource()->hashPassword($this->getPassword());
+        if (!$this->getData('hash_password') && $this->getPassword()) {
+            $this->setHashPassword($this->getResource()->hashPassword($this->getPassword()));
+        }
+        return $this->getData('hash_password');
     }
     
     public function getWishlistCollection()

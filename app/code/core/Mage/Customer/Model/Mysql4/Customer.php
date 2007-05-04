@@ -119,12 +119,9 @@ class Mage_Customer_Model_Mysql4_Customer
         $data['email']       = $customer->getEmail();
         $data['firstname']   = $customer->getFirstname();
         $data['lastname']    = $customer->getLastname();
+        $data['password']    = $customer->getHashPassword();
         
         // TODO: Zend_Validate for fields
-        
-        if ($customer->getPassword()) {
-            $data['password'] = $this->hashPassword($customer->getPassword());
-        }
         
         // Check uniq email
         $testCustomer = Mage::getModel('customer', 'customer')->loadByEmail($data['email']);

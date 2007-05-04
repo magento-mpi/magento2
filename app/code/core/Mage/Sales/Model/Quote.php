@@ -21,48 +21,39 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     {
         return $this->getEntitiesByType('item');
     }
-
-    public function setBillingAddress(Varien_Data_Object $address)
+    
+    public function setAddress(Varien_Data_Object $address)
     {
-        $old = $this->getAddressByType('billing');
+        if (!$address->getAddressType()) {
+            throw Mage::exception('Mage_Sales', 'Trying to add address to quote without address_type');
+        }
+        $old = $this->getAddressByType($address->getAddressType());
         if (!empty($old)) {
             $this->removeEntity($old);
         }
-        $address->setAddressType('billing');
-        $this->addEntity($address);
-        
+        $entity = Mage::getModel('sales', 'quote_entity_address')->addData($address->getData());
+        $this->addEntity($entity);
         return $this;
+    }
+    
+    public function setBillingAddress(Varien_Data_Object $address)
+    {
+        return $this->setAddress($address->setAddressType('billing'));
     }
     
     public function setShippingAddress(Varien_Data_Object $address)
     {
-        $old = $this->getAddressByType('shipping');
-        if (!empty($old)) {
-            $this->removeEntity($old);
-        }
-        $address->setAddressType('shipping');
-        $this->addEntity($address);
-        return $this;
+        return $this->setAddress($address->setAddressType('shipping'));
     }
-    
-    public function setAddress($addressType, Mage_Customer_Model_Address $address)
-    {
-        $existingAddress = $this->getAddressByType($addressType);
-        if (empty($existingAddress)) {
-            $address->setAddressType($addressType);
-            $this->addEntity('address', $address);
-        } else {
-            $existingAddress->addData($address->getData());
-        }
-        return $this;
-    }
-    
-    public function setPayment($payment)
+
+    public function setPayment(Varien_Data_Object $payment)
     {
         foreach ($this->getEntitiesByType('payment') as $oldPayment) {
             $this->removeEntity($oldPayment);
         }
-        $this->addEntity($payment);
+        $entity = Mage::getModel('sales', 'quote_entity_payment')
+            ->addData($payment->getData());
+        $this->addEntity($entity);
         return $this;
     }
     
@@ -99,8 +90,9 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         }
         
         if (!$itemFound) {
-            $itemFound = Mage::getModel('sales', 'quote_entity_item');
-            $itemFound->setEntityType('item')->addData($product->getData());
+            $itemFound = Mage::getModel('sales', 'quote_entity_item')
+                ->addData($product->getData())
+                ->setEntityType('item');
             $this->addEntity($itemFound);
         }
         

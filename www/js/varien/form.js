@@ -10,6 +10,7 @@ VarienForm.prototype = {
         this.elementBlur    = this.elementOnBlur.bindAsEventListener(this);
         this.childLoader    = this.onChangeChildLoad.bindAsEventListener(this);
         this.highlightClass = 'highlight';
+        this.extraChildParams = '';
         this.bindElements();
         try{
             Form.Element.focus(Form.findFirstElement(this.form))
@@ -87,7 +88,7 @@ VarienForm.prototype = {
         if (data.length) {
             var child = $(this.cache[this.currLoader]['child']);
             if (child){
-                var html = '<select name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
+                var html = '<select name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'" '+this.extraChildParams+'>';
                 if(this.cache[this.currLoader]['first']){
                     html+= '<option value="">'+this.cache[this.currLoader]['first']+'</option>';
                 }
@@ -108,7 +109,7 @@ VarienForm.prototype = {
         else{
             var child = $(this.cache[this.currLoader]['child']);
             if (child){
-                var html = '<input type="text" name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'">';
+                var html = '<input type="text" name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'" '+this.extraChildParams+'>';
                 new Insertion.Before(child,html);
                 Element.remove(child);
             }

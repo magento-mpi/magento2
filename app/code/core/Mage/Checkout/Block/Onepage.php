@@ -89,6 +89,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $billing = Mage::getModel('sales', 'quote_entity_address');
         }
         
+        $shipping = $this->_quote->getAddressByType('shipping');
+        $useForShipping = $shipping && $shipping->getSameAsBilling();
+        
         // assign customer addresses
         $customerSession = Mage::getSingleton('customer', 'session');
         if ($customerSession->isLoggedIn()) {
@@ -99,6 +102,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $countries = Mage::getModel('directory', 'country_collection');
         $block->assign('address', $billing)
+            ->assign('useForShipping', $useForShipping)
             ->assign('customerIsLogedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('method', $this->_quote->getMethod())

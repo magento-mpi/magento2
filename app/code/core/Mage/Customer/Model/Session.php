@@ -44,6 +44,17 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         return false;
     }
     
+    public function loginById($customerId)
+    {
+        $customer = Mage::getModel('customer', 'customer')->load($customerId);
+        if ($customer) {
+            $this->setCustomer($customer);
+            Mage::dispatchEvent('customerLogin');
+            return true;
+        }
+        return false;
+    }
+    
     public function logout()
     {
         if ($this->isLoggedIn()) {

@@ -196,8 +196,6 @@
                 <giftcert_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Giftcert</class><position>50</position></giftcert_amount>
                 <custbalance_amount><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Custbalance</class><position>60</position></custbalance_amount>
                 <grand_total><type>decimal</type><class>Mage_Sales_Model_Quote_Attribute_Grand</class><position>100</position></grand_total>
-
-                <method><type>varchar</type></method>
            </self>
            <address>
                 <customer_id><type>int</type></customer_id>

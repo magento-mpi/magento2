@@ -51,6 +51,18 @@
             <connection><use>core_read</use></connection>
          </checkout_read>
       </resources>
+      
+      <salesAttributes>
+         <quote>
+            <self>
+                <method><type>varchar</type></method>
+                <hash_password><type>varchar</type></hash_password>
+            </self>
+            <address>
+                <same_as_billing><type>int</type></same_as_billing>
+            </address>
+         </quote>
+      </salesAttributes>
    </global>
 
    <front>

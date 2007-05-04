@@ -5,7 +5,7 @@
             Select a shipping address from your address book or enter a &nbsp;
             <a href="#" onclick="shipping.setAddress(false); return false;">new address</a>
         </p>
-        <select id="shipping-address-select" name="" style="width:100%;" onchange="shipping.setAddress(this.value);">
+        <select id="shipping-address-select" name="" style="width:100%;" onchange="shipping.setAddress(this.value); shipping.setSameAsBilling(false);">
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
             <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
@@ -16,8 +16,8 @@
     </div>
     <?endif?>
     <div class="default-box" style="display:block;">
-        <input type="checkbox" name="shipping[use_for_shipping]" id="use_address_from_billing" value="1">
-        <label for="billing:use_for_shipping">Use for shipping</label>
+        <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($address->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)">
+        <label for="shipping:same_as_billing">Same as billing</label>
         <form id="co-shipping-form">
             <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id"/>
             <fieldset>
@@ -25,18 +25,18 @@
                 <li>
                     <div class="input-left">
                         <label for="shipping:firstname">First Name <span class="required">*</span></label><br/>
-                        <input type="text" id="shipping:firstname" name="shipping[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+                        <input type="text" id="shipping:firstname" name="shipping[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);"/>
                     </div>
                     <div class="input-right">
                         <label for="shipping:lastname">Last Name <span class="required">*</span></label><br/>
-                        <input type="text" id="shipping:lastname" name="shipping[lastname]" value="<?=$address->getLastname()?>" title="Last Name" class="required-entry input-text"/>
+                        <input type="text" id="shipping:lastname" name="shipping[lastname]" value="<?=$address->getLastname()?>" title="Last Name" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="shipping:company">Company</label><br/>
-                        <input type="text" id="shipping:company" name="shipping[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
+                        <input type="text" id="shipping:company" name="shipping[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text" onchange="shipping.setSameAsBilling(false);"/>
                     </div>
                     <!--
                     <div class="input-right">
@@ -48,46 +48,46 @@
                 </li>
                 <li>
                     <label for="shipping:street_address">Street Address <span class="required">*</span></label><br/>
-                    <input type="text" title="Street Address" name="shipping[street][1]" id="shipping:street1" value="<?=$address->getStreet(1)?>" class="required-entry input-text"/>
+                    <input type="text" title="Street Address" name="shipping[street][1]" id="shipping:street1" value="<?=$address->getStreet(1)?>" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);"/>
                 </li>
                 <li>
-                    <input type="text" title="Street Address 2" name="shipping[street][2]" id="shipping:street2" value="<?=$address->getStreet(2)?>" class="input-text"/>
+                    <input type="text" title="Street Address 2" name="shipping[street][2]" id="shipping:street2" value="<?=$address->getStreet(2)?>" class="input-text" onchange="shipping.setSameAsBilling(false);"/>
                 </li>
                 <li>
                     <label for="shipping:city">City <span class="required">*</span></label><br/>
-                    <input type="text" title="City" name="shipping[city]" value="<?=$address->getCity()?>" class="required-entry input-text" id="shipping:city"/>
+                    <input type="text" title="City" name="shipping[city]" value="<?=$address->getCity()?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);"/>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
                         <?if($regions->getSize()):?>
-                            <select title="State/Province" id="shipping:region" name="shipping[region]" class="validate-select required-entry">
+                            <select title="State/Province" id="shipping:region" name="shipping[region]" class="validate-select required-entry" onchange="shipping.setSameAsBilling(false);">
                                 <option value="">Select State/Province...</option>
                                 <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>
                         <?else:?>
-                            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text"/>
+                            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);"/>
                         <?endif?>
                     </div>
                     <div class="input-right">
                         <label for="shipping:postcode">Zip <span class="required">*</span></label><br/>
-                        <input type="text" title="ZIP/Post Code" name="shipping[postcode]" id="shipping:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text"/>
+                        <input type="text" title="ZIP/Post Code" name="shipping[postcode]" id="shipping:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text" onchange="shipping.setSameAsBilling(false);"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
                 <li>
                     <label for="shipping:country_id">Country <span class="required">*</span></label><br/>
-                    <select id="shipping:country_id" name="shipping[country_id]" title="Country">
+                    <select id="shipping:country_id" name="shipping[country_id]" title="Country" onchange="shipping.setSameAsBilling(false);">
                         <?=$countries->toHtmlOptions($address->getCountryId())?>
                     </select>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="shipping:telephone">Telephone <span class="required">*</span></label><br/>
-                        <input type="text" name="shipping[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="shipping:telephone"/></div>
+                        <input type="text" name="shipping[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
                     <div class="input-right">
                         <label for="shipping:fax">Fax</label><br/>
-                        <input type="text" name="shipping[fax]" value="<?=$address->getFax()?>" title="Fax" class="validate-fax input-text" id="shipping:fax"/>
+                        <input type="text" name="shipping[fax]" value="<?=$address->getFax()?>" title="Fax" class="validate-fax input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/>
                     </div>
                     <div class="clearfix"></div>
                 </li>
@@ -106,5 +106,6 @@
 <script type="text/javascript">
     var shipping = new Shipping('co-shipping-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveShipping/', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/');
     var shippingForm = new VarienForm('co-shipping-form');
+    shippingForm.extraChildParams = ' onchange="shipping.setSameAsBilling(false);"';
     shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$baseSecureUrl?>directory/json/childRegion/', 'Select State/Province...');
 </script>

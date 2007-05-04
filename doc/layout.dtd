@@ -1,4 +1,4 @@
-<!ELEMENT layoutUpdate (block | reference)*>
+<!ELEMENT layoutUpdate (block | reference | disable)*>
 
 <!ELEMENT block (action | block)*>
 <!ATTLIST block
@@ -14,10 +14,15 @@
 <!ATTLIST action
     method CDATA #REQUIRED
     json NMTOKENS #IMPLIED
-    process NMTOKENS #IMPLIED
 >
 
 <!ELEMENT reference (action | block)*>
 <!ATTLIST reference
     name CDATA #REQUIRED
+>
+
+<!ELEMENT remove EMPTY>
+<!ATTLIST remove
+    name CDATA #REQUIRED
+    method CDATA #IMPLIED
 >

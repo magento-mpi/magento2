@@ -99,18 +99,18 @@
                 <li>
                     <div class="input-left">
                         <label for="password">Password <span class="required">*</span></label><br/>
-                        <input type="password" name="billing[password]" id="password" title="Password"  class="required-entry validate-password input-text"/>
+                        <input type="password" name="billing[customer_password]" id="billing:customer_password" title="Password" class="required-entry validate-password input-text"/>
                     </div>
                     <div class="input-right">
                         <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
-                        <input type="password" name="billing[confirmation]" title="Password Confirmation" id="confirmation" class="required-entry validate-password input-text"/>
+                        <input type="password" name="billing[confirm_password]" title="Password Confirmation" id="billing:confirm_password" class="required-entry validate-password input-text"/>
                     </div>
                 </li>
             </ul>
         </fieldset>
         <?endif?>
-        <input type="checkbox" name="billing[use_for_shipping]" id="use_address_for_shipping" value="1" checked>
-        <label for="use_address_for_shipping">Use for shipping</label>
+        <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($useForShipping):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)">
+        <label for="billing:use_for_shipping">Use for shipping</label>
         </form>
     </div>
     <div class="note-box">
