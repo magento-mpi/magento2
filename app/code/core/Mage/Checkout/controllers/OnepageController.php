@@ -163,17 +163,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if ($address->getUseForShipping()) {
                 $address->setSameAsBilling(1);
                 $this->_quote->setShippingAddress($address);
+                $this->_quote->collectAllShippingMethods();
             } else {
                 $shipping = $this->_quote->getAddressByType('shipping');
-                $shipping->setSameAsBilling(0);
+                if ($shipping instanceof Varien_Data_Object) {
+                    $shipping->setSameAsBilling(0);
+                }
             }
-            
+            $this->_quote->save();
             if ($address->getCustomerPassword()) {
                 $customerResource = Mage::getModel('customer_resource', 'customer');
                 $this->_quote->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
             }
             
-            $this->_quote->save();
             $this->_checkout->setAllowBilling(true);
             $this->_checkout->setCompletedBilling(true);
             $this->_checkout->setAllowPayment(true);

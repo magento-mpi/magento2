@@ -158,6 +158,9 @@ Billing.prototype = {
                 alert('Error: Passwords do not match');
                 return;
             }
+            if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
+                $('billing:use_for_shipping').value=1;
+            }
             var request = new Ajax.Request(
                 this.saveUrl,
                 {method: 'post', onSuccess: this.onSave, parameters: Form.serialize(this.form)}

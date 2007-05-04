@@ -90,7 +90,13 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         $shipping = $this->_quote->getAddressByType('shipping');
-        $useForShipping = $shipping && $shipping->getSameAsBilling();
+        if ($shipping instanceof Varien_Data_Object) {
+            $useForShipping = $shipping->getSameAsBilling();
+        }
+        else {
+            $useForShipping = null;
+        }
+        
         
         // assign customer addresses
         $customerSession = Mage::getSingleton('customer', 'session');

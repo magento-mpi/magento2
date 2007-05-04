@@ -16,7 +16,7 @@
     </div>
     <?endif?>
     <div class="default-box" style="display:block;">
-        <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($address->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)">
+        <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($address->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/>
         <label for="shipping:same_as_billing">Same as billing</label>
         <form id="co-shipping-form">
             <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id"/>
