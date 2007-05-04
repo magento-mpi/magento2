@@ -170,7 +170,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             
             if ($address->getCustomerPassword()) {
                 $customerResource = Mage::getModel('customer_resource', 'customer');
-                $this->_quote->setHashPassword($customerResource->hashPassword($address->getCustomerPassword()));
+                $this->_quote->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
             }
             
             $this->_quote->save();
@@ -284,7 +284,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $customer->setFirstname($billing->getFirstname());
         $customer->setLastname($billing->getLastname());
         $customer->setEmail($billing->getEmail());
-        $customer->setHashPassword($this->_quote->getHashPassword());
+        $customer->setPasswordHash($this->_quote->getHashPassword());
 
         $customer->save();
         

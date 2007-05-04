@@ -56,7 +56,7 @@
          <quote>
             <self>
                 <method><type>varchar</type></method>
-                <hash_password><type>varchar</type></hash_password>
+                <password_hash><type>varchar</type></password_hash>
             </self>
             <address>
                 <same_as_billing><type>int</type></same_as_billing>

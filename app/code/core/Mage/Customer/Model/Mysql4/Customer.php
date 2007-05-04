@@ -119,7 +119,7 @@ class Mage_Customer_Model_Mysql4_Customer
         $data['email']       = $customer->getEmail();
         $data['firstname']   = $customer->getFirstname();
         $data['lastname']    = $customer->getLastname();
-        $data['password']    = $customer->getHashPassword();
+        $data['password']    = $customer->getPasswordHash();
         
         // TODO: Zend_Validate for fields
         

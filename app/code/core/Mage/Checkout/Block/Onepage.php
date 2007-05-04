@@ -103,7 +103,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         $countries = Mage::getModel('directory', 'country_collection');
         $block->assign('address', $billing)
             ->assign('useForShipping', $useForShipping)
-            ->assign('customerIsLogedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
+            ->assign('isCustomerLoggedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('method', $this->_quote->getMethod())
             ->assign('regions',     $countries->getDefault($billing->getCountryId())->getRegions());

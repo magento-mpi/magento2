@@ -36,7 +36,7 @@
                         <label for="billing:company">Company</label><br/>
                         <input type="text" id="billing:company" name="billing[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
                     </div>
-                    <?if(!$customerIsLogedIn):?>
+                    <?if(!$isCustomerLoggedIn):?>
                     <div class="input-right">
                         <label for="billing:email">Email <span class="required">*</span></label><br/>
                         <input type="text" name="billing[email]" id="billing:email" value="<?=$address->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
@@ -91,7 +91,7 @@
                 </li>
             </ul>
         </fieldset>
-        <?if(!$customerIsLogedIn):?>
+        <?if(!$isCustomerLoggedIn):?>
         <fieldset class="group-single" id="billing-login-info" style="display:<?if($method=='register'):?>block<?else:?>none<?endif?>">
             <legend>Login Information</legend>
             <h4>Login Information</h4>
