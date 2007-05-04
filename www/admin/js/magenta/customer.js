@@ -6,12 +6,13 @@ Mage.Customer = function(depend){
         _layouts : new Ext.util.MixedCollection(true),
         baseLayout:null,
         customerLayout: null,
-        editPanel : null,
+        editLayout : null,
         addressLayout : null,
         addressView : null,
         gridPanel:null,
         grid:null,
         addressLoading : null,
+        addressPanel : null,
         addressViewUrl : Mage.url + 'mage_customer/address/gridData/',
         addressViewForm : Mage.url + 'mage_customer/address/form/',
         deleteAddressUrl : Mage.url + 'mage_customer/address/delete/',
@@ -23,7 +24,9 @@ Mage.Customer = function(depend){
         forms2Panel : new Ext.util.MixedCollection(),
         forms : new Ext.util.MixedCollection(),
         customerCardId : null,
-
+        lastSelectedCustomer : null,
+        
+        tabCollections : new Ext.util.MixedCollection(),
 
         formsEdit : [],
 
@@ -54,9 +57,11 @@ Mage.Customer = function(depend){
                     center : {
                         autoScroll : false,
                         titlebar : false,
-                        hideTabs:true
+                        hideTabs:true,
+                        preservPanels : true,
                     },
                     south : {
+                        preservePanels : true,
                         hideWhenEmpty : true,
                         split:true,
                         initialSize:300,
@@ -139,15 +144,9 @@ Mage.Customer = function(depend){
                 selModel : rowSelector,
                 enableColLock : false
             });
+            
+            grid.getSelectionModel().on('rowselect', this.createItem.createDelegate(this));
 
-            //grid.on('click', this.showEditPanel.createDelegate(this));
-            grid.on({
-            	rowclick :  this.createItem.createDelegate(this),
-            	rowcontextmenu : function(grid, rowIndex, e){
-            	 	alert('context menu');
-            	 	e.stopEvent();
-            	}
-            });
             this.grid = grid;
 
             this.grid.render();
@@ -167,41 +166,25 @@ Mage.Customer = function(depend){
                 cls: 'x-btn-text-icon btn-add-user',
                 handler : this.createItem.createDelegate(this, [this.customerLayout.getRegion('south')])
             });
-//            ,{
-//                text: 'Add Filter',
-//                scope : this,
-//                cls: 'x-btn-text-icon'
-//            },{
-//                text: 'Apply Filters',
-//                scope : this,
-//                cls: 'x-btn-text-icon'
-//            });
-
             return grid;
         },
         
-        createItem: function(grid, rowIndex, e){
-            try {
-                if (typeof grid.getDataSource == 'function') {
-                    this.customerCardId = grid.getDataSource().getAt(rowIndex).id;
+        createItem: function(sm, rowIndex, record){
+            if (record) {
+                if (this.customerCardId == record.id) {
+                    return false;
                 } else {
-                    this.customerCardId = 0;
+                    this.customerCardId = record.id;                        
                 }
-            } catch (e) {
-                alert(e);
-                return false;
+            } else {
+                this.customerCardId = 0;
             }
             this.showEditPanel();
         },
 
         showEditPanel: function(){
-
-            if (this.customerLayout.getRegion('south') && this.customerLayout.getRegion('south').getActivePanel()) {
-                this.customerLayout.getRegion('south').clearPanels();
-                this.customerLayout.getRegion('south').hide();
-            }
-
-            this.editPanel = new Ext.BorderLayout(this.customerLayout.getEl().createChild({tag:'div'}), {
+            if (!this.editPanel) {
+                this.editLayout = new Ext.BorderLayout(this.customerLayout.getEl().createChild({tag:'div'}), {
                     hideOnLayout:true,
                     north: {
                         split:false,
@@ -213,93 +196,85 @@ Mage.Customer = function(depend){
                         collapsible:false
                      },
                      center:{
+                         preservePanels : true,
                          autoScroll:true,
                          titlebar:false,
                          resizeTabs : true,
                          tabPosition: 'top'
                      }
-            });
+                });
 
-            if (!this.customerCardId) {
-                var deleteDisabled = true;
-                var title = 'New Customer';
+                if (!this.customerCardId) {
+                    var deleteDisabled = true;
+                    var title = 'New Customer';
+                } else {
+                    var deleteDisabled = false;
+                    var title = 'Edit Customer #'+this.customerCardId;
+                }
+            
+                // setup toolbar for forms
+                toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editLayout.getRegion('north').getEl().dom, {tag:'div'}, true));
+                toolbar.add({
+                    text: 'Save',
+                    cls: 'x-btn-text-icon btn-accept',
+                    handler : this.saveItem.createDelegate(this)
+                },{
+                    text: 'Delete',
+                    cls: 'x-btn-text-icon btn-bin-closed',
+                    handler : this.onDelete.createDelegate(this),
+                    disabled : deleteDisabled
+                },{
+                    text: 'Reset',
+                    cls: 'x-btn-text-icon btn-arrow-undo',
+                    handler : this.onReset.createDelegate(this)
+                },{
+                    text: 'Cancel',
+                    cls: 'x-btn-text-icon btn-cancel',
+                    handler : this.onCancelEdit.createDelegate(this)
+                },'-');
+                this.formLoading = toolbar.addButton({
+                   tooltip: 'Form is updating',
+                   cls: "x-btn-icon x-grid-loading",
+                   disabled: false
+                });
+                toolbar.addSeparator();
+
+                this.editLayout.add('north', new Ext.ContentPanel(this.editLayout.getEl().createChild({tag:'div'}), {toolbar: toolbar}));
+                this.editPanel = this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editLayout, {closable: true, title:title}));
             } else {
-                var deleteDisabled = false;
-                var title = 'Edit Customer #'+this.customerCardId;
-                //var title = this.grid.getDataSource().get(this.customerCardId).firstname + ' ' + this.grid.getDataSource().get(this.customerCardId).lastname;
+                 this.customerLayout.add('south', this.editPanel);
             }
-            // setup toolbar for forms
-            toolbar = new Ext.Toolbar(Ext.DomHelper.insertFirst(this.editPanel.getRegion('north').getEl().dom, {tag:'div'}, true));
-            toolbar.add({
-                text: 'Save',
-                cls: 'x-btn-text-icon btn-accept',
-                handler : this.saveItem.createDelegate(this)
-            },{
-                text: 'Delete',
-                cls: 'x-btn-text-icon btn-bin-closed',
-                handler : this.onDelete.createDelegate(this),
-                disabled : deleteDisabled
-            },{
-                text: 'Reset',
-                cls: 'x-btn-text-icon btn-arrow-undo',
-                handler : this.onReset.createDelegate(this)
-            },{
-                text: 'Cancel',
-                cls: 'x-btn-text-icon btn-cancel',
-                handler : this.onCancelEdit.createDelegate(this)
-            },'-');
-            this.formLoading = toolbar.addButton({
-               tooltip: 'Form is updating',
-               cls: "x-btn-icon x-grid-loading",
-               disabled: false
-            });
-            toolbar.addSeparator();
+            
 
-            this.editPanel.add('north', new Ext.ContentPanel(this.editPanel.getEl().createChild({tag:'div'}), {toolbar: toolbar}));
+                var conn = new Ext.data.Connection();
+                
+                conn.on('requestcomplete', this.loadTabs.createDelegate(this));                
+                
+                conn.on('requestexception', function(){
+                    Ext.MessageBox.alert('Error','Critical Error!!!');                
+                })
 
-            var failure = function(o) {Ext.MessageBox.alert('Customer Card',o.statusText);}
-            var cb = {
-                success : this.loadTabs.createDelegate(this),
-                failure : failure
-            };
-
-
-            var con = new Ext.lib.Ajax.request('GET', this.customerCardUrl + 'id/'+this.customerCardId+'/', cb);
-
-            this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editPanel, {closable: true, title:title}));
-            this.customerLayout.getRegion('south').on('panelremoved', this.onRemovePanel.createDelegate(this));
+                conn.request({
+                    method : 'GET',
+                    url : this.customerCardUrl + 'id/'+this.customerCardId+'/'
+                });
         },
 
-
-
-        loadTabs : function(response) {
-
+        loadTabs : function(conn, response, options) {
+            var dataCard  = null;
             dataCard = Ext.decode(response.responseText);
-
-
-            // begin update editPanel
-//            this.editPanel.beginUpdate();
-
 
             var panel = null;
             for(var i=0; i < dataCard.tabs.length; i++) {
                var panel = this.createTabPanel(dataCard.tabs[i]);
                if (panel) {
-                   var mgr = panel.getUpdateManager();
-                   mgr.on('update', this.onLoadPanel.createDelegate(this, [panel], true));
-                   this.editPanel.add('center', panel);
-                   dataCard.tabs[i]["panel"] = panel;
+                   this.editLayout.add('center', panel);
                    if (dataCard.tabs[i].type == 'form') {
                        this.formPanels.add(panel.getId(), panel);
                    }
                }
             }
-
-            for (var i=0; i < dataCard.tabs.length; i++) {
-               if (dataCard.tabs[i].active) {
-                   this.editPanel.getRegion('center').showPanel(dataCard.tabs[i]["panel"]);
-               }
-            }
+            this.editLayout.getRegion('center').showPanel(this.formPanel);
         },
 
         createTabPanel: function(tabInfo){
@@ -309,15 +284,9 @@ Mage.Customer = function(depend){
                     panel = this.createAddressTab(tabInfo);
                 break;
                 case 'form' :
+                    panel = this.careateFormTab(tabInfo);
+                    break;
                 default :
-                    panel = new Ext.ContentPanel('customerCard_' + tabInfo.name,{
-                        title : tabInfo.title,
-                        autoCreate: true,
-                        closable : false,
-                        url: tabInfo.url,
-                        loadOnce: true,
-                        background: true
-                    });
             }
 
             return panel;
@@ -338,7 +307,6 @@ Mage.Customer = function(depend){
 
         saveItemCallBack : function(formId, response, type) {
             if (type.success) {
-                alert('From POSTed');
                 var panel = this.forms2Panel.get(formId);
                 panel.setTitle(panel.getTitle().substr(0,panel.getTitle().length-1));
                 this.formsEdit.splice(this.formsEdit.indexOf(formId),1);
@@ -348,9 +316,31 @@ Mage.Customer = function(depend){
             this.enableToolbar();
             this.forms.get(formId).enable();
         },
+        
+        
+        careateFormTab : function(tabInfo) {
+            if (!this.formPanel) {
+                this.formPanel = new Ext.ContentPanel('customerCard_' + tabInfo.name,{
+                    title : tabInfo.title,
+                    autoCreate: true,
+                   	loadOnce : true,
+                    closable : false,
+                });
+                this.formPanel.load(tabInfo.url);                
+                var mgr = this.formPanel.getUpdateManager();
+                mgr.on('update', this.onLoadPanel.createDelegate(this, [this.formPanel], true));
+            } else {
+                this.formPanel.setTitle(tabInfo.title);
+                this.formPanel.load(tabInfo.url);
+            }
+            return this.formPanel;
+        },
 
         createAddressTab : function(tabInfo) {
-            this.addressLayout = new Ext.BorderLayout(this.editPanel.getEl().createChild({tag:'div'}), {
+            this.addressesLoaded = false;
+            if (!this.addressPanel) {
+
+                this.addressLayout = new Ext.BorderLayout(this.editLayout.getEl().createChild({tag:'div'}), {
                     hideOnLayout:true,
                     west: {
                         split:true,
@@ -365,10 +355,10 @@ Mage.Customer = function(depend){
                          resizeTabs : true,
                          tabPosition: 'top'
                      }
-            });
+                });
 
 
-            this.addressViewLayout = new Ext.BorderLayout(this.addressLayout.getRegion('west').getEl().createChild({tag:'div'}), {
+                this.addressViewLayout = new Ext.BorderLayout(this.addressLayout.getRegion('west').getEl().createChild({tag:'div'}), {
                   hideOnLayout:true,
                   north : {
                       split:false,
@@ -384,79 +374,92 @@ Mage.Customer = function(depend){
                       titlebar:false,
                       collapsible:false
                   }
-            });
+               });
+                
+                var toolbarCPEl = this.addressViewLayout.getRegion('north').getEl().createChild({tag:'div'});
+                
+                var toolbar = new Ext.Toolbar(toolbarCPEl.createChild({tag : 'div'}));
+                toolbar.add({
+                    text: 'New',
+                    cls: 'x-btn-text-icon',
+                    handler : this.onAddressNew.createDelegate(this)
+                },{
+                    text: 'Save',
+                    cls: 'x-btn-text-icon',
+                    handler : this.onAddressSave.createDelegate(this)
+                },{
+                    text: 'Delete',
+                    cls: 'x-btn-text-icon',
+                        handler : this.onAddressDelete.createDelegate(this)
+                },{
+                    text: 'Reset',
+                    cls: 'x-btn-text-icon',
+                    handler : this.onAddressReset.createDelegate(this)
+                },'-');
+                
+                this.addressLoading = toolbar.addButton({
+                   tooltip: 'Form is updating',
+                   cls: "x-btn-icon x-grid-loading",
+                   disabled: false,
+                   handler : function() {
+                       if (this.addressView) {
+                        this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
+                       }
+                   },
+                   scope : this
+                });
+            
+                var addressPanelInnerToolbar = this.addressViewLayout.add('north', new Ext.ContentPanel(toolbarCPEl, {toolbar: toolbar}));
+                
+                var addressPanelInner = this.addressViewLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate : true}));
 
-//            this.addressViewLayout.beginUpdate();
 
-            var toolbar = new Ext.Toolbar(this.addressViewLayout.getRegion('north').getEl().insertFirst({tag:'div'}, true));
-            toolbar.add({
-                text: 'New',
-                cls: 'x-btn-text-icon',
-                handler : this.onAddressNew.createDelegate(this)
-            },{
-                text: 'Save',
-                cls: 'x-btn-text-icon',
-                handler : this.onAddressSave.createDelegate(this)
-            },{
-                text: 'Delete',
-                cls: 'x-btn-text-icon',
-                handler : this.onAddressDelete.createDelegate(this)
-            },{
-                text: 'Reset',
-                cls: 'x-btn-text-icon',
-                handler : this.onAddressReset.createDelegate(this)
-            },'-');
-            this.addressLoading = toolbar.addButton({
-               tooltip: 'Form is updating',
-               cls: "x-btn-icon x-grid-loading",
-               disabled: false
-            });
-
-            this.addressViewLayout.add('north', new Ext.ContentPanel(Ext.id(), {autoCreate: true, toolbar: toolbar}));
-            var addressPanel = this.addressViewLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true, loadOnce : true}));
-            this.addressLayout.endUpdate();
-
-            // setup toolbar for address
-
-            this.addressLayout.add('west', new Ext.NestedLayoutPanel(this.addressViewLayout));
-            this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true, loadOnce : true}, 'center'));
-            var addressBody = addressPanel.getEl().createChild({tag:'div'});
+                this.addressLayout.add('west', new Ext.NestedLayoutPanel(this.addressViewLayout));
+                
+                this.addressLayout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate: true, loadOnce : true}));
+                
+                
+                var addressBody = addressPanelInner.getEl().createChild({tag:'div'});
 
 
-        	// create the required templates
-        	this.addressTemplate = new Ext.Template(
-                '<div id="{address_id}" class="address-view"><address>{address}</address></div>'
-        	);
-        	this.addressTemplate.compile();
+            	// create the required templates
+        	    this.addressTemplate = new Ext.Template(
+                    '<div id="{address_id}" class="address-view"><address>{address}</address></div>'
+            	);
+            	this.addressTemplate.compile();
 
-        	this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
-        		singleSelect: true,
-        		jsonRoot: 'addresses',
-        		emptyText : '<div class="address-view"><h3>No address found</h3></div>'
-        	});
+            	this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
+            		singleSelect: true,
+        	       	jsonRoot: 'addresses',
+            		emptyText : '<div class="address-view"><h3>No address found</h3></div>'
+            	});
 
-        	this.addressView.on({
-        	    'load' : function () {
-        	        this.addressView.select(0);
-        	        this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
-        	    },
-            	'loadexception' : function (view, data, response) {
-            	    alert('loadExceptionEvent');
-            	},
-            	'click' : this.onClickAddressView.createDelegate(this),
-            	scope : this
-        	});
-
-            var panel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
-            panel.on('activate', function() {
-                this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
-            }, this);
-
-            return panel;
+            	this.addressView.on({
+            	    'load' : function () {
+            	       this.addressView.select(0);
+        	           this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
+        	        },
+                	'loadexception' : function (view, data, response) {
+                	    alert('loadExceptionEvent');
+                	},
+                	'click' : this.onClickAddressView.createDelegate(this),
+            	    scope : this
+            	});
+        	
+                
+                this.addressPanel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
+                this.addressPanel.on('activate', function() {
+                    if (this.addressesLoaded == false) {
+                        this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
+                        this.addressesLoaded = true;
+                    }
+                }.createDelegate(this));
+            }
+            return this.addressPanel;
         },
 
         disableToolbar : function() {
-            var toolbar = this.editPanel.getRegion('north').getActivePanel().getToolbar();
+            var toolbar = this.editLayout.getRegion('north').getActivePanel().getToolbar();
             for(var i=0; i< toolbar.items.length; i++) {
                 if (toolbar.items.get(i).disable) {
                     toolbar.items.get(i).disable();
@@ -465,7 +468,7 @@ Mage.Customer = function(depend){
         },
 
         enableToolbar : function() {
-            var toolbar = this.editPanel.getRegion('north').getActivePanel().getToolbar();
+            var toolbar = this.editLayout.getRegion('north').getActivePanel().getToolbar();
             for(var i=0; i< toolbar.items.length; i++) {
                 if (toolbar.items.get(i).enable) {
                     toolbar.items.get(i).enable();
@@ -536,7 +539,7 @@ Mage.Customer = function(depend){
 
 
         onReset : function() {
-            var panel = this.editPanel.getRegion('center').getActivePanel();
+            var panel = this.editLayout.getRegion('center').getActivePanel();
             var formEl = Ext.DomQuery.selectNode('form', panel.getEl().dom);
             if (formEl && this.formsEdit.indexOf(formEl.id) >= 0) {
                 formEl.reset();
@@ -597,9 +600,7 @@ Mage.Customer = function(depend){
         },
 
         onAddressSaveCallback : function(response, type) {
-             if (response.status == 200) {
-                 alert('OK');
-             }
+            this.addressView.refresh();
             this.enableAddressToolbar();
         },
 
