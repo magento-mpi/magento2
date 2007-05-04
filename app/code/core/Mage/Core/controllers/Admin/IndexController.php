@@ -47,19 +47,19 @@ class IndexController extends Mage_Core_Controller_Admin_Action
     function dashboardAction()
     {
         echo "Dashboard";
-	}
-	
-	function applyDbUpdatesAction()
-	{
-	    Mage_Core_Resource_Setup::applyAllUpdates();
-	    echo "Successfully updated.";
-	}
-	
-	public function logoutAction()
-	{
-	    $auth = Mage::getSingleton('auth', 'session')->unsetAll();
-	    $this->getResponse()->setRedirect(Mage::getBaseUrl());
-	    //$this->getResponse()->setHeader('Location', Mage::getBaseUrl());
-	    //$this->_redirect(Mage::getBaseUrl());
-	}
+    }
+    
+    function applyDbUpdatesAction()
+    {
+        Mage_Core_Resource_Setup::applyAllUpdates();
+        echo "Successfully updated.";
+    }
+    
+    public function logoutAction()
+    {
+        $auth = Mage::getSingleton('auth', 'session')->unsetAll();
+        $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        //$this->getResponse()->setHeader('Location', Mage::getBaseUrl());
+        //$this->getResponse()->setRedirect(Mage::getBaseUrl());
+    }
 }

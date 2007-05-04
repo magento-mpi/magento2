@@ -14,7 +14,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         
         if (!Mage::getConfig()->getModule('Mage_Customer')->is('wishlistActive')) {
-            $this->_redirect('noRoute');
+            $this->getResponse()->setRedirect('noRoute');
         }
         
         if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
@@ -62,10 +62,11 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
                 }
             }
             if (isset($p['to_cart'])) {
-                $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+                $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+                return;
             }
         }
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
     }
     
     public function addAction()
@@ -78,8 +79,9 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
             
         }
         if (false && $url = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->_redirect($url);
+            $this->getResponse()->setRedirect($url);
+            return;
         }
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
     }
 }

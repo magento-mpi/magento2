@@ -76,7 +76,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function logoutAction()
     {
         Mage::getSingleton('customer', 'session')->logout();
-        $this->_redirect(Mage::getBaseUrl());
+        $this->getResponse()->setRedirect(Mage::getBaseUrl());
     }
     
     /**
@@ -89,7 +89,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         // if customer logged in
         if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
-            $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+            $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+            return;
         }
         
         $countries = Mage::getModel('directory', 'country_collection');
@@ -136,7 +137,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                         ->setCustomer($customer)
                         ->send();
                         
-                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                return;
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer', 'session')
@@ -145,7 +147,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create', '_secure'=>true)));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create', '_secure'=>true)));
     }
     
     /**
@@ -190,7 +192,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     Mage::getSingleton('customer', 'session')
                         ->addMessage(Mage::getModel('customer', 'message')->success('CSTS006'));
                     
-                    $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+                    $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                    return;
                 }
                 catch (Exception $e){
                     echo $e;
@@ -199,7 +202,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             else {
                 Mage::getSingleton('customer', 'session')
                     ->addMessage(Mage::getModel('customer', 'message')->error('CSTE024'));
-                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword')));
+               $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword')));
             }
         }
     }
@@ -237,7 +240,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer', 'message')->success('CSTS002'));
                 
-                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                return;
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer', 'session')
@@ -245,7 +249,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->addMessages($e->getMessages());
             }
         }
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'edit')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'edit')));
     }
     
     /**
@@ -277,14 +281,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer', 'session')
                     ->addMessage(Mage::getModel('customer', 'message')->success('CSTS003'));
 
-                $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                return;
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer', 'session')->addMessages($e->getMessages());
             }
         }
-        
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword', '_secure'=>true)));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword', '_secure'=>true)));
     }
     
     public function newsletterAction()

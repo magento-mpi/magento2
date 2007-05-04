@@ -36,7 +36,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         if (!$attribute || !$value) {
             $this->_forward('noroute');
             return;
-            //$this->_redirect('noroute');
+            //$this->getResponse()->setRedirect('noroute');
         }
         
         // check if attr exist
@@ -48,7 +48,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         if (empty($arrOptionId) || !in_array($value, $arrOptionId)) {
             $this->_forward('noroute');
             return;
-            //$this->_redirect('noroute');
+            //$this->getResponse()->setRedirect('noroute');
         }
         
         $this->getLayout()->getBlock('catalog.leftnav')->assign($attribute, $value);

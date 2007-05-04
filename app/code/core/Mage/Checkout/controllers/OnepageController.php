@@ -16,7 +16,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         
         if (!$this->_quote->hasItems() && $this->getRequest()->getParam('action')!='success') {
             $this->setFlag('', 'no-dispatch', true);
-            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
         }
     }
     
@@ -73,7 +73,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         /*
         $customerSession = Mage::getSingleton('customer', 'session');
         if (!$customerSession->isLoggedIn()) {
-            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
             return;
         }
         $collection = Mage::getModel('sales_resource', 'order_collection')
@@ -89,7 +89,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $order = Mage::getModel('sales', 'order');
         $order->load($this->_checkout->getLastOrderId());
         if (!$order->getRealOrderId()) {
-            $this->_redirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+            $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
             return;
         }
         $orderId = $order->getRealOrderId();
