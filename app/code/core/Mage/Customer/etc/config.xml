@@ -165,7 +165,7 @@
 
    <domains>
       <base>
-         <defaultCountry>220</defaultCountry>
+         <defaultCountry>223</defaultCountry>
          <allowCountries>223,220</allowCountries>
          <currency>1</currency>
       </base>

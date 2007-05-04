@@ -322,8 +322,12 @@ Shipping.prototype = {
                 arrElements[elemIndex].value = sourceField.value;
             }
         }
-        shippingForm.elementChildLoad($('shipping:country_id'));
-        $('shipping:region').value = $('billing:region').value; //FIXME: works only after 1st time
+        shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
+        
+    },
+
+    setRegionValue: function(){
+        $('shipping:region').value = $('billing:region').value; 
     },
     
     save: function(){

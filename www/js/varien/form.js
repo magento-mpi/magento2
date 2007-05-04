@@ -61,7 +61,8 @@ VarienForm.prototype = {
         this.elementChildLoad(element);
     },
     
-    elementChildLoad: function(element){
+    elementChildLoad: function(element, callback){
+        this.callback = callback || false;
         if (element.value) {
             this.currLoader = element.id;
             this.currDataIndex = element.value;
@@ -82,6 +83,9 @@ VarienForm.prototype = {
         var data = eval('(' + transport.responseText + ')');
         this.cache[this.currLoader]['data'][this.currDataIndex] = data;
         this.setDataToChild(data);
+        if (this.callback) {
+            this.callback();
+        }        
     },
     
     setDataToChild: function(data){
