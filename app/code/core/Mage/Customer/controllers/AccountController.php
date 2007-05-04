@@ -145,7 +145,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create')));
+        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create', '_secure'=>true)));
     }
     
     /**
@@ -258,7 +258,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('tpl', 'customer.changepassword')
             ->setTemplate('customer/form/changepassword.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost')))
+            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost', '_secure'=>true)))
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
             
         $this->getLayout()->getBlock('content')->append($block);
@@ -284,7 +284,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword')));
+        $this->_redirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword', '_secure'=>true)));
     }
     
     public function newsletterAction()
