@@ -117,6 +117,20 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->appendBody($address->__toJson());
         }
     }
+    
+    public function saveMethodAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $method = $this->getRequest()->getPost('method');
+            if (empty($method)) {
+                return;
+            }
+
+            $this->_quote->setMethod($method);
+            $this->_quote->save();
+            $this->_checkout->setAllowBilling(true);
+        }
+    }
 
     /**
      * save checkout billing address
@@ -129,13 +143,31 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 return;
             }
             $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
+            if ('register' == $this->_quote->getMethod()) {
+                $email = $address->getEmail();
+                $customer = Mage::getModel('customer', 'customer')->loadByEmail($email);
+                if ($customer->getId()) {
+                    $res = array(
+                        'error' => 1,
+                        'message' => __('There is already a customer with this email')
+                    );
+                    $this->getResponse()->setBody(Zend_Json::encode($res));
+                    return;
+                }
+            }
+            
             $address->implodeStreetAddress();
             $this->_quote->setBillingAddress($address);
+            
+            if ($address->getUseForShipping()) {
+                //$this->_quote->setShippingAddress($address);
+            }
+            
             $this->_quote->save();
-
             $this->_checkout->setAllowBilling(true);
             $this->_checkout->setCompletedBilling(true);
             $this->_checkout->setAllowPayment(true);
+            $this->getResponse()->setBody(Zend_Json::encode(array()));
         }
     }
     

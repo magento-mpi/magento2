@@ -36,6 +36,12 @@
                         <label for="billing:company">Company</label><br/>
                         <input type="text" id="billing:company" name="billing[company]" value="<?=$address->getCompany()?>" title="Company" class="input-text"/>
                     </div>
+                    <?if(!$customerIsLogedIn):?>
+                    <div class="input-right">
+                        <label for="billing:email">Email <span class="required">*</span></label><br/>
+                        <input type="text" name="billing[email]" id="billing:email" value="<?=$address->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
+                    </div>
+                    <?endif?>
                     <div class="clearfix"></div>
                 </li>
                 <li>
@@ -85,6 +91,26 @@
                 </li>
             </ul>
         </fieldset>
+        <?if(!$customerIsLogedIn):?>
+        <fieldset class="group-single" id="billing-login-info" style="display:<?if($method=='register'):?>block<?else:?>none<?endif?>">
+            <legend>Login Information</legend>
+            <h4>Login Information</h4>
+            <ul class="input-list">
+                <li>
+                    <div class="input-left">
+                        <label for="password">Password <span class="required">*</span></label><br/>
+                        <input type="password" name="billing[password]" id="password" title="Password"  class="required-entry validate-password input-text"/>
+                    </div>
+                    <div class="input-right">
+                        <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
+                        <input type="password" name="billing[confirmation]" title="Password Confirmation" id="confirmation" class="required-entry validate-password input-text"/>
+                    </div>
+                </li>
+            </ul>
+        </fieldset>
+        <?endif?>
+        <input type="checkbox" name="billing[use_for_shipping]" id="use_address_for_shipping" value="1" checked>
+        <label for="use_address_for_shipping">Use for shipping</label>
         </form>
     </div>
     <div class="note-box">

@@ -29,12 +29,16 @@ VarienForm.prototype = {
 
     elementOnFocus: function(event){
         var element = Event.findElement(event, 'fieldset');
-        Element.addClassName(element, this.highlightClass);
+        if(element.className){
+            Element.addClassName(element, this.highlightClass);
+        }
     },
 
     elementOnBlur: function(event){
         var element = Event.findElement(event, 'fieldset');
-        Element.removeClassName(element, this.highlightClass);
+        if(element.classNam){
+            Element.removeClassName(element, this.highlightClass);
+        }
     },
     
     setElementsRelation: function(parent, child, dataUrl, first){

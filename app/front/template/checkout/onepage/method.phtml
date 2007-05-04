@@ -32,14 +32,14 @@
 
     <h4 style="border:0;">Checkout as a Guest or Register</h4>
     <div class="note-box">
-    <form id="checkout_type">
+    <form id="checkout_method">
         <fieldset>
         <p>You may check out as a guest or register with us for future convenience:</p>
         <p>
-            <input type="radio" name="checkout_type" id="checkout_type:guest" value="1"/> 
-            <label for="checkout_type:guest"><strong>Checkout as Guest</strong></label><br/>
-            <input type="radio" name="checkout_type" id="checkout_type:register" value="2"/> 
-            <label for="checkout_type:register"><strong>Register</strong></label>
+            <input type="radio" name="checkout_method" id="checkout_method:guest" value="1"<?if($method=='guest'):?> checked<?endif?>/> 
+            <label for="checkout_method:guest"><strong>Checkout as Guest</strong></label><br/>
+            <input type="radio" name="checkout_method" id="checkout_method:register" value="2"<?if($method=='register'):?> checked<?endif?>/> 
+            <label for="checkout_method:register"><strong>Register</strong></label>
         </p>
         <strong>Register and save time!</strong><br/>
         <ul class="disc">
@@ -47,7 +47,7 @@
             <li>Easy access to your order history and status</li>
         </ul>
         </fieldset>
-        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="checkout.setType();"/></div>
+        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="checkout.setMethod();"/></div>
     </form>
     </div>
 

@@ -73,6 +73,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             ->setTemplate('checkout/onepage/method.phtml')
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)))
+            ->assign('method', $this->_quote->getMethod())
             ->assign('data', $data);
             
         $this->setChild('method', $block);
@@ -98,7 +99,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $countries = Mage::getModel('directory', 'country_collection');
         $block->assign('address', $billing)
+            ->assign('customerIsLogedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
             ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('method', $this->_quote->getMethod())
             ->assign('regions',     $countries->getDefault($billing->getCountryId())->getRegions());
         
         $this->setChild('billing', $block);

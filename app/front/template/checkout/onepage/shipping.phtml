@@ -16,6 +16,8 @@
     </div>
     <?endif?>
     <div class="default-box" style="display:block;">
+        <input type="checkbox" name="shipping[use_for_shipping]" id="use_address_from_billing" value="1">
+        <label for="billing:use_for_shipping">Use for shipping</label>
         <form id="co-shipping-form">
             <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id"/>
             <fieldset>

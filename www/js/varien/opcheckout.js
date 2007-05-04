@@ -1,13 +1,17 @@
 var Checkout = Class.create();
 Checkout.prototype = {
-    initialize: function(accordion, statusUrl, reviewUrl){
+    initialize: function(accordion, statusUrl, reviewUrl, saveMethodUrl){
         this.accordion = accordion;
         this.statusUrl = statusUrl;
         this.reviewUrl = reviewUrl;
-        this.type = '';
-        this.billing = '';
+        this.saveMethodUrl = saveMethodUrl;
+        this.billingForm = false;
+        this.shippingForm= false;
+        this.syncBillingShipping = false;
+        this.method = '';
         this.payment = '';
-        this.shipping= '';
+
+        this.onSetMethod = this.nextStep.bindAsEventListener(this);
     }, 
     
     reloadStatusBlock: function(){
@@ -17,19 +21,48 @@ Checkout.prototype = {
     reloadReviewBlock: function(){
         var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get'});
     },
-    
-    setType: function(){
-        if ($('checkout_type:guest') && $('checkout_type:guest').checked) {
-            //alert('guest');
-        }
-        else if($('checkout_type:register') && $('checkout_type:register').checked) {
-            //alert('register');
-        }
 
+    syncForms: function(){
+        
+    },
+    
+    setMethod: function(){
+        if ($('checkout_method:guest') && $('checkout_method:guest').checked) {
+            this.method = 'guest';
+            var request = new Ajax.Request(
+                this.saveMethodUrl,
+                {method: 'post', onSuccess: this.onSetMethod, parameters: {method:'guest'}}
+            );
+        }
+        else if($('checkout_method:register') && $('checkout_method:register').checked) {
+            this.method = 'register';
+            var request = new Ajax.Request(
+                this.saveMethodUrl,
+                {method: 'post', onSuccess: this.onSetMethod, parameters: {method:'register'}}
+            );
+        }
+        else{
+            alert('Choose checkout type');
+            return false;
+        }
+    },
+    
+    nextStep: function(){
+        if ($('billing-login-info')){
+            if (this.method == 'register'){
+                Element.show('billing-login-info');
+            }
+            else{
+                Element.hide('billing-login-info');
+            }
+        }
         this.accordion.openNextSection(true);
     },
 
     setBilling: function() {
+        if ($('use_address_for_shipping') && $('use_address_for_shipping').checked){
+            this.syncForms();
+        }
         this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
@@ -125,7 +158,19 @@ Billing.prototype = {
         }
     },
 
-    nextStep: function(){
+    nextStep: function(transport){
+        if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                response = {};
+            }
+        }
+        if (response.error){
+            alert(response.message);
+            return false;
+        }
         checkout.setBilling();
     }
 }
@@ -201,16 +246,16 @@ Shipping.prototype = {
         this.methodsUrl = methodsUrl;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onSave = this.nextStep.bindAsEventListener(this);
+        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
+            
+        }
     },
 
     setAddress: function(addressId){
         if (addressId) {
             request = new Ajax.Request(
                 this.addressUrl+addressId,
-                {
-                    method:'get',
-                    onSuccess: this.onAddressLoad
-                }
+                {method:'get', onSuccess: this.onAddressLoad}
             );
         }
         else {
@@ -255,11 +300,7 @@ Shipping.prototype = {
         if (validator.validate()) {
             var request = new Ajax.Request(
                 this.saveUrl,
-                {
-                    method:'post',
-                    onSuccess: this.onSave,
-                    parameters: Form.serialize(this.form)
-                }
+                {method:'post', onSuccess: this.onSave, parameters: Form.serialize(this.form)}
             );
         }
     },
