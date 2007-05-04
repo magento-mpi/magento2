@@ -1,28 +1,29 @@
-Welcome <strong>{$customer.name}</strong>!
+<?if($_section=='subject'):?>
+Welcome <?=$customer->getName()?>
+<?else:?>
+Welcome <strong><?=$customer->getName()?></strong>!
 
-Thank you very much for creating an account with McGruff Specialty Products Office.
+<p>Thank you very much for creating an account.</p>
 
-To officially log in when you're visiting our site, simply click on "Login" or "My Account" located at the top of every page, and then enter your e-mail address and the password you have chosen.
+<p>To officially log in when you're visiting our site, simply click on "Login" or "My Account" located at the top of every page, and then enter your e-mail address and the password you have chosen.</p>
 
-==========================================
-Use the following values when prompted to log in:
-E-mail: {$customer.email_address}
-Password: {$customer.password}
-==========================================
+<p>==========================================</br>
+Use the following values when prompted to log in:</br>
+E-mail: <?=$customer->getEmail()?></br>
+Password: <?=$customer->getPassword()?></br>
+==========================================</p>
 
-When you log in to your account, you will be able to do the following:
+When you log in to your account, you will be able to do the following:</br>
 
-* Proceed through checkout faster when making a purchase
-* Check the status of orders
-* View past orders
-* Make changes to your account information
-* Change your password
-* Store up to 5 alternative shipping addresses (for shipping to multiple family members and friends!)
+* Proceed through checkout faster when making a purchase</br>
+* Check the status of orders</br>
+* View past orders</br>
+* Make changes to your account information</br>
+* Change your password</br>
+* Store up to 5 alternative shipping addresses (for shipping to multiple family members and friends!)</br>
 
-If you have any questions about your account or any other matter, please feel free to contact us at <a href="mailto:email@bcd.com">email@bcd.com</a> or by phone at 1-785-842-1414.
-
+If you have any questions about your account or any other matter, please feel free to contact us at 
+<a href="mailto:magento@varien.com">magento@varien.com</a> or by phone at 1-111-111-1111.</br>
+</br>
 Thanks again!
-
-Your internet buddies and best friends forever,
-
-McGruff Specialty Products Office
+<?endif?>

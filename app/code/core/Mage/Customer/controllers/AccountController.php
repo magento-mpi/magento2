@@ -129,7 +129,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer', 'session')
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer', 'message')->success('CSTS001'));
-                
+
+                $mailer = Mage::getModel('customer', 'email')
+                        ->setTemplate('email/welcome.phtml')
+                        ->setType('html')
+                        ->setCustomer($customer)
+                        ->send();
+                        
                 $this->_redirect(Mage::getUrl('customer', array('controller'=>'account')));
             }
             catch (Mage_Core_Exception $e) {

@@ -19,8 +19,8 @@ class Mage_Core_Model_Email extends Varien_Data_Object
     public function __construct()
     {
         // TODO: move to config
-        $this->setFromName('Magenta');
-        $this->setFromEmail('magenta@varien.com');
+        $this->setFromName('Magento');
+        $this->setFromEmail('magento@varien.com');
         $this->setType('text');
     }
     
