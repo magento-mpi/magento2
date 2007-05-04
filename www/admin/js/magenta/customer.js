@@ -242,6 +242,12 @@ Mage.Customer = function(depend){
                 this.editLayout.add('north', new Ext.ContentPanel(this.editLayout.getEl().createChild({tag:'div'}), {toolbar: toolbar}));
                 this.editPanel = this.customerLayout.add('south', new Ext.NestedLayoutPanel(this.editLayout, {closable: true, title:title}));
             } else {
+                 if (!this.customerCardId) {
+                    var title = 'New Customer';
+                 } else {
+                    var title = 'Edit Customer #'+this.customerCardId;
+                 }
+                 this.editPanel.setTitle(title);
                  this.customerLayout.add('south', this.editPanel);
             }
             
@@ -449,10 +455,10 @@ Mage.Customer = function(depend){
                 
                 this.addressPanel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
                 this.addressPanel.on('activate', function() {
-                    if (this.addressesLoaded == false) {
-                        this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
-                        this.addressesLoaded = true;
-                    }
+                        if (this.addressesLoaded == false ) {
+                            this.addressView.load({url:this.addressViewUrl + 'id/'+ this.customerCardId +'/', scripts:false});
+                            this.addressesLoaded  = true;
+                        }
                 }.createDelegate(this));
             }
             return this.addressPanel;
@@ -501,6 +507,9 @@ Mage.Customer = function(depend){
                 var panel = this.addressLayout.getRegion('center').getActivePanel();
                 panel.setUrl(this.addressViewForm + 'id/' + node.id + '/customer/' + this.customerCardId);
                 panel.refresh();
+            }
+            if (this.customerCardId == 0) {
+                this.addressPanel.getLayout().getRegion('center').getActivePanel().setContent('');
             }
         },
 
