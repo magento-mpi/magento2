@@ -63,6 +63,14 @@
                </checkout>
             </updates>
          </default>
+         
+         <checkout>
+            <updates>
+                <checkout>
+                    <file>checkout/page.xml</file>
+                </checkout>
+            </updates>
+         </checkout>
       </layouts>
 
       <events>
