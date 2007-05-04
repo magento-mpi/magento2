@@ -170,11 +170,11 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                     $shipping->setSameAsBilling(0);
                 }
             }
-            $this->_quote->save();
             if ($address->getCustomerPassword()) {
                 $customerResource = Mage::getModel('customer_resource', 'customer');
                 $this->_quote->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
             }
+            $this->_quote->save();
             
             $this->_checkout->setAllowBilling(true);
             $this->_checkout->setCompletedBilling(true);

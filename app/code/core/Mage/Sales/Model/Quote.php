@@ -238,7 +238,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             $request->setDestPostcode($address->getPostcode());
             $request->setPackageValue($address->getSubtotal());
             $request->setPackageWeight($this->getWeight());
-            $request->setAddressEntityId($address->getEntityId());
+            #$request->setAddressEntityId($address->getEntityId());
             $this->collectAddressShippingMethods($request);
         }
     }
