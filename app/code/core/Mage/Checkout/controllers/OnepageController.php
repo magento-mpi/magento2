@@ -250,15 +250,45 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $res = array('error'=>1);
         if ($this->getRequest()->isPost()) {
             try {
-                if ($this->_quote->getMethod()=='register') {
-                    $this->_createCustomer();
+                if ('register' == $this->_quote->getMethod()) {
+                    $customer = $this->_createCustomer();
+                    $mailer = Mage::getModel('customer', 'email')
+                        ->setTemplate('email/welcome.phtml')
+                        ->setType('html')
+                        ->setCustomer($customer)
+                        ->send();
+                    $email  = $customer->getEmail();
+                    $name   = $customer->getName();
                 }
+                elseif ('register' == $this->_quote->getMethod()) {
+                    $email  = $this->_quote->getAddressByType('billing')->getEmail();
+                    $name   = $this->_quote->getAddressByType('billing')->getFirstname() . ' ' .
+                        $this->_quote->getAddressByType('billing')->getLastname();
+                }
+                else {
+                    $email  = Mage::getSingleton('customer', 'session')->getCustomer()->getEmail();
+                    $name   = Mage::getSingleton('customer', 'session')->getCustomer()->getName();
+                }
+                
                 $this->_quote->createOrders();
                 $orderId = $this->_quote->getCreatedOrderId();
                 $this->_checkout->clear();
                 $this->_checkout->setLastOrderId($orderId);
+                
+                $mailer = Mage::getModel('core', 'email')
+                        ->setTemplate('email/order.phtml')
+                        ->setType('html')
+                        ->setTemplateVar('order', $this->_quote->CreatedOrder())
+                        ->setTemplateVar('quote', $this->_quote)
+                        ->setTemplateVar('name', $name)
+                        ->setToName($name)
+                        ->setToEmail($email)
+                        ->setCustomer($customer)
+                        ->send();
+                
                 $res['success'] = true;
                 $res['error']   = false;
+                //$res['error']   = true;
             }
             catch (Exception $e){
                 // TODO: create responce for open checkout card with error
@@ -301,5 +331,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $shippingEntity->setCustomerId($customer->getId())->setAddressId($shipping->getId());
         
         Mage::getSingleton('customer', 'session')->loginById($customer->getId());
+        
+        return $customer;
     }
 }

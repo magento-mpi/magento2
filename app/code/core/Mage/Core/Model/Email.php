@@ -34,6 +34,7 @@ class Mage_Core_Model_Email extends Varien_Data_Object
         else {
             $this->_tplVars[$var] = $value;
         }
+        return $this;
     }
     
     public function getTemplateVars()
