@@ -278,21 +278,20 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 $mailer = Mage::getModel('core', 'email')
                         ->setTemplate('email/order.phtml')
                         ->setType('html')
-                        ->setTemplateVar('order', $this->_quote->CreatedOrder())
+                        ->setTemplateVar('order', $this->_quote->getLastCreatedOrder())
                         ->setTemplateVar('quote', $this->_quote)
                         ->setTemplateVar('name', $name)
                         ->setToName($name)
                         ->setToEmail($email)
-                        ->setCustomer($customer)
                         ->send();
-                
+
                 $res['success'] = true;
                 $res['error']   = false;
                 //$res['error']   = true;
             }
             catch (Exception $e){
                 // TODO: create responce for open checkout card with error
-                
+                echo $e;
             }
         }
         

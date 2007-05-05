@@ -325,7 +325,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $order->save();
         
         $this->setConvertedAt($now)->setCreatedOrderId($order->getId())->save();
-        $this->setCreatedOrder($order);
+        $this->setLastCreatedOrder($order);
         
         return $this;
     }

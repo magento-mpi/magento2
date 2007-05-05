@@ -10,6 +10,7 @@ Review.prototype = {
             '<?=$baseSecureUrl?>checkout/onepage/saveOrder/',
             {
                 method:'post',
+                parameters:{save:true},
                 onSuccess: this.onSave
             }
         );
