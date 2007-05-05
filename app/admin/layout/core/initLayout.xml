@@ -8,7 +8,7 @@
         <block type="list" name="head" as="head">
             <block type="tag" name="head.title">
                 <action method="setTagName"><tag>title</tag></action>
-                <action method="setContents"><contents>MagentaCommerce Admin Office</contents></action>
+                <action method="setContents"><contents>Magento Admin</contents></action>
             </block>
 
             <block type="tag" name="head.icon">
@@ -17,7 +17,7 @@
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
-		    <block type="tag" name="head.shortcut_icon">
+            <block type="tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>

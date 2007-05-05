@@ -157,8 +157,8 @@ Mage.Customer = function(depend){
             var paging = new Ext.PagingToolbar(gridHead, this.grid.getDataSource(), {
                 pageSize: 25,
                 displayInfo: true,
-                displayMsg: 'Displaying products {0} - {1} of {2}',
-                emptyMsg: 'No products to display'
+                displayMsg: 'Displaying customers {0} - {1} of {2}',
+                emptyMsg: 'No customers to display'
             });
 
             paging.add('-', {
@@ -329,7 +329,7 @@ Mage.Customer = function(depend){
                 this.formPanel = new Ext.ContentPanel('customerCard_' + tabInfo.name,{
                     title : tabInfo.title,
                     autoCreate: true,
-                   	loadOnce : true,
+                    loadOnce : true,
                     closable : false,
                 });
                 this.formPanel.load(tabInfo.url);                
@@ -428,30 +428,30 @@ Mage.Customer = function(depend){
                 var addressBody = addressPanelInner.getEl().createChild({tag:'div'});
 
 
-            	// create the required templates
-        	    this.addressTemplate = new Ext.Template(
+                // create the required templates
+                this.addressTemplate = new Ext.Template(
                     '<div id="{address_id}" class="address-view"><address>{address}</address></div>'
-            	);
-            	this.addressTemplate.compile();
+                );
+                this.addressTemplate.compile();
 
-            	this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
-            		singleSelect: true,
-        	       	jsonRoot: 'addresses',
-            		emptyText : '<div class="address-view"><h3>No address found</h3></div>'
-            	});
+                this.addressView = new Ext.JsonView(addressBody, this.addressTemplate, {
+                    singleSelect: true,
+                    jsonRoot: 'addresses',
+                    emptyText : '<div class="address-view"><h3>No address found</h3></div>'
+                });
 
-            	this.addressView.on({
-            	    'load' : function () {
-            	       this.addressView.select(0);
-        	           this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
-        	        },
-                	'loadexception' : function (view, data, response) {
-                	    alert('loadExceptionEvent');
-                	},
-                	'click' : this.onClickAddressView.createDelegate(this),
-            	    scope : this
-            	});
-        	
+                this.addressView.on({
+                    'load' : function () {
+                       this.addressView.select(0);
+                       this.onClickAddressView(this.addressView, 0, this.addressView.getSelectedNodes()[0]);
+                    },
+                    'loadexception' : function (view, data, response) {
+                        alert('loadExceptionEvent');
+                    },
+                    'click' : this.onClickAddressView.createDelegate(this),
+                    scope : this
+                });
+            
                 
                 this.addressPanel = new Ext.NestedLayoutPanel(this.addressLayout, { closable : false, background: !tabInfo.active, title: 'Addresses'});
                 this.addressPanel.on('activate', function() {
@@ -513,9 +513,9 @@ Mage.Customer = function(depend){
             }
         },
 
-    	onLoadException : function(v,o){
-	       this.view.getEl().update('<div style="padding:10px;">Error loading images.</div>');
-    	},
+        onLoadException : function(v,o){
+           this.view.getEl().update('<div style="padding:10px;">Error loading images.</div>');
+        },
 
         onRemovePanel: function(region, panel) {
             region.clearPanels();

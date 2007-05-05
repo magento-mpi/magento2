@@ -64,7 +64,7 @@
                 <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Contact Us</label></action>
             </block>
             <block type="list_link" name="bottom.links.exchange">
-                <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Exchange and Returns</label></action>
+                <action method="setLink"><li/><a>href="{{baseUrl}}"</a><label>Returns and Exchanges</label></action>
             </block>
             <block type="list_link" name="bottom.links.sitemap">
                 <action method="setLink"><li/><a>href="{{baseUrl}}/sitemap/"</a><label>Site Map</label></action>

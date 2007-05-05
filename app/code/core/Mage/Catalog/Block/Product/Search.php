@@ -22,7 +22,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $query = $this->getQuery();
         $queryEscaped = htmlspecialchars($query);
 
-        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Search result for: '.$queryEscaped);
+        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Search results for: '.$queryEscaped);
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')
@@ -89,7 +89,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $search = $request->getParam('search', array());
         $request->setParam('search', false);
         
-        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Advanced search result');
+        Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Advanced search results');
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource','product_collection')

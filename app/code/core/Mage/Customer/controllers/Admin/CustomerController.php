@@ -46,7 +46,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $cardStruct['tabs'] = array(
             0 => array(
                 'name' => 'general',
-                'title' => __('General Information'),
+                'title' => __('Account Information'),
                 'url' => Mage::getBaseUrl().'mage_customer/customer/form/id/'.$customerId.'/',
                 'type' => 'form',
                 'active' => true
@@ -71,7 +71,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         $form = $this->getLayout()->createBlock('form', 'customer.form');
         $form->setTemplate('form.phtml');
         
-        $form->setAttribute('legend', 'Customer information');
+        $form->setAttribute('legend', 'Account information');
         $form->setAttribute('class', 'x-form');
         $form->setAttribute('action', Mage::getBaseUrl().'mage_customer/customer/formPost/');
         
