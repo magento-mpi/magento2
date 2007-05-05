@@ -61,7 +61,6 @@ Checkout.prototype = {
         } else {
             $('shipping:same_as_billing').checked = false;
         }
-        
         this.reloadStatusBlock();
         this.accordion.openNextSection(true);
     },
@@ -77,7 +76,9 @@ Checkout.prototype = {
     },
         
     setShippingMethod: function() {
-        this.reloadStatusBlock();
+        if ($('billing:use_for_shipping') && !$('billing:use_for_shipping').checked) {
+            this.reloadStatusBlock();
+        }
         this.accordion.openNextSection(true);
     },
     
@@ -244,7 +245,8 @@ Payment.prototype = {
     nextStep: function(){
         checkout.setShipping();
         if ($('billing:use_for_shipping').checked) {
-            checkout.setShippingMethod();
+            //checkout.setShippingMethod();
+            shipping.nextStep();
         }
     }
 }
@@ -318,12 +320,11 @@ Shipping.prototype = {
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
-                var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
-                arrElements[elemIndex].value = sourceField.value;
+                //var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
+                //arrElements[elemIndex].value = sourceField.value;
             }
         }
         shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
-        
     },
 
     setRegionValue: function(){
@@ -341,8 +342,12 @@ Shipping.prototype = {
     },
 
     nextStep: function(){
-        var updater = new Ajax.Updater('checkout-shipping-method-load', this.methodsUrl, {method:'get'});
-        checkout.setShipping();
+        var updater = new Ajax.Updater(
+            'checkout-shipping-method-load', 
+            this.methodsUrl, 
+            {method:'get', onSuccess: checkout.setShippingMethod.bind(checkout)}
+        );
+        //checkout.setShipping();
     }
 }
 

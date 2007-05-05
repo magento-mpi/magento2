@@ -143,6 +143,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
+            if (empty($data['use_for_shipping'])) {
+                $data['use_for_shipping'] = 0;
+            }
+            else {
+                $data['use_for_shipping'] = 1;
+            }
             $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
             if ('register' == $this->_quote->getMethod()) {
                 $email = $address->getEmail();

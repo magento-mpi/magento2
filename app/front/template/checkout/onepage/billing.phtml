@@ -15,8 +15,8 @@
         </select>
     </div>
     <?endif?>
+<form id="co-billing-form">
     <div class="default-box" style="display:block;">
-        <form id="co-billing-form">
             <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id"/>
             <fieldset class="group-single">
             <ul class="input-list">
@@ -111,8 +111,8 @@
         <?endif?>
         <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($useForShipping || is_null($useForShipping)):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/>
         <label for="billing:use_for_shipping">Use for shipping</label>
-        </form>
     </div>
+</form>
     <div class="note-box">
         <p class="a-right"><span class="required">* Required Fields</span></p>
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>

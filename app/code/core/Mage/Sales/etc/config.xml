@@ -200,6 +200,8 @@
            <address>
                 <customer_id><type>int</type></customer_id>
                 <address_id><type>int</type></address_id>
+                <!--use_for_shipping><type>int</type></use_for_shipping-->
+                <same_as_billing><type>int</type></same_as_billing>
                 <email><type>varchar</type></email>
                 <firstname><type>varchar</type></firstname> 
                 <lastname><type>varchar</type></lastname> 

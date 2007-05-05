@@ -91,12 +91,14 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $shipping = $this->_quote->getAddressByType('shipping');
         if ($shipping instanceof Varien_Data_Object) {
-            $useForShipping = $shipping->getSameAsBilling();
+            $useForShipping = (int) $shipping->getSameAsBilling();
         }
-        else {
+        elseif ($billing->isEmpty()) {
             $useForShipping = null;
         }
-        
+        else {
+            $useForShipping = 0;
+        }
         
         // assign customer addresses
         $customerSession = Mage::getSingleton('customer', 'session');

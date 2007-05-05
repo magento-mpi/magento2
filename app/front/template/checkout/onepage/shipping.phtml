@@ -1,11 +1,12 @@
 <div class="step-body">
+
     <?if(!empty($addresses)):?>
     <div class="note-box" style="display:block;">
         <p class="option">
             Select a shipping address from your address book or enter a &nbsp;
             <a href="#" onclick="shipping.setAddress(false); return false;">new address</a>
         </p>
-        <select id="shipping-address-select" name="" style="width:100%;" onchange="shipping.setAddress(this.value); shipping.setSameAsBilling(false);">
+        <select id="shipping-address-select" name="shipping_address_id" style="width:100%;" onchange="shipping.setAddress(this.value); shipping.setSameAsBilling(false);">
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
             <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
@@ -15,10 +16,10 @@
         </select>
     </div>
     <?endif?>
+<form id="co-shipping-form">
     <div class="default-box" style="display:block;">
         <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($address->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/>
         <label for="shipping:same_as_billing">Same as billing</label>
-        <form id="co-shipping-form">
             <input type="hidden" name="shipping[address_id]" value="<?=$address->getAddressId()?>" id="shipping:address_id"/>
             <fieldset>
             <ul class="input-list">
@@ -93,8 +94,8 @@
                 </li>
             </ul>
         </fieldset>
-        </form>
     </div>
+</form>
     <div class="note-box">
         <p class="a-right"><span class="required">* Required Fields</span></p>
         <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
@@ -102,7 +103,6 @@
         <div class="clearfix"></div>
     </div>
 </div>
-
 <script type="text/javascript">
     var shipping = new Shipping('co-shipping-form', '<?=$baseSecureUrl?>checkout/onepage/getAddress/address/', '<?=$baseSecureUrl?>checkout/onepage/saveShipping/', '<?=$baseSecureUrl?>checkout/onepage/shippingMethod/');
     var shippingForm = new VarienForm('co-shipping-form');
