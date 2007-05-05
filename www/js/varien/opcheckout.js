@@ -320,8 +320,10 @@ Shipping.prototype = {
         arrElements = Form.getElements(this.form);
         for (var elemIndex in arrElements) {
             if (arrElements[elemIndex].id) {
-                //var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
-                //arrElements[elemIndex].value = sourceField.value;
+                var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
+                if (sourceField){
+                    arrElements[elemIndex].value = sourceField.value;
+                }
             }
         }
         shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
