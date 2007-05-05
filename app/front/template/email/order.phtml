@@ -2,7 +2,7 @@
 Order #<?=$order->getOrderId()?>
 <?else:?>
     <?if($_type=='html'):?>
-<h1>Dear <?=$name?></h1>,
+<strong>Dear <?=$name?></strong>
 
 Thanks for your order!
 <div class="content">
@@ -75,10 +75,6 @@ Thanks for your order!
             <?endforeach?> 
         </tbody>
     </table>
-    <div class="buttons-container">
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/order/history/';" value="Back" class="input-button float-left"/>
-        <div class="clearfix"></div>
-    </div>
 </div>
     <?else:?>
 Dear <?=$name?>,
