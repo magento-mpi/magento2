@@ -3,21 +3,17 @@
 <?else:?>
     <form id="co-shipping-method-form">
     	<fieldset>
-    	   <ul>
+            <?$_first=true?>
 	        <?foreach ($methods as $method):?>
 	           <?if (isset($method['error_message'])):?>
-        		<li>
         		    <strong><?=$method['vendor']?>: <?=$method['error_message']?></strong>
-        		</li>
 	           <?else:?>
-	           <li>
-        		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$selectedMethod)echo"checked"?> />
+        		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$selectedMethod)echo"checked"?><?if($_first):?> class="validate-one-required"<?endif?>/>
         		    <label for="shipping_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
-        		    <strong><?=$method['amount']?></strong>
-        		</li>
+        		    <strong><?=$method['amount']?></strong><br/>
         	   <?endif?>
+            <?$_first=false?>
     		<?endforeach?>
-    		</ul>
     	</fieldset>
 	</form>
 <?endif?>

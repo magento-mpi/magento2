@@ -1,8 +1,6 @@
+<input type="radio" title="<?=__("Check or Money Order")?>" id="payment_method_checkmo" name="payment[method]" value="checkmo" <?if($payment->getMethod()=='checkmo'):?>checked<?endif?> onclick="payment.switchMethod('checkmo')" class="validate-one-required"/>
+<label for="payment_method_checkmo"><?=__("Check or Money Order")?></label><br/>
 <fieldset>
-    <div class="left">
-        <input type="radio" title="<?=__("Check or Money Order")?>" id="payment_method_checkmo" name="payment[method]" value="checkmo" <?if($payment->getMethod()=='checkmo'):?>checked<?endif?> onclick="payment.switchMethod('checkmo')"/>
-        <label for="payment_method_checkmo"><?=__("Check or Money Order")?></label><br/>
-    </div>
     <div id="payment_form_checkmo" style="<?if($payment->getMethod()!=='checkmo'):?>display:none<?endif?>">
     </div>
 </fieldset>
