@@ -1,30 +1,28 @@
 .loading-process {position:fixed;right:0;top:0;width:60px;height:60px;text-align:center}
 
 
-.container { width:780px; margin: 0 auto; }
+.container { width:780px; margin:20px auto 10px auto; }
 
 /* Header */
 
-.header {position:relative; height:90px; padding:0 20px; background:url(../images/header_bg.gif) repeat-x;}
-	.header-top { height:46px; padding:5px 0; text-align:right;}
+.header {position:relative; height:81px; padding:5px 20px; background:url(../images/header_bg.gif) repeat-x; text-align:right;}
 		#logo { float:left; }
-			#logo a { float:left; width:145px; height:43px; background:url(../images/logo.gif) no-repeat; }
+			#logo a { float:left; margin-top:8px; width:195px; height:65px; }
 				#logo span { display:none; }
-		.header-top ul { float:right; margin-top:20px;}
-			.header-top ul li { display:inline; padding-left:10px; font-weight:bold;}
-				.header-top ul li a, .header-top ul li a:hover { color:#ecf5f7; }
-	.header-bottom { padding-top:5px; }
-		.header-bottom fieldset { float:right; width:272px; padding-left:73px; background:url(../images/title_search.gif) no-repeat 0 50%; }
-			.header-bottom legend span { display:none; }
-		.header-bottom .input-text { width:200px; }
-		.header-bottom .input-button { margin:3px 5px 3px 3px; padding:2px; }
+		.header ul { float:right; margin-top:9px;}
+			.header ul li { display:inline; padding-left:10px; font-weight:bold;}
+				.header ul li a, .header-top ul li a:hover { color:#ecf5f7; }
+		fieldset.search { float:right; width:280px; margin:5px 0; padding-left:68px; background:url(../images/title_search.gif) no-repeat 0 50%; text-align:right;}
+			fieldset.search legend span { display:none; }
+		fieldset.search .input-text { width:200px; }
+		fieldset.search .input-button { margin:3px 5px 3px 3px; padding:2px; }
 
 
 /* Header */
-.middle { background:#fff; padding:25px 20px 35px 20px; }
-		.column-left {width:220px;float:left;}
+.middle { background:url(../images/middle_bg.gif) repeat-y #fff; padding:10px 20px 35px 20px; border-style:solid; border-color:#dad0b5; border-width:0 1px; }
+		.column-left {width:190px; float:left;}
 			.column-left li, .column-left li a { height:1%; }
-		.column-right{width:506px;background:#fff;float:right}
+		.column-right{width:511px;background:#fff;float:right}
 
 
 /* Footer */
@@ -33,13 +31,13 @@
 
 
 .catalog-nav select {width:160px; margin-bottom:8px;}
-.catalog-nav h2 { margin:5px 0; color:#3293a9; font-size:13px; }
+.catalog-nav h2 { margin:5px 0; color:#5eafcb; font-size:13px; }
 .category-nav {padding:0px 10px 10px 0;}
 .category-nav a {display:block; background:url(../images/catalog_list_bg.gif) repeat-x 0 100%; padding:5px 0; line-height:1.3em; font-size:1em; color:#666}
 .category-nav a:hover, .category-nav a.active {text-decoration:none; background-color:#ecf4f6; color:#666; }
-.newsletter { margin:10px 0; border:2px solid #eae1c5; padding:10px; background:#faf9f4; }
-.newsletter h2 { background:url(../images/title_newsletter.gif) no-repeat; height:13px; text-indent:-2000px; }
-.newsletter label {color:#754D24}
+.newsletter { margin:10px 0; background:url(../images/newsletter_bg.jpg) no-repeat 108px 0; }
+.newsletter h2 { margin-bottom:2px;}
+.newsletter label { display:block; margin-bottom:3px; }
 .newsletter .input-text{width:148px;margin-bottom:5px}
 
 
@@ -48,11 +46,9 @@
 	.home-callout li { float:left; margin-right:14px; padding:6px; border:1px solid #d4d4d4; }
 		.home-callout li img { display:block; }
 	.home-callout li.last { margin:0;  }
-.home-left { float:left; width:236px; margin-right:14px; padding-left:10px; }
-.home-right { float:right; width:236px; padding-left:10px; }
+.home-left { float:left; width:236px; margin-right:6px; padding-left:10px; }
+.home-right { float:right; width:241px; padding-left:10px; }
 
-.home-left h2 { height:13px; background:url(../images/title_recent_news.gif) no-repeat; text-indent:-2000px; }
-.home-right h2 { height:13px; background:url(../images/title_about_us.gif) no-repeat; text-indent:-2000px; }
 
 
 .content{padding:20px;}
@@ -71,7 +67,7 @@
 
 .page-heading {font-size:1.35em; padding-bottom:4px; border-bottom: 1px solid #754D24; } 
 
-.accent { color:#e66c00; }
+.accent { color:#d0396b; }
 
 /* Clears */
 .container:after, .home-callout:after, .header-top:after, .middle:after {

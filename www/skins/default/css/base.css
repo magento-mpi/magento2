@@ -6,7 +6,7 @@ body, div, ul, ol, li, p, dt, dd, dl, h1, h2, h3, h4, h5, form, fieldset, tr, td
     font: 11px/1.55em Verdana, sans-serif;
     color:#393939;
 }
-body { background:#f7f4ec; }
+body { background:#efeadc; }
 h1 { font-size:1.6em; }
 h2 { font-size:1.3em; }
 h3 { font-size:1.2em; }
@@ -22,7 +22,7 @@ form { display:inline; }
 
 /**************** In-line ******************/
 input, select { vertical-align:middle; }
-label { color:#C68D19; }
+label { color:#393939; }
 a img { border:0; }
 a { color:#724023; text-decoration:none; }
 a:hover { color:#724023; text-decoration:underline; }
@@ -49,7 +49,7 @@ fieldset.highlight { background-color:#f7f8df; }
 legend {display:none;}
 .input-list li { clear:both;  margin-bottom:6px;}
 .input-text, textarea, select {
-    padding:2px; 
+    padding:2px 3px; 
     border-width:1px; 
     border-style:solid; 
     border-color:#979797 #e0e0e0 #e0e0e0 #979797;
@@ -61,7 +61,7 @@ legend {display:none;}
 .input-button { 
 	width:auto;
 	padding:2px;
-	background-color:#af6f23; 
+	background-color:#d0396b; 
 	border:none; 
 	color:#fff; 
 	font:bold 11px Verdana, sans-serif; 
