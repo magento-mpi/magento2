@@ -8,7 +8,32 @@ Mage.Menu_Core = function(){
         },
         
         init : function(){
-            menu = new Ext.menu.Menu({
+            var aboutmenu = new Ext.menu.Menu({                
+                id: 'aboutMenu',
+                items: [
+                    new Ext.menu.Item({
+                        text: 'About',
+                        handler : function(){
+                            Ext.MessageBox.alert('About','<img src="skins/default/images/logo.gif" /><br><center>Version <b>Alpha</b></center>');
+                        }                  
+                    }),
+                    new Ext.menu.Item({
+                        text: 'Credits',
+                        handler : function(){
+                            Ext.MessageBox.alert('Credits','Andrey&nbsp;Korolyov&nbsp;<a href="mailto:andrey@varien.com">andrey@varien.com</a><br> Dmitriy&nbsp;Soroka&nbsp;<a href="mailto:dmitry@varien.com">dmitry@varien.com</a><br> Moshe&nbsp;Gurvich&nbsp;<a href="mailto:moshe@varien.com">moshe@varien.com</a><br><img src="extjs/resources/images/default/s.gif" width="250" height="1"/>');
+                        }
+                    }),
+                 ]
+            });
+            
+            Mage.Core.addLeftToolbarItem({
+                icon: 'favicon.ico',
+                cls: 'x-btn-icon',                
+                menu: aboutmenu
+            });
+            
+            
+            var menu = new Ext.menu.Menu({
                 id: 'mainSystemMenu',
                 items: [
 /*
