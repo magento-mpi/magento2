@@ -29,7 +29,7 @@ Mage.Menu_Catalog = function(){
                  ]
             });
             Mage.Core.addLeftToolbarItem({
-                cls: 'x-btn-text-icon bmenu',
+                cls: 'x-btn-text bmenu',
                 text:'Catalog',
                 menu: menu
             });

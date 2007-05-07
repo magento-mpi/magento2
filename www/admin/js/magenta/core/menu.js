@@ -14,7 +14,7 @@ Mage.Menu_Core = function(){
                     new Ext.menu.Item({
                         text: 'About',
                         handler : function(){
-                            Ext.MessageBox.alert('About','<img src="skins/default/images/logo.gif" /><br><center>Version <b>Alpha</b></center>');
+                            Ext.MessageBox.alert('About','<img src="skins/default/images/logo2.gif" /><br><center>Version <b>Alpha</b></center>');
                         }                  
                     }),
                     new Ext.menu.Item({
@@ -54,7 +54,7 @@ Mage.Menu_Core = function(){
             });
             
             Mage.Core.addLeftToolbarItem({
-                cls: 'x-btn-text-icon bmenu',
+                cls: 'x-btn-text bmenu',
                 text:'System',
                 menu: menu
             });
@@ -68,7 +68,7 @@ Mage.Menu_Core = function(){
             }
 
            Mage.Core.getRighToolbar().add({
-                cls: 'x-btn-text-icon .btn-theme',
+                cls: 'x-btn-text .btn-theme',
                 text:'Theme',
                 menu: new Ext.menu.Menu({
                     id: 'website',
