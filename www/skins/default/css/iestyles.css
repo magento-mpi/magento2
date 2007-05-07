@@ -1,2 +1,2 @@
 .input-button { padding:2px 4px; }
-.container, .home-callout, .header-top, .middle { height:1%; }
+.buttons-container, fieldset.group-select li, .container, .home-callout, .header, .middle { height:1%; }

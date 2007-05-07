@@ -1,47 +1,47 @@
-<table width=100% class="data-table">
+<table width="100%" cellspacing="0" class="data-table">
     <tr>
-        <td>
+        <td style="padding:10px 15px;">
             <h4>Billing Address</h4>
             <div class="step-body">
                 <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br/>
                 <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br/>
                 <?=nl2br($billing->getStreet(-1))?><br/>
                 <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
-                <br/><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">EDIT</a>
+                <br/><strong><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">Edit</a></strong>
             </div>
         </td>
     
-        <td>
+        <td style="padding:10px 15px;">
             <h4>Shipping Address</h4>
             <div class="step-body">
                 <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br/>
                 <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br/>
                 <?=nl2br($shipping->getStreet(-1))?><br/>
                 <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
-                <br/><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">EDIT</a>
+                <br/><strong><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">Edit</a></strong>
             </div>
         </td>
     </tr>
     <tr>
-        <td>
+        <td style="padding:10px 15px;">
             <h4>Payment Method</h4>
             <div class="step-body">
                 <?=$payment?>
-                <br/><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">EDIT</a>
+                <br/><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></strong>
             </div>
         </td>
 
 
-        <td>
+        <td style="padding:10px 15px;">
             <h4>Shipping Method</h4>
             <div class="step-body">
                 <?=$shippingDescription?>
-                <br/><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">EDIT</a>
+                <br/><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">Edit</a></strong>
             </div>
         </td>
     </tr>
 </table>
-<table cellspacing="2" width="100%" class="data-table">
+<table cellspacing="0" width="100%" class="data-table">
     <tr>
         <th class="align-left">Product Name</th>
         <th style="width:70px;" class="align-center">Unit Price</th>
@@ -57,8 +57,10 @@
     </tr>
     <?endforeach?>
     <?foreach($totals as $total):?>
-    <tr>
-        <th colspan="3" class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
-    </tr>
+		<tfoot>
+			<tr>
+					<td colspan="3" class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
+			</tr>
+		</tfoot>
     <?endforeach?>
 </table>

@@ -1,8 +1,8 @@
-<div class="content">
+
 <h1 class="page-heading">Wishlist</h1>
 <?if($wishlist->getSize()):?>
 <form action="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'updatePost'))?>" method="post">
-    <table cellspacing="2" width="100%" class="data-table">
+    <table cellspacing="0" width="100%" class="data-table">
         <tr>
             <th class="align-left">Product</th>
             <th style="width:60px;" class="align-center">Status</th>
@@ -22,16 +22,10 @@
         <?endforeach?>
     </table>
     <div class="buttons-container">
-        <div class="input-left">
-            <input type="button" value="Continue Shopping" onclick="location.href='<?=Mage::getBaseUrl()?>'" class="input-button"/>
-        </div>
-        <div class="input-right align-right">
-            <input type="submit" value="Update" class="input-button" name="do"/>
-        </div>
-        <div class="clearfix"></div>
+        <a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; Continue Shopping</a>
+        <input type="submit" value="Update" class="input-button" name="do"/>
     </div>
 </form>
 <?else:?>
     <p>You have not placed any product yet.</p>
 <?endif?>
-</div>

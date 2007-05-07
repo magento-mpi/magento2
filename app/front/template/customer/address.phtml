@@ -1,4 +1,4 @@
-<div class="content">
+
 <h1 class="page-heading">Address Book</h1>
 <?=$messages->__toHtml()?>
 <table cellspacing="0" width="100%">
@@ -55,14 +55,8 @@
     </tr>
 </table>
 <div class="buttons-container">
-    <div class="button-left">
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button">
-    </div>
-    <div class="button-right">
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/address/form/';" value="New Address" class="input-button">
-    </div>
-    <div class="clearfix"></div>
-</div>
+    <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+    <input type="button" onclick="window.location='<?=$baseUrl?>customer/address/form/';" value="New Address" class="input-button">
 </div>
 <script type="text/javascript">
     function deleteAddress(addressId) {

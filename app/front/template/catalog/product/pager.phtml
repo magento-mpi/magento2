@@ -19,8 +19,8 @@
             <a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">&raquo;</a>
         </li>
         <?endif?>
-        <li>
-         <?=__("Total: %s items", $productCollection->getSize())?>
+        <li style="padding-left:10px;">
+         <?=__("Total: <strong>%s items</strong>", $productCollection->getSize())?>
         </li>
     </ul>
     <span class="sort-by">

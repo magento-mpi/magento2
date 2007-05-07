@@ -1,13 +1,13 @@
-<div class="content">
+
 <h1 class="page-heading"><?if($data->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h1>
 <?=$messages->__toHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
 <input type="hidden" name="customer_id" id="address_id" value="<?=$data->getCustomerId()?>">
-    <fieldset class="group-single">
+    <fieldset class="group-select">
         <legend>Personal Information</legend>
         <h3>Personal Information</h3>
-        <ul class="input-list">
+        <ul>
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
@@ -17,21 +17,19 @@
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
                     <input type="text" name="lastname" id="lastname" title="Last Name" value="<?=$data->getLastname()?>" class="required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
                 <div class="input-left">
                     <label for="company">Company</label><br/>
                     <input type="text" name="company" id="company" title="Company" value="<?=$data->getCompany()?>" class="input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
         </ul>
     </fieldset>
-    <fieldset class="group-single">
+    <fieldset class="group-select">
         <legend>Address</legend>
         <h3>Address</h3>
-        <ul class="input-list">
+        <ul>
             <li>
                 <label for="street_1">Street Address <span class="required">*</span></label><br/>
                 <input type="text" name="street[1]" value="<?=$data->getStreet(1)?>" title="Street Address" id="street_1" class="required-entry input-text"/>
@@ -58,7 +56,6 @@
                     <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
@@ -69,12 +66,12 @@
             <li>
                 <div class="input-left">
                     <label for="telephone">Telephone <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" value="<?=$data->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone"/></div>
+                    <input type="text" name="telephone" value="<?=$data->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" 
+										id="telephone"/></div>
                 <div class="input-right">
                     <label for="fax">Fax</label><br/>
                     <input type="text" name="fax" value="<?=$data->getFax()?>" title="Fax" class="validate-fax input-text" id="fax"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <?foreach ($primaryTypes as $code=>$type):?>
                 <li>
@@ -90,13 +87,11 @@
     </fieldset>
     <div class="buttons-container">
         <p class="required">* Required Fields</p>
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/address/';" value="Back" class="input-button float-left"/>
+        <a href="<?=$baseUrl?>customer/address/" class="float-left">&laquo; Back</a>
         <input type="submit" value="Submit" class="input-button float-right"/>
-        <div class="clearfix"></div>
     </div>
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate');
     dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
 </script>
-</div>

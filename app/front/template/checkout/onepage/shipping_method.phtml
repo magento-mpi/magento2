@@ -1,11 +1,11 @@
 <div id="checkout-shipping-method" class="step-body">
-  	<div id="checkout-shipping-method-load" class="default-box">
+  	<div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
   	    <?=$availableMethods?>
   	</div>
 
     <div class="note-box buttons">
-    	<input type="button" onclick="checkout.back();" value="Back" class="input-button float-left" />
-    	<input type="button" onclick="shippingMethod.save();" class="input-button float-right" value="Continue" />
+    	<a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
+    	<a href="javascript:shippingMethod.save();" class="float-right"><img src="<?=$baseSkinUrl?>images/btn_continue.gif" alt="Continue"/></a>
     	<div class="clearfix"></div>
     </div>
 </div>

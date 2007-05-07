@@ -1,6 +1,5 @@
 <?=$breadcrumbs?>
-<div class="content">
-    <h1><?=$category->getData('name')?></h1>
+    <h2><?=$category->getData('name')?></h2>
     <p><?=$category->getData('description')?></p>
     <div class="catalog-spacer">&nbsp;</div>
     <?include $templatesDir.'/catalog/product/pager.phtml'?>
@@ -23,7 +22,7 @@
             <?foreach ($productCollection as $product):?>
             <div class="item">
                 <div class="item-image">
-                    <a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+                    <a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="113"/></a>
                 </div>
                 <div class="item-info">
                     <div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
@@ -39,4 +38,3 @@
     <div class="catalog-spacer">&nbsp;</div>
     <?include $templatesDir.'/catalog/product/pager.phtml'?>
     <div class="catalog-spacer">&nbsp;</div>
-</div>

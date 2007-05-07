@@ -1,16 +1,14 @@
-<div class="content">
-    <h1 class="page-heading">My Account</h1>
-    <?=$messages->__toHtml()?>
-    <ul>
-        <li><a href="<?=$baseUrl?>customer/order/history/">My orders</a></li>
+
+<h1 class="page-heading">My Account</h1>
+<?=$messages->__toHtml()?>
+<ul>
+		<li><a href="<?=$baseUrl?>customer/order/history/">My Orders</a></li>
 <?if($wishlistActive):?>
-        <li><a href="<?=$baseUrl?>customer/wishlist/">Wishlist</a></li>
+		<li><a href="<?=$baseUrl?>customer/wishlist/">Wishlist</a></li>
 <?endif?>
-        <li><a href="<?=$baseSecureUrl?>customer/account/balance/">Balance</a></li>
-        <li><a href="<?=$baseSecureUrl?>customer/account/edit/">Change account information</a></li>
-        <li><a href="<?=$baseSecureUrl?>customer/account/changepassword/">Change Password</a></li>
-        <li><a href="<?=$baseUrl?>customer/address/">Address Book</a></li>
-        <!--li><a href="<?=$baseUrl?>customer/account/newsletter/">Newsletter</a></li-->
-    </ul>
-    <div class="dotted-separator"></div>
-</div>
+		<li><a href="<?=$baseSecureUrl?>customer/account/balance/">Balance</a></li>
+		<li><a href="<?=$baseSecureUrl?>customer/account/edit/">Change Account Information</a></li>
+		<li><a href="<?=$baseSecureUrl?>customer/account/changepassword/">Change Password</a></li>
+		<li><a href="<?=$baseUrl?>customer/address/">Address Book</a></li>
+		<!--li><a href="<?=$baseUrl?>customer/account/newsletter/">Newsletter</a></li-->
+</ul>

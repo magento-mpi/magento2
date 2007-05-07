@@ -23,12 +23,46 @@ function MM_swapImage() { //v3.0
 
 function popWin(url,win,para) { window.open(url,win,para); }
 
+
 function fieldset_highlight(obj,state) {
-    for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
-    if (fieldset && fieldset.tagName=='FIELDSET') {
-        if (state) fieldset.className += ' highlight'; 
-        else fieldset.className = fieldset.className.replace(/ highlight/,'');
-    }
+	for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
+	if (fieldset && fieldset.tagName=='FIELDSET' && fieldset.className.indexOf('group-select')!=-1) {
+		if (state) fieldset.className += ' highlight'; 
+		else fieldset.className = fieldset.className.replace(/ highlight/,'');
+	}
+}
+
+
+function fieldset_highlight_event(e) {
+	if (!e) e = window.event;
+	var obj = e.srcElement ? e.srcElement : e.target;
+	var state = e.type=='focus';
+	fieldset_highlight(obj,state);
+}
+
+function fieldset_init(fs) {
+	var f = fs.getElementsByTagName('INPUT'), i;
+	for (i=0; i<f.length; i++) {
+		f[i].onfocus = fieldset_highlight_event;
+		f[i].onblur = fieldset_highlight_event;
+	}
+	f = fs.getElementsByTagName('SELECT');
+	for (i=0; i<f.length; i++) {
+		f[i].onfocus = fieldset_highlight_event;
+		f[i].onblur = fieldset_highlight_event;
+	}
+	f = fs.getElementsByTagName('TEXTAREA');
+	for (i=0; i<f.length; i++) {
+		f[i].onfocus = fieldset_highlight_event;
+		f[i].onblur = fieldset_highlight_event;
+	}
+}
+
+function fieldset_init_all() {
+	var fs = document.getElementsByTagName('FIELDSET'), i;
+	for (i=0; i<fs.length; i++) {
+		fieldset_init(fs[i]);
+	}
 }
 
 // Version 1.0

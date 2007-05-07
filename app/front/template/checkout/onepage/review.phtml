@@ -41,8 +41,8 @@ Review.prototype = {
     </div>
     
     <div class="note-box">
-        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="review.save();" class="input-button float-right" value="Submit Order" style="background:red"/>
+        <a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
+			<a href="javascript:review.save();" class="float-right"><img src="<?=$baseSkinUrl?>images/btn_submit_order.gif" alt="Continue"/></a>
         <div class="clearfix"></div>
     </div>
 </div>

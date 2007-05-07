@@ -1,4 +1,4 @@
-<div class="content">
+
     <h1 class="page-heading">Order #<?=$order->getOrderId()?> (<?=$order->getStatus()?>)</h1>
     <table cellspacing="0" width="100%">
         <thead>
@@ -10,10 +10,11 @@
             <tr>
                 <td>
                     <address>
-                        <?=$order->getAddressByType('billing')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
+                        <?=$order->getAddressByType('billing')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
+												{{telephone}}')?>
                     </address>
                 </td>
-                <td class="align-center">
+                <td>
                 <?=$payment?>
                 </td>
             </tr>
@@ -30,10 +31,11 @@
             <tr>
                 <td>
                     <address>
-                        <?=$order->getAddressByType('shipping')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
+                        <?=$order->getAddressByType('shipping')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
+												{{telephone}}')?>
                     </address>
                 </td>
-                <td class="align-center">
+                <td>
                     <?=$order->getShippingDescription()?>
                 </td>
             </tr>
@@ -41,7 +43,7 @@
     </table>
     <p></p>
     <?$_items = $order->getEntitiesByType('item')?>
-    <table cellspacing="6" width="100%" class="data-table">
+    <table cellspacing="0" width="100%" class="data-table">
         <thead>
             <tr>
                 <th style="width:50%;">Items Order</th>
@@ -69,7 +71,5 @@
         </tbody>
     </table>
     <div class="buttons-container">
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/order/history/';" value="Back" class="input-button float-left"/>
-        <div class="clearfix"></div>
+			<a href="<?=$baseUrl?>customer/order/history/" class="float-left">&laquo; Back</a>
     </div>
-</div>

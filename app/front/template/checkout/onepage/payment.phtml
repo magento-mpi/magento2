@@ -1,13 +1,13 @@
 <div class="step-body">
-    <div class="default-box">
+    <div class="default-box" style="padding:10px 15px;">
         <form id="co-payment-form">
             <?=$paymentMethods?>
-            <span class="required">* <?=__("Required Fields")?></span>
         </form>
     </div>
     <div class="note-box buttons">
-        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="payment.save();" class="input-button float-right" value="Continue"/>
+				<p class="required">* <?=__("Required Fields")?></p>
+        <a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
+        <a href="javascript:payment.save();" class="float-right"><img src="<?=$baseSkinUrl?>images/btn_continue.gif" alt="Continue"/></a>
         <div class="clearfix"></div>
     </div>
 </div>

@@ -1,10 +1,10 @@
-<div class="content">
+
     <h1 class="page-heading">Edit Account Info</h1>
     <?=$messages->__toHtml()?>
     <form action="<?=$action?>" method="post" id="form-validate">
-    <fieldset class="group-single">
+    <fieldset class="group-select">
         <legend>Edit Personal Information</legend>
-        <ul class="input-list">
+        <ul>
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
@@ -14,23 +14,20 @@
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
                     <input type="text" name="lastname" value="<?=$data->getLastname()?>" title="Last Name"  class="required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
-                <label for="email_address">Email <span class="required">*</span></label><br/>
-                <input type="text" name="email" value="<?=$data->getEmail()?>" title="Email Address" class="required-entry validate-email input-text"/>
+                <div class="input-left"><label for="email_address">Email <span class="required">*</span></label><br/>
+                <input type="text" name="email" value="<?=$data->getEmail()?>" title="Email Address" class="required-entry validate-email input-text"/></div>
             </li>
         </ul>
     </fieldset>
     <div class="clearfix"></div>
     <div class="buttons-container">
         <p class="required">* Required Fields</p>
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
+        <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
         <input type="submit" class="input-button float-right" value="Continue"/>
-        <div class="clearfix"></div>
     </div>
     </form>
     <script type="text/javascript">
         var dataForm = new VarienForm('form-validate');
     </script>
-</div>

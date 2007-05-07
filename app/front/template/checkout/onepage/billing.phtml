@@ -2,14 +2,14 @@
     <?if(!empty($addresses)):?>
     <div class="note-box" style="display:block;">
         <p class="option">
-            Select a billing address from your address book or enter a &nbsp;
-            <a href="#" onclick="billing.setAddress(false); return false;">new address</a>
+            Select a billing address from your address book or enter a <a href="#" onclick="billing.setAddress(false); return false;">New Address</a>
         </p>
         <select id="billing-address-select" name="billing_address_id" style="width:100%;" onchange="billing.setAddress(this.value);">
             <option value="">New address</option>
         <?foreach($addresses as $_addressId=>$_address):?>
             <option value="<?=$_address->getAddressId()?>" <?if($_address->getAddressId() == $address->getAddressId()):?> selected<?endif?>>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet(-1)?>] [<?=$_address->getTelephone()?>]
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet(-1)?>] 
+								[<?=$_address->getTelephone()?>]
             </option>
         <?endforeach?>
         </select>
@@ -18,18 +18,18 @@
 <form id="co-billing-form">
     <div class="default-box" style="display:block;">
             <input type="hidden" name="billing[address_id]" value="<?=$address->getAddressId()?>" id="billing:address_id"/>
-            <fieldset class="group-single">
-            <ul class="input-list">
+            <fieldset class="group-select">
+            <ul>
                 <li>
                     <div class="input-left">
                         <label for="billing:firstname">First Name <span class="required">*</span></label><br/>
-                        <input type="text" id="billing:firstname" name="billing[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+                        <input type="text" id="billing:firstname" name="billing[firstname]" value="<?=$address->getFirstname()?>" title="First Name" class="required-entry 
+												input-text"/>
                     </div>
                     <div class="input-right">
                         <label for="billing:lastname">Last Name <span class="required">*</span></label><br/>
                         <input type="text" id="billing:lastname" name="billing[lastname]" value="<?=$address->getLastname()?>" title="Last Name" class="required-entry input-text"/>
                     </div>
-                    <div class="clearfix"></div>
                 </li>
                 <li>
                     <div class="input-left">
@@ -39,10 +39,10 @@
                     <?if(!$isCustomerLoggedIn):?>
                     <div class="input-right">
                         <label for="billing:email">Email <span class="required">*</span></label><br/>
-                        <input type="text" name="billing[email]" id="billing:email" value="<?=$address->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
+                        <input type="text" name="billing[email]" id="billing:email" value="<?=$address->getEmail()?>" title="Email Address" class="validate-email required-entry 
+												input-text"/>
                     </div>
                     <?endif?>
-                    <div class="clearfix"></div>
                 </li>
                 <li>
                     <label for="billing:street_address">Street Address <span class="required">*</span></label><br/>
@@ -64,14 +64,15 @@
                                 <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>
                         <?else:?>
-                            <input type="text" id="billing:region" name="billing[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry input-text"/>
+                            <input type="text" id="billing:region" name="billing[region]" value="<?=$address->getRegion()?>"  title="State/Province" class="required-entry 
+														input-text"/>
                         <?endif?>
                     </div>
                     <div class="input-right">
                         <label for="billing:postcode">Zip <span class="required">*</span></label><br/>
-                        <input type="text" title="ZIP/Post Code" name="billing[postcode]" id="billing:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry input-text"/>
+                        <input type="text" title="ZIP/Post Code" name="billing[postcode]" id="billing:postcode" value="<?=$address->getPostcode()?>" class="validate-zip required-entry 
+												input-text"/>
                     </div>
-                    <div class="clearfix"></div>
                 </li>
                 <li>
                     <label for="billing:country_id">Country <span class="required">*</span></label><br/>
@@ -82,17 +83,17 @@
                 <li>
                     <div class="input-left">
                         <label for="billing:telephone">Telephone <span class="required">*</span></label><br/>
-                        <input type="text" name="billing[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="billing:telephone"/></div>
+                        <input type="text" name="billing[telephone]" value="<?=$address->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" 
+												id="billing:telephone"/></div>
                     <div class="input-right">
                         <label for="billing:fax">Fax</label><br/>
                         <input type="text" name="billing[fax]" value="<?=$address->getFax()?>" title="Fax" class="validate-fax input-text" id="billing:fax"/>
                     </div>
-                    <div class="clearfix"></div>
                 </li>
             </ul>
         </fieldset>
         <?if(!$isCustomerLoggedIn):?>
-        <fieldset class="group-single" id="billing-login-info" style="display:<?if($method=='register'):?>block<?else:?>none<?endif?>">
+        <fieldset class="group-select" id="billing-login-info" style="display:<?if($method=='register'):?>block<?else:?>none<?endif?>">
             <legend>Login Information</legend>
             <h4>Login Information</h4>
             <ul class="input-list">
@@ -103,20 +104,22 @@
                     </div>
                     <div class="input-right">
                         <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
-                        <input type="password" name="billing[confirm_password]" title="Password Confirmation" id="billing:confirm_password" class="required-entry validate-password input-text"/>
+                        <input type="password" name="billing[confirm_password]" title="Password Confirmation" id="billing:confirm_password" class="required-entry validate-password 
+												input-text"/>
                     </div>
                 </li>
             </ul>
         </fieldset>
         <?endif?>
-        <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($useForShipping || is_null($useForShipping)):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/>
-        <label for="billing:use_for_shipping">Use for shipping</label>
+        <div style="padding:10px;"><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($useForShipping || 
+				is_null($useForShipping)):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/>
+        <label for="billing:use_for_shipping">Use for shipping</label></div>
     </div>
 </form>
     <div class="note-box">
-        <p class="a-right"><span class="required">* Required Fields</span></p>
-        <input type="button" onclick="checkout.back();" value="Back" class="input-button float-left"/>
-        <input type="button" onclick="billing.save();" class="input-button float-right" value="Continue"/>
+        <p class="align-right"><span class="required">* Required Fields</span></p>
+        <a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
+        <a href="javascript:billing.save();" class="float-right"><img src="<?=$baseSkinUrl?>images/btn_continue.gif" alt="Continue"/></a>
         <div class="clearfix"></div>
     </div>
 </div>

@@ -1,39 +1,37 @@
-<div class="content">
+
 <h1 class="page-heading">Create account</h1>
     <?=$messages->__toHtml()?>
     <form action="<?=$action?>" method="post" id="form-validate">
-    <fieldset class="group-single">
+    <fieldset class="group-select">
      <legend>Personal Information</legend>
         <h3>Personal Information</h3>
-        <ul class="input-list">
+        <ul>
             <li>
                 <div class="input-left">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
                     <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text"/>
                 </div>
-                <div class="input-right">
+                <div class="input-left">
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
                     <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
                 <div class="input-left">
                     <label for="company">Company</label><br/>
                     <input type="text" name="company" id="company" value="<?=$data->getCompany()?>" title="Company" class="input-text"/>
                 </div>
-                <div class="input-right">
+                <div class="input-left">
                     <label for="email_address">Email <span class="required">*</span></label><br/>
                     <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
         </ul>
     </fieldset>
-    <fieldset class="group-single">
+    <fieldset class="group-select">
      <legend>Address</legend>
         <h3>Address</h3>
-        <ul class="input-list">
+        <ul>
             <li>
                 <label for="street_address">Street Address <span class="required">*</span></label><br/>
                 <input type="text" name="street[1]" value="<?=$data->getStreet(1)?>" title="Street Address" id="street_address" class="required-entry input-text"/>
@@ -61,7 +59,6 @@
                     <label for="zip">Zip <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
                 <label for="country">Country <span class="required">*</span></label><br/>
@@ -78,14 +75,13 @@
                     <label for="fax">Fax</label><br/>
                     <input type="text" name="fax" value="<?=$data->getFax()?>" title="Fax" class="validate-fax input-text" id="fax"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
         </ul>
     </fieldset>
-    <fieldset class="group-single">
+    <fieldset class="group-select">
         <legend>Login Information</legend>
         <h3>Login Information</h3>
-        <ul class="input-list">
+        <ul>
             <li>
                 <div class="input-left">
                     <label for="password">Password <span class="required">*</span></label><br/>
@@ -98,16 +94,13 @@
             </li>
         </ul>
     </fieldset>
-        <div class="clearfix"></div>
         <div class="buttons-container">
             <p class="required">* Required Fields</p>
-            <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
-            <input type="submit" class="input-button float-right" value="Continue"/>
-            <div class="clearfix"></div>
+            <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+            <input type="submit" class="input-button" value="Continue"/>
         </div>
     </form>
     <script type="text/javascript">
         var dataForm = new VarienForm('form-validate');
         dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
     </script>
-</div>

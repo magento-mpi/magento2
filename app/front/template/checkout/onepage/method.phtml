@@ -1,9 +1,9 @@
 <div class="step-body">
-    <h4>Login</h4>
+    <h4 class="login">Login</h4>
     <div class="note-box">
     <?=$messages->__toHtml()?>
     <form action="<?=$postAction?>" method="post">
-        <fieldset>
+        <fieldset class="group-select">
         <p>
             <strong>Already Registered?</strong><br/>
             Log in below to take advantage of Express Checkout:
@@ -14,15 +14,14 @@
                     <label for="email">Email Address</label></br>
                     <input type="text" class="input-text" id="email" name="login[username]"/>
                 </div>
-                <div class="clearfix"></div>
             </li>
             <li>
                 <div class="input-left">
                     <label for="password">Password</label></br>
                     <input type="password" class="input-text" id="password" name="login[password]" />
                 </div>
-                <div class="input-right" style="padding-top:20px;"><a href="<?=Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword'))?>">Forgot your password?</a></div>
-                <div class="clearfix"></div>
+                <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword'))?>">Forgot your 
+								password?</a></div>
             </li>
         </ul>
         </fieldset>
@@ -30,7 +29,7 @@
     </form>
     </div>
 
-    <h4 style="border:0;">Checkout as a Guest or Register</h4>
+    <h4 class="login">Checkout as a Guest or Register</h4>
     <div class="note-box">
     <form id="checkout_method">
         <fieldset>
