@@ -8,7 +8,7 @@
     
     <reference name="top.links">
         <block type="list_link" name="top.links.myaccount">
-            <action method="setLink"><li/><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
+            <action method="setLink"><li>style="padding:0"</li><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
         </block>
     </reference>
 </layoutUpdate>

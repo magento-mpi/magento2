@@ -3,10 +3,8 @@
 body, div, ul, ol, li, p, dt, dd, dl, h1, h2, h3, h4, h5, form, fieldset, tr, td, legend  { 
     margin: 0;
     padding : 0;
-    font: 11px/1.55em Verdana, sans-serif;
-    color:#393939;
 }
-body { background:#efeadc; }
+body { background:#efeadc; color:#393939; font: 11px/1.55em Verdana, sans-serif; }
 h1 { font-size:1.6em; }
 h2 { font-size:1.3em; }
 h3 { font-size:1.2em; }
@@ -104,3 +102,4 @@ input.validation-failed, textarea.validation-failed {
 .success {font-weight:bold;color:#50926f;border:1px solid green; margin:8px 0; padding:10px; background:#fbfdfc; }
 
 .required, .error-text  { color:#cf3f3f; font-weight:bold; font-size:11px; }
+.separator { color:#eae1c5; }
