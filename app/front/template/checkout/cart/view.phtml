@@ -76,15 +76,14 @@
 	<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'couponPost'))?>couponPost/" method="post">
 		<fieldset>
 			<p><label for="coupon_code">Coupon code:</label><br />
-			<input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>" name="do"/><br/><input type="submit" value="Clear" 
-			class="input-button-sub" name="do"/> <input type="submit" value="Apply" class="input-button" name="do"/></p>
+			<input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>" name="do"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" 
+			class="input-button-sub" name="do"/></p>
 		</fieldset>
 	</form>
 	<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'giftCertPost'))?>" method="post">
 		<fieldset>
 			<p><label for="giftcert_code">Gift certificate:</label><br />
-			<input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/><br/><input type="submit" value="Clear" class="input-button-sub" 
-			name="do"/> <input type="submit" value="Apply" class="input-button" name="do"/></p>
+			<input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button-sub" name="do"/></p>
 		</fieldset>
 	</form>
 </div>

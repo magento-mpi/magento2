@@ -32,7 +32,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     public function loadProductTypes()
     {
         $types = Mage::getModel('catalog','product_attribute')
-            ->loadByCode('type')
+            ->loadByCode('shoe_type')
             ->getSource()
                 ->getArrOptions();
 

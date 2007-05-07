@@ -4,7 +4,7 @@ class Mage_Sales_Model_Quote_Attribute_Custbalance extends Mage_Sales_Model_Quot
 {
     public function collectTotals(Mage_Sales_Model_Quote $quote)
     {
-        $quote->setCustbalanceAmount(10);
+        $quote->setCustbalanceAmount(0);
         
         $quote->setGrandTotal($quote->getGrandTotal()-$quote->getCustbalanceAmount());
         
