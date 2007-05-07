@@ -9,7 +9,7 @@
 		#logo { float:left; }
 			#logo a { float:left; width:195px; height:65px; }
 				#logo span { display:none; }
-		.header p { display:inline; }
+		.header p { display:inline; color:#eae1c5; }
 		.header ul {  display:inline;}
 			.header ul li { display:inline; padding-left:10px; font-weight:bold;}
 				.header ul li a, .header ul li a:hover { color:#ecf5f7; }

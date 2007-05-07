@@ -4,9 +4,10 @@
     <div class="catalog-spacer">&nbsp;</div>
     <?include $templatesDir.'/catalog/product/pager.phtml'?>
     <div class="catalog-spacer">&nbsp;</div>
-    <div class="catalog-collection">
+    <table cellspacing="0" class="catalog-collection"><tr>
         <?foreach ($productCollection as $product):?>
-        <div class="item">
+				<?if (++$i%3==0):?></tr><tr><?endif?>
+        <td class="item">
             <div class="item-image">
                 <a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
             </div>
@@ -14,12 +15,9 @@
                 <div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
                 <div class="product-price"><?=$product->getFormatedPrice()?></div>
             </div>
-        </div>
+        </td>
         <?endforeach?>
-        <div class="clearfix"></div>
-    </div>
-    <br />
-    <div class="catalog-spacer">&nbsp;</div>
+		</tr></table>
     <?include $templatesDir.'/catalog/product/pager.phtml'?>
     <div class="catalog-spacer">&nbsp;</div>
 <?else:?>

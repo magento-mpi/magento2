@@ -29,7 +29,7 @@
 
 /*Categoty items collection*/
 .catalog-collection {border-left:1px dotted #a7cbd7;}
-.catalog-collection .item {float:left;width:150px;padding:10px 9px 10px 10px;border-right:1px dotted #a7cbd7;border-bottom:1px dotted #a7cbd7;}
+.catalog-collection .item { width:150px;padding:10px 11px 10px 10px;border-right:1px dotted #a7cbd7;border-bottom:1px dotted #a7cbd7;}
 .catalog-collection .product-name a{color:#393939;font-weight:bold; text-decoration:underline; }
 .catalog-collection .product-price{color:#2c92bc;font-weight:bold}
 .catalog-collection .item-image{text-align:center}

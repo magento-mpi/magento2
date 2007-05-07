@@ -102,4 +102,4 @@ input.validation-failed, textarea.validation-failed {
 .success {font-weight:bold;color:#50926f;border:1px solid green; margin:8px 0; padding:10px; background:#fbfdfc; }
 
 .required, .error-text  { color:#cf3f3f; font-weight:bold; font-size:11px; }
-.separator { color:#eae1c5; }
+.separator { padding:0 5px; }

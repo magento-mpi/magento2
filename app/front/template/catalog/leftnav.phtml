@@ -1,5 +1,5 @@
 <div class="catalog-nav">
-    <h2>Shop by department</h2>
+    <h2>Shop by Department</h2>
     <div class="category-nav">
         <ul class="categories">
             <?foreach ($categories as $_node):?>
@@ -9,18 +9,18 @@
         </ul>
     </div>
     <?if(!empty($manufacturers)):?>
-    <h2>Shop by brand</h2>
+    <h2>Shop by Brand</h2>
         <select name="manufacturer" onchange="productBy('manufacturer',this)">
-            <option>Choose brand</option>
+            <option>Choose Brand</option>
         <?foreach($manufacturers as $_item):?>
             <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
         <?endforeach?>
         </select>
     <?endif?>
     <?if(!empty($types)):?>
-    <h2>Shop by shoe type</h2>
+    <h2>Shop by Shoe Type</h2>
         <select name="type" onchange="productBy('type',this)">
-            <option>Choose shoe type</option>
+            <option>Choose Shoe Type</option>
         <?foreach($types as $_item):?>
             <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
         <?endforeach?>
