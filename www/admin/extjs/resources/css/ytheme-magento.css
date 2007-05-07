@@ -6,6 +6,7 @@
  * http://www.extjs.com/license
  */
 
+body { font-family:verdana, sans-serif; }
 
 #loading{
     position:absolute;
@@ -152,9 +153,9 @@
 	color:#333;
 }
 .x-grid-hd-over .x-grid-hd-text {
-	background: #faf9f4;
+	background: #ccac89;
 	padding-bottom:1px;
-	border-bottom: 1px solid #f9a900;
+	border-bottom:0;
 }
 .x-grid-split {
 	top:1px;
@@ -445,9 +446,8 @@
 		border:0;
 		margin:0;
 }
-.x-layout-close{
-    background-image:url(../images/gray/layout/panel-close.gif);
-}
+.x-layout-close { background:url(../images/magento/basic-dialog/panel_close.gif) no-repeat 0 0; }
+.x-layout-tools-button-over .x-layout-close { background:url(../images/magento/basic-dialog/panel_close.gif) no-repeat 0 -18px }
 .x-layout-stick{
     background-image:url(../images/gray/layout/stick.gif);
 }
@@ -578,7 +578,7 @@
 	
 .left-menu-toolbar .x-toolbar td { padding:0 2px; background:none; }
 .left-menu-toolbar .x-btn { border-bottom:5px solid #2E4D53;}
-.left-menu-toolbar .x-btn-over { border-bottom:5px solid #dc007a;}
+.left-menu-toolbar .x-btn-over { border-bottom:5px solid #dc4509;}
 .left-menu-toolbar .x-btn-menu-active { border-bottom:5px solid #dc4509;}
 .left-menu-toolbar .x-btn button, .right-menu-toolbar .x-btn button { color:#fbfaf7; font:bold 11px verdana, helvetica, sans-serif;}
 .left-menu-toolbar .x-btn-text-icon .x-btn-center .x-btn-text, .right-menu-toolbar .x-btn-text-icon .x-btn-center .x-btn-text {padding-left:3px; }

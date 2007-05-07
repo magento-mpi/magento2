@@ -22,11 +22,14 @@
 .category-pager .sort-by { float:right; width:30%; text-align:right;}
 .category-pager .sort-by select { font:1em Verdana, sans-serif;margin-right:10px}
 
-.catalog .catalog-filters{ padding:5px 10px;}
-.catalog .catalog-filters h3 {margin:0; }
+.catalog .catalog-filters{width:100px; margin:7px 10px 0 0; float:left;}
+.catalog .catalog-filters h3{margin:0; }
+.catalog .catalog-collection{width:400px;float:right;}
+.catalog .catalog-collection .item{width:110px}
+.catalog .catalog-collection .item .product-name { width:110px; overflow:hidden;}
 
 /*Categoty items collection*/
-.catalog-collection { border-left:1px dotted #a7cbd7;}
+.catalog-collection {border-left:1px dotted #a7cbd7;}
 .catalog-collection .item { width:150px;padding:10px 11px 10px 10px;border-right:1px dotted #a7cbd7;border-bottom:1px dotted #a7cbd7;}
 .catalog-collection .product-name a{color:#393939;font-weight:bold; text-decoration:underline; }
 .catalog-collection .product-price{color:#2c92bc;font-weight:bold}
