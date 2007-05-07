@@ -3,7 +3,7 @@
 <script src="<?=$baseSkinUrl?>catalog/js/product.js" type="text/javascript"></script>
 <div class="product-image">
     <div style="position:relative; overflow:hidden; width:245px; height:245px;">
-        <img id="image" src="<?=$baseSkinUrl?>catalog/images/placeholder_product_main.jpg" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; 
+        <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; 
 				cursor:move; z-index:999;" ondblclick="toggleFull()"/>
     </div>   
     <div style="margin-top:10px;">
