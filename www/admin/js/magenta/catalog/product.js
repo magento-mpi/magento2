@@ -904,9 +904,12 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                 return false;
             }
             Ext.apply(this, config);
-
-            var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
             
+            var productId = Mage.Catalog_Product.productsGrid.getSelectionModel().selections.items[0].id;
+            
+            var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
+            var tpl = new Ext.Template('<form method="POST" id="form_categories" action="'+Mage.url + 'mage_catalog/product/save/product/' + productId +'/"><input id="product_categories" type="hidden" value=""></form>');
+            tpl.append(baseEl);
             var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
             
             tb.add({
@@ -930,28 +933,83 @@ Mage.Catalog_Product_CategoriesPanel = function(){
             
             var container = this.cPanel.getEl().createChild({tag:'div'});
 
-        	this.categoriesView = new Ext.JsonView(container, this.rowTemplate, {
+            
+            var dataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'category_id'},
+                {name: 'name', mapping: 'name'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'category_id'
+            }, dataRecord);
+
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url:this.dataUrl+'product/'+productId}),
+                reader: dataReader,
+                remoteSort: true
+             });
+             
+             dataStore.on('add',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('product_categories');
+                 hiddenEl.dom.value = data.join();
+             });
+             
+             dataStore.on('remove',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('product_categories');
+                 hiddenEl.dom .value = data.join();
+             });
+             
+             dataStore.on('load',function(store){
+                 var i = 0;
+                 var data = [];
+                 var record = null;
+                 for(i=0; i < store.getCount(); i++) {
+                     record = store.getAt(i);
+                     data.push(record.data.id);
+                 }
+                 var hiddenEl = Ext.get('product_categories');                 
+                 hiddenEl.dom .value = data.join();
+             });
+           
+        	this.categoriesView = new Ext.View(container, this.rowTemplate, {
         		singleSelect: true,
-        		jsonRoot: 'items',
+        		store : dataStore,
         		emptyText : '<div class="address-view" id="product-categories-view-empty"><h3>Empty</h3></div>'
         	});
             
-            var productId = Mage.Catalog_Product.productsGrid.getSelectionModel().selections.items[0].id;
+
             this.cPanel.on('activate', function(){
-                if(!this.dataLoaded){
-                    this.categoriesView.load({url:this.dataUrl+'product/'+productId, scripts:false});
-                    this.dataLoaded = true;
-                }
-            }.createDelegate(this));
+                this.categoriesView.store.load();
+            }, this, {single : true});
             
             dd = new Ext.dd.DragDrop(this.categoriesView.getEl(), "TreeDD");
             
             var dropzone=new Ext.dd.DropTarget(container, {});
             
-            dropzone.notifyDrop = function(n, dd, e, data){
-               console.log(n, dd, e, data);
+            dropzone.notifyDrop = function(dd, e, data){
+                
+               this.categoriesView.store.add(new dataRecord({
+                   id : data.node.id,
+                   name : data.node.text
+               }))
                return true;
-            }
+            }.createDelegate(this);
             return this.cPanel;            
         }
     }
