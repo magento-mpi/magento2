@@ -124,9 +124,9 @@ class Mage_Catalog_Model_Mysql4_Product
     
     protected function _saveAttributes(Mage_Catalog_Model_Product $product)
     {
-        if (!$product->getData('attributes')) {
-            return false;
-        }
+//        if (!$product->getData('attributes')) {
+//            return false;
+//        }
         $attributes = $this->getAttributes($product->getSetId());
         foreach ($attributes as $attribute) {
             if ($product->getData('attributes', $attribute->getId())) {
@@ -135,7 +135,6 @@ class Mage_Catalog_Model_Mysql4_Product
             else {
                 $data = $product->getData($attribute->getCode());
             }
-            
             
             // Check required attributes
             if ($attribute->isRequired() && empty($data)) {

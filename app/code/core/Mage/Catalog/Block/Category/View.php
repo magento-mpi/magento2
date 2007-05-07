@@ -43,6 +43,8 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $prodCollection = $category->getProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
             // add filters
             ->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
             ->setPageSize(9);

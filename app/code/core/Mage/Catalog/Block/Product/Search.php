@@ -31,6 +31,8 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
             ->addSearchFilter($query)
             ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($page)

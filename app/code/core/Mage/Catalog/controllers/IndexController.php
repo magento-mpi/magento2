@@ -25,7 +25,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         $fileName = Mage::getBaseDir('var').DS.'import'.DS.'simplybirkenstock.txt';
         
         $fieldMap = array(
-            0=>'id',
+            0=>'old_id',
             1=>'sku',
             2=>'small_image', 
             3=>'image',

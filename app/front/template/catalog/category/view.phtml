@@ -20,17 +20,17 @@
         </div>
 				 <div class="catalog-spacer">&nbsp;</div>
         <table cellspacing="0" class="catalog-collection"><tr>
-					<?foreach ($productCollection as $product):?>
-					<?if (++$i%3==0):?></tr><tr><?endif?>
+					<?$i=0; foreach ($productCollection as $product):?>
 					<td class="item">
 							<div class="item-image">
-									<a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="113"/></a>
+									<a href="<?=$product->getProductUrl()?>"><img src="<?=$product->getSmallImageUrl()?>" alt="product name" width="113" onerror="this.src='<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg'"/></a>
 							</div>
 							<div class="item-info">
 									<div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
 									<div class="product-price"><?=$product->getFormatedPrice()?></div>
 							</div>
 					</div>
+					<?if (++$i%3==0):?></tr><tr><?endif?>
 					<?endforeach?>
 					</tr>
 				</table>

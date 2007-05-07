@@ -16,7 +16,10 @@ class Mage_Catalog_Import {
         $fp = fopen($fileName, 'r');
         while ($row = fgetcsv($fp, 0, "\t", '"')) {
             for ($i=0, $l=sizeof($row); $i<$l; $i++) {
-                $data[$fieldMap[$i]] = $row[$i];
+                if (empty($fieldMap[$i]) || empty($row[$i])) {
+                    continue;
+                }
+                $data[$fieldMap[$i]] = stripslashes($row[$i]);
             }
             $this->_data[] = $data;
         }
@@ -38,14 +41,18 @@ class Mage_Catalog_Import {
     public function save()
     {
         print_r($this->_products);
-        #$this->_products->walk('save');
+        $this->_products->walk('save');
         return $this;
     }
     
     public function importProduct($data)
     {
+        if (empty($data['name'])) {
+            return false;
+        }
         $product = Mage::getModel('catalog', 'product');
         
+        $product->setSetId(1)->setTypeId(1);
         $product->addData($data);
         
         return $product;

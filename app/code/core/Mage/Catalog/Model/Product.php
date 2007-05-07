@@ -69,7 +69,15 @@ class Mage_Catalog_Model_Product extends Varien_Data_Object
     
     public function getImageUrl()
     {
-        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
+        return $url;
+    }
+        
+    public function getSmallImageUrl()
+    {
+        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
         return $url;
     }
     

@@ -19,7 +19,7 @@
     <?endif?>
     <?if(!empty($types)):?>
     <h2>Shop by Shoe Type</h2>
-        <select name="type" onchange="productBy('type',this)">
+        <select name="type" onchange="productBy('shoe_type',this)">
             <option>Choose Shoe Type</option>
         <?foreach($types as $_item):?>
             <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
