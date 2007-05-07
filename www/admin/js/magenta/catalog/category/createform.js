@@ -51,9 +51,7 @@ Mage.Catalog_Category_Create = function(){
         var panel = _dialog.getLayout().getRegion('center').getActivePanel();
         var pEl = panel.getEl();
         var form = Ext.DomQuery.selectNode('form', pEl.dom);
-        console.log(form);
         if (form) {
-            console.log(_config);
             if (_config.edit === false && _config.activeNode) {
                 var tpl = new Ext.Template('<input type="hidden" name="parentId" value="{val}">');
                 tpl.append(form, {val:_config.activeNode.id});
@@ -66,7 +64,14 @@ Mage.Catalog_Category_Create = function(){
             
             function  callBack(oElement, bSuccess, oResponse) {
                 // there we can proccess responce
-                //panel.refresh();
+                var result = Ext.decode(oResponse.responseText);
+                if (result.error != 0) {
+                    panel.refresh();                    
+                    Ext.MessageBox.alert('Error', result.errorMessage);
+                } else {
+                    panel.setUrl(_formUrl +'catid/' + result.categoryId + '/');
+                    panel.refresh();                                        
+                }
             }
             um.formUpdate(form, form.action, true, callBack);
         } else {

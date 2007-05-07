@@ -1,10 +1,10 @@
 <?php
 require_once('lib3d.php');
 
-$imgW = 500;
+$imgW = 400;
 $imgH = 350;
 $grainW = $grainH = 6;
-$bevel = -20;
+$bevel = -10;
 if (isset($_GET['key'])) {
     $key = preg_replace("/\W/",'',$_GET['key']);
     $text = $key;
@@ -13,16 +13,17 @@ if (isset($_GET['key'])) {
 }
 
 
-$L = new C3DLib(100,30);
-$L->mAddTransform('Turn', 'X', -30);
-$L->mAddTransform('Turn', 'Z', 10);
+$L = new C3DLib(120,0);
+$L->mAddTransform('Turn', 'X', 0);
+$L->mAddTransform('Turn', 'Y', -20);
+$L->mAddTransform('Turn', 'Z', 90);
 
-$it = imageCreate($imgW, $imgH);
+    $it = imageCreate($imgW, $imgH);
 	$itBg = imageColorAllocate($it, 128, 128, 128);
 	$itFg = imageColorAllocate($it, 0, 0, 0);
-	imageTTFText($it, $imgH*0.52, 0, 0,$imgH*0.825, $itFg, 'cambriab', $text);
+	imageTTFText($it, 90, 0, 20, 200, $itFg, 'cambriab', $text);
 
-$im = imageCreate($imgW, $imgH);
+    $im = imageCreate($imgW, $imgH);
 	$imBg = imageColorAllocate($im, 255, 255, 255);
 	$imFg = imageColorAllocate($im, 0, 0, 0);
 
