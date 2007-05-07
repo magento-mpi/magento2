@@ -262,11 +262,12 @@
 .x-dlg .x-layout-container  .x-tabs-body{
 	border:0 none;
 }
+.x-dlg .x-dlg-close, .x-dlg .x-dlg-collapse { width:18px; height:18px; }
 .x-dlg .x-dlg-close {
-	background-image:url(../images/magento/basic-dialog/close.gif);
+	background-image:url(../images/magento/basic-dialog/pop_close.gif);
 }
 .x-dlg .x-dlg-collapse {
-    background-image:url(../images/magento/basic-dialog/collapse.gif);
+    background-image:url(../images/magento/basic-dialog/pop_collapse.gif);
 }
 .x-dlg-collapsed .x-dlg-collapse {
     background-image:url(../images/magento/basic-dialog/expand.gif);
