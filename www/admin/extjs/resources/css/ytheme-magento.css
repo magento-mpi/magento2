@@ -146,14 +146,11 @@ body { font-family:verdana, sans-serif; }
 }
 .x-grid-hd { border-top:1px solid #d2c69e; }
 .x-grid-hd .x-grid-hd-inner { border-top:1px solid #f4f1e7; }
-.x-grid-hd-over .x-grid-hd-inner {
-	border-bottom: 1px solid #fcc247;
-}
 .x-grid-hd-text {
 	color:#333;
 }
 .x-grid-hd-over .x-grid-hd-text {
-	background: #ccac89;
+	background: #dec4a7;
 	padding-bottom:1px;
 	border-bottom:0;
 }
@@ -619,3 +616,7 @@ body { font-family:verdana, sans-serif; }
 .x-form-text { padding:1px 2px; border:1px solid #999; background:none; background:#fff; }
 .x-form-field { font:normal 12px verdana, helvetica, sans-serif; }
 .data-form { background:#fbfaf7; }
+
+
+.address-view { background:#fbfaf7; padding:10px;}
+.x-view-selected { border:none; }
