@@ -2,7 +2,7 @@
 <!-- Example of backend XML -->
 <dataSource>
 	<row>
-		<countryName>USA</country>
+		<countryName>USA</countryName>
 		<users>10000</users>
 		<!-- To convert date field to Flex Date type, use transformInformation for it -->
 		<date>2006-10-21</date> 

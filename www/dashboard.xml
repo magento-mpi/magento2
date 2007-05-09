@@ -36,8 +36,8 @@
 				</transformInformation>
 				-->
 				<chart type="column" showLegend="true">
-					<horizontalAxis type="text" labelTemplate="City: {city}" field="city">
-					<verticalAxis type="liniar" maximum="{value}" >
+					<horizontalAxis type="text" labelTemplate="City: {city}" field="city" />
+					<verticalAxis type="liniar" maximum="{value}" />
 					
 					<series type="column" xField="users" />
 					<series type="column" xField="newUsers" />
