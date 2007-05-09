@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example of backend XML -->
+<dataSource>
+	<row>
+		<countryName>USA</country>
+		<users>10000</users>
+		<!-- To convert date field to Flex Date type, use transformInformation for it -->
+		<date>2006-10-21</date> 
+	</row>
+</dataSource>
