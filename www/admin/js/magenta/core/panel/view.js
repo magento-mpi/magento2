@@ -17,7 +17,7 @@ Ext.extend(Mage.core.PanelView, Mage.core.Panel, {
         if (this.region.getActivePanel() == this.panel) {
             this.panel.load(this.url);
         } else {
-            this.panel.setUrl(this.url,{}, true);
+            this.panel.setUrl(this.url, {}, true);
         }
     }
 })
