@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="{init()}" horizontalAlign="left" verticalAlign="top" horizontalGap="2" verticalGap="2" paddingTop="5" paddingRight="5" paddingLeft="5" paddingBottom="5">
+	<mx:Script>
+		<![CDATA[
+			import mx.utils.ObjectUtil; // Debug
+			import magento.core.*;
+			import magento.events.*;
+		  	import magento.rpc.Request;
+		  	
+		  	//private var language:Language = new Language( DisplayObject(this) );
+			
+			private function init():void
+			{
+				
+			}
+		]]>
+	</mx:Script>
+	<mx:ApplicationControlBar  width="100%"/>
+</mx:Application>
