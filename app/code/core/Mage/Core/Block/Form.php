@@ -320,7 +320,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         $res['elements']['columns']  = array();
         $res['elements']['fields']   = array();
         foreach ($this->getFields() as $fieldId) {
-            $res['fields'][] = $this->getChild($fieldId)->__toArray();
+            $res['elements']['fields'][] = $this->getChild($fieldId)->__toArray();
         }
         $res['buttons']  = array();
         
