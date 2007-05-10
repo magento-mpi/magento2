@@ -121,6 +121,11 @@ class Varien_Data_Object
         }
         return $arrRes;
     }
+
+    public function toArray($arrAttributes = array())
+    {
+        return $this->__toArray($arrAttributes);
+    }
     
     /**
      * Set required array elements

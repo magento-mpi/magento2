@@ -312,10 +312,10 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     	return parent::renderView();
     }
     
-    public function toJson()
+    public function __toArray()
     {
         $res = array();
-        $res['form']     = $this->getData();
+        $res['attributes'] = $this->getData();
         $res['groups']   = $this->getGroup();
         $res['columns']  = array();
         $res['fields']   = array();
@@ -324,6 +324,6 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         }
         $res['buttons']  = array();
         
-        return Zend_Json::encode($res);
+        return $res;
     }
 }

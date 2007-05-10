@@ -60,11 +60,15 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         foreach ($groups as $group) {
             $url = $baseTabUrl . 'group/' . $group->getId().'/' . $urlPrefix;
             $url.= 'set/'.$set->getId().'/';
+            
+            Mage::registry('controller')->getRequest()->setParam('group', $group->getId());
             $cardStructure['tabs'][] = array(
                 'name'  => $group->getCode(),
-                'url'   => $url,
+                //'url'   => $url,
                 'title' => $group->getCode(),
-                'type'  => $group->getCode()
+                'type'  => $group->getCode(),
+                'form'  => Mage::getSingleton('core', 'layout')->createBlock('admin_catalog_product_form', 'product_form')
+                            ->toArray()
             );
         }
 
