@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Reports>
+         <version>0.1.1</version>
+         <depends>
+            <Mage_Customer />
+            <Mage_Catalog />
+            <Mage_Sales />
+         </depends>
+         
+         <admin>
+            <controller>
+               <active>true</active>
+            </controller>
+         </admin>
+      </Mage_Reports>
+   </modules>
+
+   <global>
+      <models>
+      </models>
+
+      <resources>
+      </resources>
+   </global>
+
+   <front>
+   </front>
+   
+   <admin>
+     <acl>
+        <resources>
+        </resources>
+     </acl>
+
+     <layouts>
+     </layouts>
+   </admin>
+</config>
+

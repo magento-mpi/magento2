@@ -72,6 +72,12 @@
 
          <codePool>core</codePool>
       </Mage_Paygate>
+
+      <Mage_Reports>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Reports>
    </modules>
 </config>
 
