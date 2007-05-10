@@ -315,10 +315,10 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function __toArray()
     {
         $res = array();
-        $res['attributes'] = $this->getData();
-        $res['groups']   = $this->getGroup();
-        $res['columns']  = array();
-        $res['fields']   = array();
+        $res['config'] = $this->getData();
+        $res['elements']['fieldsets']   = $this->getGroup();
+        $res['elements']['columns']  = array();
+        $res['elements']['fields']   = array();
         foreach ($this->getFields() as $fieldId) {
             $res['fields'][] = $this->getChild($fieldId)->__toArray();
         }
