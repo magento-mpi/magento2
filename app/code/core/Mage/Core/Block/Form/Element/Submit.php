@@ -12,6 +12,7 @@ class Mage_Core_Block_Form_Element_Submit extends Mage_Core_Block_Form_Element_A
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'submit';
         parent::__construct($attributes);
     }
     

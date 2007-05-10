@@ -14,6 +14,7 @@ class Mage_Core_Block_Form_Element_Note extends Mage_Core_Block_Form_Element_Abs
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'note';
         parent::__construct($attributes);
     }
     

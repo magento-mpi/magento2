@@ -155,6 +155,11 @@ class Varien_Data_Object
         $xml.= '</'.$rootName.'>';
         return $xml;
     }
+
+    public function toXml($arrAttributes = array(), $rootName = 'item')
+    {
+        return $this->__toXml($arrAttributes, $rootName);
+    }
     
     /**
      * Convert object attributes to JSON
@@ -167,6 +172,11 @@ class Varien_Data_Object
         $arrData = $this->__toArray($arrAttributes);
         $json = Zend_Json::encode($arrData);
         return $json;
+    }
+
+    public function toJson($arrAttributes = array())
+    {
+        return $this->__toJson($arrAttributes);
     }
 
     /**

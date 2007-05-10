@@ -12,6 +12,7 @@ class Mage_Core_Block_Form_Element_Password extends Mage_Core_Block_Form_Element
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'password';
         parent::__construct($attributes);
     }
     

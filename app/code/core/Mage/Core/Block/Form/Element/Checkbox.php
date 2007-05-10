@@ -14,6 +14,7 @@ class Mage_Core_Block_Form_Element_Checkbox extends Mage_Core_Block_Form_Element
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'checkbox';
         parent::__construct($attributes);
     }
     

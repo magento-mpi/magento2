@@ -14,6 +14,7 @@ class Mage_Core_Block_Form_Element_File extends Mage_Core_Block_Form_Element_Abs
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'file';
         parent::__construct($attributes);
     }
     

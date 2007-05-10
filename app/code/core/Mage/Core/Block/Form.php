@@ -311,4 +311,19 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     	
     	return parent::renderView();
     }
+    
+    public function toJson()
+    {
+        $res = array();
+        $res['form']     = $this->getData();
+        $res['groups']   = $this->getGroup();
+        $res['columns']  = array();
+        $res['fields']   = array();
+        foreach ($this->getFields() as $fieldId) {
+            $res['fields'][] = $this->getChild($fieldId)->__toArray();
+        }
+        $res['buttons']  = array();
+        
+        return Zend_Json::encode($res);
+    }
 }

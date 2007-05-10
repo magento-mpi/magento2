@@ -14,6 +14,7 @@ class Mage_Core_Block_Form_Element_Button extends Mage_Core_Block_Form_Element_A
 {
     public public function __construct($attributes) 
     {
+        $attributes['type'] = 'button';
         parent::__construct($attributes);
     }
     

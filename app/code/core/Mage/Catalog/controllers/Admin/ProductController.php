@@ -126,6 +126,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($form->toHtml());
     }
 
+    public function jsonFormAction()
+    {
+        $form = $this->getLayout()->createBlock('admin_catalog_product_form', 'product_form');
+        $this->getResponse()->setBody($form->toJson());
+    }
+
     public function imagesAction()
     {
         $id = $this->getRequest()->getParam('product', -1);
