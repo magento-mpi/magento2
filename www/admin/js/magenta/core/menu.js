@@ -22,7 +22,7 @@ Mage.Menu_Core = function(){
                         handler : function(){
                             Ext.MessageBox.alert('Credits','Andrey&nbsp;Korolyov&nbsp;<a href="mailto:andrey@varien.com">andrey@varien.com</a><br> Dmitriy&nbsp;Soroka&nbsp;<a href="mailto:dmitry@varien.com">dmitry@varien.com</a><br> Moshe&nbsp;Gurvich&nbsp;<a href="mailto:moshe@varien.com">moshe@varien.com</a><br><img src="extjs/resources/images/default/s.gif" width="250" height="1"/>');
                         }
-                    }),
+                    })
                  ]
             });
             
