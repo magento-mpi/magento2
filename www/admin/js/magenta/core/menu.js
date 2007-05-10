@@ -36,7 +36,6 @@ Mage.Menu_Core = function(){
             var menu = new Ext.menu.Menu({
                 id: 'mainSystemMenu',
                 items: [
-/*
                     new Ext.menu.Item({
                         text: 'Modules'                  
                     }),
@@ -49,7 +48,6 @@ Mage.Menu_Core = function(){
                         text: 'Apply DB Updates',
                         handler: Mage.Admin.applyDbUpdates.createDelegate(Mage.Admin)
                     })
-*/
                  ]
             });
             
