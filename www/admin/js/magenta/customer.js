@@ -31,7 +31,7 @@ Mage.Customer = function(depend){
         formsEdit : [],
 
         init : function() {
-            var Core_Layout = Mage.Core.getLayout();
+            var Core_Layout = Mage.Admin.getLayout();
             if (!this.baseLayout) {
                 this.baseLayout = new Ext.BorderLayout( Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                      center:{
@@ -58,7 +58,7 @@ Mage.Customer = function(depend){
                         autoScroll : false,
                         titlebar : false,
                         hideTabs:true,
-                        preservPanels : true,
+                        preservPanels : true
                     },
                     south : {
                         preservePanels : true,
@@ -78,9 +78,14 @@ Mage.Customer = function(depend){
                 this.baseLayout.endUpdate();
 
                 Core_Layout.add('center', new Ext.NestedLayoutPanel(this.baseLayout, {title : 'Mange Customers'}));
+                
+                this.customerCard = new Mage.core.ItemCard({
+                    region : this.customerLayout.getRegion('south'),
+                    url : Mage.url + 'mage_customer/customer/card/id/'
+                });
 
             } else { // not loaded condition
-                Mage.Core.getLayout().getRegion('center').showPanel(this.baseLayout);
+                Mage.Admin.getLayout().getRegion('center').showPanel(this.baseLayout);
             }
         },
 
@@ -145,7 +150,7 @@ Mage.Customer = function(depend){
                 enableColLock : false
             });
             
-            grid.getSelectionModel().on('rowselect', this.createItem.createDelegate(this));
+            grid.getSelectionModel().on('rowselect', this.loadCustomer.createDelegate(this));
 
             this.grid = grid;
 
@@ -168,6 +173,12 @@ Mage.Customer = function(depend){
             });
             return grid;
         },
+        
+
+        loadCustomer : function(sm, rowIndex, record) {
+            this.customerCard.loadRecord(record);
+        },
+        
         
         createItem: function(sm, rowIndex, record){
             if (record) {
@@ -330,7 +341,7 @@ Mage.Customer = function(depend){
                     title : tabInfo.title,
                     autoCreate: true,
                     loadOnce : true,
-                    closable : false,
+                    closable : false
                 });
                 this.formPanel.load(tabInfo.url);                
                 var mgr = this.formPanel.getUpdateManager();

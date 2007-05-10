@@ -5,7 +5,7 @@ Mage.Catalog_Category_Attributes = function(){
         _layouts : new Ext.util.MixedCollection(true),
         loadAttributesPanel: function() {
             
-            var Core_Layout = Mage.Core.getLayout();
+            var Core_Layout = Mage.Admin.getLayout();
             if (!Layout) {
                 Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
@@ -89,7 +89,7 @@ Mage.Catalog_Category_Attributes = function(){
                 loaded = true;
                 this.initAttrSetGrid();
             } else { // not loaded condition
-                Mage.Core.getLayout().getRegion('center').showPanel(Layout);
+                Mage.Admin.getLayout().getRegion('center').showPanel(Layout);
             }
         },
         
@@ -111,7 +111,7 @@ Mage.Catalog_Category_Attributes = function(){
             var dataStore = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({url: Mage.url+'mage_catalog/category/attributesSetGridData/'}),
                 reader: new Ext.data.JsonReader({
-                       record: 'items'
+                       record : 'items'
                    }, dataRecord)
             });
 

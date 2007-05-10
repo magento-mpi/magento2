@@ -52,6 +52,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
                 'active' => true
             ),
             1 => array(
+                'name' => 'address',
                 'type' => 'address',
                 'active' => false
             ),

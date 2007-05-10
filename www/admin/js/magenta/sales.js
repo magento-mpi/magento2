@@ -18,7 +18,7 @@ Mage.Sales = function(depend){
         websitesTreeUrl : Mage.url + 'mage_sales/order/tree/',
         
         init : function() {
-            var Core_Layout = Mage.Core.getLayout();
+            var Core_Layout = Mage.Admin.getLayout();
             if (!this.layout) {
                 this.layout =  new Ext.BorderLayout(Core_Layout.getEl().createChild({tag:'div'}), {
                     center : {
@@ -87,7 +87,7 @@ Mage.Sales = function(depend){
                 
                 this.loadWebSitesTree();
             } else { // not loaded condition
-                Mage.Core.getLayout().getRegion('center').showPanel(this.layout);
+                Mage.Admin.getLayout().getRegion('center').showPanel(this.layout);
             }
         },
         

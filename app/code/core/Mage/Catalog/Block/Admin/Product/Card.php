@@ -51,6 +51,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
                 'name'  => 'product_view',
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/view/".$urlPrefix,
                 'title' => 'Product Info',
+                'type'  => 'view'
             );
         }
         
@@ -63,15 +64,16 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
                 'name'  => $group->getCode(),
                 'url'   => $url,
                 'title' => $group->getCode(),
+                'type'  => $group->getCode()
             );
         }
 
         if ($productId) {
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
-                //'type'  => 'images',
+                'type'  => 'images',
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
-                'title' => 'Images',
+                'title' => 'Images'
             );
             
             $cardStructure['tabs'][] = array(

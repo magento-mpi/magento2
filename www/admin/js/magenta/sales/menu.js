@@ -8,14 +8,14 @@ Mage.Menu_Sales = function(){
                     new Ext.menu.Item({
                         text: 'Orders',
                         handler: Mage.Sales.loadMainPanel.createDelegate(Mage.Sales)
+                    }),
+                    new Ext.menu.Item({
+                        text: 'Orders2',
+                        handler: Mage.Sales2.loadMainPanel.createDelegate(Mage.Sales2)
                     })
-//                    new Ext.menu.Item({
-//                        text: 'Orders2',
-//                        handler: Mage.Sales2.loadMainPanel.createDelegate(Mage.Sales2)
-//                    })
                  ]
             });
-            Mage.Core.addLeftToolbarItem({
+            Mage.Admin.addLeftToolbarItem({
                 cls: 'x-btn-text .btn-sales',
                 text:'Sales',
                 menu: menu

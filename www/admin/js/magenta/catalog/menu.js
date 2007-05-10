@@ -28,7 +28,7 @@ Mage.Menu_Catalog = function(){
 */
                  ]
             });
-            Mage.Core.addLeftToolbarItem({
+            Mage.Admin.addLeftToolbarItem({
                 cls: 'x-btn-text bmenu',
                 text:'Catalog',
                 menu: menu

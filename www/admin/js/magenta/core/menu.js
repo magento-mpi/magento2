@@ -26,7 +26,7 @@ Mage.Menu_Core = function(){
                  ]
             });
             
-            Mage.Core.addLeftToolbarItem({
+            Mage.Admin.addLeftToolbarItem({
                 icon: 'favicon.ico',
                 cls: 'x-btn-icon',                
                 menu: aboutmenu
@@ -47,13 +47,13 @@ Mage.Menu_Core = function(){
                     '-',
                     new Ext.menu.Item({
                         text: 'Apply DB Updates',
-                        handler: Mage.Core.applyDbUpdates.createDelegate(Mage.Core)
+                        handler: Mage.Admin.applyDbUpdates.createDelegate(Mage.Admin)
                     })
 */
                  ]
             });
             
-            Mage.Core.addLeftToolbarItem({
+            Mage.Admin.addLeftToolbarItem({
                 cls: 'x-btn-text bmenu',
                 text:'System',
                 menu: menu
@@ -67,7 +67,7 @@ Mage.Menu_Core = function(){
                 themeStyleEl.dom.href = themeStyleEl.dom.href.replace(/(ytheme-).*(\.css)$/, '$1'+item.value+'$2');
             }
 
-           Mage.Core.getRighToolbar().add({
+           Mage.Admin.getRighToolbar().add({
                 cls: 'x-btn-text .btn-theme',
                 text:'Theme',
                 menu: new Ext.menu.Menu({
@@ -112,7 +112,7 @@ Mage.Menu_Core = function(){
                     ]
                 })
             });
-            Mage.Core.getRighToolbar().add({
+            Mage.Admin.getRighToolbar().add({
                 cls: 'x-btn-text-icon btn-logout',
                 text:'Logout',
                 handler: function(){

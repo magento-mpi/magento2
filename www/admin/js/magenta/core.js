@@ -46,8 +46,10 @@ Cookies.getCookieVal = function(offset){
    return unescape(document.cookie.substring(offset, endstr));
 };
 
+Mage.core = {};
 
-Mage.Core = function(){
+
+Mage.Admin = function(){
     var _layout;
     var _leftToolbar;
     var _rightToolbar;
@@ -144,7 +146,7 @@ Mage.Core = function(){
         }
     }
 }();
-Ext.EventManager.onDocumentReady(Mage.Core.init, Mage.Core, true);
+Ext.EventManager.onDocumentReady(Mage.Admin.init, Mage.Admin, true);
 
 Mage.Search = function() {
     return {
@@ -205,7 +207,7 @@ Mage.Search = function() {
                     }
                 }
            });
-           Mage.Core.getRighToolbar().addField(comboSearch);
+           Mage.Admin.getRighToolbar().addField(comboSearch);
         }
     }
 }();

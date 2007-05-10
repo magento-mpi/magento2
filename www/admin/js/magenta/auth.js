@@ -8,7 +8,7 @@ Mage.Auth = function(depend){
         _layouts : new Ext.util.MixedCollection(true),
         
         init : function() {
-            var Core_Layout = Mage.Core.getLayout();
+            var Core_Layout = Mage.Admin.getLayout();
             if (!Layout) {
                 Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
@@ -62,7 +62,7 @@ Mage.Auth = function(depend){
                 loaded = true;
                 
             } else { // not loaded condition
-                Mage.Core.getLayout().getRegion('center').showPanel(Layout);
+                Mage.Admin.getLayout().getRegion('center').showPanel(Layout);
             }
         },
         

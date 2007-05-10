@@ -31,7 +31,7 @@ Mage.Catalog_Product_Attributes = function(){
         stree : null,
 
         init : function() {
-            var Core_Layout = Mage.Core.getLayout();
+            var Core_Layout = Mage.Admin.getLayout();
             if (!Layout) {
                 Layout =  new Ext.BorderLayout(Ext.DomHelper.append(Core_Layout.getEl(), {tag:'div'}, true), {
                     west: {
@@ -84,7 +84,7 @@ Mage.Catalog_Product_Attributes = function(){
                 this.loadAttributeGrid();
 
             } else {
-                Mage.Core.getLayout().getRegion('center').showPanel(Layout);
+                Mage.Admin.getLayout().getRegion('center').showPanel(Layout);
             }
         },
 

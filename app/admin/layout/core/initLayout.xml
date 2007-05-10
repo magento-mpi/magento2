@@ -49,7 +49,7 @@
             </block>
 
             <block type="tag_js" name="jscripts.js.ext.all.debug">
-                <action method="setSrc"><src>extjs/ext-all-debug.js</src><locate/></action>
+                <action method="setSrc"><src>extjs/ext-all.js</src><locate/></action>
             </block>
 
             <!--  END LOAD EXT-YUI -->
@@ -85,6 +85,27 @@
             <block type="tag_js" name="jscripts.js.magenta.core.media">
                 <action method="setSrc"><src>magenta/core/media.js</src></action>
             </block>
+            
+            <block type="tag_js" name="jscripts.js.magenta.core.itemcard">
+                <action method="setSrc"><src>magenta/core/itemcard.js</src></action>
+            </block>
+            
+            <block type="tag_js" name="jscripts.js.magenta.core.panel">
+                <action method="setSrc"><src>magenta/core/panel.js</src></action>
+            </block>
+
+            <block type="tag_js" name="jscripts.js.magenta.core.panel.form">
+                <action method="setSrc"><src>magenta/core/panel/form.js</src></action>
+            </block>
+            
+            <block type="tag_js" name="jscripts.js.magenta.core.panel.view">
+                <action method="setSrc"><src>magenta/core/panel/view.js</src></action>
+            </block>
+
+            <block type="tag_js" name="jscripts.js.magenta.core.panel.related">
+                <action method="setSrc"><src>magenta/core/panel/related.js</src></action>
+            </block>
+            
         </block>
     </block>
 </layoutUpdate>

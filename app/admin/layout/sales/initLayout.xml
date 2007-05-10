@@ -4,6 +4,9 @@
         <block type="tag_js" name="jscripts.js.sales">
             <action method="setSrc"><src>magenta/sales.js</src></action>
         </block>
+        <block type="tag_js" name="jscripts.js.sales_2">
+            <action method="setSrc"><src>magenta/sales_2.js</src></action>
+        </block>
         <block type="tag_js" name="jscripts.js.sales.menu">
             <action method="setSrc"><src>magenta/sales/menu.js</src></action>
         </block>
