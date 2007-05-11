@@ -12,7 +12,7 @@ class Mage_Reports_IndexController extends Mage_Core_Controller_Admin_Action
 {
     function indexAction() 
     {
-        $this->getResponse()->setBody('output XML');
+        $this->getResponse()->setBody('output');
     }
 
 }// Class IndexController END

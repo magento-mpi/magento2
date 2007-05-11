@@ -1,6 +1,6 @@
 <?php
 /**
- * Form widget
+ * Form block
  *
  * @package    Mage
  * @subpackage Core
@@ -28,7 +28,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     protected $_fields = array();
     
     /**
-     * Foerm buttons
+     * Form buttons
      *
      * @var array([$elementId]=>$elementType)
      */

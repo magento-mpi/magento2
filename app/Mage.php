@@ -9,7 +9,12 @@ function __autoload($class)
 {
     #echo "<hr>".$class;
     $classFile = uc_words($class, DS).'.php';
-    include ($classFile);
+    try {
+        include_once($classFile);
+    }
+    catch (Exception $e){
+        
+    }
 }
 
 /**
