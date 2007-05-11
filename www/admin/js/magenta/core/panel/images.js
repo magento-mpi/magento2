@@ -4,7 +4,8 @@ Mage.core.PanelImages = function(region, config) {
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
        	autoScroll : true,
-       	fitToFrame : true,       	
+       	fitToFrame : true,   
+       	background : config.background || true,    	
         title : this.title || 'Images'
     }));
     
@@ -13,7 +14,10 @@ Mage.core.PanelImages = function(region, config) {
 
 Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     update : function(config) {
-        
+        if (this.region.getActivePanel() === this.panel) {
+            this.imagesView.store.proxy.getConnection().url = this.url;
+            this.imagesView.store.load();
+        }
     },
     
     
@@ -28,23 +32,40 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     },
     
     _buildForm : function(formContainer) {
-        var form = new Ext.form.Form(); 
+        this.form = new Ext.form.Form({
+            fileUpload : true,
+            method : 'POST',
+            waitMsgTarget : formContainer
+        }); 
+        
         var config = {
           fieldLabel : 'Image',
           name : 'image',
           allowBlank : true,
           inputType : 'file'
         };
-        
         var file = new Ext.form.Field(config)
+        
         file.on('change', function(field, value, orginValue){
            if (value != "") {
-               form.submit({url:this.saveUrl, waitMsg:'Saving Data...'});               
+               this.form.submit({url:this.saveUrl, waitMsg:'Saving Data...'});               
            }
         }, this);
-        form.add(file);
-        form.render(formContainer);       
-    },
+        
+        this.form.add(file);
+        this.form.render(formContainer);       
+        
+        this.form.on({
+            actionfailed : function(form, action) {
+                Ext.MessageBox.alert('Error', 'Error');
+            },
+            actioncomplete : function(form, action) {
+                this.imagesView.store.add(new this.dataRecord(action.result.data));
+                this.imagesView.refresh();
+                form.reset();
+            }.createDelegate(this)
+        });
+     },
     
     _buildImagesView : function(viewContainer) {
         
@@ -68,8 +89,8 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         });
         
         
-        var viewTpl = new Ext.Template('<div id="{id}"><img src="{src}" alt="{alt}"></div>');
-        var view = new Ext.View(viewContainer, viewTpl,{
+        var viewTpl = new Ext.Template('<div id="{id}"><img src="{src}" alt="{alt}" width="50" border="1"></div>');
+        this.imagesView = new Ext.View(viewContainer, viewTpl,{
             singleSelect: true,
             selectedClass: 'ydataview-selected',
             store: store,
