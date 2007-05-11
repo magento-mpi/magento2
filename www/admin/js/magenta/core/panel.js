@@ -26,8 +26,6 @@ Mage.core.Panel.Factory = {
                 return new Mage.core.PanelForm(region, config);
             case "view":
                 return new Mage.core.PanelView(region, config);
-            case "general":
-                return new Mage.core.PanelForm(region, config);
             case "images":
                 return new Mage.core.PanelForm(region, config);
             case "categories":

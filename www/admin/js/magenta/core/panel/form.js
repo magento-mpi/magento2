@@ -67,7 +67,23 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
                 case 'Checkbox' :
                     return new Ext.form.Checkbox(config);                
                 case 'ComboBox' :
-                    return new Ext.form.TextField(config);                
+                    var RecordDef = Ext.data.Record.create([{name: 'value'},{name: 'label'}]);                    
+                    var myReader = new Ext.data.JsonReader({root: 'values'}, RecordDef);                    
+                    var store = new Ext.data.Store({
+                       	reader : myReader,
+                       	proxy : new Ext.data.MemoryProxy(field)
+                    });
+                    store.load();
+                    config.store = store;
+                    config.displayField = 'label';
+                    config.valueField = 'value';
+                    config.mode = 'local';
+                    config.typeAhead = true;
+                    config.triggerAction = 'all';
+                    config.forceSelection = true;
+                    var combo = new Ext.form.ComboBox(config);
+                    combo.setValue(field.value);
+                    return combo;
                 case 'DateField' :
                     return new Ext.form.DateField(config);                
                 case 'NumberField' :
