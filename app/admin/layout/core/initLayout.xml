@@ -106,6 +106,10 @@
                 <action method="setSrc"><src>magenta/core/panel/related.js</src></action>
             </block>
             
+            <block type="tag_js" name="jscripts.js.magenta.core.panel.images">
+                <action method="setSrc"><src>magenta/core/panel/images.js</src></action>
+            </block>
+            
         </block>
     </block>
 </layoutUpdate>

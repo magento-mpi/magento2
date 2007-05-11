@@ -17,18 +17,35 @@ Mage.core.PanelForm = function(region, config) {
 };
 
 Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
+    
+    update : function() {
+        
+    },
+    
+    _buildTemplate : function(formId) {
+        this.tpl = new Ext.Template('<div>' +
+            '<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>' +
+            '<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">' +
+            '<div id="{formElId}">' +
+            '</div>' +
+            '</div></div></div>' +
+            '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>' +
+            '</div>');
+       //this.tpl.compile();         
+       this.tpl.append(this.panel.getEl(), {formElId : formId});
+    },
+    
     _buildForm : function() {
         var i;
-        console.log(this.config);
         this.frm = new Ext.form.Form(
             this.form.config
         );
+        this._buildTemplate(this.form.config.id + '_El');        
         var key = null;
         for(i=0; i < this.form.elements.length; i++) {
           this._makeElement(this.frm, this.form.elements[i]);
         }
-        
-        this.frm.render(this.panel.getEl().createChild({tag : 'div'}));
+        this.frm.render(this.form.config.id + '_El');
     },
     
     _makeElement : function(form, element) {
