@@ -163,7 +163,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             
             Mage::getModel('catalog', 'product')->load($id)->setImage($_FILES['image']['name'])->save();
         }
-        $this->getResponse()->setHeader('Location', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
+        //$this->getResponse()->setHeader('Location', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
+        $this->getResponse()->setBody('{}');
     }
 
     public function filtersettingsAction()
