@@ -66,6 +66,12 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			"height", "100%",
 			"align", "middle",
 			"id", "reports",
+			"FlashVars", 	'basePath=/'
+						  + '&appPath=admin/flex/'
+						  + '&languagePath=admin/flex/languages/'
+						  + '&appLanguage=dashboard.xml'
+						  + '&dashboardConfig=dashboard.xml'
+						  + '&styleDirectory=admin/skins/default/flex/',
 			"quality", "high",
 			"bgcolor", "#869ca7",
 			"name", "reports",
@@ -74,31 +80,12 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			"pluginspage", "http://www.adobe.com/go/getflashplayer"
 	);
   } else {  // flash is too old or we can't detect the plugin
-    var alternateContent = 'Alternate HTML content should be placed here. '
+    var alternateContent = ''
   	+ 'This content requires the Adobe Flash Player. '
    	+ '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
     document.write(alternateContent);  // insert non-flash content
   }
 // -->
 </script>
-<noscript>
-  	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
-			id="reports" width="100%" height="100%"
-			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
-			<param name="movie" value="reports.swf" />
-			<param name="quality" value="high" />
-			<param name="bgcolor" value="#869ca7" />
-			<param name="allowScriptAccess" value="sameDomain" />
-			<embed src="reports.swf" quality="high" bgcolor="#869ca7"
-				width="100%" height="100%" name="reports" align="middle"
-				play="true"
-				loop="false"
-				quality="high"
-				allowScriptAccess="sameDomain"
-				type="application/x-shockwave-flash"
-				pluginspage="http://www.adobe.com/go/getflashplayer">
-			</embed>
-	</object>
-</noscript>
 </body>
 </html>
