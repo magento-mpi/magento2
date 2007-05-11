@@ -12,24 +12,51 @@ Mage.core.PanelForm = function(region, config) {
         title : this.title || 'Title'
     }));
     if (this.form) {
-        this.buildForm();
+        this._buildForm();
     }
 };
 
 Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
-    buildForm : function() {
+    _buildForm : function() {
+        var i;
         console.log(this.config);
-        this.frm = new Ext.form.Form({
-            fileUpload : false,
-            labelAlign : 'right',
-            method : 'POST',
-            url : 'test'
-        });
+        this.frm = new Ext.form.Form(
+            this.form.config
+        );
+        var key = null;
+        for(i=0; i < this.form.elements.length; i++) {
+          this._makeElement(this.frm, this.form.elements[i]);
+        }
         
-         this.frm.fieldset({legend:'General'});
+        this.frm.render(this.panel.getEl().createChild({tag : 'div'}));
+    },
+    
+    _makeElement : function(form, element) {
+        var i;
+        switch(element.elementType) {
+            case 'field' :
+                form.add(this._makeField(element))
+                return true;
+            case 'fieldset' :
+                form.fieldset(element.config);
+                for(i=0; i < element.elements.length; i++) {
+                    this._makeElement(form, element.elements[i]);
+                }
+                form.end;
+                return true;
+            case 'column' :
+                form.column(element.config);
+                for(i=0; i < element.elements.length; i++) {
+                    this._makeElement(form, element.elements[i]);
+                }
+                form.end;
+                return true;
+            throw exception('This element type "' + element.elementType + '" is not supported');     
+        }
         
-        for(i=0; i < this.form.fields.length; i++) {
-            var field = this.form.fields[i];
+    },
+    
+    _makeField : function(field) {
             var config = {
                 fieldLabel : field.label,
                 name : field.name,
@@ -38,35 +65,25 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
             };
             switch (field.ext_type) {
                 case 'Checkbox' :
-                    this.frm.add(new Ext.form.Checkbox(config));                
-                break;
+                    return new Ext.form.Checkbox(config);                
                 case 'ComboBox' :
-                //    this.frm.add(new Ext.form.ComboBox(config));                
-                break;
+                    return new Ext.form.TextField(config);                
                 case 'DateField' :
-                    this.frm.add(new Ext.form.DateField(config));                
-                break;
+                    return new Ext.form.DateField(config);                
                 case 'NumberField' :
-                    this.frm.add(new Ext.form.NumberField(config));                
-                break;
+                    return new Ext.form.NumberField(config);                
                 case 'Radio' :
-                    this.frm.add(new Ext.form.Radio(config));                
-                break;
+                    return new Ext.form.Radio(config);                
                 case 'TextArea' :
-                    this.frm.add(new Ext.form.TextArea(config));                
-                break;
+                    return new Ext.form.TextArea(config);                
                 case 'TextField' :
-                    this.frm.add(new Ext.form.TextField(config));
-                break;
+                    return new Ext.form.TextField(config);
                 case 'File' : 
                     config.inputType = 'file';
-                    this.frm.add(new Ext.form.Field(config));
-                break;
+                    return new Ext.form.Field(config);
             }
-        }
+            throw exception('This field type:"'+field.ext_type+'" not supported');
         
-        this.frm.end();
-        
-        this.frm.render(this.panel.getEl().createChild({tag : 'div'}));
-    }  
+    }
+     
 })
