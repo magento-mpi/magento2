@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Customer extends Varien_Data_Object
+class Mage_Customer_Model_Customer extends Varien_Object
 {
     /**
      * Customer address collection

@@ -115,7 +115,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 $address->setRegion($address->getRegionId());
             }
             $this->getResponse()->setHeader('Content-type', 'application/x-json');
-            $this->getResponse()->appendBody($address->__toJson());
+            $this->getResponse()->appendBody($address->toJson());
         }
     }
     
@@ -172,7 +172,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 $this->_quote->collectAllShippingMethods();
             } else {
                 $shipping = $this->_quote->getAddressByType('shipping');
-                if ($shipping instanceof Varien_Data_Object) {
+                if ($shipping instanceof Varien_Object) {
                     $shipping->setSameAsBilling(0);
                 }
             }

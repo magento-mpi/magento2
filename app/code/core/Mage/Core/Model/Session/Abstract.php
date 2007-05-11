@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Session_Abstract extends Varien_Data_Object
+class Mage_Core_Model_Session_Abstract extends Varien_Object
 {
     protected $_session;
     
@@ -12,7 +12,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Data_Object
     public function setData($key, $value='', $isChanged=true)
     {
         if (!$this->_session->data) {
-            $this->_session->data = new Varien_Data_Object();
+            $this->_session->data = new Varien_Object();
         }
         $this->_session->data->setData($key, $value, $isChanged);
         return $this;
@@ -21,7 +21,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Data_Object
     public function getData($var=null, $clear=false)
     {
         if (!$this->_session->data) {
-            $this->_session->data = new Varien_Data_Object();
+            $this->_session->data = new Varien_Object();
         }
 
         $data = $this->_session->data->getData($var);

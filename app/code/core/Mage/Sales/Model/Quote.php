@@ -22,7 +22,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return $this->getEntitiesByType('item');
     }
     
-    public function setAddress(Varien_Data_Object $address)
+    public function setAddress(Varien_Object $address)
     {
         if (!$address->getAddressType()) {
             throw Mage::exception('Mage_Sales', 'Trying to add address to quote without address_type');
@@ -36,17 +36,17 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return $this;
     }
     
-    public function setBillingAddress(Varien_Data_Object $address)
+    public function setBillingAddress(Varien_Object $address)
     {
         return $this->setAddress($address->setAddressType('billing'));
     }
     
-    public function setShippingAddress(Varien_Data_Object $address)
+    public function setShippingAddress(Varien_Object $address)
     {
         return $this->setAddress($address->setAddressType('shipping'));
     }
 
-    public function setPayment(Varien_Data_Object $payment)
+    public function setPayment(Varien_Object $payment)
     {
         foreach ($this->getEntitiesByType('payment') as $oldPayment) {
             $this->removeEntity($oldPayment);
@@ -72,7 +72,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         return !empty($this->_entitiesByType['item']);
     }
     
-    public function addProduct(Varien_Data_Object $product)
+    public function addProduct(Varien_Object $product)
     {
         if (!$product->getQty()) {
             $product->setQty(1);

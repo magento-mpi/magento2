@@ -33,7 +33,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
         //$arrGridFields = array('product_id', 'name', 'price', 'description');
         $arrGridFields = array();
 
-        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray($arrGridFields)));
+        $this->getResponse()->setBody(Zend_Json::encode($collection->toArray($arrGridFields)));
     }
     
     /**
@@ -124,7 +124,7 @@ class Mage_Customer_CustomerController extends Mage_Core_Controller_Admin_Action
             )
         );
 
-       $form->setElementsValues($customer->__toArray());
+       $form->setElementsValues($customer->toArray());
        
        if ($customerId) {
            $form->addField(

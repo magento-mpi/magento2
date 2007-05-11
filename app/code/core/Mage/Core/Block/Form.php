@@ -53,84 +53,84 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
      *
      * @param array $attributes form attributes
      */
-	public public function __construct($attributes = array()) 
-	{
-		parent::__construct($attributes);
-		
-		if (is_null($this->getIsFormFramed())) {
-			$this->setIsFormFramed(true);
-		}
-		if (is_null($this->getMethod())) {
-			$this->setMethod('post');
-		}
-		if (is_null($this->getEnctype())) {
-			$this->setEnctype('multipart/form-data');
-		}
-	}
-	
-	/**
-	 * Add form field
-	 *
-	 * @param  string $elementId
-	 * @param  string $elementType
-	 * @param  array  $elementConfig
-	 * @param  string || bool $after
-	 * @return Mage_Core_Block_Form
-	 */
-	public function addField($elementId, $elementType, $elementConfig, $after=true)
-	{
-	    $this->_addElement($elementId, $elementType, $elementConfig, $after);
-	    $this->_fields[$elementId] = $elementType;
-	    return $this;
-	}
-	
-	/**
-	 * Add form button
-	 *
-	 * @param  string $elementId
-	 * @param  string $elementType
-	 * @param  array  $elementConfig
-	 * @param  string || bool $after
-	 * @return Mage_Core_Block_Form
-	 */
-	public function addButton($elementId, $elementType, $elementConfig, $after=true)
-	{
-	    $this->_addElement($elementId, $elementType, $elementConfig, $after);
-	    $this->_buttons[$elementId] = $elementType;
-	    return $this;
-	}
-	
+    public public function __construct($attributes = array()) 
+    {
+        parent::__construct($attributes);
+        
+        if (is_null($this->getIsFormFramed())) {
+            $this->setIsFormFramed(true);
+        }
+        if (is_null($this->getMethod())) {
+            $this->setMethod('post');
+        }
+        if (is_null($this->getEnctype())) {
+            $this->setEnctype('multipart/form-data');
+        }
+    }
+    
+    /**
+     * Add form field
+     *
+     * @param  string $elementId
+     * @param  string $elementType
+     * @param  array  $elementConfig
+     * @param  string || bool $after
+     * @return Mage_Core_Block_Form
+     */
+    public function addField($elementId, $elementType, $elementConfig, $after=true)
+    {
+        $this->_addElement($elementId, $elementType, $elementConfig, $after);
+        $this->_fields[$elementId] = $elementType;
+        return $this;
+    }
+    
+    /**
+     * Add form button
+     *
+     * @param  string $elementId
+     * @param  string $elementType
+     * @param  array  $elementConfig
+     * @param  string || bool $after
+     * @return Mage_Core_Block_Form
+     */
+    public function addButton($elementId, $elementType, $elementConfig, $after=true)
+    {
+        $this->_addElement($elementId, $elementType, $elementConfig, $after);
+        $this->_buttons[$elementId] = $elementType;
+        return $this;
+    }
+    
 
-	/**
-	 * Add form element
-	 *
-	 * @param  string $elementId
-	 * @param  string $elementType
-	 * @param  array  $elementConfig
-	 * @param  string || bool $after
-	 * @return Mage_Core_Block_Form
-	 */
-	protected function _addElement($elementId, $elementType, $elementConfig, $after=true)
-	{
-	    $this->setChild(
-	       $elementId,
-	       Mage_Core_Block_Form_Element::factory($elementType, $elementConfig)
-	    );
-		$this->_elements[$elementId] = $elementType;
-		return $this;
-	}
-	
-	/**
-	 * Add elements group
-	 * 
-	 * TODO: after flag
-	 * 
-	 * @param  string $groupId
-	 * @param  array  $groupElements
-	 * @param  string $label
-	 * @param  string || bool $after
-	 * @return Mage_Core_Block_Form
-	 */
+    /**
+     * Add form element
+     *
+     * @param  string $elementId
+     * @param  string $elementType
+     * @param  array  $elementConfig
+     * @param  string || bool $after
+     * @return Mage_Core_Block_Form
+     */
+    protected function _addElement($elementId, $elementType, $elementConfig, $after=true)
+    {
+        $this->setChild(
+           $elementId,
+           Mage_Core_Block_Form_Element::factory($elementType, $elementConfig)
+        );
+        $this->_elements[$elementId] = $elementType;
+        return $this;
+    }
+    
+    /**
+     * Add elements group
+     * 
+     * TODO: after flag
+     * 
+     * @param  string $groupId
+     * @param  array  $groupElements
+     * @param  string $label
+     * @param  string || bool $after
+     * @return Mage_Core_Block_Form
+     */
     public function addGroup($groupId, $groupElements, $label, $after=true)
     {
         $groupInfo = array();
@@ -140,8 +140,8 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         $this->_elementGroups[$groupId] = $groupInfo;
         
         return $this;
-	}
-	
+    }
+    
     /**
      * Get form element
      *
@@ -150,7 +150,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
      */
     public function getElement($elementId)
     {
-    	return isset($this->_elements[$elementId]) ? $this->_children[$elementId] : null;
+        return isset($this->_elements[$elementId]) ? $this->_children[$elementId] : null;
     }
     
     /**
@@ -162,7 +162,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     function getGroup($groupId='')
     {
         if (empty($groupId)) {
-        	return $this->_elementGroups;
+            return $this->_elementGroups;
         }
         elseif (isset($this->_elementGroups[$groupId])){
             return $this->_elementGroups[$groupId];
@@ -199,15 +199,15 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function getElementsIdByType($type)
     {
         $arrElements = array();
-    	if (is_array($type)) {
-    		foreach ($type as $typeName) {
-    		    $arrElements = array_merge($arrElements, array_keys($this->_elements, $typeName));
-    		}
-    	}
-    	else {
-    		$arrElements = array_keys($this->_elements, $type);
-    	}
-    	return $arrElements;
+        if (is_array($type)) {
+            foreach ($type as $typeName) {
+                $arrElements = array_merge($arrElements, array_keys($this->_elements, $typeName));
+            }
+        }
+        else {
+            $arrElements = array_keys($this->_elements, $type);
+        }
+        return $arrElements;
     }
     
     /**
@@ -219,7 +219,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
      */
     public function setElementAttribute($attribName, $attribValue)
     {
-    	return $this;
+        return $this;
     }
     
     /**
@@ -247,9 +247,9 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function deleteField($elementId)
     {
         if (isset($this->_fields[$elementId])) {
-        	unset($this->_fields[$elementId]);
-        	
-        	$this->_deleteElement($elementId);
+            unset($this->_fields[$elementId]);
+            
+            $this->_deleteElement($elementId);
         }
         return $this;
     }
@@ -263,9 +263,9 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function deleteButton($elementId)
     {
         if (isset($this->_buttons[$elementId])) {
-        	unset($this->_buttons[$elementId]);
-        	
-        	$this->_deleteElement($elementId);
+            unset($this->_buttons[$elementId]);
+            
+            $this->_deleteElement($elementId);
         }
         return $this;
     }
@@ -279,8 +279,8 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     protected function _deleteElement($elementId)
     {
         if (isset($this->_elements[$elementId])) {
-        	unset($this->_elements[$elementId]);
-        	unset($this->_children[$elementId]);
+            unset($this->_elements[$elementId]);
+            unset($this->_children[$elementId]);
         }
         return $this;
     }
@@ -294,7 +294,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     function deleteGroup($groupId)
     {
         if (isset($this->_elementGroups[$groupId])) {
-        	unset($this->_elementGroups[$groupId]);
+            unset($this->_elementGroups[$groupId]);
         }
         return $this;
     }
@@ -307,22 +307,24 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
     public function renderView()
     {
         $formAttributes = array('name', 'id', 'method', 'enctype', 'action', 'target', 'onsubmit', 'class', 'style');
-    	$this->assign('formAttributes', $this->_attributesToString($formAttributes));
-    	
-    	return parent::renderView();
+        $this->assign('formAttributes', $this->_attributesToString($formAttributes));
+        
+        return parent::renderView();
     }
     
     public function __toArray()
     {
         $res = array();
         $res['config'] = $this->getData();
-        $res['elements']['fieldsets']   = $this->getGroup();
+        /*$res['elements']['fieldsets']   = $this->getGroup();
         $res['elements']['columns']  = array();
-        $res['elements']['fields']   = array();
+        $res['elements']['fields']   = array();*/
         foreach ($this->getFields() as $fieldId) {
-            $res['elements']['fields'][] = $this->getChild($fieldId)->__toArray();
+            $elementInfo = $this->getChild($fieldId)->toArray();
+            $elementInfo['elementType'] = 'field';
+            $res['elements'][] = $elementInfo;
         }
-        $res['buttons']  = array();
+        //$res['buttons']  = array();
         
         return $res;
     }

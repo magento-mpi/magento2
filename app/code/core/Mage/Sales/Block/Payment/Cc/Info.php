@@ -2,7 +2,7 @@
 
 class Mage_Sales_Block_Payment_Cc_Info extends Mage_Core_Block_Text
 {
-    public function init(Varien_Data_Object $payment)
+    public function init(Varien_Object $payment)
     {
         $out = __('Credit Card')."\n".
             __('Type').': '.$payment->getCcType()."\n".

@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Varien_Data_Tree_Node extends Varien_Data_Object 
+class Varien_Data_Tree_Node extends Varien_Object 
 {
     /**
      * Parent node

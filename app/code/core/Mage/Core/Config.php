@@ -338,7 +338,13 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function loadEventObservers($area)
     {
-        $events = $this->getNode("$area/events")->children();
+        if ($events = $this->getNode("$area/events")) {
+            $events = $events->children();
+        }
+        else {
+            return false;
+        }
+        
         foreach ($events as $event) {
             $eventName = $event->getName();
             $observers = $event->observers->children();

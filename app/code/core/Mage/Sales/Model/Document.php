@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Sales_Model_Document extends Varien_Data_Object
+abstract class Mage_Sales_Model_Document extends Varien_Object
 {
     protected $_docType = 'document';
     
@@ -101,7 +101,7 @@ abstract class Mage_Sales_Model_Document extends Varien_Data_Object
     
     public function removeEntity($entityToRemove)
     {
-        if ($entityToRemove instanceof Varien_Data_Object) {
+        if ($entityToRemove instanceof Varien_Object) {
             $entityId = $entityToRemove->getEntityId();
         } else {
             $entityId = (int)$entityToRemove;

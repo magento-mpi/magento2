@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Data_Object 
+class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object 
 {
     public function __construct($data=array()) 
     {

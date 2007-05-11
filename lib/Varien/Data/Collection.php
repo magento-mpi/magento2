@@ -13,7 +13,7 @@ class Varien_Data_Collection implements Iterator
 {
     // ITEMS
     protected $_items = array();
-    protected $_itemObjectClass = 'Varien_Data_Object';
+    protected $_itemObjectClass = 'Varien_Object';
     
     // FILTERS AND ORDERS
     protected $_orders      = array();
@@ -124,7 +124,7 @@ class Varien_Data_Collection implements Iterator
         return $col;
     }
     
-    public function addItem(Varien_Data_Object $item)
+    public function addItem(Varien_Object $item)
     {
         $this->_items[] = $item;
     }
@@ -206,8 +206,8 @@ class Varien_Data_Collection implements Iterator
      */
     function setItemObjectClass($className)
     {
-        if (!is_subclass_of($className, 'Varien_Data_Object')) {
-            Mage::exception($className.' does not extends from Varien_Data_Object', 0, 'Mage_Core');
+        if (!is_subclass_of($className, 'Varien_Object')) {
+            Mage::exception($className.' does not extends from Varien_Object', 0, 'Mage_Core');
         }
         $this->_itemObjectClass = $className;
         return $this;
@@ -278,7 +278,7 @@ class Varien_Data_Collection implements Iterator
      *
      * @return string
      */
-    public function __toXml()
+    public function toXml()
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <collection>
@@ -286,7 +286,7 @@ class Varien_Data_Collection implements Iterator
            <items>';
         
         foreach ($this->_items as $index => $item) {
-            $xml.=$item->__toXml();
+            $xml.=$item->toXml();
         }
         $xml.= '</items>
         </collection>';
@@ -298,14 +298,14 @@ class Varien_Data_Collection implements Iterator
      *
      * @return array
      */
-    public function __toArray($arrRequiredFields = array())
+    public function toArray($arrRequiredFields = array())
     {
         $arrItems = array();
         $arrItems['totalRecords'] = $this->getSize();
         
         $arrItems['items'] = array();       
         foreach ($this->_items as $index => $item) {
-            $arrItems['items'][] = $item->__toArray($arrRequiredFields);
+            $arrItems['items'][] = $item->toArray($arrRequiredFields);
         }
         return $arrItems;
     }

@@ -182,7 +182,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Admin_Action
             )
         );
         
-        $form->setElementsValues($address->__toArray());
+        $form->setElementsValues($address->toArray());
         
         $addressTypes = $address->getAvailableTypes('address_type_id');
         foreach ($addressTypes as $typeId => $info) {

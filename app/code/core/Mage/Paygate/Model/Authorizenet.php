@@ -108,7 +108,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
      * @param Mage_Sales_Model_Document $document
      * @return unknown
      */
-    public function buildRequest(Varien_Data_Object $payment)
+    public function buildRequest(Varien_Object $payment)
     {
         $document = $payment->getDocument();
         
@@ -209,7 +209,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
         return $request;
     }
     
-    public function postRequest(Varien_Data_Object $request)
+    public function postRequest(Varien_Object $request)
     {
         $cgi = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet')->cgi;
         $client = new Zend_Http_Client();

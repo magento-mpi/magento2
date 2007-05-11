@@ -15,7 +15,7 @@
  * @date       Wed Feb 07 03:59:31 EET 2007
  */
 
-abstract class Mage_Core_Block_Abstract extends Varien_Data_Object
+abstract class Mage_Core_Block_Abstract extends Varien_Object
 {
     /**
      * Parent layout of the block

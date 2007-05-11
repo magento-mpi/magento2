@@ -21,7 +21,7 @@ class Mage_Catalog_Block_Admin_Product_CreateOption extends Mage_Core_Block_Form
         
         $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection');
         $setCollection->load();
-        $arrSets = $setCollection->__toArray();
+        $arrSets = $setCollection->toArray();
         
         $setOptions = array();
         foreach ($arrSets['items'] as $item) {

@@ -96,7 +96,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $countries = Mage::getModel('directory', 'country_collection');
         $data = Mage::getSingleton('customer', 'session')->getCustomerFormData(true);
         if (!$data) {
-            $data = new Varien_Data_Object();
+            $data = new Varien_Object();
         }
 
         $block = $this->getLayout()->createBlock('tpl', 'customer.regform')

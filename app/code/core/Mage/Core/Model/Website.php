@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Website extends Varien_Data_Object
+class Mage_Core_Model_Website extends Varien_Object
 {
     public function setCode($code)
     {

@@ -56,7 +56,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $prodCollection->load();
 
         $arrGridFields = array('product_id', 'name', 'price', 'description');
-        $data = $prodCollection->__toArray($arrGridFields);
+        $data = $prodCollection->toArray($arrGridFields);
         $this->getResponse()->setBody(Zend_Json::encode($data));
     }
     
@@ -336,7 +336,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
                 ->load($productId)
                 ->getCategories();
                 
-        $this->getResponse()->setBody(Zend_Json::encode($categories->__toArray()));
+        $this->getResponse()->setBody(Zend_Json::encode($categories->toArray()));
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -474,7 +474,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $item->setMultiple((boolean)$item->getMultiple());
         }
 
-        $this->getResponse()->setBody(Zend_Json::encode($collection->__toArray()));
+        $this->getResponse()->setBody(Zend_Json::encode($collection->toArray()));
     }
 
     public function addGroupAttributesAction() {

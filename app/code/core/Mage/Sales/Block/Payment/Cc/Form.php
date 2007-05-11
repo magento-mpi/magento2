@@ -2,7 +2,7 @@
 
 class Mage_Sales_Block_Payment_Cc_Form extends Mage_Core_Block_Template 
 {
-    public function init(Varien_Data_Object $payment)
+    public function init(Varien_Object $payment)
     {
         $ccTypesArr = array(
             ''=>'Please select credit card type',

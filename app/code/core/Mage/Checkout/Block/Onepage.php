@@ -90,7 +90,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         $shipping = $this->_quote->getAddressByType('shipping');
-        if ($shipping instanceof Varien_Data_Object) {
+        if ($shipping instanceof Varien_Object) {
             $useForShipping = (int) $shipping->getSameAsBilling();
         }
         elseif ($billing->isEmpty()) {

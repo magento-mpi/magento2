@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Catalog_Model_Admin_Search extends Varien_Data_Object 
+class Mage_Catalog_Model_Admin_Search extends Varien_Object 
 {
     public function load()
     {

@@ -11,7 +11,7 @@
  * - module (for template)
  *
  */
-class Mage_Core_Model_Email extends Varien_Data_Object
+class Mage_Core_Model_Email extends Varien_Object
 {
     protected $_tplVars = array();
     protected $_block;

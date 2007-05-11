@@ -25,9 +25,6 @@
       </resources>
    </global>
 
-   <front>
-   </front>
-   
    <admin>
      <acl>
         <resources>

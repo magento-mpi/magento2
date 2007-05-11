@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Discount_Coupon extends Varien_Data_Object
+class Mage_Sales_Model_Discount_Coupon extends Varien_Object
 {
     public function loadByCode($code)
     {
