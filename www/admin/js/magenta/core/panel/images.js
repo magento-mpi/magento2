@@ -36,7 +36,13 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
           inputType : 'file'
         };
         
-        form.add(new Ext.form.Field(config));
+        var file = new Ext.form.Field(config)
+        file.on('change', function(field, value, orginValue){
+           if (value != "") {
+               form.submit({url:this.saveUrl, waitMsg:'Saving Data...'});               
+           }
+        }, this);
+        form.add(file);
         form.render(formContainer);       
     },
     

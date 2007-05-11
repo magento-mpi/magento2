@@ -76,6 +76,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
                 'type'  => 'images',
+                'saveUrl' => Mage::getBaseUrl()."mage_catalog/product/uploadimage/".$urlPrefix,
                 'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
                 'title' => 'Images'
             );
