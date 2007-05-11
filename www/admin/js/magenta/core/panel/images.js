@@ -63,6 +63,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
                 this.imagesView.store.add(new this.dataRecord(action.result.data));
                 this.imagesView.refresh();
                 form.reset();
+                console.log(action.result.data);
             }.createDelegate(this)
         });
      },

@@ -160,7 +160,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             $fileName = $id.'.orig.'.$_FILES['image']['name'];
             move_uploaded_file($_FILES['image']['tmp_name'], $fileDir.DS.$fileName);
             chmod($fileDir.DS.$fileName, 0777);
-            
+             
             Mage::getModel('catalog', 'product')->load($id)->setImage($_FILES['image']['name'])->save();
             $this->getResponse()->setBody('{success:true, data : {src:"test.jpg", alt:"test alt"}}');            
         } else {
