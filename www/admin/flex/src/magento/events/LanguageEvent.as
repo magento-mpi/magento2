@@ -7,16 +7,11 @@ package magento.events
 		/**
 		 * Event types
 		 */
-		public static const LANGUAGE_LOADED:String = "languageLoaded"; 		// Loaded selected language
-		public static const LANGUAGES_LOADED:String = "languagesLoaded"; 	// Loaded languages' list
-		public static const LANGUAGE_UPDATED:String = "languageUpdated";	// Current language changed
-		public static const LANGUAGES_LIST:String = "languagesList";		// Languages' ArrayCollection updated
+		public static const LANGUAGE_LOADED:String = "languageLoaded"; 		// Loaded selected language file
 		
-		public var currentLanguage:String = null; // Current language
-		public function LanguageEvent(type:String, currentLanguage:String = null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function LanguageEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
-			this.currentLanguage = currentLanguage;
 		}
 		
 	}

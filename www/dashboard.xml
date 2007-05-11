@@ -2,7 +2,7 @@
 <dashboards>
 	<view name="Users statistics" default="true">
 		<box direction="horizontal">
-			<chartpanel id="chart1" title="Users from countries {dateStart} {dateEnd}" minWidth="300" height="100%"  visibility="visible" relation="default">
+			<chartpanel id="chart1" title="Users from countries" minWidth="300" height="100%"  visibility="visible" relation="default">
 				<dataSource url="/magenta/charts/countries" method="GET" showBusyCursor="true" showProgressBar="true" >
 					<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
 					<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
@@ -55,6 +55,36 @@
 					<parameter name="type">users</parameter>
 				</export>
 			</chartpanel>
+		</box>
+	</view>
+	<view name="Test view" default="false">
+		<box direction="horizontal">
+			<box direction="horizontal">
+				<chartpanel id="chart1" title="Chart 1" width="100%" height="100%" minHeight="300" />
+			</box>
+			<box direction="vertical">
+				<chartpanel id="chart2" title="Chart 2" width="100%" height="100%"  />
+				<chartpanel id="chart3" title="Chart 3" width="100%" height="100%"  />
+				<chartpanel id="chart4" title="Chart 4" width="100%" height="100%"  />
+			</box>
+			<box direction="vertical">
+				<chartpanel id="chart5" title="Chart 5" width="100%" height="100%"  />
+				<chartpanel id="chart6" title="Chart 6" width="100%" height="100%"  />
+			</box>
+		</box>
+		<box direction="horizontal">
+			<box direction="horizontal">
+				<chartpanel id="chart7" title="Chart 7" width="100%" height="100%" minHeight="300" />
+			</box>
+			<box direction="vertical">
+				<box direction="horizontal">
+					<chartpanel id="chart8" title="Chart 8" width="100%" height="100%" minHeight="300" />
+				</box>
+				<box direction="horizontal">
+					<chartpanel id="chart9" title="Chart 9" width="100%" height="100%"  />
+					<chartpanel id="chart10" title="Chart 10" width="100%" height="100%"  />
+				</box>
+			</box>
 		</box>
 	</view>
 </dashboards>

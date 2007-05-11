@@ -1,19 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="{init()}" horizontalAlign="left" verticalAlign="top" horizontalGap="2" verticalGap="2" paddingTop="5" paddingRight="5" paddingLeft="5" paddingBottom="5">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" preinitialize="preInit()" layout="vertical" applicationComplete="init()" xmlns:magento="magento.constructor.*">
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.events.StyleEvent;
+			import mx.styles.StyleManager;
 			import mx.utils.ObjectUtil; // Debug
 			import magento.core.*;
 			import magento.events.*;
 		  	import magento.rpc.Request;
+		  	[Bindable]
+		  	private var language:Language;
 		  	
-		  	//private var language:Language = new Language( DisplayObject(this) );
+		  	private var constructorConfiguration:Object;
+		  	
+		  	[Bindable]
+		  	private var defaultViewIndex:Number = 0;
+		  	
+			private function preInit():void
+			{
+				Config.load(Application.application.parameters);
+				loadStyles(Config.getVar('basePath') + Config.getVar('styleDirectory') );
+			}
+			
+			private function loadStyles(stylePath:String):void
+			{
+				var eventDispatcher:IEventDispatcher = StyleManager.loadStyleDeclarations(stylePath + 'style.swf');
+            	eventDispatcher.addEventListener(StyleEvent.COMPLETE, styleLoaded);
+			}
+			
+			private function styleLoaded(event:StyleEvent):void
+			{
+				super.initialized = true;
+			}
 			
 			private function init():void
 			{
+				Singleton.registerClass('lang', Language, this);
+				language = Singleton.getInstance('lang');
+				language.load( Config.getVar('appLanguage') );
+				language.addEventListener( LanguageEvent.LANGUAGE_LOADED, loadConfiguration );
+				if(ExternalInterface.available)
+				{
+					ExternalInterface.addCallback( 'setStyle', loadStyles );
+				}
+			}
+			
+			private function loadConfiguration(event:LanguageEvent):void
+			{
+				var request:Request = new Request(this);
+				
+				request.url = Config.getVar('basePath') + Config.getVar('dashboardConfig');
+				request.method = "get";
+				request.showStatusWindow = true;
+				request.statusText = language.getPhrase('loading_configuration');
+				request.addEventListener( ResultEvent.RESULT, loadedConfiguration );
+				request.send();
 				
 			}
+			
+			private function loadedConfiguration( event:ResultEvent ):void
+			{
+				constructorConfiguration = event.result.dashboards;
+				
+				dispatchEvent( new ReportEvent( ReportEvent.CONFIG_LOADED ) );
+				
+				updateConstructor();
+			}
+			
+			[Bindable(event='configurationLoaded')]
+			private function get getListOfViews( ):ArrayCollection
+			{
+				var result:ArrayCollection = new ArrayCollection();
+				
+				if(constructorConfiguration.view is ArrayCollection)
+				{
+					for( var i:Number = 0; i < constructorConfiguration.view.length; i ++ )
+					{
+						result.addItem(	constructorConfiguration.view.getItemAt(i).name );
+						
+						if( constructorConfiguration.view.getItemAt(i)['default'] )
+							defaultViewIndex = i;
+					}
+				}
+				
+				return result;
+			}
+			
+			private function updateConstructor():void
+			{
+				if(constructorConfiguration.view is ArrayCollection)
+					magentoConstructor.dataProvider = constructorConfiguration.view.getItemAt(viewsCombo.selectedIndex);
+				else
+					magentoConstructor.dataProvider = constructorConfiguration.view;
+			}
+			
 		]]>
 	</mx:Script>
-	<mx:ApplicationControlBar  width="100%"/>
+	
+	<mx:ApplicationControlBar  width="100%">
+		<mx:Label text="{language.getPhrase('select_report')}" />
+		<mx:ComboBox id="viewsCombo" dataProvider="{getListOfViews}" change="{updateConstructor()}" selectedIndex="{defaultViewIndex}"></mx:ComboBox>
+		
+	</mx:ApplicationControlBar>
+	<mx:Spacer styleName="spacer" width="100%" height="10" />
+	<magento:Constructor id="magentoConstructor" width="100%" height="100%" horizontalAlign="left" verticalAlign="top">
+	</magento:Constructor>
 </mx:Application>
