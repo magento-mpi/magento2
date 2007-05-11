@@ -287,15 +287,12 @@ class Varien_Object
     
     protected function _underscore($name)
     {
-        #Varien_Profiler::setTimer('object-underscore');
-        
         if (isset(self::$_underscoreCache[$name])) {
             return self::$_underscoreCache[$name];
         }
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         self::$_underscoreCache[$name] = $result;
         
-        #Varien_Profiler::setTimer('object-underscore', true);
         return $result;
     }
     
