@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboards>
+	<view name="Users statistics" default="true">
+		<box direction="horizontal">
+			<chartpanel id="chart1" title="Users from countries" minWidth="300" height="100%"  visibility="visible" relation="default">
+				<dataSource url="/magenta/charts/countries" method="GET" showBusyCursor="true" showProgressBar="true" >
+					<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
+					<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
+				</dataSource>
+				
+				<chart type="pie" showLegend="true">
+					<series nameField="countryName" valueField="value" labelTemplate="{value} users"/>
+					<dataTip>
+					<![CDATA[ Country: {testName}<br> Users:{value}	]]>
+					</dataTip>
+				</chart>
+				<grid>
+					<column label="Country" field="countryName"/>
+					<column label="Users" field="percentName"/>
+				</grid>
+				<export url="/magenta/charts/export" filename="countries-for-users.xsl">
+					<fromDataSource />
+					<parameter name="type">countries</parameter>
+				</export>
+			</chartpanel>
+			<chartpanel id="chart2" title="Users from country {countryName}" width="100%" minHeight="300" visibility="relation" relation="chart1">
+				<dataSource url="/magenta/charts/regions" method="POST" showBusyCursor="true" showProgressBar="true" >
+					<parameter name="type">{countryId}</parameter>
+					<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
+					<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>
+				</dataSource>
+				<!-- Will be able to transform specific data in Flex types.
+				for expample
+				<transformInformation>
+					<field name="date" type="date" />
+				</transformInformation>
+				-->
+				<chart type="column" showLegend="true">
+					<horizontalAxis type="text" labelTemplate="City: {city}" field="city" />
+					<verticalAxis type="liniar" maximum="{value}" />
+					
+					<series type="column" xField="users" />
+					<series type="column" xField="newUsers" />
+					<dataTip>
+					<![CDATA[ City: {city}<br> Users:{user} <br> New users:{new_users} ]]>
+					</dataTip>
+				</chart>
+				<grid>
+					<column label="City" field="city"/>
+					<column label="Users" field="users"/>
+					<column label="New users" field="newUsers" labelTemplate="{newUsers} users"/>
+				</grid>
+				<export url="/magenta/charts/export" filename="countries-cities-for-users.xsl">
+					<fromDataSource />
+					<parameter name="type">users</parameter>
+				</export>
+			</chartpanel>
+		</box>
+	</view>
+	<view name="Test view" default="false">
+		<box direction="horizontal">
+			<box direction="horizontal">
+				<chartpanel id="chart1" title="Chart 1" width="100%" height="100%" minHeight="300" />
+			</box>
+			<box direction="vertical">
+				<chartpanel id="chart2" title="Chart 2" width="100%" height="100%"  />
+				<chartpanel id="chart3" title="Chart 3" width="100%" height="100%"  />
+				<chartpanel id="chart4" title="Chart 4" width="100%" height="100%"  />
+			</box>
+			<box direction="vertical">
+				<chartpanel id="chart5" title="Chart 5" width="100%" height="100%"  />
+				<chartpanel id="chart6" title="Chart 6" width="100%" height="100%"  />
+			</box>
+		</box>
+		<box direction="horizontal">
+			<box direction="horizontal">
+				<chartpanel id="chart7" title="Chart 7" width="100%" height="100%" minHeight="300" />
+			</box>
+			<box direction="vertical">
+				<box direction="horizontal">
+					<chartpanel id="chart8" title="Chart 8" width="100%" height="100%" minHeight="300" />
+				</box>
+				<box direction="horizontal">
+					<chartpanel id="chart9" title="Chart 9" width="100%" height="100%"  />
+					<chartpanel id="chart10" title="Chart 10" width="100%" height="100%"  />
+				</box>
+			</box>
+		</box>
+	</view>
+</dashboards>

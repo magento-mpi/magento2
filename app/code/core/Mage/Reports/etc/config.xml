@@ -19,6 +19,9 @@
 
    <global>
       <models>
+		<reports_config>
+			<class>Mage_Reports_Model_Config</class>
+		</reports_config>
       </models>
 
       <resources>

@@ -19,7 +19,17 @@ class Mage_Reports_FlexController extends Mage_Core_Controller_Admin_Action
     
     public function configAction()
     {
-        $this->getResponse()->setBody('');
+       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getGlobalConfig() );  
+    }
+	
+	public function languageAction()
+    {
+       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getLanguage() );
+    }
+	
+	public function dashboardAction()
+    {
+       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getDashboard() );
     }
 
 }// Class IndexController END

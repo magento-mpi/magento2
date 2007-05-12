@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+	
+	<phrase name="application_title">
+	Magenta reports
+	</phrase>
+	
+	<phrase name="loading_configuration">
+	Loading configuration
+	</phrase>
+	
+	<phrase name="select_report">
+	Select report:
+	</phrase>
+
+</language>
