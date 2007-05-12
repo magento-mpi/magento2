@@ -59,12 +59,14 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function setId($id)
     {
         $this->_id = $id;
+        $this->setData('id', $id);
         return $this;
     }
     
     public function setType($type)
     {
         $this->_type = $type;
+        $this->setData('type', $type);
         return $this;
     }
     

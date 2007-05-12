@@ -90,9 +90,4 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     {
         
     }
-    
-    protected function __toArray()
-    {
-        
-    }
 }

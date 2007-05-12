@@ -34,6 +34,12 @@ class Varien_Data_FormTest extends PHPUnit_Framework_TestCase
     
     public function testAddColumn()
     {
+        
+    }
+    
+    public function testJson()
+    {
+        
     }
 }
 
