@@ -247,7 +247,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
     var MMdoctitle = document.title;
 
     AC_FL_RunContent(
-        "src", "playerProductInstall",
+        "src", "<?=$baseUrl?>admin/flex/playerProductInstall",
         "FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
         "width", "100%",
         "height", "100%",
@@ -262,13 +262,13 @@ if ( hasProductInstall && !hasRequestedVersion ) {
     );
 } else if (hasRequestedVersion) {
     AC_FL_RunContent(
-            "src", "reports",
+            "src", "<?=$baseUrl?>admin/flex/reports",
             "width", "100%",
             "height", "100%",
             "align", "middle",
             "id", "reports",
             "FlashVars",    'configUrl=<?=$baseUrl?>mage_reports/flex/config/'
-                          + '&cssUrl=<?=$baseSkinUrl?>flex.css',
+                          + '&cssUrl=<?=$baseSkinUrl?>flex.swf',
             "quality", "high",
             "bgcolor", "#869ca7",
             "name", "reports",

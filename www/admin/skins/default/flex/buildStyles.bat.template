@@ -1,2 +1,0 @@
-@echo off
-"{FLEX_COMPILER_PATH}mxmlc" style.css
