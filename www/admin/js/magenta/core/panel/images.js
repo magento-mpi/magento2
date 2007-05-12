@@ -86,7 +86,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     
         var store = new Ext.data.Store({
             proxy: new Ext.data.HttpProxy({url: this.url}),
-            reader: dataReader,
+            reader: dataReader
         });
         
         
