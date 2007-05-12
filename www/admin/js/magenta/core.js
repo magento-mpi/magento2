@@ -69,7 +69,7 @@ Mage.Admin = function(){
                     },
                     "center":{
                         resizeTabs:true,
-                        alwaysShowTabs:false,
+                        alwaysShowTabs:true,
                         hideTabs:true,
                         tabPosition:'top',
                         titlebar:false,
@@ -97,7 +97,7 @@ Mage.Admin = function(){
             
             _layout.beginUpdate();
             _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
-            _layout.add('center', new Ext.ContentPanel('center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
+            _layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, '<embed width="100%" height="100%" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" name="reports" bgcolor="#869ca7" quality="high" flashvars="configUrl=/admin/mage_reports/flex/config/&cssUrl=/admin/skins/default/flex.swf" id="reports" wmode="opaque" src="/admin/flex/reports.swf"/>'));
             _layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             this._initToolbar();
