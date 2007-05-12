@@ -117,10 +117,10 @@ Mage.Catalog_Product = function(depend){
 
 
             var colModel = new Ext.grid.ColumnModel([
-                {header: "ID#", sortable: true, locked:false, dataIndex: 'id'},
-                {header: "Name", sortable: true, dataIndex: 'name'},
-                {header: "Price", sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
-                {header: "Description", sortable: false, dataIndex: 'description'}
+                {header: "ID#", filter : 'numeric', sortable: true, locked:false, dataIndex: 'id'},
+                {header: "Name", filter : 'string', sortable: true, dataIndex: 'name'},
+                {header: "Price", filter : 'numeric', sortable: true, renderer: Ext.util.Format.usMoney, dataIndex: 'price'},
+                {header: "Description", filter : 'string', sortable: false, dataIndex: 'description'}
             ]);
 
             this.productsGrid = new Ext.grid.Grid(this.productLayout.getRegion('center').getEl().createChild({tag: 'div'}), {
@@ -128,6 +128,7 @@ Mage.Catalog_Product = function(depend){
                 cm: colModel,
                 autoSizeColumns : true,
                 loadMask: true,
+                view : new FilteredGridView,
                 monitorWindowResize : true,
                 autoHeight : false,
                 selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),

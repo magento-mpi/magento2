@@ -29,7 +29,7 @@ Mage.core.Panel.Factory = {
             case "images":
                 return new Mage.core.PanelImages(region, config);
             case "categories":
-                return new Mage.core.PanelForm(region, config);
+                return new Mage.core.PanelCategories(region, config);
             case "related":
                 return new Mage.core.PanelRelated(region, config);
             case "address":

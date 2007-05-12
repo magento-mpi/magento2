@@ -39,12 +39,16 @@ Ext.extend(FilteredGridView, Ext.grid.GridView, {
 	},
 		
 	updateFilters: function(){
-		var filters = []
-		this.cm.config.each(function(column){
+		var filters = [];
+		var i;
+		console.log(this.cm.config);
+		for (i=0; i < this.cm.config.length; i++) {
+            column = this.cm.config[i];
 			var f = column.filter;
-			if(f && f.enabled)
+			if(f && f.enabled) {
 				filters.push(column.dataIndex + ":" + f.serialize());
-		});
+			};
+		}
 		var ds = this.grid.dataSource;
 		ds.baseParams['filters'] = filters.join(";");
 		ds.reload();
@@ -77,7 +81,7 @@ Ext.extend(DefaultFilters['string'], ColumnFilter,{
 			this.value = menu.getValue();
 			rootItem.setChecked(true);
 			this.fgv.updateFilterStatus(null, true);
-		}.bind(this));
+		}.createDelegate(this));
 		rootMenu.add(menu);
 	}
 });
@@ -99,7 +103,7 @@ Ext.extend(DefaultFilters['boolean'], ColumnFilter, {
 				this.value = optionItems[0].checked;
 				this.fgv.updateFilterStatus(null, true);
 				rootItem.setChecked(true);
-			}.bind(this);
+			}.createDelegate(this);
 			
 		for(var i=0; i<optionItems.length; i++){
 			optionItems[i].on('click', f);
@@ -157,13 +161,13 @@ Ext.extend(DefaultFilters['date'], ColumnFilter, {
 					dates[2].setChecked(false, true);
 					delete this.onDate;
 				}
-			}.bind(this, i));
+			}.createDelegate(this, i));
 			
 			dates[i].on('checkchange', function(index){
 				delete this[keys[index]]
 				if(!this[0] && !this[1] && !this[2])
 					rootItem.setChecked(false);
-			}.bind(this, i));
+			}.createDelegate(this, i));
 		};
 	},
 	serialize: function(){
@@ -211,7 +215,7 @@ Ext.extend(DefaultFilters['numeric'], ColumnFilter, {
 					if(this[keys[j]]) rootItem.setChecked(true, true);
 
 				this.fgv.updateFilterStatus(null, true);
-			}.bind(this, i));
+			}.createDelegate(this, i));
 	},
 	serialize: function(){
 		var args = [];
