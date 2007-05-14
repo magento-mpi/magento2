@@ -1,6 +1,6 @@
 <?php
 /**
- * Base items collection class 
+ * Data collection
  *
  * @package    Varien
  * @subpackage Data
@@ -9,25 +9,65 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Varien_Data_Collection implements Iterator
+class Varien_Data_Collection implements IteratorAggregate
 {
-    // ITEMS
+    /**
+     * Collection items
+     *
+     * @var array
+     */
     protected $_items = array();
+    
+    /**
+     * Item object class name
+     *
+     * @var string
+     */
     protected $_itemObjectClass = 'Varien_Object';
     
-    // FILTERS AND ORDERS
+    /**
+     * Order configuration
+     *
+     * @var array
+     */
     protected $_orders      = array();
+    
+    /**
+     * Filters configuration
+     *
+     * @var array
+     */
     protected $_filters     = array();
+    
+    /**
+     * Filter rendered flag
+     *
+     * @var bool
+     */
     protected $_isFiltersRendered = false;
     
-    // PAGER
+    /**
+     * Current page number for items pager
+     *
+     * @var int
+     */
     protected $_curPage     = 1;
-    // if pageSize == false, then all data is selected
-    protected $_pageSize    = false;
-    protected $_totalRecords= null;
     
-    // ITERATOR
-    protected $_counter = 0;
+    /**
+     * Pager page size
+     * 
+     * if page size is false, then we works with all items
+     *
+     * @var int || false
+     */
+    protected $_pageSize    = false;
+    
+    /**
+     * Total items number
+     *
+     * @var unknown_type
+     */
+    protected $_totalRecords= null;
     
     public function __construct() 
     {
@@ -316,32 +356,10 @@ class Varien_Data_Collection implements Iterator
     }
     
     /**
-     * implematation of iterator block
+     * Implementation of IteratorAggregate::getIterator()
      */
-    function current()
+    public function getIterator()
     {
-        return $this->_items[$this->_counter];
-    }
-
-    function next()
-    {
-        return $this->_counter++;
-
-    }
-
-    function key()
-    {
-        return $this->_counter;
-
-    }
-
-    function valid()
-    {
-        return isset($this->_items[$this->_counter]);
-    }
-
-    function rewind()
-    {
-        $this->_counter = 0;
+        return new ArrayIterator($this->_items);
     }
 }

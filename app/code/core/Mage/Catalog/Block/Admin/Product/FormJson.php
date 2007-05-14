@@ -32,7 +32,8 @@ class Mage_Catalog_Block_Admin_Product_FormJson extends Varien_Data_Form
         
         $this->setMethod('POST');
         $this->setClass('x-form');
-        $this->setAcrion($postUrl);
+        $this->setAction($postUrl);
+        $this->setFileupload(false);
         
 
         $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
