@@ -13,4 +13,12 @@
 	Select report:
 	</phrase>
 
+	<phrase name="select_period">
+	Select period:
+	</phrase>
+	
+	<phrase name="period_to">
+	to
+	</phrase>
+	
 </language>

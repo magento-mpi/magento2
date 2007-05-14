@@ -22,6 +22,9 @@
 		<reports_config>
 			<class>Mage_Reports_Model_Config</class>
 		</reports_config>
+		<test_data>
+			<class>Mage_Reports_Model_Test</class>
+		</test_data>
       </models>
 
       <resources>

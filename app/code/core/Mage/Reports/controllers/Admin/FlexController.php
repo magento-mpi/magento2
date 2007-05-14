@@ -31,5 +31,15 @@ class Mage_Reports_FlexController extends Mage_Core_Controller_Admin_Action
     {
        $this->getResponse()->setBody( Mage::getModel('reports_config') -> getDashboard() );
     }
+	
+	public function countriesAction()
+	{
+		 $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCountries() );
+	}
+	
+	public function citiesAction()
+	{
+		 $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCities( $this->getRequest()->getPost('country', '') ) );
+	}
 
 }// Class IndexController END

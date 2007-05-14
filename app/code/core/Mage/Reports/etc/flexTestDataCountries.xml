@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataSource>
+	<row>
+		<id>1</id>
+		<countryName>United States</countryName>
+		<value>9000000</value>
+	</row>
+	<row>
+		<id>2</id>
+		<countryName>Canada</countryName>
+		<value>5000000</value>
+	</row>
+	<row>
+		<id>3</id>
+		<countryName>Mexico</countryName>
+		<value>300000</value>
+	</row>
+	<row>
+		<id>4</id>
+		<countryName>Great Britain</countryName>
+		<value>300000</value>
+	</row>
+	<row>
+		<id />
+		<countryName>Other Countries</countryName>
+		<value>56</value>
+	</row>
+</dataSource>
