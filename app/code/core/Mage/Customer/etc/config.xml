@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Customer>
-         <version>0.1.14</version>
+         <version>0.1.15</version>
          <depends>
             <Mage_Page />
          </depends>
@@ -76,6 +76,10 @@
                <wishlist>
                   <table>customer_wishlist</table>
                </wishlist>
+
+               <customer_log>
+                  <table>customer_log</table>
+               </customer_log>
             </entities>
 
          </customer_resource>
