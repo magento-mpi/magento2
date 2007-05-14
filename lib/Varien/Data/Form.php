@@ -43,16 +43,16 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         return $this;
     }
     
+    protected function _elementIdExists($elementId)
+    {
+        return isset($this->_elementsIndex[$elementId]);
+    }
+    
     public function addElementToCollection($element)
     {
         $this->_elementsIndex[$element->getId()] = $element;        
         $this->_allElements->add($element);
         return $this;
-    }
-    
-    protected function _elementIdExists($elementId)
-    {
-        return isset($this->_elementsIndex[$elementId]);
     }
     
     public function checkElementId($elementId)
@@ -80,14 +80,9 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     {
         foreach ($values as $elementId=>$value) {
             if ($element = $this->getElement($elementId)) {
-                $element->getValue($value);
+                $element->setValue($value);
             }
         }
         return $this;
-    }
-    
-    public function getHtmlAttributes()
-    {
-        
     }
 }
