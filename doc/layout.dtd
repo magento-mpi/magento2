@@ -21,6 +21,12 @@
     name CDATA #REQUIRED
 >
 
+<!ELEMENT disable (action | block)*>
+<!ATTLIST disable
+    name CDATA #REQUIRED
+>
+
+
 <!ELEMENT remove EMPTY>
 <!ATTLIST remove
     name CDATA #REQUIRED
