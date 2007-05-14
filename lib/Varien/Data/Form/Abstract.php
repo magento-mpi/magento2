@@ -67,7 +67,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
         return $element;
     }
 
-    protected function __toArray()
+    protected function __toArray($arrElements = array())
     {
         $res = array();
         $res['config']  = $this->getData();

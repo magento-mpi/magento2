@@ -265,6 +265,10 @@
             <class>Mage_Catalog_Block_Admin_Product_Form</class>
          </admin_catalog_product_form>
 
+         <admin_catalog_product_form_json>
+            <class>Mage_Catalog_Block_Admin_Product_FormJson</class>
+         </admin_catalog_product_form_json>
+
          <admin_catalog_product_card>
             <class>Mage_Catalog_Block_Admin_Product_Card</class>
          </admin_catalog_product_card>
