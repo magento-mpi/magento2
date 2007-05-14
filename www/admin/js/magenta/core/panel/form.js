@@ -47,12 +47,13 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     _buildForm : function() {
         var i;
-        this.frm = new Ext.form.Form({
+        this.frm = new Mage.JsonForm({
             method : 'POST',
             url : this.form.config.url,
             fileUpload : false
         });
         this._buildTemplate(this.form.config.id + '_El');        
+        console.log(this.form);
         for(i=0; i < this.form.elements.length; i++) {
           this._makeElement(this.frm, this.form.elements[i]);
         }
@@ -61,10 +62,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     _makeElement : function(form, element) {
         var i;
-        switch(element.elementType) {
-            case 'field' :
-                form.add(this._makeField(element))
-                return true;
+        switch(element.config.type) {
             case 'fieldset' :
                 form.fieldset(element.config);
                 for(i=0; i < element.elements.length; i++) {
@@ -72,6 +70,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
                 }
                 form.end;
                 return true;
+                break;
             case 'column' :
                 form.column(element.config);
                 for(i=0; i < element.elements.length; i++) {
@@ -79,27 +78,30 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
                 }
                 form.end;
                 return true;
-            throw exception('This element type "' + element.elementType + '" is not supported');     
+                break;                
+            default :
+                form.add(this._makeField(element))
+                return true;
+                break;                
         }
-        
     },
     
     _makeField : function(field) {
             var config = {
-                fieldLabel : field.label,
-                name : field.name,
+                fieldLabel : field.config.label,
+                name : field.config.name,
                 allowBlank : true,
-                value : field.value
+                value : field.config.value
             };
-            switch (field.ext_type) {
-                case 'Checkbox' :
+            switch (field.config.ext_type) {
+                case 'checkbox' :
                     return new Ext.form.Checkbox(config);                
-                case 'ComboBox' :
+                case 'combobox' :
                     var RecordDef = Ext.data.Record.create([{name: 'value'},{name: 'label'}]);                    
                     var myReader = new Ext.data.JsonReader({root: 'values'}, RecordDef);                    
                     var store = new Ext.data.Store({
                        	reader : myReader,
-                       	proxy : new Ext.data.MemoryProxy(field)
+                       	proxy : new Ext.data.MemoryProxy(field.config)
                     });
                     store.load();
                     config.store = store;
@@ -110,23 +112,23 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
                     config.triggerAction = 'all';
                     config.forceSelection = true;
                     var combo = new Ext.form.ComboBox(config);
-                    combo.setValue(field.value);
+                    combo.setValue(field.config.value);
                     return combo;
-                case 'DateField' :
+                case 'datefield' :
                     return new Ext.form.DateField(config);                
-                case 'NumberField' :
+                case 'numberfield' :
                     return new Ext.form.NumberField(config);                
-                case 'Radio' :
+                case 'radio' :
                     return new Ext.form.Radio(config);                
-                case 'TextArea' :
+                case 'textarea' :
                     return new Ext.form.TextArea(config);                
-                case 'TextField' :
+                case 'textfield' :
                     return new Ext.form.TextField(config);
-                case 'File' : 
+                case 'file' : 
                     config.inputType = 'file';
                     return new Ext.form.Field(config);
             }
-            throw exception('This field type:"'+field.ext_type+'" not supported');
+            throw 'This field type:"'+field.ext_type+'" not supported';
         
     }
      

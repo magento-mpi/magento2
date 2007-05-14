@@ -9,11 +9,15 @@ Mage.core.PanelCategories = function(region, config) {
        	fitToFrame : true,
         title : this.title || 'Title'
     }));
+    this._build();
 };
 
 Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
     
     update : function(config) {
-    }
+    },
      
+    _build : function() {
+        
+    } 
 })

@@ -65,6 +65,11 @@
             <block type="tag_js" name="jscripts.js.magenta.form">
                 <action method="setSrc"><src>magenta/form.js</src></action>
             </block>
+            
+            <block type="tag_js" name="jscripts.js.magenta.jsonform">
+                <action method="setSrc"><src>magenta/jsonform.js</src></action>
+            </block>
+            
 
             <block type="tag_js" name="jscripts.js.magenta.core">
                 <action method="setSrc"><src>magenta/core.js</src></action>
