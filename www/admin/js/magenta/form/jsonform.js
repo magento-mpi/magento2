@@ -1,13 +1,13 @@
-Mage.JsonForm = function(config) {
-    Mage.JsonForm.superclass.constructor.call(this, config);
+Mage.form.JsonForm = function(config) {
+    Mage.form.JsonForm.superclass.constructor.call(this, config);
 }
 
-Ext.extend(Mage.JsonForm, Ext.form.Form, {
+Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
     render : function(ct) {
         if (this.metaData) {
             this._buildMetaData();
         }
-        Mage.JsonForm.superclass.render.call(this, ct);
+        Mage.form.JsonForm.superclass.render.call(this, ct);
     },
     
     _buildMetaData : function() {
@@ -83,6 +83,10 @@ Ext.extend(Mage.JsonForm, Ext.form.Form, {
                 case 'file' : 
                     config.inputType = 'file';
                     return new Ext.form.Field(config);
+                case 'file' : 
+                    config.inputType = 'file';
+                    return new Ext.form.Field(config);
+                    
             }
             throw 'This field type:"'+field.ext_type+'" not supported';
         
