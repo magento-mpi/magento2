@@ -8,7 +8,6 @@ Ext.extend(Mage.form.FileField, Ext.form.Field, {
     
      onRender : function(ct, position){
         Mage.form.FileField.superclass.onRender.call(this, ct, position);
-        console.log(this);
         if (this.autoSubmit == true && this.form) {
             this.on('change', function() {
                 this.form.submit({waitMsg:'Upload File...'});    

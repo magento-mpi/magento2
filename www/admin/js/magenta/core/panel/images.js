@@ -8,7 +8,6 @@ Mage.core.PanelImages = function(region, config) {
        	background : config.background || true,    	
         title : this.title || 'Images'
     }));
-    console.log(config);
     this._build();
 };
 
@@ -25,7 +24,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         this.containerEl = this._buildTemplate();
         
         var formContainer = this.containerEl.createChild({tag : 'div'});        
-        var viewContainer = this.containerEl.createChild({tag : 'div'});
+        var viewContainer = this.containerEl.createChild({tag : 'div', cls:'x-productimages-view'});
         
         this._buildForm(formContainer);
         this._buildImagesView(viewContainer);  
@@ -59,15 +58,14 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         
         this.dataRecord = Ext.data.Record.create([
             {name: 'id'},
-            {name: 'file'},
+            {name: 'src'},
             {name: 'alt'},
             {name: 'description'}
         ]);
 
         var dataReader = new Ext.data.JsonReader({
             root: 'items',
-            totalProperty: 'totalRecords',
-            id: 'id'
+            totalProperty: 'totalRecords'
         }, this.dataRecord);
     
     
@@ -77,10 +75,12 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         });
         
         
-        var viewTpl = new Ext.Template('<div id="{id}"><img src="{file}" alt="{alt}" width="50" border="1"></div>');
+        var viewTpl = new Ext.Template('<div class="thumb-wrap" id="{name}">' +
+                '<div id="{id}" class="thumb"><img src="{src}" alt="{alt}"></div>' +
+                '<span>some text</span>' +
+                '</div>');
         this.imagesView = new Ext.View(viewContainer, viewTpl,{
             singleSelect: true,
-            selectedClass: 'ydataview-selected',
             store: store,
             emptyText : 'Images not found'
         });

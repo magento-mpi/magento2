@@ -100,3 +100,31 @@
     color:#888;
     font-style:italic;
 }
+
+.x-productimages-view{
+	overflow: auto;
+}
+.x-productimages-view .thumb{
+	background: #dddddd;
+	padding: 3px;
+}
+
+.x-productimages-view .thumb-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+.x-productimages-view .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+.x-productimages-view .x-view-selected{
+	background: #c3daf9;
+	border: 2px solid #6593cf;
+	padding: 3px;
+}
+.x-productimages-view .x-view-selected .thumb{
+	background:transparent;
+}

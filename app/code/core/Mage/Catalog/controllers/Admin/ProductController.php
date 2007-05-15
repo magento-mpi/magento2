@@ -155,6 +155,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
             array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
             array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg')
         );
         $this->getResponse()->setBody(Zend_Json::encode(array('items'=>$res)));
     }
