@@ -148,6 +148,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
         $this->getResponse()->setBody($block->toHtml());
     }
     
+    public function imageCollectionAction()
+    {
+        $res = array(
+            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+        );
+        $this->getResponse()->setBody(Zend_Json::encode($res));
+    }
+    
     public function uploadAction()
     {
         if (isset($_FILES['image'])) {

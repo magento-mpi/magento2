@@ -72,12 +72,20 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         }
 
         if ($productId) {
+            $imagesForm = new Varien_Data_Form();
+            $imagesForm->setAction(Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix)
+                ->setMethod('post')
+                ->setUploadfile(true)
+                ->addField('image', 'file', array('name'=>'image'));
+                
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
                 'type'  => 'images',
-                'saveUrl' => Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix,
-                'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
-                'title' => 'Images'
+                //'saveUrl' => Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix,
+                //'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
+                'storeUrl' => Mage::getBaseUrl()."mage_catalog/product/imageCollection/".$urlPrefix,
+                'title' => 'Images',
+                'form'  => $imagesForm->toArray()
             );
             
             $cardStructure['tabs'][] = array(

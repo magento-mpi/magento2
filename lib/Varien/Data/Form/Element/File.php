@@ -13,6 +13,6 @@ class Varien_Data_Form_Element_File extends Varien_Data_Form_Element_Abstract
     {
         parent::__construct($attributes);
         $this->setType('file');
-        $this->setExtType('textfield');
+        $this->setExtType('file');
     }
 }
