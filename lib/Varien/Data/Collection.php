@@ -171,7 +171,9 @@ class Varien_Data_Collection implements IteratorAggregate
     
     public function removeItemByKey($key)
     {
-        unset($this->_items[$key]);
+        if (isset($this->_items[$key])) {
+            unset($this->_items[$key]);
+        }
     }
     
     public function clear()
@@ -247,7 +249,7 @@ class Varien_Data_Collection implements IteratorAggregate
     function setItemObjectClass($className)
     {
         if (!is_subclass_of($className, 'Varien_Object')) {
-            Mage::exception($className.' does not extends from Varien_Object', 0, 'Mage_Core');
+            throw new Exception($className.' does not extends from Varien_Object');
         }
         $this->_itemObjectClass = $className;
         return $this;
