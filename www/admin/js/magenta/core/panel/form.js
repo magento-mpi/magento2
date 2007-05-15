@@ -17,6 +17,9 @@ Mage.core.PanelForm = function(region, config) {
 Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     update : function(config) {
+        if (!this.form) {
+            return false;
+        }
         var i;
         Ext.apply(this, config);
         if (this.frm) {

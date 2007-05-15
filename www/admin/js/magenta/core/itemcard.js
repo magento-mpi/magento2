@@ -48,6 +48,11 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
     
     loadPanel : function(){
         this.createPanel();
+//        if(Ext.isGecko && !this.region.isVisible()){
+//            (function(){
+//                this.center.getTabs().getActiveTab().bodyEl.dom.style.position = '';
+//            }).defer(1, this);
+//        }
         this.region.add(this.panel);
     },
     

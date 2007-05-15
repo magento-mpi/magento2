@@ -1,6 +1,6 @@
 Mage.core.Panel = function(region, type, config) {
     Mage.core.Panel.superclass.constructor.call(this);
-    this.factory = config.factory || Mage.core.Panel.Factory;    
+    this.factory = Mage.core.Panel.Factory;
     return this.factory.create(type, region, config);
 }
 

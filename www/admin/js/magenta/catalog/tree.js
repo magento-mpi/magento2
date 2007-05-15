@@ -11,6 +11,7 @@ Mage.Catalog_Category_Tree = function(){
         tree: null,
         websiteId: null,
         btns : null,
+        categoryForm : new Mage.Catalog_CategoryForm(),
 
         create: function(panel){
             if (!this.tree) {
@@ -133,20 +134,12 @@ Mage.Catalog_Category_Tree = function(){
 
         onAddCategory : function(btn, event) {
             var sm = this.tree.getSelectionModel();
-            Mage.Catalog_Category_Create.show({
-                button : btn,
-                activeNode : sm.getSelectedNode(),
-                edit : false
-            });    
+            this.categoryForm.show();
         },
 
         onEditCategory : function(btn, event) {
             var sm = this.tree.getSelectionModel();
-            Mage.Catalog_Category_Create.show({
-                button : btn,
-                activeNode : sm.getSelectedNode(),
-                edit : true
-            });    
+            this.categoryForm.show({catId : sm.getSelectedNode().id});
         },
 
 
