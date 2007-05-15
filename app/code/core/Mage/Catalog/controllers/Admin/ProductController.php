@@ -151,12 +151,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function imageCollectionAction()
     {
         $res = array(
-            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('file'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
         );
-        $this->getResponse()->setBody(Zend_Json::encode($res));
+        $this->getResponse()->setBody(Zend_Json::encode(array('items'=>$res)));
     }
     
     public function uploadAction()
@@ -173,10 +173,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
             chmod($fileDir.DS.$fileName, 0777);
              
             Mage::getModel('catalog', 'product')->load($id)->setImage($_FILES['image']['name'])->save();
-            $this->getResponse()->setBody('{success:true, data : {src:"test.jpg", alt:"test alt"}}');            
+            $res = array(
+                'success' => true,
+                'data'    => array(
+                    'src' => Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg',
+                    'alt' => 'Image Alt'
+                )
+            );
         } else {
-            $this->getResponse()->setBody('{success:false');
+            $res = array('success'=>false);
         }
+        $this->getResponse()->setBody(Zend_Json::encode($res));            
         //$this->getResponse()->setHeader('Location', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
         
     }
