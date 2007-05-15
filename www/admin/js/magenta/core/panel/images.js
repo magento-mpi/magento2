@@ -22,7 +22,6 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     
     _build : function() {
         this.containerEl = this._buildTemplate();
-        
         var formContainer = this.containerEl.createChild({tag : 'div'});        
         var viewContainer = this.containerEl.createChild({tag : 'div', cls:'x-productimages-view'});
         
@@ -98,7 +97,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
             '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>' +
             '</div>');
        containerElId = Ext.id();
-       this.tpl.append(this.panel.getEl(), {containerElId : containerElId}, true);
+       var tmp = this.tpl.append(this.panel.getEl(), {containerElId : containerElId}, true);
        return Ext.get(containerElId);
     }
 })

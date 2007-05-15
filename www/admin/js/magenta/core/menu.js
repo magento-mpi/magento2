@@ -109,6 +109,13 @@ Mage.Menu_Core = function(){
                             handler : chooseTheme                            
                         }),
                         new Ext.menu.CheckItem({
+                            text: 'Galdaka',
+                            group: 'theme',
+                            checked: (Cookies.get('admtheme') == 'galdaka') || false,
+                            value : 'galdaka',
+                            handler : chooseTheme                            
+                        }),
+                        new Ext.menu.CheckItem({
                             text: 'Default Theme',
                             group: 'theme',
                             checked: (Cookies.get('admtheme') == 'default') || false,
