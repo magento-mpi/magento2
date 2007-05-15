@@ -8,14 +8,14 @@ Mage.core.PanelImages = function(region, config) {
        	background : config.background || true,    	
         title : this.title || 'Images'
     }));
-    
+    console.log(config);
     this._build();
 };
 
 Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     update : function(config) {
         if (this.region.getActivePanel() === this.panel) {
-            this.imagesView.store.proxy.getConnection().url = this.url;
+            this.imagesView.store.proxy.getConnection().url = this.storeUrl;
             this.imagesView.store.load();
         }
     },
@@ -32,30 +32,17 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     },
     
     _buildForm : function(formContainer) {
-        this.form = new Ext.form.Form({
-            fileUpload : true,
-            method : 'POST',
+        this.frm = new Mage.form.JsonForm({
+            fileUpload : this.form.config.fileupload,
+            method : this.form.config.method,
+            action : this.form.config.action,
+            metaData : this.form.elements,
             waitMsgTarget : formContainer
         }); 
         
-        var config = {
-          fieldLabel : 'Image',
-          name : 'image',
-          allowBlank : true,
-          inputType : 'file'
-        };
-        var file = new Ext.form.Field(config)
+        this.frm.render(formContainer);       
         
-        file.on('change', function(field, value, orginValue){
-           if (value != "") {
-               this.form.submit({url:this.saveUrl, waitMsg:'Saving Data...'});               
-           }
-        }, this);
-        
-        this.form.add(file);
-        this.form.render(formContainer);       
-        
-        this.form.on({
+        this.frm.on({
             actionfailed : function(form, action) {
                 Ext.MessageBox.alert('Error', 'Error');
             },
@@ -72,7 +59,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         
         this.dataRecord = Ext.data.Record.create([
             {name: 'id'},
-            {name: 'src'},
+            {name: 'file'},
             {name: 'alt'},
             {name: 'description'}
         ]);
@@ -85,12 +72,12 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     
     
         var store = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: this.url}),
+            proxy: new Ext.data.HttpProxy({url: this.storeUrl}),
             reader: dataReader
         });
         
         
-        var viewTpl = new Ext.Template('<div id="{id}"><img src="{src}" alt="{alt}" width="50" border="1"></div>');
+        var viewTpl = new Ext.Template('<div id="{id}"><img src="{file}" alt="{alt}" width="50" border="1"></div>');
         this.imagesView = new Ext.View(viewContainer, viewTpl,{
             singleSelect: true,
             selectedClass: 'ydataview-selected',

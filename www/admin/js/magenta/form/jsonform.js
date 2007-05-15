@@ -81,12 +81,9 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                 case 'textfield' :
                     return new Ext.form.TextField(config);
                 case 'file' : 
-                    config.inputType = 'file';
-                    return new Ext.form.Field(config);
-                case 'file' : 
-                    config.inputType = 'file';
-                    return new Ext.form.Field(config);
-                    
+                    config.form = this;
+                    config.autoSubmit = field.config.autoSubmit || false;
+                    return new Mage.form.FileField(config);
             }
             throw 'This field type:"'+field.ext_type+'" not supported';
         
