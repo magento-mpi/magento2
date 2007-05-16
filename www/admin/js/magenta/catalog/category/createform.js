@@ -44,7 +44,7 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
         this.conn.request({
             url : this.formUrl,
             method : 'POST',
-            params : {catId : this.catId, isNew : this.isNew}
+            params : {category_id : this.catId, isNew : this.isNew}
         });
     },
     
