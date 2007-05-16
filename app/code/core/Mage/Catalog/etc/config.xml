@@ -257,6 +257,10 @@
             <class>Mage_Catalog_Block_Admin_Category_Form</class>
          </admin_catalog_category_form>
 
+         <admin_catalog_category_form_json>
+            <class>Mage_Catalog_Block_Admin_Category_FormJson</class>
+         </admin_catalog_category_form_json>
+
          <admin_catalog_product_create_option>
             <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
          </admin_catalog_product_create_option>

@@ -21,7 +21,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     
     public function formAction()
     {
-        $form = $this->getLayout()->createBlock('admin_catalog_category_form', 'category_form');
+        $form = $this->getLayout()->createBlock('admin_catalog_category_form', 'category_form_json');
         $tabConfig = Array(
             "panelConfig" => Array(
                         "name" => "General",
