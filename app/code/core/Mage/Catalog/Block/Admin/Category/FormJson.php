@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Block_Admin_Category_Form extends Varien_Data_Form
+class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
 {
     public function __construct() 
     {
