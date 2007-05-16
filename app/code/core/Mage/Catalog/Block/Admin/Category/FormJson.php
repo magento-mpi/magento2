@@ -17,11 +17,8 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('form.phtml');
-        $this->setAttribute('id', 'add_child_category_form');
-        $this->setAttribute('legend', 'Category form');
-        $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', Mage::getBaseUrl().'mage_catalog/category/save/');
+        $this->setId('add_child_category_form');
+        $this->setAction(Mage::getBaseUrl().'mage_catalog/category/save/');
         
         $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catid', false);
         
@@ -32,7 +29,7 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
             ->setAttributeSetId(1)
             ->getAttributes();
         
-            foreach ($attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             $elementId      = $attribute->getCode();
             $elementType    = $attribute->getDataInput();
             
@@ -43,7 +40,6 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
             $elementConfig['value']= '';
             $elementConfig['title']= $attribute->getCode();
             $elementConfig['validation']= '';
-            $elementConfig['ext_type']  = 'TextField';
             
             $this->addField($elementId, $elementType, $elementConfig);
         }

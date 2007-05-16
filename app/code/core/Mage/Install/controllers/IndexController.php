@@ -13,7 +13,7 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction() 
     {
-        $this->getLayout()->loadUpdatesFromConfig('front', 'install');
+        $this->getLayout()->loadUpdatesFromConfig('front', 'install_wizard');
         
     }
 }// Class IndexController END
