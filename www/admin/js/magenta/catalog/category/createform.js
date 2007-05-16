@@ -49,7 +49,13 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
     },
     
     onSave : function() {
-        
+        if (this.panel)  {
+            var form = this.panel.getForm();
+            if (form) {
+                form.submit();
+            }
+        }
+
     },
     
     connRequestComplete : function(transId, response, options) {

@@ -37,6 +37,10 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
         
     },
     
+    getForm : function() {
+        return this.frm;
+    },
+    
     _buildTemplate : function(formId) {
         if (!this.tpl) {
             this.tpl = new Ext.Template('<div>' +
