@@ -82,7 +82,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $imagesForm = new Varien_Data_Form();
             $imagesForm->setAction(Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix)
                 ->setMethod('post')
-                ->setUploadfile(true)
+                ->setFileupload(true)
                 ->addField('image', 'file', array('name'=>'image', 'label'=>'Image file', 'autoSubmit'=>true));
                 
             $cardStructure['tabs'][] = array(
