@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Event class
+ * Event object and dispatcher
  * 
- * Mage::addEvent(new Mage_Event('core.modules.onload'));
- * ...
- * Mage::getEvent('core.modules.onload')->addObserver(new Mage_Event_Observer(array($this, 'Run')));
- * ...
- * Mage::getEvent('core.modules.onload')->dispatch(array('arg1'=>'value1'));
+ * $event = new Varien_Event('event_key');
+ * $event->addObserver
  * 
  * @author Moshe Gurvich <moshe@varien.com>
  */

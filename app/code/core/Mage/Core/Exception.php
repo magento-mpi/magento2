@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Magento Core Exception
+ * 
+ * This class will be extended by other modules
+ * 
+ * @package     Mage
+ */
 class Mage_Core_Exception extends Zend_Exception 
 {
     static protected $_messages = array();

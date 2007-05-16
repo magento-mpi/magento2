@@ -125,7 +125,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         } else {
             $selectField = 'attribute_value';
         }
-        $selectSql = "select $selectField from $attributeTable as $attributeTableAlias where $condition";
+        $selectSql = "select $selectField from $attributeTable as $attributeTableAlias where $condition limit 1";
         return $selectSql;
     }
     

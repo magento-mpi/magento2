@@ -41,9 +41,13 @@ class Varien_Object
      */
     protected static $_underscoreCache = array();
     
-    public function __construct($data = array())
+    public function __construct()
     {
-        $this->_data = $data;
+        $args = func_get_args();
+        if (empty($args[0])) {
+            $args[0] = array();
+        }
+        $this->_data = $args[0];
     }
     
     public function setIsChanged($changed=false)
@@ -272,7 +276,7 @@ class Varien_Object
     
     public function __set($var, $value)
     {
-        $this->setData('is_changed', true);
+        $this->_isChanged = true;
         $var = $this->_underscore($var);
         $this->setData($var, $value);
     }

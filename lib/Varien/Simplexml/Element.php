@@ -23,7 +23,8 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     /**
      * Find a descendant of a node by path
      *
-     * @param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
+     * @todo param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
+     * @param string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
      * @return Varien_Simplexml_Element
      */
     public function descend($path)
