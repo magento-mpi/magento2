@@ -2,7 +2,7 @@
 /**
  * Reports base admin controller
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Reports
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

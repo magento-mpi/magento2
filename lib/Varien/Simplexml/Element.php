@@ -1,14 +1,42 @@
 <?php
 
+/**
+ * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
+ * 
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @package     Varien
+ * @subpackage  Simplexml
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Varien_Simplexml_Element extends SimpleXMLElement 
 {
+    /**
+     * Would keep reference to parent node
+     * 
+     * If SimpleXMLElement would support complicated attributes
+     *
+     * @var Varien_Simplexml_Element
+     */
     protected $_parent = null;
     
+    /**
+     * For future use
+     *
+     * @param Varien_Simplexml_Element $element
+     */
     public function setParent($element)
     {
         #$this->_parent = $element;
     }
     
+    /**
+     * Returns parent node for the element
+     * 
+     * Currently using xpath
+     *
+     * @return Varien_Simplexml_Element
+     */
     public function getParent()
     {
         if (!empty($this->_parent)) {
@@ -22,7 +50,8 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     
     /**
      * Find a descendant of a node by path
-     *
+     * 
+     * @todo Do we need to make it xpath look-a-like?
      * @todo param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
      * @param string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
      * @return Varien_Simplexml_Element
@@ -58,6 +87,11 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $desc;
     }
 
+    /**
+     * Returns the node and children as an array
+     *
+     * @return array
+     */
     public function asArray()
     {
     	$r = array();
@@ -81,6 +115,12 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     	return $r;
 	}
 	
+	/**
+	 * Makes nicely formatted XML from the node
+	 *
+	 * @param int $level
+	 * @return string
+	 */
 	public function asNiceXml($level=0)
 	{
 	    $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
@@ -110,11 +150,27 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	    return $out;
 	}
 	
-	public function xmlentities()
+	/**
+	 * Converts meaningfull xml characters to xml entities
+	 *
+	 * @param  string
+	 * @return string
+	 */
+	public function xmlentities($value='')
 	{
-	    return str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), (string)$this);
+	    if (empty($value)) {
+	        $value = (string)$this;
+	    }
+	    
+	    return str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $value);
 	}
     
+	/**
+	 * Appends $source to current node
+	 *
+	 * @param Varien_Simplexml_Element $source
+	 * @return Varien_Simplexml_Element
+	 */
     function appendChild($source)
     {
         if ($source->children()) {
@@ -132,8 +188,19 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         foreach ($source as $sourceChild) {
             $child->appendChild($sourceChild);
         }
+        return $this;
     }
     
+    /**
+     * Extends current node with xml from $source
+     * 
+     * If $overwrite is false will merge only missing nodes
+     * Otherwise will overwrite existing nodes
+     *
+     * @param Varien_Simplexml_Element $source
+     * @param boolean $overwrite
+     * @return Varien_Simplexml_Element
+     */
     function extend($source, $overwrite=false)
     {
         if (!$source instanceof Varien_Simplexml_Element) {
@@ -149,6 +216,13 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $this;
     }
     
+    /**
+     * Extends one node
+     *
+     * @param Varien_Simplexml_Element $source
+     * @param boolean $overwrite
+     * @return Varien_Simplexml_Element
+     */
     function extendChild($source, $overwrite=false)
     {
         // this will be our new target node

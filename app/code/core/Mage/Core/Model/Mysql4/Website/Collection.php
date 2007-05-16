@@ -2,7 +2,7 @@
 /**
  * Websites collection
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

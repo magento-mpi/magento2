@@ -2,7 +2,7 @@
 /**
  * Grid panel block
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Core
  * @author     Moshe Gurvich
  * @author     Dmitriy Soroka <dmitriy@varien.com>

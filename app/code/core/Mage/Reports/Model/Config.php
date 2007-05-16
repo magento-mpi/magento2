@@ -3,7 +3,7 @@
 /**
  * Configuration for reports
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Reports
  * @author     Ivan Chepurnyi <mitch@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

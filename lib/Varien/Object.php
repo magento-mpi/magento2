@@ -21,7 +21,7 @@ class Varien_Object
     protected $_data = array();
     
     /**
-     * Caching flag
+     * Data has been changed flag
      *
      * @var boolean
      */
@@ -35,12 +35,19 @@ class Varien_Object
     protected $_isDeleted = false;
     
     /**
-     * Seter/Geter underscore transformation cache
+     * Setter/Getter underscore transformation cache
      *
      * @var array
      */
     protected static $_underscoreCache = array();
     
+    /**
+     * Constructor
+     * 
+     * By default is looking for first argument as array and assignes it as object attributes
+     * This behaviour may change in child classes
+     *
+     */
     public function __construct()
     {
         $args = func_get_args();
@@ -50,28 +57,62 @@ class Varien_Object
         $this->_data = $args[0];
     }
     
+    /**
+     * Update changed flag. 
+     * 
+     * For savers to know if the object needs to be saved.
+     *
+     * @param boolean $changed
+     * @return Varien_Object
+     */
     public function setIsChanged($changed=false)
     {
         $this->_isChanged = $changed;
         return $this;
     }
     
+    /**
+     * Returns changed flag.
+     *
+     * @return boolean
+     */
     public function isChanged()
     {
         return $this->_isChanged;
     }
     
+    /**
+     * Update deleted flag.
+     * 
+     * For savers to know if the row defined by the object needs to be deleted.
+     *
+     * @param unknown_type $deleted
+     * @return unknown
+     */
     public function setIsDeleted($deleted=false)
     {
         $this->_isDeleted = $deleted;
         return $this;
     }
     
+    /**
+     * Returns deleted flag.
+     *
+     * @return boolean
+     */
     public function isDeleted()
     {
         return $this->_isDeleted;
     }
     
+    /**
+     * Add data to the object.
+     * 
+     * Retains previous data in the object.
+     *
+     * @param array $arr
+     * @return Varien_Object
+     */
     public function addData($arr)
     {
         foreach($arr as $index=>$value) {
@@ -80,6 +121,21 @@ class Varien_Object
         return $this;
     }
 
+    /**
+     * Overwrite data in the object.
+     * 
+     * $key can be string or array.
+     * If $key is string, the attribute value will be overwritten by $value
+     * 
+     * If $key is an array, it will overwrite all the data in the object.
+     *
+     * $isChanged will specify if the object needs to be saved after an update.
+     * 
+     * @param string|array $key
+     * @param mixed $value
+     * @param boolean $isChanged
+     * @return Varien_Object
+     */
     public function setData($key, $value='', $isChanged=true)
     {
         if ($isChanged) {
@@ -94,6 +150,19 @@ class Varien_Object
         return $this;
     }
     
+    /**
+     * Retrieves data from the object
+     * 
+     * If $key is empty will return all the data as an array
+     * Otherwise it will return value of the attribute specified by $key
+     * 
+     * If $index is specified it will assume that attribute data is an array 
+     * and retrieve corresponding member.
+     *
+     * @param string $key
+     * @param string|int $index
+     * @return mixed
+     */
     public function getData($key='', $index=false)
     {
         if (''===$key) {
@@ -116,10 +185,17 @@ class Varien_Object
         return null;
     }
     
+    /**
+     * If $key is empty, checks whether there's any data in the object
+     * Otherwise checks if the specified attribute is set.
+     *
+     * @param string $key
+     * @return boolean
+     */
     public function hasData($key='')
     {
         if (empty($key) || !is_string($key)) {
-            return false;
+            return !empty($this->_data);
         }
         return isset($this->_data[$key]);
     }
@@ -130,7 +206,7 @@ class Varien_Object
      * @param  array $arrAttributes array of required attributes
      * @return array
      */
-    protected function __toArray($arrAttributes = array())
+    protected function __toArray(array $arrAttributes = array())
     {
         if (empty($arrAttributes)) {
             return $this->_data;
@@ -148,7 +224,13 @@ class Varien_Object
         return $arrRes;
     }
 
-    public function toArray($arrAttributes = array())
+    /**
+     * Public wrapper for __toArray
+     *
+     * @param array $arrAttributes
+     * @return array
+     */
+    public function toArray(array $arrAttributes = array())
     {
         return $this->__toArray($arrAttributes);
     }
@@ -160,7 +242,7 @@ class Varien_Object
      * @param   array $elements
      * @return  array
      */
-    protected function _prepareArray(&$arr, $elements=array())
+    protected function _prepareArray(&$arr, array $elements=array())
     {
         foreach ($elements as $element) {
             if (!isset($arr[$element])) {
@@ -174,9 +256,10 @@ class Varien_Object
      * Convert object attributes to XML
      *
      * @param  array $arrAttributes array of required attributes
+     * @param string $rootName name of the root element
      * @return string
      */
-    protected function __toXml($arrAttributes = array(), $rootName = 'item')
+    protected function __toXml(array $arrAttributes = array(), $rootName = 'item')
     {
         $xml = '<'.$rootName.'>';
         $arrData = $this->toArray($arrAttributes);
@@ -187,7 +270,14 @@ class Varien_Object
         return $xml;
     }
 
-    public function toXml($arrAttributes = array(), $rootName = 'item')
+    /**
+     * Public wrapper for __toXml
+     *
+     * @param array $arrAttributes
+     * @param string $rootName
+     * @return string
+     */
+    public function toXml(array $arrAttributes = array(), $rootName = 'item')
     {
         return $this->__toXml($arrAttributes, $rootName);
     }
@@ -198,14 +288,20 @@ class Varien_Object
      * @param  array $arrAttributes array of required attributes
      * @return string
      */
-    protected function __toJson($arrAttributes = array())
+    protected function __toJson(array $arrAttributes = array())
     {
         $arrData = $this->toArray($arrAttributes);
         $json = Zend_Json::encode($arrData);
         return $json;
     }
 
-    public function toJson($arrAttributes = array())
+    /**
+     * Public wrapper for __toJson
+     *
+     * @param array $arrAttributes
+     * @return string
+     */
+    public function toJson(array $arrAttributes = array())
     {
         return $this->__toJson($arrAttributes);
     }
@@ -217,12 +313,20 @@ class Varien_Object
      * @param  string $valueSeparator
      * @return string
      */
-    public function __toString($arrAttributes = array(), $valueSeparator=',')
+    public function __toString(array $arrAttributes = array(), $valueSeparator=',')
     {
         $arrData = $this->toArray($arrAttributes);
         return implode($valueSeparator, $arrData);
     }
 
+    /**
+     * Public wrapper for __toString
+     * 
+     * Will use $format as an template and substitute {{key}} for attributes
+     *
+     * @param string $format
+     * @return string
+     */
     public function toString($format='')
     {
         if (empty($format)) {
@@ -268,12 +372,24 @@ class Varien_Object
         throw new Varien_Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
     }
     
+    /**
+     * Attribute getter (deprecated)
+     *
+     * @param string $var
+     * @return mixed
+     */
     public function __get($var)
     {
         $var = $this->_underscore($var);
         return $this->getData($var);
     }
     
+    /**
+     * Attribute setter (deprecated)
+     *
+     * @param string $var
+     * @param mixed $value
+     */
     public function __set($var, $value)
     {
         $this->_isChanged = true;
@@ -281,6 +397,11 @@ class Varien_Object
         $this->setData($var, $value);
     }
     
+    /**
+     * checks whether the object is empty
+     *
+     * @return boolean
+     */
     public function isEmpty()
     {
         if(empty($this->_data)) {
@@ -289,6 +410,15 @@ class Varien_Object
         return false;
     }
     
+    /**
+     * Converts field names for setters and geters
+     * 
+     * $this->setMyField($value) === $this->setData('my_field', $value)
+     * Uses cache to eliminate unneccessary preg_replace
+     *
+     * @param string $name
+     * @return string
+     */
     protected function _underscore($name)
     {
         if (isset(self::$_underscoreCache[$name])) {
@@ -300,11 +430,20 @@ class Varien_Object
         return $result;
     }
     
+    /**
+     * Serialization before saving to session
+     *
+     * @return array
+     */
     public function __sleep()
     {
        return array_keys( (array)$this );
     }
 
+    /**
+     * Unserialization restoring from session
+     *
+     */
     public function __wakeup()
     {
         $this->_isChanged = false;

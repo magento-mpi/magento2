@@ -2,7 +2,7 @@
 /**
  * Onepage checkout block
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Checkout
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

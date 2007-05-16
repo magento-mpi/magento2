@@ -2,7 +2,7 @@
 /**
  * Country collection
  *
- * @package    Ecom
+ * @package    Mage
  * @subpackage Directory
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)

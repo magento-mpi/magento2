@@ -1,6 +1,6 @@
 <?php
 
-class ModulesController extends Ecom_Core_Controller_Zend_Admin_Action
+class ModulesController extends Mage_Core_Controller_Zend_Admin_Action
 {
      
     function listAction() {

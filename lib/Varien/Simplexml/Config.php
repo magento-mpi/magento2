@@ -1,35 +1,103 @@
 <?php
 
+/**
+ * Base class for simplexml based configurations
+ *
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @package     Varien
+ * @subpackage  Simplexml
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Varien_Simplexml_Config
 {
-    const XPATH_EXTENDS = "//*[@extends]";
-
     /**
      * Configuration xml
      *
-     * @var Varien_Xml
+     * @var Varien_Simplexml_Element
      */
     protected $_xml = null;
+    
+    /**
+     * Unique key for configuration caching
+     *
+     * @var string
+     */
     protected $_cacheKey = null;
+    
+    /**
+     * Keeps time modification for files to know when cache is expired
+     *
+     * @var array
+     */
     protected $_cacheStat = null;
+    
+    /**
+     * Base directory for cache files
+     *
+     * @var string
+     */
     protected $_cacheDir = null;
+    
+    /**
+     * Was configuration loaded from cache?
+     *
+     * @var boolean
+     */
     protected $_cacheLoaded = false;
+    
+    /**
+     * Class name of simplexml elements for this configuration
+     *
+     * @var string
+     */
     protected $_elementClass = 'Varien_Simplexml_Element';
+    
+    /**
+     * Xpath describing nodes in configuration that need to be extended
+     * 
+     * @example <allResources extends="/config/modules//resource"/>
+     */
+    protected $_xpathExtends = "//*[@extends]";
 
+    /**
+     * Constructor
+     * 
+     * Initializes XML for this configuration
+     *
+     * @see self::setXml
+     * @param string|Varien_Simplexml_Element $sourceData
+     * @param string $sourceType
+     */
     public function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
     }
 
-    public function getConstant($const)
-    {
-        return constant(get_class($this).'::'.$const);
-    }
-
+    /**
+     * Returns whether the config was loaded from cache
+     *
+     * @return boolean
+     */
     public function isCacheLoaded()
     {
         return $this->_cacheLoaded;
     }
 
+    /**
+     * Sets xml for this configuration
+     *
+     * If $sourceType is not specified will try to recognize type of $sourceData
+     * 
+     * Possible cases:
+     * - xml: $sourceData is a Varien_Simplexml_Element instance
+     * - dom: $sourceData is a DOM element
+     * - file: xml will be imported from file
+     * - string: xml will be imported from XML string
+     * 
+     * @param string|Varien_Simplexml_Element $sourceData
+     * @param string $sourceType
+     * @return Varien_Simplexml_Config
+     */
     public function setXml($sourceData, $sourceType='')
     {
         if (''===$sourceType) {
@@ -63,8 +131,16 @@ class Varien_Simplexml_Config
                 $this->_xml = $this->loadString($sourceData);
                 break;
         }
+        return $this;
     }
-
+    
+    /**
+     * Returns node found by the $path
+     *
+     * @see     Varien_Simplexml_Element::descend
+     * @param   string $path
+     * @return  Varien_Simplexml_Element
+     */
     public function getNode($path=null)
     {
         if (empty($path)) {
@@ -74,6 +150,12 @@ class Varien_Simplexml_Config
         }
     }
 
+    /**
+     * Returns nodes found by xpath expression
+     *
+     * @param string $xpath
+     * @return array
+     */
     public function getXpath($xpath)
     {
         if (empty($this->_xml)) {
@@ -87,6 +169,12 @@ class Varien_Simplexml_Config
         return $result;
     }
 
+    /**
+     * Imports XML file
+     *
+     * @param string $filePath
+     * @return Varien_Simplexml_Element
+     */
     public function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
@@ -100,6 +188,12 @@ class Varien_Simplexml_Config
         return $xml;
     }
 
+    /**
+     * Imports XML string
+     *
+     * @param string $string
+     * @return Varien_Simplexml_Element
+     */
     public function loadString($string)
     {
         $xml = simplexml_load_string($string, $this->_elementClass);
@@ -107,6 +201,12 @@ class Varien_Simplexml_Config
         return $xml;
     }
 
+    /**
+     * Imports DOM node
+     *
+     * @param DOMNode $dom
+     * @return Varien_Simplexml_Element
+     */
     public function loadDom($dom)
     {
         $xml = simplexml_import_dom($dom, $this->_elementClass);
@@ -114,9 +214,17 @@ class Varien_Simplexml_Config
         return $xml;
     }
 
-    public function setKeyValue($key, $value, $overwrite=true)
+    /**
+     * Create node by $path and set its value.
+     *
+     * @param string $path separated by slashes
+     * @param string $value
+     * @param boolean $overwrite
+     * @return Varien_Simplexml_Config
+     */
+    public function setNode($path, $value, $overwrite=true)
     {
-        $arr1 = explode('/', $key);
+        $arr1 = explode('/', $path);
         $arr = array();
         foreach ($arr1 as $v) {
             if (!empty($v)) $arr[] = $v;
@@ -152,11 +260,16 @@ class Varien_Simplexml_Config
         return $this;
     }
 
+    /**
+     * Process configuration xml
+     *
+     * @return Varien_Simplexml_Config
+     */
     public function applyExtends()
     {
-        $targets = $this->getXpath($this->getConstant('XPATH_EXTENDS'));
+        $targets = $this->getXpath($this->_xpathExtends);
         if (!$targets) {
-            return false;
+            return $this;
         }
 
         foreach ($targets as $target) {
@@ -170,25 +283,46 @@ class Varien_Simplexml_Config
             }
             #unset($target['extends']);
         }
-        return true;
+        return $this;
     }
 
+    /**
+     * Set base directory for cache files
+     *
+     * @param string $dir
+     */
     public function setCacheDir($dir)
     {
         $this->_cacheDir = $dir;
     }
 
+    /**
+     * Set cache unique key
+     *
+     * @param string $key
+     */
     public function setCacheKey($key)
     {
         $this->_cacheKey = $key;
         $this->_cacheStat = array();
     }
 
+    /**
+     * Add file modification time information to the cache stats
+     *
+     * @param string $fileName
+     */
     public function addCacheStat($fileName)
     {
         $this->_cacheStat[$fileName] = filemtime($fileName);
     }
 
+    /**
+     * Returns file name for cache file by key
+     *
+     * @param string $key
+     * @return string
+     */
     public function getCacheFileName($key='')
     {
         if (''===$key) {
@@ -198,6 +332,12 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.xml';
     }
 
+    /**
+     * Returns file name for cache stats file
+     *
+     * @param string $key
+     * @return string
+     */
     public function getCacheStatFileName($key='')
     {
         if (''===$key) {
@@ -207,11 +347,23 @@ class Varien_Simplexml_Config
         return $this->_cacheDir.DS.$key.'.stat';
     }
 
+    /**
+     * Stub method for processing file data right after loading the file text
+     *
+     * @param string $text
+     * @return string
+     */
     protected function _processFileData($text)
     {
         return $text;
     }
 
+    /**
+     * Load cache file
+     *
+     * @param string $key
+     * @return boolean true of cache was loaded
+     */
     public function loadCache($key='')
     {
         if (''===$key) {
@@ -249,6 +401,12 @@ class Varien_Simplexml_Config
         return false;
     }
 
+    /**
+     * Save loaded configuration into cache
+     *
+     * @param string $key
+     * @return boolean
+     */
     public function saveCache($key='')
     {
         if (''===$key) {
