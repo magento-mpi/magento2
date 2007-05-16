@@ -5,49 +5,68 @@
             <version>0.1.1</version>
         </Mage_Cron>
     </modules>
-    
     <global>
         <resources>
             <cron_setup>
                 <setup>
                     <module>Mage_Cron</module>
                 </setup>
-                <connection><use>core_setup</use></connection>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
             </cron_setup>
-            
             <cron_write>
-                <connection><use>core_write</use></connection>
+                <connection>
+                    <use>core_write</use>
+                </connection>
             </cron_write>
-            
             <cron_read>
-                <connection><use>core_read</use></connection>
+                <connection>
+                    <use>core_read</use>
+                </connection>
             </cron_read>
         </resources>
-        
         <models>
             <cron>
                 <class>Mage_Cron_Model_Mysql4</class>
             </cron>
         </models>
-        
-        <cronJobs>
-            <test1>
-                <schedule><min>0</min><hour>5</hour><dow>Sun</dow></schedule>
-                <type>php_file</type>
-                <cmd>cronjobs/test.php</cmd>
-            </test1>
-            
-            <test2>
-                <schedule><min>40</min><hour>5</hour><day>2</day></schedule>
-                <type>php_callback</type>
-                <callback><class>Mage_Cron_Test</class><method>runCron</method><args><test>23</test></args></callback>
-            </test2>
-            
-            <test3>
-                <schedule><min>*/15</min><hour>8-19</hour><dow>Mon-Fri</dow></schedule>
-                <type>shell</type>
-                <cmd>mysqldump ...</cmd>
-            </test3>
-        </cronJobs>
+        <cron>
+            <jobs>
+                <test1>
+                    <schedule>
+                        <min>0</min>
+                        <hour>5</hour>
+                        <dow>Sun</dow>
+                    </schedule>
+                    <type>php_file</type>
+                    <cmd>cronjobs/test.php</cmd>
+                </test1>
+                <test2>
+                    <schedule>
+                        <min>40</min>
+                        <hour>5</hour>
+                        <day>2</day>
+                    </schedule>
+                    <type>php_callback</type>
+                    <callback>
+                        <class>Mage_Cron_Test</class>
+                        <method>runCron</method>
+                        <args>
+                            <test>23</test>
+                        </args>
+                    </callback>
+                </test2>
+                <test3>
+                    <schedule>
+                        <min>*/15</min>
+                        <hour>8-19</hour>
+                        <dow>Mon-Fri</dow>
+                    </schedule>
+                    <type>shell</type>
+                    <cmd>mysqldump ...</cmd>
+                </test3>
+            </jobs>
+        </cron>
     </global>
 </config>

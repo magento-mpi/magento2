@@ -480,7 +480,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getResourceTypeConfig($type)
     {
-        return $this->getNode("global/resourceConnectionTypes/$type");
+        return $this->getNode("global/resource/connection/types/$type");
     }
 
      /**
@@ -491,7 +491,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
      */
     public function getBlockTypeConfig($type='')
     {
-        $types = $this->getNode("global/blockTypes");
+        $types = $this->getNode("global/block/types");
         if (''===$type) {
             return $types;
         } else {

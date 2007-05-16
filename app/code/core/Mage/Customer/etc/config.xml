@@ -6,103 +6,89 @@
          <depends>
             <Mage_Page />
          </depends>
-         
          <admin>
             <controller>
                <active>true</active>
             </controller>
          </admin>
-         
          <crypt>
             <key><![CDATA[h$$@j>21#Nn 34{}~|][fksn2)*@H NdfM99f+<lml1(23nR_JN]]></key>
          </crypt>
-
          <wishlistActive>true</wishlistActive>
       </Mage_Customer>
    </modules>
-
    <global>
-      <blockTypes>
-         <customer_login>
-            <class>Mage_Customer_Block_Login</class>
-         </customer_login>
-
-         <customer_account>
-            <class>Mage_Customer_Block_Account</class>
-         </customer_account>
-      </blockTypes>
-
+      <block>
+         <types>
+            <customer_login>
+               <class>Mage_Customer_Block_Login</class>
+            </customer_login>
+            <customer_account>
+               <class>Mage_Customer_Block_Account</class>
+            </customer_account>
+         </types>
+      </block>
       <models>
          <customer>
             <class>Mage_Customer_Model</class>
          </customer>
-
          <customer_resource>
             <class>Mage_Customer_Model_Mysql4</class>
-
             <entities>
                <customer>
                   <table>customer</table>
                </customer>
-
                <customer_type>
                   <table>customer_type</table>
                </customer_type>
-
                <address>
                   <table>customer_address</table>
                </address>
-
                <address_type>
                   <table>customer_address_type</table>
                </address_type>
-
                <address_type_language>
                   <table>customer_address_type_language</table>
                </address_type_language>
-
                <address_type_link>
                   <table>customer_address_type_link</table>
                </address_type_link>
-
                <payment>
                   <table>customer_payment</table>
                </payment>
-
                <payment_method>
                   <table>customer_payment_method</table>
                </payment_method>
-
                <wishlist>
                   <table>customer_wishlist</table>
                </wishlist>
-
                <customer_log>
                   <table>customer_log</table>
                </customer_log>
             </entities>
-
          </customer_resource>
       </models>
-
       <resources>
          <customer_setup>
             <setup>
-                <module>Mage_Customer</module>
+               <module>Mage_Customer</module>
             </setup>
-            <connection><use>core_setup</use></connection>
+            <connection>
+               <use>core_setup</use>
+            </connection>
          </customer_setup>
-
          <customer_write>
-            <connection><use>core_write</use></connection>
+            <connection>
+               <use>core_write</use>
+            </connection>
          </customer_write>
-
          <customer_read>
-            <connection><use>core_read</use></connection>
+            <connection>
+               <use>core_read</use>
+            </connection>
          </customer_read>
       </resources>
    </global>
-
    <front>
       <layouts>
          <default>
@@ -113,60 +99,56 @@
             </updates>
          </default>
       </layouts>
-
       <events>
          <beforeRenderLayout>
             <observers>
                <auth>
                   <class>Mage_Customer_Front</class>
-
                   <method>beforeRenderLayout</method>
                </auth>
             </observers>
          </beforeRenderLayout>
       </events>
-      
       <routers>
          <customer>
             <class>Mage_Core_Controller_Front_Router</class>
             <args>
-                <module>Mage_Customer</module>
-                <frontName>customer</frontName>
+               <module>Mage_Customer</module>
+               <frontName>customer</frontName>
             </args>
          </customer>
       </routers>
-
       <translate>
-        <customer>customer/messages.csv</customer>
+         <customer>customer/messages.csv</customer>
       </translate>
    </front>
-   
    <admin>
-     <acl>
-        <resources>
-           <customers>
-              <manage />
-           </customers>
-        </resources>
-     </acl>
-
-     <layouts>
-        <default>
-           <updates>
-              <customer>
-                 <file>customer/initLayout.xml</file>
-              </customer>
-           </updates>
-        </default>
-     </layouts>
-      
-      <globalSearch>
-         <customers>
-            <class>Mage_Customer_Model_Admin_Search</class>
-         </customers>
-      </globalSearch>
+      <acl>
+         <resources>
+            <customers>
+               <manage />
+            </customers>
+         </resources>
+      </acl>
+      <layouts>
+         <default>
+            <updates>
+               <customer>
+                  <file>customer/initLayout.xml</file>
+               </customer>
+            </updates>
+         </default>
+      </layouts>
+      <search>
+         <global>
+            <collections>
+               <customers>
+                  <class>Mage_Customer_Model_Admin_Search</class>
+               </customers>
+            </collections>
+         </global>
+      </search>
    </admin>
-
    <domains>
       <base>
          <defaultCountry>223</defaultCountry>
@@ -175,4 +157,3 @@
       </base>
    </domains>
 </config>
-

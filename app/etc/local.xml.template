@@ -5,61 +5,58 @@
          <dev_setup>
             <connection>
                <model>mysql4</model>
-
                <type>mysqli_setup</type>
                <host>localhost</host>
                <username>root</username>
-               <password/>
+               <password />
                <dbname>magenta</dbname>
             </connection>
          </dev_setup>
-
          <dev_write>
             <connection extends="//dev_setup/connection">
                <type>pdo_mysql</type>
             </connection>
          </dev_write>
-
          <dev_read>
-            <connection><use>dev_write</use></connection>
+            <connection>
+               <use>dev_write</use>
+            </connection>
          </dev_read>
-
          <core_setup>
-            <connection><use>dev_setup</use></connection>
+            <connection>
+               <use>dev_setup</use>
+            </connection>
          </core_setup>
-
          <core_write>
-            <connection><use>dev_write</use></connection>
+            <connection>
+               <use>dev_write</use>
+            </connection>
          </core_write>
-
          <core_read>
-            <connection><use>dev_read</use></connection>
+            <connection>
+               <use>dev_read</use>
+            </connection>
          </core_read>
-       </resources>
-         
-       <websites>
-          <default>
+      </resources>
+      <websites>
+         <default>
             <code>base</code>
-          </default>
-          
-            <base>
-                <id>1</id>
-                <language>en</language>
-                <unsecure>
-                    <protocol>http</protocol>
-                    <host>{DOMAIN}</host>
-                    <port>{PORT}</port>
-		    <basePath>{URL}</basePath>
-                </unsecure>
-                <secure extends="//websites/base/unsecure">
-                    <protocol>https</protocol>
-                    <port>444</port>
-                </secure>
-                <group>default</group>
-            </base>
-            
-       </websites>
+         </default>
+         <base>
+            <id>1</id>
+            <language>en</language>
+            <unsecure>
+               <protocol>http</protocol>
+               <host>{DOMAIN}</host>
+               <port>{PORT}</port>
+               <basePath>{URL}</basePath>
+            </unsecure>
+            <secure extends="//websites/base/unsecure">
+               <protocol>https</protocol>
+               <port>444</port>
+            </secure>
+            <group>default</group>
+         </base>
+      </websites>
    </global>
-
 </config>
-

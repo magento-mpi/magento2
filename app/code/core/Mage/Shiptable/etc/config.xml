@@ -16,7 +16,7 @@
          <shiptable>
             <class>Mage_Shiptable_Model</class>
          </shiptable>
-         
+
          <shiptable_resource>
             <class>Mage_Shiptable_Model_Mysql4</class>
 
@@ -31,30 +31,39 @@
       <resources>
          <shiptable_setup>
             <setup>
-                <module>Mage_Shiptable</module>
+               <module>Mage_Shiptable</module>
             </setup>
-            <connection><use>core_setup</use></connection>
+            <connection>
+               <use>core_setup</use>
+            </connection>
          </shiptable_setup>
 
          <shiptable_write>
-            <connection><use>core_write</use></connection>
+            <connection>
+               <use>core_write</use>
+            </connection>
          </shiptable_write>
 
          <shiptable_read>
-            <connection><use>core_read</use></connection>
+            <connection>
+               <use>core_read</use>
+            </connection>
          </shiptable_read>
       </resources>
 
-      <salesShippingVendors>
-         <shiptable>
-            <active>true</active>
+      <sales>
+         <shipping>
+            <vendors>
+               <shiptable>
+                  <active>true</active>
 
-            <model>shiptable</model>
-            <class>table</class>
+                  <model>shiptable</model>
+                  <class>table</class>
 
-            <title>Table rate</title>
-         </shiptable>
-      </salesShippingVendors>
+                  <title>Table rate</title>
+               </shiptable>
+            </vendors>
+         </shipping>
+      </sales>
    </global>
 </config>
-

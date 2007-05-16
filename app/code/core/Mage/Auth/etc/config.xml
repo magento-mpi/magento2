@@ -7,11 +7,11 @@
             <Mage_Core />
          </depends>
 
-        <admin>
-           <controller>
-              <active>true</active>
-           </controller>
-        </admin>
+         <admin>
+            <controller>
+               <active>true</active>
+            </controller>
+         </admin>
       </Mage_Auth>
    </modules>
 
@@ -19,17 +19,23 @@
       <resources>
          <auth_setup>
             <setup>
-                <module>Mage_Auth</module>
+               <module>Mage_Auth</module>
             </setup>
-            <connection><use>core_setup</use></connection>
+            <connection>
+               <use>core_setup</use>
+            </connection>
          </auth_setup>
 
          <auth_write>
-            <connection><use>core_write</use></connection>
+            <connection>
+               <use>core_write</use>
+            </connection>
          </auth_write>
 
          <auth_read>
-            <connection><use>core_read</use></connection>
+            <connection>
+               <use>core_read</use>
+            </connection>
          </auth_read>
       </resources>
 
@@ -37,7 +43,7 @@
          <auth>
             <class>Mage_Auth_Model</class>
          </auth>
-         
+
          <auth_resource>
             <class>Mage_Auth_Model_Mysql4</class>
 
@@ -116,4 +122,3 @@
       </events>
    </admin>
 </config>
-

@@ -95,7 +95,7 @@ class Mage_Sales_Model_Mysql4_Document
         $documentId = $document->getId();
         $this->_deleteEntities($documentId);
         
-        $attributesConfig = Mage::getConfig()->getNode('global/salesAttributes/'.$document->getDocType());
+        $attributesConfig = Mage::getConfig()->getNode('global/sales/'.$document->getDocType().'/entities');
         
         $attributes = array();
 
@@ -107,7 +107,7 @@ class Mage_Sales_Model_Mysql4_Document
             if (empty($value)) {
                 continue;
             }
-            $attributeType = (string)$attributesConfig->descend("self/$key/type");
+            $attributeType = (string)$attributesConfig->descend("self/attributes/$key/type");
             if (empty($attributeType)) {
                 continue;
             }
@@ -127,7 +127,7 @@ class Mage_Sales_Model_Mysql4_Document
                     if (empty($value)) {
                         continue;
                     }
-                    $attributeType = (string)$attributesConfig->descend("$entityType/$key/type");
+                    $attributeType = (string)$attributesConfig->descend("$entityType/attributes/$key/type");
                     if (empty($attributeType)) {
                         continue;
                     }

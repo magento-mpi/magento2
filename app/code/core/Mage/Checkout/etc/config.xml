@@ -8,65 +8,67 @@
          </depends>
       </Mage_Checkout>
    </modules>
-
    <global>
-   
-      <blockTypes>
-         <checkout_onepage>
-            <class>Mage_Checkout_Block_Onepage</class>
-         </checkout_onepage>
-
-         <checkout_onepage_status>
-            <class>Mage_Checkout_Block_Onepage_Status</class>
-         </checkout_onepage_status>
-               
-         <checkout_onepage_review>
-            <class>Mage_Checkout_Block_Onepage_Review</class>
-         </checkout_onepage_review>
-         
-         <checkout_shipping_method>
-            <class>Mage_Checkout_Block_Shipping_Method</class>
-         </checkout_shipping_method>   
-      </blockTypes>
-
+      <block>
+         <types>
+            <checkout_onepage>
+               <class>Mage_Checkout_Block_Onepage</class>
+            </checkout_onepage>
+            <checkout_onepage_status>
+               <class>Mage_Checkout_Block_Onepage_Status</class>
+            </checkout_onepage_status>
+            <checkout_onepage_review>
+               <class>Mage_Checkout_Block_Onepage_Review</class>
+            </checkout_onepage_review>
+            <checkout_shipping_method>
+               <class>Mage_Checkout_Block_Shipping_Method</class>
+            </checkout_shipping_method>
+         </types>
+      </block>
       <models>
          <checkout>
             <class>Mage_Checkout_Model</class>
          </checkout>
       </models>
-
       <resources>
          <checkout_setup>
             <setup>
-                <module>Mage_Checkout</module>
+               <module>Mage_Checkout</module>
             </setup>
-            <connection><use>core_setup</use></connection>
+            <connection>
+               <use>core_setup</use>
+            </connection>
          </checkout_setup>
-
          <checkout_write>
-            <connection><use>core_write</use></connection>
+            <connection>
+               <use>core_write</use>
+            </connection>
          </checkout_write>
-
          <checkout_read>
-            <connection><use>core_read</use></connection>
+            <connection>
+               <use>core_read</use>
+            </connection>
          </checkout_read>
       </resources>
-      
-      <salesAttributes>
+      <sales>
          <quote>
-            <self>
-                <method><type>varchar</type></method>
-                <password_hash><type>varchar</type></password_hash>
-            </self>
-            <address>
-                <same_as_billing><type>int</type></same_as_billing>
-            </address>
+            <entities>
+               <self><attributes>
+                  <method>
+                     <type>varchar</type>
+                  </method>
+                  <password_hash>
+                     <type>varchar</type>
+                  </password_hash>
+               </attributes></self>
+               <address><attributes>
+                  <same_as_billing><type>int</type></same_as_billing>
+               </attributes></address>
+            </entities>
          </quote>
-      </salesAttributes>
+      </sales>
    </global>
-
    <front>
-
       <layouts>
          <default>
             <updates>
@@ -75,52 +77,44 @@
                </checkout>
             </updates>
          </default>
-         
          <checkout>
             <updates>
-                <checkout>
-                    <file>checkout/page.xml</file>
-                </checkout>
+               <checkout>
+                  <file>checkout/page.xml</file>
+               </checkout>
             </updates>
          </checkout>
       </layouts>
-
       <events>
          <customerLogin>
             <observers>
                <loadCustomerQuote>
                   <class>Mage_Checkout_Front</class>
-
                   <method>loadCustomerQuote</method>
                </loadCustomerQuote>
             </observers>
          </customerLogin>
-
          <customerLogout>
             <observers>
                <unsetAll>
                   <class>Mage_Checkout_Front</class>
-
                   <method>unsetAll</method>
                </unsetAll>
             </observers>
          </customerLogout>
       </events>
-      
       <urls>
          <cart_view>checkout/cart</cart_view>
          <checkout_start>checkout</checkout_start>
       </urls>
-      
       <routers>
          <checkout>
             <class>Mage_Core_Controller_Front_Router</class>
             <args>
-                <module>Mage_Checkout</module>
-                <frontName>checkout</frontName>
+               <module>Mage_Checkout</module>
+               <frontName>checkout</frontName>
             </args>
          </checkout>
       </routers>
    </front>
 </config>
-

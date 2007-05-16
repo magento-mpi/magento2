@@ -8,7 +8,7 @@
             <Mage_Catalog />
             <Mage_Sales />
          </depends>
-         
+
          <admin>
             <controller>
                <active>true</active>
@@ -19,26 +19,22 @@
 
    <global>
       <models>
-		<reports_config>
-			<class>Mage_Reports_Model_Config</class>
-		</reports_config>
-		<test_data>
-			<class>Mage_Reports_Model_Test</class>
-		</test_data>
+         <reports_config>
+            <class>Mage_Reports_Model_Config</class>
+         </reports_config>
+         <test_data>
+            <class>Mage_Reports_Model_Test</class>
+         </test_data>
       </models>
 
-      <resources>
-      </resources>
+      <resources> </resources>
    </global>
 
    <admin>
-     <acl>
-        <resources>
-        </resources>
-     </acl>
+      <acl>
+         <resources> </resources>
+      </acl>
 
-     <layouts>
-     </layouts>
+      <layouts> </layouts>
    </admin>
 </config>
-

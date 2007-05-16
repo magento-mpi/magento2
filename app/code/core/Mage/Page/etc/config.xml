@@ -19,17 +19,23 @@
       <resources>
          <page_setup>
             <setup>
-                <module>Mage_Page</module>
+               <module>Mage_Page</module>
             </setup>
-            <connection><use>core_setup</use></connection>
+            <connection>
+               <use>core_setup</use>
+            </connection>
          </page_setup>
 
          <page_write>
-            <connection><use>core_write</use></connection>
+            <connection>
+               <use>core_write</use>
+            </connection>
          </page_write>
 
          <page_read>
-            <connection><use>core_read</use></connection>
+            <connection>
+               <use>core_read</use>
+            </connection>
          </page_read>
       </resources>
    </global>
@@ -44,13 +50,13 @@
             </updates>
          </default>
       </layouts>
-      
+
       <routers>
          <page>
             <class>Mage_Core_Controller_Front_Router</class>
             <args>
-                <module>Mage_Page</module>
-                <frontName>page</frontName>
+               <module>Mage_Page</module>
+               <frontName>page</frontName>
             </args>
          </page>
       </routers>
@@ -66,4 +72,3 @@
       </acl>
    </admin>
 </config>
-

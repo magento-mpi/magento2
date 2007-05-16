@@ -14,24 +14,28 @@
    </modules>
 
    <global>
-      <resourceConnectionTypes>
-         <pdo_mysql>
-            <class>Mage_Core_Resource_Type_Db_Pdo_Mysql</class>
-         </pdo_mysql>
+      <resource>
+         <connection>
+            <types>
+               <pdo_mysql>
+                  <class>Mage_Core_Resource_Type_Db_Pdo_Mysql</class>
+               </pdo_mysql>
 
-         <mysqli>
-            <class>Mage_Core_Resource_Type_Db_Mysqli</class>
-         </mysqli>
-         
-         <mysqli_setup>
-            <class>Mage_Core_Resource_Type_Db_Mysqli_Setup</class>
-         </mysqli_setup>
-      </resourceConnectionTypes>
-      
+               <mysqli>
+                  <class>Mage_Core_Resource_Type_Db_Mysqli</class>
+               </mysqli>
+
+               <mysqli_setup>
+                  <class>Mage_Core_Resource_Type_Db_Mysqli_Setup</class>
+               </mysqli_setup>
+            </types>
+         </connection>
+      </resource>
+
       <resources>
          <core_setup>
             <setup>
-                <module>Mage_Core</module>
+               <module>Mage_Core</module>
             </setup>
          </core_setup>
       </resources>
@@ -40,7 +44,7 @@
          <core>
             <class>Mage_Core_Model</class>
          </core>
-         
+
          <core_resource>
             <class>Mage_Core_Model_Mysql4</class>
 
@@ -100,83 +104,85 @@
          </core_resource>
       </models>
 
-      <blockTypes>
-         <text>
-            <class>Mage_Core_Block_Text</class>
-         </text>
+      <block>
+         <types>
+            <text>
+               <class>Mage_Core_Block_Text</class>
+            </text>
 
-         <tag>
-            <class>Mage_Core_Block_Text_Tag</class>
-         </tag>
+            <tag>
+               <class>Mage_Core_Block_Text_Tag</class>
+            </tag>
 
-         <tag_css>
-            <class>Mage_Core_Block_Text_Tag_Css</class>
-         </tag_css>
+            <tag_css>
+               <class>Mage_Core_Block_Text_Tag_Css</class>
+            </tag_css>
 
-         <tag_js>
-            <class>Mage_Core_Block_Text_Tag_Js</class>
-         </tag_js>
+            <tag_js>
+               <class>Mage_Core_Block_Text_Tag_Js</class>
+            </tag_js>
 
-         <debug>
-            <class>Mage_Core_Block_Text_Tag_Debug</class>
-         </debug>
+            <debug>
+               <class>Mage_Core_Block_Text_Tag_Debug</class>
+            </debug>
 
-         <tpl>
-            <class>Mage_Core_Block_Template</class>
-         </tpl>
+            <tpl>
+               <class>Mage_Core_Block_Template</class>
+            </tpl>
 
-         <tpl_zend>
-            <class>Mage_Core_Block_Template_Zend</class>
-         </tpl_zend>
+            <tpl_zend>
+               <class>Mage_Core_Block_Template_Zend</class>
+            </tpl_zend>
 
-         <list>
-            <class>Mage_Core_Block_Text_List</class>
-         </list>
+            <list>
+               <class>Mage_Core_Block_Text_List</class>
+            </list>
 
-         <list_link>
-            <class>Mage_Core_Block_Text_List_Link</class>
-         </list_link>
+            <list_link>
+               <class>Mage_Core_Block_Text_List_Link</class>
+            </list_link>
 
-         <form>
-            <class>Mage_Core_Block_Form</class>
-         </form>
+            <form>
+               <class>Mage_Core_Block_Form</class>
+            </form>
 
-         <message>
-            <class>Mage_Core_Block_Message</class>
-         </message>
+            <message>
+               <class>Mage_Core_Block_Message</class>
+            </message>
 
-         <toolbar>
-            <class>Mage_Core_Block_Admin_Js_Toolbar</class>
-         </toolbar>
+            <toolbar>
+               <class>Mage_Core_Block_Admin_Js_Toolbar</class>
+            </toolbar>
 
-         <menu>
-            <class>Mage_Core_Block_Admin_Js_Menu</class>
-         </menu>
+            <menu>
+               <class>Mage_Core_Block_Admin_Js_Menu</class>
+            </menu>
 
-         <tag_css_theme>
-            <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
-         </tag_css_theme>
+            <tag_css_theme>
+               <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
+            </tag_css_theme>
 
-         <layout_border>
-            <class>Mage_Core_Block_Admin_Js_Layout_Border</class>
-         </layout_border>
+            <layout_border>
+               <class>Mage_Core_Block_Admin_Js_Layout_Border</class>
+            </layout_border>
 
-         <layout_panel>
-            <class>Mage_Core_Block_Admin_Js_Layout_Panel</class>
-         </layout_panel>
+            <layout_panel>
+               <class>Mage_Core_Block_Admin_Js_Layout_Panel</class>
+            </layout_panel>
 
-         <layout_panel_grid>
-            <class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class>
-         </layout_panel_grid>
+            <layout_panel_grid>
+               <class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class>
+            </layout_panel_grid>
 
-         <layout_panel_nested>
-            <class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class>
-         </layout_panel_nested>
+            <layout_panel_nested>
+               <class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class>
+            </layout_panel_nested>
 
-         <tree>
-            <class>Mage_Core_Block_Admin_Js_Tree</class>
-         </tree>
-      </blockTypes>
+            <tree>
+               <class>Mage_Core_Block_Admin_Js_Tree</class>
+            </tree>
+         </types>
+      </block>
    </global>
 
    <admin>
@@ -200,9 +206,7 @@
          </default>
       </layouts>
 
-      <translate>
-        
-      </translate>
+      <translate> </translate>
    </admin>
 
    <front>
@@ -215,10 +219,7 @@
             </updates>
          </noRoute>
       </layouts>
-      
-      <translate>
-        
-      </translate>
+
+      <translate> </translate>
    </front>
 </config>
-

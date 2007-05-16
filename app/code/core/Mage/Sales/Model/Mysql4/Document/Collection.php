@@ -19,7 +19,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     public function setDocType($docType)
     {
         $this->_docType = $docType;
-        $this->_attributeTypes = Mage::getConfig()->getNode('global/salesAttributes/'.$docType);
+        $this->_attributeTypes = Mage::getConfig()->getNode('global/sales/'.$docType.'/entities');
         $this->_documentTable = Mage::registry('resources')->getTableName('sales_resource', $docType);
         $this->_idField = $docType.'_id';
         $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');
@@ -181,7 +181,8 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         
     protected function _getAttributeType($entityAttribute)
     {
-        return (string)$this->_attributeTypes->descend("$entityAttribute/type");
+        list($entity, $attribute) = explode('/', $entityAttribute);
+        return (string)$this->_attributeTypes->descend("$entity/attributes/$attribute/type");
     }
     
     /**

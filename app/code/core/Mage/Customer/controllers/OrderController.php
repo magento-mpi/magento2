@@ -49,7 +49,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         $payment = $order->getPayment();
         
         if ($payment) {
-            $paymentMethodConfig = Mage::getConfig()->getNode('global/salesPaymentMethods/'.$payment->getMethod());
+            $paymentMethodConfig = Mage::getConfig()->getNode('global/sales/payment/methods/'.$payment->getMethod());
             if (!empty($paymentMethodConfig)) {
                 $className = $paymentMethodConfig->getClassName();
                 $paymentMethod = new $className();

@@ -32,7 +32,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function __construct($data=array())
     {
         parent::__construct($data);
-        $this->_blockTypes = Mage::getConfig()->getNode("global/blockTypes");
+        $this->_blockTypes = Mage::getConfig()->getNode("global/block/types");
         $this->_elementClass = Mage::getConfig()->getModelClassName('core', 'layout_element');
     }
     

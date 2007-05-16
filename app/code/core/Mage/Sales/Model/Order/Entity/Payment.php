@@ -10,7 +10,7 @@ class Mage_Sales_Model_Order_Entity_Payment extends Mage_Customer_Model_Payment
     
     public function onOrderValidate()
     {
-        $modelConfig = Mage::getConfig()->getNode('global/salesPaymentMethods/'.$this->getMethod());
+        $modelConfig = Mage::getConfig()->getNode('global/sales/payment/methods/'.$this->getMethod());
         if (!$modelConfig) {
             return $this;
         }

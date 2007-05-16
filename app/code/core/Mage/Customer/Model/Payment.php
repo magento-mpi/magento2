@@ -49,7 +49,7 @@ class Mage_Customer_Model_Payment extends Varien_Object
         if (!$this->getMethod()) {
             return false;
         }
-        $status = (string)Mage::getConfig()->getNode('global/salesPaymentMethods/'.$this->getMethod().'/orderStatus');
+        $status = (string)Mage::getConfig()->getNode('global/sales/payment/methods/'.$this->getMethod().'/orderStatus');
         return $status;
     }
 }

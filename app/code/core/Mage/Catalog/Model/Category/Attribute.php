@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
             $saverName = 'default';
         }
         
-        if ($config = Mage::getConfig()->getNode('global/category_attributes/savers/'.$saverName)) {
+        if ($config = Mage::getConfig()->getNode('global/catalog/category/attribute/savers/'.$saverName)) {
             $module = (string) $config->module;
             $model  = (string) $config->model;
             $model = Mage::getModel($module, $model)->setAttribute($this);

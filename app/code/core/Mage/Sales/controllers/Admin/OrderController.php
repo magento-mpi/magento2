@@ -21,7 +21,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Admin_Action
                 );
             } 
         } else {
-            $statuses = Mage::getConfig()->getNode('sales/order/statuses');
+            $statuses = Mage::getConfig()->getNode('global/sales/order/statuses');
             foreach ($statuses->children() as $status) {
                 $data[] = array(
                     'id' => $parent.'/'.$status->getName(),

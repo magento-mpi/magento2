@@ -4,7 +4,7 @@
       <Mage_Usa>
          <version>0.1.2</version>
          <depends>
-         	<Mage_Sales/>
+            <Mage_Sales />
          </depends>
       </Mage_Usa>
    </modules>
@@ -13,65 +13,72 @@
       <resources>
          <usa_setup>
             <setup>
-                <module>Mage_Usa</module>
+               <module>Mage_Usa</module>
             </setup>
-            <connection><use>directory_setup</use></connection>
+            <connection>
+               <use>directory_setup</use>
+            </connection>
          </usa_setup>
       </resources>
-      
+
       <models>
          <usa>
             <class>Mage_Usa_Model_Mysql4</class>
          </usa>
       </models>
 
-      <salesShippingVendors>
-         <ups>
-           <active>true</active>
+      <sales>
+         <shipping>
+            <vendors>
+               <ups>
+                  <active>true</active>
 
-           <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
+                  <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
 
 
-           <title>United Parcel Service</title>
+                  <title>United Parcel Service</title>
 
-           <pickup>CC</pickup>
+                  <pickup>CC</pickup>
 
-           <container>CP</container>
+                  <container>CP</container>
 
-           <destType>RES</destType>
+                  <destType>RES</destType>
 
-           <handling>0</handling>
+                  <handling>0</handling>
 
-           <cgi>
-              <protocol>http</protocol>
+                  <cgi>
+                     <protocol>http</protocol>
 
-              <host>www.ups.com</host>
+                     <host>www.ups.com</host>
 
-              <port>80</port>
+                     <port>80</port>
 
-              <url>/using/services/rave/qcostcgi.cgi</url>
-           </cgi>
+                     <url>/using/services/rave/qcostcgi.cgi</url>
+                  </cgi>
 
-         </ups>
+               </ups>
 
-         <usps>
-            <class>Mage_Usa_Model_Shipping_Vendor_Usps</class>
-         </usps>
+               <usps>
+                  <class>Mage_Usa_Model_Shipping_Vendor_Usps</class>
+               </usps>
 
-         <fedex>
-            <class>Mage_Usa_Model_Shipping_Vendor_Fedex</class>
-         </fedex>
+               <fedex>
+                  <class>Mage_Usa_Model_Shipping_Vendor_Fedex</class>
+               </fedex>
 
-         <dhl>
-            <class>Mage_Usa_Model_Shipping_Vendor_Dhl</class>
-         </dhl>
-      </salesShippingVendors>
+               <dhl>
+                  <class>Mage_Usa_Model_Shipping_Vendor_Dhl</class>
+               </dhl>
+            </vendors>
+         </shipping>
 
-      <salesTax>
-         <uszipcode>
-            <class>Mage_Usa_Model_Tax_Uszipcode</class>
-         </uszipcode>
-      </salesTax>
+         <tax>
+            <methods>
+               <uszipcode>
+                  <class>Mage_Usa_Model_Tax_Uszipcode</class>
+               </uszipcode>
+            </methods>
+         </tax>
+      </sales>
    </global>
 </config>
-
