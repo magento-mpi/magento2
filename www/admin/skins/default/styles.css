@@ -128,3 +128,7 @@
 .x-productimages-view .x-view-selected .thumb{
 	background:transparent;
 }
+
+.m-view-overdrop {
+	border: 2px solid #6593cf;
+}

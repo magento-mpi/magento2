@@ -53,14 +53,16 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
                 '</div>');
                 
         this.view = new Ext.View(viewContainer, viewTpl,{
-            singleSelect: false,
+            singleSelect: true,
             store: store,
             emptyText : 'Categories not set'
         });
         
         dd = new Ext.dd.DragDrop(this.view.getEl(), "TreeDD");
 
-        this.dropzone = new Ext.dd.DropTarget(this.view.getEl(), {});
+        this.dropzone = new Ext.dd.DropTarget(this.view.getEl(), {
+            overClass : 'm-view-overdrop'
+        });
         this.dropzone.notifyDrop = function(dd, e, data){
             this.view.store.add(new this.dataRecord({
                 id : data.node.id,
