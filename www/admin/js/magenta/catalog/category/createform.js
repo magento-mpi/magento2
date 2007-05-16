@@ -8,6 +8,7 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
      el : false,
      formUrl : Mage.url + 'mage_catalog/category/form/',
      conn : null,
+     panel : null,
     
      init : function() {
         this.conn = new Ext.data.Connection();
@@ -34,7 +35,7 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
                 }
             });
             this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
-//            this.dialog.setDefaultButton(this.dialog.addButton("Save", saveFrom));            
+            this.dialog.setDefaultButton(this.dialog.addButton("Save", this.onSave, this));
             this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
         }
         
@@ -44,7 +45,11 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
             url : this.formUrl,
             method : 'POST',
             params : {catId : this.catId}
-        })
+        });
+    },
+    
+    onSave : function() {
+        
     },
     
     connRequestComplete : function(transId, response, options) {

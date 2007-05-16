@@ -54,7 +54,6 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     _buildForm : function() {
         var i;
-
         this.frm = new Mage.form.JsonForm({
             method : this.form.config.method,
             name : this.form.config.name,
