@@ -218,27 +218,27 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                     
                 case 'template':
                     if (Mage::registry('website')->getIsAdmin()) {
-                        $dir .= DS.'admin';
+                        $dir .= DS.'view'.DS.'admin';
                     } else {
-                        $dir .= DS.'front';
+                        $dir .= DS.'view'.DS.'front';
                     }
                     $dir .= DS.'template';
                     break;
                     
                 case 'layout':
                     if (Mage::registry('website')->getIsAdmin()) {
-                        $dir .= DS.'admin';
+                        $dir .= DS.'view'.DS.'admin';
                     } else {
-                        $dir .= DS.'front';
+                        $dir .= DS.'view'.DS.'front';
                     }
                     $dir .= DS.'layout';
                     break;
                     
                 case 'translate':
                     if (Mage::registry('website')->getIsAdmin()) {
-                        $dir .= DS.'admin';
+                        $dir .= DS.'view'.DS.'admin';
                     } else {
-                        $dir .= DS.'front';
+                        $dir .= DS.'view'.DS.'front';
                     }
                     $dir .= DS.'translate';
                     break;
