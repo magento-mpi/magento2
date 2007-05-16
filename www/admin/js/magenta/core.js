@@ -97,7 +97,8 @@ Mage.Admin = function(){
             
             _layout.beginUpdate();
             _layout.add('north', new Ext.ContentPanel('north', {"title":"Top Panel","autoCreate":true}));
-            _layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, '<embed width="100%" height="100%" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" name="reports" bgcolor="#869ca7" quality="high" flashvars="configUrl='+Mage.url+'mage_reports/flex/config/&cssUrl='+Mage.url+'skins/default/flex.swf" id="reports" wmode="opaque" src="'+Mage.url+'flex/reports.swf"/>'));
+//            _layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, '<embed width="100%" height="100%" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" name="reports" bgcolor="#869ca7" quality="high" flashvars="configUrl='+Mage.url+'mage_reports/flex/config/&cssUrl='+Mage.url+'skins/default/flex.swf" id="reports" wmode="opaque" src="'+Mage.url+'flex/reports.swf"/>'));
+            _layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, 'Dash board will be there !!!'));
             _layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             _layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             this._initToolbar();

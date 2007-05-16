@@ -2,9 +2,13 @@ Mage.core.PanelForm = function(region, config) {
     this.region = region;
     this.config = config;
     Ext.apply(this, config);
+    var background = false;
+    if (config && config.background == true) {
+        background = true;
+    }
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
-        background : config.background || true,
+        background : background,
        	autoScroll : true,
        	fitToFrame : true,
         title : this.title || 'Title'
