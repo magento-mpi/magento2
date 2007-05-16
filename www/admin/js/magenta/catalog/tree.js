@@ -134,7 +134,7 @@ Mage.Catalog_Category_Tree = function(){
 
         onAddCategory : function(btn, event) {
             var sm = this.tree.getSelectionModel();
-            this.categoryForm.show();
+            this.categoryForm.show({catId : sm.getSelectedNode().id, isNew : true});
         },
 
         onEditCategory : function(btn, event) {
