@@ -6,12 +6,28 @@
  * @subpackage Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
  */
 class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
 {
+    /**
+     * Data inputs configuration
+     *
+     * @var Mage_Core_Config_Element
+     */
     protected $_dataInputs;
-    protected $_dataSources;
     
+    /**
+     * Data sources configuration
+     *
+     * @var Mage_Core_Config_Element
+     */
+    protected $_dataSources;
+
+    /**
+     * Constructor
+     *
+     */
     public function __construct() 
     {
         parent::__construct();
@@ -56,6 +72,12 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         }
     }
     
+    /**
+     * Convert attribute object to field description
+     *
+     * @param Mage_Catalog_Model_Product_Attribute $attribute
+     * @return Mage_Catalog_Block_Admin_Product_Form
+     */
     public function attribute2field($attribute)
     {
         $elementId      = $attribute->getCode();
@@ -90,5 +112,7 @@ class Mage_Catalog_Block_Admin_Product_Form extends Mage_Core_Block_Form
         }
                 
         $this->addField($elementId, $elementType, $elementConfig);
+        
+        return $this;
     }
 }

@@ -6,9 +6,16 @@
  * @subpackage Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
  */
 class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 {
+    /**
+     * Get json string describing admin product card panel
+     *
+     * @param array $arrAttributes
+     * @return string
+     */
     public function toJson(array $arrAttributes = array())
     {
         $productId      = (int) Mage::registry('controller')->getRequest()->getParam('product', false);

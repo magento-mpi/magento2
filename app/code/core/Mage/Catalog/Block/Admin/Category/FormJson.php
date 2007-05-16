@@ -6,9 +6,14 @@
  * @subpackage Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
  */
 class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
 {
+    /**
+     * Constructor
+     *
+     */
     public function __construct() 
     {
         parent::__construct();
