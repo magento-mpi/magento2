@@ -79,7 +79,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
                 '<span>some text</span>' +
                 '</div>');
         this.imagesView = new Ext.View(viewContainer, viewTpl,{
-            singleSelect: true,
+            singleSelect: false,
             store: store,
             emptyText : 'Images not found'
         });
