@@ -35,6 +35,9 @@ final class Mage {
      */
     public static function register($key, $value)
     {
+        if(isset(self::$_registry[$key])){
+            throw new Exception('Mage registry key "'.$key.'" already exists');
+        }
         self::$_registry[$key] = $value;
     }
     
@@ -249,7 +252,7 @@ final class Mage {
      * Initialize Mage
      *
      * @param string $appRoot
-     */
+      */
     public static function init($appRoot='')
     {
         Varien_Profiler::setTimer('init');

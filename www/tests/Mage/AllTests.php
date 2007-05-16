@@ -20,7 +20,8 @@ class Mage_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage tests');
-        $suite->addTest(Mage_Catalog_AllTests::suite());
+        $suite->addTest(Mage_Core_AllTests::suite());
+        //$suite->addTest(Mage_Catalog_AllTests::suite());
         return $suite;
     }
 }

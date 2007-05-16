@@ -312,9 +312,14 @@ echo "TEST:".$i;
             }
             $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         }
+        elseif (isset($this->_blocks[$name])) {
+            throw new Exception('Block with name "'.$name.'" already exists');
+        }
         
-        $block->setType($type)->setName($name)->setLayout($this);
-        $block->addData($attributes);
+        $block->setType($type)
+            ->setName($name)
+            ->setLayout($this)
+            ->addData($attributes);
         
         $this->_blocks[$name] = $block;
         
