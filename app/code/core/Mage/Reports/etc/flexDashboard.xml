@@ -2,55 +2,97 @@
 <dashboards>
 	<view name="Users statistics" default="true" requiresDate="true">
 		<box direction="horizontal" resizeable="true">
-			<chartpanel id="chart1" title="Users from countries {dateStart.fullYear}" width="40%" minWidth="300" height="100%"  visibility="visible" relation="default">
-				<dataSource url="mage_reports/flex/countries" method="POST" showBusyCursor="true" >
-					<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
-					<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
-				</dataSource>
+			<box direction="horizontal">
+				<chartpanel id="chart1" title="Users from countries {dateStart.fullYear}" width="100%" minWidth="300" height="100%"  visibility="visible" relation="default">
+					<dataSource url="mage_reports/flex/countries" method="POST" showBusyCursor="true" >
+						<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
+						<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
+					</dataSource>
+					
+					<chart type="pie" showLegend="true">
+						<series nameField="countryName" valueField="value" labelTemplate="{value} users" effect="interpolate"/>
+						<dataTip>
+						<![CDATA[ Country: {countryName}<br> Users:{value}	]]>
+						</dataTip>
+					</chart>
+					<grid>
+						<column label="Country" width="300" field="countryName"/>
+						<column label="Users" width="400" field="value"/>
+					</grid>
+					<export url="/magenta/charts/export" filename="countries-for-users.xsl">
+						<fromDataSource />
+						<parameter name="type">countries</parameter>
+					</export>
+				</chartpanel>
 				
-				<chart type="pie" showLegend="true">
-					<series nameField="countryName" valueField="value" labelTemplate="{value} users"/>
-					<dataTip>
-					<![CDATA[ Country: {countryName}<br> Users:{value}	]]>
-					</dataTip>
-				</chart>
-				<grid>
-					<column label="Country" width="300" field="countryName"/>
-					<column label="Users" width="400" field="value"/>
-				</grid>
-				<export url="/magenta/charts/export" filename="countries-for-users.xsl">
-					<fromDataSource />
-					<parameter name="type">countries</parameter>
-				</export>
-			</chartpanel>
-			<chartpanel id="chart2" title="Users from country {countryName}" width="60%" minWidth="400" height="100%" visibility="relation" relation="chart1">
-				<dataSource url="mage_reports/flex/cities" method="POST" showBusyCursor="true" >
-					<parameter name="country">{id}</parameter>
-					<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
-					<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>
-				</dataSource>
-				<!-- Will be able to transform specific data in Flex types.
-				for expample
-				<transformInformation>
-					<field name="date" type="Date" format="YYYY-MM-DD" />
-				</transformInformation>
-				-->
-				<chart type="pie" showLegend="true">
-					<series nameField="name" valueField="users" labelTemplate="{users} users"/>
-					<dataTip>
-					<![CDATA[ City: {name}<br> Users:{users} <br> New users:{new_users} ]]>
-					</dataTip>
-				</chart>
-				<grid>
-					<column label="City" field="name" labelTemplate="City: {name}"/>
-					<column label="Users" field="users"/>
-					<column label="New users" field="new_users" />
-				</grid>
-				<export url="/magenta/charts/export" filename="countries-cities-for-users.xls">
-					<fromDataSource />
-					<parameter name="type">users</parameter>
-				</export>
-			</chartpanel>
+				
+			</box>
+			<box direction="vertical">
+				<chartpanel id="chart3" title="Users from country {countryName} (Linear)" width="100%" minWidth="400" height="100%" visibility="relation" relation="chart1">
+					<dataSource url="mage_reports/flex/cities" method="POST" showBusyCursor="true" >
+						<parameter name="country">{id}</parameter>
+						<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
+						<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>
+					</dataSource>
+					<!-- Will be able to transform specific data in Flex types.
+					for expample
+					<transformInformation>
+						<field name="date" type="Date" format="YYYY-MM-DD" />
+					</transformInformation>
+					-->
+					<chart type="basechart" showLegend="true">
+						<horizontalAxis type="text" field="name" label="Cities" />
+						<verticalAxis type="liniar" maximum="{value}" label="Users" labelTemplate="{users} " />
+						<series type="line" form="curve" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
+						<series type="line" yField="new_users" xField="name" displayName="New Users" effect="interpolate" />
+						<dataTip>
+						<![CDATA[ City: {name}<br> Users: {users} <br> New users: {new_users} ]]>
+						</dataTip>
+					</chart>
+					
+					<grid>
+						<column label="City" field="name" labelTemplate="City: {name}"/>
+						<column label="Users" field="users"/>
+						<column label="New users" field="new_users" />
+					</grid>
+					<export url="/magenta/charts/export" filename="countries-cities-for-users.xls">
+						<fromDataSource />
+						<parameter name="type">users</parameter>
+					</export>
+				</chartpanel>
+				<chartpanel id="chart2" title="Users from country {countryName}" width="100%" minWidth="400" height="100%" visibility="relation" relation="chart1">
+					<dataSource url="mage_reports/flex/cities" method="POST" showBusyCursor="true" >
+						<parameter name="country">{id}</parameter>
+						<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
+						<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>
+					</dataSource>
+					<!-- Will be able to transform specific data in Flex types.
+					for expample
+					<transformInformation>
+						<field name="date" type="Date" format="YYYY-MM-DD" />
+					</transformInformation>
+					-->
+					<chart type="basechart" showLegend="true">
+						<horizontalAxis type="text" field="name" label="Cities" />
+						<verticalAxis type="liniar" maximum="{value}" label="Users" />
+						<series type="column" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
+						<series type="column" yField="new_users" xField="name" displayName="New Users" effect="interpolate" />
+						<dataTip>
+						<![CDATA[ City: {name}<br> Users: {users} <br> New users: {new_users} ]]>
+						</dataTip>
+					</chart>
+					
+					<grid>
+						<column label="City" field="name" labelTemplate="City: {name}"/>
+						<column label="Users" field="users"/>
+						<column label="New users" field="new_users" />
+					</grid>
+					<export url="/magenta/charts/export" filename="countries-cities-for-users.xls">
+						<fromDataSource />
+						<parameter name="type">users</parameter>
+					</export>
+				</chartpanel>
+			</box>
 		</box>
 	</view>
 	<view name="Test view" default="false">

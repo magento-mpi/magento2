@@ -3,26 +3,21 @@
 	<row>
 		<id>1</id>
 		<countryName>United States</countryName>
-		<value>9000000</value>
+		<value>900000</value>
 	</row>
 	<row>
 		<id>2</id>
 		<countryName>Canada</countryName>
-		<value>5000000</value>
+		<value>500000</value>
 	</row>
 	<row>
 		<id>3</id>
 		<countryName>Mexico</countryName>
-		<value>300000</value>
+		<value>30000</value>
 	</row>
 	<row>
 		<id>4</id>
 		<countryName>Great Britain</countryName>
-		<value>300000</value>
-	</row>
-	<row>
-		<id />
-		<countryName>Other Countries</countryName>
-		<value>56</value>
+		<value>30000</value>
 	</row>
 </dataSource>
