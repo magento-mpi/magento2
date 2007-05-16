@@ -1,8 +1,25 @@
 <?php
 
+/**
+ * Configuration for Auth model
+ * 
+ * @package     Mage
+ * @subpackage  Auth
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Auth_Model_Config
 {
-    public function loadAclResources(Zend_Acl $acl, $resource=null, $parentName=null)
+    /**
+     * Load Acl resources from config
+     *
+     * @param Mage_Auth_Model_Acl $acl
+     * @param Mage_Core_Config_Element $resource
+     * @param string $parentName
+     * @return Mage_Auth_Model_Config
+     */
+    public function loadAclResources(Mage_Auth_Model_Acl $acl, $resource=null, $parentName=null)
     {
         if (is_null($resource)) {
             $resource = Mage::getConfig()->getNode("admin/acl/resources");
@@ -14,14 +31,22 @@ class Mage_Auth_Model_Config
         $children = $resource->children();
         
         if (empty($children)) {
-            return;
+            return $this;
         }
         
         foreach ($children as $res) {
             self::loadAclResources($acl, $res, $resourceName);
         }
+        
+        return $this;
     }
     
+    /**
+     * Get acl assert config
+     *
+     * @param string $name
+     * @return Mage_Core_Config_Element|boolean
+     */
     public function getAclAssert($name='')
     {
         $asserts = Mage::getConfig()->getNode("admin/acl/asserts");
@@ -36,6 +61,12 @@ class Mage_Auth_Model_Config
         return false;
     }
     
+    /**
+     * Retrieve privilege set by name
+     *
+     * @param string $name
+     * @return Mage_Core_Config_Element|boolean
+     */
     public function getAclPrivilegeSet($name='')
     {
         $sets = Mage::getConfig()->getNode("admin/acl/privilegeSets");

@@ -3,7 +3,7 @@
 /**
  * Abstract form element
  *
- * @package    Varien
+ * @package    Mage
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */

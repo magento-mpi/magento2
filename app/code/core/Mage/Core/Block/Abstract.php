@@ -12,7 +12,6 @@
  * @version    1.0 
  * @author     Moshe Gurvich <moshe@varien.com>
  * @author     Soroka Dmitriy <dmitriy@varien.com>
- * @date       Wed Feb 07 03:59:31 EET 2007
  */
 
 abstract class Mage_Core_Block_Abstract extends Varien_Object

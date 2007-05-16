@@ -1,48 +1,104 @@
 <?php
 
+/**
+ * Resource model for admin ACL
+ * 
+ * @package     Mage
+ * @subpackage  Auth
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Auth_Model_Mysql4_Acl
 {
+    /**
+     * All the group roles are prepended by G
+     *
+     */
     const ROLE_TYPE_GROUP = 'G';
+    
+    /**
+     * All the user roles are prepended by U
+     *
+     */
     const ROLE_TYPE_USER = 'U';
     
+    /**
+     * Permission level to deny access
+     *
+     */
     const RULE_PERM_DENY = 0;
+    
+    /**
+     * Permission level to inheric access from parent role
+     *
+     */
     const RULE_PERM_INHERIT = 1;
+    
+    /**
+     * Permission level to allow access
+     *
+     */
     const RULE_PERM_ALLOW = 2;
 
-    protected static $_read = null;
-    protected static $_write = null;
-    protected static $_userTable = null;
+    /**
+     * Read resource connection
+     *
+     * @var mixed
+     */
+    protected $_read;
     
+    /**
+     * Write resource connection
+     *
+     * @var mixed
+     */
+    protected $_write;
+    
+    /**
+     * Initialize resource connections
+     *
+     */
     function __construct()
     {
-        self::$_read = Mage::registry('resources')->getConnection('auth_read');
-        self::$_write = Mage::registry('resources')->getConnection('auth_write');
+        $this->_read = Mage::registry('resources')->getConnection('auth_read');
+        $this->_write = Mage::registry('resources')->getConnection('auth_write');
     }
 
+    /**
+     * Load ACL for the user
+     *
+     * @param integer $userId
+     * @return Mage_Auth_Model_Acl
+     */
     function loadUserAcl($userId)
     {
-        $acl = new Zend_Acl();
+        $acl = Mage::getModel('auth', 'acl');
         
         Mage::getSingleton('auth', 'config')->loadAclResources($acl);
-#echo "<pre>"; print_r($acl); echo "</pre><hr>";
 
         $roleTable = Mage::registry('resources')->getTableName('auth_resource', 'role');
-        $rolesSelect = self::$_read->select()->from($roleTable)->order(array('tree_level'));
-        $rolesArr = self::$_read->fetchAll($rolesSelect);
+        $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
+        $rolesArr = $this->_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
-#echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
         $ruleTable = Mage::registry('resources')->getTableName('auth_resource', 'rule');
         $assertTable = Mage::registry('resources')->getTableName('auth_resource', 'assert');
-        $rulesSelect = self::$_read->select()->from($ruleTable)
+        $rulesSelect = $this->_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
-        $rulesArr = self::$_read->fetchAll($rulesSelect);        
+        $rulesArr = $this->_read->fetchAll($rulesSelect);        
         $this->loadRules($acl, $rulesArr);
-#echo "<pre>"; print_r($acl); echo "</pre><hr>";
         
         return $acl;
     }
     
+    /**
+     * Load roles
+     *
+     * @param Zend_Acl $acl
+     * @param array $rolesArr
+     * @return Mage_Auth_Model_Mysql4_Acl
+     */
     function loadRoles(Zend_Acl $acl, array $rolesArr)
     {
         foreach ($rolesArr as $role) {
@@ -64,8 +120,17 @@ class Mage_Auth_Model_Mysql4_Acl
                     break;
             }
         }
+        
+        return $this;
     }
     
+    /**
+     * Load rules
+     *
+     * @param Zend_Acl $acl
+     * @param array $rulesArr
+     * @return Mage_Auth_Model_Mysql4_Acl
+     */
     function loadRules(Zend_Acl $acl, array $rulesArr)
     {
         foreach ($rulesArr as $rule) {
@@ -87,8 +152,8 @@ class Mage_Auth_Model_Mysql4_Acl
                     $acl->deny($role, $resource, $privileges, $assert);
                     break;
             }
-            
         }
+        return $this;
     }
 
 }

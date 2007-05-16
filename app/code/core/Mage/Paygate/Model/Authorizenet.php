@@ -39,7 +39,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     public function createFormBlock($name)
     {
         $hidden = array(
-            'anet_trans_method'=>'CC',
+            'anet_trans_method'=>self::REQUEST_METHOD_CC,
         );
         
         $block = $this->getLayout()->createBlock('payment_cc_form', $name)
