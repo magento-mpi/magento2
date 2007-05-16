@@ -9,7 +9,7 @@
  */
 class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
 {
-    public function toJson($arrAttributes = array())
+    public function toJson(array $arrAttributes = array())
     {
         $productId      = (int) Mage::registry('controller')->getRequest()->getParam('product', false);
         if ($productId<0) {

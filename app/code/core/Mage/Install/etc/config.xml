@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Install>
+         <version>0.1.1</version>
+         <depends>
+            <Mage_Core />
+         </depends>
+      </Mage_Install>
+   </modules>
+
+   <global>
+      <models>
+         <install>
+            <class>Mage_Install_Model</class>
+         </install>
+
+         <install_resource>
+            <class>Mage_Install_Model_Mysql4</class>
+         </install_resource>
+      </models>
+
+      <resources>
+         <install_write>
+            <connection><use>core_write</use></connection>
+         </install_write>
+
+         <install_read>
+            <connection><use>core_read</use></connection>
+         </install_read>
+      </resources>
+   </global>
+
+   <front>
+      <layouts>
+         <install_wizard>
+            <updates>
+               <install>
+                  <file>install/initLayout.xml</file>
+               </install>
+            </updates>
+         </install_wizard>
+      </layouts>
+
+      <routers>
+         <install>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+                <module>Mage_Install</module>
+                <frontName>install</frontName>
+            </args>
+         </install>
+      </routers>
+   </front>
+</config>

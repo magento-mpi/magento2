@@ -78,6 +78,12 @@
 
          <codePool>core</codePool>
       </Mage_Reports>
+
+      <Mage_Install>
+         <active>true</active>
+
+         <codePool>core</codePool>
+      </Mage_Install>
    </modules>
 </config>
 
