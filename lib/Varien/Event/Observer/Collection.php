@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Event observer collectio
+ * Event observer collection
  * 
  * @copyright   2007 Varien Inc.
  * @license     http://www.opensource.org/licenses/osl-3.0.php
