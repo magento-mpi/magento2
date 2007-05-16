@@ -2,6 +2,7 @@ Mage.Core_Media = function(){
     var mediaDialog = null;
     return {
         init: function(){
+            console.log('test');
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
                 text: 'Media',

@@ -41,7 +41,7 @@ Mage.Menu_Core = function(){
             }));
             
             
-            var menu = new Ext.menu.Menu({
+            menu = new Ext.menu.Menu({
                 id: 'mainSystemMenu',
                 items: [
                     new Ext.menu.Item({
@@ -137,3 +137,4 @@ Mage.Menu_Core = function(){
 }();
 Ext.EventManager.onDocumentReady(Mage.Menu_Core.initRight, Mage.Menu_Core, true);
 Mage.Menu_Core.init();
+
