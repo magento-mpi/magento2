@@ -1,157 +1,35 @@
 <?php
 
-/**
- * Event object and dispatcher
- * 
- * $event = new Varien_Event('event_key');
- * $event->addObserver
- * 
- * @author Moshe Gurvich <moshe@varien.com>
- */
-class Varien_Event
+class Varien_Event extends Varien_Object
 {
-
-    /**
-     * Collection of events objects
-     *
-     * @var array
-     */
-    private $_events = array();
-
-    /**
-     * Collection of observers to watch for multiple events by regex
-     *
-     * @var unknown_type
-     */
-    private $_multiObservers = array();
+    protected $_observers;
     
-    private $_stopDispatchFlag = false;
-
-    /**
-     * Retrieve event object
-     *
-     * @param string $name
-     * @return Mage_Core_Event
-     */
-    public function getEvent($name='')
+    public function __construct(array $data=array())
     {
-        if (''===$name) {
-            return $this->_events;
-        } else {
-            $name = strtolower($name);
-    
-            if (isset($this->_events[$name])) {
-                return $this->_events[$name];
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Add event object
-     *
-     * @param unknown_type $name
-     */
-    public function addEvent($name)
-    {
-        $name = strtolower($name);
-
-        if (!self::getEvent($name)) {
-            #$this->_events[$name] = new Mage_Core_Event_Dispatcher(array('name'=>$name));
-            $this->_events[$name] = array();
-        }
-    }
-
-    /**
-     * Add observer to even object
-     *
-     * @param string $eventName
-     * @param callback $callback
-     * @param array $arguments
-     * @param string $observerName
-     */
-    public function addObserver($eventName, $callback, $arguments=array(), $observerName='')
-    {
-        $eventName = strtolower($eventName);
-        
-        if (!self::getEvent($eventName)) {
-            self::addEvent($eventName);
-        }
-        
-        #$observer = new Mage_Core_Event_Observer($callback, $arguments);
-        $observer = array($callback, $arguments);
-        
-        #self::getEvent($eventName)->addObserver($observer, $observerName);
-        if (''===$observerName) {
-            $this->_events[$eventName][] = $observer;
-        } else {
-            $this->_events[$eventName][$observerName] = $observer;
-        }
-    }
-
-    /**
-     * Add observer to watch for multiple events matching regex pattern
-     *
-     * @param string $eventRegex
-     * @param callback $callback
-     */
-    public function addMultiObserver($eventRegex, $callback, $observerName='')
-    {
-        $eventRegex = strtolower($eventRegex);
-        
-        $this->_multiObservers[$eventRegex] = $callback;
-    }
-
-    /**
-     * Dispatch event
-     *
-     * Calls all observer callbacks registered for this event
-     * and multiobservers matching event name pattern
-     *
-     * @param string $name
-     * @param array $args
-     */
-    public function dispatchEvent($eventName, $eventArgs=array())
-    {
-        #$event = self::getEvent($name);
-        #if ($event && $event->getObservers()) {
-        #    $event->dispatch($args);
-        #}
-        $eventName = strtolower($eventName);
-        
-        if (!isset($this->_events[$eventName])) {
-            return false;
-        }
-        
-        $observers = $this->_events[$eventName];
-        #echo "<pre>dispatch:".$eventName. print_r($observers,1)."</pre><hr>";
-        foreach ($observers as $observer) {
-            $arguments = $eventArgs;
-            if (!empty($observer[1])) {
-                $arguments = $observer[1];
-            }
-		    call_user_func_array($observer[0], $observer[1]);
-		    if ($this->_stopDispatchFlag) {
-		        $this->_stopDispatchFlag = false;
-		        break;
-		    }
-		}
-
-        $args['_eventName'] = $eventName;
-        foreach ($this->_multiObservers as $regex=>$callback) {
-            if (preg_match('#'.$regex.'#i', $eventName)) {
-                call_user_func_array($callback, $eventArgs);
-    		    if ($this->_stopDispatchFlag) {
-    		        $this->_stopDispatchFlag = false;
-    		        break;
-    		    }
-            }
-        }
+        $this->_observers = new Varien_Event_Observer_Collection();
+        parent::__construct($data);
     }
     
-    public function stopDispatch()
+    public function getObservers()
     {
-        $this->_stopDispatchFlag = true;
+        return $this->_observers;
+    }
+    
+    public function addObserver(Varien_Event_Observer $observer)
+    {
+        $this->getObservers()->addObserver($observer);
+        return $this;
+    }
+    
+    public function removeObserverByName($observerName)
+    {
+        $this->getObservers()->removeObserverByName($observerName);
+        return $this;
+    }
+    
+    public function dispatch()
+    {
+        $this->getObservers()->dispatch($this);
         return $this;
     }
 }

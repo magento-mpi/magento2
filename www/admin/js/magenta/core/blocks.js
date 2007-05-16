@@ -2,13 +2,13 @@ Mage.Core_Blocks = function(){
     var blockDialog = null;
     return {
         init: function(){
-
+/*
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
                 text: 'Blocks & Layouts',
                 handler: Mage.Core_Blocks.showDialog.createDelegate(Mage.Catalog_Blocks)
             });
-
+*/
         },
         showDialog: function(){
             Ext.QuickTips.init();

@@ -126,27 +126,6 @@ final class Mage {
     }
 
     /**
-     * Retrieve event object
-     *
-     * @param string $name
-     * @return Mage_Core_Event
-     */
-    public static function getEvent($name='')
-    {
-        return Mage::registry('events')->getEvent($name);
-    }
-
-    /**
-     * Add event object
-     *
-     * @param unknown_type $name
-     */
-    public static function addEvent($name)
-    {
-        return Mage::registry('events')->addEvent($name);
-    }
-
-    /**
      * Add observer to even object
      *
      * @param string $eventName
@@ -154,20 +133,11 @@ final class Mage {
      * @param array $arguments
      * @param string $observerName
      */
-    public static function addObserver($eventName, $callback, $arguments=array(), $observerName='')
+    public static function addObserver($eventName, $callback, $data=array(), $observerName='')
     {
-        return Mage::registry('events')->addObserver($eventName, $callback, $arguments, $observerName);
-    }
-
-    /**
-     * Add observer to watch for multiple events matching regex pattern
-     *
-     * @param string $eventRegex
-     * @param callback $callback
-     */
-    public static function addMultiObserver($eventRegex, $callback, $observerName='')
-    {
-        return Mage::registry('events')->addMultiObserver($eventRegex, $callback, $observerName);
+        $observer = new Varien_Event_Observer();
+        $observer->addData($data)->setName($observerName)->setEventName($eventName)->setCallback($callback);
+        return Mage::registry('events')->addObserver($observer);
     }
 
     /**
@@ -179,9 +149,9 @@ final class Mage {
      * @param string $name
      * @param array $args
      */
-    public static function dispatchEvent($name, array $args=array())
+    public static function dispatchEvent($name, array $data=array())
     {
-        return Mage::registry('events')->dispatchEvent($name, $args);
+        return Mage::registry('events')->dispatch($name, $data);
     }
 
     /**
@@ -261,7 +231,7 @@ final class Mage {
 
         Mage::setRoot($appRoot);
         
-        Mage::register('events', new Varien_Event());
+        Mage::register('events', new Varien_Event_Collection());
         Mage::register('config', new Mage_Core_Config());
         Mage::register('resources', new Mage_Core_Resource());
 
