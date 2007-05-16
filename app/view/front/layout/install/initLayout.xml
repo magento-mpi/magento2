@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layoutUpdate> 
+    <block type="tpl" name="root" output="toHtml">
+        <action method="setTemplate"><template>layout.2column.phtml</template></action>
+        <action method="assign"><var>imagesUrl</var><value>{{baseSkinUrl}}default/images</value></action>
+    </block>
+</layoutUpdate>
