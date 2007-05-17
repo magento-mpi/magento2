@@ -81,6 +81,9 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                     return new Ext.form.TextArea(config);                
                 case 'textfield' :
                     return new Ext.form.TextField(config);
+                case 'hiddenfield' :
+                    config.hidden = "true";
+                    return new Ext.form.Field(config);
                 case 'file' : 
                 case 'imagefile' :                 
                     config.form = this;

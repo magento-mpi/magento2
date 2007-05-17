@@ -75,7 +75,7 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
     show : function(config) {
         if (config) {
             this.catId = config.catId || 0;
-            this.isNew = config.isNew || false;
+            this.isNew = config.isNew || 0; // 0/1
         } else {
             this.catId = 0;
         }

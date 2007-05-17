@@ -13,7 +13,6 @@ class Varien_Data_Form_Element_Hidden extends Varien_Data_Form_Element_Abstract
     {
         parent::__construct($attributes);
         $this->setType('hidden');
-        $this->setExtType('textfield');
-        $this->setInputtype('hidden');
+        $this->setExtType('hiddenfield');
     }
 }
