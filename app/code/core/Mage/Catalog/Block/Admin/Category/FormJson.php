@@ -20,7 +20,8 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
         $this->setId('add_child_category_form');
         $this->setAction(Mage::getBaseUrl().'mage_catalog/category/save/');
         
-        $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catid', false);
+        #$categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catId', false);
+        $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('category_id', false);
         
         $this->addField('category_id', 'hidden', array('name'=>'category_id', 'value'=>$categoryId));
         $this->addField('attribute_set_id', 'hidden', array('name'=>'attribute_set_id', 'value'=>1));
@@ -28,7 +29,7 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
         $attributes = Mage::getModel('catalog', 'category_attribute_set')
             ->setAttributeSetId(1)
             ->getAttributes();
-        
+         
         foreach ($attributes as $attribute) {
             $elementId      = $attribute->getCode();
             $elementType    = $attribute->getDataInput();
@@ -48,6 +49,7 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
             $category = Mage::getModel('catalog','category')->load($categoryId);
             $this->setElementsValues($category->getData());
         }
+        $this->setUploadfile(true);
         //$this->addField('name', 'text', array('name'=>'name', 'id'=>'new_category_name', 'label'=>'Category name'));
     }
 }
