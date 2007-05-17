@@ -100,7 +100,7 @@ Mage.Catalog_Category_Tree = function(){
                     loader: new Ext.tree.TreeLoader({dataUrl:this.loadWebsiteUrl}),
                     enableDD:true,
                     containerScroll: true,
-                    rootVisible:false
+                    rootVisible:true
                 });
                 
                 var sm = this.tree.getSelectionModel();
