@@ -137,6 +137,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
                 'text'  => __('Catalog categories'),
                 'id'    => $website->getRootCategoryId(),
                 'cls'   => 'folder',
+                'isRoot'=> 'true',
                 'expanded' => 'true'
             );
             $this->getResponse()->setBody(Zend_Json::encode(array($item)));
