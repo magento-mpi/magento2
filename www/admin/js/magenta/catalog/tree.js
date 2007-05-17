@@ -100,7 +100,7 @@ Mage.Catalog_Category_Tree = function(){
                     loader: new Ext.tree.TreeLoader({dataUrl:this.loadWebsiteUrl}),
                     enableDD:true,
                     containerScroll: true,
-                    rootVisible:true
+                    rootVisible:false
                 });
                 
                 var sm = this.tree.getSelectionModel();
@@ -122,7 +122,7 @@ Mage.Catalog_Category_Tree = function(){
                 this.tree.addListener('beforenodedrop', this.moveNode, this);
 
                 var root = new Ext.tree.AsyncTreeNode({
-                    text: 'Catalog Categories', 
+                    text: 'root', 
                     draggable:false,
                     expanded:false
                 });

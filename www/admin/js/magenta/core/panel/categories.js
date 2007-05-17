@@ -68,9 +68,9 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         this.dropzone.notifyDrop = function(dd, e, data){
             var text = '';
             data.node.bubble(function(){
-//                if (this.isRoot) {
-//                    return true;
-//                }
+                if (this.isRoot || this.attributes.isRoot) {
+                    return true;
+                }
                 console.log(this)
                 if (text != '') {
                     text = this.text + '<br>' + text;    
