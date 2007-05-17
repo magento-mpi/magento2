@@ -32,7 +32,8 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             {name: 'id'},
             {name: 'path'},
             {name: 'image_src'},
-            {name: 'image_alt'}
+            {name: 'image_alt'},
+            {name: 'text'}
         ]);
 
         var dataReader = new Ext.data.JsonReader({
@@ -47,9 +48,9 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         });
         
         
-        var viewTpl = new Ext.Template('<div class="thumb-wrap" id="{name}">' +
+        var viewTpl = new Ext.Template('<div class="thumb-wrap">' +
                 '<div id="{id}" class="thumb"><img src="{image_src}" alt="{image_alt}"></div>' +
-                '<span>some text</span>' +
+                '<span>{text}</span>' +
                 '</div>');
                 
         this.view = new Ext.View(viewContainer, viewTpl,{
@@ -65,10 +66,22 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         });
         
         this.dropzone.notifyDrop = function(dd, e, data){
+            var text = '';
+            data.node.bubble(function(){
+                if (this.isRoot) {
+                    return true;
+                }
+                console.log(this)
+                if (text != '') {
+                    text = this.text + '<br>' + text;    
+                } else {
+                    text = this.text    
+                }
+            });
             
             this.view.store.add(new this.dataRecord({
                 id : data.node.id,
-                name : data.node.text
+                text : text
             }));
             
             if(this.dropzone.overClass){
