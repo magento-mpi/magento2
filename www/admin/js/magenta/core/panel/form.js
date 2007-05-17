@@ -6,6 +6,7 @@ Mage.core.PanelForm = function(region, config) {
     if (config && config.background == true) {
         background = true;
     }
+
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
         background : background,
@@ -26,7 +27,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
         }
         var i;
         Ext.apply(this, config);
-        
+
         if (this.frm) {
             for (i=0; i < this.frm.items.getCount(); i++) {
                 this.frm.remove(this.frm.items[i]);
@@ -35,7 +36,6 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
             this.panel.setContent('');
             this._buildForm();
         }
-        
     },
     
     getForm : function() {

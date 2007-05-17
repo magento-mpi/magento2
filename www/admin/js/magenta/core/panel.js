@@ -13,6 +13,12 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
     save : function() {
         console.info('save');
         return false;        
+    },
+    
+    setTitle : function(title) {
+        if (this.panel) {
+            return this.panel.setTitle(title);
+        }
     }
 })
 

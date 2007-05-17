@@ -28,10 +28,12 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
                 minHeight:350,
                 autoTabs:true,
                 proxyDrag:true,
+                title : '',
                 // layout config merges with the dialog config
                 center:{
                     tabPosition: "top",
-                    alwaysShowTabs: true
+                    hideTabs : true,
+                    alwaysShowTabs: false
                 }
             });
             this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
@@ -40,7 +42,8 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
         }
         
         this.dialog.show();
-        var panel = this.dialog.getLayout().getRegion('center').getActivePanel();
+        this.loadMask = new Ext.LoadMask(this.dialog.getLayout().getRegion('center').getEl());
+        this.loadMask.onBeforeLoad();
         this.conn.request({
             url : this.formUrl,
             method : 'POST',
@@ -60,13 +63,14 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
     
     connRequestComplete : function(transId, response, options) {
         var result = Ext.decode(response.responseText);
-//        console.log(result);
 //        if (result.error == 0) {
           if (this.panel) {  
-             this.panel.update(result.panelConfig);
+              this.panel.update(result.panelConfig);
           } else {
             this.panel = new Mage.core.Panel(this.dialog.getLayout().getRegion('center'), 'form', result.panelConfig);  
           }
+          this.dialog.setTitle(result.panelConfig.title || 'Manage Category');          
+          this.loadMask.onLoad();
 //        } else {
 //            Ext.MessageBox.alert('Error', result.errorMessage);
 //        }
