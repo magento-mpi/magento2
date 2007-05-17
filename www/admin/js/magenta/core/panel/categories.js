@@ -31,7 +31,9 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             if (this.tbItems.getCount() == 0) {
                 this.tbItems.add('categories_sep', new Ext.Toolbar.Separator());
                 this.tbItems.add('categories_delete', new Ext.Toolbar.Button({
-                    text : 'Delete Category'
+                    text : 'Delete Category',
+                    handler : this._onDeleteItem,
+                    scope : this
                 }));
                 
                 this.tbItems.each(function(item){
@@ -44,6 +46,11 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             }
         }
     },
+    
+     _onDeleteItem : function(button, event) {
+         var record = this.view.store.getAt(this.view.selections[0].nodeIndex);
+         this.view.store.remove(record);
+     },
     
     _unLoadActions : function() {
         this.tbItems.each(function(item){
@@ -81,17 +88,37 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             reader: dataReader
         });
         
+        store.on('load', function() {
+            if (this.view) {
+                this.view.select(0);
+            }
+        }.createDelegate(this));
+        
         
         var viewTpl = new Ext.Template('<div class="thumb-wrap">' +
                 '<div id="{id}" class="thumb"><img src="{image_src}" alt="{image_alt}"></div>' +
                 '<span>{name}</span>' +
                 '</div>');
-                
+        viewTpl.compile();        
         this.view = new Ext.View(viewContainer, viewTpl,{
             singleSelect: true,
             store: store,
             emptyText : 'Categories not set'
         });
+        
+        this.view.on('beforeselect', function(view){
+            return view.store.getCount() > 0;
+        });
+        this.view.on('selectionchange', function(view, selections){
+            if (this.tbItems.get('categories_delete')) {
+                if (selections.length) {
+                    this.tbItems.get('categories_delete').enable();
+                } else {
+                    this.tbItems.get('categories_delete').disable();
+                }
+            }
+        }.createDelegate(this));
+        
         
         var dd = new Ext.dd.DragDrop(this.view.getEl(), "TreeDD");
         
@@ -120,7 +147,6 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
                 if (this.isRoot || this.attributes.isRoot) {
                     return true;
                 }
-                console.log(this)
                 if (text != '') {
                     text = this.text + '<br>' + text;    
                 } else {
@@ -132,7 +158,8 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
                 category_id : data.node.id,
                 name : text
             }, data.node.id));
-            console.log(this.view.store);
+
+            this.view.select(0);
             
             if(this.dropzone.overClass){
                 this.dropzone.el.removeClass(this.dropzone.overClass);

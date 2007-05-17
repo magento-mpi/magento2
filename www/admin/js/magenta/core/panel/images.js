@@ -26,9 +26,16 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
     _loadActions : function() {
         if (this.toolbar) {
             if (this.tbItems.getCount() == 0) {
+                var disabled = false
+                if (this.imagesView) {
+                    disabled = this.imagesView.store.getCount() <= 0;
+                }
                 this.tbItems.add('image_sep', new Ext.Toolbar.Separator());
                 this.tbItems.add('image_delete', new Ext.Toolbar.Button({
-                    text : 'Delete Image'
+                    text : 'Delete Image',
+                    disabled : disabled,
+                    handler : this._onDeleteImage,
+                    scope : this
                 }));
                 
                 this.tbItems.each(function(item){
@@ -77,9 +84,13 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
                 this.imagesView.store.add(new this.dataRecord(action.result.data));
                 this.imagesView.refresh();
                 form.reset();
-                console.log(action.result.data);
             }.createDelegate(this)
         });
+     },
+     
+     _onDeleteImage : function(button, event) {
+         var record = this.imagesView.store.getAt(this.imagesView.selections[0].nodeIndex);
+         this.imagesView.store.remove(record);
      },
     
     _buildImagesView : function(viewContainer) {
@@ -102,16 +113,36 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
             reader: dataReader
         });
         
+        store.on('load', function() {
+            if (this.imagesView) {
+                this.imagesView.select(0);
+            }
+        }.createDelegate(this));
         
         var viewTpl = new Ext.Template('<div class="thumb-wrap" id="{name}">' +
                 '<div id="{id}" class="thumb"><img src="{src}" alt="{alt}"></div>' +
-                '<span>some text</span>' +
+                '<span>{description}</span>' +
                 '</div>');
+        viewTpl.compile();
+                   
         this.imagesView = new Ext.View(viewContainer, viewTpl,{
             singleSelect: true,
             store: store,
             emptyText : 'Images not found'
         });
+        
+        this.imagesView.on('beforeselect', function(view){
+            return view.store.getCount() > 0;
+        });
+        this.imagesView.on('selectionchange', function(view, selections){
+            if (this.tbItems.get('image_delete')) {
+                if (selections.length) {
+                    this.tbItems.get('image_delete').enable();
+                } else {
+                    this.tbItems.get('image_delete').disable();
+                }
+            }
+        }.createDelegate(this));
         
         store.load();
     },

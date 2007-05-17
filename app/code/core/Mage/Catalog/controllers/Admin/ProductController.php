@@ -151,13 +151,13 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     public function imageCollectionAction()
     {
         $res = array(
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg'),
-            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg')
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text1'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text2'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text3'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text4'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text5'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text6'),
+            array('src'=>Mage::getBaseUrl(array('_admin'=>false)).'skins/default/catalog/images/placeholder_product_small.jpg', 'description' => 'text7')
         );
         $this->getResponse()->setBody(Zend_Json::encode(array('items'=>$res)));
     }
