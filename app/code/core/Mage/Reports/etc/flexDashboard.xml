@@ -4,7 +4,7 @@
 		<box direction="horizontal" resizeable="true">
 			<box direction="horizontal">
 				<chartpanel id="chart1" title="Users from countries {dateStart.fullYear}" width="100%" minWidth="300" height="100%"  visibility="visible" relation="default">
-					<dataSource url="mage_reports/flex/countries" method="POST" showBusyCursor="true" >
+					<dataSource url="mage_reports/flex/countries" method="POST" defaultSortField="countryName" defaultSortDesc="true" showBusyCursor="true" >
 						<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
 						<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
 					</dataSource>
@@ -16,8 +16,8 @@
 						</dataTip>
 					</chart>
 					<grid>
-						<column label="Country" width="300" field="countryName"/>
-						<column label="Users" width="400" field="value"/>
+						<column label="Country" sortable="true" width="300" field="countryName"/>
+						<column label="Users" sortable="true" width="400" field="value"/>
 					</grid>
 					<export url="/magenta/charts/export" filename="countries-for-users.xsl">
 						<fromDataSource />
@@ -29,7 +29,7 @@
 			</box>
 			<box direction="vertical">
 				<chartpanel id="chart3" title="Users from country {countryName} (Linear)" width="100%" minWidth="400" height="100%" visibility="relation" relation="chart1">
-					<dataSource url="mage_reports/flex/cities" method="POST" showBusyCursor="true" >
+					<dataSource url="mage_reports/flex/cities" method="POST" defaultSortField="users" defaultSortNumeric="true"  showBusyCursor="true" >
 						<parameter name="country">{id}</parameter>
 						<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
 						<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>
@@ -51,9 +51,9 @@
 					</chart>
 					
 					<grid>
-						<column label="City" field="name" labelTemplate="City: {name}"/>
-						<column label="Users" field="users"/>
-						<column label="New users" field="new_users" />
+						<column label="City" sortable="true" field="name" labelTemplate="City: {name}"/>
+						<column label="Users" sortable="true" field="users"/>
+						<column label="New users" sortable="true" field="new_users" />
 					</grid>
 					<export url="/magenta/charts/export" filename="countries-cities-for-users.xls">
 						<fromDataSource />
@@ -83,9 +83,9 @@
 					</chart>
 					
 					<grid>
-						<column label="City" field="name" labelTemplate="City: {name}"/>
-						<column label="Users" field="users"/>
-						<column label="New users" field="new_users" />
+						<column label="City" sortable="true" field="name" labelTemplate="City: {name}"/>
+						<column label="Users" sortable="true" field="users"/>
+						<column label="New users" sortable="true" field="new_users" />
 					</grid>
 					<export url="/magenta/charts/export" filename="countries-cities-for-users.xls">
 						<fromDataSource />
