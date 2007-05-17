@@ -63,11 +63,17 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         this.dropzone = new Ext.dd.DropTarget(this.view.getEl(), {
             overClass : 'm-view-overdrop'
         });
+        
         this.dropzone.notifyDrop = function(dd, e, data){
+            
             this.view.store.add(new this.dataRecord({
                 id : data.node.id,
                 name : data.node.text
-            }))
+            }));
+            
+            if(this.dropzone.overClass){
+                this.dropzone.el.removeClass(this.dropzone.overClass);
+            }            
             return true;
         }.createDelegate(this);
         
