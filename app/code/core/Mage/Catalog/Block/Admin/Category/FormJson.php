@@ -20,9 +20,9 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
         $this->setId('add_child_category_form');
         $this->setAction(Mage::getBaseUrl().'mage_catalog/category/save/');
         
-        #$categoryId = (int) Mage::registry('controller')->getRequest()->getParam('catId', false);
         $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('category_id', false);
-        
+        $isNew = (bool) Mage::registry('controller')->getRequest()->getParam('isNew', false);
+
         $this->addField('category_id', 'hidden', array('name'=>'category_id', 'value'=>$categoryId));
         $this->addField('attribute_set_id', 'hidden', array('name'=>'attribute_set_id', 'value'=>1));
         
@@ -44,12 +44,20 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
             
             $this->addField($elementId, $elementType, $elementConfig);
         }
-        
+        /*
         if ($categoryId) {
             $category = Mage::getModel('catalog','category')->load($categoryId);
             $this->setElementsValues($category->getData());
         }
+        */
         $this->setUploadfile(true);
+        
+        if( $isNew === false ) {
+            $category = Mage::getModel('catalog', 'category')->load($categoryId);
+            $this->setValues($category->getData());
+        } elseif( $isNew === true ) {
+            $this->addField('parent_category_id', 'hidden', array('name'=>'parent_category_id', 'value'=>$categoryId));
+        }
         //$this->addField('name', 'text', array('name'=>'name', 'id'=>'new_category_name', 'label'=>'Category name'));
     }
 }
