@@ -33,7 +33,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             {name: 'path'},
             {name: 'image_src'},
             {name: 'image_alt'},
-            {name: 'text'}
+            {name: 'name'}
         ]);
 
         var dataReader = new Ext.data.JsonReader({
@@ -50,7 +50,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         
         var viewTpl = new Ext.Template('<div class="thumb-wrap">' +
                 '<div id="{id}" class="thumb"><img src="{image_src}" alt="{image_alt}"></div>' +
-                '<span>{text}</span>' +
+                '<span>{name}</span>' +
                 '</div>');
                 
         this.view = new Ext.View(viewContainer, viewTpl,{
@@ -81,7 +81,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             
             this.view.store.add(new this.dataRecord({
                 id : data.node.id,
-                text : text
+                name : text
             }));
             
             if(this.dropzone.overClass){
