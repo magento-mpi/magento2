@@ -26,6 +26,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
         }
         var i;
         Ext.apply(this, config);
+        
         if (this.frm) {
             for (i=0; i < this.frm.items.getCount(); i++) {
                 this.frm.remove(this.frm.items[i]);

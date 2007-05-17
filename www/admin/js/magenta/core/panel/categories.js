@@ -9,7 +9,7 @@ Mage.core.PanelCategories = function(region, config) {
        	fitToFrame : true,
         title : this.title || 'Title'
     }));
-    this.storeUrl = Mage.url + 'mage_catalog/product/imageCollection/product/2990/';
+//    this.storeUrl = Mage.url + 'mage_catalog/product/imageCollection/product/2990/';
     this._build();
 };
 

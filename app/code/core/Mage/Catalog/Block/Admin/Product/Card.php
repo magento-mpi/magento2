@@ -98,7 +98,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'categories',
                 'type'  => 'categories',
-                'url'   => Mage::getBaseUrl()."mage_catalog/product/categories/".$urlPrefix,
+                'storeUrl'   => Mage::getBaseUrl()."mage_catalog/product/categoryList/".$urlPrefix,
                 'title' => 'Categories',
             );
         }

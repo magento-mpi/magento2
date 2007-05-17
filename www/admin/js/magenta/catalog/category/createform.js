@@ -63,7 +63,7 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
 //        console.log(result);
 //        if (result.error == 0) {
           if (this.panel) {  
-             this.panel.update();
+             this.panel.update(result.panelConfig);
           } else {
             this.panel = new Mage.core.Panel(this.dialog.getLayout().getRegion('center'), 'form', result.panelConfig);  
           }

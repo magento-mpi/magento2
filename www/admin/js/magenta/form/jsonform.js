@@ -47,7 +47,7 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                 fieldLabel : field.config.label,
                 name : field.config.name,
                 allowBlank : true,
-                inputType : field.config.inputtype || '',
+               // inputType : field.config.inputtype || '',
                 value : field.config.value
             };
             switch (field.config.ext_type) {
