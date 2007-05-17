@@ -22,10 +22,12 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Admin_Action
     public function formAction()
     {
         $form = $this->getLayout()->createBlock('admin_catalog_category_form_json', 'category_form_json');
+
         $tabConfig = Array(
             "panelConfig" => Array(
                         "name" => "General",
-                        "title" => "Edit Category",
+                        #"title" => "Edit Category",
+                        "title" => $form->getTitle(),
                         "type" => "form",
                         "form" => $form->toArray()
                     )

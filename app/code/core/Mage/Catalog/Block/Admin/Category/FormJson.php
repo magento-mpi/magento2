@@ -54,9 +54,12 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
         
         if( $isNew === false ) {
             $category = Mage::getModel('catalog', 'category')->load($categoryId);
-            $this->setValues($category->getData());
+            $data = $category->getData();
+            $this->setTitle("Edit Category '{$data['name']}'");
+            $this->setValues($data);
         } elseif( $isNew === true ) {
             $this->addField('parent_category_id', 'hidden', array('name'=>'parent_category_id', 'value'=>$categoryId));
+            $this->setTitle("Add New Category");
         }
         //$this->addField('name', 'text', array('name'=>'name', 'id'=>'new_category_name', 'label'=>'Category name'));
     }
