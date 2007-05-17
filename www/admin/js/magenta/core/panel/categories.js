@@ -9,15 +9,48 @@ Mage.core.PanelCategories = function(region, config) {
        	fitToFrame : true,
         title : this.title || 'Title'
     }));
-//    this.storeUrl = Mage.url + 'mage_catalog/product/imageCollection/product/2990/';
+
+    this.panel.on('activate', this._loadActions, this);
+    this.panel.on('deactivate', this._unLoadActions, this);
+
     this._build();
 };
 
 Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
     
     update : function(config) {
+        Ext.apply(this, config);
+        if (this.region.getActivePanel() === this.panel) {
+            this.view.store.proxy.getConnection().url = this.storeUrl;
+            this.view.store.load();
+        }
     },
-     
+    
+    _loadActions : function() {
+        if (this.toolbar) {
+            if (this.tbItems.getCount() == 0) {
+                this.tbItems.add('categories_sep', new Ext.Toolbar.Separator());
+                this.tbItems.add('categories_delete', new Ext.Toolbar.Button({
+                    text : 'Delete Category'
+                }));
+                
+                this.tbItems.each(function(item){
+                    this.toolbar.add(item);
+                }.createDelegate(this));
+            } else {
+                this.tbItems.each(function(item){
+                    item.show();
+                }.createDelegate(this));
+            }
+        }
+    },
+    
+    _unLoadActions : function() {
+        this.tbItems.each(function(item){
+            item.hide();
+        }.createDelegate(this));
+    },    
+    
     _build : function() {
         this.containerEl = this._buildTemplate();
         var viewContainer = this.containerEl.createChild({tag : 'div', cls:'x-productimages-view'});
@@ -29,7 +62,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
     _buildView : function(viewContainer) {
         
         this.dataRecord = Ext.data.Record.create([
-            {name: 'id'},
+            {name: 'category_id'},
             {name: 'path'},
             {name: 'image_src'},
             {name: 'image_alt'},
@@ -38,7 +71,8 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
 
         var dataReader = new Ext.data.JsonReader({
             root: 'items',
-            totalProperty: 'totalRecords'
+            totalProperty: 'totalRecords',
+            id : 'category_id'
         }, this.dataRecord);
     
     
@@ -59,13 +93,28 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             emptyText : 'Categories not set'
         });
         
-        dd = new Ext.dd.DragDrop(this.view.getEl(), "TreeDD");
+        var dd = new Ext.dd.DragDrop(this.view.getEl(), "TreeDD");
+        
+
+        
 
         this.dropzone = new Ext.dd.DropTarget(this.view.getEl(), {
             overClass : 'm-view-overdrop'
         });
         
+        this.dropzone.notifyOver = function(dd, e, data){
+            if (this.view.store.getById(data.node.id)) {
+                return this.dropzone.dropNotAllowed;
+            } else {
+                return this.dropzone.dropAllowed;
+            }
+        }.createDelegate(this);
+        
         this.dropzone.notifyDrop = function(dd, e, data){
+            if (this.view.store.getById(data.node.id)) {
+                return false;
+            };
+            
             var text = '';
             data.node.bubble(function(){
                 if (this.isRoot || this.attributes.isRoot) {
@@ -80,9 +129,10 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             });
             
             this.view.store.add(new this.dataRecord({
-                id : data.node.id,
+                category_id : data.node.id,
                 name : text
-            }));
+            }, data.node.id));
+            console.log(this.view.store);
             
             if(this.dropzone.overClass){
                 this.dropzone.el.removeClass(this.dropzone.overClass);

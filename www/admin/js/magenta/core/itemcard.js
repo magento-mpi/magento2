@@ -59,9 +59,15 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
     buildToolbar : function(baseEl) {
         this.toolbar = new Ext.Toolbar(baseEl);
         this.toolbar.add(new Ext.ToolbarButton({
-            text : 'Save',
-            id : 'save'
+            text : 'Reload',
         }));
+        this.toolbar.add(new Ext.ToolbarButton({
+            text : 'Save',
+        }));
+        this.toolbar.add(new Ext.ToolbarButton({
+            text : 'Delete Product'
+        }));
+        
     },
     
     parseRecord : function(record) {
@@ -82,10 +88,12 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             if (panel = this.tabs.get(result.tabs[i].name)) {
                 panel.update(result.tabs[i]);
             } else {
+                result.tabs[i].toolbar = this.toolbar;
                 this.tabs.add(result.tabs[i].name, new Mage.core.Panel(this.panel.getLayout().getRegion('center'), result.tabs[i].type, result.tabs[i]));
             }
         }
         this.panel.getLayout().endUpdate();        
+        this.loadMask.onLoad();        
     },
     
     loadRecord : function(record) {
@@ -95,7 +103,8 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         this.lastRecord = record;        
         this.loadPanel();
                 
-
+        this.loadMask = new Ext.LoadMask(this.panel.getLayout().getEl());
+        this.loadMask.onBeforeLoad();
         this.conn = new Ext.data.Connection();
         this.conn.on('requestcomplete', this.parseCardData.createDelegate(this));
         this.conn.on('requestexception', function() {

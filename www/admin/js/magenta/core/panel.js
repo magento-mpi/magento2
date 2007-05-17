@@ -5,6 +5,8 @@ Mage.core.Panel = function(region, type, config) {
 }
 
 Ext.extend(Mage.core.Panel, Ext.util.Observable,{
+    tbItems : new Ext.util.MixedCollection(),
+    
     update : function() {
         console.info('update');
         return false;
@@ -19,7 +21,7 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
         if (this.panel) {
             return this.panel.setTitle(title);
         }
-    }
+    },
 })
 
 Mage.core.Panel.Factory = {

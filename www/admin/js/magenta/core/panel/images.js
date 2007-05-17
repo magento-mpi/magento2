@@ -1,5 +1,6 @@
 Mage.core.PanelImages = function(region, config) {
     this.region = region;
+    this.tbItems = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
@@ -8,6 +9,9 @@ Mage.core.PanelImages = function(region, config) {
        	background : config.background || true,    	
         title : this.title || 'Images'
     }));
+    
+    this.panel.on('activate', this._loadActions, this);
+    this.panel.on('deactivate', this._unLoadActions, this);
     this._build();
 };
 
@@ -17,6 +21,31 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
             this.imagesView.store.proxy.getConnection().url = this.storeUrl;
             this.imagesView.store.load();
         }
+    },
+    
+    _loadActions : function() {
+        if (this.toolbar) {
+            if (this.tbItems.getCount() == 0) {
+                this.tbItems.add('image_sep', new Ext.Toolbar.Separator());
+                this.tbItems.add('image_delete', new Ext.Toolbar.Button({
+                    text : 'Delete Image'
+                }));
+                
+                this.tbItems.each(function(item){
+                    this.toolbar.add(item);
+                }.createDelegate(this));
+            } else {
+                this.tbItems.each(function(item){
+                    item.show();
+                }.createDelegate(this));
+            }
+        }
+    },
+    
+    _unLoadActions : function() {
+        this.tbItems.each(function(item){
+            item.hide();
+        }.createDelegate(this));
     },
     
     
@@ -79,7 +108,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
                 '<span>some text</span>' +
                 '</div>');
         this.imagesView = new Ext.View(viewContainer, viewTpl,{
-            singleSelect: false,
+            singleSelect: true,
             store: store,
             emptyText : 'Images not found'
         });

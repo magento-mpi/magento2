@@ -50,7 +50,7 @@ class Mage_Catalog_Block_Admin_Category_FormJson extends Varien_Data_Form
             $this->setElementsValues($category->getData());
         }
         */
-        $this->setUploadfile(true);
+        $this->setFileupload(true);
         
         if( $isNew === false ) {
             $category = Mage::getModel('catalog', 'category')->load($categoryId);
