@@ -1,0 +1,40 @@
+<h1 class="page-heading">Database configuration</h1>
+<form action="<?=$postAction?>" method="post" id="form-validate">
+<fieldset class="group-select">
+ <legend>Connection</legend>
+    <ul>
+        <li>
+            <div class="input-left">
+                <label for="host">Host<span class="required">*</span></label><br/>
+                <input type="text" name="host" id="host" value="" title="Database host" class="required-entry input-text"/>
+            </div>
+        </li>
+        <li>
+            <div class="input-left">
+                <label for="dbname">Database name<span class="required">*</span></label><br/>
+                <input type="text" name="dbname" id="dbname" value="" title="Database name" class="required-entry input-text"/>
+            </div>
+        </li>
+        <li>
+            <div class="input-left">
+                <label for="user">User name<span class="required">*</span></label><br/>
+                <input type="text" name="user" id="user" value="" title="Database user name" class="required-entry input-text"/>
+            </div>
+        </li>
+        <li>
+            <div class="input-left">
+                <label for="password">User password<span class="required"></span></label><br/>
+                <input type="password" name="password" id="password" value="" title="Database user password" class="input-text"/>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<div class="buttons-container">
+    <p class="required">* Required Fields</p>
+    <input type="submit" class="input-button" value="Continue"/>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate');
+    dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
+</script>

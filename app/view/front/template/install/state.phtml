@@ -1,0 +1,8 @@
+<h2>Installation</h2>
+<ol>
+<?foreach($steps as $_step):?>
+    <li<?if($_step->getActive()):?> style="color:green"<?endif?>><?=__($_step->getCode())?></li>
+<?endforeach?>
+</ol>
+<br/><br/>
+<a href="#">Installation guide</a>

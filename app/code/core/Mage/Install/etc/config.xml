@@ -29,8 +29,16 @@
             <connection><use>core_read</use></connection>
          </install_read>
       </resources>
+      
+      <block>
+        <types>
+         <install_state>
+            <class>Mage_Install_Block_State</class>
+         </install_state>
+       </types>
+      </block>
    </global>
-
+   
    <front>
       <layouts>
          <install_wizard>

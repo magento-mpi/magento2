@@ -1,0 +1,26 @@
+<h1 class="page-heading">Config Variables</h1>
+<form action="<?=$postAction?>" method="post" id="form-validate">
+<fieldset class="group-select">
+ <legend>Base Information</legend>
+    <ul>
+        <li>
+            <div class="input-left">
+                <label for="firstname">var 1<span class="required">*</span></label><br/>
+                <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+            </div>
+            <div class="input-left">
+                <label for="lastname">var 2<span class="required">*</span></label><br/>
+                <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text"/>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<div class="buttons-container">
+    <p class="required">* Required Fields</p>
+    <input type="submit" class="input-button" value="Continue"/>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate');
+    dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
+</script>

@@ -18,12 +18,22 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       */
      protected $_flags = array();
      protected $_blocks = null;
-
+     
+     /**
+      * Cunstructor
+      *
+      * @param Zend_Controller_Request_Abstract $request
+      * @param Zend_Controller_Response_Abstract $response
+      * @param array $invokeArgs
+      * @todo  remove Mage::register('action', $this);
+      */
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
          parent::__construct($request, $response, $invokeArgs);
          
-         Mage::register('action', $this);
+         if (!Mage::registry('action')) {
+             Mage::register('action', $this);
+         }
           
          $this->_construct();
      }

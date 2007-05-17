@@ -13,6 +13,9 @@ class Mage_Customer_Front
     {
         $layout = Mage::registry('action')->getLayout();
         $topLinks = $layout->getBlock('top.links');
+        if(!$topLinks){
+            return false;
+        }
         $topLinks->append($layout->createBlock('list_link', 'top.links.wishlist')
             ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', 'Wishlist', ''));
 
