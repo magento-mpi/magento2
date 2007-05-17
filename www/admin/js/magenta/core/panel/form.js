@@ -63,7 +63,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
             method : this.form.config.method,
             name : this.form.config.name,
             action : this.form.config.action,
-            fileUpload : this.form.config.fileupload,
+            fileUpload : this.form.config.isFileUpload,
             metaData : this.form.elements
         });
         this._buildTemplate(this.form.config.id + '_El');        
