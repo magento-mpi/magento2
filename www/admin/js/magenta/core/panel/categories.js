@@ -17,7 +17,7 @@ Mage.core.PanelCategories = function(region, config) {
     }, this, {single: true});	    	
 
     this.panel.on('activate', function(){
-        this._loadActions
+        this._loadActions();
         if (this.notLoaded) {
             this.view.store.proxy.getConnection().url = this.storeUrl;
             this.view.store.load();
