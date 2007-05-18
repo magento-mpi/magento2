@@ -59,13 +59,18 @@
 		</filesystem>
 		<php>
 			<extensions>
+			<!-- one from them
 				<db>
 					<mysqli/>
 					<pdo_mysql/>
 				</db>
+			-->
+				<mysqli/>
+				<pdo_mysql/>
 				<mcrypt/>
 				<gd/>
 			</extensions>
 		</php>
 	</check>
+	<vars></vars>
 </config>

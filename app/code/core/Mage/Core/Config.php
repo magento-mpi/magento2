@@ -113,13 +113,14 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function loadLocal()
     {
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
-        if (!is_file($configFile)) {
-            die('File ' . $configFile . ' not found. Copy it from ' . $configFile . '.dev');
+        if (is_file($configFile)) {
+            //die('File ' . $configFile . ' not found. Copy it from ' . $configFile . '.dev');
+            $this->addCacheStat($configFile);
+            $localConfig = $this->loadFile($configFile);
+            $this->_xml->extend($localConfig, true);
+            return true;
         }
-        $this->addCacheStat($configFile);
-        $localConfig = $this->loadFile($configFile);
-        $this->_xml->extend($localConfig, true);
-        return true;
+        return false;
     }
 
     /**
@@ -273,16 +274,22 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 }
             }
             $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
-            $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
+            if ($websiteConfig) {
+                $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
+        
+                $protocol = (string)$urlConfig->protocol;
+                $host = (string)$urlConfig->host;
+                $port = (int)$urlConfig->port;
+                $basePath = (string)$urlConfig->basePath;
     
-            $protocol = (string)$urlConfig->protocol;
-            $host = (string)$urlConfig->host;
-            $port = (int)$urlConfig->port;
-            $basePath = (string)$urlConfig->basePath;
-
-            $url = $protocol.'://'.$host;
-            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-            $url .= empty($basePath) ? '/' : $basePath;
+                $url = $protocol.'://'.$host;
+                $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+                $url .= empty($basePath) ? '/' : $basePath;
+            }
+            else {
+                $url = dirname($_SERVER['SCRIPT_NAME']);
+                $url = strlen($url)>1 ? $url.'/' : '/';
+            }
         } else {
             $url = dirname($_SERVER['SCRIPT_NAME']).'/';
         }
@@ -464,12 +471,15 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     public function getResourceConnectionConfig($name)
     {
         $config = $this->getResourceConfig($name);
-        $conn = $config->connection;
-        if (!empty($conn->use)) {
-            return $this->getResourceConnectionConfig((string)$conn->use);
-        } else {
-            return $conn;
+        if ($config) {
+            $conn = $config->connection;
+            if (!empty($conn->use)) {
+                return $this->getResourceConnectionConfig((string)$conn->use);
+            } else {
+                return $conn;
+            }
         }
+        return false;
     }
 
     /**

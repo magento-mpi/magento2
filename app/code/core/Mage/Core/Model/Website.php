@@ -14,9 +14,11 @@ class Mage_Core_Model_Website extends Varien_Object
         $this->setData('code', $code);
         
         $config = $this->getConfig();
-        $this->setId((int)$config->id);
-        $this->setLanguage((string)$config->language);
-        $this->setGroup((string)$config->group);
+        if ($config) {
+            $this->setId((int)$config->id);
+            $this->setLanguage((string)$config->language);
+            $this->setGroup((string)$config->group);
+        }
         
         return $this;
     }

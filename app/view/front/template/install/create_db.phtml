@@ -6,25 +6,25 @@
         <li>
             <div class="input-left">
                 <label for="host">Host<span class="required">*</span></label><br/>
-                <input type="text" name="host" id="host" value="" title="Database host" class="required-entry input-text"/>
+                <input type="text" name="config[db_host]" id="host" value="localhost" title="Database host" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-left">
                 <label for="dbname">Database name<span class="required">*</span></label><br/>
-                <input type="text" name="dbname" id="dbname" value="" title="Database name" class="required-entry input-text"/>
+                <input type="text" name="config[db_name]" id="dbname" value="magento" title="Database name" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-left">
                 <label for="user">User name<span class="required">*</span></label><br/>
-                <input type="text" name="user" id="user" value="" title="Database user name" class="required-entry input-text"/>
+                <input type="text" name="config[db_user]" id="user" value="root" title="Database user name" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-left">
                 <label for="password">User password<span class="required"></span></label><br/>
-                <input type="password" name="password" id="password" value="" title="Database user password" class="input-text"/>
+                <input type="password" name="config[db_password]" id="password" value="" title="Database user password" class="input-text"/>
             </div>
         </li>
     </ul>

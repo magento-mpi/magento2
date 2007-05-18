@@ -2,15 +2,48 @@
 <form action="<?=$postAction?>" method="post" id="form-validate">
 <fieldset class="group-select">
  <legend>Base Information</legend>
+    <h3>Default website</h3>
     <ul>
         <li>
             <div class="input-left">
-                <label for="firstname">var 1<span class="required">*</span></label><br/>
-                <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+                <label for="host">Host:<span class="required">*</span></label><br/>
+                <input type="text" name="config[host]" id="host" value="<?=$data->getHost()?>" title="Host name" class="required-entry input-text"/>
             </div>
             <div class="input-left">
-                <label for="lastname">var 2<span class="required">*</span></label><br/>
-                <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text"/>
+                <label for="basepath">Base path:<span class="required">*</span></label><br/>
+                <input type="text" name="config[base_path]" id="basepath" value="<?=$data->getBasePath()?>" title="WWW base path" class="required-entry input-text"/>
+            </div>
+        </li>
+        <li>
+            <div class="input-left">
+                <label for="protocol">Protocol:<span class="required">*</span></label><br/>
+                <select name="config[protocol]" id="protocol" title="Protocol" class="required-entry input-text">
+                    <option value="http" selected>http</option>
+                    <!--option value="https">https</option-->
+                </select>
+            </div>
+            <div class="input-left">
+                <label for="port">Port:<span class="required">*</span></label><br/>
+                <input type="text" name="config[port]" id="port" value="<?=$data->getPort()?>" title="Port" class="required-entry input-text"/>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<fieldset class="group-select">
+ <legend>Secure connection</legend>
+    <h3>Secure connection</h3>
+    <ul>
+        <li>
+            <div class="input-left">
+                <label for="secure_protocol">Secure protocol:<span class="required">*</span></label><br/>
+                <select name="config[secure_protocol]" id="secure_protocol" title="Secure protocol" class="required-entry input-text">
+                    <option value="http">http</option>
+                    <option value="https" selected>https</option>
+                </select>
+            </div>
+            <div class="input-left">
+                <label for="secure_port">Secure post:<span class="required">*</span></label><br/>
+                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$data->getScurePort()?>" title="Secure port" class="required-entry input-text"/>
             </div>
         </li>
     </ul>

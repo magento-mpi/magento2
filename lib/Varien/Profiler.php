@@ -75,6 +75,9 @@ class Varien_Profiler
      *
      */
     public static function getSqlProfiler($res) {
+        if(!$res){
+            return false;
+        }
         $profiler = $res->getProfiler();
         if($profiler->getEnabled())
         {

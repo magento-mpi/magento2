@@ -25,6 +25,9 @@ class Mage_Core_Model_Mysql4_Resource
      */
     function getDbVersion($resName)
     {
+        if (!self::$_read) {
+            return false;
+        }
         // if Core module not instaled
         try {
             $select = self::$_read->select()->from(self::$_resTable, 'resource_db_version')

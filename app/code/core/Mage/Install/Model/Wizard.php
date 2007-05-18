@@ -22,6 +22,13 @@ class Mage_Install_Model_Wizard
         $this->_steps = Mage::getSingleton('install', 'config')->getWizardSteps();
         
         foreach ($this->_steps as $index => $step) {
+            $this->_steps[$index]->setUrl(Mage::getUrl('install', 
+                array(
+                    'controller'=>$this->_steps[$index]->getController(), 
+                    'action'=>$this->_steps[$index]->getAction())
+                )
+            );
+
             if (isset($this->_steps[$index+1])) {
                 $this->_steps[$index]->setNextUrl(Mage::getUrl('install', 
                     array(

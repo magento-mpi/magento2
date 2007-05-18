@@ -24,44 +24,58 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
      */
     public function install()
     {
-        $this->_checkFilesystem();
+        if ($this->_checkFilesystem()) {
+            //$this->_createLocalXml();
+        }
         return $this;
     }
     
     /**
      * Check file system by config
      *
+     * @return bool
      */
     protected function _checkFilesystem()
     {
+        $res = true;
         $config = Mage::getSingleton('install', 'config')->getPathForCheck();
         
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {
-                $this->_checkPath($item['path'], $item['recursive'], 'write');
+                $res = $res && $this->_checkPath($item['path'], $item['recursive'], 'write');
             }
         }
-        return $this;
+        return $res;
     }
     
+    /**
+     * Check file system path
+     *
+     * @param   string $path
+     * @param   bool $recursive
+     * @param   string $mode
+     * @return  bool
+     */
     protected function _checkPath($path, $recursive, $mode)
     {
+        $res = true;
         $fullPath = dirname(Mage::getRoot()).$path;
         if ($mode == self::MODE_WRITE) {
             if (!is_writable($fullPath)) {
                 Mage::getSingleton('install', 'session')->addMessage(
                     Mage::getModel('core', 'message')->error(__('Path "%s" must be writable', $fullPath))
                 );
+                $res = false;
             }
         }
         
         if ($recursive && is_dir($fullPath)) {
             foreach (new DirectoryIterator($fullPath) as $file) {
                 if (!$file->isDot() && $file->getFilename() != '.svn') {
-                    $this->_checkPath($path.DS.$file->getFilename(), $recursive, $mode);
+                    $res = $res && $this->_checkPath($path.DS.$file->getFilename(), $recursive, $mode);
                 }
             }
         }
-        return $this;
+        return $res;
     }
 }

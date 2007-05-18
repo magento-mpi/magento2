@@ -25,11 +25,12 @@ class Mage_Core_Model_Mysql4_Config
     
     public function updateXmlFromDb($xmlRoot)
     {
-        $dbConfig = self::$_read->fetchAssoc("select config_key, config_value from ".self::$_configTable);
-        foreach ($dbConfig as $path=>$value) {
-            Mage::getConfig()->setNode($path, $value['config_value']);
+        if (self::$_read) {
+            $dbConfig = self::$_read->fetchAssoc("select config_key, config_value from ".self::$_configTable);
+            foreach ($dbConfig as $path=>$value) {
+                Mage::getConfig()->setNode($path, $value['config_value']);
+            }
         }
-        
     }
     
 }

@@ -37,8 +37,13 @@ class Mage_Core_Resource
     {
         if (!isset($this->_connections[$name])) {
             $conn = Mage::getConfig()->getResourceConnectionConfig($name);
-            $typeObj = $this->getConnectionTypeObj((string)$conn->type);
-            $this->_connections[$name] = $typeObj->getConnection($conn);
+            if ($conn) {
+                $typeObj = $this->getConnectionTypeObj((string)$conn->type);
+                $this->_connections[$name] = $typeObj->getConnection($conn);
+            }
+            else {
+                return false;
+            }
         }
         return $this->_connections[$name];
     }

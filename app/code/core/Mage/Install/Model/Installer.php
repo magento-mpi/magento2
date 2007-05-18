@@ -19,4 +19,11 @@ class Mage_Install_Model_Installer
     {
         
     }
+    
+    protected function _createLocalXml()
+    {
+        $templateFile = Mage::getBaseDir('etc').DS.'local.xml.template';
+        $destFile     = Mage::getBaseDir('etc').DS.'local.xml';
+        file_put_contents($destFile, file_get_contents($templateFile));
+    }
 }
