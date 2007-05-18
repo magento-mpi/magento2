@@ -40,7 +40,7 @@
 						<field name="date" type="Date" format="YYYY-MM-DD" />
 					</transformInformation>
 					-->
-					<chart type="basechart" showLegend="true">
+					<chart type="basechart" showLegend="true" printRevert="true">
 						<horizontalAxis type="text" field="name" label="Cities" />
 						<verticalAxis type="liniar" maximum="{value}" label="Users" labelTemplate="{users} " />
 						<series type="line" form="curve" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
@@ -72,7 +72,7 @@
 						<field name="date" type="Date" format="YYYY-MM-DD" />
 					</transformInformation>
 					-->
-					<chart type="basechart" showLegend="true">
+					<chart type="basechart" showLegend="true" printRevert="true">
 						<horizontalAxis type="text" field="name" label="Cities" />
 						<verticalAxis type="liniar" maximum="{value}" label="Users" />
 						<series type="column" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
