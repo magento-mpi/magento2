@@ -11,6 +11,11 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
         console.info('update');
         return false;
     },
+
+    getPanel : function() {
+        return this.panel;
+    },
+
     
     save : function() {
         console.info('save');

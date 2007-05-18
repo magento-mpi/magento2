@@ -137,8 +137,6 @@ Mage.Catalog_Product = function(depend){
             
             this.productsGrid.mageCategoryId = catId;
             
-//            this.productsGrid.on('rowclick', this.createItem.createDelegate(this));
-            
             this.productsGrid.getSelectionModel().on('rowselect', function(sm, rowIndex, record){
                 if (this.lastSelectedRecord !== record) {
                     this.lastSelectedRecord = record;

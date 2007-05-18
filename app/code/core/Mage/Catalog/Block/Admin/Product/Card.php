@@ -50,6 +50,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
         
         // Create card JSON structure
         $cardStructure = array();
+        $cardStructure['title'] = $product->getName() . ' #' . $product->getId(); 
         //$cardStructure['attribute_set'] = $arrSets;
         $cardStructure['tabs'] = array();
         

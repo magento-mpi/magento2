@@ -41,7 +41,7 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             layout.getRegion('north').add(new Ext.ContentPanel(toolbarPanelBaseEl));
             this.panel = new Ext.NestedLayoutPanel(layout, {
                 closable : true,
-                title : 'Panel'
+                title : 'Loading...'
             });
         }
     },
@@ -82,6 +82,7 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             return false;
         }
         var panel;
+        this.panel.setTitle(result.title || '');
         this.panel.getLayout().beginUpdate();
         for(i=0; i<result.tabs.length; i++) {
             result.tabs[i].record = this.lastRecord;
@@ -102,7 +103,8 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         }
         this.lastRecord = record;        
         this.loadPanel();
-                
+        this.panel.setTitle('Loading...');
+
         this.loadMask = new Ext.LoadMask(this.panel.getLayout().getEl());
         this.loadMask.onBeforeLoad();
         this.conn = new Ext.data.Connection();
