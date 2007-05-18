@@ -144,7 +144,7 @@ Mage.Catalog_Product = function(depend){
                     this.lastSelectedRecord = record;
                     this.loadProduct(record);
                 }
-            }, this)
+            }, this, {buffer : 1000})
             
 
             this.productsGrid.render();
