@@ -1,0 +1,460 @@
+=============================================================================== Magento start
+
+===== User Interface Specifications =====
+
+== 1. Front end ==
+  * 1.1 [[.:specs:front:customers|Customers]]
+  * 1.2 [[.:specs:front:catalog|Catalog]]
+  * 1.3 [[.:specs:front:cart|Shopping Cart]]
+  * 1.4 [[.:specs:front:checkout|Checkout]]
+    * 1.4.1 [[.:specs:front:checkout:onepage|One Page Checkout]]
+
+== 2. Admin ==
+  * 2.1 [[.:specs:admin:general|General]]
+  * 2.2 [[.:specs:admin:customers|Customers]]
+  * 2.3 [[.:specs:admin:catalog|Catalog]]
+  * 2.4 [[.:specs:admin:sales|Sales]]
+  * 2.5 [[.:specs:admin:system|System]]
+    * 2.5.1 [[.:specs::admin:system:modules|Modules]]
+    * 2.5.2 [[.:specs::admin:system:websites|Websites]]
+    * 2.5.3 [[.:specs::admin:system:layouts|Layouts]]
+
+
+===== API Outlook and Examples ======
+
+== 1. Mage Modules ==
+  * 1.1 [[.:api:mage:core|Mage_Core]]
+    * 1.1.1 [[.:api:mage:core:config|Mage_Core_Config]]
+    * 1.1.2 [[.:api:mage:core:layout|Mage_Core_Layout]]
+    * 1.1.3 [[.:api:mage:core:resource|Mage_Core_Resource]]
+    * 1.1.4 [[.:api:mage:core:model|Mage_Core_Model]]
+    * 1.1.5 [[.:api:mage:core:controller|Mage_Core_Controller]]
+  * 1.2 [[.:api:mage:auth|Mage_Auth]]
+  * 1.3 [[.:api:mage:page|Mage_Page]]
+  * 1.4 [[.:api:mage:customer|Mage_Customer]]
+  * 1.5 [[.:api:mage:catalog|Mage_Catalog]]
+  * 1.6 [[.:api:mage:sales|Mage_Sales]]
+  * 1.7 [[.:api:mage:checkout|Mage_Checkout]]
+  * 1.8 [[.:api:mage:directory|Mage_Directory]]
+  * 1.9 [[.:api:mage:usa|Mage_Usa]]
+  * 1.10 [[.:api:mage:cron|Mage_Cron]]
+
+== 2. Varien Library ==
+  * 2.1 [[.:api:varien:object|Varien_Object]]
+  * 2.2 [[.:api:varien:event|Varien_Event]]
+  * 2.3 [[.:api:varien:simplexml|Varien_Simplexml]]
+    * 2.3.1 [[.:api:varien:simplexml:element|Varien_Simplexml_Element]]
+    * 2.3.2 [[.:api:varien:simplexml:config|Varien_Simplexml_Config]]
+  * 2.4 [[.:api:varien:data|Varien_Data]]
+  * 2.5 [[.:api:varien:data|Varien_Db]]
+  * 2.6 [[.:api:varien:data|Varien_Crypt]]
+  * 2.7 [[.:api:varien:data|Varien_Filter]]
+
+
+===== Goals =====
+  * [[.:goals:refactor|Refactor]]
+  * [[.:goals:tasks|Tasks]]
+  * [[.:goals:roadmap|Roadmap]]
+
+=============================================================================== API Outlook and Examples
+
+=============================================================================== 1.1 Mage_Core
+
+[[magento:start|Back to contents]]
+
+===== Mage_Core =====
+
+=== app/Mage.php ===
+
+This file is included from all entry points, it contains:
+  * initialization procedure
+  * main registry
+  * most used shortcuts to other classes.
+  * run scripts for front and admin areas
+
+== Initialization procedure ==
+The init receives root directory for application. 
+If it's empty, it will try to find the application in location of Mage.php file.
+
+== Registry ==
+<code php>
+// register var=value
+Mage::register('var', $value);
+
+// retrieve var
+$value = Mage::registry('var');
+</code>
+
+
+=============================================================================== 1.1.1 Mage_Core_Config
+
+
+[[magento:start|Back to contents]]
+
+===== Mage_Core_Config =====
+
+Configuration is separated in few areas. They are loaded in following order, overwriting the previous keys if needed.
+  * app/etc/core.xml - list of modules and initial active flags
+  * {module_dir}/etc/config.xml - module system configuration
+  * app/etc/local.xml - local database settings
+  * Merge extends (look below)
+  * core_read.config table - customized configuration
+
+Configuration XML files are structured in this manner:
+<code>
+config/
+  modules/                Contains modules configurations (core.xml)
+    <Module_Name>/        
+      active              Is module active (in core.xml)
+      version             Module version (for resource updates, in module config.xml)
+
+  global/                 Globally relevant configuration
+    resource/             Global resource configuration
+      connection/         Global connection configuration 
+        types/            Connection types
+          <type_name>/    CLASS_CONFIGURATION
+
+    resources/            Configured resources
+      <resource_name>/
+        setup/            Resource setup config
+          module          Module this resource should check version against
+        connection/       Resource connection config
+          use             Resource name to reuse connection. 
+                          If specified will ignore other settings
+          model           Resource model will be used for the connection. 
+                          All other settings depend on on this value
+          host,username,password,dbname Database connection settings
+
+    models/               Models and resource models configured
+      <model_name>/       The convention is to append _resource for resource specific models
+                          This node includes CLASS_CONFIGURATION
+        entities/         Resource specific models contain entities information for resource model logic.
+          <entity_name>/
+            table         In case of databases they will describe table names
+
+    block/                Layout blocks configuration
+      types/              Available block types
+        <type_name>/      CLASS_CONFIGURATION
+
+    sales/                Sales specific configuration
+
+    websites/             Websites configuration
+
+    domains/              Domains (website groups) configuration
+
+  front/                  Frontend configuration
+
+  admin/                  Admin configuration
+</code>
+
+In general if node name is plural the children should be a collection of entities. If it is singular and not child of collection it is an abstract configuration container.
+
+CLASS_CONFIGURATION is a node that contains reference to class that will be used for this node's logic.
+It is retrieved by ''$node->getClassName()'' and defined in ''Mage_Core_Config_Element''
+This node can contain:
+  * ''<class>Mage_Module_Class_Name</class>''
+  * OR ''<model>model_name</model><class>model_class_name</class>''
+
+CALLBACK_CONFIGURATION contains CLASS_CONFIGURATION with:
+  * ''<method>static_method_to_run</method>''
+  * AND conditionally ''<args><arg1>arg1_value</arg1><arg2>arg2_value</arg2></args>''
+
+Configuration tags can contain attribute <tag extends="xpath">
+It will merge all nodes found with xpath with information this node contains.
+
+== Examples ==
+
+app/etc/local.xml:
+<code xml>
+<config>
+    <modules>
+        <Mage_Core>
+            <load>
+                <all>
+                    <resources>
+                        <dev_setup>
+                            <connection>
+                                <type>mysqli</type>
+                                <host>localhost</host>
+                                <username>root</username>
+                                <password></password>
+                                <dbname>magenta</dbname>
+                            </connection>
+                        </dev_setup>
+
+                        <dev_write>
+                            <connection extends="//dev_setup/connection">
+                                <type>mysql</type>
+                            </connection>
+                        </dev_write>
+
+</code>
+
+In  final file in cache we have 
+
+<code xml>
+<config>
+    <modules>
+        <Mage_Core>
+            <load>
+                <all>
+                    <resources>
+                        <dev_setup>
+                            <connection>
+                                <type>mysqli</type>
+                                <host>localhost</host>
+                                <username>root</username>
+                                <password></password>
+                                <dbname>magenta</dbname>
+                            </connection>
+                        </dev_setup>
+
+                        <dev_write>
+                            <connection extends="//dev_setup/connection">
+                                <type>mysql</type>
+                                <host>localhost</host>
+                                <username>root</username>
+                                <password></password>
+                                <dbname>magenta</dbname>
+                            </connection>
+                        </dev_write>
+</code>
+
+
+Core/etc/config.xml:
+<code xml>
+<config>
+    <global>
+        <resourceTypes extends="/config/modules/*/load/*/resourceTypes"/>
+</code>
+will collect tags from resourceTypes in all modules.
+
+
+
+==== app/code/core/Mage/Core/Config.php ====
+Extends [[magento:api:varien:simplexml:config|Varien_Simplexml_Config]]
+
+This class:
+  * Loads configuration from cache.
+  * If cache doesn't exist, loads configuration from files and database and compiles single XML cache file
+  * Contains all methods to retrieve configuration values for Core module.
+
+=== Init process ===
+  * First this class will try to load /var/cache/config/globalConfig.xml
+    * ::init()
+  * If it's unavailable, it starts config compilation process.
+    * ::loadGlobal()
+
+  * The compilation process starts with /app/etc/core.xml, which contains list of modules with <active> flag.
+    * ::loadCore()
+
+  * Then it loads default system configurations for modules in the order they were referenced in /app/etc/core.xml. The order is important for dependancies.
+    * ::loadModules()
+
+  * After modules configuration was loaded, it reads /app/etc/local.xml, which overwrites any configuration values already in config. Usually this file contains database connections.
+    * ::loadLocal()
+
+  * After loading configuration from files, it runs ::applyExtends() few times to merge nodes specified by <target extends="source_xpath"> as explained above. 
+
+  * When the config structure is ready for use in the application it loads configuration values from database, which overwrite any previous defined keys.
+    * ::loadFromDb()
+
+  * In the end, it saves resulting XML into cache file, to be loaded next time requested. The cache is invalidated on any component file change. (TODO: invalidation on changes in database configuration table)
+
+=== Useful methods ===
+
+== getBaseDir ==
+getBaseDir($type, $moduleName) - use it to retrieve filesystem path for application or module root, or following types:
+  * layout - folder where layout configuration update files live.
+  * views - templates for layouts
+  * etc - configuration
+  * var - folder for temporary and cache files
+  * controllers - action controller folder (for modules only)
+  * sql - database management files (for modules only)
+  
+Examples:
+<code php>
+$dir = Mage::getConfig()->getBaseDir();
+// $dir == {DOCROOT}/app
+
+$dir = Mage::getConfig()->getBaseDir('var');
+// $dir == {DOCROOT}/app/var
+
+$dir = Mage::getConfig()->getBaseDir('views', 'Mage_Customer');
+// $dir == {DOCROOT}/app/layout/Mage/Customer/views
+</code>
+
+== getBaseUrl ==
+getBaseUrl($type, $moduleName) - same as getBaseDir, but for URL paths. available types:
+  * skin - url path to css and images
+  * js - url path to javascript files
+
+=============================================================================== 1.1.2 Mage_Core_Layout
+
+[[magento:start|Back to contents]]
+
+===== Mage_Core_Layout =====
+Extends [[magento:api:varien:simplexml:config|Varien_Simplexml_Config]]
+
+This class manages blocks layouts xml configuration. XML looks like this:
+
+<code xml>
+
+<layoutUpdate>
+
+  <block type="type1" name="root" output="toString">
+
+    <action method="methodName" json="methodArg1" process="methodArg2">
+
+      <methodArg1>{"a":[{"b":1}]}</methodArg1>
+      <methodArg2>{$baseModuleUrl}/argument</methodArg2>
+      <methodArg3><!CDATA[<b>some html here</b>]]></methodArg3>
+
+    </action>
+
+    <block type="type2" name="root.child" as="childHandle"/>
+
+    <block type="list" name="root.list" as="childListHandle">
+
+      <block type="type3" name="root.list.child1"/>
+
+      <block type="type4" name="root.list.child2" before="root.list.child1"/>
+
+      <block type="type5" name="root.list.child3" after="root.list.child2"/>
+
+    </block>
+
+  </block>
+
+  <reference name="root.list.child1">
+
+    <action .../>
+
+    <block .../>
+
+  </reference>
+
+</layoutUpdate>
+
+</code>
+
+  * Block attributes:
+    * type: 
+    * name: 
+    * output: add to output sequence using block method specified(all root blocks should have output attribute, otherwise they will be ignored)
+  * Action attributes:
+    * method:
+    * process:
+    * json:
+  * Reference attributes:
+    * name:
+
+=============================================================================== 1.1.3 Mage_Core_Resource
+
+===== Mage_Core_Resource =====
+
+To create a module that will allow mysql5 or other resource model functionality:
+
+  * Create new module folder.
+  * Create Resource/Model/Mysql5.php and Resource/Model/Mysql5/* with functinality provided by mysql4 logic (interfaces will follow)
+  * Create initializing sql files for your model in sql/resource_name_setup/mysql5-install-<curModVer>.sql
+  * Create etc/config.xml:
+<code xml>
+<config>
+  <global>
+    <resources>
+      <resource_name_setup>
+        <connection>
+          <model>mysql5</model>
+          <host>...</host>
+          ...
+        </connection>
+      <resource_name_setup>
+    </resources>
+
+    <resourceModels>
+      <resource_name>
+        <class>Mage_Module_Resource_Model_Mysql5</class>
+      <resource_name>
+    </resourceModels>
+  </global>
+</config>
+</code>
+  * Voila
+
+=============================================================================== 1.1.4 Mage_Core_Model
+
+=============================================================================== 1.1.5 Mage_Core_Controller
+
+=============================================================================== 1.2 Mage_Auth
+
+=============================================================================== 1.3 Mage_Page
+
+=============================================================================== 1.4 Mage_Customer
+
+=============================================================================== 1.5 Mage_Catalog
+
+[[magento:start|Back to contents]]
+
+===== Mage_Catalog =====
+
+Catalog specific configuration:
+
+<code>
+config/
+  global/
+    catalog/              Catalog specific configuration
+      category/
+      product/
+</code>
+
+=============================================================================== 1.6 Mage_Sales
+
+=============================================================================== 1.7 Mage_Checkout
+
+=============================================================================== 1.8 Mage_Directory
+
+=============================================================================== 1.9 Mage_Usa
+
+=============================================================================== 1.10 Mage_Cron
+
+[[magento:start|Back to contents]]
+
+===== Mage_Cron =====
+
+Cron specific configuration:
+<code>
+config/
+  global/
+    cron/                 Cron module configuration
+      jobs/               Cronjobs
+        <job_name>/
+          schedule/       Scheduler. If any of values are ommited, default to '*'
+                          Values are in standard crontab format
+            min           Minute
+            hour          Hour
+            day           Day
+            mon           Month
+            dow           Day of week
+          type            Type of job (shell, php_file, php_callback)
+          cmd             If type=shell, shell command; If type=php_file, PHP file path
+          callback        If type=php_callback, CALLBACK_CONFIGURATION
+</code>
+
+=============================================================================== 2.1 Varien_Event
+
+=============================================================================== 2.2 Varien_Profiler
+
+=============================================================================== 2.3.1 Varien_Simplexml_Element
+
+[[magento:start|Back to contents]]
+
+===== Varien_Simplexml_Object =====
+
+=============================================================================== 2.3.2 Varien_Simplexml_Config
+
+[[magento:start|Back to contents]]
+
+===== Varien_Simplexml_Config =====
+
+Uses [[magento::api:varien:simplexml:element|Varien_Simplexml_Element]]
