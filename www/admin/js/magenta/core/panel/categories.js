@@ -46,8 +46,8 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         if (this.toolbar) {
             if (this.tbItems.getCount() == 0) {
                 this.tbItems.add('categories_sep', new Ext.Toolbar.Separator());
-                this.tbItems.add('categories_delete', new Ext.Toolbar.Button({
-                    text : 'Delete Category',
+                this.tbItems.add('categories_remove', new Ext.Toolbar.Button({
+                    text : 'Remove Category',
                     handler : this._onDeleteItem,
                     scope : this
                 }));
@@ -127,11 +127,11 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
             return view.store.getCount() > 0;
         });
         this.view.on('selectionchange', function(view, selections){
-            if (this.tbItems.get('categories_delete')) {
+            if (this.tbItems.get('categories_remove')) {
                 if (selections.length) {
-                    this.tbItems.get('categories_delete').enable();
+                    this.tbItems.get('categories_remove').enable();
                 } else {
-                    this.tbItems.get('categories_delete').disable();
+                    this.tbItems.get('categories_remove').disable();
                 }
             }
         }.createDelegate(this));
