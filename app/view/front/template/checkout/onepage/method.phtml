@@ -1,7 +1,7 @@
 <div class="step-body">
     <h4 class="login">Login</h4>
     <div class="note-box">
-    <?=$messages->__toHtml()?>
+    <?=$messages->toHtml()?>
     <form action="<?=$postAction?>" method="post">
         <fieldset class="group-select">
         <p>
@@ -21,7 +21,7 @@
                     <input type="password" class="input-text" id="password" name="login[password]" />
                 </div>
                 <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword'))?>">Forgot your 
-								password?</a></div>
+                                password?</a></div>
             </li>
         </ul>
         </fieldset>

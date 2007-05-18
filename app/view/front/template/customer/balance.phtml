@@ -1,7 +1,7 @@
 
-	<h1 class="page-heading">My Balance</h1>
-	<?=$messages->__toHtml()?>
-	You account balance is: <strong><?=$customer->getStoreBalance()?></strong>
-	<div class="buttons-container">
-			<a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
-	</div>
+    <h1 class="page-heading">My Balance</h1>
+    <?=$messages->toHtml()?>
+    You account balance is: <strong><?=$customer->getStoreBalance()?></strong>
+    <div class="buttons-container">
+            <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+    </div>

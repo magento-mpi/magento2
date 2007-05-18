@@ -18,8 +18,11 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $step->setActive(true);
         }
         
+        Mage::getModel('install', 'installer_filesystem')->install();
+        
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.begin')
             ->setTemplate('install/begin.phtml')
+            ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
             ->assign('step', $step);
 
         $this->getLayout()->getBlock('content')->append($contentBlock);
@@ -69,9 +72,11 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $step->setActive(true);
         }
         
-        
+        Mage::getModel('install', 'installer_env')->install();
+
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.check')
             ->setTemplate('install/check.phtml')
+            ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
             ->assign('step', $step);
         
         $this->getLayout()->getBlock('content')->append($contentBlock);

@@ -19,13 +19,7 @@ class Mage_Install_Model_Wizard
     
     public function __construct() 
     {
-        $config = new Varien_Simplexml_Config(Mage::getConfig()->getBaseDir('etc','Mage_Install').DS.'wizard.xml');
-        
-        foreach ($config->getNode() as $stepName=>$step) {
-            $stepObject = new Varien_Object((array)$step);
-            $stepObject->setName($stepName);
-            $this->_steps[] = $stepObject;
-        }
+        $this->_steps = Mage::getSingleton('install', 'config')->getWizardSteps();
         
         foreach ($this->_steps as $index => $step) {
             if (isset($this->_steps[$index+1])) {

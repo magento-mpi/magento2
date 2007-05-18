@@ -44,14 +44,19 @@ class Mage_Core_Model_Message_Collection
         return $this->getItemsByType(Mage_Core_Model_Message::ERROR);
     }
     
-    public function __toHtml()
+    public function toHtml()
     {
         $out = '';
         $arrItems = $this->getItems();
         foreach ($arrItems as $item) {
-            $out.= $item->__toHtml();
+            $out.= $item->toHtml();
         }
         
         return $out;
+    }
+
+    public function count()
+    {
+        return count($this->_messages);
     }
 }

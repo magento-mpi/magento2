@@ -1,6 +1,6 @@
 
 <h1 class="page-heading"><?if($data->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h1>
-<?=$messages->__toHtml()?>
+<?=$messages->toHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
 <input type="hidden" name="customer_id" id="address_id" value="<?=$data->getCustomerId()?>">
@@ -67,7 +67,7 @@
                 <div class="input-left">
                     <label for="telephone">Telephone <span class="required">*</span></label><br/>
                     <input type="text" name="telephone" value="<?=$data->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" 
-										id="telephone"/></div>
+                                        id="telephone"/></div>
                 <div class="input-right">
                     <label for="fax">Fax</label><br/>
                     <input type="text" name="fax" value="<?=$data->getFax()?>" title="Fax" class="validate-fax input-text" id="fax"/>

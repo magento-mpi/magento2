@@ -33,7 +33,7 @@ abstract class Mage_Core_Model_Message_Abstract
         $this->_method = $method;
     }
 
-    public function __toHtml()
+    public function toHtml()
     {
         $out = '<div class="'.$this->getType().'">'.__($this->getCode()).'</div>';
         return $out;

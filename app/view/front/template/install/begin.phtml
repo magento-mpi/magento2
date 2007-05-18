@@ -1,5 +1,12 @@
 <h1 class="page-heading">Welcome !</h1>
-.....
+<?=$messages->toHtml()?>
+<?if($messages->count()==0):?>
+<label for="language">Language:</label>
+<select name="language" id="language">
+    <option>English</option>
+</select>
+<div>.....</div>
 <div class="buttons-container">
     <input type="button" onclick="window.location='<?=$step->getNextUrl()?>';" value="Continue" class="input-button">
 </div>
+<?endif?>
