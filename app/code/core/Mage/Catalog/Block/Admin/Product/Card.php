@@ -71,6 +71,7 @@ class Mage_Catalog_Block_Admin_Product_Card extends Mage_Core_Block_Abstract
             Mage::registry('controller')->getRequest()->setParam('group', $group->getId());
             $cardStructure['tabs'][] = array(
                 'name'  => $group->getCode(),
+                'background' => true,
                 'title' => $group->getCode(),
                 'type'  => 'form',
                 'form'  => Mage::getSingleton('core', 'layout')->createBlock('admin_catalog_product_form_json', 'product_form')

@@ -1,5 +1,7 @@
 Mage.core.PanelView = function(region, config) {
     this.region = region;
+    this.notLoaded = false;    
+
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
@@ -9,6 +11,13 @@ Mage.core.PanelView = function(region, config) {
        	fitToFrame : true,       	
         title : this.title || 'Title'
     }));
+
+    this.panel.on('activate', function(){
+        if (this.notLoaded) {
+            this.panel.load(this.url);   
+            this.notLoaded = false;
+        }
+    }, this);
 };
 
 Ext.extend(Mage.core.PanelView, Mage.core.Panel, {
@@ -17,7 +26,7 @@ Ext.extend(Mage.core.PanelView, Mage.core.Panel, {
         if (this.region.getActivePanel() == this.panel) {
             this.panel.load(this.url);
         } else {
-            this.panel.setUrl(this.url, {}, true);
+            this.notLoaded = true;
         }
     }
 })

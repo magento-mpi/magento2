@@ -14,20 +14,42 @@ Mage.core.PanelForm = function(region, config) {
        	fitToFrame : true,
         title : this.title || 'Title'
     }));
-    if (this.form) {
-        this._buildForm();
-    }
+
+    this.panel.on('activate', function() {
+        if (this.form) {
+            this._buildForm();
+            this.notLoaded = false;
+        }
+    }, this, {single : true})
+
+
+    this.panel.on('activate', function() {
+        if (this.notLoaded) {
+            this._rebuildForm();
+            this.notLoaded = false;
+        }
+    }, this)
+
 };
 
 Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     update : function(config) {
+        Ext.apply(this, config);    
+        if (this.region.getActivePanel() == this.panel) {
+            this._rebuildForm();
+            this.notLoaded = false;   
+        } else {
+            this.notLoaded = true;   
+        }
+
+    },
+
+    _rebuildForm : function() {
         if (!this.form) {
             return false;
         }
         var i;
-        Ext.apply(this, config);
-
         if (this.frm) {
             for (i=0; i < this.frm.items.getCount(); i++) {
                 this.frm.remove(this.frm.items[i]);

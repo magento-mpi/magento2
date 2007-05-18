@@ -1,6 +1,8 @@
 Mage.core.PanelCategories = function(region, config) {
     this.region = region;
     this.config = config;
+    this.notLoaded = false;
+
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
@@ -9,11 +11,22 @@ Mage.core.PanelCategories = function(region, config) {
        	fitToFrame : true,
         title : this.title || 'Title'
     }));
+ 
+    this.panel.on('activate', function(){
+        this._build();
+    }, this, {single: true});	    	
 
-    this.panel.on('activate', this._loadActions, this);
+    this.panel.on('activate', function(){
+        this._loadActions
+        if (this.notLoaded) {
+            this.view.store.proxy.getConnection().url = this.storeUrl;
+            this.view.store.load();
+            this.notLoaded = false;
+        }
+    }, this);	    	
+
     this.panel.on('deactivate', this._unLoadActions, this);
 
-    this._build();
 };
 
 Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
@@ -23,6 +36,9 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         if (this.region.getActivePanel() === this.panel) {
             this.view.store.proxy.getConnection().url = this.storeUrl;
             this.view.store.load();
+            this.notLoaded = false;            
+        } else {
+            this.notLoaded = true;            
         }
     },
     
@@ -61,9 +77,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
     _build : function() {
         this.containerEl = this._buildTemplate();
         var viewContainer = this.containerEl.createChild({tag : 'div', cls:'x-productimages-view'});
-        
         this._buildView(viewContainer);  
-            
     },
     
     _buildView : function(viewContainer) {
@@ -93,7 +107,10 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
                 this.view.select(0);
             }
         }.createDelegate(this));
-        
+
+        this.LoadMask = new Ext.LoadMask(this.panel.getEl(), {
+            store: store
+        });
         
         var viewTpl = new Ext.Template('<div class="thumb-wrap">' +
                 '<div id="{id}" class="thumb"><img src="{image_src}" alt="{image_alt}"></div>' +
@@ -168,6 +185,7 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         }.createDelegate(this);
         
         store.load();
+        this.notLoaded = false;        
     },
 
     _buildTemplate : function() {

@@ -1,5 +1,6 @@
 Mage.core.PanelRelated = function(region, config) {
     this.region = region;
+    this.notLoaded = false;
     Ext.apply(this, config);
     
     this.gridUrl = Mage.url + 'mage_catalog/product/relatedList/';
@@ -53,13 +54,27 @@ Mage.core.PanelRelated = function(region, config) {
         this.grid.render();
         this.grid.autoSize();
         this.grid.getDataSource().load();
+        this.notLoaded = false;
     }, this, {single : true});
+
+    this.panel.on('activate', function(){
+        if (this.notLoaded) {
+            this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'product/' + this.record.data.id + '/';
+            this.grid.getDataSource().load();
+            this.notLoaded = false;        
+        }
+    }, this);
+    
 };
 
 Ext.extend(Mage.core.PanelRelated, Mage.core.Panel, {
-    update : function() {
+    update : function(config) {
+        Ext.apply(this, config);
         if (this.region.getActivePanel() === this.panel) {
+            this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'product/' + this.record.data.id + '/';        
             this.grid.getDataSource().load();
+        } else {
+            this.notLoaded = true;
         }
     }  
 })
