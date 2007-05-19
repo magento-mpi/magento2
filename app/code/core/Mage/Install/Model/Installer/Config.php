@@ -35,12 +35,17 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
     public function getFormData()
     {
         $data = new Varien_Object();
+        $host = $_SERVER['HTTP_HOST'];
+        $hostInfo = explode(':', $host);
+        $host = $hostInfo[0];
+        $port = !empty($hostInfo[1]) ? $hostInfo[1] : 80;
+        
         $data->setServerPath(dirname(Mage::getBaseDir()))
-            ->setHost($_SERVER['HTTP_HOST'])
+            ->setHost($host)
             ->setBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
-            ->setSecureHost($_SERVER['HTTP_HOST'])
+            ->setSecureHost($host)
             ->setSecureBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
-            ->setPort(80)
+            ->setPort($port)
             ->setScurePort(443);
         return $data;
     }

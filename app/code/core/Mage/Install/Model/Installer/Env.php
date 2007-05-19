@@ -55,6 +55,11 @@ class Mage_Install_Model_Installer_Env extends Mage_Install_Model_Installer
                     Mage::getModel('core', 'message')->error(__('PHP Extension "%s" must be loaded', $extension))
                 );
         }
+        else {
+            Mage::getSingleton('install', 'session')->addMessage(
+                Mage::getModel('core', 'message')->success(__('PHP Extension "%s" loaded', $extension))
+            );
+        }
         return $this;
     }
 }
