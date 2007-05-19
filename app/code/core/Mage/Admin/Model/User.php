@@ -15,6 +15,11 @@ class Mage_Admin_Model_User extends Varien_Object
         parent::__construct();
     }
     
+    /**
+     * Get user id
+     *
+     * @return int || null
+     */
     public function getId()
     {
         return $this->getUserId();
@@ -30,9 +35,58 @@ class Mage_Admin_Model_User extends Varien_Object
         return Mage::getSingleton('admin_resource', 'user');
     }
     
+    /**
+     * Authenticate user
+     *
+     * @param   string $login
+     * @param   string $password
+     * @return  Mage_Admin_Model_User
+     */
+    public function authenticate($login, $password)
+    {
+        if ($this->getResource()->authenticate($this, $login, $password)) {
+            return $this;
+        }
+        return false;
+    }
+    
+    /**
+     * Load user data by user id
+     *
+     * @param   int $userId
+     * @return  Mage_Admin_Model_User
+     */
     public function load($userId)
     {
-        $this->setData($this->getResource()->load($customerId));
+        $this->setData($this->getResource()->load($userId));
+        return $this;
+    }
+    
+    public function loadByUsername($username)
+    {
+        $this->setData($this->getResource()->loadByUsername($username));
+        return $this;
+    }
+    
+    /**
+     * Save user data
+     *
+     * @return Mage_Admin_Model_User
+     */
+    public function save()
+    {
+        $this->getResource()->save($this);
+        return $this;
+    }
+    
+    /**
+     * Delete user
+     *
+     * @return Mage_Admin_Model_User
+     */
+    public function delete()
+    {
+        $this->getResource()->delete($this);
         return $this;
     }
 }

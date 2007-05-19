@@ -15,10 +15,8 @@
             </div>
         </li>
         <li>
-            <div class="input-left">
-                <label for="email_address">Email <span class="required">*</span></label><br/>
-                <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
-            </div>
+            <label for="email_address">Email <span class="required">*</span></label><br/>
+            <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
         </li>
     </ul>
 </fieldset>
@@ -27,10 +25,8 @@
     <h3>Login Information</h3>
     <ul>
         <li>
-            <div class="input-left">
-                <label for="username">Username <span class="required">*</span></label><br/>
-                <input type="text" name="username" id="username" value="<?=$data->getEmail()?>" title="User name" class="validate-email required-entry input-text"/>
-            </div>
+            <label for="username">Username <span class="required">*</span></label><br/>
+            <input type="text" name="username" id="username" value="<?=$data->getUsername()?>" title="User name" class="required-entry input-text"/>
         </li>
         <li>
             <div class="input-left">
@@ -51,5 +47,4 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate');
-    dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
 </script>

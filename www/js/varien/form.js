@@ -37,7 +37,7 @@ VarienForm.prototype = {
 
     elementOnBlur: function(event){
         var element = Event.findElement(event, 'fieldset');
-        if(element.classNam){
+        if(element.className){
             Element.removeClassName(element, this.highlightClass);
         }
     },

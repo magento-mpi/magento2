@@ -32,11 +32,6 @@
                 <controller>wizard</controller>
                 <action>administrator</action>
             </administrator>
-            <modules>
-                <code>modules installation</code>
-                <controller>wizard</controller>
-                <action>modules</action>
-            </modules>
             <end>
                 <code>end installation</code>
                 <controller>wizard</controller>
