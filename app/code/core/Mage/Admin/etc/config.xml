@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Admin>
+         <version>0.1.1</version>
+         <depends>
+            <Mage_Core />
+         </depends>
+      </Mage_Admin>
+   </modules>
+
+   <global>
+      <models>
+         <admin>
+            <class>Mage_Admin_Model</class>
+         </admin>
+
+         <admin_resource>
+            <class>Mage_Admin_Model_Mysql4</class>
+         </admin_resource>
+      </models>
+
+      <resources>
+         <admin_write>
+            <connection><use>core_write</use></connection>
+         </admin_write>
+
+         <admin_read>
+            <connection><use>core_read</use></connection>
+         </admin_read>
+      </resources>
+      
+      <block>
+        <types>
+       </types>
+      </block>
+   </global>
+</config>

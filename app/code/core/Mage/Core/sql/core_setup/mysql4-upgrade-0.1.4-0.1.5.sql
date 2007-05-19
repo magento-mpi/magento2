@@ -1,1 +1,0 @@
-alter table `core_language` Engine = InnoDB;

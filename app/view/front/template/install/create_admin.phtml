@@ -16,10 +16,6 @@
         </li>
         <li>
             <div class="input-left">
-                <label for="company">Company</label><br/>
-                <input type="text" name="company" id="company" value="<?=$data->getCompany()?>" title="Company" class="input-text"/>
-            </div>
-            <div class="input-left">
                 <label for="email_address">Email <span class="required">*</span></label><br/>
                 <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
             </div>
@@ -30,6 +26,12 @@
     <legend>Login Information</legend>
     <h3>Login Information</h3>
     <ul>
+        <li>
+            <div class="input-left">
+                <label for="username">Username <span class="required">*</span></label><br/>
+                <input type="text" name="username" id="username" value="<?=$data->getEmail()?>" title="User name" class="validate-email required-entry input-text"/>
+            </div>
+        </li>
         <li>
             <div class="input-left">
                 <label for="password">Password <span class="required">*</span></label><br/>

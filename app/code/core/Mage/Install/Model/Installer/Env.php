@@ -12,7 +12,7 @@ class Mage_Install_Model_Installer_Env extends Mage_Install_Model_Installer
 {
     public function __construct() 
     {
-        
+        parent::__construct();
     }
     
     public function install()

@@ -15,7 +15,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     
     public function __construct() 
     {
-        
+        parent::__construct();
     }
     
     /**

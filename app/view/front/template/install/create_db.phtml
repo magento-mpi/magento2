@@ -1,4 +1,5 @@
 <h1 class="page-heading">Database configuration</h1>
+<?=$messages->toHtml()?>
 <form action="<?=$postAction?>" method="post" id="form-validate">
 <fieldset class="group-select">
  <legend>Connection</legend>
@@ -24,7 +25,7 @@
         <li>
             <div class="input-left">
                 <label for="password">User password<span class="required"></span></label><br/>
-                <input type="password" name="config[db_password]" id="password" value="" title="Database user password" class="input-text"/>
+                <input type="password" name="config[db_pass]" id="password" value="" title="Database user password" class="input-text"/>
             </div>
         </li>
     </ul>

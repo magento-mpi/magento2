@@ -1,1 +1,0 @@
-alter table `magenta`.`customer_address` ,change `street` `street` text   NOT NULL  COLLATE utf8_general_ci ;

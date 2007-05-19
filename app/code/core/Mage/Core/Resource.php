@@ -97,4 +97,14 @@ class Mage_Core_Resource
         }
         return $this;
     }
+    
+    
+    public function createConnection($name, $type, $config)
+    {
+        if (!isset($this->_connections[$name])) {
+            $typeObj = $this->getConnectionTypeObj($type);
+            $this->_connections[$name] = $typeObj->getConnection($config);
+        }
+        return $this->_connections[$name];
+    }
 }

@@ -1,8 +1,9 @@
 <?php
+set_time_limit(0);
 /**
  * Install wizard controller
  *
- * @package     MAge
+ * @package     Mage
  * @subpackage  Inastall
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
@@ -114,6 +115,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.db')
             ->setTemplate('install/create_db.phtml')
+            ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'dbPost')))
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()));
         
@@ -128,19 +130,19 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $step = Mage::getSingleton('install', 'wizard')->getStepByName('db');
         if ($data = $this->getRequest()->getPost('config')) {
             try {
-                Mage::getSingleton('install', 'installer_db')->createDatabase($data);
+                Mage::getSingleton('install', 'installer_db')->checkDatabase($data);
                 // If config data initialized in previos steps
-                if ($dataObject = Mage::getSingleton('install', 'session')->getConfigData($data)) {
-                    $dataObject->addData($data);
+                if ($configData = Mage::getSingleton('install', 'session')->getConfigData()) {
+                    $data = array_merge($configData, $data);
                 }
-                else {
-                    Mage::getSingleton('install', 'session')->setConfigData($data);
-                }
+                
+                Mage::getSingleton('install', 'session')->setConfigData($data);
                 
                 Mage::getSingleton('install', 'installer_config')->install();
             }
             catch (Exception $e){
                 $this->getResponse()->setRedirect($step->getUrl());
+                return false;
             }            
         }
         $this->getResponse()->setRedirect($step->getNextUrl());
@@ -149,7 +151,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function administratorAction()
     {
         $this->_prepareLayout();
-        
+        Mage_Core_Resource_Setup::applyAllUpdates();
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'administratorPost')))

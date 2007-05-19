@@ -12,11 +12,39 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer
 {
     public function __construct() 
     {
-        
+        parent::__construct();
     }
     
-    public function createDatabase($data)
+    /**
+     * Create database
+     * 
+     * $data = array(
+     *      [db_host]
+     *      [db_name]
+     *      [db_user]
+     *      [db_pass]
+     * )
+     * 
+     * @param array $data
+     */
+    public function checkDatabase($data)
     {
+        $config = array(
+            'host'      => $data['db_host'],
+            'username'  => $data['db_user'],
+            'password'  => $data['db_pass'],
+            'dbname'    => $data['db_name']
+        );
         
+        $connection = Mage::registry('resources')->createConnection('install', 'mysqli', $config);
+        try {
+            $connection->query('SELECT 1');
+        }
+        catch (Exception $e){
+            Mage::getSingleton('install', 'session')->addMessage(
+                Mage::getModel('core', 'message')->error($e->getMessage())
+            );
+            throw new Exception('Database connection error');
+        }
     }
 }
