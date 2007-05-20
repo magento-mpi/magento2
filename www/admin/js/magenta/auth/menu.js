@@ -4,9 +4,8 @@ Mage.Menu_Auth = function(){
             Mage.Menu_Core.add('-');
             Mage.Menu_Core.add({
                 text: 'Users & Permissions',
-                handler: Mage.Auth.loadMainPanel.createDelegate(Mage.Auth)
+                handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['auth', 'loadMainPanel'], 0)                
             });
         }
     }
 }();
-Mage.Menu_Auth.init();

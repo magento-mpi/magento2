@@ -1,17 +1,17 @@
 Mage.Menu_Sales = function(){
     var menu;
     return {
-        init : function(){
+        init : function(toolbar){
             menu = new Ext.menu.Menu({
                 id: 'mainSalesMenu',
                 items: [
                     new Ext.menu.Item({
                         text: 'Orders',
-                        handler: Mage.Sales.loadMainPanel.createDelegate(Mage.Sales)
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['sales', 'loadMainPanel'], 0)                        
                     })
                  ]
             });
-            Mage.Admin.addLeftToolbarItem({
+            toolbar.addButton({
                 cls: 'x-btn-text .btn-sales',
                 text:'Sales',
                 menu: menu
@@ -19,4 +19,3 @@ Mage.Menu_Sales = function(){
         }
     }
 }();
-Mage.Menu_Sales.init();

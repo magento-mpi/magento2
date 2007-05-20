@@ -8,3 +8,4 @@ Mage.skin = SKIN_URL;
 Mage.Collection = new Ext.util.MixedCollection;
 
 Mage.form = {};
+Mage.core = {};

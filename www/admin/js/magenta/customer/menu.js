@@ -1,17 +1,17 @@
 Mage.Menu_Customer = function(){
     var menu;
     return {
-        init : function(){
+        init : function(toolbar){
             menu = new Ext.menu.Menu({
                 id: 'mainCustomerMenu',
                 items: [
                     new Ext.menu.Item({
                         text: 'Manage Customers',
-                        handler: Mage.Customer.loadMainPanel.createDelegate(Mage.Customer)
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['customer', 'loadMainPanel'], 0)
                     })
                  ]
             });
-            Mage.Admin.addLeftToolbarItem({
+            toolbar.addButton({
                 cls: 'x-btn-text .btn-customer',
                 text:'Customers',
                 menu: menu
@@ -19,4 +19,3 @@ Mage.Menu_Customer = function(){
         }
     }
 }();
-Mage.Menu_Customer.init();

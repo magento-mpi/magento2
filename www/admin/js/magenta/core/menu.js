@@ -7,7 +7,7 @@ Mage.Menu_Core = function(){
             }
         },
         
-        init : function(){
+        init : function(toolbar){
             var aboutmenu = new Ext.menu.Menu({                
                 id: 'aboutMenu',
                 items: [
@@ -26,13 +26,13 @@ Mage.Menu_Core = function(){
                  ]
             });
             
-            Mage.Admin.addLeftToolbarItem({
+            toolbar.addButton({
                 icon: 'favicon.ico',
                 cls: 'x-btn-icon',                
                 menu: aboutmenu
             });
             
-            Mage.Admin.addLeftToolbarItem(new Ext.ToolbarButton({
+            toolbar.addButton(new Ext.ToolbarButton({
                 text: 'Dashboard',
                 handler : function() {
                     var region_center = Mage.Admin.getLayoutRegion('center');
@@ -59,21 +59,21 @@ Mage.Menu_Core = function(){
                  ]
             });
             
-            Mage.Admin.addLeftToolbarItem({
+            toolbar.addButton({
                 cls: 'x-btn-text bmenu',
                 text:'System',
                 menu: menu
             });
         },
         
-        initRight: function(){
+        initRight: function(toolbar){
             function chooseTheme(item, e) {
                 var themeStyleEl =  Ext.get('theme_stylesheet');
                 Cookies.set('admtheme', item.value);
                 themeStyleEl.dom.href = themeStyleEl.dom.href.replace(/(ytheme-).*(\.css)$/, '$1'+item.value+'$2');
             }
 
-           Mage.Admin.getRighToolbar().add({
+           toolbar.addButton({
                 cls: 'x-btn-text .btn-theme',
                 text:'Theme',
                 menu: new Ext.menu.Menu({
@@ -125,7 +125,8 @@ Mage.Menu_Core = function(){
                     ]
                 })
             });
-            Mage.Admin.getRighToolbar().add({
+            
+            toolbar.addButton({
                 cls: 'x-btn-text-icon btn-logout',
                 text:'Logout',
                 handler: function(){
@@ -135,6 +136,6 @@ Mage.Menu_Core = function(){
         }
     }
 }();
-Ext.EventManager.onDocumentReady(Mage.Menu_Core.initRight, Mage.Menu_Core, true);
-Mage.Menu_Core.init();
+
+
 

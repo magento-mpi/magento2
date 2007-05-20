@@ -1,13 +1,13 @@
 Mage.Menu_Catalog = function(){
     var menu;
     return {
-        init : function(){
+        init : function(toolbar){
             menu = new Ext.menu.Menu({
                 id: 'mainCatalogMenu',
                 items: [
                     new Ext.menu.Item({
                         text: 'Categories and Products',
-                        handler: Mage.Catalog.loadMainPanel.createDelegate(Mage.Catalog)
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['catalog', 'loadMainPanel'], 0)                        
                     }),
                     '-',
 /*
@@ -18,7 +18,7 @@ Mage.Menu_Catalog = function(){
 */
                     new Ext.menu.Item({
                         text: 'Product attributes',  
-                        handler: Mage.Catalog_Product_Attributes.loadMainPanel.createDelegate(Mage.Catalog_Product_Attributes)                                                
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['product_attirbutes', 'loadMainPanel'], 0)                                                
                     })
 /*
                     '-',
@@ -28,7 +28,8 @@ Mage.Menu_Catalog = function(){
 */
                  ]
             });
-            Mage.Admin.addLeftToolbarItem({
+            
+           toolbar.addButton({
                 cls: 'x-btn-text bmenu',
                 text:'Catalog',
                 menu: menu
@@ -36,4 +37,3 @@ Mage.Menu_Catalog = function(){
         }
     }
 }();
-Mage.Menu_Catalog.init();
