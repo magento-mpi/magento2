@@ -6,11 +6,6 @@
          <depends>
             <Mage_Page />
          </depends>
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
       </Mage_Catalog>
    </modules>
    <global>
@@ -226,24 +221,6 @@
       </resources>
       <block>
          <types>
-            <admin_catalog_category_form>
-               <class>Mage_Catalog_Block_Admin_Category_Form</class>
-            </admin_catalog_category_form>
-            <admin_catalog_category_form_json>
-               <class>Mage_Catalog_Block_Admin_Category_FormJson</class>
-            </admin_catalog_category_form_json>
-            <admin_catalog_product_create_option>
-               <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
-            </admin_catalog_product_create_option>
-            <admin_catalog_product_form>
-               <class>Mage_Catalog_Block_Admin_Product_Form</class>
-            </admin_catalog_product_form>
-            <admin_catalog_product_form_json>
-               <class>Mage_Catalog_Block_Admin_Product_FormJson</class>
-            </admin_catalog_product_form_json>
-            <admin_catalog_product_card>
-               <class>Mage_Catalog_Block_Admin_Product_Card</class>
-            </admin_catalog_product_card>
             <catalog_category_tree>
                <class>Mage_Catalog_Block_Category_Tree</class>
             </catalog_category_tree>
@@ -289,34 +266,4 @@
          </catalog>
       </routers>
    </front>
-   <admin>
-      <acl>
-         <resources>
-            <catalog>
-               <categories_products />
-               <categories_attributes />
-               <products_attributes />
-               <products_datafeeds />
-            </catalog>
-         </resources>
-      </acl>
-      <layouts>
-         <default>
-            <updates>
-               <catalog>
-                  <file>catalog/initLayout.xml</file>
-               </catalog>
-            </updates>
-         </default>
-      </layouts>
-      <search>
-         <global>
-            <collections>
-               <products>
-                  <class>Mage_Catalog_Model_Admin_Search</class>
-               </products>
-            </collections>
-         </global>
-      </search>
-   </admin>
 </config>

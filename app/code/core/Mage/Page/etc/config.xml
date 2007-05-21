@@ -6,12 +6,6 @@
          <depends>
             <Mage_Auth />
          </depends>
-
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
       </Mage_Page>
    </modules>
 
@@ -61,14 +55,4 @@
          </page>
       </routers>
    </front>
-
-   <admin>
-      <acl>
-         <resources>
-            <layouts>
-               <manage />
-            </layouts>
-         </resources>
-      </acl>
-   </admin>
 </config>

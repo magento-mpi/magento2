@@ -3,13 +3,6 @@
    <modules>
       <Mage_Core>
          <version>0.2.0</version>
-         <admin>
-            <controller>
-               <active>true</active>
-
-               <default>true</default>
-            </controller>
-         </admin>
       </Mage_Core>
    </modules>
 
@@ -149,65 +142,9 @@
             <message>
                <class>Mage_Core_Block_Message</class>
             </message>
-
-            <toolbar>
-               <class>Mage_Core_Block_Admin_Js_Toolbar</class>
-            </toolbar>
-
-            <menu>
-               <class>Mage_Core_Block_Admin_Js_Menu</class>
-            </menu>
-
-            <tag_css_theme>
-               <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
-            </tag_css_theme>
-
-            <layout_border>
-               <class>Mage_Core_Block_Admin_Js_Layout_Border</class>
-            </layout_border>
-
-            <layout_panel>
-               <class>Mage_Core_Block_Admin_Js_Layout_Panel</class>
-            </layout_panel>
-
-            <layout_panel_grid>
-               <class>Mage_Core_Block_Admin_Js_Layout_Panel_Grid</class>
-            </layout_panel_grid>
-
-            <layout_panel_nested>
-               <class>Mage_Core_Block_Admin_Js_Layout_Panel_Nested</class>
-            </layout_panel_nested>
-
-            <tree>
-               <class>Mage_Core_Block_Admin_Js_Tree</class>
-            </tree>
          </types>
       </block>
    </global>
-
-   <admin>
-      <acl>
-         <resources>
-            <system>
-               <modules />
-
-               <websites />
-            </system>
-         </resources>
-      </acl>
-
-      <layouts>
-         <default>
-            <updates>
-               <core>
-                  <file>core/initLayout.xml</file>
-               </core>
-            </updates>
-         </default>
-      </layouts>
-
-      <translate> </translate>
-   </admin>
 
    <front>
       <layouts>

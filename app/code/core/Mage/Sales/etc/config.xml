@@ -7,11 +7,6 @@
             <Mage_Catalog />
             <Mage_Customer />
          </depends>
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
       </Mage_Sales>
    </modules>
    <global>
@@ -668,31 +663,4 @@
          </invoice>
       </sales>
    </global>
-   <admin>
-      <acl>
-         <resources>
-            <sales>
-               <orders />
-            </sales>
-         </resources>
-      </acl>
-      <layouts>
-         <default>
-            <updates>
-               <sales>
-                  <file>sales/initLayout.xml</file>
-               </sales>
-            </updates>
-         </default>
-      </layouts>
-      <search>
-         <global>
-            <collections>
-               <sales>
-                  <class>Mage_Sales_Model_Admin_Search</class>
-               </sales>
-            </collections>
-         </global>
-      </search>
-   </admin>
 </config>

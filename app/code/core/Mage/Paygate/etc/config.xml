@@ -6,11 +6,6 @@
          <depends>
             <Mage_Sales />
          </depends>
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
       </Mage_Paygate>
    </modules>
    <global>
@@ -97,15 +92,4 @@
          </order>
       </sales>
    </global>
-   <admin>
-      <acl>
-         <resources>
-            <paygate>
-               <authorizenet />
-               <paypal />
-               <verisign />
-            </paygate>
-         </resources>
-      </acl>
-   </admin>
 </config>

@@ -3,11 +3,6 @@
    <modules>
       <Mage_Shiptable>
          <version>0.2.0</version>
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
       </Mage_Shiptable>
    </modules>
 

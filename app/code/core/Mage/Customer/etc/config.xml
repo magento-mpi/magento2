@@ -6,11 +6,6 @@
          <depends>
             <Mage_Page />
          </depends>
-         <admin>
-            <controller>
-               <active>true</active>
-            </controller>
-         </admin>
          <crypt>
             <key><![CDATA[h$$@j>21#Nn 34{}~|][fksn2)*@H NdfM99f+<lml1(23nR_JN]]></key>
          </crypt>
@@ -122,33 +117,6 @@
          <customer>customer/messages.csv</customer>
       </translate>
    </front>
-   <admin>
-      <acl>
-         <resources>
-            <customers>
-               <manage />
-            </customers>
-         </resources>
-      </acl>
-      <layouts>
-         <default>
-            <updates>
-               <customer>
-                  <file>customer/initLayout.xml</file>
-               </customer>
-            </updates>
-         </default>
-      </layouts>
-      <search>
-         <global>
-            <collections>
-               <customers>
-                  <class>Mage_Customer_Model_Admin_Search</class>
-               </customers>
-            </collections>
-         </global>
-      </search>
-   </admin>
    <domains>
       <base>
          <defaultCountry>223</defaultCountry>
