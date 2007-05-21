@@ -1,6 +1,70 @@
 <?xml version="1.0"?>
 <config>
    <global>
+      <default>
+         <website>base</website>
+         <filesystem>
+            <etc>{app_root_dir}/etc</etc>
+            <code>{app_root_dir}/code</code>
+            <var>{app_root_dir}/../var</var>
+         </filesystem>
+      </default>
+      
+      <websites>
+         <base>
+            <id>1</id>
+            <language>en</language>
+            <group>default</group>
+            
+            <filesystem>
+                <layout>{app_root_dir}/view/front/layout</layout>
+                <template>{app_root_dir}/view/front/template</template>
+                <translate>{app_root_dir}/view/front/translate</translate>
+                <base>{app_root_dir}/../www</base>
+                <media>{app_root_dir}/../www/media</media>
+                <skin>{app_root_dir}/../www/skins/default</skin>
+            </filesystem>
+            
+            <unsecure>
+               <protocol>{protocol}</protocol>
+               <host>{host}</host>
+               <port>{port}</port>
+               <basePath>{base_path}</basePath>
+            </unsecure>
+            
+            <secure>
+               <protocol>{secure_protocol}</protocol>
+               <host>{secure_host}</host>
+               <port>{secure_port}</port>
+               <basePath>{secure_base_path}</basePath>
+            </secure>
+            
+            <url>
+                <media>{base_path}media/</media>
+                <skin>{base_path}skins/default/</skin>
+                <js>{base_path}js/</js>
+            </url>
+         </base>
+         
+         <admin extends="//global/websites/base">
+            <filesystem>
+                <layout>{app_root_dir}/view/admin/layout</layout>
+                <template>{app_root_dir}/view/admin/template</template>
+                <translate>{app_root_dir}/view/admin/translate</translate>
+                <base>{app_root_dir}/../www/admin</base>
+                <skin>{app_root_dir}/../www/admin/skins/default</skin>
+            </filesystem>   
+         
+            <unsecure>
+                <basePath>{base_path}admin/</basePath>
+            </unsecure>
+            
+            <secure>
+                <basePath>{secure_base_path}admin/</basePath>            
+            </secure>
+         </admin>
+      </websites>
+      
       <resources>
          <dev_setup>
             <connection>
@@ -38,27 +102,5 @@
             </connection>
          </core_read>
       </resources>
-      <websites>
-         <default>
-            <code>base</code>
-         </default>
-         <base>
-            <id>1</id>
-            <language>en</language>
-            <unsecure>
-               <protocol>{protocol}</protocol>
-               <host>{host}</host>
-               <port>{port}</port>
-               <basePath>{base_path}</basePath>
-            </unsecure>
-            <secure extends="//websites/base/unsecure">
-               <protocol>{secure_protocol}</protocol>
-               <host>{secure_host}</host>
-               <port>{secure_port}</port>
-               <basePath>{secure_base_path}</basePath>
-            </secure>
-            <group>default</group>
-         </base>
-      </websites>
    </global>
 </config>

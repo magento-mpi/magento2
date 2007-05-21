@@ -142,7 +142,7 @@ echo "TEST:".$i;
         $updates = Mage::getConfig()->getNode("$area/layouts/$id/updates");
         if (!empty($updates)) {
             foreach ($updates->children() as $update) {
-                $fileName = Mage::getBaseDir('layout').DS.(string)$update->file;
+                $fileName = Mage::getWebsiteDir('layout').DS.(string)$update->file;
                 $this->loadUpdateFile($fileName);
             }
         }

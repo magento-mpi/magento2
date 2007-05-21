@@ -12,7 +12,7 @@ class Mage_Core_MediaController extends Mage_Core_Controller_Admin_Action
             $path = str_replace('/', DS, $path);
         }
         
-        $root = Mage::getConfig()->getBaseDir('media');
+        $root = Mage::getConfig()->getWebsiteDir('media');
         
         $arrNodes = array();
         $dir = dir($root.$path);

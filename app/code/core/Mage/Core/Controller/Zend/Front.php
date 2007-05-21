@@ -87,7 +87,7 @@ class Mage_Core_Controller_Zend_Front {
      */
     public function run() 
     {
-        $default = Mage::getBaseDir('controllers', 'Mage_Core');
+        $default = Mage::getModuleDir('controllers', 'Mage_Core');
         $this->_front->addControllerDirectory($default, 'default');
         $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
@@ -100,7 +100,7 @@ class Mage_Core_Controller_Zend_Front {
                 continue;
             }
             $moduleName = (string)$routerConfig->args->module;
-            $this->_front->addControllerDirectory(Mage::getBaseDir('controllers', $moduleName), $moduleName);
+            $this->_front->addControllerDirectory(Mage::getModuleDir('controllers', $moduleName), $moduleName);
             $router->addRoutes($this->_front->getRouter());
             if ($routerConfig->is('default')) {
                 $defaultModule = $moduleName;

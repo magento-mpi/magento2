@@ -74,7 +74,7 @@ class Mage_Core_Controller_Zend_Admin {
         }
 
         $name = $modInfo->getName();
-        $dir = Mage::getBaseDir('controllers', $name).DS.'Admin';
+        $dir = Mage::getModuleDir('controllers', $name).DS.'Admin';
         if (is_dir($dir)) {
             $this->_front->addControllerDirectory($dir, strtolower($name));
         }
@@ -100,7 +100,7 @@ class Mage_Core_Controller_Zend_Admin {
      */
     public function run() 
     {
-        $default = Mage::getBaseDir('controllers', 'Mage_Core').DS.'Admin';
+        $default = Mage::getModuleDir('controllers', 'Mage_Core').DS.'Admin';
         $this->_front->addControllerDirectory($default, 'default');
 
         foreach (Mage::getConfig()->getNode('modules')->children() as $module) {

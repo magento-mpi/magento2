@@ -92,11 +92,25 @@ final class Mage {
      *
      * @return string
      */
-    public static function getBaseDir($type='', $moduleName='')
+    public static function getBaseDir($type='')
     {
-        return Mage::getConfig()->getBaseDir($type, $moduleName);
+        return Mage::getConfig()->getBaseDir($type);
+    }
+    
+    public static function getModuleDir($type, $moduleName)
+    {
+        return Mage::getConfig()->getModuleDir($type, $moduleName);
     }
 
+    public static function getWebsiteDir($type, $websiteCode=null)
+    {
+        if (is_null($websiteCode)) {
+            $website = Mage::registry('website');
+        } else {
+            $website = Mage::getModel('core', 'website')->setCode($websiteCode);
+        }
+        return $website->getDir($type);
+    }
 
     /**
      * Get base URL path by type
@@ -106,7 +120,7 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::getConfig()->getBaseUrl($params);
+        return Mage::registry('website')->getBaseUrl($params);
     }
     
     public static function getUrl($routeName='', $params=array())
@@ -297,7 +311,7 @@ final class Mage {
     {
         Mage::init();
         Mage::getConfig()->loadEventObservers('admin');
-        Mage::registry('website')->setCode('base')->setIsAdmin(true);
+        Mage::registry('website')->setCode('admin')->setIsAdmin(true);
     }
     /**
      * Admin main entry point

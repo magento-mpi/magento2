@@ -35,7 +35,7 @@ class Mage_Core_ConfigController extends Mage_Core_Controller_Admin_Action
     }
     
     function loadTreeAction() {
-        $this->_view->setScriptPath(Mage::getBaseDir('layout'));
+        $this->_view->setScriptPath(Mage::getWebsiteDir('layout'));
         $this->_view->assign('BASE_URL', Mage::getBaseUrl());
         $this->getResponse()->appendBody($this->_view->render('/core/block.tree.phtml'));
     }

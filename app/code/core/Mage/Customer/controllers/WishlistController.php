@@ -13,7 +13,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
         
-        if (!Mage::getConfig()->getModule('Mage_Customer')->is('wishlistActive')) {
+        if (!Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive')) {
             $this->getResponse()->setRedirect('noRoute');
         }
         

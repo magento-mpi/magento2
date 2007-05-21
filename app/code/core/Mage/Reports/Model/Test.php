@@ -14,14 +14,14 @@
 	
 	public function getUsersCountries( )
 	{
-		return file_get_contents( Mage::getBaseDir('etc','Mage_Reports').DS.'flexTestDataCountries.xml' );
+		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCountries.xml' );
 	}
 	
 	public function getUsersCities( $countryId )
 	{
 		$dom = new DOMDocument();
 		$dom -> preserveWhiteSpace = false;
-		$dom -> load( Mage::getBaseDir('etc','Mage_Reports').DS.'flexTestDataCities.xml' );
+		$dom -> load( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCities.xml' );
 		
 		$root = $dom -> documentElement;
 		$rows = $root -> getElementsByTagName( 'row' );

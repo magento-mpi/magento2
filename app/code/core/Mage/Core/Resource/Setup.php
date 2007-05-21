@@ -18,7 +18,7 @@ class Mage_Core_Resource_Setup
         $this->_resourceConfig = $config->getResourceConfig($resourceName);
         $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
         $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $config->getModule($modName);
+        $this->_moduleConfig = $config->getModuleConfig($modName);
     }
 
     /**
@@ -135,7 +135,7 @@ class Mage_Core_Resource_Setup
         $resModel = (string)$this->_connectionConfig->model;
         $modName = (string)$this->_moduleConfig[0]->getName();
         
-        $sqlFilesDir = Mage::getBaseDir('sql', $modName).DS.$this->_resourceName;
+        $sqlFilesDir = Mage::getModuleDir('sql', $modName).DS.$this->_resourceName;
         if (!file_exists($sqlFilesDir)) {
             return false;
         }

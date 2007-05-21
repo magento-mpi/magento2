@@ -43,12 +43,10 @@
   * 2.1 [[.:api:varien:object|Varien_Object]]
   * 2.2 [[.:api:varien:event|Varien_Event]]
   * 2.3 [[.:api:varien:simplexml|Varien_Simplexml]]
-    * 2.3.1 [[.:api:varien:simplexml:element|Varien_Simplexml_Element]]
-    * 2.3.2 [[.:api:varien:simplexml:config|Varien_Simplexml_Config]]
   * 2.4 [[.:api:varien:data|Varien_Data]]
-  * 2.5 [[.:api:varien:data|Varien_Db]]
-  * 2.6 [[.:api:varien:data|Varien_Crypt]]
-  * 2.7 [[.:api:varien:data|Varien_Filter]]
+  * 2.5 [[.:api:varien:db|Varien_Db]]
+  * 2.6 [[.:api:varien:crypt|Varien_Crypt]]
+  * 2.7 [[.:api:varien:filter|Varien_Filter]]
 
 
 ===== Goals =====
@@ -108,7 +106,14 @@ config/
       active              Is module active (in core.xml)
       version             Module version (for resource updates, in module config.xml)
 
-  global/                 Globally relevant configuration
+  global/                 Globally relevant configuration for the application
+    default/              Default application configuration
+      website             Default website code
+      filesystem/         Filesystem settings
+        etc               Global configuration folder
+        code              Codepools folder (mainly for controllers)
+        var               Temporary files folder
+
     resource/             Global resource configuration
       connection/         Global connection configuration 
         types/            Connection types
@@ -136,8 +141,9 @@ config/
       types/              Available block types
         <type_name>/      CLASS_CONFIGURATION
 
-    sales/                Sales specific configuration
-
+    website/              Global website configuration
+      default             Default website name
+        
     websites/             Websites configuration
 
     domains/              Domains (website groups) configuration
@@ -157,9 +163,9 @@ This node can contain:
 
 CALLBACK_CONFIGURATION contains CLASS_CONFIGURATION with:
   * ''<method>static_method_to_run</method>''
-  * AND conditionally ''<args><arg1>arg1_value</arg1><arg2>arg2_value</arg2></args>''
+  * AND optionally ''<args><arg1>arg1_value</arg1><arg2>arg2_value</arg2></args>''
 
-Configuration tags can contain attribute <tag extends="xpath">
+Configuration tags can contain attribute ''<tag extends="xpath">''
 It will merge all nodes found with xpath with information this node contains.
 
 == Examples ==
@@ -167,72 +173,44 @@ It will merge all nodes found with xpath with information this node contains.
 app/etc/local.xml:
 <code xml>
 <config>
-    <modules>
-        <Mage_Core>
-            <load>
-                <all>
-                    <resources>
-                        <dev_setup>
-                            <connection>
-                                <type>mysqli</type>
-                                <host>localhost</host>
-                                <username>root</username>
-                                <password></password>
-                                <dbname>magenta</dbname>
-                            </connection>
-                        </dev_setup>
-
-                        <dev_write>
-                            <connection extends="//dev_setup/connection">
-                                <type>mysql</type>
-                            </connection>
-                        </dev_write>
-
+  <global>
+    <websites>
+      <base>
+        <unsecure>
+          <protocol>http</protocol>
+          <host>var-dev.varien.com</host>
+          <port>81</port>
+          <basePath>/dev/moshe/magenta/www/</basePath>
+        </unsecure>
+        <secure extends="//websites/base/unsecure">
+          <protocol>https</protocol>
+          <port>444</port>
+        </secure>
 </code>
 
-In  final file in cache we have 
+In final compiled file we have 
 
 <code xml>
 <config>
-    <modules>
-        <Mage_Core>
-            <load>
-                <all>
-                    <resources>
-                        <dev_setup>
-                            <connection>
-                                <type>mysqli</type>
-                                <host>localhost</host>
-                                <username>root</username>
-                                <password></password>
-                                <dbname>magenta</dbname>
-                            </connection>
-                        </dev_setup>
-
-                        <dev_write>
-                            <connection extends="//dev_setup/connection">
-                                <type>mysql</type>
-                                <host>localhost</host>
-                                <username>root</username>
-                                <password></password>
-                                <dbname>magenta</dbname>
-                            </connection>
-                        </dev_write>
+  <global>
+    <websites>
+      <base>
+        <unsecure>
+          <protocol>http</protocol>
+          <host>var-dev.varien.com</host>
+          <port>81</port>
+          <basePath>/dev/moshe/magenta/www/</basePath>
+        </unsecure>
+        <secure extends="//websites/base/unsecure">
+          <protocol>https</protocol>
+          <port>444</port>
+          <host>var-dev.varien.com</host>
+          <basePath>/dev/moshe/magenta/www/</basePath>
+        </secure>
 </code>
-
-
-Core/etc/config.xml:
-<code xml>
-<config>
-    <global>
-        <resourceTypes extends="/config/modules/*/load/*/resourceTypes"/>
-</code>
-will collect tags from resourceTypes in all modules.
-
-
 
 ==== app/code/core/Mage/Core/Config.php ====
-Extends [[magento:api:varien:simplexml:config|Varien_Simplexml_Config]]
+Extends [[magento:api:varien:simplexml|Varien_Simplexml_Config]]
 
 This class:
   * Loads configuration from cache.
@@ -266,11 +244,13 @@ This class:
 == getBaseDir ==
 getBaseDir($type, $moduleName) - use it to retrieve filesystem path for application or module root, or following types:
   * layout - folder where layout configuration update files live.
-  * views - templates for layouts
+  * template - templates for layout blocks
   * etc - configuration
+  * code - code pools root
   * var - folder for temporary and cache files
   * controllers - action controller folder (for modules only)
   * sql - database management files (for modules only)
+  * media - <<<TODO:WEBSITE SPECIFIC KEYS>>>
   
 Examples:
 <code php>

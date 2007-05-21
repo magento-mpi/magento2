@@ -30,7 +30,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         $block = $this->getLayout()->createBlock('customer_account', 'customer.account')
-            ->assign('wishlistActive', Mage::getConfig()->getModule('Mage_Customer')->is('wishlistActive'))
+            ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
             
         $this->getLayout()->getBlock('content')->append($block);

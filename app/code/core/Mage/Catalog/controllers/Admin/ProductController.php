@@ -166,7 +166,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Admin_Action
     {
         if (isset($_FILES['image'])) {
             $id = $this->getRequest()->getParam('product', -1);
-            $fileDir = Mage::getBaseDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
+            $fileDir = Mage::getWebsiteDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
             if (!file_exists($fileDir)) {
                 mkdir($fileDir, 0777, true);
                 chmod($fileDir, 0777);

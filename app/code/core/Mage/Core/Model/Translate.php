@@ -27,7 +27,7 @@ class Mage_Core_Model_Translate
             $this->_sections = (array) Mage::getConfig()->getNode('front/translate');
         }
         
-        $this->_baseDir = Mage::getBaseDir('translate').DS.$this->_language.DS;
+        $this->_baseDir = Mage::getWebsiteDir('translate').DS.$this->_language.DS;
         
         $this->_translate = new Zend_Translate($this->_adapter, $this->_baseDir.'base.csv', $this->_language);
         

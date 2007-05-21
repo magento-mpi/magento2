@@ -143,7 +143,9 @@ class Varien_Simplexml_Config
      */
     public function getNode($path=null)
     {
-        if (empty($path)) {
+        if (empty($this->_xml)) {
+            return false;
+        } elseif (empty($path)) {
             return $this->_xml;
         } else {
             return $this->_xml->descend($path);
