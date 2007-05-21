@@ -22,7 +22,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         if ($product->getCustomLayout()) {
             $this->getLayout()->setXml($product->getCustomLayout());
         } else {
-            $this->getLayout()->setXml(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultProduct.xml');
+            $this->getLayout()->setXml(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultProduct.xml', 'file');
         }
         $this->getLayout()->generateBlocks();
         

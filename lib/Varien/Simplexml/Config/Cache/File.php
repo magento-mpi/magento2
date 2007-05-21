@@ -58,6 +58,9 @@ class Varien_Simplexml_Config_Cache_File extends Varien_Simplexml_Config_Cache_A
         if (is_readable($cacheFile)) {
             $xml = file_get_contents($cacheFile);
             if (!empty($xml)) {
+                
+                $xml = $this->getConfig()->processFileData($xml);
+                
                 $this->getConfig()->setXml($xml);
                 $this->setIsLoaded(true);
                 return true;

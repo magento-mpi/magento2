@@ -55,16 +55,6 @@ class Varien_Simplexml_Config
     }
 
     /**
-     * Returns whether the config was loaded from cache
-     *
-     * @return boolean
-     */
-    public function isCacheLoaded()
-    {
-        return $this->_cacheLoaded;
-    }
-
-    /**
      * Sets xml for this configuration
      *
      * If $sourceType is not specified will try to recognize type of $sourceData
@@ -124,7 +114,7 @@ class Varien_Simplexml_Config
      */
     public function getNode($path=null)
     {
-        if (empty($this->_xml)) {
+        if (!$this->_xml instanceof Varien_Simplexml_Element) {
             return false;
         } elseif (empty($path)) {
             return $this->_xml;
@@ -170,7 +160,7 @@ class Varien_Simplexml_Config
         }
 
         $fileData = file_get_contents($filePath);
-        $fileData = $this->_processFileData($fileData);
+        $fileData = $this->processFileData($fileData);
         $xml = $this->loadString($fileData, $this->_elementClass);
 
         return $xml;
@@ -280,7 +270,7 @@ class Varien_Simplexml_Config
      * @param string $text
      * @return string
      */
-    protected function _processFileData($text)
+    public function processFileData($text)
     {
         return $text;
     }

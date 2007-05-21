@@ -60,4 +60,42 @@ class Mage_Core_Model_Website extends Varien_Object
         
         return $arr;
     }
+    
+    public function getDir($type)
+    {
+        return $this->getConfig()->filesystem->$type;
+    }
+    
+    public function getUrl($params)
+    {
+        if (isset($params['_admin'])) {
+            $isAdmin = $params['_admin'];
+        } else {
+            $isAdmin = $this->getIsAdmin();
+        }
+        if (!$isAdmin) {
+            if (!empty($_SERVER['HTTPS'])) {
+                if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
+                    $params['_secure'] = true;
+                }
+            }
+            $config = $this->getConfig();
+            $urlConfig = empty($params['_secure']) ? $config->unsecure : $config->secure;
+    
+            $protocol = (string)$urlConfig->protocol;
+            $host = (string)$urlConfig->host;
+            $port = (int)$urlConfig->port;
+            $basePath = (string)$urlConfig->base_path;
+
+            $url = $protocol.'://'.$host;
+            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+            if (!empty($params['_type'])) {
+                $basePath = (string)$config->url->$params['_type'];
+            }
+            $url .= empty($basePath) ? '/' : $basePath;
+        } else {
+            $url = dirname($_SERVER['SCRIPT_NAME']).'/';
+        }
+        return $url;
+    }
 }

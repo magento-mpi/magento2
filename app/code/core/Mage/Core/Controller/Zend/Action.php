@@ -91,11 +91,11 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          
         $layout = $this->getLayout()->init($key);
         
-        if (!$layout->isCacheLoaded()) {
+        if (!$layout->getCache()->getIsLoaded()) {
             foreach ((array)$ids as $id) {
                 $layout->loadUpdatesFromConfig($area, $id);
             }
-            $layout->saveCache();
+            $layout->getCache()->save();
         }
         Varien_Profiler::setTimer('loadLayout', true);
         

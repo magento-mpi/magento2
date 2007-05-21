@@ -120,7 +120,7 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::registry('website')->getBaseUrl($params);
+        return Mage::registry('website')->getUrl($params);
     }
     
     public static function getUrl($routeName='', $params=array())

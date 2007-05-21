@@ -44,9 +44,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function init($id)
     {
         $this->getCache()->setDir(Mage::getBaseDir('cache_layout'))->setKey($id);
-        
         if (!$xml = $this->getCache()->load()) {
-            $this->setXml('<layout/>');
+            $this->setXml('<layout/>', 'string');
         }
         return $this;
     }
@@ -67,7 +66,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdateFile($fileName)
     {
-        $this->addCacheStat($fileName);
+        $this->getCache()->addComponent($fileName);
         $update = $this->loadFile($fileName);
         $this->mergeUpdate($update);
 
@@ -146,7 +145,7 @@ echo "TEST:".$i;
         return $this;
     }
     
-    protected function _processFileData($data)
+    public function processFileData($data)
     {
         $substKeys = array();
         $substValues = array();

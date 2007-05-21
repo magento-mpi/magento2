@@ -66,7 +66,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     {
         $configFile = Mage::getBaseDir('etc').DS.'core.xml';
         $this->getCache()->addComponent($configFile);
-        $this->setXml($configFile);
+        $this->setXml($configFile, 'file');
 
         return true;
     }
@@ -113,13 +113,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $this->getCache()->addComponent($configFile);
             $localConfig = $this->loadFile($configFile);
             $this->_xml->extend($localConfig, true);
-            return $this;
+        } else {
+            $string = $this->getLocalDistString();
+            $localConfig = $this->loadString($string);
+            $this->_xml->extend($localConfig, true);
+            $this->getCache()->setIsAllowedToSave(false);
         }
-
-        $string = $this->getLocalDistString();
-        $this->loadString($string);
-        $this->getCache()->setIsAllowedToSave(false);
-        
         return $this;
     }
         
@@ -128,6 +127,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         $subst = array(
             '{root_dir}'=>dirname(Mage::getRoot()),
+            '{var_dir}'=>'/tmp/magento/var',
             '{protocol}'=>'http',
             '{host}'=>$_SERVER['SERVER_NAME'],
             '{port}'=>$_SERVER['SERVER_PORT'],
@@ -135,6 +135,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         );
         $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
         $template = str_replace(array_keys($subst), array_values($subst), $template);
+
         return $template;
     }
     
