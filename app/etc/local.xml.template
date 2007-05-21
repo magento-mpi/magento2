@@ -4,9 +4,12 @@
       <default>
          <website>base</website>
          <filesystem>
-            <etc>{app_root_dir}/etc</etc>
-            <code>{app_root_dir}/code</code>
-            <var>{app_root_dir}/../var</var>
+            <etc>{root_dir}/app/etc</etc>
+            <code>{root_dir}/app/code</code>
+            <var>{root_dir}/var</var>
+            <session>{root_dir}/var/session</session>
+            <cache_config>{root_dir}/var/cache/config</cache_config>
+            <cache_layout>{root_dir}/var/cache/layout</cache_layout>
          </filesystem>
       </default>
       
@@ -17,12 +20,12 @@
             <group>default</group>
             
             <filesystem>
-                <layout>{app_root_dir}/view/front/layout</layout>
-                <template>{app_root_dir}/view/front/template</template>
-                <translate>{app_root_dir}/view/front/translate</translate>
-                <base>{app_root_dir}/../www</base>
-                <media>{app_root_dir}/../www/media</media>
-                <skin>{app_root_dir}/../www/skins/default</skin>
+                <layout>{root_dir}/app/view/front/layout</layout>
+                <template>{root_dir}/app/view/front/template</template>
+                <translate>{root_dir}/app/view/front/translate</translate>
+                <base>{root_dir}</base>
+                <media>{root_dir}/media</media>
+                <skin>{root_dir}/skins/default</skin>
             </filesystem>
             
             <unsecure>
@@ -33,10 +36,10 @@
             </unsecure>
             
             <secure>
-               <protocol>{secure_protocol}</protocol>
-               <host>{secure_host}</host>
-               <port>{secure_port}</port>
-               <basePath>{secure_base_path}</basePath>
+               <protocol>{protocol}</protocol>
+               <host>{host}</host>
+               <port>{port}</port>
+               <basePath>{base_path}</basePath>
             </secure>
             
             <url>
@@ -48,11 +51,11 @@
          
          <admin extends="//global/websites/base">
             <filesystem>
-                <layout>{app_root_dir}/view/admin/layout</layout>
-                <template>{app_root_dir}/view/admin/template</template>
-                <translate>{app_root_dir}/view/admin/translate</translate>
-                <base>{app_root_dir}/../www/admin</base>
-                <skin>{app_root_dir}/../www/admin/skins/default</skin>
+                <layout>{root_dir}/app/view/admin/layout</layout>
+                <template>{root_dir}/app/view/admin/template</template>
+                <translate>{root_dir}/app/view/admin/translate</translate>
+                <base>{root_dir}/admin</base>
+                <skin>{root_dir}/admin/skins/default</skin>
             </filesystem>   
          
             <unsecure>
@@ -60,7 +63,7 @@
             </unsecure>
             
             <secure>
-                <basePath>{secure_base_path}admin/</basePath>            
+                <basePath>{base_path}admin/</basePath>            
             </secure>
          </admin>
       </websites>

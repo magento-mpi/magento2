@@ -19,33 +19,12 @@ class Varien_Simplexml_Config
     protected $_xml = null;
     
     /**
-     * Unique key for configuration caching
+     * Cache resource object
      *
-     * @var string
+     * @var Varien_Simplexml_Config_Cache_Abstract
      */
-    protected $_cacheKey = null;
-    
-    /**
-     * Keeps time modification for files to know when cache is expired
-     *
-     * @var array
-     */
-    protected $_cacheStat = null;
-    
-    /**
-     * Base directory for cache files
-     *
-     * @var string
-     */
-    protected $_cacheDir = null;
-    
-    /**
-     * Was configuration loaded from cache?
-     *
-     * @var boolean
-     */
-    protected $_cacheLoaded = false;
-    
+    protected $_cache = null;
+
     /**
      * Class name of simplexml elements for this configuration
      *
@@ -71,6 +50,8 @@ class Varien_Simplexml_Config
      */
     public function __construct($sourceData='', $sourceType='') {
         $this->setXml($sourceData, $sourceType);
+        $this->_cache = new Varien_Simplexml_Config_Cache_File();
+        $this->_cache->setConfig($this);
     }
 
     /**
@@ -169,6 +150,11 @@ class Varien_Simplexml_Config
         }
 
         return $result;
+    }
+    
+    public function getCache()
+    {
+        return $this->_cache;
     }
 
     /**
@@ -289,67 +275,6 @@ class Varien_Simplexml_Config
     }
 
     /**
-     * Set base directory for cache files
-     *
-     * @param string $dir
-     */
-    public function setCacheDir($dir)
-    {
-        $this->_cacheDir = $dir;
-    }
-
-    /**
-     * Set cache unique key
-     *
-     * @param string $key
-     */
-    public function setCacheKey($key)
-    {
-        $this->_cacheKey = $key;
-        $this->_cacheStat = array();
-    }
-
-    /**
-     * Add file modification time information to the cache stats
-     *
-     * @param string $fileName
-     */
-    public function addCacheStat($fileName)
-    {
-        $this->_cacheStat[$fileName] = filemtime($fileName);
-    }
-
-    /**
-     * Returns file name for cache file by key
-     *
-     * @param string $key
-     * @return string
-     */
-    public function getCacheFileName($key='')
-    {
-        if (''===$key) {
-            $key = $this->_cacheKey;
-        }
-
-        return $this->_cacheDir.DS.$key.'.xml';
-    }
-
-    /**
-     * Returns file name for cache stats file
-     *
-     * @param string $key
-     * @return string
-     */
-    public function getCacheStatFileName($key='')
-    {
-        if (''===$key) {
-            $key = $this->_cacheKey;
-        }
-
-        return $this->_cacheDir.DS.$key.'.stat';
-    }
-
-    /**
      * Stub method for processing file data right after loading the file text
      *
      * @param string $text
@@ -358,72 +283,5 @@ class Varien_Simplexml_Config
     protected function _processFileData($text)
     {
         return $text;
-    }
-
-    /**
-     * Load cache file
-     *
-     * @param string $key
-     * @return boolean true of cache was loaded
-     */
-    public function loadCache($key='')
-    {
-        if (''===$key) {
-            if (empty($this->_cacheKey)) {
-                return false;
-            }
-            $key = $this->_cacheKey;
-        }
-
-        // get cache status file
-        $statFile = $this->getCacheStatFileName($key);
-        if (!is_readable($statFile)) {
-            return false;
-        }
-        // read it
-        $data = unserialize(file_get_contents($statFile));
-        if (empty($data) || !is_array($data)) {
-            return false;
-        }
-        // check that no source files were changed or check file exsists
-        foreach ($data as $sourceFile=>$mtime) {
-            if (!is_file($sourceFile) || filemtime($sourceFile)!==$mtime) {
-                return false;
-            }
-        }
-        // read cache file
-        $cacheFile = $this->getCacheFileName($key);
-        if (is_readable($cacheFile)) {
-            $xml = $this->loadFile($cacheFile);
-            if (!empty($xml)) {
-                $this->_cacheLoaded = true;
-                return $xml;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Save loaded configuration into cache
-     *
-     * @param string $key
-     * @return boolean
-     */
-    public function saveCache($key='')
-    {
-        if (''===$key) {
-            $key = $this->_cacheKey;
-            if (empty($this->_cacheKey)) {
-                return false;
-            }
-        }
-
-        $statFile = $this->getCacheStatFileName($key);
-        file_put_contents($statFile, serialize($this->_cacheStat));
-
-        $cacheFile = $this->getCacheFileName($key);
-        $this->saveFile($cacheFile);
-        
-        return true;
     }
 }
