@@ -124,7 +124,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     
     public function getTempVarDir()
     {
-        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp/magento').'/var';
+        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
     }
         
     public function getLocalDist()
@@ -229,36 +229,31 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                     
                 case 'var':
                     $dir = $this->getTempVarDir();
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
                     break;
                     
                 case 'session':
                     $dir = $this->getBaseDir('var').DS.'session';
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
                     break;
                     
                 case 'cache_config':
                     $dir = $this->getBaseDir('var').DS.'cache'.DS.'config';
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
                     break;
                                         
                 case 'cache_layout':
                     $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
                     break;
                     
             }
         }
         if (!$dir) {
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
+        }
+        switch ($type) {
+            case 'var': case 'session': case 'cache_config': case 'cache_layout':
+                if (!file_exists($dir)) {
+                    mkdir($dir, 0777, true);
+                }
+                break;
         }
         
         $dir = str_replace('/', DS, $dir);
