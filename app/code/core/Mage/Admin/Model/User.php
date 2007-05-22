@@ -96,11 +96,11 @@ class Mage_Admin_Model_User extends Varien_Object
      * Checks for user authentication and loads acl authorizations
      *
      */
-    static public function action_preDispatch()
+    public function preDispatchModuleAction()
     {
         $admin  = Mage::getSingleton('admin', 'session');
         $request= Mage::registry('controller')->getRequest();
-//$admin->unsetAll();
+        //$admin->unsetAll();
         if (!$admin->getUser() && $request->getPost('login')) {
             extract($request->getPost('login'));
             if (!empty($username) && !empty($password)) {

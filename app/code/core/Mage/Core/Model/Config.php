@@ -341,7 +341,24 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             $eventName = $event->getName();
             $observers = $event->observers->children();
             foreach ($observers as $observer) {
-                $callback = array($observer->getClassName(), (string)$observer->method);
+                switch ((string)$observer->type) {
+                	case 'singleton':
+                		$callback = array(
+                		    'object' => Mage::getSingleton((string)$observer->model, (string)$observer->class),
+                		    'method' => (string)$observer->method
+                		);
+                		break;
+                    case 'object':
+                    case 'model':
+                		$callback = array(
+                		    'object' => Mage::getModel((string)$observer->model, (string)$observer->class),
+                		    'method' => (string)$observer->method
+                		);
+                        break;
+                	default:
+                	    $callback = array($observer->getClassName(), (string)$observer->method);
+                		break;
+                }
                 #$args = array_values((array)$observer->args);
                 $args = array($observer->args);
                 Mage::addObserver($eventName, $callback, $args, $observer->getName());

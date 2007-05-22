@@ -73,8 +73,10 @@
          <action_preDispatch_Mage_Admin>
             <observers>
                <auth>
-                  <class>Mage_Admin_Model_User</class>
-                  <method>action_preDispatch</method>
+                  <type>singleton</type>
+                  <model>admin</model>
+                  <class>user</class>
+                  <method>preDispatchModuleAction</method>
                </auth>
             </observers>
          </action_preDispatch_Mage_Admin>

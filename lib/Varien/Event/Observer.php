@@ -36,7 +36,13 @@ class Varien_Event_Observer extends Varien_Object
         
         $callback = $this->getCallback();
         $this->setEvent($event);
-        call_user_func($callback, $this);
+        
+        if (isset($callback['object']) && isset($callback['method']) && is_object($callback['object'])) {
+            $callback['object']->$callback['method']($this);
+        }
+        else {
+            call_user_func($callback, $this);
+        }
         
         return $this;
     }
