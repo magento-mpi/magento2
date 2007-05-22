@@ -121,13 +121,18 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         }
         return $this;
     }
+    
+    public function getTempVarDir()
+    {
+        return (!empty($_ENV['TMP']) ? empty($_ENV['TMP']) : '/tmp/magento').'/var';
+    }
         
     public function getLocalDistString()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         $subst = array(
             '{root_dir}'=>dirname(Mage::getRoot()),
-            '{var_dir}'=>'/tmp/magento/var',
+            '{var_dir}'=>$this->getTempVarDir(),
             '{protocol}'=>'http',
             '{host}'=>$_SERVER['SERVER_NAME'],
             '{port}'=>$_SERVER['SERVER_PORT'],
@@ -219,7 +224,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                     break;
                     
                 case 'var':
-                    $dir = '/tmp/magento/var';
+                    $dir = $this->getTempVarDir();
                     if (!file_exists($dir)) {
                         mkdir($dir, 0777, true);
                     }

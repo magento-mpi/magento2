@@ -86,12 +86,12 @@ class Mage_Core_Model_Website extends Varien_Object
             $host = (string)$urlConfig->host;
             $port = (int)$urlConfig->port;
             $basePath = (string)$urlConfig->base_path;
-
-            $url = $protocol.'://'.$host;
-            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
             if (!empty($params['_type'])) {
                 $basePath = (string)$config->url->$params['_type'];
             }
+            
+            $url = $protocol.'://'.$host;
+            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
             $url .= empty($basePath) ? '/' : $basePath;
         } else {
             $url = dirname($_SERVER['SCRIPT_NAME']).'/';
