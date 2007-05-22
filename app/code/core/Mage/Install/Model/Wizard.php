@@ -54,7 +54,7 @@ class Mage_Install_Model_Wizard
      * @param   Mage_Core_Controller_Zend_Request $request
      * @return  Varien_Object || false
      */
-    public function getStepByRequest(Mage_Core_Controller_Zend_Request $request)
+    public function getStepByRequest(Zend_Controller_Request_Abstract $request)
     {
         foreach ($this->_steps as $step) {
             if ($step->getController() == $request->getControllerName() && $step->getAction() == $request->getActionName()) {

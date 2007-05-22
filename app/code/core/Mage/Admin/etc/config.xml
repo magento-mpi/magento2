@@ -70,14 +70,14 @@
          </admin>
       </layouts>
       <events>
-         <action_preDispatch>
+         <action_preDispatch_Mage_Admin>
             <observers>
                <auth>
                   <class>Mage_Admin_Model_User</class>
                   <method>action_preDispatch</method>
                </auth>
             </observers>
-         </action_preDispatch>
+         </action_preDispatch_Mage_Admin>
       </events>
       <routers>
          <admin>
