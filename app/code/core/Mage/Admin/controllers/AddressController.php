@@ -49,7 +49,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
 
         $form->setAttribute('legend', 'Address information');
         $form->setAttribute('class', 'x-form');
-        $form->setAttribute('action', Mage::getBaseUrl().'mage_customer/address/formPost/');
+        $form->setAttribute('action', Mage::getBaseUrl().'admin/address/formPost/');
         
         if ($addressId) {
             $form->addField(

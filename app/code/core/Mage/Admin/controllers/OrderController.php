@@ -104,7 +104,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         $block = $this->getLayout()->createBlock('tpl', 'order.view')
             ->setTemplate('sales/order/view.phtml')
             ->assign('order', $order)
-            ->assign('formAction', Mage::getBaseUrl().'mage_sales/order/saveOrder/id/'.(int)$id);
+            ->assign('formAction', Mage::getBaseUrl().'admin/order/saveOrder/id/'.(int)$id);
         $this->getResponse()->setBody($block->toHtml());
     }
     
@@ -112,6 +112,6 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
     {
         $id = $this->getRequest()->getParam('id', 0);
         $p = $this->getRequest()->getPost();
-        $this->getResponse()->setRedirect(Mage::getBaseUrl().'mage_sales/order/form/id/'.(int)$id);
+        $this->getResponse()->setRedirect(Mage::getBaseUrl().'admin/order/form/id/'.(int)$id);
     }
 }

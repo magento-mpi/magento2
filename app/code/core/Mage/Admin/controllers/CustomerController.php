@@ -47,7 +47,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
             0 => array(
                 'name' => 'general',
                 'title' => __('Account Information'),
-                'url' => Mage::getBaseUrl().'mage_customer/customer/form/id/'.$customerId.'/',
+                'url' => Mage::getBaseUrl().'admin/customer/form/id/'.$customerId.'/',
                 'type' => 'form',
                 'active' => true
             ),
@@ -74,7 +74,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         
         $form->setAttribute('legend', 'Account information');
         $form->setAttribute('class', 'x-form');
-        $form->setAttribute('action', Mage::getBaseUrl().'mage_customer/customer/formPost/');
+        $form->setAttribute('action', Mage::getBaseUrl().'admin/customer/formPost/');
         
         $form->addField(
             'customer_id', 
