@@ -29,12 +29,12 @@
             </block>
 
             <block type="tag_css" name="jscripts.css.ext.all">
-                <action method="setHref"><href>extjs/resources/css/ext-all.css</href></action>
+                <action method="setHref"><href>extjs/resources/css/ext-all.css</href><locate>js</locate></action>
             </block>
 
             <block type="tag_css_theme" name="jscripts.css.ext.theme">
                 <action method="setTagParam"><name>id</name><value>theme_stylesheet</value></action>
-                <action method="setHref"><href>extjs/resources/css/ytheme-</href></action>
+                <action method="setHref"><href>extjs/resources/css/ytheme-</href><locate>js</locate></action>
             </block>
         </block>
 
