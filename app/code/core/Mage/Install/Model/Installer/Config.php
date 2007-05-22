@@ -32,6 +32,13 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
         unlink($config->getCacheStatFileName());
     }
     
+    public function installDefault()
+    {
+        $config = new Mage_Core_Config();
+        $configSrc = $config->getLocalDist();
+        file_put_contents($this->_localConfigFile, $configSrc);
+    }    
+    
     public function getFormData()
     {
         $data = new Varien_Object();

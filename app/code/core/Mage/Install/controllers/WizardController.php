@@ -86,7 +86,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function configAction()
     {
         $this->_prepareLayout();
-        
+        Mage::getSingleton('install', 'installer_config')->installDefault();
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.config')
             ->setTemplate('install/config.phtml')
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'configPost')))
@@ -137,7 +137,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                 }
                 
                 Mage::getSingleton('install', 'session')->setConfigData($data);
-                
                 Mage::getSingleton('install', 'installer_config')->install();
             }
             catch (Exception $e){

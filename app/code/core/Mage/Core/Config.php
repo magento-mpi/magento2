@@ -124,12 +124,12 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     
     public function getTempVarDir()
     {
-        return (!empty($_ENV['TMP']) ? empty($_ENV['TMP']) : '/tmp/magento').'/var';
+        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp/magento').'/var';
     }
         
     public function getLocalDist()
     {
-        if ('/'==$_SERVER['SCRIPT_NAME']) {
+        if ("\\"==dirname($_SERVER['SCRIPT_NAME'])) {
             $basePath = '/';
         } else {
             $basePath = dirname($_SERVER['SCRIPT_NAME']);
