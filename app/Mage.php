@@ -247,7 +247,6 @@ final class Mage {
         
         Mage::register('events', new Varien_Event_Collection());
         Mage::register('config', new Mage_Core_Model_Config());
-        Mage::register('resources', new Mage_Core_Model_Resource());
 
         Varien_Profiler::setTimer('config');
         Mage::getConfig()->init();
@@ -257,6 +256,7 @@ final class Mage {
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('session')));
         Zend_Session::start();
 
+        Mage::register('resources', Mage::getSingleton('core', 'resource'));
         Mage::register('session', Mage::getSingleton('core', 'session'));
         Mage::register('website', Mage::getSingleton('core', 'website'));
         
