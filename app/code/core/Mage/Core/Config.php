@@ -129,7 +129,11 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
     public function getLocalDist()
     {
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        if ('/'==$_SERVER['SCRIPT_NAME']) {
+            $basePath = '/';
+        } else {
+            $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        }
         $subst = array(
             '{root_dir}'=>dirname(Mage::getRoot()),
             '{var_dir}'=>$this->getTempVarDir(),
