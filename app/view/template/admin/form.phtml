@@ -1,0 +1,35 @@
+<?if ($currentBlock->getIsFormFramed()):?>
+<form <?=$formAttributes?>>
+<?endif?>
+<?$_processedElements=array()?>
+<?if($_hiddenElements=$currentBlock->getElementsIdByType('hidden')):?>
+    <?foreach($_hiddenElements as $_element):?>
+        <?=$$_element?>
+        <?$_processedElements[]=$_element?>
+    <?endforeach?>
+<?endif?>
+<div class="data-form">
+<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+    <fieldset>
+    <?if($_formLegend=$currentBlock->getAttribute('legend')):?>
+        <legend><?=$_formLegend?></legend>
+        <?if($_elementsGroup=$currentBlock->getGroup()):?>
+        <?endif?>
+    <?endif?>
+    <?$_formFields=$currentBlock->getFields()?>
+    <?foreach($_formFields as $_field):?>
+        <?if(!in_array($_field, $_processedElements)):?>
+        <div class="x-form-item">
+            <?=$$_field?>
+            <?$_processedElements[]=$_field?>
+        </div>
+        <?endif?>
+    <?endforeach?>
+    </fieldset>
+</div></div></div>
+<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>
+<?if ($currentBlock->getIsFormFramed()):?>
+</form>
+<?endif?>

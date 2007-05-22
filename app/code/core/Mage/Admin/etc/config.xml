@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Admin>
-         <version>0.1.1</version>
+         <version>0.2.0</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -16,6 +16,12 @@
          </admin>
          <admin_resource>
             <class>Mage_Admin_Model_Mysql4</class>
+            <entities>
+               <user><table>admin_user</table></user>
+               <role><table>admin_role</table></role>
+               <rule><table>admin_rule</table></rule>
+               <assert><table>admin_assert</table></assert>
+            </entities>
          </admin_resource>
       </models>
 
@@ -33,21 +39,11 @@
          <admin>
             <updates>
                <admin>
-                  <file>customer/initLayout.xml</file>
+                  <file>admin/initLayout.xml</file>
                </admin>
             </updates>
          </admin>
       </layouts>
-      <!--events>
-         <beforeRenderLayout>
-            <observers>
-               <auth>
-                  <class>Mage_Customer_Front</class>
-                  <method>beforeRenderLayout</method>
-               </auth>
-            </observers>
-         </beforeRenderLayout>
-      </events-->
       <routers>
          <customer>
             <class>Mage_Core_Controller_Front_Router</class>

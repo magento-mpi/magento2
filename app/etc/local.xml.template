@@ -20,9 +20,9 @@
             <group>default</group>
             
             <filesystem>
-                <layout>{root_dir}/app/view/front/layout</layout>
-                <template>{root_dir}/app/view/front/template</template>
-                <translate>{root_dir}/app/view/front/translate</translate>
+                <layout>{root_dir}/app/view/layout</layout>
+                <template>{root_dir}/app/view/template</template>
+                <translate>{root_dir}/app/view/translate</translate>
                 <base>{root_dir}</base>
                 <media>{root_dir}/media</media>
                 <skin>{root_dir}/skins/default</skin>

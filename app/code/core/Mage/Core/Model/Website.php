@@ -63,7 +63,7 @@ class Mage_Core_Model_Website extends Varien_Object
     
     public function getDir($type)
     {
-        return $this->getConfig()->filesystem->$type;
+        return (string)$this->getConfig()->filesystem->$type;
     }
     
     public function getUrl($params)

@@ -89,4 +89,40 @@ class Mage_Admin_Model_User extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
+    
+    /**
+     * Run this method every time before admin controller action dispatch
+     * 
+     * Checks for user authentication and loads acl authorizations
+     *
+     */
+    static public function action_preDispatch()
+    {
+        $admin  = Mage::getSingleton('admin', 'session');
+        $request= Mage::registry('controller')->getRequest();
+
+        if (!$admin->getUser() && $request->getPost('login')) {
+            extract($request->getPost('login'));
+            if (!empty($username) && !empty($password)) {
+                $admin->setUser(Mage::getModel('admin_resource', 'user')->authenticate($username, $password));
+                header('Location: '.$request->getRequestUri());
+                exit;
+            }
+        }
+        
+        if (!$admin->getUser()) {
+            $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'root')
+                ->setTemplate('auth/login.phtml')
+                ->assign('username', '');
+            $request->setBody($block->toHtml());
+            exit;
+        }
+       
+        if (!$admin->getAcl()) {
+            $admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
+        }
+        
+        Mage::register('acl', $admin->getAcl());
+    }
+    
 }
