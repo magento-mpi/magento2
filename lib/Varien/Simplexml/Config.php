@@ -96,7 +96,9 @@ class Varien_Simplexml_Config
 
             case 'file':
                 $this->_xml = $this->loadFile($sourceData);
-                break;
+                if (!empty($this->_xml)) { // if file load failed attempt to load string
+                	break;
+                }
 
             case 'string':
                 $this->_xml = $this->loadString($sourceData);

@@ -48,6 +48,10 @@
   * 2.6 [[.:api:varien:crypt|Varien_Crypt]]
   * 2.7 [[.:api:varien:filter|Varien_Filter]]
 
+===== Tutorials ======
+
+== 1. Modules ==
+  * 1.1 [[.:tutor:module:basic|Creating a basic module]]
 
 ===== Goals =====
   * [[.:goals:refactor|Refactor]]
@@ -438,3 +442,8 @@ config/
 ===== Varien_Simplexml_Config =====
 
 Uses [[magento::api:varien:simplexml:element|Varien_Simplexml_Element]]
+
+=============================================================================== TUTORIALS
+
+[[magento:start|Back to contents]]
+

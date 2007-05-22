@@ -51,7 +51,7 @@ class Mage_Core_Controller_Zend_Front {
         $this->_front->setParam('useDefaultControllerAlways', true);
         $this->_front->registerPlugin(new Varien_Controller_Plugin_NotFound());
         //$this->_view = new Mage_Core_View_Zend();
-        $this->_request = new Mage_Core_Controller_Zend_Request();
+        $this->_request = new Zend_Controller_Request_Http();
         $this->_dispatcher = new Varien_Controller_Dispatcher_Standard();
         $this->_front->setDispatcher($this->_dispatcher);
     }
@@ -87,9 +87,9 @@ class Mage_Core_Controller_Zend_Front {
      */
     public function run() 
     {
-        $default = Mage::getModuleDir('controllers', 'Mage_Core');
-        $this->_front->addControllerDirectory($default, 'default');
-        $this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
+        #$default = Mage::getModuleDir('controllers', 'Mage_Core');
+        #$this->_front->addControllerDirectory($default, 'default');
+        #$this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
         
         $defaultModule = 'Mage_Core';
         

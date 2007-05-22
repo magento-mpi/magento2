@@ -31,7 +31,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
      */
     function init()
     {
-        $this->getCache()->setDir($this->getBaseDir('cache_config'))->setKey('globalConfig');
+        $this->getCache()->setDir($this->getBaseDir('etc'))->setKey('config-compiled');
         
         $this->loadGlobal();
     }
@@ -51,7 +51,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         $this->loadModules();
         $this->loadLocal();
         $this->applyExtends();
-        
+
         $this->getCache()->save();
 
         return true;
@@ -88,7 +88,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             if (!$module->is('active')) {
                 continue;
             }
-            $configFile = Mage::getBaseDir('code').DS.$module->codePool.DS.str_replace('_',DS,$module->getName()).DS.'etc'.DS.'config.xml';
+            $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
             $this->getCache()->addComponent($configFile);
             $moduleConfig = $this->loadFile($configFile);
             $this->_xml->extend($moduleConfig, true);
@@ -220,33 +220,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $dir = (string)$this->getNode('global/default/filesystem/'.$type);
         if (!$dir) {
-            $dir = Mage::getRoot();
-            switch ($type) {
-                case 'etc':
-                    $dir = Mage::getRoot().DS.'etc';
-                    break;
-                    
-                case 'code':
-                    $dir = Mage::getRoot().DS.'code';
-                    break;
-                    
-                case 'var':
-                    $dir = $this->getTempVarDir();
-                    break;
-                    
-                case 'session':
-                    $dir = $this->getBaseDir('var').DS.'session';
-                    break;
-                    
-                case 'cache_config':
-                    $dir = $this->getBaseDir('var').DS.'cache'.DS.'config';
-                    break;
-                                        
-                case 'cache_layout':
-                    $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
-                    break;
-                    
-            }
+			$dir = $this->getDefaultBaseDir($type);
         }
         if (!$dir) {
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
@@ -261,6 +235,38 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         
         $dir = str_replace('/', DS, $dir);
 
+        return $dir;
+    }
+    
+    public function getDefaultBaseDir($type)
+    {
+        $dir = Mage::getRoot();
+        switch ($type) {
+            case 'etc':
+                $dir = Mage::getRoot().DS.'etc';
+                break;
+                
+            case 'code':
+                $dir = Mage::getRoot().DS.'code';
+                break;
+                
+            case 'var':
+                $dir = $this->getTempVarDir();
+                break;
+                
+            case 'session':
+                $dir = $this->getBaseDir('var').DS.'session';
+                break;
+                
+            case 'cache_config':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'config';
+                break;
+                                    
+            case 'cache_layout':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
+                break;
+                
+        }
         return $dir;
     }
     

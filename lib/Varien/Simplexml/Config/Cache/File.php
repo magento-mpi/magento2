@@ -1,85 +1,85 @@
 <?php
 
+/**
+ * File based cache for configuration
+ *
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @package     Varien
+ * @subpackage  Simplexml
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Varien_Simplexml_Config_Cache_File extends Varien_Simplexml_Config_Cache_Abstract
 {
 
     /**
-     * Returns file name for cache file by key
+     * Initialize variables that depend on the cache key
      *
      * @param string $key
      * @return string
      */
-    public function getFileName($key='')
+    public function setKey($key)
     {
-        return $this->getDir().DS.$this->getKey().'.xml';
+    	$this->setData('key', $key);
+    	
+    	$file = $this->getDir().DS.$this->getKey();
+        $this->setFileName($file.'.xml');
+        $this->setStatFileName($file.'.stat');
+        
+        return $this;
     }
 
     /**
-     * Returns file name for cache stats file
+     * Try to load configuration cache from file
      *
-     * @param string $key
-     * @return string
-     */
-    public function getStatFileName()
-    {
-        return $this->getDir().DS.$this->getKey().'.stat';
-    }
-
-    public function addComponent($component)
-    {
-        $comps = $this->getComponents();
-        $comps[$component] = array('mtime'=>filemtime($component));
-        $this->setComponents($comps);
-    }
-    
-    /**
-     * Load configuration cache from file
-     *
-     * @param Varien_Simplexml_Config $config
-     * @return Varien_Simplexml_Element
+     * @return boolean
      */
     public function load()
     {
         $this->setIsLoaded(false);
-        
-        // get cache status file
-        $statFile = $this->getStatFileName($this->getKey());
-        if (!is_readable($statFile)) {
+
+        // try to read stats
+        if (!($stats = @file_get_contents($this->getStatFileName()))) {
             return false;
         }
-        // read it and validate
-        $data = unserialize(file_get_contents($statFile));
-        if (empty($data) || !is_array($data) || !$this->validateComponents($data)) {
+
+        // try to validate stats
+        if (!$this->validateComponents(unserialize($stats))) {
             return false;
         }
         
-        // read cache file
-        $cacheFile = $this->getFileName($this->getKey());
-        if (is_readable($cacheFile)) {
-            $xml = file_get_contents($cacheFile);
-            if (!empty($xml)) {
-                
-                $xml = $this->getConfig()->processFileData($xml);
-                
-                $this->getConfig()->setXml($xml);
-                $this->setIsLoaded(true);
-                return true;
-            }
+        // try to read cache file
+        if (!($cache = @file_get_contents($this->getFileName()))) {
+            return false;
         }
-        return false;
+            
+        // try to process cache file
+        if (!($xml = $this->getConfig()->processFileData($cache))) {
+            return false;
+        }
+
+        $this->getConfig()->setXml($xml);
+        $this->setIsLoaded(true);
+        
+        return true;
     }
     
+    /**
+     * Try to save configuration cache to file
+     *
+     * @return boolean
+     */
     public function save()
     {
         if (!$this->getIsAllowedToSave()) {
             return false;
         }
         
-        $statFile = $this->getStatFileName($this->getKey());
-        file_put_contents($statFile, serialize($this->getComponents()));
+        // save stats
+        @file_put_contents($this->getStatFileName(), serialize($this->getComponents()));
 
-        $cacheFile = $this->getFileName($this->getKey());
-        file_put_contents($cacheFile, $this->getConfig()->getNode()->asNiceXml());
+        // save cache
+        @file_put_contents($this->getFileName(), $this->getConfig()->getNode()->asNiceXml());
         
         return true;
     }
