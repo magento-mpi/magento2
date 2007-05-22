@@ -41,7 +41,7 @@ class Mage_Admin_Block_Catalog_Product_FormJson extends Varien_Data_Form
         $this->_dataInputs = (array) Mage::getConfig()->getNode('admin/dataInputs');
 
         // Set form attributes
-        $postUrl = Mage::getBaseUrl().'mage_catalog/product/save/';
+        $postUrl = Mage::getBaseUrl().'admin/product/save/';
         if ($productId) {
             $postUrl.= 'product/'.$productId;
         }

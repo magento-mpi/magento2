@@ -57,14 +57,14 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         if ($productId) {
             $cardStructure['tabs'][] = array(
                 'name'  => 'product_view',
-                'url'   => Mage::getBaseUrl()."mage_catalog/product/view/".$urlPrefix,
+                'url'   => Mage::getBaseUrl()."admin/product/view/".$urlPrefix,
                 'title' => 'Product Info',
                 'type'  => 'view'
             );
         }
         
         // Tabs description JSON
-        $baseTabUrl = Mage::getBaseUrl().'mage_catalog/product/form/';
+        $baseTabUrl = Mage::getBaseUrl().'admin/product/form/';
         foreach ($groups as $group) {
             $url = $baseTabUrl . 'group/' . $group->getId().'/' . $urlPrefix;
             $url.= 'set/'.$set->getId().'/';
@@ -82,7 +82,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
 
         if ($productId) {
             $imagesForm = new Varien_Data_Form();
-            $imagesForm->setAction(Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix)
+            $imagesForm->setAction(Mage::getBaseUrl()."admin/product/upload/".$urlPrefix)
                 ->setMethod('post')
                 ->setFileupload(true)
                 ->addField('image', 'file', array('name'=>'image', 'label'=>'Image file', 'autoSubmit'=>true));
@@ -90,9 +90,9 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'images',
                 'type'  => 'images',
-                //'saveUrl' => Mage::getBaseUrl()."mage_catalog/product/upload/".$urlPrefix,
-                //'url'   => Mage::getBaseUrl()."mage_catalog/product/images/".$urlPrefix,
-                'storeUrl' => Mage::getBaseUrl()."mage_catalog/product/imageCollection/".$urlPrefix,
+                //'saveUrl' => Mage::getBaseUrl()."product/upload/".$urlPrefix,
+                //'url'   => Mage::getBaseUrl()."product/images/".$urlPrefix,
+                'storeUrl' => Mage::getBaseUrl()."admin/product/imageCollection/".$urlPrefix,
                 'title' => 'Images',
                 'form'  => $imagesForm->toArray()
             );
@@ -100,7 +100,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => 'categories',
                 'type'  => 'categories',
-                'storeUrl'   => Mage::getBaseUrl()."mage_catalog/product/categoryList/".$urlPrefix,
+                'storeUrl'   => Mage::getBaseUrl()."admin/product/categoryList/".$urlPrefix,
                 'title' => 'Categories',
             );
         }
@@ -109,7 +109,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['tabs'][] = array(
                 'name'  => $productType,
                 'type'  => $productType,
-                'url'   => Mage::getBaseUrl().'mage_catalog/product/'.$productType.'Products/'.$urlPrefix,
+                'url'   => Mage::getBaseUrl().'admin/product/'.$productType.'Products/'.$urlPrefix,
                 'title' => $productType,
             );
         }
@@ -117,7 +117,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure['tabs'][] = array(
             'name'  => 'related',
             'type'  => 'related',
-            'url'   => Mage::getBaseUrl().'mage_catalog/product/relatedTab/' . $urlPrefix,
+            'url'   => Mage::getBaseUrl().'admin/product/relatedTab/' . $urlPrefix,
             'title' => 'Related products',
         );
         

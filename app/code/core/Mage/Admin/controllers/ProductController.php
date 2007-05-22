@@ -111,7 +111,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         $product = Mage::getModel('catalog', 'product')->load($this->getRequest()->getParam('product'));
         $block = $this->getLayout()->createBlock('tpl', 'product.view')
-            ->setTemplate('catalog/product/view.phtml')
+            ->setTemplate('admin/catalog/view.phtml')
             ->assign('product', $product);
         $this->getResponse()->setBody($block->toHtml());
     }
@@ -140,10 +140,10 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->getParam('iframe')) {
             $block->setTemplate('catalog/product/images/iframe.phtml');
             $block->assign('imagePreviewUrl', $product->getImageUrl());
-            $block->assign('uploadAction', Mage::getBaseUrl()."mage_catalog/product/upload/product/$id/");
+            $block->assign('uploadAction', Mage::getBaseUrl()."product/upload/product/$id/");
         } else {
             $block->setTemplate('catalog/product/images.phtml');
-            $block->assign('iframeSrc', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
+            $block->assign('iframeSrc', Mage::getBaseUrl()."product/images/product/$id/iframe/true/");
         }
         $this->getResponse()->setBody($block->toHtml());
     }
@@ -187,7 +187,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
             $res = array('success'=>false);
         }
         $this->getResponse()->setBody(Zend_Json::encode($res));            
-        //$this->getResponse()->setHeader('Location', Mage::getBaseUrl()."mage_catalog/product/images/product/$id/iframe/true/");
+        //$this->getResponse()->setHeader('Location', Mage::getBaseUrl()."product/images/product/$id/iframe/true/");
         
     }
 
@@ -278,7 +278,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $productId = $this->getRequest()->getParam('product');
         $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
             ->setTemplate('catalog/product/related_products.phtml')
-            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
+            ->assign('postAction', Mage::getBaseUrl().'product/save/product/'.$productId.'/');
         $this->getResponse()->setBody($block->toHtml());
     }
     
@@ -350,7 +350,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $productId = $this->getRequest()->getParam('product');
         $block = $this->getLayout()->createBlock('tpl', 'product_categories_panel')
             ->setTemplate('catalog/product/categories.phtml')
-            ->assign('postAction', Mage::getBaseUrl().'mage_catalog/product/save/product/'.$productId.'/');
+            ->assign('postAction', Mage::getBaseUrl().'product/save/product/'.$productId.'/');
         $this->getResponse()->setBody($block->toHtml());
     }
 

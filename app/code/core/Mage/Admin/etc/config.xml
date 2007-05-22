@@ -36,22 +36,22 @@
         <block>
             <types>
                 <admin_catalog_category_form>
-                    <class>Mage_Catalog_Block_Admin_Category_Form</class>
+                    <class>Mage_Admin_Block_Catalog_Category_Form</class>
                 </admin_catalog_category_form>
                 <admin_catalog_category_form_json>
-                    <class>Mage_Catalog_Block_Admin_Category_FormJson</class>
+                    <class>Mage_Admin_Block_Catalog_Category_FormJson</class>
                 </admin_catalog_category_form_json>
                 <admin_catalog_product_create_option>
-                    <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
+                    <class>Mage_Admin_Block_Catalog_Product_CreateOption</class>
                 </admin_catalog_product_create_option>
                 <admin_catalog_product_form>
-                    <class>Mage_Catalog_Block_Admin_Product_Form</class>
+                    <class>Mage_Admin_Block_Catalog_Product_Form</class>
                 </admin_catalog_product_form>
                 <admin_catalog_product_form_json>
-                    <class>Mage_Catalog_Block_Admin_Product_FormJson</class>
+                    <class>Mage_Admin_Block_Catalog_Product_FormJson</class>
                 </admin_catalog_product_form_json>
                 <admin_catalog_product_card>
-                    <class>Mage_Catalog_Block_Admin_Product_Card</class>
+                    <class>Mage_Admin_Block_Catalog_Product_Card</class>
                 </admin_catalog_product_card>
                 <tag_css_theme>
                     <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
