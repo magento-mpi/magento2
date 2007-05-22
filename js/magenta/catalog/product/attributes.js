@@ -9,25 +9,25 @@ Mage.Catalog_Product_Attributes = function(){
 
         attributeGrid : null,
         attributeGridToolbar : null,
-        attributeGridUrl : Mage.url + 'mage_catalog/product/attributeList/',
-        attributeGridPropUrl : Mage.url + 'mage_catalog/product/attributePropList/',
-        attributesDeleteUrl : Mage.url + 'mage_catalog/product/attributeDelete/',
-        attributesCreateUrl : Mage.url + 'mage_catalog/product/attributeCreate/',
-        attributesCommitUrl : Mage.url + 'mage_catalog/product/attributeSave/',
+        attributeGridUrl : Mage.url + 'product/attributeList/',
+        attributeGridPropUrl : Mage.url + 'product/attributePropList/',
+        attributesDeleteUrl : Mage.url + 'product/attributeDelete/',
+        attributesCreateUrl : Mage.url + 'product/attributeCreate/',
+        attributesCommitUrl : Mage.url + 'product/attributeSave/',
 
-        addGroupAttributes : Mage.url + 'mage_catalog/product/addGroupAttributes/',
-        removeElementUrl : Mage.url + 'mage_catalog/product/removElement/',        
-        saveSetUrl : Mage.url + 'mage_catalog/product/saveSet/',
-        saveGroupUrl : Mage.url + 'mage_catalog/product/saveGroup/',
+        addGroupAttributes : Mage.url + 'product/addGroupAttributes/',
+        removeElementUrl : Mage.url + 'product/removElement/',        
+        saveSetUrl : Mage.url + 'product/saveSet/',
+        saveGroupUrl : Mage.url + 'product/saveGroup/',
         
-        setTreeUrl : Mage.url + 'mage_catalog/product/attributeSetTree/',
-        moveNodeUrl : Mage.url + 'mage_catalog/product/moveAttributeInSet/',
+        setTreeUrl : Mage.url + 'product/attributeSetTree/',
+        moveNodeUrl : Mage.url + 'product/moveAttributeInSet/',
 
         setGrid : null,
-        setGridUrl :  Mage.url + 'mage_catalog/product/attributeSetList/',
+        setGridUrl :  Mage.url + 'product/attributeSetList/',
 
         editSetGrid : null,
-        editSetGridUrl : Mage.url + 'mage_catalog/product/attributesetproperties/',
+        editSetGridUrl : Mage.url + 'product/attributesetproperties/',
         stree : null,
 
         init : function() {
@@ -295,11 +295,11 @@ Mage.Catalog_Product_Attributes = function(){
                     
                         var conn = new Ext.data.Connection();
                     
-                		conn.on('requestcomplete', function(conn, response, options) {
-                		    var i = 0;
-                		    try {
-                    		    var result =  Ext.decode(response.responseText);
-                    		    if (result.error === 0) { 
+                        conn.on('requestcomplete', function(conn, response, options) {
+                            var i = 0;
+                            try {
+                                var result =  Ext.decode(response.responseText);
+                                if (result.error === 0) { 
                                     for(i=0; i < r.length; i++) {
                                         r[i].attributes.type = 'attribute';
                                         r[i].attributes.allowDelete = true;
@@ -311,15 +311,15 @@ Mage.Catalog_Product_Attributes = function(){
                                             r[i].parentNode.removeChild(r[i]);
                                         }
                                     }   
-                    		        Ext.MessageBox.alert('Error',result.errorMessage);
-                    		    }
-                		    } catch (e){
+                                    Ext.MessageBox.alert('Error',result.errorMessage);
+                                }
+                            } catch (e){
                                 for(i=0; i < r.length; i++) {
                                     r[i].parentNode.removeChild(r[i]);
                                 }   
                                 Ext.MessageBox.alert('Critical Error', response.responseText);
-                		    }
-                		    
+                            }
+                            
                         });
 
                         conn.on('requestexception', function() {
@@ -443,21 +443,21 @@ Mage.Catalog_Product_Attributes = function(){
                         n.disable();
                         var conn = new Ext.data.Connection();
                     
-                		conn.on('requestcomplete', function(conn, response, options) {
-                		    var i = 0;
-                		    var result =  Ext.decode(response.responseText);
-                    		    if (result.error === 0) { 
-                    		        if (a.type == 'group') {
-                    		            while (n.childNodes.length) {
-                    		                n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attributeId;
-                        		            n.parentNode.firstChild.appendChild(n.childNodes[0]);
-                    		            }
-                    		        }
-                    		        n.parentNode.removeChild(n);
-                    		    } else {
-                    		        n.enable();
-                    		        Ext.MessageBox.alert('Error', result.errorMessage);
-                	       	    }
+                        conn.on('requestcomplete', function(conn, response, options) {
+                            var i = 0;
+                            var result =  Ext.decode(response.responseText);
+                                if (result.error === 0) { 
+                                    if (a.type == 'group') {
+                                        while (n.childNodes.length) {
+                                            n.childNodes[0].id = n.parentNode.firstChild.id + '/attr:' + n.childNodes[0].attributes.attributeId;
+                                            n.parentNode.firstChild.appendChild(n.childNodes[0]);
+                                        }
+                                    }
+                                    n.parentNode.removeChild(n);
+                                } else {
+                                    n.enable();
+                                    Ext.MessageBox.alert('Error', result.errorMessage);
+                                }
                         });
 
                         conn.on('requestexception', function() {
@@ -531,7 +531,7 @@ Mage.Catalog_Product_Attributes = function(){
                     
                 conn.on('requestcomplete', function(conn, response, options) {
                     var i = 0;
-                	var result =  Ext.decode(response.responseText);
+                    var result =  Ext.decode(response.responseText);
                     if (result.error === 0) {
                         if (result.setId) {
                             node.attributes.setId = result.setId;
@@ -541,10 +541,10 @@ Mage.Catalog_Product_Attributes = function(){
                         if (result.groupId) {
                             node.attributes.groupId = result.groupId;
                         }
-           		    } else {
-           		        node.parentNode.removeChild(node);
-           		        Ext.MessageBox.alert('Error', result.errorMessage);
-       	       	    }
+                    } else {
+                        node.parentNode.removeChild(node);
+                        Ext.MessageBox.alert('Error', result.errorMessage);
+                    }
                });
 
                 conn.on('requestexception', function() {
@@ -616,7 +616,7 @@ Mage.Catalog_Product_Attributes = function(){
         },
 
         initAttributesGrid : function() {
-			var dataRecord = Ext.data.Record.create([
+            var dataRecord = Ext.data.Record.create([
                 {name: 'attribute_id', mapping: 'attribute_id'},
                 {name: 'attribute_code', mapping: 'attribute_code'},
                 {name: 'data_input', mapping: 'data_input'},
@@ -806,7 +806,7 @@ Mage.Catalog_Product_Attributes = function(){
                        Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
                        store.rejectChanges();
                    });
-		   
+           
                   conn.request( {
                        url: this.attributesCreateUrl,
                        method: "POST",
@@ -874,10 +874,10 @@ Mage.Catalog_Product_Attributes = function(){
                            } else {
                                Ext.MessageBox.alert('Error', result.ErrorMessage);
                            }
-        		       }.createDelegate(this));
-        		       
-		               conn.on('requestexception', function(dm, response, option, e) {
-			                Ext.MessageBox.alert('Error', 'RequestException.');
+                       }.createDelegate(this));
+                       
+                       conn.on('requestexception', function(dm, response, option, e) {
+                            Ext.MessageBox.alert('Error', 'RequestException.');
                        });
                        
                        conn.request( {
@@ -922,16 +922,16 @@ Mage.Catalog_Product_Attributes = function(){
                }
            });
            
-				 conn.on('requestexception', function(transId, response, option, e) {
-	  					 Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
-						 ds.rejectChanges();
-				 });
-				 
-				 conn.request( {
-							url: this.attributesCommitUrl,
-								method: "POST",
-								params: {attributes:Ext.encode(data)}
-						});                
+                 conn.on('requestexception', function(transId, response, option, e) {
+                         Ext.MessageBox.alert('Error', 'Your changes could not be saved. The entry will be rolled back.');
+                         ds.rejectChanges();
+                 });
+                 
+                 conn.request( {
+                            url: this.attributesCommitUrl,
+                                method: "POST",
+                                params: {attributes:Ext.encode(data)}
+                        });                
         },
 
         loadMainPanel : function() {

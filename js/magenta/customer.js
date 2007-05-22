@@ -13,13 +13,13 @@ Mage.Customer = function(depend){
         grid:null,
         addressLoading : null,
         addressPanel : null,
-        addressViewUrl : Mage.url + 'mage_customer/address/gridData/',
-        addressViewForm : Mage.url + 'mage_customer/address/form/',
-        deleteAddressUrl : Mage.url + 'mage_customer/address/delete/',
+        addressViewUrl : Mage.url + 'address/gridData/',
+        addressViewForm : Mage.url + 'address/form/',
+        deleteAddressUrl : Mage.url + 'address/delete/',
 
-        customerCardUrl : Mage.url + 'mage_customer/customer/card/',
-        customerGridDataUrl : Mage.url + 'mage_customer/customer/gridData/',
-        deleteUrl : Mage.url + 'mage_customer/customer/delete/',
+        customerCardUrl : Mage.url + 'customer/card/',
+        customerGridDataUrl : Mage.url + 'customer/gridData/',
+        deleteUrl : Mage.url + 'customer/delete/',
         formPanels : new Ext.util.MixedCollection(),
         forms2Panel : new Ext.util.MixedCollection(),
         forms : new Ext.util.MixedCollection(),
@@ -81,7 +81,7 @@ Mage.Customer = function(depend){
                 
                 this.customerCard = new Mage.core.ItemCard({
                     region : this.customerLayout.getRegion('south'),
-                    url : Mage.url + 'mage_customer/customer/card/id/'
+                    url : Mage.url + 'customer/card/id/'
                 });
 
             } else { // not loaded condition

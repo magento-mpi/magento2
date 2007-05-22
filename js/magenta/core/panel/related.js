@@ -3,7 +3,7 @@ Mage.core.PanelRelated = function(region, config) {
     this.notLoaded = false;
     Ext.apply(this, config);
     
-    this.gridUrl = Mage.url + 'mage_catalog/product/relatedList/';
+    this.gridUrl = Mage.url + 'product/relatedList/';
     
     this.dataRecord = Ext.data.Record.create([
         {name: 'id', mapping: 'product_id'},
@@ -46,7 +46,7 @@ Mage.core.PanelRelated = function(region, config) {
     
     this.panel = this.region.add(new Ext.GridPanel(this.grid, {
         background : true,
-       	fitToFrame : true,
+        fitToFrame : true,
         title : config.title || 'Title'
     }));
     

@@ -19,7 +19,7 @@ Mage.Catalog_Product = function(depend){
         productsGridPageSize : 30, 
         registeredForms : new Ext.util.MixedCollection(),
         newItemDialog : null,
-        deleteProductUrl : Mage.url + 'mage_catalog/product/delete/',
+        deleteProductUrl : Mage.url + 'product/delete/',
         
 
 
@@ -79,7 +79,7 @@ Mage.Catalog_Product = function(depend){
                 this.productCard = new Mage.core.ItemCard({
                     region : this.productLayout.getRegion('south'),
                     layout : this.productLayout,
-                    url : Mage.url + 'mage_catalog/product/card/product/'
+                    url : Mage.url + 'product/card/product/'
                 });
                 
                 Layout.beginUpdate();
@@ -102,7 +102,7 @@ Mage.Catalog_Product = function(depend){
             }, dataRecord);
 
              var dataStore = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + 'mage_catalog/product/gridData/category/' + catId + '/'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'product/gridData/category/' + catId + '/'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -195,7 +195,7 @@ Mage.Catalog_Product = function(depend){
 ////////////////////////////////// Grid website combobox
 /*            var testds = new Ext.data.Store({
                     proxy: new Ext.data.HttpProxy({
-                        url: Mage.url + 'mage_core/website/list/'
+                        url: Mage.url + 'website/list/'
                     }),
                     reader: new Ext.data.JsonReader({id: 'value'}, [
                         {name: 'value', mapping: 'value'},
@@ -259,7 +259,7 @@ Mage.Catalog_Product = function(depend){
                 compData[record.data.filterField] = record.data.filterComp;
                 
                 options.push(
-       			  {tag: 'option', value:record.data.filterField, html:record.data.filterName, ftype:record.data.filterType}
+                  {tag: 'option', value:record.data.filterField, html:record.data.filterName, ftype:record.data.filterType}
                 )
             }
             var type = filter.addDom({tag:'select', name:'filterField', id : filter.getEl().id + '-filterField', children: options});
@@ -309,7 +309,7 @@ Mage.Catalog_Product = function(depend){
                    case 'date' :
                         var textValue = new Ext.form.DateField({
                             id : filterId + '-textValue',
-                            allowBlank:true        	    
+                            allowBlank:true             
                         });
                        break;
                    case 'combobox' :
@@ -324,7 +324,7 @@ Mage.Catalog_Product = function(depend){
                             width : 135,
                             growMin : 135,
                             growMax : 600,
-                            allowBlank:true        	    
+                            allowBlank:true             
                         });
                    case 'text' : 
                    default :
@@ -334,7 +334,7 @@ Mage.Catalog_Product = function(depend){
                             width : 135,
                             growMin : 135,
                             growMax : 600,
-                            allowBlank:true        	    
+                            allowBlank:true             
                         });
                }
             return textValue;   
@@ -356,7 +356,7 @@ Mage.Catalog_Product = function(depend){
             }, dataRecord);
 
              this.filterSettings = new Ext.data.Store({
-                proxy: new Ext.data.HttpProxy({url: Mage.url + 'mage_catalog/product/filtersettings/', method: 'POST'}),
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'product/filtersettings/', method: 'POST'}),
                 reader: dataReader,
                 remoteSort: true
              });
@@ -478,7 +478,7 @@ Mage.Catalog_Product = function(depend){
                 }
             } else {
                 this.gridPanel.getGrid();
-                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + 'mage_catalog/product/gridData/category/' + config.catId + '/';
+                this.productsGrid.getDataSource().proxy.getConnection().url = Mage.url + 'product/gridData/category/' + config.catId + '/';
                 if (config.load && this.productsGrid.mageCategoryId != config.catId) {
                     this.productsGrid.getDataSource().load({params:{start:0, limit:this.productsGridPageSize}});
                 }
@@ -505,8 +505,8 @@ Mage.Catalog_Product = function(depend){
                 this.newItemDialog.addButton('Cancel', this.newItemDialog.hide, this.newItemDialog);
                 var mgr = new Ext.UpdateManager(this.newItemDialog.body);
                 mgr.on('update', function(){sbmt.enable()});
-                //this.newItemDialog.on('show', function(){mgr.update(Mage.url + 'mage_catalog/product/newoption/')})
-                mgr.update(Mage.url + 'mage_catalog/product/create/');
+                //this.newItemDialog.on('show', function(){mgr.update(Mage.url + 'product/newoption/')})
+                mgr.update(Mage.url + 'product/create/');
             }
             this.newItemDialog.show(menuItem.getEl().dom);
 
@@ -669,7 +669,7 @@ Mage.Catalog_Product = function(depend){
 //////////////////////////////////////////////////////////////////////
 /*            var testds = new Ext.data.Store({
                     proxy: new Ext.data.HttpProxy({
-                        url: Mage.url + 'mage_core/website/list/'
+                        url: Mage.url + 'website/list/'
                     }),
                     reader: new Ext.data.JsonReader({id: 'value'}, [
                         {name: 'value', mapping: 'value'},
@@ -785,7 +785,7 @@ Mage.Catalog_Product = function(depend){
             if (!this.categoryEditFormPanel) {
                 var workZone = dep.getLayout('main');
                 workZone.beginUpdate();
-                this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'mage_catalog/category/new/', title: 'Edit: ' + treeNode.text, background:true}));
+                this.categoryEditFormPanel = workZone.add('center', new Ext.ContentPanel('', {autoCreate: true, url:Mage.url+'category/new/', title: 'Edit: ' + treeNode.text, background:true}));
                 workZone.endUpdate();
             } else {
                 this.categoryEditFormPanel.setTitle('Edit: ' + treeNode.text);
@@ -797,7 +797,7 @@ Mage.Catalog_Product = function(depend){
 Mage.Catalog_Product_CategoriesPanel = function(){
     return{
         rowTemplate: null,
-        dataUrl : Mage.url + 'mage_catalog/product/categoryList/',
+        dataUrl : Mage.url + 'product/categoryList/',
 
         create : function(config){
             this.config = config;
@@ -810,7 +810,7 @@ Mage.Catalog_Product_CategoriesPanel = function(){
             var productId = Mage.Catalog_Product.productsGrid.getSelectionModel().selections.items[0].id;
             
             var baseEl = this.panel.getRegion('center').getEl().createChild({tag:'div', id:'productCard_' + this.tabInfo.name});
-            var tpl = new Ext.Template('<form method="POST" id="form_categories" action="'+Mage.url + 'mage_catalog/product/save/product/' + productId +'/"><input id="product_categories" type="hidden" value=""></form>');
+            var tpl = new Ext.Template('<form method="POST" id="form_categories" action="'+Mage.url + 'product/save/product/' + productId +'/"><input id="product_categories" type="hidden" value=""></form>');
             tpl.append(baseEl);
             var tb = new Ext.Toolbar(baseEl.createChild({tag:'div'}));
             
@@ -889,11 +889,11 @@ Mage.Catalog_Product_CategoriesPanel = function(){
                  hiddenEl.dom .value = data.join();
              });
            
-        	this.categoriesView = new Ext.View(container, this.rowTemplate, {
-        		singleSelect: true,
-        		store : dataStore,
-        		emptyText : '<div class="address-view" id="product-categories-view-empty"><h3>Empty</h3></div>'
-        	});
+            this.categoriesView = new Ext.View(container, this.rowTemplate, {
+                singleSelect: true,
+                store : dataStore,
+                emptyText : '<div class="address-view" id="product-categories-view-empty"><h3>Empty</h3></div>'
+            });
             
 
             this.cPanel.on('activate', function(){

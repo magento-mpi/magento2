@@ -6,7 +6,7 @@ Mage.Catalog_CategoryForm = function(config){
 Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
      dialog : false,
      el : false,
-     formUrl : Mage.url + 'mage_catalog/category/form/',
+     formUrl : Mage.url + 'category/form/',
      conn : null,
      panel : null,
     

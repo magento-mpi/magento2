@@ -4,10 +4,10 @@ Mage.Catalog_Product_RelatedPanel = function(){
         cPanel : null,
         grid : null,
         dataRecord : null,
-        // mage_catalog/product/relatedList/product/:id
-        // mage_catalog/product/bundleList/product/:id
-        // mage_catalog/product/superList/product/:id
-        gridUrl : Mage.url + 'mage_catalog/product/relatedList/',
+        // product/relatedList/product/:id
+        // product/bundleList/product/:id
+        // product/superList/product/:id
+        gridUrl : Mage.url + 'product/relatedList/',
         gridPageSize : 30,
         productSelector : null,
         
@@ -55,7 +55,7 @@ Mage.Catalog_Product_RelatedPanel = function(){
                 });
             
                 this.productSelector = new Mage.Catalog_Product_ProductSelect({
-                    gridUrl : Mage.url + 'mage_catalog/product/gridData/category/1/',
+                    gridUrl : Mage.url + 'product/gridData/category/1/',
                     parentGrid : this.grid,
                     dataRecord : this.dataRecord
                 });

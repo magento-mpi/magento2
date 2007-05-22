@@ -47,7 +47,7 @@ Mage.Catalog_Product_ProductSelect = function(config) {
         var treeContainer = treePanel.getEl().createChild({tag:'div'});
         this.tree = new Ext.tree.TreePanel(treeContainer, {
             animate:true, 
-            loader: new Ext.tree.TreeLoader({dataUrl: Mage.url + 'mage_catalog/category/treeChildren/'}),
+            loader: new Ext.tree.TreeLoader({dataUrl: Mage.url + 'category/treeChildren/'}),
             enableDD:false,
             containerScroll: true,
             rootVisible : true

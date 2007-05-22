@@ -3,11 +3,11 @@ Mage.Catalog_Category_Tree = function(){
     var categoryContextMenu = null;
 
     return{
-        loadChildrenUrl: Mage.url+'mage_catalog/category/treeChildren/',
-        moveNodeUrl: Mage.url+'mage_catalog/category/move/',
-        removeNodeUrl: Mage.url+'mage_catalog/category/remove/',
-        loadWebsiteUrl: Mage.url+'mage_catalog/category/treeWebsite/',
-        websiteListUrl : Mage.url + 'mage_core/website/list/',
+        loadChildrenUrl: Mage.url+'category/treeChildren/',
+        moveNodeUrl: Mage.url+'category/move/',
+        removeNodeUrl: Mage.url+'category/remove/',
+        loadWebsiteUrl: Mage.url+'category/treeWebsite/',
+        websiteListUrl : Mage.url + 'website/list/',
         tree: null,
         websiteId: null,
         btns : null,

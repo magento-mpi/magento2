@@ -7,15 +7,15 @@ Mage.Sales = function(depend){
         webSiteTree : null,
         grid : null,
         gridPageSize : 30,
-        gridUrl : Mage.url + 'mage_sales/order/grid/',
+        gridUrl : Mage.url + 'order/grid/',
         lastSelectedRecord : null,
         
         formPanel : null,
-        formUrl : Mage.url + 'mage_sales/order/form/',
+        formUrl : Mage.url + 'order/form/',
         
         oTree : null,
-        websiteCBUrl : Mage.url + 'mage_core/website/list/',
-        websitesTreeUrl : Mage.url + 'mage_sales/order/tree/',
+        websiteCBUrl : Mage.url + 'website/list/',
+        websitesTreeUrl : Mage.url + 'order/tree/',
         
         init : function() {
             var Core_Layout = Mage.Admin.getLayout();

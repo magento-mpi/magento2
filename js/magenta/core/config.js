@@ -50,7 +50,7 @@ Mage.Core_Config = function(){
                 
                 var tree = new Ext.tree.TreePanel(viewEl, {
                     animate:true, 
-                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'mage_core/config/configChildren/'}),
+                    loader: new Ext.tree.TreeLoader({dataUrl:Mage.url+'config/configChildren/'}),
                     enableDD:true,
                     containerScroll: true,
                     dropConfig: {appendOnly:true}
