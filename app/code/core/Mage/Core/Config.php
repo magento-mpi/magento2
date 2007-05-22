@@ -114,7 +114,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
             $localConfig = $this->loadFile($configFile);
             $this->_xml->extend($localConfig, true);
         } else {
-            $string = $this->getLocalDistString();
+            $string = $this->getLocalDist();
             $localConfig = $this->loadString($string);
             $this->_xml->extend($localConfig, true);
             $this->getCache()->setIsAllowedToSave(false);
@@ -127,7 +127,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         return (!empty($_ENV['TMP']) ? empty($_ENV['TMP']) : '/tmp/magento').'/var';
     }
         
-    public function getLocalDistString()
+    public function getLocalDist()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         $subst = array(
