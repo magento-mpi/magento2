@@ -26,6 +26,14 @@
       </models>
 
       <resources>
+         <admin_setup>
+            <setup>
+               <module>Mage_Admin</module>
+            </setup>
+            <connection>
+               <use>core_setup</use>
+            </connection>
+         </admin_setup>
          <admin_write>
             <connection><use>core_write</use></connection>
          </admin_write>
