@@ -69,6 +69,16 @@
             </updates>
          </admin>
       </layouts>
+      <events>
+         <action_preDispatch>
+            <observers>
+               <auth>
+                  <class>Mage_Admin_Model_User</class>
+                  <method>action_preDispatch</method>
+               </auth>
+            </observers>
+         </action_preDispatch>
+      </events>
       <routers>
          <admin>
             <class>Mage_Core_Controller_Front_Router</class>

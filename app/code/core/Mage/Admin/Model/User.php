@@ -100,7 +100,7 @@ class Mage_Admin_Model_User extends Varien_Object
     {
         $admin  = Mage::getSingleton('admin', 'session');
         $request= Mage::registry('controller')->getRequest();
-
+//$admin->unsetAll();
         if (!$admin->getUser() && $request->getPost('login')) {
             extract($request->getPost('login'));
             if (!empty($username) && !empty($password)) {
@@ -110,16 +110,16 @@ class Mage_Admin_Model_User extends Varien_Object
             }
         }
         
-        if (!$admin->getUser()) {
-            $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'root')
-                ->setTemplate('auth/login.phtml')
-                ->assign('username', '');
-            $request->setBody($block->toHtml());
-            exit;
+        if (!$admin->getUser() && !$request->getParam('forwarded')) {
+            $request->setParam('forwarded', true)
+                ->setControllerName('index')                
+                ->setActionName('login')
+                ->setDispatched(false);
+            return false;
         }
        
-        if (!$admin->getAcl()) {
-            $admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
+        if ($admin->getUser() && !$admin->getAcl()) {
+            //$admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
         }
         
         Mage::register('acl', $admin->getAcl());

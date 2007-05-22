@@ -61,29 +61,29 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function __construct()
     {
-        $this->_read = Mage::registry('resources')->getConnection('auth_read');
-        $this->_write = Mage::registry('resources')->getConnection('auth_write');
+        $this->_read = Mage::registry('resources')->getConnection('admin_read');
+        $this->_write = Mage::registry('resources')->getConnection('admin_write');
     }
 
     /**
      * Load ACL for the user
      *
      * @param integer $userId
-     * @return Mage_Auth_Model_Acl
+     * @return Mage_Admin_Model_Acl
      */
     function loadUserAcl($userId)
     {
-        $acl = Mage::getModel('auth', 'acl');
+        $acl = Mage::getModel('admin', 'acl');
         
-        Mage::getSingleton('auth', 'config')->loadAclResources($acl);
+        Mage::getSingleton('admin', 'config')->loadAclResources($acl);
 
-        $roleTable = Mage::registry('resources')->getTableName('auth_resource', 'role');
+        $roleTable = Mage::registry('resources')->getTableName('admin_resource', 'role');
         $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
         $rolesArr = $this->_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
         
-        $ruleTable = Mage::registry('resources')->getTableName('auth_resource', 'rule');
-        $assertTable = Mage::registry('resources')->getTableName('auth_resource', 'assert');
+        $ruleTable = Mage::registry('resources')->getTableName('admin_resource', 'rule');
+        $assertTable = Mage::registry('resources')->getTableName('admin_resource', 'assert');
         $rulesSelect = $this->_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
         $rulesArr = $this->_read->fetchAll($rulesSelect);        
@@ -97,7 +97,7 @@ class Mage_Admin_Model_Mysql4_Acl
      *
      * @param Zend_Acl $acl
      * @param array $rolesArr
-     * @return Mage_Auth_Model_Mysql4_Acl
+     * @return Mage_Admin_Model_Mysql4_Acl
      */
     function loadRoles(Zend_Acl $acl, array $rolesArr)
     {
@@ -129,7 +129,7 @@ class Mage_Admin_Model_Mysql4_Acl
      *
      * @param Zend_Acl $acl
      * @param array $rulesArr
-     * @return Mage_Auth_Model_Mysql4_Acl
+     * @return Mage_Admin_Model_Mysql4_Acl
      */
     function loadRules(Zend_Acl $acl, array $rulesArr)
     {
@@ -140,7 +140,7 @@ class Mage_Admin_Model_Mysql4_Acl
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = Mage::getSingleton('auth', 'config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = Mage::getSingleton('admin', 'config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             switch ($rule['permission']) {

@@ -13,12 +13,46 @@ class Mage_Admin_Model_Mysql4_User
     protected $_userTable;
     protected $_read;
     protected $_write;
+
+    /**
+     * Zend auth adapter
+     *
+     * @var Zend_Auth_Adapter_Interface
+     */
+    protected $_authAdapter = null;
     
     public function __construct() 
     {
-        $this->_userTable = Mage::registry('resources')->getTableName('auth_resource', 'user');
-        $this->_read = Mage::registry('resources')->getConnection('auth_read');
-        $this->_write = Mage::registry('resources')->getConnection('auth_write');
+        $this->_userTable = Mage::registry('resources')->getTableName('admin_resource', 'user');
+        $this->_read = Mage::registry('resources')->getConnection('admin_read');
+        $this->_write = Mage::registry('resources')->getConnection('admin_write');
+        $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $this->_userTable, 'username', 'password', 'md5(?)');
+    }
+
+    /**
+     * Authenticate user by $username and $password
+     *
+     * @param string $username
+     * @param string $password
+     * @return boolean|Object
+     */
+    public function authenticate($username, $password)
+    {
+        $result = $this->_authAdapter->setIdentity($username)->setCredential($password)->authenticate();
+        
+        if (Zend_Auth_Result::SUCCESS===$result->getCode()) {
+            $user = Mage::getModel('admin', 'user')->setData((array)$this->_authAdapter->getResultRowObject());
+            $data = array(
+                'logdate' => new Zend_Db_Expr('NOW()'),
+                'lognum'  => $user->getLognum()+1
+            );
+            $condition = $this->_write->quoteInto('user_id=?', $user->getUserId());
+            $this->_write->update($this->_userTable, $data, $condition);
+            
+            return $user;
+        } else {
+            return false;
+        }
     }
     
     public function load($userId)

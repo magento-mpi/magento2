@@ -22,9 +22,18 @@ class Mage_Admin_IndexController extends Mage_Core_Controller_Front_Action
         echo "Successfully updated.";
     }
     
+    public function loginAction()
+    {
+        $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'root')
+                ->setTemplate('admin/login.phtml')
+                ->assign('username', '');
+            
+        $this->getResponse()->setBody($block->toHtml());
+    }
+    
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin', 'session')->unsetAll();
-        $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        $this->getResponse()->setRedirect(Mage::getUrl('admin'));
     }
 }

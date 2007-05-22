@@ -67,30 +67,11 @@ class Mage_Core_Controller_Zend_Front {
     }
 
     /**
-     * Test
-     *
-     * @param     none
-     * @return    none
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
-     */
-
-    public function test()
-    {
-/*      echo( "<PRE>" );
-        print_r( $this->_front->getControllerDirectory() );
-        echo( "</PRE></BR>" );
-*/    }
-
-    /**
      * Run controller
      *
      */
     public function run() 
     {
-        #$default = Mage::getModuleDir('controllers', 'Mage_Core');
-        #$this->_front->addControllerDirectory($default, 'default');
-        #$this->_dispatcher->setControllerDirectory($this->_front->getControllerDirectory());
-        
         $defaultModule = 'Mage_Core';
         
         $routers = Mage::getConfig()->getNode('front/routers')->children();
