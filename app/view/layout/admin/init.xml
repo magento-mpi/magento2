@@ -29,25 +29,25 @@
             </block>
 
             <block type="tag_css" name="jscripts.css.ext.all">
-                <action method="setHref"><href>js/extjs/resources/css/ext-all.css</href><locate/></action>
+                <action method="setHref"><href>extjs/resources/css/ext-all.css</href></action>
             </block>
 
             <block type="tag_css_theme" name="jscripts.css.ext.theme">
                 <action method="setTagParam"><name>id</name><value>theme_stylesheet</value></action>
-                <action method="setHref"><href>js/extjs/resources/css/ytheme-</href><locate/></action>
+                <action method="setHref"><href>extjs/resources/css/ytheme-</href></action>
             </block>
         </block>
 
         <block type="list" name="jscripts" as="jscripts">
             <!--  BEGIN LOAD EXT-YUI -->
             <block type="tag_js" name="jscripts.js.yui.utilities">
-                <action method="setSrc"><src>js/extjs/adapter/yui/yui-utilities.js</src><locate/></action>
+                <action method="setSrc"><src>extjs/adapter/yui/yui-utilities.js</src></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.yui.adapter">
-                <action method="setSrc"><src>js/extjs/adapter/yui/ext-yui-adapter.js</src><locate/></action>
+                <action method="setSrc"><src>extjs/adapter/yui/ext-yui-adapter.js</src></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.all.debug">
-                <action method="setSrc"><src>js/extjs/ext-all.js</src><locate/></action>
+                <action method="setSrc"><src>extjs/ext-all.js</src></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.infopanel">
                 <action method="setSrc"><src>magenta/Ext.InfoPanel.js</src></action>
