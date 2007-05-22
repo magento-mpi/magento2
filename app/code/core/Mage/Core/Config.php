@@ -260,6 +260,8 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         if (!$dir) {
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
         }
+        
+        $dir = str_replace('/', DS, $dir);
 
         return $dir;
     }
@@ -282,6 +284,9 @@ class Mage_Core_Config extends Varien_Simplexml_Config
                 $dir .= DS.'sql';
                 break;
         }
+        
+        $dir = str_replace('/', DS, $dir);
+        
         return $dir;
     }
 
