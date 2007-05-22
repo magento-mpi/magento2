@@ -53,7 +53,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
             ->setSecureHost($host)
             ->setSecureBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
             ->setPort($port)
-            ->setScurePort(443);
+            ->setSecurePort(443);
         return $data;
     }
 }

@@ -41,13 +41,13 @@
         <block type="list" name="jscripts" as="jscripts">
             <!--  BEGIN LOAD EXT-YUI -->
             <block type="tag_js" name="jscripts.js.yui.utilities">
-                <action method="setSrc"><src>extjs/adapter/yui/yui-utilities.js</src><locate/></action>
+                <action method="setSrc"><src>js/extjs/adapter/yui/yui-utilities.js</src><locate/></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.yui.adapter">
-                <action method="setSrc"><src>extjs/adapter/yui/ext-yui-adapter.js</src><locate/></action>
+                <action method="setSrc"><src>js/extjs/adapter/yui/ext-yui-adapter.js</src><locate/></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.all.debug">
-                <action method="setSrc"><src>extjs/ext-all.js</src><locate/></action>
+                <action method="setSrc"><src>js/extjs/ext-all.js</src><locate/></action>
             </block>
             <block type="tag_js" name="jscripts.js.ext.infopanel">
                 <action method="setSrc"><src>magenta/Ext.InfoPanel.js</src></action>
