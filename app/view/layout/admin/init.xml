@@ -24,8 +24,11 @@
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
 
-            <block type="tag_css" name="head.css.styles">
-                <action method="setHref"><href>styles.css</href></action>
+            <block type="tag" name="head.css.styles">
+                <action method="setTagName"><tagName>link</tagName></action>
+                <action method="setTagParam"><name>rel</name><value>stylesheet</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}skins/admin/styles.css</value></action>
+                <action method="setTagParam"><name>type</name><value>text/css</value></action>
             </block>
 
             <block type="tag_css" name="jscripts.css.ext.all">
