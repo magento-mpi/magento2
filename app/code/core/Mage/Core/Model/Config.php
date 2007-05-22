@@ -344,15 +344,15 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
                 switch ((string)$observer->type) {
                 	case 'singleton':
                 		$callback = array(
-                		    'object' => Mage::getSingleton((string)$observer->model, (string)$observer->class),
-                		    'method' => (string)$observer->method
+                		    Mage::getSingleton((string)$observer->model, (string)$observer->class),
+                		    (string)$observer->method
                 		);
                 		break;
                     case 'object':
                     case 'model':
                 		$callback = array(
-                		    'object' => Mage::getModel((string)$observer->model, (string)$observer->class),
-                		    'method' => (string)$observer->method
+                		    Mage::getModel((string)$observer->model, (string)$observer->class),
+                		    (string)$observer->method
                 		);
                         break;
                 	default:
