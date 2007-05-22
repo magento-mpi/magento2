@@ -11,15 +11,15 @@
          <connection>
             <types>
                <pdo_mysql>
-                  <class>Mage_Core_Resource_Type_Db_Pdo_Mysql</class>
+                  <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                </pdo_mysql>
 
                <mysqli>
-                  <class>Mage_Core_Resource_Type_Db_Mysqli</class>
+                  <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
                </mysqli>
 
                <mysqli_setup>
-                  <class>Mage_Core_Resource_Type_Db_Mysqli_Setup</class>
+                  <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
                </mysqli_setup>
             </types>
          </connection>

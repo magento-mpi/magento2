@@ -16,8 +16,12 @@ class Mage_Core_Block_Text_Tag_Css_Admin extends Mage_Core_Block_Text_Tag_Css
         $this->setAttribute('theme', $theme);
     }
 
-    function setHref($href, $type='skin')
+    function setHref($href, $type=null)
     {
+        $type = (string)$type;
+        if (empty($type)) { 
+            $type = 'skin'; 
+        }
         $url = Mage::getBaseUrl(array('_type'=>$type)).$href.$this->getAttribute('theme').'.css';
         return $this->setTagParam('href', $url);
     }

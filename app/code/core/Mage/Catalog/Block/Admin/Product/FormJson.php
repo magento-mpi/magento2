@@ -13,14 +13,14 @@ class Mage_Catalog_Block_Admin_Product_FormJson extends Varien_Data_Form
     /**
      * Data inputs configuration
      *
-     * @var Mage_Core_Config_Element
+     * @var Mage_Core_Model_Config_Element
      */
     protected $_dataInputs;
     
     /**
      * Data sources configuration
      *
-     * @var Mage_Core_Config_Element
+     * @var Mage_Core_Model_Config_Element
      */
     protected $_dataSources;
     

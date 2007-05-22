@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Resource_Type_Db_Mysqli_Adapter extends Zend_Db_Adapter_Mysqli
+class Mage_Core_Model_Resource_Type_Db_Mysqli_Adapter extends Zend_Db_Adapter_Mysqli
 {
     /**
      * Creates a real connection to the database with multi-query capability.

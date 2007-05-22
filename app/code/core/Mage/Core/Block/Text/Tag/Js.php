@@ -21,9 +21,14 @@ class Mage_Core_Block_Text_Tag_Js extends Mage_Core_Block_Text_Tag
         $this->setTagParams(array('language'=>'javascript', 'type'=>'text/javascript'));
     }
     
-    function setSrc($src, $type='js')
+    function setSrc($src, $type=null)
     {
+        $type = (string)$type;
+        if (empty($type)) { 
+            $type = 'js'; 
+        }
         $url = Mage::getBaseUrl(array('_type'=>$type)).$src;
+
         return $this->setTagParam('src', $url);
     }
 }// Class Mage_Core_Block_List END

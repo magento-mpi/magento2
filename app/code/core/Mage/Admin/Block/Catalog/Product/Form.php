@@ -13,14 +13,14 @@ class Mage_Admin_Block_Catalog_Product_Form extends Mage_Core_Block_Form
     /**
      * Data inputs configuration
      *
-     * @var Mage_Core_Config_Element
+     * @var Mage_Core_Model_Config_Element
      */
     protected $_dataInputs;
     
     /**
      * Data sources configuration
      *
-     * @var Mage_Core_Config_Element
+     * @var Mage_Core_Model_Config_Element
      */
     protected $_dataSources;
 

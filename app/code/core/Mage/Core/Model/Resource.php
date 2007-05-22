@@ -4,7 +4,7 @@
  * Resources and connections registry and factory
  *
  */
-class Mage_Core_Resource
+class Mage_Core_Model_Resource
 {
     /**
      * Instances of classes for connection types
@@ -54,7 +54,7 @@ class Mage_Core_Resource
      * Creates new if doesn't exist
      *
      * @param string $type
-     * @return Mage_Core_Resource_Type_Abstract
+     * @return Mage_Core_Model_Resource_Type_Abstract
      */
     public function getConnectionTypeObj($type)
     {

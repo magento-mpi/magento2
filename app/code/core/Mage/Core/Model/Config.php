@@ -13,7 +13,7 @@
  * @author      Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Core_Config extends Varien_Simplexml_Config
+class Mage_Core_Model_Config extends Varien_Simplexml_Config
 {
     /**
      * Constructor
@@ -22,7 +22,7 @@ class Mage_Core_Config extends Varien_Simplexml_Config
     function __construct()
     {
         parent::__construct();
-        $this->_elementClass = 'Mage_Core_Config_Element';
+        $this->_elementClass = 'Mage_Core_Model_Config_Element';
     }
 
     /**
@@ -129,22 +129,25 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
     public function getLocalDist()
     {
-        if ("\\"==dirname($_SERVER['SCRIPT_NAME'])) {
+        $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        if ("\\"==$basePath || "/"==$basePath) {
             $basePath = '/';
         } else {
-            $basePath = dirname($_SERVER['SCRIPT_NAME']);
+            $basePath .= '/';
         }
+        $host = explode(':', $_SERVER['HTTP_HOST']);
+        $serverName = $host[0];
+        $serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
         $subst = array(
-            '{root_dir}'=>dirname(Mage::getRoot()),
-            '{var_dir}'=>$this->getTempVarDir(),
-            '{protocol}'=>'http',
-            '{host}'=>$_SERVER['SERVER_NAME'],
-            '{port}'=>$_SERVER['SERVER_PORT'],
-            '{base_path}'=>$basePath==='/' ? '/' : $basePath.'/',
+            '{root_dir}'  => dirname(Mage::getRoot()),
+            '{var_dir}'   => $this->getTempVarDir(),
+            '{protocol}'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
+            '{host}'      => $serverName,
+            '{port}'      => $serverPort,
+            '{base_path}' => $basePath,
         );
         $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
         $template = str_replace(array_keys($subst), array_values($subst), $template);
-
         return $template;
     }
     
@@ -284,63 +287,6 @@ class Mage_Core_Config extends Varien_Simplexml_Config
         
         return $dir;
     }
-
-    public function getBaseUrl($params=array())
-    {
-        if (isset($params['_admin'])) {
-            $isAdmin = $params['_admin'];
-        } else {
-            $isAdmin = Mage::registry('website')->getIsAdmin();
-        }
-        if (!$isAdmin) {
-            if (empty($params['_website'])) {
-                $params['_website'] = Mage::registry('website')->getCode();
-            }
-            if (!empty($_SERVER['HTTPS'])) {
-                if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
-                    $params['_secure'] = true;
-                }
-            }
-            $websiteConfig = Mage::getConfig()->getWebsiteConfig($params['_website']);
-            if ($websiteConfig) {
-                $urlConfig = empty($params['_secure']) ? $websiteConfig->unsecure : $websiteConfig->secure;
-        
-                $protocol = (string)$urlConfig->protocol;
-                $host = (string)$urlConfig->host;
-                $port = (int)$urlConfig->port;
-                $basePath = (string)$urlConfig->basePath;
-    
-                $url = $protocol.'://'.$host;
-                $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-                $url .= empty($basePath) ? '/' : $basePath;
-            }
-            else {
-                $url = dirname($_SERVER['SCRIPT_NAME']);
-                $url = strlen($url)>1 ? $url.'/' : '/';
-            }
-        } else {
-            $url = dirname($_SERVER['SCRIPT_NAME']).'/';
-        }
-
-        if (isset($params['_type'])) {
-            switch ($params['_type']) {
-                case 'skin':
-                    $url .= 'skins/default/';
-                    break;
-
-                case 'js':
-                    $url .= 'js/';
-                    break;
-                    
-                case 'media':
-                    $url .= 'media/';
-                    break;
-            }
-        }
-
-        return $url;
-    }
-
 
     public function getRouterInstance($routerName='', $singleton=true)
     {

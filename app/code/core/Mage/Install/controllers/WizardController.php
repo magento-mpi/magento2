@@ -150,7 +150,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function administratorAction()
     {
         $this->_prepareLayout();
-        Mage_Core_Resource_Setup::applyAllUpdates();
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'administratorPost')))

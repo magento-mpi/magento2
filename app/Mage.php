@@ -246,8 +246,8 @@ final class Mage {
         Mage::setRoot($appRoot);
         
         Mage::register('events', new Varien_Event_Collection());
-        Mage::register('config', new Mage_Core_Config());
-        Mage::register('resources', new Mage_Core_Resource());
+        Mage::register('config', new Mage_Core_Model_Config());
+        Mage::register('resources', new Mage_Core_Model_Resource());
 
         Varien_Profiler::setTimer('config');
         Mage::getConfig()->init();
@@ -264,7 +264,7 @@ final class Mage {
 
         // check modules db
         Varien_Profiler::setTimer('applyDbUpdates');
-        Mage_Core_Resource_Setup::applyAllUpdates();
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
         Varien_Profiler::setTimer('applyDbUpdates', true);
     }
 
@@ -297,34 +297,6 @@ final class Mage {
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             
-        } catch (Zend_Exception $e) {
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-        } catch (PDOException $e) {
-            echo $e->getMessage()."<pre>".$e->getTraceAsString();
-        }
-    }
-    
-    /**
-     * Init admin config and registry (for Unit Test)
-     */
-    public static function initAdmin()
-    {
-        Mage::init();
-        Mage::getConfig()->loadEventObservers('admin');
-        Mage::registry('website')->setCode('admin')->setIsAdmin(true);
-    }
-    /**
-     * Admin main entry point
-     *
-     * @param string $appRoot
-     */
-    public static function runAdmin()
-    {
-        try {
-            self::initAdmin();
-            Mage::register('controller', new Mage_Core_Controller_Zend_Admin());
-            Mage::registry('controller')->run();
-
         } catch (Zend_Exception $e) {
             echo $e->getMessage()."<pre>".$e->getTraceAsString();
         } catch (PDOException $e) {

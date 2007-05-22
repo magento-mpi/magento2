@@ -1,9 +1,9 @@
 <?php
 
-abstract class Mage_Core_Resource_Type_Abstract
+abstract class Mage_Core_Model_Resource_Type_Abstract
 {
     protected $_name = '';
-    protected $_entityClass = 'Mage_Core_Resource_Entity_Abstract';
+    protected $_entityClass = 'Mage_Core_Model_Resource_Entity_Abstract';
 
     public function getEntityClass()
     {

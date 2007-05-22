@@ -27,14 +27,11 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
         }
 
         file_put_contents($this->_localConfigFile, $configSrc);
-        $config = new Mage_Core_Config();
-        $config->init();
-        unlink($config->getCacheStatFileName());
     }
     
     public function installDefault()
     {
-        $config = new Mage_Core_Config();
+        $config = Mage::getModel('core', 'config');
         $configSrc = $config->getLocalDist();
         file_put_contents($this->_localConfigFile, $configSrc);
     }    

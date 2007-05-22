@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Core_Resource_Entity_Abstract
+abstract class Mage_Core_Model_Resource_Entity_Abstract
 {
     protected $_name = null;
     protected $_config = array();

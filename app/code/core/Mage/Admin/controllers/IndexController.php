@@ -18,7 +18,7 @@ class Mage_Admin_IndexController extends Mage_Core_Controller_Front_Action
     
     function applyDbUpdatesAction()
     {
-        Mage_Core_Resource_Setup::applyAllUpdates();
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
         echo "Successfully updated.";
     }
     

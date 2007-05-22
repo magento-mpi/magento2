@@ -15,7 +15,7 @@ class Mage_Auth_Model_Config
      * Load Acl resources from config
      *
      * @param Mage_Auth_Model_Acl $acl
-     * @param Mage_Core_Config_Element $resource
+     * @param Mage_Core_Model_Config_Element $resource
      * @param string $parentName
      * @return Mage_Auth_Model_Config
      */
@@ -45,7 +45,7 @@ class Mage_Auth_Model_Config
      * Get acl assert config
      *
      * @param string $name
-     * @return Mage_Core_Config_Element|boolean
+     * @return Mage_Core_Model_Config_Element|boolean
      */
     public function getAclAssert($name='')
     {
@@ -65,7 +65,7 @@ class Mage_Auth_Model_Config
      * Retrieve privilege set by name
      *
      * @param string $name
-     * @return Mage_Core_Config_Element|boolean
+     * @return Mage_Core_Model_Config_Element|boolean
      */
     public function getAclPrivilegeSet($name='')
     {

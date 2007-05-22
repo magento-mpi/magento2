@@ -21,9 +21,14 @@ class Mage_Core_Block_Text_Tag_Css extends Mage_Core_Block_Text_Tag
         $this->setTagParams(array('rel'=>'stylesheet', 'type'=>'text/css', 'media'=>'all'));
     }
     
-    function setHref($href, $type='skin')
+    function setHref($href, $type=null)
     {
+        $type = (string)$type;
+        if (empty($type)) { 
+            $type = 'skin'; 
+        }
         $url = Mage::getBaseUrl(array('_type'=>$type)).$href;
+        
         return $this->setTagParam('href', $url);
     }
 }// Class Mage_Core_Block_List END

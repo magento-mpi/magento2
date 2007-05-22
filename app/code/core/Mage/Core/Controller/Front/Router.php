@@ -35,7 +35,7 @@ class Mage_Core_Controller_Front_Router
             $params = array('controller'=>$paramsArr[0], 'action'=>$paramsArr[1]);
         }
         
-        $url = Mage::getConfig()->getBaseUrl($params);
+        $url = Mage::getBaseUrl($params);
 
         if (!empty($params['frontName'])) {
             $url .= $params['frontName'].'/';
@@ -65,7 +65,7 @@ class Mage_Core_Controller_Front_Router
             
             $url .= empty($params['array']) ? '' : '?' . http_build_query($params['array']);
         }
-        
+
         return $url;
     }
 }
