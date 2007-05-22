@@ -33,25 +33,50 @@
             <connection><use>core_read</use></connection>
          </admin_read>
       </resources>
+        <block>
+            <types>
+                <admin_catalog_category_form>
+                    <class>Mage_Catalog_Block_Admin_Category_Form</class>
+                </admin_catalog_category_form>
+                <admin_catalog_category_form_json>
+                    <class>Mage_Catalog_Block_Admin_Category_FormJson</class>
+                </admin_catalog_category_form_json>
+                <admin_catalog_product_create_option>
+                    <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
+                </admin_catalog_product_create_option>
+                <admin_catalog_product_form>
+                    <class>Mage_Catalog_Block_Admin_Product_Form</class>
+                </admin_catalog_product_form>
+                <admin_catalog_product_form_json>
+                    <class>Mage_Catalog_Block_Admin_Product_FormJson</class>
+                </admin_catalog_product_form_json>
+                <admin_catalog_product_card>
+                    <class>Mage_Catalog_Block_Admin_Product_Card</class>
+                </admin_catalog_product_card>
+                <tag_css_theme>
+                    <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
+                </tag_css_theme>
+            </types>
+        </block>
    </global>
    <front>
       <layouts>
          <admin>
             <updates>
                <admin>
-                  <file>admin/initLayout.xml</file>
+                  <file>admin/init.xml</file>
                </admin>
             </updates>
          </admin>
       </layouts>
       <routers>
-         <customer>
+         <admin>
             <class>Mage_Core_Controller_Front_Router</class>
             <args>
                <module>Mage_Admin</module>
                <frontName>admin</frontName>
             </args>
-         </customer>
+         </admin>
       </routers>
    </front>
 </config>

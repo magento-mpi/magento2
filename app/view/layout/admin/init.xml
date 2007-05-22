@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layoutUpdate> 
     <block type="tpl" name="root" output="toHtml">
-        <action method="setTemplate"><template>core/layout.phtml</template></action>
+        <action method="setTemplate"><template>admin/layout.phtml</template></action>
         <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
         <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/default</value></action>
 
@@ -29,12 +29,12 @@
             </block>
 
             <block type="tag_css" name="jscripts.css.ext.all">
-                <action method="setHref"><href>extjs/resources/css/ext-all.css</href><locate/></action>
+                <action method="setHref"><href>js/extjs/resources/css/ext-all.css</href><locate/></action>
             </block>
 
             <block type="tag_css_theme" name="jscripts.css.ext.theme">
                 <action method="setTagParam"><name>id</name><value>theme_stylesheet</value></action>
-                <action method="setHref"><href>extjs/resources/css/ytheme-</href><locate/></action>
+                <action method="setHref"><href>js/extjs/resources/css/ytheme-</href><locate/></action>
             </block>
         </block>
 

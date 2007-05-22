@@ -4,19 +4,19 @@
 <?=$head?>
 </head>
 <body>
-	<div id="loading">
-		<div class="loading-indicator">Magento Office Loading...</div>
-	</div>
+    <div id="loading">
+        <div class="loading-indicator">Magento Office Loading...</div>
+    </div>
 
-	<script type="text/javascript" language="Javascript">
-        var BASE_URL = '<?=$baseUrl?>';
+    <script type="text/javascript" language="Javascript">
+        var BASE_URL = '<?=$baseUrl?>admin/';
         var SKIN_URL = '<?=$baseSkinUrl?>';
     </script>
     <?=$jscripts?>
-	<script type="text/javascript" language="Javascript">
+    <script type="text/javascript" language="Javascript">
         Ext.BLANK_IMAGE_URL = '<?=$baseUrl?>/extjs/resources/images/default/s.gif';
         Ext.UpdateManager.defaults.loadScripts = false;
         Ext.UpdateManager.defaults.disableCaching = true;
-	</script>
+    </script>
 </body>
 </html>

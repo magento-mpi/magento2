@@ -17,7 +17,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
     
     public function install()
     {
-        $this->_createLocalXml();
+        //$this->_createLocalXml();
         $data = Mage::getSingleton('install', 'session')->getConfigData();
         
         $configSrc = file_get_contents($this->_localConfigFile);
