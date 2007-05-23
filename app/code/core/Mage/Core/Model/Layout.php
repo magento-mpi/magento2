@@ -188,9 +188,8 @@ echo "TEST:".$i;
     protected function _generateBlock($node, $parent)
     {
 #Varien_Profiler::setTimer('block');
-        if (!empty($node['class'])) {
-            $className = (string)$node['class'];
-        } else {
+        $className = $node->getClassName();
+        if (!empty($className)) {
             $className = $this->_blockTypes->$node['type']->getClassName();
         }
         $blockName = (string)$node['name'];

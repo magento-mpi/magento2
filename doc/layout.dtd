@@ -2,7 +2,8 @@
 
 <!ELEMENT block (action | block)*>
 <!ATTLIST block
-    type CDATA #REQUIRED
+    type CDATA #IMPLIED
+    class CDATA #IMPLIED
     name CDATA #REQUIRED
     as CDATA #IMPLIED
     before CDATA #IMPLIED
