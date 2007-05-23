@@ -46,6 +46,70 @@
 		return $dom -> saveXML();
 	}
 	
+	public function getAllLinearExample( )
+	{
+		$session = Mage::getModel('session_data');
+		
+		$startPoint = time() - 24*60*60;
+		
+		$allData = array();
+		$countOfStartData = 12;
+		for($i = 1; $i<= $countOfStartData; $i++)
+		{
+			$allData[] = array( 'time'=>date("Y-m-d H:i",$startPoint), 'value'=>rand(1, 100) );
+			$startPoint += 30*60;
+		}
+		
+		$session -> setData('startPoint', $startPoint); 
+		
+		return $this -> returnAsDataSource( $allData );
+	}
 	
+	public function getNewLinearData()
+	{
+		$session = Mage::getModel('session_data');
+		
+	
+		$startPoint = $session -> getData('startPoint');
+		$startPoint += 30*60;
+		$reset = 12;
+		
+		
+		$newData  = array(
+			array( 'time'=> date("Y-m-d H:i", $startPoint), 'value'=>rand(1, 100) )
+		);
+		
+		$session -> setData('startPoint', $startPoint);
+		
+		return $this -> returnAsDataSource( $newData, $reset );
+	}
+	
+	private function returnAsDataSource( &$array , $reset = 0)
+	{
+		$dom = new DOMDocument();
+		$dom -> preserveWhiteSpace = false;
+		$dom -> loadXML( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dataSource></dataSource>" );
+		$root = $dom ->documentElement;
+		if($reset)
+		{
+			$resetItem = $dom -> createElement("reset");
+			$resetItem -> nodeValue = $reset;
+			$root->appendChild($resetItem);
+		}
+		foreach($array  as $item )
+		{
+			$row = $dom->createElement('row');
+			foreach( $item as $key => $val)
+			{
+				$valItem = $dom->createElement( $key );
+				$valItem->nodeValue = $val;
+				$row->appendChild($valItem);
+			}
+			
+			$root->appendChild($row);
+		}
+		
+		return $dom->saveXML();
+	}
  }
  

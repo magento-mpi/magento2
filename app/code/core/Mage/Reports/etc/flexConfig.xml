@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
-	<languageURL>mage_reports/flex/language</languageURL>
-	<dashboardConfigURL>mage_reports/flex/dashboard</dashboardConfigURL>
+	<languageURL>admin/flex/language</languageURL>
+	<dashboardConfigURL>admin/flex/dashboard</dashboardConfigURL>
 </config>

@@ -262,13 +262,13 @@ if ( hasProductInstall && !hasRequestedVersion ) {
     );
 } else if (hasRequestedVersion) {
     AC_FL_RunContent(
-            "src", "<?=$baseUrl?>flex/reports",
+            "src", "<?=$baseUrl?>media/flex/reports",
             "width", "100%",
             "height", "100%",
             "align", "middle",
             "id", "reports",
-            "FlashVars",    'configUrl=<?=$baseUrl?>mage_reports/flex/config/'
-                          + '&cssUrl=<?=$baseSkinUrl?>flex.swf',
+            "FlashVars",    'configUrl=<?=$baseUrl?>admin/flex/config/'
+                          + '&cssUrl=<?=$baseUrl?>skins/admin/flex.swf',
             "quality", "high",
             "bgcolor", "#869ca7",
             "name", "reports",

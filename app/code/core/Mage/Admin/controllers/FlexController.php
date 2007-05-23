@@ -13,7 +13,7 @@ class Mage_Admin_FlexController extends Mage_Core_Controller_Front_Action
     public function indexAction() 
     {
         $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'flex')
-                ->setTemplate('reports/flex.phtml');
+                ->setTemplate('admin/reports/flex.phtml');
         $this->getResponse()->setBody($block->toHtml());
     }
     
@@ -41,5 +41,15 @@ class Mage_Admin_FlexController extends Mage_Core_Controller_Front_Action
     {
          $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCities( $this->getRequest()->getPost('country', '') ) );
     }
+	
+	public function linearExampleAction()
+	{
+		if( $this->getRequest()->getPost('refreshDraw', '') )
+		{
+			$this->getResponse()->setBody( Mage::getModel('test_data')-> getNewLinearData() );
+		}
+		else
+			$this->getResponse()->setBody( Mage::getModel('test_data')-> getAllLinearExample() );
+	}
 
 }// Class IndexController END

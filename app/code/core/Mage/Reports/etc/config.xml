@@ -19,6 +19,9 @@
          <test_data>
             <class>Mage_Reports_Model_Test</class>
          </test_data>
+		 <session_data>
+            <class>Mage_Reports_Model_Session</class>
+         </session_data>
       </models>
 
       <resources> </resources>
