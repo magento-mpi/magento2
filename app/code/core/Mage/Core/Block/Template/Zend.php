@@ -24,9 +24,9 @@ class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
      * @return     void
      * @author     Soroka Dmitriy <dmitriy@varien.com>
      */
-    function __construct($attributes = array())
+    function _construct()
     {
-        parent::__construct($attributes);
+        parent::_construct();
         $this->_view = new Zend_View();
     }
     

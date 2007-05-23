@@ -53,10 +53,9 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
      *
      * @param array $attributes form attributes
      */
-    public public function __construct($attributes = array()) 
+    protected function _construct() 
     {
-        parent::__construct($attributes);
-        
+        parent::_construct();
         if (is_null($this->getIsFormFramed())) {
             $this->setIsFormFramed(true);
         }

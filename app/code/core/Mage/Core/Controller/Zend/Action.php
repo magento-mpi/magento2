@@ -78,7 +78,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return Mage::getSingleton('core', 'layout');
      }
      
-     function loadLayout($area='front', $ids='default', $key='')
+     function loadLayout($area='front', $ids=null, $key='')
      {
         Varien_Profiler::setTimer('loadLayout');
          
@@ -88,11 +88,17 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             }
             $key = $area.'_'.$ids;
         }
+        
+        if (is_null($ids)) {
+            $ids = array('default', $this->getFullActionName());
+        } elseif (is_string($ids)) {
+            $ids = array($ids);
+        }
          
         $layout = $this->getLayout()->init($key);
         
         if (!$layout->getCache()->getIsLoaded()) {
-            foreach ((array)$ids as $id) {
+            foreach ($ids as $id) {
                 $layout->loadUpdatesFromConfig($area, $id);
             }
             $layout->getCache()->save();

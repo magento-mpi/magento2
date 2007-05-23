@@ -13,10 +13,9 @@
 
 class Mage_Core_Block_Text_Tag_Debug extends Mage_Core_Block_Text_Tag
 {
-	function __construct()
+	protected function _construct()
 	{
-		parent::__construct();
-
+	    parent::_construct();
 		$this->setAttribute(array(
 		  'tagName'=>'xmp',
 		));

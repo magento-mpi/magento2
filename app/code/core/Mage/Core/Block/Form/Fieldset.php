@@ -9,8 +9,5 @@
  */
 class Mage_Core_Block_Form_Fieldset extends Varien_Data
 {
-    public function __construct() 
-    {
-        
-    }
+
 }
