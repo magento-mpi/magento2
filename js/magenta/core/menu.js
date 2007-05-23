@@ -27,7 +27,7 @@ Mage.Menu_Core = function(){
             });
             
             toolbar.addButton({
-                icon: 'favicon.ico',
+                icon: Mage.url+'../favicon.ico',
                 cls: 'x-btn-icon',                
                 menu: aboutmenu
             });

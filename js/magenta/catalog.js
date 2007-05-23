@@ -21,7 +21,7 @@ Mage.Catalog = function(depend){
                         titlebar : false,
                         tabPosition : 'top',
                         hideTabs : true,
-                       	alwaysShowTabs : true
+                        alwaysShowTabs : true
                     }
                 });
                 Layout.getRegion('west').getEl().addClass('categories-tree-region');

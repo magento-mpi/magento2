@@ -116,7 +116,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
             document.title = newName;
             this.stepCounter++;
             str = document.location.href.replace(/(.*)\#(.*)$/, '$1'+'#step' + this.stepCounter);
-            document.location.href = str;
+            //document.location.href = str;
 
             this.statusPanel.setContent(newName);
         },
