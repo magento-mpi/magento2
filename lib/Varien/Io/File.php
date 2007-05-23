@@ -7,7 +7,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @package     Varien
  * @subpackage  Io
- * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Moshe Gurvich <moshe@varien.com>
  */
 class Varien_Io_File extends Varien_Io_Abstract
