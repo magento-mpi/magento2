@@ -4,12 +4,12 @@
       <default>
          <website>base</website>
          <filesystem>
-            <etc>{root_dir}/app/etc</etc>
-            <code>{root_dir}/app/code</code>
-            <var>{var_dir}</var>
-            <session>{var_dir}/session</session>
-            <cache_config>{var_dir}/cache/config</cache_config>
-            <cache_layout>{var_dir}/cache/layout</cache_layout>
+            <etc>{{root_dir}}/app/etc</etc>
+            <code>{{root_dir}}/app/code</code>
+            <var>{{var_dir}}</var>
+            <session>{{var_dir}}/session</session>
+            <cache_config>{{var_dir}}/cache/config</cache_config>
+            <cache_layout>{{var_dir}}/cache/layout</cache_layout>
          </filesystem>
       </default>
       
@@ -20,50 +20,50 @@
             <group>default</group>
             
             <filesystem>
-                <layout>{root_dir}/app/view/layout</layout>
-                <template>{root_dir}/app/view/template</template>
-                <translate>{root_dir}/app/view/translate</translate>
-                <base>{root_dir}</base>
-                <media>{root_dir}/media</media>
-                <skin>{root_dir}/skins/default</skin>
+                <layout>{{root_dir}}/app/view/layout</layout>
+                <template>{{root_dir}}/app/view/template</template>
+                <translate>{{root_dir}}/app/view/translate</translate>
+                <base>{{root_dir}}</base>
+                <media>{{root_dir}}/media</media>
+                <skin>{{root_dir}}/skins/default</skin>
             </filesystem>
             
             <unsecure>
-               <protocol>{protocol}</protocol>
-               <host>{host}</host>
-               <port>{port}</port>
-               <base_path>{base_path}</base_path>
+               <protocol>{{protocol}}</protocol>
+               <host>{{host}}</host>
+               <port>{{port}}</port>
+               <base_path>{{base_path}}</base_path>
             </unsecure>
             
             <secure>
-               <protocol>{protocol}</protocol>
-               <host>{host}</host>
-               <port>{port}</port>
-               <base_path>{base_path}</base_path>
+               <protocol>{{protocol}}</protocol>
+               <host>{{host}}</host>
+               <port>{{port}}</port>
+               <base_path>{{base_path}}</base_path>
             </secure>
             
             <url>
-                <media>{base_path}media/</media>
-                <skin>{base_path}skins/default/</skin>
-                <js>{base_path}js/</js>
+                <media>{{base_path}}media/</media>
+                <skin>{{base_path}}skins/default/</skin>
+                <js>{{base_path}}js/</js>
             </url>
          </base>
          
          <admin extends="//global/websites/base">
             <filesystem>
-                <layout>{root_dir}/app/view/admin/layout</layout>
-                <template>{root_dir}/app/view/admin/template</template>
-                <translate>{root_dir}/app/view/admin/translate</translate>
-                <base>{root_dir}/admin</base>
-                <skin>{root_dir}/admin/skins/default</skin>
+                <layout>{{root_dir}}/app/view/admin/layout</layout>
+                <template>{{root_dir}}/app/view/admin/template</template>
+                <translate>{{root_dir}}/app/view/admin/translate</translate>
+                <base>{{root_dir}}/admin</base>
+                <skin>{{root_dir}}/admin/skins/default</skin>
             </filesystem>   
          
             <unsecure>
-                <base_path>{base_path}admin/</base_path>
+                <base_path>{{base_path}}admin/</base_path>
             </unsecure>
             
             <secure>
-                <base_path>{base_path}admin/</base_path>            
+                <base_path>{{base_path}}admin/</base_path>            
             </secure>
          </admin>
       </websites>
@@ -73,10 +73,11 @@
             <connection>
                <model>mysql4</model>
                <type>mysqli_setup</type>
-               <host>localhost</host>
-               <username>root</username>
-               <password></password>
-               <dbname>magenta</dbname>
+               <active>{{db_active}}</active>
+               <host>{{db_host}}</host>
+               <username>{{db_user}}</username>
+               <password>{{db_pass}}</password>
+               <dbname>{{db_name}}</dbname>
             </connection>
          </dev_setup>
          <dev_write>

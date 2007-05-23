@@ -37,7 +37,7 @@ class Mage_Core_Model_Resource
     {
         if (!isset($this->_connections[$name])) {
             $conn = Mage::getConfig()->getResourceConnectionConfig($name);
-            if ($conn) {
+            if ($conn && $conn->is('active', 1)) {
                 $typeObj = $this->getConnectionTypeObj((string)$conn->type);
                 $this->_connections[$name] = $typeObj->getConnection($conn);
             }
@@ -82,6 +82,13 @@ class Mage_Core_Model_Resource
         return $this->_entities[$model][$entity];
     }
     
+    /**
+     * Get resource table name
+     *
+     * @param   string $model
+     * @param   string $entity
+     * @return  string
+     */
     public function getTableName($model, $entity)
     {
         return (string)$this->getEntity($model, $entity)->table;

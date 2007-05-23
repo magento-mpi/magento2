@@ -17,24 +17,20 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
     
     public function install()
     {
-        //$this->_createLocalXml();
         $data = Mage::getSingleton('install', 'session')->getConfigData();
-        
-        $configSrc = file_get_contents($this->_localConfigFile);
-        
-        foreach ($data as $index => $value) {
-            $configSrc = str_replace('{'.$index.'}', $value, $configSrc);
+        foreach (Mage::getModel('core', 'config')->getLocalServerVars() as $index=>$value) {
+            if (!isset($data[$index])) {
+                $data[$index] = $value;
+            }
         }
-
-        file_put_contents($this->_localConfigFile, $configSrc);
+        file_put_contents($this->_localConfigFile, Mage::getModel('core', 'config')->getLocalDist($data));
     }
     
-    public function installDefault()
+    /*public function installDefault()
     {
-        $config = Mage::getModel('core', 'config');
-        $configSrc = $config->getLocalDist();
+        $configSrc = Mage::getModel('core', 'config')->getLocalDist();
         file_put_contents($this->_localConfigFile, $configSrc);
-    }    
+    }    */
     
     public function getFormData()
     {
@@ -50,7 +46,11 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
             ->setSecureHost($host)
             ->setSecureBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
             ->setPort($port)
-            ->setSecurePort(443);
+            ->setSecurePort(443)
+            ->setDbHost('localhost')
+            ->setDbName('magento')
+            ->setDbUser('root')
+            ->setDbPass('');
         return $data;
     }
 }

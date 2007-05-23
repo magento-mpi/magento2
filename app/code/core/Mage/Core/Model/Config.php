@@ -114,7 +114,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             $localConfig = $this->loadFile($configFile);
             $this->_xml->extend($localConfig, true);
         } else {
-            $string = $this->getLocalDist();
+            $string = $this->getLocalDist($this->getLocalServerVars());
             $localConfig = $this->loadString($string);
             $this->_xml->extend($localConfig, true);
             $this->getCache()->setIsAllowedToSave(false);
@@ -127,7 +127,16 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
     }
         
-    public function getLocalDist()
+    public function getLocalDist($data)
+    {
+        $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
+        foreach ($data as $index=>$value) {
+            $template = str_replace('{{'.$index.'}}', $value, $template);
+        }
+        return $template;
+    }
+    
+    public function getLocalServerVars()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         if ("\\"==$basePath || "/"==$basePath) {
@@ -138,17 +147,16 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         $host = explode(':', $_SERVER['HTTP_HOST']);
         $serverName = $host[0];
         $serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
-        $subst = array(
-            '{root_dir}'  => dirname(Mage::getRoot()),
-            '{var_dir}'   => $this->getTempVarDir(),
-            '{protocol}'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
-            '{host}'      => $serverName,
-            '{port}'      => $serverPort,
-            '{base_path}' => $basePath,
+        
+        $arr = array(
+            'root_dir'  => dirname(Mage::getRoot()),
+            'var_dir'   => $this->getTempVarDir(),
+            'protocol'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
+            'host'      => $serverName,
+            'port'      => $serverPort,
+            'base_path' => $basePath,
         );
-        $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
-        $template = str_replace(array_keys($subst), array_values($subst), $template);
-        return $template;
+        return $arr;
     }
     
     /**
@@ -220,7 +228,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $dir = (string)$this->getNode('global/default/filesystem/'.$type);
         if (!$dir) {
-			$dir = $this->getDefaultBaseDir($type);
+            $dir = $this->getDefaultBaseDir($type);
         }
         if (!$dir) {
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
@@ -342,22 +350,22 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             $observers = $event->observers->children();
             foreach ($observers as $observer) {
                 switch ((string)$observer->type) {
-                	case 'singleton':
-                		$callback = array(
-                		    Mage::getSingleton((string)$observer->model, (string)$observer->class),
-                		    (string)$observer->method
-                		);
-                		break;
+                    case 'singleton':
+                        $callback = array(
+                            Mage::getSingleton((string)$observer->model, (string)$observer->class),
+                            (string)$observer->method
+                        );
+                        break;
                     case 'object':
                     case 'model':
-                		$callback = array(
-                		    Mage::getModel((string)$observer->model, (string)$observer->class),
-                		    (string)$observer->method
-                		);
+                        $callback = array(
+                            Mage::getModel((string)$observer->model, (string)$observer->class),
+                            (string)$observer->method
+                        );
                         break;
-                	default:
-                	    $callback = array($observer->getClassName(), (string)$observer->method);
-                		break;
+                    default:
+                        $callback = array($observer->getClassName(), (string)$observer->method);
+                        break;
                 }
                 #$args = array_values((array)$observer->args);
                 $args = array($observer->args);

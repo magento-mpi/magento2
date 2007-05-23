@@ -56,9 +56,9 @@ class Mage_Install_Model_Installer_Env extends Mage_Install_Model_Installer
                 );
         }
         else {
-            Mage::getSingleton('install', 'session')->addMessage(
+            /*Mage::getSingleton('install', 'session')->addMessage(
                 Mage::getModel('core', 'message')->success(__('PHP Extension "%s" loaded', $extension))
-            );
+            );*/
         }
         return $this;
     }

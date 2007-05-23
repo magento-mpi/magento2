@@ -3,30 +3,15 @@
     <wizard>
         <steps>
             <begin>
-                <code>begin installation</code>
+                <code>begin</code>
                 <controller>wizard</controller>
                 <action>begin</action>
             </begin>    
-            <license>
-                <code>license</code>
-                <controller>wizard</controller>
-                <action>license</action>
-            </license>
-            <check>
-                <code>preinstallation check</code>
-                <controller>wizard</controller>
-                <action>check</action>
-            </check>
             <config>
-                <code>config installation</code>
+                <code>configuration</code>
                 <controller>wizard</controller>
                 <action>config</action>
             </config>
-            <db>
-                <code>database inastallation</code>
-                <controller>wizard</controller>
-                <action>db</action>
-            </db>
             <administrator>
                 <code>administrator installation</code>
                 <controller>wizard</controller>
