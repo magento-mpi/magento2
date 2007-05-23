@@ -49,8 +49,8 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * - timeout     default 90
      * - user        default anonymous
      * - password    default empty
-     * - ssl         default no
-     * - passive     default no
+     * - ssl         default false
+     * - passive     default false
      * - path        default empty
      * - file_mode   default FTP_BINARY
      * 
@@ -230,7 +230,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             } elseif (is_resource($src)) {
                 $stream = $src;
             } else {
-                return self::ERROR_INVALID_SOURCE;
+                $this->_error = self::ERROR_INVALID_SOURCE;
                 return false;
             }
             $result = @ftp_fput($this->_conn, $filename, $stream, $mode);
