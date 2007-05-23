@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<module>
+    <name>Mage_Repository</name>
+    <description>Magento Repository Module</description>
+    <author>
+        <name>Varien Inc.</name>
+        <email>magento@varien.com</email>
+    </author>
+    <version>0.1.0</version>
+
+</module>
