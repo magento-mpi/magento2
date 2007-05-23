@@ -447,3 +447,9 @@ Uses [[magento::api:varien:simplexml:element|Varien_Simplexml_Element]]
 
 [[magento:start|Back to contents]]
 
+====== Creating simple module ======
+
+This document briefly outlines the steps necessary to create a new module.
+
+===== What is module in Magento? =====
+

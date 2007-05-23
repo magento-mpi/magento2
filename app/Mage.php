@@ -198,7 +198,7 @@ final class Mage {
     /**
      * Get model class
      *
-     * @link Mage_Core_Model::getResourceModelClass
+     * @link Mage_Core_Model_Config::getModelInstance
      * @param string $model
      * @param string $class
      * @param array $arguments
@@ -288,12 +288,12 @@ final class Mage {
             
             Varien_Profiler::setTimer('totalApp', true);
             
-            
-            /*echo '<hr><table border=1 align=center>';
+            /*
+            echo '<hr><table border=1 align=center>';
             $timers = Varien_Profiler::getCumulativeTimer();
             foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
-            echo '</table>';*/
-            
+            echo '</table>';
+            */
             
             Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write'));
             
