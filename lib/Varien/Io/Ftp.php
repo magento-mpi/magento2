@@ -57,7 +57,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * @param array $args
      * @return boolean
      */
-    public function open($args)
+    public function open(array $args)
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
