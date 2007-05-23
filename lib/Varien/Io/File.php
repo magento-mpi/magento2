@@ -29,6 +29,9 @@ class Varien_Io_File extends Varien_Io_Abstract
     /**
      * Open a connection
      *
+     * Possible arguments:
+     * - path     default current path
+     * 
      * @param array $args
      * @return boolean
      */

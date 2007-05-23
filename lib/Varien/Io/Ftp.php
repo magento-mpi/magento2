@@ -17,6 +17,8 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     const ERROR_INVALID_LOGIN = 3;
     const ERROR_INVALID_PATH = 4;
     const ERROR_INVALID_MODE = 5;
+    const ERROR_INVALID_DESTINATION = 6;
+    const ERROR_INVALID_SOURCE = 7;
     
     /**
      * Connection config
@@ -51,6 +53,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * - ssl         default no
      * - passive     default no
      * - path        default empty
+     * - file_mode   default FTP_BINARY
      * 
      * @param array $args
      * @return boolean
@@ -79,8 +82,8 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             $args['timeout'] = 90;
         }
         
-        if (empty($args['transfer_mode'])) {
-            $args['transfer_mode'] = FTP_BINARY;
+        if (empty($args['file_mode'])) {
+            $args['file_mode'] = FTP_BINARY;
         }
         
         $this->_config = $args;
@@ -186,7 +189,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     public function read($filename, $dest=null)
     {
         if (is_string($dest)) {
-            return @ftp_get($this->_conn, $dest, $filename, $this->_config['transfer_mode']);
+            return @ftp_get($this->_conn, $dest, $filename, $this->_config['file_mode']);
         } else {
             if (is_resource($dest)) {
                 $stream = $dest;
@@ -194,9 +197,10 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
                 ob_start();
                 $stream = STDOUT;
             } else {
+                $this->_error = self::ERROR_INVALID_DESTINATION;
                 return false;
             }
-            $result = @ftp_fget($this->_conn, $dest, $filename, $this->_config['transfer_mode']);
+            $result = @ftp_fget($this->_conn, $dest, $filename, $this->_config['file_mode']);
             if (is_null($dest)) {
                 @fclose($stream);
                 return ob_get_clean();
@@ -227,6 +231,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             } elseif (is_resource($src)) {
                 $stream = $src;
             } else {
+                return self::ERROR_INVALID_SOURCE;
                 return false;
             }
             $result = @ftp_fput($this->_conn, $filename, $stream, $mode);
