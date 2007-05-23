@@ -1,13 +1,31 @@
 <?php
 
+/**
+ * Filesystem client
+ *
+ * @copyright   2007 Varien Inc.
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @package     Mage
+ * @subpackage  Install
+ * @link        http://var-dev.varien.com/wiki/doku.php?id=magento:api:mage:core:config
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
 {
     /**
-     * Save initial working directory to return when finished working with filesystem
+     * Save initial working directory
      *
      * @var string
      */
-    protected $_initialDir;
+    protected $_iwd;
+    
+    /**
+     * Use virtual current working directory for application integrity
+     *
+     * @var string
+     */
+    protected $_cwd;
     
     /**
      * Open a connection
@@ -16,7 +34,8 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function open()
     {
-        $this->_initialDir = $this->pwd();
+        $this->_iwd = getcwd();
+        $this->_cwd = getcwd();
         return true;
     }
     
@@ -27,7 +46,6 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function close()
     {
-        $this->cd($this->_initialDir);
         return true;
     }
     
@@ -41,7 +59,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function mkdir($dir, $mode=0777, $recursive=true)
     {
-        return mkdir($dir, $mode, $recursive);
+        chdir($this->_cwd);
+        $result = mkdir($dir, $mode, $recursive);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -52,7 +73,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function rmdir($dir)
     {
-        return rmdir($dir);
+        chdir($this->_cwd);
+        $result = rmdir($dir);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -62,7 +86,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function pwd()
     {
-        return getcwd();
+        return $this->_cwd;
     }
     
     /**
@@ -73,7 +97,13 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function cd($dir)
     {
-        return chdir($dir);
+        if (chdir($dir)) {
+            chdir($this->_iwd);
+            $this->_cwd = realpath($dir);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -84,7 +114,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function read($filename)
     {
-        return file_get_contents($filename);
+        chdir($this->_cwd);
+        $result = file_get_contents($filename);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -96,7 +129,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function write($filename, $data)
     {
-        return file_put_contents($filename, $data);
+        chdir($this->_cwd);
+        $result = file_put_contents($filename, $data);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -107,7 +143,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function rm($filename)
     {
-        return unlink($filename);
+        chdir($this->_cwd);
+        $result = unlink($filename);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -119,7 +158,10 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function mv($from, $to)
     {
-        return rename($from, $to);
+        chdir($this->_cwd);
+        $result = rename($from, $to);
+        chdir($this->_iwd);
+        return $result;
     }
     
     /**
@@ -131,6 +173,9 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      */
     public function chmod($filename, $mode)
     {
-        return chmod($filename, $mode);
+        chdir($this->_cwd);
+        $result = chmod($filename, $mode);
+        chdir($this->_iwd);
+        return $result;
     }
 }
