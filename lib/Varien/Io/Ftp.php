@@ -201,7 +201,6 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             }
             $result = @ftp_fget($this->_conn, $dest, $filename, $this->_config['file_mode']);
             if (is_null($dest)) {
-                @fclose($stream);
                 return ob_get_clean();
             } else {
                 return $result;
