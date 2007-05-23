@@ -6,47 +6,99 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      * Initialize a connection
      *
      */
-    public function init();
+    public function init()
+    {
+        
+        return $this;
+    }
     
     /**
      * Create a directory
      *
      */
-    public function mkdir();
+    public function mkdir()
+    {
+        
+        return $this;
+    }
     
     /**
      * Delete a directory
      *
      */
-    public function rmdir();
-
-    /**
-     * Load a file
-     *
-     */
-    public function load();
+    public function rmdir()
+    {
+        
+        return $this;
+    }
     
     /**
-     * Save a file
+     * Get current working directory
      *
      */
-    public function save();
+    public function pwd()
+    {
+        
+        return $this;
+    }
+    
+    /**
+     * Change current working directory
+     *
+     */
+    public function cd()
+    {
+        
+        return $this;
+    }
+
+    /**
+     * Read a file
+     *
+     */
+    public function read()
+    {
+        
+        return $this;
+    }
+    
+    /**
+     * Write a file
+     *
+     */
+    public function write()
+    {
+        
+        return $this;
+    }
     
     /**
      * Delete a file
      *
      */
-    public function rm();
+    public function rm()
+    {
+        
+        return $this;
+    }
     
     /**
      * Rename or move a directory or a file
      *
      */
-    public function mv();
+    public function mv()
+    {
+        
+        return $this;
+    }
     
     /**
      * Chamge mode of a directory or a file
      *
      */
-    public function chmod();
+    public function chmod()
+    {
+        
+        return $this;
+    }
 }

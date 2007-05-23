@@ -33,16 +33,16 @@ interface Mage_Install_Model_Client_Interface
     public function cd();
 
     /**
-     * Load a file
+     * Read a file
      *
      */
-    public function load();
+    public function read();
     
     /**
-     * Save a file
+     * Write a file
      *
      */
-    public function save();
+    public function write();
     
     /**
      * Delete a file

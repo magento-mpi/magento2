@@ -53,20 +53,20 @@ class Mage_Install_Model_Client_Ftp extends Mage_Install_Model_Client_Abstract
     }
 
     /**
-     * Load a file
+     * Read a file
      *
      */
-    public function load()
+    public function read()
     {
         
         return $this;
     }
     
     /**
-     * Save a file
+     * Write a file
      *
      */
-    public function save()
+    public function write()
     {
         
         return $this;
