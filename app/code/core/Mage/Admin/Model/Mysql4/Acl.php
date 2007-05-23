@@ -107,13 +107,13 @@ class Mage_Admin_Model_Mysql4_Acl
             switch ($role['role_type']) {
                 case self::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
-                    $acl->addRole(Mage::getModel('auth', 'acl_role_group', $roleId), $parent);
+                    $acl->addRole(Mage::getModel('admin', 'acl_role_group', $roleId), $parent);
                     break;
                     
                 case self::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('auth', 'acl_role_user', $roleId), $parent);
+                        $acl->addRole(Mage::getModel('admin', 'acl_role_user', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }

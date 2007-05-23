@@ -14,7 +14,7 @@ class Mage_Admin_Model_Acl extends Zend_Acl
     /**
      * Get role registry object or create one
      *
-     * @return Mage_Auth_Model_Acl_Role_Registry
+     * @return Mage_Admin_Model_Acl_Role_Registry
      */
     protected function _getRoleRegistry()
     {
@@ -29,7 +29,7 @@ class Mage_Admin_Model_Acl extends Zend_Acl
      *
      * @param Zend_Acl_Role $role
      * @param Zend_Acl_Role $parent
-     * @return Mage_Auth_Model_Acl
+     * @return Mage_Admin_Model_Acl
      */
     public function addRoleParent($role, $parent)
     {

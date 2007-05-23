@@ -119,7 +119,7 @@ class Mage_Admin_Model_User extends Varien_Object
         }
        
         if ($admin->getUser() && !$admin->getAcl()) {
-            //$admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
+            $admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
         }
         
         Mage::register('acl', $admin->getAcl());

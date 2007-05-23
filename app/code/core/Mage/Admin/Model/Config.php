@@ -9,20 +9,25 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Admin_Model_Config
+class Mage_Admin_Model_Config extends Varien_Simplexml_Config
 {
+    public function __construct()
+    {
+        parent::__construct(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
+    }
+    
     /**
      * Load Acl resources from config
      *
-     * @param Mage_Auth_Model_Acl $acl
+     * @param Mage_Admin_Model_Acl $acl
      * @param Mage_Core_Model_Config_Element $resource
      * @param string $parentName
-     * @return Mage_Auth_Model_Config
+     * @return Mage_Admin_Model_Config
      */
-    public function loadAclResources(Mage_Auth_Model_Acl $acl, $resource=null, $parentName=null)
+    public function loadAclResources(Mage_Admin_Model_Acl $acl, $resource=null, $parentName=null)
     {
         if (is_null($resource)) {
-            $resource = Mage::getConfig()->getNode("admin/acl/resources");
+            $resource = $this->getNode("admin/acl/resources");
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
@@ -35,9 +40,9 @@ class Mage_Admin_Model_Config
         }
         
         foreach ($children as $res) {
-            self::loadAclResources($acl, $res, $resourceName);
+            $this->loadAclResources($acl, $res, $resourceName);
         }
-        
+
         return $this;
     }
     
@@ -49,7 +54,7 @@ class Mage_Admin_Model_Config
      */
     public function getAclAssert($name='')
     {
-        $asserts = Mage::getConfig()->getNode("admin/acl/asserts");
+        $asserts = $this->getNode("admin/acl/asserts");
         if (''===$name) {
             return $asserts;
         }
@@ -69,7 +74,7 @@ class Mage_Admin_Model_Config
      */
     public function getAclPrivilegeSet($name='')
     {
-        $sets = Mage::getConfig()->getNode("admin/acl/privilegeSets");
+        $sets = $this->getNode("admin/acl/privilegeSets");
         if (''===$name) {
             return $sets;
         } 
