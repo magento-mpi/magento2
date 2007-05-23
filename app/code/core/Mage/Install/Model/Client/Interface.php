@@ -3,10 +3,16 @@
 interface Mage_Install_Model_Client_Interface
 {
     /**
-     * Initialize a connection
+     * Open a connection
      *
      */
-    public function init();
+    public function open();
+    
+    /**
+     * Close a connection
+     *
+     */
+    public function close();
     
     /**
      * Create a directory
