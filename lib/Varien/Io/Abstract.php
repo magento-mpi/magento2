@@ -5,13 +5,12 @@
  *
  * @copyright   2007 Varien Inc.
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @package     Mage
- * @subpackage  Install
- * @link        http://var-dev.varien.com/wiki/doku.php?id=magento:api:mage:core:config
+ * @package     Varien
+ * @subpackage  Io
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Install_Model_Client_Abstract implements Mage_Install_Model_Client_Interface 
+abstract class Varien_Io_Abstract implements Varien_Io_Interface 
 {
 
 }

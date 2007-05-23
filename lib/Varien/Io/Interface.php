@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Install and upgrade client interface
+ * Input/output client interface
  *
  * @copyright   2007 Varien Inc.
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @package     Mage
- * @subpackage  Install
- * @link        http://var-dev.varien.com/wiki/doku.php?id=magento:api:mage:core:config
+ * @package     Varien
+ * @subpackage  Io
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-interface Mage_Install_Model_Client_Interface
+interface Varien_Io_Interface
 {
     /**
      * Open a connection

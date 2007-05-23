@@ -5,13 +5,12 @@
  *
  * @copyright   2007 Varien Inc.
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @package     Mage
- * @subpackage  Install
- * @link        http://var-dev.varien.com/wiki/doku.php?id=magento:api:mage:core:config
+ * @package     Varien
+ * @subpackage  Io
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
+class Varien_Io_File extends Varien_Io_Abstract
 {
     /**
      * Save initial working directory
@@ -30,12 +29,13 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     /**
      * Open a connection
      *
+     * @param array $args
      * @return boolean
      */
-    public function open()
+    public function open(array $args=array())
     {
         $this->_iwd = getcwd();
-        $this->_cwd = getcwd();
+        $this->cd(!empty($args['path']) ? $args['path'] : $this->_iwd);
         return true;
     }
     
@@ -107,30 +107,54 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     }
 
     /**
-     * Read a file
+     * Read a file to result, file or stream
      *
+     * If $dest is null the output will be returned.
+     * Otherwise it will be saved to the file or stream and operation result is returned.
+     * 
      * @param string $filename
-     * @return string
+     * @param string|resource $dest
+     * @return boolean|string
      */
-    public function read($filename)
+    public function read($filename, $dest=null)
     {
         chdir($this->_cwd);
         $result = @file_get_contents($filename);
         chdir($this->_iwd);
-        return $result;
+        
+        if (is_string($dest) || is_resource($dest)) {
+            return @file_put_contents($dest, $result);
+        } elseif (is_null($dest)) {
+            return $result;
+        } else {
+            return false;
+        }
     }
     
     /**
-     * Write a file
+     * Write a file from string, file or stream
      *
      * @param string $filename
-     * @param string $data
+     * @param string|resource $src
      * @return int|boolean
      */
-    public function write($filename, $data, $mode=null)
+    public function write($filename, $src, $mode=null)
     {
+        if (is_string($src) && is_readable($src)) {
+            $src = realpath($src);
+            $srcIsFile = true;
+        } elseif (is_string($src) || is_resource($src)) {
+            $srcIsFile = false;
+        } else {
+            return false;
+        }
+        
         chdir($this->_cwd);
-        $result = @file_put_contents($filename, $data);
+        if ($srcIsFile) {
+            $result = @copy($src, $filename);
+        } else {
+            $result = @file_put_contents($filename, $src);
+        }
         if (!is_null($mode)) {
             @chmod($filename, $mode);
         }
@@ -155,14 +179,14 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     /**
      * Rename or move a directory or a file
      *
-     * @param string $from
-     * @param string $to
+     * @param string $src
+     * @param string $dest
      * @return boolean
      */
-    public function mv($from, $to)
+    public function mv($src, $dest)
     {
         chdir($this->_cwd);
-        $result = @rename($from, $to);
+        $result = @rename($src, $dest);
         chdir($this->_iwd);
         return $result;
     }
