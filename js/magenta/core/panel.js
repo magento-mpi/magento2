@@ -26,7 +26,7 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
         if (this.panel) {
             return this.panel.setTitle(title);
         }
-    },
+    }
 })
 
 Mage.core.Panel.Factory = {

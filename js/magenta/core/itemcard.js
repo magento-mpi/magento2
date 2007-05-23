@@ -59,10 +59,10 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
     buildToolbar : function(baseEl) {
         this.toolbar = new Ext.Toolbar(baseEl);
         this.toolbar.add(new Ext.ToolbarButton({
-            text : 'Reload',
+            text : 'Reload'
         }));
         this.toolbar.add(new Ext.ToolbarButton({
-            text : 'Save',
+            text : 'Save'
         }));
         this.toolbar.add(new Ext.ToolbarButton({
             text : 'Delete Product'

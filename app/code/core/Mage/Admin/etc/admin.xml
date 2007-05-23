@@ -1,29 +1,5 @@
 <?xml version="1.0"?>
 <config>
-    <global>
-        <block>
-            <types>
-                <admin_catalog_category_form>
-                    <class>Mage_Catalog_Block_Admin_Category_Form</class>
-                </admin_catalog_category_form>
-                <admin_catalog_category_form_json>
-                    <class>Mage_Catalog_Block_Admin_Category_FormJson</class>
-                </admin_catalog_category_form_json>
-                <admin_catalog_product_create_option>
-                    <class>Mage_Catalog_Block_Admin_Product_CreateOption</class>
-                </admin_catalog_product_create_option>
-                <admin_catalog_product_form>
-                    <class>Mage_Catalog_Block_Admin_Product_Form</class>
-                </admin_catalog_product_form>
-                <admin_catalog_product_form_json>
-                    <class>Mage_Catalog_Block_Admin_Product_FormJson</class>
-                </admin_catalog_product_form_json>
-                <admin_catalog_product_card>
-                    <class>Mage_Catalog_Block_Admin_Product_Card</class>
-                </admin_catalog_product_card>
-            </types>
-        </block>
-    </global>
     <admin>
       <acl>
          <asserts>
@@ -65,39 +41,6 @@
             </default>
          </privilegeSets>
       </acl>
-
-      <layouts>
-         <default>
-            <updates>
-               <core>
-                  <file>core/initLayout.xml</file>
-               </core>
-               <auth>
-                  <file>auth/initLayout.xml</file>
-               </auth>
-               <catalog>
-                  <file>catalog/initLayout.xml</file>
-               </catalog>
-               <customer>
-                  <file>customer/initLayout.xml</file>
-               </customer>
-               <sales>
-                  <file>sales/initLayout.xml</file>
-               </sales>
-            </updates>
-         </default>
-      </layouts>
-
-      <events>
-         <action_preDispatch>
-            <observers>
-               <auth>
-                  <class>Mage_Admin_Model_Auth</class>
-                  <method>action_preDispatch</method>
-               </auth>
-            </observers>
-         </action_preDispatch>
-      </events>
 
       <search>
          <global>
