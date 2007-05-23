@@ -60,7 +60,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function mkdir($dir, $mode=0777, $recursive=true)
     {
         chdir($this->_cwd);
-        $result = mkdir($dir, $mode, $recursive);
+        $result = @mkdir($dir, $mode, $recursive);
         chdir($this->_iwd);
         return $result;
     }
@@ -74,7 +74,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function rmdir($dir)
     {
         chdir($this->_cwd);
-        $result = rmdir($dir);
+        $result = @rmdir($dir);
         chdir($this->_iwd);
         return $result;
     }
@@ -115,7 +115,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function read($filename)
     {
         chdir($this->_cwd);
-        $result = file_get_contents($filename);
+        $result = @file_get_contents($filename);
         chdir($this->_iwd);
         return $result;
     }
@@ -127,10 +127,13 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
      * @param string $data
      * @return int|boolean
      */
-    public function write($filename, $data)
+    public function write($filename, $data, $mode=null)
     {
         chdir($this->_cwd);
-        $result = file_put_contents($filename, $data);
+        $result = @file_put_contents($filename, $data);
+        if (!is_null($mode)) {
+            @chmod($filename, $mode);
+        }
         chdir($this->_iwd);
         return $result;
     }
@@ -144,7 +147,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function rm($filename)
     {
         chdir($this->_cwd);
-        $result = unlink($filename);
+        $result = @unlink($filename);
         chdir($this->_iwd);
         return $result;
     }
@@ -159,7 +162,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function mv($from, $to)
     {
         chdir($this->_cwd);
-        $result = rename($from, $to);
+        $result = @rename($from, $to);
         chdir($this->_iwd);
         return $result;
     }
@@ -174,7 +177,7 @@ class Mage_Install_Model_Client_File extends Mage_Install_Model_Client_Abstract
     public function chmod($filename, $mode)
     {
         chdir($this->_cwd);
-        $result = chmod($filename, $mode);
+        $result = @chmod($filename, $mode);
         chdir($this->_iwd);
         return $result;
     }
