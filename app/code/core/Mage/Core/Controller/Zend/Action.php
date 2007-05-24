@@ -29,6 +29,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       */
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
+         Zend_Controller_Action_HelperBroker::resetHelpers();
          parent::__construct($request, $response, $invokeArgs);
          
          if (!Mage::registry('action')) {
