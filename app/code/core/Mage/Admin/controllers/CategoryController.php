@@ -26,7 +26,6 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
         $tabConfig = Array(
             "panelConfig" => Array(
                         "name" => "General",
-                        #"title" => "Edit Category",
                         "title" => $form->getTitle(),
                         "type" => "form",
                         "form" => $form->toArray()
@@ -38,11 +37,20 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
     public function saveAction()
     {
         $res = array();
+
+        $parent_id = intval( $this->getRequest()->getPost('parent_category_id') );
+
+        if( $parent_id > 0 ) {
+            $category_id = null;
+        } else {
+            $category_id = intval( $this->getRequest()->getPost('category_id') );
+        }
+
         $category = Mage::getModel('catalog', 'category');
         $category->setAttributeSetId($this->getRequest()->getPost('attribute_set_id'));
         $category->setAttributes($this->getRequest()->getPost('attribute'));
-        $category->setCategoryId($this->getRequest()->getPost('category_id'));
-        $category->setParentId($this->getRequest()->getPost('parentId'));
+        $category->setCategoryId($category_id);
+        $category->setParentId($parent_id);
         
         try {
             $category->save();

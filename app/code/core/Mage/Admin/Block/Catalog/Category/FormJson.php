@@ -18,7 +18,7 @@ class Mage_Admin_Block_Catalog_Category_FormJson extends Varien_Data_Form
     {
         parent::__construct();
         $this->setId('add_child_category_form');
-        $this->setAction(Mage::getBaseUrl().'mage_catalog/category/save/');
+        $this->setAction(Mage::getBaseUrl().'admin/category/save/');
         
         $categoryId = (int) Mage::registry('controller')->getRequest()->getParam('category_id', false);
         $isNew = (bool) Mage::registry('controller')->getRequest()->getParam('isNew', false);
@@ -44,12 +44,7 @@ class Mage_Admin_Block_Catalog_Category_FormJson extends Varien_Data_Form
             
             $this->addField($elementId, $elementType, $elementConfig);
         }
-        /*
-        if ($categoryId) {
-            $category = Mage::getModel('catalog','category')->load($categoryId);
-            $this->setElementsValues($category->getData());
-        }
-        */
+
         $this->setFileupload(true);
         
         if( $isNew === false ) {
