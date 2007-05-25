@@ -35,12 +35,4 @@ class Mage_Customer_Front
             }
         }
     }
-    
-    public static function beforeFrontRun()
-    {
-        $custSession = Mage::getSingleton('customer', 'session');
-        if ($custSession->isLoggedIn()) {
-            Mage::getSingleton('core', 'session_visitor')->setCustomerId($custSession->getCustomer()->getCustomerId());
-        }
-    }
 } 

@@ -5,6 +5,9 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function __construct()
     {
         $this->init('customer');
+        if ($this->isLoggedIn()) {
+            Mage::getSingleton('core', 'session_visitor')->setCustomerId($this->getCustomer()->getCustomerId());
+        }
     }
     
     public function setCustomer(Mage_Customer_Model_Customer $customer)

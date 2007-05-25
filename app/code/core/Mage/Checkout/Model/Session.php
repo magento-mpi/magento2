@@ -7,6 +7,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function __construct()
     {
         $this->init('checkout');
+        Mage::getSingleton('core', 'session_visitor')->setQuoteId($this->getQuoteId());
     }
 
     public function unsetAll()

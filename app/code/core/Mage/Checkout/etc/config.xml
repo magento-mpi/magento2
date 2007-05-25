@@ -102,14 +102,6 @@
                </unsetAll>
             </observers>
          </customerLogout>
-         <beforeFrontRun>
-            <observers>
-               <checkout>
-                  <class>Mage_Checkout_Front</class>
-                  <method>beforeFrontRun</method>
-               </checkout>
-            </observers>
-         </beforeFrontRun>
       </events>
       <urls>
          <cart_view>checkout/cart</cart_view>

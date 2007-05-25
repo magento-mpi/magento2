@@ -4,7 +4,7 @@
 <!ATTLIST block
     type CDATA #IMPLIED
     class CDATA #IMPLIED
-    name CDATA #REQUIRED
+    name CDATA #IMPLIED
     as CDATA #IMPLIED
     before CDATA #IMPLIED
     after CDATA #IMPLIED
@@ -15,6 +15,7 @@
 <!ATTLIST action
     method CDATA #REQUIRED
     json NMTOKENS #IMPLIED
+    translate NMTOKENS #IMPLIED
 >
 
 <!ELEMENT reference (action | block)*>
