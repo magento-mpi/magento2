@@ -60,6 +60,8 @@
 			$startPoint += 30*60;
 		}
 		
+		$allData[] = array( 'time'=>date("Y-m-d H:i",$startPoint+(90*60)));
+		
 		$session -> setData('startPoint', $startPoint); 
 		
 		return $this -> returnAsDataSource( $allData );
@@ -71,7 +73,7 @@
 		
 	
 		$startPoint = $session -> getData('startPoint');
-		$startPoint += 30*60;
+		
 		$reset = 12;
 		
 		
@@ -79,6 +81,9 @@
 			array( 'time'=> date("Y-m-d H:i", $startPoint), 'value'=>rand(1, 100) )
 		);
 		
+		$startPoint += 30*60;
+		$newData[]  = array( 'time'=> date("Y-m-d H:i", $startPoint+(90*60)) );
+				
 		$session -> setData('startPoint', $startPoint);
 		
 		return $this -> returnAsDataSource( $newData, $reset );
