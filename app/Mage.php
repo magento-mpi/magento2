@@ -236,34 +236,6 @@ final class Mage {
         //throw new $className($message, $code);
     }
     
-    public static function errorHandler($errno, $errstr, $errfile, $errline)
-    {
-        switch ($errno) {
-        case E_USER_ERROR:
-            echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-            echo "  Fatal error on line $errline in file $errfile";
-            echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-            echo "Aborting...<br />\n";
-            exit(1);
-            break;
-        
-        case E_USER_WARNING:
-            echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
-            break;
-        
-        case E_USER_NOTICE:
-            echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-            break;
-        
-        default:
-            echo "Unknown error type: [$errno] $errstr<br />\n";
-            break;
-        }
-        
-        /* Don't execute PHP internal error handler */
-        return true;
-    }
-
     /**
      * Initialize Mage
      *
@@ -310,7 +282,7 @@ final class Mage {
 
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
-            
+
             Mage::registry('website')->setCode($websiteCode);
 
             Mage::dispatchEvent('beforeFrontRun');
@@ -398,46 +370,47 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-    print "<pre>\n<b>";
+    echo "<pre>\n<b>";
     switch($errno){
-        case E_ERROR:               print "Error";                  break;
-        case E_WARNING:             print "Warning";                break;
-        case E_PARSE:               print "Parse Error";            break;
-        case E_NOTICE:              print "Notice";                 break;
-        case E_CORE_ERROR:          print "Core Error";             break;
-        case E_CORE_WARNING:        print "Core Warning";           break;
-        case E_COMPILE_ERROR:       print "Compile Error";          break;
-        case E_COMPILE_WARNING:     print "Compile Warning";        break;
-        case E_USER_ERROR:          print "User Error";             break;
-        case E_USER_WARNING:        print "User Warning";           break;
-        case E_USER_NOTICE:         print "User Notice";            break;
-        case E_STRICT:              print "Strict Notice";          break;
-        case E_RECOVERABLE_ERROR:   print "Recoverable Error";      break;
-        default:                    print "Unknown error ($errno)"; break;
+        case E_ERROR:               echo "Error";                  break;
+        case E_WARNING:             echo "Warning";                break;
+        case E_PARSE:               echo "Parse Error";            break;
+        case E_NOTICE:              echo "Notice";                 break;
+        case E_CORE_ERROR:          echo "Core Error";             break;
+        case E_CORE_WARNING:        echo "Core Warning";           break;
+        case E_COMPILE_ERROR:       echo "Compile Error";          break;
+        case E_COMPILE_WARNING:     echo "Compile Warning";        break;
+        case E_USER_ERROR:          echo "User Error";             break;
+        case E_USER_WARNING:        echo "User Warning";           break;
+        case E_USER_NOTICE:         echo "User Notice";            break;
+        case E_STRICT:              echo "Strict Notice";          break;
+        case E_RECOVERABLE_ERROR:   echo "Recoverable Error";      break;
+        default:                    echo "Unknown error ($errno)"; break;
     }
-    print ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
-    if(function_exists('debug_backtrace')){
-        //print "backtrace:\n";
-        $backtrace = debug_backtrace();
-        array_shift($backtrace);
-        foreach($backtrace as $i=>$l){
-            print "[$i] in function <b>{$l['class']}{$l['type']}{$l['function']}</b>";
-            if(!empty($l['file'])) print " in <b>{$l['file']}</b>";
-            if(!empty($l['line'])) print " on line <b>{$l['line']}</b>";
-            print "\n";
-        }
-    }
-    print "\n</pre>";
-    if(isset($GLOBALS['error_fatal'])){
-        if($GLOBALS['error_fatal'] & $errno) die('fatal');
-    }
-}
+    echo ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
 
-function error_fatal($mask = NULL){
-    if(!is_null($mask)){
-        $GLOBALS['error_fatal'] = $mask;
-    }elseif(!isset($GLOBALS['die_on'])){
-        $GLOBALS['error_fatal'] = 0;
+    $backtrace = debug_backtrace();
+    array_shift($backtrace);
+    foreach($backtrace as $i=>$l){
+        echo "[$i] in <b>{$l['class']}{$l['type']}{$l['function']}</b>(";
+        if(!empty($l['args'])) foreach ($l['args'] as $i=>$arg) {
+            if ($i>0) echo ", ";
+            if (is_object($arg)) echo get_class($arg); 
+            elseif (is_string($arg)) echo '"'.substr($arg,0,30).'"';
+            elseif (is_null($arg)) echo 'NULL';
+            elseif (is_numeric($arg)) echo $arg;
+            elseif (is_array($arg)) echo "Array(".sizeof($arg).")";
+            else print_r($arg);
+        }
+        echo ")";
+        if(!empty($l['file'])) echo " in <b>{$l['file']}</b>";
+        if(!empty($l['line'])) echo " on line <b>{$l['line']}</b>";
+        echo "\n";
     }
-    return $GLOBALS['error_fatal'];
+
+    echo "\n</pre>";
+    switch ($errno) {
+        case E_ERROR: 
+            die('fatal');
+    }
 }
