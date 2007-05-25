@@ -44,7 +44,7 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
             $this->addText(' '.$params);
         }
 
-        $this->addText('>'.$this->getInnerText().'</a>'.$this->getAfterText().'</li>'."\r\n");
+        $this->addText('>'.__($this->getInnerText()).'</a>'.$this->getAfterText().'</li>'."\r\n");
         
         return parent::toHtml();
     }

@@ -121,9 +121,6 @@
             </args>
          </customer>
       </routers>
-      <translate>
-         <customer>customer/messages.csv</customer>
-      </translate>
    </front>
    <domains>
       <base>
@@ -132,4 +129,7 @@
          <currency>1</currency>
       </base>
    </domains>
+   <translate>
+     <customer>customer/messages.csv</customer>
+   </translate>
 </config>

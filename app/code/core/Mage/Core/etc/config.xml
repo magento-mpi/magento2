@@ -152,7 +152,6 @@
             </updates>
          </noRoute>
       </layouts>
-
-      <translate> </translate>
    </front>
+   <translate></translate>
 </config>

@@ -18,15 +18,9 @@ class Mage_Core_Model_Translate
     
     public function __construct() 
     {
-        $this->_language = 'en';
-        $this->_adapter  = 'csv';
-        if (Mage::registry('website')->getIsAdmin()) {
-            $this->_sections = (array) Mage::getConfig()->getNode('admin/translate');
-        }
-        else {
-            $this->_sections = (array) Mage::getConfig()->getNode('front/translate');
-        }
-        
+        $this->_language = Mage::registry('website')->getLanguage();
+        $this->_sections = (array) Mage::getConfig()->getNode('translate');
+		$this->_adapter  = 'csv';
         $this->_baseDir = Mage::getWebsiteDir('translate').DS.$this->_language.DS;
         
         $this->_translate = new Zend_Translate($this->_adapter, $this->_baseDir.'base.csv', $this->_language);

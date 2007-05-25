@@ -18,6 +18,9 @@
             <id>1</id>
             <language>en</language>
             <group>default</group>
+            <currency>
+                <default>usa</default>
+            </currency>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>
@@ -72,6 +75,7 @@
          <dev_setup>
             <connection>
                <model>mysql4</model>
+               <initQuery>SET NAMES utf8</initQuery>
                <type>mysqli_setup</type>
                <active>{{db_active}}</active>
                <host>{{db_host}}</host>

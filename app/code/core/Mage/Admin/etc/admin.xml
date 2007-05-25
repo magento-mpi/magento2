@@ -57,9 +57,6 @@
             </collections>
          </global>
       </search>
-
-      <translate> 
-      
-      </translate>
     </admin>
+    <translate></translate>
 </config>
