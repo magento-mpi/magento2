@@ -12,7 +12,7 @@ class Mage_Core_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('session')));
         if (Mage::getSingleton('core_resource', 'session')->hasConnection()) {
-        	//Zend_Session::setSaveHandler(Mage::getModel('core_resource', 'session'));
+        	Zend_Session::setSaveHandler(Mage::getModel('core_resource', 'session'));
         }
         Zend_Session::start();
 
