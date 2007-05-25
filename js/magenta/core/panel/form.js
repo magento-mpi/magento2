@@ -10,8 +10,8 @@ Mage.core.PanelForm = function(region, config) {
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
         background : background,
-       	autoScroll : true,
-       	fitToFrame : true,
+        autoScroll : true,
+        fitToFrame : true,
         title : this.title || 'Title'
     }));
 
@@ -85,7 +85,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
             method : this.form.config.method,
             name : this.form.config.name,
             action : this.form.config.action,
-            fileUpload : this.form.config.isFileUpload,
+            fileUpload : this.form.config.fileupload,
             metaData : this.form.elements
         });
         this._buildTemplate(this.form.config.id + '_El');        

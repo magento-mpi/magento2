@@ -1,5 +1,4 @@
 php_flag magic_quotes_gpc off
-php_value include_path ".;lib;app/code/core"
 
 DirectoryIndex index.php
 

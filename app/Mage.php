@@ -4,6 +4,10 @@
  * Just a shortcut for popular constant :)
  */
 define ('DS', DIRECTORY_SEPARATOR);
+$PS = empty($_SERVER['WINDIR']) ? ':' : ';';
+$BP = $_SERVER['DOCUMENT_ROOT'];//dirname($_SERVER['SCRIPT_FILENAME']);
+
+ini_set('include_path', ini_get('include_path').$PS.$BP.'/lib'.$PS.$BP.'/app/code/core'.$PS);
 
 function __autoload($class)
 {
@@ -372,13 +376,6 @@ function __()
 {
     $args = func_get_args();
     return Mage::getSingleton('core', 'translate')->translate($args);
-    /*$text = array_shift($args);
-    
-    //translate $text
-    
-    array_unshift($args, $text);
-    
-    return call_user_func_array('sprintf', $args);*/
 }
 
 /**

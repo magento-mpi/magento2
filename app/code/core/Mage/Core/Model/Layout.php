@@ -251,6 +251,12 @@ echo "TEST:".$i;
                 $args[$arg] = Zend_Json::decode($args[$arg]);
             }
         }
+        if (isset($node['translate'])) {
+            $json = explode(' ', (string)$node['translate']);
+            foreach ($json as $arg) {
+                $args[$arg] = __($args[$arg]);
+            }
+        }
 #echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
 #$timerName = 'action';#-'.$block->getName().'-'.$method;
 #Varien_Profiler::setTimer($timerName);

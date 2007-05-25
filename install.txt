@@ -1,5 +1,0 @@
-Win
-copy .htaccess.win to .htaccess
-
-Unix
-copy .htaccess.unix to .htaccess
