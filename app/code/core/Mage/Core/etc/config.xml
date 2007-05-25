@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Core>
-         <version>0.2.0</version>
+         <version>0.2.1</version>
       </Mage_Core>
    </modules>
 
@@ -66,21 +66,17 @@
                   <table>core_table</table>
                </table>
 
-               <domain>
-                  <table>core_domain</table>
-               </domain>
-
-               <domain_website>
-                  <table>core_domain_website</table>
-               </domain_website>
-
                <setting>
                   <table>core_setting</table>
                </setting>
-
-               <domain_setting>
-                  <table>core_domain_setting</table>
-               </domain_setting>
+               
+               <session>
+                  <table>core_session</table>
+               </session>
+               
+               <session_visitor>
+                  <table>core_session_visitor</table>
+               </session_visitor>
 
                <data_change>
                   <table>core_data_change</table>

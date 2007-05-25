@@ -19,5 +19,10 @@ class Mage_Checkout_Front
     {
         Mage::getSingleton('checkout', 'session')->loadCustomerQuote();
     }
-
+    
+    public static function beforeFrontRun()
+    {
+        $quoteId = Mage::getSingleton('checkout', 'session')->getQuoteId();
+        Mage::getSingleton('core', 'session_visitor')->setQuoteId($quoteId);
+    }
 }

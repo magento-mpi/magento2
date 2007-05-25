@@ -199,7 +199,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
                 $this->_error = self::ERROR_INVALID_DESTINATION;
                 return false;
             }
-            $result = @ftp_fget($this->_conn, $dest, $filename, $this->_config['file_mode']);
+            $result = @ftp_fget($this->_conn, $stream, $filename, $this->_config['file_mode']);
             if (is_null($dest)) {
                 return ob_get_clean();
             } else {

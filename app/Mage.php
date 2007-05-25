@@ -231,6 +231,34 @@ final class Mage {
         return new $className($message, $code);
         //throw new $className($message, $code);
     }
+    
+    public static function errorHandler($errno, $errstr, $errfile, $errline)
+    {
+        switch ($errno) {
+        case E_USER_ERROR:
+            echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+            echo "  Fatal error on line $errline in file $errfile";
+            echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+            echo "Aborting...<br />\n";
+            exit(1);
+            break;
+        
+        case E_USER_WARNING:
+            echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+            break;
+        
+        case E_USER_NOTICE:
+            echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+            break;
+        
+        default:
+            echo "Unknown error type: [$errno] $errstr<br />\n";
+            break;
+        }
+        
+        /* Don't execute PHP internal error handler */
+        return true;
+    }
 
     /**
      * Initialize Mage
@@ -252,14 +280,12 @@ final class Mage {
         Mage::getConfig()->init();
         Varien_Profiler::setTimer('config', true);
 
-        // Session must be start after init resources
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('session')));
-        Zend_Session::start();
-
         Mage::register('resources', Mage::getSingleton('core', 'resource'));
-        Mage::register('session', Mage::getSingleton('core', 'session'));
         Mage::register('website', Mage::getSingleton('core', 'website'));
+        Mage::register('session', Mage::getSingleton('core', 'session'));
         
+        set_error_handler('my_error_handler');
+
         Varien_Profiler::setTimer('init', true);
 
         // check modules db
@@ -282,6 +308,8 @@ final class Mage {
             Mage::getConfig()->loadEventObservers('front');
             
             Mage::registry('website')->setCode($websiteCode);
+
+            Mage::dispatchEvent('beforeFrontRun');
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
@@ -366,4 +394,53 @@ function __()
 function uc_words($str, $destSep='_', $srcSep='_')
 {
     return str_replace(' ', $destSep, ucwords(str_replace($srcSep, ' ', $str)));
+}
+
+function my_error_handler($errno, $errstr, $errfile, $errline){
+    $errno = $errno & error_reporting();
+    if($errno == 0) return;
+    if(!defined('E_STRICT'))            define('E_STRICT', 2048);
+    if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
+    print "<pre>\n<b>";
+    switch($errno){
+        case E_ERROR:               print "Error";                  break;
+        case E_WARNING:             print "Warning";                break;
+        case E_PARSE:               print "Parse Error";            break;
+        case E_NOTICE:              print "Notice";                 break;
+        case E_CORE_ERROR:          print "Core Error";             break;
+        case E_CORE_WARNING:        print "Core Warning";           break;
+        case E_COMPILE_ERROR:       print "Compile Error";          break;
+        case E_COMPILE_WARNING:     print "Compile Warning";        break;
+        case E_USER_ERROR:          print "User Error";             break;
+        case E_USER_WARNING:        print "User Warning";           break;
+        case E_USER_NOTICE:         print "User Notice";            break;
+        case E_STRICT:              print "Strict Notice";          break;
+        case E_RECOVERABLE_ERROR:   print "Recoverable Error";      break;
+        default:                    print "Unknown error ($errno)"; break;
+    }
+    print ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
+    if(function_exists('debug_backtrace')){
+        //print "backtrace:\n";
+        $backtrace = debug_backtrace();
+        array_shift($backtrace);
+        foreach($backtrace as $i=>$l){
+            print "[$i] in function <b>{$l['class']}{$l['type']}{$l['function']}</b>";
+            if(!empty($l['file'])) print " in <b>{$l['file']}</b>";
+            if(!empty($l['line'])) print " on line <b>{$l['line']}</b>";
+            print "\n";
+        }
+    }
+    print "\n</pre>";
+    if(isset($GLOBALS['error_fatal'])){
+        if($GLOBALS['error_fatal'] & $errno) die('fatal');
+    }
+}
+
+function error_fatal($mask = NULL){
+    if(!is_null($mask)){
+        $GLOBALS['error_fatal'] = $mask;
+    }elseif(!isset($GLOBALS['die_on'])){
+        $GLOBALS['error_fatal'] = 0;
+    }
+    return $GLOBALS['error_fatal'];
 }

@@ -47,7 +47,6 @@ class Mage_Core_Model_Resource_Setup
     {
         $dbVer = Mage::getModel('core_resource', 'resource')->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
-
         // Module is installed
         if ($dbVer!==false) {
              $status = version_compare($configVer, $dbVer);
@@ -139,7 +138,6 @@ class Mage_Core_Model_Resource_Setup
         if (!file_exists($sqlFilesDir)) {
             return false;
         }
-        
         // Read resource files
         $arrAvailableFiles = array();
         $sqlDir = dir($sqlFilesDir);
@@ -152,13 +150,13 @@ class Mage_Core_Model_Resource_Setup
         if (empty($arrAvailableFiles)) {
             return false;
         }
-               
+       
         // Get SQL files name 
         $arrModifyFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrAvailableFiles);
         if (empty($arrModifyFiles)) {
             return false;
         }
-        
+
         foreach ($arrModifyFiles as $resourceFile) {
             $sqlFile = $sqlFilesDir.DS.$resourceFile['fileName'];
             $sql = file_get_contents($sqlFile);

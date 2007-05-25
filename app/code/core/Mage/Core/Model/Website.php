@@ -19,6 +19,7 @@ class Mage_Core_Model_Website extends Varien_Object
             $this->setLanguage((string)$config->language);
             $this->setGroup((string)$config->group);
         }
+        Mage::getSingleton('core', 'session_visitor')->setWebsiteId($this->getId());
         
         return $this;
     }

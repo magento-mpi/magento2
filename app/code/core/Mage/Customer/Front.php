@@ -20,19 +20,27 @@ class Mage_Customer_Front
             ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', 'Wishlist', ''));
 
         // Add logout link
-        if (Mage::getSingleton('customer', 'session')->isLoggedIn()) {
+        $custSession = Mage::getSingleton('customer', 'session');
+        if ($custSession->isLoggedIn()) {
             if ($topLinks) {
-            $topLinks->append($layout->createBlock('list_link', 'top.links.logout')
-                ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''));
-                
+                $topLinks->append($layout->createBlock('list_link', 'top.links.logout')
+                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', 'Logout', ''));
             }
             
             $topMenu = $layout->getBlock('top.menu');
             if ($topMenu) {
                 $topMenu->insert($layout->createBlock('tag', 'top.menu.welcome')
                     ->setTagName('strong')
-                    ->setContents('Welcome, ' . Mage::getSingleton('customer', 'session')->getCustomer()->getName()));
+                    ->setContents('Welcome, ' . $custSession->getCustomer()->getName()));
             }
+        }
+    }
+    
+    public static function beforeFrontRun()
+    {
+        $custSession = Mage::getSingleton('customer', 'session');
+        if ($custSession->isLoggedIn()) {
+            Mage::getSingleton('core', 'session_visitor')->setCustomerId($custSession->getCustomer()->getCustomerId());
         }
     }
 } 

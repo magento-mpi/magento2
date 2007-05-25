@@ -95,6 +95,14 @@
          </default>
       </layouts>
       <events>
+         <beforeFrontRun>
+            <observers>
+               <customer>
+                  <class>Mage_Customer_Front</class>
+                  <method>beforeFrontRun</method>
+               </customer>
+            </observers>
+         </beforeFrontRun>
          <beforeRenderLayout>
             <observers>
                <auth>
