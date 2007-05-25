@@ -39,21 +39,25 @@ class Mage_Core_Model_Mysql4_Session_Visitor
     
     public function load($sessId)
     {
-        $data = $this->_read->fetchRow("SELECT * FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
+    	$data = array();
+    	if ($this->_read) {
+    		$data = $this->_read->fetchRow("SELECT * FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
+    	}
         return $data;
     }
     
     public function save(Mage_Core_Model_Session_Visitor $visitor)
     {
         $sessId = $visitor->getSessionId();
-
-        $exists = $this->_write->fetchOne("SELECT session_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
-        if ($exists) {
-            $where = $this->_write->quoteInto('session_id', $sessId);
-            $this->_write->update($this->_visitorTable, $visitor->getData(), $where);
-        } else {
-            $this->_write->insert($this->_visitorTable, $visitor->getData());
-        }
+		if ($this->_write) {
+	        $exists = $this->_write->fetchOne("SELECT session_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
+	        if ($exists) {
+	            $where = $this->_write->quoteInto('session_id', $sessId);
+	            $this->_write->update($this->_visitorTable, $visitor->getData(), $where);
+	        } else {
+	            $this->_write->insert($this->_visitorTable, $visitor->getData());
+	        }
+		}
         
         return true;
     }

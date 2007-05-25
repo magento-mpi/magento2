@@ -24,6 +24,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer
             }
         }
         file_put_contents($this->_localConfigFile, Mage::getModel('core', 'config')->getLocalDist($data));
+        Mage::getConfig()->init();
     }
     
     /*public function installDefault()

@@ -132,7 +132,7 @@ final class Mage {
      * Get a config object by module name
      *
      * @param string $moduleName
-     * @return object
+     * @return Mage_Core_Model_Config
      */
     public static function getConfig()
     {

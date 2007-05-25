@@ -85,15 +85,19 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('install', 'session')->setConfigData($data);
                 Mage::getSingleton('install', 'installer_db')->checkDatabase($data);
                 Mage::getSingleton('install', 'installer_config')->install();
+                //Mage_Core_Model_Resource_Setup::applyAllUpdates();
             }
             catch (Exception $e){
+            	echo $e;
                 $this->getResponse()->setRedirect($step->getUrl());
                 return false;
             }
+
+            $step = Mage::getSingleton('install', 'wizard')->getStepByName('config');
+	        $this->getResponse()->setRedirect($step->getNextUrl());
+	        return true;
         }
-        
-        $step = Mage::getSingleton('install', 'wizard')->getStepByName('config');
-        $this->getResponse()->setRedirect($step->getNextUrl());
+        $this->getResponse()->setRedirect($step->getUrl());
     }
     
     public function administratorAction()

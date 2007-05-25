@@ -14,8 +14,8 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     {
         $this->loadLayout();
 
-		$homeBlock = $this->getLayout()->createBlock('tpl', 'homecontent')->setTemplate('catalog/home.phtml');
-		$this->getLayout()->getBlock('content')->append($homeBlock);
+        $homeBlock = $this->getLayout()->createBlock('tpl', 'homecontent')->setTemplate('catalog/home.phtml');
+        $this->getLayout()->getBlock('content')->append($homeBlock);
 
         $this->renderLayout();
     }

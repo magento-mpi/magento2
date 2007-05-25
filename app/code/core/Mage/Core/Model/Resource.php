@@ -110,4 +110,12 @@ class Mage_Core_Model_Resource
         }
         return $this->_connections[$name];
     }
+    
+    
+    public function checkDbConnection()
+    {
+    	if (!$this->getConnection('core_read')) {
+    		//Mage::registry('controller')->getFront()->getResponse()->setRedirect(Mage::getUrl('install'));
+    	}
+    }
 }

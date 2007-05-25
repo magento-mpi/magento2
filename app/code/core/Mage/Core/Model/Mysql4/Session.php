@@ -65,6 +65,16 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
     }
     
     /**
+     * Check DB connection
+     *
+     * @return bool
+     */
+    public function hasConnection()
+    {
+    	return Mage::registry('resources')->getConnection('core_read');
+    }
+    
+    /**
      * Close session
      *
      * @return boolean

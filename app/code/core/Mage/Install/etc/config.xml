@@ -50,6 +50,19 @@
          </install_wizard>
       </layouts>
 
+      <events>
+         <action_preDispatch>
+            <observers>
+               <checkConnection>
+                  <type>singleton</type>
+                  <model>core</model>
+                  <class>resource</class>
+                  <method>checkDbConnection</method>
+               </checkConnection>
+            </observers>
+         </action_preDispatch>
+      </events>
+
       <routers>
          <install>
             <class>Mage_Core_Controller_Front_Router</class>
