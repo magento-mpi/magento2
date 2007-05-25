@@ -3,11 +3,10 @@
 /**
  * Just a shortcut for popular constant :)
  */
-define ('DS', DIRECTORY_SEPARATOR);
-$PS = empty($_SERVER['WINDIR']) ? ':' : ';';
-$BP = $_SERVER['DOCUMENT_ROOT'];//dirname($_SERVER['SCRIPT_FILENAME']);
-
-ini_set('include_path', ini_get('include_path').$PS.$BP.'/lib'.$PS.$BP.'/app/code/core'.$PS);
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+$BP = dirname(dirname(__FILE__));
+ini_set('include_path', ini_get('include_path').PS.$BP.'/lib'.PS.$BP.'/app/code/core'.PS);
 
 function __autoload($class)
 {
