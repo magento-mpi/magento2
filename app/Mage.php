@@ -369,7 +369,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-    echo "<pre>\n<b>";
+    echo "<xmp>\n<b>";
     switch($errno){
         case E_ERROR:               echo "Error";                  break;
         case E_WARNING:             echo "Warning";                break;
@@ -407,7 +407,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
         echo "\n";
     }
 
-    echo "\n</pre>";
+    echo "\n</xmp>";
     switch ($errno) {
         case E_ERROR: 
             die('fatal');

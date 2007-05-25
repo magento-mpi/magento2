@@ -52,7 +52,7 @@ class Mage_Core_Model_Mysql4_Session_Visitor
 		if ($this->_write) {
 	        $exists = $this->_write->fetchOne("SELECT session_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
 	        if ($exists) {
-	            $where = $this->_write->quoteInto('session_id', $sessId);
+	            $where = $this->_write->quoteInto('session_id=?', $sessId);
 	            $this->_write->update($this->_visitorTable, $visitor->getData(), $where);
 	        } else {
 	            $this->_write->insert($this->_visitorTable, $visitor->getData());

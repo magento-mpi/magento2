@@ -125,7 +125,7 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
         );
         
         if ($exists) {
-            $where = $this->_write->quoteInto('session_id', $sessId);
+            $where = $this->_write->quoteInto('session_id=?', $sessId);
             $this->_write->update($this->_sessionTable, $bind, $where);
         } else {
             $bind['session_id'] = $sessId;
