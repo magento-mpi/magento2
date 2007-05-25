@@ -52,6 +52,41 @@
             </url>
          </base>
          
+         <russian>
+            <id>2</id>
+            <language>ru</language>
+            <group>default</group>
+            
+            <filesystem>
+                <layout>{{root_dir}}/app/view/layout</layout>
+                <template>{{root_dir}}/app/view/template</template>
+                <translate>{{root_dir}}/app/view/translate</translate>
+                <base>{{root_dir}}</base>
+                <media>{{root_dir}}/media</media>
+                <skin>{{root_dir}}/skins/default</skin>
+            </filesystem>
+            
+            <unsecure>
+               <protocol>{{protocol}}</protocol>
+               <host>{{host}}</host>
+               <port>{{port}}</port>
+               <base_path>{{base_path}}ru/</base_path>
+            </unsecure>
+            
+            <secure>
+               <protocol>{{protocol}}</protocol>
+               <host>{{host}}</host>
+               <port>{{port}}</port>
+               <base_path>{{base_path}}ru/</base_path>
+            </secure>
+            
+            <url>
+                <media>{{base_path}}media/</media>
+                <skin>{{base_path}}skins/default/</skin>
+                <js>{{base_path}}js/</js>
+            </url>
+         </russian>
+
          <admin extends="//global/websites/base">
             <filesystem>
                 <layout>{{root_dir}}/app/view/admin/layout</layout>
