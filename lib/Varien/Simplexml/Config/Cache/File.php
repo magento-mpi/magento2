@@ -54,13 +54,14 @@ class Varien_Simplexml_Config_Cache_File extends Varien_Simplexml_Config_Cache_A
         }
             
         // try to process cache file
-        if (!($xml = $this->getConfig()->processFileData($cache))) {
+        if (!($data = $this->getConfig()->processFileData($cache))) {
             return false;
         }
 
+        $xml = $this->getConfig()->loadString($data);
         $this->getConfig()->setXml($xml);
         $this->setIsLoaded(true);
-        
+
         return true;
     }
     

@@ -66,7 +66,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $configFile = Mage::getBaseDir('etc').DS.'core.xml';
         $this->getCache()->addComponent($configFile);
-        $this->setXml($configFile, 'file');
+        $this->loadFile($configFile);
 
         return true;
     }
@@ -272,6 +272,10 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
                                     
             case 'cache_layout':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
+                break;
+                
+            case 'cache_template':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'template';
                 break;
                 
         }

@@ -45,6 +45,13 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
      * @var Mage_Core_Model_Session_Visitor
      */
     protected $_visitor;
+
+    public function __construct()
+    {
+        $this->_sessionTable = Mage::registry('resources')->getTableName('core_resource', 'session');
+        $this->_read = Mage::registry('resources')->getConnection('core_read');
+        $this->_write = Mage::registry('resources')->getConnection('core_write');
+    }
     
     /**
      * Open session
@@ -56,9 +63,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
     public function open($savePath, $sessName) 
     {
         $this->_lifeTime = get_cfg_var('session.gc_maxlifetime');
-        $this->_sessionTable = Mage::registry('resources')->getTableName('core_resource', 'session');
-        $this->_read = Mage::registry('resources')->getConnection('core_read');
-        $this->_write = Mage::registry('resources')->getConnection('core_write');
         $this->_visitor = Mage::getSingleton('core', 'session_visitor');
         
         return true;
@@ -71,7 +75,16 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
      */
     public function hasConnection()
     {
-    	return Mage::registry('resources')->getConnection('core_read');
+        if (!$this->_read) {
+            return false;
+        }
+
+        $tables = $this->_read->fetchAssoc('show tables');
+        if (!isset($tables[$this->_sessionTable])) {
+            return false;
+        }
+        
+        return true;
     }
     
     /**

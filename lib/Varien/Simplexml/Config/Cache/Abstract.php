@@ -60,4 +60,14 @@ abstract class Varien_Simplexml_Config_Cache_Abstract extends Varien_Object
         }
         return true;
     }
+    
+    public function getComponentsHash()
+    {
+        $sum = '';
+        foreach ($this->getComponents() as $comp) {
+            $sum .= $comp['mtime'].':';
+        }
+        $hash = md5($sum);
+        return $hash;
+    }
 }

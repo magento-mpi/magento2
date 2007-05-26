@@ -23,9 +23,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         // Valid category id
         if (!$category->isEmpty()) {
             if ($category->getCustomLayout()) {
-                $this->getLayout()->setXml($category->getCustomLayout());
+                $this->getLayout()->loadString($category->getCustomLayout());
             } else {
-                $this->getLayout()->setXml(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultCategoryLevel1.xml', 'file');
+                $this->getLayout()->loadFile(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultCategoryLevel1.xml');
             }
             $this->getLayout()->generateBlocks();
         }

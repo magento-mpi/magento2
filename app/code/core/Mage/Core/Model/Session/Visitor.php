@@ -13,7 +13,6 @@ class Mage_Core_Model_Session_Visitor extends Varien_Object
         $this->addData(array(
             'server_addr'=>!empty($s['SERVER_ADDR']) ? $s['SERVER_ADDR'] : '',
             'remote_addr'=>!empty($s['REMOTE_ADDR']) ? $s['REMOTE_ADDR'] : '',
-            'http_referer'=>!empty($s['HTTP_REFERER']) ? $s['HTTP_REFERER'] : '',
             'http_secure'=>!empty($s['HTTPS']),
             'http_host'=>!empty($s['HTTP_HOST']) ? $s['HTTP_HOST'] : '',
             'http_user_agent'=>!empty($s['HTTP_USER_AGENT']) ? $s['HTTP_USER_AGENT'] : '',
@@ -21,6 +20,10 @@ class Mage_Core_Model_Session_Visitor extends Varien_Object
             'http_accept_charset'=>!empty($s['HTTP_ACCEPT_CHARSET']) ? $s['HTTP_ACCEPT_CHARSET'] : '',
             'request_uri'=>!empty($s['REQUEST_URI']) ? $s['REQUEST_URI'] : '',
         ));
+        
+        if ($this->getFirstVisitAt()==$this->getLastVisitAt() && !empty($s['HTTP_REFERER'])) {
+            $this->setHttpReferer($s['HTTP_REFERER']);
+        }
         
         return $this;
     }

@@ -20,9 +20,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         
         $product = Mage::getModel('catalog', 'product')->load($id);
         if ($product->getCustomLayout()) {
-            $this->getLayout()->setXml($product->getCustomLayout());
+            $this->getLayout()->loadString($product->getCustomLayout());
         } else {
-            $this->getLayout()->setXml(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultProduct.xml', 'file');
+            $this->getLayout()->loadFile(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultProduct.xml');
         }
         $this->getLayout()->generateBlocks();
         

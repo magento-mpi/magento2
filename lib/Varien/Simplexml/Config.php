@@ -48,62 +48,26 @@ class Varien_Simplexml_Config
      * @param string|Varien_Simplexml_Element $sourceData
      * @param string $sourceType
      */
-    public function __construct($sourceData='', $sourceType='') {
-        $this->setXml($sourceData, $sourceType);
+    public function __construct($sourceData='') {
+	if ($sourceData instanceof Varien_Simplexml_Element) {
+	        $this->setXml($sourceData);
+	} elseif (is_string($sourceData)) {
+        $xml = $this->loadString($sourceData);
+		if ($xml) $this->setXml($xml);
+	}
         $this->_cache = new Varien_Simplexml_Config_Cache_File();
         $this->_cache->setConfig($this);
     }
 
     /**
      * Sets xml for this configuration
-     *
-     * If $sourceType is not specified will try to recognize type of $sourceData
      * 
-     * Possible cases:
-     * - xml: $sourceData is a Varien_Simplexml_Element instance
-     * - dom: $sourceData is a DOM element
-     * - file: xml will be imported from file
-     * - string: xml will be imported from XML string
-     * 
-     * @param string|Varien_Simplexml_Element $sourceData
-     * @param string $sourceType
+     * @param Varien_Simplexml_Element $sourceData
      * @return Varien_Simplexml_Config
      */
-    public function setXml($sourceData, $sourceType='')
+    public function setXml(Varien_Simplexml_Element $node)
     {
-        if (''===$sourceType) {
-            if ($sourceData instanceof SimpleXMLElement) {
-                $sourceType = 'xml';
-            } elseif ($sourceData instanceof DomNode) {
-                $sourceType = 'dom';
-            } elseif (is_string($sourceData)) {
-                if (strlen($sourceData)<1000 && is_readable($sourceData)) {
-                    $sourceType = 'file';
-                } else {
-                    $sourceType = 'string';
-                }
-            }
-        }
-
-        switch ($sourceType) {
-            case 'xml':
-                $this->_xml = $sourceData;
-                break;
-
-            case 'dom':
-                $this->_xml = $this->loadDom($sourceData);
-                break;
-
-            case 'file':
-                $this->_xml = $this->loadFile($sourceData);
-                if (!empty($this->_xml)) { // if file load failed attempt to load string
-                	break;
-                }
-
-            case 'string':
-                $this->_xml = $this->loadString($sourceData);
-                break;
-        }
+        $this->_xml = $node;
         return $this;
     }
     
