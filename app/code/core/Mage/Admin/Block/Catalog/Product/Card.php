@@ -52,7 +52,8 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         $cardStructure = array();
         $cardStructure['title'] = $product->getName() . ' #' . $product->getId(); 
         //$cardStructure['attribute_set'] = $arrSets;
-        $cardStructure['tabs'] = array();
+        $cardStructure['tabs']  = array();
+        $cardStructure['saveUrl'] = Mage::getUrl('admin', array('controller'=>'product', 'action'=>'save'));
         
         if ($productId) {
             $cardStructure['tabs'][] = array(
