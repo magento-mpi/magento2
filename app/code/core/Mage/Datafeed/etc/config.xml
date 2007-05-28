@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <config>
+    <global>
+        <models>
+            <datafeed>
+                <class>Mage_Datafeed_Model</class>
+            </datafeed>
+        </models>
+    </global>
     <front>
         <routers>
             <datafeed>
