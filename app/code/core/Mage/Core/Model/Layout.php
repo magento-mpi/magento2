@@ -385,7 +385,8 @@ echo "TEST:".$i;
      */
     public function addOutputBlock($blockName, $method='toHtml')
     {
-        $this->_output[] = array($blockName, $method);
+        //$this->_output[] = array($blockName, $method);
+        $this->_output[$blockName] = array($blockName, $method);
     }
     
     /**

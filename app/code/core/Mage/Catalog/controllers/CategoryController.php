@@ -25,7 +25,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             if ($category->getCustomLayout()) {
                 $this->getLayout()->loadString($category->getCustomLayout());
             } else {
-                $this->getLayout()->loadFile(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultCategoryLevel1.xml');
+                $this->getLayout()->loadUpdateFile(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultCategoryLevel1.xml');
             }
             $this->getLayout()->generateBlocks();
         }
