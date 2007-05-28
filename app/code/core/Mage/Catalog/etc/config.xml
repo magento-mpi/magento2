@@ -164,19 +164,19 @@
                <rule>
                   <conditions>
                      <attribute>
-                        <class>Mage_Catalog_Price_Rule_Condition_Attribute</class>
+                        <class>Mage_Catalog_Model_Price_Rule_Condition_Attribute</class>
                      </attribute>
                      <category>
-                        <class>Mage_Catalog_Price_Rule_Condition_Category</class>
+                        <class>Mage_Catalog_Model_Price_Rule_Condition_Category</class>
                      </category>
                   </conditions>
                   <actions>
-                     <subtotal_percent>
-                        <class>Mage_Catalog_Price_Rule_Action_Percent</class>
-                     </subtotal_percent>
-                     <subtotal_fixed>
-                        <class>Mage_Catalog_Price_Rule_Action_Fixed</class>
-                     </subtotal_fixed>
+                     <discount>
+                        <class>Mage_Catalog_Model_Price_Rule_Action_Discount</class>
+                     </discount>
+                     <product>
+                        <class>Mage_Catalog_Model_Price_Rule_Action_Product</class>
+                     </product>
                   </actions>
                </rule>
             </price>
