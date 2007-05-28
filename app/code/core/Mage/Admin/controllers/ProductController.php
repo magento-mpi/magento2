@@ -1,8 +1,24 @@
 <?php
-
-
+/**
+ * Admin products controller
+ *
+ * @package     Mage
+ * @subpackage  Admin
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
 class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
 {
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::getSingleton('admin', 'session')->isAllowed('catalog')) {
+            $this->getRequest()->setParam('message', __('Permission denied'));
+            $this->_forward('jsonError', 'message');
+        }
+    }
+
     /**
      * Product collection JSON
      */

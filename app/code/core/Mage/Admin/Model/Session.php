@@ -15,4 +15,26 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $this->init('admin');
     }
+    
+    /**
+     * Check current user permission on resource and privilege
+     * 
+     * Mage::getSingleton('admin', 'session')->isAllowed('admin/catalog')
+     * Mage::getSingleton('admin', 'session')->isAllowed('catalog')
+     *
+     * @param   string $resource
+     * @param   string $privilege
+     * @return  bool
+     */
+    public function isAllowed($resource, $privilege=null)
+    {
+        if ($this->getUser() && $this->getAcl()) {
+            if (!preg_match('/^admin/', $resource)) {
+            	$resource = 'admin/'.$resource;
+            }
+        	return $this->getAcl()->isAllowed($this->getUser()->getAclRole(), $resource, $privilege);
+        	//return $this->getAcl()->isAllowed('G2', $resource, $privilege);
+        }
+        return false;
+    }
 }

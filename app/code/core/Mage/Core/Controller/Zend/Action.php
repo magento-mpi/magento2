@@ -17,7 +17,6 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
       * @var array
       */
      protected $_flags = array();
-     protected $_blocks = null;
      
      /**
       * Cunstructor
@@ -184,13 +183,6 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
 
     function norouteAction()
     {
-        $r = pathinfo(strtolower(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
-        
-        switch ($r['extension']) {
-            case 'jpg': case 'gif': case 'png':
-                die;
-        }
-
         $this->loadLayout('front', array('default', 'noRoute'), 'noRoute');
         Mage::dispatchEvent('action_noRoute');
         $this->renderLayout();

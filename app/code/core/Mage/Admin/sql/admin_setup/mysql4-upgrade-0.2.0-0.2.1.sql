@@ -1,6 +1,6 @@
 /*
 SQLyog Enterprise - MySQL GUI v5.13
-Host - 4.1.21-community-nt : Database - magenta
+Host - 4.1.21-community-nt : Database - magento
 *********************************************************************
 Server version : 4.1.21-community-nt
 */
@@ -65,26 +65,8 @@ CREATE TABLE `admin_rule` (
 
 /*Data for the table `admin_rule` */
 
-insert into `admin_rule` (`rule_id`,`role_type`,`role_id`,`resource_id`,`privileges`,`permission`,`assert_id`) values (1,'G',1,'system','',2,0),(2,'U',1,'catalog','create,delete',2,0),(3,'U',2,'system/websites','delete',0,0);
+insert into `admin_rule` (`rule_id`,`role_type`,`role_id`,`resource_id`,`privileges`,`permission`,`assert_id`) values (1,'G',1,'admin','',2,0),(2,'U',1,'admin/catalog','create,delete',2,0),(3,'U',2,'admin/system/websites','delete',0,0);
 
-/*Table structure for table `admin_user` */
-
-DROP TABLE IF EXISTS `admin_user`;
-
-CREATE TABLE `admin_user` (
-  `user_id` mediumint(9) unsigned NOT NULL auto_increment,
-  `firstname` varchar(32) NOT NULL default '',
-  `lastname` varchar(32) NOT NULL default '',
-  `email` varchar(128) NOT NULL default '',
-  `username` varchar(40) NOT NULL default '',
-  `password` varchar(40) NOT NULL default '',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified` datetime default NULL,
-  `logdate` datetime default NULL,
-  `lognum` smallint(5) unsigned NOT NULL default '0',
-  `reload_acl_flag` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Users';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

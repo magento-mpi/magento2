@@ -26,6 +26,17 @@ class Mage_Admin_Model_User extends Varien_Object
     }
     
     /**
+     * Get user ACL role
+     *
+     * @return string
+     * @todo   dynamic defination user role
+     */
+    public function getAclRole()
+    {
+        return 'G1';
+    }
+    
+    /**
      * Get resource model
      *
      * @return mixed
@@ -98,19 +109,23 @@ class Mage_Admin_Model_User extends Varien_Object
      */
     public function preDispatchModuleAction()
     {
-        $admin  = Mage::getSingleton('admin', 'session');
+        $session  = Mage::getSingleton('admin', 'session');
         $request= Mage::registry('controller')->getRequest();
-        //$admin->unsetAll();
-        if (!$admin->getUser() && $request->getPost('login')) {
+
+        //$session->unsetAll();
+        if (!$session->getUser() && $request->getPost('login')) {
             extract($request->getPost('login'));
             if (!empty($username) && !empty($password)) {
-                $admin->setUser(Mage::getModel('admin_resource', 'user')->authenticate($username, $password));
+                $session->setUser(Mage::getModel('admin_resource', 'user')->authenticate($username, $password));
                 header('Location: '.$request->getRequestUri());
                 exit;
             }
         }
+        else {
+            // TODO: check reload user ACL table
+        }
         
-        if (!$admin->getUser() && !$request->getParam('forwarded')) {
+        if (!$session->getUser() && !$request->getParam('forwarded')) {
             $request->setParam('forwarded', true)
                 ->setControllerName('index')                
                 ->setActionName('login')
@@ -118,11 +133,10 @@ class Mage_Admin_Model_User extends Varien_Object
             return false;
         }
        
-        if ($admin->getUser() && !$admin->getAcl()) {
-            $admin->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($admin->getUser()->getId()));
+        if ($session->getUser() && !$session->getAcl()) {
+            $session->setAcl(Mage::getModel('admin_resource', 'acl')->loadUserAcl($session->getUser()->getId()));
         }
-        
-        Mage::register('acl', $admin->getAcl());
+        //var_dump($session->isAllowed('admin'));die();
     }
     
 }

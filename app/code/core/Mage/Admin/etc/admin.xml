@@ -8,36 +8,37 @@
          </asserts>
 
          <resources>
-            <system>
-               <permissions />
-               <modules />
-               <websites />
-            </system>
-            <catalog>
-               <categories_products />
-               <categories_attributes />
-               <products_attributes />
-               <products_datafeeds />
-            </catalog>
-            <customers>
-               <manage />
-            </customers>
-            <paygate>
-               <authorizenet />
-               <paypal />
-               <verisign />
-            </paygate>
-            <sales>
-               <orders />
-            </sales>
+            <admin>
+                <system>
+                   <permissions />
+                   <modules />
+                   <websites />
+                </system>
+                <catalog>
+                   <product />
+                   <product_attributes />
+                   <product_datafeeds />
+                </catalog>
+                <customer>
+                   <address />
+                </customer>
+                <paygate>
+                   <authorizenet />
+                   <paypal />
+                   <verisign />
+                </paygate>
+                <sales>
+                   <orders />
+                </sales>
+            </admin>
          </resources>
 
          <privilegeSets>
             <default>
-               <view />
-               <edit />
-               <delete />
-               <create />
+               <view descr="View entity"/>
+               <edit descr="Edit entity"/>
+               <delete descr=""/>
+               <create descr=""/>
             </default>
          </privilegeSets>
       </acl>
