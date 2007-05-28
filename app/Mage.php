@@ -1,16 +1,25 @@
 <?php
-
-/**
- * Just a shortcut for popular constant :)
- */
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
-$BP = dirname(dirname(__FILE__));
-ini_set('include_path', ini_get('include_path').PS.$BP.'/lib'.PS.$BP.'/app/code/core'.PS);
+define('BP', dirname(dirname(__FILE__)));
 
+/**
+ * Error reporting
+ */
+error_reporting(E_ALL | E_STRICT);
+
+/**
+ * Include path
+ */
+ini_set('include_path', ini_get('include_path').PS.BP.'/lib'.PS.BP.'/app/code/core'.PS);
+
+/**
+ * Class autoload
+ *
+ * @param string $class
+ */
 function __autoload($class)
 {
-    #echo "<hr>".$class;
     $classFile = uc_words($class, DS).'.php';
     include ($classFile);
 }
@@ -259,7 +268,7 @@ final class Mage {
         Mage::register('website', Mage::getSingleton('core', 'website'));
         Mage::register('session', Mage::getSingleton('core', 'session'));
         
-        set_error_handler('my_error_handler');
+        //set_error_handler('my_error_handler');
 
         Varien_Profiler::setTimer('init', true);
 

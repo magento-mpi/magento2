@@ -151,6 +151,13 @@
                </core>
             </updates>
          </noRoute>
+         <default>
+            <updates>
+               <page>
+                  <file>core/default.xml</file>
+               </page>
+            </updates>
+         </default>
       </layouts>
    </front>
    <translate></translate>

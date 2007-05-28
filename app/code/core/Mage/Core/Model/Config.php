@@ -66,7 +66,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $configFile = Mage::getBaseDir('etc').DS.'core.xml';
         $this->getCache()->addComponent($configFile);
-        $this->loadFile($configFile);
+        $this->setXml($this->loadFile($configFile));
 
         return true;
     }

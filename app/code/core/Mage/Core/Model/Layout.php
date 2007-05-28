@@ -45,7 +45,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $this->getCache()->setDir(Mage::getBaseDir('cache_layout'))->setKey($id);
         if (!$xml = $this->getCache()->load()) {
-            $this->loadString('<layout/>');
+            $this->setXml($this->loadString('<layout/>'));
         }
         return $this;
     }

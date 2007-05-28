@@ -49,12 +49,12 @@ class Varien_Simplexml_Config
      * @param string $sourceType
      */
     public function __construct($sourceData='') {
-	if ($sourceData instanceof Varien_Simplexml_Element) {
-	        $this->setXml($sourceData);
-	} elseif (is_string($sourceData)) {
-        $xml = $this->loadString($sourceData);
-		if ($xml) $this->setXml($xml);
-	}
+	    if ($sourceData instanceof Varien_Simplexml_Element) {
+	            $this->setXml($sourceData);
+	    } elseif (is_string($sourceData) && !empty($sourceData)) {
+	        $xml = $this->loadString($sourceData);
+	        if ($xml) $this->setXml($xml);
+	    }
         $this->_cache = new Varien_Simplexml_Config_Cache_File();
         $this->_cache->setConfig($this);
     }
@@ -140,7 +140,13 @@ class Varien_Simplexml_Config
      */
     public function loadString($string)
     {
-        $xml = simplexml_load_string($string, $this->_elementClass);
+    	if (!empty($string)) {
+    		$xml = simplexml_load_string($string, $this->_elementClass);
+    	}
+    	else {
+    		throw new Exception('"$string" parameter for simplexml_load_string is empty');
+    	}
+        
 
         return $xml;
     }
