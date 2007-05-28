@@ -53,5 +53,9 @@
          <active>true</active>
          <codePool>core</codePool>
       </Mage_Reports>
-   </modules>
+      <Mage_Datafeed>
+          <active>true</active>
+          <codePool>core</codePool>
+      </Mage_Datafeed>
+  </modules>
 </config>

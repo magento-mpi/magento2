@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <front>
+        <routers>
+            <datafeed>
+                <args>
+                    <module>Mage_Datafeed</module>
+                    <frontName>datafeed</frontName>
+                </args>
+            </datafeed>
+        </routers>
+    </front> 
+</config>
