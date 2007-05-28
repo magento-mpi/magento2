@@ -3,7 +3,7 @@
  * ProductsController.php
  * -------------------------------------------------------------
  * @File:        CategoryController.php
- * @Last change: 2007-05-28 17:07:31
+ * @Last change: 2007-05-28 21:51:54
  * @Description: 
  * @Dependecies: <Dependencies>
  * 
@@ -16,17 +16,29 @@
 class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
 {
 
-    function IndexAction()
+    public function IndexAction()
     {
         die("Products");
     }
     
-    public function rssCategoryAction()
+    public function rssAction()
     {
-        $categoryId = $this->getRequest()->getParam('category');
-        $block = Mage::createBlock('tpl', 'export');
-        $block->setTemplate('datafeed/rss20.phtml')
+        $categoryId = intval($this->getRequest()->getParam('category'));
+
+        $category = Mage::getModel('catalog', 'category')
+            ->load($categoryId);
+
+        $channel = new Varien_Object();
+        $channel->setTitle( $category->getData('name') );
+        $channel->setCategoryId( $category->getData('category_id') );
+        $channel->setDescription( $category->getData('description') );
+
+        $block = $this->getLayout()->createBlock('tpl', 'export');
+        $block->setTemplate('datafeed/Product/rss20.phtml')
             ->assign('data', Mage::getModel('datafeed', 'export_catalog_product')->getCategoryProducts($categoryId));
+
+        $block->assign('channel_data', $channel);
+
         $this->getResponse()->setBody($block->toHtml());
     }
     
@@ -34,6 +46,7 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
     {
         
     }
+
 }
  
 // ft:php

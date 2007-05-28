@@ -1,0 +1,21 @@
+<?php echo'<?xml version="1.0"?>';?>
+<rss version="2.0">
+   <channel>
+      <title><?=$channel_data->getTitle();?></title>
+      <link><?=$baseUrl?>catalog/category/view/id/<?=$channel_data->getCategoryId();?></link>
+      <description><?=$channel_data->getDescription();?></description>
+      <pubDate><?=$channel_data->getPubDate();?></pubDate>
+
+      <?foreach( $data as $item):?>
+
+      <item>
+         <title><?=$item->getName();?></title>
+         <link><?=$baseUrl?>catalog/product/view/id/<?=$item->getProduct_id();?></link>
+         <description><?=$item->getProductDescription();?></description>
+         <pubDate><?=$item->getCreate_date();?></pubDate>
+      </item>
+
+      <?endforeach?>
+
+   </channel>
+</rss>

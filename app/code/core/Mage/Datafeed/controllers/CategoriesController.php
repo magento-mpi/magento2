@@ -3,7 +3,7 @@
  * CategoryController.php
  * -------------------------------------------------------------
  * @File:        CategoryController.php
- * @Last change: 2007-05-28 17:09:39
+ * @Last change: 2007-05-28 22:08:40
  * @Description: 
  * @Dependecies: <Dependencies>
  * 
@@ -16,11 +16,15 @@
 class Mage_Datafeed_CategoriesController extends Mage_Core_Controller_Front_Action
 {
 
-    function IndexAction()
+    public function IndexAction()
     {
         die("Catergories");
     }
 
+    public function rssAction()
+    {
+
+    }
 
 }
  
