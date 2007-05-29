@@ -88,7 +88,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                 //Mage_Core_Model_Resource_Setup::applyAllUpdates();
             }
             catch (Exception $e){
-            	echo $e;
                 $this->getResponse()->setRedirect($step->getUrl());
                 return false;
             }

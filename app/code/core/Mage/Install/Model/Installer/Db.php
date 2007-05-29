@@ -36,8 +36,8 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer
             'dbname'    => $data['db_name']
         );
         
-        $connection = Mage::registry('resources')->createConnection('install', 'mysqli', $config);
         try {
+            $connection = Mage::registry('resources')->createConnection('install', 'mysqli', $config);
             $connection->query('SELECT 1');
         }
         catch (Exception $e){

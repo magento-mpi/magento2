@@ -252,8 +252,8 @@ echo "TEST:".$i;
             }
         }
         if (isset($node['translate'])) {
-            $json = explode(' ', (string)$node['translate']);
-            foreach ($json as $arg) {
+            $items = explode(' ', (string)$node['translate']);
+            foreach ($items as $arg) {
                 $args[$arg] = __($args[$arg]);
             }
         }
