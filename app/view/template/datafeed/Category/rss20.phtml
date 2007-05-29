@@ -3,7 +3,7 @@
 <rss version="2.0">
    <channel>
       <title><?=$channel_data->getTitle();?></title>
-      <link><?=$baseUrl?>catalog/category/view/id/<?=$channel_data->getCategoryId();?></link>
+      <link><?=$baseUrl?></link>
       <description><?=$channel_data->getDescription();?></description>
       <pubDate><?=$channel_data->getPubDate();?></pubDate>
 
@@ -11,9 +11,8 @@
 
       <item>
          <title><?=htmlentities($item->getName());?></title>
-         <link><?=$baseUrl?>catalog/product/view/id/<?=$item->getProduct_id();?></link>
+         <link><?=$baseUrl?>catalog/category/view/id/<?=$item->getCategory_id();?></link>
          <description><?=htmlentities($item->getDescription());?></description>
-         <pubDate><?=$item->getCreate_date();?></pubDate>
       </item>
 
       <?endforeach?>
