@@ -201,39 +201,6 @@ CREATE TABLE `core_session` (
   PRIMARY KEY  (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `core_session` */
-
-insert into `core_session` (`session_id`,`session_expires`,`session_data`) values ('923158a1c0f146dd9f5250640a938f49',1180072423,'customer|a:1:{s:8:\"customer\";O:28:\"Mage_Customer_Model_Customer\":3:{s:8:\"\0*\0_data\";a:0:{}s:13:\"\0*\0_isChanged\";b:0;s:13:\"\0*\0_isDeleted\";b:0;}}checkout|a:1:{s:4:\"data\";O:13:\"Varien_Object\":3:{s:8:\"\0*\0_data\";a:1:{s:8:\"quote_id\";s:3:\"103\";}s:13:\"\0*\0_isChanged\";b:0;s:13:\"\0*\0_isDeleted\";b:0;}}');
-
-/*Table structure for table `core_session_visitor` */
-
-DROP TABLE IF EXISTS `core_session_visitor`;
-
-CREATE TABLE `core_session_visitor` (
-  `session_id` varchar(255) NOT NULL default '',
-  `first_visit_at` datetime NOT NULL default '0000-00-00 00:00:00',
-  `last_visit_at` datetime NOT NULL default '0000-00-00 00:00:00',
-  `server_addr` varchar(64) NOT NULL default '',
-  `remote_addr` varchar(64) NOT NULL default '',
-  `http_referer` text NOT NULL,
-  `http_secure` tinyint(4) NOT NULL default '0',
-  `http_host` varchar(255) NOT NULL default '',
-  `http_user_agent` varchar(255) NOT NULL default '',
-  `http_accept_language` varchar(255) NOT NULL default '',
-  `http_accept_charset` varchar(255) NOT NULL default '',
-  `request_uri` text NOT NULL,
-  `website_id` int(10) unsigned NOT NULL default '0',
-  `customer_id` int(10) unsigned NOT NULL default '0',
-  `quote_id` int(10) unsigned NOT NULL default '0',
-  `url_history` text NOT NULL,
-  PRIMARY KEY  (`session_id`),
-  CONSTRAINT `FK_core_session_visitor` FOREIGN KEY (`session_id`) REFERENCES `core_session` (`session_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `core_session_visitor` */
-
-insert into `core_session_visitor` (`session_id`,`first_visit_at`,`last_visit_at`,`server_addr`,`remote_addr`,`http_referer`,`http_secure`,`http_host`,`http_user_agent`,`http_accept_language`,`http_accept_charset`,`request_uri`,`website_id`,`customer_id`,`quote_id`,`url_history`) values ('923158a1c0f146dd9f5250640a938f49','2007-05-24 22:20:51','2007-05-24 22:29:43','10.0.5.201','10.0.5.249','http://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/',0,'var-dev.varien.com:81','Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3','en-us,en;q=0.5','ISO-8859-1,utf-8;q=0.7,*;q=0.7','/dev/moshe/magenta/skins/default/page/images/loading.gif',1,0,103,'http://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/12/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/category/view/id/7/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/media/2073esm.jpg\nhttp://var-dev.varien.com:81/dev/moshe/magenta/media/N\nhttp://var-dev.varien.com:81/dev/moshe/magenta/catalog/product/view/id/2493/category/7/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/catalog/js/product.js\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/catalog/images/magnifier_zoom_out.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/catalog/images/icon_made_in_america.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/add/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif\nhttp://var-dev.varien.com:81/dev/moshe/magenta/checkout/cart/\nhttp://var-dev.varien.com:81/dev/moshe/magenta/skins/default/page/images/loading.gif');
-
 /*Table structure for table `core_setting` */
 
 DROP TABLE IF EXISTS `core_setting`;
@@ -275,8 +242,6 @@ CREATE TABLE `core_website` (
   KEY `FK_WEBSITE_LANGUAGE` (`language_code`),
   CONSTRAINT `FK_WEBSITE_LANGUAGE` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Websites';
-
-/*Data for the table `core_website` */
 
 insert into `core_website` (`website_id`,`language_code`,`website_code`) values (1,'en','base'),(2,'en','site2'),(3,'en','site3'),(4,'en','site4'),(5,'en','site5');
 

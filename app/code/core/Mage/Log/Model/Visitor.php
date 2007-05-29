@@ -52,14 +52,21 @@ class Mage_Log_Model_Visitor extends Varien_Object
         return $this;
     }
     
-    public function loadByAction()
+    public function loadByAction($observer)
     {
+        if ($observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
+            return $this;
+        }
         $this->load(Mage::getSingleton('core', 'session')->getSessionId());
         return $this;
     }
     
-    public function save()
+    public function save($observer = null)
     {
+        if ($observer && $observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
+            return $this;
+        }
+        
         $history = $this->getUrlHistory();
         $this->setUrlHistory((!empty($history) ? $history."\n" : '') . $this->getUrl());
 

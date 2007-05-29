@@ -30,14 +30,19 @@ class Mage_Core_Model_Resource_Type_Db_Mysqli_Adapter extends Zend_Db_Adapter_My
     
     public function multi_query($sql)
 	{
+	    $this->getConnection()->autocommit(FALSE);
 		if ($this->getConnection()->multi_query($sql)) {
 			do {
 			    if ($result = $this->getConnection()->store_result()) {
 			    	$result->free_result();
 			    }
+			    elseif($this->getConnection()->error) {
+			        throw new Zend_Db_Adapter_Mysqli_Exception($this->getConnection()->error);
+			    }
 			}
 			while ($this->getConnection()->next_result());
 		}
+		$this->getConnection()->commit();
 		return true;
 	}
 }

@@ -163,9 +163,14 @@ class Mage_Core_Model_Resource_Setup
 
             // Execute SQL
             if (Mage::registry('resources')->getConnection($this->_resourceName)) {
-                $result = Mage::registry('resources')->getConnection($this->_resourceName)->multi_query($sql);
-                if ($result) {
-                    Mage::getModel('core_resource', 'resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+                try {
+                    $result = Mage::registry('resources')->getConnection($this->_resourceName)->multi_query($sql);
+                    if ($result) {
+                        Mage::getModel('core_resource', 'resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+                    }
+                }
+                catch (Exception $e){
+                    throw new Exception('SQL error in file:"'.$sqlFile.'" - '.$e->getMessage());
                 }
             }            
         }

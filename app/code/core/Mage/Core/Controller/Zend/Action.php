@@ -162,7 +162,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             return;
         }
 
-        Mage::dispatchEvent('action_preDispatch');
+        Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
         Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName());
         Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName());
     }
@@ -178,7 +178,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         
         Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName());
         Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName());
-        Mage::dispatchEvent('action_postDispatch');
+        Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
     }
 
     function norouteAction()
