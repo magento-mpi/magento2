@@ -268,7 +268,7 @@ final class Mage {
         Mage::register('website', Mage::getSingleton('core', 'website'));
         Mage::register('session', Mage::getSingleton('core', 'session'));
         
-        //set_error_handler('my_error_handler');
+        set_error_handler('my_error_handler');
 
         Varien_Profiler::setTimer('init', true);
 
