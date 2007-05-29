@@ -1,10 +1,10 @@
 <?php
 
-class Mage_Core_Model_Session_Visitor extends Varien_Object 
+class Mage_Log_Model_Visitor extends Varien_Object 
 {
     public function getResource()
     {
-        return Mage::getModel('core_resource', 'session_visitor');
+        return Mage::getModel('log_resource', 'visitor');
     }
     
     public function collectBrowserData()
@@ -52,6 +52,12 @@ class Mage_Core_Model_Session_Visitor extends Varien_Object
         return $this;
     }
     
+    public function loadByAction()
+    {
+        $this->load(Mage::getSingleton('core', 'session')->getSessionId());
+        return $this;
+    }
+    
     public function save()
     {
         $history = $this->getUrlHistory();
@@ -65,7 +71,36 @@ class Mage_Core_Model_Session_Visitor extends Varien_Object
     public function delete()
     {
         $this->getResource()->delete($this);
-        
         return $this;
+    }
+    
+    /**
+     * Bind checkout session qouote id
+     * 
+     * Used in event "initCheckoutSession" observer
+     * 
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Log_Model_Visitor
+     */
+    public function bindCheckoutSession($observer)
+    {
+        if ($observer->getEvent()->getCheckoutSession()) {
+            $this->setQuoteId($observer->getEvent()->getCheckoutSession()->getQuoteId());
+        }
+        return $this;
+    }
+    
+    public function bindWebsite($observer)
+    {
+        if ($observer->getEvent()->getWebsite()) {
+            $this->setWebsiteId($observer->getEvent()->getWebsite()->getId());
+        }
+    }
+    
+    public function bindCustomer($observer)
+    {
+        if ($observer->getEvent()->getCustomerSession() && $observer->getEvent()->getCustomerSession()->isLoggedIn()) {
+            $this->setCustomerId($observer->getEvent()->getCustomerSession()->getCustomerId());
+        }
     }
 }

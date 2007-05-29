@@ -67,4 +67,8 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         return $this->_session->messages;
     }
 
+    public function getSessionId()
+    {
+        return Zend_Session::getId();
+    }
 }

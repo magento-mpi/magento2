@@ -74,10 +74,6 @@
                   <table>core_session</table>
                </session>
                
-               <session_visitor>
-                  <table>core_session_visitor</table>
-               </session_visitor>
-
                <data_change>
                   <table>core_data_change</table>
                </data_change>

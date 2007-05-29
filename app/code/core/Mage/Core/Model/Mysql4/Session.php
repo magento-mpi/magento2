@@ -39,13 +39,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
      */
     protected $_write;
     
-    /**
-     * Visitor singleton instance
-     *
-     * @var Mage_Core_Model_Session_Visitor
-     */
-    protected $_visitor;
-
     public function __construct()
     {
         $this->_sessionTable = Mage::registry('resources')->getTableName('core_resource', 'session');
@@ -63,8 +56,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
     public function open($savePath, $sessName) 
     {
         $this->_lifeTime = get_cfg_var('session.gc_maxlifetime');
-        $this->_visitor = Mage::getSingleton('core', 'session_visitor');
-        
         return true;
     }
     
@@ -107,8 +98,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
      */
     public function read($sessId) 
     {
-        $this->_visitor->load($sessId);
-        
         $data = $this->_read->fetchOne(
             "SELECT session_data FROM $this->_sessionTable
              WHERE session_id = ? AND session_expires > ?", 
@@ -144,8 +133,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
             $bind['session_id'] = $sessId;
             $this->_write->insert($this->_sessionTable, $bind);
         }
-        
-        $this->_visitor->save();
         
         return true;
     }

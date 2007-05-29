@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Mysql4_Session_Visitor 
+class Mage_Log_Model_Mysql4_Visitor 
 {
     /**
      * Visitor data table name
@@ -32,9 +32,9 @@ class Mage_Core_Model_Mysql4_Session_Visitor
      */
     public function __construct()
     {
-        $this->_visitorTable = Mage::registry('resources')->getTableName('core_resource', 'session_visitor');
-        $this->_read = Mage::registry('resources')->getConnection('core_read');
-        $this->_write = Mage::registry('resources')->getConnection('core_write');
+        $this->_visitorTable = Mage::registry('resources')->getTableName('log_resource', 'visitor');
+        $this->_read = Mage::registry('resources')->getConnection('log_read');
+        $this->_write = Mage::registry('resources')->getConnection('log_write');
     }
     
     public function load($sessId)
@@ -46,7 +46,7 @@ class Mage_Core_Model_Mysql4_Session_Visitor
         return $data;
     }
     
-    public function save(Mage_Core_Model_Session_Visitor $visitor)
+    public function save(Mage_Log_Model_Visitor $visitor)
     {
         $sessId = $visitor->getSessionId();
 		if ($this->_write) {
@@ -62,7 +62,7 @@ class Mage_Core_Model_Mysql4_Session_Visitor
         return true;
     }
     
-    public function delete(Mage_Core_Model_Session_Visitor $visitor)
+    public function delete(Mage_Log_Model_Visitor $visitor)
     {
         $this->_write->query("DELETE FROM $this->_visitorTable WHERE session_id = ?", $visitor->getSessionId());
         
