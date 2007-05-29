@@ -7,6 +7,11 @@ Mage.core.Panel = function(region, type, config) {
 Ext.extend(Mage.core.Panel, Ext.util.Observable,{
     tbItems : new Ext.util.MixedCollection(),
     
+    
+    isLoaded : function() {
+        return !this.notLoaded;
+    },
+    
     update : function() {
         console.info('update');
         return false;
@@ -18,7 +23,6 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
 
     
     save : function() {
-        console.info('save');
         return false;        
     },
     
@@ -30,7 +34,7 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
 })
 
 Mage.core.Panel.Factory = {
-    validPanels : ['form', 'view', 'general', 'images', 'categories', 'related', 'address'],
+    validPanels : ['form', 'view', 'images', 'categories', 'related', 'address'],
     
     create : function(type, region, config) {
         type = type.toLowerCase();

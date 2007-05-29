@@ -4,6 +4,8 @@ Mage.core.ItemCard = function(config){
     this.lastRecord = null;
     this.conn = null;
     this.tabs = new Ext.util.MixedCollection();
+    this.result = null;
+    this.saveUrl = null;
     
     Ext.apply(this, config);
     
@@ -62,7 +64,9 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             text : 'Reload'
         }));
         this.toolbar.add(new Ext.ToolbarButton({
-            text : 'Save'
+            text : 'Save',
+            handler : this.onSave,
+            scope : this
         }));
         this.toolbar.add(new Ext.ToolbarButton({
             text : 'Delete Product'
@@ -74,23 +78,54 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         
     },
     
+    onSave : function() {
+        var i,tab, data;
+        data = {};
+        for (i=0; i < this.tabs.getCount(); i++) {
+            tab = this.tabs.itemAt(i);
+            console.log(tab.isLoaded())
+            if (tab.isLoaded()) {
+                Ext.apply(data, tab.save())
+            }
+        }
+        var saveConn = new Ext.data.Connection();
+        
+        saveConn.on('requestcomplete', function(tranId, response, options) {
+            var result = Ext.decode(response.responseText);
+            if (result.error == 0) {
+                Ext.MessageBox.alert('Product', 'Saved');
+            } else {
+                Ext.MessageBox.alert('XHR Error', result.errorMessage);
+            }
+        }.createDelegate(this));
+        
+        console.log(data);
+        saveConn.request({
+           url : this.saveUrl,
+           params : data,
+           method : 'POST'
+        });
+        
+    },
+    
     parseCardData : function(transId, response, options) {
         var i;
-        var result = Ext.decode(response.responseText);
-        if (result.error && result.error != 0) {
-            Ext.MessageBox.alert('Error', result.errorMessage);
+        this.result = Ext.decode(response.responseText);
+        if (this.result.error && this.result.error != 0) {
+            Ext.MessageBox.alert('Error', this.result.errorMessage);
             return false;
         }
         var panel;
-        this.panel.setTitle(result.title || '');
+        this.panel.setTitle(this.result.title || '');
         this.panel.getLayout().beginUpdate();
-        for(i=0; i<result.tabs.length; i++) {
-            result.tabs[i].record = this.lastRecord;
-            if (panel = this.tabs.get(result.tabs[i].name)) {
-                panel.update(result.tabs[i]);
+        this.saveUrl = this.result.saveUrl;
+        for(i=0; i<this.result.tabs.length; i++) {
+            this.result.tabs[i].record = this.lastRecord;
+            if (panel = this.tabs.get(this.result.tabs[i].name)) {
+                panel.update(this.result.tabs[i]);
             } else {
-                result.tabs[i].toolbar = this.toolbar;
-                this.tabs.add(result.tabs[i].name, new Mage.core.Panel(this.panel.getLayout().getRegion('center'), result.tabs[i].type, result.tabs[i]));
+                this.result.tabs[i].toolbar = this.toolbar;
+                this.tabs.add(this.result.tabs[i].name, new Mage.core.Panel(this.panel.getLayout().getRegion('center'), this.result.tabs[i].type, this.result.tabs[i]));
             }
         }
         this.panel.getLayout().endUpdate();        

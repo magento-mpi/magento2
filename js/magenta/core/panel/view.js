@@ -1,6 +1,6 @@
 Mage.core.PanelView = function(region, config) {
     this.region = region;
-    this.notLoaded = false;    
+    this.notLoaded = true;    
 
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {

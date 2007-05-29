@@ -1,6 +1,6 @@
 Mage.core.PanelRelated = function(region, config) {
     this.region = region;
-    this.notLoaded = false;
+    this.notLoaded = true;
     Ext.apply(this, config);
     
     this.gridUrl = Mage.url + 'product/relatedList/';

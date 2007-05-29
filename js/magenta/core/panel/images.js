@@ -1,6 +1,6 @@
 Mage.core.PanelImages = function(region, config) {
     this.region = region;
-    this.notLoaded = false;
+    this.notLoaded = true;
     this.tbItems = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {

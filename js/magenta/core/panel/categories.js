@@ -1,7 +1,7 @@
 Mage.core.PanelCategories = function(region, config) {
     this.region = region;
     this.config = config;
-    this.notLoaded = false;
+    this.notLoaded = true;
 
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
