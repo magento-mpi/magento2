@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataSource>
+	<series type="line" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
+	<series type="line" yField="new_users" xField="name" displayName="New Users" effect="interpolate" />
 	<row>
 		<countryId>1</countryId>
 		<name>New York</name>
@@ -9,7 +11,7 @@
 	<row>
 		<countryId>1</countryId>
 		<name>Los Angeles</name>
-		<users>600000</users>
+		<users>210000</users>
 		<new_users>210000</new_users>
 	</row>
 	<row>

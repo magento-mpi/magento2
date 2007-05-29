@@ -46,6 +46,11 @@
 		return $dom -> saveXML();
 	}
 	
+	public function getTimelineData( )
+	{
+		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataTimeline.xml' );
+	}
+	
 	public function getAllLinearExample( )
 	{
 		$session = Mage::getModel('session_data');

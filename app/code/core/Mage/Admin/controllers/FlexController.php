@@ -5,6 +5,7 @@
  * @package    Mage
  * @subpackage Reports
  * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
 
@@ -36,6 +37,12 @@ class Mage_Admin_FlexController extends Mage_Core_Controller_Front_Action
     {
          $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCountries() );
     }
+	
+	public function timelineAction()
+    {
+         $this->getResponse()->setBody( Mage::getModel('test_data')->getTimelineData() );
+    }
+    
     
     public function citiesAction()
     {
