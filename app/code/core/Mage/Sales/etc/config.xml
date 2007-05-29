@@ -664,26 +664,38 @@
          <price>
             <rule>
                <conditions>
+                  <environment>
+                     <model>sales</model><class>quote_rule_condition_environment</class>
+                  </environment>
+                  <quote>
+                     <model>sales</model><class>quote_rule_condition_quote</class>
+                  </quote>
+                  <quote_address>
+                     <model>sales</model><class>quote_rule_condition_quote_address</class>
+                  </quote_address>
+                  <quote_item>
+                     <model>sales</model><class>quote_rule_condition_quote_item</class>
+                  </quote_item>
+                  <quote_payment>
+                     <model>sales</model><class>quote_rule_condition_quote_payment</class>
+                  </quote_payment>
+                  <customer>
+                     <model>sales</model><class>quote_rule_condition_customer</class>
+                  </customer>
                   <product>
-                     <model>sales</model><class>price_rule_condition_product</class>
+                     <model>sales</model><class>quote_rule_condition_product</class>
                   </product>
-                  <category>
-                     <model>sales</model><class>price_rule_condition_category</class>
-                  </category>
-                  <attribute>
-                     <model>sales</model><class>price_rule_condition_attribute</class>
-                  </attribute>
                </conditions>
                <actions>
-                  <product>
-                     <model>sales</model><class>price_rule_action_product</class>
-                  </product>
-                  <discount>
-                     <model>sales</model><class>price_rule_action_discount</class>
-                  </discount>
-                  <shipping>
-                     <model>sales</model><class>price_rule_action_shipping</class>
-                  </shipping>
+                  <quote>
+                     <model>sales</model><class>quote_rule_action_quote</class>
+                  </quote>
+                  <address>
+                     <model>sales</model><class>quote_rule_action_quote_address</class>
+                  </address>
+                  <item>
+                     <model>sales</model><class>quote_rule_action_quote_item</class>
+                  </item>
                </actions>
             </rule>
          </price>
