@@ -2,6 +2,7 @@ Mage.core.PanelCategories = function(region, config) {
     this.region = region;
     this.config = config;
     this.notLoaded = true;
+    this.saveVar = null;
 
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
@@ -40,6 +41,19 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         } else {
             this.notLoaded = true;            
         }
+    },
+    
+    save : function() {
+        if (!this.saveVar) {
+            return false;
+        }
+        var data = {};
+        var categs = [];
+        this.view.store.each(function(){
+            categs.push(this.data.category_id);
+        })
+        data[this.saveVar] = categs;
+        return data;
     },
     
     _loadActions : function() {

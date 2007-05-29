@@ -1,6 +1,7 @@
 Mage.core.PanelRelated = function(region, config) {
     this.region = region;
     this.notLoaded = true;
+    this.saveVar = null;    
     Ext.apply(this, config);
     
     this.gridUrl = Mage.url + 'product/relatedList/';
@@ -76,5 +77,18 @@ Ext.extend(Mage.core.PanelRelated, Mage.core.Panel, {
         } else {
             this.notLoaded = true;
         }
-    }  
+    },
+    
+    save : function() {
+        if (!this.saveVar) {
+            return false;
+        }
+        var data = {};
+        var items = [];
+        this.grid.getDataSource().each(function(){
+            items.push(this.data.id);
+        })
+        data[this.saveVar] = items;
+        return data;
+    }
 })

@@ -1,6 +1,7 @@
 Mage.core.PanelImages = function(region, config) {
     this.region = region;
     this.notLoaded = true;
+    this.saveVar = null;    
     this.tbItems = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
@@ -36,6 +37,21 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
             this.notLoaded = true;
         }
     },
+    
+    save : function() {
+        if (!this.saveVar) {
+            return false;
+        }
+        this.saveVar = 'test';
+        var data = {};
+        var items = [];
+        this.view.store.each(function(){
+            items.push(this.data.path);
+        })
+        data[this.saveVar] = items;
+        return data;
+    },
+    
     
     _loadActions : function() {
         if (this.toolbar) {
@@ -112,6 +128,7 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         this.dataRecord = Ext.data.Record.create([
             {name: 'id'},
             {name: 'src'},
+            {name: 'path'},
             {name: 'alt'},
             {name: 'description'}
         ]);
