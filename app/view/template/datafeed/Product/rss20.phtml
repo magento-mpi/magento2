@@ -11,9 +11,9 @@
 
       <item>
          <title><?=htmlentities($item->getName());?></title>
-         <link><?=$baseUrl?>catalog/product/view/id/<?=$item->getProduct_id();?></link>
+         <link><?=$baseUrl?>catalog/product/view/id/<?=$item->getProductId();?></link>
          <description><?=htmlentities($item->getDescription());?></description>
-         <pubDate><?=$item->getCreate_date();?></pubDate>
+         <pubDate><?=$item->getCreateDate();?></pubDate>
       </item>
 
       <?endforeach?>
