@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Price_Rule_Action_Abstract
+abstract class Mage_Sales_Quote_Rule_Action_Abstract
 {
     
 }
