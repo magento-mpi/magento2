@@ -3,8 +3,10 @@ Mage.core.PanelCategories = function(region, config) {
     this.config = config;
     this.notLoaded = true;
     this.saveVar = null;
+    this.tbItems = new Ext.util.MixedCollection();
 
     Ext.apply(this, config);
+    
     this.panel = this.region.add(new Ext.ContentPanel(Ext.id(), {
         autoCreate : true,
         background : config.background || true,
@@ -152,9 +154,6 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         
         
         var dd = new Ext.dd.DragDrop(this.view.getEl(), "TreeDD");
-        
-
-        
 
         this.dropzone = new Ext.dd.DropTarget(this.view.getEl(), {
             overClass : 'm-view-overdrop'

@@ -2,7 +2,9 @@ Mage.core.PanelForm = function(region, config) {
     this.region = region;
     this.config = config;
     this.notLoaded = true;
+    
     Ext.apply(this, config);
+    
     var background = false;
     if (config && config.background == true) {
         background = true;

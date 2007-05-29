@@ -128,6 +128,7 @@ Mage.Catalog_Product = function(depend){
                 cm: colModel,
                 autoSizeColumns : true,
                 loadMask: true,
+                enableDragDrop : true,
                 view : new FilteredGridView,
                 monitorWindowResize : true,
                 autoHeight : false,

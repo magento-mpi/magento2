@@ -2,6 +2,7 @@ Mage.core.PanelRelated = function(region, config) {
     this.region = region;
     this.notLoaded = true;
     this.saveVar = null;    
+    this.tbItems = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     
     this.gridUrl = Mage.url + 'product/relatedList/';
@@ -44,6 +45,13 @@ Mage.core.PanelRelated = function(region, config) {
         selModel : new Ext.grid.RowSelectionModel({singleSelect : false}),
         enableColLock : false
     });
+
+    this.productSelector = new Mage.Catalog_Product_ProductSelect({
+        gridUrl : Mage.url + 'product/gridData/',
+        parentGrid : this.grid,
+        dataRecord : this.dataRecord
+    });        
+
     
     this.panel = this.region.add(new Ext.GridPanel(this.grid, {
         background : true,
@@ -59,12 +67,15 @@ Mage.core.PanelRelated = function(region, config) {
     }, this, {single : true});
 
     this.panel.on('activate', function(){
+        this._loadActions();
         if (this.notLoaded) {
             this.grid.getDataSource().proxy.getConnection().url = this.gridUrl + 'product/' + this.record.data.id + '/';
             this.grid.getDataSource().load();
             this.notLoaded = false;        
         }
     }, this);
+    
+    this.panel.on('deactivate', this._unLoadActions, this);    
     
 };
 
@@ -90,5 +101,52 @@ Ext.extend(Mage.core.PanelRelated, Mage.core.Panel, {
         })
         data[this.saveVar] = items;
         return data;
+    },
+    
+    _loadActions : function() {
+        if (this.toolbar) {
+            if (this.tbItems.getCount() == 0) {
+                this.tbItems.add('related_sep', new Ext.Toolbar.Separator());
+                this.tbItems.add('related_add', new Ext.Toolbar.Button({
+                    text : 'Add Related Product',
+                    handler : this._onAddItem,
+                    scope : this
+                }));
+                this.tbItems.add('related_remove', new Ext.Toolbar.Button({
+                    text : 'Remove Related Product',
+                    handler : this._onRemoveItem,
+                    scope : this
+                }));
+                
+                this.tbItems.each(function(item){
+                    this.toolbar.add(item);
+                }.createDelegate(this));
+            } else {
+                this.tbItems.each(function(item){
+                    item.show();
+                }.createDelegate(this));
+            }
+        }
+    },
+    
+    _onRemoveItem : function() {
+       Ext.MessageBox.confirm('Warning','Are you sure ?', function(btn, text){
+           if (btn == 'yes') {
+               var sm = this.grid.getSelectionModel();
+               while(sm.selections.items.length) {
+                   this.grid.getDataSource().remove(sm.selections.items[0]);
+               }
+            }
+        }.createDelegate(this))
+    },
+    
+    _onAddItem : function() {
+        this.productSelector.show();
+    },
+    
+    _unLoadActions : function() {
+        this.tbItems.each(function(item){
+            item.hide();
+        }.createDelegate(this));
     }
 })
