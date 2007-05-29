@@ -160,26 +160,6 @@
                   </date>
                </savers>
             </attribute>
-            <price>
-               <rule>
-                  <conditions>
-                     <attribute>
-                        <class>Mage_Catalog_Model_Price_Rule_Condition_Attribute</class>
-                     </attribute>
-                     <category>
-                        <class>Mage_Catalog_Model_Price_Rule_Condition_Category</class>
-                     </category>
-                  </conditions>
-                  <actions>
-                     <discount>
-                        <class>Mage_Catalog_Model_Price_Rule_Action_Discount</class>
-                     </discount>
-                     <product>
-                        <class>Mage_Catalog_Model_Price_Rule_Action_Product</class>
-                     </product>
-                  </actions>
-               </rule>
-            </price>
          </product>
          <!-- TODO: move atributes in this section -->
          <category>

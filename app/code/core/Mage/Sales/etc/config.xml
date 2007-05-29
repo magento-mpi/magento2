@@ -661,6 +661,32 @@
                <shipment> </shipment>
             </entities>
          </invoice>
+         <price>
+            <rule>
+               <conditions>
+                  <product>
+                     <model>sales</model><class>price_rule_condition_product</class>
+                  </product>
+                  <category>
+                     <model>sales</model><class>price_rule_condition_category</class>
+                  </category>
+                  <attribute>
+                     <model>sales</model><class>price_rule_condition_attribute</class>
+                  </attribute>
+               </conditions>
+               <actions>
+                  <product>
+                     <model>sales</model><class>price_rule_action_product</class>
+                  </product>
+                  <discount>
+                     <model>sales</model><class>price_rule_action_discount</class>
+                  </discount>
+                  <shipping>
+                     <model>sales</model><class>price_rule_action_shipping</class>
+                  </shipping>
+               </actions>
+            </rule>
+         </price>
       </sales>
    </global>
 </config>
