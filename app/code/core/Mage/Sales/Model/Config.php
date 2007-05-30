@@ -23,4 +23,14 @@ class Mage_Sales_Model_Config
         $config = Mage::getConfig()->getNode("global/sales/payment/methods/$method");
         return $config;
     }
+    
+    public function getQuoteRuleConditionInstance($type)
+    {
+        return Mage::getConfig()->getNodeClassInstance("global/sales/quote/rule/conditions/$type");
+    }
+    
+    public function getQuoteRuleActionInstance($type)
+    {
+        return Mage::getConfig()->getNodeClassInstance("global/sales/quote/rule/actions/$type");
+    }
 }

@@ -35,7 +35,9 @@ abstract class Varien_Simplexml_Config_Cache_Abstract extends Varien_Object
     public function addComponent($component)
     {
         $comps = $this->getComponents();
-        $comps[$component] = array('mtime'=>filemtime($component));
+        if (is_readable($component)) {
+            $comps[$component] = array('mtime'=>filemtime($component));
+        }
         $this->setComponents($comps);
         
         return $this;

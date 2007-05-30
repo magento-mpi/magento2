@@ -378,7 +378,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-    echo "<xmp>\n<b>";
+    echo "<pre>\n<b>";
     switch($errno){
         case E_ERROR:               echo "Error";                  break;
         case E_WARNING:             echo "Warning";                break;
@@ -395,7 +395,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
         case E_RECOVERABLE_ERROR:   echo "Recoverable Error";      break;
         default:                    echo "Unknown error ($errno)"; break;
     }
-    echo ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
+    echo ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b><br>";
 
     $backtrace = debug_backtrace();
     array_shift($backtrace);
@@ -413,10 +413,10 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
         echo ")";
         if(!empty($l['file'])) echo " in <b>{$l['file']}</b>";
         if(!empty($l['line'])) echo " on line <b>{$l['line']}</b>";
-        echo "\n";
+        echo "<br>";
     }
 
-    echo "\n</xmp>";
+    echo "\n</pre>";
     switch ($errno) {
         case E_ERROR: 
             die('fatal');

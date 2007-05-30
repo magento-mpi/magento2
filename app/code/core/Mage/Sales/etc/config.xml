@@ -378,6 +378,45 @@
                   </attributes>
                </shipping>
             </entities>
+            <rule>
+               <conditions>
+                  <combine>
+                     <model>sales</model><class>quote_rule_condition_combine</class>
+                  </combine>
+                  <system>
+                     <model>sales</model><class>quote_rule_condition_system</class>
+                  </system>
+                  <customer>
+                     <model>sales</model><class>quote_rule_condition_customer</class>
+                  </customer>
+                  <quote>
+                     <model>sales</model><class>quote_rule_condition_quote</class>
+                  </quote>
+                  <quote_item>
+                     <model>sales</model><class>quote_rule_condition_quote_item</class>
+                  </quote_item>
+                  <quote_item_combine>
+                     <model>sales</model><class>quote_rule_condition_quote_item_combine</class>
+                  </quote_item_combine>
+                  <quote_address>
+                     <model>sales</model><class>quote_rule_condition_quote_address</class>
+                  </quote_address>
+                  <quote_address_combine>
+                     <model>sales</model><class>quote_rule_condition_quote_address_combine</class>
+                  </quote_address_combine>
+               </conditions>
+               <actions>
+                  <quote>
+                     <model>sales</model><class>quote_rule_action_quote</class>
+                  </quote>
+                  <address>
+                     <model>sales</model><class>quote_rule_action_quote_address</class>
+                  </address>
+                  <item>
+                     <model>sales</model><class>quote_rule_action_quote_item</class>
+                  </item>
+               </actions>
+            </rule>
          </quote>
          <order>
             <entities>
@@ -661,44 +700,6 @@
                <shipment> </shipment>
             </entities>
          </invoice>
-         <price>
-            <rule>
-               <conditions>
-                  <environment>
-                     <model>sales</model><class>quote_rule_condition_environment</class>
-                  </environment>
-                  <quote>
-                     <model>sales</model><class>quote_rule_condition_quote</class>
-                  </quote>
-                  <quote_address>
-                     <model>sales</model><class>quote_rule_condition_quote_address</class>
-                  </quote_address>
-                  <quote_item>
-                     <model>sales</model><class>quote_rule_condition_quote_item</class>
-                  </quote_item>
-                  <quote_payment>
-                     <model>sales</model><class>quote_rule_condition_quote_payment</class>
-                  </quote_payment>
-                  <customer>
-                     <model>sales</model><class>quote_rule_condition_customer</class>
-                  </customer>
-                  <product>
-                     <model>sales</model><class>quote_rule_condition_product</class>
-                  </product>
-               </conditions>
-               <actions>
-                  <quote>
-                     <model>sales</model><class>quote_rule_action_quote</class>
-                  </quote>
-                  <address>
-                     <model>sales</model><class>quote_rule_action_quote_address</class>
-                  </address>
-                  <item>
-                     <model>sales</model><class>quote_rule_action_quote_item</class>
-                  </item>
-               </actions>
-            </rule>
-         </price>
       </sales>
    </global>
 </config>

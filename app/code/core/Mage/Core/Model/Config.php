@@ -465,6 +465,17 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         
         return new $className($constructArguments);
     }
+    
+    public function getNodeClassInstance($path)
+    {
+        $config = Mage::getConfig()->getNode($path);
+        if (!$config) {
+            return false;
+        } else {
+            $className = $config->getClassName();
+            return new $className();
+        }
+    }
 
     /**
      * Get resource configuration for resource name
