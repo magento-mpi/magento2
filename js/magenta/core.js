@@ -62,8 +62,21 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
             this._initToolbar(panel.getEl());            
             
 //            this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, '<embed width="100%" height="100%" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" name="reports" bgcolor="#869ca7" quality="high" flashvars="configUrl='+Mage.url+'mage_reports/flex/config/&cssUrl='+Mage.url+'skins/default/flex.swf" id="reports" wmode="opaque" src="'+Mage.url+'flex/reports.swf"/>'));
-            this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, 'Dash board will be there !!!'));
+            this.dashboard = new Mage.FlexObject(
+				{
+					src: Mage.url+'../media/flex/reports.swf',
+					flashVars: 'configUrl='+Mage.url+ 'flex/config&cssUrl=' + Mage.skin + 'flex.swf',
+					width: '100%',
+					height: '100%'
+				}
+			);
+			
+			
+			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
+			this.dashboard.apply(dashPanel.getEl());
             
+			
+			
             this.statusPanel = this._layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             this.taskPanel = this._layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
             

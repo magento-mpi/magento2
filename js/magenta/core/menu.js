@@ -35,8 +35,8 @@ Mage.Menu_Core = function(){
             toolbar.addButton(new Ext.ToolbarButton({
                 text: 'Dashboard',
                 handler : function() {
-                    var region_center = Mage.Admin.getLayoutRegion('center');
-                    region_center.showPanel('dashboard-center');
+					var region_center = Mage.Admin.getLayoutRegion('center');
+                    region_center.showPanel('dashboard-center');					
                 }
             }));
             
