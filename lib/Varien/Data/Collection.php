@@ -188,6 +188,13 @@ class Varien_Data_Collection implements IteratorAggregate
         }
     }
 
+    public function each($obj_method, $args=array())
+    {
+        foreach ($args->_items as $k => $item) {
+            $args->_items[$k] = call_user_func($obj_method, $item);
+        }
+    }
+
     public function setDataToAll($key, $value=null)
     {
         if (is_array($key)) {

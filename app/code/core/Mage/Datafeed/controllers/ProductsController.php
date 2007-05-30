@@ -1,16 +1,12 @@
 <?php
-/*
- * ProductsController.php
- * -------------------------------------------------------------
- * @File:        CategoryController.php
- * @Last change: 2007-05-28 21:51:54
- * @Description: 
- * @Dependecies: <Dependencies>
- * 
- * @Author:      Alexander Stadnitski (hacki) :: vipalexdm@gmail.com
- * @URL:         http://www.hacki.te.ua/
- * @TODO:
- * -------------------------------------------------------------
+/**
+ * Datafeed products controller
+ *
+ * @package     Mage
+ * @subpackage  Datafeed
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
  
 class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
@@ -42,9 +38,25 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody($block->toHtml());
     }
     
-    public function textAction()
+    public function csvAction()
     {
-        
+        header("Content-type: text/plain");
+        #header("Content-type: text/csv");
+        $model = Mage::getModel('datafeed', 'export_catalog_product');
+        $categoryId = intval($this->getRequest()->getParam('category'));
+         
+        $category = Mage::getModel('catalog', 'category')
+            ->load($categoryId);
+
+        $block = $this->getLayout()->createBlock('tpl', 'export');
+
+        $data = $model->getCategoryProducts($categoryId); 
+        $data->each(Array($model, "formatCSV"), $data);
+
+        $block->setTemplate('datafeed/Product/csv.phtml')
+            ->assign('data', $data);
+
+        $this->getResponse()->setBody($block->toHtml());
     }
 
 }

@@ -6,7 +6,7 @@ define('BP', dirname(dirname(__FILE__)));
 /**
  * Error reporting
  */
-error_reporting(E_ALL | E_STRICT);
+#error_reporting(E_ALL | E_STRICT);
 
 /**
  * Include path

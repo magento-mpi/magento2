@@ -6,10 +6,16 @@
  * @subpackage  Datafeed
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
+ * TODO         formatCSV() method.
  */
 class Mage_Datafeed_Model_Export_Catalog_Product extends Varien_Object 
 {
+
+    private $csvDelimiter = ";";
+
+    private $csvEOL = "\r\n";
+
     public function __construct() 
     {
         
@@ -27,4 +33,30 @@ class Mage_Datafeed_Model_Export_Catalog_Product extends Varien_Object
             ->load();
         return $collection;
     }
+
+    public function getCsvDelimiter()
+    {
+        return $this->csvDelimiter;
+    }
+
+    public function getCsvEOL()
+    {
+        return $this->csvEOL;
+    }
+
+    public function setCsvDelimiter($delimiter)
+    {
+        $this->csvDelimiter = $delimiter;
+    }
+
+    public function setCsvEOL($eol)
+    {
+        $this->csvEOL = $eol;
+    }
+
+    public function formatCSV($item)
+    {
+        return $item;
+    }
+
 }
