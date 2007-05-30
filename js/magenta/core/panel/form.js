@@ -2,6 +2,8 @@ Mage.core.PanelForm = function(region, config) {
     this.region = region;
     this.config = config;
     this.notLoaded = true;
+    this.frm = null;
+    this.tpl = null;
 
     Ext.apply(this, config);
     
@@ -49,8 +51,11 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     },
     
     save : function() {
-        var data;
-        data = this.frm.getValues(true);
+        var data, i;
+        data = {};
+        for (i=0; i < this.frm.items.getCount(); i++) {
+            data[this.frm.items.get(i).getName()] = this.frm.items.get(i).getValue()
+        }
         return data;    
     },
     

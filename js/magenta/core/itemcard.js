@@ -123,7 +123,6 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         this.panel.getLayout().beginUpdate();
         this.saveUrl = this.result.saveUrl;
         for(i=0; i<this.result.tabs.length; i++) {
-            console.log(this.result.tabs[i]);
             this.result.tabs[i].record = this.lastRecord;
             if (panel = this.tabs.get(this.result.tabs[i].name)) {
                 panel.update(this.result.tabs[i]);
