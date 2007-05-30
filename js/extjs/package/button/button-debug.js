@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -9,7 +9,7 @@
 
 Ext.Button = function(renderTo, config){
     Ext.apply(this, config);
-    this.events = {
+    this.addEvents({
         
 	    "click" : true,
         
@@ -18,7 +18,7 @@ Ext.Button = function(renderTo, config){
         'mouseover' : true,
         
         'mouseout': true
-    };
+    });
     if(this.menu){
         this.menu = Ext.menu.MenuMgr.get(this.menu);
     }
@@ -37,17 +37,32 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
     pressed : false,
 
     
+    tabIndex : undefined,
+
+    
     enableToggle: false,
     
     menu : undefined,
     
     menuAlign : "tl-bl?",
 
+    
+    iconCls : undefined,
+    
+    type : 'button',
+
     // private
     menuClassTarget: 'tr',
 
+    clickEvent : 'click',
+    handleMouseEvents : true,
+
     
     tooltipType : 'qtip',
+
+    
+    
+    
 
     // private
     render : function(renderTo){
@@ -61,12 +76,12 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
                     // hideous table template
                     Ext.Button.buttonTemplate = new Ext.Template(
                         '<table border="0" cellpadding="0" cellspacing="0" class="x-btn-wrap"><tbody><tr>',
-                        '<td class="x-btn-left"><i>&#160;</i></td><td class="x-btn-center"><em><button class="x-btn-text">{0}</button></em></td><td class="x-btn-right"><i>&#160;</i></td>',
+                        '<td class="x-btn-left"><i>&#160;</i></td><td class="x-btn-center"><em unselectable="on"><button class="x-btn-text" type="{1}">{0}</button></em></td><td class="x-btn-right"><i>&#160;</i></td>',
                         "</tr></tbody></table>");
                 }
                 this.template = Ext.Button.buttonTemplate;
             }
-            btn = this.template.append(renderTo, [this.text || '&#160;'], true);
+            btn = this.template.append(renderTo, [this.text || '&#160;', this.type], true);
             var btnEl = btn.child("button:first");
             btnEl.on('focus', this.onFocus, this);
             btnEl.on('blur', this.onBlur, this);
@@ -75,6 +90,15 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
             }
             if(this.icon){
                 btnEl.setStyle('background-image', 'url(' +this.icon +')');
+            }
+            if(this.iconCls){
+                btnEl.addClass(this.iconCls);
+                if(!this.cls){
+                    btn.addClass(this.text ? 'x-btn-text-icon' : 'x-btn-icon');
+                }
+            }
+            if(this.tabIndex !== undefined){
+                btnEl.dom.tabIndex = this.tabIndex;
             }
             if(this.tooltip){
                 if(typeof this.tooltip == 'object'){
@@ -103,10 +127,12 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         }else{
             this.autoWidth();
         }
-        btn.on("click", this.onClick, this);
-        btn.on("mouseover", this.onMouseOver, this);
-        btn.on("mouseout", this.onMouseOut, this);
-        btn.on("mousedown", this.onMouseDown, this);
+        if(this.handleMouseEvents){
+            btn.on("mouseover", this.onMouseOver, this);
+            btn.on("mouseout", this.onMouseOut, this);
+            btn.on("mousedown", this.onMouseDown, this);
+        }
+        btn.on(this.clickEvent, this.onClick, this);
         //btn.on("mouseup", this.onMouseUp, this);
         if(this.hidden){
             this.hide();
@@ -258,6 +284,9 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         if(e){
             e.preventDefault();
         }
+        if(e.button != 0){
+            return;
+        }
         if(!this.disabled){
             if(this.enableToggle){
                 this.toggle();
@@ -297,16 +326,18 @@ Ext.extend(Ext.Button, Ext.util.Observable, {
         this.el.removeClass("x-btn-focus");
     },
     // private
-    onMouseDown : function(){
-        if(!this.disabled){
+    onMouseDown : function(e){
+        if(!this.disabled && e.button == 0){
             this.el.addClass("x-btn-click");
             Ext.get(document).on('mouseup', this.onMouseUp, this);
         }
     },
     // private
-    onMouseUp : function(){
-        this.el.removeClass("x-btn-click");
-        Ext.get(document).un('mouseup', this.onMouseUp, this);
+    onMouseUp : function(e){
+        if(e.button == 0){
+            this.el.removeClass("x-btn-click");
+            Ext.get(document).un('mouseup', this.onMouseUp, this);
+        }
     },
     // private
     onMenuShow : function(e){

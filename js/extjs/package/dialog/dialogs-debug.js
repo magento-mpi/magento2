@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -22,7 +22,7 @@ Ext.BasicDialog = function(el, config){
                         {tag: "div", id: el, style:'visibility:hidden;'}, true);
         }
     }
-    el = this.el;
+    el = this.el;                                                                                                                                                                                                                                                                                                                                                                                                  
     el.setDisplayed(true);
     el.hide = this.hideAction;
     this.id = el.id;
@@ -48,11 +48,11 @@ Ext.BasicDialog = function(el, config){
         this.xy = el.getCenterXY(true);
     }
     
-    this.header = el.child("/.x-dlg-hd");
+    this.header = el.child("> .x-dlg-hd");
     
-    this.body = el.child("/.x-dlg-bd");
+    this.body = el.child("> .x-dlg-bd");
     
-    this.footer = el.child("/.x-dlg-ft");
+    this.footer = el.child("> .x-dlg-ft");
 
     if(!this.header){
         this.header = el.createChild({tag: "div", cls:"x-dlg-hd", html: "&#160;"}, this.body ? this.body.dom : null);
@@ -152,7 +152,7 @@ Ext.BasicDialog = function(el, config){
     if(this.autoTabs){
         this.initTabs();
     }
-    this.events = {
+    this.addEvents({
         
         "keydown" : true,
         
@@ -167,7 +167,7 @@ Ext.BasicDialog = function(el, config){
         "beforeshow" : true,
         
         "show" : true
-    };
+    });
     el.on("keydown", this.onKeyDown, this);
     el.on("mousedown", this.toFront, this);
     Ext.EventManager.onWindowResize(this.adjustViewport, this, true);
@@ -177,7 +177,7 @@ Ext.BasicDialog = function(el, config){
 };
 
 Ext.extend(Ext.BasicDialog, Ext.util.Observable, {
-    shadowOffset: 5,
+    shadowOffset: Ext.isIE ? 6 : 5,
     minHeight: 80,
     minWidth: 200,
     minButtonWidth: 75,
@@ -806,8 +806,9 @@ Ext.DialogManager = function(){
         accessList.sort(sortDialogs);
         var seed = Ext.DialogManager.zseed;
         for(var i = 0, len = accessList.length; i < len; i++){
-            if(accessList[i]){
-                accessList[i].setZIndex(seed + (i*10));
+            var dlg = accessList[i];
+            if(dlg){
+                dlg.setZIndex(seed + (i*10));
             }
         }
     };

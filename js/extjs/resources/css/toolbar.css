@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -7,11 +7,17 @@
  */
 
 .x-toolbar{
-	border: 1px solid;
-    border-color:#eaf0f7 #eaf0f7 #a9bfd3 #eaf0f7;
+	border-top: 1px solid #eaf0f7;
+    border-bottom: 1px solid #a9bfd3;
     display: block;
 	padding:2px;
     background:#d0def0 url(../images/default/layout/panel-title-light-bg.gif) repeat-x;
+    position:relative;
+}
+.x-toolbar .x-item-disabled .x-btn-icon {
+    opacity: .35;
+    -moz-opacity: .35;
+    filter: alpha(opacity=35);
 }
 .x-toolbar td {
 	vertical-align:middle;
@@ -20,7 +26,7 @@
 	border: 0 none;
 	background: url(../images/default/grid/mso-hd.gif);
 }
-.x-toolbar td,.x-toolbar span,.x-toolbar input,.x-toolbar div,.x-toolbar select,.x-toolbar label{
+.x-toolbar td, .x-toolbar span, .x-toolbar input, .x-toolbar div, .x-toolbar select, .x-toolbar label{
 	white-space: nowrap;
     font:normal 11px tahoma, arial, helvetica, sans-serif;
 }
@@ -45,6 +51,7 @@
 	background:none;
 	padding:0 0;
 }
+
 .x-toolbar .x-btn-menu-text-wrap .x-btn-center button{
 	padding-right:2px;
 }
@@ -85,6 +92,10 @@
 	background:url(../images/default/toolbar/tb-btn-sprite.gif) repeat-x 0 -105px;
 }
 
+.x-toolbar .x-btn-with-menu .x-btn-center em{
+	padding-right:8px;
+}
+
 .x-toolbar .ytb-text{
    padding:2px;
 }
@@ -114,6 +125,9 @@
 }
 .ext-ie .x-toolbar .x-form-field-wrap .x-form-trigger {
 	top:1px;
+}
+.ext-ie .x-toolbar .x-form-field-wrap .x-form-twin-triggers img {
+	margin-top:1px;
 }
 
 /* Paging Toolbar */

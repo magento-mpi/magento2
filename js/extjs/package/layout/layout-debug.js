@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -21,7 +21,7 @@ Ext.LayoutManager = function(container, config){
     
     this.monitorWindowResize = true;
     this.regions = {};
-    this.events = {
+    this.addEvents({
         
         "layout" : true,
         
@@ -30,7 +30,7 @@ Ext.LayoutManager = function(container, config){
         "regioncollapsed" : true,
         
         "regionexpanded" : true
-    };
+    });
     this.updating = false;
     Ext.EventManager.onWindowResize(this.onWindowResize, this, true);
 };
@@ -145,9 +145,9 @@ Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
         
         var rs = this.regions;
         var n = rs["north"], s = rs["south"], west = rs["west"], e = rs["east"], c = rs["center"];
-        if(this.hideOnLayout){
-            c.el.setStyle("display", "none");
-        }
+        //if(this.hideOnLayout){ // not supported anymore
+            //c.el.setStyle("display", "none");
+        //}
         if(n && n.isVisible()){
             var b = n.getBox();
             var m = n.getMargins();
@@ -197,9 +197,9 @@ Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
                 width: centerW - (m.left+m.right),
                 height: centerH - (m.top+m.bottom)
             };
-            if(this.hideOnLayout){
-                c.el.setStyle("display", "block");
-            }
+            //if(this.hideOnLayout){
+                //c.el.setStyle("display", "block");
+            //}
             c.updateBox(this.safeBox(centerBox));
         }
         this.el.repaint();
@@ -530,6 +530,7 @@ Ext.LayoutRegion = function(mgr, config, pos){
     
     this.el = dh.append(mgr.el.dom, {tag: "div", cls: "x-layout-panel x-layout-panel-" + this.position}, true);
     
+
     this.titleEl = dh.append(this.el.dom, {tag: "div", unselectable: "on", cls: "x-unselectable x-layout-panel-hd x-layout-title-"+this.position, children:[
         {tag: "span", cls: "x-unselectable x-layout-panel-hd-text", unselectable: "on", html: "&#160;"},
         {tag: "div", cls: "x-unselectable x-layout-panel-hd-tools", unselectable: "on"}
@@ -542,6 +543,7 @@ Ext.LayoutRegion = function(mgr, config, pos){
     this.closeBtn.enableDisplayMode();
     this.closeBtn.on("click", this.closeClicked, this);
     this.closeBtn.hide();
+
     this.createBody(config);
     this.visible = true;
     this.collapsed = false;
@@ -564,9 +566,18 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
     applyConfig : function(c){
         if(c.collapsible && this.position != "center" && !this.collapsedEl){
             var dh = Ext.DomHelper;
-            this.collapseBtn = this.createTool(this.tools.dom, "x-layout-collapse-"+this.position);
-            this.collapseBtn.on("click", this.collapse, this);
-            this.collapseBtn.enableDisplayMode();
+            if(c.titlebar !== false){
+                this.collapseBtn = this.createTool(this.tools.dom, "x-layout-collapse-"+this.position);
+                this.collapseBtn.on("click", this.collapse, this);
+                this.collapseBtn.enableDisplayMode();
+
+                if(c.showPin === true || this.showPin){
+                    this.stickBtn = this.createTool(this.tools.dom, "x-layout-stick");
+                    this.stickBtn.enableDisplayMode();
+                    this.stickBtn.on("click", this.expand, this);
+                    this.stickBtn.hide();
+                }
+            }
             
             this.collapsedEl = dh.append(this.mgr.el.dom, {cls: "x-layout-collapsed x-layout-collapsed-"+this.position, children:[
                 {cls: "x-layout-collapsed-tools", children:[{cls: "x-layout-ctools-inner"}]}
@@ -575,12 +586,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
                this.collapsedEl.addClassOnOver("x-layout-collapsed-over");
                this.collapsedEl.on("click", this.collapseClick, this);
             }
-            if(c.showPin === true || this.showPin == true){
-                this.stickBtn = this.createTool(this.tools.dom, "x-layout-stick");
-                this.stickBtn.enableDisplayMode();
-                this.stickBtn.on("click", this.expand, this);
-                this.stickBtn.hide();
-            }
+
             if(c.collapsedTitle && (this.position == "north" || this.position== "south")) {
                 this.collapsedTitleTextEl = dh.append(this.collapsedEl.dom, {tag: "div", cls: "x-unselectable x-layout-panel-hd-text",
                    id: "message", unselectable: "on", style:{"float":"left"}});
@@ -604,14 +610,16 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }else{
             this.bodyEl.setStyle("overflow", "hidden");
         }
-        if((!c.titlebar && !c.title) || c.titlebar === false){
-            this.titleEl.hide();
-        }else{
-            this.titleEl.show();
-            if(c.title){
-                this.titleTextEl.innerHTML = c.title;
+        //if(c.titlebar !== false){
+            if((!c.titlebar && !c.title) || c.titlebar === false){
+                this.titleEl.hide();
+            }else{
+                this.titleEl.show();
+                if(c.title){
+                    this.titleTextEl.innerHTML = c.title;
+                }
             }
-        }
+        //}
         this.duration = c.duration || .30;
         this.slideDuration = c.slideDuration || .45;
         this.config = c;
@@ -683,7 +691,7 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         }
         if(h !== null){
             this.el.setHeight(h);
-            h = this.titleEl.isDisplayed() ? h - (this.titleEl.getHeight()||0) : h;
+            h = this.titleEl && this.titleEl.isDisplayed() ? h - (this.titleEl.getHeight()||0) : h;
             h -= this.el.getBorderWidth("tb");
             if(this.config.adjustments){
                 h += this.config.adjustments[1];
@@ -871,7 +879,9 @@ Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
         if(this.panelSize){
             panel.setSize(this.panelSize.width, this.panelSize.height);
         }
-        this.closeBtn.setVisible(!this.config.closeOnTab && !this.isSlid && panel.isClosable());
+        if(this.closeBtn){
+            this.closeBtn.setVisible(!this.config.closeOnTab && !this.isSlid && panel.isClosable());
+        }
         this.updateTitle(panel.getTitle());
         if(this.tabs){
             this.fireEvent("invalidated", this);
@@ -1179,7 +1189,7 @@ Ext.extend(Ext.SplitLayoutRegion, Ext.LayoutRegion, {
         this.el.show();
         this.el.alignTo(this.collapsedEl, this.getCollapseAnchor());
         this.beforeSlide();
-        this.el.setStyle("z-index", 20000);
+        this.el.setStyle("z-index", 10001);
         this.el.slideIn(this.getSlideAnchor(), {
             callback: function(){
                 this.afterSlide();
@@ -1601,7 +1611,6 @@ Ext.LayoutStateManager.prototype = {
 };
 
 Ext.ContentPanel = function(el, config, content){
-    Ext.ContentPanel.superclass.constructor.call(this);
     if(el.autoCreate){
         config = el;
         el = Ext.id();
@@ -1632,7 +1641,7 @@ Ext.ContentPanel = function(el, config, content){
     }else{
         this.resizeEl = this.el;
     }
-    this.events = {
+    this.addEvents({
         
         "activate" : true,
         
@@ -1640,7 +1649,7 @@ Ext.ContentPanel = function(el, config, content){
 
         
         "resize" : true
-    };
+    });
     if(this.autoScroll){
         this.resizeEl.setStyle("overflow", "auto");
     }
@@ -1651,6 +1660,7 @@ Ext.ContentPanel = function(el, config, content){
     if(config && config.url){
         this.setUrl(this.url, this.params, this.loadOnce);
     }
+    Ext.ContentPanel.superclass.constructor.call(this);
 };
 
 Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
@@ -1708,7 +1718,7 @@ Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
             this.removeListener("activate", this.refreshDelegate);
         }
         this.refreshDelegate = this._handleRefresh.createDelegate(this, [url, params, loadOnce]);
-        this.on("activate", this._handleRefresh.createDelegate(this, [url, params, loadOnce]));
+        this.on("activate", this.refreshDelegate);
         return this.el.getUpdateManager();
     },
     
@@ -1812,7 +1822,7 @@ Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
 Ext.GridPanel = function(grid, config){
     this.wrapper = Ext.DomHelper.append(document.body, // wrapper for IE7 strict & safari scroll issue
         {tag: "div", cls: "x-layout-grid-wrapper x-layout-inactive-content"}, true);
-    this.wrapper.dom.appendChild(grid.container.dom);
+    this.wrapper.dom.appendChild(grid.getGridEl().dom);
     Ext.GridPanel.superclass.constructor.call(this, this.wrapper, config);
     if(this.toolbar){
         this.toolbar.el.insertBefore(this.wrapper.dom.firstChild);
@@ -1821,7 +1831,7 @@ Ext.GridPanel = function(grid, config){
     grid.autoHeight = false;
     grid.autoWidth = false;
     this.grid = grid;
-    this.grid.container.replaceClass("x-layout-inactive-content", "x-layout-component-panel");
+    this.grid.getGridEl().replaceClass("x-layout-inactive-content", "x-layout-component-panel");
 };
 
 Ext.extend(Ext.GridPanel, Ext.ContentPanel, {
@@ -1838,7 +1848,7 @@ Ext.extend(Ext.GridPanel, Ext.ContentPanel, {
         if(!this.ignoreResize(width, height)){
             var grid = this.grid;
             var size = this.adjustForComponents(width, height);
-            grid.container.setSize(size.width, size.height);
+            grid.getGridEl().setSize(size.width, size.height);
             grid.autoSize();
         }
     },

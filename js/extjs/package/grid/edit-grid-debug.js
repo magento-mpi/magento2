@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -9,7 +9,7 @@
 
 Ext.grid.EditorGrid = function(container, config){
     Ext.grid.EditorGrid.superclass.constructor.call(this, container, config);
-    this.container.addClass("xedit-grid");
+    this.getGridEl().addClass("xedit-grid");
 
     if(!this.selModel){
         this.selModel = new Ext.grid.CellSelectionModel();
@@ -68,7 +68,7 @@ Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
     startEditing : function(row, col){
         this.stopEditing();
         if(this.colModel.isCellEditable(col, row)){
-            this.view.focusCell(row, col);
+            this.view.ensureVisible(row, col, true);
             var r = this.dataSource.getAt(row);
             var field = this.colModel.getDataIndex(col);
             var e = {
@@ -81,9 +81,12 @@ Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
                 cancel:false
             };
             if(this.fireEvent("beforeedit", e) !== false && !e.cancel){
-                this.editing = true; // flag for buffering of orphan key strokes
+                this.editing = true;
+                var ed = this.colModel.getCellEditor(col, row);
+                if(!ed.rendered){
+                    ed.render(ed.parentEl || document.body);
+                }
                 (function(){ // complex but required for focus issues in safari, ie and opera
-                    var ed = this.colModel.getCellEditor(col, row);
                     ed.row = row;
                     ed.col = col;
                     ed.record = r;
@@ -109,6 +112,7 @@ Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
 // This is a support class used internally by the Grid components
 Ext.grid.GridEditor = function(field, config){
     Ext.grid.GridEditor.superclass.constructor.call(this, field, config);
+    field.monitorTab = false;
 };
 
 Ext.extend(Ext.grid.GridEditor, Ext.Editor, {
@@ -204,7 +208,7 @@ Ext.grid.PropertyColumnModel = function(grid, store){
         'date' : new g.GridEditor(new f.DateField({selectOnFocus:true})),
         'string' : new g.GridEditor(new f.TextField({selectOnFocus:true})),
         'number' : new g.GridEditor(new f.NumberField({selectOnFocus:true, style:'text-align:left;'})),
-        'boolean' : new g.GridEditor(new f.Field({el:this.beselect,selectOnFocus:true}))
+        'boolean' : new g.GridEditor(new f.Field({el:this.bselect,selectOnFocus:true}))
     };
     this.renderCellDelegate = this.renderCell.createDelegate(this);
     this.renderPropDelegate = this.renderProp.createDelegate(this);
@@ -283,7 +287,7 @@ Ext.grid.PropertyGrid = function(container, config){
         trackMouseOver: false,
         clicksToEdit:1
     }, config));
-    this.container.addClass('x-props-grid');
+    this.getGridEl().addClass('x-props-grid');
     this.lastEditRow = null;
     this.on('columnresize', this.onColumnResize, this);
     this.addEvents({

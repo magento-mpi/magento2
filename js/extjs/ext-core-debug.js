@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -359,7 +359,7 @@ Ext.Template.prototype = {
         var fn = function(m, name, format, args){
             if(format && useF){
                 if(format.substr(0, 5) == "this."){
-                    return tpl.call(format.substr(5), values[name]);
+                    return tpl.call(format.substr(5), values[name], values);
                 }else{
                     if(args){
                         // quoted values are required for strings in compiled templates, 
@@ -411,10 +411,10 @@ Ext.Template.prototype = {
                     format = "fm." + format + '(';
                 }else{
                     format = 'this.call("'+ format.substr(5) + '", ';
-                    args = "";
+                    args = ", values";
                 }
             }else{
-                args= '', format = "(values['" + name + "'] == undefined ? '' : ";
+                args= ''; format = "(values['" + name + "'] == undefined ? '' : ";
             }
             return "'"+ sep + format + "values['" + name + "']" + args + ")"+sep+"'";
         };
@@ -422,7 +422,7 @@ Ext.Template.prototype = {
         // branched to use + in gecko and [].join() in others
         if(Ext.isGecko){
             body = "this.compiled = function(values){ return '" +
-                   this.html.replace(/(\r\n|\n)/g, '\\n').replace("'", "\\'").replace(this.re, fn) +
+                   this.html.replace(/(\r\n|\n)/g, '\\n').replace(/'/g, "\\'").replace(this.re, fn) +
                     "';};";
         }else{
             body = ["this.compiled = function(values){ return ['"];
@@ -435,8 +435,8 @@ Ext.Template.prototype = {
     },
     
     // private function used to call members
-    call : function(fnName, value){
-        return this[fnName](value);
+    call : function(fnName, value, allValues){
+        return this[fnName](value, allValues);
     },
     
     
@@ -864,10 +864,6 @@ Ext.DomQuery = function(){
         },
         
         compile : function(path, type){
-            // strip leading slashes
-            while(path.substr(0, 1)=="/"){
-                path = path.substr(1);
-            }
             type = type || "select";
             
             var fn = ["var f = function(root){\n var mode; var n = root || document;\n"];
@@ -875,6 +871,18 @@ Ext.DomQuery = function(){
             var tk = Ext.DomQuery.matchers;
             var tklen = tk.length;
             var mm;
+
+            // accept leading mode switch
+            var lmode = q.match(modeRe);
+            if(lmode && lmode[1]){
+                fn[fn.length] = 'mode="'+lmode[1]+'";';
+                q = q.replace(lmode[1], "");
+            }
+            // strip leading slashes
+            while(path.substr(0, 1)=="/"){
+                path = path.substr(1);
+            }
+                        
             while(q && lq != q){
                 lq = q;
                 var tm = q.match(tagTokenRe);
@@ -1807,6 +1815,9 @@ Ext.EventObject = function(){
             if(e){
                 // normalize buttons
                 this.button = e.button ? btnMap[e.button] : (e.which ? e.which-1 : -1);
+                if(e.type == 'click' && this.button == -1){
+                    this.button = 0;
+                }
                 this.shiftKey = e.shiftKey;
                 // mac metaKey behaves like ctrlKey
                 this.ctrlKey = e.ctrlKey || e.metaKey;
@@ -2089,8 +2100,10 @@ El.prototype = {
  	    return this;
  	},    
 
+    // private
     calcOffsetsTo : function(el){
-        el = Ext.get(el), d = el.dom;
+        el = Ext.get(el);
+        var d = el.dom;
         var restorePos = false;
         if(el.getStyle('position') == 'static'){
             el.position('relative');
@@ -2142,8 +2155,9 @@ El.prototype = {
         return this;
     },
 
-    scrollChildIntoView : function(child){
-        Ext.fly(child, '_scrollChildIntoView').scrollIntoView(this);
+    // private
+    scrollChildIntoView : function(child, hscroll){
+        Ext.fly(child, '_scrollChildIntoView').scrollIntoView(this, hscroll);
     },
 
     
@@ -2194,23 +2208,23 @@ El.prototype = {
     
     
     select : function(selector, unique){
-        return El.select("#" + Ext.id(this.dom) + " " + selector, unique);
+        return El.select(selector, unique, this.dom);
     },
     
     
     query : function(selector, unique){
-        return Ext.DomQuery.select("#" + Ext.id(this.dom) + " " + selector);
+        return Ext.DomQuery.select(selector, this.dom);
     },
     
     
     child : function(selector, returnDom){
-        var n = Ext.DomQuery.selectNode("#" + Ext.id(this.dom) + " " + selector);
+        var n = Ext.DomQuery.selectNode(selector, this.dom);
         return returnDom ? n : Ext.get(n);
     },
 
     
     down : function(selector, returnDom){
-        var n = Ext.DomQuery.selectNode("#" + Ext.id(this.dom) + " > " + selector);
+        var n = Ext.DomQuery.selectNode(" > " + selector, this.dom);
         return returnDom ? n : Ext.get(n);
     },
 
@@ -2350,7 +2364,8 @@ El.prototype = {
         }
         return this;
     },
-    
+
+    // private
     classReCache: {},
 
     
@@ -2584,6 +2599,7 @@ El.prototype = {
         return {width: this.getWidth(contentSize), height: this.getHeight(contentSize)};
     },
 
+    
     getViewSize : function(){
         var d = this.dom, doc = document, aw = 0, ah = 0;
         if(d == doc || d == doc.body){
@@ -2601,7 +2617,7 @@ El.prototype = {
         return asNumber ? parseInt(this.dom.value, 10) : this.dom.value;
     },
     
-    
+    // private
     adjustWidth : function(width){
         if(typeof width == "number"){
             if(this.autoBoxAdjust && !this.isBorderBox()){
@@ -2614,7 +2630,7 @@ El.prototype = {
         return width;
     },
     
-    
+    // private
     adjustHeight : function(height){
         if(typeof height == "number"){
            if(this.autoBoxAdjust && !this.isBorderBox()){
@@ -2830,6 +2846,7 @@ El.prototype = {
         return this;
     },
 
+    // private
     fixDisplay : function(){
         if(this.getStyle("display") == "none"){
             this.setStyle("visibility", "hidden");
@@ -2973,7 +2990,8 @@ El.prototype = {
 
     
     getAlignToXY : function(el, p, o){
-        el = Ext.get(el), d = this.dom;
+        el = Ext.get(el);
+        var d = this.dom;
         if(!el.dom){
             throw "Element.alignTo with an element that doesn't exist";
         }
@@ -2993,9 +3011,9 @@ El.prototype = {
         if(!m){
            throw "Element.alignTo with an invalid alignment " + p;
         }
-        p1 = m[1], p2 = m[2], c = m[3] ? true : false;
+        p1 = m[1]; p2 = m[2]; c = !!m[3];
 
-        //Subtract the aligned el"s internal xy from the target"s offset xy
+        //Subtract the aligned el's internal xy from the target's offset xy
         //plus custom offset to get the aligned el's new offset xy
         var a1 = this.getAnchorXY(p1, true);
         var a2 = el.getAnchorXY(p2, false);
@@ -3019,15 +3037,15 @@ El.prototype = {
            var scrollX = (doc.documentElement.scrollLeft || doc.body.scrollLeft || 0)+5;
            var scrollY = (doc.documentElement.scrollTop || doc.body.scrollTop || 0)+5;
 
-           if((x+w) > dw){
-               x = swapX ? r.left-w : dw-w;
-           }
+           if((x+w) > dw + scrollX){
+                x = swapX ? r.left-w : dw+scrollX-w;
+            }
            if(x < scrollX){
                x = swapX ? r.right : scrollX;
            }
-           if((y+h) > dh){
-               y = swapY ? r.top-h : dh-h;
-           }
+           if((y+h) > dh + scrollY){
+                y = swapY ? r.top-h : dh+scrollY-h;
+            }
            if (y < scrollY){
                y = swapY ? r.bottom : scrollY;
            }
@@ -3035,6 +3053,7 @@ El.prototype = {
         return [x,y];
     },
 
+    // private
     getConstrainToXY : function(){
         var os = {top:0, left:0, bottom:0, right: 0};
 
@@ -3121,7 +3140,9 @@ El.prototype = {
     
     clearOpacity : function(){
         if (window.ActiveXObject) {
-            this.dom.style.filter = "";
+            if(typeof this.dom.style.filter == 'string' && (/alpha/i).test(this.dom.style.filter)){
+                this.dom.style.filter = "";
+            }
         } else {
             this.dom.style.opacity = "";
             this.dom.style["-moz-opacity"] = "";
@@ -3298,8 +3319,8 @@ El.prototype = {
     },
 
     
-    getFrameWidth : function(sides){
-        return this.getPadding(sides) + this.getBorderWidth(sides);
+    getFrameWidth : function(sides, onlyContentBox){
+        return onlyContentBox && Ext.isBorderBox ? 0 : (this.getPadding(sides) + this.getBorderWidth(sides));
     },
 
     
@@ -3336,7 +3357,8 @@ El.prototype = {
             return this.addStyles(side, El.margins);
          }
     },
-    
+
+    // private
     addStyles : function(sides, styles){
         var val = 0;
         for(var i = 0, len = sides.length; i < len; i++){
@@ -3608,8 +3630,9 @@ El.prototype = {
     },
     
     
-    insertHtml : function(where, html){
-        return Ext.DomHelper.insertHtml(where, this.dom, html);
+    insertHtml : function(where, html, returnEl){
+        var el = Ext.DomHelper.insertHtml(where, this.dom, html);
+        return returnEl ? Ext.get(el) : el;
     },
     
     
@@ -3747,6 +3770,7 @@ El.prototype = {
         return {left: (x - o[0] + l), top: (y - o[1] + t)};
     },
 
+    
     getScroll : function(){
         var d = this.dom, doc = document;
         if(d == doc || d == doc.body){
@@ -3789,6 +3813,7 @@ El.prototype = {
         return(color.length > 5 ? color.toLowerCase() : defaultValue);  
     },
 
+    
     boxWrap : function(cls){
         cls = cls || 'x-box';
         var el = Ext.get(this.insertHtml('beforeBegin', String.format('<div class="{0}">'+El.boxMarkup+'</div>', cls)));
@@ -3796,6 +3821,7 @@ El.prototype = {
         return el;
     },
 
+    
     getAttributeNS : Ext.isIE ? function(ns, name){
         var d = this.dom;
         var type = typeof d[ns+":"+name];
@@ -3824,8 +3850,10 @@ ep.autoBoxAdjust = true;
 
 ep.autoDisplayMode = true;
 
+// private
 El.unitPattern = /\d+(px|em|%|en|ex|pt|in|cm|mm|pc)$/i;
 
+// private
 El.addUnits = function(v, defaultUnit){
     if(v === "" || v == "auto"){
         return v;
@@ -3912,6 +3940,44 @@ El.uncache = function(el){
         }
     }
 };
+
+
+// Garbage collection - uncache elements/purge listeners on orphaned elements
+// so we don't hold a reference and cause the browser to retain them
+El.garbageCollect = function(){
+    if(!Ext.enableGarbageCollector){
+        clearInterval(El.collectorThread);
+        return;
+    }
+    for(var eid in El.cache){
+        var el = El.cache[eid], d = el.dom;
+        // -------------------------------------------------------
+        // Determining what is garbage:
+        // -------------------------------------------------------
+        // !d
+        // dom node is null, definitely garbage
+        // -------------------------------------------------------
+        // !d.parentNode
+        // no parentNode == direct orphan, definitely garbage
+        // -------------------------------------------------------
+        // !d.offsetParent && !document.getElementById(eid)
+        // display none elements have no offsetParent so we will
+        // also try to look it up by it's id. However, check
+        // offsetParent first so we don't do unneeded lookups.
+        // This enables collection of elements that are not orphans
+        // directly, but somewhere up the line they have an orphan
+        // parent.
+        // -------------------------------------------------------
+        if(!d || !d.parentNode || (!d.offsetParent && !document.getElementById(eid))){
+            delete El.cache[eid];
+            if(Ext.enableListenerCollection){
+                Ext.lib.Dom.purgeElement(d);
+            }
+        }
+    }
+}
+El.collectorThreadId = setInterval(El.garbageCollect, 30000);
+
 
 // dom is optional
 El.Flyweight = function(dom){
@@ -4774,10 +4840,10 @@ if(Ext.DomQuery){
     Ext.Element.selectorFunction = Ext.DomQuery.select;
 }
 
-Ext.Element.select = function(selector, unique){
+Ext.Element.select = function(selector, unique, root){
     var els;
     if(typeof selector == "string"){
-        els = Ext.Element.selectorFunction(selector);
+        els = Ext.Element.selectorFunction(selector, root);
     }else if(selector.length !== undefined){
         els = selector;
     }else{

@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 1.0
+ * Ext JS Library 1.1 Beta 1
  * Copyright(c) 2006-2007, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -10,7 +10,7 @@
 Ext.util.DelayedTask=function(fn,scope,args){var id=null,d,t;var call=function(){var now=new Date().getTime();if(now-t>=d){clearInterval(id);id=null;fn.apply(scope,args||[]);}};this.delay=function(delay,newFn,newScope,newArgs){if(id&&delay!=d){this.cancel();}
 d=delay;t=new Date().getTime();fn=newFn||fn;scope=newScope||scope;args=newArgs||args;if(!id){id=setInterval(call,d);}};this.cancel=function(){if(id){clearInterval(id);id=null;}};};
 
-Ext.util.MixedCollection=function(allowFunctions,keyFn){this.items=[];this.map={};this.keys=[];this.length=0;this.events={"clear":true,"add":true,"replace":true,"remove":true,"sort":true};this.allowFunctions=allowFunctions===true;if(keyFn){this.getKey=keyFn;}
+Ext.util.MixedCollection=function(allowFunctions,keyFn){this.items=[];this.map={};this.keys=[];this.length=0;this.addEvents({"clear":true,"add":true,"replace":true,"remove":true,"sort":true});this.allowFunctions=allowFunctions===true;if(keyFn){this.getKey=keyFn;}
 Ext.util.MixedCollection.superclass.constructor.call(this);};Ext.extend(Ext.util.MixedCollection,Ext.util.Observable,{allowFunctions:false,add:function(key,o){if(arguments.length==1){o=arguments[0];key=this.getKey(o);}
 if(typeof key=="undefined"||key===null){this.length++;this.items.push(o);this.keys.push(null);}else{var old=this.map[key];if(old){return this.replace(key,o);}
 this.length++;this.items.push(o);this.map[key]=o;this.keys.push(key);}
@@ -64,7 +64,7 @@ return null;},updateRule:function(selector,property,value){if(!(selector instanc
 return false;}};}();
 
 Ext.util.ClickRepeater=function(el,config)
-{this.el=Ext.get(el);this.el.unselectable();Ext.apply(this,config);this.events={"mousedown":true,"click":true,"mouseup":true};this.el.on("mousedown",this.handleMouseDown,this);if(this.preventDefault||this.stopDefault){this.el.on("click",function(e){if(this.preventDefault){e.preventDefault();}
+{this.el=Ext.get(el);this.el.unselectable();Ext.apply(this,config);this.addEvents({"mousedown":true,"click":true,"mouseup":true});this.el.on("mousedown",this.handleMouseDown,this);if(this.preventDefault||this.stopDefault){this.el.on("click",function(e){if(this.preventDefault){e.preventDefault();}
 if(this.stopDefault){e.stopEvent();}},this);}
 if(this.handler){this.on("click",this.handler,this.scope||this);}
 Ext.util.ClickRepeater.superclass.constructor.call(this);};Ext.extend(Ext.util.ClickRepeater,Ext.util.Observable,{interval:20,delay:250,preventDefault:true,stopDefault:false,timer:0,docEl:Ext.get(document),handleMouseDown:function(){clearTimeout(this.timer);this.el.blur();if(this.pressClass){this.el.addClass(this.pressClass);}
@@ -85,5 +85,5 @@ fn.call(scope||window,k,e);return;}}}else{if(k==keyCode){if(this.stopEvent){e.st
 fn.call(scope||window,k,e);}}}};this.bindings.push(handler);},handleKeyDown:function(e){if(this.enabled){var b=this.bindings;for(var i=0,len=b.length;i<len;i++){b[i].call(this,e);}}},isEnabled:function(){return this.enabled;},enable:function(){if(!this.enabled){this.el.on(this.eventName,this.keyDownDelegate);this.enabled=true;}},disable:function(){if(this.enabled){this.el.removeListener(this.eventName,this.keyDownDelegate);this.enabled=false;}}};
 
 Ext.util.TextMetrics=function(){var shared;return{measure:function(el,text,fixedWidth){if(!shared){shared=Ext.util.TextMetrics.Instance(el,fixedWidth);}
-shared.bind(el);shared.setFixedWidth(fixedWidth||'auto');return shared.getSize(text);},createInstance:function(el,fixedWidth){return Ext.util.TextMetrics.Instance(el,fixedWidth);}};}();Ext.util.TextMetrics.Instance=function(bindTo,fixedWidth){var ml=new Ext.Element(document.createElement('div'));document.body.appendChild(ml.dom);ml.position('absolute');ml.setLeftTop(-1000,-1000);ml.hide();if(fixedWidth){mi.setWidth(fixedWidth);}
+shared.bind(el);shared.setFixedWidth(fixedWidth||'auto');return shared.getSize(text);},createInstance:function(el,fixedWidth){return Ext.util.TextMetrics.Instance(el,fixedWidth);}};}();Ext.util.TextMetrics.Instance=function(bindTo,fixedWidth){var ml=new Ext.Element(document.createElement('div'));document.body.appendChild(ml.dom);ml.position('absolute');ml.setLeftTop(-1000,-1000);ml.hide();if(fixedWidth){ml.setWidth(fixedWidth);}
 var instance={getSize:function(text){ml.update(text);var s=ml.getSize();ml.update('');return s;},bind:function(el){ml.setStyle(Ext.fly(el).getStyles('font-size','font-style','font-weight','font-family','line-height'));},setFixedWidth:function(width){ml.setWidth(width);},getWidth:function(text){ml.dom.style.width='auto';return this.getSize(text).width;},getHeight:function(text){return this.getSize(text).height;}};instance.bind(bindTo);return instance;};Ext.Element.measureText=Ext.util.TextMetrics.measure;
