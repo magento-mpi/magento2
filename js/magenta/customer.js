@@ -84,7 +84,7 @@ Mage.Customer = function(depend){
                     url : Mage.url + 'customer/card/id/'
                 });
                 
-                this.customerCard.toolbarAdd(new Ext.toolbar.Button({
+                this.customerCard.toolbarAdd(new Ext.ToolbarButton({
                     text : 'Delete Customer'
                 }));
 

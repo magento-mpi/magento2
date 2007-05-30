@@ -54,6 +54,8 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
             1 => array(
                 'name' => 'address',
                 'type' => 'address',
+                'title' => __('Address List'),
+                'storeUrl' => Mage::getBaseUrl().'admin/address/gridData/id/'.$customerId.'/',
                 'active' => false
             ),
         );
