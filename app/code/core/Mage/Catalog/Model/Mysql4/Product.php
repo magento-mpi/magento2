@@ -180,8 +180,10 @@ class Mage_Catalog_Model_Mysql4_Product
             
             $data = array('product_id'=>$product->getId());
             foreach ($categories as $categoryId) {
-            	$data['category_id'] = $categoryId;
-            	$this->_write->insert($this->_categoryProductTable, $data);
+                if ($categoryId = (int) $categoryId) {
+                	$data['category_id'] = $categoryId;
+                	$this->_write->insert($this->_categoryProductTable, $data);
+                }
             }
         }
     }
@@ -199,8 +201,10 @@ class Mage_Catalog_Model_Mysql4_Product
             );
             
             foreach ($related as $productId) {
-                $data['linked_product_id'] = $productId;
-                $this->_write->insert($this->_linkTable, $data);
+                if ($productId = (int) $productId) {
+                    $data['linked_product_id'] = $productId;
+                    $this->_write->insert($this->_linkTable, $data);
+                }
             }
         }
     }
