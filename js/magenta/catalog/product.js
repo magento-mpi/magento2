@@ -82,6 +82,10 @@ Mage.Catalog_Product = function(depend){
                     url : Mage.url + 'product/card/product/'
                 });
                 
+                this.productCard.toolbarAdd(new Ext.ToolbarButton({
+                    text : 'Delete product'
+                }));
+                
                 Layout.beginUpdate();
                 Layout.add('center', new Ext.NestedLayoutPanel(Layout_Center, {title : 'Products Grid'}));
                 Layout.endUpdate();

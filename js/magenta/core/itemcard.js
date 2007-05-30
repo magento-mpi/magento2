@@ -1,6 +1,7 @@
 Mage.core.ItemCard = function(config){
     this.panel = null;
     this.toolbar = null;
+    this.toolbarItems = new Ext.util.MixedCollection();
     this.lastRecord = null;
     this.conn = null;
     this.tabs = new Ext.util.MixedCollection();
@@ -68,10 +69,13 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             handler : this.onSave,
             scope : this
         }));
-        this.toolbar.add(new Ext.ToolbarButton({
-            text : 'Delete Product'
-        }));
-        
+        for (i=0; i < this.toolbarItems.getCount(); i++) {
+            this.toolbar.add(this.toolbarItems.get(i));
+        }
+    },
+    
+    toolbarAdd : function(obj) {
+        this.toolbarItems.add(obj);
     },
     
     parseRecord : function(record) {

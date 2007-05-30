@@ -83,6 +83,10 @@ Mage.Customer = function(depend){
                     region : this.customerLayout.getRegion('south'),
                     url : Mage.url + 'customer/card/id/'
                 });
+                
+                this.customerCard.toolbarAdd(new Ext.toolbar.Button({
+                    text : 'Delete Customer'
+                }));
 
             } else { // not loaded condition
                 Mage.Admin.getLayout().getRegion('center').showPanel(this.baseLayout);

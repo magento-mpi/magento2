@@ -50,7 +50,7 @@ Mage.core.Panel.Factory = {
             case "related":
                 return new Mage.core.PanelRelated(region, config);
             case "address":
-                return new Mage.core.PanelForm(region, config);
+                return new Mage.core.PanelAddresses(region, config);
                 
         }
         throw 'Panel "'+type+'" not supported.';

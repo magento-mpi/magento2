@@ -116,6 +116,9 @@
             <block type="tag_js" name="jscripts.js.magenta.core.panel.categoreis">
                 <action method="setSrc"><src>magenta/core/panel/categories.js</src></action>
             </block>
+            <block type="tag_js" name="jscripts.js.magenta.core.panel.address">
+                <action method="setSrc"><src>magenta/core/panel/address.js</src></action>
+            </block>
             <block type="tag_js" name="jscripts.js.auth">
                 <action method="setSrc"><src>magenta/auth.js</src></action>
             </block>
