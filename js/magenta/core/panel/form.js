@@ -2,7 +2,7 @@ Mage.core.PanelForm = function(region, config) {
     this.region = region;
     this.config = config;
     this.notLoaded = true;
-    
+
     Ext.apply(this, config);
     
     var background = false;
@@ -50,7 +50,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     save : function() {
         var data;
-        data = this.frm.getValues();
+        data = this.frm.getValues(true);
         return data;    
     },
     
