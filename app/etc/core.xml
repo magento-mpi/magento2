@@ -61,9 +61,5 @@
           <active>true</active>
           <codePool>core</codePool>
       </Mage_Log>
-      <Mage_Upload>
-          <active>true</active>
-          <codePool>core</codePool>
-      </Mage_Upload>
   </modules>
 </config>
