@@ -139,4 +139,8 @@ class Mage_Admin_Model_User extends Varien_Object
         //var_dump($session->isAllowed('admin'));die();
     }
     
+    public function loadLanguageFile()
+    {
+        Mage::getSingleton('core', 'translate')->loadTranslationFile('admin/base.csv');
+    }
 }

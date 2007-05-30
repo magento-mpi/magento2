@@ -14,5 +14,8 @@ class Varien_Data_Form_Element_Imagefile extends Varien_Data_Form_Element_Abstra
         parent::__construct($attributes);
         $this->setType('file');
         $this->setExtType('imagefile');
+        $this->setAutosubmit(false);
+        $this->setData('autoSubmit', false);
+        //$this->setExtType('file');
     }
 }

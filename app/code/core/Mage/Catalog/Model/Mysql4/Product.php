@@ -15,9 +15,12 @@ class Mage_Catalog_Model_Mysql4_Product
      * @var string
      */
     protected $_productTable;
+    protected $_categoryProductTable;
     protected $_attributeTable;
     protected $_attributeInSetTable;
     protected $_linkTable;
+    
+    protected $_attributes;
     
     protected $_read;
     protected $_write;
@@ -28,6 +31,7 @@ class Mage_Catalog_Model_Mysql4_Product
         $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
         $this->_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
         $this->_linkTable           = Mage::registry('resources')->getTableName('catalog_resource', 'product_link');
+        $this->_categoryProductTable= Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
         
         $this->_read = Mage::registry('resources')->getConnection('catalog_read');
         $this->_write = Mage::registry('resources')->getConnection('catalog_write');
@@ -68,7 +72,6 @@ class Mage_Catalog_Model_Mysql4_Product
         }
         
         $select->where($this->_productTable.".product_id=:product_id");
-        #print_r($select->__toString());
         $arr = $this->_read->fetchRow($select, array('product_id'=>$productId));
 
         // Add multiple attributes to result       
@@ -101,13 +104,18 @@ class Mage_Catalog_Model_Mysql4_Product
         $this->_write->beginTransaction();
         try {
             if (!$product->getId()) {
+                $this->_checkRequiredAttributes($product);
                 $data = array(
                     'create_date'=> new Zend_Db_Expr('NOW()'),
                     'set_id'     => $product->getSetId(),
                     'type_id'    => $product->getTypeId(),
                 );
+                
                 $this->_write->insert($this->_productTable, $data);
                 $product->setProductId($this->_write->lastInsertId());
+            }
+            else {
+                $this->_checkRequiredAttributes($product, true);
             }
             
             $this->_saveAttributes($product);
@@ -122,37 +130,60 @@ class Mage_Catalog_Model_Mysql4_Product
         }
     }
     
+    protected function _checkRequiredAttributes($product, $onlyExistingAttributes = false)
+    {
+        $values = $product->getData('attributes');
+        foreach ($this->getAttributes($product->getSetId()) as $attribute) {
+        	if ($attribute->isRequired()) {
+        	    if ($onlyExistingAttributes) {
+        	        if (isset($values[$attribute->getId()]) && empty($values[$attribute->getId()])) {
+        	            throw new Exception('Attribute "'.__($attribute->getCode()).'" is required');
+        	        }
+        	    }
+        	    else {
+        	        if (empty($values[$attribute->getId()])) {
+        	            throw new Exception('Attribute "'.__($attribute->getCode()).'" is required');
+        	        }
+        	    }
+        	}
+        }
+        return $this;
+    }
+    
     protected function _saveAttributes(Mage_Catalog_Model_Product $product)
     {
-//        if (!$product->getData('attributes')) {
-//            return false;
-//        }
         $attributes = $this->getAttributes($product->getSetId());
-        foreach ($attributes as $attribute) {
-            if ($product->getData('attributes', $attribute->getId())) {
-                $data = $product->getData('attributes', $attribute->getId());
+        $values = $product->getData('attributes');
+        if (empty($values)) {
+            return $this;
+        }
+        
+        // save attributes values
+        foreach ($values as $attributeId=>$attributeValue) {
+            $attribute = $attributes->getItemById($attributeId);
+            if ($attribute instanceof Mage_Catalog_Model_Product_Attribute) {
+                $saver = $attribute->getSaver()->save($product->getId(), $attributeValue);
+                $product->setData($attribute->getCode(), $attributeValue);
             }
             else {
-                $data = $product->getData($attribute->getCode());
+                throw new Exception('Attribute with id "'.$attributeId.'" not exists');
             }
-            
-            // Check required attributes
-            if ($attribute->isRequired() && empty($data)) {
-                throw new Exception('Attribute "'.$attribute->getCode().'" is required');
-            }
-            elseif (empty($data) && !$attribute->isRequired()) {
-                continue;
-            }
-            
-            $saver = $attribute->getSaver()->save($product->getId(), $data);
-            $product->setData($attribute->getCode(), $data);
         }
         return $this;
     }
     
     protected function _saveCategories(Mage_Catalog_Model_Product $product)
     {
-        
+        if (($categories=$product->getNewCategories()) && is_array($categories)) {
+            $condition = $this->_write->quoteInto('product_id=?', $product->getId());
+            $this->_write->delete($this->_categoryProductTable, $condition);
+            
+            $data = array('product_id'=>$product->getId());
+            foreach ($categories as $categoryId) {
+            	$data['category_id'] = $categoryId;
+            	$this->_write->insert($this->_categoryProductTable, $data);
+            }
+        }
     }
     
     protected function _saveLinks(Mage_Catalog_Model_Product $product)
@@ -174,11 +205,6 @@ class Mage_Catalog_Model_Mysql4_Product
         }
     }
     
-    protected function _prepareSaveData(Mage_Catalog_Model_Product $product)
-    {
-        $data = array();
-    }
-    
     /**
      * Get product attributes collection
      *
@@ -187,9 +213,11 @@ class Mage_Catalog_Model_Mysql4_Product
      */
     public function getAttributes($attributeSetId)
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
-            ->addSetFilter($attributeSetId)
-            ->load();
-        return $collection;
+        if (!$this->_attributes) {
+            $this->_attributes = Mage::getModel('catalog_resource', 'product_attribute_collection')
+                ->addSetFilter($attributeSetId)
+                ->load();
+        }
+        return $this->_attributes;
     }
 }

@@ -28,9 +28,14 @@ class Mage_Core_Model_Translate
         // TODO: dynamic load
         foreach ($this->_sections as $section=>$sectionFile) {
             if (!empty($section)) {
-                $this->_translate->addTranslation($this->_baseDir.$sectionFile, $this->_language);
+                $this->loadTranslationFile($sectionFile);
             }
         }
+    }
+    
+    public function loadTranslationFile($file)
+    {
+        $this->_translate->addTranslation($this->_baseDir.$file, $this->_language);
     }
     
     public function setLanguage($language)

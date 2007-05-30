@@ -104,7 +104,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        $form = $this->getLayout()->createBlock('admin_catalog_product_create_option', 'product_create_option');
+        $form = $this->getLayout()->createBlock('admin_product_create_dialog', 'product_create_option');
         $this->getResponse()->setBody($form->toHtml());
     }
     
@@ -119,7 +119,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function cardAction()
     {
-        $card = $this->getLayout()->createBlock('admin_catalog_product_card', 'product_card');
+        $card = $this->getLayout()->createBlock('admin_product_card', 'product_card');
         $this->getResponse()->setBody($card->toJson());
     }
     
@@ -130,22 +130,6 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
             ->setTemplate('admin/catalog/view.phtml')
             ->assign('product', $product);
         $this->getResponse()->setBody($block->toHtml());
-    }
-
-    /**
-     * Attributes group form
-     *
-     */
-    public function formAction()
-    {
-        $form = $this->getLayout()->createBlock('admin_catalog_product_form', 'product_form');
-        $this->getResponse()->setBody($form->toHtml());
-    }
-
-    public function jsonFormAction()
-    {
-        $form = $this->getLayout()->createBlock('admin_catalog_product_form', 'product_form');
-        $this->getResponse()->setBody($form->toJson());
     }
 
     public function imagesAction()
@@ -255,19 +239,21 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     
     /**
      * Save product
-     *
      */
     public function saveAction()
     {
         $res = array('error' => 0);
         $product = Mage::getModel('catalog', 'product')
-            ->setProductId($this->getRequest()->getParam('product'))
-            ->setSetId($this->getRequest()->getParam('set_id', 1))
-            ->setTypeId($this->getRequest()->getParam('type_id', 1))
-            ->setAttributes($this->getRequest()->getParam('attribute'));
-        
-        if ($relatedProducts = $this->getRequest()->getParam('related_products')) {
-            $product->setRelatedLinks(explode(',',$relatedProducts));
+            ->setProductId((int) $this->getRequest()->getParam('product'))
+            ->setSetId((int) $this->getRequest()->getParam('set', 1))
+            ->setTypeId((int) $this->getRequest()->getParam('type', 1))
+            ->setAttributes($this->getRequest()->getParam('attributes'));
+
+        if ($this->getRequest()->getParam('related')) {
+            $product->setRelatedLinks($this->getRequest()->getParam('related'));
+        }
+        if ($this->getRequest()->getParam('categories')) {
+            $product->setNewCategories($this->getRequest()->getParam('categories'));
         }
             
         try {
@@ -412,7 +398,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
             
             $set = Mage::getModel('catalog', 'product_attribute_set')->load($setId);
             $groups = $set->getGroups();
-            $attributes = $set->getAttributes();
+            $attributes = $set->getAttributes(true);
                 
             foreach ($attributes as $attribute) {
                 $attrs[$attribute->getGroupId()][] = array(
@@ -496,7 +482,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * Product attribute set JSON
+     * Product attributes collection
      *
      */
     public function attributeListAction()
@@ -504,6 +490,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $order = $this->getRequest()->getPost('sort', 'attribute_id');
         $dir   = $this->getRequest()->getPost('dir', 'asc');
         $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection')
+            ->addFilter('is_visible', 1)
             ->setOrder($order, $dir)
             ->load();
             

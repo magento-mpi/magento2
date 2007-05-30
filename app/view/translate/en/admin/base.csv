@@ -1,0 +1,17 @@
+#Product attributes
+name;Name
+cost;Cost
+default_category;Default Category
+description;Description
+manufacturer;Manufacturer
+sku;Product SKU
+price;Price
+status;Status
+tier_price;Tier price
+shoe_type;Shoe type
+weight;Weight
+image;Image
+small_image;Small Image
+meta_title;Title(meta)
+meta_keywords;Keyweords(meta)
+meta_description;Description(meta)

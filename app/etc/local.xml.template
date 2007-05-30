@@ -110,7 +110,7 @@
          <dev_setup>
             <connection>
                <model>mysql4</model>
-               <initQuery>SET NAMES utf8</initQuery>
+               <initStatements>SET NAMES utf8</initStatements>
                <type>mysqli_setup</type>
                <active>{{db_active}}</active>
                <host>{{db_host}}</host>

@@ -66,13 +66,9 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Object
         return $this;
     }
     
-    public function getAttributes()
+    public function getAttributes($onlyVisible=false)
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
-            //->addSetFilter($this->getSetId())
-            ->addGroupFilter($this->getId())
-            ->load();
-        return $collection;
+        return $this->getResource()->getAttributes($this->getId(), $onlyVisible);
     }
     
     public function getAttributePosition($attribute)

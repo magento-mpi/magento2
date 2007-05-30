@@ -45,11 +45,15 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
      * @param   int $setId
      * @return  array
      */
-    public function getAttributes($groupId)
+    public function getAttributes($groupId, $onlyVisible=false)
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
             ->addGroupFilter($groupId)
-            ->load();
+            ->setOrder($this->_inSetTable.'.position', 'asc');
+        if ($onlyVisible) {
+            $collection->addFilter('is_visible', 1);
+        }
+        $collection->load();
         return $collection;
     }
     

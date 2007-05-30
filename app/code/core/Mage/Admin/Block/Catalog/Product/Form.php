@@ -8,7 +8,7 @@
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  * @license    http://www.opensource.org/licenses/osl-3.0.php
  */
-class Mage_Admin_Block_Catalog_Product_Form extends Mage_Core_Block_Form
+class Mage_Admin_Block_Catalog_Product_Form extends Varien_Data_Form
 {
     /**
      * Data inputs configuration
@@ -23,7 +23,7 @@ class Mage_Admin_Block_Catalog_Product_Form extends Mage_Core_Block_Form
      * @var Mage_Core_Model_Config_Element
      */
     protected $_dataSources;
-
+    
     /**
      * Constructor
      *
@@ -31,66 +31,51 @@ class Mage_Admin_Block_Catalog_Product_Form extends Mage_Core_Block_Form
     public function __construct() 
     {
         parent::__construct();
-        // Request params
-        $groupId  = Mage::registry('controller')->getRequest()->getParam('group', false);
-        $setId    = Mage::registry('controller')->getRequest()->getParam('set', false);
-        $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
-        $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
-
         // Config settings
         $this->_dataInputs = (array) Mage::getConfig()->getNode('admin/dataInputs');
+    }
+    
+    public function render()
+    {
+        // Request params
+        $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
 
-        $this->setTemplate('form.phtml');
-        
         // Set form attributes
-        $postUrl = Mage::getBaseUrl().'mage_catalog/product/save/';
+        $postUrl = Mage::getUrl('admin', array('controller'=>'product', 'action'=>'save'));
         if ($productId) {
             $postUrl.= 'product/'.$productId;
         }
-        $this->setAttribute('method', 'POST');
-        $this->setAttribute('class', 'x-form');
-        $this->setAttribute('action', $postUrl);
         
-
-        $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
-        $this->setAttribute('legend', $group->getCode());
-        $this->setAttribute('id', 'form_'.$groupId);
+        $this->setMethod('POST');
+        $this->setAction($postUrl);
+        //$this->setFileupload(false);
         
-        if ($setId) {
-            $this->addField('set_id', 'hidden', array('name'=>'set_id', 'value'=>$setId));
-        }
+        $group = Mage::getModel('catalog', 'product_attribute_group')->load($this->getGroupId());
+        $fieldset = $this->addFieldset($group->getCode(), array('legend'=>$group->getCode()));
         
-        $attributes = $group->getAttributes();
+        $attributes = $group->getAttributes(true);
         foreach ($attributes as $attribute) {
-            $this->attribute2field($attribute);
+            $this->attribute2field($attribute, $fieldset);
         }
         
         if ($productId) {
             $product = Mage::getModel('catalog','product')->load($productId);
             $productInfo = $product->getData();
-            $this->setElementsValues($productInfo);
+            $this->setValues($productInfo);
         }
+        return $this;
     }
     
-    /**
-     * Convert attribute object to field description
-     *
-     * @param Mage_Catalog_Model_Product_Attribute $attribute
-     * @return Mage_Catalog_Block_Admin_Product_Form
-     */
-    public function attribute2field($attribute)
+    public function attribute2field($attribute, $fieldset)
     {
         $elementId      = $attribute->getCode();
         $elementType    = $attribute->getDataInput();
         
         $elementConfig  = array();
-        $elementConfig['name'] = 'attribute['.$attribute->getId().']';
-        $elementConfig['label']= $attribute->getCode();
+        $elementConfig['name'] = 'attributes['.$attribute->getId().']';
+        $elementConfig['label']= __($attribute->getCode());
         $elementConfig['id']   = $attribute->getCode();
-        $elementConfig['value']= '';
         $elementConfig['title']= $attribute->getCode();
-        $elementConfig['validation']= '';
-        $elementConfig['ext_type']  = 'TextField';
         
         // Parse input element params
         if (isset($this->_dataInputs[$attribute->getDataInput()])) {
@@ -103,16 +88,9 @@ class Mage_Admin_Block_Catalog_Product_Form extends Mage_Core_Block_Form
             }
         }
         
-        // TODO:
-        // Parse option values
         if ($source = $attribute->getSource()) {
-            //$dataSource = (array) $this->_dataSources[$attribute->getDataSource()];
-            $elementConfig['ext_type']  = 'ComboBox';
             $elementConfig['values'] = $source->getArrOptions();
         }
-                
-        $this->addField($elementId, $elementType, $elementConfig);
-        
-        return $this;
+        $fieldset->addField($elementId, $elementType, $elementConfig);
     }
 }

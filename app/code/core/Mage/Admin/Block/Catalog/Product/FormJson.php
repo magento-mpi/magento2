@@ -33,25 +33,21 @@ class Mage_Admin_Block_Catalog_Product_FormJson extends Varien_Data_Form
         parent::__construct();
         // Request params
         $groupId  = Mage::registry('controller')->getRequest()->getParam('group', false);
-        $setId    = Mage::registry('controller')->getRequest()->getParam('set', false);
         $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
-        $isDefault= (bool) Mage::registry('controller')->getRequest()->getParam('isdefault', false);
 
         // Config settings
         $this->_dataInputs = (array) Mage::getConfig()->getNode('admin/dataInputs');
 
         // Set form attributes
-        $postUrl = Mage::getBaseUrl().'admin/product/save/';
+        $postUrl = Mage::getUrl('admin', array('controller'=>'product', 'action'=>'save'));
         if ($productId) {
             $postUrl.= 'product/'.$productId;
         }
         
         $this->setMethod('POST');
-        $this->setClass('x-form');
         $this->setAction($postUrl);
-        $this->setFileupload(false);
+        //$this->setFileupload(false);
         
-
         $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
         $fieldset = $this->addFieldset($group->getCode(), array('legend'=>$group->getCode()));
         

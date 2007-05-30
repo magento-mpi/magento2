@@ -43,24 +43,18 @@
       </resources>
         <block>
             <types>
-                <admin_catalog_category_form>
+                <admin_category_form>
                     <class>Mage_Admin_Block_Catalog_Category_Form</class>
-                </admin_catalog_category_form>
-                <admin_catalog_category_form_json>
-                    <class>Mage_Admin_Block_Catalog_Category_FormJson</class>
-                </admin_catalog_category_form_json>
-                <admin_catalog_product_create_option>
+                </admin_category_form>
+                <admin_product_create_dialog>
                     <class>Mage_Admin_Block_Catalog_Product_CreateOption</class>
-                </admin_catalog_product_create_option>
-                <admin_catalog_product_form>
+                </admin_product_create_dialog>
+                <admin_product_form>
                     <class>Mage_Admin_Block_Catalog_Product_Form</class>
-                </admin_catalog_product_form>
-                <admin_catalog_product_form_json>
-                    <class>Mage_Admin_Block_Catalog_Product_FormJson</class>
-                </admin_catalog_product_form_json>
-                <admin_catalog_product_card>
+                </admin_product_form>
+                <admin_product_card>
                     <class>Mage_Admin_Block_Catalog_Product_Card</class>
-                </admin_catalog_product_card>
+                </admin_product_card>
                 <tag_css_theme>
                     <class>Mage_Core_Block_Text_Tag_Css_Admin</class>
                 </tag_css_theme>
@@ -86,6 +80,12 @@
                   <class>user</class>
                   <method>preDispatchModuleAction</method>
                </auth>
+               <translate>
+                  <type>singleton</type>
+                  <model>admin</model>
+                  <class>user</class>
+                  <method>loadLanguageFile</method>
+               </translate>
             </observers>
          </action_preDispatch_Mage_Admin>
       </events>

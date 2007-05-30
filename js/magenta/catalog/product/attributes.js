@@ -624,7 +624,6 @@ Mage.Catalog_Product_Attributes = function(){
                 {name: 'data_saver', mapping: 'data_saver'},
                 {name: 'data_source', mapping: 'data_source'},
                 {name: 'editable', mapping: 'editable'},
-                {name: 'deletable', mapping: 'deletable'},
                 {name: 'required', mapping: 'required'},
                 {name: 'searchable', mapping: 'searchable'},
                 {name: 'comparable', mapping: 'comparable'},
@@ -676,7 +675,7 @@ Mage.Catalog_Product_Attributes = function(){
                 locked:false,
                 dataIndex: 'attribute_id'
             },{
-                header: "Code",
+                header: "Attribute Code",
                 sortable: true,
                 dataIndex: 'attribute_code',
                 editor: codeEditor
@@ -686,6 +685,7 @@ Mage.Catalog_Product_Attributes = function(){
                 dataIndex: 'data_input',
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
+                   editable:false,
                    triggerAction: 'all',
                    mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_input'),
@@ -698,6 +698,7 @@ Mage.Catalog_Product_Attributes = function(){
                 dataIndex: 'data_type',
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
+                   editable:false,
                    triggerAction: 'all',
                    mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_type'),
@@ -710,6 +711,7 @@ Mage.Catalog_Product_Attributes = function(){
                 dataIndex: 'data_saver',
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
+                   editable:false,
                    triggerAction: 'all',
                    mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_saver'),
@@ -722,6 +724,7 @@ Mage.Catalog_Product_Attributes = function(){
                 dataIndex: 'data_source',
                 editor: new Ed(new Ext.form.ComboBox({
                    typeAhead: false,
+                   editable:false,
                    triggerAction: 'all',
                    mode: 'remote',
                    store: Mage.Catalog_Product_Attributes_DropDownStore.get(this.attributeGridPropUrl, 'data_source'),
@@ -750,12 +753,6 @@ Mage.Catalog_Product_Attributes = function(){
                 header: "Multiple",
                 sortable: true,
                 dataIndex: 'multiple',
-                renderer: formatBoolean,
-                editor: new Ed(new fm.Checkbox())
-            },{
-                header: "Deletable",
-                sortable: true,
-                dataIndex: 'deletable',
                 renderer: formatBoolean,
                 editor: new Ed(new fm.Checkbox())
             }]);

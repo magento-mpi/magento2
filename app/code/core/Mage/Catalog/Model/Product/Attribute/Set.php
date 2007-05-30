@@ -50,12 +50,15 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
         return $collection;
     }
     
-    public function getAttributes()
+    public function getAttributes($onlyVisible = false)
     {
         $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
             ->addSetFilter($this->getId())
-            ->setPositionOrder()
-            ->loadData();
+            ->setPositionOrder();
+        if ($onlyVisible) {
+            $collection->addFilter('is_visible', 1);
+        }
+        $collection->loadData();
         return $collection;
     }
     
