@@ -6,10 +6,9 @@
 	</timelineDataSource>
 		<box direction="horizontal" resizeable="true">
 			<box direction="horizontal">
-				<chartpanel id="chart1" printOrder="1" title="Users from countries {dateStart.fullYear}" width="100%" minWidth="300" height="100%"  visibility="visible" relation="default">
+				<chartpanel id="chart1" printOrder="1" title="Users from countries for {ranges.0.start}-{ranges.0.end}" width="100%" minWidth="300" height="100%"  visibility="visible" relation="default">
 					<dataSource url="admin/flex/countries"  method="POST" defaultSortField="countryName" defaultSortDesc="true" showBusyCursor="true" >
-						<parameter name="dateStart">{dateStart.fullYear}-{dateStart.month}-{dateStart.date}</parameter>
-						<parameter name="dateEnd">{dateEnd.fullYear}-{dateEnd.month}-{dateEnd.date}</parameter>
+						<parameter name="ranges" variable="true">{ranges}</parameter>
 					</dataSource>
 					
 					<chart type="pie" showLegend="true">
@@ -32,7 +31,7 @@
 			</box>
 			<box direction="vertical">
 				<chartpanel id="chart3" printOrder="3" title="Users from country {countryName} (Linear)" width="100%" minWidth="400" height="100%" visibility="relation" relation="chart1">
-					<dataSource url="admin/flex/linearExample" method="POST" defaultSortField="users" defaultSortNumeric="true"  showBusyCursor="false" >
+					<dataSource url="admin/flex/linearExample" method="POST" refreshRate="5000" defaultSortField="users" defaultSortNumeric="true"  showBusyCursor="false" >
 						<parameter name="country">{id}</parameter>
 						<parameter name="dateStart">{parentRelation.dateStart.fullYear}-{parentRelation.dateStart.month}-{parentRelation.dateStart.date}</parameter>
 						<parameter name="dateEnd">{parentRelation.dateEnd.fullYear}-{parentRelation.dateEnd.month}-{parentRelation.dateEnd.date}</parameter>

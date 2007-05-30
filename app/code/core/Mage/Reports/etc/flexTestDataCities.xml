@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataSource>
-	<series type="line" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
-	<series type="line" yField="new_users" xField="name" displayName="New Users" effect="interpolate" />
+	<override>
+		<series type="line" yField="users" xField="name"  displayName="Total Users" effect="interpolate"/>
+		<series type="line" yField="new_users" xField="name" displayName="New Users" effect="interpolate" />
+		<dataTip>
+			New overriden Data Tip &lt;br /&gt;
+			Super!!!!!!!!!!!
+		</dataTip>
+	</override>
 	<row>
 		<countryId>1</countryId>
 		<name>New York</name>

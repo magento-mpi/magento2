@@ -14,7 +14,19 @@
 	</phrase>
 
 	<phrase name="select_period">
-	Select period
+	Select periods
+	</phrase>
+	
+	<phrase name="add_period">
+	Add range
+	</phrase>
+	
+	<phrase name="apply_ranges">
+	Apply ranges
+	</phrase>
+	
+	<phrase name="remove">
+	Remove
 	</phrase>
 	
 	<phrase name="period_to">
