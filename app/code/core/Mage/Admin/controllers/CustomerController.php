@@ -43,6 +43,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $customerId = $this->getRequest()->getParam('id', 0);
         $cardStruct = array();
+        $cardStruct['title'] = 'Customer card';
         $cardStruct['tabs'] = array(
             0 => array(
                 'name' => 'general',

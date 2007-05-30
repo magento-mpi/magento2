@@ -52,7 +52,13 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         
         // Create card JSON structure
         $cardStructure = array();
-        $cardStructure['title'] = $product->getName() . ' #' . $product->getId(); 
+        if ($productId) {
+            $cardStructure['title'] = $product->getName() . ' #' . $product->getId(); 
+        }
+        else {
+            $cardStructure['title'] = __('New Product'); 
+        }
+        
         $cardStructure['tabs']  = array();
         $cardStructure['saveUrl'] = Mage::getUrl('admin', 
             array(
@@ -80,6 +86,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'name'  => $group->getCode(),
                 'title' => $group->getCode(),
                 'type'  => 'form',
+                'background' => true,
                 'form'  => Mage::getSingleton('core', 'layout')
                             ->createBlock('admin_product_form', 'p_form_'.$group->getCode())
                                 ->setGroupId($group->getId())

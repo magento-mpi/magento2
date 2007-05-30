@@ -7,7 +7,11 @@ Mage.Menu_Sales = function(){
                 items: [
                     new Ext.menu.Item({
                         text: 'Orders',
-                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['sales', 'loadMainPanel'], 0)                        
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['sales', 'loadMainPanel'], 0)
+                    }),
+                    new Ext.menu.Item({
+                        text: 'Price Rules',
+                        handler : Mage.Admin.callModuleMethod.createDelegate(Mage.Admin, ['price_rules', 'loadMainPanel'], 0)
                     })
                  ]
             });
