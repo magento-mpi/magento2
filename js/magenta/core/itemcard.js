@@ -103,7 +103,6 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
             }
         }.createDelegate(this));
         
-        console.log(data);
         saveConn.request({
            url : this.saveUrl,
            params : data,

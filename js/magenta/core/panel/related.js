@@ -96,10 +96,16 @@ Ext.extend(Mage.core.PanelRelated, Mage.core.Panel, {
         }
         var data = {};
         var items = [];
+        
         this.grid.getDataSource().each(function(){
             items.push(this.data.id);
         })
-        data[this.saveVar] = items;
+        
+        if (items.length > 0) {
+            data[this.saveVar] = items;
+        } else {
+            data[this.saveVar] = '';
+        }
         return data;
     },
     

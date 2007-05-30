@@ -54,7 +54,12 @@ Ext.extend(Mage.core.PanelCategories, Mage.core.Panel, {
         this.view.store.each(function(){
             categs.push(this.data.category_id);
         })
-        data[this.saveVar] = categs;
+        
+        if (categs.length > 0) {
+            data[this.saveVar] = categs;
+        } else {
+            data[this.saveVar] = '';
+        }
         return data;
     },
     

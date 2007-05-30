@@ -150,12 +150,13 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
         this.view.on('beforeselect', function(view){
             return view.store.getCount() > 0;
         });
+        
         this.view.on('selectionchange', function(view, selections){
-            if (this.tbItems.get('image_delete')) {
+            if (this.tbItems.get('addresses_delete')) {
                 if (selections.length) {
-                    this.tbItems.get('image_delete').enable();
+                    this.tbItems.get('addresses_delete').enable();
                 } else {
-                    this.tbItems.get('image_delete').disable();
+                    this.tbItems.get('addresses_delete').disable();
                 }
             }
         }.createDelegate(this));

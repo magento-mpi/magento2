@@ -48,7 +48,11 @@ Ext.extend(Mage.core.PanelImages, Mage.core.Panel, {
         this.view.store.each(function(){
             items.push(this.data.path);
         })
-        data[this.saveVar] = items;
+        if (items.length > 0) {
+            data[this.saveVar] = items;
+        } else {
+            data[this.saveVar] = '';
+        }
         return data;
     },
     
