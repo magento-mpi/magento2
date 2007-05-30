@@ -13,7 +13,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
         $this->addData(array(
             'server_addr'=>!empty($s['SERVER_ADDR']) ? $s['SERVER_ADDR'] : '',
             'remote_addr'=>!empty($s['REMOTE_ADDR']) ? $s['REMOTE_ADDR'] : '',
-            'http_secure'=>!empty($s['HTTPS']),
+            'http_secure'=>(int) !empty($s['HTTPS']),
             'http_host'=>!empty($s['HTTP_HOST']) ? $s['HTTP_HOST'] : '',
             'http_user_agent'=>!empty($s['HTTP_USER_AGENT']) ? $s['HTTP_USER_AGENT'] : '',
             'http_accept_language'=>!empty($s['HTTP_ACCEPT_LANGUAGE']) ? $s['HTTP_ACCEPT_LANGUAGE'] : '',
