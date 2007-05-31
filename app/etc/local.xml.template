@@ -6,6 +6,7 @@
          <filesystem>
             <etc>{{root_dir}}/app/etc</etc>
             <code>{{root_dir}}/app/code</code>
+            <upload>{{root_dir}}/media/upload</upload>
             <var>{{var_dir}}</var>
             <session>{{var_dir}}/session</session>
             <cache_config>{{var_dir}}/cache/config</cache_config>
