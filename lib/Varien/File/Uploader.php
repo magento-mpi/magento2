@@ -20,7 +20,7 @@ class Varien_File_Uploader
         $this->newUploader($file);
     }
 
-    public function upload($destinationFolder, $newFileName=null)
+    public function save($destinationFolder, $newFileName=null)
     {
         if( isset($newFileName) ) {
             $this->uploader->file_new_name_body = $newFileName;

@@ -174,9 +174,7 @@ class Varien_File_Uploader_Image extends Varien_File_Uploader
      *
      * Value is a string, any text. Text will not word-wrap, although you can use breaklines in your text "\n"
      */
-    public function addText($string="", $direction="h", $color="#FFFFFF", $visibilityPercent=100, $backgroundColor=null, 
-                            $backgroundVisPercent=100, $font=5, $position="TR", $absoluteX=null, $absoluteY=null, 
-                            $padding=0, $paddingX=null, $paddingY=null, $alignment="C", $lineSpacing=0)
+    public function addText($string="", $direction="h", $color="#FFFFFF", $visibilityPercent=100, $backgroundColor=null, $backgroundVisPercent=100, $font=5, $position="TR", $absoluteX=null, $absoluteY=null, $padding=0, $paddingX=null, $paddingY=null, $alignment="C", $lineSpacing=0)
     {
         if( trim($string) == "" ) {
             return;
