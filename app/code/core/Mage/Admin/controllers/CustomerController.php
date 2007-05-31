@@ -76,7 +76,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                 'name'  => 'address',
                 'type'  => 'address',
                 'title' => __('Address List'),
-                'storeUrl' => Mage::getBaseUrl().'admin/address/gridData/id/'.$customerId.'/',
+                'storeUrl' => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressList', 'id'=>$customerId)),
                 'background'=>true,
             ),
         );
@@ -148,7 +148,15 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
      */
     public function addressFormAction()
     {
+        $addressId = (int) $this->getRequest()->getParam('id');
+        $address = Mage::getModel('customer', 'address');
+        if ($addressId>0) {
+            $address->load($addressId);
+        }
         
+        $form = new Mage_Admin_Block_Customer_Address_Form($address);
+        
+        $this->getResponse()->setBody(Zend_Json::encode($form->toArray()));
     }
     
     /**

@@ -10,16 +10,11 @@
  */
 class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form 
 {
-    public function __construct() 
+    public function __construct($address=null) 
     {
         parent::__construct();
         $this->setId('customer_address_form');
         $this->setAction(Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressSave')));
-        
-        $customerId = false;
-        if ($customer) {
-            $customerId = $customer->getId();
-        }
         
         $this->addField( 'firstname', 'text',
             array(
@@ -132,9 +127,12 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
         
-        //$this->setElementsValues($address->toArray());
+        if ($address) {
+            $this->setValues($address->toArray());
+        }
         
-        /*$addressTypes = $address->getAvailableTypes('address_type_id');
+        
+        $addressTypes = $address->getAvailableTypes('address_type_id');
         foreach ($addressTypes as $typeId => $info) {
             if (!$address->isPrimary($typeId)) {
                 $this->addField('primary_type'.$typeId, 'checkbox',
@@ -149,6 +147,6 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                     )
                 );
             }
-        }*/
+        }
     }
 }
