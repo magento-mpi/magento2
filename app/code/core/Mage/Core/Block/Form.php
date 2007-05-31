@@ -311,7 +311,7 @@ class Mage_Core_Block_Form extends Mage_Core_Block_Template
         return parent::renderView();
     }
     
-    protected function __toArray($arrAttributes = array())
+    public function __toArray($arrAttributes = array())
     {
         $res = array();
         $res['config'] = $this->getData();

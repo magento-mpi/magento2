@@ -65,12 +65,23 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
     
     public function loadValues()
     {
+        $this->setValueOption(array(
+            true => 'TRUE',
+            false => 'FALSE',
+        ));
         return $this;
     }
     
     public function getValueName()
     {
-        return $this->getValue();
+        $value = $this->getValue();
+        if (is_string($value)) {
+            return "'$value'";
+        }
+        if (is_bool($value)) {
+            return $this->getValueOption($value);
+        }
+        return $value;
     }
     
     public function toString($format='')
@@ -83,5 +94,16 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
     {
         $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
         return $str;
+    }
+    
+    /**
+     * Validate quote against condition
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return boolean
+     */
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        return true;
     }
 }

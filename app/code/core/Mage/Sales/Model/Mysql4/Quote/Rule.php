@@ -27,7 +27,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule
     {
         $this->_read = Mage::registry('resources')->getConnection('sales_read');
         $this->_write = Mage::registry('resources')->getConnection('sales_write');
-        $this->_ruleTable = Mage::registry('resources')->getTableName('sales_resource', 'price_rule');
+        $this->_ruleTable = Mage::registry('resources')->getTableName('sales_resource', 'quote_rule');
     }
     
     public function load($ruleId)
@@ -38,11 +38,13 @@ class Mage_Sales_Model_Mysql4_Quote_Rule
     
     public function save(Mage_Sales_Model_Quote_Rule $rule)
     {
+        $data = $rule->__toArray(array('quote_rule_id', 'name', 'description', 'is_active', 'start_at', 'expire_at', 'coupon_code', 'customer_registered', 'customer_new_buyer', 'show_in_catalog', 'sort_order', 'conditions_serialized', 'actions_serialized'));
+        
         if ($rule->getId()) {
             $condition = $this->_write->quoteInto("quote_rule_id=?", $rule->getId());
-            $this->_write->update($this->_ruleTable, $rule->getData(), $condition);
+            $this->_write->update($this->_ruleTable, $data, $condition);
         } else {
-            $this->_write->insert($this->_ruleTable, $rule->getData());
+            $this->_write->insert($this->_ruleTable, $data);
             $rule->setId($this->_write->lastInsertId());
         }
         return $this;

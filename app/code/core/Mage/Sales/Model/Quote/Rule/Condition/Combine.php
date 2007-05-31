@@ -30,15 +30,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         return $this;
     }
     
-    public function loadValues()
-    {
-        $this->setValueOption(array(
-            1 => 'TRUE',
-            0 => 'FALSE',
-        ));
-        return $this;
-    }
-    
     public function addCondition(Mage_Sales_Model_Quote_Rule_Condition_Abstract $condition)
     {
         $conditions = $this->getConditions();
@@ -85,7 +76,9 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
     public function loadArray($arr)
     {
         $salesConfig = Mage::getSingleton('sales', 'config');
-        $this->setType('combine');
+        $this->setAttribute($arr['attribute'])
+            ->setOperator($arr['operator'])
+            ->setValue($arr['value']);
         
         foreach ($arr['conditions'] as $condArr) {
             $cond = $salesConfig->getQuoteRuleConditionInstance($condArr['type']);
@@ -102,7 +95,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         
     public function toString($format='')
     {
-        $str = "If ".$this->getAttributeName()." of these conditions ".$this->getOperatorName()." ".$this->getValueName().":";
+        $str = "If ".$this->getAttributeName()." of these conditions ".$this->getOperatorName()." ".$this->getValueName();
         return $str;
     }
     
@@ -113,5 +106,21 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
             $str .= "\n".$cond->toStringRecursive($level+1);
         }
         return $str;
+    }
+    
+    public function processQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->setFoundQuoteItems(array());
+        return $this;
+    }
+    
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        
+    }
+    
+    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        
     }
 }

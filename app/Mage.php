@@ -400,14 +400,17 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
     $backtrace = debug_backtrace();
     array_shift($backtrace);
     foreach($backtrace as $i=>$l){
-        echo "[$i] in <b>{$l['class']}{$l['type']}{$l['function']}</b>(";
+        echo "[$i] in <b>"
+            .(!empty($l['class']) ? $l['class'] : '')
+            .(!empty($l['type']) ? $l['type'] : '')
+            ."{$l['function']}</b>(";
         if(!empty($l['args'])) foreach ($l['args'] as $i=>$arg) {
             if ($i>0) echo ", ";
             if (is_object($arg)) echo get_class($arg); 
             elseif (is_string($arg)) echo '"'.substr($arg,0,30).'"';
             elseif (is_null($arg)) echo 'NULL';
             elseif (is_numeric($arg)) echo $arg;
-            elseif (is_array($arg)) echo "Array(".sizeof($arg).")";
+            elseif (is_array($arg)) echo "Array[".sizeof($arg)."]";
             else print_r($arg);
         }
         echo ")";

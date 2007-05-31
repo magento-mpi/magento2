@@ -2,6 +2,12 @@
 
 class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sales_Model_Quote_Rule_Condition_Combine
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setType('quote_item_combine');
+    }
+    
     public function setRule(Mage_Sales_Model_Quote_Rule $rule)
     {
         $this->setData('rule', $rule);
@@ -19,7 +25,12 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
     
     public function toString($format='')
     {
-        $str = parent::toString()." for same item (# ".$this->getItemNumber()."):";
+        $str = parent::toString()." for same item (# ".$this->getItemNumber().")";
         return $str;
+    }
+    
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        return true;
     }
 }

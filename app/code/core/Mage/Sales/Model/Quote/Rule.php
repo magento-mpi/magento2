@@ -34,7 +34,7 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     public function resetActions()
     {
         $actions = Mage::getModel('sales', 'quote_rule_action_collection');
-        #$actions->setRule($this);
+        $actions->setRule($this);
         $this->setActions($actions);
         
         return $this;
@@ -42,10 +42,15 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
 
     public function toString($format='')
     {
-        $str = "Name: ".$this->getName()."\n\n".
-            "Description: ".$this->getDescription()."\n\n".
-            $this->getConditions()->toStringRecursive()."\n\n";
-            #$this->getActions()->toStringRecursive()."\n\n";
+        $str = "Name: ".$this->getName()."\n"
+            ."Start at: ".$this->getStartAt()."\n"
+            ."Expire at: ".$this->getExpireAt()."\n"
+            ."Coupon code: ".$this->getCouponCode()."\n"
+            ."Customer registered: ".$this->getCustomerRegistered()."\n"
+            ."Customer is new buyer: ".$this->getCustomerNewBuyer()."\n"
+            ."Description: ".$this->getDescription()."\n\n"
+            .$this->getConditions()->toStringRecursive()."\n\n"
+            .$this->getActions()->toStringRecursive()."\n\n";
         return $str;
     }
     
@@ -80,7 +85,11 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     
     public function load($ruleId)
     {
-        $this->addData($this->getResource()->load($ruleId));
+        $data = $this->getResource()->load($ruleId);
+        if (empty($data)) {
+            return $this;
+        }
+        $this->addData($data);
         
         $conditionsArr = unserialize($this->getConditionsSerialized());
         $this->getConditions()->loadArray($conditionsArr);

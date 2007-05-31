@@ -163,12 +163,12 @@ class Varien_Object
      * @param string|int $index
      * @return mixed
      */
-    public function getData($key='', $index=false)
+    public function getData($key='', $index=null)
     {
         if (''===$key) {
             return $this->_data;
         } elseif (isset($this->_data[$key])) {
-            if ($index) {
+            if (!is_null($index)) {
                 $value = $this->_data[$key];
                 if (is_array($value)) {
                     return (!empty($value[$index])) ? $value[$index] : false;
@@ -206,7 +206,7 @@ class Varien_Object
      * @param  array $arrAttributes array of required attributes
      * @return array
      */
-    protected function __toArray(array $arrAttributes = array())
+    public function __toArray(array $arrAttributes = array())
     {
         if (empty($arrAttributes)) {
             return $this->_data;
@@ -353,7 +353,7 @@ class Varien_Object
         switch (substr($method, 0, 3)) {
             case 'get' :
                 $key = $this->_underscore(substr($method,3));
-                array_unshift($args, $key);
+                array_unshift($args, $key); 
                 return call_user_func_array(array($this, 'getData'), $args);
                 break;
 
