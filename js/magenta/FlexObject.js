@@ -1,4 +1,6 @@
 Mage.FlexObject = function(config) {
+	Mage.FlexObject.superclass.constructor.call(this);
+	
 	this.isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
 	this.isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
 	this.isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
@@ -8,11 +10,13 @@ Mage.FlexObject = function(config) {
 		 bgcolor:"#FFFFFF",
 		 pluginspage: "http://www.adobe.com/go/getflashplayer",
 		 type: "application/x-shockwave-flash",
-		 allowScriptAccess: "sameDomain",
+		 allowScriptAccess: "always",
 		 classid: "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 	};
+	
 	this.setAttributes( config );
 	this.applied = false;
+	
 	if(this.detectFlashVersion(9, 0, 0))
 	{
 		if(this.isIE && !this.isOpera)
@@ -36,9 +40,30 @@ Mage.FlexObject = function(config) {
 	this.paramtersTemplate.compile();
 	this.attributesTemplate = new Ext.Template( ' {name}="{value}" ' );
 	this.attributesTemplate.compile();
-				
-	Mage.FlexObject.superclass.constructor.call(this);
+		
+	this.events = {
+		load : true,
+		preinitialize: true,
+		initialize: true
+	};
 }
+
+Mage.FlexObjectApi = {
+	objectMap: new Object(),	
+	callBack : function( id, eventName, eventData )
+	{
+		return this.objectMap[id].fireEvent( eventName, eventData );
+	},
+	registerObject : function( id, obj )
+	{
+		this.objectMap[id] = obj;
+	},
+	unregisterObject: function( id )
+	{
+		delete( this.objectMap[id] );
+	}
+}
+
 Ext.extend( Mage.FlexObject,  Ext.util.Observable, { 
 						
 			setAttribute : function( name, value )
@@ -70,17 +95,18 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 			{
 				if (!this.applied)
 				{
-					this.setAttribute( "id", Ext.id() );
-					this.template.append( container, this.generateTemplateValues() );		
+					this.setAttribute( "id", Ext.id().replace("-","def"));
+					this.template.append( container, this.generateTemplateValues() );	
+					Mage.FlexObjectApi.registerObject( this.getAttribute("id"), this );
 				}
 				this.applied = true;
 			},
-			
+						
 			applyHTML : function( )
 			{
 				if (!this.applied)
 				{
-					this.setAttribute( "id", Ext.id() );
+					this.setAttribute( "id", Ext.id().replace("-","def") );
 				}
 				this.applied = true;
 				
@@ -266,7 +292,7 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 			    else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) flashVer = 2;
 			    else if ( this.isIE && this.isWin && !this.isOpera ) {
 			        flashVer = this.controlVersion();
-			    }   
+			    }
 			    return flashVer;
 			}
 } );
