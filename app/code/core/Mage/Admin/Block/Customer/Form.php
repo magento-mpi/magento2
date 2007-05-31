@@ -50,10 +50,12 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                 'validation'=> '',
             )
         );
-
-       //$this->setElementsValues($customer->toArray());
+        
+        if ($customer) {
+            $this->setValues($customer->toArray());
+        }
        
-       if ($customerId) {
+        if ($customerId) {
            $this->addField('password', 'password', 
                 array(
                     'name'  => 'password',
@@ -63,8 +65,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'validation'=> '',
                 )
             );
-       }
-       else {
+        }
+        else {
            $this->addField('password', 'password', 
                 array(
                     'name'  => 'password',

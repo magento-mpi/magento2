@@ -43,10 +43,21 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $customerId = $this->getRequest()->getParam('id', false);
         $cardStruct = array();
-        $cardStruct['title']    = 'Customer card';
+        
+        if ($customerId>0) {
+            $customer = Mage::getModel('customer', 'customer')->load($customerId);
+            $cardStruct['title'] = __('Edit Customer').' "'.$customer->getName().'"';
+        }
+        else {
+            $customerId = false;
+            $customer   = false;
+            $cardStruct['title'] = __('New Customer');
+        }
+        
+        
         $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'save', 'id'=>$customerId));
         
-        $form = new Mage_Admin_Block_Customer_Form();
+        $form = new Mage_Admin_Block_Customer_Form($customer);
         $cardStruct['tabs'] = array(
             array(
                 'name'  => 'customer_view',
