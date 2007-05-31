@@ -1,9 +1,21 @@
+/**
+ * @author Andrey Korolyov
+ * @fileoverview Form panel for ItemCard
+ */
+
 Mage.core.PanelForm = function(region, config) {
     this.region = region;
     this.config = config;
     this.notLoaded = true;
+    /**
+     * @param Mage.form.JsonForm
+     */
     this.frm = null;
     this.tpl = null;
+    /**
+     * @param form config for this.frm
+     */
+    this.form = null;
 
     Ext.apply(this, config);
     
