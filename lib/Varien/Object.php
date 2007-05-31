@@ -263,14 +263,14 @@ class Varien_Object
     {
         $xml = '';
         if ($addOpenTag) {
-            $xml.= '<?xml version="1.0" encoding="UTF-8"?>';
+            $xml.= '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         }
-        $xml.= '<'.$rootName.'>';
+        $xml.= '<'.$rootName.'>'."\n";
         $arrData = $this->toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
-            $xml.= "<$fieldName><![CDATA[$fieldValue]]></$fieldName>";
+            $xml.= "<$fieldName><![CDATA[$fieldValue]]></$fieldName>"."\n";
         }
-        $xml.= '</'.$rootName.'>';
+        $xml.= '</'.$rootName.'>'."\n";
         return $xml;
     }
 
@@ -281,9 +281,9 @@ class Varien_Object
      * @param string $rootName
      * @return string
      */
-    public function toXml(array $arrAttributes = array(), $rootName = 'item')
+    public function toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag=false)
     {
-        return $this->__toXml($arrAttributes, $rootName);
+        return $this->__toXml($arrAttributes, $rootName, $addOpenTag);
     }
     
     /**

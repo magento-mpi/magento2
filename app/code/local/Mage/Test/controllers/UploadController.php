@@ -15,15 +15,19 @@ class Mage_Test_UploadController extends Mage_Core_Controller_Front_Action
         if( count($_FILES) == 0 ) {
             return;
         }
-        /*
-        foreach ($_FILES['files'] as $k => $l) {
-            foreach ($l as $i => $v) {
-                $files[$i][$k] = $v;
-            }
+
+        $result = new Varien_Object();
+
+        $uploadFile = new Varien_File_Uploader($_FILES['filename']);
+        $uploadFile->save(Mage::getBaseDir('upload'));
+        if( $uploadFile->getError() != "" ) {
+            $result->setError( $uploadFile->getError() );
+        } else {
+            $result->setPath( $uploadFile->getDestinationPath() );
+            $result->setName( $uploadFile->getFileName() );
+            $result->setSize( $uploadFile->getFileSize() );
         }
-        */
-        $u = new Varien_File_Uploader($_FILES['filename']);
-        $u->save(Mage::getBaseDir('upload'));
+        $this->getResponse()->setBody($result->toXml(array(), "file", true));
     }
 }
 // ft:php

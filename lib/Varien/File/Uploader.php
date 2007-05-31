@@ -73,6 +73,11 @@ class Varien_File_Uploader
         return $this->uploader->file_src_size;
     }
 
+    public function getDestinationPath()
+    {
+        return $this->uploader->file_dst_path;
+    }
+
     public function isUploaded()
     {
         return $this->uploader->uploaded;
@@ -86,6 +91,11 @@ class Varien_File_Uploader
     public function switchToImage($fileName)
     {
         #
+    }
+
+    public function getError()
+    {
+        return $this->uploader->error;
     }
 
     protected function setUploadedFile($file=null)
