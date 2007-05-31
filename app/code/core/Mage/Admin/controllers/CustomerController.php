@@ -37,31 +37,46 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * Customer card tabs
+     * Customer card 
      */
     public function cardAction()
     {
-        $customerId = $this->getRequest()->getParam('id', 0);
+        $customerId = $this->getRequest()->getParam('id', false);
         $cardStruct = array();
-        $cardStruct['title'] = 'Customer card';
+        $cardStruct['title']    = 'Customer card';
+        $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'save', 'id'=>$customerId));
+        
+        $form = new Mage_Admin_Block_Customer_Form();
         $cardStruct['tabs'] = array(
-            0 => array(
-                'name' => 'general',
-                'title' => __('Account Information'),
-                'url' => Mage::getBaseUrl().'admin/customer/form/id/'.$customerId.'/',
-                'type' => 'form',
-                'active' => true
+            array(
+                'name'  => 'customer_view',
+                'title' => __('Customer View'),
+                'url'   => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'view', 'id'=>$customerId)),
+                'type'  => 'view'
             ),
-            1 => array(
-                'name' => 'address',
-                'type' => 'address',
+            array(
+                'name'  => 'general',
+                'title' => __('Account Information'),
+                'type'  => 'form',
+                'background'=>true,
+                'form'  => $form->toArray()
+            ),
+            array(
+                'name'  => 'address',
+                'type'  => 'address',
                 'title' => __('Address List'),
                 'storeUrl' => Mage::getBaseUrl().'admin/address/gridData/id/'.$customerId.'/',
-                'active' => false
+                'background'=>true,
             ),
         );
         
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
+    }
+    
+    public function viewAction()
+    {
+        $customerId = $this->getRequest()->getParam('id', false);
+        $this->getResponse()->setBody('Customer #'.$customerId);
     }
 
     /**
@@ -79,96 +94,6 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $form->setAttribute('class', 'x-form');
         $form->setAttribute('action', Mage::getBaseUrl().'admin/customer/formPost/');
         
-        $form->addField(
-            'customer_id', 
-            'hidden', 
-            array (
-                'name'=>'customer_id',
-                'value' => $customerId
-            )
-        );
-                
-        $form->addField(
-            'firstname', 
-            'text', 
-            array(
-                'name'  => 'firstname',
-                'label' => __('Firstname'),
-                'id'    => 'customer_firstname',
-                'title' => __('Customer Firstname'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
-            )
-        );
-
-        $form->addField(
-            'lastname', 
-            'text', 
-            array(
-                'name'  => 'lastname',
-                'label' => __('Lastname'),
-                'id'    => 'customer_lastname',
-                'title' => __('Customer Lastname'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
-            )
-        );
-
-        $form->addField(
-            'email', 
-            'text', 
-            array(
-                'name'  => 'email',
-                'label' => __('Email'),
-                'id'    => 'customer_email',
-                'title' => __('Customer Email'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
-            )
-        );
-
-       $form->setElementsValues($customer->toArray());
-       
-       if ($customerId) {
-           $form->addField(
-                'password', 
-                'password', 
-                array(
-                    'name'  => 'password',
-                    'label' => __('New Password'),
-                    'id'    => 'customer_pass',
-                    'title' => __('New Password'),
-                    'validation'=> '',
-                    'ext_type'  => 'TextField'
-                )
-            );
-       }
-       else {
-           $form->addField(
-                'password', 
-                'password', 
-                array(
-                    'name'  => 'password',
-                    'label' => __('Password'),
-                    'id'    => 'customer_pass',
-                    'title' => __('Password'),
-                    'validation'=> '',
-                    'ext_type'  => 'TextField'
-                )
-            );
-           $form->addField(
-                'password_confirmation', 
-                'password', 
-                array(
-                    'name'  => 'password_confirmation',
-                    'label' => __('Password Confirm'),
-                    'id'    => 'customer_pass',
-                    'title' => __('Password Confirmation'),
-                    'validation'=> '',
-                    'ext_type'  => 'TextField'
-                )
-            );
-       }
             
         
         $this->getResponse()->setBody($form->toHtml());
