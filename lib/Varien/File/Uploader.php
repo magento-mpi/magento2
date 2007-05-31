@@ -6,6 +6,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @TODO:       copy(), remove(), move(), renameFile(), switch()
  */
 
 class Varien_File_Uploader
@@ -19,9 +20,12 @@ class Varien_File_Uploader
         $this->newUploader($file);
     }
 
-    public function upload($destination, $newFileName=null)
+    public function upload($destinationFolder, $newFileName=null)
     {
-        #
+        if( isset($newFileName) ) {
+            $this->uploader->file_new_name_body = $newFileName;
+        }
+        $this->uploader->Process($destinationFolder);
     }
 
     public function uploadRollback()
@@ -51,30 +55,35 @@ class Varien_File_Uploader
 
     public function changeExtension($newExtension)
     {
-        #
+        $this->uploader->file_new_name_ext = $newExtension;
     }
 
     public function getFileName()
     {
-    
+        return $this->uploader->file_src_name;
     }
 
     public function getFileMime()
     {
-        #
+        return $this->uploader->file_src_mime;
     }
 
     public function getFileSize()
     {
-        #
+        return $this->uploader->file_src_size;
     }
 
     public function isUploaded()
     {
-        #
+        return $this->uploader->uploaded;
     }
 
     public function isProcessed()
+    {
+        return $this->uploader->processed;
+    }
+
+    public function switchToImage($fileName)
     {
         #
     }
@@ -82,6 +91,7 @@ class Varien_File_Uploader
     protected function setUploadedFile($file=null)
     {
         $this->uploadedFile = $file;
+        return $this->getUploadedFile();
     }
 
     protected function getUploadedFile()
@@ -106,7 +116,7 @@ class Varien_File_Uploader
     }
 
     function __destruct()
-    {
+    { 
         $this->uploader->Clean();
     }
 
