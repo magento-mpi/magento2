@@ -174,26 +174,82 @@ class Varien_File_Uploader_Image extends Varien_File_Uploader
      *
      * Value is a string, any text. Text will not word-wrap, although you can use breaklines in your text "\n"
      */
-    public function addText($string="", $direction="h", $color="#FFFFFF", $visibilityPercent=100, $backgroundColor=null, $backgroundVisPercent=100, $font=5, $position="TR", $absoluteX=null, $absoluteY=null, $padding=0, $paddingX=null, $paddingY=null, $alignment="C", $lineSpacing=0)
+    public function addText($string="")
     {
         if( trim($string) == "" ) {
             return;
         }
 
         $this->uploader->image_text = $string;
+    }
+
+    public function setTextDirection($direction)
+    {
         $this->uploader->image_text_direction = $direction;
+    }
+
+    public function setTextColor($color)
+    {
         $this->uploader->image_text_color = $color;
+    }
+
+    public function setTextVisibilityPercent($percent)
+    {
         $this->uploader->image_text_percent = $visibilityPercent;
-        $this->uploader->image_text_background = $backgroundColor;
-        $this->uploader->image_text_background_percent = $backgroundVisPercent;
+    }
+
+    public function setTextBackgroundColor($color)
+    {
+        $this->uploader->image_text_background = $color;
+    }
+
+    public function setTextBackgroundVisPercent($percent)
+    {
+        $this->uploader->image_text_background_percent = $percent;
+    }
+
+    public function setTextFont($font)
+    {
         $this->uploader->image_text_font = $font;
+    }
+
+    public function setTextPosition($position="TR")
+    {
         $this->uploader->image_text_position = $position;
+    }
+
+    public function setTextAbsoluteX($absoluteX)
+    {
         $this->uploader->image_text_x = $absoluteX;
+    }
+
+    public function setTextAbsoluteY($absoluteY)
+    {
         $this->uploader->image_text_y = $absoluteY;
+    }
+
+    public function setTextPadding($padding)
+    {
         $this->uploader->image_text_padding = $padding;
-        $this->uploader->image_text_padding_x = $paddingX;
-        $this->uploader->image_text_padding_y = $paddingY;
+    }
+
+    public function setTextPaddingX($padding)
+    {
+        $this->uploader->image_text_padding_x = $padding;
+    }
+
+    public function setTextPaddingY($padding)
+    {
+        $this->uploader->image_text_padding_y = $padding;
+    }
+
+    public function setTextAlignment($alignment)
+    {
         $this->uploader->image_text_alignment = $alignment;
+    }
+
+    public function setTextLineSpacing($lineSpacing)
+    {
         $this->uploader->image_text_line_spacing = $lineSpacing;
     }
 

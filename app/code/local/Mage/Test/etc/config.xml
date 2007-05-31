@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <front>
+        <routers>
+            <test>
+                <args>
+                    <module>Mage_Test</module>
+                    <frontName>test</frontName>
+                </args>
+            </test>
+        </routers>
+    </front> 
+</config>
