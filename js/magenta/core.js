@@ -111,7 +111,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
                 if (e.cancel == true) {
                     return false;
                 }
-                module['loadMainPanel'].call(module);
+                module[method].call(module);
                 this.fireEvent('afterCallModuleMethod', e);               
             }  
         },
