@@ -1,77 +1,27 @@
 <?php
 /**
- * Customer address controller
+ * Admin customer address form
  *
- * @package    Mage
- * @subpackage Customer
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @package     Mage
+ * @subpackage  Admin
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
+class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form 
 {
-    /**
-     * Addresses JSON
-     */
-    public function gridDataAction()
+    public function __construct() 
     {
-        $arrRes = array();
-        $customerId = $this->getRequest()->getParam('id', false);
-        if ($customerId) {
-            $addressCollection = Mage::getModel('customer_resource', 'address_collection')->loadByCustomerId($customerId);
-            foreach ($addressCollection as $address) {
-                $arrRes[] = array(
-                    'address_id'=> $address->getAddressId(),
-                    'address'   => nl2br($address->toString("<strong>{{firstname}} {{lastname}}</strong>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))
-                );
-            }
+        parent::__construct();
+        $this->setId('customer_address_form');
+        $this->setAction(Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressSave')));
+        
+        $customerId = false;
+        if ($customer) {
+            $customerId = $customer->getId();
         }
         
-        $this->getResponse()->setBody(Zend_Json::encode(array('addresses'=>$arrRes)));
-    }
-
-    /**
-     * Address form
-     */
-    public function formAction()
-    {
-        $addressId = $this->getRequest()->getParam('id', false);
-        $customerId = $this->getRequest()->getParam('customer', false);
-        
-        if (!$customerId) {
-            $this->getResponse()->setBody('Empty customer id');
-            return;
-        }
-        
-        $address = Mage::getModel('customer', 'address')->load($addressId);
-
-        $form = $this->getLayout()->createBlock('form', 'customer.form');
-        $form->setTemplate('form.phtml');
-
-        $form->setAttribute('legend', 'Address information');
-        $form->setAttribute('class', 'x-form');
-        $form->setAttribute('action', Mage::getBaseUrl().'admin/address/formPost/');
-        
-        if ($addressId) {
-            $form->addField(
-                'address_id',
-                'hidden',
-                array (
-                    'name'=>'address_id',
-                    'value' => $addressId
-                )
-            );
-        }
-
-        $form->addField(
-            'customer_id',
-            'hidden',
-            array (
-                'name'=>'customer_id',
-                'value' => $customerId
-            )
-        );
-        
-        $form->addField( 'firstname', 'text',
+        $this->addField( 'firstname', 'text',
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -82,7 +32,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('lastname', 'text',
+        $this->addField('lastname', 'text',
             array(
                 'name'  => 'lastname',
                 'label' => __('Lastname'),
@@ -93,7 +43,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('company', 'text',
+        $this->addField('company', 'text',
             array(
                 'name'  => 'company',
                 'label' => __('Company'),
@@ -104,7 +54,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('country_id', 'select',
+        $this->addField('country_id', 'select',
             array(
                 'name'  => 'country_id',
                 'label' => __('Country'),
@@ -116,7 +66,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
         
-        $form->addField('region', 'text',
+        $this->addField('region', 'text',
             array(
                 'name'  => 'region',
                 'label' => __('State/Province'),
@@ -127,7 +77,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('city', 'text',
+        $this->addField('city', 'text',
             array(
                 'name'  => 'city',
                 'label' => __('City'),
@@ -138,7 +88,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('street', 'textarea',
+        $this->addField('street', 'textarea',
             array(
                 'name'  => 'street',
                 'label' => __('Street Address'),
@@ -149,7 +99,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('postcode', 'text',
+        $this->addField('postcode', 'text',
             array(
                 'name'  => 'postcode',
                 'label' => __('Zip/Post Code'),
@@ -160,7 +110,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('telephone', 'text',
+        $this->addField('telephone', 'text',
             array(
                 'name'  => 'telephone',
                 'label' => __('Telephone'),
@@ -171,7 +121,7 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        $form->addField('fax', 'text',
+        $this->addField('fax', 'text',
             array(
                 'name'  => 'fax',
                 'label' => __('Fax'),
@@ -182,12 +132,12 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
             )
         );
         
-        $form->setElementsValues($address->toArray());
+        //$this->setElementsValues($address->toArray());
         
-        $addressTypes = $address->getAvailableTypes('address_type_id');
+        /*$addressTypes = $address->getAvailableTypes('address_type_id');
         foreach ($addressTypes as $typeId => $info) {
             if (!$address->isPrimary($typeId)) {
-                $form->addField('primary_type'.$typeId, 'checkbox',
+                $this->addField('primary_type'.$typeId, 'checkbox',
                     array(
                         'name'  => 'primary_types[]',
                         'label' => __("Use for <strong>%s</strong>", $info['name']),
@@ -199,41 +149,6 @@ class Mage_Admin_AddressController extends Mage_Core_Controller_Front_Action
                     )
                 );
             }
-        }
-        
-        $this->getResponse()->setBody($form->toHtml());
-    }
-
-    /**
-     * Form post
-     */
-    public function formPostAction()
-    {
-        if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
-            try {
-                $address->save();
-            }
-            catch (Exception $e){
-                echo $e;
-            }
-        }
-    }
-
-    /**
-     * Delete address
-     */
-    public function deleteAction()
-    {
-        $addressId = $this->getRequest()->getParam('id', false);
-        if ($addressId) {
-            $address = Mage::getModel('customer', 'address')->setAddressId($addressId);
-            try {
-                $address->delete();
-            }
-            catch (Exception $e){
-                
-            }
-        }
+        }*/
     }
 }

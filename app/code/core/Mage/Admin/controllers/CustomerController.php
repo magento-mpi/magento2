@@ -84,36 +84,24 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
     
+    /**
+     * Customer view tab content
+     */
     public function viewAction()
     {
         $customerId = $this->getRequest()->getParam('id', false);
         $this->getResponse()->setBody('Customer #'.$customerId);
     }
-
+    
     /**
-     * Customer form
+     * Save customer action
      */
-    public function formAction()
-    {
-        $customerId = $this->getRequest()->getParam('id', false);
-        $customer = Mage::getModel('customer', 'customer')->load($customerId);
-
-        $form = $this->getLayout()->createBlock('form', 'customer.form');
-        $form->setTemplate('form.phtml');
-        
-        $form->setAttribute('legend', 'Account information');
-        $form->setAttribute('class', 'x-form');
-        $form->setAttribute('action', Mage::getBaseUrl().'admin/customer/formPost/');
-        
-            
-        
-        $this->getResponse()->setBody($form->toHtml());
-    }
-
-    public function formPostAction()
+    public function save()
     {
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            $customerId = (int) $this->getRequest()->getParam('id', false);
+            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            $customer->setCustomerId($customerId);
             
             try {
                 $customer->save();
@@ -124,11 +112,75 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         }
     }
     
+    /**
+     * Delete customer action
+     */
     public function deleteAction()
     {
         $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
             Mage::getModel('customer', 'customer')->delete($customerId);
+        }
+    }
+    
+    /**
+     * List of customer addresses
+     */
+    public function addressListAction()
+    {
+        $arrRes = array();
+        $customerId = $this->getRequest()->getParam('id', false);
+        if ($customerId) {
+            $addressCollection = Mage::getModel('customer_resource', 'address_collection')->loadByCustomerId($customerId);
+            foreach ($addressCollection as $address) {
+                $arrRes[] = array(
+                    'address_id'=> $address->getAddressId(),
+                    'address'   => nl2br($address->toString("<strong>{{firstname}} {{lastname}}</strong>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))
+                );
+            }
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode(array('addresses'=>$arrRes)));
+    }
+    
+    /**
+     * Customer address form
+     */
+    public function addressFormAction()
+    {
+        
+    }
+    
+    /**
+     * Save customer address
+     */
+    public function addressSaveAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $address = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
+            try {
+                $address->save();
+            }
+            catch (Exception $e){
+                echo $e;
+            }
+        }
+    }
+    
+    /**
+     * Delete customer address
+     */
+    public function addressDeleteAction()
+    {
+        $addressId = $this->getRequest()->getParam('id', false);
+        if ($addressId) {
+            $address = Mage::getModel('customer', 'address')->setAddressId($addressId);
+            try {
+                $address->delete();
+            }
+            catch (Exception $e){
+                
+            }
         }
     }
 }

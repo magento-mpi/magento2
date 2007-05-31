@@ -3,7 +3,7 @@ Mage.core.PanelAddresses = function(region, config) {
     this.config = config;
     this.notLoaded = true;
     this.saveVar = null;
-    this.storeUrl = Mage.url + 'address/gridData/';
+    this.storeUrl = Mage.url + 'customer/addressList/';
     this.tbItems = new Ext.util.MixedCollection();
 
     Ext.apply(this, config);
@@ -11,7 +11,7 @@ Mage.core.PanelAddresses = function(region, config) {
     var layout = new Ext.BorderLayout(this.region.getEl().createChild({tag : 'div'}) ,{
         center : {
             titlebar : true,
-           	hideWhenEmpty : false
+            hideWhenEmpty : false
         },        west : {
             split:true,
             initialSize: 200,
@@ -19,7 +19,7 @@ Mage.core.PanelAddresses = function(region, config) {
             maxSize: 400,
             titlebar: true,
             collapsible: true,
-           	hideWhenEmpty : false            
+            hideWhenEmpty : false            
         }
     });
     layout.beginUpdate();    
@@ -43,7 +43,7 @@ Mage.core.PanelAddresses = function(region, config) {
  
     this.panel.on('activate', function(){
         this._build();
-    }, this, {single: true});	    	
+    }, this, {single: true});           
 
     this.panel.on('activate', function(){
         this._loadActions();
@@ -52,7 +52,7 @@ Mage.core.PanelAddresses = function(region, config) {
             this.view.store.load();
             this.notLoaded = false;
         }
-    }, this);	    	
+    }, this);           
 
     this.panel.on('deactivate', this._unLoadActions, this);
 
