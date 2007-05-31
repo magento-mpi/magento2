@@ -52,7 +52,17 @@ Mage.FlexObjectApi = {
 	objectMap: new Object(),	
 	callBack : function( id, eventName, eventData )
 	{
-		return this.objectMap[id].fireEvent( eventName, eventData );
+		eventObj = {
+			cancel : false,
+			data : eventData
+		}
+		
+		this.objectMap[id].fireEvent( eventName, eventObj );
+		
+		if(eventObj.cancel) {
+			return false;
+		} 
+		return true;
 	},
 	registerObject : function( id, obj )
 	{
@@ -144,6 +154,7 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 							objectAttributes[key] = this.attributes[key];
 							break;
 						case "id":
+							embedAttributes['name'] = this.attributes[key];
 						case "width":
 						case "height":
 						case "align":

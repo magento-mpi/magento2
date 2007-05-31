@@ -79,7 +79,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 					height: '100%'
 				}
 			); 
-			this.dashboard.on( "load", function () { 
+			this.dashboard.on( "load", function (e) { 
 				this.dashboard.setConfig( {
 					uploadFileField:'filename',
 					uploadUrl: Mage.url+'../upload.xml'
@@ -92,8 +92,8 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 			}, this );
 			*/
 			
-			this.dashboard.on( "afterupload", function( uploadData ) {
-				alert( uploadData );
+			this.dashboard.on( "afterupload", function( e ) {
+				alert( e.data );
 			} );
 			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
 			this.dashboard.apply(dashPanel.getEl());
@@ -134,7 +134,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
                 if (e.cancel == true) {
                     return false;
                 }
-                module[method].call(module);
+                module['loadMainPanel'].call(module);
                 this.fireEvent('afterCallModuleMethod', e);               
             }  
         },
@@ -197,7 +197,6 @@ Mage.Admin.on('load', function(admin){
     admin.register('catalog', Mage.Catalog);
     admin.register('aith', Mage.Auth);
     admin.register('sales', Mage.Sales);
-    admin.register('price_rules', Mage.priceRules);
     admin.register('product_attirbutes', Mage.Catalog_Product_Attributes);
     
     var toolbar = admin.toolbar;
@@ -206,7 +205,6 @@ Mage.Admin.on('load', function(admin){
     Mage.Menu_Customer.init(toolbar);    
     Mage.Menu_Catalog.init(toolbar);            
     Mage.Menu_Sales.init(toolbar);
-    //Mage.priceRules.init(toolbar);
     // create wide spacer, after this line all items will be aligned to right
     Ext.fly(toolbar.addSpacer().getEl().parentNode).setStyle('width', '100%')        
     /// !!! do not remove this item

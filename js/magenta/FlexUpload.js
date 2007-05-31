@@ -15,7 +15,7 @@ Mage.FlexUpload = function () {
 		{"src" : Mage.url + "../media/flex/upload.swf"}
 	);
 	
-	this.addListener( 'load', function(eventData) { this.loaded = true } );
+	this.addListener( 'load', function(e) { this.loaded = true } );
 };
 
 Ext.extend( Mage.FlexUpload, Mage.FlexObject, {
