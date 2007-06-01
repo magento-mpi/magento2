@@ -81,7 +81,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 			); 
 			this.dashboard.on( "load", function (e) { 
 				this.dashboard.setConfig( {
-					uploadFileField:'filename',
+					uploadFileField: 'filename',
 					uploadUrl: Mage.url + '../test/upload/save/'
 				} );
 			}, this );

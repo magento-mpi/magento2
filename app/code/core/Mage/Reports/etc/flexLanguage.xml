@@ -37,6 +37,10 @@
 	File uploaded
 	</phrase>
     
+    <phrase name="view_on_site">
+	View file
+	</phrase>
+    
     
 	<phrase name="period_to">
 	to
