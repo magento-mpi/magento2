@@ -14,7 +14,7 @@ class Mage_Test_UploadController extends Mage_Core_Controller_Front_Action
     {
         $result = new Varien_Object();
         if( count($_FILES) == 0 ) {
-            $result->setError( $uploadFile->getError() );
+            $result->setError( "Uploaded file is too large." );
         } else {
             $uploadFile = new Varien_File_Uploader($_FILES['filename']);
             $uploadFile->save(Mage::getBaseDir('upload'));
