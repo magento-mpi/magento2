@@ -25,12 +25,12 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_S
     
     public function toString($format='')
     {
-        $str = parent::toString()." for same address (# ".$this->getAddressNumber().")";
+        $str = "If ".$this->getAttributeName()." of these conditions are ".$this->getValueName()." for shipping address (# ".$this->getAddressNumber().")";
         return $str;
     }
     
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        return true;
+        return false;
     }
 }

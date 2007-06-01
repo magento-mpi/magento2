@@ -29,13 +29,13 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
             $rule->setDescription("If it is a new registered customer and it is June and coupon is TEST 
                 and there's item abc123 of quantity 2 or more, make 1 item efg456 free and give 10% discount");
             
-            $conditionsArr = array('type'=>'combine', 'attribute'=>'all', 'operator'=>'=', 'value'=>true, 'conditions'=>array(
-                array('type'=>'quote_item_combine', 'attribute'=>'all', 'operator'=>'=', 'value'=>true, 'conditions'=>array(
+            $conditionsArr = array('type'=>'combine', 'attribute'=>'all', 'operator'=>'==', 'value'=>true, 'conditions'=>array(
+                array('type'=>'quote_item_combine', 'attribute'=>'all', 'operator'=>'==', 'value'=>true, 'conditions'=>array(
                     array('type'=>'quote_item', 'attribute'=>'sku', 'operator'=>'=', 'value'=>'abc123'),
                     array('type'=>'quote_item', 'attribute'=>'qty', 'operator'=>'>=', 'value'=>2),
                 )),
-                array('type'=>'quote_item_combine', 'attribute'=>'any', 'operator'=>'=', 'value'=>false, 'conditions'=>array(
-                    array('type'=>'quote_item', 'attribute'=>'sku', 'operator'=>'=', 'value'=>'efg456'),
+                array('type'=>'quote_item_combine', 'attribute'=>'any', 'operator'=>'==', 'value'=>false, 'conditions'=>array(
+                    array('type'=>'quote_item', 'attribute'=>'sku', 'operator'=>'==', 'value'=>'efg456'),
                 )),
             ));
             $rule->getConditions()->loadArray($conditionsArr);

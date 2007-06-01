@@ -25,12 +25,35 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
     
     public function toString($format='')
     {
-        $str = parent::toString()." for same item (# ".$this->getItemNumber().")";
+        $str = "If item is ".($this->getValue() ? 'FOUND' : 'NOT FOUND')
+            .' in cart with '.$this->getAttributeName()." of these conditions (# ".$this->getItemNumber().")";
         return $str;
     }
     
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        return true;
+        $all = $this->getAttribute()==='all';
+        $found = false;
+        foreach ($quote->getEntitiesByType('item') as $item) {
+            $found = $all ? true : false;
+            foreach ($this->getConditions() as $cond) {
+                if ($all && !$cond->validateQuoteItem($item)) {
+                    $found = false;
+                    break;
+                } elseif (!$all && $cond->validateQuoteItem($item)) {
+                    $found = true;
+                    break 2;
+                }
+            }
+        }
+        if ($found && $this->getValue()) { 
+            // found an item and we're looking for existing one
+            
+            return true;
+        } elseif (!$found && !$this->getValue()) {
+            // not found and we're making sure it doesn't exist
+            return true;
+        }
+        return false;
     }
 }

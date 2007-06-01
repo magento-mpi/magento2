@@ -44,16 +44,16 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
     public function loadOperators()
     {
         $this->setOperatorOption(array(
-            '='        => 'is',
-            '!='       => 'is not',
-            '>='       => 'equals or greater than',
-            '<='       => 'equals or less than',
-            '>'        => 'greater than',
-            '<'        => 'less than',
-            'like'     => 'contains',
-            'not like' => 'does not contain',
-            'in'       => 'one of',
-            'not in'   => 'not one of',
+            '=='  => 'is',
+            '!='  => 'is not',
+            '>='  => 'equals or greater than',
+            '<='  => 'equals or less than',
+            '>'   => 'greater than',
+            '<'   => 'less than',
+            '{}'  => 'contains',
+            '!{}' => 'does not contain',
+            '()'  => 'one of',
+            '!()' => 'not one of',
         ));
         return $this;
     }
@@ -104,6 +104,52 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
      */
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        return true;
+        return false;
+    }
+    
+    public function validateAttribute($validatedValue)
+    {
+        // $validatedValue suppose to be simple alphanumeric value
+        if (is_array($validatedValue) || is_object($validatedValue)) {
+            return false;
+        }
+        
+        $op = $this->getOperator();
+        
+        // if operator requires array and it is not, or on opposite, return false
+        if ((($op=='()' || $op=='!()') && !is_array($this->getValue()))
+            || (!($op=='()' || $op=='!()') && is_array($this->getValue()))) {
+            return false;
+        }
+        
+        $result = false;
+        
+        switch ($op) {
+            case '==': case '!=':
+                $result = $this->getValue()==$validatedValue;
+                break;
+
+            case '<=': case '>':
+                $result = $this->getValue()<=$validatedValue;
+                break;
+                
+            case '>=': case '<':
+                $result = $this->getValue()>=$validatedValue;
+                break;
+                
+            case '{}': case '!{}':
+                $result = strpos((string)$validatedValue, (string)$this->getValue())!==false;
+                break;
+
+            case '()': case '!()':
+                $result = in_array($validatedValue, (array)$this->getValue());
+                break;
+        }
+        
+        if ('!='==$op || '>'==$op || '<'==$op || '!{}'==$op || '!()'==$op) {
+            $result = !$result;
+        }
+        
+        return $result;
     }
 }

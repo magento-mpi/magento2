@@ -47,7 +47,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Sales_Model
     public function toString($format='')
     {
         $str = "Add ".$this->getItemQty()." product".($this->getItemQty()>1 ? 's' : '')." ".$this->getValueName()
-            ." if not exists in the cart (# ".$this->getItemNumber().")";
+            ." to the cart (# ".$this->getItemNumber().")";
         return $str;
     }
     

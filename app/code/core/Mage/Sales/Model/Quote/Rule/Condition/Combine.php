@@ -7,7 +7,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         parent::__construct();
         $this->setType('combine')
             ->setAttribute('all')
-            ->setOperator('=')
             ->setValue(true)
             ->setConditions(array());
         $this->loadAttributes()->loadOperators()->loadValues();
@@ -18,14 +17,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         $this->setAttributeOption(array(
             'all' => 'ALL',
             'any' => 'ANY',
-        ));
-        return $this;
-    }
-    
-    public function loadOperators()
-    {
-        $this->setOperatorOption(array(
-            '=' => 'are',
         ));
         return $this;
     }
@@ -95,7 +86,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         
     public function toString($format='')
     {
-        $str = "If ".$this->getAttributeName()." of these conditions ".$this->getOperatorName()." ".$this->getValueName();
+        $str = "If ".$this->getAttributeName()." of these conditions are ".$this->getValueName();
         return $str;
     }
     
@@ -108,19 +99,17 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
         return $str;
     }
     
-    public function processQuote(Mage_Sales_Model_Quote $quote)
-    {
-        $this->setFoundQuoteItems(array());
-        return $this;
-    }
-    
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        
-    }
-    
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
-    {
-        
+        $all = $this->getAttribute()==='all';
+        $true = (bool)$this->getValue();
+        foreach ($this->getConditions() as $cond) {
+            if ($all && $cond->validateQuote($quote)!==$true) {
+                return false;
+            } elseif (!$all && $cond->validateQuote($quote)===$true) {
+                return true;
+            }
+        }
+        return $all ? true : false;
     }
 }

@@ -21,4 +21,9 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote extends Mage_Sales_Model_Quote
     {
         return 'Cart '.parent::toString();
     }
+    
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        return $this->validateAttribute($quote->getData($this->getAttribute()));
+    }
 }

@@ -78,6 +78,15 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
         return $out;
     }
     
+    public function processQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->setFoundQuoteItems(array());
+        if ($this->getConditions()->validateQuote($quote)) {
+            $this->getActions()->updateQuote($quote);
+        }
+        return $this;
+    }
+    
     public function getResource()
     {
         return Mage::getModel('sales_resource', 'quote_rule');
