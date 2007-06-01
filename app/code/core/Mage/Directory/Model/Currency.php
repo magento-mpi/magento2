@@ -14,4 +14,29 @@ class Mage_Directory_Model_Currency extends Varien_Object
     {
         
     }
+    
+    public function getResource()
+    {
+        return Mage::getSingleton('durectory_resource', 'currency');
+    }
+    
+    public function load()
+    {
+        
+    }
+    
+    public function save()
+    {
+        
+    }
+    
+    public function delete()
+    {
+        
+    }
+    
+    public function format()
+    {
+        
+    }
 }

@@ -3,6 +3,7 @@
    <global>
       <default>
          <website>base</website>
+         <currency>USD</currency>
          <filesystem>
             <etc>{{root_dir}}/app/etc</etc>
             <code>{{root_dir}}/app/code</code>
@@ -20,7 +21,11 @@
             <language>en</language>
             <group>default</group>
             <currency>
-                <default>usa</default>
+                <default>USD</default>
+                <available>
+                    <UAH />
+                    <RUR />
+                </available>
             </currency>
             
             <filesystem>
@@ -57,6 +62,12 @@
             <id>2</id>
             <language>ru</language>
             <group>default</group>
+            <currency>
+                <default>UAH</default>
+                <available>
+                    <RUR />
+                </available>
+            </currency>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>
