@@ -28,7 +28,16 @@
 	<phrase name="remove">
 	Remove
 	</phrase>
+    
+    <phrase name="progress">
+	Uploaded %3%%
+	</phrase>
 	
+    <phrase name="uploaded">
+	File uploaded
+	</phrase>
+    
+    
 	<phrase name="period_to">
 	to
 	</phrase>

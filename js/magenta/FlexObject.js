@@ -17,19 +17,13 @@ Mage.FlexObject = function(config) {
 	this.setAttributes( config );
 	this.applied = false;
 	
-	if(this.detectFlashVersion(9, 0, 0))
-	{
-		if(this.isIE && !this.isOpera)
-		{
+	if(this.detectFlashVersion(9, 0, 0)) {
+		if(this.isIE && !this.isOpera) {
 			this.template = new Ext.Template( '<object {objectAttributes}>{objectParameters}</object>' )
-		}
-		else
-		{
+		} else {
 			this.template = new Ext.Template( '<embed {embedAttributes} />' );
 		}
-	}
-	else
-	{
+	} else {
 		this.template = new Ext.Template(  'This content requires the Adobe Flash Player. '
 										   +' <a href=http://www.adobe.com/go/getflash/>Get Flash</a>' );
 	}
@@ -50,8 +44,7 @@ Mage.FlexObject = function(config) {
 
 Mage.FlexObjectApi = {
 	objectMap: new Object(),	
-	callBack : function( id, eventName, eventData )
-	{
+	callBack : function( id, eventName, eventData )	{
 		eventObj = {
 			cancel : false,
 			data : eventData
@@ -64,47 +57,41 @@ Mage.FlexObjectApi = {
 		} 
 		return true;
 	},
-	registerObject : function( id, obj )
-	{
+	registerObject : function( id, obj ) {
 		this.objectMap[id] = obj;
 	},
-	unregisterObject: function( id )
-	{
+	unregisterObject: function( id ) {
 		delete( this.objectMap[id] );
 	}
 }
 
 Ext.extend( Mage.FlexObject,  Ext.util.Observable, { 
 						
-			setAttribute : function( name, value )
-			{
-				if(!this.applied)
+			setAttribute : function( name, value ) {
+				if(!this.applied) {
 					this.attributes[name] = value;
+                }
 			},
 			
-			getAttribute : function( name )
-			{
+			getAttribute : function( name ) {
 				return this.attributes[name];
 			},
 			
-			setAttributes : function( attributesList )
-			{
+			setAttributes : function( attributesList ) {
 				for ( var key in attributesList )
 				{
-					if(!this.applied)
+					if(!this.applied) {
 						this.attributes[key] = attributesList[key];
+                    }
 				}
 			},
 			
-			getAttributes : function( )
-			{
+			getAttributes : function( ) {
 				return this.attributes;
 			},
 			
-			apply : function( container )
-			{
-				if (!this.applied)
-				{
+			apply : function( container ) {
+				if (!this.applied)	{
 					this.setAttribute( "id", Ext.id().replace("-","def"));
 					this.template.append( container, this.generateTemplateValues() );	
 					Mage.FlexObjectApi.registerObject( this.getAttribute("id"), this );
@@ -112,12 +99,11 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				this.applied = true;
 			},
 						
-			applyHTML : function( )
-			{
-				if (!this.applied)
-				{
+			applyHTML : function( ) {
+				if (!this.applied) {
 					this.setAttribute( "id", Ext.id().replace("-","def") );
 				}
+                
 				this.applied = true;
 				
 				return this.template.applyTemplate( this.generateTemplateValues() );
@@ -125,7 +111,9 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 			
 			getApi : function() 
 			{
-				if (!this.applied) return false;
+				if (!this.applied) {
+                    return false;
+                }
 				
 				return Ext.getDom( this.getAttribute('id') );
 			},
@@ -135,11 +123,10 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				var embedAttributes = new Object();
 				var objectAttributes = new Object();
 				var parameters = new Object();
-				for (var key in this.attributes )
-				{
+				for (var key in this.attributes ) {
 					var attributeName = key.toLowerCase();
 
-					switch (attributeName){   
+					switch (attributeName) {   
 						case "pluginspage":
 							embedAttributes[key] = this.attributes[key];
 							break;
@@ -178,26 +165,22 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				result.objectParameters = '';
 				result.embedAttributes  = '';
 				
-				for ( i in objectAttributes)
-				{
+				for ( i in objectAttributes) {
 					result.objectAttributes += this.attributesTemplate.applyTemplate( {name:i, value: objectAttributes[i]} );
 				}
 				
-				for ( i in embedAttributes)
-				{
+				for ( i in embedAttributes)	{
 					result.embedAttributes += this.attributesTemplate.applyTemplate( {name:i, value: embedAttributes[i]} );
 				}
 				
-				for ( i in parameters)
-				{
+				for ( i in parameters) {
 					result.objectParameters += this.paramtersTemplate.applyTemplate( {name:i, value: parameters[i]} );
 				}
 				
 				return result;
 			},
 
-			detectFlashVersion : function( reqMajorVer, reqMinorVer, reqRevision )
-			{
+			detectFlashVersion : function( reqMajorVer, reqMinorVer, reqRevision ) {
 				var versionStr = this.getSwfVer();
 			    if (versionStr == -1 ) {
 			        return false;
@@ -229,8 +212,7 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 			    }
 			},
 
-			controlVersion : function () 
-			{
+			controlVersion : function () {
 			    var version;
 			    var axo;
 			    var e;

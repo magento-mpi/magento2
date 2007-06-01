@@ -11,25 +11,23 @@ Mage.FlexUpload = function () {
 		afterupload: true
 	};
 	
-	this.setAttributes( 
-		{"src" : Mage.url + "../media/flex/upload.swf"}
-	);
+	this.setAttributes( {
+        "src" : Mage.url + "../media/flex/upload.swf"
+    } );
 	
-	this.addListener( 'load', function(e) { this.loaded = true } );
+	this.addListener( 'load', function(e) {
+            this.loaded = true 
+        } 
+    );
 };
 
 Ext.extend( Mage.FlexUpload, Mage.FlexObject, {
-	
 	setConfig : function() {
 		
-		if(this.loaded && arguments.length > 1) 
-		{
+		if (this.loaded && arguments.length > 1) {
 			this.getApi().setConfig( arguments[0], arguments[1] );
-		}
-		else if(this.loaded && arguments.length == 1)
-		{
+		} else if (this.loaded && arguments.length == 1) {
 			this.getApi().setConfig( arguments[0] );
 		}
-		
 	}
 } );

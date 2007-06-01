@@ -75,14 +75,14 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 				{
 					src: Mage.url+'../media/flex/reports.swf',
 					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
-					width: '100%',
-					height: '100%'
+					width: '90%',
+					height: '90%'
 				}
 			); 
 			this.dashboard.on( "load", function (e) { 
 				this.dashboard.setConfig( {
 					uploadFileField:'filename',
-					uploadUrl: Mage.url+'../test/upload/save/'
+					uploadUrl: Mage.url + '../test/upload/save/'
 				} );
 			}, this );
 			
@@ -93,8 +93,13 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 			*/
 			
 			this.dashboard.on( "afterupload", function( e ) {
-				alert( e.data );
-			} );
+				 for( var i = 0; i < e.data.length; i ++)
+				 {
+					alert(e.data[i].name);
+				 }
+				 
+			} , this);
+            
 			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
 			this.dashboard.apply(dashPanel.getEl());
             			
