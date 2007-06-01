@@ -27,7 +27,8 @@ class Mage_Test_UploadController extends Mage_Core_Controller_Front_Action
             $result->setName( $uploadFile->getFileName() );
             $result->setSize( $uploadFile->getFileSize() );
         }
-        $this->getResponse()->setBody($result->toXml(array(), "file", true));
+        header("Content-type: text/xml");
+        $this->getResponse()->setBody($result->toXml(array(), "file", true, false));
     }
 }
 // ft:php

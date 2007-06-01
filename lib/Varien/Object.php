@@ -259,7 +259,7 @@ class Varien_Object
      * @param string $rootName name of the root element
      * @return string
      */
-    protected function __toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag=false)
+    protected function __toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag=false, $addCdata=true)
     {
         $xml = '';
         if ($addOpenTag) {
@@ -268,7 +268,7 @@ class Varien_Object
         $xml.= '<'.$rootName.'>'."\n";
         $arrData = $this->toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
-            $xml.= "<$fieldName><![CDATA[$fieldValue]]></$fieldName>"."\n";
+            $xml.= ( $addCdata === true ) ? "<$fieldName><![CDATA[$fieldValue]]></$fieldName>"."\n" : "<$fieldName>$fieldValue</$fieldName>"."\n";
         }
         $xml.= '</'.$rootName.'>'."\n";
         return $xml;
@@ -281,9 +281,9 @@ class Varien_Object
      * @param string $rootName
      * @return string
      */
-    public function toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag=false)
+    public function toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag=false, $addCdata=true)
     {
-        return $this->__toXml($arrAttributes, $rootName, $addOpenTag);
+        return $this->__toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
     }
     
     /**
