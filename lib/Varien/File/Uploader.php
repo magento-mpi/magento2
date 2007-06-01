@@ -68,6 +68,11 @@ class Varien_File_Uploader
         return $this->uploader->file_src_mime;
     }
 
+    public function getFileDstName()
+    {
+        return $this->uploader->file_dst_name;
+    }
+
     public function getFileSize()
     {
         return $this->uploader->file_src_size;
