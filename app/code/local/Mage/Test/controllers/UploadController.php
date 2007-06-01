@@ -12,20 +12,19 @@ class Mage_Test_UploadController extends Mage_Core_Controller_Front_Action
 { 
     public function saveAction()
     {
-        if( count($_FILES) == 0 ) {
-            return;
-        }
-
         $result = new Varien_Object();
-
-        $uploadFile = new Varien_File_Uploader($_FILES['filename']);
-        $uploadFile->save(Mage::getBaseDir('upload'));
-        if( $uploadFile->getError() != "" ) {
+        if( count($_FILES) == 0 ) {
             $result->setError( $uploadFile->getError() );
         } else {
-            $result->setPath( $uploadFile->getDestinationPath() );
-            $result->setName( $uploadFile->getFileName() );
-            $result->setSize( $uploadFile->getFileSize() );
+            $uploadFile = new Varien_File_Uploader($_FILES['filename']);
+            $uploadFile->save(Mage::getBaseDir('upload'));
+            if( $uploadFile->getError() != "" ) {
+                $result->setError( $uploadFile->getError() );
+            } else {
+                $result->setPath( $uploadFile->getDestinationPath() );
+                $result->setName( $uploadFile->getFileName() );
+                $result->setSize( $uploadFile->getFileSize() );
+            }
         }
         header("Content-type: text/xml");
         $this->getResponse()->setBody($result->toXml(array(), "file", true, false));
