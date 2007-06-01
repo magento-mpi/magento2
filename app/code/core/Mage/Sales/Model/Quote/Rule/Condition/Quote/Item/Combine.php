@@ -25,8 +25,8 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
     
     public function toString($format='')
     {
-        $str = "If item is ".($this->getValue() ? 'FOUND' : 'NOT FOUND')
-            .' in cart with '.$this->getAttributeName()." of these conditions (# ".$this->getItemNumber().")";
+        $str = "If an item is ".($this->getValue() ? 'FOUND' : 'NOT FOUND')
+            .' in the cart with '.$this->getAttributeName()." of these conditions (# ".$this->getItemNumber().")";
         return $str;
     }
     

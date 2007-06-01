@@ -68,7 +68,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
     {
         $salesConfig = Mage::getSingleton('sales', 'config');
         $this->setAttribute($arr['attribute'])
-            ->setOperator($arr['operator'])
             ->setValue($arr['value']);
         
         foreach ($arr['conditions'] as $condArr) {

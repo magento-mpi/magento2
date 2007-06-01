@@ -33,8 +33,8 @@ abstract class Mage_Sales_Model_Quote_Rule_Action_Abstract extends Varien_Object
     public function loadOperators()
     {
         $this->setOperatorOption(array(
-            'to' => 'to',
-            'by' => 'by',
+            '=' => 'to',
+            '+=' => 'by',
         ));
         return $this;
     }

@@ -81,9 +81,41 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     public function processQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->setFoundQuoteItems(array());
-        if ($this->getConditions()->validateQuote($quote)) {
-            $this->getActions()->updateQuote($quote);
+        $this->validateQuote($quote) && $this->updateQuote($quote);
+        return $this;
+    }
+    
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $assertReg = $this->getCustomerRegistered();
+        $assertNew = $this->getCustomerNewBuyer();
+        
+        if ($assertReg<2 || $assertNew<2) {
+            $customer = $quote->getCustomer();
+            if (!$customer) {
+                $custSess = Mage::getSingleton('customer', 'session');
+                if ($custSess->isLoggedIn()) {
+                    $customer = $custSess->getCustomer();
+                }
+            }
         }
+        
+        $result = $this->getIsActive()
+            && ($quote->getCouponCode()=='' || $quote->getCouponCode()==$this->getCouponCode())
+            && ($assertReg==2 || ($assertReg==0 && !$customer) || ($assertReg==1 && $customer))
+            && ($assertNew==2 || ($customer && 
+                ($assertNew==0 && $customer->getNumOrdersMade()>0) || ($assertNew==1 && $customer->getNumOrdersMade()==0)
+            ))
+            && (strtotime($this->getStartAt()) <= time())
+            && (strtotime($this->getExpireAt()) >= time())
+            && $this->getConditions()->validateQuote($quote);
+        
+        return $result;
+    }
+    
+    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->getActions()->updateQuote($quote);
         return $this;
     }
     

@@ -20,7 +20,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Sales_Model_Qu
     /**
      * Enter description here...
      *
-     * @todo create field orders_num in customer
+     * @todo create field num_orders_made in customer
      * @param Mage_Sales_Model_Quote $quote
      * @return boolean
      */
@@ -38,7 +38,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Sales_Model_Qu
                 return (bool)$customer;
                 
             case 'first_time_buyer':
-                return (bool)$customer && $customer->getOrdersNum()==0;
+                return (bool)$customer && $customer->getNumOrdersMade()==0;
         }
         return $this->validateAttribute($quote->getData($this->getAttribute()));
     }

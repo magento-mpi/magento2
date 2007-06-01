@@ -52,8 +52,8 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
             '<'   => 'less than',
             '{}'  => 'contains',
             '!{}' => 'does not contain',
-            '()'  => 'one of',
-            '!()' => 'not one of',
+            '()'  => 'is one of',
+            '!()' => 'is not one of',
         ));
         return $this;
     }
@@ -66,7 +66,7 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
     public function loadValues()
     {
         $this->setValueOption(array(
-            true => 'TRUE',
+            true  => 'TRUE',
             false => 'FALSE',
         ));
         return $this;
