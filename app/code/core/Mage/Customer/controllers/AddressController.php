@@ -75,7 +75,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $data = $address;
         }
 
-        $countries = Mage::getModel('directory', 'country_collection');       
+        $countries = Mage::getModel('directory_resource', 'country_collection');       
         // Form block
         $block = $this->getLayout()->createBlock('tpl', 'customer.address.form')
             ->setTemplate('customer/form/address.phtml')

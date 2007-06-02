@@ -2,78 +2,111 @@
 <config>
    <modules>
       <Mage_Directory>
-         <version>0.2.0</version>
+         <version>0.2.1</version>
          <depends>
             <Mage_Core />
          </depends>
       </Mage_Directory>
    </modules>
 
-   <global>
-      <models>
-         <directory>
-            <class>Mage_Directory_Model_Mysql4</class>
-
-            <entities>
-               <country>
-                  <table>directory_country</table>
-               </country>
-
-               <country_name>
-                  <table>directory_country_name</table>
-               </country_name>
-
-               <country_currency>
-                  <table>directory_country_currency</table>
-               </country_currency>
-
-               <country_region>
-                  <table>directory_country_region</table>
-               </country_region>
-
-               <country_region_name>
-                  <table>directory_country_region_name</table>
-               </country_region_name>
-
-               <currency>
-                  <table>directory_currency</table>
-               </currency>
-
-               <currency_name>
-                  <table>directory_currency_name</table>
-               </currency_name>
-            </entities>
-         </directory>
-      </models>
-
-      <resources>
-         <directory_setup>
-            <setup>
-                <module>Mage_Directory</module>
-            </setup>
-            <connection><use>core_setup</use></connection>
-         </directory_setup>
-
-         <directory_write>
-            <connection><use>core_write</use></connection>
-         </directory_write>
-
-         <directory_read>
-            <connection><use>core_read</use></connection>
-         </directory_read>
-      </resources>
-   </global>
+    <global>
+        <block>
+            <types>
+                <currency_dropdown>
+                    <class>Mage_Directory_Block_Currency</class>
+                </currency_dropdown>
+            </types>
+        </block>
+        <models>
+            <directory>
+                <class>Mage_Directory_Model</class>
+            </directory>    
+            <directory_resource>
+                <class>Mage_Directory_Model_Mysql4</class>
+                <entities>
+                    <country>
+                        <table>directory_country</table>
+                    </country>
+                    <country_name>
+                        <table>directory_country_name</table>
+                    </country_name> 
+                    <country_currency>
+                        <table>directory_country_currency</table>
+                    </country_currency>
+                    <country_region>
+                        <table>directory_country_region</table>
+                    </country_region>
+                    <country_region_name>
+                        <table>directory_country_region_name</table>
+                    </country_region_name>
+                    <currency>
+                        <table>directory_currency</table>
+                    </currency>
+                    <currency_rate>
+                        <table>directory_currency_rate</table>
+                    </currency_rate>
+                    <currency_name>
+                        <table>directory_currency_name</table>
+                    </currency_name>
+                </entities>
+            </directory_resource>
+        </models>
+    
+        <resources>
+            <directory_setup>
+                <setup>
+                    <module>Mage_Directory</module>
+                </setup>
+                <connection><use>core_setup</use></connection>
+            </directory_setup>
+    
+            <directory_write>
+                <connection><use>core_write</use></connection>
+            </directory_write>
+    
+            <directory_read>
+                <connection><use>core_read</use></connection>
+            </directory_read>
+        </resources>
+    </global>
    
-   <front>
-      <routers>
-         <directory>
-            <class>Mage_Core_Controller_Front_Router</class>
-            <args>
-                <module>Mage_Directory</module>
-                <frontName>directory</frontName>
-            </args>
-         </directory>
-      </routers>
-   </front>
+    <front>
+        <layouts>
+            <default>
+                <updates>
+                    <directory>
+                        <file>directory/initLayout.xml</file>
+                    </directory>
+                </updates>
+            </default>
+        </layouts>
+        <events>
+            <action_preDispatch>
+                <observers>
+                    <defaultCarrency>
+                        <type>singleton</type>
+                        <model>directory</model>
+                        <class>currency</class>
+                        <method>bindDefault</method>
+                    </defaultCarrency>
+                    <currentCurrency>
+                        <type>singleton</type>
+                        <model>directory</model>
+                        <class>currency</class>
+                        <method>bindCurrent</method>
+                    </currentCurrency>
+                </observers>
+            </action_preDispatch>
+        </events>
+        <routers>
+            <directory>
+                <class>Mage_Core_Controller_Front_Router</class>
+                <args>
+                    <module>Mage_Directory</module>
+                    <frontName>directory</frontName>
+                </args>
+            </directory>
+        </routers>
+    </front>
 </config>
 

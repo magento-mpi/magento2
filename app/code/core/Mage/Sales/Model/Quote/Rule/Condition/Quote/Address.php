@@ -14,6 +14,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address extends Mage_Sales_Mod
     
     public function validateQuoteAddress(Mage_Sales_Model_Quote_Entity_Address $address)
     {
-        return true;
+        return $this->validateAttribute($address->getData($this->getAttribute()));
     }
 }

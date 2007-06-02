@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Quote rule mysql4 resource model
+ *
+ * @package    Mage
+ * @subpackage Sales
+ * @author     Moshe Gurvich (moshe@varien.com)
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Sales_Model_Mysql4_Quote_Rule
 {
     /**
@@ -30,12 +38,24 @@ class Mage_Sales_Model_Mysql4_Quote_Rule
         $this->_ruleTable = Mage::registry('resources')->getTableName('sales_resource', 'quote_rule');
     }
     
+    /**
+     * Load rule by id
+     *
+     * @param integer $ruleId
+     * @return array
+     */
     public function load($ruleId)
     {
         $row = $this->_read->fetchRow("select * from $this->_ruleTable where quote_rule_id=?", array($ruleId));
         return $row;
     }
     
+    /**
+     * Save the rule from object
+     *
+     * @param Mage_Sales_Model_Quote_Rule $rule
+     * @return Mage_Sales_Model_Mysql4_Quote_Rule
+     */
     public function save(Mage_Sales_Model_Quote_Rule $rule)
     {
         $data = $rule->__toArray(array('quote_rule_id', 'name', 'description', 'is_active', 'start_at', 'expire_at', 'coupon_code', 'customer_registered', 'customer_new_buyer', 'show_in_catalog', 'sort_order', 'conditions_serialized', 'actions_serialized'));
@@ -50,6 +70,12 @@ class Mage_Sales_Model_Mysql4_Quote_Rule
         return $this;
     }
     
+    /**
+     * Delete the rule by id
+     *
+     * @param integer $ruleId
+     * @return Mage_Sales_Model_Mysql4_Quote_Rule
+     */
     public function delete($ruleId)
     {
         $condition = $this->_write->quoteInto("quote_rule_id=?", $ruleId);

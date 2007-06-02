@@ -16,6 +16,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item extends Mage_Sales_Model_
     
     public function validateQuoteItem(Mage_Sales_Model_Quote_Entity_Item $item)
     {
-        return true;
+        return $this->validateAttribute($item->getData($this->getAttribute()));
     }
 }

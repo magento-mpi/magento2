@@ -162,7 +162,7 @@ final class Mage {
     public static function addObserver($eventName, $callback, $data=array(), $observerName='')
     {
         $observer = new Varien_Event_Observer();
-        $observer->addData($data)->setName($observerName)->setEventName($eventName)->setCallback($callback);
+        $observer->setName($observerName)->addData($data)->setEventName($eventName)->setCallback($callback);
         return Mage::registry('events')->addObserver($observer);
     }
 

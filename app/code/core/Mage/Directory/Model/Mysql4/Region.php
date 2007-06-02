@@ -23,8 +23,8 @@ class Mage_Directory_Model_Mysql4_Region extends Mage_Directory_Model_Region
     {
         parent::__construct($data);
         
-        self::$_regionTable     = Mage::registry('resources')->getTableName('directory', 'country_region');
-        self::$_regionNameTable = Mage::registry('resources')->getTableName('directory', 'country_region_name');
+        self::$_regionTable     = Mage::registry('resources')->getTableName('directory_resource', 'country_region');
+        self::$_regionNameTable = Mage::registry('resources')->getTableName('directory_resource', 'country_region_name');
         self::$_read = Mage::registry('resources')->getConnection('customer_read');
         self::$_write = Mage::registry('resources')->getConnection('customer_write');
     }

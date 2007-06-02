@@ -11,8 +11,8 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_S
     public function setRule(Mage_Sales_Model_Quote_Rule $rule)
     {
         $this->setData('rule', $rule);
-        $number = $rule->getConditionAddressNumber();
-        $rule->setConditionAddressNumber($number+1);
+        $number = $rule->getFoundQuoteAddressNumber();
+        $rule->setFoundQuoteAddressNumber($number+1);
         $this->setAddressNumber($number);
         return $this;
     }
@@ -31,6 +31,32 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_S
     
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
+        $all = $this->getAttribute()==='all';
+        $found = false;
+        foreach ($quote->getShippingAddresses() as $address) {
+            $found = $all ? true : false;
+            foreach ($this->getConditions() as $cond) {
+                if ($all && !$cond->validateQuoteAddress($address)) {
+                    $found = false;
+                    break;
+                } elseif (!$all && $cond->validateQuoteAddress($address)) {
+                    $found = true;
+                    break 2;
+                }
+            }
+        }
+        if ($found && $this->getValue()) { 
+            // found an item and we're looking for existing one
+            
+            $foundAddresses = $this->getRule()->getFoundQuoteAddreses();
+            $foundAddresses[$this->getAddressNumber()] = $item->getEntityId();
+            $this->getRule()->setFoundQuoteAddresses($foundAddresses);
+            
+            return true;
+        } elseif (!$found && !$this->getValue()) {
+            // not found and we're making sure it doesn't exist
+            return true;
+        }
         return false;
     }
 }

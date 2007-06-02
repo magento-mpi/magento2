@@ -68,6 +68,9 @@ class Mage_Sales_Model_Quote_Rule_Action_Collection extends Mage_Sales_Model_Quo
     
     public function updateQuote(Mage_Sales_Model_Quote $quote)
     {
+        foreach ($this->getActions() as $action) {
+            $action->updateQuote($quote);
+        }
         return $this;
     }
 }

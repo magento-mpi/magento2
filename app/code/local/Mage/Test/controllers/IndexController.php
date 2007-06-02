@@ -719,7 +719,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
     {
         $u = new Varien_Image( Varien_Image_Adapter::ADAPTER_GD2, Mage::getBaseDir('upload')."/svin_0.jpg" );
         $u->open();
-        $u->resize(150, 150);
+        $u->resize(1500, 150);
         $u->save(null, "MyTest.jpg");
     }
 

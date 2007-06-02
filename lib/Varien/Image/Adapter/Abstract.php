@@ -23,8 +23,6 @@ abstract class Varien_Image_Adapter_Abstract
 
     protected $_imageHandler = null;
 
-    protected $_imageNewHandler = null;
-
     protected $_imageSrcWidth = null;
 
     protected $_imageSrcHeight = null;

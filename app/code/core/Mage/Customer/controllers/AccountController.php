@@ -93,7 +93,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             return;
         }
         
-        $countries = Mage::getModel('directory', 'country_collection');
+        $countries = Mage::getModel('directory_resource', 'country_collection');
         $data = Mage::getSingleton('customer', 'session')->getCustomerFormData(true);
         if (!$data) {
             $data = new Varien_Object();

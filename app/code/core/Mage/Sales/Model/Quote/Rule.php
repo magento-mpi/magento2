@@ -19,14 +19,22 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
         return $this->setQuoteRuleId($id);
     }
     
+    public function getEnv()
+    {
+        if (!$this->getData('env')) {
+            $this->setData('env', Mage::getModel('sales', 'quote_rule_environment'));
+        }
+        return $this->getData('env');
+    }
+    
     public function resetConditions()
     {
         $conditions = Mage::getModel('sales', 'quote_rule_condition_combine');
         $conditions->setRule($this)->setId('1');
         $this->setConditions($conditions);
 
-        $this->setConditionItemNumber(1);
-        $this->setConditionAddressNumber(1);
+        $this->setFoundQuoteItemNumber(1);
+        $this->setFoundQuoteAddressNumber(1);
 
         return $this;
     }
@@ -80,36 +88,26 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     
     public function processQuote(Mage_Sales_Model_Quote $quote)
     {
-        $this->setFoundQuoteItems(array());
+        $this->setFoundQuoteItems(array())->setFoundQuoteAddresses(aray());
         $this->validateQuote($quote) && $this->updateQuote($quote);
         return $this;
     }
     
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        $assertReg = $this->getCustomerRegistered();
-        $assertNew = $this->getCustomerNewBuyer();
-        
-        if ($assertReg<2 || $assertNew<2) {
-            $customer = $quote->getCustomer();
-            if (!$customer) {
-                $custSess = Mage::getSingleton('customer', 'session');
-                if ($custSess->isLoggedIn()) {
-                    $customer = $custSess->getCustomer();
-                }
-            }
+        if (!$this->getIsCollectionValidated()) {
+            $env = $this->getEnv();
+            $result = $result && $this->getIsActive()
+                && (strtotime($this->getStartAt()) <= $env->getNow())
+                && (strtotime($this->getExpireAt()) >= $env->getNow())
+                && ($this->getCouponCode()=='' || $this->getCouponCode()==$env->getCouponCode())
+                && ($this->getCustomerRegistered()==2 || $this->getCustomerRegistered()==$env->getCustomerRegistered())
+                && ($this->getCustomerNewBuyer()==2 || $this->getCustomerNewBuyer()==$env->getCustomerNewBuyer())
+                && $this->getConditions()->validateQuote($quote);
+        } else {
+            $result = $this->getConditions()->validateQuote($quote);
         }
-        
-        $result = $this->getIsActive()
-            && ($quote->getCouponCode()=='' || $quote->getCouponCode()==$this->getCouponCode())
-            && ($assertReg==2 || ($assertReg==0 && !$customer) || ($assertReg==1 && $customer))
-            && ($assertNew==2 || ($customer && 
-                ($assertNew==0 && $customer->getNumOrdersMade()>0) || ($assertNew==1 && $customer->getNumOrdersMade()==0)
-            ))
-            && (strtotime($this->getStartAt()) <= time())
-            && (strtotime($this->getExpireAt()) >= time())
-            && $this->getConditions()->validateQuote($quote);
-        
+
         return $result;
     }
     

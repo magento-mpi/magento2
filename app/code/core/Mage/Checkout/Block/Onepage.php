@@ -108,7 +108,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $block->assign('addresses', $addresses->getItems());
         }
         
-        $countries = Mage::getModel('directory', 'country_collection');
+        $countries = Mage::getModel('directory_resource', 'country_collection');
         $block->assign('address', $billing)
             ->assign('useForShipping', $useForShipping)
             ->assign('isCustomerLoggedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
@@ -166,7 +166,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             $block->assign('addresses', $addresses->getItems());
         }
 
-        $countries = Mage::getModel('directory', 'country_collection');
+        $countries = Mage::getModel('directory_resource', 'country_collection');
         $block->assign('address', $shipping)
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault($shipping->getCountryId())->getRegions());

@@ -44,34 +44,34 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         $fileName = ( !isset($destination) ) ? $this->_fileName : $destination;
 
         if( isset($destination) && isset($newName) ) {
-            $fileName = $destination . "/" . $newName;
+            $fileName = $destination . "/" . $fileName;
         } elseif( isset($destination) && !isset($newName) ) {
             $fileName = $destination . "/" . $this->_fileSrcName;
         } elseif( !isset($destination) && isset($newName) ) {
             $fileName = $this->_fileSrcPath . "/" . $newName;
         } else {
-            $fileName = $this->_fileSrcPath . "/" . $this->_fileSrcName;
+            $fileName = $this->_fileSrcPath . $this->_fileSrcName;
         }
 
         switch( $this->_fileType ) {
             case IMAGETYPE_GIF:
-                imagegif($this->_imageNewHandler, $fileName);
+                imagegif($this->_imageHandler, $fileName);
                 break;
 
             case IMAGETYPE_JPEG:
-                imagejpeg($this->_imageNewHandler, $fileName);
+                imagejpeg($this->_imageHandler, $fileName);
                 break;
 
             case IMAGETYPE_PNG:
-                imagepng($this->_imageNewHandler, $fileName);
+                imagepng($this->_imageHandler, $fileName);
                 break;
 
             case IMAGETYPE_XBM:
-                imagexbm($this->_imageNewHandler, $fileName);
+                imagexbm($this->_imageHandler, $fileName);
                 break;
 
             case IMAGETYPE_WBMP:
-                imagewbmp($this->_imageNewHandler, $fileName);
+                imagewbmp($this->_imageHandler, $fileName);
                 break;
 
             default:
@@ -86,23 +86,23 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         header("Content-type: ".$this->getMimeType());
         switch( $this->_fileType ) {
             case IMAGETYPE_GIF:
-                imagegif($this->_imageNewHandler);
+                imagegif($this->_imageHandler);
                 break;
 
             case IMAGETYPE_JPEG:
-                imagejpeg($this->_imageNewHandler);
+                imagejpeg($this->_imageHandler);
                 break;
 
             case IMAGETYPE_PNG:
-                imagepng($this->_imageNewHandler);
+                imagepng($this->_imageHandler);
                 break;
 
             case IMAGETYPE_XBM:
-                imagexbm($this->_imageNewHandler);
+                imagexbm($this->_imageHandler);
                 break;
 
             case IMAGETYPE_WBMP:
-                imagewbmp($this->_imageNewHandler);
+                imagewbmp($this->_imageHandler);
                 break;
 
             default:
@@ -131,14 +131,14 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             $xOffset = round(($dstWidth - $width) / 2);
         }
 
-        $this->_imageNewHandler = imagecreatetruecolor($dstWidth, $dstHeight);
+        $imageNewHandler = imagecreatetruecolor($dstWidth, $dstHeight);
 
-        imagecopyresampled($this->_imageNewHandler, $this->_imageHandler, $xOffset, $yOffset, 0, 0, $width, $height, $this->_imageSrcWidth, $this->_imageSrcHeight);
+        imagecopyresampled($imageNewHandler, $this->_imageHandler, $xOffset, $yOffset, 0, 0, $width, $height, $this->_imageSrcWidth, $this->_imageSrcHeight);
+        $this->_imageHandler = $imageNewHandler;
     }
 
     function __destruct()
     {
         imagedestroy($this->_imageHandler);
-        imagedestroy($this->_imageNewHandler);
     }
 }

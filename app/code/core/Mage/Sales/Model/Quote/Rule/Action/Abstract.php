@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Quote rule action abstract
+ *
+ * @package    Mage
+ * @subpackage Sales
+ * @author     Moshe Gurvich (moshe@varien.com)
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 abstract class Mage_Sales_Model_Quote_Rule_Action_Abstract extends Varien_Object
 {
     public function __construct()

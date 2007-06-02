@@ -329,9 +329,4 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         
         return $this;
     }
-    
-    public function applyPriceRules()
-    {
-        #$priceRules = 
-    }
 }

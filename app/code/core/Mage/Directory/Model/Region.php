@@ -9,8 +9,8 @@
  */
 class Mage_Directory_Model_Region extends Varien_Object 
 {
-    public function __construct($region) 
+    public function __construct($data=array()) 
     {
-        parent::__construct($region);
+        parent::__construct($data);
     }
 }

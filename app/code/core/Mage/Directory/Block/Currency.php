@@ -1,6 +1,6 @@
 <?php
 /**
- * Currency rate model
+ * Currency dropdown block
  *
  * @package     Mage
  * @subpackage  Directory
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_Model_Curency_Rate extends Varien_Object 
+class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
 {
     public function __construct() 
     {

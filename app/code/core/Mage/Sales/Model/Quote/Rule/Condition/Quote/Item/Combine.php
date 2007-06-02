@@ -11,8 +11,8 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
     public function setRule(Mage_Sales_Model_Quote_Rule $rule)
     {
         $this->setData('rule', $rule);
-        $number = $rule->getConditionItemNumber();
-        $rule->setConditionItemNumber($number+1);
+        $number = $rule->getFoundQuoteItemNumber();
+        $rule->setFoundQuoteItemNumber($number+1);
         $this->setItemNumber($number);
         return $this;
     }
@@ -26,7 +26,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
     public function toString($format='')
     {
         $str = "If an item is ".($this->getValue() ? 'FOUND' : 'NOT FOUND')
-            .' in the cart with '.$this->getAttributeName()." of these conditions (# ".$this->getItemNumber().")";
+            .' in the cart with '.$this->getAttributeName()." of these conditions true (# ".$this->getItemNumber().")";
         return $str;
     }
     
@@ -48,6 +48,10 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
         }
         if ($found && $this->getValue()) { 
             // found an item and we're looking for existing one
+            
+            $foundItems = $this->getRule()->getFoundQuoteItems();
+            $foundItems[$this->getItemNumber()] = $item->getEntityId();
+            $this->getRule()->setFoundQuoteItems($foundItems);
             
             return true;
         } elseif (!$found && !$this->getValue()) {

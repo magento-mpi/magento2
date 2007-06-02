@@ -147,7 +147,7 @@ class Mage_Customer_Model_Mysql4_Address
         
         // Validate region id
         if (!empty($data['region_id'])) {
-            $region = Mage::getModel('directory', 'region')->load($data['region_id']);
+            $region = Mage::getModel('directory_resource', 'region')->load($data['region_id']);
             if ($region && $region->getCountryId() && $region->getCountryId() == $data['country_id']) {
                 $data['region'] = $region->getName();
             }
