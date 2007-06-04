@@ -2,6 +2,11 @@ Mage.core.PanelRelated = function(region, config) {
     this.region = region;
     this.notLoaded = true;
     this.saveVar = null;    
+    this.dataRecord = null;
+    this.grid = null;
+    this.productSelector = null;
+    this.panel = null;
+    
     this.tbItems = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     

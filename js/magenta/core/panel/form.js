@@ -15,9 +15,10 @@ Mage.core.PanelForm = function(region, config) {
     /**
      * @param form config for this.frm
      */
-    this.form = null;
-
+    this.form = {};
+    
     Ext.apply(this, config);
+    this.form.config.id = Ext.id();
     
     var background = false;
     if (config && config.background == true) {
@@ -52,7 +53,10 @@ Mage.core.PanelForm = function(region, config) {
 Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
     
     update : function(config) {
+        this.form = null;
         Ext.apply(this, config);    
+        this.form.config.id = Ext.id();
+        
         if (this.region.getActivePanel() == this.panel) {
             this._rebuildForm();
             this.notLoaded = false;   
@@ -76,12 +80,14 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
         if (!this.form) {
             return false;
         }
+        
         var i;
+        
         if (this.frm) {
             for (i=0; i < this.frm.items.getCount(); i++) {
                 this.frm.remove(this.frm.items[i]);
             }
-            delete this.frm;
+            this.frm = null;
             this.panel.setContent('');
             this._buildForm();
         }
@@ -103,6 +109,7 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
                 '</div>');
            this.tpl.compile();         
         }
+        
         this.tpl.append(this.panel.getEl(), {formElId : formId});
     },
     
@@ -115,8 +122,9 @@ Ext.extend(Mage.core.PanelForm, Mage.core.Panel, {
             fileUpload : this.form.config.fileupload,
             metaData : this.form.elements
         });
+        
         this._buildTemplate(this.form.config.id + '_El');        
-
+        var res = Ext.get(this.form.config.id + '_El');
         this.frm.render(this.form.config.id + '_El');
     }
 })

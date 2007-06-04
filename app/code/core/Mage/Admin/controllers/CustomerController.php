@@ -155,10 +155,12 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         }
         
         $form = new Mage_Admin_Block_Customer_Address_Form($address);
-        
-        $this->getResponse()->setBody(Zend_Json::encode($form->toArray()));
-    }
-    
+        $data = array(
+            'error' => 0,
+            'form' => $form->toArray()
+        );
+        $this->getResponse()->setBody(Zend_Json::encode($data));
+    }    
     /**
      * Save customer address
      */

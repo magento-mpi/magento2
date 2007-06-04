@@ -5,13 +5,15 @@ Mage.core.PanelAddresses = function(region, config) {
     this.saveVar = null;
     this.storeUrl = Mage.url + 'customer/addressList/';
     this.tbItems = new Ext.util.MixedCollection();
-
+    this.addressForm = null;
+    
     Ext.apply(this, config);
 
     var layout = new Ext.BorderLayout(this.region.getEl().createChild({tag : 'div'}) ,{
         center : {
             titlebar : true,
-            hideWhenEmpty : false
+            hideWhenEmpty : false,
+            autoScroll : true            
         },        west : {
             split:true,
             initialSize: 200,
@@ -26,11 +28,13 @@ Mage.core.PanelAddresses = function(region, config) {
     
     this.addressBaseEl = layout.add('west', new Ext.ContentPanel(Ext.id(),{
         autoCreate : true,
-        title : 'Address List'
+        title : 'Address List',
+        autoScroll : true        
     })).getEl();    
     this.addressFormEl = layout.add('center', new Ext.ContentPanel(Ext.id(),{
         autoCreate : true,
-        title : 'Form'
+        title : 'Form',
+        autoScroll : true        
     })).getEl();    
     
     
@@ -78,8 +82,8 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
         if (this.toolbar) {
             if (this.tbItems.getCount() == 0) {
                 this.tbItems.add('addresses_sep', new Ext.Toolbar.Separator());
-                this.tbItems.add('addresses_remove', new Ext.Toolbar.Button({
-                    text : 'Remove Address',
+                this.tbItems.add('addresses_delete', new Ext.Toolbar.Button({
+                    text : 'Delete Address',
                     handler : this._onDeleteItem,
                     scope : this
                 }));
@@ -160,8 +164,78 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
                 }
             }
         }.createDelegate(this));
+
+        this.view.on('selectionchange', function(view, selections){
+            var selectedEl = view.getSelectedIndexes();
+            var addressItem = this.view.store.getAt(selectedEl[0]);
+            
+            if (addressItem) {
+            
+                var conn = new Ext.data.Connection();
+            
+                conn.on('requestcomplete', function(tranId, response, options) {
+                    var result =  Ext.decode(response.responseText);
+                    if (result.error == 0) {
+                        this._buildForm(result.form);
+                    } else {
+                        Ext.MessageBox.alert('Critical Error', result.errorMessage);
+                    }
+                }, this);
+            
+                conn.on('requestexception', function(){
+                    Ext.MessageBox.alert('Critical Error', 'Request Exception');
+                    });
+            
+                conn.request({
+                    url : Mage.url + 'customer/addressForm/',
+                    method : 'POST',
+                    params : {id : addressItem.data.address_id}
+                })
+            }
+        }.createDelegate(this));
+        
         
         store.load();
         this.notLoaded = true;
+    },
+    
+    _buildForm : function(formConfig) {
+        var mask;
+        if (!this.addressForm) {
+            this._buildFormTemplate(formConfig.id + '_El');            
+        } else {
+            var el = Ext.get(formConfig.id + '_El');
+            mask = new Ext.LoadMask(el);
+            mask.onBeforeLoad();
+            el.dom.innerHTML = '';
+        }
+        
+        this.addressForm = new Mage.form.JsonForm( {
+            method : formConfig.method,
+            name : formConfig.name,
+            action : formConfig.action,
+            fileUpload : formConfig.fileupload,
+            metaData : formConfig.elements
+        });
+
+        this.addressForm.render(formConfig.id + '_El');
+        if (mask) {
+            mask.onLoad();
+        }        
+    },
+    
+    _buildFormTemplate : function(formId) {
+        if (!this.tpl) {
+            this.tpl = new Ext.Template('<div>' +
+                '<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>' +
+                '<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">' +
+                '<div id="{formElId}">' +
+                '</div>' +
+                '</div></div></div>' +
+                '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>' +
+                '</div>');
+           this.tpl.compile();         
+        }
+        this.tpl.append(this.addressFormEl, {formElId : formId});
     }
 })
