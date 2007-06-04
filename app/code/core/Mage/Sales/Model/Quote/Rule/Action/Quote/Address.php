@@ -46,6 +46,20 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Sales_Model_
      */
     public function updateQuote(Mage_Sales_Model_Quote $quote)
     {
+        $addressNumber = $this->getAddressNumber();
+        $entityId = $this->getRule()->getFoundQuoteAddresses($addressNumber);
+        $address = $quote->getEntityById($entityId);
+        
+        switch ($this->getOperator()) {
+            case '=':
+                $value = $this->getValue();
+                break;
+                
+            case '+=':
+                $value = $address->getData($this->getAttribute())+$this->getValue();
+        }
+        $address->setData($this->getAttribute(), $value);
+        
         return $this;
     }
 }

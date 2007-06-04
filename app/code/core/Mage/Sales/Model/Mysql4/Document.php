@@ -117,7 +117,7 @@ class Mage_Sales_Model_Mysql4_Document
                 .$this->_write->quote($value).")";
         }
         
-        $entities = $document->getEntitiesById();
+        $entities = $document->getEntityById();
         if (!empty($entities)) {
             foreach ($entities as $entity) {
                 $entityId = $entity->getEntityId();

@@ -3,6 +3,7 @@
 class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     protected $_quote = null;
+    protected $_processedQuote = null;
     
     public function __construct()
     {
@@ -39,6 +40,19 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_quote = $quote;
         }
         return $this->_quote;
+    }
+    
+    public function getProcessedQuote()
+    {
+        if (!$this->_processedQuote) {
+            $this->_processedQuote = Mage::getModel('sales', 'quote_processed');
+            if ($this->_quote->getProcessedQuoteId()) {
+                $this->_processedQuote->load($this->_quote->getProcessedQuoteId());
+            } else {
+                $this->_processedQuote->importQuote($this->getQuote())->save();
+            }
+        }
+        return $this->_processedQuote;
     }
 
     public function loadCustomerQuote()

@@ -114,7 +114,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
             if (!empty($itemUpd['remove'])) {
                 $this->removeEntity($id);
             } else {
-                $item = $this->getEntitiesById($id);
+                $item = $this->getEntityById($id);
                 if (!$item) {
                     continue;
                 }
@@ -278,7 +278,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     public function removeAddressShippingMethods($addressEntityId)
     {
         foreach ($this->getEntitiesByType('shipping') as $entity) {
-            if (!$this->getEntitiesById($entity->getAddressEntityId())) {
+            if (!$this->getEntityById($entity->getAddressEntityId())) {
                 $this->removeEntity($entity);
             }
             if ($entity->getAddressEntityId()==$addressEntityId) {

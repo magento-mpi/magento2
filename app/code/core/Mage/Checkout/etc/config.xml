@@ -53,17 +53,23 @@
       <sales>
          <quote>
             <entities>
-               <self><attributes>
+               <self>
+                 <attributes>
                   <method>
                      <type>varchar</type>
                   </method>
                   <password_hash>
                      <type>varchar</type>
                   </password_hash>
-               </attributes></self>
-               <address><attributes>
-                  <same_as_billing><type>int</type></same_as_billing>
-               </attributes></address>
+                 </attributes>
+               </self>
+               <address>
+                 <attributes>
+                  <same_as_billing>
+                    <type>int</type>
+                  </same_as_billing>
+                 </attributes>
+               </address>
             </entities>
          </quote>
       </sales>

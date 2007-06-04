@@ -46,15 +46,12 @@ abstract class Mage_Sales_Model_Document extends Varien_Object
     {
         return $this->getData($this->getIdField());
     }
-
-    public function getEntities()
+    
+    public function getEntitiesByType($type=null)
     {
-        return $this->_entities;
-    }
-
-    public function getEntitiesByType($type)
-    {
-        if (isset($this->_entitiesByType[$type])) {
+        if (is_null($type)) {
+            return $this->_entitiesByType;
+        } elseif (isset($this->_entitiesByType[$type])) {
             return $this->_entitiesByType[$type];
         }
         return array();        
@@ -70,12 +67,11 @@ abstract class Mage_Sales_Model_Document extends Varien_Object
         return false;
     }
     
-    public function getEntitiesById($id=null)
+    public function getEntityById($id=null)
     {
         if (is_null($id)) {
             return $this->_entitiesById;
-        }
-        if (isset($this->_entitiesById[$id])) {
+        } elseif (isset($this->_entitiesById[$id])) {
             return $this->_entitiesById[$id];
         }
         return false;  
@@ -107,7 +103,7 @@ abstract class Mage_Sales_Model_Document extends Varien_Object
             $entityId = (int)$entityToRemove;
         }
         
-        $entityToRemove = $this->getEntitiesById($entityId);
+        $entityToRemove = $this->getEntityById($entityId);
         if (empty($entityToRemove)) {
             return $this;
         }

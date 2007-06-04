@@ -73,9 +73,25 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Sales_Model_Quo
      */
     public function toString($format='')
     {
+        /*
         $str = "Update item # ".$this->getItemNumber()." ".$this->getAttributeName()
             ." ".$this->getOperatorName()." ".$this->getValueName()
             ." for ".$this->getItemQty()." item".($this->getItemQty()>1 ? 's' : '');
+        */
+        // just playing around to see how it is possible to integrate languages...
+        // even though rules toString shouldn't be used but in admin interface.
+        // most probably it won't work because of different sentence build rules
+        // really don't want to create different classes for languages
+        // maybe named substitutions would help
+        // looks like english is the simplest choice (for now)
+        $str = __("Update item # %d %s %s %s for %d %s",
+            $this->getItemNumber(),
+            $this->getAttributeName(),
+            $this->getOperatorName(),
+            $this->getValueName(),
+            $this->getItemQty(),
+            $this->getItemQty()>1 ? __('items') : __('item')
+        );
         return $str;
     }
     
@@ -87,6 +103,19 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Sales_Model_Quo
      */
     public function updateQuote(Mage_Sales_Model_Quote $quote)
     {
+        $itemNumber = $this->getItemNumber();
+        $entityId = $this->getRule()->getFoundQuoteItems($itemNumber);
+        $item = $quote->getEntityById($entityId);
+        
+        switch ($this->getOperator()) {
+            case '=':
+                $value = $this->getValue();
+                break;
+                
+            case '+=':
+                $value = $item->getData($this->getAttribute())+$this->getValue();
+        }
+        $item->setData($this->getAttribute(), $value);
         
         return $this;
     }

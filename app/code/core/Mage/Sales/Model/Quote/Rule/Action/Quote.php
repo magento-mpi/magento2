@@ -47,6 +47,16 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Sales_Model_Quote_Ru
     
     public function updateQuote(Mage_Sales_Model_Quote $quote)
     {
+        switch ($this->getOperator()) {
+            case '=':
+                $value = $this->getValue();
+                break;
+                
+            case '+=':
+                $value = $quote->getData($this->getAttribute())+$this->getValue();
+        }
+        $quote->setData($this->getAttribute(), $value);
+        
         return $this;
     }
 }
