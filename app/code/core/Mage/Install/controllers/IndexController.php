@@ -53,4 +53,10 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
 
         echo "<pre>"; print_r($rule->toString()); echo "</pre>";
     }
+    
+    function xmlAction()
+    {
+        $xml = Mage::getConfig()->getNode('global/websites/base')->asArray();
+        echo "<pre>"; print_r($xml); echo "</pre>";
+    }
 }// Class IndexController END

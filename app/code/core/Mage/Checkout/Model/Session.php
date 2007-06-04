@@ -46,8 +46,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         if (!$this->_processedQuote) {
             $this->_processedQuote = Mage::getModel('sales', 'quote_processed');
-            if ($this->_quote->getProcessedQuoteId()) {
-                $this->_processedQuote->load($this->_quote->getProcessedQuoteId());
+            if ($this->getQuote()->getProcessedQuoteId()) {
+                $this->_processedQuote->load($this->getQuote()->getProcessedQuoteId());
             } else {
                 $this->_processedQuote->importQuote($this->getQuote())->save();
             }

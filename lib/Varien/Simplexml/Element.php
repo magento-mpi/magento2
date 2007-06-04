@@ -102,11 +102,12 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     	}
 
     	if (!($children = $this->children())) {
-    		$r['_'] = (string) $this;
+    		$r = (string) $this;
     		return $r;
     	}
 
     	foreach($children as $childName=>$child) {
+    	    $r[$childName] = array();
     		foreach ($child as $index=>$element) {
     			$r[$childName][$index] = $element->asArray();
     		}

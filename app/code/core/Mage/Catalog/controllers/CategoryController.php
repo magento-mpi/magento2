@@ -16,7 +16,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     {
         $action = 'catalog_category_'.$this->getRequest()->getParam('id', false);
         $this->loadLayout();
-            
         $category = Mage::getModel('catalog', 'category')
             ->load($this->getRequest()->getParam('id', false));
             
@@ -28,6 +27,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
                 $this->getLayout()->loadUpdateFile(Mage::getWebsiteDir('layout').DS.'catalog'.DS.'defaultCategoryLevel1.xml');
             }
             $this->getLayout()->generateBlocks();
+echo "TEST";
         }
         else {
             $this->_forward('noRoute');

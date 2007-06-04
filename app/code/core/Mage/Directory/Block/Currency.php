@@ -12,6 +12,6 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
-        
+        echo "Construct";
     }
 }
