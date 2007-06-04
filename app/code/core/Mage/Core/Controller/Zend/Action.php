@@ -78,7 +78,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return Mage::getSingleton('core', 'layout');
      }
      
-     function loadLayout($area='front', $ids=null, $key='')
+     function loadLayout($area='front', $ids=null, $key='', $generateBlocks=true)
      {
         Varien_Profiler::setTimer('loadLayout');
          
@@ -105,9 +105,11 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         }
         Varien_Profiler::setTimer('loadLayout', true);
         
-        Varien_Profiler::setTimer('generateBlocks');
-        $layout->generateBlocks();
-        Varien_Profiler::setTimer('generateBlocks', true);
+        if ($generateBlocks) {
+            Varien_Profiler::setTimer('generateBlocks');
+            $layout->generateBlocks();
+            Varien_Profiler::setTimer('generateBlocks', true);
+        }
         
         return $this;
      }
