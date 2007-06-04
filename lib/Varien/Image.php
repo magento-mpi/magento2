@@ -30,6 +30,12 @@ class Varien_Image
     
     public function open()
     {
+        $this->_getAdapter()->checkDependencies();
+
+        if( !file_exists($this->_fileName) ) {
+            throw new Exception("File '{$this->_fileName}' does not exists.");
+        }
+
         $this->_getAdapter()->open($this->_fileName);
     }
     
@@ -43,19 +49,32 @@ class Varien_Image
         $this->_getAdapter()->save($destination, $newFileName);
     }
     
-    public function rotate()
+    public function rotate($angle=null)
     {
-        
+        if( !isset($angle) ) {
+            throw new Exception('Rotation angle can not be NULL.');
+        }
+        $this->_getAdapter()->rotate($angle);
     }
     
-    public function crop()
+    public function crop($top=0, $left=0, $right=0, $bottom=0)
     {
-        
+        $this->_getAdapter()->crop($left, $top, $right, $bottom);
     }
     
     public function resize($width=null, $height=null)
     {
         $this->_getAdapter()->resize($width, $height);
+    }
+
+    public function watermark($watermarkImage=null, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
+    {
+        if( !isset($watermarkImage) ) {
+            throw new Exception('Watermark image can not be NULL.');
+        } elseif( !file_exists($watermarkImage) ) {
+            throw new Exception("Required file '{$watermarkImage}' does not exists.");
+        }
+        $this->_getAdapter()->watermark($watermarkImage, $positionX, $positionY, $watermarkImageOpacity, $repeat);
     }
     
     public function getMimeType()
@@ -63,11 +82,6 @@ class Varien_Image
         return $this->_getAdapter()->getMimeType();
     }
 
-    public function getCopy()
-    {
-        return clone $this;
-    }
-    
     public function process()
     {
         
@@ -76,5 +90,10 @@ class Varien_Image
     public function instruction()
     {
         
+    }
+
+    public function setImageBackgroundColor($color)
+    {
+        $this->_getAdapter()->imageBackgroundColor = intval($color);
     }
 }

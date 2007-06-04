@@ -11,7 +11,9 @@
 abstract class Varien_Image_Adapter_Abstract
 {
 
-    public $fileName;
+    public $fileName = null;
+
+    public $imageBackgroundColor = 0;
 
     protected $_fileType = null;
 
@@ -19,13 +21,15 @@ abstract class Varien_Image_Adapter_Abstract
 
     protected $_fileSrcName = null;
 
-    protected $fileSrcPath = null;
+    protected $_fileSrcPath = null;
 
     protected $_imageHandler = null;
 
     protected $_imageSrcWidth = null;
 
     protected $_imageSrcHeight = null;
+
+    protected $_requiredExtensions = null;
 
     abstract public function open($fileName);
 
@@ -34,6 +38,14 @@ abstract class Varien_Image_Adapter_Abstract
     abstract public function display();
 
     abstract public function resize($width=null, $height=null);
+
+    abstract public function rotate($angle=null);
+
+    abstract public function crop($top=0, $left=0, $right=0, $bottom=0);
+
+    abstract public function watermark($watermarkImage=null, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false);
+
+    abstract public function checkDependencies();
 
     public function getMimeType()
     {
@@ -53,6 +65,7 @@ abstract class Varien_Image_Adapter_Abstract
         $this->_fileSrcPath = $pathinfo['dirname'];
         $this->_fileSrcName = $pathinfo['basename'];
     }
+
 } 
  
 // ft:php
