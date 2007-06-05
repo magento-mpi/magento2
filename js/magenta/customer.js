@@ -188,7 +188,10 @@ Mage.Customer = function(depend){
                 points : [{
                     url : Mage.url + 'test/wizard/'    
                 },{
-                    url : Mage.url + 'test/wizard/',
+                    url : Mage.url + 'test/wizard/step/1/',
+                    finish : false                
+                },{
+                    url : Mage.url + 'test/wizard/step/2/',
                     finish : true                
                 }]
             });    

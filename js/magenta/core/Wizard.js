@@ -72,15 +72,26 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     newStep : function(url) {
-        var index, panel, cfg;
-        cfg = {
+        var index, panel, conn;
+        
+        conn = new Ext.data.Connection();
+        
+        conn.on('requestcomplete', function(tranId, response, options){
+            var result = Ext.decode(response.responseText);
+            if (result.error == 0) {
+                this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), result.tabs[0].type, result.tabs[0])        
+                this.stepCollection.add(this.currentPanel);
+                index = this.stepCollection.indexOf(this.currentPanel) || 0
+                this.checkButtons(index);        
+            } else {
+                Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
+            }
+        }, this);
+        
+        conn.request({
             url : url,
-            title : 'Test page'
-        };
-        this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), 'view', cfg)        
-        this.stepCollection.add(this.currentPanel);
-        index = this.stepCollection.indexOf(this.currentPanel) || 0
-        this.checkButtons(index);        
+            method : 'POST'
+        })
     },
     
     help : function() {
@@ -94,6 +105,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
             this.currentPanel = this.stepCollection.get(index+1);
             this.currentPanel.show();
         } else if (index + 1 < this.points.length) {
+            console.log(this.points);
             this.newStep(this.points[index+1].url);  
         }
         this.checkButtons(index);        

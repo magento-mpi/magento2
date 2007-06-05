@@ -46,6 +46,7 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
         }
         
         $cardStruct['title'] = __('New Customer');
+        $cardStruct['error'] = 0;
         $cardStruct['tabs'][] = $tab;
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
