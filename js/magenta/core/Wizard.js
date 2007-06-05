@@ -16,8 +16,8 @@ Mage.Wizard = function(el, config) {
         title : 'Wizard',
         center:{
             tabPosition: "top",
-            alwaysShowTabs: false,
-            hideTabs : true
+            alwaysShowTabs: true,
+            hideTabs : false
         }                
     });
     
@@ -28,8 +28,8 @@ Mage.Wizard = function(el, config) {
     this.on('beforehide', this.onBeforeHide, this);
     
     this.addButton({
-        text:'New Step',
-        handler : this.newStep,
+        text:'Help',
+        handler : this.help,
         scope : this
     });
     
@@ -65,20 +65,36 @@ Mage.Wizard = function(el, config) {
 }
 
 Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
-    newStep : function() {
+    
+    show : function(el) {
+        Mage.Wizard.superclass.show.call(this, el);
+        this.next();
+    },
+    
+    newStep : function(url) {
         var index, panel;
-        panel = this.layout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate : true}, this.stepCollection.getCount()+1));    
+        panel = this.layout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate : true, url: url, loadOnce : true, autoScroll : true}, this.stepCollection.getCount()+1));    
         this.stepCollection.add(panel);
         index = this.stepCollection.getCount();
         this.checkButtons(index);        
     },
     
+    help : function() {
+        
+    },
+    
     next : function() {
         var panel, index;
         panel = this.layout.getRegion('center').getActivePanel();
-        index = this.stepCollection.indexOf(panel);
+        if (panel) {
+            index = this.stepCollection.indexOf(panel);
+        } else {
+            index = 0;
+        }
         if (this.stepCollection.get(index+1)) {
             this.layout.getRegion('center').showPanel(this.stepCollection.get(index+1));
+        } else if (index + 1 < this.points.length) {
+            this.newStep(this.points[index+1].url);  
         }
         this.checkButtons(index);        
     },
@@ -107,6 +123,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     
     checkButtons : function(index) {
     }
+    
 });
 
 Mage.Wizard.Step = function(config) {

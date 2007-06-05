@@ -186,9 +186,9 @@ Mage.Customer = function(depend){
         createCustomer : function(btn, event) {
             this.wizard = new Mage.Wizard(Ext.DomHelper.append(document.body, {tag : 'div'}, true), {
                 points : [{
-                    url : Mage.url + ''    
+                    url : Mage.url + 'test/wizard/'    
                 },{
-                    url : Mage.url + '',
+                    url : Mage.url + 'test/wizard/',
                     finish : true                
                 }]
             });    
