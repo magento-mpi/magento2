@@ -65,6 +65,9 @@
             <block type="tag_js" name="jscripts.js.magenta.mage">
                 <action method="setSrc"><src>magenta/mage.js</src></action>
             </block>
+            <block type="tag_js" name="jscripts.js.magenta.core.wizard">
+                <action method="setSrc"><src>magenta/core/Wizard.js</src></action>
+            </block>
             <block type="tag_js" name="jscripts.js.magenta.flex">
                 <action method="setSrc"><src>magenta/FlexObject.js</src></action>
             </block>
