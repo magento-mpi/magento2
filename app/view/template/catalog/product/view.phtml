@@ -4,11 +4,11 @@
 <div class="product-image">
     <div style="position:relative; overflow:hidden; width:245px; height:245px;">
         <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; 
-				cursor:move; z-index:999;" ondblclick="toggleFull()"/>
+                cursor:move; z-index:999;" ondblclick="toggleFull()"/>
     </div>   
     <div style="margin-top:10px;">
         <table border=0 cellspacing=2><tr><td><img src="<?=$baseSkinUrl?>catalog/images/magnifier_zoom_out.gif" width="16" alt="Zoom in to product image"></td><td style="padding:0 
-				4px;">
+                4px;">
         <div id="track1" style="width: 200px; height:18px; background:#CCC;">
           <div id="handle1"" style="width: 8px; height: 18px; background:#557;">
             
@@ -102,13 +102,13 @@
             </td>
         </tr>
     </tfoot>
-    <?$_prices=$product->getTierPrice()?>
+    <?$_prices=$product->getFormatedTierPrice()?>
     <tbody>
     <?foreach($_prices as $_price):?>
         <tr>
             <td class="align-center"><?=$_price['price_qty']?></td>
-            <td class="align-center"><?=$currencyFilter->filter($_price['price'])?></td>
-            <!--<td class="price">$<?=$product->getPrice()?></td>-->
+            <td class="align-center"><?=$_price['price']?></td>
+            <!--<td class="price">$<?=$product->getFormatedPrice()?></td>-->
         </tr>
     <?endforeach?>
     </tbody>
@@ -150,7 +150,7 @@
                 </div>
                 <div class="item-info">
                     <div class="product-name"><a href="<?=$_link->getProduct()->getProductUrl()?>" 
-										title="<?=$_link->getProduct()->getName()?>"><?=$_link->getProduct()->getName()?></a></div>
+                                        title="<?=$_link->getProduct()->getName()?>"><?=$_link->getProduct()->getName()?></a></div>
                     <div class="product-price"><?=$_link->getProduct()->getFormatedPrice()?></div>
                 </div>
             </div>

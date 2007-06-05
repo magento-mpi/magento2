@@ -42,11 +42,17 @@ class Mage_Directory_Model_Mysql4_Currency
         $this->_write = Mage::registry('resources')->getConnection('sales_write');
     }
     
-    public function load($code)
+    public function load($code, $lang=null)
     {
+        if (is_null($lang)) {
+            $lang = Mage::registry('website')->getLanguage();
+        }
+        
         $select = $this->_read->select()
             ->from($this->_currencyTable)
-            ->where($this->_read->quoteInto('currency_code=?', $code));
+            ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
+            ->where($this->_read->quoteInto($this->_currencyTable.'.currency_code=?', $code))
+            ->where($this->_read->quoteInto($this->_currencyNameTable.'.language_code=?', $lang));
         return $this->_read->fetchRow($select);
     }
     
@@ -62,6 +68,18 @@ class Mage_Directory_Model_Mysql4_Currency
     
     public function getRate($currencyFrom, $currencyTo)
     {
+        if ($currencyFrom instanceof Mage_Directory_Model_Currency) {
+            $currencyFrom = $currencyFrom->getCode();
+        }
+        
+        if ($currencyTo instanceof Mage_Directory_Model_Currency) {
+            $currencyTo = $currencyTo->getCode();
+        }
+        
+        if ($currencyFrom == $currencyTo) {
+            return 1;
+        }
+        
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $select = $this->_read->select()
                 ->from($this->_currencyRateTable, 'rate')

@@ -9,6 +9,12 @@
  */
 class Mage_Core_Model_Website extends Varien_Object
 {
+    /**
+     * Set website code
+     *
+     * @param   string $code
+     * @return  Mage_Core_Model_Website
+     */
     public function setCode($code)
     {
         $this->setData('code', $code);
@@ -23,6 +29,11 @@ class Mage_Core_Model_Website extends Varien_Object
         return $this;
     }
     
+    /**
+     * Get website id
+     *
+     * @return int
+     */
     public function getId()
     {
         if ($this->getWebsiteId()) {
@@ -31,22 +42,43 @@ class Mage_Core_Model_Website extends Varien_Object
         return (int) $this->getConfig()->id;
     }
     
+    /**
+     * Get website resource model
+     *
+     * @return mixed
+     */
     public function getResource()
     {
         return Mage::getSingleton('core_resource', 'website');
     }
     
+    /**
+     * Load website data
+     *
+     * @param   int $websiteId
+     * @return  Mage_Core_Model_Website
+     */
     public function load($websiteId)
     {
         $this->setData($this->getResource()->load($websiteId));
         return $this;
     }
     
+    /**
+     * Get website config data
+     *
+     * @return mixed
+     */
     public function getConfig()
     {
         return Mage::getConfig()->getWebsiteConfig($this->getCode());
     }
     
+    /**
+     * Get website categories
+     *
+     * @return array
+     */
     public function getArrCategoriesId()
     {
         $arr = array();
@@ -61,11 +93,23 @@ class Mage_Core_Model_Website extends Varien_Object
         return $arr;
     }
     
+    /**
+     * Get website directory by type
+     *
+     * @param   string $type
+     * @return  string
+     */
     public function getDir($type)
     {
         return (string)$this->getConfig()->filesystem->$type;
     }
     
+    /**
+     * Get website url
+     *
+     * @param   array $params
+     * @return  string
+     */
     public function getUrl($params)
     {
         if (isset($params['_admin'])) {
@@ -97,5 +141,54 @@ class Mage_Core_Model_Website extends Varien_Object
             $url = dirname($_SERVER['SCRIPT_NAME']).'/';
         }
         return $url;
+    }
+    
+    /**
+     * Get default website currency code
+     *
+     * @return string
+     */
+    public function getDefaultCurrencyCode()
+    {
+        return (string) Mage::getConfig()->getWebsiteConfig($this->getCode())->currency->default;
+    }
+    
+    /**
+     * Set current website currency code
+     * 
+     * @param   string $code
+     * @return  string
+     */
+    public function setCurrentCurrencyCode($code)
+    {
+        $code = strtoupper($code);
+        if (in_array($code, $this->getAvailableCurrencyCodes())) {
+            Mage::getSingleton('core', 'session')->setCurrencyCode($code);
+        }
+        return $this;
+    }
+
+    /**
+     * Get current website currency code
+     *
+     * @return string
+     */
+    public function getCurrentCurrencyCode()
+    {
+        $code = Mage::getSingleton('core', 'session')->getCurrencyCode();
+        if (in_array($code, $this->getAvailableCurrencyCodes())) {
+            return Mage::getSingleton('core', 'session')->getCurrencyCode();
+        }
+        return $this->getDefaultCurrencyCode();
+    }
+
+    /**
+     * Get allowed website currency codes
+     *
+     * @return array
+     */
+    public function getAvailableCurrencyCodes()
+    {
+        return array_keys($this->getConfig()->currency->available->asArray());
     }
 }

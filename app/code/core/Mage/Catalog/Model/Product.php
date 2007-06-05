@@ -21,34 +21,65 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
     }
     
+    /**
+     * Get product id
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->getProductId();
     }
     
+    /**
+     * Get product category id
+     *
+     * @return int
+     */
     public function getCategoryId()
     {
         $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategory();
         return $categoryId;
     }
     
+    /**
+     * Get product resource model
+     *
+     * @return mixed
+     */
     public function getResource()
     {
         return Mage::getSingleton('catalog_resource', 'product');
     }
     
+    /**
+     * Load product
+     *
+     * @param   int $productId
+     * @return  Mage_Catalog_Model_Product
+     */
     public function load($productId)
     {
         $this->setData($this->getResource()->load($productId));
         return $this;
     }
     
+    /**
+     * Save product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function save()
     {
         $this->getResource()->save($this);
         return $this;
     }
     
+    /**
+     * Get product url
+     *
+     * @return string
+     */
     public function getProductUrl()
     {
         $url = Mage::getUrl('catalog', 
@@ -61,6 +92,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
     
+    /**
+     * Get product category url
+     *
+     * @return string
+     */
     public function getCategoryUrl()
     {
         $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getCategoryId()));
@@ -81,23 +117,22 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
     
+    /**
+     * Get product category name
+     *
+     * @return unknown
+     */
     public function getCategoryName()
     {
         return Mage::getModel('catalog_resource', 'category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
-    /*
-    public function getPrice()
-    {
-        $price = $this->getData('price');
-        if (is_array($price) && isset($price[0])) {
-            return $price[0]['price'];
-        }
-        elseif(is_numeric($price)) {
-            return $price;
-        }
-        return null;
-    }*/
     
+    /**
+     * Get product tier price by qty
+     *
+     * @param   double $qty
+     * @return  double
+     */
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
@@ -124,11 +159,75 @@ class Mage_Catalog_Model_Product extends Varien_Object
         
         return ($prices) ? $prices : array();
     }
+    
+    /**
+     * Get formated by currency tier price
+     *
+     * @param   double $qty
+     * @return  array || double
+     */
+    public function getFormatedTierPrice($qty=null)
+    {
+        $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrency();
+        $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrency();
+        $price = $this->getTierPrice($qty);
+        
+        $canConvert = false;
+        if ($defaultCurrency && $currentCurrency) {
+            $filter     = $currentCurrency->getFilter();
+            $canConvert = true;
+        }
+        elseif ($defaultCurrency) {
+            $filter     = $defaultCurrency->getFilter();
+            $canConvert = true;
+            $currentCurrency = null;
+        }
+        else {
+            $filter = new Varien_Filter_Sprintf('%s', 2);
+        }
+        
+        if (is_array($price)) {
+            foreach ($price as $index => $value) {
+                if ($canConvert) {
+                    $price[$index]['price'] = $filter->filter($defaultCurrency->convert($price[$index]['price'], $currentCurrency));
+                }
+                else {
+                    $price[$index]['price'] = $filter->filter($price[$index]['price']);
+                }
+            }
+        }
+        else {
+            if ($canConvert) {
+                $price = $currentCurrency->filter($defaultCurrency->convert($price, $currentCurrency));
+            }
+            else {
+                $price = $currentCurrency->filter($price);
+            }
+        }
+        
+        
+        return $price;
+    }
 
     public function getFormatedPrice()
     {
-        $filter = new Varien_Filter_Sprintf('$%s', 2);
-        return $filter->filter($this->getPrice());
+        $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrency();
+        $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrency();
+        $price = $this->getPrice();
+        
+        if ($defaultCurrency && $currentCurrency) {
+            $price = $currentCurrency->format($defaultCurrency->convert($price, $currentCurrency));
+        }
+        elseif ($defaultCurrency) {
+            $price = $defaultCurrency->format($price);
+        }
+        else {
+            $filter = new Varien_Filter_Sprintf('%s', 2);
+            $price = $filter->filter($price);
+        }
+        
+        
+        return $price;
     }
     
     public function getLinkedProducts($linkType)

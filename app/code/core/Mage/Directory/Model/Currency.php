@@ -22,7 +22,7 @@ class Mage_Directory_Model_Currency extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getSingleton('durectory_resource', 'currency');
+        return Mage::getSingleton('directory_resource', 'currency');
     }
     
     /**
@@ -87,12 +87,26 @@ class Mage_Directory_Model_Currency extends Varien_Object
      * @param   string $toCurrency
      * @return  double
      */
-    public function convert($price, $toCurrency)
+    public function convert($price, $toCurrency=null)
     {
-        if ($rate = $this->getRate($toCurrency)) {
+        if (is_null($toCurrency)) {
+            return $price;
+        }
+        elseif ($rate = $this->getRate($toCurrency)) {
             return $price*$rate;
         }
         throw new Exception('Undefined rate from "'.$this->getCode().'-'.$toCurrency.'"');
+    }
+    
+    public function getFilter()
+    {
+        $filter = new Varien_Filter_Sprintf(
+            $this->getFormat(), 
+            $this->getFormatDecimals(), 
+            $this->getFormatDecPoint(), 
+            $this->getFormatThousandsSep()
+        );
+        return $filter;        
     }
     
     /**
@@ -103,22 +117,36 @@ class Mage_Directory_Model_Currency extends Varien_Object
      */
     public function format($price)
     {
-        $filter = new Varien_Filter_Sprintf(
-            $this->getFormat(), 
-            $this->getFormatDecimals(), 
-            $this->getFormatDecPoint(), 
-            $this->getFormatThousandsSep()
-        );
-        return $filter->filter($price);
+        return $this->getFilter()->filter($price);
     }
     
-    public function bindDefault()
+    /**
+     * Bind default currency
+     */
+    public function bindDefault($observer)
     {
-        
+        $code = Mage::getSingleton('core', 'website')->getDefaultCurrencyCode();
+        if ($code) {
+            Mage::getSingleton('core', 'website')->setDefaultCurrency(Mage::getModel('directory', 'currency')->load($code));
+        }
+        return $this;
     }
     
-    public function bindCurrent()
+    /**
+     * Bind current currency
+     */
+    public function bindCurrent($observer)
     {
+        if ($observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
+            Mage::getSingleton('core', 'website')->setCurrentCurrencyCode(
+                $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')
+            );
+        }
         
+        $code = Mage::getSingleton('core', 'website')->getCurrentCurrencyCode();
+        if ($code) {
+            Mage::getSingleton('core', 'website')->setCurrentCurrency(Mage::getModel('directory', 'currency')->load($code));
+        }
+        return $this;
     }
 }

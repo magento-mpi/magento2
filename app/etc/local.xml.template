@@ -23,9 +23,10 @@
             <currency>
                 <default>USD</default>
                 <available>
+                    <USD />
                     <CAD />
                     <UAH />
-                    <RUR />
+                    <RUB />
                 </available>
             </currency>
             
@@ -66,7 +67,8 @@
             <currency>
                 <default>UAH</default>
                 <available>
-                    <RUR />
+                    <UAH />
+                    <RUB />
                 </available>
             </currency>
             
