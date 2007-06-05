@@ -14,20 +14,18 @@ class Varien_Image
 
     protected $_fileName;
     
-    public function __construct($adapter=Varien_Image_Adapter::ADAPTER_GD2, $fileName=null)
+    function __construct($adapter=Varien_Image_Adapter::ADAPTER_GD2, $fileName=null)
     {
         $this->_getAdapter($adapter);
         $this->_fileName = $fileName;
-    }
-    
-    protected function _getAdapter($adapter=null)
-    {
-        if( !isset($this->_adapter) ) {
-            $this->_adapter = Varien_Image_Adapter::factory( $adapter );
+        if( isset($fileName) ) {
+            $this->open();
         }
-        return $this->_adapter;
     }
-    
+
+    /**
+     * Use this mathod to open image and create handle for opened image
+     */
     public function open()
     {
         $this->_getAdapter()->checkDependencies();
@@ -38,22 +36,22 @@ class Varien_Image
 
         $this->_getAdapter()->open($this->_fileName);
     }
-    
+
+    /**
+     * Use this method to display handled image
+     */    
     public function display()
     {
         $this->_getAdapter()->display();
     }
-    
+
     public function save($destination=null, $newFileName=null)
     {
         $this->_getAdapter()->save($destination, $newFileName);
     }
     
-    public function rotate($angle=null)
+    public function rotate($angle)
     {
-        if( !isset($angle) ) {
-            throw new Exception('Rotation angle can not be NULL.');
-        }
         $this->_getAdapter()->rotate($angle);
     }
     
@@ -67,11 +65,9 @@ class Varien_Image
         $this->_getAdapter()->resize($width, $height);
     }
 
-    public function watermark($watermarkImage=null, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
+    public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
     {
-        if( !isset($watermarkImage) ) {
-            throw new Exception('Watermark image can not be NULL.');
-        } elseif( !file_exists($watermarkImage) ) {
+        if( !file_exists($watermarkImage) ) {
             throw new Exception("Required file '{$watermarkImage}' does not exists.");
         }
         $this->_getAdapter()->watermark($watermarkImage, $positionX, $positionY, $watermarkImageOpacity, $repeat);
@@ -96,4 +92,18 @@ class Varien_Image
     {
         $this->_getAdapter()->imageBackgroundColor = intval($color);
     }
+
+    public function getCopy()
+    {
+        return clone $this;
+    }
+
+    protected function _getAdapter($adapter=null)
+    {
+        if( !isset($this->_adapter) ) {
+            $this->_adapter = Varien_Image_Adapter::factory( $adapter );
+        }
+        return $this->_adapter;
+    }
+
 }

@@ -10,7 +10,6 @@
 
 abstract class Varien_Image_Adapter_Abstract
 {
-
     public $fileName = null;
 
     public $imageBackgroundColor = 0;
@@ -39,11 +38,11 @@ abstract class Varien_Image_Adapter_Abstract
 
     abstract public function resize($width=null, $height=null);
 
-    abstract public function rotate($angle=null);
+    abstract public function rotate($angle);
 
     abstract public function crop($top=0, $left=0, $right=0, $bottom=0);
 
-    abstract public function watermark($watermarkImage=null, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false);
+    abstract public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false);
 
     abstract public function checkDependencies();
 
