@@ -175,6 +175,11 @@
                      <module>catalog</module>
                      <model>category_attribute_saver</model>
                   </default>
+                  <upload>
+                     <name>upload</name>
+                     <module>catalog</module>
+                     <model>category_attribute_saver_upload</model>
+                  </upload>
                </savers>
             </attribute>
          </category>

@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Category_Saver_Upload extends Mage_Catalog_Model_Category_Attribute_Saver
+class Mage_Catalog_Model_Category_Attribute_Saver_Upload extends Mage_Catalog_Model_Category_Attribute_Saver
 {
     public function save($categoryId, $value)
     {
@@ -20,6 +20,8 @@ class Mage_Catalog_Model_Category_Saver_Upload extends Mage_Catalog_Model_Catego
     
     protected function _uploadFile()
     {
-        $this->_attribute->getFormFieldName();
+        $uploadFile = new Varien_File_Uploader('attribute');
+        $uploadFile->save(Mage::getBaseDir('upload'));
+        return $uploadFile->getUploadedFileName();
     }
 }

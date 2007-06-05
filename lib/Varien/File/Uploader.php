@@ -12,10 +12,36 @@ class Varien_File_Uploader
 {
     protected $_file;
     protected $_fileMimeType;
+    protected $_uploadType;
+    protected $_uploadedFileName;
+    protected $_uploadedFileDir;
+
+    const SINGLE_STYLE = 0;
+    const MULTIPLE_STYLE = 1;
     
     function __construct($file)
     {
-        if ($file) {
+        $file = $_FILES[$file];
+
+        if( !is_array($file) ) {
+            throw new Exception("File was not uploaded.");
+        } elseif( is_array($file['size']) ) {
+            $this->_uploadType = self::MULTIPLE_STYLE;
+
+            $tmp_var = array();
+            foreach( $file as $k => $l ) {
+                foreach( $l as $i => $v ) {
+                    $tmp_var[$k] = $v;
+                }
+            }
+            $file = $tmp_var;
+        } elseif( intval($file['size']) > 0 ) {
+            $this->_uploadType = self::SINGLE_STYLE;
+        }
+
+        if( !file_exists($file['tmp_name']) ) {
+            throw new Exception("File was not uploaded.");
+        } else {
             $this->_file = $file;
         }
     }
@@ -24,13 +50,30 @@ class Varien_File_Uploader
     {
         $destFile = $destinationFolder;
         if( isset($newFileName) ) {
-            $destFile.= DIRECTORY_SEPARATOR.$newFileName;
+            $fileName = $newFileName;
+        } else {
+            $fileName = $this->_file['name'];
         }
-        return move_uploaded_file($this->_file, $destFile);
+
+        $destFile.= DIRECTORY_SEPARATOR.$fileName;
+
+        $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
+        if( $result ) {
+            chmod($destFile, 0777);
+            $this->_uploadedFileName = $fileName;
+            $this->_uploadedFileDir = $destinationFolder;
+        } else {
+            return $result;
+        }
     }
     
     public function checkMimeType()
     {
         
+    }
+
+    public function getUploadedFileName()
+    {
+        return $this->_uploadedFileName;
     }
 }

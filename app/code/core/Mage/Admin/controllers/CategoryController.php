@@ -48,10 +48,11 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
 
         $category = Mage::getModel('catalog', 'category');
         $category->setAttributeSetId($this->getRequest()->getPost('attribute_set_id'));
+        $category->setAttributes($_FILES['attribute']);
         $category->setAttributes($this->getRequest()->getPost('attribute'));
         $category->setCategoryId($category_id);
         $category->setParentId($parent_id);
-        
+
         try {
             $category->save();
             $res['error'] = 0;
