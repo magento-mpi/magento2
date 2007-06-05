@@ -189,7 +189,6 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getAvailableCurrencyCodes()
     {
-        #return array_keys($this->getConfig()->currency->available->asArray());
-        return Array();
+        return array_keys($this->getConfig()->currency->available->asArray());
     }
 }
