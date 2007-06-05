@@ -35,7 +35,7 @@ class Mage_Admin_Block_Catalog_Category_Form extends Varien_Data_Form
             $elementType    = $attribute->getDataInput();
             
             $elementConfig  = array();
-            $elementConfig['name'] = 'attribute['.$attribute->getId().']';
+            $elementConfig['name'] = $attribute->getFormFieldName();
             $elementConfig['label']= __($attribute->getCode());
             $elementConfig['id']   = $attribute->getCode();
             $elementConfig['value']= '';

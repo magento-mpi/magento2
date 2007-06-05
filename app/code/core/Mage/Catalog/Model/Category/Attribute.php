@@ -91,4 +91,9 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
         
         throw new Exception('Attribute saver "'.$saverName.'" not found');
     }
+    
+    public function getFormFieldName()
+    {
+        return 'attribute['.$this->getId().']';
+    }
 }
