@@ -1,6 +1,6 @@
 Mage.Wizard = function(el, config) {
     this.dialog = null;
-        
+    this.currentPanel = null;    
     Ext.apply(this, config);
     this.config = config || {};
     
@@ -72,10 +72,14 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     newStep : function(url) {
-        var index, panel;
-        panel = this.layout.add('center', new Ext.ContentPanel(Ext.id(), {autoCreate : true, url: url, loadOnce : true, autoScroll : true}, this.stepCollection.getCount()+1));    
-        this.stepCollection.add(panel);
-        index = this.stepCollection.getCount();
+        var index, panel, cfg;
+        cfg = {
+            url : url,
+            title : 'Test page'
+        };
+        this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), 'view', cfg)        
+        this.stepCollection.add(this.currentPanel);
+        index = this.stepCollection.indexOf(this.currentPanel) || 0
         this.checkButtons(index);        
     },
     
@@ -85,14 +89,10 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     
     next : function() {
         var panel, index;
-        panel = this.layout.getRegion('center').getActivePanel();
-        if (panel) {
-            index = this.stepCollection.indexOf(panel);
-        } else {
-            index = 0;
-        }
+        index = this.stepCollection.indexOf(this.currentPanel) || 0;
         if (this.stepCollection.get(index+1)) {
-            this.layout.getRegion('center').showPanel(this.stepCollection.get(index+1));
+            this.currentPanel = this.stepCollection.get(index+1);
+            this.currentPanel.show();
         } else if (index + 1 < this.points.length) {
             this.newStep(this.points[index+1].url);  
         }
@@ -101,10 +101,10 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
 
     back : function() {
         var panel, index;
-        panel = this.layout.getRegion('center').getActivePanel();
-        index = this.stepCollection.indexOf(panel);
+        index = this.stepCollection.indexOf(this.currentPanel) || 0;
         if (this.stepCollection.get(index-1)) {
-            this.layout.getRegion('center').showPanel(this.stepCollection.get(index-1));
+            this.currentPanel = this.stepCollection.get(index-1);
+            this.currentPanel.show();
         }
         this.checkButtons(index);
     },

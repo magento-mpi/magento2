@@ -11,11 +11,15 @@ Mage.core.PanelView = function(region, config) {
        	fitToFrame : true,       	
         title : this.title || 'Title'
     }));
+    
+    this.panel.getUpdateManager().on('update', function() {
+        this.notLoaded = false;
+    }, this)
+    
 
     this.panel.on('activate', function(){
         if (this.notLoaded) {
             this.panel.load(this.url);   
-            this.notLoaded = false;
         }
     }, this);
 };

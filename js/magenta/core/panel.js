@@ -26,6 +26,10 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
         return false;        
     },
     
+    show : function() {
+        this.region.showPanel(this.panel);
+    },
+    
     setTitle : function(title) {
         if (this.panel) {
             return this.panel.setTitle(title);
