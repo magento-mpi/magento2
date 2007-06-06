@@ -16,14 +16,16 @@ class Varien_File_Uploader
     protected $_uploadedFileName;
     protected $_uploadedFileDir;
     protected $_allowCreateFolders = true;
-    protected $_allowRenameFiles = true;
+    protected $_allowRenameFiles = false;
+    protected $_enableFilesDispersion = false;
+    protected $_dispretionPath = null;
 
     const SINGLE_STYLE = 0;
     const MULTIPLE_STYLE = 1;
     
-    function __construct($fileID)
+    function __construct($fileId)
     {
-        $this->_setUploadFileID($fileID);
+        $this->_setUploadFileId($fileId);
         if( !file_exists($this->_file['tmp_name']) ) {
             throw new Exception('File was not uploaded.');
         } 
@@ -31,10 +33,6 @@ class Varien_File_Uploader
 
     public function save($destinationFolder, $newFileName=null)
     {
-        if( $this->_allowCreateFolders ) {
-            $this->_createDestinationFolder($destinationFolder);
-        }
-
         if( !is_writable($destinationFolder) ) {
             throw new Exception('Destination folder is not writable or does not exists.');
         }
@@ -42,12 +40,32 @@ class Varien_File_Uploader
         $destFile = $destinationFolder;
         $fileName = ( isset($newFileName) ) ? $newFileName : $this->_file['name'];
 
+        if( $this->_enableFilesDispersion ) {
+            $this->setAllowCreateFolders(true);
+            $char = 0;
+            while( ($char < 2) && ($char < strlen($fileName)) ) {
+                $this->_dispretionPath.= DIRECTORY_SEPARATOR . $fileName[$char];
+                $char ++;
+            }
+            $destFile.= $this->_dispretionPath;
+        }
+
+        if( $this->_allowRenameFiles ) {
+            $fileName = $this->_renameDestinationFile($destFile.DIRECTORY_SEPARATOR.$fileName);
+        }
+
+        if( $this->_allowCreateFolders ) {
+            $this->_createDestinationFolder($destFile);
+        }
+
         $destFile.= DIRECTORY_SEPARATOR . $fileName;
+
+        Mage::log($destFile);
 
         $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
         if( $result ) {
             chmod($destFile, 0777);
-            $this->_uploadedFileName = $fileName;
+            $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
             $this->_uploadedFileDir = $destinationFolder;
         } else {
             return $result;
@@ -79,14 +97,19 @@ class Varien_File_Uploader
         $this->_allowRenameFiles = $flag;
     }
 
+    public function setFilesDispersion($flag)
+    {
+        $this->_enableFilesDispersion = $flag;
+    }
+
     private function _getMimeType()
     {
         return $this->_file['type'];
     }
 
-    private function _setUploadFileID($fileID)
+    private function _setUploadFileId($fileId)
     {
-        preg_match("/^(.*?)\[(.*?)\]$/", $fileID, $file);
+        preg_match("/^(.*?)\[(.*?)\]$/", $fileId, $file);
 
         array_shift($file);
         if( (count($file[0]) > 0) && (count($file[1]) > 0) ) {
@@ -101,10 +124,10 @@ class Varien_File_Uploader
             
             $fileAttributes = $tmp_var;
             $this->_file = $fileAttributes;
-        } elseif( count($fileID) > 0 ) {
+        } elseif( count($fileId) > 0 ) {
             $this->_uploadType = self::SINGLE_STYLE;
-            $this->_file = $_FILES[$fileID];
-        } elseif( $fileID == '' ) {
+            $this->_file = $_FILES[$fileId];
+        } elseif( $fileId == '' ) {
             throw new Exception('Invalid parameter given. A valid $_FILES[] identifier is expected.');
         }
     }
@@ -132,5 +155,23 @@ class Varien_File_Uploader
             }
             $oldPath = $newPath;
         }
+    }
+
+    private function _renameDestinationFile($destFile)
+    {
+        $fileInfo = pathinfo($destFile);
+        if( file_exists($destFile) ) {
+            $index = 1;
+            $baseName = $fileInfo['filename'] . '.' . $fileInfo['extension'];
+            while( file_exists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $baseName) ) {
+                $baseName = $fileInfo['filename']. '_' . $index . '.' . $fileInfo['extension'];
+                $index ++;
+            }
+            $destFileName = $baseName;
+        } else {
+            return $fileInfo['basename'];
+        }
+
+        return $destFileName;
     }
 }
