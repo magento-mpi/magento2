@@ -8,6 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
+
 class Varien_File_Uploader
 {
     protected $_file;
@@ -59,8 +60,6 @@ class Varien_File_Uploader
         }
 
         $destFile.= DIRECTORY_SEPARATOR . $fileName;
-
-        Mage::log($destFile);
 
         $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
         if( $result ) {

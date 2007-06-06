@@ -242,6 +242,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function saveAction()
     {
+        Mage::log($_FILES);
         $res = array('error' => 0);
         $product = Mage::getModel('catalog', 'product')
             ->setProductId((int) $this->getRequest()->getParam('product'))
