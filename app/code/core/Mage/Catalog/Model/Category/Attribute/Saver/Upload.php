@@ -20,8 +20,8 @@ class Mage_Catalog_Model_Category_Attribute_Saver_Upload extends Mage_Catalog_Mo
     
     protected function _uploadFile()
     {
-        $uploadFile = new Varien_File_Uploader('attribute');
-        $uploadFile->save(Mage::getBaseDir('upload'));
+        $uploadFile = new Varien_File_Uploader($this->_attribute->getFormFieldName());
+        $uploadFile->save(Mage::getBaseDir('upload').'/some/dir');
         return $uploadFile->getUploadedFileName();
     }
 }

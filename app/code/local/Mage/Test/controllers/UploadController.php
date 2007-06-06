@@ -34,7 +34,7 @@ class Mage_Test_UploadController extends Mage_Core_Controller_Front_Action
     {
         #$destinationDir = rand(0,999);
         $uploadFile = new Varien_File_Uploader('filename');
-        $uploadFile->save(Mage::getBaseDir('upload') . $destinationDir);
+        #$uploadFile->save(Mage::getBaseDir('upload') . $destinationDir);
         #$uploadFile->save( Mage::getBaseDir('upload') . '/' . $destinationDir );
         /*
         if( $uploadFile->getError() != "" ) {
