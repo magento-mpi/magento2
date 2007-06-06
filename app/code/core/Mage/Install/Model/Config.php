@@ -83,4 +83,9 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
         
         return $res;
     }
+    
+    public function getLanguages()
+    {
+        return $this->getNode('languages')->asArray();
+    }
 }

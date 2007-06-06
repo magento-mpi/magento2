@@ -61,6 +61,16 @@
                </checkConnection>
             </observers>
          </action_preDispatch>
+         <mageRunException>
+            <observers>
+               <checkConnection>
+                  <type>singleton</type>
+                  <model>core</model>
+                  <class>resource</class>
+                  <method>checkDbConnection</method>
+               </checkConnection>
+            </observers>
+         </mageRunException>
       </events>
 
       <routers>

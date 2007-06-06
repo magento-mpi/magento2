@@ -1,3 +1,3 @@
 <?php
 require 'app/Mage.php';
-Mage::runFront('base');
+Mage::run('base');

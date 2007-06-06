@@ -30,6 +30,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $contentBlock = $this->getLayout()->createBlock('tpl', 'install.begin')
             ->setTemplate('install/begin.phtml')
             ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
+            ->assign('languages', Mage::getSingleton('install', 'config')->getLanguages())
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()))
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'beginPost')));
 

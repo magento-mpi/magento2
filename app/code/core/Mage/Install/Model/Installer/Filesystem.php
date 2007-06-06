@@ -15,7 +15,6 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     
     public function __construct() 
     {
-        parent::__construct();
     }
     
     /**
@@ -40,7 +39,9 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
         
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {
-                $res = $res && $this->_checkPath($item['path'], $item['recursive'], 'write');
+                $recursive = isset($item['recursive']) ? $item['recursive'] : false;
+                $existence = isset($item['existence']) ? $item['existence'] : false;
+                $res = $res && $this->_checkPath($item['path'], $recursive, $existence, 'write');
             }
         }
         return $res;
@@ -51,15 +52,28 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
      *
      * @param   string $path
      * @param   bool $recursive
+     * @param   bool $existence
      * @param   string $mode
      * @return  bool
      */
-    protected function _checkPath($path, $recursive, $mode)
+    protected function _checkPath($path, $recursive, $existence, $mode)
     {
         $res = true;
         $fullPath = dirname(Mage::getRoot()).$path;
         if ($mode == self::MODE_WRITE) {
-            if (!is_writable($fullPath)) {
+            $setError = false;
+            if ($existence) {
+                if (!is_writable($fullPath)) {
+                    $setError = true;
+                }
+            }
+            else {
+                if (file_exists($fullPath) && !is_writable($fullPath)) {
+                    $setError = true;
+                }
+            }
+            
+            if ($setError) {
                 Mage::getSingleton('install', 'session')->addMessage(
                     Mage::getModel('core', 'message')->error(__('Path "%s" must be writable', $fullPath))
                 );
@@ -70,7 +84,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
         if ($recursive && is_dir($fullPath)) {
             foreach (new DirectoryIterator($fullPath) as $file) {
                 if (!$file->isDot() && $file->getFilename() != '.svn') {
-                    $res = $res && $this->_checkPath($path.DS.$file->getFilename(), $recursive, $mode);
+                    $res = $res && $this->_checkPath($path.DS.$file->getFilename(), $recursive, $existence, $mode);
                 }
             }
         }

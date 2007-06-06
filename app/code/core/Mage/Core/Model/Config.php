@@ -108,16 +108,20 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         
-        if (is_file($configFile)) {
-            //die('File ' . $configFile . ' not found. Copy it from ' . $configFile . '.dev');
+        try {
             $this->getCache()->addComponent($configFile);
             $localConfig = $this->loadFile($configFile);
             $this->_xml->extend($localConfig, true);
-        } else {
+        }
+        catch (Exception $e){
             $string = $this->getLocalDist($this->getLocalServerVars());
             $localConfig = $this->loadString($string);
             $this->_xml->extend($localConfig, true);
             $this->getCache()->setIsAllowedToSave(false);
+        }
+        if (is_file($configFile)) {
+            //die('File ' . $configFile . ' not found. Copy it from ' . $configFile . '.dev');
+        } else {
         }
         return $this;
     }
@@ -131,7 +135,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
         foreach ($data as $index=>$value) {
-            $template = str_replace('{{'.$index.'}}', $value, $template);
+            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
         }
         return $template;
     }

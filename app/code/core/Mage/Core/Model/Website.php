@@ -24,8 +24,8 @@ class Mage_Core_Model_Website extends Varien_Object
             $this->setId((int)$config->id);
             $this->setLanguage((string)$config->language);
             $this->setGroup((string)$config->group);
+            Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
         }
-        Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
         return $this;
     }
     
@@ -101,7 +101,9 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getDir($type)
     {
-        return (string)$this->getConfig()->filesystem->$type;
+        if ($this->getConfig()) {
+            return (string)$this->getConfig()->filesystem->$type;
+        }
     }
     
     /**
@@ -112,18 +114,14 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getUrl($params)
     {
-        if (isset($params['_admin'])) {
-            $isAdmin = $params['_admin'];
-        } else {
-            $isAdmin = $this->getIsAdmin();
-        }
-        if (!$isAdmin) {
+        $config = $this->getConfig();
+        if ($config) {
             if (!empty($_SERVER['HTTPS'])) {
                 if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                     $params['_secure'] = true;
                 }
             }
-            $config = $this->getConfig();
+            
             $urlConfig = empty($params['_secure']) ? $config->unsecure : $config->secure;
     
             $protocol = (string)$urlConfig->protocol;
@@ -138,7 +136,7 @@ class Mage_Core_Model_Website extends Varien_Object
             $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
             $url .= empty($basePath) ? '/' : $basePath;
         } else {
-            $url = dirname($_SERVER['SCRIPT_NAME']).'/';
+            $url = dirname($_SERVER['PHP_SELF']);
         }
         return $url;
     }
@@ -150,7 +148,9 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getDefaultCurrencyCode()
     {
-        return (string) Mage::getConfig()->getWebsiteConfig($this->getCode())->currency->default;
+        if (Mage::getConfig()->getWebsiteConfig($this->getCode())) {
+            return (string) Mage::getConfig()->getWebsiteConfig($this->getCode())->currency->default;
+        }
     }
     
     /**
@@ -189,6 +189,9 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getAvailableCurrencyCodes()
     {
-        return array_keys($this->getConfig()->currency->available->asArray());
+        if ($this->getConfig()) {
+            return array_keys($this->getConfig()->currency->available->asArray());
+        }
+        return array();
     }
 }

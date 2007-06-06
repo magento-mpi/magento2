@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
 <config>
+    <languages>
+        <english>
+            <name>English</name>
+            <file></file>
+        </english>
+        <russian>
+            <name>Русский</name>
+            <file></file>
+        </russian>
+    </languages>
     <wizard>
         <steps>
             <begin>
@@ -28,12 +38,14 @@
         <filesystem>
             <writeable>
                 <items>
-                    <path>/var</path>
-                    <recursive>1</recursive>
+                    <path>/app/etc</path>
+                    <existence>1</existence>
+                    <recursive>0</recursive>
                 </items>
                 <items>
-                    <path>/app/etc</path>
-                    <recursive>1</recursive>
+                    <path>/app/etc/local.xml</path>
+                    <existence>0</existence>
+                    <recursive>0</recursive>
                 </items>
             </writeable>
         </filesystem>

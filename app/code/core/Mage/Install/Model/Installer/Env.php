@@ -8,11 +8,10 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Model_Installer_Env extends Mage_Install_Model_Installer 
+class Mage_Install_Model_Installer_Env 
 {
     public function __construct() 
     {
-        parent::__construct();
     }
     
     public function install()

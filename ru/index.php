@@ -1,4 +1,4 @@
 <?php
 require '../app/Mage.php';
-Mage::runFront('russian');
+Mage::run('russian');
     
