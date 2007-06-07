@@ -381,6 +381,12 @@
               <orig_entity_id>
                 <type>int</type>
               </orig_entity_id>
+              <currency_code>
+                <type>varchar</type>
+              </currency_code>
+              <currency_rate>
+                <type>decimal</type>
+              </currency_rate>
             </attributes>
           </item>
           <payment>
