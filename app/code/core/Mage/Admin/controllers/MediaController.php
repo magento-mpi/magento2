@@ -1,4 +1,12 @@
 <?php
+/**
+ * Madia library controller
+ *
+ * @package    Mage
+ * @subpackage Admin
+ * @author     Alexander Stadnitski <alexander@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 
 class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 {

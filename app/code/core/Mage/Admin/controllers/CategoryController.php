@@ -54,12 +54,12 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
 
         try {
             $category->save();
-            $res['error'] = 0;
+            $res['success'] = true;
             $res['categoryId']   = $category->getId();
             $res['categoryName'] = $category->getName();
         }
         catch (Exception $e){
-            $res['error'] = 1;
+            $res['errors'] = Array($e->getMessage());
             $res['errorMessage'] = $e->getMessage();
         }
         $this->getResponse()->setBody(Zend_Json::encode($res));
