@@ -298,6 +298,10 @@ final class Mage {
             //self::displayProfiler();
         } 
         catch (Exception $e) {
+            if ((int) Mage::getConfig()->getNode('global/install/config')) {
+                echo $e;
+                exit();
+            }
             try {
                 Mage::dispatchEvent('mageRunException', array('exception'=>$e));
                 if (!headers_sent()) {

@@ -1,3 +1,41 @@
 <?xml version="1.0"?>
 <config>
+    <modules>
+        <Mage_Backup>
+            <version>0.1.0</version>
+            <depends>
+                <Mage_Core />
+            </depends>
+        </Mage_Backup>
+    </modules>
+    <global>
+        <models>
+            <backup>
+                <class>Mage_Backup_Model</class>
+            </backup>
+            <backup_resource>
+                <class>Mage_Backup_Model_Mysql4</class>
+            </backup_resource>
+        </models>
+        <resources>
+            <backup_setup>
+                <setup>
+                    <module>Mage_Backup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </backup_setup>
+            <backup_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </backup_write>
+            <backup_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </backup_read>
+        </resources>
+    </global>
 </config>

@@ -50,4 +50,12 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
         $cardStruct['tabs'][] = $tab;
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
+    
+    public function backupAction()
+    {
+        $tables = Mage::getSingleton('backup', 'db')->renderSql();
+        echo '<pre>';
+        print_r($tables);
+        echo '</pre>';
+    }
 }
