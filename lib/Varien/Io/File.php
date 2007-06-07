@@ -113,11 +113,12 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function cd($dir)
     {
-        if (chdir($dir)) {
+        if( is_dir($dir) ) {
             chdir($this->_iwd);
             $this->_cwd = realpath($dir);
             return true;
         } else {
+            throw new Exception('Unable to list current working directory.');
             return false;
         }
     }

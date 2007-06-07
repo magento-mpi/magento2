@@ -7,71 +7,88 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     {
         $io = new Varien_Io_File();
 
-        $_cwd = ( $this->getRequest()->getPost('current_directory') == '' ) ? Mage::getBaseDir('upload') : $this->getRequest()->getPost('current_directory');
+        $_cwd = ( $this->getRequest()->getParam('current_directory', false) === false ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('current_directory', false);
 
-        $io->open( Array('path' => $_cwd) );
-        $directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
+        try {
+            $io->open( Array('path' => $_cwd) );
+            $directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
+        } catch( Exception $e ) {
+            $this->getResponse()->setBody(Zend_Json::encode($e->getMessage()));
+            return;
+        }
          
         $this->getResponse()->setBody(Zend_Json::encode($directoriesList));
+        return;
     }
     
     public function filesGridAction()
     {
         $io = new Varien_Io_File();
 
-        $_cwd = ( $this->getRequest()->getPost('current_directory') == '' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getPost('current_directory') );
+        $_cwd = ( $this->getRequest()->getParam('current_directory', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('current_directory', false) );
 
-        $io->open( Array('path' => $_cwd) );
-        $filesList = $io->ls(Varien_Io_File::GREP_FILES);
+        try {
+            $io->open( Array('path' => $_cwd) );
+            $filesList = $io->ls(Varien_Io_File::GREP_FILES);
+        } catch( Exception $e ) {
+            $this->getResponse()->setBody(Zend_Json::encode($e->getMessage()));
+            return;
+        }
          
         $this->getResponse()->setBody(Zend_Json::encode($filesList));
+        return;
     }
     
     public function mkdirAction()
     {
-        $_cwd = ( $this->getRequest()->getPost('current_directory') == '' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getPost('current_directory') );
-        $newDirName = trim( $this->getRequest()->getPost('new_directory') );
+        $_cwd = ( $this->getRequest()->getParam('current_directory', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('current_directory', false) );
+        $newDirName = trim( $this->getRequest()->getParam('new_directory', false) );
 
         if( $newDirName == '' ) {
-            throw new Exception('Unable to create new directory. Invalid directory name.');
+            $this->getResponse()->setBody(Zend_Json::encode('Unable to create new directory. Invalid directory name.'));
+            return;
         } else {
             $io = new Varien_Io_File();
             $io->open( Array('path' => $_cwd) );
             $io->cd($_cwd);
             if( !$io->mkdir($newDirName) ) {
-                throw new Exception('Unable to create new directory.');
+                $this->getResponse()->setBody(Zend_Json::encode('Unable to create new directory.'));
+                return;
             }
         }
     }
 
     public function rmdirAction()
     {
-        $_cwd = ( $this->getRequest()->getPost('current_directory') == '' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getPost('current_directory') );
-        $dirName = trim( $this->getRequest()->getPost('directory') );
+        $_cwd = ( $this->getRequest()->getParam('current_directory', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('current_directory', false) );
+        $dirName = trim( $this->getRequest()->getParam('directory', false) );
         $dirName = 'test';
 
         if( $dirName == '' ) {
-            throw new Exception('Unable to remove directory. Invalid directory name.');
+            $this->getResponse()->setBody(Zend_Json::encode('Unable to remove directory. Invalid directory name.'));
+            return;
         } else {
             $io = new Varien_Io_File();
             $io->open( Array('path' => $_cwd) );
             $io->cd($_cwd);
             if( !$io->rmdir($dirName) ) {
-                throw new Exception('Unable to create new directory.');
+                $this->getResponse()->setBody(Zend_Json::encode('Unable to remove directory.'));
+                return;
             }
         }
     }
 
     public function moveAction()
     {
-        $currentObjDirectoryName = $this->getRequest()->getPost('current_object_dir');
-        $currentObjName = $this->getRequest()->getPost('current_object');
+        $currentObjDirectoryName = $this->getRequest()->getParam('current_object_dir', false);
+        $currentObjName = $this->getRequest()->getParam('current_object', false);
 
-        $destObjDirectoryName = $this->getRequest()->getPost('destination_object_dir');
-        $destObjName = $this->getRequest()->getPost('destination_object');
+        $destObjDirectoryName = $this->getRequest()->getParam('destination_object_dir', false);
+        $destObjName = $this->getRequest()->getParam('destination_object', false);
 
-        if( $currentObjName == '' || $destObjName == '' ) {
-            throw new Exception('Unable to move object. Source or destinations object is not specified.');
+        if( $currentObjName === false || $destObjName === false ) {
+            $this->getResponse()->setBody(Zend_Json::encode('Unable to move object. Source or destinations object is not specified.'));
+            return;
         }
 
         $io = new Varien_Io_File();
@@ -81,7 +98,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
     public function uploadAction()
     {
-        $destinationDir = $this->getRequest()->getPost('destination_dir');
+        $destinationDir = $this->getRequest()->getParam('destination_dir', false);
         $uploadFile = new Varien_File_Uploader('upload_file');
         $uploadFile->save(Mage::getBaseDir('upload') . DIRECTORY_SEPARATOR . $destinationDir);
     }
