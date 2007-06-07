@@ -110,7 +110,6 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'form'  => $imagesForm->toArray()
             );
             
-            /*
             $cardStructure['tabs'][] = array(
                 'name'  => 'categories',
                 'type'  => 'categories',
@@ -118,7 +117,6 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'storeUrl'  => Mage::getBaseUrl()."admin/product/categoryList/".$urlPrefix,
                 'title' => 'Categories',
             );
-			*/
         }
         
         // TODO: detect by $typeId

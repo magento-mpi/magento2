@@ -55,11 +55,18 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
         if (this.panel)  {
             var form = this.panel.getForm();
             if (form) {
+                form.on('actioncomplete', function(){
+                    console.log('complete', arguments);
+                });
+                form.on('actionfailed', function(){
+                    console.log('failed', arguments);
+                });
                 form.submit();
             }
         }
-
     },
+    
+    
     
     connRequestComplete : function(transId, response, options) {
         var result = Ext.decode(response.responseText);
