@@ -96,7 +96,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         }
 
         if ($productId) {
-            /*$imagesForm = new Varien_Data_Form();
+            $imagesForm = new Varien_Data_Form();
             $imagesForm->setAction(Mage::getBaseUrl()."admin/product/upload/".$urlPrefix)
                 ->setMethod('post')
                 ->setFileupload(true)
@@ -108,8 +108,9 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'storeUrl' => Mage::getBaseUrl()."admin/product/imageCollection/".$urlPrefix,
                 'title' => 'Images',
                 'form'  => $imagesForm->toArray()
-            );*/
+            );
             
+            /*
             $cardStructure['tabs'][] = array(
                 'name'  => 'categories',
                 'type'  => 'categories',
@@ -117,6 +118,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'storeUrl'  => Mage::getBaseUrl()."admin/product/categoryList/".$urlPrefix,
                 'title' => 'Categories',
             );
+			*/
         }
         
         // TODO: detect by $typeId
