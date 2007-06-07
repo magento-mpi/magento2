@@ -11,6 +11,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function indexAction()
     {
         $this->loadLayout();
+        $data = array();
         
         $quote = Mage::getSingleton('checkout', 'session')->getQuote();
         
@@ -38,12 +39,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartData['estimate_methods'] = $estimateFilter->filter($quote->getEntitiesByType('shipping'));
             $cartData['estimate_method'] = $quote->getShippingMethod();
 
-            $this->_data['cart'] = $cartData;
+            $data['cart'] = $cartData;
         }        
         
         $block = $this->getLayout()->createBlock('tpl', 'cart.view')
             ->setTemplate($cartView)
-            ->assign('data', $this->_data)
+            ->assign('data', $data)
             ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
             ->assign('customerIsLogin', Mage::getSingleton('customer', 'session')->isLoggedIn());
             

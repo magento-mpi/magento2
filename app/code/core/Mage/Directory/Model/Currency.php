@@ -154,4 +154,24 @@ class Mage_Directory_Model_Currency extends Varien_Object
         }
         return $this;
     }
+    
+    public function bindQuote($observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        if ($quote instanceof Varien_Object) {
+            $baseCurrency = (string)Mage::getConfig()->getNode('global/default/currency');
+            $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrencyCode();
+            $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrencyCode();
+            $quote->setBaseCurrencyCode($baseCurrency);
+            $quote->setWebsiteCurrencyCode($defaultCurrency);
+            $quote->setCurrentCurrencyCode($currentCurrency);
+            $quote->setWebsiteToBaseCurrencyRate($this->getResource()->getRate($defaultCurrency, $baseCurrency));
+            $quote->setWebsiteToCurrentCurrencyRate($this->getResource()->getRate($defaultCurrency, $currentCurrency));
+        }
+    }
+    
+    public function bindOrder()
+    {
+        
+    }
 }

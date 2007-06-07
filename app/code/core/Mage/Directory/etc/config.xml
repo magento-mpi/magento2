@@ -97,6 +97,26 @@
                     </currentCurrency>
                 </observers>
             </action_preDispatch>
+            <beforeSaveQuote>
+                <observers>
+                    <addCurrencyInfo>
+                        <type>singleton</type>
+                        <model>directory</model>
+                        <class>currency</class>
+                        <method>bindQuote</method>
+                    </addCurrencyInfo>
+                </observers>
+            </beforeSaveQuote>
+            <beforeSaveOrder>
+                <observers>
+                    <addCurrencyInfo>
+                        <type>singleton</type>
+                        <model>directory</model>
+                        <class>currency</class>
+                        <method>bindOrder</method>
+                    </addCurrencyInfo>
+                </observers>
+            </beforeSaveOrder>
         </events>
         <routers>
             <directory>

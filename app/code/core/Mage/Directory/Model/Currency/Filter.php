@@ -18,11 +18,22 @@ class Mage_Directory_Model_Currency_Filter extends Varien_Filter_Sprintf
         $this->_rate = $rate;
     }
     
+    /**
+     * Set filter rate
+     *
+     * @param double $rate
+     */
     public function setRate($rate)
     {
         $this->_rate = $rate;
     }
     
+    /**
+     * Filter value
+     *
+     * @param   double $value
+     * @return  string
+     */
     public function filter($value)
     {
         $value = $this->_rate*$value;

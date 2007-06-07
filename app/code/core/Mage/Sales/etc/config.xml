@@ -256,6 +256,21 @@
               <applied_rule_ids>
                 <type>text</type>
               </applied_rule_ids>
+              <base_currency_code>
+                <type>varchar</type>
+              </base_currency_code>
+              <website_currency_code>
+                <type>varchar</type>
+              </website_currency_code>
+              <current_currency_code>
+                <type>varchar</type>
+              </current_currency_code>
+              <website_to_current_currency_rate>
+                <type>decimal</type>
+              </website_to_current_currency_rate>
+              <website_to_base_currency_rate>
+                <type>decimal</type>
+              </website_to_base_currency_rate>
             </attributes>
           </self>
           <address>
@@ -381,12 +396,6 @@
               <orig_entity_id>
                 <type>int</type>
               </orig_entity_id>
-              <currency_code>
-                <type>varchar</type>
-              </currency_code>
-              <currency_rate>
-                <type>decimal</type>
-              </currency_rate>
             </attributes>
           </item>
           <payment>

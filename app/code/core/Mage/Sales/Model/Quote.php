@@ -108,9 +108,12 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     public function updateItems(array $itemsArr)
     {
         foreach ($itemsArr as $id=>$itemUpd) {
-            if (!is_numeric($itemUpd['qty']) || $itemUpd['qty']<=0) {
+            if (empty($itemUpd['qty']) || !is_numeric($itemUpd['qty']) || intval($itemUpd['qty'])<=0) {
                 continue;
             }
+            
+            $itemUpd['qty'] = (int) $itemUpd['qty'];
+            
             if (!empty($itemUpd['remove'])) {
                 $this->removeEntity($id);
             } else {
@@ -328,5 +331,11 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $this->setLastCreatedOrder($order);
         
         return $this;
+    }
+    
+    public function save()
+    {
+        Mage::dispatchEvent('beforeSaveQuote', array('quote'=>$this));
+        return parent::save();
     }
 }

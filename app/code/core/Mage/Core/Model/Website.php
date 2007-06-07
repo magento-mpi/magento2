@@ -223,6 +223,11 @@ class Mage_Core_Model_Website extends Varien_Object
         return $this->getPriceFilter()->filter($price);
     }
     
+    /**
+     * Get website price filter
+     *
+     * @return unknown
+     */
     public function getPriceFilter()
     {
         if (!$this->_priceFilter) {
