@@ -27,13 +27,13 @@ interface Varien_Io_Interface
      * Create a directory
      *
      */
-    public function mkdir();
+    public function mkdir($dir, $mode=0777, $recursive=true);
     
     /**
      * Delete a directory
      *
      */
-    public function rmdir();
+    public function rmdir($dir);
     
     /**
      * Get current working directory
@@ -45,35 +45,41 @@ interface Varien_Io_Interface
      * Change current working directory
      *
      */
-    public function cd();
+    public function cd($dir);
 
     /**
      * Read a file
      *
      */
-    public function read();
+    public function read($filename, $dest=null);
     
     /**
      * Write a file
      *
      */
-    public function write();
+    public function write($filename, $src, $mode=null);
     
     /**
      * Delete a file
      *
      */
-    public function rm();
+    public function rm($filename);
     
     /**
      * Rename or move a directory or a file
      *
      */
-    public function mv();
+    public function mv($src, $dest);
     
     /**
      * Chamge mode of a directory or a file
      *
      */
-    public function chmod();
+    public function chmod($filename, $mode);
+
+    /**
+     * Get list of cwd subdirectories and files
+     *
+     */
+    public function ls($grep=null);
 }

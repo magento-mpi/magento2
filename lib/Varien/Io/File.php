@@ -24,7 +24,21 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @var string
      */
     protected $_cwd;
-    
+
+    /**
+     * Used to grep ls() output
+     *
+     * @const
+     */
+    const GREP_FILES = 'files_only';
+
+    /**
+     * Used to grep ls() output
+     *
+     * @const
+     */
+    const GREP_DIRS = 'dirs_only';
+
     /**
      * Open a connection
      *
@@ -207,4 +221,133 @@ class Varien_Io_File extends Varien_Io_Abstract
         chdir($this->_iwd);
         return $result;
     }
+
+    /**
+     * Get list of cwd subdirectories and files
+     * 
+     * @param Varien_Io_File const
+     * @access public
+     * @return array
+     */
+    public function ls($grep=null)
+    {
+        $ignoredDirectories = Array('.', '..');
+
+        if( is_dir($this->_cwd) ) {
+            $dir = $this->_cwd;
+        } elseif( is_dir($this->_iwd) ) {
+            $dir = $this->_iwd;
+        } else {
+            throw new Exception('Unable to list current working directory.');
+        }
+
+        $list = Array();
+
+        if ($dh = opendir($dir)) {
+            while (($entry = readdir($dh)) !== false) {
+                $list_item = Array();
+
+                $fullpath = $dir . DIRECTORY_SEPARATOR . $entry;
+
+                if( ($grep == self::GREP_DIRS) && (!is_dir($fullpath)) ) {
+                    continue;
+                } elseif( ($grep == self::GREP_FILES) && (!is_file($fullpath)) ) {
+                    continue;
+                } elseif( in_array($entry, $ignoredDirectories) ) {
+                    continue;
+                }
+
+                $list_item['name'] = $entry;
+                $list_item['mod_date'] = date ('d/m/Y H:i:s', filectime($fullpath));
+                $list_item['permitions'] = $this->_parsePermitions(fileperms($fullpath));
+                $list_item['owner'] = $this->_getFileOwner($fullpath);
+
+                if( is_file($fullpath) ) {
+                    $list_item['size'] = filesize($fullpath);
+
+                    #$list_item['content_type'] = mime_content_type($fullpath);
+                }
+
+                $list[] = $list_item;
+            }
+            closedir($dh);
+        } else {
+            throw new Exception('Unable to list current working directory. Access forbidden.');
+        }
+
+        return $list;
+    }
+
+    /**
+     * Convert integer permissions format into human readable
+     * 
+     * @param integer $mode 
+     * @access protected
+     * @return string
+     */
+    protected function _parsePermitions($mode)
+    {
+        if( $mode & 0x1000 )
+            $type='p'; /* FIFO pipe */
+        else if( $mode & 0x2000 )
+            $type='c'; /* Character special */
+        else if( $mode & 0x4000 )
+            $type='d'; /* Directory */
+        else if( $mode & 0x6000 )
+            $type='b'; /* Block special */
+        else if( $mode & 0x8000 )
+            $type='-'; /* Regular */
+        else if( $mode & 0xA000 )
+            $type='l'; /* Symbolic Link */
+        else if( $mode & 0xC000 )
+            $type='s'; /* Socket */
+        else
+            $type='u'; /* UNKNOWN */
+
+        /* Determine permissions */
+        $owner['read'] = ($mode & 00400) ? 'r' : '-';
+        $owner['write'] = ($mode & 00200) ? 'w' : '-';
+        $owner['execute'] = ($mode & 00100) ? 'x' : '-';
+        $group['read'] = ($mode & 00040) ? 'r' : '-';
+        $group['write'] = ($mode & 00020) ? 'w' : '-';
+        $group['execute'] = ($mode & 00010) ? 'x' : '-';
+        $world['read'] = ($mode & 00004) ? 'r' : '-';
+        $world['write'] = ($mode & 00002) ? 'w' : '-';
+        $world['execute'] = ($mode & 00001) ? 'x' : '-';
+
+        /* Adjust for SUID, SGID and sticky bit */
+        if( $mode & 0x800 )
+            $owner["execute"] = ($owner['execute']=='x') ? 's' : 'S';
+        if( $mode & 0x400 )
+            $group["execute"] = ($group['execute']=='x') ? 's' : 'S';
+        if( $mode & 0x200 )
+            $world["execute"] = ($world['execute']=='x') ? 't' : 'T';
+
+        $s=sprintf('%1s', $type);
+        $s.=sprintf('%1s%1s%1s', $owner['read'], $owner['write'], $owner['execute']);
+        $s.=sprintf('%1s%1s%1s', $group['read'], $group['write'], $group['execute']);
+        $s.=sprintf('%1s%1s%1s', $world['read'], $world['write'], $world['execute']);
+        return trim($s);    
+    }
+
+    /**
+     * Get file owner
+     * 
+     * @param string $filename 
+     * @access protected
+     * @return string
+     */
+    protected function _getFileOwner($filename)
+    {
+        if( !function_exists('posix_getpwuid') ) {
+            return 'n/a';
+        }
+
+        $owner = posix_getpwuid(fileowner($filename));
+
+        $groupid   = posix_getegid();
+        $groupinfo = posix_getgrgid($groupid);
+        return $owner['name'] . ' / ' . $groupinfo['name'];
+    }
+
 }
