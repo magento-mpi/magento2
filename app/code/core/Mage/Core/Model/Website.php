@@ -9,6 +9,7 @@
  */
 class Mage_Core_Model_Website extends Varien_Object
 {
+    protected $_priceFilter;
     /**
      * Set website code
      *
@@ -193,5 +194,49 @@ class Mage_Core_Model_Website extends Varien_Object
             return array_keys($this->getConfig()->currency->available->asArray());
         }
         return array();
+    }
+    
+    /**
+     * Convert price from default currency to current currency
+     *
+     * @param   double $price
+     * @return  double
+     */
+    public function convertPrice($price)
+    {
+        if ($this->getCurrentCurrency() && $this->getDefaultCurrency()) {
+            return $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
+        }
+        else {
+            return $price;
+        }
+    }
+    
+    /**
+     * Format price with currency filter (taking rate into consideration)
+     *
+     * @param   double $price
+     * @return  string
+     */
+    public function formatPrice($price)
+    {
+        return $this->getPriceFilter()->filter($price);
+    }
+    
+    public function getPriceFilter()
+    {
+        if (!$this->_priceFilter) {
+            if ($this->getDefaultCurrency() && $this->getCurrentCurrency()) {
+                $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
+                $this->_priceFilter->setRate($this->getDefaultCurrency()->getRate($this->getCurrentCurrency()));
+            }
+            elseif($this->getDefaultCurrency()) {
+                $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
+            }
+            else {
+                $this->_priceFilter = new Varien_Filter_Sprintf('%s', 2);
+            }
+        }
+        return $this->_priceFilter;
     }
 }

@@ -98,9 +98,14 @@ class Mage_Directory_Model_Currency extends Varien_Object
         throw new Exception('Undefined rate from "'.$this->getCode().'-'.$toCurrency.'"');
     }
     
+    /**
+     * Get currency filter
+     *
+     * @return Mage_Directory_Model_Currency_Filter
+     */
     public function getFilter()
     {
-        $filter = new Varien_Filter_Sprintf(
+        $filter = new Mage_Directory_Model_Currency_Filter(
             $this->getFormat(), 
             $this->getFormatDecimals(), 
             $this->getFormatDecPoint(), 

@@ -168,41 +168,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getFormatedTierPrice($qty=null)
     {
-        $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrency();
-        $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrency();
         $price = $this->getTierPrice($qty);
-        
-        $canConvert = false;
-        if ($defaultCurrency && $currentCurrency) {
-            $filter     = $currentCurrency->getFilter();
-            $canConvert = true;
-        }
-        elseif ($defaultCurrency) {
-            $filter     = $defaultCurrency->getFilter();
-            $canConvert = true;
-            $currentCurrency = null;
-        }
-        else {
-            $filter = new Varien_Filter_Sprintf('%s', 2);
-        }
-        
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                if ($canConvert) {
-                    $price[$index]['price'] = $filter->filter($defaultCurrency->convert($price[$index]['price'], $currentCurrency));
-                }
-                else {
-                    $price[$index]['price'] = $filter->filter($price[$index]['price']);
-                }
+                $price[$index]['price'] = Mage::registry('website')->formatPrice($price[$index]['price']);
             }
         }
         else {
-            if ($canConvert) {
-                $price = $currentCurrency->filter($defaultCurrency->convert($price, $currentCurrency));
-            }
-            else {
-                $price = $currentCurrency->filter($price);
-            }
+            $price = Mage::registry('website')->formatPrice($price);
         }
         
         
@@ -211,23 +184,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getFormatedPrice()
     {
-        $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrency();
-        $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrency();
-        $price = $this->getPrice();
-        
-        if ($defaultCurrency && $currentCurrency) {
-            $price = $currentCurrency->format($defaultCurrency->convert($price, $currentCurrency));
-        }
-        elseif ($defaultCurrency) {
-            $price = $defaultCurrency->format($price);
-        }
-        else {
-            $filter = new Varien_Filter_Sprintf('%s', 2);
-            $price = $filter->filter($price);
-        }
-        
-        
-        return $price;
+        return Mage::registry('website')->formatPrice($this->getPrice());
     }
     
     public function getLinkedProducts($linkType)

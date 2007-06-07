@@ -2,14 +2,6 @@
 
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action 
 {
-    protected $_data = array();
-    
-    protected function _construct()
-    {
-        $this->_data['params'] = $this->getRequest()->getParams();
-        $this->_data['quote'] = Mage::getSingleton('checkout', 'session')->getQuote();
-    }
-    
     protected function _backToCart()
     {
         $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
@@ -20,7 +12,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $quote = $this->_data['quote'];
+        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
         
         if (!$quote->hasItems()) {
             $cartView = 'checkout/cart/noItems.phtml';
@@ -28,12 +20,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartView = 'checkout/cart/view.phtml';
             $itemsFilter = new Varien_Filter_Object_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
-            $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
+            $itemsFilter->addFilter(Mage::registry('website')->getPriceFilter(), 'price');
+            $itemsFilter->addFilter(Mage::registry('website')->getPriceFilter(), 'row_total');
             $cartData['items'] = $itemsFilter->filter($quote->getItems());
 
             $totalsFilter = new Varien_Filter_Array_Grid();
-            $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+            $totalsFilter->addFilter(Mage::registry('website')->getPriceFilter(), 'value');
             $cartData['totals'] = $totalsFilter->filter($quote->getTotals());
             
             $alnumFilter = new Zend_Filter_Alnum();
@@ -42,7 +34,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartData['giftcert_code'] = $alnumFilter->filter($quote->getGiftcertCode());
             
             $estimateFilter = new Varien_Filter_Object_Grid();
-            $estimateFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'amount');
+            $estimateFilter->addFilter(Mage::registry('website')->getPriceFilter(), 'amount');
             $cartData['estimate_methods'] = $estimateFilter->filter($quote->getEntitiesByType('shipping'));
             $cartData['estimate_method'] = $quote->getShippingMethod();
 
@@ -66,7 +58,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $productId = $intFilter->filter($this->getRequest()->getPost('product_id'));
         $qty = $intFilter->filter($this->getRequest()->getPost('qty', 1));
 
-        $quote = $this->_data['quote'];
+        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
 
         $product = Mage::getModel('catalog', 'product')->load($productId);
         $quote->addProduct($product->setQty($qty));
@@ -85,7 +77,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         //foreach ($cart as )
         
-        $this->_data['quote']->updateItems($cart)->save();
+        Mage::getSingleton('checkout', 'session')->getQuote()->updateItems($cart)->save();
 
         $this->_backToCart();
     }
@@ -98,9 +90,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function estimatePostAction()
     {
         $postcode = $this->getRequest()->getPost('estimate_postcode');
-        $this->_data['quote']->setEstimatePostcode($postcode);
-        $this->_data['quote']->estimateShippingMethods();
-        $this->_data['quote']->save();
+        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+        $quote->setEstimatePostcode($postcode);
+        $quote->estimateShippingMethods();
+        $quote->save();
         
         $this->_backToCart();
     }
@@ -108,7 +101,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function estimateUpdatePostAction()
     {
         $code = $this->getRequest()->getPost('estimate_method');
-        $this->_data['quote']->setShippingMethod($code)->save();
+        Mage::getSingleton('checkout', 'session')->getQuote()->setShippingMethod($code)->save();
         
         $this->_backToCart();
     }
@@ -121,7 +114,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getPost('coupon_code');
         }
         
-        $this->_data['quote']->setCouponCode($couponCode)->collectTotals()->save();
+        Mage::getSingleton('checkout', 'session')->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
         
         $this->_backToCart();
     }
@@ -134,7 +127,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $giftCode = $this->getRequest()->getPost('giftcert_code');
         }
         
-        $this->_data['quote']->setGiftcertCode($giftCode)->collectTotals()->save();
+        Mage::getSingleton('checkout', 'session')->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
         
         $this->_backToCart();
     }
