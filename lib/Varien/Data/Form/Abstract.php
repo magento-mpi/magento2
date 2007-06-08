@@ -71,9 +71,9 @@ class Varien_Data_Form_Abstract extends Varien_Object
     {
         $res = array();
         $res['config']  = $this->getData();
-        $res['elements']= array();
+        $res['formElements']= array();
         foreach ($this->_elements as $element) {
-            $res['elements'][] = $element->toArray();
+            $res['formElements'][] = $element->toArray();
         }
         return $res;
     }
