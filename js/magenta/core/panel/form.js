@@ -33,12 +33,17 @@ Mage.core.PanelForm = function(region, config) {
         title : this.title || 'Title'
     }));
 
-    this.panel.on('activate', function() {
-        if (this.form) {
-            this._buildForm();
-            this.notLoaded = false;
-        }
-    }, this, {single : true})
+    if (background) {
+        this.panel.on('activate', function() {
+          if (this.form) {
+              this._buildForm();
+               this.notLoaded = false;
+          }
+         }, this, {single : true})
+    } else {
+         this._buildForm();
+         this.notLoaded = false;
+    }
 
 
     this.panel.on('activate', function() {

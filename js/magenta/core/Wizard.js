@@ -55,7 +55,7 @@ Mage.Wizard = function(el, config) {
     
     this.btnFinish = this.addButton({ 
         text : 'Finish',
-        hidden : false,
+        hidden : true,
         handler : this.finish,
         scope : this
     });
@@ -72,7 +72,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     newStep : function(url) {
-        var index, panel, conn;
+        var index, panel, conn, form, data = null;
         
         conn = new Ext.data.Connection();
         
@@ -87,10 +87,14 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                 Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
             }
         }, this);
-        
+                
+        if (this.currentPanel) {
+           data = this.currentPanel.save();
+        }
         conn.request({
             url : url,
-            method : 'POST'
+            method : 'POST',
+            params : data
         })
     },
     
@@ -104,11 +108,11 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         if (this.stepCollection.get(index+1)) {
             this.currentPanel = this.stepCollection.get(index+1);
             this.currentPanel.show();
+            this.checkButtons(index+1);                    
         } else if (index + 1 < this.points.length) {
             console.log(this.points);
             this.newStep(this.points[index+1].url);  
         }
-        this.checkButtons(index);        
     },
 
     back : function() {
@@ -118,7 +122,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
             this.currentPanel = this.stepCollection.get(index-1);
             this.currentPanel.show();
         }
-        this.checkButtons(index);
+        this.checkButtons(index-1);
     },
     
     finish : function() {
@@ -134,6 +138,22 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     checkButtons : function(index) {
+       console.log(this.points[index]);
+       if (this.points[index]) {
+           switch (this.points[index].finish) {
+               case 'hidden' :
+                   this.btnFinish.hide();
+               break;
+               case 'disable' :
+                   this.btnFinish.show();
+                   this.btnFinish.disable();
+               break;
+               case 'enable' :
+                   this.btnFinish.show();
+                   this.btnFinish.enable();
+               break;
+           }
+       }
     }
     
 });

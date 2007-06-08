@@ -346,14 +346,16 @@ final class Mage {
 
         if (empty($loggers[$file])) {
             $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
+            $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
+            $formatter = new Zend_Log_Formatter_Simple($format);            
             $writer = new Zend_Log_Writer_Stream($logFile);
+            $writer->setFormatter($formatter);
             $loggers[$file] = new Zend_Log($writer);
         }
         
         if (is_array($message) || is_object($message)) {
             $message = print_r($message, true);
         }
-        $message = date("Y-m-d H:i:s\t") . $message;
         
         $loggers[$file]->log($message, $level);
     }

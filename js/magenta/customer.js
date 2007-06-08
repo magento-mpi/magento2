@@ -186,13 +186,16 @@ Mage.Customer = function(depend){
         createCustomer : function(btn, event) {
             this.wizard = new Mage.Wizard(Ext.DomHelper.append(document.body, {tag : 'div'}, true), {
                 points : [{
-                    url : Mage.url + 'test/wizard/'    
+                    url : Mage.url + 'test/wizard/',
+                    help : 'hidden'
                 },{
                     url : Mage.url + 'test/wizard/step/1/',
-                    finish : false                
+                    finish : 'hidden',
+                    help : 'hidden'
                 },{
                     url : Mage.url + 'test/wizard/step/2/',
-                    finish : true                
+                    finish : 'enable',
+                    help : 'hidden'
                 }]
             });    
             this.wizard.show(btn.getEl());
