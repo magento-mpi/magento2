@@ -11,14 +11,77 @@
 
 class Varien_File_Uploader
 {
+    /**
+     * Uploaded file handle (copy of $_FILES[] element)
+     * 
+     * @var array
+     * @access protected
+     */
     protected $_file;
+
+    /**
+     * Uploaded file mime type
+     * 
+     * @var string
+     * @access protected
+     */
     protected $_fileMimeType;
+
+    /**
+     * Upload type. Used to right handle $_FILES array.
+     * 
+     * @var Varien_File_Uploader::SINGLE_STYLE|Varien_File_Uploader::MULTIPLE_STYLE
+     * @access protected
+     */
     protected $_uploadType;
+
+    /**
+     * The name of uploaded file. By default it is original file name, but when
+     * we will change file name, this variable will be changed too.
+     * 
+     * @var string
+     * @access protected
+     */
     protected $_uploadedFileName;
+
+    /**
+     * The name of destination directory
+     * 
+     * @var string
+     * @access protected
+     */
     protected $_uploadedFileDir;
+
+    /**
+     * If this variable is set to TRUE, our library will be able to automaticaly create 
+     * non-existant directories.
+     * 
+     * @var bool
+     * @access protected
+     */
     protected $_allowCreateFolders = true;
+
+    /**
+     * If this variable is set to TRUE, uploaded file name will be changed if some file with the same 
+     * name already exists in the destination directory (if enabled). 
+     * 
+     * @var bool
+     * @access protected
+     */
     protected $_allowRenameFiles = false;
+
+    /**
+     * If this variable is set to TRUE, files despersion will be supported.
+     * 
+     * @var bool
+     * @access protected
+     */
     protected $_enableFilesDispersion = false;
+
+    /**
+     * @var string
+     * @access protected
+     */
     protected $_dispretionPath = null;
 
     const SINGLE_STYLE = 0;
@@ -32,6 +95,15 @@ class Varien_File_Uploader
         } 
     }
 
+    /**
+     * Used to save uploaded file into destination folder with
+     * original or new file name (if specified)
+     * 
+     * @param string $destinationFolder 
+     * @param string $newFileName 
+     * @access public
+     * @return void|bool
+     */
     public function save($destinationFolder, $newFileName=null)
     {
         if( !is_writable($destinationFolder) ) {
@@ -71,6 +143,13 @@ class Varien_File_Uploader
         }
     }
     
+    /**
+     * Used to check if uploaded file mime type is valid or not
+     * 
+     * @param array $validTypes 
+     * @access public
+     * @return bool
+     */
     public function checkMimeType($validTypes=Array())
     {
         if( count($validTypes) > 0 ) {
@@ -81,21 +160,48 @@ class Varien_File_Uploader
         return true;
     }
 
+    /**
+     * Returns a name of uploaded file
+     * 
+     * @access public
+     * @return string
+     */
     public function getUploadedFileName()
     {
         return $this->_uploadedFileName;
     }
 
+    /**
+     * Used to set {@link _allowCreateFolders} value
+     * 
+     * @param mixed $flag 
+     * @access public
+     * @return void
+     */
     public function setAllowCreateFolders($flag)
     {
         $this->_allowCreateFolders = $flag;
     }
     
+    /**
+     * Used to set {@link _allowRenameFiles} value
+     * 
+     * @param mixed $flag 
+     * @access public
+     * @return void
+     */
     public function setAllowRenameFiles($flag)
     {
         $this->_allowRenameFiles = $flag;
     }
 
+    /**
+     * Used to set {@link _enableFilesDispersion} value
+     * 
+     * @param mixed $flag 
+     * @access public
+     * @return void
+     */
     public function setFilesDispersion($flag)
     {
         $this->_enableFilesDispersion = $flag;
