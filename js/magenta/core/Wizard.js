@@ -104,7 +104,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     
     next : function() {
         var panel, index;
-        //test
         index = this.stepCollection.indexOf(this.currentPanel) || 0;
         if (this.stepCollection.get(index+1)) {
             this.currentPanel = this.stepCollection.get(index+1);
