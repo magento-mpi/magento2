@@ -1,4 +1,7 @@
 Mage.form.JsonForm = function(config) {
+    if (!this.id) {
+        this.id = Ext.id();
+    }
     Mage.form.JsonForm.superclass.constructor.call(this, config);
 }
 
@@ -21,16 +24,16 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
         switch(element.config.type) {
             case 'fieldset' :
                 form.fieldset(element.config);
-                for(i=0; i < element.elements.length; i++) {
-                    this._makeElement(form, element.elements[i]);
+                for(i=0; i < element.formElements.length; i++) {
+                    this._makeElement(form, element.formElements[i]);
                 }
                 form.end;
                 return true;
                 break;
             case 'column' :
                 form.column(element.config);
-                for(i=0; i < element.elements.length; i++) {
-                    this._makeElement(form, element.elements[i]);
+                for(i=0; i < element.formElements.length; i++) {
+                    this._makeElement(form, element.formElements[i]);
                 }
                 form.end;
                 return true;
@@ -45,7 +48,7 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
     _makeField : function(field) {
             var config = {
                 fieldLabel : field.config.label,
-                id : field.config.name,
+                id : field.config.name + '_' + this.id,
                 name : field.config.name,
                 allowBlank : true,
                // inputType : field.config.inputtype || '',

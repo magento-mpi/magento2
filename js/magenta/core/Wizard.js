@@ -17,7 +17,7 @@ Mage.Wizard = function(el, config) {
         center:{
             tabPosition: "top",
             alwaysShowTabs: true,
-            hideTabs : false
+            hideTabs : true
         }                
     });
     
@@ -72,30 +72,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     newStep : function(url) {
-        var index, panel, conn, form, data = null;
-        
-        conn = new Ext.data.Connection();
-        
-        conn.on('requestcomplete', function(tranId, response, options){
-            var result = Ext.decode(response.responseText);
-            if (result.error == 0) {
-                this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), result.tabs[0].type, result.tabs[0])        
-                this.stepCollection.add(this.currentPanel);
-                index = this.stepCollection.indexOf(this.currentPanel) || 0
-                this.checkButtons(index);        
-            } else {
-                Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
-            }
-        }, this);
-                
-        if (this.currentPanel) {
-           data = this.currentPanel.save();
-        }
-        conn.request({
-            url : url,
-            method : 'POST',
-            params : data
-        })
     },
     
     help : function() {
@@ -103,16 +79,46 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     next : function() {
-        var panel, index;
-        index = this.stepCollection.indexOf(this.currentPanel) || 0;
-        if (this.stepCollection.get(index+1)) {
-            this.currentPanel = this.stepCollection.get(index+1);
-            this.currentPanel.show();
-            this.checkButtons(index+1);                    
-        } else if (index + 1 < this.points.length) {
-            console.log(this.points);
-            this.newStep(this.points[index+1].url);  
+        var index, panel, conn, form, data = null;        
+        index = this.stepCollection.indexOf(this.currentPanel);
+        
+        if (index >= this.points.length - 1) {
+            return false;
         }
+                
+        conn = new Ext.data.Connection();
+        
+        
+        conn.on('requestcomplete', function(tranId, response, options){
+            var result = Ext.decode(response.responseText);
+            if (result.error == 0) {
+                if (this.stepCollection.indexOf(this.currentPanel) + 1 < this.stepCollection.getCount()) {
+                    this.currentPanel = this.stepCollection.get(this.stepCollection.indexOf(this.currentPanel) + 1);
+                    this.currentPanel.update(result.tabs[0]);
+                    this.currentPanel.show();                    
+                } else {
+                    this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), result.tabs[0].type, result.tabs[0]);
+                    this.stepCollection.add(this.currentPanel);
+                }
+                index = this.stepCollection.indexOf(this.currentPanel);        
+                this.checkButtons(index);        
+            } else {
+                Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
+            }
+        }, this);
+        
+        
+        if (this.currentPanel) {
+           data = this.currentPanel.save();
+           console.log(data);
+        }
+        
+        conn.request({
+            url : this.points[index+1].url,
+            method : 'POST',
+            params : data
+        })
+        
     },
 
     back : function() {
@@ -138,7 +144,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     checkButtons : function(index) {
-       console.log(this.points[index]);
+       //console.log(this.points[index]);
        if (this.points[index]) {
            switch (this.points[index].finish) {
                case 'hidden' :

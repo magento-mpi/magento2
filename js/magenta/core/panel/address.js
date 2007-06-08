@@ -215,7 +215,7 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
             name : formConfig.name,
             action : formConfig.action,
             fileUpload : formConfig.fileupload,
-            metaData : formConfig.elements
+            metaData : formConfig.formElements
         });
 
         this.addressForm.render(formConfig.id + '_El');
