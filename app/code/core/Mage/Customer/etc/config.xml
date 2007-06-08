@@ -98,8 +98,10 @@
          <beforeRenderLayout>
             <observers>
                <auth>
-                  <class>Mage_Customer_Front</class>
-                  <method>beforeRenderLayout</method>
+                 <type>singleton</type>
+                 <model>customer</model>
+                 <class>observer</class>
+                 <method>beforeRenderLayout</method>
                </auth>
             </observers>
          </beforeRenderLayout>

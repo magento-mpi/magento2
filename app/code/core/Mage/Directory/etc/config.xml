@@ -83,18 +83,12 @@
         <events>
             <action_preDispatch>
                 <observers>
-                    <defaultCarrency>
+                    <directoryObserver>
                         <type>singleton</type>
                         <model>directory</model>
-                        <class>currency</class>
-                        <method>bindDefault</method>
-                    </defaultCarrency>
-                    <currentCurrency>
-                        <type>singleton</type>
-                        <model>directory</model>
-                        <class>currency</class>
-                        <method>bindCurrent</method>
-                    </currentCurrency>
+                        <class>observer</class>
+                        <method>actionPreDispatch</method>
+                    </directoryObserver>
                 </observers>
             </action_preDispatch>
             <beforeSaveQuote>
@@ -102,8 +96,8 @@
                     <addCurrencyInfo>
                         <type>singleton</type>
                         <model>directory</model>
-                        <class>currency</class>
-                        <method>bindQuote</method>
+                        <class>observer</class>
+                        <method>beforeSaveQuote</method>
                     </addCurrencyInfo>
                 </observers>
             </beforeSaveQuote>
@@ -112,8 +106,8 @@
                     <addCurrencyInfo>
                         <type>singleton</type>
                         <model>directory</model>
-                        <class>currency</class>
-                        <method>bindOrder</method>
+                        <class>observer</class>
+                        <method>beforeSaveOrder</method>
                     </addCurrencyInfo>
                 </observers>
             </beforeSaveOrder>

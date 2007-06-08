@@ -24,5 +24,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Document
             $payment->onOrderValidate();
         }
     }
-    
+
+    public function save()
+    {
+        Mage::dispatchEvent('beforeSaveOrder', array('order'=>$this));
+        return parent::save();
+    }
 }
