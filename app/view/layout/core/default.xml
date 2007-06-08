@@ -52,6 +52,8 @@
         
         <block type="list" name="top.forms" as="topForms"/>
         
+        <block type="website" name="website" as="website"/>
+        
         <block type="list" name="left" as="left"/>
         
         <block type="list" name="content" as="content"/>

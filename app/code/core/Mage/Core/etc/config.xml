@@ -1,160 +1,140 @@
 <?xml version="1.0"?>
 <config>
-   <modules>
-      <Mage_Core>
-         <version>0.2.2</version>
-      </Mage_Core>
-   </modules>
+    <modules>
+        <Mage_Core>
+             <version>0.2.2</version>
+        </Mage_Core>
+    </modules>
 
-   <global>
-      <resource>
-         <connection>
+    <global>
+        <resource>
+            <connection>
+                <types>
+                    <pdo_mysql>
+                        <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
+                    </pdo_mysql>
+                    <mysqli>
+                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
+                    </mysqli>
+                    <mysqli_setup>
+                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
+                    </mysqli_setup>
+                </types>
+            </connection>
+        </resource>
+        
+        <resources>
+            <core_setup>
+                <setup>
+                    <module>Mage_Core</module>
+                </setup>
+            </core_setup>
+        </resources>
+    
+        <models>
+            <core>
+                <class>Mage_Core_Model</class>
+            </core>
+            
+            <core_resource>
+                <class>Mage_Core_Model_Mysql4</class>
+                <entities>
+                    <config>
+                        <table>core_config</table>
+                    </config>
+                    <website>
+                        <table>core_website</table>
+                    </website>
+                    <language>
+                        <table>core_language</table>
+                    </language>
+                    <resource>
+                        <table>core_resource</table>
+                    </resource>
+                    <module>
+                        <table>core_module</table>
+                    </module>
+                    <table>
+                        <table>core_table</table>
+                    </table>
+                    <setting>
+                        <table>core_setting</table>
+                    </setting>
+                    <session>
+                        <table>core_session</table>
+                    </session>
+                    <data_change>
+                        <table>core_data_change</table>
+                    </data_change>
+                    <data_change_type>
+                        <table>core_data_change_type</table>
+                    </data_change_type>
+                    <data_change_info>
+                        <table>core_data_change_info</table>
+                    </data_change_info>
+                </entities>
+            </core_resource>
+        </models>
+    
+        <block>
             <types>
-               <pdo_mysql>
-                  <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
-               </pdo_mysql>
-
-               <mysqli>
-                  <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
-               </mysqli>
-
-               <mysqli_setup>
-                  <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
-               </mysqli_setup>
+                <text>
+                    <class>Mage_Core_Block_Text</class>
+                </text>
+                <tag>
+                    <class>Mage_Core_Block_Text_Tag</class>
+                </tag>
+                <tag_css>
+                    <class>Mage_Core_Block_Text_Tag_Css</class>
+                </tag_css>
+                <tag_js>
+                    <class>Mage_Core_Block_Text_Tag_Js</class>
+                </tag_js>
+                <debug>
+                    <class>Mage_Core_Block_Text_Tag_Debug</class>
+                </debug>
+                <tpl>
+                    <class>Mage_Core_Block_Template</class>
+                </tpl>
+                <tpl_zend>
+                    <class>Mage_Core_Block_Template_Zend</class>
+                </tpl_zend>
+                <list>
+                    <class>Mage_Core_Block_Text_List</class>
+                </list>
+                <list_link>
+                    <class>Mage_Core_Block_Text_List_Link</class>
+                </list_link>
+                <form>
+                    <class>Mage_Core_Block_Form</class>
+                </form>
+                <message>
+                    <class>Mage_Core_Block_Message</class>
+                </message>
+                <website>
+                    <class>Mage_Core_Block_Website</class>
+                </website>
             </types>
-         </connection>
-      </resource>
-
-      <resources>
-         <core_setup>
-            <setup>
-               <module>Mage_Core</module>
-            </setup>
-         </core_setup>
-      </resources>
-
-      <models>
-         <core>
-            <class>Mage_Core_Model</class>
-         </core>
-
-         <core_resource>
-            <class>Mage_Core_Model_Mysql4</class>
-
-            <entities>
-               <config>
-                  <table>core_config</table>
-               </config>
-
-               <website>
-                  <table>core_website</table>
-               </website>
-
-               <language>
-                  <table>core_language</table>
-               </language>
-
-               <resource>
-                  <table>core_resource</table>
-               </resource>
-
-               <module>
-                  <table>core_module</table>
-               </module>
-
-               <table>
-                  <table>core_table</table>
-               </table>
-
-               <setting>
-                  <table>core_setting</table>
-               </setting>
-               
-               <session>
-                  <table>core_session</table>
-               </session>
-               
-               <data_change>
-                  <table>core_data_change</table>
-               </data_change>
-
-               <data_change_type>
-                  <table>core_data_change_type</table>
-               </data_change_type>
-
-               <data_change_info>
-                  <table>core_data_change_info</table>
-               </data_change_info>
-            </entities>
-         </core_resource>
-      </models>
-
-      <block>
-         <types>
-            <text>
-               <class>Mage_Core_Block_Text</class>
-            </text>
-
-            <tag>
-               <class>Mage_Core_Block_Text_Tag</class>
-            </tag>
-
-            <tag_css>
-               <class>Mage_Core_Block_Text_Tag_Css</class>
-            </tag_css>
-
-            <tag_js>
-               <class>Mage_Core_Block_Text_Tag_Js</class>
-            </tag_js>
-
-            <debug>
-               <class>Mage_Core_Block_Text_Tag_Debug</class>
-            </debug>
-
-            <tpl>
-               <class>Mage_Core_Block_Template</class>
-            </tpl>
-
-            <tpl_zend>
-               <class>Mage_Core_Block_Template_Zend</class>
-            </tpl_zend>
-
-            <list>
-               <class>Mage_Core_Block_Text_List</class>
-            </list>
-
-            <list_link>
-               <class>Mage_Core_Block_Text_List_Link</class>
-            </list_link>
-
-            <form>
-               <class>Mage_Core_Block_Form</class>
-            </form>
-
-            <message>
-               <class>Mage_Core_Block_Message</class>
-            </message>
-         </types>
-      </block>
-   </global>
-
-   <front>
-      <layouts>
-         <noRoute>
+        </block>
+    </global>
+    
+    <front>
+        <layouts>
+            <noRoute>
+                <updates>
+                    <core>
+                        <file>core/noRoute.xml</file>
+                    </core>
+                </updates>
+            </noRoute>
+        <default>
             <updates>
-               <core>
-                  <file>core/noRoute.xml</file>
-               </core>
+                <page>
+                    <file>core/default.xml</file>
+                </page>
             </updates>
-         </noRoute>
-         <default>
-            <updates>
-               <page>
-                  <file>core/default.xml</file>
-               </page>
-            </updates>
-         </default>
-      </layouts>
-   </front>
-   <translate></translate>
+        </default>
+        </layouts>
+    </front>
+    <translate></translate>
 </config>
