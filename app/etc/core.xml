@@ -69,5 +69,9 @@
           <active>true</active>
           <codePool>core</codePool>
       </Mage_Backup>
+      <Mage_Poll>
+          <active>true</active>
+          <codePool>core</codePool>
+      </Mage_Poll>
   </modules>
 </config>
