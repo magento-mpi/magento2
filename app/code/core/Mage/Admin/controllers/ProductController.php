@@ -13,7 +13,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('admin', 'session')->isAllowed('catalog')) {
+        if (!Mage::getSingleton('admin/session')->isAllowed('catalog')) {
             $this->getRequest()->setParam('message', __('Permission denied'));
             $this->_forward('jsonError', 'message');
         }
@@ -27,7 +27,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $pageSize = $this->getRequest()->getPost('limit', 30);
         $websiteId = $this->getRequest()->getParam('website');
         
-        $prodCollection = Mage::getModel('catalog_resource','product_collection')
+        $prodCollection = Mage::getModel('catalog_resource/product_collection')
             ->setWebsiteId(Mage::registry('website')->getId())
             ->distinct(true)
             ->addAttributeToSelect('name')
@@ -37,7 +37,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
 
         if (($categoryId = (int) $this->getRequest()->getParam('category')) && $categoryId != 1) {
 
-            $nodes = Mage::getModel('catalog_resource','category_tree')
+            $nodes = Mage::getModel('catalog_resource/category_tree')
                         ->load($categoryId, 10)
                         ->getNodes();
 
@@ -84,7 +84,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         $categoryId = (int) $this->getRequest()->getParam('category', false);
 
-        $category = Mage::getModel('catalog', 'category')->setCategoryId($categoryId);
+        $category = Mage::getModel('catalog/category')->setCategoryId($categoryId);
         $websites = $category->getWebsites();
         
         $data = array();
@@ -125,7 +125,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     
     public function viewAction()
     {
-        $product = Mage::getModel('catalog', 'product')->load($this->getRequest()->getParam('product'));
+        $product = Mage::getModel('catalog/product')->load($this->getRequest()->getParam('product'));
         $block = $this->getLayout()->createBlock('core/template', 'product.view')
             ->setTemplate('admin/catalog/view.phtml')
             ->assign('product', $product);
@@ -135,7 +135,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function imagesAction()
     {
         $id = $this->getRequest()->getParam('product', -1);
-        $product = Mage::getModel('catalog', 'product')->load($id);
+        $product = Mage::getModel('catalog/product')->load($id);
         $block = $this->getLayout()->createBlock('core/template', 'root');
         if ($this->getRequest()->getParam('iframe')) {
             $block->setTemplate('catalog/product/images/iframe.phtml');
@@ -175,7 +175,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
             move_uploaded_file($_FILES['image']['tmp_name'], $fileDir.DS.$fileName);
             chmod($fileDir.DS.$fileName, 0777);
              
-            Mage::getModel('catalog', 'product')->load($id)->setImage($_FILES['image']['name'])->save();
+            Mage::getModel('catalog/product')->load($id)->setImage($_FILES['image']['name'])->save();
             $res = array(
                 'success' => true,
                 'data'    => array(
@@ -244,7 +244,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         Mage::log($_FILES);
         $res = array('error' => 0);
-        $product = Mage::getModel('catalog', 'product')
+        $product = Mage::getModel('catalog/product')
             ->setProductId((int) $this->getRequest()->getParam('product'))
             ->setSetId((int) $this->getRequest()->getParam('set', 1))
             ->setTypeId((int) $this->getRequest()->getParam('type', 1))
@@ -290,7 +290,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $data = array();
         $productId = $this->getRequest()->getParam('product');
         if ($productId) {
-            $relatedLinks = Mage::getModel('catalog', 'product')
+            $relatedLinks = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->getRelatedProducts();
             
@@ -311,7 +311,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $data = array();
         $productId = $this->getRequest()->getParam('product');
         if ($productId) {
-            $linkedProducts = Mage::getModel('catalog', 'product')
+            $linkedProducts = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->getLinkedProducts('bundle');
             
@@ -329,7 +329,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $data = array();
         $productId = $this->getRequest()->getParam('product');
         if ($productId) {
-            $linkedProducts = Mage::getModel('catalog', 'product')
+            $linkedProducts = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->getLinkedProducts('super');
             
@@ -360,7 +360,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function categoryListAction()
     {
         $productId = $this->getRequest()->getParam('product');
-        $categories = Mage::getModel('catalog', 'product')
+        $categories = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->getCategories();
                 
@@ -376,7 +376,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $data  = array();
                 
         if ($rootNode == 'croot') {
-            $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection')
+            $setCollection  = Mage::getModel('catalog_resource/product_attribute_set_collection')
                 ->load();
                 
             foreach($setCollection as $set) {
@@ -397,7 +397,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         } elseif (preg_match('/^set:([0-9]+)$/', $rootNode, $matches)) {
             $setId = $matches[1];
             
-            $set = Mage::getModel('catalog', 'product_attribute_set')->load($setId);
+            $set = Mage::getModel('catalog/product_attribute_set')->load($setId);
             $groups = $set->getGroups();
             $attributes = $set->getAttributes(true);
                 
@@ -453,7 +453,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         
         if (preg_match('#group:([0-9]+)/attr:([0-9]+)#', $p['id'], $match)) {
             $fromGroupId = $match[1];
-            $attribute = Mage::getModel('catalog', 'product_attribute')->load($match[2]);
+            $attribute = Mage::getModel('catalog/product_attribute')->load($match[2]);
         } else {
             return;
         }
@@ -468,14 +468,14 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         if ($p['aid']=='0') {
             $position = 1;
         } elseif (preg_match('#attr:([0-9]+)#', $p['aid'], $match)) {
-            $sibling = Mage::getModel('catalog', 'product_attribute')->load($match[1]);
+            $sibling = Mage::getModel('catalog/product_attribute')->load($match[1]);
             $position = $sibling->getPositionInGroup($toGroupId)+($p['point']=='above' ? -1 : 1);
         } else {
             return;
         }
         
 
-        $set = Mage::getModel('catalog', 'product_attribute_set')->load($setId);
+        $set = Mage::getModel('catalog/product_attribute_set')->load($setId);
         $set->moveAttribute($attribute, $fromGroupId, $toGroupId, $position);
         
         $data = array('error'=>0);
@@ -490,7 +490,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         $order = $this->getRequest()->getPost('sort', 'attribute_id');
         $dir   = $this->getRequest()->getPost('dir', 'asc');
-        $collection  = Mage::getModel('catalog_resource', 'product_attribute_collection')
+        $collection  = Mage::getModel('catalog_resource/product_attribute_collection')
             ->addFilter('is_visible', 1)
             ->setOrder($order, $dir)
             ->load();
@@ -515,9 +515,9 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $groupId = $this->getRequest()->getPost('groupId', false);
         $arrAttributes = Zend_Json::decode($this->getRequest()->getPost('attributes','[]'));
         
-        $group = Mage::getModel('catalog', 'product_attribute_group')->load($groupId);
+        $group = Mage::getModel('catalog/product_attribute_group')->load($groupId);
         foreach ($arrAttributes as $attributeId) {
-            $attribute = Mage::getModel('catalog', 'product_attribute')->setAttributeId($attributeId);
+            $attribute = Mage::getModel('catalog/product_attribute')->setAttributeId($attributeId);
             try {
                 $group->addAttribute($attribute);
             }
@@ -541,24 +541,24 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         try {
             switch ($element) {
                 case 'set':
-                    Mage::getModel('catalog', 'product_attribute_set')
+                    Mage::getModel('catalog/product_attribute_set')
                        ->setSetId($this->getRequest()->getPost('setId', false))
                        ->delete();
                     break;
                 case 'group':
-                    Mage::getModel('catalog', 'product_attribute_group')
+                    Mage::getModel('catalog/product_attribute_group')
                        ->setGroupId($this->getRequest()->getPost('groupId', false))
                        ->delete();
                     break;
                 case 'attribute':
-                    $attribute = Mage::getModel('catalog', 'product_attribute')
+                    $attribute = Mage::getModel('catalog/product_attribute')
                         ->load($this->getRequest()->getPost('attributeId', false));
                     
                     if (!$attribute->isDeletable()) {
                         throw new Exception('Attribute is not deletable');
                     }
                             
-                    Mage::getModel('catalog', 'product_attribute_group')
+                    Mage::getModel('catalog/product_attribute_group')
                        ->load($this->getRequest()->getPost('groupId', false))
                        ->removeAttribute($attribute);
                     break;
@@ -587,7 +587,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $setId      = (int) $this->getRequest()->getPost('setId', false);
         $groupCode  = $this->getRequest()->getPost('code', false);
         
-        $group = Mage::getModel('catalog', 'product_attribute_group')
+        $group = Mage::getModel('catalog/product_attribute_group')
             ->setGroupId($groupId)
             ->setCode($groupCode)
             ->setSetId($setId);
@@ -615,7 +615,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $setCode    = $this->getRequest()->getPost('code', false);
         $groupCode  = $this->getRequest()->getPost('groupCode', false);
         
-        $set = Mage::getModel('catalog', 'product_attribute_set')
+        $set = Mage::getModel('catalog/product_attribute_set')
             ->setSetId($setId)
             ->setCode($setCode);
             
@@ -626,7 +626,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
             // Create new set
             if (!$setId) {
                 // Create default "General" group
-                $group = Mage::getModel('catalog', 'product_attribute_group')
+                $group = Mage::getModel('catalog/product_attribute_group')
                     ->setCode('General')
                     ->setSetId($set->getId())
                     ->save();
@@ -635,7 +635,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
                 // TODO: get arr atrributes id from config
                 $arrAttributes = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
                 foreach ($arrAttributes as $attributeId) {
-                    $attribute = Mage::getModel('catalog', 'product_attribute')->setAttributeId($attributeId);
+                    $attribute = Mage::getModel('catalog/product_attribute')->setAttributeId($attributeId);
                     $group->addAttribute($attribute);
                 }
                 
@@ -656,7 +656,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $res = array('error' => 0);
         $attributes = $this->getRequest()->getPost('data', array());
         $attributes = Zend_Json::decode($attributes);
-        $attribute = Mage::getModel('catalog', 'product_attribute');
+        $attribute = Mage::getModel('catalog/product_attribute');
             
 
         try {
@@ -679,7 +679,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $res = array('error' => 0);
         $data = $this->getRequest()->getPost('attribute', array());
         
-        $attribute = Mage::getModel('catalog', 'product_attribute')
+        $attribute = Mage::getModel('catalog/product_attribute')
             ->setData(Zend_Json::decode($data));
         
         $attribute->setAttributeId(null);
@@ -720,7 +720,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         } else {
             try {
                 foreach ($rowsData as $row) {
-                    Mage::getModel('catalog', 'product_attribute')->addData($row)->save();
+                    Mage::getModel('catalog/product_attribute')->addData($row)->save();
                 }
             } catch (Exception $e){
                 $res = array(
@@ -734,7 +734,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     
     public function attributePropListAction() {
         $res = array();
-        $attribute = Mage::getModel('catalog', 'product_attribute');
+        $attribute = Mage::getModel('catalog/product_attribute');
         $type = $this->getRequest()->getParam('type');
         
         switch ($type) {

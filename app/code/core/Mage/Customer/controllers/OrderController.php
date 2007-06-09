@@ -17,9 +17,9 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $orders = Mage::getModel('sales_resource', 'order_collection');
+        $orders = Mage::getModel('sales_resource/order_collection');
         $orders->addAttributeSelect('self');
-        $orders->addAttributeFilter('self/customer_id', Mage::getSingleton('customer', 'session')->getCustomerId());
+        $orders->addAttributeFilter('self/customer_id', Mage::getSingleton('customer/session')->getCustomerId());
         $orders->setOrder('self/created_at');
         $orders->loadData();
         
@@ -40,7 +40,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
             return;
         }
         
-        $order = Mage::getModel('sales', 'order')->load($orderId);
+        $order = Mage::getModel('sales/order')->load($orderId);
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.orders')
             ->setTemplate('customer/order/view.phtml')

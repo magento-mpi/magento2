@@ -13,7 +13,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $data = array();
         
-        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
         
         if (!$quote->hasItems()) {
             $cartView = 'checkout/cart/noItems.phtml';
@@ -46,7 +46,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             ->setTemplate($cartView)
             ->assign('data', $data)
             ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
-            ->assign('customerIsLogin', Mage::getSingleton('customer', 'session')->isLoggedIn());
+            ->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
             
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -59,15 +59,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $productId = $intFilter->filter($this->getRequest()->getPost('product_id'));
         $qty = $intFilter->filter($this->getRequest()->getPost('qty', 1));
 
-        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
 
-        $product = Mage::getModel('catalog', 'product')->load($productId);
+        $product = Mage::getModel('catalog/product')->load($productId);
         $quote->addProduct($product->setQty($qty));
         
-        $quoteSession = Mage::getSingleton('checkout', 'session');
+        $quoteSession = Mage::getSingleton('checkout/session');
         $quote->save();
         
-        Mage::getSingleton('checkout', 'session')->setQuoteId($quote->getQuoteId());
+        Mage::getSingleton('checkout/session')->setQuoteId($quote->getQuoteId());
         
         $this->_backToCart();
     }
@@ -78,7 +78,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         //foreach ($cart as )
         
-        Mage::getSingleton('checkout', 'session')->getQuote()->updateItems($cart)->save();
+        Mage::getSingleton('checkout/session')->getQuote()->updateItems($cart)->save();
 
         $this->_backToCart();
     }
@@ -91,7 +91,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function estimatePostAction()
     {
         $postcode = $this->getRequest()->getPost('estimate_postcode');
-        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
         $quote->setEstimatePostcode($postcode);
         $quote->estimateShippingMethods();
         $quote->save();
@@ -102,7 +102,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     function estimateUpdatePostAction()
     {
         $code = $this->getRequest()->getPost('estimate_method');
-        Mage::getSingleton('checkout', 'session')->getQuote()->setShippingMethod($code)->save();
+        Mage::getSingleton('checkout/session')->getQuote()->setShippingMethod($code)->save();
         
         $this->_backToCart();
     }
@@ -115,7 +115,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getPost('coupon_code');
         }
         
-        Mage::getSingleton('checkout', 'session')->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
+        Mage::getSingleton('checkout/session')->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
         
         $this->_backToCart();
     }
@@ -128,7 +128,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $giftCode = $this->getRequest()->getPost('giftcert_code');
         }
         
-        Mage::getSingleton('checkout', 'session')->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
+        Mage::getSingleton('checkout/session')->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
         
         $this->_backToCart();
     }

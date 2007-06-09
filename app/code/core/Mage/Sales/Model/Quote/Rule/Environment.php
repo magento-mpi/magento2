@@ -12,14 +12,14 @@ class Mage_Sales_Model_Quote_Rule_Environment extends Varien_Object
     {
         $quote = $this->getQuote();
         if (!$quote) {
-            $coSess = Mage::getSingleton('checkout', 'session'); 
+            $coSess = Mage::getSingleton('checkout/session'); 
             $quote = $coSess->getQuote();
             $this->setQuote($quote);
         }
         
         $customer = $this->getCustomer();
         if (!$customer) {
-            $custSess = Mage::getSingleton('customer', 'session');
+            $custSess = Mage::getSingleton('customer/session');
             if ($custSess->isLoggedIn()) {
                 $customer = $custSess->getCustomer();
                 $this->setCustomer($customer);

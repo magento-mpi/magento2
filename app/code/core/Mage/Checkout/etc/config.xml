@@ -83,8 +83,7 @@
             <observers>
                <loadCustomerQuote>
                   <type>singleton</type>
-                  <model>checkout</model>
-                  <class>observer</class>
+                  <class>checkout/observer</class>
                   <method>loadCustomerQuote</method>
                </loadCustomerQuote>
             </observers>
@@ -93,8 +92,7 @@
             <observers>
                <unsetAll>
                   <type>singleton</type>
-                  <model>checkout</model>
-                  <class>observer</class>
+                  <class>checkout/observer</class>
                   <method>unsetAll</method>
                </unsetAll>
             </observers>

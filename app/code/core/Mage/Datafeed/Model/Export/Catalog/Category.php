@@ -18,7 +18,7 @@ class Mage_Datafeed_Model_Export_Catalog_Category extends Varien_Object
     
     public function getCategoriesList($parentId)
     {
-        $nodes = Mage::getModel('catalog_resource','category_tree')
+        $nodes = Mage::getModel('catalog_resource/category_tree')
             ->joinAttribute('name')
             ->joinAttribute('description')
             ->load($parentId)

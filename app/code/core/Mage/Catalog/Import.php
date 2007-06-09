@@ -7,7 +7,7 @@ class Mage_Catalog_Import {
     
     public function __construct()
     {
-        $this->_products = Mage::getModel('catalog_resource', 'product_collection');
+        $this->_products = Mage::getModel('catalog_resource/product_collection');
     }
     
     public function loadCsv($fileName, $fieldMap)
@@ -50,7 +50,7 @@ class Mage_Catalog_Import {
         if (empty($data['name'])) {
             return false;
         }
-        $product = Mage::getModel('catalog', 'product');
+        $product = Mage::getModel('catalog/product');
         
         $product->setSetId(1)->setTypeId(1);
         $product->addData($data);

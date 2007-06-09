@@ -14,12 +14,12 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
     {
         parent::__construct($data);
         
-        $currencies = Mage::getModel('directory_resource', 'currency_collection')
+        $currencies = Mage::getModel('directory_resource/currency_collection')
             ->addLanguageFilter()
-            ->addCodeFilter(Mage::getSingleton('core', 'website')->getAvailableCurrencyCodes())
+            ->addCodeFilter(Mage::getSingleton('core/website')->getAvailableCurrencyCodes())
             ->load();
             
         $this->assign('currencies', $currencies);
-        $this->assign('currentCurrencyCode', Mage::getSingleton('core', 'website')->getCurrentCurrencyCode());
+        $this->assign('currentCurrencyCode', Mage::getSingleton('core/website')->getCurrentCurrencyCode());
     }
 }

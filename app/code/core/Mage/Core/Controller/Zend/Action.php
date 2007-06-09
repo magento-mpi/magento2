@@ -75,7 +75,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function getLayout()
      {
-         return Mage::getSingleton('core', 'layout');
+         return Mage::getSingleton('core/layout');
      }
      
      function loadLayout($area='front', $ids=null, $key='', $generateBlocks=true)

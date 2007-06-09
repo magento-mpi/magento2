@@ -13,50 +13,50 @@ class Mage_Admin_FlexController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction() 
     {
-        $block = Mage::getModel('core', 'layout')->createBlock('core/template', 'flex')
+        $block = Mage::getModel('core/layout')->createBlock('core/template', 'flex')
                 ->setTemplate('admin/reports/flex.phtml');
         $this->getResponse()->setBody($block->toHtml());
     }
     
     public function configAction()
     {
-       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getGlobalConfig() );  
+       $this->getResponse()->setBody( Mage::getModel('reports_config/') -> getGlobalConfig() );  
     }
     
     public function languageAction()
     {
-       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getLanguage() );
+       $this->getResponse()->setBody( Mage::getModel('reports_config/') -> getLanguage() );
     }
     
     public function dashboardAction()
     {
-       $this->getResponse()->setBody( Mage::getModel('reports_config') -> getDashboard() );
+       $this->getResponse()->setBody( Mage::getModel('reports_config/') -> getDashboard() );
     }
     
     public function countriesAction()
     {
-         $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCountries() );
+         $this->getResponse()->setBody( Mage::getModel('test_data/') -> getUsersCountries() );
     }
 	
 	public function timelineAction()
     {
-         $this->getResponse()->setBody( Mage::getModel('test_data')->getTimelineData() );
+         $this->getResponse()->setBody( Mage::getModel('test_data/')->getTimelineData() );
     }
     
     
     public function citiesAction()
     {
-         $this->getResponse()->setBody( Mage::getModel('test_data') -> getUsersCities( $this->getRequest()->getPost('country', '') ) );
+         $this->getResponse()->setBody( Mage::getModel('test_data/') -> getUsersCities( $this->getRequest()->getPost('country', '') ) );
     }
 	
 	public function linearExampleAction()
 	{
 		if( $this->getRequest()->getPost('refreshDraw', '') )
 		{
-			$this->getResponse()->setBody( Mage::getModel('test_data')-> getNewLinearData() );
+			$this->getResponse()->setBody( Mage::getModel('test_data/')-> getNewLinearData() );
 		}
 		else
-			$this->getResponse()->setBody( Mage::getModel('test_data')-> getAllLinearExample() );
+			$this->getResponse()->setBody( Mage::getModel('test_data/')-> getAllLinearExample() );
 	}
 
 }// Class IndexController END

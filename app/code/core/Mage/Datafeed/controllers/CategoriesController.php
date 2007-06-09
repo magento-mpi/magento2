@@ -27,7 +27,7 @@ class Mage_Datafeed_CategoriesController extends Mage_Core_Controller_Front_Acti
 
         $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Category/rss20.phtml')
-            ->assign('data', Mage::getModel('datafeed', 'export_catalog_category')->getCategoriesList($parentId));
+            ->assign('data', Mage::getModel('datafeed/export_catalog_category')->getCategoriesList($parentId));
 
         $block->assign('channel_data', $channel);
 
@@ -42,7 +42,7 @@ class Mage_Datafeed_CategoriesController extends Mage_Core_Controller_Front_Acti
 
         $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Category/csv.phtml')
-            ->assign('data', Mage::getModel('datafeed', 'export_catalog_category')->getCategoriesList($parentId));
+            ->assign('data', Mage::getModel('datafeed/export_catalog_category')->getCategoriesList($parentId));
 
         $this->getResponse()->setBody($block->toHtml());
     }

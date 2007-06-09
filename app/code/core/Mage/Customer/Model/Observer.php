@@ -26,7 +26,7 @@ class Mage_Customer_Model_Observer
             ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', __('Wishlist'), ''));
 
         // Add logout link
-        $custSession = Mage::getSingleton('customer', 'session');
+        $custSession = Mage::getSingleton('customer/session');
         if ($custSession->isLoggedIn()) {
             if ($topLinks) {
                 $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.logout')

@@ -60,8 +60,7 @@
             <observers>
                <auth>
                   <type>singleton</type>
-                  <model>admin</model>
-                  <class>observer</class>
+                  <class>admin/observer</class>
                   <method>actionPreDispatchAdmin</method>
                </auth>
             </observers>

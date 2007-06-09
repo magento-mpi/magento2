@@ -18,7 +18,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $id = $this->getRequest()->getParam('id', false);
         $this->loadLayout();
         
-        $product = Mage::getModel('catalog', 'product')->load($id);
+        $product = Mage::getModel('catalog/product')->load($id);
         if ($product->getCustomLayout()) {
             $this->getLayout()->loadString($product->getCustomLayout());
         } else {
@@ -31,7 +31,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function imageAction()
     {
-        $product = Mage::getModel('catalog_resource', 'product');
+        $product = Mage::getModel('catalog_resource/product');
         $product->load($this->getRequest()->getParam('id'));
         $this->getLayout()->createBlock('core/template', 'root')->setTemplate('catalog/product/large.image.phtml')
             ->assign('product', $product);

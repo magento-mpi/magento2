@@ -11,7 +11,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         parent::_construct();
 
-        $this->_checkout = Mage::getSingleton('checkout', 'session');
+        $this->_checkout = Mage::getSingleton('checkout/session');
         $this->_quote = $this->_checkout->getQuote();
         
         if (!$this->_quote->hasItems() && $this->getRequest()->getParam('action')!='success') {
@@ -71,12 +71,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         
         /*
-        $customerSession = Mage::getSingleton('customer', 'session');
+        $customerSession = Mage::getSingleton('customer/session');
         if (!$customerSession->isLoggedIn()) {
             $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
             return;
         }
-        $collection = Mage::getModel('sales_resource', 'order_collection')
+        $collection = Mage::getModel('sales_resource/order_collection')
             ->addAttributeSelect('self/real_order_id')
             ->addAttributeFilter('self/customer_id', $customerSession->getCustomerId())
             ->setOrder('self/created_at', 'DESC')
@@ -86,7 +86,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $orderId = $order->getRealOrderId();
         }
         */
-        $order = Mage::getModel('sales', 'order');
+        $order = Mage::getModel('sales/order');
         $order->load($this->_checkout->getLastOrderId());
         if (!$order->getRealOrderId()) {
             $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
@@ -109,7 +109,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
-            $address = Mage::getModel('customer', 'address')->load((int)$addressId);
+            $address = Mage::getModel('customer/address')->load((int)$addressId);
             $address->explodeStreetAddress();
             if ($address->getRegionId()) {
                 $address->setRegion($address->getRegionId());
@@ -149,10 +149,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             else {
                 $data['use_for_shipping'] = 1;
             }
-            $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
+            $address = Mage::getModel('sales/quote_entity_address')->addData($data);
             if ('register' == $this->_quote->getMethod()) {
                 $email = $address->getEmail();
-                $customer = Mage::getModel('customer', 'customer')->loadByEmail($email);
+                $customer = Mage::getModel('customer/customer')->loadByEmail($email);
                 if ($customer->getId()) {
                     $res = array(
                         'error' => 1,
@@ -177,7 +177,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 }
             }
             if ($address->getCustomerPassword()) {
-                $customerResource = Mage::getModel('customer_resource', 'customer');
+                $customerResource = Mage::getModel('customer_resource/customer');
                 $this->_quote->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
             }
             $this->_quote->save();
@@ -196,7 +196,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $payment = Mage::getModel('sales', 'quote_entity_payment')->addData($data);
+            $payment = Mage::getModel('sales/quote_entity_payment')->addData($data);
             $this->_quote->setPayment($payment);
             $this->_quote->save();
             
@@ -218,7 +218,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('sales', 'quote_entity_address')->addData($data);
+            $address = Mage::getModel('sales/quote_entity_address')->addData($data);
             $address->implodeStreetAddress();
             $this->_quote->setShippingAddress($address);
             $this->_quote->collectAllShippingMethods();
@@ -252,7 +252,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             try {
                 if ('register' == $this->_quote->getMethod()) {
                     $customer = $this->_createCustomer();
-                    $mailer = Mage::getModel('customer', 'email')
+                    $mailer = Mage::getModel('customer/email')
                         ->setTemplate('email/welcome.phtml')
                         ->setType('html')
                         ->setCustomer($customer)
@@ -266,8 +266,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                         $this->_quote->getAddressByType('billing')->getLastname();
                 }
                 else {
-                    $email  = Mage::getSingleton('customer', 'session')->getCustomer()->getEmail();
-                    $name   = Mage::getSingleton('customer', 'session')->getCustomer()->getName();
+                    $email  = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+                    $name   = Mage::getSingleton('customer/session')->getCustomer()->getName();
                 }
                 
                 $this->_quote->createOrders();
@@ -275,7 +275,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 $this->_checkout->clear();
                 $this->_checkout->setLastOrderId($orderId);
                 
-                $mailer = Mage::getModel('core', 'email')
+                $mailer = Mage::getModel('core/email')
                         ->setTemplate('email/order.phtml')
                         ->setType('html')
                         ->setTemplateVar('order', $this->_quote->getLastCreatedOrder())
@@ -301,16 +301,16 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     protected function _createCustomer()
     {
-        $customer = Mage::getModel('customer', 'customer');
+        $customer = Mage::getModel('customer/customer');
         
         $billingEntity = $this->_quote->getAddressByType('billing');
-        $billing = Mage::getModel('customer', 'address');
+        $billing = Mage::getModel('customer/address');
         $billing->addData($billingEntity->getData());
         $customer->addAddress($billing);
         
         $shippingEntity = $this->_quote->getAddressByType('shipping');
         if (!$shippingEntity->getSameAsBilling()) {
-            $shipping = Mage::getModel('customer', 'address');
+            $shipping = Mage::getModel('customer/address');
             $shipping->addData($shippingEntity->getData());
             $customer->addAddress($shipping);
         } else {
@@ -329,7 +329,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $billingEntity->setCustomerId($customer->getId())->setAddressId($billing->getId());
         $shippingEntity->setCustomerId($customer->getId())->setAddressId($shipping->getId());
         
-        Mage::getSingleton('customer', 'session')->loginById($customer->getId());
+        Mage::getSingleton('customer/session')->loginById($customer->getId());
         
         return $customer;
     }

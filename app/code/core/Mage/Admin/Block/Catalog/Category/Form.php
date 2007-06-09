@@ -26,7 +26,7 @@ class Mage_Admin_Block_Catalog_Category_Form extends Varien_Data_Form
         $this->addField('category_id', 'hidden', array('name'=>'category_id', 'value'=>$categoryId));
         $this->addField('attribute_set_id', 'hidden', array('name'=>'attribute_set_id', 'value'=>1));
         
-        $attributes = Mage::getModel('catalog', 'category_attribute_set')
+        $attributes = Mage::getModel('catalog/category_attribute_set')
             ->setAttributeSetId(1)
             ->getAttributes();
          
@@ -48,7 +48,7 @@ class Mage_Admin_Block_Catalog_Category_Form extends Varien_Data_Form
         $this->setFileupload(true);
         
         if( $isNew === false ) {
-            $category = Mage::getModel('catalog', 'category')->load($categoryId);
+            $category = Mage::getModel('catalog/category')->load($categoryId);
             $data = $category->getData();
             $this->setTitle("Edit Category '{$data['name']}'");
             $this->setValues($data);

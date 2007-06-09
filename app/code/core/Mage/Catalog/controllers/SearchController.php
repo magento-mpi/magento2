@@ -40,7 +40,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         }
         
         // check if attr exist
-        $arrOptionId = Mage::getModel('catalog','product_attribute')
+        $arrOptionId = Mage::getModel('catalog/product_attribute')
             ->loadByCode($attribute)
             ->getOptions()
                 ->getArrItemId();
@@ -65,15 +65,15 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout('front');
         
-        $categories = Mage::getModel('catalog_resource','category_tree')
+        $categories = Mage::getModel('catalog_resource/category_tree')
             ->joinAttribute('name')
             ->load(1) // TODO: from config
             ->getNodes();
-        $types = Mage::getModel('catalog','product_attribute')
+        $types = Mage::getModel('catalog/product_attribute')
             ->loadByCode('type')
             ->getSource()
                 ->getArrOptions();
-        $manufacturers = Mage::getModel('catalog','product_attribute')
+        $manufacturers = Mage::getModel('catalog/product_attribute')
             ->loadByCode('manufacturer')
             ->getSource()
                 ->getArrOptions();

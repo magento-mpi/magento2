@@ -50,7 +50,7 @@ class Mage_Admin_Block_Catalog_Product_Form extends Varien_Data_Form
         $this->setAction($postUrl);
         //$this->setFileupload(false);
         
-        $group = Mage::getModel('catalog', 'product_attribute_group')->load($this->getGroupId());
+        $group = Mage::getModel('catalog/product_attribute_group')->load($this->getGroupId());
         $fieldset = $this->addFieldset($group->getCode(), array('legend'=>$group->getCode()));
         
         $attributes = $group->getAttributes(true);
@@ -59,7 +59,7 @@ class Mage_Admin_Block_Catalog_Product_Form extends Varien_Data_Form
         }
         
         if ($productId) {
-            $product = Mage::getModel('catalog','product')->load($productId);
+            $product = Mage::getModel('catalog/product')->load($productId);
             $productInfo = $product->getData();
             $this->setValues($productInfo);
         }

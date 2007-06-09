@@ -21,14 +21,14 @@ class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstra
             $request->setConditionName($this->_conditionName);
         }
 
-        $result = Mage::getModel('sales', 'shipping_method_result');
+        $result = Mage::getModel('sales/shipping_method_result');
 
         $rate = $this->getRate($request);
         if (!empty($rate)) {
-	    	$quote = Mage::getModel('sales', 'shipping_method_service');
+	    	$quote = Mage::getModel('sales/shipping_method_service');
 	    	
 	    	$vendor = 'shiptable';
-	    	$vendorTitle = (string)Mage::getSingleton('sales', 'config')->getShippingConfig($vendor)->title;
+	    	$vendorTitle = (string)Mage::getSingleton('sales/config')->getShippingConfig($vendor)->title;
 	    	$quote->setVendor($vendor);
 	    	$quote->setVendorTitle($vendorTitle);
 	    	
@@ -46,6 +46,6 @@ class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstra
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
     {
-        return Mage::getModel('shiptable_resource', 'table')->getRate($request);
+        return Mage::getModel('shiptable_resource/table')->getRate($request);
     }
 }

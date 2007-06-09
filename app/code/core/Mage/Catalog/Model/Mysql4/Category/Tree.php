@@ -29,7 +29,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
             )
         );
         
-        $this->_attributes          = Mage::getModel('catalog_resource', 'category_attribute_collection')->load();
+        $this->_attributes          = Mage::getModel('catalog_resource/category_attribute_collection')->load();
         $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
         $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
     }

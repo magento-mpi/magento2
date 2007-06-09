@@ -16,7 +16,7 @@ class Mage_Sales_Model_Mysql4_Counter
     public function getCounter($type, $website=null, $increase=true)
     {
         if (is_null($website)) {
-            $website = Mage::getSingleton('core', 'website')->getId();
+            $website = Mage::getSingleton('core/website')->getId();
         }
 
         $condition = $this->_write->quoteInto("counter_type=?", $type)." and "

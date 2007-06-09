@@ -18,7 +18,7 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
     
     function testAction()
     {
-        $rule = Mage::getModel('sales', 'quote_rule');
+        $rule = Mage::getModel('sales/quote_rule');
         #$rule->load(1);
         if (!$rule->getId()) {
             $rule->setName('Rule 1')->setIsActive(1);

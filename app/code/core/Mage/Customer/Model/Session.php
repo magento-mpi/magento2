@@ -17,7 +17,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getCustomer()
     {
         if (!($this->_session->customer instanceof Mage_Customer_Model_Customer)) {
-            $this->setCustomer(Mage::getModel('customer', 'customer'));
+            $this->setCustomer(Mage::getModel('customer/customer'));
         }
         return $this->_session->customer;
     }
@@ -36,7 +36,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     
     public function login($username, $password)
     {
-        $customer = Mage::getModel('customer', 'customer')->authenticate($username, $password);
+        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
         if ($customer) {
             $this->setCustomer($customer);
             Mage::dispatchEvent('customerLogin');
@@ -47,7 +47,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('customer', 'customer')->load($customerId);
+        $customer = Mage::getModel('customer/customer')->load($customerId);
         if ($customer) {
             $this->setCustomer($customer);
             Mage::dispatchEvent('customerLogin');
@@ -67,7 +67,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function authenticate($action)
     {
         if (!$this->isLoggedIn()) {
-            Mage::getSingleton('customer', 'session')->setUrlBeforeAuthentication($action->getRequest()->getRequestUri());
+            Mage::getSingleton('customer/session')->setUrlBeforeAuthentication($action->getRequest()->getRequestUri());
             $action->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
             return false;
         }

@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Collection extends Varien_Dat
         
         $this->_sqlSelect->from($this->_attributeTable);
         $this->_sqlSelect->join($this->_attributeInSetTable, "$this->_attributeTable.attribute_id=$this->_attributeInSetTable.attribute_id");
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'category_attribute'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/category_attribute'));
     }
     
     public function addSetFilter($attributeSetId)

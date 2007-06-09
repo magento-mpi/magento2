@@ -22,7 +22,7 @@ class Mage_Directory_Model_Currency extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getSingleton('directory_resource', 'currency');
+        return Mage::getSingleton('directory_resource/currency');
     }
     
     /**

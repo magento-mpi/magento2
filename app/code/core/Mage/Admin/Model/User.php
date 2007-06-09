@@ -43,7 +43,7 @@ class Mage_Admin_Model_User extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getSingleton('admin_resource', 'user');
+        return Mage::getSingleton('admin_resource/user');
     }
     
     /**

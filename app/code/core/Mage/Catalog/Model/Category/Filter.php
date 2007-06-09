@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'category_filter');
+        return Mage::getSingleton('catalog_resource/category_filter');
     }
     
     public function load($filterId)
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
             'searchable',
             'comparale',*/
         );
-        return Mage::getModel('catalog', 'product_attribute')->setData($data);
+        return Mage::getModel('catalog/product_attribute')->setData($data);
     }
     
     public function getValue()
@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
         $request = clone Mage::registry('controller')->getRequest();
         
 
-        $values = Mage::getModel('catalog', 'product_attribute')
+        $values = Mage::getModel('catalog/product_attribute')
             ->setAttributeId($this->getAttributeId())
             ->getOptions();
             

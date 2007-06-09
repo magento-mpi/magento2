@@ -6,7 +6,7 @@ class Mage_Checkout_Block_Shipping_Method extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
 
         $address = $quote->getAddressByType('shipping');
 

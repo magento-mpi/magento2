@@ -84,8 +84,7 @@
         <vendors>
           <pickup>
             <active>true</active>
-            <model>sales</model>
-            <class>shipping_vendor_pickup</class>
+            <class>sales/shipping_vendor_pickup</class>
             <title>Pickup</title>
           </pickup>
         </vendors>
@@ -454,58 +453,45 @@
         <rule>
           <conditions>
             <combine>
-              <model>sales</model>
-              <class>quote_rule_condition_combine</class>
+              <class>sales/quote_rule_condition_combine</class>
             </combine>
             <system>
-              <model>sales</model>
-              <class>quote_rule_condition_system</class>
+              <class>sales/quote_rule_condition_system</class>
             </system>
             <customer>
-              <model>sales</model>
-              <class>quote_rule_condition_customer</class>
+              <class>sales/quote_rule_condition_customer</class>
             </customer>
             <quote>
-              <model>sales</model>
-              <class>quote_rule_condition_quote</class>
+              <class>sales/quote_rule_condition_quote</class>
             </quote>
             <quote_item>
-              <model>sales</model>
-              <class>quote_rule_condition_quote_item</class>
+              <class>sales/quote_rule_condition_quote_item</class>
             </quote_item>
             <quote_item_combine>
-              <model>sales</model>
-              <class>quote_rule_condition_quote_item_combine</class>
+              <class>sales/quote_rule_condition_quote_item_combine</class>
             </quote_item_combine>
             <quote_address>
-              <model>sales</model>
-              <class>quote_rule_condition_quote_address</class>
+              <class>sales/quote_rule_condition_quote_address</class>
             </quote_address>
             <quote_address_combine>
-              <model>sales</model>
-              <class>quote_rule_condition_quote_address_combine</class>
+              <class>sales/quote_rule_condition_quote_address_combine</class>
             </quote_address_combine>
           </conditions>
           <actions>
             <quote>
-              <model>sales</model>
-              <class>quote_rule_action_quote</class>
+              <class>sales/quote_rule_action_quote</class>
             </quote>
             <quote_item>
-              <model>sales</model>
-              <class>quote_rule_action_quote_item</class>
+              <class>sales/quote_rule_action_quote_item</class>
             </quote_item>
             <quote_item_add>
-              <model>sales</model>
-              <class>quote_rule_action_quote_item_add</class>
+              <class>sales/quote_rule_action_quote_item_add</class>
             </quote_item_add>
             <quote_address>
-              <model>sales</model>
-              <class>quote_rule_action_quote_address</class>
+              <class>sales/quote_rule_action_quote_address</class>
             </quote_address>
             <stop>
-              <model>sales</model>
-              <class>quote_rule_action_stop</class>
+              <class>sales/quote_rule_action_stop</class>
             </stop>
           </actions>
         </rule>

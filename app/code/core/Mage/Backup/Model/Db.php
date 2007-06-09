@@ -17,7 +17,7 @@ class Mage_Backup_Model_Db
     
     public function getResource()
     {
-        return Mage::getSingleton('backup_resource', 'db');
+        return Mage::getSingleton('backup_resource/db');
     }
     
     public function getTables()

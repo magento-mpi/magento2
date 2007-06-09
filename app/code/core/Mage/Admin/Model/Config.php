@@ -32,7 +32,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(Mage::getModel('admin', 'acl_resource', $resourceName), $parentName);
+            $acl->add(Mage::getModel('admin/acl_resource', $resourceName), $parentName);
         }
         $children = $resource->children();
         

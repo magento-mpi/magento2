@@ -73,9 +73,9 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function loadUserAcl($userId)
     {
-        $acl = Mage::getModel('admin', 'acl');
+        $acl = Mage::getModel('admin/acl');
         
-        Mage::getSingleton('admin', 'config')->loadAclResources($acl);
+        Mage::getSingleton('admin/config')->loadAclResources($acl);
 
         $roleTable = Mage::registry('resources')->getTableName('admin_resource', 'role');
         $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
@@ -107,13 +107,13 @@ class Mage_Admin_Model_Mysql4_Acl
             switch ($role['role_type']) {
                 case self::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
-                    $acl->addRole(Mage::getModel('admin', 'acl_role_group', $roleId), $parent);
+                    $acl->addRole(Mage::getModel('admin/acl_role_group', $roleId), $parent);
                     break;
                     
                 case self::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('admin', 'acl_role_user', $roleId), $parent);
+                        $acl->addRole(Mage::getModel('admin/acl_role_user', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
@@ -140,7 +140,7 @@ class Mage_Admin_Model_Mysql4_Acl
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = Mage::getSingleton('admin', 'config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             switch ($rule['permission']) {

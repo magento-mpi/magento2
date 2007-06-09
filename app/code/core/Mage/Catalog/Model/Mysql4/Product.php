@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Mysql4_Product
     public function getAttributes($attributeSetId)
     {
         if (!$this->_attributes) {
-            $this->_attributes = Mage::getModel('catalog_resource', 'product_attribute_collection')
+            $this->_attributes = Mage::getModel('catalog_resource/product_attribute_collection')
                 ->addSetFilter($attributeSetId)
                 ->load();
         }

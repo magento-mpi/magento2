@@ -24,7 +24,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $this->_idField = $docType.'_id';
         $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales', $docType));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/'.$docType));
         
         $this->_sqlSelect->from($this->_documentTable);
     }
@@ -263,7 +263,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
                 if ('self'===$entityArr['type']) {
                     $docObj->addData($entityArr['data']);
                 } else {
-                    $entity = Mage::getModel('sales', $this->_docType.'_entity_'.$entityArr['type'])
+                    $entity = Mage::getModel('sales/'.$this->_docType.'_entity_'.$entityArr['type'])
                         ->setEntityId($entityId)
                         ->addData($entityArr['data']);
                     $docObj->addEntity($entity);

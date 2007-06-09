@@ -23,7 +23,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
         $this->_sqlSelect->join($this->_currencyNameTable, 
             "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code");
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory', 'currency'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/currency'));
     }
     
     /**

@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'product_attribute');
+        return Mage::getSingleton('catalog_resource/product_attribute');
     }
 
     public function load($attributeId)
@@ -121,7 +121,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
     
     public function getOptions()
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_option_collection')
+        $collection = Mage::getModel('catalog_resource/product_attribute_option_collection')
             ->addAttributeFilter($this->getId())
             ->load();
             
@@ -140,10 +140,8 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
             $saverName = 'default';
         }
         
-        if ($config = Mage::getConfig()->getNode('global/catalog/product/attribute/savers/'.$saverName)) {
-            $module = (string) $config->module;
-            $model  = (string) $config->model;
-            $model = Mage::getModel($module, $model)->setAttribute($this);
+        if ($saver = Mage::getConfig()->getNode('global/catalog/product/attribute/savers.'.$saverName)) {
+            $model = Mage::getModel($saver->getClassName())->setAttribute($this);
             // TODO: check instanceof
             return $model;
         }
@@ -158,10 +156,8 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
             return false;
         }
         
-        if ($config = Mage::getConfig()->getNode('global/catalog/product/attribute/sources/'.$sourceName)) {
-            $module = (string) $config->module;
-            $model  = (string) $config->model;
-            $model = Mage::getModel($module, $model)->setAttribute($this);
+        if ($source = Mage::getConfig()->getNode('global/catalog/product/attribute/sources/'.$sourceName)) {
+            $model = Mage::getModel($source->getClassName())->setAttribute($this);
             // TODO: check instanceof
             return $model;
         }
@@ -224,7 +220,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
     public function getPositionInGroup($group)
     {
         if (!$group instanceof Mage_Catalog_Model_Product_Attribute_Group) {
-            $group = Mage::getModel('catalog', 'product_attribute_group')->load($group);
+            $group = Mage::getModel('catalog/product_attribute_group')->load($group);
         }
          
         return $group->getResource()->getAttributePosition($group, $this);

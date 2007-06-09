@@ -41,7 +41,7 @@ class Mage_Admin_Model_Mysql4_User
         $result = $this->_authAdapter->setIdentity($username)->setCredential($password)->authenticate();
         
         if (Zend_Auth_Result::SUCCESS===$result->getCode()) {
-            $user = Mage::getModel('admin', 'user')->setData((array)$this->_authAdapter->getResultRowObject());
+            $user = Mage::getModel('admin/user')->setData((array)$this->_authAdapter->getResultRowObject());
             $data = array(
                 'logdate' => new Zend_Db_Expr('NOW()'),
                 'lognum'  => $user->getLognum()+1

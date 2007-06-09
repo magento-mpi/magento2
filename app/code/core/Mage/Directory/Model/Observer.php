@@ -18,20 +18,20 @@ class Mage_Directory_Model_Observer
     public function actionPreDispatch($observer)
     {
         Mage::log('Directory observer: action predispatch event');
-        $code = Mage::getSingleton('core', 'website')->getDefaultCurrencyCode();
+        $code = Mage::getSingleton('core/website')->getDefaultCurrencyCode();
         if ($code) {
-            Mage::getSingleton('core', 'website')->setDefaultCurrency(Mage::getModel('directory', 'currency')->load($code));
+            Mage::getSingleton('core/website')->setDefaultCurrency(Mage::getModel('directory/currency')->load($code));
         }
         
         if ($observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
-            Mage::getSingleton('core', 'website')->setCurrentCurrencyCode(
+            Mage::getSingleton('core/website')->setCurrentCurrencyCode(
                 $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')
             );
         }
         
-        $code = Mage::getSingleton('core', 'website')->getCurrentCurrencyCode();
+        $code = Mage::getSingleton('core/website')->getCurrentCurrencyCode();
         if ($code) {
-            Mage::getSingleton('core', 'website')->setCurrentCurrency(Mage::getModel('directory', 'currency')->load($code));
+            Mage::getSingleton('core/website')->setCurrentCurrency(Mage::getModel('directory/currency')->load($code));
         }
         
     }
@@ -47,10 +47,10 @@ class Mage_Directory_Model_Observer
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Varien_Object) {
             $baseCurrency = (string)Mage::getConfig()->getNode('global/default/currency');
-            $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrencyCode();
-            $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrencyCode();
+            $defaultCurrency = Mage::getSingleton('core/website')->getDefaultCurrencyCode();
+            $currentCurrency = Mage::getSingleton('core/website')->getCurrentCurrencyCode();
             
-            $currency = Mage::getModel('directory', 'currency');
+            $currency = Mage::getModel('directory/currency');
             
             $quote->setBaseCurrencyCode($baseCurrency);
             $quote->setWebsiteCurrencyCode($defaultCurrency);
@@ -72,10 +72,10 @@ class Mage_Directory_Model_Observer
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Varien_Object) {
             $baseCurrency = (string)Mage::getConfig()->getNode('global/default/currency');
-            $defaultCurrency = Mage::getSingleton('core', 'website')->getDefaultCurrencyCode();
-            $currentCurrency = Mage::getSingleton('core', 'website')->getCurrentCurrencyCode();
+            $defaultCurrency = Mage::getSingleton('core/website')->getDefaultCurrencyCode();
+            $currentCurrency = Mage::getSingleton('core/website')->getCurrentCurrencyCode();
             
-            $currency = Mage::getModel('directory', 'currency');
+            $currency = Mage::getModel('directory/currency');
             
             $order->setBaseCurrencyCode($baseCurrency);
             $order->setWebsiteCurrencyCode($defaultCurrency);

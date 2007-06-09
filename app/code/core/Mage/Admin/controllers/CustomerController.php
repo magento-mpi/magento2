@@ -15,7 +15,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     public function gridDataAction()
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
-        $collection = Mage::getModel('customer_resource', 'customer_collection');
+        $collection = Mage::getModel('customer_resource/customer_collection');
         $collection->setPageSize($pageSize);
         
         
@@ -45,7 +45,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $cardStruct = array();
         
         if ($customerId>0) {
-            $customer = Mage::getModel('customer', 'customer')->load($customerId);
+            $customer = Mage::getModel('customer/customer')->load($customerId);
             $cardStruct['title'] = __('Edit Customer').' "'.$customer->getName().'"';
         }
         else {
@@ -100,7 +100,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     {
         if ($this->getRequest()->isPost()) {
             $customerId = (int) $this->getRequest()->getParam('id', false);
-            $customer   = Mage::getModel('customer', 'customer')->setData($this->getRequest()->getPost());
+            $customer   = Mage::getModel('customer/customer')->setData($this->getRequest()->getPost());
             $customer->setCustomerId($customerId);
             
             try {
@@ -119,7 +119,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
-            Mage::getModel('customer', 'customer')->delete($customerId);
+            Mage::getModel('customer/customer')->delete($customerId);
         }
     }
     
@@ -131,7 +131,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $arrRes = array();
         $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
-            $addressCollection = Mage::getModel('customer_resource', 'address_collection')->loadByCustomerId($customerId);
+            $addressCollection = Mage::getModel('customer_resource/address_collection')->loadByCustomerId($customerId);
             foreach ($addressCollection as $address) {
                 $arrRes[] = array(
                     'address_id'=> $address->getAddressId(),
@@ -149,7 +149,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     public function addressFormAction()
     {
         $addressId = (int) $this->getRequest()->getParam('id');
-        $address = Mage::getModel('customer', 'address');
+        $address = Mage::getModel('customer/address');
         if ($addressId>0) {
             $address->load($addressId);
         }
@@ -167,7 +167,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     public function addressSaveAction()
     {
         if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer', 'address')->setData($this->getRequest()->getPost());
+            $address = Mage::getModel('customer/address')->setData($this->getRequest()->getPost());
             try {
                 $address->save();
             }
@@ -184,7 +184,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $addressId = $this->getRequest()->getParam('id', false);
         if ($addressId) {
-            $address = Mage::getModel('customer', 'address')->setAddressId($addressId);
+            $address = Mage::getModel('customer/address')->setAddressId($addressId);
             try {
                 $address->delete();
             }

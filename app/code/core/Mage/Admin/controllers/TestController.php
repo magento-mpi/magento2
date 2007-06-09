@@ -16,7 +16,7 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
         
         switch ($step) {
             case 1:
-                $customer = Mage::getModel('customer', 'customer');
+                $customer = Mage::getModel('customer/customer');
                 $form = new Mage_Admin_Block_Customer_Form($customer);
 
                 $tab = array(
@@ -27,7 +27,7 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
                 );
                 break;
             case 2:
-                $address = Mage::getModel('customer', 'address');
+                $address = Mage::getModel('customer/address');
                 $form = new Mage_Admin_Block_Customer_Address_Form($address);
 
                 $tab = array(
@@ -53,7 +53,7 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
     
     public function backupAction()
     {
-        $tables = Mage::getSingleton('backup', 'db')->renderSql();
+        $tables = Mage::getSingleton('backup/db')->renderSql();
         echo '<pre>';
         print_r($tables);
         echo '</pre>';

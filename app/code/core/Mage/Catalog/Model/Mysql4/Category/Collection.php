@@ -28,7 +28,7 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
             AND $this->_attributeValueTable.attribute_id=1", 'attribute_value AS name');
             
         $this->setOrder($this->_categoryProductTable.'.position', 'asc');
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'category'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/category'));
     }
     
     public function addProductFilter($productId)

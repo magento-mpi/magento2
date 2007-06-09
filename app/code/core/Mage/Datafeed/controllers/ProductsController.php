@@ -21,7 +21,7 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
     {
         $categoryId = intval($this->getRequest()->getParam('category'));
 
-        $category = Mage::getModel('catalog', 'category')
+        $category = Mage::getModel('catalog/category')
             ->load($categoryId);
 
         $channel = new Varien_Object();
@@ -31,7 +31,7 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
 
         $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Product/rss20.phtml')
-            ->assign('data', Mage::getModel('datafeed', 'export_catalog_product')->getCategoryProducts($categoryId));
+            ->assign('data', Mage::getModel('datafeed/export_catalog_product')->getCategoryProducts($categoryId));
 
         $block->assign('channel_data', $channel);
 
@@ -42,10 +42,10 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
     {
         header("Content-type: text/plain");
         #header("Content-type: text/csv");
-        $model = Mage::getModel('datafeed', 'export_catalog_product');
+        $model = Mage::getModel('datafeed/export_catalog_product');
         $categoryId = intval($this->getRequest()->getParam('category'));
          
-        $category = Mage::getModel('catalog', 'category')
+        $category = Mage::getModel('catalog/category')
             ->load($categoryId);
 
         $block = $this->getLayout()->createBlock('core/template', 'export');

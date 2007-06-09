@@ -111,20 +111,16 @@
                </inputs>
                <sources>
                   <type>
-                     <module>catalog</module>
-                     <model>product_attribute_source</model>
+                     <class>catalog/product_attribute_source</class>
                   </type>
                   <status>
-                     <module>catalog</module>
-                     <model>product_attribute_source</model>
+                     <class>catalog/product_attribute_source</class>
                   </status>
                   <manufacturer>
-                     <module>catalog</module>
-                     <model>product_attribute_source</model>
+                     <class>catalog/product_attribute_source</class>
                   </manufacturer>
                   <category>
-                     <module>catalog</module>
-                     <model>product_attribute_source_category</model>
+                     <class>catalog/product_attribute_source_category</class>
                   </category>
                </sources>
                <types>
@@ -147,16 +143,13 @@
                </types>
                <savers>
                   <default>
-                     <module>catalog</module>
-                     <model>product_attribute_saver</model>
+                     <class>catalog/product_attribute_saver</class>
                   </default>
                   <image>
-                     <module>catalog</module>
-                     <model>product_attribute_saver_image</model>
+                     <class>catalog/product_attribute_saver_image</class>
                   </image>
                   <date>
-                     <module>catalog</module>
-                     <model>product_attribute_saver_date</model>
+                     <class>catalog/product_attribute_saver_date</class>
                   </date>
                </savers>
             </attribute>
@@ -172,13 +165,11 @@
                <savers>
                   <default>
                      <name>Default</name>
-                     <module>catalog</module>
-                     <model>category_attribute_saver</model>
+                     <class>catalog/category_attribute_saver</class>
                   </default>
                   <upload>
                      <name>upload</name>
-                     <module>catalog</module>
-                     <model>category_attribute_saver_upload</model>
+                     <class>catalog/category_attribute_saver_upload</class>
                   </upload>
                </savers>
             </attribute>

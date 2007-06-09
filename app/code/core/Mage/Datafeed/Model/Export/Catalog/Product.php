@@ -23,7 +23,7 @@ class Mage_Datafeed_Model_Export_Catalog_Product extends Varien_Object
     
     public function getCategoryProducts($categoryId, $count=10)
     {
-        $collection = Mage::getModel('catalog_resource', 'product_collection')
+        $collection = Mage::getModel('catalog_resource/product_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')

@@ -22,14 +22,14 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     public function getEnv()
     {
         if (!$this->getData('env')) {
-            $this->setData('env', Mage::getModel('sales', 'quote_rule_environment'));
+            $this->setData('env', Mage::getModel('sales/quote_rule_environment'));
         }
         return $this->getData('env');
     }
     
     public function resetConditions()
     {
-        $conditions = Mage::getModel('sales', 'quote_rule_condition_combine');
+        $conditions = Mage::getModel('sales/quote_rule_condition_combine');
         $conditions->setRule($this)->setId('1');
         $this->setConditions($conditions);
 
@@ -41,7 +41,7 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     
     public function resetActions()
     {
-        $actions = Mage::getModel('sales', 'quote_rule_action_collection');
+        $actions = Mage::getModel('sales/quote_rule_action_collection');
         $actions->setRule($this);
         $this->setActions($actions);
         
@@ -119,7 +119,7 @@ class Mage_Sales_Model_Quote_Rule extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getModel('sales_resource', 'quote_rule');
+        return Mage::getModel('sales_resource/quote_rule');
     }
     
     public function load($ruleId)

@@ -46,7 +46,7 @@ class Mage_Sales_Model_Shipping
     public function getOrigData()
     {
         if (!isset($this->_orig)) {
-            $this->setOrigData(Mage::getSingleton('sales', 'config')->getShippingOrig());
+            $this->setOrigData(Mage::getSingleton('sales/config')->getShippingOrig());
         }
         return $this->_orig;
     }
@@ -88,7 +88,7 @@ class Mage_Sales_Model_Shipping
     
     public function collectMethodsByAddress(Varien_Object $address)
     {
-        $request = Mage::getModel('sales', 'shipping_method_request');
+        $request = Mage::getModel('sales/shipping_method_request');
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
         $request->setDestPostcode($address->getPostcode());

@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'product_attribute_set');
+        return Mage::getSingleton('catalog_resource/product_attribute_set');
     }
 
     public function load($setId)
@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getGroups()
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_group_collection')
+        $collection = Mage::getModel('catalog_resource/product_attribute_group_collection')
             ->addSetFilter($this->getId())
             ->load();
         return $collection;
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getAttributes($onlyVisible = false)
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
+        $collection = Mage::getModel('catalog_resource/product_attribute_collection')
             ->addSetFilter($this->getId())
             ->setPositionOrder();
         if ($onlyVisible) {
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     public function moveAttribute($attribute, $fromGroup, $toGroup, $position=null)
     {
         if (is_numeric($attribute)) {
-            $attribute = Mage::getModel('catalog', 'product_attribute')->load($attribute);
+            $attribute = Mage::getModel('catalog/product_attribute')->load($attribute);
         }
         
         if (!$attribute instanceof Mage_Catalog_Model_Product_Attribute || !$attribute->getAttributeId()) {
@@ -73,13 +73,13 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
         }
         
         if (is_numeric($fromGroup)) {
-            $fromGroup = Mage::getModel('catalog', 'product_attribute_group')->load($fromGroup);
+            $fromGroup = Mage::getModel('catalog/product_attribute_group')->load($fromGroup);
         }
         if (!$fromGroup instanceof Mage_Catalog_Model_Product_Attribute_Group || !$fromGroup->getGroupId()) {
             return $this;
         }        
         if (is_numeric($toGroup)) {
-            $toGroup = Mage::getModel('catalog', 'product_attribute_group')->load($toGroup);
+            $toGroup = Mage::getModel('catalog/product_attribute_group')->load($toGroup);
         }
         if (!$toGroup instanceof Mage_Catalog_Model_Product_Attribute_Group || !$toGroup->getGroupId()) {
             return $this;

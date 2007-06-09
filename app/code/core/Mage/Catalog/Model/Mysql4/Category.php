@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Mysql4_Category
                     throw new Exception('Empty parent id for category');
                 }
                 
-                $tree = Mage::getModel('catalog_resource', 'category_tree');
+                $tree = Mage::getModel('catalog_resource/category_tree');
                 $parentNode = $tree->loadNode($parentId);
                 
                 $node = $tree->appendChild(array('attribute_set_id'=>$category->getAttributeSetId()), $parentNode);
@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Mysql4_Category
      */
     public function getAttributesBySet($setId)
     {
-        $collection = Mage::getModel('catalog_resource', 'category_attribute_collection')
+        $collection = Mage::getModel('catalog_resource/category_attribute_collection')
             ->addSetFilter($setId)
             ->load();
         return $collection;

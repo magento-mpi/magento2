@@ -33,7 +33,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->_config = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet');
+        $this->_config = Mage::getSingleton('sales/config')->getPaymentConfig('authorizenet');
     }
 
     public function createFormBlock($name)
@@ -116,7 +116,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
             $payment->setAnetTransMethod(self::REQUEST_METHOD_CC);
         }
         
-        $request = Mage::getModel('paygate', 'authorizenet_request')
+        $request = Mage::getModel('paygate/authorizenet_request')
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
@@ -211,7 +211,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     
     public function postRequest(Varien_Object $request)
     {
-        $cgi = Mage::getSingleton('sales', 'config')->getPaymentConfig('authorizenet')->cgi;
+        $cgi = Mage::getSingleton('sales/config')->getPaymentConfig('authorizenet')->cgi;
         $client = new Zend_Http_Client();
         $uri = ((string)$cgi->protocol).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
         $client->setUri($uri);
@@ -220,7 +220,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
         $client->setMethod(Zend_Http_Client::POST);
         $response = $client->request();
         
-        $result = Mage::getModel('paygate', 'authorizenet_result');
+        $result = Mage::getModel('paygate/authorizenet_result');
         
         $requestArr = array();
         foreach ($request->getData() as $key=>$value) {

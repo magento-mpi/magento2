@@ -4,7 +4,7 @@ class Mage_Catalog_Model_Product_Link extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'product_link');
+        return Mage::getSingleton('catalog_resource/product_link');
     }
 
     public function load($linkId)

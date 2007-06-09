@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
         
         $this->_sqlSelect->from($this->_attributeTable);
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute'));
     }
     
     protected function _joinInSetTable()

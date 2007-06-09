@@ -18,7 +18,7 @@ class Mage_Sales_Model_Quote_Processed extends Mage_Sales_Model_Quote
     public function getOrigQuote()
     {
         if (!$this->_origQuote) {
-            $origQuote = Mage::getModel('sales', 'quote')->load($this->getOrigQuoteId());
+            $origQuote = Mage::getModel('sales/quote')->load($this->getOrigQuoteId());
             $this->setOrigQuote($origQuote);
         }
         return $this->_origQuote;
@@ -41,10 +41,10 @@ class Mage_Sales_Model_Quote_Processed extends Mage_Sales_Model_Quote
     
     public function applyRules(array $envArr=array())
     {
-        $env = Mage::getModel('sales', 'quote_rule_environment');
+        $env = Mage::getModel('sales/quote_rule_environment');
         $env->addData($envArr);
 
-        $rules = Mage::getSingleton('sales_resource', 'quote_rule_collection');
+        $rules = Mage::getSingleton('sales_resource/quote_rule_collection');
         
         $rules->setEnv($env)->setActiveFilter()->loadData()->processQuote($this);
         

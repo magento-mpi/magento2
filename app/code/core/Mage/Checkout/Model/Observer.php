@@ -12,11 +12,11 @@ class Mage_Checkout_Model_Observer
 {
     public function unsetAll()
     {
-        Mage::getSingleton('checkout', 'session')->unsetAll();
+        Mage::getSingleton('checkout/session')->unsetAll();
     }
     
     public function loadCustomerQuote()
     {
-        Mage::getSingleton('checkout', 'session')->loadCustomerQuote();
+        Mage::getSingleton('checkout/session')->loadCustomerQuote();
     }
 }

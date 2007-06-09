@@ -26,7 +26,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Collection extends Mage_Sales_Model_Quo
     
     public function loadArray($arr)
     {
-        $salesConfig = Mage::getSingleton('sales', 'config');
+        $salesConfig = Mage::getSingleton('sales/config');
         
         foreach ($arr as $actArr) {
             $action = $salesConfig->getQuoteRuleActionInstance($actArr['type']);

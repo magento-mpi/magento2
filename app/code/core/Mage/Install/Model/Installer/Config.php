@@ -19,15 +19,15 @@ class Mage_Install_Model_Installer_Config
     
     public function install()
     {
-        $data = Mage::getSingleton('install', 'session')->getConfigData();
-        foreach (Mage::getModel('core', 'config')->getLocalServerVars() as $index=>$value) {
+        $data = Mage::getSingleton('install/session')->getConfigData();
+        foreach (Mage::getModel('core/config')->getLocalServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }
         }
         $this->_checkHostsInfo($data);
         $data['date'] = date('r');
-        file_put_contents($this->_localConfigFile, Mage::getModel('core', 'config')->getLocalDist($data));
+        file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         Mage::getConfig()->init();
     }
     
@@ -61,16 +61,16 @@ class Mage_Install_Model_Installer_Config
         $reporting_level = error_reporting(E_ERROR);
         $checkRes = file_get_contents($url);
         if (!$checkRes) {
-            Mage::getSingleton('install', 'session')->addMessage(
-                Mage::getModel('core', 'message')->error(__('Url "%s" is not access', $url))
+            Mage::getSingleton('install/session')->addMessage(
+                Mage::getModel('core/message')->error(__('Url "%s" is not access', $url))
             );
             throw new Exception('Check url error');
         }
         
         $checkRes = file_get_contents($surl);
         if (!$checkRes) {
-            Mage::getSingleton('install', 'session')->addMessage(
-                Mage::getModel('core', 'message')->error(__('Url "%s" is not access', $surl))
+            Mage::getSingleton('install/session')->addMessage(
+                Mage::getModel('core/message')->error(__('Url "%s" is not access', $surl))
             );
             throw new Exception('Check url error');
         }

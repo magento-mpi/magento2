@@ -52,8 +52,7 @@
                <shiptable>
                   <active>true</active>
 
-                  <model>shiptable</model>
-                  <class>table</class>
+                  <class>shiptable/table</class>
 
                   <title>Table rate</title>
                </shiptable>

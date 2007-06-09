@@ -137,7 +137,7 @@ class Mage_Customer_Model_Mysql4_Address
         );
         
         if (empty($data['customer_id'])) {
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE021'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE021'));
         }
         
         $region = (int) $data['region'];
@@ -147,12 +147,12 @@ class Mage_Customer_Model_Mysql4_Address
         
         // Validate region id
         if (!empty($data['region_id'])) {
-            $region = Mage::getModel('directory_resource', 'region')->load($data['region_id']);
+            $region = Mage::getModel('directory_resource/region')->load($data['region_id']);
             if ($region && $region->getCountryId() && $region->getCountryId() == $data['country_id']) {
                 $data['region'] = $region->getName();
             }
             else {
-                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE022'));
+                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE022'));
             }
         }
 
@@ -187,7 +187,7 @@ class Mage_Customer_Model_Mysql4_Address
         }
         catch (Exception $e){
             self::$_write->rollBack();
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE023'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE023'));
         }
         return $this;
     }

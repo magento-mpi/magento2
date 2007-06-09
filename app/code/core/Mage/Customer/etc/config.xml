@@ -92,8 +92,7 @@
             <observers>
                <auth>
                  <type>singleton</type>
-                 <model>customer</model>
-                 <class>observer</class>
+                 <class>customer/observer</class>
                  <method>beforeRenderLayout</method>
                </auth>
             </observers>

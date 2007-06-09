@@ -20,7 +20,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getQuote()
     {
         if (empty($this->_quote)) {
-            $quote = Mage::getModel('sales', 'quote');
+            $quote = Mage::getModel('sales/quote');
             if ($this->getQuoteId()) {
                 $quote->load($this->getQuoteId());
                 if (!$quote->getId()) {
@@ -32,7 +32,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $this->setQuoteId($quote->getId());
             }
             if ($this->getQuoteId() && !$quote->getCustomerId()) {
-                $customerSession = Mage::getSingleton('customer', 'session');
+                $customerSession = Mage::getSingleton('customer/session');
                 if ($customerSession->isLoggedIn()) {
                     $quote->setCustomerId($customerSession->getCustomerId())->save();
                 }
@@ -45,7 +45,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getProcessedQuote()
     {
         if (!$this->_processedQuote) {
-            $this->_processedQuote = Mage::getModel('sales', 'quote_processed');
+            $this->_processedQuote = Mage::getModel('sales/quote_processed');
             if ($this->getQuote()->getProcessedQuoteId()) {
                 $this->_processedQuote->load($this->getQuote()->getProcessedQuoteId());
             } else {
@@ -57,8 +57,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function loadCustomerQuote()
     {
-        $customerId = Mage::getSingleton('customer', 'session')->getCustomerId();
-        $customerQuote = Mage::getModel('sales', 'quote');
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerQuote = Mage::getModel('sales/quote');
         if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getEntitiesByType('item') as $item) {

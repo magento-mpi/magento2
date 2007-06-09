@@ -50,8 +50,7 @@
                 <observers>
                     <log>
                         <type>singleton</type>
-                        <model>log</model>
-                        <class>visitor</class>
+                        <class>log/visitor</class>
                         <method>loadByAction</method>
                     </log>
                 </observers>
@@ -60,8 +59,7 @@
                 <observers>
                     <log>
                         <type>singleton</type>
-                        <model>log</model>
-                        <class>visitor</class>
+                        <class>log/visitor</class>
                         <method>bindCheckoutSession</method>
                     </log>
                 </observers>
@@ -70,8 +68,7 @@
                 <observers>
                     <log>
                         <type>singleton</type>
-                        <model>log</model>
-                        <class>visitor</class>
+                        <class>log/visitor</class>
                         <method>bindCustomer</method>
                     </log>
                 </observers>
@@ -80,8 +77,7 @@
                 <observers>
                     <log>
                         <type>singleton</type>
-                        <model>log</model>
-                        <class>visitor</class>
+                        <class>log/visitor</class>
                         <method>bindWebsite</method>
                     </log>
                 </observers>
@@ -90,8 +86,7 @@
                 <observers>
                     <log>
                         <type>singleton</type>
-                        <model>log</model>
-                        <class>visitor</class>
+                        <class>log/visitor</class>
                         <method>save</method>
                     </log>
                 </observers>

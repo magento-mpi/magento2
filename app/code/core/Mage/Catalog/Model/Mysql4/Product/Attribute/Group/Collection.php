@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Varie
         $this->_sqlSelect->from($this->_groupTable);
         $this->_sqlSelect->join($this->_setTable, "$this->_groupTable.set_id=$this->_setTable.set_id", 'set_id');
         $this->setOrder($this->_groupTable.'.position', 'asc');
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute_group'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute_group'));
     }
     
     public function addSetFilter($setId)

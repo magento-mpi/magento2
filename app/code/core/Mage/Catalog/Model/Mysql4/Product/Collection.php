@@ -29,14 +29,14 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     function __construct($config = array())
     {
         parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
-        $this->_attributes = Mage::getModel('catalog_resource', 'product_attribute_collection')->load();
+        $this->_attributes = Mage::getModel('catalog_resource/product_attribute_collection')->load();
         
         $this->_productTable        = Mage::registry('resources')->getTableName('catalog_resource', 'product');
         $this->_categoryProductTable= Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
 
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product'));
         $this->setWebsiteId(Mage::registry('website')->getId());
     }
     

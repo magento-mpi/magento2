@@ -18,7 +18,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
         $this->_optionTable    = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_option');
         
         $this->_sqlSelect->from($this->_optionTable);
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog', 'product_attribute_option'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute_option'));
     }
     
     public function setWebsiteId($websiteId)

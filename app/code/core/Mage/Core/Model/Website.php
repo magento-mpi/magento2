@@ -50,7 +50,7 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getSingleton('core_resource', 'website');
+        return Mage::getSingleton('core_resource/website');
     }
     
     /**
@@ -84,7 +84,7 @@ class Mage_Core_Model_Website extends Varien_Object
     {
         $arr = array();
         // TODO: depended from website id
-        $nodes = Mage::getModel('catalog_resource','category_tree')
+        $nodes = Mage::getModel('catalog_resource/category_tree')
             ->load(2,10) // TODO: from config
             ->getNodes();
         foreach ($nodes as $node) {
@@ -164,7 +164,7 @@ class Mage_Core_Model_Website extends Varien_Object
     {
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
-            Mage::getSingleton('core', 'session')->setCurrencyCode($code);
+            Mage::getSingleton('core/session')->setCurrencyCode($code);
         }
         return $this;
     }
@@ -176,9 +176,9 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getCurrentCurrencyCode()
     {
-        $code = Mage::getSingleton('core', 'session')->getCurrencyCode();
+        $code = Mage::getSingleton('core/session')->getCurrencyCode();
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
-            return Mage::getSingleton('core', 'session')->getCurrencyCode();
+            return Mage::getSingleton('core/session')->getCurrencyCode();
         }
         return $this->getDefaultCurrencyCode();
     }

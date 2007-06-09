@@ -35,7 +35,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = Mage::getSingleton('install', 'config')->getPathForCheck();
+        $config = Mage::getSingleton('install/config')->getPathForCheck();
         
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {
@@ -74,8 +74,8 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
             }
             
             if ($setError) {
-                Mage::getSingleton('install', 'session')->addMessage(
-                    Mage::getModel('core', 'message')->error(__('Path "%s" must be writable', $fullPath))
+                Mage::getSingleton('install/session')->addMessage(
+                    Mage::getModel('core/message')->error(__('Path "%s" must be writable', $fullPath))
                 );
                 $res = false;
             }

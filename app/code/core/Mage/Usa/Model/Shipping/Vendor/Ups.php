@@ -11,7 +11,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     public function getDefaults()
     {
         if (empty($this->_defaults)) {
-            $this->_defaults = Mage::getSingleton('sales', 'config')->getShippingConfig($this->_data['vendor']);
+            $this->_defaults = Mage::getSingleton('sales/config')->getShippingConfig($this->_data['vendor']);
         }
         return $this->_defaults;    
     }
@@ -91,7 +91,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     {
         $r = $this->_data;
         
-        $cgi = Mage::getSingleton('sales', 'config')->getShippingConfig($r['vendor'])->cgi;
+        $cgi = Mage::getSingleton('sales/config')->getShippingConfig($r['vendor'])->cgi;
         
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
@@ -138,17 +138,17 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
             }
         }
         
-        $result = Mage::getModel('sales', 'shipping_method_result');
+        $result = Mage::getModel('sales/shipping_method_result');
         $defaults = $this->getDefaults();
         if (empty($rArr)) {
-            $error = Mage::getModel('sales', 'shipping_method_service_error');
+            $error = Mage::getModel('sales/shipping_method_service_error');
             $error->setVendor($this->_data['vendor']);
             $error->setVendorTitle((string)$defaults->title);
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
             foreach ($rArr as $r) {
-                $quote = Mage::getModel('sales', 'shipping_method_service');
+                $quote = Mage::getModel('sales/shipping_method_service');
                 $quote->setVendor($this->_data['vendor']);
                 $quote->setVendorTitle((string)$defaults->title);
                 $quote->setService($r['service']);

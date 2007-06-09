@@ -27,7 +27,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Varien_Data_Collecti
         $ruleTable = Mage::registry('resources')->getTableName('sales_resource', 'quote_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales', 'quote_rule'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));
     }
     
     /**
@@ -50,7 +50,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Varien_Data_Collecti
     public function getEnv()
     {
         if (!$this->_env) {
-            $this->_env = Mage::getModel('sales', 'quote_rule_environment');
+            $this->_env = Mage::getModel('sales/quote_rule_environment');
             $this->_env->collect();
         }
         return $this->_env;

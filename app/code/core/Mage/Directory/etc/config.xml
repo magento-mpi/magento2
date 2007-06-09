@@ -81,8 +81,7 @@
                 <observers>
                     <directoryObserver>
                         <type>singleton</type>
-                        <model>directory</model>
-                        <class>observer</class>
+                        <class>directory/observer</class>
                         <method>actionPreDispatch</method>
                     </directoryObserver>
                 </observers>
@@ -91,8 +90,7 @@
                 <observers>
                     <addCurrencyInfo>
                         <type>singleton</type>
-                        <model>directory</model>
-                        <class>observer</class>
+                        <class>directory/observer</class>
                         <method>beforeSaveQuote</method>
                     </addCurrencyInfo>
                 </observers>
@@ -101,8 +99,7 @@
                 <observers>
                     <addCurrencyInfo>
                         <type>singleton</type>
-                        <model>directory</model>
-                        <class>observer</class>
+                        <class>directory/observer</class>
                         <method>beforeSaveOrder</method>
                     </addCurrencyInfo>
                 </observers>

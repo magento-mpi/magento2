@@ -14,13 +14,13 @@ class Mage_Checkout_Block_Onepage_Review extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('checkout/onepage/review/info.phtml');
         
-        $checkout = Mage::getSingleton('checkout', 'session');
+        $checkout = Mage::getSingleton('checkout/session');
         $quote = $checkout->getQuote();
         $this->assign('checkout', $checkout)->assign('quote', $quote);
         
         $billing = $quote->getAddressByType('billing');
         if (empty($billing)) {
-            $billing = Mage::getModel('sales', 'quote_entity_address');
+            $billing = Mage::getModel('sales/quote_entity_address');
         }
         $this->assign('billing', $billing);
         
@@ -41,7 +41,7 @@ class Mage_Checkout_Block_Onepage_Review extends Mage_Core_Block_Template
         
         $shipping = $quote->getAddressByType('shipping');
         if (empty($shipping)) {
-            $shipping = Mage::getModel('sales', 'quote_entity_address');
+            $shipping = Mage::getModel('sales/quote_entity_address');
         }
         $this->assign('shipping', $shipping);
         

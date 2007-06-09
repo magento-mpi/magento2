@@ -172,7 +172,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     function loadFromDb()
     {
         try{
-            Mage::getModel('core_resource', 'config')->updateXmlFromDb($this->_xml);
+            Mage::getModel('core_resource/config')->updateXmlFromDb($this->_xml);
         }
         catch (Exception $e) {
 
@@ -328,7 +328,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             $className = 'Mage_Core_Controller_Front_Router';
         }
         if ($singleton) {
-            $regKey = '_singleton_router_'.$routerName;
+            $regKey = '_singleton_router/'.$routerName;
             if (!Mage::registry($regKey)) {
                 Mage::register($regKey, new $className($constructArgs));
             }
@@ -360,14 +360,14 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
                 switch ((string)$observer->type) {
                     case 'singleton':
                         $callback = array(
-                            Mage::getSingleton((string)$observer->model, (string)$observer->class),
+                            Mage::getSingleton((string)$observer->class),
                             (string)$observer->method
                         );
                         break;
                     case 'object':
                     case 'model':
                         $callback = array(
-                            Mage::getModel((string)$observer->model, (string)$observer->class),
+                            Mage::getModel((string)$observer->class),
                             (string)$observer->method
                         );
                         break;
@@ -403,27 +403,28 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         return $path;
     }
 
-    public function getClassName($rootNode, $class)
+    public function getGrouppedClassName($groupRootNode, $class)
     {
         static $classNameCache = array();
 
-        if (isset($classNameCache[$rootNode][$class])) {
-            return $classNameCache[$rootNode][$class];
+        if (isset($classNameCache[$groupRootNode][$class])) {
+            return $classNameCache[$groupRootNode][$class];
         }
         
-        $config = $this->getNode($rootNode);
+        $config = $this->getNode($groupRootNode);
 
-        if (isset($config->subs->$class)) {
-            $className = (string)$config->subs->$class;
+        if (isset($config->classes->$class)) {
+            $className = (string)$config->classes->$class;
         } else {
             $className = $config->getClassName();
+if (stripos($class, 'manufacturer')!==false) echo "TEST:".$className;
 
             if (''!==$class) {
                 $className .= '_'.uc_words($class);
             }
         }
         
-        $classNameCache[$rootNode][$class] = $className;
+        $classNameCache[$groupRootNode][$class] = $className;
         
         return $className;
     }
@@ -434,7 +435,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         
         $typeArr = explode('/', $blockType);
         if (!empty($typeArr[1])) {
-            return $this->getClassName('global/block/groups/'.$typeArr[0], $typeArr[1]);
+            return $this->getGrouppedClassName('global/block/groups/'.$typeArr[0], $typeArr[1]);
         } else {
             if (isset($blockClassNameCache[$blockType])) {
                 return $blockClassNameCache[$blockType];
@@ -445,27 +446,30 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         }
     }
     
-    public function getModelClassName($model, $class)
+    public function getModelClassName($modelClass)
     {
-        return $this->getClassName('global/models/'.$model, $class);
+        $classArr = explode('/', $modelClass);
+        if (!isset($classArr[1])) {
+            return $modelClass;
+        }
+        return $this->getGrouppedClassName('global/models/'.$classArr[0], $classArr[1]);
     }
 
     /**
      * Get model class instance.
      *
      * Example:
-     * $config->getModelInstance('catalog', 'product')
+     * $config->getModelInstance('catalog/product')
      *
      * Will instantiate Mage_Catalog_Model_Mysql4_Product
      *
-     * @param string $model
      * @param string $class
      * @param array|object $constructArguments
      * @return Mage_Core_Model_Abstract
      */
-    public function getModelInstance($model, $class='', $constructArguments=array())
+    public function getModelInstance($modelClass='', $constructArguments=array())
     {
-        $className = $this->getModelClassName($model, $class);
+        $className = $this->getModelClassName($modelClass);
         
         return new $className($constructArguments);
     }

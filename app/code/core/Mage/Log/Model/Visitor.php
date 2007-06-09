@@ -4,7 +4,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getModel('log_resource', 'visitor');
+        return Mage::getModel('log_resource/visitor');
     }
     
     public function collectBrowserData()
@@ -57,7 +57,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if ($observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
             return $this;
         }
-        $this->load(Mage::getSingleton('core', 'session')->getSessionId());
+        $this->load(Mage::getSingleton('core/session')->getSessionId());
         return $this;
     }
     

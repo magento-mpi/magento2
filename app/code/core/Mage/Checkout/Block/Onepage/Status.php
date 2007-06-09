@@ -14,17 +14,17 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('checkout/onepage/status.phtml');
         
-        $checkout = Mage::getSingleton('checkout', 'session');
+        $checkout = Mage::getSingleton('checkout/session');
         $quote = $checkout->getQuote();
         
         $billing = $quote->getAddressByType('billing');
         if (empty($billing)) {
-            $billing = Mage::getModel('sales', 'quote_entity_address');
+            $billing = Mage::getModel('sales/quote_entity_address');
         }
         
         $payment = $quote->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales', 'quote_entity_payment');
+            $payment = Mage::getModel('sales/quote_entity_payment');
         }
         if ($payment) {
             $paymentMethodConfig = Mage::getConfig()->getNode('global/sales/payment/methods/'.$payment->getMethod());
@@ -42,7 +42,7 @@ class Mage_Checkout_Block_Onepage_Status extends Mage_Core_Block_Template
                 
         $shipping = $quote->getAddressByType('shipping');
         if (empty($shipping)) {
-            $shipping = Mage::getModel('sales', 'quote_entity_address');
+            $shipping = Mage::getModel('sales/quote_entity_address');
         }
 
         $this->assign('checkout', $checkout)->assign('quote', $quote)

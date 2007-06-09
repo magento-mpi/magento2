@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
      */
     public function getAttributes($groupId, $onlyVisible=false)
     {
-        $collection = Mage::getModel('catalog_resource', 'product_attribute_collection')
+        $collection = Mage::getModel('catalog_resource/product_attribute_collection')
             ->addGroupFilter($groupId)
             ->setOrder($this->_inSetTable.'.position', 'asc');
         if ($onlyVisible) {
@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
         $siblingGroup = false;
         $generalGroupId = $this->getGeneralSiblingId($groupId);
         if ($generalGroupId) {
-            $siblingGroup = Mage::getModel('catalog', 'product_attribute_group')->load($generalGroupId);
+            $siblingGroup = Mage::getModel('catalog/product_attribute_group')->load($generalGroupId);
             $attributes = $this->getAttributes($groupId);
         }
 

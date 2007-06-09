@@ -28,7 +28,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Sales_Model_Qu
     {
         $customer = $quote->getCustomer();
         if (!$customer) {
-            $custSess = Mage::getSingleton('customer', 'session');
+            $custSess = Mage::getSingleton('customer/session');
             if ($custSess->isLoggedIn()) {
                 $customer = $custSess->getCustomer();
             }

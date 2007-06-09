@@ -47,13 +47,13 @@
          <global>
             <collections>
                <products>
-                  <class>Mage_Catalog_Model_Admin_Search</class>
+                  <class>catalog/admin_search</class>
                </products>
                <customers>
-                  <class>Mage_Customer_Model_Admin_Search</class>
+                  <class>customers/admin_search</class>
                </customers>
                <sales>
-                  <class>Mage_Sales_Model_Admin_Search</class>
+                  <class>sales/admin_search</class>
                </sales>
             </collections>
          </global>

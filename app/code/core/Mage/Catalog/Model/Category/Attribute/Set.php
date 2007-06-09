@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Category_Attribute_Set extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'category_attribute_set');
+        return Mage::getSingleton('catalog_resource/category_attribute_set');
     }
 
     public function load($setId)
@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Category_Attribute_Set extends Varien_Object
     
     public function getAttributes()
     {
-        $collection = Mage::getModel('catalog_resource', 'category_attribute_collection')
+        $collection = Mage::getModel('catalog_resource/category_attribute_collection')
             ->addSetFilter($this->getId())
             ->setPositionOrder()
             ->load();

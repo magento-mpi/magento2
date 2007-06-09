@@ -118,7 +118,7 @@ class Mage_Customer_Model_Mysql4_Customer
         }
         catch (Exception $e){
             $this->_write->rollBack();
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE001'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE001'));
         }
         
         return $customer;
@@ -135,18 +135,18 @@ class Mage_Customer_Model_Mysql4_Customer
         // TODO: Zend_Validate for fields
         
         // Check uniq email
-        $testCustomer = Mage::getModel('customer', 'customer')->loadByEmail($data['email']);
+        $testCustomer = Mage::getModel('customer/customer')->loadByEmail($data['email']);
         
         if ($testCustomer->getId()) {
             if ($customer->getId()) {
                 if ($testCustomer->getId() != $customer->getId()) {
                     throw Mage::exception('Mage_Customer')
-                        ->addMessage(Mage::getModel('customer', 'message')->error('CSTE002'));
+                        ->addMessage(Mage::getModel('customer/message')->error('CSTE002'));
                 }
             }
             else {
                 throw Mage::exception('Mage_Customer')
-                    ->addMessage(Mage::getModel('customer', 'message')->error('CSTE003'));
+                    ->addMessage(Mage::getModel('customer/message')->error('CSTE003'));
             }
         }
         return $data;
@@ -161,7 +161,7 @@ class Mage_Customer_Model_Mysql4_Customer
     {
         if (is_null($customerId)) {
             throw Mage::exception('Mage_Customer')
-                ->addMessage(Mage::getModel('customer', 'message')->error('CSTE009'));
+                ->addMessage(Mage::getModel('customer/message')->error('CSTE009'));
         }
         
         $condition = $this->_write->quoteInto('customer_id=?', $customerId);
@@ -172,7 +172,7 @@ class Mage_Customer_Model_Mysql4_Customer
         }
         catch (Exception $e){
             throw Mage::exception('Mage_Customer')
-                ->addMessage(Mage::getModel('customer', 'message')->error('CSTE010'));
+                ->addMessage(Mage::getModel('customer/message')->error('CSTE010'));
         }
         return true;
     }
@@ -193,15 +193,15 @@ class Mage_Customer_Model_Mysql4_Customer
     {
         if ($checkCurrent) {
             if (empty($data['current_password'])) {
-                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE005'));
+                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
             }
             if (!$this->_checkPassword($customerId, $data['current_password'])) {
-                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE006'));
+                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
             }
         }
         
         if ($data['password'] != $data['confirmation']) {
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE007'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }
         
         $this->_write->beginTransaction();
@@ -213,7 +213,7 @@ class Mage_Customer_Model_Mysql4_Customer
         }
         catch (Exception $e){
             $this->_write->rollBack();
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer', 'message')->error('CSTE008'));
+            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE008'));
         }
         
         return $this;

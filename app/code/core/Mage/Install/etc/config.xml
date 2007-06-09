@@ -51,8 +51,7 @@
             <observers>
                <checkConnection>
                   <type>singleton</type>
-                  <model>core</model>
-                  <class>resource</class>
+                  <class>core/resource</class>
                   <method>checkDbConnection</method>
                </checkConnection>
             </observers>
@@ -61,8 +60,7 @@
             <observers>
                <checkConnection>
                   <type>singleton</type>
-                  <model>core</model>
-                  <class>resource</class>
+                  <class>core/resource</class>
                   <method>checkDbConnection</method>
                </checkConnection>
             </observers>

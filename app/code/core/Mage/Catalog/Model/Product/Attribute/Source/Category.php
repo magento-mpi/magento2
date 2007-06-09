@@ -12,7 +12,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Category extends Mage_Catalog_
     public function getArrOptions()
     {
         // TODO: use website root
-        $options = Mage::getModel('catalog_resource', 'category_tree')
+        $options = Mage::getModel('catalog_resource/category_tree')
             ->joinAttribute('name')
             ->load(1,5)
             ->getNodes();

@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource', 'category_attribute');
+        return Mage::getSingleton('catalog_resource/category_attribute');
     }
 
     public function load($attributeId)
@@ -81,10 +81,8 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
             $saverName = 'default';
         }
         
-        if ($config = Mage::getConfig()->getNode('global/catalog/category/attribute/savers/'.$saverName)) {
-            $module = (string) $config->module;
-            $model  = (string) $config->model;
-            $model = Mage::getModel($module, $model)->setAttribute($this);
+        if ($saver = Mage::getConfig()->getNode('global/catalog/category/attribute/savers/'.$saverName)) {
+            $model = Mage::getModel($saver->getClassName())->setAttribute($this);
             // TODO: check instanceof
             return $model;
         }

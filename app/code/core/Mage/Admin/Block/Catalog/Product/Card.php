@@ -27,14 +27,14 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         $typeId = Mage::registry('controller')->getRequest()->getParam('type', false);
         
         if ($productId) {
-            $product = Mage::getModel('catalog', 'product')->load($productId);
+            $product = Mage::getModel('catalog/product')->load($productId);
             $setId   = $product->getSetId();
             $typeId  = $product->getTypeId();
-            $set     = Mage::getModel('catalog', 'product_attribute_set')->load($product->getSetId());
+            $set     = Mage::getModel('catalog/product_attribute_set')->load($product->getSetId());
         }
         else {
             if (!$attributeSetId) {
-                $setCollection  = Mage::getModel('catalog_resource', 'product_attribute_set_collection')->load();
+                $setCollection  = Mage::getModel('catalog_resource/product_attribute_set_collection')->load();
                 if ($setCollection->getSize()) {
                     $set = $setCollection->getFirstItem();
                 }
@@ -43,7 +43,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 }
             }
             else {
-                $set = Mage::getModel('catalog', 'product_attribute_set')->load($attributeSetId);
+                $set = Mage::getModel('catalog/product_attribute_set')->load($attributeSetId);
             }
         }
         $urlPrefix = ($productId) ? 'product/'.$productId . '/' : '';
@@ -87,8 +87,8 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'title' => $group->getCode(),
                 'type'  => 'form',
                 'background' => true,
-                'form'  => Mage::getSingleton('core', 'layout')
-                            ->createBlock('admin/ctalog_product_form', 'p_form_'.$group->getCode())
+                'form'  => Mage::getSingleton('core/layout')
+                            ->createBlock('admin/catalog_product_form', 'p_form_'.$group->getCode())
                                 ->setGroupId($group->getId())
                                 ->render()
                                 ->toArray()

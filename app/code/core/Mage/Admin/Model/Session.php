@@ -19,8 +19,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Check current user permission on resource and privilege
      * 
-     * Mage::getSingleton('admin', 'session')->isAllowed('admin/catalog')
-     * Mage::getSingleton('admin', 'session')->isAllowed('catalog')
+     * Mage::getSingleton('admin/session')->isAllowed('admin/catalog')
+     * Mage::getSingleton('admin/session')->isAllowed('catalog')
      *
      * @param   string $resource
      * @param   string $privilege

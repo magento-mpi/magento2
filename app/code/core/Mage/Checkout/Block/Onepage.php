@@ -18,7 +18,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('checkout/onepage.phtml');
         
-        $this->_checkout = Mage::getSingleton('checkout', 'session');
+        $this->_checkout = Mage::getSingleton('checkout/session');
         $this->_quote = $this->_checkout->getQuote();
     }
     
@@ -26,7 +26,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     {
         $this->_steps = array();
         
-        if (!Mage::getSingleton('customer', 'session')->isLoggedIn()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
             $this->_steps['method'] = array();
             $this->_steps['method']['label'] = 'Checkout';
             $this->_steps['method']['allow'] = true;
@@ -71,7 +71,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         
         $block = $this->getLayout()->createBlock('core/template', 'checkout.method')
             ->setTemplate('checkout/onepage/method.phtml')
-            ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
+            ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)))
             ->assign('method', $this->_quote->getMethod())
             ->assign('data', $data);
@@ -86,7 +86,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             
         $billing = $this->_quote->getAddressByType('billing');
         if (empty($billing)) {
-            $billing = Mage::getModel('sales', 'quote_entity_address');
+            $billing = Mage::getModel('sales/quote_entity_address');
         }
         
         $shipping = $this->_quote->getAddressByType('shipping');
@@ -101,17 +101,17 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         
         // assign customer addresses
-        $customerSession = Mage::getSingleton('customer', 'session');
+        $customerSession = Mage::getSingleton('customer/session');
         if ($customerSession->isLoggedIn()) {
             $customer = $customerSession->getCustomer();
             $addresses = $customer->getAddressCollection();
             $block->assign('addresses', $addresses->getItems());
         }
         
-        $countries = Mage::getModel('directory_resource', 'country_collection');
+        $countries = Mage::getModel('directory_resource/country_collection');
         $block->assign('address', $billing)
             ->assign('useForShipping', $useForShipping)
-            ->assign('isCustomerLoggedIn',    Mage::getSingleton('customer', 'session')->isLoggedIn())
+            ->assign('isCustomerLoggedIn',    Mage::getSingleton('customer/session')->isLoggedIn())
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('method', $this->_quote->getMethod())
             ->assign('regions',     $countries->getDefault($billing->getCountryId())->getRegions());
@@ -123,7 +123,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     {
         $payment = $this->_quote->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales', 'quote_entity_payment');
+            $payment = Mage::getModel('sales/quote_entity_payment');
         }
         $payment->setCcNumber(null)->setCcCid(null);
         
@@ -155,18 +155,18 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
             
         $shipping = $this->_quote->getAddressByType('shipping');
         if (empty($shipping)) {
-            $shipping = Mage::getModel('sales', 'quote_entity_address');
+            $shipping = Mage::getModel('sales/quote_entity_address');
         }
         
         // assign customer addresses
-        $customerSession = Mage::getSingleton('customer', 'session');
+        $customerSession = Mage::getSingleton('customer/session');
         if ($customerSession->isLoggedIn()) {
             $customer = $customerSession->getCustomer();
             $addresses = $customer->getAddressCollection();
             $block->assign('addresses', $addresses->getItems());
         }
 
-        $countries = Mage::getModel('directory_resource', 'country_collection');
+        $countries = Mage::getModel('directory_resource/country_collection');
         $block->assign('address', $shipping)
             ->assign('countries',   $countries->loadByCurrentDomain())
             ->assign('regions',     $countries->getDefault($shipping->getCountryId())->getRegions());

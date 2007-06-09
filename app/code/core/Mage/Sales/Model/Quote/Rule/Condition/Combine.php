@@ -66,7 +66,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Combine extends Mage_Sales_Model_Quo
     
     public function loadArray($arr)
     {
-        $salesConfig = Mage::getSingleton('sales', 'config');
+        $salesConfig = Mage::getSingleton('sales/config');
         $this->setAttribute($arr['attribute'])
             ->setValue($arr['value']);
         

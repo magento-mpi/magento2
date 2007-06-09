@@ -53,7 +53,7 @@
 	
 	public function getAllLinearExample( )
 	{
-		$session = Mage::getModel('session_data');
+		$session = Mage::getModel('session_data/');
 		
 		$startPoint = time() - 24*60*60;
 		
@@ -74,7 +74,7 @@
 	
 	public function getNewLinearData()
 	{
-		$session = Mage::getModel('session_data');
+		$session = Mage::getModel('session_data/');
 		
 	
 		$startPoint = $session -> getData('startPoint');

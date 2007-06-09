@@ -119,7 +119,7 @@ final class Mage {
         if (is_null($websiteCode)) {
             $website = Mage::registry('website');
         } else {
-            $website = Mage::getModel('core', 'website')->setCode($websiteCode);
+            $website = Mage::getModel('core/website')->setCode($websiteCode);
         }
         return $website->getDir($type);
     }
@@ -216,16 +216,16 @@ final class Mage {
      * @param array $arguments
      * @return Mage_Core_Model_Abstract
      */
-    public static function getModel($model, $class='', $arguments=array())
+    public static function getModel($modelClass='', $arguments=array())
     {
-        return Mage::getConfig()->getModelInstance($model, $class, $arguments);
+        return Mage::getConfig()->getModelInstance($modelClass, $arguments);
     }
     
-    public static function getSingleton($model, $class='', array $arguments=array())
+    public static function getSingleton($modelClass='', array $arguments=array())
     {
-        $registryKey = '_singleton_'.$model.'_'.$class;
+        $registryKey = '_singleton/'.$modelClass;
         if (!Mage::registry($registryKey)) {
-            Mage::register($registryKey, Mage::getModel($model, $class, $arguments));
+            Mage::register($registryKey, Mage::getModel($modelClass, $arguments));
         }
         return Mage::registry($registryKey);
     }
@@ -264,9 +264,9 @@ final class Mage {
         Mage::getConfig()->init();
         Varien_Profiler::setTimer('config', true);
 
-        Mage::register('resources', Mage::getSingleton('core', 'resource'));
-        Mage::register('website', Mage::getSingleton('core', 'website'));
-        Mage::register('session', Mage::getSingleton('core', 'session'));
+        Mage::register('resources', Mage::getSingleton('core/resource'));
+        Mage::register('website', Mage::getSingleton('core/website'));
+        Mage::register('session', Mage::getSingleton('core/session'));
         
         Varien_Profiler::setTimer('init', true);
 
@@ -375,7 +375,7 @@ final class Mage {
 function __()
 {
     $args = func_get_args();
-    return Mage::getSingleton('core', 'translate')->translate($args);
+    return Mage::getSingleton('core/translate')->translate($args);
 }
 
 /**

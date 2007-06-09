@@ -56,7 +56,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
     public function getMessages($clear=false)
     {
         if (!$this->_session->messages) {
-            $this->_session->messages = Mage::getModel('core', 'message_collection');
+            $this->_session->messages = Mage::getModel('core/message_collection');
         }
         
         if ($clear) {

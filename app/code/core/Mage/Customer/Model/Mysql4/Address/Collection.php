@@ -20,7 +20,7 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
         self::$_typeTable       = Mage::registry('resources')->getTableName('customer_resource', 'address_type');
         self::$_typeLinkTable   = Mage::registry('resources')->getTableName('customer_resource', 'address_type_link');
         $this->_sqlSelect->from(self::$_addressTable);
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer', 'address'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/address'));
     }
     
     public function load($printQuery = false, $logQuery = false)

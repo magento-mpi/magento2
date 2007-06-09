@@ -19,7 +19,7 @@ class Mage_Core_Block_Website extends Mage_Core_Block_Template
         foreach ($websites as $websiteCode => $websiteInfo) {
             if ($websiteCode!='admin') {
             	if (Mage::registry('website')->getLanguage() != $websiteInfo['language']) {
-            	    $website = Mage::getModel('core', 'website')->setCode($websiteCode);
+            	    $website = Mage::getModel('core/website')->setCode($websiteCode);
             	    $arrLanguages[$websiteInfo['language']] = $website->getUrl(array());
             	}
             	else {

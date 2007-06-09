@@ -17,7 +17,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect('noRoute');
         }
         
-        if (!Mage::getSingleton('customer', 'session')->authenticate($this)) {
+        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -26,7 +26,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $collection = Mage::getSingleton('customer', 'session')->getCustomer()
+        $collection = Mage::getSingleton('customer/session')->getCustomer()
             ->getWishlistCollection();
         
         $collection->getProductCollection()
@@ -47,17 +47,17 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
         if (!empty($p['wishlist'])) {
             foreach ($p['wishlist'] as $itemId=>$dummy) {
                 if (isset($p['to_cart'][$itemId])) {
-                    $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
+                    $wishlist = Mage::getModel('customer/wishlist')->load($itemId);
                     
-                    $product = Mage::getModel('catalog', 'product')->load($wishlist->getProductId())->setQty(1);
+                    $product = Mage::getModel('catalog/product')->load($wishlist->getProductId())->setQty(1);
                     
-                    $quote = Mage::getSingleton('checkout', 'session')->getQuote();
+                    $quote = Mage::getSingleton('checkout/session')->getQuote();
                     $quote->addProduct($product)->save();
                     
                     $wishlist->delete();
                 }
                 if (isset($p['remove'][$itemId])) {
-                    $wishlist = Mage::getModel('customer', 'wishlist')->load($itemId);
+                    $wishlist = Mage::getModel('customer/wishlist')->load($itemId);
                     $wishlist->delete();
                 }
             }
@@ -73,7 +73,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
     {
         $productId = $this->getRequest()->getParam('product');
         try {
-            Mage::getModel('customer', 'wishlist')->setProductId($productId)->save();
+            Mage::getModel('customer/wishlist')->setProductId($productId)->save();
         }
         catch (Exception $e){
             

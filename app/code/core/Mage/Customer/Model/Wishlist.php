@@ -16,7 +16,7 @@ class Mage_Customer_Model_Wishlist extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getSingleton('customer_resource', 'wishlist');
+        return Mage::getSingleton('customer_resource/wishlist');
     }
     
     public function load($itemId)
@@ -31,7 +31,7 @@ class Mage_Customer_Model_Wishlist extends Varien_Object
             $this->setAddDate(new Zend_Db_Expr('NOW()'));
         }
         
-        $this->setCustomerId(Mage::getSingleton('customer', 'session')->getCustomerId());
+        $this->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
 
         if ($this->getResource()->loadByCustomerProduct($this->getCustomerId(), $this->getProductId())) {
             return $this;

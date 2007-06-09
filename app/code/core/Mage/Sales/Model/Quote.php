@@ -10,10 +10,10 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     public function getEntityTemplates()
     {
         return array(
-            'item'=>Mage::getModel('sales', 'quote_entity_item'),
-            'address'=>Mage::getModel('sales', 'quote_entity_address'),
-            'payment'=>Mage::getModel('sales', 'quote_entity_payment'),
-            'shipping'=>Mage::getModel('sales', 'quote_entity_shipping'),
+            'item'=>Mage::getModel('sales/quote_entity_item'),
+            'address'=>Mage::getModel('sales/quote_entity_address'),
+            'payment'=>Mage::getModel('sales/quote_entity_payment'),
+            'shipping'=>Mage::getModel('sales/quote_entity_shipping'),
         );
     }
     
@@ -31,7 +31,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         if (!empty($old)) {
             $this->removeEntity($old);
         }
-        $entity = Mage::getModel('sales', 'quote_entity_address')->addData($address->getData());
+        $entity = Mage::getModel('sales/quote_entity_address')->addData($address->getData());
         $this->addEntity($entity);
         return $this;
     }
@@ -51,7 +51,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         foreach ($this->getEntitiesByType('payment') as $oldPayment) {
             $this->removeEntity($oldPayment);
         }
-        $entity = Mage::getModel('sales', 'quote_entity_payment')
+        $entity = Mage::getModel('sales/quote_entity_payment')
             ->addData($payment->getData());
         $this->addEntity($entity);
         return $this;
@@ -59,7 +59,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function loadByCustomerId($customerId)
     {
-        $quotes = Mage::getModel('sales_resource', 'quote')->getQuoteIdsByCustomerId($customerId);
+        $quotes = Mage::getModel('sales_resource/quote')->getQuoteIdsByCustomerId($customerId);
         if (empty($quotes)) {
             return false;
         }
@@ -90,7 +90,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         }
         
         if (!$itemFound) {
-            $itemFound = Mage::getModel('sales', 'quote_entity_item')
+            $itemFound = Mage::getModel('sales/quote_entity_item')
                 ->addData($product->getData())
                 ->setEntityType('item');
             $this->addEntity($itemFound);
@@ -122,11 +122,11 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                     continue;
                 }
                 if (!empty($itemUpd['wishlist'])) {
-                    Mage::getModel('customer', 'wishlist')->setProductId($item->getProductId())->save();
+                    Mage::getModel('customer/wishlist')->setProductId($item->getProductId())->save();
                     $this->removeEntity($id);
                 }
                 
-                $product = Mage::getModel('catalog', 'product')->load($item->getProductId());
+                $product = Mage::getModel('catalog/product')->load($item->getProductId());
                 $item->setQty($itemUpd['qty']);
                 $item->setPrice($product->getTierPrice($item->getQty()));
             }
@@ -176,7 +176,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
 
     public function estimateShippingMethods()
     {
-        $request = Mage::getModel('sales', 'shipping_method_request');
+        $request = Mage::getModel('sales/shipping_method_request');
         $request->setDestCountryId(223);
         $request->setDestRegionId(1);
         $request->setDestPostcode($this->getEstimatePostcode());
@@ -235,7 +235,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
                 continue;
             }
             
-            $request = Mage::getModel('sales', 'shipping_method_request');
+            $request = Mage::getModel('sales/shipping_method_request');
             $request->setDestCountryId($address->getCountryId());
             $request->setDestRegionId($address->getRegionId());
             $request->setDestPostcode($address->getPostcode());
@@ -250,14 +250,14 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     {
         $this->removeAddressShippingMethods($request->getAddressEntityId());
         
-        $result = Mage::getModel('sales', 'shipping')->collectMethods($request);
+        $result = Mage::getModel('sales/shipping')->collectMethods($request);
         if (!$result) {
             return $this;
         }
         $methods = $result->getAllMethods();
         
         foreach ($methods as $method) {
-            $shipping = Mage::getModel('sales', 'quote_entity_shipping');
+            $shipping = Mage::getModel('sales/quote_entity_shipping');
             if ($method instanceof Mage_Sales_Model_Shipping_Method_Service_Error) {
                 $shipping->setVendor($method->getVendor());
                 $shipping->setErrorMessage($method->getErrorMessage());
@@ -296,9 +296,9 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $website = Mage::registry('website');
         $now = new Zend_Db_Expr("now()");
         
-        $order = Mage::getModel('sales', 'order')->addData($this->getData());
+        $order = Mage::getModel('sales/order')->addData($this->getData());
         
-        $order->setRealOrderId(Mage::getModel('sales_resource', 'counter')->getCounter('order'))            
+        $order->setRealOrderId(Mage::getModel('sales_resource/counter')->getCounter('order'))            
             ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
             ->setCreatedAt($now)
             ->setWebsiteId($website->getId())
@@ -309,14 +309,14 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         foreach (array('item', 'address', 'payment') as $entityType) {
             $entities = $this->getEntitiesByType($entityType);
             foreach ($entities as $quoteEntity) {
-                $entity = Mage::getModel('sales', 'order_entity_'.$entityType)->addData($quoteEntity->getData());
+                $entity = Mage::getModel('sales/order_entity_'.$entityType)->addData($quoteEntity->getData());
                 $order->addEntity($entity);
             }
         }
         
         $status = $this->getPayment()->getOrderStatus();
         $order->setStatus($status);
-        $statusEntity = Mage::getModel('sales', 'order_entity_status')
+        $statusEntity = Mage::getModel('sales/order_entity_status')
             ->setStatus($status)
             ->setCreatedAt($now);
             
