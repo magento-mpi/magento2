@@ -25,7 +25,7 @@ class Mage_Datafeed_CategoriesController extends Mage_Core_Controller_Front_Acti
         $channel->setTitle("Avaliable products categries");
         $channel->setDescription("Description of this channel");
 
-        $block = $this->getLayout()->createBlock('tpl', 'export');
+        $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Category/rss20.phtml')
             ->assign('data', Mage::getModel('datafeed', 'export_catalog_category')->getCategoriesList($parentId));
 
@@ -40,7 +40,7 @@ class Mage_Datafeed_CategoriesController extends Mage_Core_Controller_Front_Acti
         $parentId = intval($this->getRequest()->getParam('category'));
         $parentId = ( $parentId >1 ) ? $parentId : 1;
 
-        $block = $this->getLayout()->createBlock('tpl', 'export');
+        $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Category/csv.phtml')
             ->assign('data', Mage::getModel('datafeed', 'export_catalog_category')->getCategoriesList($parentId));
 

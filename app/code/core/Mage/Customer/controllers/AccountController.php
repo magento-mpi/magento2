@@ -29,7 +29,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('customer_account', 'customer.account')
+        $block = $this->getLayout()->createBlock('customer/account', 'customer.account')
             ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true));
             
@@ -42,7 +42,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('customer_login', 'customer.login')
+        $block = $this->getLayout()->createBlock('customer/login', 'customer.login')
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)));
         $this->getLayout()->getBlock('content')->append($block);
@@ -99,7 +99,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $data = new Varien_Object();
         }
 
-        $block = $this->getLayout()->createBlock('tpl', 'customer.regform')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.regform')
             ->setTemplate('customer/form/registration.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'createPost', '_secure'=>true)))
             ->assign('countries',   $countries->loadByCurrentDomain())
@@ -158,7 +158,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.forgotpassword')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.forgotpassword')
             ->setTemplate('customer/form/forgotpassword.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpasswordpost')))
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
@@ -217,7 +217,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $data = Mage::getSingleton('customer', 'session')->getCustomer();
         }
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.edit')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.edit')
             ->setTemplate('customer/form/edit.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'editPost')))
             ->assign('data',        $data)
@@ -260,7 +260,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.changepassword')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.changepassword')
             ->setTemplate('customer/form/changepassword.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost', '_secure'=>true)))
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true));
@@ -295,7 +295,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.newsletter')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
             ->setTemplate('customer/form/newsletter.phtml');
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -311,7 +311,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.balance')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
             ->setTemplate('customer/balance.phtml')
             ->assign('messages',    Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('customer', Mage::getSingleton('customer', 'session')->getCustomer());

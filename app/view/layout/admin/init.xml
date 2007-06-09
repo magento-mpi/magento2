@@ -1,182 +1,182 @@
 <?xml version="1.0"?>
 <layoutUpdate> 
-    <block type="tpl" name="root" output="toHtml">
+    <block type="core/template" name="root" output="toHtml">
         <action method="setTemplate"><template>admin/layout.phtml</template></action>
         <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
         <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/admin</value></action>
 
-        <block type="list" name="head" as="head">
-            <block type="tag" name="head.title">
+        <block type="core/text_list" name="head" as="head">
+            <block type="core/text_tag" name="head.title">
                 <action method="setTagName"><tag>title</tag></action>
                 <action method="setContents"><contents>Magento Admin</contents></action>
             </block>
 
-            <block type="tag" name="head.icon">
+            <block type="core/text_tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
-            <block type="tag" name="head.shortcut_icon">
+            <block type="core/text_tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
             </block>
 
-            <block type="tag" name="head.css.styles">
+            <block type="core/text_tag" name="head.css.styles">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>stylesheet</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}skins/admin/styles.css</value></action>
                 <action method="setTagParam"><name>type</name><value>text/css</value></action>
             </block>
 
-            <block type="tag_css" name="jscripts.css.ext.all">
+            <block type="core/text_tag_css" name="jscripts.css.ext.all">
                 <action method="setHref"><href>extjs/resources/css/ext-all.css</href><locate>js</locate></action>
             </block>
 
-            <block type="tag_css_theme" name="jscripts.css.ext.theme">
+            <block type="core/text_tag_css_admin" name="jscripts.css.ext.theme">
                 <action method="setTagParam"><name>id</name><value>theme_stylesheet</value></action>
                 <action method="setHref"><href>extjs/resources/css/ytheme-</href><locate>js</locate></action>
             </block>
         </block>
 
-        <block type="list" name="jscripts" as="jscripts">
+        <block type="core/text_list" name="jscripts" as="jscripts">
             <!--  BEGIN LOAD EXT-YUI -->
-            <block type="tag_js" name="jscripts.js.yui.utilities">
+            <block type="core/text_tag_js" name="jscripts.js.yui.utilities">
                 <action method="setSrc"><src>extjs/adapter/yui/yui-utilities.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.ext.yui.adapter">
+            <block type="core/text_tag_js" name="jscripts.js.ext.yui.adapter">
                 <action method="setSrc"><src>extjs/adapter/yui/ext-yui-adapter.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.ext.all.debug">
+            <block type="core/text_tag_js" name="jscripts.js.ext.all.debug">
                 <action method="setSrc"><src>extjs/ext-all.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.ext.infopanel">
+            <block type="core/text_tag_js" name="jscripts.js.ext.infopanel">
                 <action method="setSrc"><src>magenta/Ext.InfoPanel.js</src></action>
             </block>
             <!--  END LOAD EXT-YUI -->
-            <block type="tag_js" name="jscripts.js.ext.filteredViewGrid">
+            <block type="core/text_tag_js" name="jscripts.js.ext.filteredViewGrid">
                 <action method="setSrc"><src>magenta/filteredViewGrid.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.cookies">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.cookies">
                 <action method="setSrc"><src>magenta/core/cookies.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.mage">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.mage">
                 <action method="setSrc"><src>magenta/mage.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.wizard">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.wizard">
                 <action method="setSrc"><src>magenta/core/Wizard.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.flex">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.flex">
                 <action method="setSrc"><src>magenta/FlexObject.js</src></action>
             </block>
-			<block type="tag_js" name="jscripts.js.magenta.flex.upload">
+			<block type="core/text_tag_js" name="jscripts.js.magenta.flex.upload">
                 <action method="setSrc"><src>magenta/FlexUpload.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.search">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.search">
                 <action method="setSrc"><src>magenta/core/search.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.form">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.form">
                 <action method="setSrc"><src>magenta/form.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.form.jsonform">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.form.jsonform">
                 <action method="setSrc"><src>magenta/form/jsonform.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.form.filefield">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.form.filefield">
                 <action method="setSrc"><src>magenta/form/FileField.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core">
                 <action method="setSrc"><src>magenta/core.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.tasks">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.tasks">
                 <action method="setSrc"><src>magenta/tasks.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.menu">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.menu">
                 <action method="setSrc"><src>magenta/core/menu.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.blocks">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.blocks">
                 <action method="setSrc"><src>magenta/core/blocks.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.config">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.config">
                 <action method="setSrc"><src>magenta/core/config.js</src></action>
             </block>            
-            <block type="tag_js" name="jscripts.js.magenta.core.media">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.media">
                 <action method="setSrc"><src>magenta/core/media.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.itemcard">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.itemcard">
                 <action method="setSrc"><src>magenta/core/itemcard.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel">
                 <action method="setSrc"><src>magenta/core/panel.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.form">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.form">
                 <action method="setSrc"><src>magenta/core/panel/form.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.view">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.view">
                 <action method="setSrc"><src>magenta/core/panel/view.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.related">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.related">
                 <action method="setSrc"><src>magenta/core/panel/related.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.images">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.images">
                 <action method="setSrc"><src>magenta/core/panel/images.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.categoreis">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.categoreis">
                 <action method="setSrc"><src>magenta/core/panel/categories.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.magenta.core.panel.address">
+            <block type="core/text_tag_js" name="jscripts.js.magenta.core.panel.address">
                 <action method="setSrc"><src>magenta/core/panel/address.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.auth">
+            <block type="core/text_tag_js" name="jscripts.js.auth">
                 <action method="setSrc"><src>magenta/auth.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.auth.menu">
+            <block type="core/text_tag_js" name="jscripts.js.auth.menu">
                 <action method="setSrc"><src>magenta/auth/menu.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.product.productselect">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.product.productselect">
                 <action method="setSrc"><src>magenta/catalog/product/productselect.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog">
+            <block type="core/text_tag_js" name="jscripts.js.catalog">
                 <action method="setSrc"><src>magenta/catalog.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.product">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.product">
                 <action method="setSrc"><src>magenta/catalog/product.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.product.attributes">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.product.attributes">
                 <action method="setSrc"><src>magenta/catalog/product/attributes.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.product.link">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.product.link">
                 <action method="setSrc"><src>magenta/catalog/product/link.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.category.attributes">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.category.attributes">
                 <action method="setSrc"><src>magenta/catalog/category/attributes.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.category">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.category">
                 <action method="setSrc"><src>magenta/catalog/category.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.category.createform">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.category.createform">
                 <action method="setSrc"><src>magenta/catalog/category/createform.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.category.tree">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.category.tree">
                 <action method="setSrc"><src>magenta/catalog/tree.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.catalog.menu">
+            <block type="core/text_tag_js" name="jscripts.js.catalog.menu">
                 <action method="setSrc"><src>magenta/catalog/menu.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.customer">
+            <block type="core/text_tag_js" name="jscripts.js.customer">
                 <action method="setSrc"><src>magenta/customer.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.customer.menu">
+            <block type="core/text_tag_js" name="jscripts.js.customer.menu">
                 <action method="setSrc"><src>magenta/customer/menu.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.sales">
+            <block type="core/text_tag_js" name="jscripts.js.sales">
                 <action method="setSrc"><src>magenta/sales.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.sales.menu">
+            <block type="core/text_tag_js" name="jscripts.js.sales.menu">
                 <action method="setSrc"><src>magenta/sales/menu.js</src></action>
             </block>
-            <block type="tag_js" name="jscripts.js.sales.price_rules">
+            <block type="core/text_tag_js" name="jscripts.js.sales.price_rules">
                 <action method="setSrc"><src>magenta/sales/rules.js</src></action>
             </block>
         </block>

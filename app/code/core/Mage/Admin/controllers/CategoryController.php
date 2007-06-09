@@ -15,13 +15,13 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
      */
     public function newAction()
     {
-        $form = $this->getLayout()->createBlock('admin_category_form', 'category_form');
+        $form = $this->getLayout()->createBlock('admin/catalog_category_form', 'category_form');
         $this->getResponse()->setBody($form->toHtml());
     }
     
     public function formAction()
     {
-        $form = $this->getLayout()->createBlock('admin_category_form', 'category_form_json');
+        $form = $this->getLayout()->createBlock('admin/catalog_category_form', 'category_form_json');
 
         $tabConfig = Array(
             "panelConfig" => Array(

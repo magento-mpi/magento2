@@ -42,7 +42,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $data['cart'] = $cartData;
         }        
         
-        $block = $this->getLayout()->createBlock('tpl', 'cart.view')
+        $block = $this->getLayout()->createBlock('core/template', 'cart.view')
             ->setTemplate($cartView)
             ->assign('data', $data)
             ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))

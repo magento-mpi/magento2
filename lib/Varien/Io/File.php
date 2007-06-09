@@ -226,6 +226,13 @@ class Varien_Io_File extends Varien_Io_Abstract
     /**
      * Get list of cwd subdirectories and files
      * 
+     * Suggestions (from moshe):
+     * - Use filemtime instead of filectime for performance
+     * - Change $grep to $flags and use binary flags
+     *   - LS_DIRS  = 1
+     *   - LS_FILES = 2
+     *   - LS_ALL   = 3
+     * 
      * @param Varien_Io_File const
      * @access public
      * @return array

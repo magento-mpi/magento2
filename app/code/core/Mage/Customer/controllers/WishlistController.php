@@ -33,7 +33,7 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
             ->addAttributeToSelect('name');
         $collection->load();    
         
-        $block = $this->getLayout()->createBlock('tpl', 'wishlist')
+        $block = $this->getLayout()->createBlock('core/template', 'wishlist')
             ->setTemplate('customer/wishlist.phtml')
             ->assign('wishlist', $collection);
         $this->getLayout()->getBlock('content')->append($block);

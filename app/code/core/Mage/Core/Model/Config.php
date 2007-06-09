@@ -403,40 +403,15 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         return $path;
     }
 
-    /**
-     * Load step for an area.
-     *
-     * Goes over installed modules and checks for existance of class for the $areaName.
-     * For example: Mage_Core_Module_Front
-     * After that checks for existance of $methodName and if exists - executes.
-     *
-     * @param string $areaName
-     * @param string $methodName
-     */
-    public function loadStep($areaName, $methodName)
+    public function getClassName($rootNode, $class)
     {
-        $this->loadStep('all', $methodName);
+        static $classNameCache = array();
 
-        $modules = $this->getNode('modules');
-        foreach ($modules as $module) {
-            $area = $module->$areaName;
-            if (empty($area)) {
-                continue;
-            }
-            $load = $area->useModuleSteps;
-            if (!$area->is('useModuleSteps')) {
-                continue;
-            }
-            $callback = array($moduleName.'_Module_'.uc_words($areaName), $methodName);
-            if (is_callable($callback)) {
-                call_user_func($callback);
-            }
+        if (isset($classNameCache[$rootNode][$class])) {
+            return $classNameCache[$rootNode][$class];
         }
-    }
-
-    public function getModelClassName($model, $class)
-    {
-        $config = $this->getNode('global/models/'.$model);
+        
+        $config = $this->getNode($rootNode);
 
         if (isset($config->subs->$class)) {
             $className = (string)$config->subs->$class;
@@ -447,7 +422,32 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
                 $className .= '_'.uc_words($class);
             }
         }
+        
+        $classNameCache[$rootNode][$class] = $className;
+        
         return $className;
+    }
+    
+    public function getBlockClassName($blockType)
+    {
+        static $blockClassNameCache = array();
+        
+        $typeArr = explode('/', $blockType);
+        if (!empty($typeArr[1])) {
+            return $this->getClassName('global/block/groups/'.$typeArr[0], $typeArr[1]);
+        } else {
+            if (isset($blockClassNameCache[$blockType])) {
+                return $blockClassNameCache[$blockType];
+            }
+            $className = $this->getNode('global/block/types/'.$typeArr[0])->getClassName();
+            $blockClassNameCache[$blockType] = $className;
+            return $className;
+        }
+    }
+    
+    public function getModelClassName($model, $class)
+    {
+        return $this->getClassName('global/models/'.$model, $class);
     }
 
     /**
@@ -515,22 +515,6 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     public function getResourceTypeConfig($type)
     {
         return $this->getNode("global/resource/connection/types/$type");
-    }
-
-     /**
-     * Get block type(s) from config
-     *
-     * @param string $type
-     * @return Varien_Simplexml_Object
-     */
-    public function getBlockTypeConfig($type='')
-    {
-        $types = $this->getNode("global/block/types");
-        if (''===$type) {
-            return $types;
-        } else {
-            return $types->$type;
-        }
     }
 
     public function getWebsiteConfig($website='base')

@@ -14,7 +14,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         // Load default layout
-        $block = $this->getLayout()->createBlock('tpl', 'upload');
+        $block = $this->getLayout()->createBlock('core/template', 'upload');
         $block->settemplate('test/index.phtml');
 
         $this->getResponse()->setBody($block->toHtml());

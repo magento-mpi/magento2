@@ -77,6 +77,7 @@
         </models>
     
         <block>
+            <groups><core><class>Mage_Core_Block</class></core></groups>
             <types>
                 <text>
                     <class>Mage_Core_Block_Text</class>

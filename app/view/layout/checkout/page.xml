@@ -2,11 +2,11 @@
 <layoutUpdate>
     <reference name="left">
         <action method="unsetChildren"></action>
-        <block type="checkout_onepage_status" name="checkout.status" before="-"/>
+        <block type="checkout/onepage_status" name="checkout.status" before="-"/>
     </reference>
     
     <reference name="content">
-        <block type="checkout_onepage" name="checkout.onepage">
+        <block type="checkout/onepage" name="checkout.onepage">
             <action method="init"/>
         </block>
     </reference>

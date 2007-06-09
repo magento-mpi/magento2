@@ -104,7 +104,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        $form = $this->getLayout()->createBlock('admin_product_create_dialog', 'product_create_option');
+        $form = $this->getLayout()->createBlock('admin/catalog_product_createOption', 'product_create_option');
         $this->getResponse()->setBody($form->toHtml());
     }
     
@@ -119,14 +119,14 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function cardAction()
     {
-        $card = $this->getLayout()->createBlock('admin_product_card', 'product_card');
+        $card = $this->getLayout()->createBlock('admin/catalog_product_card', 'product_card');
         $this->getResponse()->setBody($card->toJson());
     }
     
     public function viewAction()
     {
         $product = Mage::getModel('catalog', 'product')->load($this->getRequest()->getParam('product'));
-        $block = $this->getLayout()->createBlock('tpl', 'product.view')
+        $block = $this->getLayout()->createBlock('core/template', 'product.view')
             ->setTemplate('admin/catalog/view.phtml')
             ->assign('product', $product);
         $this->getResponse()->setBody($block->toHtml());
@@ -136,7 +136,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         $id = $this->getRequest()->getParam('product', -1);
         $product = Mage::getModel('catalog', 'product')->load($id);
-        $block = $this->getLayout()->createBlock('tpl', 'root');
+        $block = $this->getLayout()->createBlock('core/template', 'root');
         if ($this->getRequest()->getParam('iframe')) {
             $block->setTemplate('catalog/product/images/iframe.phtml');
             $block->assign('imagePreviewUrl', $product->getImageUrl());
@@ -279,7 +279,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function relatedTabAction()
     {
         $productId = $this->getRequest()->getParam('product');
-        $block = $this->getLayout()->createBlock('tpl', 'related_products_panel')
+        $block = $this->getLayout()->createBlock('core/template', 'related_products_panel')
             ->setTemplate('catalog/product/related_products.phtml')
             ->assign('postAction', Mage::getBaseUrl().'product/save/product/'.$productId.'/');
         $this->getResponse()->setBody($block->toHtml());
@@ -351,7 +351,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function categoryTabAction()
     {
         $productId = $this->getRequest()->getParam('product');
-        $block = $this->getLayout()->createBlock('tpl', 'product_categories_panel')
+        $block = $this->getLayout()->createBlock('core/template', 'product_categories_panel')
             ->setTemplate('catalog/product/categories.phtml')
             ->assign('postAction', Mage::getBaseUrl().'product/save/product/'.$productId.'/');
         $this->getResponse()->setBody($block->toHtml());

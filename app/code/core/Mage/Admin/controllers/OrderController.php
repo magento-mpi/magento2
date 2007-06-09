@@ -101,7 +101,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         $id = $this->getRequest()->getParam('id', 0);
         $order = Mage::getModel('sales', 'order')->load($id);
         
-        $block = $this->getLayout()->createBlock('tpl', 'order.view')
+        $block = $this->getLayout()->createBlock('core/template', 'order.view')
             ->setTemplate('sales/order/view.phtml')
             ->assign('order', $order)
             ->assign('formAction', Mage::getBaseUrl().'admin/order/saveOrder/id/'.(int)$id);

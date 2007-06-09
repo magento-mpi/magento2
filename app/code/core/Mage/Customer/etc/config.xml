@@ -14,14 +14,7 @@
    </modules>
    <global>
       <block>
-         <types>
-            <customer_login>
-               <class>Mage_Customer_Block_Login</class>
-            </customer_login>
-            <customer_account>
-               <class>Mage_Customer_Block_Account</class>
-            </customer_account>
-         </types>
+	     <groups><customer><class>Mage_Customer_Block</class></customer></groups>
       </block>
       <models>
          <customer>

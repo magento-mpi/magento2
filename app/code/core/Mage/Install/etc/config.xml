@@ -31,11 +31,7 @@
       </resources>
       
       <block>
-        <types>
-         <install_state>
-            <class>Mage_Install_Block_State</class>
-         </install_state>
-       </types>
+	    <groups><install><class>Mage_Install_Block</class></install></groups>
       </block>
    </global>
    

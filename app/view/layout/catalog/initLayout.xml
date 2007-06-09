@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="top.forms">
-        <block type="tpl" name="search.form.mini">
+        <block type="core/template" name="search.form.mini">
             <action method="setTemplate"><template>catalog/search/form.mini.phtml</template></action>
         </block>
     </reference>
     
     <reference name="left">
-        <block type="catalog_navigation" name="catalog.leftnav" before="-">
+        <block type="catalog/navigation" name="catalog.leftnav" before="-">
             <action method="setTemplate"><template>catalog/leftnav.phtml</template></action>
             <action method="loadCategories"><parent>1</parent></action>
             <action method="loadProductManufacturers"></action>

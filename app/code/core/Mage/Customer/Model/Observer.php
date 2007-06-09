@@ -22,24 +22,24 @@ class Mage_Customer_Model_Observer
         if(!$topLinks){
             return false;
         }
-        $topLinks->append($layout->createBlock('list_link', 'top.links.wishlist')
+        $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.wishlist')
             ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', __('Wishlist'), ''));
 
         // Add logout link
         $custSession = Mage::getSingleton('customer', 'session');
         if ($custSession->isLoggedIn()) {
             if ($topLinks) {
-                $topLinks->append($layout->createBlock('list_link', 'top.links.logout')
+                $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.logout')
                     ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', __('Logout'), ''));
             }
             
             $topMenu = $layout->getBlock('top.menu');
             if ($topMenu) {
-                $topMenu->insert($layout->createBlock('tag', 'top.menu.welcome.separator')
+                $topMenu->insert($layout->createBlock('core/text_tag', 'top.menu.welcome.separator')
                     ->setTagName('span')
                     ->setTagParam('class', 'separator')
                     ->setContents('|'));
-                $topMenu->insert($layout->createBlock('tag', 'top.menu.welcome')
+                $topMenu->insert($layout->createBlock('core/text_tag', 'top.menu.welcome')
                     ->setTagName('strong')
                     ->setContents(__('Welcome').', ' . $custSession->getCustomer()->getName()));
             }

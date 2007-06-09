@@ -24,7 +24,7 @@ class Mage_Admin_IndexController extends Mage_Core_Controller_Front_Action
     
     public function loginAction()
     {
-        $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'root')
+        $block = Mage::getModel('core', 'layout')->createBlock('core/template', 'root')
                 ->setTemplate('admin/login.phtml')
                 ->assign('username', '');
             

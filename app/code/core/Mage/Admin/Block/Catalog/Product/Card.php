@@ -88,7 +88,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
                 'type'  => 'form',
                 'background' => true,
                 'form'  => Mage::getSingleton('core', 'layout')
-                            ->createBlock('admin_product_form', 'p_form_'.$group->getCode())
+                            ->createBlock('admin/ctalog_product_form', 'p_form_'.$group->getCode())
                                 ->setGroupId($group->getId())
                                 ->render()
                                 ->toArray()

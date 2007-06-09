@@ -11,11 +11,7 @@
 
     <global>
         <block>
-            <types>
-                <currency_dropdown>
-                    <class>Mage_Directory_Block_Currency</class>
-                </currency_dropdown>
-            </types>
+			<groups><directory><class>Mage_Directory_Block</class></directory></groups>
         </block>
         <models>
             <directory>

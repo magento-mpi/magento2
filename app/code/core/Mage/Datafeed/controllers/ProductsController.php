@@ -29,7 +29,7 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
         $channel->setCategoryId( $category->getData('category_id') );
         $channel->setDescription( $category->getData('description') );
 
-        $block = $this->getLayout()->createBlock('tpl', 'export');
+        $block = $this->getLayout()->createBlock('core/template', 'export');
         $block->setTemplate('datafeed/Product/rss20.phtml')
             ->assign('data', Mage::getModel('datafeed', 'export_catalog_product')->getCategoryProducts($categoryId));
 
@@ -48,7 +48,7 @@ class Mage_Datafeed_ProductsController extends Mage_Core_Controller_Front_Action
         $category = Mage::getModel('catalog', 'category')
             ->load($categoryId);
 
-        $block = $this->getLayout()->createBlock('tpl', 'export');
+        $block = $this->getLayout()->createBlock('core/template', 'export');
 
         $data = $model->getCategoryProducts($categoryId); 
         $data->each(Array($model, "formatCSV"), $data);

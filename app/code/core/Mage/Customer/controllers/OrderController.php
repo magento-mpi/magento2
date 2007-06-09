@@ -23,7 +23,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         $orders->setOrder('self/created_at');
         $orders->loadData();
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.orders')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.orders')
             ->setTemplate('customer/orders.phtml')
             ->assign('orders', $orders);
         $this->getLayout()->getBlock('content')->append($block);
@@ -42,7 +42,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
         
         $order = Mage::getModel('sales', 'order')->load($orderId);
         
-        $block = $this->getLayout()->createBlock('tpl', 'customer.orders')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.orders')
             ->setTemplate('customer/order/view.phtml')
             ->assign('order', $order);
 

@@ -45,7 +45,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $statusBlock = $this->getLayout()->createBlock('checkout_onepage_status', 'root');
+        $statusBlock = $this->getLayout()->createBlock('checkout/onepage_status', 'root');
         $this->getResponse()->appendBody($statusBlock->toHtml());
     }
 
@@ -54,14 +54,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function shippingMethodAction()
     {
-        $block = $this->getLayout()->createBlock('checkout_shipping_method', 'root');
+        $block = $this->getLayout()->createBlock('checkout/shipping_method', 'root');
         
         $this->getResponse()->appendBody($block->toHtml());
     }
     
     public function reviewAction()
     {
-        $block = $this->getLayout()->createBlock('checkout_onepage_review', 'root');
+        $block = $this->getLayout()->createBlock('checkout/onepage_review', 'root');
         
         $this->getResponse()->appendBody($block->toHtml());
     }
@@ -94,7 +94,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         }
         $orderId = $order->getRealOrderId();
         
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.success')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
             ->assign('orderId', $orderId);
         $this->getLayout()->getBlock('content')->append($block);

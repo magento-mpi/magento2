@@ -27,7 +27,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         Mage::getModel('install', 'installer_filesystem')->install();
         Mage::getModel('install', 'installer_env')->install();
         
-        $contentBlock = $this->getLayout()->createBlock('tpl', 'install.begin')
+        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.begin')
             ->setTemplate('install/begin.phtml')
             ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
             ->assign('languages', Mage::getSingleton('install', 'config')->getLanguages())
@@ -35,7 +35,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'beginPost')));
 
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install_state', 'install.state');
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         
         $this->renderLayout();
@@ -64,7 +64,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $data = new Varien_Object($data);
         }
         
-        $contentBlock = $this->getLayout()->createBlock('tpl', 'install.config')
+        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
             ->setTemplate('install/config.phtml')
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'configPost')))
             ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
@@ -72,7 +72,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()));
 
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install_state', 'install.state');            
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');            
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
@@ -104,7 +104,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_prepareLayout();
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        $contentBlock = $this->getLayout()->createBlock('tpl', 'install.administrator')
+        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
             ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'administratorPost')))
             ->assign('messages', Mage::getSingleton('install', 'session')->getMessages(true))
@@ -112,7 +112,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()));
         
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install_state', 'install.state');
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
@@ -139,12 +139,12 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_prepareLayout();
         
-        $contentBlock = $this->getLayout()->createBlock('tpl', 'install.modules')
+        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.modules')
             ->setTemplate('install/modules.phtml')
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()));
         
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install_state', 'install.state');            
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');            
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
@@ -154,12 +154,12 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         Mage::getSingleton('install', 'session')->getConfigData(true);
         $this->_prepareLayout();
         
-        $contentBlock = $this->getLayout()->createBlock('tpl', 'install.end')
+        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.end')
             ->setTemplate('install/end.phtml')
             ->assign('step', Mage::getSingleton('install', 'wizard')->getStepByRequest($this->getRequest()));
             
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install_state', 'install.state');
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }

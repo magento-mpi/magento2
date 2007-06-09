@@ -20,8 +20,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_blocks = array();
     
-    protected $_blockTypes = null;
-    
     /**
      * Cache of block callbacks to output during rendering
      *
@@ -32,7 +30,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function __construct($data=array())
     {
         parent::__construct($data);
-        $this->_blockTypes = Mage::getConfig()->getNode("global/block/types");
         $this->_elementClass = Mage::getConfig()->getModelClassName('core', 'layout_element');
     }
     
@@ -194,7 +191,7 @@ echo "TEST:".$i;
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
-            $className = $this->_blockTypes->$node['type']->getClassName();
+            $className = Mage::getConfig()->getBlockClassName((string)$node['type']);
         }
         $blockName = (string)$node['name'];
         $block = $this->addBlock($className, $blockName);
@@ -238,12 +235,12 @@ echo "TEST:".$i;
     protected function _generateAction($node, $parent)
     {
         if (!empty($node['block'])) {
-            $block = $this->getBlock((string)$node['block']);
+            $parentName = (string)$node['block'];
         } else {
             $parentName = $parent->getBlockName();
-            if (!empty($parentName)) {
-                $block = $this->getBlock($parentName);
-            }
+        }
+        if (!empty($parentName)) {
+            $block = $this->getBlock($parentName);
         }
         $method = (string)$node['method'];
         $args = (array)$node->children();
@@ -304,7 +301,7 @@ echo "TEST:".$i;
     {
         #Mage::setTimer(__METHOD__);
 
-        if (!$className = Mage::getConfig()->getBlockTypeConfig($type)->getClassName()) {
+        if (!$className = Mage::getConfig()->getBlockClassName($type)) {
             Mage::exception('Invalid block type ' . $type);
         }
 

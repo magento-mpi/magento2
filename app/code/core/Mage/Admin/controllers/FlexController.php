@@ -13,7 +13,7 @@ class Mage_Admin_FlexController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction() 
     {
-        $block = Mage::getModel('core', 'layout')->createBlock('tpl', 'flex')
+        $block = Mage::getModel('core', 'layout')->createBlock('core/template', 'flex')
                 ->setTemplate('admin/reports/flex.phtml');
         $this->getResponse()->setBody($block->toHtml());
     }

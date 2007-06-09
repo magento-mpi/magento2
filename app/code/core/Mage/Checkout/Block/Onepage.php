@@ -69,7 +69,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     {
         $data = $this->_checkout->getCheckoutMethodData();
         
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.method')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.method')
             ->setTemplate('checkout/onepage/method.phtml')
             ->assign('messages', Mage::getSingleton('customer', 'session')->getMessages(true))
             ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)))
@@ -81,7 +81,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
     
     protected function _createBillingBlock()
     {
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.billing')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.billing')
             ->setTemplate('checkout/onepage/billing.phtml');
             
         $billing = $this->_quote->getAddressByType('billing');
@@ -127,10 +127,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
         }
         $payment->setCcNumber(null)->setCcCid(null);
         
-        $paymentBlock = $this->getLayout()->createBlock('tpl', 'checkout.payment')
+        $paymentBlock = $this->getLayout()->createBlock('core/template', 'checkout.payment')
             ->setTemplate('checkout/onepage/payment.phtml')
             ->assign('payment', $payment);
-        $listBlock = $this->getLayout()->createBlock('list', 'checkout.payment.methods');    
+        $listBlock = $this->getLayout()->createBlock('core/text_list', 'checkout.payment.methods');    
         $paymentBlock->setChild('paymentMethods', $listBlock);
         
         $methods = Mage::getConfig()->getNode('global/sales/payment/methods')->children();
@@ -150,7 +150,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingBlock()
     {
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.shipping')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.shipping')
             ->setTemplate('checkout/onepage/shipping.phtml');
             
         $shipping = $this->_quote->getAddressByType('shipping');
@@ -176,9 +176,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createShippingMethodBlock()
     {
-        $availableMethods = $this->getLayout()->createBlock('checkout_shipping_method', 'checkout.onepage.shipping_method.available');
+        $availableMethods = $this->getLayout()->createBlock('checkout/shipping_method', 'checkout.onepage.shipping_method.available');
 
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.onepage.shipping_method')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.onepage.shipping_method')
             ->setTemplate('checkout/onepage/shipping_method.phtml')
             ->setChild('availableMethods', $availableMethods);
 
@@ -187,9 +187,9 @@ class Mage_Checkout_Block_Onepage extends Mage_Core_Block_Template
 
     protected function _createReviewBlock()
     {
-        $reviewInformation = $this->getLayout()->createBlock('checkout_onepage_review', 'checkout.review.info');
+        $reviewInformation = $this->getLayout()->createBlock('checkout/onepage_review', 'checkout.review.info');
         
-        $block = $this->getLayout()->createBlock('tpl', 'checkout.review')
+        $block = $this->getLayout()->createBlock('core/template', 'checkout.review')
             ->setTemplate('checkout/onepage/review.phtml')
             ->setChild('reviewInformation', $reviewInformation);
             

@@ -205,29 +205,7 @@
          </catalog_read>
       </resources>
       <block>
-         <types>
-            <catalog_category_tree>
-               <class>Mage_Catalog_Block_Category_Tree</class>
-            </catalog_category_tree>
-            <catalog_category_list>
-               <class>Mage_Catalog_Block_Category_List</class>
-            </catalog_category_list>
-            <catalog_navigation>
-               <class>Mage_Catalog_Block_Navigation</class>
-            </catalog_navigation>
-            <catalog_breadcrumbs>
-               <class>Mage_Catalog_Block_Breadcrumbs</class>
-            </catalog_breadcrumbs>
-            <catalog_category_view>
-               <class>Mage_Catalog_Block_Category_View</class>
-            </catalog_category_view>
-            <catalog_product_view>
-               <class>Mage_Catalog_Block_Product_View</class>
-            </catalog_product_view>
-            <catalog_search_result>
-               <class>Mage_Catalog_Block_Product_Search</class>
-            </catalog_search_result>
-         </types>
+		 <groups><catalog><class>Mage_Catalog_Block</class></catalog></groups>
       </block>
    </global>
    <front>

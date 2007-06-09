@@ -4,7 +4,7 @@ class Mage_Sales_Model_Payment_Checkmo extends Mage_Sales_Model_Payment_Abstract
 {
     public function createFormBlock($name)
     {        
-        $block = $this->getLayout()->createBlock('tpl', $name)
+        $block = $this->getLayout()->createBlock('core/template', $name)
             ->setTemplate('sales/payment/checkmo.phtml')
             ->assign('payment', $this->_payment);
         
@@ -15,7 +15,7 @@ class Mage_Sales_Model_Payment_Checkmo extends Mage_Sales_Model_Payment_Abstract
     {
         $out = __('Check / MO');
             
-        $block = $this->getLayout()->createBlock('text', $name)->setText(nl2br($out));
+        $block = $this->getLayout()->createBlock('core/text', $name)->setText(nl2br($out));
         
         return $block;
     }

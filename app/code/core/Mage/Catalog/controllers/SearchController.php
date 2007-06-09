@@ -15,7 +15,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         $searchQuery = $this->getRequest()->getParam('q', false);
         if ($searchQuery) {
             $this->getLayout()->getBlock('search.form.mini')->assign('query', $searchQuery);
-            $searchResBlock = $this->getLayout()->createBlock('catalog_search_result', 'search.result', array('query'=>$searchQuery));
+            $searchResBlock = $this->getLayout()->createBlock('catalog/product_search', 'search.result', array('query'=>$searchQuery));
             $searchResBlock->loadByQuery($this->getRequest());
             
             $this->getLayout()->getBlock('content')->append($searchResBlock);
@@ -53,7 +53,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         
         $this->getLayout()->getBlock('catalog.leftnav')->assign($attribute, $value);
         
-        $block = $this->getLayout()->createBlock('catalog_search_result', 'search.byattribute');
+        $block = $this->getLayout()->createBlock('catalog/product_search', 'search.byattribute');
         $block->loadByAttributeOption($this->getRequest());
         
         $this->getLayout()->getBlock('content')->append($block);
@@ -78,7 +78,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
             ->getSource()
                 ->getArrOptions();
         
-        $block = $this->getLayout()->createBlock('tpl', 'catalog.search.advanced')
+        $block = $this->getLayout()->createBlock('core/template', 'catalog.search.advanced')
             ->setTemplate('catalog/search/form.advanced.phtml')
             ->assign('action', Mage::getUrl('catalog', array('controller'=>'search', 'action'=>'advancedResult')))
             ->assign('categories', $categories)
@@ -93,7 +93,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
             
-        $block = $this->getLayout()->createBlock('catalog_search_result', 'search.result');
+        $block = $this->getLayout()->createBlock('catalog/product_search', 'search.result');
         $block->loadByAdvancedSearch($this->getRequest());
         
         $this->getLayout()->getBlock('content')->append($block);

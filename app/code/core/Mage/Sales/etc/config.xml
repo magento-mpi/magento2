@@ -77,14 +77,7 @@
       </sales_read>
     </resources>
     <block>
-      <types>
-        <payment_cc_form>
-          <class>Mage_Sales_Block_Payment_Cc_Form</class>
-        </payment_cc_form>
-        <payment_cc_info>
-          <class>Mage_Sales_Block_Payment_Cc_Info</class>
-        </payment_cc_info>
-      </types>
+	  <groups><sales><class>Mage_Sales_Block</class></sales></groups>
     </block>
     <sales>
       <shipping>
