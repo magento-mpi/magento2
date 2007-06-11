@@ -48,15 +48,15 @@ class Mage_Poll_Model_Poll extends Varien_Object
         $this->getResource()->setWebsiteId($websiteId);
     }
     
-    public function getAnsverCollection()
+    public function getAnswerCollection()
     {
-        $collection = Mage::getModel('poll_resource/poll_ansver_collection')
+        $collection = Mage::getModel('poll_resource/poll_answer_collection')
             ->addPollFilter($this->getId());
         return $collection;
     }
     
-    public function getAnsvers()
+    public function getAnswers()
     {
-        return $this->getAnsverCollection()->load();
+        return $this->getAnswerCollection()->load();
     }
 }

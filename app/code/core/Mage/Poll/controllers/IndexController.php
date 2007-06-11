@@ -17,16 +17,12 @@ class Mage_Poll_IndexController extends Mage_Core_Controller_Front_Action
 
         $pollModel = Mage::getModel('poll/poll');
 
-        $website_id = Mage::registry('website')->getId();
-
-        $pollModel->setWebsiteId($website_id);
-        $pollModel->loadPolls();
+        $pollModel->loadPoll();
 
         print "<pre>debug: \n";
         print_r($pollModel);
         print "</pre>\n";
          
-
         $block = $this->getLayout()->createBlock('tpl', 'poll.block');
         $block->setTemplate('poll/poll_list.phtml');
         $this->getLayout()->getBlock('content')->append($block);
