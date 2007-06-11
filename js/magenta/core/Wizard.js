@@ -29,12 +29,14 @@ Mage.Wizard = function(el, config) {
     
     this.addButton({
         text:'Help',
+        align : 'left',
         handler : this.help,
         scope : this
     });
     
     this.btnCancel = this.addButton({
         text : 'Cancel',
+        align : 'right',
         disabled : false,
         handler : this.cancel,
         scope : this
@@ -42,6 +44,7 @@ Mage.Wizard = function(el, config) {
     
     this.btnBack = this.addButton({
         text : 'Back',
+        align : 'center',
         disabled : false,
         handler : this.back,
         scope : this
@@ -49,12 +52,14 @@ Mage.Wizard = function(el, config) {
     
     this.btnNext = this.addButton({ 
         text : 'Next',
+        align : 'center',
         handler : this.next,
         scope : this
     });
     
     this.btnFinish = this.addButton({ 
         text : 'Finish',
+        align : 'right',        
         hidden : true,
         handler : this.finish,
         scope : this
@@ -73,6 +78,84 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     
     newStep : function(url) {
     },
+    
+    addButton : function(config, handler, scope){
+        var dh = Ext.DomHelper;
+        if(!this.footer){
+            this.footer = dh.append(this.bwrap, {tag: "div", cls:"x-dlg-ft"}, true);
+        }
+        if(!this.btnContainerLeft){
+            var tb = this.footer.createChild({
+                cls:"x-dlg-btns x-dlg-btns-left",
+                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
+            }, null, true);
+            this.btnContainerLeft = tb.firstChild.firstChild.firstChild;
+        }
+        if(!this.btnContainerCenter){
+            var tb = this.footer.createChild({
+                cls:"x-dlg-btns x-dlg-btns-center",
+                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
+            }, null, true);
+            this.btnContainerCenter = tb.firstChild.firstChild.firstChild;
+        }
+        if(!this.btnContainerRight){
+            var tb = this.footer.createChild({
+                cls:"x-dlg-btns x-dlg-btns-right",
+                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
+            }, null, true);
+            this.btnContainerRight = tb.firstChild.firstChild.firstChild;
+        }
+        
+        
+        var bconfig = {
+            handler: handler,
+            scope: scope,
+            minWidth: this.minButtonWidth,
+            hideParent:true
+        };
+        if(typeof config == "string"){
+            bconfig.text = config;
+        }else{
+            if(config.tag){
+                bconfig.dhconfig = config;
+            }else{
+                Ext.apply(bconfig, config);
+            }
+        }
+        
+        switch (bconfig.align) {
+            case 'left':
+                var btn = new Ext.Button(
+                    this.btnContainerLeft.appendChild(document.createElement("td")),
+                    bconfig
+                );
+            break;
+            case 'center' :
+                var btn = new Ext.Button(
+                    this.btnContainerCenter.appendChild(document.createElement("td")),
+                    bconfig
+                );
+            break;
+            case 'right' :
+                var btn = new Ext.Button(
+                    this.btnContainerRight.appendChild(document.createElement("td")),
+                    bconfig
+                );
+            break;
+            default : 
+                var btn = new Ext.Button(
+                    this.btnContainerRight.appendChild(document.createElement("td")),
+                    bconfig
+                );
+            break;    
+        }
+        this.syncBodyHeight();
+        if(!this.buttons){
+            this.buttons = [];
+        }
+        this.buttons.push(btn);
+        return btn;
+    },    
     
     help : function() {
         
