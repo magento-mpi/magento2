@@ -34,14 +34,6 @@ Mage.Wizard = function(el, config) {
         scope : this
     });
     
-    this.btnCancel = this.addButton({
-        text : 'Cancel',
-        align : 'right',
-        disabled : false,
-        handler : this.cancel,
-        scope : this
-    });
-    
     this.btnBack = this.addButton({
         text : 'Back',
         align : 'center',
@@ -65,6 +57,13 @@ Mage.Wizard = function(el, config) {
         scope : this
     });
     
+    this.btnCancel = this.addButton({
+        text : 'Cancel',
+        align : 'right',
+        disabled : false,
+        handler : this.cancel,
+        scope : this
+    });
     
     this.stepCollection = new Ext.util.MixedCollection();
 }
@@ -86,26 +85,23 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         }
         if(!this.btnContainerLeft){
             var tb = this.footer.createChild({
-                cls:"x-dlg-btns x-dlg-btns-left",
-                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
+                cls:"x-dlg-btns",
+                html:'<table cellspacing="0" width="100%"><tbody><tr>' +
+                        '<td style="text-align: left" width="33%">' +
+                        '<table cellspacing="0" align="left"><tbody><tr></tr></tbody></table>' +
+                        '</td>' +
+                        '<td style="text-align: cetner"  width="34%">' +
+                        '<table cellspacing="0" align="center"><tbody><tr></tr></tbody></table>' +
+                        '</td>' +
+                        '<td style="text-align: right" width="33%">' +
+                        '<table cellspacing="0" align="right"><tbody><tr></tr></tbody></table>' +
+                        '</td>' +
+                        '</tr></tbody></table>'
             }, null, true);
-            this.btnContainerLeft = tb.firstChild.firstChild.firstChild;
+            this.btnContainerLeft = tb.firstChild.firstChild.firstChild.childNodes[0].firstChild.firstChild.firstChild;
+            this.btnContainerCenter = tb.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild;
+            this.btnContainerRight = tb.firstChild.firstChild.firstChild.childNodes[2].firstChild.firstChild.firstChild;
         }
-        if(!this.btnContainerCenter){
-            var tb = this.footer.createChild({
-                cls:"x-dlg-btns x-dlg-btns-center",
-                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
-            }, null, true);
-            this.btnContainerCenter = tb.firstChild.firstChild.firstChild;
-        }
-        if(!this.btnContainerRight){
-            var tb = this.footer.createChild({
-                cls:"x-dlg-btns x-dlg-btns-right",
-                html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
-            }, null, true);
-            this.btnContainerRight = tb.firstChild.firstChild.firstChild;
-        }
-        
         
         var bconfig = {
             handler: handler,
