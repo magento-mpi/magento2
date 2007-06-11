@@ -275,7 +275,7 @@ class Varien_Io_File extends Varien_Io_Abstract
                     $list_item['leaf'] = true;
                 } else {
                     $list_item['leaf'] = false;
-                    $list_item['ID'] = $fullpath;
+                    $list_item['id'] = $fullpath;
                 }
 
                 $list[] = $list_item;
