@@ -26,7 +26,8 @@ class Mage_Install_Model_Installer_Config
             }
         }
         $this->_checkHostsInfo($data);
-        $data['date'] = date('r');
+        $data['date']    = date('r');
+        $data['var_dir'] = $data['root_dir'];
         file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         Mage::getConfig()->init();
     }
