@@ -137,7 +137,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             if (!$address->isPrimary($typeId)) {
                 $this->addField('primary_type'.$typeId, 'checkbox',
                     array(
-                        'name'  => 'primary_types[]',
+                        'name'  => 'primary_types['.$typeId.']',
                         'label' => __("Use for <strong>%s</strong>", $info['name']),
                         'id'    => 'primary_types_'.$typeId,
                         'title' => __("Use as my primary <strong>%s</strong> address", $info['name']),
