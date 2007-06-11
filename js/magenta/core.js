@@ -32,7 +32,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
                     center:{
                         resizeTabs:true,
                         alwaysShowTabs:true,
-                        hideTabs:true,
+                        hideTabs:false,
                         tabPosition:'top',
                         titlebar:false,
                         autoScroll:true,
@@ -129,7 +129,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
         
         callModuleMethod : function(modName, method) {
             var module = this.modules.get(modName);
-            if (module  && 'object' == typeof module && 'function' == typeof module['loadMainPanel']) {
+            if (module  && 'object' == typeof module && 'function' == typeof module[method]) {
                 var e = {
                     modName : modName,
                     method : method,
@@ -139,7 +139,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
                 if (e.cancel == true) {
                     return false;
                 }
-                module['loadMainPanel'].call(module);
+                module[method].call(module);
                 this.fireEvent('afterCallModuleMethod', e);               
             }  
         },
