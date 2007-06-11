@@ -38,21 +38,10 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     
     public function wizardAction()
     {
-        $step = $this->getRequest()->getParam('step');
+        $step = $this->getRequest()->getParam('step', 1);
         
         switch ($step) {
             case 1:
-                $customer = Mage::getModel('customer/customer');
-                $form = new Mage_Admin_Block_Customer_Form($customer);
-
-                $tab = array(
-                    'name'  => 'general',
-                    'title' => __('Account Information'),
-                    'type'  => 'form',
-                    'form'  => $form->toArray()
-                );
-                break;
-            case 2:
                 $address = Mage::getModel('customer/address');
                 $form = new Mage_Admin_Block_Customer_Address_Form($address);
 
@@ -64,10 +53,15 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                 );
                 break;
             default:
-                $tab['title'] = __('New Customer');
-                $tab['name']  = 'default';
-                $tab['type']  = 'view';
-                $tab['url']   = Mage::getBaseUrl();
+                $customer = Mage::getModel('customer/customer');
+                $form = new Mage_Admin_Block_Customer_Form($customer);
+
+                $tab = array(
+                    'name'  => 'general',
+                    'title' => __('Account Information'),
+                    'type'  => 'form',
+                    'form'  => $form->toArray()
+                );
                 break;
         }
         
