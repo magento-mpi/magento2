@@ -46,8 +46,10 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody(Zend_Json::encode($e->getMessage()));
             return;
         }
-         
-        $this->getResponse()->setBody(Zend_Json::encode($filesList));
+
+        $data['data'] = $filesList;
+
+        $this->getResponse()->setBody(Zend_Json::encode($data));
         return;
     }
     
