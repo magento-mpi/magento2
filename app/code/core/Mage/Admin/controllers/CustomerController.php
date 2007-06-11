@@ -36,6 +36,47 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody(Zend_Json::encode($collection->toArray($arrGridFields)));
     }
     
+    public function wizardAction()
+    {
+        $step = $this->getRequest()->getParam('step');
+        
+        switch ($step) {
+            case 1:
+                $customer = Mage::getModel('customer/customer');
+                $form = new Mage_Admin_Block_Customer_Form($customer);
+
+                $tab = array(
+                    'name'  => 'general',
+                    'title' => __('Account Information'),
+                    'type'  => 'form',
+                    'form'  => $form->toArray()
+                );
+                break;
+            case 2:
+                $address = Mage::getModel('customer/address');
+                $form = new Mage_Admin_Block_Customer_Address_Form($address);
+
+                $tab = array(
+                    'name'  => 'general',
+                    'title' => __('Customer address'),
+                    'type'  => 'form',
+                    'form'  => $form->toArray()
+                );
+                break;
+            default:
+                $tab['title'] = __('New Customer');
+                $tab['name']  = 'default';
+                $tab['type']  = 'view';
+                $tab['url']   = Mage::getBaseUrl();
+                break;
+        }
+        
+        $cardStruct['title'] = __('New Customer');
+        $cardStruct['error'] = 0;
+        $cardStruct['tabs'][] = $tab;
+        $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
+    }
+    
     /**
      * Customer card 
      */
