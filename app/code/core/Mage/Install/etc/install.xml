@@ -43,6 +43,11 @@
                     <recursive>0</recursive>
                 </items>
                 <items>
+                    <path>/var</path>
+                    <existence>1</existence>
+                    <recursive>1</recursive>
+                </items>
+                <items>
                     <path>/app/etc/local.xml</path>
                     <existence>0</existence>
                     <recursive>0</recursive>
