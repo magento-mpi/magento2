@@ -132,6 +132,9 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
+        if (!Mage::registry('website')) {
+            throw new Exception('Empty website registry var');
+        }
         return Mage::registry('website')->getUrl($params);
     }
     
@@ -298,7 +301,7 @@ final class Mage {
             //self::displayProfiler();
         } 
         catch (Exception $e) {
-            if ((int) Mage::getConfig()->getNode('global/install/config')) {
+            if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {
                 echo $e;
                 exit();
             }
