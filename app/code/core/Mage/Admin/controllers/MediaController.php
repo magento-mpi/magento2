@@ -15,7 +15,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     {
         $io = new Varien_Io_File();
 
-        $_cwd = ( $this->getRequest()->getParam('node', false) === false ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('node', false);
+        $_cwd = ( $this->getRequest()->getParam('node', false) === '::' ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('node', false);
 
         try {
             $io->open( Array('path' => $_cwd) );
@@ -37,7 +37,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     {
         $io = new Varien_Io_File();
 
-        $_cwd = ( $this->getRequest()->getParam('node', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
+        $_cwd = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
 
         try {
             $io->open( Array('path' => $_cwd) );
@@ -55,7 +55,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     
     public function mkdirAction()
     {
-        $_cwd = ( $this->getRequest()->getParam('node', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
+        $_cwd = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
         $newDirName = trim( $this->getRequest()->getParam('new_directory', false) );
 
         if( $newDirName == '' ) {
@@ -74,7 +74,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
     public function rmdirAction()
     {
-        $_cwd = ( $this->getRequest()->getParam('node', false) === false ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
+        $_cwd = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
         $dirName = trim( $this->getRequest()->getParam('directory', false) );
         $dirName = 'test';
 
