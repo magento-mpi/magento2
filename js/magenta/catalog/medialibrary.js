@@ -1,0 +1,42 @@
+Mage.Medialibrary = function () {	
+	var library;	
+	return { 
+		init : function () {
+							dialog = new Ext.LayoutDialog("hello-dlg", { 
+			                        modal:true,
+			                        width:600,
+			                        height:400,
+			                        shadow:true,
+			                        minWidth:300,
+			                        minHeight:300,
+			                        proxyDrag: true,
+			                        west: {
+				                        split:true,
+				                        initialSize: 150,
+				                        minSize: 100,
+				                        maxSize: 250,
+				                        titlebar: true,
+				                        collapsible: true,
+				                        animate: true
+				                    },
+				                    center: {
+				                        autoScroll:true,
+				                        tabPosition: 'top',
+				                        closeOnTab: true,
+				                        alwaysShowTabs: true
+				                    }
+							});
+			                dialog.addKeyListener(27, dialog.hide, dialog);
+			                dialog.addButton('Submit', dialog.hide, dialog);
+			                dialog.addButton('Close', dialog.hide, dialog);
+			                
+			                var layout = dialog.getLayout();
+			                layout.beginUpdate();
+			                layout.add('west', new Ext.ContentPanel('west', {title: 'West'}));
+				            layout.add('center', new Ext.ContentPanel('center', {title: 'The First Tab'}));
+				            layout.endUpdate();
+			            
+			            	dialog.show(showBtn.dom);
+		}
+	}
+}();

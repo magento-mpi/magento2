@@ -55,7 +55,7 @@
             <block type="core/text_tag_js" name="jscripts.js.ext.infopanel">
                 <action method="setSrc"><src>magenta/Ext.InfoPanel.js</src></action>
             </block>
-            <!--  END LOAD EXT-YUI -->
+            <!--  END LOAD EXT-YUI -->           
             <block type="core/text_tag_js" name="jscripts.js.ext.filteredViewGrid">
                 <action method="setSrc"><src>magenta/filteredViewGrid.js</src></action>
             </block>
@@ -155,6 +155,9 @@
             <block type="core/text_tag_js" name="jscripts.js.catalog.category">
                 <action method="setSrc"><src>magenta/catalog/category.js</src></action>
             </block>
+            <block type="core/text_tag_js" name="jscripts.js.catalog.medialibrary">
+                <action method="setSrc"><src>magenta/catalog/medialibrary.js</src></action>
+            </block>
             <block type="core/text_tag_js" name="jscripts.js.catalog.category.createform">
                 <action method="setSrc"><src>magenta/catalog/category/createform.js</src></action>
             </block>
@@ -163,7 +166,7 @@
             </block>
             <block type="core/text_tag_js" name="jscripts.js.catalog.menu">
                 <action method="setSrc"><src>magenta/catalog/menu.js</src></action>
-            </block>
+            </block>            
             <block type="core/text_tag_js" name="jscripts.js.customer">
                 <action method="setSrc"><src>magenta/customer.js</src></action>
             </block>
@@ -178,7 +181,7 @@
             </block>
             <block type="core/text_tag_js" name="jscripts.js.sales.price_rules">
                 <action method="setSrc"><src>magenta/sales/rules.js</src></action>
-            </block>
+            </block>            
         </block>
     </block>
 </layoutUpdate>

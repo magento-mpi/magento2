@@ -196,6 +196,7 @@ Mage.Admin = new Mage.Manager();
 
 Ext.EventManager.onDocumentReady(Mage.Admin.init, Mage.Admin, true);
 
+
 Mage.Admin.on('load', function(admin){
     
     admin.register('customer', Mage.Customer);
@@ -210,6 +211,15 @@ Mage.Admin.on('load', function(admin){
     Mage.Menu_Customer.init(toolbar);    
     Mage.Menu_Catalog.init(toolbar);            
     Mage.Menu_Sales.init(toolbar);
+        
+    toolbar.addButton(new Ext.ToolbarButton({
+	    text: "test media browser",
+		handler: function () {
+			Mage.Medialibrary.init();
+		}
+	}));
+	
+    
     // create wide spacer, after this line all items will be aligned to right
     Ext.fly(toolbar.addSpacer().getEl().parentNode).setStyle('width', '100%')        
     /// !!! do not remove this item
