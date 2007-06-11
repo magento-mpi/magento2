@@ -66,6 +66,10 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
     {
         parent::__construct();
         
+        if (!$connection) {
+            throw new Exception('Wrong "$connection" parametr');
+        }
+        
         $this->_conn    = $connection;
         $this->_table   = $table;
         
