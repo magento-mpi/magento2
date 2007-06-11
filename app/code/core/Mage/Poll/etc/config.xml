@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Poll>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Mage_Poll>
     </modules>
     <front>
@@ -24,13 +24,13 @@
                 <class>Mage_Poll_Model_Mysql4</class>
                 <entities>
                     <polls>
-                        <table>polls</table>
+                        <table>poll</table>
                     </polls>
                     <poll_answers>
-                        <table>poll_answers</table>
+                        <table>poll_answer</table>
                     </poll_answers>
                     <poll_votes>
-                        <table>poll_votes</table>
+                        <table>poll_vote</table>
                     </poll_votes>
                 </entities>
             </poll_resource>
