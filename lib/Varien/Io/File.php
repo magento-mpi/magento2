@@ -265,15 +265,17 @@ class Varien_Io_File extends Varien_Io_Abstract
                     continue;
                 }
 
-                $list_item['name'] = $entry;
+                $list_item['text'] = $entry;
                 $list_item['mod_date'] = date ('d/m/Y H:i:s', filectime($fullpath));
                 $list_item['permitions'] = $this->_parsePermitions(fileperms($fullpath));
                 $list_item['owner'] = $this->_getFileOwner($fullpath);
 
                 if( is_file($fullpath) ) {
                     $list_item['size'] = filesize($fullpath);
-
-                    #$list_item['content_type'] = mime_content_type($fullpath);
+                    $list_item['leaf'] = true;
+                } else {
+                    $list_item['leaf'] = false;
+                    $list_item['ID'] = $fullpath;
                 }
 
                 $list[] = $list_item;

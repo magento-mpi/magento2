@@ -19,7 +19,8 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
         try {
             $io->open( Array('path' => $_cwd) );
-            $directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
+            #$directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
+            $directoriesList = $io->ls();
         } catch( Exception $e ) {
             $this->getResponse()->setBody(Zend_Json::encode($e->getMessage()));
             return;
