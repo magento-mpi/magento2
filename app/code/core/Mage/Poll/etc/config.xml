@@ -23,15 +23,15 @@
             <poll_resource>
                 <class>Mage_Poll_Model_Mysql4</class>
                 <entities>
-                    <polls>
+                    <poll>
                         <table>poll</table>
-                    </polls>
-                    <poll_answers>
+                    </poll>
+                    <poll_answer>
                         <table>poll_answer</table>
-                    </poll_answers>
-                    <poll_votes>
+                    </poll_answer>
+                    <poll_vote>
                         <table>poll_vote</table>
-                    </poll_votes>
+                    </poll_vote>
                 </entities>
             </poll_resource>
         </models>

@@ -12,21 +12,16 @@ class Mage_Poll_Model_Mysql4_Poll
 {
 
     protected $_pollTable;
-
     protected $_pollAnswerTable;
-
-    protected $_pollVoteTable;
-
     protected $_website_id;
 
     function __construct()
     {
-        $this->_pollTable = 'poll';
-        $this->_pollAnswerTable = 'poll_answer';
-        $this->_pollVoteTable = 'poll_vote';
+        $this->_pollTable       = Mage::registry('resources')->getTableName('poll_resource', 'poll');
+        $this->_pollAnswerTable = Mage::registry('resources')->getTableName('poll_resource', 'poll_ansver');
 
-        $this->_read = Mage::registry('resources')->getConnection('core_read');
-        $this->_write = Mage::registry('resources')->getConnection('core_write');
+        $this->_read    = Mage::registry('resources')->getConnection('poll_read');
+        $this->_write   = Mage::registry('resources')->getConnection('poll_write');
     }
 
     public function loadPolls()
