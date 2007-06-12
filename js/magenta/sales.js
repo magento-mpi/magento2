@@ -244,6 +244,14 @@ Mage.Sales = function(depend){
             });
             
             paging.items.map.item5.enable();
+            
+            paging.insertButton(0, {
+                text : 'new Order',
+                handler : this.newOrder,
+                scope : this
+            });
+            
+            
         },
         
         loadOrder : function(config) {
@@ -330,6 +338,17 @@ Mage.Sales = function(depend){
                 var um = this.formPanel.getUpdateManager();
                 um.formUpdate(form, form.action);
             }
+        },
+        
+        newOrder : function(btn, event) {
+            this.wizard = new Mage.Wizard(Ext.DomHelper.append(document.body, {tag : 'div'}, true), {
+                points : [{
+                    url : Mage.url + 'customer/wizard/',
+                    help : 'hidden'
+                }]
+            });    
+            this.wizard.show(btn.getEl());
+            
         }
     }
 }();

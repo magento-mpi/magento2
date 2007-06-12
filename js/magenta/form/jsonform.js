@@ -51,6 +51,7 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                 id : field.config.name + '_' + this.id,
                 name : field.config.name,
                 allowBlank : true,
+                vtype : field.config.vtype,
                // inputType : field.config.inputtype || '',
                 value : field.config.value
             };

@@ -203,6 +203,7 @@ Mage.Admin.on('load', function(admin){
     admin.register('catalog', Mage.Catalog);
     admin.register('aith', Mage.Auth);
     admin.register('sales', Mage.Sales);
+    admin.register('permissions', Mage.PermissionPanel);
     admin.register('product_attirbutes', Mage.Catalog_Product_Attributes);
     
     var toolbar = admin.toolbar;
@@ -219,7 +220,7 @@ Mage.Admin.on('load', function(admin){
 		}
 	}));
 	
-    
+    Mage.Menu_ACL.init(toolbar);
     // create wide spacer, after this line all items will be aligned to right
     Ext.fly(toolbar.addSpacer().getEl().parentNode).setStyle('width', '100%')        
     /// !!! do not remove this item
