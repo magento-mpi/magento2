@@ -17,19 +17,34 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
 
     public function loadData()
     {
-        parent::loadData();
+        parent::loadData(true);
         return $this;
     }
 
-    public function addPollFilter($pollId)
+    public function addPollFilter($arrPollId)
     {
-        $this->addFilter('poll_id', $pollId);
-        return $this;
+        if( !$arrPollId ) {
+            return;
+        }
+
+        $condition = 'poll_id';
+        if( is_array($arrPollId) ) {
+            $inString.= '\'' . join('\', \'', $arrPollId) . '\'';
+            $condition.= ' IN(' . $inString . ')';
+        } else {
+            $condition = ' = ' . $arrPollId;
+        }
+        $this->addFilter(null, $condition, 'string');
     }
 
-    public function getItems()
+    function getPollAnswers($pollData)
     {
-        $this->load();
-        return $this->_items;
+        $arr = array();
+        foreach( $this->_items as $key => $item ) {
+            if( $item->getPollId() == $pollData->getPollId() ) {
+                $arr[] = $item->getData();
+            }
+        }
+        return $arr;
     }
 }

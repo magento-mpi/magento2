@@ -15,16 +15,9 @@ class Mage_Poll_Model_Poll extends Varien_Object
         return $this->getPollId();
     }
 
-    public function getResource()
-    {
-        return Mage::getSingleton('poll_resource/poll_collection');
-    }
-
     public function load($pollId)
     {
-        $this->setPollId($pollId);
-        $this->setData($this->getResource()->loadData($pollId));
-        return $this;
+        #
     }
 
     public function save()
@@ -39,30 +32,8 @@ class Mage_Poll_Model_Poll extends Varien_Object
         return $this;
     }
 
-    public function loadRandom()
-    {
-
-    }
-
     public function setWebsiteId($websiteId)
     {
         $this->getResource()->setWebsiteId($websiteId);
-    }
-
-    public function getAnswerCollection()
-    {
-        $collection = Mage::getModel('poll_resource/poll_answer_collection')
-            ->addPollFilter($this->getId());
-        return $collection;
-    }
-
-    public function getAnswers()
-    {
-        $this->_appendAnswers($this->getAnswerCollection()->getItems());
-    }
-
-    protected function _appendAnswers($answers)
-    {
-        $this->setAnswers($answers);
     }
 }
