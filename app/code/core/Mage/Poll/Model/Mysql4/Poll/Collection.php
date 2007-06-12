@@ -17,9 +17,9 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
 
     public function __construct()
     {
-        parent::__construct(Mage::registry('resources')->getConnection('poll_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('poll_read'));
 
-        $this->_pollTable = Mage::registry('resources')->getTableName('poll_resource', 'poll');
+        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
 
         $this->_sqlSelect
             ->from($this->_pollTable);
