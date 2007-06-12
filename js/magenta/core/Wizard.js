@@ -13,8 +13,6 @@ Mage.Wizard = function(el, config) {
         width:600,
         height:450,
         shadow:true,
-        minWidth:500,
-        minHeight:350,
         autoTabs:true,
         proxyDrag:true,
         title : 'Wizard',
@@ -172,10 +170,13 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                 if (this.stepCollection.indexOf(this.currentPanel) + 1 < this.stepCollection.getCount()) {
                     this.currentPanel = this.stepCollection.get(this.stepCollection.indexOf(this.currentPanel) + 1);
                     this.currentPanel.update(result.tabs[0]);
-                    this.currentPanel.show();                    
+                    this.currentPanel.show();
                 } else {
                     this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), result.tabs[0].type, result.tabs[0]);
                     this.stepCollection.add(this.currentPanel);
+                }
+                if (this.config.resize) {
+                    this.setContentSize(Ext.get(this.currentPanel.getPanel().getEl().dom.firstChild).getWidth(), Ext.get(this.currentPanel.getPanel().getEl().dom.firstChild).getHeight() + 1);
                 }
                 index = this.stepCollection.indexOf(this.currentPanel);
                 if (result.nextPoint && result.nextPoint.url) {
@@ -196,7 +197,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         
         if (this.currentPanel) {
            data = this.currentPanel.save();
-           console.log(data);
         }
         
         conn.request({
@@ -211,6 +211,9 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         index = this.stepCollection.indexOf(this.currentPanel) || 0;
         if (this.stepCollection.get(index-1)) {
             this.currentPanel = this.stepCollection.get(index-1);
+            if (this.config.resize) {
+                this.setContentSize(Ext.get(this.currentPanel.getPanel().getEl().dom.firstChild).getWidth(), Ext.get(this.currentPanel.getPanel().getEl().dom.firstChild).getHeight() + 1);
+            }
             this.currentPanel.show();
         }
         this.checkButtons(index-1);
@@ -255,22 +258,12 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     checkButtons : function(index) {
-       //console.log(this.points[index]);
-       if (this.points[index]) {
-           switch (this.points[index].finish) {
-               case 'hidden' :
-                   this.btnFinish.hide();
-               break;
-               case 'disable' :
-                   this.btnFinish.show();
-                   this.btnFinish.disable();
-               break;
-               case 'enable' :
-                   this.btnFinish.show();
-                   this.btnFinish.enable();
-               break;
-           }
-       }
+        if (!this.points[index+1]) {
+            this.btnNext.disable();
+        } else {
+            this.btnNext.enable();
+        }
     }
+    
     
 });
