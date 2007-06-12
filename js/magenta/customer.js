@@ -190,7 +190,7 @@ Mage.Customer = function(depend){
                     url : Mage.url + 'customer/wizard/'
                 }]
 //                },{
-//                    url : Mage.url + 'customer/wizard/step/2/'
+//                   url : Mage.url + 'customer/wizard/step/2/'
 //                }]
             });    
             this.wizard.show(btn.getEl());

@@ -87,7 +87,6 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         data = {};
         for (i=0; i < this.tabs.getCount(); i++) {
             tab = this.tabs.itemAt(i);
-            console.log(tab.isLoaded())
             if (tab.isLoaded()) {
                 Ext.apply(data, tab.save())
             }

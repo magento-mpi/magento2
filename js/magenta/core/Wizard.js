@@ -1,6 +1,7 @@
 Mage.Wizard = function(el, config) {
     this.dialog = null;
-    this.currentPanel = null;    
+    this.currentPanel = null;  
+    this.saveData = null;  
     this.points = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.config = config || {};
@@ -53,6 +54,7 @@ Mage.Wizard = function(el, config) {
     
     this.btnFinish = this.addButton({ 
         text : 'Finish',
+        disabled : true,
         align : 'right',        
         handler : this.finish,
         scope : this
@@ -179,6 +181,12 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                 if (result.nextPoint && result.nextPoint.url) {
                     this.config.points[index+1] = result.nextPoint;
                 }
+                if (result.saveUrl) {
+                    this.config.saveUrl = result.saveUrl;
+                }
+                if (result.btnFinish) {
+                    this.btnFinish.enable();
+                }
                 this.checkButtons(index);        
             } else {
                 Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
@@ -209,7 +217,33 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     },
     
     finish : function() {
-        Ext.MessageBox.alert('Wizard', 'Finish pressed');
+        this.saveData = {};
+        
+        this.stepCollection.each(function(panel) {
+            Ext.apply(this.saveData, panel.save());
+        }, this);
+        
+        var saveConn = new Ext.data.Connection();
+        
+        saveConn.on('requestcomplete', function(tranId, response, options) {
+            var result = Ext.decode(response.responseText);
+            if (result.error == 0) {
+                Ext.MessageBox.alert('Wizard', 'finished');
+            } else {
+                Ext.MessageBox.alert('XHR Error', result.errorMessage);
+            }
+        }.createDelegate(this));
+        
+        if (this.config.saveUrl) {
+            saveConn.request({
+               url : this.config.saveUrl,
+               params : this.saveData,
+               method : 'POST'
+            });
+        } else {
+            console.log(this.config.saveUrl);
+            Ext.MessageBox.alert('Wizard', 'Save url is not set');
+        }
     },
     
     onBeforeHide : function(arguments) {
