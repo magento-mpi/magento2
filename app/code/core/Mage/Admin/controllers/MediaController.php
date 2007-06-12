@@ -73,21 +73,17 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function rmdirAction()
+    public function rmAction()
     {
-        $_cwd = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
-        $dirName = trim( $this->getRequest()->getParam('directory', false) );
-        $dirName = 'test';
+        $destination = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
 
-        if( $dirName == '' ) {
-            $this->getResponse()->setBody(Zend_Json::encode('Unable to remove directory. Invalid directory name.'));
+        if( $destination === false ) {
+            $this->getResponse()->setBody(Zend_Json::encode('Unable to remove target. Invalid target name.'));
             return;
         } else {
             $io = new Varien_Io_File();
-            $io->open( Array('path' => $_cwd) );
-            $io->cd($_cwd);
-            if( !$io->rmdir($dirName) ) {
-                $this->getResponse()->setBody(Zend_Json::encode('Unable to remove directory.'));
+            if( !$io->rmdir($destination) && !$io->rm($destination) ) {
+                $this->getResponse()->setBody(Zend_Json::encode('Unable to remove target.'));
                 return;
             }
         }
