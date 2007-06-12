@@ -89,9 +89,9 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function rmdir($dir)
     {
-        chdir($this->_cwd);
+        @chdir($this->_cwd);
         $result = @rmdir($dir);
-        chdir($this->_iwd);
+        @chdir($this->_iwd);
         return $result;
     }
     
@@ -187,9 +187,9 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function rm($filename)
     {
-        chdir($this->_cwd);
+        @chdir($this->_cwd);
         $result = @unlink($filename);
-        chdir($this->_iwd);
+        @chdir($this->_iwd);
         return $result;
     }
     
