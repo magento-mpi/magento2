@@ -251,9 +251,10 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         $attribute = $this->_attributes->getItemById($attributeId);
 
         $select = clone $this->_sqlSelect;
-        $select->distinct(true)
-            ->reset(Zend_Db_Select::COLUMNS);
-        $column = $attribute->getTableAlias().'.attribute_value';
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->group($attribute->getTableAlias().'.attribute_value');
+            
+        $column = $attribute->getTableAlias().'.attribute_value, count('.$attribute->getTableAlias().'.attribute_value'.') as product_count';
         
         if ($this->_isAttributeJoined($attribute)) {
             $select->from('', $column);
@@ -261,8 +262,8 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         else {
             $select->join($attribute->getSelectTable(), $this->_getAttributeJoinCondition($attribute), $column);
         }
-            
-        return $this->_conn->fetchCol($select);
+
+        return $this->_conn->fetchAll($select);
     }
     
     /**

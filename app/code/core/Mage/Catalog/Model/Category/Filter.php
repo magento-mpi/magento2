@@ -69,7 +69,23 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
     public function getLinks()
     {
         $arr = array();
-        $available  = $this->getAvailableValues();
+        /**
+         * array(
+         *      ['attribute_value']
+         *      ['product_count']
+         * )
+         */
+        $availableValues  = $this->getAvailableValues();
+        $available = array();
+        $availableCount = array();
+        
+        if (is_array($availableValues)) {
+            foreach ($availableValues as $availableInfo) {
+            	$available[] = $availableInfo['attribute_value'];
+            	$availableCount[$availableInfo['attribute_value']] = $availableInfo['product_count'];
+            }
+        }
+        
         $current    = $this->getCurrentValues();
         $currentValues = $this->getValue();
         
@@ -81,13 +97,14 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
             ->getOptions();
             
         foreach ($values as $value) {
-            if (null !== $available) {
+            if (null !== $availableValues) {
                 $arrParam = array('filter' => $current);
                 if (in_array($value->getId(), $available) && !in_array($value->getId(), $currentValues)) {
                     $arrParam['filter'][$this->getId()][] = $value->getId();
     
                     $arr[] = array(
                         'label' => $value->getValue(),
+                        'count' => $availableCount[$value->getId()],
                         'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }

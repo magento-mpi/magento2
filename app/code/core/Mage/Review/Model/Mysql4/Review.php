@@ -86,9 +86,10 @@ class Mage_Review_Model_Mysql4_Review
                 'status_id'         => $review->getStatusId()
             ),
             'detail'=> array(
-                'title'     => $review->getTitle(),
-                'detail'    => $review->getDetail(),
-                'website_id'=> $review->getWebsiteId()
+                'title'     => strip_tags($review->getTitle()),
+                'detail'    => strip_tags($review->getDetail()),
+                'website_id'=> $review->getWebsiteId(),
+                'nickname'  => strip_tags($review->getNickname())
             )
         );
         

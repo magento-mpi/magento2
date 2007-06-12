@@ -1,2 +1,10 @@
+<?if(!empty($collection) && $collection->getSize()):?>
 <h1 class="page-heading">Product Reviews</h1>
-<p>list of product reviews</p>
+    <?foreach ($collection as $_review):?>
+    <p>
+        <h3><?=$_review->getNickname()?>: <?=$_review->getTitle()?></h3>
+        <div><?=nl2br($_review->getDetail())?></div>
+    </p>
+    <?endforeach;?>
+    <div class="clearfix"></div><br/>
+<?endif;?>

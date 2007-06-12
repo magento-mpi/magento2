@@ -19,7 +19,7 @@ class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
             try {
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($this->getRequest()->getParam('id', false))
-                    ->setStatusId(2) // pending
+                    ->setStatusId(1) // approved
                     ->setWebsiteId(Mage::registry('website')->getId())
                     ->save();
                     

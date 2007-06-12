@@ -1,6 +1,6 @@
 VarienForm = Class.create();
 VarienForm.prototype = {
-    initialize: function(formId){
+    initialize: function(formId, firstFieldFocus){
         this.cache      = $A();
         this.currLoader = false;
         this.currDataIndex = false; 
@@ -11,11 +11,14 @@ VarienForm.prototype = {
         this.childLoader    = this.onChangeChildLoad.bindAsEventListener(this);
         this.highlightClass = 'highlight';
         this.extraChildParams = '';
+        this.firstFieldFocus= firstFieldFocus || false;
         this.bindElements();
-        try{
-            Form.Element.focus(Form.findFirstElement(this.form))
+        if(this.firstFieldFocus){
+            try{
+                Form.Element.focus(Form.findFirstElement(this.form))
+            }
+            catch(e){}
         }
-        catch(e){}
     },
 
     bindElements:function (){

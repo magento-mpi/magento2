@@ -12,6 +12,19 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
+        parent::__construct();
         $this->setTemplate('review/list.phtml');
+        
+        $productId = Mage::registry('controller')->getFront()->getRequest()->getParam('id', false);
+        
+        $collection = Mage::getModel('review/review')->getCollection();
+        $collection->setPageSize(10)
+            ->addWebsiteFilter(Mage::registry('website')->getId())
+            ->addStatusFilter('approved')
+            ->addEntityFilter('product', $productId)
+            ->setDateOrder()
+            ->load();
+            
+        $this->assign('collection', $collection);
     }
 }
