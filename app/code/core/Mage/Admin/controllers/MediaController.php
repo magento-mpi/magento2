@@ -94,20 +94,22 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
     public function moveAction()
     {
-        $currentObjDirectoryName = $this->getRequest()->getParam('current_object_dir', false);
-        $currentObjName = $this->getRequest()->getParam('current_object', false);
+        #$currentObjDirectoryName = $this->getRequest()->getParam('current_object_dir', false);
+        $currentObj = $this->getRequest()->getParam('current_object', false);
 
-        $destObjDirectoryName = $this->getRequest()->getParam('destination_object_dir', false);
-        $destObjName = $this->getRequest()->getParam('destination_object', false);
+        #$destObjDirectoryName = $this->getRequest()->getParam('destination_object_dir', false);
+        $destObj = $this->getRequest()->getParam('destination_object', false);
 
-        if( $currentObjName === false || $destObjName === false ) {
+        if( $currentObj === false || $destObj === false ) {
             $this->getResponse()->setBody(Zend_Json::encode('Unable to move object. Source or destinations object is not specified.'));
             return;
         }
 
+        $pathinfo = pathinfo($currentObj);
+
         $io = new Varien_Io_File();
-        $io = open($currentObjDirectoryName);
-        $io->mv($currentObjName, $destObjDirectoryName . DIRECTORY_SEPARATOR . $destObjName);
+        $io = open($pathinfo['dirname']);
+        $io->mv($currentObj, $destObj);
     }
 
     public function uploadAction()
