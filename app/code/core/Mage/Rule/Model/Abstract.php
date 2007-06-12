@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Core_Model_Rule_Abstract extends Varien_Object
+abstract class Mage_Rule_Model_Abstract extends Varien_Object
 {
     public function __construct()
     {
@@ -12,15 +12,7 @@ abstract class Mage_Core_Model_Rule_Abstract extends Varien_Object
     
     abstract public function getResource();
     
-    public function getEnv()
-    {
-        if (!$this->getData('env')) {
-            $this->setData('env', Mage::getModel('core/rule_environment'));
-        }
-        return $this->getData('env');
-    }
-    
-    public function resetConditions(Mage_Core_Rule_Condition_Interface $conditions=null)
+    public function resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
         if (is_null($conditions)) {
             $conditions = Mage::getModel('core/rule_condition_combine');
@@ -33,10 +25,10 @@ abstract class Mage_Core_Model_Rule_Abstract extends Varien_Object
     
     abstract public function getConditionInstance($type);
     
-    public function resetActions(Mage_Core_Rule_Action_Interface $actions=null)
+    public function resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
         if (is_null($actions)) {
-            $actions = Mage::getModel('core/quote_rule_action_collection');
+            $actions = Mage::getModel('core/rule_action_collection');
         }
         $actions->setRule($this);
         $this->setActions($actions);
@@ -81,6 +73,19 @@ abstract class Mage_Core_Model_Rule_Abstract extends Varien_Object
         );
         
         return $out;
+    }
+    
+    public function process()
+    {
+        if ($this->validate()) {
+            $this->getActions()->process();
+        }
+        return $this;
+    }
+    
+    public function validate()
+    {
+        return $this->getConditions()->validate();
     }
     
     public function load($ruleId)

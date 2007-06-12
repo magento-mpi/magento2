@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Environment extends Mage_Core_Model_Rule_Environment 
+class Mage_Sales_Model_Quote_Rule_Environment extends Mage_Rule_Model_Environment 
 {
     /**
      * Collect application environment for rules filtering

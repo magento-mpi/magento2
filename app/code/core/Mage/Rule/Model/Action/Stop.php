@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Rule_Action_Stop extends Mage_Core_Model_Rule_Action_Abstract
+class Mage_Rule_Model_Action_Stop extends Mage_Rule_Model_Action_Abstract
 {
     public function toArray(array $arrAttributes = array())
     {
@@ -11,5 +11,11 @@ class Mage_Core_Model_Rule_Action_Stop extends Mage_Core_Model_Rule_Action_Abstr
     {
         $str = "Stop rule processing";
         return $str;
+    }
+    
+    public function process()
+    {
+        $this->getRule()->setStopProcessingRules(true);
+        return $this;
     }
 }

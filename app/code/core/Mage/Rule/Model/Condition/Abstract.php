@@ -4,7 +4,7 @@
  * Abstract class for quote rule condition
  *
  */
-abstract class Mage_Core_Model_Rule_Condition_Abstract extends Varien_Object implements Mage_Core_Model_Rule_Condition_Interface 
+abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implements Mage_Rule_Model_Condition_Interface 
 {
     public function __construct()
     {
@@ -167,5 +167,10 @@ abstract class Mage_Core_Model_Rule_Condition_Abstract extends Varien_Object imp
         }
         
         return $result;
+    }
+
+    public function validate()
+    {
+        return $this->validateAttribute($this->getObject()->getData($this->getAttribute()));
     }
 }

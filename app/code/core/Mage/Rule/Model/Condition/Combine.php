@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Rule_Condition_Combine extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstract
 {
     public function __construct()
     {
@@ -20,11 +20,12 @@ class Mage_Core_Model_Rule_Condition_Combine extends Mage_Core_Model_Rule_Condit
         return $this;
     }
     
-    public function addCondition(Mage_Core_Model_Rule_Condition_Interface $condition)
+    public function addCondition(Mage_Rule_Model_Condition_Interface $condition)
     {
         $conditions = $this->getConditions();
         
         $condition->setRule($this->getRule());
+        $condition->setObject($this->getObject());
 
         $conditions[] = $condition;
         if (!$condition->getId()) {
@@ -78,7 +79,6 @@ class Mage_Core_Model_Rule_Condition_Combine extends Mage_Core_Model_Rule_Condit
     
     public function loadArray($arr)
     {
-        $salesConfig = Mage::getSingleton('sales/config');
         $this->setAttribute($arr['attribute'])
             ->setValue($arr['value']);
         
@@ -121,5 +121,19 @@ class Mage_Core_Model_Rule_Condition_Combine extends Mage_Core_Model_Rule_Condit
             $str .= "\n".$cond->toStringRecursive($level+1);
         }
         return $str;
+    }
+    
+    public function validate()
+    {
+        $all = $this->getAttribute()==='all';
+        $true = (bool)$this->getValue();
+        foreach ($this->getConditions() as $cond) {
+            if ($all && $cond->validate()!==$true) {
+                return false;
+            } elseif (!$all && $cond->validate()===$true) {
+                return true;
+            }
+        }
+        return $all ? true : false;
     }
 }

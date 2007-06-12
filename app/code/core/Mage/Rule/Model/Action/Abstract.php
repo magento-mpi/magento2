@@ -4,11 +4,11 @@
  * Quote rule action abstract
  *
  * @package    Mage
- * @subpackage Sales
+ * @subpackage Core
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implements Mage_Core_Model_Rule_Action_Interface 
+abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements Mage_Rule_Model_Action_Interface 
 {
     public function __construct()
     {
@@ -27,7 +27,7 @@ abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implem
         return $this;
     }
     
-    public function loadAttributes()
+    public function loadAttributeOptions()
     {
         return $this;
     }
@@ -37,7 +37,7 @@ abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implem
         return $this->getAttributeOption($this->getAttribute());
     }
     
-    public function loadOperators()
+    public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
             '=' => 'to',
@@ -51,7 +51,7 @@ abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implem
         return $this->getOperatorOption($this->getOperator());
     }
     
-    public function loadValues()
+    public function loadValueOptions()
     {
         return $this;
     }
@@ -70,5 +70,10 @@ abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implem
     {
         $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
         return $str;
+    }
+    
+    public function process()
+    {
+        return $this;
     }
 }

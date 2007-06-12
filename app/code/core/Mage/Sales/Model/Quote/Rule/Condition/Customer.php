@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {
@@ -24,7 +24,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Core_Model_Rul
      * @param Mage_Sales_Model_Quote $quote
      * @return boolean
      */
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate()
     {
         $customer = $this->getEnv()->getCustomer();
         switch ($this->getAttribute()) {
@@ -34,6 +34,6 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Core_Model_Rul
             case 'first_time_buyer':
                 return (bool)$customer && $customer->getNumOrdersCompleted()==0;
         }
-        return $this->validateAttribute($quote->getData($this->getAttribute()));
+        return parent::validate();
     }
 }

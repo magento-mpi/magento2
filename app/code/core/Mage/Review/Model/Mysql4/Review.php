@@ -31,13 +31,15 @@ class Mage_Review_Model_Mysql4_Review
     
     public function __construct() 
     {
-        $this->_reviewTable         = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review');
-        $this->_reviewDetailTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_detail');
-        $this->_reviewStatusTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_status');
-        $this->_reviewEntityTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_entity');
+        $resources = Mage::getSingleton('core/resource');
         
-        $this->_read    = Mage::getSingleton('core/resource')->getConnection('review_read');
-        $this->_write   = Mage::getSingleton('core/resource')->getConnection('review_write');
+        $this->_reviewTable         = $resources->getTableName('review_resource', 'review');
+        $this->_reviewDetailTable   = $resources->getTableName('review_resource', 'review_detail');
+        $this->_reviewStatusTable   = $resources->getTableName('review_resource', 'review_status');
+        $this->_reviewEntityTable   = $resources->getTableName('review_resource', 'review_entity');
+        
+        $this->_read    = $resources->getConnection('review_read');
+        $this->_write   = $resources->getConnection('review_write');
     }
     
     public function load($reviewId)

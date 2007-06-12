@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Core_Model_Rule_Action_Abstract
+class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Abstract
 {
     public function loadAttributes()
     {
@@ -45,7 +45,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Core_Model_Rule_Acti
         return $str;
     }
     
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    public function process()
     {
         switch ($this->getOperator()) {
             case '=':
@@ -53,7 +53,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Core_Model_Rule_Acti
                 break;
                 
             case '+=':
-                $value = $quote->getData($this->getAttribute())+$this->getValue();
+                $value = $this->getObject()->getData($this->getAttribute())+$this->getValue();
         }
         $quote->setData($this->getAttribute(), $value);
         

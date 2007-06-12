@@ -47,9 +47,11 @@ final class Mage {
      */
     public static function register($key, $value)
     {
+/* // why? - moshe
         if(isset(self::$_registry[$key])){
             throw new Exception('Mage registry key "'.$key.'" already exists');
         }
+*/
         self::$_registry[$key] = $value;
     }
     
@@ -132,9 +134,6 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        if (!Mage::getSingleton('core/website')) {
-            throw new Exception('Empty website registry var');
-        }
         return Mage::getSingleton('core/website')->getUrl($params);
     }
     
@@ -144,9 +143,8 @@ final class Mage {
     }
 
     /**
-     * Get a config object by module name
+     * Get a config object
      *
-     * @param string $moduleName
      * @return Mage_Core_Model_Config
      */
     public static function getConfig()
@@ -182,34 +180,7 @@ final class Mage {
     {
         return Mage::registry('events')->dispatch($name, $data);
     }
-
-    /**
-     * Create page block
-     *
-     * See {@link Mage_Core_Block::createBlock}
-     *
-     * @param string $type
-     * @param string $name
-     * @param array $attributes
-     * @return Mage_Core_Block_Abstract
-     */
-    public static function createBlock($type, $name='', array $attributes=array())
-    {
-        return Mage::registry('controller')->getLayout()->createBlock($type, $name, $attributes);
-    }
     
-    /**
-     * Return Block object for block id
-     *
-     * @link    Mage_Core_Block::getBlock
-     * @param   string $id
-     * @return  Mage_Core_Block_Abstract
-     */
-    public static function getBlock($name)
-    {
-        return Mage::registry('controller')->getLayout()->getBlock($name);
-    }
-
     /**
      * Get model class
      *
@@ -248,9 +219,7 @@ final class Mage {
     
     /**
      * Initialize Mage
-     *
-     * @param string $appRoot
-      */
+     */
     public static function init()
     {
         set_error_handler('my_error_handler');

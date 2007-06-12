@@ -1,13 +1,13 @@
 <?php
 /**
- * Quote rules collection
+ * Product rules collection
  *
  * @package    Mage
- * @subpackage Sales
+ * @subpackage Catalog
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysql4_Rule_Collection
+class Mage_Catalog_Model_Mysql4_Product_Rule_Collection extends Mage_Rule_Model_Mysql4_Rule_Collection
 {
 
     /**
@@ -16,23 +16,23 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
      */
     public function __construct() 
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
         
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'quote_rule');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_rule'));
     }
     
     /**
      * Retrieve environment for the rules in collection
      *
-     * @return Mage_Sales_Model_Quote_Rule_Environment
+     * @return Mage_Catalog_Model_Mysql4_Product_Rule_Collection
      */
     public function getEnv()
     {
         if (!$this->_env) {
-            $this->_env = Mage::getModel('sales/quote_rule_environment');
+            $this->_env = Mage::getModel('catalog/product_rule_environment');
             $this->_env->collect();
         }
         return $this->_env;
@@ -41,19 +41,13 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
     /**
      * Set filter for the collection based on the environment
      *
-     * @return Mage_Sales_Model_Mysql4_Quote_Rule_Collection
+     * @return Mage_Catalog_Model_Mysql4_Product_Rule_Collection
      */
     public function setActiveFilter()
     {
         parent::setActiveFilter();
         
         $e = $this->getEnv()->getData();
-        
-        if (!empty($e['coupon_code'])) {
-            $this->_sqlSelect->where($this->_conn->quoteInto("coupon_code in ('', ?)", $e['coupon_code']));
-        } else {
-            $this->_sqlSelect->where("coupon_code=''");
-        }
         
         if (!isset($e['customer_registered'])
             || !is_numeric($reg = $e['customer_registered']) && ($reg<0 || $reg>1)) {
@@ -66,7 +60,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
             $new = 2;
         }        
         $this->_sqlSelect->where("customer_new_buyer=".$new);
-
+        
         return $this;
     }
 }

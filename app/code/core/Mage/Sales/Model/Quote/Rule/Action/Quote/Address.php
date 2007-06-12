@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Core_Model_Rule_Action_Abstract
+class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Rule_Model_Action_Abstract
 {
     /**
      * Load attribute options
@@ -41,14 +41,13 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Core_Model_R
     /**
      * Update quote using action's parameters
      *
-     * @param Mage_Sales_Model_Quote $quote
      * @return Mage_Sales_Model_Quote_Rule_Action_Quote_Address
      */
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    public function process()
     {
         $addressNumber = $this->getAddressNumber();
         $entityId = $this->getRule()->getFoundQuoteAddresses($addressNumber);
-        $address = $quote->getEntityById($entityId);
+        $address = $this->getObject()->getEntityById($entityId);
         
         switch ($this->getOperator()) {
             case '=':

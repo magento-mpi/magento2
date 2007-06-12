@@ -178,7 +178,7 @@ class Mage_Core_Model_Website extends Varien_Object
     {
         $code = Mage::getSingleton('core/session')->getCurrencyCode();
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
-            return Mage::getSingleton('core/session')->getCurrencyCode();
+            return $code;
         }
         return $this->getDefaultCurrencyCode();
     }

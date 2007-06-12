@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_Sales_Model_Quote_Rule_Condition_Combine
+class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_Rule_Model_Condition_Combine
 {
     public function __construct()
     {
@@ -29,17 +29,18 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_S
         return $str;
     }
     
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate()
     {
         $all = $this->getAttribute()==='all';
         $found = false;
-        foreach ($quote->getShippingAddresses() as $address) {
+        foreach ($this->getQuote()->getShippingAddresses() as $address) {
             $found = $all ? true : false;
             foreach ($this->getConditions() as $cond) {
-                if ($all && !$cond->validateQuoteAddress($address)) {
+                $cond->setObject($address);
+                if ($all && !$cond->validate()) {
                     $found = false;
                     break;
-                } elseif (!$all && $cond->validateQuoteAddress($address)) {
+                } elseif (!$all && $cond->validate()) {
                     $found = true;
                     break 2;
                 }

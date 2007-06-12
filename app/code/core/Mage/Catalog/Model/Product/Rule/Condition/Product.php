@@ -12,9 +12,4 @@ class Mage_Catalog_Model_Product_Rule_Condition_Product extends Mage_Core_Model_
         ));
         return $this;
     }
-    
-    public function validateProduct(Mage_Catalog_Model_Product $product)
-    {
-        return $this->validateAttribute($item->getData($this->getAttribute()));
-    }
 }

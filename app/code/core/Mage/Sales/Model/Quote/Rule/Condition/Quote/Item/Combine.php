@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sales_Model_Quote_Rule_Condition_Combine
+class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Rule_Model_Condition_Combine
 {
     public function __construct()
     {
@@ -30,17 +30,18 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Sale
         return $str;
     }
     
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate()
     {
         $all = $this->getAttribute()==='all';
         $found = false;
         foreach ($quote->getEntitiesByType('item') as $item) {
             $found = $all ? true : false;
             foreach ($this->getConditions() as $cond) {
-                if ($all && !$cond->validateQuoteItem($item)) {
+                $cond->setObject($item);
+                if ($all && !$cond->validate()) {
                     $found = false;
                     break;
-                } elseif (!$all && $cond->validateQuoteItem($item)) {
+                } elseif (!$all && $cond->validate()) {
                     $found = true;
                     break 2;
                 }

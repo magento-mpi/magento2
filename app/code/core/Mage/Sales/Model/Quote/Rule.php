@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
+class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
 {
     public function getId()
     {
@@ -86,13 +86,7 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
         return $out;
     }
     
-    public function processQuote(Mage_Sales_Model_Quote $quote)
-    {
-        $this->validateQuote($quote) && $this->updateQuote($quote);
-        return $this;
-    }
-    
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate()
     {
         if (!$this->getIsCollectionValidated()) {
             $env = $this->getEnv();
@@ -101,19 +95,13 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
                 && (strtotime($this->getExpireAt()) >= $env->getNow())
                 && ($this->getCouponCode()=='' || $this->getCouponCode()==$env->getCouponCode())
                 && ($this->getCustomerRegistered()==2 || $this->getCustomerRegistered()==$env->getCustomerRegistered())
-                && ($this->getCustomerNewBuyer()==2 || $this->getCustomerNewBuyer()==$env->getCustomerNewBuyer())
-                && $this->getConditions()->validateQuote($quote);
-        } else {
-            $result = $this->getConditions()->validateQuote($quote);
+                && ($this->getCustomerNewBuyer()==2 || $this->getCustomerNewBuyer()==$env->getCustomerNewBuyer());
+            if (!$result) {
+                return false;
+            }
         }
 
-        return $result;
-    }
-    
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
-    {
-        $this->getActions()->updateQuote($quote);
-        return $this;
+        return parent::validate();
     }
     
     public function getResource()

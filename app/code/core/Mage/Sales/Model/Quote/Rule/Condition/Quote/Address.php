@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {
@@ -10,10 +10,5 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address extends Mage_Core_Mode
             'country_id'=>'Country',
         ));
         return $this;
-    }
-    
-    public function validateQuoteAddress(Mage_Sales_Model_Quote_Entity_Address $address)
-    {
-        return $this->validateAttribute($address->getData($this->getAttribute()));
     }
 }

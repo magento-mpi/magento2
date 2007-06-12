@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Quote extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Sales_Model_Quote_Rule_Condition_Quote extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {
@@ -20,10 +20,5 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote extends Mage_Core_Model_Rule_C
     public function toString($format='')
     {
         return 'Cart '.parent::toString();
-    }
-    
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
-    {
-        return $this->validateAttribute($quote->getData($this->getAttribute()));
     }
 }

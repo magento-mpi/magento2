@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Rule_Action_Collection extends Mage_Core_Model_Rule_Action_Abstract
+class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 {
     /**
      * Returns array containing actions in the collection
@@ -36,7 +36,7 @@ class Mage_Core_Model_Rule_Action_Collection extends Mage_Core_Model_Rule_Action
         return $this;
     }
     
-    public function addAction(Mage_Coer_Model_Rule_Action_Interface $action)
+    public function addAction(Mage_Rule_Model_Action_Interface $action)
     {
         $actions = $this->getActions();
         
@@ -64,5 +64,13 @@ class Mage_Core_Model_Rule_Action_Collection extends Mage_Core_Model_Rule_Action
             $str .= "\n".$action->toStringRecursive($level+1);
         }
         return $str;
+    }
+    
+    public function process()
+    {
+        foreach ($this->getActions() as $action) {
+            $action->process();
+        }
+        return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_System extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Sales_Model_Quote_Rule_Condition_System extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {
@@ -16,7 +16,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_System extends Mage_Core_Model_Rule_
         return 'System '.parent::toString();
     }
     
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate()
     {
         switch ($this->getAttribute()) {
             case 'date':

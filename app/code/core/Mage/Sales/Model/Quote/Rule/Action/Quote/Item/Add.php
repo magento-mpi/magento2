@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Core_Model_Rule_Action_Abstract
+class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Rule_Model_Action_Abstract
 {
     /**
      * Perform some actions when assigning a rule to the object
@@ -93,10 +93,9 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Core_Model_
     /**
      * Update the quote using action's parameters
      *
-     * @param Mage_Sales_Model_Quote $quote
      * @return Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add
      */
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    public function process()
     {
         
         return $this;
