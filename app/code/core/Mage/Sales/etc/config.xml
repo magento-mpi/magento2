@@ -453,10 +453,10 @@
         <rule>
           <conditions>
             <combine>
-              <class>sales/quote_rule_condition_combine</class>
+              <class>rule/condition_combine</class>
             </combine>
             <system>
-              <class>sales/quote_rule_condition_system</class>
+              <class>rule/condition_system</class>
             </system>
             <customer>
               <class>sales/quote_rule_condition_customer</class>
@@ -491,7 +491,7 @@
               <class>sales/quote_rule_action_quote_address</class>
             </quote_address>
             <stop>
-              <class>sales/quote_rule_action_stop</class>
+              <class>rule/action_stop</class>
             </stop>
           </actions>
         </rule>

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Catalog_Model_Product_Rule_Condition_Product extends Mage_Core_Model_Rule_Condition_Abstract
+class Mage_Catalog_Model_Product_Rule_Condition_Product extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {

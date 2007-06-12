@@ -1,12 +1,14 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_System extends Mage_Rule_Model_Condition_Abstract
+class Mage_Rule_Model_Condition_System extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributes()
     {
         $this->setAttributeOption(array(
             'date'=>'Date',
-            'visitor_ip'=>'Visitor IP Address'
+            'visitor_ip'=>'Visitor IP Address',
+            'website_code'=>'Website code',
+            'language_code'=>'Language code',
         ));
         return $this;
     }
