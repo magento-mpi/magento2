@@ -36,15 +36,19 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody(Zend_Json::encode($collection->toArray($arrGridFields)));
     }
     
+    /**
+     * Create new customer wizard
+     */
     public function wizardAction()
     {
         $step = $this->getRequest()->getParam('step', 1);
         
         switch ($step) {
+            // Account form
             case 1:
                 $customer = Mage::getModel('customer/customer');
                 $form = new Mage_Admin_Block_Customer_Form($customer);
-
+                
                 $tab = array(
                     'name'  => 'general',
                     'title' => __('Account Information'),
@@ -53,20 +57,31 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                 );
                 $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>2));
                 break;
+            // Address form
             case 2:
                 $address = Mage::getModel('customer/address');
                 $form = new Mage_Admin_Block_Customer_Address_Form($address);
-
+                $form->addFieldNamePrefix('address');
+                
                 $tab = array(
                     'name'  => 'general',
                     'title' => __('Customer address'),
                     'type'  => 'form',
                     'form'  => $form->toArray()
                 );
+                $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>3));
+                break;
+            // Create preview
+            case 3:
+                $tab = array(
+                    'name'  => 'preview',
+                    'title' => __('New customer create information'),
+                    'type'  => 'view',
+                    'url'   => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'createPreview'))
+                );
                 $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'create'));
                 $cardStruct['btnFinish']= true;
                 break;
-                
         }
         
         $cardStruct['title'] = __('New Customer');
@@ -74,6 +89,22 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $cardStruct['tabs'][] = $tab;
         
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
+    }
+    
+    /**
+     * Customer create preview action
+     */
+    public function createPreviewAction()
+    {
+        $this->getResponse()->setBody('Customer create preview');
+    }
+    
+    /**
+     * Custoner create action
+     */
+    public function createAction()
+    {
+        
     }
     
     /**

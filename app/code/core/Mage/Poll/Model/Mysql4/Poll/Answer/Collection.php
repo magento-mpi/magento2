@@ -28,13 +28,9 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
         }
 
         $condition = 'poll_id';
-        if( is_array($arrPollId) ) {
-            $inString.= '\'' . join('\', \'', $arrPollId) . '\'';
-            $condition.= ' IN(' . $inString . ')';
-        } else {
-            $condition = ' = ' . $arrPollId;
-        }
+        $condition.= $this->getConnection()->quoteInto(' IN(?) ', $arrPollId);
         $this->addFilter(null, $condition, 'string');
+        return $this;
     }
 
     function getPollAnswers($pollData)

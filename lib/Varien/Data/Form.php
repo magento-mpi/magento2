@@ -85,4 +85,25 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return $this;
     }
+    
+    public function addFieldNamePrefix($prefix)
+    {
+        foreach ($this->_allElements as $element) {
+        	$name = $element->getName();
+        	if ($name) {
+        	    //$test = preg_replace('/(.*)\[.*/is', $prefix.'[$1]', $name);
+        	    //echo $test;
+        	    $vars = explode('[', $name);
+        	    $newName = $prefix;
+        	    foreach ($vars as $index=>$value) {
+        	    	$newName.= '['.$value;
+        	    	if ($index==0) {
+        	    	    $newName.= ']';
+        	    	}
+        	    }
+        	    $element->setName($newName);
+        	}
+        }
+    }
+
 }

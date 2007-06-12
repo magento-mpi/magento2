@@ -50,8 +50,8 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
     public function getAnswers($arrPollId)
     {
         $this->_getAnswersCollection()
-            ->addPollFilter($arrPollId);
-        $this->_getAnswersCollection()->loadData();
+            ->addPollFilter($arrPollId)
+            ->loadData();
     }
 
     protected  function _getAnswersCollection()
