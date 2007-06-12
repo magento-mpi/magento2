@@ -122,4 +122,11 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         $uploadFile = new Varien_File_Uploader('upload_file');
         $uploadFile->save(Mage::getBaseDir('upload') . DIRECTORY_SEPARATOR . $destinationDir);
     }
+
+    public function loadSettingsAction()
+    {
+        $struct['root_directory'] = Mage::getBaseDir('upload');
+        $struct['directory_separator'] = DIRECTORY_SEPARATOR;
+        $this->getResponse()->setBody(Zend_Json::encode($struct));
+    }
 }
