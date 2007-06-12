@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base items collection class 
+ * Base items collection class
  *
  * @package    Mage
  * @subpackage Core
@@ -18,23 +18,23 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_conn;
-    
+
     /**
      * Select oblect
      *
      * @var Zend_Db_Select
      */
     protected $_sqlSelect;
-    
+
     public function __construct($conn=null)
     {
         parent::__construct();
-        
+
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
     }
-    
+
     public function setConnection($conn)
     {
         if (!$conn instanceof Zend_Db_Adapter_Abstract) {
@@ -44,7 +44,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_conn = $conn;
         $this->_sqlSelect = $this->_conn->select();
     }
-    
+
     public function getConnection()
     {
         return $this->_conn;
@@ -63,7 +63,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
         return $this->_totalRecords;
     }
-    
+
     /**
      * Get sql for get record count
      *
@@ -72,18 +72,18 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     public function getSelectCountSql()
     {
         $this->_renderFilters();
-        
+
         $countSelect = clone $this->_sqlSelect;
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        
+
         // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
         $sql = $countSelect->__toString();
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
         return $sql;
     }
-    
+
     /**
      * Get sql select string or object
      *
@@ -98,7 +98,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         return $this->_sqlSelect;
     }
 
-    
+
     /**
      * Set select order
      *
@@ -112,7 +112,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
         return $this;
     }
-    
+
     /**
      * Render sql select conditions
      *
@@ -123,7 +123,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if ($this->_isFiltersRendered) {
             return $this;
         }
-        
+
         foreach ($this->_filters as $filter) {
             switch ($filter['type']) {
                 case 'or' :
@@ -141,20 +141,20 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_isFiltersRendered = true;
         return $this;
     }
-        
+
     /**
      * Build SQL statement for condition
-     * 
+     *
      * If $condition integer or string - exact value will be filtered
-     * 
+     *
      * If $condition is array is - one of the following structures is expected:
      * - array("from"=>$fromValue, "to"=>$toValue)
      * - array("like"=>$likeValue)
      * - array("neq"=>$notEqualValue)
      * - array("in"=>array($inValues))
      * - array("nin"=>array($notInValues))
-     * 
-     * If non matched - sequential array is expected and OR conditions 
+     *
+     * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
      *
      * @param string $fieldName
@@ -187,7 +187,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
         return $sql;
     }
-    
+
     /**
      * Render sql select orders
      *
@@ -200,7 +200,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
         return $this;
     }
-    
+
     /**
      * Render sql select limit
      *
@@ -211,14 +211,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if ($this->_curPage<1) {
             $this->_curPage=1;
         }
-        
+
         if($this->_pageSize){
             $this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Set select distinct
      *
@@ -229,7 +229,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_sqlSelect->distinct($flag);
         return $this;
     }
-    
+
     /**
      * Load data
      *
@@ -244,7 +244,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if($printQuery) {
             echo $this->_sqlSelect->__toString();
         }
-        
+
         if($logQuery){
             Mage::log($this->_sqlSelect->__toString());
         }
@@ -257,6 +257,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $this->addItem($item);
             }
         }
+
         return $this;
     }
 

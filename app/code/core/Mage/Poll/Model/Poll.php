@@ -8,30 +8,31 @@
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
  */
 
-class Mage_Poll_Model_Poll extends Varien_Object 
+class Mage_Poll_Model_Poll extends Varien_Object
 {
     public function getId()
     {
         return $this->getPollId();
     }
-    
+
     public function getResource()
     {
-        Mage::getSingleton('poll_resource/poll');
+        return Mage::getSingleton('poll_resource/poll_collection');
     }
 
     public function load($pollId)
     {
-        $this->setData($this->getResource()->load($pollId));
-        return $this;    
+        $this->setPollId($pollId);
+        $this->setData($this->getResource()->loadData($pollId));
+        return $this;
     }
-    
+
     public function save()
     {
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     public function delete()
     {
         $this->getResource()->delete($this);
@@ -40,23 +41,28 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function loadRandom()
     {
-    
+
     }
 
     public function setWebsiteId($websiteId)
     {
         $this->getResource()->setWebsiteId($websiteId);
     }
-    
+
     public function getAnswerCollection()
     {
         $collection = Mage::getModel('poll_resource/poll_answer_collection')
             ->addPollFilter($this->getId());
         return $collection;
     }
-    
+
     public function getAnswers()
     {
-        return $this->getAnswerCollection()->load();
+        $this->_appendAnswers($this->getAnswerCollection()->getItems());
+    }
+
+    protected function _appendAnswers($answers)
+    {
+        $this->setAnswers($answers);
     }
 }

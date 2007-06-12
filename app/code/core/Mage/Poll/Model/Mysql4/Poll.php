@@ -58,7 +58,7 @@ class Mage_Poll_Model_Mysql4_Poll
     {
         return $this->_website_id;
     }
-
+   
 }  
  
 // ft:php

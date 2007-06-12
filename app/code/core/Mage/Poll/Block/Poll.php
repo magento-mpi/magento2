@@ -16,8 +16,4 @@ class Mage_Poll_Block_Poll extends Mage_Core_Block_Template
         $this->setTemplate('poll/poll.phtml');
         
     }
-} 
- 
-// ft:php
-// fileformat:unix
-// tabstop:4
+}
