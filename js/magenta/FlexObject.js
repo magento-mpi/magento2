@@ -11,17 +11,17 @@ Mage.FlexObject = function(config) {
 		 pluginspage: "http://www.adobe.com/go/getflashplayer",
 		 type: "application/x-shockwave-flash",
 		 allowScriptAccess: "always",
-		 classid: "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+          classid: "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 	};
 	
 	this.setAttributes( config );
 	this.applied = false;
 	
-	if(this.detectFlashVersion(9, 0, 0)) {
+	if(this.detectFlashVersion(9, 0, 45)) {
 		if(this.isIE && !this.isOpera) {
-			this.template = new Ext.Template( '<object {objectAttributes}>{objectParameters}</object>' )
+			this.template = new Ext.Template( '<object {objectAttributes}><param name="allowFullScreen" value="true"/>{objectParameters}</object>' )
 		} else {
-			this.template = new Ext.Template( '<embed {embedAttributes} />' );
+			this.template = new Ext.Template( '<embed {embedAttributes} allowfullscreen="true" />' );
 		}
 	} else {
 		this.template = new Ext.Template(  'This content requires the Adobe Flash Player. '
@@ -98,8 +98,8 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				}
 				this.applied = true;
 			},
-						
-			applyHTML : function( ) {
+            
+           	applyHTML : function( ) {
 				if (!this.applied) {
 					this.setAttribute( "id", Ext.id().replace("-","def") );
 				}
@@ -125,7 +125,8 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				var parameters = new Object();
 				for (var key in this.attributes ) {
 					var attributeName = key.toLowerCase();
-
+                    this.attributes[key] = this.escapeAttributes( this.attributes[key] );
+                    
 					switch (attributeName) {   
 						case "pluginspage":
 							embedAttributes[key] = this.attributes[key];
@@ -179,7 +180,9 @@ Ext.extend( Mage.FlexObject,  Ext.util.Observable, {
 				
 				return result;
 			},
-
+            escapeAttributes: function (value) {
+                return value.replace(new RegExp("&","g"), "&amp;");
+            },
 			detectFlashVersion : function( reqMajorVer, reqMinorVer, reqRevision ) {
 				var versionStr = this.getSwfVer();
 			    if (versionStr == -1 ) {

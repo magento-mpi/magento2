@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataSource>
+    <row>
+        <time>2007/06/06 12:00</time>
+        <sales>600</sales>
+        <views>500</views>
+        <revenue>9000</revenue>
+    </row>
+    <row>
+        <time>2007/06/05 16:00</time>
+        <sales>440</sales>
+        <views>600</views>
+        <revenue>4000</revenue>
+    </row>
+    <row>
+        <time>2007/03/30 19:00</time>
+        <sales>200</sales>
+        <views>220</views>
+        <revenue>2413</revenue>
+    </row>
+    <row>
+        <time>2007/04/01 12:00</time>
+        <sales>550</sales>
+        <views>500</views>
+        <revenue>9000</revenue>
+    </row>
+    <row>
+        <time>2007/04/02 12:00</time>
+        <sales>0</sales>
+        <views>300</views>
+        <revenue>9000</revenue>
+    </row>
+    <row>
+        <time>2007/04/08 12:00</time>
+        <sales>200</sales>
+        <views>400</views>
+        <revenue>9000</revenue>
+    </row>
+    <row>
+        <time>2007/05/01 12:00</time>
+        <sales>600</sales>
+        <views>50</views>
+        <revenue>9000</revenue>
+    </row>
+</dataSource>

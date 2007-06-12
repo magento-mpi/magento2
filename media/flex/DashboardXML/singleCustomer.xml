@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource>
+    <name>Customer name</name>
+    <revenue>$ 3246</revenue>
+    <orders>35</orders>
+    <date_login>2007/02/21</date_login>
+    <date_order>2007/03/23</date_order>
+    <order_amouth>$ 2566</order_amouth>
+    <email>customer@varien.com</email>
+</dataSource>

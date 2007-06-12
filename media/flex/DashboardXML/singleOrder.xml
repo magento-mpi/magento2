@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataSource>
+   <shipping>
+   <![CDATA[<b>Firstname, Lastname</b><br/>Adress<br/>City<br/>State]]>
+   </shipping>
+   <billing>
+   <![CDATA[<b>Billing<br/>Billing <i>HTML</i></b>]]>
+   </billing>
+   <payment>
+   <![CDATA[<b>Payment info from DIMA in CDATA<br/>text <i>HTML</i></b>]]>
+   </payment>
+   <products>
+        <row>
+            <id>3213</id>
+            <part>1</part>
+            <name>Product 1</name>
+            <qty>2</qty>
+            <price>588</price>
+        </row>
+        <row>
+            <id>3333</id>
+            <part>2</part>
+            <name>Product 2</name>
+            <qty>3</qty>
+            <price>589</price>
+        </row>
+        <row>
+            <id>3221</id>
+            <part>3</part>
+            <name>Product 3</name>
+            <qty>4</qty>
+            <price>562</price>
+        </row>
+   </products>
+   <totals>
+       <item bold="true" label="Total lalala" >444345355</item>
+       <item bold="true" label="Discounts" >444353455</item>
+       <item bold="true" label="Qty" >44ght435455</item>
+   </totals>
+</dataSource>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataSource>
+    <sold>
+        <row>
+            <name>Some product 1</name>
+            <sales>600</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 2</name>
+            <sales>440</sales>
+            <views>600</views>
+            <revenue>4000</revenue>
+        </row>
+        <row>
+            <name>Some product 3</name>
+            <sales>200</sales>
+            <views>220</views>
+            <revenue>2413</revenue>
+        </row>
+        <row>
+            <name>Some product 4</name>
+            <sales>550</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 5</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 6</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 7</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 8</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 9</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 10</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 11</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 12</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 13</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 14</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 15</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 16</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 17</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 18</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 19</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 20</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 21</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 22</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 23</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 24</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+    </sold>
+    <view>
+        <row>
+            <name>Some product 1</name>
+            <sales>600</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 2</name>
+            <sales>440</sales>
+            <views>600</views>
+            <revenue>4000</revenue>
+        </row>
+        <row>
+            <name>Some product 3</name>
+            <sales>200</sales>
+            <views>220</views>
+            <revenue>2413</revenue>
+        </row>
+        <row>
+            <name>Some product 4</name>
+            <sales>550</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 5</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 6</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 7</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 8</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 9</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 10</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 11</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 12</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 13</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 14</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 15</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 16</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 17</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 18</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 19</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 20</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 21</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 22</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 23</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 24</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>        
+    </view>
+    <revenue>
+        <row>
+            <name>Some product 1</name>
+            <sales>600</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 2</name>
+            <sales>440</sales>
+            <views>600</views>
+            <revenue>4000</revenue>
+        </row>
+        <row>
+            <name>Some product 3</name>
+            <sales>200</sales>
+            <views>220</views>
+            <revenue>2413</revenue>
+        </row>
+        <row>
+            <name>Some product 4</name>
+            <sales>550</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 5</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 6</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 7</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 8</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 9</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 10</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 11</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 12</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 13</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 14</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 15</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 16</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 17</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 18</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 19</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 20</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 21</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 22</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 23</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+        <row>
+            <name>Some product 24</name>
+            <sales>50</sales>
+            <views>500</views>
+            <revenue>9000</revenue>
+        </row>
+    </revenue>
+</dataSource>

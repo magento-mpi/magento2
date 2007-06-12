@@ -71,7 +71,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 				}
 			); */
 			
-			this.dashboard = new Mage.FlexUpload(
+		/* 	this.dashboard = new Mage.FlexUpload(
 				{
 					src: Mage.url+'../media/flex/reports.swf',
 					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
@@ -79,29 +79,42 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 					height: '90%'
 				}
 			); 
+            
 			this.dashboard.on( "load", function (e) { 
 				this.dashboard.setConfig( {
 					uploadFileField: 'filename',
 					uploadUrl: Mage.url + '../test/upload/save/'
 				} );
-			}, this );
+			}, this ); */
 			
+            
+            
 			/*
 			this.dashboard.on( "add", function () { 
 				return false;
 			}, this );
 			*/
 			
-			this.dashboard.on( "afterupload", function( e ) {
+			/*this.dashboard.on( "afterupload", function( e ) {
 				 for( var i = 0; i < e.data.length; i ++)
 				 {
 					alert(e.data[i].name);
 				 }
 				 
-			} , this);
+			} , this); */
+            
+            this.dashboard = new Mage.FlexObject(
+                {
+					src: Mage.url+'../media/flex/dashboard.swf',
+					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
+                   	width: '100%',
+					height: '99%'
+				}
+            )
             
 			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
 			this.dashboard.apply(dashPanel.getEl());
+            // alert( this.dashboard.applyHTML() );
             			
             this.statusPanel = this._layout.add('south', new Ext.ContentPanel('south', {"autoCreate":true}));
             this.taskPanel = this._layout.add('east',new Ext.ContentPanel('east', {"title":"My Tasks","autoCreate":true}));
