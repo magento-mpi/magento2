@@ -27,6 +27,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
         foreach( $directoriesList as $key => $directory ) {
             $directoriesList[$key]['iconCls'] = '.tree-folder-icon';
+            $directoriesList[$key]['allowEdit'] = true;
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($directoriesList));
