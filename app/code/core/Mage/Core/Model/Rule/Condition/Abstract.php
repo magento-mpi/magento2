@@ -4,8 +4,14 @@
  * Abstract class for quote rule condition
  *
  */
-abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Object
+abstract class Mage_Core_Model_Rule_Condition_Abstract extends Varien_Object implements Mage_Core_Model_Rule_Condition_Interface 
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
+    }
+    
     public function toArray(array $arrAttributes = array())
     {
         $out = array(
@@ -17,6 +23,16 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
         return $out;
     }
     
+    public function toXml()
+    {
+        extract($this->toArray());
+        $xml = "<type>".$this->getType()."</type>"
+            ."<attribute>".$this->getAttribute()."</attribute>"
+            ."<operator>".$this->getOperator()."</operator>"
+            ."<value>".$this->getValue()."</value>";
+        return $xml;
+    }
+    
     public function loadArray($arr)
     {
         $this->addData(array(
@@ -25,14 +41,25 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
             'operator'=>$arr['operator'],
             'value'=>$arr['value'],
         ));
-        $this->loadAttributes();
-        $this->loadOperators();
-        $this->loadValues();
+        $this->loadAttributeOptions();
+        $this->loadOperatorOptions();
+        $this->loadValueOptions();
+        return $this;
+    }
+
+    public function loadXml($xml)
+    {
+        if (is_string($xml)) {
+            $xml = simplexml_load_string($xml);
+        }
+        $arr = (array)$xml;
+        $this->loadArray($arr);
         return $this;
     }
     
-    public function loadAttributes()
+    public function loadAttributeOptions()
     {
+        $this->setAttributeOption(array());
         return $this;
     }
     
@@ -41,7 +68,7 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
         return $this->getAttributeOption($this->getAttribute());
     }
     
-    public function loadOperators()
+    public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
             '=='  => 'is',
@@ -63,7 +90,7 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
         return $this->getOperatorOption($this->getOperator());
     }
     
-    public function loadValues()
+    public function loadValueOptions()
     {
         $this->setValueOption(array(
             true  => 'TRUE',
@@ -94,17 +121,6 @@ abstract class Mage_Sales_Model_Quote_Rule_Condition_Abstract extends Varien_Obj
     {
         $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
         return $str;
-    }
-    
-    /**
-     * Validate quote against condition
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return boolean
-     */
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
-    {
-        return false;
     }
     
     public function validateAttribute($validatedValue)

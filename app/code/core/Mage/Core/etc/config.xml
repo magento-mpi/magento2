@@ -78,44 +78,6 @@
     
         <block>
             <groups><core><class>Mage_Core_Block</class></core></groups>
-            <types>
-                <text>
-                    <class>Mage_Core_Block_Text</class>
-                </text>
-                <tag>
-                    <class>Mage_Core_Block_Text_Tag</class>
-                </tag>
-                <tag_css>
-                    <class>Mage_Core_Block_Text_Tag_Css</class>
-                </tag_css>
-                <tag_js>
-                    <class>Mage_Core_Block_Text_Tag_Js</class>
-                </tag_js>
-                <debug>
-                    <class>Mage_Core_Block_Text_Tag_Debug</class>
-                </debug>
-                <tpl>
-                    <class>Mage_Core_Block_Template</class>
-                </tpl>
-                <tpl_zend>
-                    <class>Mage_Core_Block_Template_Zend</class>
-                </tpl_zend>
-                <list>
-                    <class>Mage_Core_Block_Text_List</class>
-                </list>
-                <list_link>
-                    <class>Mage_Core_Block_Text_List_Link</class>
-                </list_link>
-                <form>
-                    <class>Mage_Core_Block_Form</class>
-                </form>
-                <message>
-                    <class>Mage_Core_Block_Message</class>
-                </message>
-                <website>
-                    <class>Mage_Core_Block_Website</class>
-                </website>
-            </types>
         </block>
     </global>
     

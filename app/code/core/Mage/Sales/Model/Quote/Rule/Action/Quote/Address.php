@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Sales_Model_Quote_Rule_Action_Abstract
+class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Core_Model_Rule_Action_Abstract
 {
     /**
      * Load attribute options

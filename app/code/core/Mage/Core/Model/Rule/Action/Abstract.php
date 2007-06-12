@@ -8,13 +8,12 @@
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Sales_Model_Quote_Rule_Action_Abstract extends Varien_Object
+abstract class Mage_Core_Model_Rule_Action_Abstract extends Varien_Object implements Mage_Core_Model_Rule_Action_Interface 
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setActions(array())->setStopProcessingRules(false);
-        $this->loadAttributes()->loadOperators()->loadValues();
+        $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
     }
     
     public function toArray(array $arrAttributes = array())
@@ -71,10 +70,5 @@ abstract class Mage_Sales_Model_Quote_Rule_Action_Abstract extends Varien_Object
     {
         $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
         return $str;
-    }
-    
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
-    {
-        return $this;
     }
 }

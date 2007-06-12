@@ -4,7 +4,7 @@
       <Mage_Catalog>
          <version>0.2.2</version>
          <depends>
-            <Mage_Page />
+            <Mage_Customer />
          </depends>
       </Mage_Catalog>
    </modules>
@@ -91,6 +91,9 @@
                <product_link_attribute_varchar>
                   <table>catalog_product_link_attribute_varchar</table>
                </product_link_attribute_varchar>
+               <product_rule>
+                  <table>catalog_product_rule</table>
+               </product_rule>
             </entities>
          </catalog_resource>
       </models>

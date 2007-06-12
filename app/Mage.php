@@ -214,8 +214,7 @@ final class Mage {
      * Get model class
      *
      * @link Mage_Core_Model_Config::getModelInstance
-     * @param string $model
-     * @param string $class
+     * @param string $modelClass
      * @param array $arguments
      * @return Mage_Core_Model_Abstract
      */
@@ -234,11 +233,11 @@ final class Mage {
     }
 
     /**
-     * Throw new exception by module
+     * Return new exception by module to be thrown
      *
+     * @param string $module
      * @param string $message
      * @param integer $code
-     * @param string $module
      */
     public static function exception($module='Mage_Core', $message='', $code=0)
     {
@@ -298,7 +297,7 @@ final class Mage {
             Mage::registry('controller')->run();
             
             Varien_Profiler::setTimer('totalApp', true);
-            //self::displayProfiler();
+            #self::displayProfiler();
         } 
         catch (Exception $e) {
             if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Sales_Model_Quote_Rule_Condition_Abstract
+class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Core_Model_Rule_Condition_Abstract
 {
     public function loadAttributes()
     {
@@ -26,13 +26,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Sales_Model_Qu
      */
     public function validateQuote(Mage_Sales_Model_Quote $quote)
     {
-        $customer = $quote->getCustomer();
-        if (!$customer) {
-            $custSess = Mage::getSingleton('customer/session');
-            if ($custSess->isLoggedIn()) {
-                $customer = $custSess->getCustomer();
-            }
-        }
+        $customer = $this->getEnv()->getCustomer();
         switch ($this->getAttribute()) {
             case 'registered':
                 return (bool)$customer;

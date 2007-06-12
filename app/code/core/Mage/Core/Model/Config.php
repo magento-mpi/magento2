@@ -463,7 +463,7 @@ if (stripos($class, 'manufacturer')!==false) echo "TEST:".$className;
      *
      * Will instantiate Mage_Catalog_Model_Mysql4_Product
      *
-     * @param string $class
+     * @param string $modelClass
      * @param array|object $constructArguments
      * @return Mage_Core_Model_Abstract
      */

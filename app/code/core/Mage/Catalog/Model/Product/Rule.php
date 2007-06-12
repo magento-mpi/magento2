@@ -1,53 +1,47 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
+class Mage_Catalog_Model_Product_Rule extends Mage_Core_Model_Rule_Abstract
 {
     public function getId()
     {
-        return $this->getQuoteRuleId();
+        return $this->getProductRuleId();
     }
     
     public function setId($id)
     {
-        return $this->setQuoteRuleId($id);
+        return $this->setProductRuleId($id);
     }
     
     public function getEnv()
     {
         if (!$this->getData('env')) {
-            $this->setData('env', Mage::getModel('sales/quote_rule_environment'));
+            $this->setData('env', Mage::getModel('catalog/product_rule_environment'));
         }
         return $this->getData('env');
     }
     
     public function resetConditions()
     {
-        parent::resetConditions(Mage::getModel('sales/quote_rule_condition_combine'));
-
-        $this->setFoundQuoteItemNumber(1);
-        $this->setFoundQuoteItems(array());
-        
-        $this->setFoundQuoteAddressNumber(1);
-        $this->setFoundQuoteAddresses(aray());
+        parent::resetConditions(Mage::getModel('catalog/product_rule_condition_combine'));
         
         return $this;
     }
     
     public function getConditionInstance($type)
     {
-        return Mage::getSingleton('sales/config')->getQuoteRuleConditionInstance($type);
+        return Mage::getSingleton('catalog/config')->getProductRuleConditionInstance($type);
     }
     
     public function resetActions()
     {
-        parent::resetActions(Mage::getModel('sales/quote_rule_action_collection'));
+        parent::resetActions(Mage::getModel('catalog/product_rule_action_collection'));
         
         return $this;
     }
     
     public function getActionInstance($type)
     {
-        return Mage::getSingleton('sales/config')->getQuoteRuleActionInstance($type);
+        return Mage::getSingleton('catalog/config')->getProductRuleActionInstance($type);
     }
 
     public function toString($format='')
@@ -55,7 +49,6 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
         $str = "Name: ".$this->getName()."\n"
             ."Start at: ".$this->getStartAt()."\n"
             ."Expire at: ".$this->getExpireAt()."\n"
-            ."Coupon code: ".$this->getCouponCode()."\n"
             ."Customer registered: ".$this->getCustomerRegistered()."\n"
             ."Customer is new buyer: ".$this->getCustomerNewBuyer()."\n"
             ."Description: ".$this->getDescription()."\n\n"
@@ -79,45 +72,43 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Core_Model_Rule_Abstract
     public function toArray(array $arrAttributes = array())
     {
         $out = parent::toArray($arrAttributes);
-        $out['coupon_code'] = $this->getCouponCode();
         $out['customer_registered'] = $this->getCustomerRegistered();
         $out['customer_new_buyer'] = $this->getCustomerNewBuyer();
         
         return $out;
     }
     
-    public function processQuote(Mage_Sales_Model_Quote $quote)
+    public function processProduct(Mage_Catalog_Model_Product $product)
     {
-        $this->validateQuote($quote) && $this->updateQuote($quote);
+        $this->validateProduct($product) && $this->updateProduct($product);
         return $this;
     }
     
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validateProduct(Mage_Catalog_Model_Product $product)
     {
         if (!$this->getIsCollectionValidated()) {
             $env = $this->getEnv();
             $result = $result && $this->getIsActive()
                 && (strtotime($this->getStartAt()) <= $env->getNow())
                 && (strtotime($this->getExpireAt()) >= $env->getNow())
-                && ($this->getCouponCode()=='' || $this->getCouponCode()==$env->getCouponCode())
                 && ($this->getCustomerRegistered()==2 || $this->getCustomerRegistered()==$env->getCustomerRegistered())
                 && ($this->getCustomerNewBuyer()==2 || $this->getCustomerNewBuyer()==$env->getCustomerNewBuyer())
-                && $this->getConditions()->validateQuote($quote);
+                && $this->getConditions()->validateProduct($product);
         } else {
-            $result = $this->getConditions()->validateQuote($quote);
+            $result = $this->getConditions()->validateProduct($product);
         }
 
         return $result;
     }
     
-    public function updateQuote(Mage_Sales_Model_Quote $quote)
+    public function updateProduct(Mage_Sales_Model_Product $product)
     {
-        $this->getActions()->updateQuote($quote);
+        $this->getActions()->updateProduct($product);
         return $this;
     }
     
     public function getResource()
     {
-        return Mage::getModel('sales_resource/quote_rule');
+        return Mage::getModel('catalog_resource/product_rule');
     }
 }
