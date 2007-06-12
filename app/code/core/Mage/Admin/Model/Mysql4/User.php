@@ -23,9 +23,9 @@ class Mage_Admin_Model_Mysql4_User
     
     public function __construct() 
     {
-        $this->_userTable = Mage::registry('resources')->getTableName('admin_resource', 'user');
-        $this->_read = Mage::registry('resources')->getConnection('admin_read');
-        $this->_write = Mage::registry('resources')->getConnection('admin_write');
+        $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'user');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
         $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $this->_userTable, 'username', 'password', 'md5(?)');
     }
 

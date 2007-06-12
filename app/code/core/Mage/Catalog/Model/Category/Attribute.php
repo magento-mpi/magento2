@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
     
     public function getTableName()
     {
-        return Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
+        return Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
     }
     
     public function getTableAlias()

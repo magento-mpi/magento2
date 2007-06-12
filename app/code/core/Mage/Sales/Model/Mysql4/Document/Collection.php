@@ -13,16 +13,16 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('sales_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
     }
     
     public function setDocType($docType)
     {
         $this->_docType = $docType;
         $this->_attributeTypes = Mage::getConfig()->getNode('global/sales/'.$docType.'/entities');
-        $this->_documentTable = Mage::registry('resources')->getTableName('sales_resource', $docType);
+        $this->_documentTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType);
         $this->_idField = $docType.'_id';
-        $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');
+        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType.'_attribute');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/'.$docType));
         

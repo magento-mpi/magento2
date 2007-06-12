@@ -61,8 +61,8 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function __construct()
     {
-        $this->_read = Mage::registry('resources')->getConnection('admin_read');
-        $this->_write = Mage::registry('resources')->getConnection('admin_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
     }
 
     /**
@@ -77,13 +77,13 @@ class Mage_Admin_Model_Mysql4_Acl
         
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
-        $roleTable = Mage::registry('resources')->getTableName('admin_resource', 'role');
+        $roleTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'role');
         $rolesSelect = $this->_read->select()->from($roleTable)->order(array('tree_level'));
         $rolesArr = $this->_read->fetchAll($rolesSelect);
         $this->loadRoles($acl, $rolesArr);
         
-        $ruleTable = Mage::registry('resources')->getTableName('admin_resource', 'rule');
-        $assertTable = Mage::registry('resources')->getTableName('admin_resource', 'assert');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'rule');
+        $assertTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'assert');
         $rulesSelect = $this->_read->select()->from($ruleTable)
             ->joinLeft($assertTable, "$assertTable.assert_id=$ruleTable.assert_id", array('assert_type', 'assert_data'));
         $rulesArr = $this->_read->fetchAll($rulesSelect);        

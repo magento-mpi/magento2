@@ -7,9 +7,9 @@ class Mage_Catalog_Model_Product_Rule_Condition_Combine extends Mage_Core_Model_
         $all = $this->getAttribute()==='all';
         $true = (bool)$this->getValue();
         foreach ($this->getConditions() as $cond) {
-            if ($all && $cond->validateQuote($product)!==$true) {
+            if ($all && $cond->validateProduct($product)!==$true) {
                 return false;
-            } elseif (!$all && $cond->validateQuote($product)===$true) {
+            } elseif (!$all && $cond->validateProduct($product)===$true) {
                 return true;
             }
         }

@@ -23,15 +23,15 @@ class Mage_Directory_Model_Mysql4_Region extends Mage_Directory_Model_Region
     {
         parent::__construct($data);
         
-        self::$_regionTable     = Mage::registry('resources')->getTableName('directory_resource', 'country_region');
-        self::$_regionNameTable = Mage::registry('resources')->getTableName('directory_resource', 'country_region_name');
-        self::$_read = Mage::registry('resources')->getConnection('customer_read');
-        self::$_write = Mage::registry('resources')->getConnection('customer_write');
+        self::$_regionTable     = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_region');
+        self::$_regionNameTable = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_region_name');
+        self::$_read = Mage::getSingleton('core/resource')->getConnection('customer_read');
+        self::$_write = Mage::getSingleton('core/resource')->getConnection('customer_write');
     }
 
     public function load($regionId)
     {
-        $lang = Mage::registry('website')->getLanguage();
+        $lang = Mage::getSingleton('core/website')->getLanguage();
         
         $select = self::$_read->select()->from(self::$_regionTable)
             ->where(self::$_read->quoteInto(self::$_regionTable.".region_id=?", $regionId))

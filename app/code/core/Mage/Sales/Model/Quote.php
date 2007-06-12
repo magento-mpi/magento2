@@ -293,7 +293,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function createOrders()
     {
-        $website = Mage::registry('website');
+        $website = Mage::getSingleton('core/website');
         $now = new Zend_Db_Expr("now()");
         
         $order = Mage::getModel('sales/order')->addData($this->getData());

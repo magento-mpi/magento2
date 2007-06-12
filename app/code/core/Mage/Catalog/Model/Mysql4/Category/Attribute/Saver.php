@@ -13,13 +13,13 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Saver
     
     public function __construct() 
     {
-        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
     }
     
     public function save(Mage_Catalog_Model_Category_Attribute $attribute, $categoryId, $value)
     {
         $table = $attribute->getTableName();
-        $websiteId = Mage::registry('website')->getId();
+        $websiteId = Mage::getSingleton('core/website')->getId();
         $attributeId = $attribute->getId();
         
         $condition = $this->_write->quoteInto('category_id=?',$categoryId)

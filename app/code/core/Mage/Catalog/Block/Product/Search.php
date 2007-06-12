@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getModel('catalog_resource/product_collection')
             ->distinct(true)
-            ->addCategoryFilter(Mage::registry('website')->getArrCategoriesId())
+            ->addCategoryFilter(Mage::getSingleton('core/website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -63,7 +63,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         
         $prodCollection = Mage::getModel('catalog_resource/product_collection')
             ->distinct(true)
-            ->addCategoryFilter(Mage::registry('website')->getArrCategoriesId())
+            ->addCategoryFilter(Mage::getSingleton('core/website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -110,7 +110,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             $prodCollection->addCategoryFilter($search['category']);
         }
         else {
-            $prodCollection->addCategoryFilter(Mage::registry('website')->getArrCategoriesId());
+            $prodCollection->addCategoryFilter(Mage::getSingleton('core/website')->getArrCategoriesId());
         }
         if (!empty($search['price'])) {
             

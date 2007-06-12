@@ -8,9 +8,9 @@ class Mage_Shiptable_Model_Mysql4_Table
     
     public function __construct()
     {
-        $this->_read = Mage::registry('resources')->getConnection('shiptable_read');
-        $this->_write = Mage::registry('resources')->getConnection('shiptable_write');
-        $this->_shipTable = Mage::registry('resources')->getTableName('shiptable_resource', 'shiptable');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('shiptable_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('shiptable_write');
+        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shiptable_resource', 'shiptable');
     }
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)

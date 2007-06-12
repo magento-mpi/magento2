@@ -28,7 +28,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $websiteId = $this->getRequest()->getParam('website');
         
         $prodCollection = Mage::getModel('catalog_resource/product_collection')
-            ->setWebsiteId(Mage::registry('website')->getId())
+            ->setWebsiteId(Mage::getSingleton('core/website')->getId())
             ->distinct(true)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

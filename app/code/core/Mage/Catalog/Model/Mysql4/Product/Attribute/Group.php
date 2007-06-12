@@ -18,10 +18,10 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
 
     public function __construct() 
     {
-        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
-        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
-        $this->_groupTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_group');
-        $this->_inSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
+        $this->_groupTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_group');
+        $this->_inSetTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_in_set');
     }
     
     /**

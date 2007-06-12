@@ -14,8 +14,8 @@ class Mage_Core_Model_Mysql4_History
     
     public function __construct() 
     {
-        self::$_changeTable = Mage::registry('resources')->getTableName('core_read', 'data_change');
-        self::$_changeInfoTable = Mage::registry('resources')->getTableName('core_read', 'data_change_info');
+        self::$_changeTable = Mage::getSingleton('core/resource')->getTableName('core_read', 'data_change');
+        self::$_changeInfoTable = Mage::getSingleton('core/resource')->getTableName('core_read', 'data_change_info');
     }
     
     /**

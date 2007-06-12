@@ -22,9 +22,9 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Varien_Data_Collecti
      */
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('sales_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
         
-        $ruleTable = Mage::registry('resources')->getTableName('sales_resource', 'quote_rule');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'quote_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));

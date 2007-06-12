@@ -20,7 +20,7 @@ class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($this->getRequest()->getParam('id', false))
                     ->setStatusId(1) // approved
-                    ->setWebsiteId(Mage::registry('website')->getId())
+                    ->setWebsiteId(Mage::getSingleton('core/website')->getId())
                     ->save();
                     
                 Mage::getSingleton('review/session')->addMessage(

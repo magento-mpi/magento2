@@ -11,8 +11,8 @@ class Mage_Sales_Model_Mysql4_Document
     
     public function __construct($data=array())
     {
-        $this->_read = Mage::registry('resources')->getConnection('sales_read');
-        $this->_write = Mage::registry('resources')->getConnection('sales_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
         if (isset($data['docType'])) {
             $this->setDocType($data['docType']);
         }
@@ -20,9 +20,9 @@ class Mage_Sales_Model_Mysql4_Document
     
     public function setDocType($docType)
     {
-        $this->_documentTable = Mage::registry('resources')->getTableName('sales_resource', $docType);
+        $this->_documentTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType);
         $this->_idField = $docType.'_id';
-        $this->_attributeTable = Mage::registry('resources')->getTableName('sales_resource', $docType.'_attribute');
+        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType.'_attribute');
     }
     
     /**

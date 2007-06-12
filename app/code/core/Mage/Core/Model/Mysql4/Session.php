@@ -41,9 +41,9 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
     
     public function __construct()
     {
-        $this->_sessionTable = Mage::registry('resources')->getTableName('core_resource', 'session');
-        $this->_read = Mage::registry('resources')->getConnection('core_read');
-        $this->_write = Mage::registry('resources')->getConnection('core_write');
+        $this->_sessionTable = Mage::getSingleton('core/resource')->getTableName('core_resource', 'session');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }
     
     /**

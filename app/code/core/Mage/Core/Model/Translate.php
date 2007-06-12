@@ -18,7 +18,7 @@ class Mage_Core_Model_Translate
     
     public function __construct() 
     {
-        $this->_language = Mage::registry('website')->getLanguage();
+        $this->_language = Mage::getSingleton('core/website')->getLanguage();
         $this->_sections = (array) Mage::getConfig()->getNode('translate');
 		$this->_adapter  = 'csv';
         $this->_baseDir = Mage::getWebsiteDir('translate').DS.$this->_language.DS;

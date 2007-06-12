@@ -19,7 +19,7 @@ class Mage_Backup_Model_Mysql4_Db
     
     public function __construct() 
     {
-        $this->_read = Mage::registry('resources')->getConnection('backup_read');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('backup_read');
     }
     
     public function getTables()

@@ -31,13 +31,13 @@ class Mage_Review_Model_Mysql4_Review
     
     public function __construct() 
     {
-        $this->_reviewTable         = Mage::registry('resources')->getTableName('review_resource', 'review');
-        $this->_reviewDetailTable   = Mage::registry('resources')->getTableName('review_resource', 'review_detail');
-        $this->_reviewStatusTable   = Mage::registry('resources')->getTableName('review_resource', 'review_status');
-        $this->_reviewEntityTable   = Mage::registry('resources')->getTableName('review_resource', 'review_entity');
+        $this->_reviewTable         = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review');
+        $this->_reviewDetailTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_detail');
+        $this->_reviewStatusTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_status');
+        $this->_reviewEntityTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_entity');
         
-        $this->_read    = Mage::registry('resources')->getConnection('review_read');
-        $this->_write   = Mage::registry('resources')->getConnection('review_write');
+        $this->_read    = Mage::getSingleton('core/resource')->getConnection('review_read');
+        $this->_write   = Mage::getSingleton('core/resource')->getConnection('review_write');
     }
     
     public function load($reviewId)

@@ -14,12 +14,12 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('directory_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
         
-        $this->_countryTable = Mage::registry('resources')->getTableName('directory_resource', 'country');
-        $countryNameTable = Mage::registry('resources')->getTableName('directory_resource', 'country_name');
+        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country');
+        $countryNameTable = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_name');
         
-        $lang = Mage::registry('website')->getLanguage();
+        $lang = Mage::getSingleton('core/website')->getLanguage();
         
         $this->_sqlSelect->from($this->_countryTable);
         $this->_sqlSelect->join($countryNameTable, "$countryNameTable.country_id=$this->_countryTable.country_id AND $countryNameTable.language_code='$lang'");

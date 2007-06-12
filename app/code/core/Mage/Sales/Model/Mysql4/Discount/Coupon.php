@@ -7,15 +7,15 @@ class Mage_Sales_Model_Mysql4_Discount_Coupon
         
     public function __construct($data=array())
     {
-        $this->_read = Mage::registry('resources')->getConnection('sales_read');
-        $this->_write = Mage::registry('resources')->getConnection('sales_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
     }
     
     public function loadByCode($couponCode)
     {
-        $couponTable = Mage::registry('resources')->getTableName('sales_resource', 'discount_coupon');
+        $couponTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'discount_coupon');
         $result = $this->_read->fetchRow("select * from ".$couponTable." where coupon_code=?", $couponCode);
-        Mage::registry('resources')->cleanDbRow($result);
+        Mage::getSingleton('core/resource')->cleanDbRow($result);
         return $result;
     }
 }

@@ -17,12 +17,12 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('review_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('review_read'));
         
-        $this->_reviewTable         = Mage::registry('resources')->getTableName('review_resource', 'review');
-        $this->_reviewDetailTable   = Mage::registry('resources')->getTableName('review_resource', 'review_detail');
-        $this->_reviewStatusTable   = Mage::registry('resources')->getTableName('review_resource', 'review_status');
-        $this->_reviewEntityTable   = Mage::registry('resources')->getTableName('review_resource', 'review_entity');
+        $this->_reviewTable         = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review');
+        $this->_reviewDetailTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_detail');
+        $this->_reviewStatusTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_status');
+        $this->_reviewEntityTable   = Mage::getSingleton('core/resource')->getTableName('review_resource', 'review_entity');
         
         $this->_sqlSelect->from($this->_reviewTable)
             ->join($this->_reviewDetailTable, $this->_reviewTable.'.review_id='.$this->_reviewDetailTable.'.review_id');

@@ -16,9 +16,9 @@ class Mage_Customer_Model_Mysql4_Wishlist
     
     public function __construct()
     {
-        $this->_wishlistTable = Mage::registry('resources')->getTableName('customer_resource', 'wishlist');
-        $this->_read = Mage::registry('resources')->getConnection('customer_read');
-        $this->_write = Mage::registry('resources')->getConnection('customer_write');
+        $this->_wishlistTable = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'wishlist');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('customer_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('customer_write');
     }
 
     /**

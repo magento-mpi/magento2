@@ -8,9 +8,9 @@ class Mage_Core_Model_Mysql4_Website
     
     public function __construct()
     {
-        $this->_read = Mage::registry('resources')->getConnection('core_read');
-        $this->_write = Mage::registry('resources')->getConnection('core_write');
-        $this->_websiteTable = Mage::registry('resources')->getTableName('core_resource', 'website');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_websiteTable = Mage::getSingleton('core/resource')->getTableName('core_resource', 'website');
     }
     
     public function load($website)

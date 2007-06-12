@@ -18,12 +18,12 @@ class Mage_Catalog_Model_Mysql4_Category
     
     public function __construct() 
     {
-        $this->_categoryTable   = Mage::registry('resources')->getTableName('catalog_resource', 'category');
-        $this->_attributeTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable  = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
+        $this->_categoryTable   = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category');
+        $this->_attributeTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeValueTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
         
-        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
-        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
     }
     
     /**
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Mysql4_Category
                 $tableAlias= $attribute->getTableAlias();
                 $condition = "$tableAlias.category_id=".$this->_categoryTable.".category_id
                               AND $tableAlias.attribute_id=".$attribute->getId()."
-                              AND $tableAlias.website_id=".Mage::registry('website')->getId();
+                              AND $tableAlias.website_id=".Mage::getSingleton('core/website')->getId();
                 
                 $select->joinLeft($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }

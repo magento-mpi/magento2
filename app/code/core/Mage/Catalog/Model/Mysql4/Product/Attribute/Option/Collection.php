@@ -14,8 +14,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
-        $this->_optionTable    = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_option');
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
+        $this->_optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_option');
         
         $this->_sqlSelect->from($this->_optionTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute_option'));
@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
         if ($this->_websiteId) {
             return $this->_websiteId;
         }
-        return Mage::registry('website')->getId();
+        return Mage::getSingleton('core/website')->getId();
     }
     
     public function loadData($printQuery = false, $logQuery = false)

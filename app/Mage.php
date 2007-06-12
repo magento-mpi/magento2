@@ -117,7 +117,7 @@ final class Mage {
     public static function getWebsiteDir($type, $websiteCode=null)
     {
         if (is_null($websiteCode)) {
-            $website = Mage::registry('website');
+            $website = Mage::getSingleton('core/website');
         } else {
             $website = Mage::getModel('core/website')->setCode($websiteCode);
         }
@@ -132,10 +132,10 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        if (!Mage::registry('website')) {
+        if (!Mage::getSingleton('core/website')) {
             throw new Exception('Empty website registry var');
         }
-        return Mage::registry('website')->getUrl($params);
+        return Mage::getSingleton('core/website')->getUrl($params);
     }
     
     public static function getUrl($routeName='', $params=array())
@@ -266,10 +266,6 @@ final class Mage {
         Mage::getConfig()->init();
         Varien_Profiler::setTimer('config', true);
 
-        Mage::register('resources', Mage::getSingleton('core/resource'));
-        Mage::register('website', Mage::getSingleton('core/website'));
-        Mage::register('session', Mage::getSingleton('core/session'));
-        
         Varien_Profiler::setTimer('init', true);
 
         // check modules db
@@ -290,7 +286,7 @@ final class Mage {
             
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
-            Mage::registry('website')->setCode($websiteCode);
+            Mage::getSingleton('core/website')->setCode($websiteCode);
             Mage::dispatchEvent('beforeFrontRun');
             
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
@@ -327,7 +323,7 @@ final class Mage {
         foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
         echo '</table>';
         echo '<pre>';
-        print_r(Varien_Profiler::getSqlProfiler(Mage::registry('resources')->getConnection('dev_write')));
+        print_r(Varien_Profiler::getSqlProfiler(Mage::getSingleton('core/resource')->getConnection('dev_write')));
         echo '</pre>';
     }
 

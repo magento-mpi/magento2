@@ -48,7 +48,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         /**
          * @var $db Zend_Db_Adapter_Abstract
          */
-        $db = Mage::registry('resources')->getConnection('catalog_write');
+        $db = Mage::getSingleton('core/resource')->getConnection('catalog_write');
         
         for ($i=1;$i<=1000;$i++){
             $cat_data = array();

@@ -10,13 +10,13 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
-        $this->_categoryTable       = Mage::registry('resources')->getTableName('catalog_resource', 'category');
-        $this->_categoryProductTable= Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
-        $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');;
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
+        $this->_categoryTable       = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category');
+        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_product');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');;
 
-        $this->_websiteId = Mage::registry('website')->getId();
+        $this->_websiteId = Mage::getSingleton('core/website')->getId();
                
         $this->_sqlSelect->from($this->_categoryTable);
         $this->_sqlSelect->join($this->_categoryProductTable, 

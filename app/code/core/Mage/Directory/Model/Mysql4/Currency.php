@@ -33,19 +33,19 @@ class Mage_Directory_Model_Mysql4_Currency
     
     public function __construct() 
     {
-        $this->_currencyTable       = Mage::registry('resources')->getTableName('directory_resource', 'currency');
-        $this->_currencyNameTable   = Mage::registry('resources')->getTableName('directory_resource', 'currency_name');
-        $this->_currencyRateTable   = Mage::registry('resources')->getTableName('directory_resource', 'currency_rate');
-        $this->_countryCurrencyTable= Mage::registry('resources')->getTableName('directory_resource', 'country_currency');
+        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency');
+        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency_name');
+        $this->_currencyRateTable   = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency_rate');
+        $this->_countryCurrencyTable= Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_currency');
         
-        $this->_read = Mage::registry('resources')->getConnection('sales_read');
-        $this->_write = Mage::registry('resources')->getConnection('sales_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
     }
     
     public function load($code, $lang=null)
     {
         if (is_null($lang)) {
-            $lang = Mage::registry('website')->getLanguage();
+            $lang = Mage::getSingleton('core/website')->getLanguage();
         }
         
         if ($this->_read) {

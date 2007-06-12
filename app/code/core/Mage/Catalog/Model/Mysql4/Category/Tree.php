@@ -19,8 +19,8 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
     public function __construct()
     {
         parent::__construct(
-            Mage::registry('resources')->getConnection('catalog_read'),
-            Mage::registry('resources')->getTableName('catalog_resource', 'category'),
+            Mage::getSingleton('core/resource')->getConnection('catalog_read'),
+            Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category'),
             array(
                 Varien_Data_Tree_Db::ID_FIELD       => 'category_id',
                 Varien_Data_Tree_Db::PARENT_FIELD   => 'pid',
@@ -30,8 +30,8 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
         );
         
         $this->_attributes          = Mage::getModel('catalog_resource/category_attribute_collection')->load();
-        $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'category_attribute_value');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
     }
     
     public function joinAttribute($attributeCode)
@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
             return $this->_websiteId;
         }
         else {
-            return Mage::registry('website')->getId();
+            return Mage::getSingleton('core/website')->getId();
         }
     }
     

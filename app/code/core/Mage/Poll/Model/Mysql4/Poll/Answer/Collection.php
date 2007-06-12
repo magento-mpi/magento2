@@ -5,9 +5,9 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
 
     public function __construct()
     {
-        parent::__construct(Mage::registry('resources')->getConnection('poll_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('poll_read'));
 
-        $this->_pollAnswerTable = Mage::registry('resources')->getTableName('poll_resource', 'poll_answer');
+        $this->_pollAnswerTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll_answer');
 
         $this->_sqlSelect
             ->from($this->_pollAnswerTable);

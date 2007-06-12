@@ -15,9 +15,9 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option
     
     public function __construct() 
     {
-        $this->_read            = Mage::registry('resources')->getConnection('catalog_read');
-        $this->_write           = Mage::registry('resources')->getConnection('catalog_write');
-        $this->_optionTable     = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_option');
+        $this->_read            = Mage::getSingleton('core/resource')->getConnection('catalog_read');
+        $this->_write           = Mage::getSingleton('core/resource')->getConnection('catalog_write');
+        $this->_optionTable     = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_option');
     }
 
     public function load($optionId)

@@ -27,14 +27,14 @@ class Mage_Catalog_Model_Mysql4_Product
 
     public function __construct($data=array()) 
     {
-        $this->_productTable        = Mage::registry('resources')->getTableName('catalog_resource', 'product');
-        $this->_attributeTable      = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute');
-        $this->_attributeInSetTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_attribute_in_set');
-        $this->_linkTable           = Mage::registry('resources')->getTableName('catalog_resource', 'product_link');
-        $this->_categoryProductTable= Mage::registry('resources')->getTableName('catalog_resource', 'category_product');
+        $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute');
+        $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_in_set');
+        $this->_linkTable           = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link');
+        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_product');
         
-        $this->_read = Mage::registry('resources')->getConnection('catalog_read');
-        $this->_write = Mage::registry('resources')->getConnection('catalog_write');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
     }
     
     public function load($productId)
@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Mysql4_Product
             
             $condition = "$tableAlias.product_id=".$this->_productTable.".product_id
                           AND $tableAlias.attribute_id=".$attribute->getId()."
-                          AND $tableAlias.website_id=".Mage::registry('website')->getId();
+                          AND $tableAlias.website_id=".Mage::getSingleton('core/website')->getId();
             
             // Join
             if ($attribute->isRequired()) {
@@ -82,7 +82,7 @@ class Mage_Catalog_Model_Mysql4_Product
             $select->from($attribute->getSelectTable(), $attribute->getTableColumns())
                 ->where('product_id='.$productId)
                 ->where('attribute_id='.$attribute->getId())
-                ->where('website_id='.Mage::registry('website')->getId());
+                ->where('website_id='.Mage::getSingleton('core/website')->getId());
             
             if ($order = $attribute->getMultipleOrder()) {
                 $select->order($order);

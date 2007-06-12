@@ -36,7 +36,7 @@ class Mage_Install_Model_Installer_Db
         );
         
         try {
-            $connection = Mage::registry('resources')->createConnection('install', 'mysqli', $config);
+            $connection = Mage::getSingleton('core/resource')->createConnection('install', 'mysqli', $config);
             $connection->query('SELECT 1');
         }
         catch (Exception $e){

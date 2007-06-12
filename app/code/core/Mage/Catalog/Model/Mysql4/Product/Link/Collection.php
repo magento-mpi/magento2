@@ -7,9 +7,9 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
     
     public function __construct() 
     {
-        parent::__construct(Mage::registry('resources')->getConnection('catalog_read'));
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
         
-        $this->_linkTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_link');
+        $this->_linkTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link');
         
         $this->_productCollection = Mage::getModel('catalog_resource/product_collection');
         
@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
     {
         $sqlUnionStrArr = array();
         
-        $attrTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_link_attribute');
+        $attrTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link_attribute');
         $arrLinkId = $this->getColumnValues('link_id');
         if (empty($arrLinkId)) {
             return false;
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Collection extends Varien_Data_Coll
         $linkIdsWhere = $this->_getConditionSql("`$attrTable`.`link_id`", array('in'=>$arrLinkId));
         
         foreach (array('decimal', 'varchar') as $attributeType) {
-            $attrValueTable = Mage::registry('resources')->getTableName('catalog_resource', 'product_link_attribute_'.$attributeType);
+            $attrValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link_attribute_'.$attributeType);
             $sqlUnionStrArr[$attributeType] = "select `$attrTable`.`link_id`, `$attrTable`.`product_link_attribute_code` as code, `$attrValueTable`.`value`"
                 ." from $attrValueTable"
                 ." inner join $attrTable on $attrTable.product_link_attribute_id=$attrValueTable.product_link_attribute_id"

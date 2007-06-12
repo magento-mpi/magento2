@@ -17,11 +17,11 @@ class Mage_Poll_Model_Mysql4_Poll
 
     function __construct()
     {
-        $this->_pollTable       = Mage::registry('resources')->getTableName('poll_resource', 'poll');
-        $this->_pollAnswerTable = Mage::registry('resources')->getTableName('poll_resource', 'poll_ansver');
+        $this->_pollTable       = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
+        $this->_pollAnswerTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll_ansver');
 
-        $this->_read    = Mage::registry('resources')->getConnection('poll_read');
-        $this->_write   = Mage::registry('resources')->getConnection('poll_write');
+        $this->_read    = Mage::getSingleton('core/resource')->getConnection('poll_read');
+        $this->_write   = Mage::getSingleton('core/resource')->getConnection('poll_write');
     }
 
     public function loadPolls()
