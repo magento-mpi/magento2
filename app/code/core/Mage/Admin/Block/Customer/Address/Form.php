@@ -16,7 +16,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
         $this->setId('customer_address_form');
         $this->setAction(Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressSave')));
         
-        $this->addField( 'firstname', 'text',
+        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Customer address')));
+        $fieldset->addField( 'firstname', 'text',
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -27,7 +28,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('lastname', 'text',
+        $fieldset->addField('lastname', 'text',
             array(
                 'name'  => 'lastname',
                 'label' => __('Lastname'),
@@ -38,7 +39,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('company', 'text',
+        $fieldset->addField('company', 'text',
             array(
                 'name'  => 'company',
                 'label' => __('Company'),
@@ -49,7 +50,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('country_id', 'select',
+        $fieldset->addField('country_id', 'select',
             array(
                 'name'  => 'country_id',
                 'label' => __('Country'),
@@ -61,7 +62,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
         
-        $this->addField('region', 'text',
+        $fieldset->addField('region', 'text',
             array(
                 'name'  => 'region',
                 'label' => __('State/Province'),
@@ -72,7 +73,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('city', 'text',
+        $fieldset->addField('city', 'text',
             array(
                 'name'  => 'city',
                 'label' => __('City'),
@@ -83,7 +84,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('street', 'textarea',
+        $fieldset->addField('street', 'textarea',
             array(
                 'name'  => 'street',
                 'label' => __('Street Address'),
@@ -94,7 +95,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('postcode', 'text',
+        $fieldset->addField('postcode', 'text',
             array(
                 'name'  => 'postcode',
                 'label' => __('Zip/Post Code'),
@@ -105,7 +106,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('telephone', 'text',
+        $fieldset->addField('telephone', 'text',
             array(
                 'name'  => 'telephone',
                 'label' => __('Telephone'),
@@ -116,7 +117,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('fax', 'text',
+        $fieldset->addField('fax', 'text',
             array(
                 'name'  => 'fax',
                 'label' => __('Fax'),
@@ -135,7 +136,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
         $addressTypes = $address->getAvailableTypes('address_type_id');
         foreach ($addressTypes as $typeId => $info) {
             if (!$address->isPrimary($typeId)) {
-                $this->addField('primary_type'.$typeId, 'checkbox',
+                $fieldset->addField('primary_type'.$typeId, 'checkbox',
                     array(
                         'name'  => 'primary_types['.$typeId.']',
                         'label' => __("Use for <strong>%s</strong>", $info['name']),

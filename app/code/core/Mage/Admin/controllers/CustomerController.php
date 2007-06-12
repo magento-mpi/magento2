@@ -63,6 +63,8 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                     'type'  => 'form',
                     'form'  => $form->toArray()
                 );
+                $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'create'));
+                $cardStruct['btnFinish']= true;
                 break;
                 
         }

@@ -21,7 +21,9 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
             $customerId = $customer->getId();
         }
         
-        $this->addField('firstname', 'text', 
+        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Account information')));
+        
+        $fieldset->addField('firstname', 'text', 
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -31,7 +33,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('lastname', 'text', 
+        $fieldset->addField('lastname', 'text', 
             array(
                 'name'  => 'lastname',
                 'label' => __('Lastname'),
@@ -41,7 +43,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
             )
         );
 
-        $this->addField('email', 'text', 
+        $fieldset->addField('email', 'text', 
             array(
                 'name'  => 'email',
                 'label' => __('Email'),
@@ -56,7 +58,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
         }
        
         if ($customerId) {
-           $this->addField('password', 'password', 
+            $fieldset->addField('password', 'password', 
                 array(
                     'name'  => 'password',
                     'label' => __('New Password'),
@@ -67,7 +69,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
             );
         }
         else {
-           $this->addField('password', 'password', 
+           $fieldset->addField('password', 'password', 
                 array(
                     'name'  => 'password',
                     'label' => __('Password'),
@@ -76,7 +78,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'validation'=> '',
                 )
             );
-           $this->addField('password_confirmation', 'password', 
+           $fieldset->addField('password_confirmation', 'password', 
                 array(
                     'name'  => 'password_confirmation',
                     'label' => __('Password Confirm'),
