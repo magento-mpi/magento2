@@ -32,10 +32,10 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
                     center:{
                         resizeTabs:true,
                         alwaysShowTabs:true,
-                        hideTabs:false,
+                        hideTabs:true,
                         tabPosition:'top',
                         titlebar:false,
-                        autoScroll:true,
+                        autoScroll:false,
                         closeOnTab:true
                     },
                     south:{
@@ -112,7 +112,12 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 				}
             )
             
-			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}));
+			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {
+			    title:"DashBoard", 
+			    fitToFrame:true, 
+			    autoScroll : false,
+			    autoCreate:true
+			}));
 			this.dashboard.apply(dashPanel.getEl());
             // alert( this.dashboard.applyHTML() );
             			
@@ -221,7 +226,6 @@ Mage.Admin.on('load', function(admin){
     
     var toolbar = admin.toolbar;
     Mage.Menu_Core.init(toolbar);    
-    Mage.Menu_Auth.init(toolbar);    
     Mage.Menu_Customer.init(toolbar);    
     Mage.Menu_Catalog.init(toolbar);            
     Mage.Menu_Sales.init(toolbar);
