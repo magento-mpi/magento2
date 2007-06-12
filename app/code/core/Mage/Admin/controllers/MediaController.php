@@ -95,10 +95,8 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
     public function moveAction()
     {
-        #$currentObjDirectoryName = $this->getRequest()->getParam('current_object_dir', false);
         $currentObj = $this->getRequest()->getParam('current_object', false);
 
-        #$destObjDirectoryName = $this->getRequest()->getParam('destination_object_dir', false);
         $destObj = $this->getRequest()->getParam('destination_object', false);
 
         if( $currentObj === false || $destObj === false ) {
@@ -106,10 +104,15 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $pathinfo = pathinfo($currentObj);
+        if( !is_dir($currentObj) ) {
+            $pathinfo = pathinfo($currentObj);
+            $srcDir = $pathinfo['dirname'];
+        } else {
+            $srcDir = $currentObj;
+        }
 
         $io = new Varien_Io_File();
-        $io = open($pathinfo['dirname']);
+        $io->open(Array('path' => $srcDir));
         $io->mv($currentObj, $destObj);
     }
 
