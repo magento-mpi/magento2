@@ -1,8 +1,11 @@
 Mage.Wizard = function(el, config) {
     this.dialog = null;
     this.currentPanel = null;    
+    this.points = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.config = config || {};
+    
+    
     
     Mage.Wizard.superclass.constructor.call(this, el, {
         modal: true,
@@ -37,7 +40,6 @@ Mage.Wizard = function(el, config) {
     this.btnBack = this.addButton({
         text : 'Back',
         align : 'center',
-        disabled : false,
         handler : this.back,
         scope : this
     });
@@ -52,7 +54,6 @@ Mage.Wizard = function(el, config) {
     this.btnFinish = this.addButton({ 
         text : 'Finish',
         align : 'right',        
-        hidden : true,
         handler : this.finish,
         scope : this
     });
@@ -60,7 +61,6 @@ Mage.Wizard = function(el, config) {
     this.btnCancel = this.addButton({
         text : 'Cancel',
         align : 'right',
-        disabled : false,
         handler : this.cancel,
         scope : this
     });
@@ -73,9 +73,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     show : function(el) {
         Mage.Wizard.superclass.show.call(this, el);
         this.next();
-    },
-    
-    newStep : function(url) {
     },
     
     addButton : function(config, handler, scope){
@@ -167,7 +164,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                 
         conn = new Ext.data.Connection();
         
-        
         conn.on('requestcomplete', function(tranId, response, options){
             var result = Ext.decode(response.responseText);
             if (result.error == 0) {
@@ -179,7 +175,10 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                     this.currentPanel = new Mage.core.Panel(this.layout.getRegion('center'), result.tabs[0].type, result.tabs[0]);
                     this.stepCollection.add(this.currentPanel);
                 }
-                index = this.stepCollection.indexOf(this.currentPanel);        
+                index = this.stepCollection.indexOf(this.currentPanel);
+                if (result.nextPoint && result.nextPoint.url) {
+                    this.config.points[index+1] = result.nextPoint;
+                }
                 this.checkButtons(index);        
             } else {
                 Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
@@ -197,7 +196,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
             method : 'POST',
             params : data
         })
-        
     },
 
     back : function() {
@@ -242,9 +240,3 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
     }
     
 });
-
-Mage.Wizard.Step = function(config) {
-    Ext.apply(this, config);
-}
-
-

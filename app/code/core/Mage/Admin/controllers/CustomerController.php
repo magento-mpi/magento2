@@ -42,6 +42,18 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         
         switch ($step) {
             case 1:
+                $customer = Mage::getModel('customer/customer');
+                $form = new Mage_Admin_Block_Customer_Form($customer);
+
+                $tab = array(
+                    'name'  => 'general',
+                    'title' => __('Account Information'),
+                    'type'  => 'form',
+                    'form'  => $form->toArray()
+                );
+                $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>2));
+                break;
+            case 2:
                 $address = Mage::getModel('customer/address');
                 $form = new Mage_Admin_Block_Customer_Address_Form($address);
 
@@ -52,22 +64,13 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                     'form'  => $form->toArray()
                 );
                 break;
-            default:
-                $customer = Mage::getModel('customer/customer');
-                $form = new Mage_Admin_Block_Customer_Form($customer);
-
-                $tab = array(
-                    'name'  => 'general',
-                    'title' => __('Account Information'),
-                    'type'  => 'form',
-                    'form'  => $form->toArray()
-                );
-                break;
+                
         }
         
         $cardStruct['title'] = __('New Customer');
         $cardStruct['error'] = 0;
         $cardStruct['tabs'][] = $tab;
+        
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));
     }
     

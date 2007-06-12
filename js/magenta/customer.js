@@ -171,8 +171,8 @@ Mage.Customer = function(depend){
             });
 
             paging.add('-', {
-                text: 'Create New',
-                cls: 'x-btn-text-icon btn-add-user',
+                text : 'Create New',
+                cls : 'x-btn-text-icon btn-add-user',
                 handler : this.createCustomer,
                 scope : this
             });
@@ -185,18 +185,13 @@ Mage.Customer = function(depend){
         
         createCustomer : function(btn, event) {
             this.wizard = new Mage.Wizard(Ext.DomHelper.append(document.body, {tag : 'div'}, true), {
+                resize : true,
                 points : [{
-                    url : Mage.url + 'customer/wizard/',
-                    help : 'hidden'
-                },{
-                    url : Mage.url + 'customer/wizard/step/1/',
-                    finish : 'hidden',
-                    help : 'hidden'
-                },{
-                    url : Mage.url + 'customer/wizard/step/2/',
-                    finish : 'enable',
-                    help : 'hidden'
+                    url : Mage.url + 'customer/wizard/'
                 }]
+//                },{
+//                    url : Mage.url + 'customer/wizard/step/2/'
+//                }]
             });    
             this.wizard.show(btn.getEl());
         }
