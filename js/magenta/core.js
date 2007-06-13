@@ -62,16 +62,16 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
             this._initToolbar(panel.getEl());            
             
 //            this._layout.add('center', new Ext.ContentPanel('dashboard-center', {title:"DashBoard", fitToFrame:true, autoCreate:true}, '<embed width="100%" height="100%" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" name="reports" bgcolor="#869ca7" quality="high" flashvars="configUrl='+Mage.url+'mage_reports/flex/config/&cssUrl='+Mage.url+'skins/default/flex.swf" id="reports" wmode="opaque" src="'+Mage.url+'flex/reports.swf"/>'));
-           /* this.dashboard = new Mage.FlexObject(
+            this.dashboard = new Mage.FlexObject(
 				{
 					src: Mage.url+'../media/flex/reports.swf',
 					flashVars: 'configUrl='+Mage.url+ 'flex/config&cssUrl=' + Mage.skin + 'flex.swf',
 					width: '100%',
 					height: '100%'
 				}
-			); */
-			
-		/* 	this.dashboard = new Mage.FlexUpload(
+			); 
+			/* 
+			this.dashboard = new Mage.FlexUpload(
 				{
 					src: Mage.url+'../media/flex/reports.swf',
 					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
@@ -85,7 +85,7 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 					uploadFileField: 'filename',
 					uploadUrl: Mage.url + '../test/upload/save/'
 				} );
-			}, this ); */
+			}, this );  */
 			
             
             
@@ -103,14 +103,14 @@ Ext.extend(Mage.Manager, Ext.util.Observable, {
 				 
 			} , this); */
             
-            this.dashboard = new Mage.FlexObject(
+          /*   this.dashboard = new Mage.FlexObject(
                 {
 					src: Mage.url+'../media/flex/dashboard.swf',
 					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
                    	width: '100%',
 					height: '99%'
 				}
-            )
+            )  */
             
 			var dashPanel = this._layout.add('center', new Ext.ContentPanel('dashboard-center', {
 			    title:"DashBoard", 

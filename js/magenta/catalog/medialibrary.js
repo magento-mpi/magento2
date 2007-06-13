@@ -149,6 +149,7 @@ Mage.Medialibrary = function () {
 				this.dashboard.on("load", function (e) { 
 					this.dashboard.setConfig( {
 						uploadFileField: 'upload_file',
+                        cookie: document.cookie,
 						uploadUrl: Mage.url + 'media/upload',
 						fileFilter: {name:"*.*", filter:"*.*"},
 						uploadParameters : {
