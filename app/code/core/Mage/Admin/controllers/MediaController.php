@@ -50,8 +50,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $data['data'] = $filesList;
-        $result = Array('error' => 0, $data);
+        $result = Array('error' => 0, 'data' => $filesList);
         $this->getResponse()->setBody(Zend_Json::encode($result));
         return;
     }
