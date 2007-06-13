@@ -31,8 +31,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             $directoriesList[$key]['allowEdit'] = true;
         }
 
-        $result = Array('error' => 0, 'directories_list' => $directoriesList);
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        $this->getResponse()->setBody(Zend_Json::encode($directoriesList));
         return;
     }
     
