@@ -8,10 +8,10 @@ Mage.Medialibrary = function () {
 		getFolderFilesUrl : Mage.url + 'media/filesgrid',
 		addDirUrl : Mage.url + 'media/mkdir',
 		delDirUrl : Mage.url + 'media/rm',
-		
+		dialog : {},		
 		
 		init : function () {
-			dialog = new Ext.LayoutDialog(Ext.DomHelper.append(document.body, {tag:'div'}, true), {
+			this.dialog = new Ext.LayoutDialog(Ext.DomHelper.append(document.body, {tag:'div'}, true), {
 					title: "Mediabrowser",
 		            modal: true,
 		            width:800,
@@ -47,10 +47,10 @@ Mage.Medialibrary = function () {
                         animate: true
                     }
 		    });
-		    dialog.addKeyListener(27, dialog.hide, dialog);
-		    dialog.setDefaultButton(dialog.addButton("Close", dialog.hide, dialog));
+		    this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
+		    this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
 			
-			var layout = dialog.getLayout();
+			var layout = this.dialog.getLayout();
 			var panel_id = Ext.id();
 			var panel2_id = Ext.id();
 			var panel3_id = Ext.id();
@@ -73,7 +73,7 @@ Mage.Medialibrary = function () {
 		    
 			var lview = layout.getRegion('center').getEl().createChild({tag :'div', id:panel2_id});
 		    var ctb = new Ext.Toolbar(lview.createChild());
-			this.sortSelect = Ext.DomHelper.append(dialog.body.dom, {
+			this.sortSelect = Ext.DomHelper.append(this.dialog.body.dom, {
 				tag:'select', children: [
 					{tag: 'option', value:'text', selected: 'true', html:'Name'},
 					{tag: 'option', value:'size', html:'File Size'},
@@ -82,7 +82,7 @@ Mage.Medialibrary = function () {
 			}, true);
 			this.sortSelect.on('change', this.sortImages , this, true);
 			
-			this.txtFilter = Ext.DomHelper.append(dialog.body.dom, {
+			this.txtFilter = Ext.DomHelper.append(this.dialog.body.dom, {
 				tag:'input', type:'text', size:'12'}, true);
 				
 			this.txtFilter.on('focus', function(){this.dom.select();});
@@ -125,7 +125,7 @@ Mage.Medialibrary = function () {
                     alwaysShowTabs: false
                 }                
             });
-            var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south'));
+            var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south', {title:"Upload file"}));
             this.center_panel = innerLayout.add('center', new Ext.ContentPanel(panel3_id, {            	
             	toolbar: ctb,
             	autoCreate : true
@@ -137,34 +137,35 @@ Mage.Medialibrary = function () {
             this.loadSettings();
 			
             layout.endUpdate();	            
-		    dialog.show();
+		    this.dialog.show();
 		    
-		    this.dashboard = new Mage.FlexUpload({
-				src: Mage.url+'../media/flex/reports.swf',
-				flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
-				width: '100%',
-				height: '90%'
-			}); 
-
-			this.dashboard.on("load", function (e) { 
-				this.dashboard.setConfig( {
-					uploadFileField: 'upload_file',
-					uploadUrl: Mage.url + 'media/upload',
-					fileFilter: {name:"*.*", filter:"*.*"},
-					uploadParameters : {
-						destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
-					}
-				});
-			}, this );
-			console.log(Mage.url + 'media/upload');
-			this.dashboard.on("afterupload", function(e) {
-				 for( var i = 0; i < e.data.length; i++) {
-					alert(e.data[i].name);
-				 }				 
-			} , this); 
-			
-			this.dashboard.apply(dashPanel.getEl());
-		    
+		    if (!this.dashboard) {
+			    this.dashboard = new Mage.FlexUpload({
+					src: Mage.url+'../media/flex/reports.swf',
+					flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
+					width: '100%',
+					height: '90%'
+				}); 
+	
+				this.dashboard.on("load", function (e) { 
+					this.dashboard.setConfig( {
+						uploadFileField: 'upload_file',
+						uploadUrl: Mage.url + 'media/upload',
+						fileFilter: {name:"*.*", filter:"*.*"},
+						uploadParameters : {
+							destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
+						}
+					});
+				}, this );
+				console.log(Mage.url + 'media/upload');
+				this.dashboard.on("afterupload", function(e) {
+					 for( var i = 0; i < e.data.length; i++) {
+						alert(e.data[i].name);
+					 }				 
+				} , this); 
+				
+				this.dashboard.apply(dashPanel.getEl());
+		    }
 		    this.detailsTemplate = new Ext.Template(
 				'<div class="details">' +
 				'	<img src="{url}">' +
@@ -349,6 +350,7 @@ Mage.Medialibrary = function () {
 		    });	    
 		    
 			this.tree.getSelectionModel().on('selectionchange', function (sm, node) {
+				if (!node) return false;
 				this.view.store.load({
 					params: {node : node.attributes.id}
 				});
