@@ -57,7 +57,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             $tmpvar = $_cwdArr;
             $tmpvar[] = $file['text'];
 
-            if( $file['is_image'] === true ) {
+            if( $file['is_image'] === true && $file['size'] > 0 ) {
                 $filesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
             } else {
                 $filesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'admin/filetypes/'.$file['filetype'].'.png';
