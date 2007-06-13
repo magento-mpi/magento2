@@ -10,7 +10,7 @@ Mage.core.PanelView = function(region, config) {
        	autoScroll : true,
        	fitToFrame : true,       	
         title : this.title || 'Title'
-    }));
+    }, this.content));
     
     this.panel.getUpdateManager().on('update', function() {
         this.notLoaded = false;

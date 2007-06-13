@@ -5,7 +5,7 @@ Mage.Wizard = function(el, config) {
     this.points = new Ext.util.MixedCollection();
     Ext.apply(this, config);
     this.config = config || {};
-    
+    this.config.resize = false;
     
     
     Mage.Wizard.superclass.constructor.call(this, el, {
