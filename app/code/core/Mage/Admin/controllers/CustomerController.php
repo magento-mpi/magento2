@@ -168,9 +168,18 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     public function deleteAction()
     {
         $customerId = $this->getRequest()->getParam('id', false);
-        if ($customerId) {
-            Mage::getModel('customer/customer')->delete($customerId);
+        $customer = Mage::getModel('customer/customer')->setCustomerId($customerId);
+        
+        $res = array('error' => 0);
+        try {
+            $customer->delete();
         }
+        catch (Exception $e){
+            $res['error'] = 1;
+            $res['errorMessage'] = 'Customer delete error';
+        }
+        
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
     /**
