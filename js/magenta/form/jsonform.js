@@ -50,6 +50,7 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                 fieldLabel : field.config.label,
                 id : field.config.name + '_' + this.id,
                 name : field.config.name,
+                msgTarget : field.config.msgTarget || 'side',
                 allowBlank : field.config.allowBlank,
                 vtype : field.config.vtype,
                 inputType : field.config.inputtype || '',

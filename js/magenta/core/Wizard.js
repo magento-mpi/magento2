@@ -15,7 +15,7 @@ Mage.Wizard = function(el, config) {
         shadow:true,
         autoTabs:true,
         proxyDrag:true,
-        title : 'Wizard',
+        title : 'Loading...',
         center:{
             tabPosition: "top",
             alwaysShowTabs: true,
@@ -161,7 +161,15 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         if (index >= this.points.length - 1) {
             return false;
         }
-                
+        
+        if (this.currentPanel) {
+            form = this.currentPanel.getForm();
+            if (form) {
+                if (!form.isValid()) {
+                    return false;
+                }
+            }        
+        }         
         conn = new Ext.data.Connection();
         
         conn.on('requestcomplete', function(tranId, response, options){
