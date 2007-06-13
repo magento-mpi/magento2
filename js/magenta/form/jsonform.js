@@ -70,6 +70,7 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                     config.store = store;
                     config.displayField = 'label';
                     config.valueField = 'value';
+                    config.emptyText  = field.config.emptyText;
                     config.mode = 'local';
                     config.typeAhead = true;
                     config.triggerAction = 'all';
