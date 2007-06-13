@@ -15,9 +15,9 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('poll/poll'));
     }
 
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
-        parent::loadData(true);
+        parent::loadData($printQuery, $logQuery);
         return $this;
     }
 

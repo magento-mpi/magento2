@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="left">
+        <block type="poll/activePoll" name="left.poll">
+            <action method="setTemplate"><template>poll/active.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

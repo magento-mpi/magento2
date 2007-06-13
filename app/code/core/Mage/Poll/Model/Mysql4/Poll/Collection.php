@@ -27,9 +27,9 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('poll/poll'));
     }
 
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
-        parent::loadData();
+        parent::loadData($printQuery, $logQuery);
         $arrPollId = $this->getColumnValues('poll_id');
         if ($arrPollId) {
             $this->getAnswers($arrPollId);

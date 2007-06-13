@@ -13,15 +13,10 @@ class Mage_Poll_IndexController extends Mage_Core_Controller_Front_Action
 
     public function IndexAction()
     {
-        $this->loadLayout();
         $pollId = 1;
         $pollCollection = Mage::getSingleton('poll_resource/poll_collection');
         #$pollCollection->addPollFilter($pollId);
         $pollCollection->load($pollId);
-
-        print "<pre>debug: \n";
-        print_r($pollCollection->getItems());
-        print "</pre>\n";
     }
 
 }

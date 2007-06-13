@@ -6,6 +6,15 @@
         </Mage_Poll>
     </modules>
     <front>
+        <layouts>
+            <default>
+                <updates>
+                    <poll>
+                        <file>poll/initLayout.xml</file>
+                    </poll>
+                </updates>
+            </default>
+        </layouts>
         <routers>
             <poll>
                 <args>
@@ -55,5 +64,12 @@
                 </connection>
             </poll_read>
         </resources>
+        <block>
+            <groups>
+                <poll>
+                    <class>Mage_Poll_Block</class>
+                </poll>
+            </groups>
+        </block>
     </global>
 </config>

@@ -6,7 +6,7 @@ define('BP', dirname(dirname(__FILE__)));
 /**
  * Error reporting
  */
-#error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 /**
  * Include path
@@ -31,14 +31,14 @@ function __autoload($class)
  * @author Andrey Korolyov <andrey@varien.com>
  */
 final class Mage {
-    
+
     /**
      * Registry collection
      *
      * @var array
      */
     static private $_registry = array();
-    
+
     /**
      * Register a new variable
      *
@@ -54,7 +54,7 @@ final class Mage {
 */
         self::$_registry[$key] = $value;
     }
-    
+
     /**
      * Retrieve a value from registry by a key
      *
@@ -89,13 +89,13 @@ final class Mage {
             Mage::exception($appRoot.' is not a directory or not readable by this user');
         }
     }
-    
+
     /**
      * Get application root absolute path
      *
      * @return string
      */
-    
+
     public static function getRoot()
     {
         return Mage::registry('appRoot');
@@ -110,7 +110,7 @@ final class Mage {
     {
         return Mage::getConfig()->getBaseDir($type);
     }
-    
+
     public static function getModuleDir($type, $moduleName)
     {
         return Mage::getConfig()->getModuleDir($type, $moduleName);
@@ -136,7 +136,7 @@ final class Mage {
     {
         return Mage::getSingleton('core/website')->getUrl($params);
     }
-    
+
     public static function getUrl($routeName='', $params=array())
     {
         return Mage::getConfig()->getRouterInstance($routeName)->getUrl($params);
@@ -180,7 +180,7 @@ final class Mage {
     {
         return Mage::registry('events')->dispatch($name, $data);
     }
-    
+
     /**
      * Get model class
      *
@@ -193,7 +193,7 @@ final class Mage {
     {
         return Mage::getConfig()->getModelInstance($modelClass, $arguments);
     }
-    
+
     public static function getSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_singleton/'.$modelClass;
@@ -216,7 +216,7 @@ final class Mage {
         return new $className($message, $code);
         //throw new $className($message, $code);
     }
-    
+
     /**
      * Initialize Mage
      */
@@ -252,18 +252,18 @@ final class Mage {
     {
         try {
             Varien_Profiler::setTimer('totalApp');
-            
+
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
             Mage::getSingleton('core/website')->setCode($websiteCode);
             Mage::dispatchEvent('beforeFrontRun');
-            
+
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
-            
+
             Varien_Profiler::setTimer('totalApp', true);
             #self::displayProfiler();
-        } 
+        }
         catch (Exception $e) {
             if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {
                 echo $e;
@@ -284,7 +284,7 @@ final class Mage {
             }
         }
     }
-    
+
     public static function displayProfiler()
     {
         echo '<hr><table border=1 align=center>';
@@ -306,7 +306,7 @@ final class Mage {
     public static function log($message, $level=Zend_Log::DEBUG, $file = '')
     {
         static $loggers = array();
-        
+
         if (empty($file)) {
             $file = 'system.log';
         }
@@ -326,22 +326,22 @@ final class Mage {
                 $writer->setFormatter($formatter);
                 $loggers[$file] = new Zend_Log($writer);
             }
-            
+
             if (is_array($message) || is_object($message)) {
                 $message = print_r($message, true);
             }
-            
+
             $loggers[$file]->log($message, $level);
         }
         catch (Exception $e){
-            
+
         }
     }
 }
 
 /**
  * Translator function
- * 
+ *
  * @param string $text the text to translate
  * @param mixed optional parameters to use in sprintf
  */
@@ -353,7 +353,7 @@ function __()
 
 /**
  * Tiny function to enhance functionality of ucwords
- * 
+ *
  * Will capitalize first letters and convert separators if needed
  *
  * @param string $str
@@ -399,7 +399,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
             ."{$l['function']}</b>(";
         if(!empty($l['args'])) foreach ($l['args'] as $i=>$arg) {
             if ($i>0) echo ", ";
-            if (is_object($arg)) echo get_class($arg); 
+            if (is_object($arg)) echo get_class($arg);
             elseif (is_string($arg)) echo '"'.substr($arg,0,30).'"';
             elseif (is_null($arg)) echo 'NULL';
             elseif (is_numeric($arg)) echo $arg;
@@ -414,7 +414,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
 
     echo "\n</pre>";
     switch ($errno) {
-        case E_ERROR: 
+        case E_ERROR:
             die('fatal');
     }
 }

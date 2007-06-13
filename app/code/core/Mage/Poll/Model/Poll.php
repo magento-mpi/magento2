@@ -10,6 +10,8 @@
 
 class Mage_Poll_Model_Poll extends Varien_Object
 {
+    protected $_pollId;
+
     public function getId()
     {
         return $this->getPollId();
