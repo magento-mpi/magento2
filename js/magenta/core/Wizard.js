@@ -198,7 +198,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                 }
                 this.checkButtons(index);        
             } else {
-                Ext.MessageBox.alert('Wizard panel error', result.ErrorMessage);
+                Ext.MessageBox.alert('Wizard panel error', result.errorMessage);
             }
         }, this);
         
