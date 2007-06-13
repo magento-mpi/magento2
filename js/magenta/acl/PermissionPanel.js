@@ -109,7 +109,7 @@ Mage.PermissionPanel = function(){
             }
             var treePanel = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
-                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'tree/user/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/userTree/'}),
                 enableDD:true,
                 containerScroll: true
             });  
@@ -134,7 +134,7 @@ Mage.PermissionPanel = function(){
             }
             var treePanel = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
-                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'tree/role/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/roleTree/'}),
                 enableDD:true,
                 containerScroll: true
             });  
@@ -161,7 +161,7 @@ Mage.PermissionPanel = function(){
             
             var treePanel = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
-                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'tree/resource/'}),
+                loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/resourceTree/'}),
                 enableDD:true,
                 containerScroll: true
             });  

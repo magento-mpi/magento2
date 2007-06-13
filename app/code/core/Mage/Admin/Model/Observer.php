@@ -38,7 +38,8 @@ class Mage_Admin_Model_Observer
         }
        
         if ($session->getUser() && !$session->getAcl()) {
-            $session->setAcl(Mage::getModel('admin_resource/acl')->loadUserAcl($session->getUser()->getId()));
+            $session->setAcl(Mage::getModel('admin_resource/acl')->loadAcl());
+            #$session->setAcl(Mage::getModel('admin_resource/acl')->loadUserAcl($session->getUser()->getId()));
         }
         //var_dump($session->isAllowed('admin'));die();
         

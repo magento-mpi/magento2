@@ -14,7 +14,7 @@ class Mage_Core_Controller_Front_Router
         return $this->_config;
     }
     
-    public function addRoutes($router)
+    public function addRoutes(Zend_Controller_Router_Interface $router)
     {
         $frontName = $this->_config->getName();
         $routeMatch = $frontName.'/:controller/:action/*';
