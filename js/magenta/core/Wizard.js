@@ -29,7 +29,7 @@ Mage.Wizard = function(el, config) {
     
     this.on('beforehide', this.onBeforeHide, this);
     
-    this.addButton({
+    this.btnHelp = this.addButton({
         text:'Help',
         align : 'left',
         handler : this.help,
@@ -38,7 +38,6 @@ Mage.Wizard = function(el, config) {
     
     this.btnBack = this.addButton({
         text : 'Back',
-        disable : true,
         align : 'center',
         handler : this.back,
         scope : this
@@ -276,6 +275,12 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
             this.btnNext.disable();
         } else {
             this.btnNext.enable();
+        }
+
+        if (index != 0) {
+            this.btnBack.enable();
+        } else {
+            this.btnBack.disable();
         }
     }
     
