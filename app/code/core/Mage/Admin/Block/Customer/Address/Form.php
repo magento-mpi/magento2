@@ -100,7 +100,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Zip/Post Code'),
                 'id'    => 'address_postcode',
                 'title' => __('Zip/Post code'),
-                'vtype' => 'numetic',
+                'vtype' => 'numeric',
                 'allowBlank' => false
             )
         );
