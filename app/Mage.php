@@ -314,6 +314,12 @@ final class Mage {
         try {
             if (empty($loggers[$file])) {
                 $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
+                $logDir = Mage::getBaseDir('var').DS.'log';
+                
+                if (!is_dir(Mage::getBaseDir('var').DS.'log')) {
+                    mkdir(Mage::getBaseDir('var').DS.'log', 0777);
+                }
+                
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
                 $formatter = new Zend_Log_Formatter_Simple($format);            
                 $writer = new Zend_Log_Writer_Stream($logFile);

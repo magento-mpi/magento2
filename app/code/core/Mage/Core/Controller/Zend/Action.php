@@ -139,6 +139,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
     public function dispatch($action)
     {
+        Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
+        Mage::log('Request Params:');
+        Mage::log($this->getRequest()->getParams());
         Varien_Profiler::setTimer('preDispatch');
         $this->preDispatch();
         Varien_Profiler::setTimer('preDispatch', true);

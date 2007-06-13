@@ -159,7 +159,7 @@ class Mage_Customer_Model_Mysql4_Customer
      */
     public function delete($customerId)
     {
-        if (is_null($customerId)) {
+        if (!$customerId) {
             throw Mage::exception('Mage_Customer')
                 ->addMessage(Mage::getModel('customer/message')->error('CSTE009'));
         }
