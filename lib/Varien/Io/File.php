@@ -279,6 +279,9 @@ class Varien_Io_File extends Varien_Io_Abstract
                     } elseif( isset($pathinfo['extension']) ) {
                         $list_item['is_image'] = false;
                         $list_item['filetype'] = $pathinfo['extension'];
+                    } elseif( $list_item['size'] == 0 ) {
+                        $list_item['is_image'] = false;
+                        $list_item['filetype'] = 'unknown';
                     } else {
                         $list_item['is_image'] = false;
                         $list_item['filetype'] = 'unknown';

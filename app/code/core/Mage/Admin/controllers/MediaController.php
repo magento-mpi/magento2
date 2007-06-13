@@ -60,7 +60,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             if( $file['is_image'] === true ) {
                 $filesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
             } else {
-                $filesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'/admin/filetypes/'.$file['filetype'].'.png';
+                $filesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'admin/filetypes/'.$file['filetype'].'.png';
             }
         }
 
