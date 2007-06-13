@@ -18,6 +18,7 @@ class Mage_Admin_Model_Mysql4_Acl_Role_Tree
             ->setOrder('role_type,sort_order')
             ->loadData();
         $rolesArr = array();
+/*
         foreach ($roles->getItems() as $role) {
             $a = $role->getData();
             $roleArr['id'] = $a['role_type']
@@ -27,6 +28,7 @@ class Mage_Admin_Model_Mysql4_Acl_Role_Tree
                 #'children'=>$a['children'],
             );
         }
+*/
         return $rolesArr;
     }
 
