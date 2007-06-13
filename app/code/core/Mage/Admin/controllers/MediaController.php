@@ -53,7 +53,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        foreach( $filesList as $file ) {
+        foreach( $filesList as $key => $file ) {
             $tmpvar = $_cwdArr;
             $tmpvar[] = $file['text'];
 

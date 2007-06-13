@@ -274,10 +274,14 @@ class Varien_Io_File extends Varien_Io_Abstract
                     $pathinfo = pathinfo($fullpath);
                     $list_item['size'] = filesize($fullpath);
                     $list_item['leaf'] = true;
-                    if( in_array($pathinfo['extension'], Array('jpg', 'jpeg', 'gif', 'bmp', 'png')) ) {
+                    if( isset($pathinfo['extension']) && in_array($pathinfo['extension'], Array('jpg', 'jpeg', 'gif', 'bmp', 'png')) ) {
                         $list_item['is_image'] = true;
-                    } else {
+                    } elseif( isset($pathinfo['extension']) ) {
+                        $list_item['is_image'] = false;
                         $list_item['filetype'] = $pathinfo['extension'];
+                    } else {
+                        $list_item['is_image'] = false;
+                        $list_item['filetype'] = 'unknown';
                     }
                     
                 } else {
