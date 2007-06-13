@@ -15,7 +15,7 @@ Mage.Wizard = function(el, config) {
         shadow:true,
         autoTabs:true,
         proxyDrag:true,
-        title : 'Loading...',
+        title : this.config.title || 'Loading...',
         center:{
             tabPosition: "top",
             alwaysShowTabs: true,
@@ -176,6 +176,9 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         conn.on('requestcomplete', function(tranId, response, options){
             var result = Ext.decode(response.responseText);
             if (result.error == 0) {
+                if (result.title != '') {
+                    this.setTitle(result.title);
+                }
                 if (this.stepCollection.indexOf(this.currentPanel) + 1 < this.stepCollection.getCount()) {
                     this.currentPanel = this.stepCollection.get(this.stepCollection.indexOf(this.currentPanel) + 1);
                     this.currentPanel.update(result.tabs[0]);

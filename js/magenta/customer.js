@@ -185,6 +185,7 @@ Mage.Customer = function(depend){
         
         createCustomer : function(btn, event) {
             this.wizard = new Mage.Wizard(Ext.DomHelper.append(document.body, {tag : 'div'}, true), {
+                title : 'Create New Customer',
                 points : [{
                     url : Mage.url + 'customer/wizard/'
                 }]

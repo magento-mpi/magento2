@@ -53,7 +53,8 @@ Ext.form.VTypes["password"]=function(v){
 }
 Ext.form.VTypes["passwordText"]="Invalid Password"
 Ext.form.VTypes["passwordMask"]=/./;
-Ext.form.VTypes["numeric"]=function(v){
+
+Ext.form.VTypes["numeric"] = function(v){
  return Ext.form.VTypes["numericVal"].test(v);
 }
 Ext.form.VTypes["numericText"]="Allow only numbers"
