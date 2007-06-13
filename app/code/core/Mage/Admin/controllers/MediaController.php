@@ -39,7 +39,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
                 if( $directory['is_image'] === true ) {
                     $directoriesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
                 } else {
-                    $directoriesList[$key]['iconCls'] = '.file-icon';
+                    $directoriesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'/admin/filetypes/'.$directory['filetype'].'.png';
                 }
             } else {
                 $directoriesList[$key]['iconCls'] = '.tree-folder-icon';

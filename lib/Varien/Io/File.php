@@ -276,6 +276,8 @@ class Varien_Io_File extends Varien_Io_Abstract
                     $list_item['leaf'] = true;
                     if( in_array($pathinfo['extension'], Array('jpg', 'jpeg', 'gif', 'bmp', 'png')) ) {
                         $list_item['is_image'] = true;
+                    } else {
+                        $list_item['filetype'] = $pathinfo['extension'];
                     }
                     
                 } else {
