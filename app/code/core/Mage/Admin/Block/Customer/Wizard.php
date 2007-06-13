@@ -55,8 +55,15 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                 }
                 else {
                     $address = Mage::getModel('customer/address');
+                    // Set firstname and lastname from account data
+                    $data = array(
+                        'firstname' => $this->_request->getPost('firstname'),
+                        'lastname' => $this->_request->getPost('lastname'),
+                    );
+                    
                     $form = new Mage_Admin_Block_Customer_Address_Form($address);
                     $form->addFieldNamePrefix('address');
+                    $form->setValues($data);
                     
                     $cardStruct['tabs'][] = array(
                         'name'  => 'general',
@@ -74,8 +81,16 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                     $cardStruct['errorMessage'] = 'Address validation error';
                 }
                 else {
+                    $customerData   = $this->_request->getPost();
+                    $addressData    = $this->_request->getPost('address');
+                    
+                    $customer = Mage::getModel('customer/customer')->setData($customerData);
+                    $address  = Mage::getModel('customer/address')->setData($addressData);
                     $previewBlock = Mage::getSingleton('core/layout')->createBlock('core/template')
-                        ->setTemplate('admin/customer/preview.phtml');
+                        ->setTemplate('admin/customer/preview.phtml')
+                        ->assign('customer', $customer)
+                        ->assign('address', $address);
+                        
                     $cardStruct['tabs'][] = array(
                         'name'  => 'preview',
                         'title' => __('New customer create information'),

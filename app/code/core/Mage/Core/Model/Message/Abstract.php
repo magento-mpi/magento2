@@ -38,4 +38,10 @@ abstract class Mage_Core_Model_Message_Abstract
         $out = '<div class="'.$this->getType().'">'.__($this->getCode()).'</div>';
         return $out;
     }
+    
+    public function toString()
+    {
+        $out = $this->getType().': '.__($this->getCode()).'';
+        return $out;
+    }
 }

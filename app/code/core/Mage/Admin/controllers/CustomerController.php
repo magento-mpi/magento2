@@ -58,7 +58,32 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
+        $customerData   = $this->_request->getPost();
+        $addressData    = $this->_request->getPost('address');
+
+        $customer = Mage::getModel('customer/customer')->setData($customerData);
+        $address  = Mage::getModel('customer/address')->setData($addressData);
         
+        $customer->addAddress($address);
+        $res = array(
+            'error' => 0,
+        );
+        try {
+            $customer->save();
+            $res['data'] = $customer->toArray();
+        }
+        catch (Mage_Core_Exception $e) {
+            $res['error'] = 1;
+            $res['errorMessage'] = 'Customer create error';
+            
+            if ($messages = $e->getMessages()) {
+                $res['errorMessage'] = '';
+                foreach ($messages as $message) {
+                	$res['errorMessage'].= $message->toHtml();
+                }
+            }
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
     /**

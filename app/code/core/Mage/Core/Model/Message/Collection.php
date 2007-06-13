@@ -54,6 +54,17 @@ class Mage_Core_Model_Message_Collection
         
         return $out;
     }
+    
+    public function toString()
+    {
+        $out = '';
+        $arrItems = $this->getItems();
+        foreach ($arrItems as $item) {
+            $out.= $item->toString();
+        }
+        
+        return $out;
+    }
 
     public function count()
     {
