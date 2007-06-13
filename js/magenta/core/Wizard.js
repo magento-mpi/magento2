@@ -38,6 +38,7 @@ Mage.Wizard = function(el, config) {
     
     this.btnBack = this.addButton({
         text : 'Back',
+        disable : true,
         align : 'center',
         handler : this.back,
         scope : this
@@ -203,14 +204,16 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         }, this);
         
         
-        if (this.currentPanel) {
-           data = this.currentPanel.save();
-        }
+        this.saveData = {};
+        
+        this.stepCollection.each(function(panel) {
+            Ext.apply(this.saveData, panel.save());
+        }, this);
         
         conn.request({
             url : this.points[index+1].url,
             method : 'POST',
-            params : data
+            params : this.saveData
         })
     },
 

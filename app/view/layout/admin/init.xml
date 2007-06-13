@@ -86,6 +86,10 @@
             <block type="core/text_tag_js" name="jscripts.js.magenta.form.filefield">
                 <action method="setSrc"><src>magenta/form/FileField.js</src></action>
             </block>
+            <block type="core/text_tag_js" name="jscripts.js.magenta.form.vtypes">
+                <action method="setSrc"><src>magenta/form/VTypes.js</src></action>
+            </block>
+            
             <block type="core/text_tag_js" name="jscripts.js.magenta.core">
                 <action method="setSrc"><src>magenta/core.js</src></action>
             </block>
