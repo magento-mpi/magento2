@@ -22,8 +22,8 @@ class Mage_Admin_Model_Mysql4_Acl_Role_Tree
             $a = $role->getData();
             $roleArr['id'] = $a['role_type']
             $a['children'] = $this->_buildRoleTree($role->getData('role_id'));
-            $rolesArr[] = $aarray(
-                'id'=>$a['role_type'].$a['user_id']
+            $rolesArr[] = array(
+                #'id'=>$a['role_type'].$a['user_id']
                 #'children'=>$a['children'],
             );
         }
