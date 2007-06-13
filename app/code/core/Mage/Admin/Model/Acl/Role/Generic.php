@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Acl Group model
+ * User acl role
  * 
  * @package     Mage
  * @subpackage  Admin
@@ -9,7 +9,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Admin_Model_Acl_Role_Group extends Mage_Admin_Model_Acl_Role_Generic
+class Mage_Admin_Model_Acl_Role_Generic extends Zend_Acl_Role 
 {
-    
+
 }

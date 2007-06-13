@@ -1,0 +1,1 @@
+alter table `magenta`.`admin_role` drop key `parent_id`, add index `parent_id` (`parent_id`, `role_type`, `sort_order`);

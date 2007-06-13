@@ -9,7 +9,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Admin_Model_Acl_Role_User extends Mage_Admin_Model_Acl_Role 
+class Mage_Admin_Model_Acl_Role_User extends Mage_Admin_Model_Acl_Role_Generic 
 {
 
 }

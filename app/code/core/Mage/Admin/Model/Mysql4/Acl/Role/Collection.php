@@ -7,7 +7,7 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Admin_Model_Mysql4_Role_Collection extends Varien_Data_Collection_Db
+class Mage_Admin_Model_Mysql4_Acl_Role_Collection extends Varien_Data_Collection_Db
 {
     protected $_roleTable;
     
@@ -17,6 +17,6 @@ class Mage_Admin_Model_Mysql4_Role_Collection extends Varien_Data_Collection_Db
         $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'role');
         $this->_sqlSelect->from($this->_roleTable);
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('admin/role'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('admin/acl_role'));
     }
 }

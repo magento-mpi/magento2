@@ -18,16 +18,27 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     
     public function roleTreeAction()
     {
-        $roleTree = Mage::getModel('admin_resource/acl_role_tree')->toArray();
-        $result = $this->_buildRoleTree($roleTree);
-        
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        $roles = Mage::getModel('admin_resource/acl_role_collection')->loadData();
+        $roleTree = $this->_buildRoleTree($roles);
+        $this->getResponse()->setBody(Zend_Json::encode($roleTree));
     }
     
-    protected function _buildRoleTree(array $parentNode, $path='')
+    public function _buildRoleTree(Varien_Data_Collection_Db $roles, $parentId=0)
     {
-        
-        #$roles->
+        $nodesArr = array();
+        foreach ($roles->getItems() as $role) {
+            if ($role->getRoleType()!=Mage_Admin_Model_Acl::ROLE_TYPE_GROUP) {
+                continue;
+            }
+            if ($role->getParentId()!=$parentId) {
+                continue;
+            }
+            $nodesArr[] = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+                'id'=>$role->getRoleType().$role->getRoleId(),
+                'text'=>$role->getRoleName(),
+                'children'=>$this->_buildRoleTree($roles, $role->getRoleId()),
+            );
+        }
         return $nodesArr;
     }
     
@@ -35,7 +46,6 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     {
         $resources = Mage::getSingleton('admin/config')->getNode('admin/acl/resources');
         $result = $this->_buildResourceTree($resources);
-        
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }
     
@@ -43,11 +53,11 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     {
         $nodesArr = array();
         foreach ($parentNode->children() as $node) {
-            $nodeArr = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false);
-            $nodeArr['id'] = $path.$node->getName();
-            $nodeArr['text'] = $node->getName();
-            $nodeArr['children'] = $this->_buildResourceTree($node, $nodeArr['id'].'/');
-            $nodesArr[] = $nodeArr;
+            $nodesArr[] = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+                'id'=>$path.$node->getName(),
+                'text'=>$node->getName(),
+                'children'=>$this->_buildResourceTree($node, $path.$node->getName().'/'),
+            );
         }
         return $nodesArr;
     }
