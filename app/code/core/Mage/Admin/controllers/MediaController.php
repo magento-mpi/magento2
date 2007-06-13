@@ -146,6 +146,7 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         try {
             $uploadFile = new Varien_File_Uploader('upload_file');
             $result = $uploadFile->save(Mage::getBaseDir('upload') . DIRECTORY_SEPARATOR . $destinationDir);
+            unset($result['error']);
         } catch( Exception $e ) {
             $result['error'] = $e->getMessage();
         }
