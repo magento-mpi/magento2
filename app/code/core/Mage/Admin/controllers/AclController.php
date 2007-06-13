@@ -8,7 +8,9 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
             ->setOrder('firstname,lastname')->loadData();
         $result = array();
         foreach ($users->getItems() as $user) {
-            $result[] = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>true, 
+            $result[] = array(
+                'allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>true, 
+                'type'=>'user',
                 'id'=>Mage_Admin_Model_Acl::ROLE_TYPE_USER.$user->getUserId(), 
                 'text'=>$user->getFirstname().' '.$user->getLastname(), 
             );
@@ -33,7 +35,9 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
             if ($role->getParentId()!=$parentId) {
                 continue;
             }
-            $nodesArr[] = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+            $nodesArr[] = array(
+                'allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+                'type'=>'role',
                 'id'=>$role->getRoleType().$role->getRoleId(),
                 'text'=>$role->getRoleName(),
                 'children'=>$this->_buildRoleTree($roles, $role->getRoleId()),
@@ -53,7 +57,9 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     {
         $nodesArr = array();
         foreach ($parentNode->children() as $node) {
-            $nodesArr[] = array('allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+            $nodesArr[] = array(
+                'allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>false,
+                'type'=>'resource',
                 'id'=>$path.$node->getName(),
                 'text'=>$node->getName(),
                 'children'=>$this->_buildResourceTree($node, $path.$node->getName().'/'),
