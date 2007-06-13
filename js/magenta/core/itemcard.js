@@ -59,6 +59,10 @@ Ext.extend(Mage.core.ItemCard, Ext.util.Observable,{
         this.region.add(this.panel);
     },
     
+    closePanel : function() {
+        this.region.remove(this.panel);
+    },
+    
     buildToolbar : function(baseEl) {
         this.toolbar = new Ext.Toolbar(baseEl);
         this.toolbar.add(new Ext.ToolbarButton({

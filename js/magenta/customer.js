@@ -18,13 +18,14 @@ Mage.Customer = function(depend){
         deleteAddressUrl : Mage.url + 'address/delete/',
 
         customerCardUrl : Mage.url + 'customer/card/',
+        customerDelUrl : Mage.url + 'customer/delete/',
         customerGridDataUrl : Mage.url + 'customer/gridData/',
         deleteUrl : Mage.url + 'customer/delete/',
         formPanels : new Ext.util.MixedCollection(),
         forms2Panel : new Ext.util.MixedCollection(),
         forms : new Ext.util.MixedCollection(),
         customerCardId : null,
-        lastSelectedCustomer : null,
+        customerRecord : null,
         
         tabCollections : new Ext.util.MixedCollection(),
 
@@ -85,7 +86,9 @@ Mage.Customer = function(depend){
                 });
                 
                 this.customerCard.toolbarAdd(new Ext.ToolbarButton({
-                    text : 'Delete Customer'
+                    text : 'Delete Customer',
+                    handler : this.onDeleteCustomer,
+                    scope : this
                 }));
 
             } else { // not loaded condition
@@ -154,7 +157,7 @@ Mage.Customer = function(depend){
                 enableColLock : false
             });
             
-            grid.getSelectionModel().on('rowselect', this.loadCustomer.createDelegate(this));
+            grid.getSelectionModel().on('rowselect', this.loadCustomer, this);
 
             this.grid = grid;
 
@@ -191,6 +194,35 @@ Mage.Customer = function(depend){
                 }]
             });    
             this.wizard.show(btn.getEl());
+        },
+        
+        onDeleteCustomer : function() {
+            Ext.MessageBox.confirm('Delete Customer', 'Are you sure ?!', function(btn){
+                if (btn == 'yes') {
+                    var delConn = new Ext.data.Connection();
+                    delConn.on('requestcomplete', function(tranId, response, options) {
+                        var result = Ext.decode(response.responseText);
+                        if (result.error == 0) {
+                            this.customerCard.closePanel();
+                            this.grid.getDataSource().remove(this.customerCard.lastRecord);
+                            Ext.MessageBox.alert('Delete Customer', 'Customer successfully deleted');
+                        } else {
+                            Ext.MessageBox.alert('Delete Customer', result.errorMessage);
+                        }
+                    }, this)
+
+                    delConn.on('requestexception', function(tranId, response, options) {
+                        Ext.MessageBox.alert('Delete Customer', result.errorMessage);
+                    }, this)
+
+                    console.log(this.customerCard);
+                    delConn.request({
+                        url : this.customerDelUrl,
+                        method : 'POST',
+                        params : {id : this.customerCard.lastRecord.data.customer_id}
+                    })
+                }
+            }, this)
         }
     }
 }();

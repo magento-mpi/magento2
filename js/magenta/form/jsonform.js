@@ -80,7 +80,6 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
                 config.triggerAction = 'all';
                 config.forceSelection = true;
                 var combo = new Ext.form.ComboBox(config);
-                combo.setValue(field.config.value);
                 return combo;
             case 'datefield' :
                 return new Ext.form.DateField(config);                

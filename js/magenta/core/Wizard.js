@@ -244,7 +244,8 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         saveConn.on('requestcomplete', function(tranId, response, options) {
             var result = Ext.decode(response.responseText);
             if (result.error == 0) {
-                Ext.MessageBox.alert('Wizard', 'finished');
+                this.hide();
+                //Ext.MessageBox.alert('Wizard', 'finished');
             } else {
                 Ext.MessageBox.alert('XHR Error', result.errorMessage);
             }

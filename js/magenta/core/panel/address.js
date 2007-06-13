@@ -1,6 +1,7 @@
 Mage.core.PanelAddresses = function(region, config) {
     this.region = region;
     this.config = config;
+    this.addressFormPanel = null;
     this.notLoaded = true;
     this.saveVar = null;
     this.storeUrl = Mage.url + 'customer/addressList/';
@@ -31,11 +32,12 @@ Mage.core.PanelAddresses = function(region, config) {
         title : 'Address List',
         autoScroll : true        
     })).getEl();    
-    this.addressFormEl = layout.add('center', new Ext.ContentPanel(Ext.id(),{
+    this.addressFormPanel = layout.add('center', new Ext.ContentPanel(Ext.id(),{
         autoCreate : true,
         title : 'Form',
         autoScroll : true        
-    })).getEl();    
+    }))
+    this.addressFormEl = this.addressFormPanel.getEl();    
     
     
     layout.endUpdate();
@@ -82,11 +84,18 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
         if (this.toolbar) {
             if (this.tbItems.getCount() == 0) {
                 this.tbItems.add('addresses_sep', new Ext.Toolbar.Separator());
+                this.tbItems.add('addresses_add', new Ext.Toolbar.Button({
+                    text : 'New Address',
+                    handler : this._onNewItem,
+                    scope : this
+                }));
+                
                 this.tbItems.add('addresses_delete', new Ext.Toolbar.Button({
                     text : 'Delete Address',
                     handler : this._onDeleteItem,
                     scope : this
                 }));
+                
                 
                 this.tbItems.each(function(item){
                     this.toolbar.add(item);
@@ -103,7 +112,16 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
         this.tbItems.each(function(item){
             item.hide();
         }.createDelegate(this));
-    },    
+    },
+    
+    _onNewItem : function() {
+        alert('test');
+    },
+    
+    _onDeleteItem : function() {
+        
+    },
+        
     
     _build : function() {
         this._buildAddressView();
@@ -134,9 +152,11 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
             }
         }.createDelegate(this));
 
-        this.LoadMask = new Ext.LoadMask(this.panel.getEl(), {
-            store: store
-        });
+        if (this.panel.getEl()) {
+            this.LoadMask = new Ext.LoadMask(this.panel.getEl(), {
+                store: store
+            });
+        }
         
         var viewTpl = new Ext.Template(
             '<div id="{address_id}" class="address-view">' +
@@ -154,7 +174,7 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
         this.view.on('beforeselect', function(view){
             return view.store.getCount() > 0;
         });
-        
+
         this.view.on('selectionchange', function(view, selections){
             if (this.tbItems.get('addresses_delete')) {
                 if (selections.length) {
@@ -163,19 +183,18 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
                     this.tbItems.get('addresses_delete').disable();
                 }
             }
-        }.createDelegate(this));
-
-        this.view.on('selectionchange', function(view, selections){
+            
             var selectedEl = view.getSelectedIndexes();
             var addressItem = this.view.store.getAt(selectedEl[0]);
-            
             if (addressItem) {
-            
                 var conn = new Ext.data.Connection();
-            
+
                 conn.on('requestcomplete', function(tranId, response, options) {
                     var result =  Ext.decode(response.responseText);
                     if (result.error == 0) {
+                        if (typeof result.form.id == 'undefined') {
+                            result.form.id = Ext.id();
+                        }
                         this._buildForm(result.form);
                     } else {
                         Ext.MessageBox.alert('Critical Error', result.errorMessage);
@@ -191,6 +210,8 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
                     method : 'POST',
                     params : {id : addressItem.data.address_id}
                 })
+            } else {
+                this.addressFormPanel.setContent('');
             }
         }.createDelegate(this));
         
@@ -201,14 +222,10 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
     
     _buildForm : function(formConfig) {
         var mask;
-        if (!this.addressForm) {
-            this._buildFormTemplate(formConfig.id + '_El');            
-        } else {
-            var el = Ext.get(formConfig.id + '_El');
-            mask = new Ext.LoadMask(el);
-            mask.onBeforeLoad();
-            el.dom.innerHTML = '';
-        }
+        this._buildFormTemplate(formConfig.id + '_El');            
+        mask = new Ext.LoadMask(this.formContainer);
+        mask.onBeforeLoad();
+        this.formContainer.innerHTML = '';
         
         this.addressForm = new Mage.form.JsonForm( {
             method : formConfig.method,
@@ -218,7 +235,7 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
             metaData : formConfig.formElements
         });
 
-        this.addressForm.render(formConfig.id + '_El');
+        this.addressForm.render(this.formContainer);
         if (mask) {
             mask.onLoad();
         }        
@@ -234,8 +251,9 @@ Ext.extend(Mage.core.PanelAddresses, Mage.core.Panel, {
                 '</div></div></div>' +
                 '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>' +
                 '</div>');
-           this.tpl.compile();         
+           this.tpl.compile();
         }
-        this.tpl.append(this.addressFormEl, {formElId : formId});
+        var tmp = this.tpl.append(this.addressFormEl, {formElId : formId});
+        this.formContainer = tmp.childNodes[1].firstChild.firstChild.firstChild;
     }
 })
