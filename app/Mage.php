@@ -320,6 +320,11 @@ final class Mage {
                     mkdir(Mage::getBaseDir('var').DS.'log', 0777);
                 }
                 
+                if (!file_exists($logFile)) {
+                    file_put_contents($logFile,'');
+                    chmod($logFile, 0777);
+                }
+                
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
                 $formatter = new Zend_Log_Formatter_Simple($format);            
                 $writer = new Zend_Log_Writer_Stream($logFile);
