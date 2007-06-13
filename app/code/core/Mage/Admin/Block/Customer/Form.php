@@ -29,7 +29,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                 'label' => __('Firstname'),
                 'id'    => 'customer_firstname',
                 'title' => __('Customer Firstname'),
-                'validation'=> '',
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -39,7 +40,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                 'label' => __('Lastname'),
                 'id'    => 'customer_lastname',
                 'title' => __('Customer Lastname'),
-                'validation'=> '',
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -49,7 +51,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                 'label' => __('Email'),
                 'id'    => 'customer_email',
                 'title' => __('Customer Email'),
-                'validation'=> '',
+                'vtype' => 'email',
+                'allowBlank' => false
             )
         );
         
@@ -64,7 +67,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'label' => __('New Password'),
                     'id'    => 'customer_pass',
                     'title' => __('New Password'),
-                    'validation'=> '',
+                    'vtype' => 'alphanum',
+                    'allowBlank' => false
                 )
             );
         }
@@ -75,7 +79,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'label' => __('Password'),
                     'id'    => 'customer_pass',
                     'title' => __('Password'),
-                    'validation'=> '',
+                    'vtype' => 'alphanum',
+                    'allowBlank' => false
                 )
             );
            $fieldset->addField('password_confirmation', 'password', 
@@ -84,7 +89,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'label' => __('Password Confirm'),
                     'id'    => 'customer_pass',
                     'title' => __('Password Confirmation'),
-                    'validation'=> '',
+                    'vtype' => 'alphanum',
+                    'allowBlank' => false
                 )
             );
         }
