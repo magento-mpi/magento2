@@ -16,7 +16,6 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         $io = new Varien_Io_File();
 
         $_cwd = ( $this->getRequest()->getParam('node', false) === '::' ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('node', false);
-        $_cwd = '/var/www/magento/htdocs/media/upload/123/0/';
 
         $baseDirArr = explode(DIRECTORY_SEPARATOR, Mage::getBaseDir('upload'));
         $_cwdArr = explode(DIRECTORY_SEPARATOR, $_cwd);
