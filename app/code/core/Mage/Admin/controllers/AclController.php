@@ -4,18 +4,23 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
 {
     public function userTreeAction()
     {
-        $users = Mage::getModel('admin_resource/user_collection')
-            ->setOrder('firstname,lastname')->loadData();
-        $result = array();
+        $users = Mage::getModel('admin_resource/user_collection')->setOrder('firstname,lastname')->loadData();
+        $userTree = $this->_buildUserTree($users);
+        $this->getResponse()->setBody(Zend_Json::encode($userTree));
+    }
+    
+    public function _buildUserTree(Varien_Data_Collection_Db $users)
+    {
+        $nodesArr = array();
         foreach ($users->getItems() as $user) {
-            $result[] = array(
+            $nodesArr[] = array(
                 'allowDrop'=>true, 'allowDrag'=>true, 'leaf'=>true, 
                 'type'=>'user',
                 'id'=>Mage_Admin_Model_Acl::ROLE_TYPE_USER.$user->getUserId(), 
                 'text'=>$user->getFirstname().' '.$user->getLastname(), 
             );
         }
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        return $nodesArr;
     }
     
     public function roleTreeAction()
