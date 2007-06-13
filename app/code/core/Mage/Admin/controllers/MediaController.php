@@ -16,10 +16,14 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         $io = new Varien_Io_File();
 
         $_cwd = ( $this->getRequest()->getParam('node', false) === '::' ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('node', false);
+        $_cwd = '/var/www/magento/htdocs/media/upload/123/0/';
+
+        $baseDirArr = explode(DIRECTORY_SEPARATOR, Mage::getBaseDir('upload'));
+        $_cwdArr = explode(DIRECTORY_SEPARATOR, $_cwd);
 
         try {
             $io->open( Array('path' => $_cwd) );
-            $directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
+            $directoriesList = $io->ls();
         } catch( Exception $e ) {
             $result = Array('error' => 1, 'error_message' => $e->getMessage());
             $this->getResponse()->setBody(Zend_Json::encode($result));
@@ -27,8 +31,19 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         }
 
         foreach( $directoriesList as $key => $directory ) {
-            $directoriesList[$key]['iconCls'] = '.tree-folder-icon';
+            $tmpvar = $_cwdArr;
+            $tmpvar[] = $directory['text'];
+
             $directoriesList[$key]['allowEdit'] = true;
+            if( $directory['leaf'] == true ) {
+                if( $directory['is_image'] === true ) {
+                    $directoriesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
+                } else {
+                    $directoriesList[$key]['iconCls'] = '.file-icon';
+                }
+            } else {
+                $directoriesList[$key]['iconCls'] = '.tree-folder-icon';
+            }
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($directoriesList));

@@ -271,8 +271,13 @@ class Varien_Io_File extends Varien_Io_Abstract
                 $list_item['owner'] = $this->_getFileOwner($fullpath);
 
                 if( is_file($fullpath) ) {
+                    $pathinfo = pathinfo($fullpath);
                     $list_item['size'] = filesize($fullpath);
                     $list_item['leaf'] = true;
+                    if( in_array($pathinfo['extension'], Array('jpg', 'jpeg', 'gif', 'bmp', 'png')) ) {
+                        $list_item['is_image'] = true;
+                    }
+                    
                 } else {
                     $list_item['leaf'] = false;
                     $list_item['id'] = $fullpath;
