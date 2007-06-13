@@ -15,7 +15,6 @@
 .x-view-selected{background: #c3daf9;border: 2px solid #6593cf;padding: 5px;}
 .address-view {cursor:pointer;padding: 5px 3px;font:normal 11px tahoma,verdana,helvetica;background:#efefef;margin-bottom:5px}
 
-
 /*                                                                                     
 * Menu Buttons
 */
@@ -127,3 +126,68 @@
 .m-view-overdrop {
 	border: 2px solid #6593cf;
 }
+
+/*
+ * medialobrary start
+ */
+ 
+.tree-folder-icon { background-image:url(./ico/fam/folder.png); }
+ 
+.thumbnail {
+	text-align:center;
+	width:100px;
+	float:left;
+	height:130px;
+	padding:5px;
+	margin:3px 0 0 3px;
+}
+
+.thumbnail IMG {
+	width:80px;
+	/* height:60px; */
+}
+
+.thumbnail SPAN {	
+	font-size:11px;
+	line-height:11px;
+	display:block;
+}
+
+.x-view-selected{
+	background: #c3daf9;
+	border: 2px solid #6593cf;
+	padding: 3px;
+}
+
+.x-view-selected .thumbnail{
+	background:transparent;
+}
+
+.details{
+	padding: 10px;
+	text-align: center;
+}
+
+.details-info{
+	border-top: 1px solid #cccccc;
+	font: 11px Arial, Helvetica, sans-serif;
+	margin-top: 5px;
+	padding-top: 5px;
+	text-align: left;
+}
+
+.details-info b{
+	color: #555555;
+	display: block;
+	margin-bottom: 4px;
+}
+
+.details-info span{
+	display: block;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+/*
+ * medialobrary ends
+ */
