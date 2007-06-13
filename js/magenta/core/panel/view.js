@@ -19,7 +19,10 @@ Mage.core.PanelView = function(region, config) {
 
     this.panel.on('activate', function(){
         if (this.notLoaded) {
-            this.panel.load(this.url);   
+            this.panel.setContent(this.content);
+            if (typeof this.url == 'string' && this.url != '') {
+                this.panel.load(this.url);
+            }
         }
     }, this);
 };
@@ -28,7 +31,10 @@ Ext.extend(Mage.core.PanelView, Mage.core.Panel, {
     update : function(config) {
         Ext.apply(this, config);
         if (this.region.getActivePanel() == this.panel) {
-            this.panel.load(this.url);
+            this.panel.setContent(this.content);
+            if (typeof this.url == 'string' && this.url != '') {
+                this.panel.load(this.url);
+            }
         } else {
             this.notLoaded = true;
         }
