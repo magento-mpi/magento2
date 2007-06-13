@@ -17,12 +17,9 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
         $_cwd = ( $this->getRequest()->getParam('node', false) === '::' ) ? Mage::getBaseDir('upload') : $this->getRequest()->getParam('node', false);
 
-        $baseDirArr = explode(DIRECTORY_SEPARATOR, Mage::getBaseDir('upload'));
-        $_cwdArr = explode(DIRECTORY_SEPARATOR, $_cwd);
-
         try {
             $io->open( Array('path' => $_cwd) );
-            $directoriesList = $io->ls();
+            $directoriesList = $io->ls(Varien_Io_File::GREP_DIRS);
         } catch( Exception $e ) {
             $result = Array('error' => 1, 'error_message' => $e->getMessage());
             $this->getResponse()->setBody(Zend_Json::encode($result));
@@ -30,19 +27,8 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
         }
 
         foreach( $directoriesList as $key => $directory ) {
-            $tmpvar = $_cwdArr;
-            $tmpvar[] = $directory['text'];
-
+            $directoriesList[$key]['iconCls'] = '.tree-folder-icon';
             $directoriesList[$key]['allowEdit'] = true;
-            if( $directory['leaf'] == true ) {
-                if( $directory['is_image'] === true ) {
-                    $directoriesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
-                } else {
-                    $directoriesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'/admin/filetypes/'.$directory['filetype'].'.png';
-                }
-            } else {
-                $directoriesList[$key]['iconCls'] = '.tree-folder-icon';
-            }
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($directoriesList));
@@ -55,6 +41,9 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
 
         $_cwd = ( $this->getRequest()->getParam('node', false) == '::' ) ? Mage::getBaseDir('upload') : trim( $this->getRequest()->getParam('node', false) );
 
+        $baseDirArr = explode(DIRECTORY_SEPARATOR, Mage::getBaseDir('upload'));
+        $_cwdArr = explode(DIRECTORY_SEPARATOR, $_cwd);
+
         try {
             $io->open( Array('path' => $_cwd) );
             $filesList = $io->ls(Varien_Io_File::GREP_FILES);
@@ -62,6 +51,17 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
             $result = Array('error' => 1, 'error_message' => $e->getMessage());
             $this->getResponse()->setBody(Zend_Json::encode($result));
             return;
+        }
+
+        foreach( $filesList as $file ) {
+            $tmpvar = $_cwdArr;
+            $tmpvar[] = $file['text'];
+
+            if( $file['is_image'] === true ) {
+                $filesList[$key]['url'] = Mage::getBaseUrl().'media/upload/'.join(DIRECTORY_SEPARATOR, array_diff($tmpvar, $baseDirArr));
+            } else {
+                $filesList[$key]['url'] = Mage::getBaseUrl(array('_type'=>'skin')).'/admin/filetypes/'.$file['filetype'].'.png';
+            }
         }
 
         $result = Array('error' => 0, 'data' => $filesList);
