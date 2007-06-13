@@ -53,7 +53,6 @@ Mage.Medialibrary = function () {
 			var layout = this.dialog.getLayout();
 			var panel_id = Ext.id();
 			var panel2_id = Ext.id();
-			var panel3_id = Ext.id();
 			    
 			var cview = layout.getRegion('west').getEl().createChild({tag :'div', id:panel_id});
 		    var tb = new Ext.Toolbar(cview.createChild());
@@ -71,31 +70,6 @@ Mage.Medialibrary = function () {
 		    });
 		    
 		    
-			var lview = layout.getRegion('center').getEl().createChild({tag :'div', id:panel2_id});
-		    var ctb = new Ext.Toolbar(lview.createChild());
-			this.sortSelect = Ext.DomHelper.append(this.dialog.body.dom, {
-				tag:'select', children: [
-					{tag: 'option', value:'text', selected: 'true', html:'Name'},
-					{tag: 'option', value:'size', html:'File Size'},
-					{tag: 'option', value:'mod_date', html:'Last Modified'}
-				]
-			}, true);
-			this.sortSelect.on('change', this.sortImages , this, true);
-			
-			this.txtFilter = Ext.DomHelper.append(this.dialog.body.dom, {
-				tag:'input', type:'text', size:'12'}, true);
-				
-			this.txtFilter.on('focus', function(){this.dom.select();});
-			this.txtFilter.on('keyup', this.filter, this, {buffer:500});
-			
-			ctb.add('Filter:', this.txtFilter.dom, 'separator', 'Sort By:', this.sortSelect.dom);
-			ctb.add('-',{
-		        id:'del_item',
-		        text:'Delete',
-		        handler: function () { this.deleteItem(); }.createDelegate(this),
-		        tooltip:'Remove the selected item'
-		    });
-
 			layout.beginUpdate();
             this.left_panel = layout.add('west', new Ext.ContentPanel(panel_id, {
             	toolbar: tb
@@ -126,7 +100,32 @@ Mage.Medialibrary = function () {
                 }                
             });
             var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south', {title:"Upload file"}));
-            this.center_panel = innerLayout.add('center', new Ext.ContentPanel(panel3_id, {            	
+            
+            var lview = innerLayout.getRegion('center').getEl().createChild({tag :'div', id:panel2_id});
+		    var ctb = new Ext.Toolbar(lview.createChild());
+			this.sortSelect = Ext.DomHelper.append(this.dialog.body.dom, {
+				tag:'select', children: [
+					{tag: 'option', value:'text', selected: 'true', html:'Name'},
+					{tag: 'option', value:'size', html:'File Size'},
+					{tag: 'option', value:'mod_date', html:'Last Modified'}
+				]
+			}, true);
+			this.sortSelect.on('change', this.sortImages , this, true);
+			
+			this.txtFilter = Ext.DomHelper.append(this.dialog.body.dom, {
+				tag:'input', type:'text', size:'12'}, true);
+				
+			this.txtFilter.on('focus', function(){this.dom.select();});
+			this.txtFilter.on('keyup', this.filter, this, {buffer:500});
+			
+			ctb.add('Filter:', this.txtFilter.dom, 'separator', 'Sort By:', this.sortSelect.dom);
+			ctb.add('-',{
+		        id:'del_item',
+		        text:'Delete',
+		        handler: function () { this.deleteItem(); }.createDelegate(this),
+		        tooltip:'Remove the selected item'
+		    });
+            this.center_panel = innerLayout.add('center', new Ext.ContentPanel(panel2_id, {            	
             	toolbar: ctb,
             	autoCreate : true
             }));
