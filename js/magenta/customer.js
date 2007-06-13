@@ -20,6 +20,7 @@ Mage.Customer = function(depend){
         customerCardUrl : Mage.url + 'customer/card/',
         customerDelUrl : Mage.url + 'customer/delete/',
         customerGridDataUrl : Mage.url + 'customer/gridData/',
+        customerDataRecord : null,
         deleteUrl : Mage.url + 'customer/delete/',
         formPanels : new Ext.util.MixedCollection(),
         forms2Panel : new Ext.util.MixedCollection(),
@@ -116,7 +117,7 @@ Mage.Customer = function(depend){
         },
 
         initGrid: function(parentLayout){
-            var dataRecord = Ext.data.Record.create([
+            this.customerDataRecord = Ext.data.Record.create([
                 {name: 'customer_id', mapping: 'customer_id'},
                 {name: 'email', mapping: 'email'},
                 {name: 'firstname', mapping: 'firstname'},
@@ -127,7 +128,7 @@ Mage.Customer = function(depend){
                 root: 'items',
                 totalProperty: 'totalRecords',
                 id: 'customer_id'
-            }, dataRecord);
+            }, this.customerDataRecord);
 
              var dataStore = new Ext.data.Store({
                 proxy: new Ext.data.HttpProxy({url: this.customerGridDataUrl}),
@@ -193,6 +194,8 @@ Mage.Customer = function(depend){
                     url : Mage.url + 'customer/wizard/'
                 }]
             });    
+            
+            this.wizard.on('finish', this.onWizardFinish, this);
             this.wizard.show(btn.getEl());
         },
         
@@ -223,6 +226,15 @@ Mage.Customer = function(depend){
                     })
                 }
             }, this)
+        },
+        
+        onWizardFinish : function(data) {
+            var res = this.grid.getDataSource().add(new this.customerDataRecord({
+                customer_id : data.customer_id,
+                email : data.email,
+                firstname : data.firstname,
+                lastname : data.lastname
+            }), data.customer_id);    
         }
     }
 }();

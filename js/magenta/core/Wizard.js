@@ -24,7 +24,8 @@ Mage.Wizard = function(el, config) {
     });
     
     this.addEvents({
-        cancel : true
+        cancel : true,
+        finish : true
     });
     
     this.on('beforehide', this.onBeforeHide, this);
@@ -244,8 +245,9 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         saveConn.on('requestcomplete', function(tranId, response, options) {
             var result = Ext.decode(response.responseText);
             if (result.error == 0) {
+                console.log(result);
+                this.fireEvent('finish', result.data);
                 this.hide();
-                //Ext.MessageBox.alert('Wizard', 'finished');
             } else {
                 Ext.MessageBox.alert('XHR Error', result.errorMessage);
             }
@@ -258,7 +260,6 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
                method : 'POST'
             });
         } else {
-            console.log(this.config.saveUrl);
             Ext.MessageBox.alert('Wizard', 'Save url is not set');
         }
     },
