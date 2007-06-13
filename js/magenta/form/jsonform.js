@@ -46,59 +46,62 @@ Ext.extend(Mage.form.JsonForm, Ext.form.Form, {
     },
     
     _makeField : function(field) {
-            var config = {
-                fieldLabel : field.config.label,
-                id : field.config.name + '_' + this.id,
-                name : field.config.name,
-                msgTarget : field.config.msgTarget || 'side',
-                allowBlank : field.config.allowBlank,
-                vtype : field.config.vtype,
-                inputType : field.config.inputtype || '',
-                value : field.config.value
-            };
-            switch (field.config.ext_type) {
-                case 'checkbox' :
-                    return new Ext.form.Checkbox(config);                
-                case 'combobox' :
-                    var RecordDef = Ext.data.Record.create([{name: 'value'},{name: 'label'}]);                    
-                    var myReader = new Ext.data.JsonReader({root: 'values'}, RecordDef);                    
-                    var store = new Ext.data.Store({
-                       	reader : myReader,
-                       	proxy : new Ext.data.MemoryProxy(field.config)
-                    });
-                    store.load();
-                    config.store = store;
-                    config.displayField = 'label';
-                    config.valueField = 'value';
-                    config.emptyText  = field.config.emptyText;
-                    config.mode = 'local';
-                    config.typeAhead = true;
-                    config.triggerAction = 'all';
-                    config.forceSelection = true;
-                    var combo = new Ext.form.ComboBox(config);
-                    combo.setValue(field.config.value);
-                    return combo;
-                case 'datefield' :
-                    return new Ext.form.DateField(config);                
-                case 'numberfield' :
-                    return new Ext.form.NumberField(config);                
-                case 'radio' :
-                    return new Ext.form.Radio(config);                
-                case 'textarea' :
-                    return new Ext.form.TextArea(config);                
-                case 'textfield' :
-                    return new Ext.form.TextField(config);
-                case 'hiddenfield' :
-                    return new Ext.form.TextField(config);
-                case 'file' : 
-                case 'imagefile' :                 
-                    config.form = this;
-                    config.autoSubmit = field.config.autoSubmit || false;
-                    config.value = "";
-                    return new Mage.form.FileField(config);
-            }
-            throw 'This field type:"'+field.config.ext_type+'" not supported';
-        
+        var ab = true;
+        if (field.config.allowBlank === false) {
+            ab = false;
+        }
+        var config = {
+            fieldLabel : field.config.label,
+            id : field.config.name + '_' + this.id,
+            name : field.config.name,
+            msgTarget : field.config.msgTarget || 'side',
+            allowBlank : ab,
+            vtype : field.config.vtype,
+            inputType : field.config.inputtype || '',
+            value : field.config.value
+        };
+        switch (field.config.ext_type) {
+            case 'checkbox' :
+                return new Ext.form.Checkbox(config);                
+            case 'combobox' :
+                var RecordDef = Ext.data.Record.create([{name: 'value'},{name: 'label'}]);                    
+                var myReader = new Ext.data.JsonReader({root: 'values'}, RecordDef);                    
+                var store = new Ext.data.Store({
+                   	reader : myReader,
+                   	proxy : new Ext.data.MemoryProxy(field.config)
+                });
+                store.load();
+                config.store = store;
+                config.displayField = 'label';
+                config.valueField = 'value';
+                config.emptyText  = field.config.emptyText;
+                config.mode = 'local';
+                config.typeAhead = true;
+                config.triggerAction = 'all';
+                config.forceSelection = true;
+                var combo = new Ext.form.ComboBox(config);
+                combo.setValue(field.config.value);
+                return combo;
+            case 'datefield' :
+                return new Ext.form.DateField(config);                
+            case 'numberfield' :
+                return new Ext.form.NumberField(config);                
+            case 'radio' :
+                return new Ext.form.Radio(config);                
+            case 'textarea' :
+                return new Ext.form.TextArea(config);                
+            case 'textfield' :
+                return new Ext.form.TextField(config);
+            case 'hiddenfield' :
+                return new Ext.form.TextField(config);
+            case 'file' : 
+            case 'imagefile' :                 
+                config.form = this;
+                config.autoSubmit = field.config.autoSubmit || false;
+                config.value = "";
+                return new Mage.form.FileField(config);
+        }
+        throw 'This field type:"'+field.config.ext_type+'" not supported';
     }
 })
 
