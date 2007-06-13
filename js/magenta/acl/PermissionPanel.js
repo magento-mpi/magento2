@@ -66,12 +66,39 @@ Mage.PermissionPanel = function(){
                     initialSize: 200
                 }            
             });
+            
+            var westLayout = new Ext.BorderLayout(Ext.DomHelper.append(document.body, {tag: 'div'}, true),{
+                center : {
+                    autoScroll : false,
+                    titlebar : true,
+                    hideTabs:false,
+                    minSize : 200                        
+                }            
+            });
+
+            var centerLayout = new Ext.BorderLayout(Ext.DomHelper.append(document.body, {tag: 'div'}, true),{
+                center : {
+                    autoScroll : false,
+                    titlebar : true,
+                    hideTabs:false,
+                    minSize : 200                        
+                }            
+            });
+
+            var eastLayout = new Ext.BorderLayout(Ext.DomHelper.append(document.body, {tag: 'div'}, true),{
+                center : {
+                    autoScroll : false,
+                    titlebar : true,
+                    hideTabs:false,
+                    minSize : 200                        
+                }            
+            });
            
             layout.beginUpdate();
             layout.add('west', new Ext.ContentPanel(Ext.id(), {title: 'Users', autoCreate: true}));
             layout.add('center', new Ext.ContentPanel(Ext.id(), {title: 'Groups & Roles', autoCreate: true}));
             layout.add('east', new Ext.ContentPanel(Ext.id(), {title: 'Resources & Actions', autoCreate: true}));
-            layout.add('south', new Ext.ContentPanel(Ext.id(), {title: 'Properties', autoCreate: true}));
+            //layout.add('south', new Ext.ContentPanel(Ext.id(), {title: 'Properties', autoCreate: true}));
             layout.endUpdate();                
             return new Ext.NestedLayoutPanel(layout, {title:"User & Permission", closable:false});
         },
