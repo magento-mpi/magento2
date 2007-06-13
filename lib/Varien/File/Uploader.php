@@ -84,6 +84,8 @@ class Varien_File_Uploader
      */
     protected $_dispretionPath = null;
 
+    protected $_fileExists = false;
+
     const SINGLE_STYLE = 0;
     const MULTIPLE_STYLE = 1;
     
@@ -92,7 +94,10 @@ class Varien_File_Uploader
         $this->_setUploadFileId($fileId);
         if( !file_exists($this->_file['tmp_name']) ) {
             throw new Exception('File was not uploaded.');
-        } 
+            return;
+        } else {
+            $this->_fileExists = true;
+        }
     }
 
     /**
@@ -106,6 +111,10 @@ class Varien_File_Uploader
      */
     public function save($destinationFolder, $newFileName=null)
     {
+        if( $this->_fileExists === false ) {
+            return;
+        }
+
         if( !is_writable($destinationFolder) ) {
             throw new Exception('Destination folder is not writable or does not exists.');
         }
@@ -138,6 +147,9 @@ class Varien_File_Uploader
             chmod($destFile, 0777);
             $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
             $this->_uploadedFileDir = $destinationFolder;
+            $result = $this->_file;
+            $result['path'] = $destinationFolder;
+            return $result;
         } else {
             return $result;
         }
@@ -216,8 +228,8 @@ class Varien_File_Uploader
     {
         preg_match("/^(.*?)\[(.*?)\]$/", $fileId, $file);
 
-        array_shift($file);
-        if( (count($file[0]) > 0) && (count($file[1]) > 0) ) {
+        if( count($file) > 0 && (count($file[0]) > 0) && (count($file[1]) > 0) ) {
+            array_shift($file);
             $this->_uploadType = self::MULTIPLE_STYLE;
 
             $fileAttributes = $_FILES[$file[0]];

@@ -142,8 +142,18 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     public function uploadAction()
     {
         $destinationDir = $this->getRequest()->getParam('destination_dir', false);
-        $uploadFile = new Varien_File_Uploader('upload_file');
-        $uploadFile->save(Mage::getBaseDir('upload') . DIRECTORY_SEPARATOR . $destinationDir);
+        $result = Array();
+        try {
+            $uploadFile = new Varien_File_Uploader('upload_file');
+            $result = $uploadFile->save(Mage::getBaseDir('upload') . DIRECTORY_SEPARATOR . $destinationDir);
+        } catch( Exception $e ) {
+            $result['error'] = $e->getMessage();
+        }
+
+        $response = new Varien_Object;
+        $response->addData($result);
+        header("Content-type: text/xml");
+        $this->getResponse()->setBody($response->toXml(array(), "file", true, false));
     }
 
     public function loadSettingsAction()
