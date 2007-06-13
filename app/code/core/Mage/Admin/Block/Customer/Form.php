@@ -68,7 +68,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'id'    => 'customer_pass',
                     'title' => __('New Password'),
                     'vtype' => 'alphanum',
-                    'allowBlank' => false
+                    'inputtype' => 'password',
+                    'allowBlank'=> false
                 )
             );
         }
@@ -80,7 +81,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'id'    => 'customer_pass',
                     'title' => __('Password'),
                     'vtype' => 'alphanum',
-                    'allowBlank' => false
+                    'inputtype' => 'password',
+                    'allowBlank'=> false
                 )
             );
            $fieldset->addField('password_confirmation', 'password', 
@@ -90,7 +92,8 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
                     'id'    => 'customer_pass',
                     'title' => __('Password Confirmation'),
                     'vtype' => 'alphanum',
-                    'allowBlank' => false
+                    'inputtype' => 'password',
+                    'allowBlank'=> false
                 )
             );
         }

@@ -23,8 +23,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Firstname'),
                 'id'    => 'address_firstname',
                 'title' => __('Firstname'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -34,8 +34,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Lastname'),
                 'id'    => 'address_lastname',
                 'title' => __('Lastname'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -45,8 +45,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Company'),
                 'id'    => 'address_company',
                 'title' => __('Company'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'alphanum',
             )
         );
 
@@ -57,8 +56,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'id'    => 'address_country',
                 'title' => __('Country'),
                 'values'=> Mage::getModel('directory_resource/country_collection')->load()->toOptionArray(),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'allowBlank'=> false,
+                'emptyText' => __('Select a country ...')
             )
         );
         
@@ -69,7 +68,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'id'    => 'address_region',
                 'title' => __('State/Province'),
                 'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -79,8 +79,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('City'),
                 'id'    => 'address_city',
                 'title' => __('City'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'alphanum',
+                'allowBlank' => false
             )
         );
 
@@ -90,8 +90,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Street Address'),
                 'id'    => 'address_street',
                 'title' => __('Street Address'),
-                'validation'=> '',
-                'ext_type'  => 'TextArea'
+                'allowBlank' => false
             )
         );
 
@@ -101,8 +100,8 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Zip/Post Code'),
                 'id'    => 'address_postcode',
                 'title' => __('Zip/Post code'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'vtype' => 'numetic',
+                'allowBlank' => false
             )
         );
 
@@ -123,8 +122,6 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Fax'),
                 'id'    => 'address_fax',
                 'title' => __('Fax'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
             )
         );
         

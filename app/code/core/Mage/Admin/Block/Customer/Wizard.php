@@ -22,16 +22,24 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
         $this->_request = Mage::registry('action')->getRequest();
     }
     
+    /**
+     * Render wizard step content
+     *
+     * @return string
+     */
     public function getStepContent()
     {
         $step = $this->_request->getParam('step', 1);
+        
+        $cardStruct = array();
+        $cardStruct['error'] = 0;
         switch ($step) {
             // Account form
             case 1:
                 $customer = Mage::getModel('customer/customer');
                 $form = new Mage_Admin_Block_Customer_Form($customer);
                 
-                $tab = array(
+                $cardStruct['tabs'][] = array(
                     'name'  => 'general',
                     'title' => __('Account Information'),
                     'type'  => 'form',
@@ -41,36 +49,59 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                 break;
             // Address form
             case 2:
-                $address = Mage::getModel('customer/address');
-                $form = new Mage_Admin_Block_Customer_Address_Form($address);
-                $form->addFieldNamePrefix('address');
-                
-                $tab = array(
-                    'name'  => 'general',
-                    'title' => __('Customer address'),
-                    'type'  => 'form',
-                    'form'  => $form->toArray()
-                );
-                $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>3));
+                if (!$this->_receiveAccountData()) {
+                    $cardStruct['error'] = 1;
+                    $cardStruct['errorMessage'] = 'Account validation error';
+                }
+                else {
+                    $address = Mage::getModel('customer/address');
+                    $form = new Mage_Admin_Block_Customer_Address_Form($address);
+                    $form->addFieldNamePrefix('address');
+                    
+                    $cardStruct['tabs'][] = array(
+                        'name'  => 'general',
+                        'title' => __('Customer address'),
+                        'type'  => 'form',
+                        'form'  => $form->toArray()
+                    );
+                    $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>3));
+                }
                 break;
             // Create preview
             case 3:
-                $tab = array(
-                    'name'  => 'preview',
-                    'title' => __('New customer create information'),
-                    'type'  => 'view',
-                    'url'   => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'createPreview'))
-                );
-                $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'create'));
-                $cardStruct['btnFinish']= true;
+                if (!$this->_receiveAddressData()) {
+                    $cardStruct['error'] = 1;
+                    $cardStruct['errorMessage'] = 'Address validation error';
+                }
+                else {
+                    $previewBlock = Mage::getSingleton('core/layout')->createBlock('core/template')
+                        ->setTemplate('admin/customer/preview.phtml');
+                    $cardStruct['tabs'][] = array(
+                        'name'  => 'preview',
+                        'title' => __('New customer create information'),
+                        'type'  => 'view',
+                        'content' => $previewBlock->toHtml()
+                    );
+                    $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'create'));
+                    $cardStruct['btnFinish']= true;
+                }
                 break;
         }
         
         $cardStruct['title'] = __('New Customer');
-        $cardStruct['error'] = 0;
-        $cardStruct['tabs'][] = $tab;
-        
         return Zend_Json::encode($cardStruct);
+    }
+    
+    protected function _receiveAccountData()
+    {
+        $data = $this->_request->getPost();
+        return true;
+    }
+    
+    protected function _receiveAddressData()
+    {
+        $data = $this->_request->getPost('address');
+        return true;
     }
     
     public function getContent()
