@@ -5,12 +5,12 @@ Mage.PermissionPanel = function(){
     return {
         panel : null,
         parentLayout : null,
-        actionTree : null,
-        actionTreePanel : null,
+        resourceTree : null,
+        resourceTreePanel : null,
         userTree : null,
         userTreePanel : null,        
-        groupTree : null,
-        groupTreePanel : null,        
+        roleTree : null,
+        roleTreePanel : null,        
         
         loadMainPanel : function() {
             this.parentLayout = Mage.Admin.getLayout();
@@ -21,8 +21,8 @@ Mage.PermissionPanel = function(){
                 this.parentLayout.add('center', this.panel);
                 
                 this.buildUserTree(this.userTreePanel.getEl());
-                this.buildGroupTree(this.groupTreePanel.getEl());
-                this.buildActionTree(this.actionTreePanel.getEl());
+                this.buildGroupTree(this.roleTreePanel.getEl());
+                this.buildActionTree(this.resourceTreePanel.getEl());
                 
                 this.parentLayout.endUpdate();            
             } else {
@@ -103,34 +103,34 @@ Mage.PermissionPanel = function(){
             westLayout.endUpdate();
             
             centerLayout.beginUpdate();
-            var groupTreePanellEl = Ext.DomHelper.append(document.body, {tag:'div'}, true);
-            var groupTreePanelToolbar = new Ext.Toolbar(Ext.DomHelper.append(groupTreePanellEl, {tag : 'div'}, true));
-            groupTreePanelToolbar.add({
+            var roleTreePanellEl = Ext.DomHelper.append(document.body, {tag:'div'}, true);
+            var roleTreePanelToolbar = new Ext.Toolbar(Ext.DomHelper.append(roleTreePanellEl, {tag : 'div'}, true));
+            roleTreePanelToolbar.add({
                 text : 'Reload',
                 handler : function() {
-                    this.groupTree.root.reload();
+                    this.roleTree.root.reload();
                 },
                 scope : this
             });
             
-            this.groupTreePanel = centerLayout.add('center', new Ext.ContentPanel(groupTreePanellEl, {
-                toolbar : groupTreePanelToolbar
+            this.roleTreePanel = centerLayout.add('center', new Ext.ContentPanel(roleTreePanellEl, {
+                toolbar : roleTreePanelToolbar
             }));
             centerLayout.endUpdate();
             
             eastLayout.beginUpdate();
-            var actionTreePanelEl = Ext.DomHelper.append(document.body, {tag:'div'}, true);
-            var actionTreePanelToolbar = new Ext.Toolbar(Ext.DomHelper.append(actionTreePanelEl, {tag : 'div'}, true));
-            actionTreePanelToolbar.add({
+            var resourceTreePanelEl = Ext.DomHelper.append(document.body, {tag:'div'}, true);
+            var resourceTreePanelToolbar = new Ext.Toolbar(Ext.DomHelper.append(resourceTreePanelEl, {tag : 'div'}, true));
+            resourceTreePanelToolbar.add({
                 text : 'Reload',
                 handler : function() {
-                    this.actionTree.root.reload();
+                    this.resourceTree.root.reload();
                 },
                 scope : this
             });
             
-            this.actionTreePanel = eastLayout.add('center', new Ext.ContentPanel(actionTreePanelEl, {
-                toolbar : actionTreePanelToolbar
+            this.resourceTreePanel = eastLayout.add('center', new Ext.ContentPanel(resourceTreePanelEl, {
+                toolbar : resourceTreePanelToolbar
             }));
             eastLayout.endUpdate();
            
@@ -167,10 +167,10 @@ Mage.PermissionPanel = function(){
         },
         
         buildGroupTree : function(el) {
-            if (this.groupTree) {
+            if (this.roleTree) {
                 return true;
             }
-            this.groupTree = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
+            this.roleTree = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
                 loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/roleTree/'}),
                 enableDD:true,
@@ -183,20 +183,20 @@ Mage.PermissionPanel = function(){
                 draggable:false,
                 id:'G0'
             });
-            this.groupTree.setRootNode(root);
+            this.roleTree.setRootNode(root);
 
             // render the tree
-            this.groupTree.render();
+            this.roleTree.render();
             root.expand();            
             
         },
         
         buildActionTree : function(el) {
-            if (this.actionTree) {
+            if (this.resourceTree) {
                 return true;
             }
             
-            this.actionTree = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
+            this.resourceTree = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
                 loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/resourceTree/'}),
                 enableDD:true,
@@ -209,10 +209,10 @@ Mage.PermissionPanel = function(){
                 draggable:false,
                 id:'_'
             });
-            this.actionTree.setRootNode(root);
+            this.resourceTree.setRootNode(root);
 
             // render the tree
-            this.actionTree.render();
+            this.resourceTree.render();
             root.expand();            
         },    
     }
