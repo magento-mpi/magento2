@@ -142,7 +142,6 @@ class Mage_Admin_MediaController extends Mage_Core_Controller_Front_Action
     public function uploadAction()
     {
         $destinationDir = $this->getRequest()->getParam('destination_dir', false);
-        Mage::log($destinationDir);
         $result = Array();
         try {
             $uploadFile = new Varien_File_Uploader('upload_file');

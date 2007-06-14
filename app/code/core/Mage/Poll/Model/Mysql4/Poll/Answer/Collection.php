@@ -24,7 +24,7 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
     public function addPollFilter($arrPollId)
     {
         if( !$arrPollId ) {
-            return;
+            return $this;
         }
 
         $condition = 'poll_id';
@@ -38,6 +38,7 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
         $arr = array();
         foreach( $this->_items as $key => $item ) {
             if( $item->getPollId() == $pollData->getPollId() ) {
+                $item->setPercent( ceil( ($pollData->getVotesCount() > 0) ? ($item->getVotesCount() * 100 / $pollData->getVotesCount()) : 0 ) );
                 $arr[] = $item->getData();
             }
         }

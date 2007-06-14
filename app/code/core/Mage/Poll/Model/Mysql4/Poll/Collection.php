@@ -30,16 +30,7 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
     public function loadData($printQuery = false, $logQuery = false)
     {
         parent::loadData($printQuery, $logQuery);
-        $arrPollId = $this->getColumnValues('poll_id');
-        if ($arrPollId) {
-            $this->getAnswers($arrPollId);
-        }
-
-        foreach( $this->_items as $key => $item ) {
-            $item->setAnswers($this->_getAnswersCollection()->getPollAnswers($item));
-        }
-
-        return $this->_items;
+        return $this;
     }
 
     public function addPollFilter($pollId)
@@ -47,11 +38,18 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
         $this->addFilter('poll_id', $pollId);
     }
 
-    public function getAnswers($arrPollId)
+    public function getAnswers()
     {
+        $arrPollId = $this->getColumnValues('poll_id');
         $this->_getAnswersCollection()
             ->addPollFilter($arrPollId)
             ->loadData();
+
+        foreach( $this->_items as $key => $item ) {
+            $item->setAnswers($this->_getAnswersCollection()->getPollAnswers($item));
+        }
+
+        return $this;
     }
 
     protected  function _getAnswersCollection()

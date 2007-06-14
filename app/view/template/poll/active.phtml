@@ -6,10 +6,12 @@
                 <h2>Active Poll</h2>
                 <?=$poll->getPollTitle();?><br />
                 <?
-                    foreach( $poll->getAnswers() as $answer ) {
+                    if( is_array($poll->getAnswers()) ) {
+                        foreach( $poll->getAnswers() as $answer ) {
                 ?>
                         <label><input type="radio" name="vote" value="<?=$answer['answer_id']?>" />&nbsp;<?=$answer['answer_title']?></label><br />
                 <?
+                        }
                     }
                 ?>
                 <input value="Submit" alt="Subscribe" class="input-button" type="submit">

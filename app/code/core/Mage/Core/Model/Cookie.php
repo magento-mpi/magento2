@@ -1,6 +1,6 @@
 <?php
 /**
- * Core cokkie midel
+ * Core cookie model
  *
  * @package    Mage
  * @subpackage Core
@@ -10,10 +10,10 @@
 class Mage_Core_Model_Cookie
 {
     const COOKIE_NAME = 'magenta';
-    
+
     protected $_id = null;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         if (isset($_COOKIE[self::COOKIE_NAME ])) {
             $this->_id = $_COOKIE[self::COOKIE_NAME];
@@ -23,12 +23,12 @@ class Mage_Core_Model_Cookie
             setcookie(self::COOKIE_NAME, $this->_id, time()+60*60*24*30, '/');
         }
     }
-    
+
     public function getId()
     {
         return $this->_id;
     }
-    
+
     public function randomSequence($length=32)
     {
         $id = '';
