@@ -58,11 +58,13 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
+        Mage::log('create customer');
         $customerData   = $this->_request->getPost();
         $addressData    = $this->_request->getPost('address');
 
         $customer = Mage::getModel('customer/customer')->setData($customerData);
         $address  = Mage::getModel('customer/address')->setData($addressData);
+        $address->setPrimaryTypes(array_keys($address->getAvailableTypes('address_type_id')));
         
         $customer->addAddress($address);
         $res = array(
@@ -146,20 +148,25 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     /**
      * Save customer action
      */
-    public function save()
+    public function saveAction()
     {
+        $res = array('error'=>0);
         if ($this->getRequest()->isPost()) {
             $customerId = (int) $this->getRequest()->getParam('id', false);
             $customer   = Mage::getModel('customer/customer')->setData($this->getRequest()->getPost());
             $customer->setCustomerId($customerId);
             
+            Mage::log('save customer data');
+
             try {
                 $customer->save();
             }
             catch (Exception $e){
-                
+                $res['error'] = 1;
+                $res['errorMessage']  = $e->getMessage();
             }
         }
+        $this->getResponse()->setBody(Zend_Json::encode($res));
     }
     
     /**
