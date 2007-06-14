@@ -5,15 +5,25 @@ Mage.PermissionPanel = function(){
     return {
         panel : null,
         parentLayout : null,
+        
         resourceTree : null,
+        resourceGrid : null,
         resourceTreePanel : null,
+        
         userTree : null,
-        userTreePanel : null,        
+        userGrid : null,
+        userTreePanel : null,   
+             
         roleTree : null,
+        roleGrid : null,        
         roleTreePanel : null,        
         
         loadMainPanel : function() {
             this.parentLayout = Mage.Admin.getLayout();
+            this.parentLayout.on('regionresized', function() {
+                console.log(arguments);    
+            });
+            
             
             if (!this.panel) {
                 this.panel = this.buildPanel();
@@ -21,8 +31,11 @@ Mage.PermissionPanel = function(){
                 this.parentLayout.add('center', this.panel);
                 
                 this.buildUserTree(this.userTreePanel.getEl());
-                this.buildGroupTree(this.roleTreePanel.getEl());
-                this.buildActionTree(this.resourceTreePanel.getEl());
+                this.buildRoleTree(this.roleTreePanel.getEl());
+                this.buildResourceTree(this.resourceTreePanel.getEl());
+                
+                this.buildRoleGrid();
+                this.buildResourceGrid();
                 
                 this.parentLayout.endUpdate();            
             } else {
@@ -65,6 +78,13 @@ Mage.PermissionPanel = function(){
                     titlebar : false,
                     hideTabs:false,
                     minSize : 200                        
+                },
+                south : {
+                    autoScroll : false,
+                    titlebar : false,
+                    hideTabs:false,
+                    hideWhenEmpty : true,                    
+                    minSize : 200                        
                 }            
             });
 
@@ -72,6 +92,13 @@ Mage.PermissionPanel = function(){
                 center : {
                     autoScroll : false,
                     titlebar : false,
+                    hideTabs:false,
+                    minSize : 200                        
+                },
+                south : {
+                    autoScroll : false,
+                    titlebar : false,
+                    hideWhenEmpty : true,                    
                     hideTabs:false,
                     minSize : 200                        
                 }            
@@ -82,6 +109,13 @@ Mage.PermissionPanel = function(){
                     autoScroll : false,
                     titlebar : false,
                     hideTabs:false,
+                    minSize : 200                        
+                },
+                south : {
+                    autoScroll : false,
+                    titlebar : false,
+                    hideTabs : false,
+                    hideWhenEmpty : true,
                     minSize : 200                        
                 }            
             });
@@ -96,7 +130,6 @@ Mage.PermissionPanel = function(){
                 },
                 scope : this
             });
-            
             this.userTreePanel = westLayout.add('center', new Ext.ContentPanel(userTreePanelEl, {
                 toolbar : userTreePanelToolbar
             }));
@@ -143,9 +176,10 @@ Mage.PermissionPanel = function(){
         },
         
         buildUserTree : function(el) {
-            if (this.userTree) {
-                return true;
-            }
+           if (this.userTree) {
+               return true;
+           }
+            
            this.userTree = new Ext.tree.TreePanel(el.createChild({tag:'div'}), {
                 animate:true, 
                 loader: new Ext.tree.TreeLoader({dataUrl:Mage.url + 'acl/userTree/'}),
@@ -166,7 +200,8 @@ Mage.PermissionPanel = function(){
             root.expand();            
         },
         
-        buildGroupTree : function(el) {
+        
+        buildRoleTree : function(el) {
             if (this.roleTree) {
                 return true;
             }
@@ -190,8 +225,64 @@ Mage.PermissionPanel = function(){
             root.expand();            
             
         },
+
+        buildRoleGrid : function() {
+            if (this.roleGrid) {
+                return true;
+            }
+            var region = this.panel.getLayout().getRegion('center').getActivePanel().getLayout().getRegion('south');
+            
+            this.roleDataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'user_id'},
+                {name: 'user', mapping: 'user'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'product_id'
+            }, this.userDataRecord);
+
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'acl/roleGrid/'}),
+                reader: dataReader,
+                remoteSort: true
+             });
+             
+             dataStore.on('load', function(){
+                 if (!this.filterSettings) {
+                     this.loadFilterSettings();
+                 }
+             }.createDelegate(this));
+
+         //   dataStore.setDefaultSort('product_id', 'desc');
+
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "ID#", filter : 'numeric', sortable: true, locked:false, dataIndex: 'id'},
+                {header: "Name", filter : 'string', sortable: true, dataIndex: 'user'}
+            ]);
+
+            this.roleGrid = new Ext.grid.Grid(region.getEl().createChild({tag: 'div'}), {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns : true,
+                loadMask: true,
+               	autoExpandColumn : 1,
+                enableDragDrop : false,
+                monitorWindowResize : true,
+                autoHeight : false,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                enableColLock : false
+            });
+            
+            region.add(new Ext.GridPanel(this.roleGrid));
+            this.roleGrid.render();
+            dataStore.load();            
+        },
+
         
-        buildActionTree : function(el) {
+        buildResourceTree : function(el) {
             if (this.resourceTree) {
                 return true;
             }
@@ -214,6 +305,64 @@ Mage.PermissionPanel = function(){
             // render the tree
             this.resourceTree.render();
             root.expand();            
-        },    
+        },   
+        
+        buildResourceGrid : function() {
+            if (this.resourceGrid) {
+                return true;
+            }
+            var region = this.panel.getLayout().getRegion('east').getActivePanel().getLayout().getRegion('south');
+            
+            this.resourceDataRecord = Ext.data.Record.create([
+                {name: 'id', mapping: 'product_id'},
+                {name: 'name', mapping: 'name'},
+                {name: 'price', mapping: 'price'},
+                {name: 'description', mapping: 'description'}
+            ]);
+
+            var dataReader = new Ext.data.JsonReader({
+                root: 'items',
+                totalProperty: 'totalRecords',
+                id: 'product_id'
+            }, this.userDataRecord);
+
+             var dataStore = new Ext.data.Store({
+                proxy: new Ext.data.HttpProxy({url: Mage.url + 'acl/resourceGrid/'}),
+                reader: dataReader,
+                remoteSort: true
+             });
+             
+             dataStore.on('load', function(){
+                 if (!this.filterSettings) {
+                     this.loadFilterSettings();
+                 }
+             }.createDelegate(this));
+
+         //   dataStore.setDefaultSort('product_id', 'desc');
+
+
+            var colModel = new Ext.grid.ColumnModel([
+                {header: "Role/User", filter : 'numeric', sortable: true, locked:false, dataIndex: 'name'},
+                {header: "Type", filter : 'string', sortable: true, dataIndex: 'type'},
+                {header: "Access Level", filter : 'string', sortable: true, dataIndex: 'level'},
+            ]);
+
+            this.resourceGrid = new Ext.grid.Grid(region.getEl().createChild({tag: 'div'}), {
+                ds: dataStore,
+                cm: colModel,
+                autoSizeColumns : true,
+                loadMask: true,
+                autoExpandColumn : 2,
+                enableDragDrop : false,
+                monitorWindowResize : true,
+                autoHeight : false,
+                selModel : new Ext.grid.RowSelectionModel({singleSelect : true}),
+                enableColLock : false
+            });
+            
+            region.add(new Ext.GridPanel(this.resourceGrid));
+            this.resourceGrid.render();
+            dataStore.load();
+        },
     }
 }();
