@@ -1,173 +1,15 @@
 Mage.Medialibrary = function () {   
     return { 
         settings : {}, 
-        tree : {},
-        left_panel : {},
+        tree : null,
+        left_panel : null,
         saveSetUrl : Mage.url + "media/move",
         getFoldersUrl : Mage.url + 'media/folderstree',
         getFolderFilesUrl : Mage.url + 'media/filesgrid',
         addDirUrl : Mage.url + 'media/mkdir',
         delDirUrl : Mage.url + 'media/rm',
-        dialog : {},        
-        
-        init : function () {
-            this.dialog = new Ext.LayoutDialog(Ext.DomHelper.append(document.body, {tag:'div'}, true), {
-                    title: "Mediabrowser",
-                    modal: true,
-                    width:800,
-                    height:450,
-                    shadow:true,
-                    minWidth:500,
-                    minHeight:350,
-                    autoTabs:true,
-                    proxyDrag:true,
-                    // layout config merges with the dialog config
-                    west: {
-                        split:true,
-                        initialSize: 200,
-                        minSize: 150,
-                        maxSize: 250,
-                        titlebar: true,
-                        collapsible: true,
-                        animate: true,
-                        autoScroll: false,
-                        fitToFrame:true
-                    },                      
-                    center: {
-                        autoScroll:true,
-                        alwaysShowTabs: false                     
-                    },
-                    east: {
-                        split:true,
-                        initialSize: 150,
-                        minSize: 100,
-                        maxSize: 250,
-                        titlebar: true,
-                        collapsible: true,
-                        animate: true
-                    }
-            });
-            this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
-            this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
-            
-            var layout = this.dialog.getLayout();
-            var panel_id = Ext.id();
-            var panel2_id = Ext.id();
-                
-            var cview = layout.getRegion('west').getEl().createChild({tag :'div', id:panel_id});
-            var tb = new Ext.Toolbar(cview.createChild());
-            tb.add({
-                id:'add',
-                text:'Add',
-                handler: function () { this.addNode(); }.createDelegate(this),
-                tooltip:'Add a new Component to the dependency builder'
-            },'-',{
-                id:'remove',
-                text:'Remove',
-                disabled:false,
-                handler: function () { this.deleteNode(); }.createDelegate(this),
-                tooltip:'Remove the selected item'
-            });
-            
-            
-            layout.beginUpdate();
-            this.left_panel = layout.add('west', new Ext.ContentPanel(panel_id, {
-                toolbar: tb
-            }));
-            
-            this.right_panel = layout.add('east', new Ext.ContentPanel(Ext.id(), {
-                title: 'Detailed Info',
-                autoCreate : true
-            }));
-            
-//            layout.add('center', new Ext.ContentPanel(Ext.id(), {fitToFrame:true, closable:false, autoCreate : true}));
-            var innerLayout = new Ext.BorderLayout(Ext.DomHelper.append(document.body, {tag:'div'}), {
-                alwaysShowTabs: false,
-                south: {
-                    split:true,
-                    initialSize: 150,
-                    minSize: 100,
-                    maxSize: 300,
-                    autoScroll:true,
-                    collapsible:true,
-                    titlebar: true,
-                    alwaysShowTabs: false
-                },
-                center: {                   
-                    autoScroll:true,
-                    tabPosition: 'top',
-                    alwaysShowTabs: false
-                }                
-            });
-            var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south', {title:"Upload file"}));
-            
-            var lview = innerLayout.getRegion('center').getEl().createChild({tag :'div', id:panel2_id});
-            var ctb = new Ext.Toolbar(lview.createChild());
-            this.sortSelect = Ext.DomHelper.append(this.dialog.body.dom, {
-                tag:'select', children: [
-                    {tag: 'option', value:'text', selected: 'true', html:'Name'},
-                    {tag: 'option', value:'size', html:'File Size'},
-                    {tag: 'option', value:'mod_date', html:'Last Modified'}
-                ]
-            }, true);
-            this.sortSelect.on('change', this.sortImages , this, true);
-            
-            this.txtFilter = Ext.DomHelper.append(this.dialog.body.dom, {
-                tag:'input', type:'text', size:'12'}, true);
-                
-            this.txtFilter.on('focus', function(){this.dom.select();});
-            this.txtFilter.on('keyup', this.filter, this, {buffer:500});
-            
-            ctb.add('Filter:', this.txtFilter.dom, 'separator', 'Sort By:', this.sortSelect.dom);
-            ctb.add('-',{
-                id:'del_item',
-                text:'Delete',
-                handler: function () { this.deleteItem(); }.createDelegate(this),
-                tooltip:'Remove the selected item'
-            });
-            this.center_panel = innerLayout.add('center', new Ext.ContentPanel(panel2_id, {             
-                toolbar: ctb,
-                autoCreate : true
-            }));
-            
-            layout.add('center', new Ext.NestedLayoutPanel(innerLayout));
-
-            this.buildView(this.center_panel);
-            this.loadSettings();
-            
-            layout.endUpdate();             
-            this.dialog.show();
-            
-            if (!this.dashboard) {
-                this.dashboard = new Mage.FlexUpload({
-                    src: Mage.url+'../media/flex/reports.swf',
-                    flashVars: 'baseUrl='+Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
-                    width: '100%',
-                    height: '90%'
-                }); 
-    alert(Mage.url + 'media/upload?'+document.cookie);
-                this.dashboard.on("load", function (e) { 
-                    this.dashboard.setConfig( {
-                        uploadFileField: 'upload_file',
-                        cookie: document.cookie,
-                        uploadUrl: Mage.url + 'media/upload?'+document.cookie,
-                        //uploadUrl: Mage.url + 'media/upload',
-                        fileFilter: {name:"*.*", filter:"*.*"},
-                        uploadParameters : {
-                            destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
-                        }
-                    });
-                }, this );
-                console.log(Mage.url + 'media/upload');
-                this.dashboard.on("afterupload", function(e) {
-                     for( var i = 0; i < e.data.length; i++) {
-                        alert(e.data[i].name);
-                     }               
-                } , this); 
-                
-                this.dashboard.apply(dashPanel.getEl());
-            }
-            this.detailsTemplate = new Ext.Template(
+        dialog : null,        
+        detailsTemplate : new Ext.Template(
                 '<div class="details">' +
                 '   <img src="{url}">' +
                 '   <div class="details-info">' +
@@ -179,14 +21,200 @@ Mage.Medialibrary = function () {
                 '       <span>{dateString}</span>' +
                 '   </div>' +
                 '</div>'
-            );
-            this.detailsTemplate.compile();
+            	),
+        dashboard : null,
+        
+        /**
+         * global dialog initialization
+         */
+        init : function () {
+        	if (!this.dialog) {
+	            this.dialog = new Ext.LayoutDialog(Ext.DomHelper.append(document.body, {tag:'div'}, true), {
+	                    title: "Mediabrowser",
+	                    modal: false,
+	                    width:800,
+	                    height:450,
+	                    shadow:true,
+	                    minWidth:500,
+	                    minHeight:350,
+	                    autoTabs:true,
+	                    proxyDrag:true,
+
+	                    west: {
+	                        split:true,
+	                        initialSize: 200,
+	                        minSize: 150,
+	                        maxSize: 250,
+	                        titlebar: true,
+	                        collapsible: true,
+	                        animate: true,
+	                        autoScroll: false,
+	                        fitToFrame:true
+	                    },                      
+	                    center: {
+	                        autoScroll:true                   
+	                    },
+	                    east: {
+	                        split:true,
+	                        initialSize: 150,
+	                        minSize: 100,
+	                        maxSize: 250,
+	                        titlebar: true,
+	                        collapsible: true,
+	                        animate: true
+	                    }
+	            });
+	            this.dialog.addKeyListener(27, this.dialog.hide, this.dialog);
+	            this.dialog.setDefaultButton(this.dialog.addButton("Close", this.dialog.hide, this.dialog));
+	            
+	            var layout = this.dialog.getLayout();
+	                
+	            var cview = layout.getRegion('west').getEl().createChild({tag :'div', id:Ext.id()});
+	            var tb = new Ext.Toolbar(cview.createChild());
+	            tb.add({
+	                id:'add',
+	                text:'Add',
+	                handler: function () { this.addNode(); }.createDelegate(this),
+	                tooltip:'Add a new folder into the tree'
+	            },'-',{
+	                id:'remove',
+	                text:'Remove',
+	                disabled:false,
+	                handler: function () { this.deleteNode(); }.createDelegate(this),
+	                tooltip:'Remove the selected folder'
+	            });
+	            
+	            
+	            layout.beginUpdate();
+	            this.left_panel = layout.add('west', new Ext.ContentPanel(cview, {
+	                toolbar: tb
+	            }));
+	            
+	            this.right_panel = layout.add('east', new Ext.ContentPanel(Ext.id(), {
+	                title: 'Detailed Info',
+	                autoCreate : true
+	            }));
+	            
+	            var innerLayout = new Ext.BorderLayout(Ext.DomHelper.append(document.body, {tag:'div'}), {
+	                alwaysShowTabs: false,
+	                south: {
+	                    split:true,
+	                    initialSize: 150,
+	                    minSize: 100,
+	                    maxSize: 300,
+	                    autoScroll:true,
+	                    collapsible:true,
+	                    titlebar: true,
+	                    alwaysShowTabs: false
+	                },
+	                center: {                   
+	                    autoScroll:true,
+	                    tabPosition: 'top',
+	                    alwaysShowTabs: false
+	                }                
+	            });
+	            var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south', {
+	            	title:"Upload file",
+	           		fitToFrame:true, 
+					autoScroll : false,
+					autoCreate:true
+				}));
+	            
+	            var lview = innerLayout.getRegion('center').getEl().createChild({tag :'div', id:Ext.id()});
+	            var ctb = new Ext.Toolbar(lview.createChild());
+	            this.sortSelect = Ext.DomHelper.append(this.dialog.body.dom, {
+	                tag:'select', children: [
+	                    {tag: 'option', value:'text', selected: 'true', html:'Name'},
+	                    {tag: 'option', value:'size', html:'File Size'},
+	                    {tag: 'option', value:'mod_date', html:'Last Modified'}
+	                ]
+	            }, true);
+	            this.sortSelect.on('change', this.sortImages , this, true);
+	            
+	            this.txtFilter = Ext.DomHelper.append(this.dialog.body.dom, {
+	                tag:'input', type:'text', size:'12'}, true);
+	                
+	            this.txtFilter.on('focus', function(){this.dom.select();});
+	            this.txtFilter.on('keyup', this.filter, this, {buffer:500});
+	            
+	            ctb.add('Filter:', this.txtFilter.dom, 'separator', 'Sort By:', this.sortSelect.dom);
+	            ctb.add('-',{
+	                id:'del_item',
+	                text:'Delete',
+	                handler: function () { this.deleteItem(); }.createDelegate(this),
+	                tooltip:'Remove the selected item'
+	            });
+	            this.center_panel = innerLayout.add('center', new Ext.ContentPanel(lview, {             
+	                toolbar: ctb
+	            }));
+	            
+	            layout.add('center', new Ext.NestedLayoutPanel(innerLayout));
+	
+	            this.buildView(this.center_panel);
+	            this.loadSettings();
+	            
+	            layout.endUpdate();    
+        	}         
+            
+            /**
+             * Flex uploader initialization and adding
+             */
+            if (!this.dashboard) {
+                this.dashboard = new Mage.FlexUpload({
+                    src: Mage.url+'../media/flex/reports.swf',
+                    flashVars: 'baseUrl=' + Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
+                    width: '100%',
+                    height: '90%'
+                }); 
+
+                this.dashboard.on("load", function (e) { 
+                    this.dashboard.setConfig( {
+                        uploadFileField: 'upload_file',
+                        cookie: document.cookie,
+                        uploadUrl: Mage.url + 'media/upload?'+ document.cookie,
+                        fileFilter: {name:"*.*", filter:"*.*"},
+                        uploadParameters : {
+                            destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
+                        }
+                    });                    
+                }, this );
+                
+                this.dashboard.on("afterupload", function(e) {
+                	 /**
+                	  * updating content of the view by passing standart events registered earlier
+                	  */
+                	 console.log(e.data[0]);
+                	 
+                	 var node = this.tree.getSelectionModel().getSelectedNode();
+                     if (!node) return false;
+	                 this.view.store.load({
+	                    params: {node : node.attributes.id}
+	                 });
+                } , this); 
+
+                this.dashboard.apply(dashPanel.getEl());
+
+/**
+ * debug
+ */
+                alert(this.dashboard.getAttribute('id'));
+                for (var x in Mage.FlexObjectApi.objectMap) {
+					alert(x + " = " + Mage.FlexObjectApi.objectMap[x].getApi().classid);
+                }
+/**
+ * 
+ */
+            }
+            
+            this.dialog.show();
         },
         
+        /**
+         * deletes object from the folder
+         */
         deleteItem : function () {          
             var selNode = this.view.getSelectedNodes()[0];
             
-            var requestUrl = this.delDirUrl;
             var requestParams = {
                 node: this.tree.getSelectionModel().getSelectedNode().attributes.id + this.settings.folderSeparator + selNode.title
             };
@@ -200,43 +228,43 @@ Mage.Medialibrary = function () {
                 }
            }.createDelegate(this));
            
-            this.view.select(0);
-            selNode.parentNode.removeChild(selNode);                    
+           if (this.view.store.getCount() > 0) {
+	           this.view.select(0);
+           }
+           selNode.parentNode.removeChild(selNode);                    
                     
-            conn.on('requestexception', function() {
-                Ext.MessageBox.alert('Error', 'requestException');
-            });
+           conn.on('requestexception', function() {
+               Ext.MessageBox.alert('Error', 'requestException');
+           });
             
-            conn.request( {
-                url: requestUrl,
-                method: "POST",
-                params: requestParams
-            });
+           conn.request( {
+               url: this.delDirUrl,
+               method: "POST",
+               params: requestParams
+           });
         },
         
-        showDetails : function(view, nodes){
-            if (this.view.getSelectionCount() > 1) {
-                this.right_panel.getEl().hide();
-                this.detailsTemplate.overwrite(this.right_panel.getEl(), []);
-                return false;
-            }
-            
-            
-            var selNode = nodes[0];
+        /**
+         * shows detailed information about selected object
+         */
+        showDetails : function(view, nodes){        	
+        	var selNode = nodes[0];
             if (selNode && this.view.store.getCount() > 0){
                 var data = this.lookup[selNode.id];             
                 this.right_panel.getEl().hide();
                 this.detailsTemplate.overwrite(this.right_panel.getEl(), data);
-                this.right_panel.getEl().slideIn('l', {stopFx:true,duration:.2});               
+                this.right_panel.getEl().slideIn('l', {stopFx:true, duration:.2});               
             } else {
                 this.right_panel.getEl().update('');
             }
         },
         
+        /**
+         * deletes tree node (folder)
+         */
         deleteNode : function () {
             var selNode = this.tree.getSelectionModel().getSelectedNode();
 
-            var requestUrl = this.delDirUrl;
             var requestParams = {
                 node: selNode.attributes.id
             };
@@ -260,12 +288,15 @@ Mage.Medialibrary = function () {
             });
             
             conn.request( {
-                url: requestUrl,
+                url: this.delDirUrl,
                 method: "POST",
                 params: requestParams
             });
         },
         
+        /**
+         * center view builder (zone with objects)
+         */
         buildView : function (panel) {
             this.dataRecord = Ext.data.Record.create([
                 {name: 'text'},
@@ -283,6 +314,12 @@ Mage.Medialibrary = function () {
                 proxy: new Ext.data.HttpProxy({url: this.storeUrl}),
                 reader: dataReader
             });
+            
+            store.on('load', function () {
+            	if (this.view.store.getCount() > 0) {
+	            	this.view.select(0);
+            	}
+            }, this);
             
             this.view = new Ext.View(panel.getEl().createChild({tag:'div'}),
                 '<div class="thumbnail" id="{text}" title="{text}">' +
@@ -312,10 +349,22 @@ Mage.Medialibrary = function () {
             }.createDelegate(this);
             this.lookup = lookup;
             
-            this.view.on('selectionchange', this.showDetails, this, {buffer:100});                  
+            this.view.on('selectionchange', this.showDetails, this, {buffer:100});   
+            
+            /**
+        	 * prevent miltiple selection
+        	 */
+            this.view.on('beforeselect', function () {
+                if (this.view.getSelectionCount() > 0) {
+                    return false;
+                }
+            } , this);
             this.view.store.proxy.getConnection().url = this.getFolderFilesUrl; 
         },
         
+        /**
+         * initialize module variables such as folder separation symbol and root folder for media library
+         */
         loadSettings : function () {
             var requestUrl = Mage.url + 'media/loadsettings';
             var rootFolder;
@@ -340,6 +389,9 @@ Mage.Medialibrary = function () {
                 
         },
         
+        /**
+         * creates and add tree object at mediabrowser
+         */
         buildTree : function (panel) {
             var Tree = Ext.tree;               
                
@@ -354,7 +406,7 @@ Mage.Medialibrary = function () {
                 if (!node) return false;
                 this.view.store.load({
                     params: {node : node.attributes.id}
-                });
+                });                
             }, this);
             
             this.tree.on('beforemove', function (tree, node, oldParent, newParent, index) {
@@ -363,7 +415,6 @@ Mage.Medialibrary = function () {
                 oldVal = node.id;
                 if (newVal == oldVal) return true;
                 
-                var requestUrl = this.saveSetUrl;
                 var requestParams = {
                     current_object:oldVal,
                     destination_object:newVal
@@ -384,7 +435,7 @@ Mage.Medialibrary = function () {
                 });
                         
                 conn.request( {
-                    url: requestUrl,
+                    url: this.saveSetUrl,
                     method: "POST",
                     params: requestParams
                 });
@@ -417,7 +468,6 @@ Mage.Medialibrary = function () {
                 if (newVal == oldVal) return true;
                 
                 var node = ge.editNode;
-                var requestUrl = this.saveSetUrl;
                 var requestParams = {
                     current_object:node.parentNode.attributes.id + this.settings.folderSeparator + oldVal,
                     destination_object:node.parentNode.attributes.id + this.settings.folderSeparator + newVal
@@ -439,13 +489,16 @@ Mage.Medialibrary = function () {
                 });
                         
                 conn.request( {
-                    url: requestUrl,
+                    url: this.saveSetUrl,
                     method: "POST",
                     params: requestParams
                 });
             });
         },
         
+        /**
+         * add new node at the tree
+         */
         addNode : function () {
             var selNode = this.tree.getSelectionModel().getSelectedNode();
             var tmp = " (" + (selNode.childNodes.length + 1) + ")";
@@ -463,7 +516,6 @@ Mage.Medialibrary = function () {
             selNode.expand();
             selNode.appendChild(node);
             
-            var requestUrl = this.addDirUrl;
             var requestParams = {
                 node: selNode.attributes.id,
                 new_directory: node_name
@@ -484,25 +536,24 @@ Mage.Medialibrary = function () {
             });
             
             conn.request( {
-                url: requestUrl,
+                url: this.addDirUrl,
                 method: "POST",
                 params: requestParams
             });
         },
-            
+        
+        /**
+         * sorts data at the view component
+         */    
         sortImages : function(){
             var p = this.sortSelect.dom.value;
             this.view.store.sort(p, p != 'text' ? 'desc' : 'asc');
             this.view.select(0);
         },
-        /*
-        reset : function(){
-            this.view.getEl().dom.scrollTop = 0;
-            this.view.store.clearFilter();
-            this.txtFilter.dom.value = '';
-            this.view.select(0);
-        },
-        */
+		
+		/*
+		 * filter data at the view component while typing
+		 */
         filter : function(){
             var filter = this.txtFilter.dom.value;
             this.view.store.filter('text', filter);
