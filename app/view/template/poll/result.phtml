@@ -1,0 +1,21 @@
+<?php
+    foreach($data as $poll) {
+?>
+         <div class="catalog-nav">
+                <h2>Active Poll</h2>
+                <ul>
+                <?=$poll->getPollTitle();?><br />
+                <?
+                    if( is_array($poll->getAnswers()) ) {
+                        foreach( $poll->getAnswers() as $answer ) {
+                ?>
+                        <li><?=$answer['answer_title']?> - <?=$answer['percent']?>%</li>
+                <?
+                        }
+                    }
+                ?>
+                </ul>
+        </div>
+<?php
+    }
+?>
