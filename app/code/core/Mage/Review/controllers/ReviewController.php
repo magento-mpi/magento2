@@ -23,6 +23,13 @@ class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
                     ->setWebsiteId(Mage::getSingleton('core/website')->getId())
                     ->save();
                     
+                $arrRatingId = $this->getRequest()->getParam('ratings', array());
+                foreach ($arrRatingId as $ratingId=>$optionId) {
+                	Mage::getModel('rating/rating')
+                	   ->setRatingId($ratingId)
+                	   ->addOptionVote($optionId, $review->getId());
+                }
+                
                 Mage::getSingleton('review/session')->addMessage(
                     Mage::getModel('core/message')->success('Your review added')
                 );

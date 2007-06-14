@@ -18,6 +18,23 @@
         </li>
     </ul>
 </fieldset>
+
+<?// review ratings?>
+<?if(!empty($ratings) && $ratings->getSize()):?>
+<fieldset class="group-select">
+    <ul>
+    <?foreach ($ratings as $_rating):?>
+        <li>
+            <h2><?=__($_rating->getRatingCode())?></h2>
+            <?foreach ($_rating->getOptions() as $_option):?>
+                <input type="radio" name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/>
+                <label for="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>"><?=$_option->getValue()?></label>
+            <?endforeach;?>
+        </li>
+    <?endforeach;?>
+    </ul>
+</fieldset>
+<?endif;?>
 <div class="clearfix"></div>
 <div class="buttons-container">
     <p class="required">* Required Fields</p>

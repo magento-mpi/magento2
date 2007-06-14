@@ -4,11 +4,5 @@
         <block type="catalog/product_view" name="product.info">
             <action method="loadData"></action>
         </block>
-        <block type="review/list" name="product.review.list">
-            <action method="toHtml"></action>
-        </block>
-        <block type="review/form" name="product.review.form">
-            <action method="toHtml"></action>
-        </block>
     </reference>
 </layoutUpdate>

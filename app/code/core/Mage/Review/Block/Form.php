@@ -24,5 +24,13 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             ->assign('action', Mage::getUrl('review', array('controller'=>'review', 'action'=>'productPost', 'id'=>$productId)))
             ->assign('data', $data)
             ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
+        
+        $ratingCollection = Mage::getModel('rating/rating')->getCollection()
+            ->addEntityFilter('product_review')
+            ->setPositionOrder()
+            ->load()
+            ->addOptionToItems();
+            
+        $this->assign('ratings', $ratingCollection);
     }
 }

@@ -164,6 +164,17 @@ class Varien_Data_Collection implements IteratorAggregate
         return $col;
     }
     
+    public function getItemsByColumnValue($column, $value)
+    {
+        $res = array();
+        foreach ($this as $item) {
+        	if ($item->getData($column)==$value) {
+        	    $res[] = $item;
+        	}
+        }
+        return $res;
+    }
+    
     public function addItem(Varien_Object $item)
     {
         $this->_items[] = $item;

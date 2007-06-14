@@ -12,3 +12,8 @@ Enter your search term;Введите фразу для поиска
 Welcome;Здравствуйте
 Logout;Выход
 Search;Искать
+manufacturer;Производитель
+shoe_type;Shoe Type
+product_review_quality;Качество
+product_review_use;Простота использования
+product_review_value;Ценность

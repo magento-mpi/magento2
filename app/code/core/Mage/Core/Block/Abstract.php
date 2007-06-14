@@ -55,6 +55,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this;
     }
     
+    /**
+     * get layout object
+     *
+     * @return Mage_Core_Model_Layout
+     */
     public function getLayout()
     {
         return $this->_layout;
