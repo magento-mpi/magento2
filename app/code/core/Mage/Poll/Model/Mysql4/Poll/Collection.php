@@ -36,9 +36,10 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
     public function addPollFilter($pollId)
     {
         $this->addFilter('poll_id', $pollId);
+        return $this;
     }
 
-    public function getAnswers()
+    public function addAnswers()
     {
         $arrPollId = $this->getColumnValues('poll_id');
         $this->_getAnswersCollection()

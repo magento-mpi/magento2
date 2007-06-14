@@ -19,7 +19,12 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function load($pollId)
     {
-        #
+        $this->getResource()->load($pollId);
+    }
+
+    public function addAnswers($pollId)
+    {
+        $this->getResource()->addAnswers($this);
     }
 
     public function save()
@@ -37,5 +42,10 @@ class Mage_Poll_Model_Poll extends Varien_Object
     public function setWebsiteId($websiteId)
     {
         $this->getResource()->setWebsiteId($websiteId);
+    }
+
+    public function getCollection()
+    {
+        return Mage::getSingleton('poll_resource/poll_collection');
     }
 }

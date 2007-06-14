@@ -16,7 +16,6 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
      * @access public
      * @return void
      */
-
     public function addAction()
     {
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
