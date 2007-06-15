@@ -14,4 +14,11 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
     {
         $this->setTemplate('adminhtml/page/footer.phtml');
     }
+    
+    public function toHtml()
+    {
+        $this->assign('timers', Varien_Profiler::getCumulativeTimer());
+        $this->assign('dbProfiler', Mage::getSingleton('core/resource')->getConnection('core_write')->getProfiler());
+        return parent::toHtml();
+    }
 }
