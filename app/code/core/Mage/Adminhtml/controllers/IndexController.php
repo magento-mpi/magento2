@@ -18,19 +18,18 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
 
     public function jsFrameAction()
     {
-        $this->_outTemplate('js');
+        $this->_outTemplate('frame/js');
     }
 
     public function waitFrameAction()
     {
-        $this->_outTemplate('wait');
+        $this->_outTemplate('frame/wait');
     }
 
     public function layoutFrameAction()
     {
         $this->loadLayout('baseframe');
         $this->renderLayout();
-        //$this->_outTemplate('layout');
     }
 
     public function exampleAction()
