@@ -4,8 +4,7 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
 {
     protected function _outTemplate($tplName)
     {
-        $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate("adminhtml/$tplName.phtml");
+        $block = $this->getLayout()->createBlock('core/template')->setTemplate("adminhtml/$tplName.phtml");
         $this->getResponse()->setBody($block->toHtml());
     }
     
