@@ -42,7 +42,7 @@
          </adminhtml_read>
       </resources>
         <block>
-			<groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
+            <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
         </block>
    </global>
    <front>
@@ -54,6 +54,13 @@
                </adminhtml>
             </updates>
          </adminhtml>
+         <baseframe>
+            <updates>
+               <baseframe>
+                  <file>adminhtml/baseframe.xml</file>
+               </baseframe>
+            </updates>
+         </baseframe>
       </layouts>
       <events>
          <action_preDispatch_Mage_Adminhtml>
