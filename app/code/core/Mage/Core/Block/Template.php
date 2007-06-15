@@ -98,6 +98,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function toHtml()
     {
+        if ($html = $this->_loadCache()) {
+            return $html;
+        }
+        
         if (!empty($this->_children)) {
             // Render child elements
             foreach ($this->_children as $name=>$block) {
@@ -111,7 +115,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             }
         }
 
-        return $this->renderView();
+        $html = $this->renderView();
+        $this->_saveCache($html);
+        
+        return $html;
     }
     
     public function tpl($tplName, array $assign=array())

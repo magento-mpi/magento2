@@ -259,18 +259,24 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
-            return false;
+            return null;
         }
         return $this->getData('cache_lifetime');
     }
     
     protected function _loadCache()
     {
+        if (is_null($this->getCacheLifetime())) {
+            return false;
+        }
         return $this->getLayout()->getBlockCache()->load($this->getCacheKey());
     }
     
     protected function _saveCache($data)
     {
+        if (is_null($this->getCacheLifetime())) {
+            return false;
+        }
         $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
         return $this;
     }
