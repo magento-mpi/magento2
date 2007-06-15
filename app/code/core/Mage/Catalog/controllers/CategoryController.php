@@ -15,7 +15,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
     function viewAction()
     {
         $action = 'catalog_category_'.$this->getRequest()->getParam('id', false);
-        $this->loadLayout('front', null, '', false);
+        $this->loadLayout(null, '', false);
         $category = Mage::getModel('catalog/category')
             ->load($this->getRequest()->getParam('id', false));
             

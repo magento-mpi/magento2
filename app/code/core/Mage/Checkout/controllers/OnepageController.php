@@ -35,7 +35,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_checkout->setAllowShippingMethod(false);
         $this->_checkout->setAllowReview(false);
         
-        $this->loadLayout('front', array('default', 'checkout'), 'checkout');
+        $this->loadLayout(array('default', 'checkout'), 'checkout');
         
         $this->renderLayout();
     }

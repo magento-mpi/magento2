@@ -240,4 +240,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         
     }
     
+    public function block($type, $name='', array $attributes=array())
+    {
+        return $this->getLayout()->createBlock($type, $name, $attributes);
+    }
+    
 }// Class Mage_Home_ContentBlock END

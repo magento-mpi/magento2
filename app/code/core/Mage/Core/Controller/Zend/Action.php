@@ -78,8 +78,9 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return Mage::getSingleton('core/layout');
      }
      
-     function loadLayout($area='front', $ids=null, $key='', $generateBlocks=true)
+     function loadLayout($ids=null, $key='', $generateBlocks=true)
      {
+        $area = 'front';
         Varien_Profiler::setTimer('loadLayout');
          
         if (''===$key) {
@@ -188,7 +189,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
 
     function norouteAction()
     {
-        $this->loadLayout('front', array('default', 'noRoute'), 'noRoute');
+        $this->loadLayout(array('default', 'noRoute'), 'noRoute');
         Mage::dispatchEvent('action_noRoute');
         $this->renderLayout();
     }

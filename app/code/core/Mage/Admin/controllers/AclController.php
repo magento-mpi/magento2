@@ -34,10 +34,8 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     {
         $nodesArr = array();
         foreach ($roles->getItems() as $role) {
-            if ($role->getRoleType()!=Mage_Admin_Model_Acl::ROLE_TYPE_GROUP) {
-                continue;
-            }
-            if ($role->getParentId()!=$parentId) {
+            if ($role->getRoleType()!=Mage_Admin_Model_Acl::ROLE_TYPE_GROUP
+                || $role->getParentId()!=$parentId) {
                 continue;
             }
             $nodesArr[] = array(

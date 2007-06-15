@@ -23,7 +23,7 @@
                         <table>rating_entity</table>
                     </rating_entity>
                     <rating_option>
-                        <table>rating_option</table>
+                        <table>rating_options</table>
                     </rating_option>
                     <rating_vote>
                         <table>rating_option_vote</table>

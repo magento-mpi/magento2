@@ -1,0 +1,90 @@
+/* SWIM2.0 :: Simple website menu
+****************************************************************
+* DOM scripting by brothercake -- http://www.brothercake.com/
+* Licensed under GPL -- http://www.gnu.org/copyleft/gpl.html
+****************************************************************
+* For professional menu solutions visit -- http://www.udm4.com/ 
+****************************************************************
+*/
+
+
+
+ul.vertical, ul.vertical li {
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	font-size:100%;
+	}
+
+ul.vertical {
+	position:absolute;
+	z-index:1000;
+	cursor:default;
+	width:8em;
+	left:1em;
+	top:4.05em;
+	}
+
+ul.vertical li {
+	position:relative;
+	text-align:left;
+	cursor:pointer;
+	cursor:hand;
+	width:8em;
+	margin:-1px 0 0 0;
+	}
+
+ul.vertical ul {
+	z-index:1020;
+	cursor:default;
+	position:absolute;
+	width:8.2em;
+	margin:-0.5em 0 0 7.5em;
+	top:-100em;
+	left:-1px;
+	padding:1px 0 0 0;
+	}
+	
+ul.vertical ul li {
+	width:8.2em;
+	}
+
+ul.vertical ul ul {
+	margin:-0.5em 0 0 7.7em;
+	}
+
+@media Screen, Projection { 
+	ul.vertical li:hover > ul { top:0; }
+	}
+
+ul.vertical a, ul.vertical a:visited {
+	display:block;
+	cursor:pointer;
+	cursor:hand;
+	background:#ffc;
+	border:1px solid #edbb85;
+	padding:5px 7px;
+	font:normal normal bold 0.7em tahoma, verdana, sans-serif;
+	color:#008000;
+	text-decoration:none;
+	letter-spacing:1px;
+	}
+	
+ul.vertical a:hover, ul.vertical a:focus, ul.vertical a.rollover, ul.vertical a.rollover:visited {
+	background:#ffefcf;
+	color:#806020;
+	}
+
+
+
+@media screen, projection {
+	* html ul.vertical li {
+		display:inline; 
+		f\loat:left; 
+		background:#ffffff; 
+		}
+	}
+* html ul.vertical li { position:static; }
+* html ul.vertical a { position:relative; }
+ul[class^="vertical"] ul { display:none; }
+ul[class^="vertical"] ul { displa\y:block; }

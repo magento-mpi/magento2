@@ -416,8 +416,9 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         if (isset($config->classes->$class)) {
             $className = (string)$config->classes->$class;
         } else {
+#echo $groupRootNode.', '.$class.'<hr>';
             $className = $config->getClassName();
-if (stripos($class, 'manufacturer')!==false) echo "TEST:".$className;
+#if (stripos($class, 'manufacturer')!==false) echo "TEST:".$className;
 
             if (''!==$class) {
                 $className .= '_'.uc_words($class);

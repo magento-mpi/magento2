@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+	<title>Simple website menu</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+
+
+
+
+	<!-- menu stylesheets -->
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="vertical.css" />
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="horizontal.css" />
+
+
+
+
+
+
+	<!-- styles unrelated to menu demo -->
+	<style type="text/css" media="screen, projection">
+
+	html, body {
+		background:#fff;
+		color:#000;
+		}
+
+	body {
+		height:85%;
+		font:normal normal normal 100% verdana,sans-serif;
+		}
+
+	abbr, acronym {
+		font-style:normal;
+		border:none;
+		}
+
+	#page {
+		position:absolute;
+		left:10.5em;
+		top:4em;
+		border:1px dotted #f90;
+		border-width:1px 0 0 1px;
+		padding:0 0 0 1em;
+		margin:0 1em 1em 0;
+		line-height:130%;
+		}
+
+	h1, h2 {
+		font-weight:normal;
+		}
+
+	h1 {
+		font-size:1.4em;
+		margin:1.5em 0 0 0;
+		}
+
+	h2 {
+		font-size:1.1em;
+		margin:1.5em 0 0 -0.83em;
+		border:1px dotted #f90;
+		border-width:1px 0 0 0;
+		padding:1em 0 0 0.83em;
+		}
+
+	p, dl, ol {
+		font-size:0.8em;
+		margin:1em 0 0 0;
+		}
+
+	dl {
+		margin:1em 0 0 0.3em;
+		}
+
+	ol {
+		padding:0;
+		}
+
+	ol li {
+		margin:0 0 1em 2em;
+		padding:0;
+		}
+
+	dt {
+		font-variant:small-caps;
+		font-size:110%;
+		clear:both;
+		}
+
+	dt em {
+		font-variant:normal;
+		font-size:90%;
+		}
+
+	dd {
+		margin:0 0 0 1em;
+		}
+
+	dl ul, dl li {
+		padding:0;
+		list-style-type:none;
+		}
+
+	dl ul {
+		width:100%;
+		float:left;
+		margin:0 0 1em 0;
+		}
+
+	dl li {
+		float:left;
+		margin:0 0.2em 0 0;
+		}
+
+	em, i {
+		color:#333;
+		}
+
+	code {
+		font:normal normal normal 1em "courier new",monospace;
+		color:#333;
+		}
+
+	#skip-links {
+		font-size:70%;
+		margin:1.4em 0 0 0;
+		}
+
+	h2#navigation {
+		position:absolute;
+		top:-100em;
+		}
+
+	</style>
+
+
+
+</head>
+
+<body>
+
+
+
+
+<!-- Simple Website Menu script by brothercake - http://www.brothercake.com/ -->
+<script type="text/javascript" src="menu.js"></script>
+
+
+
+
+
+<div id="page">
+
+	<p id="skip-links">
+		Skip to:
+		<a href="#content">content</a>,
+		<a href="#navigation">navigation</a>
+	</p>
+
+
+
+	<h1 id="content">Simple website menu</h1>
+
+	<p>
+		This is a simple list-based menu, with
+		<abbr title="Cascading Style Sheets Level 2">CSS2</abbr>
+		menu triggers for browsers that support them,
+		and a touch of equivalent javascript for others.
+		For discussions about this script and others like it,
+		please see the <a href="http://www.codingforums.com/showthread.php?t=19289">
+			list-based menus thread at CodingForums</a>
+	</p>
+
+	<p>
+		If you want a list-based menu with more advanced design, usability and accessibility features,
+		please check out <a href="http://www.udm4.com/"
+			title="UDM is the world's first fully-featured and accessible website menu">
+			Ultimate Drop Down Menu</a>
+	</p>
+
+
+	<h2>The following browsers support ...</h2>
+
+	<dl>
+
+		<dt>Script-driven menus:</dt>
+		<dd>
+			<ul>
+				<li>Opera 7 or later, </li>
+				<li>Mozilla / Firefox <i>et al</i>, </li>
+				<li>Safari, </li>
+				<li>Konqueror 3.2 or later, </li>
+				<li>Internet Explorer 5 and 6 (including <abbr title="Macintosh Internet Explorer 5">Mac/IE5</abbr>)</li>
+			</ul>
+		</dd>
+
+		<dt>Keyboard access to submenus <em>(when scripting is available)</em>:</dt>
+		<dd>
+			<ul>
+				<li>Mozilla / Firefox <i>et al</i>, </li>
+				<li>Internet Explorer 5.5 and 6</li>
+			</ul>
+		</dd>
+
+		<dt><abbr title="Cascading Style Sheets">CSS</abbr>-driven menus:</dt>
+		<dd>
+			<ul>
+				<li>Opera 7.5 or later, </li>
+				<li>Mozilla 1.1 or later, </li>
+				<li>Safari 1.2 or later, </li>
+				<li>Konqueror 3.2 or later</li>
+			</ul>
+		</dd>
+
+		<dt>Styled navbars, but not menus:</dt>
+		<dd>
+			<ul>
+				<li>Opera 5 and 6, </li>
+				<li>Konqueror 3.1 or earlier</li>
+			</ul>
+		</dd>
+
+	</dl>
+
+	<p>
+		Other browsers will see the plain list(s) fully expanded; this includes
+		non-graphical user-agents, such as screenreaders (including browser-based
+		readers like JAWS and <abbr title="Home Page Reader">HPR</abbr>),
+		text-browsers, and search-engine robots.
+	</p>
+
+
+	<h2>Known issues</h2>
+
+	<ol>
+		<li>
+			Child-menus of a horizontal navbar have rendering problems in
+			<abbr title="Macintosh Internet Explorer 5">Mac/IE5</abbr>,
+			<abbr title="Microsoft Network browser for Macintosh Operating System version 10">MSN for OSX</abbr>,
+			and Opera 7; and they be in the wrong vertical position in Mozilla 1.4 or earlier,
+			and Opera 7.2 or earlier. Therefore, I recommend that you
+			<strong>don't have child-menus with a horizontal navbar</strong> -
+			stick to a single level of menus.
+		</li>
+
+		<li>
+			In Safari 1.2 and Opera 7 or later, it is actually possible
+			to keyboard navigate to the submenus, but they won't be visible.
+		</li>
+
+		<li>
+			In Safari 1.0, the menus of horizontal navbar cause a
+			horizontal scrollbar when they're open; and the rollovers are
+			sometimes either 'sticky' (don't clear <code>onmouseout</code>),
+			or don't work at all.
+		</li>
+
+		<li>
+			In <abbr title="Microsoft Network browser for Macintosh Operating System version 10">MSN for OSX</abbr>,
+			all menus have rendering and/or positioning problems.
+		</li>
+
+		<li>
+			In ancient Mozilla browsers (earlier than Gecko 1.0), all menus
+			have rendering problems.
+		</li>
+	</ol>
+
+	<p>
+		The <strong>first</strong> issue is easy to avoid;
+		the <strong>second</strong> issue is unfortunate, but I'm stumped for a way to solve it;
+		the <strong>other</strong> isses are not particularly serious, in my opinion.
+		If you know of workable solutions for any of these,
+		please do <a href="/site/contact/" title="Contact brothercake">let me know</a>.
+	</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- horizontal navbar -->
+<ul id="menu-h" class="horizontal">
+	<!-- mac/ie5 needs an empty span (or other element)
+	     somewhere inside each horizontal navbar link
+	     to avoid a rendering bug -->
+	<li><a href="http://www.brothercake.com/" title="Brothercake home page"><span></span>Home</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/home/accessibility/" title="Accessibility information">Accessibility</a></li>
+			<li><a href="http://www.brothercake.com/site/home/sitemap/" title="Map of the main areas and pages on this site">Sitemap</a></li>
+			<li><a href="http://www.brothercake.com/site/home/search/" title="Search brothercake's websites">Search</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/portfolio/" title="Some examples of my recent work"><span></span>Portfolio</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/portfolio/sites/" title="Websites I've built or been involved with recently">Websites</a></li>
+			<li><a href="http://www.brothercake.com/site/portfolio/projects/" title="Other projects I've been involved with recently">Projects</a></li>
+			<li><a href="http://www.brothercake.com/site/portfolio/testimonials/" title="Quotes from clients and collaborators">Testimonials</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/products/" title="What can I do for you?"><span></span>Products &amp; services</a>
+		<ul class="wider">
+			<li><a href="http://www.brothercake.com/site/products/development/" title="Quality accessible web development, from single-page templates to large dynamic sites">Website development</a></li>
+			<li><a href="http://www.brothercake.com/site/products/programming/" title="Custom javascript and DHTML programming">DHTML programming</a></li>
+			<li><a href="http://www.brothercake.com/site/products/menu/" title="UDM is the world's first fully-featured and accessible website menu">Ultimate Drop Down Menu</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/contact/" title="Contact me"><span></span>Contact</a>
+	<!-- os9/ie5 needs at least one tab, space or line-break
+	     between the </a> and </li> of each horizontal navbar item
+	     to avoid a bizarre rendering bug -->
+	</li>
+	<li><a href="http://www.brothercake.com/site/resources/" title="Scripts, games and articles"><span></span>Resources</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/resources/scripts/" title="Scripts and widgets for your website">Scripts</a></li>
+			<li><a href="http://www.brothercake.com/site/resources/games/" title="Games and puzzles suitable for all ages">Games</a></li>
+			<li><a href="http://www.brothercake.com/site/resources/terms/" title="Please read the terms before downloading anything">Terms of use</a></li>
+			<li><a href="http://www.brothercake.com/site/resources/mailings/" title="Subscribe to brothercake's newsletters">Mailing list</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/personal/" title="Hobbies and personal stuff"><span></span>Personal</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/personal/music/" title="British underground dance music">Music</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/cooking/" title="Festival Cookery Guide">Cooking</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/brothercake/" title="About brothercake.com">brothercake.com</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/links/" title="Links to nice people and interesting things">Links</a></li>
+		</ul>
+	</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h2 id="navigation">Site navigation</h2>
+
+
+<!-- vertical navbar -->
+<ul id="menu-v" class="vertical">
+	<li><a name="navigation" href="http://www.brothercake.com/" title="Brothercake home page">Home</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/home/accessibility/" title="Accessibility information">Accessibility</a></li>
+			<li><a href="http://www.brothercake.com/site/home/sitemap/" title="Map of the main areas and pages on this site">Sitemap</a></li>
+			<li><a href="http://www.brothercake.com/site/home/search/" title="Search brothercake's websites">Search</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/portfolio/" title="Some examples of my recent work">Portfolio</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/portfolio/sites/" title="Websites I've built or been involved with recently">Websites</a></li>
+			<li><a href="http://www.brothercake.com/site/portfolio/projects/" title="Other projects I've been involved with recently">Projects</a></li>
+			<li><a href="http://www.brothercake.com/site/portfolio/testimonials/" title="Quotes from clients and collaborators">Testimonials</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/products/" title="What can I do for you?">Products &amp; services</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/products/development/" title="Quality accessible web development, from single-page templates to large dynamic sites">Website development</a></li>
+			<li><a href="http://www.brothercake.com/site/products/programming/" title="Custom javascript and DHTML programming">DHTML programming</a></li>
+			<li><a href="http://www.brothercake.com/site/products/menu/" title="UDM is the world's first fully-featured and accessible website menu">Ultimate Drop Down Menu</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/contact/" title="Contact me">Contact</a></li>
+	<li><a href="http://www.brothercake.com/site/resources/" title="Scripts, games and articles">Resources</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/resources/scripts/" title="Scripts and widgets for your website">Scripts</a>
+				<ul>
+					<li><a href="http://www.brothercake.com/site/resources/scripts/tooltips/">Onfocus tooltips</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/scripts/barreltimer/">Barrel timer</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/scripts/onload/">Generic onload</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/scripts/sniffer/">Client sniffer</a></li>
+				</ul>
+			</li>
+			<li><a href="http://www.brothercake.com/site/resources/games/" title="Games and puzzles suitable for all ages">Games</a>
+				<ul>
+					<li><a href="http://www.brothercake.com/site/resources/games/zenblocks/">Zen Blocks</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/games/frogger/">Frogger</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/games/chess/">Chess Player</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/games/fishrace/">Fish Race</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/games/hangman/">Hangman</a></li>
+					<li><a href="http://www.brothercake.com/site/resources/games/mastermind/">Mastermind</a></li>
+				</ul>
+			</li>
+			<li><a href="http://www.brothercake.com/site/resources/terms/" title="Please read the terms before downloading anything">Terms of use</a></li>
+			<li><a href="http://www.brothercake.com/site/resources/mailings/" title="Subscribe to brothercake's newsletters">Mailing list</a></li>
+		</ul>
+	</li>
+	<li><a href="http://www.brothercake.com/site/personal/" title="Hobbies and personal stuff">Personal</a>
+		<ul>
+			<li><a href="http://www.brothercake.com/site/personal/music/" title="British underground dance music">Music</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/cooking/" title="Festival Cookery Guide">Cooking</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/brothercake/" title="About brothercake.com">brothercake.com</a></li>
+			<li><a href="http://www.brothercake.com/site/personal/links/" title="Links to nice people and interesting things">Links</a></li>
+		</ul>
+	</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

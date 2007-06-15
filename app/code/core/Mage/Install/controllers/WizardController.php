@@ -13,7 +13,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 {
     protected function _prepareLayout()
     {
-        $this->loadLayout('front', 'install_wizard');
+        $this->loadLayout('install_wizard');
         $step = Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest());
         if ($step) {
             $step->setActive(true);

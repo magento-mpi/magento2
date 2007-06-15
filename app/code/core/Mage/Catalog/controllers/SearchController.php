@@ -29,7 +29,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     
     public function byAction()
     {
-        $this->loadLayout('front');
+        $this->loadLayout();
         
         $attribute = $this->getRequest()->getParam('attr', false);
         $value = $this->getRequest()->getParam('value', false);
@@ -63,7 +63,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     
     public function advancedAction()
     {
-        $this->loadLayout('front');
+        $this->loadLayout();
         
         $categories = Mage::getModel('catalog_resource/category_tree')
             ->joinAttribute('name')

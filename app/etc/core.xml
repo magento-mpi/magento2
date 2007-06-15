@@ -10,9 +10,13 @@
             <codePool>core</codePool>
         </Mage_Install>
         <Mage_Admin>
-            <active>true</active>
+            <active>false</active>
             <codePool>core</codePool>
         </Mage_Admin>
+        <Mage_Adminhtml>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Adminhtml>
         <Mage_Cron>
             <active>true</active>
             <codePool>core</codePool>
