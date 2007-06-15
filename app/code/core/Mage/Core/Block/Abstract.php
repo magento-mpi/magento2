@@ -238,15 +238,5 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function toHtml()
     {
         
-    }
-    
-    public function tpl($tplName, array $assign=array())
-    {
-        $block = $this->getLayout()->createBlock('core/template');
-        foreach ($assign as $k=>$v) {
-            $block->assign($k, $v);
-        }
-        return $block->setTemplate($tplName)->toHtml();
-    }
-    
+    }    
 }// Class Mage_Home_ContentBlock END

@@ -27,4 +27,9 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
     {
         $this->_outTemplate('layout');
     }
+    
+    public function exampleAction()
+    {
+        $this->_outTemplate('example');
+    }
 }
