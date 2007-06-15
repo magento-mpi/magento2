@@ -49,7 +49,6 @@ class Mage_Core_Model_Cookie
             $period = 3600 * 24 * 365;
         }
         $expire = time() + $period;
-
         $this->delete($cookieName);
         setcookie($cookieName, $value, $expire, '/');
         return $this;

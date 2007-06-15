@@ -32,9 +32,17 @@ class Mage_Poll_Model_Mysql4_Poll
             $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $poll->getPollId());
             $this->_write->update($this->_pollTable, $poll->getData(), $condition);
         } else {
+            $poll->setDatePosted(new Zend_Db_Expr('NOW()'));
             $this->_write->insert($this->_pollTable, $poll->getData());
         }
+        return $this;
+    }
 
+    function close($poll)
+    {
+        $poll->setStatus(0);
+        $poll->setDateClosed(new Zend_Db_Expr('NOW()'));
+        $this->save($poll);
         return $this;
     }
 

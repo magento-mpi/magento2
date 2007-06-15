@@ -5,7 +5,7 @@
             <?=$poll->getPollTitle();?><br />
             <?if( is_array($poll->getAnswers()) ):?>
                     <?foreach( $poll->getAnswers() as $answer ):?>
-                    <li><?=$answer['answer_title']?> - <?=$answer['percent']?>%</li>
+                    <li><?=$answer['answer_title']?> - <?=$answer['percent']?>% (<?=$answer['votes_count']?>)</li>
                     <?endforeach;?>
             <?endif;?>
             </ul>

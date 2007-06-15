@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Poll>
-            <version>0.1.2</version>
+            <version>0.2.0</version>
         </Mage_Poll>
     </modules>
     <front>

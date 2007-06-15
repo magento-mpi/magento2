@@ -10,6 +10,8 @@
 
 class Mage_Poll_Model_Poll extends Varien_Object
 {
+    protected $_pollId;
+
     protected $_pollCookieDefaultName = 'poll';
 
     public function getId()
@@ -43,7 +45,7 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function getCollection()
     {
-        return Mage::getModel('poll_resource/poll_collection');
+        return Mage::getSingleton('poll_resource/poll_collection');
     }
 
     public function getResource()
@@ -53,14 +55,13 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function setVoted($pollId=null)
     {
-        $pollId = (is_null($pollId)) ? $pollId : $this->getId();
+        $pollId = ( isset($pollId) ) ? $pollId : $this->_pollId;
         Mage::getSingleton('core/cookie')->set($this->_pollCookieDefaultName . $pollId, $pollId);
         return $this;
     }
 
-    public function  isVoted($pollId=null)
+    public function  isVoted($pollId)
     {
-        $pollId = (is_null($pollId)) ? $pollId : $this->getId();
         $cookie = Mage::getSingleton('core/cookie')->get($this->_pollCookieDefaultName . $pollId);
         if( $cookie === false ) {
             return false;

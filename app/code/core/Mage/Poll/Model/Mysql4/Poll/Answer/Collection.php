@@ -12,6 +12,8 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Collection extends Varien_Data_Collecti
         $this->_sqlSelect
             ->from($this->_pollAnswerTable);
 
+        $this->setOrder("{$this->_pollAnswerTable}.answer_order");
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('poll/poll'));
     }
 
