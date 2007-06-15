@@ -40,7 +40,15 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $this->_collection->setCurPage($page)
             ->load();
         $this->assign('collection', $this->_collection);
-        $this->assign('backLink', Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$productId)));
+        
+        $backUrl = Mage::getUrl('catalog', 
+            array(
+                'controller'=>'product', 
+                'action'=>'view', 
+                'id'=>$productId,
+            )
+        );
+        $this->assign('backLink', $backUrl);
         
         $pageUrl = clone $request;
         $this->assign('pageUrl', $pageUrl);
