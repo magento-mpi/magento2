@@ -6,6 +6,7 @@
         <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/admin</value></action>
         <block type="adminhtml/page_header" name="header" as="header"></block>
         <block type="adminhtml/page_menu" name="menu" as="menu"></block>
+        <block type="adminhtml/page_breadcrumbs" name="breadcrumbs" as="breadcrumbs"></block>
         <block type="adminhtml/page_footer" name="footer" as="footer"></block>
     </block>
 </layoutUpdate>

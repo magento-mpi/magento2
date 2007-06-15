@@ -120,6 +120,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         foreach ($assign as $k=>$v) {
             $block->assign($k, $v);
         }
-        return $block->setTemplate($tplName)->toHtml();
+        return $block->setTemplate("$tplName.phtml")->toHtml();
     }
 }// Class Mage_Core_Block_Template END

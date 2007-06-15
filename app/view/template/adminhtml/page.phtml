@@ -1,6 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
     <head>
+            <script type="text/javascript" language="Javascript">
+                Ext = top.jsFrame.Ext;
+                top.location.href = '<?=$baseUrl?>adminhtml/#controller/action/id/123';
+                top.document.title = 'Testing dynamic title';
+                var BASE_URL = '<?=$baseUrl?>admin/';
+                var SKIN_URL = '<?=$baseUrl?>skins/admin/';
+            </script>
             <style type="text/css" media="all">
                 /*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
             </style>
@@ -12,11 +19,7 @@
             <?=$menu?>
         </div>
         <div class="middle">
-            <ul class="breadcrumbs">
-                <li><a href="#">Home</a> &raquo;</li>
-                <li><a href="#">Customer</a> &raquo;</li>
-                <li>#0011234</li>
-            </ul>
+            <?=$breadcrumbs?>
             <div class="main">
                 <div class="section-menu">
                     <h2>Customer Insight</h2>
@@ -176,7 +179,7 @@
 <!--[ends] .middle -->
 
         <div class="footer">
-        <?=$footer?>
+            <?=$footer?>
         </div>
     </body>
 </html>
