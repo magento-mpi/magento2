@@ -14,17 +14,16 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
     {
         parent::__construct();
         $pollId = 2;
-        $pollCollection = Mage::getSingleton('poll/poll')->getCollection();
-        $polls = $pollCollection
-                        ->addPollFilter($pollId)
-                        ->load()
-                        ->addAnswers();
+        $poll = Mage::getModel('poll/poll');
+        $pollCollection = $poll->getCollection()
+            ->addPollFilter($pollId)
+            ->load()
+            ->addAnswers();
 
-        $this->assign('polls', $polls)
+        $this->assign('polls', $pollCollection)
              ->assign('action', Mage::getUrl('poll', array('controller'=>'vote', 'action'=>'add', 'poll_id'=>$pollId)));
 
-        $voted = Mage::getSingleton('poll/poll')->isVoted($pollId); /* FIXME */
-        if( $voted === true ) {
+        if( $poll->isVoted($pollId) === true ) {
             $this->setTemplate('poll/result.phtml');
         } else {
             $this->setTemplate('poll/active.phtml');
