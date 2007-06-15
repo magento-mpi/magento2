@@ -21,6 +21,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_blocks = array();
     
     /**
+     * Blocks cache
+     *
+     * @var Zend_Cache_Core
+     */
+    protected $_blockCache = null;
+    
+    /**
      * Cache of block callbacks to output during rendering
      *
      * @var array
@@ -31,6 +38,26 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         parent::__construct($data);
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+    }
+    
+    public function setBlockCache($frontend='Core', $backend='File', array $frontendOptions=array(), array $backendOptions=array())
+    {
+        if (empty($frontendOptions['lifetime'])) {
+            $frontendOptions['lifetime'] = 7200;
+        }
+        if (empty($backendOptions['cache_dir'])) {
+            $backendOptions['cache_dir'] = Mage::getBaseDir('cache_block');
+        }
+        $this->_blockCache = Zend_Cache::factory($frontend, $backend, $frontendOptions, $backendOptions);
+        return $this;
+    }
+    
+    public function getBlockCache()
+    {
+        if (empty($this->_blockCache)) {
+            $this->setBlockCache();
+        }
+        return $this->_blockCache;
     }
     
     /**

@@ -238,5 +238,40 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function toHtml()
     {
         
-    }    
+    }
+    
+    public function getCacheKey()
+    {
+        if (!$this->hasData('cache_key')) {
+            $this->setCacheKey($this->getName());
+        }
+        return $this->getData('cache_key');
+    }
+    
+    public function getCacheTags()
+    {
+        if (!$this->hasData('cache_tags')) {
+            return array();
+        }
+        return $this->getData('cache_tags');
+    }
+    
+    public function getCacheLifetime()
+    {
+        if (!$this->hasData('cache_lifetime')) {
+            return false;
+        }
+        return $this->getData('cache_lifetime');
+    }
+    
+    protected function _loadCache()
+    {
+        return $this->getLayout()->getBlockCache()->load($this->getCacheKey());
+    }
+    
+    protected function _saveCache($data)
+    {
+        $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
+        return $this;
+    }
 }// Class Mage_Home_ContentBlock END
