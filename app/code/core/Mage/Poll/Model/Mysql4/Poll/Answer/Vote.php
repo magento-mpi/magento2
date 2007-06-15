@@ -19,16 +19,16 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Vote
         $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');
     }
 
-    function add($voteParams)
+    function add($vote)
     {
-        $this->_write->insert($this->_pollVoteTable, $voteParams);
+        $this->_write->insert($this->_pollVoteTable, $vote->getData());
 
         # Increment `poll_answer` votes count
         $pollAnswerData = array(
                             'votes_count' => new Zend_Db_Expr('votes_count+1')
                         );
 
-        $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $voteParams['poll_answer_id']);
+        $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $vote->getPollAnswerId());
         $this->_write->update($this->_pollAnswerTable, $pollAnswerData, $condition);
 
         # Increment `poll` votes count
@@ -36,7 +36,7 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Vote
                             'votes_count' => new Zend_Db_Expr('votes_count+1')
                         );
 
-        $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $voteParams['poll_id']);
+        $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $vote->getPollId());
         $this->_write->update($this->_pollTable, $pollData, $condition);
     }
 }

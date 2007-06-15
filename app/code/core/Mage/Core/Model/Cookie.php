@@ -42,4 +42,31 @@ class Mage_Core_Model_Cookie
         }
         return $id;
     }
+
+    public function set($cookieName, $value, $period=null)
+    {
+        if( !isset($period) ) {
+            $period = 3600 * 24 * 365;
+        }
+        $expire = time() + $period;
+
+        $this->delete($cookieName);
+        setcookie($cookieName, $value, $expire, '/');
+        return $this;
+    }
+
+    public function get($cookieName)
+    {
+        if( isset($_COOKIE[$cookieName]) ) {
+            return $_COOKIE[$cookieName];
+        } else {
+            return false;
+        }
+    }
+
+    public function delete($cookieName)
+    {
+        setcookie($cookieName, '', (time() - 3600) );
+        return $this;
+    }
 }

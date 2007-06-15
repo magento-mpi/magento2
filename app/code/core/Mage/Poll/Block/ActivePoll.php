@@ -23,7 +23,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         $this->assign('polls', $polls)
              ->assign('action', Mage::getUrl('poll', array('controller'=>'vote', 'action'=>'add', 'poll_id'=>$pollId)));
 
-        $voted = true; /* FIXME */
+        $voted = Mage::getSingleton('poll/poll')->isVoted($pollId); /* FIXME */
         if( $voted === true ) {
             $this->setTemplate('poll/result.phtml');
         } else {

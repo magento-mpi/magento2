@@ -1,5 +1,4 @@
 <?php
-
 class Mage_Poll_Model_Mysql4_Poll_Answer
 {
     protected $_pollAnswerTable;
@@ -17,20 +16,20 @@ class Mage_Poll_Model_Mysql4_Poll_Answer
         $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');
     }
 
-    function save($data)
+    function save($answer)
     {
-        if( $this->getId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $this->getId());
-            $this->_write->update($this->_pollAnswerTable, $data, $condition);
+        if( $answer->getAnswerId() ) {
+            $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $answer->getAnswerId());
+            $this->_write->update($this->_pollAnswerTable, $answer->getData(), $condition);
         } else {
-            $this->_write->insert($this->_pollAnswerTable, $data);
+            $this->_write->insert($this->_pollAnswerTable, $answer->getData());
         }
     }
 
-    function delete()
+    function delete($answer)
     {
-        if( $this->getId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $this->getId());
+        if( $answer->getAnswerId() ) {
+            $condition = $this->_write->quoteInto("{$this->_pollAnswerTable}.answer_id=?", $answer->getAnswerId());
             $this->_write->delete($this->_pollAnswerTable, $condition);
         }
     }

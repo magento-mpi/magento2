@@ -16,6 +16,8 @@ class Mage_Poll_Model_Mysql4_Poll
 
     protected $_pollId;
 
+    protected $_poll;
+
     function __construct()
     {
         $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
@@ -24,26 +26,34 @@ class Mage_Poll_Model_Mysql4_Poll
         $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');
     }
 
-    function save($data)
+    function save($poll)
     {
-        if( $this->getId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $this->getId());
-            $this->_write->update($this->_pollTable, $data, $condition);
+        if( $poll->getPollId() ) {
+            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $poll->getPollId());
+            $this->_write->update($this->_pollTable, $poll->getData(), $condition);
         } else {
-            $this->_write->insert($this->_pollTable, $data);
+            $this->_write->insert($this->_pollTable, $poll->getData());
         }
+
+        return $this;
     }
 
-    function delete()
+    function delete($poll)
     {
-        if( $this->getId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $this->getId());
+        if( $poll->getPollId() ) {
+            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $poll->getPollId());
             $this->_write->delete($this->_pollTable, $condition);
         }
+
+        return $this;
     }
 
-    function load()
+    function load($pollId=null)
     {
+        if( isset($pollId) ) {
+        	$this->setId($pollId);
+        }
+
         if( $this->getId() ) {
             $condition = $this->_read->quoteInto("{$this->_pollTable}.poll_id=?", $this->getId());
 
@@ -51,8 +61,9 @@ class Mage_Poll_Model_Mysql4_Poll
             $select->from($this->_pollTable);
             $select->where($condition);
 
-            return $this->_read->fetchRow($select);
+            $this->_poll = $this->_read->fetchRow($select);
         }
+        return $this;
     }
 
     function setId($pollId)
