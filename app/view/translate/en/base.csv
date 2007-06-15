@@ -5,6 +5,6 @@ Site Map;Site Map
 Advanced Search;Advanced Search
 manufacturer;Manufacturer
 shoe_type;Shoe Type
-product_review_quality;Quality
-product_review_use;Ease of use
-product_review_value;Value
+product_quality;Quality
+product_use;Ease of use
+product_value;Value

@@ -10,21 +10,41 @@
  */
 class Mage_Review_Block_List extends Mage_Core_Block_Template 
 {
+    protected $_collection;
+    
     public function __construct() 
     {
         parent::__construct();
         $this->setTemplate('review/list.phtml');
+        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         
-        $productId = Mage::registry('controller')->getFront()->getRequest()->getParam('id', false);
-        
-        $collection = Mage::getModel('review/review')->getCollection();
-        $collection->setPageSize(10)
+        $this->_collection = Mage::getModel('review/review')->getCollection();
+        $this->_collection->setPageSize(10)
             ->addWebsiteFilter(Mage::getSingleton('core/website')->getId())
             ->addStatusFilter('approved')
             ->addEntityFilter('product', $productId)
-            ->setDateOrder()
+            ->setDateOrder();
+    }
+    
+    public function count()
+    {
+        return $this->_collection->getSize();
+    }
+    
+    public function toHtml()
+    {
+        $request    = Mage::registry('controller')->getRequest();
+        $productId  = $request->getParam('id', false);
+        $page       = $request->getParam('p',1);
+        
+        $this->_collection->setCurPage($page)
             ->load();
-            
-        $this->assign('collection', $collection);
+        $this->assign('collection', $this->_collection);
+        $this->assign('backLink', Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$productId)));
+        
+        $pageUrl = clone $request;
+        $this->assign('pageUrl', $pageUrl);
+       
+        return parent::toHtml();
     }
 }

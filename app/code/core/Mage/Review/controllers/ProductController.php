@@ -8,17 +8,18 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
+class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 {
-    public function productPostAction()
+    public function postAction()
     {
         $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
         
+        $productId = $this->getRequest()->getParam('id', false);
         if ($data = $this->getRequest()->getPost()) {
             $review = Mage::getModel('review/review')->setData($data);
             try {
                 $review->setEntityId(1) // product
-                    ->setEntityPkValue($this->getRequest()->getParam('id', false))
+                    ->setEntityPkValue($productId)
                     ->setStatusId(1) // approved
                     ->setWebsiteId(Mage::getSingleton('core/website')->getId())
                     ->save();
@@ -27,7 +28,7 @@ class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
                 foreach ($arrRatingId as $ratingId=>$optionId) {
                 	Mage::getModel('rating/rating')
                 	   ->setRatingId($ratingId)
-                	   ->addOptionVote($optionId, $review->getId());
+                	   ->addOptionVote($optionId, $productId);
                 }
                 
                 Mage::getSingleton('review/session')->addMessage(
@@ -42,5 +43,17 @@ class Mage_Review_ReviewController extends Mage_Core_Controller_Front_Action
         }
         
         $this->getResponse()->setRedirect($url);
+    }
+    
+    public function listAction()
+    {
+        $this->loadLayout();
+        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('review/list'));
+        $this->renderLayout();
+    }
+    
+    public function viewAction()
+    {
+        
     }
 }

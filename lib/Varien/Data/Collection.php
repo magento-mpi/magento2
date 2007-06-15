@@ -372,6 +372,11 @@ class Varien_Data_Collection implements IteratorAggregate
     
     public function getItemById($idValue)
     {
+        foreach ($this as $item) {
+        	if ($item->getId()==$idValue) {
+        	    return $item;
+        	}
+        }
         return false;
     }
     

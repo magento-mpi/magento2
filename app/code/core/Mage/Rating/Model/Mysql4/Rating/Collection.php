@@ -85,4 +85,32 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
         
         return $this;
     }
+    
+    public function addEntitySummaryToItem($entityPkValue)
+    {
+        $arrRatingId = $this->getColumnValues('rating_id');
+        $sql = "SELECT
+                    $this->_ratingOptionTable.rating_id as rating_id,
+                    SUM($this->_ratingOptionTable.value) as sum,
+                    COUNT(*) as count
+                FROM
+                    $this->_ratingOptionTable,
+                    $this->_ratingVoteTable
+                WHERE
+                    $this->_ratingOptionTable.option_id=$this->_ratingVoteTable.option_id
+                    AND ".$this->getConnection()->quoteInto($this->_ratingOptionTable.'.rating_id IN (?)', $arrRatingId)."
+                    AND ".$this->getConnection()->quoteInto($this->_ratingVoteTable.'.entity_pk_value=?', $entityPkValue)."
+                GROUP BY
+                    $this->_ratingOptionTable.rating_id";
+        
+        $data = $this->getConnection()->fetchAll($sql);
+        
+        foreach ($data as $item) {
+        	$rating = $this->getItemById($item['rating_id']);
+        	if ($rating && $item['count']>0) {
+        	    $rating->setSummary($item['sum']/$item['count']);
+        	}
+        }
+        return $this;
+    }
 }
