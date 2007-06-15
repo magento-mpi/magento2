@@ -1,0 +1,50 @@
+/******************************************/
+/***************** BASE *******************/
+/******************************************/
+
+* { margin:0; padding:0; }
+
+body { 
+	background:#E6E6E6;
+	color:#363636;
+	font:.75em/1.5em Arial, Helvetica, sans-serif;
+	}
+
+a { color:#DA0074; text-decoration:underline; }
+a:hover { color:#DA0074; text-decoration:none; }
+a img { border:0; vertical-align:middle; }
+
+/* Heading */
+h1 { font-size:1.7em; }
+h2 { color:#000; font-size:1.25em; }
+h3 { color:#57829E; font-size:1.15em; }
+h4 { font-size:1.05em; }
+h5 { font-size:1em; }
+h1 a, h1 a:hover, h2 a, h2 a:hover, h3 a, h3 a:hover,h4 a, h4 a:hover { font-weight:normal; }
+h1, h2, h3, h4 { margin-bottom:.7em; line-height:1.4em; }
+
+/* Table */
+table { width:100%; }
+th, td { padding:0; text-align:left; vertical-align:top; }
+
+/* Paragraph */
+p, address { margin-bottom:.5em; }
+address { font-style:normal; }
+cite { font-style:normal; font-size:10px;}
+
+/* Form */
+form { display:inline;}
+fieldset { border:none; }
+legend {display:none;}
+label { color:#666; font-weight:bold; font-size:.96em; }
+input, select { vertical-align:middle; }
+
+/* Lists */
+dt { display:block; }
+
+/* Size */
+small { font-size:.8em; }
+big { font-size:1.25em; }
+
+/* Divider */
+hr { border:0; height:1px; overflow:hidden; background:#d3d3d3; }
