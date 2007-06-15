@@ -113,4 +113,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
         return $this->renderView();
     }
+    
+    public function tpl($tplName, array $assign=array())
+    {
+        $block = $this->getLayout()->createBlock('core/template');
+        foreach ($assign as $k=>$v) {
+            $block->assign($k, $v);
+        }
+        return $block->setTemplate($tplName)->toHtml();
+    }
 }// Class Mage_Core_Block_Template END
