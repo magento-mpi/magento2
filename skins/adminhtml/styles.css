@@ -1,3 +1,2 @@
-body { background:#fff; margin:0; padding:0; }
-
-.header { background:#6d6d6d; }
+@import url('base.css');
+@import url('boxes.css');
