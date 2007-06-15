@@ -5,6 +5,7 @@
 * { margin:0; padding:0; }
 
 body { 
+	min-width:800px;
 	background:#E6E6E6;
 	color:#363636;
 	font:.75em/1.5em Arial, Helvetica, sans-serif;

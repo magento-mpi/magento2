@@ -7,7 +7,7 @@
 	padding:0 10px;
 	}
 .box-left, .box-right {
-	width:48.5%;
+	width:49.25%;
 	}
 .box-left {
 	float:left;
@@ -113,21 +113,36 @@ dl.accordion dd.open {
 	border-bottom:4px solid #F2F2F2;
 	background:url(images/nav_bg.gif) repeat-x #31212C;
 	padding:.9em 1.8em 0 1.8em;
+	z-index:9;
 	}
 .middle {
 	background:#fff;
+	padding-bottom:3em;
+	}
+.container {
+	border-left:17.48em solid #fff;
+	padding:1.8em;
+	}
+.main {
+	float:left;
+	width:100%;
 	}
 .section-menu {
 	float:left;
+	position:relative;
+	margin-left:-17.08em;
 	width:17.08em;
 	}
-.main {
-	padding:1.8em 1.8em 3em 1.8em;
+.content-container {
+	position:relative;
+	width:100%;
+	float:right;
+	margin-left:-1px;
 	}
 .content {
-	margin-left:18.08em;
-	border-left:1px solid #bcbcbc;
-	padding-left:1em;
+	margin-left:1.4em;
+	border-left:1px solid #BCBCBC;
+	padding-left:1.4em;
 	}
 .footer {
 	padding:1.2em 1.6em;
@@ -142,6 +157,7 @@ dl.accordion dd.open {
 	}
 .header-right {
 	float:right;
+	width:40%;
 	margin:10px 15px;
 	color:#fff;
 	text-align:right;
@@ -155,9 +171,11 @@ dl.accordion dd.open {
 	}
 #nav li {
 	float:left;
-	list-style-type:none;
+	list-style:none;
 	position:relative;
 	margin-right:.4em;
+	border-left:1px solid #969696;
+	z-index:99;
 	}
 #nav li a, #nav li strong {
 	display:block;
@@ -174,7 +192,6 @@ dl.accordion dd.open {
 	}
 #nav li.over {
 	border-left:1px solid #8F8F8F;
-	z-index:99;
 	}
 #nav li.over a {
 	background:#DCEAED;
@@ -182,7 +199,6 @@ dl.accordion dd.open {
 	font-weight:bold;
 	}
 #nav ul {
-	display:none;
 	position:absolute;
 	border:1px solid #8F8F8F;
 	border-top:0;
@@ -191,22 +207,36 @@ dl.accordion dd.open {
 	width:14.5em;
 	background:url(images/sec_nav_bg.gif) repeat-x #B9DCE5;
 	padding-top:4px;
+	z-index:999;
 	}
-#nav .over ul li {	
+#nav li.over ul {
+	display:block;
+	}
+#nav ul li, #nav ul li.over {
+	border:0;
+	}
+#nav ul li {
 	float:none;
 	margin:0;
+	border:none;
 	}
-#nav .over ul a {
+#nav ul a {
 	border-top:1px solid #EFF5F7;
 	background:none;
 	padding:3px 10px;
+	color:#363636;
 	font-weight:normal;
 	}
-#nav .over ul a:hover {
+#nav ul a:hover {
 	background:#DCEAED;
 	}
-	
-	
+#nav ul ul {
+	top:0;
+	left:14.5em;
+	background-image:none;
+	padding:0;
+	}
+
 /* Middle */
 .breadcrumbs {
 	background:url(images/breadcrumb_bg.gif) repeat-x #E6F5F7;
@@ -294,6 +324,7 @@ dl.accordion dd.open {
 /* Clear */
 #nav:after,
 .main:after,
+.container:after,
 .clear:after {
 	clear:both;
 	content:".";
