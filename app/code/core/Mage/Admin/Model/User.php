@@ -100,4 +100,9 @@ class Mage_Admin_Model_User extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
+    
+    public function getName($separator=' ')
+    {
+        return $this->getFirstname().$separator.$this->getLastname();
+    }
 }

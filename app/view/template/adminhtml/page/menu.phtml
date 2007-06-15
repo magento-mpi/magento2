@@ -1,16 +1,18 @@
 <ul id="nav">
-    <li><a href="#">Dashboard</a></li>
-    <li><a href="#">System</a></li>
-    <li class="on"><strong>Customers</strong></li>
-    <li><a href="#">Catalog</a>
+<?foreach ($menu as $_item):?>
+    <li>
+    <?if(!empty($_item['active']) && $_item['active']):?>
+        <a href="#" title="<?=$_item['title']?>"><?=$_item['label']?></a>
+    <?else:?>
+        <a href="<?=$_item['url']?>" title="<?=$_item['title']?>"><?=$_item['label']?></a>
+    <?endif;?>
+    <?if(!empty($_item['children']) && is_array($_item['children'])):?>
         <ul>
-            <li><a href="#">List Items here</a></li>
-            <li><a href="#">List Items here</a></li>
-            <li><a href="#">List Items here</a></li>
-            <li><a href="#">List Items here</a></li>
-            <li><a href="#">List Items here</a></li>
-            <li><a href="#">List Items here</a></li>
+        <?foreach ($_item['children'] as $_child):?>
+            <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>"><?=$_child['label']?></a></li>
+        <?endforeach;?>
         </ul>
+    <?endif;?>
     </li>
-    <li><a href="#">Sales</a></li>
+<?endforeach;?>
 </ul>

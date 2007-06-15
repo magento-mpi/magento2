@@ -1,7 +1,12 @@
-            <a href="#"><img src="<?=$baseUrl?>skins/adminhtml/images/logo.gif" alt="Magento logo" class="logo"/></a>
-            <div class="header-right">
-                <p><strong>Minu Oh</strong> (Administrator)<span class="separator">|</span><a href="#">Logout</a></p>
-                <fieldset>
-                    <input type="text" class="input-text" value="Search by Keyword"/>
-                </fieldset>
-            </div>
+<a href="<?=$homeLink?>">
+    <img src="<?=$baseUrl?>skins/adminhtml/images/logo.gif" alt="Magento logo" class="logo"/>
+</a>
+<div class="header-right">
+    <p><strong><?=$user->getName()?></strong> (Administrator)<span class="separator">|</span>
+    <a href="<?=$logoutLink?>"><?=__('Logout')?></a></p>
+    <form action="" method="GET">
+    <fieldset>
+        <input type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search by Keyword')?><?endif?>" onfocus="if(this.value=='<?=__('Search by Keyword')?>')this.value=''; " onblur="if(this.value=='')this.value='<?=__('Search by Keyword')?>';"/>
+    </fieldset>
+    </form>
+</div>
