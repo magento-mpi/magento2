@@ -1,0 +1,18 @@
+#nav,
+.main,
+.middle,
+.clear,
+.container,
+.section-menu a,
+#nav ul,
+#nav ul li,
+#nav ul a,
+dl.accordion dt { zoom:1; }
+
+.clear {
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0;
+	overflow:hidden;
+	}

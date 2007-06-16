@@ -109,12 +109,6 @@ dl.accordion dd.open {
 	background:#6D6D6D;
 	z-index:9;
 	}
-#nav {
-	border-bottom:4px solid #F2F2F2;
-	background:url(images/nav_bg.gif) repeat-x #31212C;
-	padding:.9em 1.8em 0 1.8em;
-	z-index:9;
-	}
 .middle {
 	background:#fff;
 	padding-bottom:3em;
@@ -169,73 +163,75 @@ dl.accordion dd.open {
 	width:20em;
 	text-align:left;
 	}
+#nav {
+	border-bottom:4px solid #F2F2F2;
+	background:url(images/nav_bg.gif) repeat-x #31212C;
+	padding:.9em 1.8em 0 1.8em;
+	z-index:9;
+	}
+#nav, #nav li { 
+	list-style:none;
+	}
 #nav li {
 	float:left;
-	list-style:none;
 	position:relative;
 	margin-right:.4em;
-	border-left:1px solid #969696;
 	z-index:99;
 	}
-#nav li a, #nav li strong {
-	display:block;
-	padding:.35em 3em;
-	}	
 #nav li a {
+	display:block; 
+	padding:.35em 3em;
 	background:#969696;
 	color:#fff;
 	text-decoration:none;
 	}
-#nav li.on strong {
+#nav li.on a {
 	background:#F2F2F2;
 	color:#343434;
-	}
-#nav li.over {
-	border-left:1px solid #8F8F8F;
-	}
-#nav li.over a {
-	background:#DCEAED;
-	color:#31212C;
 	font-weight:bold;
 	}
+#nav li:hover a, #nav li.over a {
+	background:#DCEAED;
+	color:#31212C;
+	}
 #nav ul {
+	display:none;
 	position:absolute;
 	border:1px solid #8F8F8F;
 	border-top:0;
 	top:2.2em;
 	left:-1px;
 	width:14.5em;
-	background:url(images/sec_nav_bg.gif) repeat-x #B9DCE5;
-	padding-top:4px;
 	z-index:999;
 	}
-#nav li.over ul {
+#nav ul, #nav li:hover ul a, #nav li.over ul a {
+	background:#B9DCE5;
+	}
+#nav li:hover ul, #nav li.over ul {
 	display:block;
 	}
-#nav ul li, #nav ul li.over {
-	border:0;
+#nav ul a:hover {
+	background:#DCEAED;
+	}
+#nav li:hover ul ul, #nav li.over ul ul {
+	top:0;
+	left:14.5em;
+	background-image:none;
+	padding:0;
+	display:none;
 	}
 #nav ul li {
 	float:none;
 	margin:0;
-	border:none;
 	}
-#nav ul a {
+#nav ul a { /* Second level nav */
 	border-top:1px solid #EFF5F7;
 	background:none;
 	padding:3px 10px;
 	color:#363636;
 	font-weight:normal;
 	}
-#nav ul a:hover {
-	background:#DCEAED;
-	}
-#nav ul ul {
-	top:0;
-	left:14.5em;
-	background-image:none;
-	padding:0;
-	}
+
 
 /* Middle */
 .breadcrumbs {
@@ -247,7 +243,7 @@ dl.accordion dd.open {
 	color:#453F46;
 	}
 .breadcrumbs li {
-	list-style-type:inline;
+	list-style-type:none;
 	display:inline;
 	}
 .section-menu ul	{
