@@ -81,7 +81,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      function loadLayout($ids=null, $key='', $generateBlocks=true)
      {
         $area = 'front';
-        Varien_Profiler::setTimer('loadLayout');
+        Varien_Profiler::start('loadLayout');
          
         if (''===$key) {
             if (is_array($ids)) {
@@ -104,12 +104,12 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
             }
             $layout->getCache()->save();
         }
-        Varien_Profiler::setTimer('loadLayout', true);
+        Varien_Profiler::stop('loadLayout');
         
         if ($generateBlocks) {
-            Varien_Profiler::setTimer('generateBlocks');
+            Varien_Profiler::start('generateBlocks');
             $layout->generateBlocks();
-            Varien_Profiler::setTimer('generateBlocks', true);
+            Varien_Profiler::stop('generateBlocks');
         }
         
         return $this;
@@ -117,7 +117,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
      
      function renderLayout($output='')
      {
-         Varien_Profiler::setTimer('renderLayout');
+         Varien_Profiler::start('renderLayout');
          
          if ($this->getFlag('', 'no-renderLayout')) {
              return;
@@ -133,7 +133,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          $output = $this->getLayout()->getOutput();
 
          $this->getResponse()->appendBody($output);
-         Varien_Profiler::setTimer('renderLayout', true);
+         Varien_Profiler::stop('renderLayout');
          
          return $this;
      }
@@ -143,19 +143,19 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
         Mage::log('Request Params:');
         Mage::log($this->getRequest()->getParams());
-        Varien_Profiler::setTimer('preDispatch');
+        Varien_Profiler::start('preDispatch');
         $this->preDispatch();
-        Varien_Profiler::setTimer('preDispatch', true);
+        Varien_Profiler::stop('preDispatch');
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
             if (!$this->getFlag('', 'no-dispatch')) {
-                Varien_Profiler::setTimer('actionDispatch');
+                Varien_Profiler::start('actionDispatch');
                 $this->$action();
-                Varien_Profiler::setTimer('actionDispatch', true);
+                Varien_Profiler::stop('actionDispatch');
             }
-            Varien_Profiler::setTimer('postDispatch');
+            Varien_Profiler::start('postDispatch');
             $this->postDispatch();
-            Varien_Profiler::setTimer('postDispatch', true);
+            Varien_Profiler::stop('postDispatch');
         }
     }
      

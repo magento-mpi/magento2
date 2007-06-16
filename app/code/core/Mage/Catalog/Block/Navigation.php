@@ -9,7 +9,7 @@
  */
 class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
-    function loadCategories($parent)
+    protected function _loadCategories($parent)
     {
         $nodes = Mage::getModel('catalog_resource/category_tree')
             ->joinAttribute('name')
@@ -19,7 +19,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $this->assign('categories', $nodes);
     }
     
-    public function loadProductManufacturers()
+    protected function _loadProductManufacturers()
     {
         $manufacturers = Mage::getModel('catalog/product_attribute')
             ->loadByCode('manufacturer')
@@ -29,7 +29,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $this->assign('manufacturers', $manufacturers);
     }
     
-    public function loadProductTypes()
+    protected function _loadProductTypes()
     {
         $types = Mage::getModel('catalog/product_attribute')
             ->loadByCode('shoe_type')
@@ -37,5 +37,13 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                 ->getArrOptions();
 
         $this->assign('types', $types);
-    }    
+    }
+    
+    protected function _beforeToHtml()
+    {
+        $this->_loadCategories($this->getCategoriesParentId());
+        $this->_loadProductManufacturers();
+        $this->_loadProductTypes();
+        return true;
+    }
 }// Class Mage_Core_Block_List END

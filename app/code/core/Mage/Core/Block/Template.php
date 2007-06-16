@@ -82,6 +82,18 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
     
     /**
+     * Before rendering html, but after trying to load cache
+     *
+     * If returns false html is rendered empty and cache is not saved
+     * 
+     * @return boolean
+     */
+    protected function _beforeToHtml()
+    {
+        return true;
+    }
+    
+    /**
      * Before assign child block actions
      *
      * @param string $blockName
@@ -100,6 +112,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     {
         if ($html = $this->_loadCache()) {
             return $html;
+        }
+        
+        if (!$this->_beforeToHtml()) {
+            return '';
         }
         
         if (!empty($this->_children)) {

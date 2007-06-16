@@ -28,10 +28,10 @@
         </tr>
     </thead>
     <tbody>
-    <?foreach ($timers as $name=>$timer):?> 
+    <?foreach ($timers as $name=>$sum):?> 
         <tr>
             <td><?=$name?></td>
-            <td><?=number_format($timer[0],4)?></td>
+            <td><?=number_format($sum,4)?></td>
         </tr>
     <?endforeach;?>
     </tbody>

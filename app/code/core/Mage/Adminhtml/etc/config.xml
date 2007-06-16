@@ -10,37 +10,6 @@
    </modules>
 
    <global>
-      <models>
-         <adminhtml>
-            <class>Mage_Adminhtml_Model</class>
-         </adminhtml>
-         <adminhtml_resource>
-            <class>Mage_Adminhtml_Model_Mysql4</class>
-            <entities>
-               <user><table>admin_user</table></user>
-               <role><table>admin_role</table></role>
-               <rule><table>admin_rule</table></rule>
-               <assert><table>admin_assert</table></assert>
-            </entities>
-         </adminhtml_resource>
-      </models>
-
-      <resources>
-         <adminhtml_setup>
-            <setup>
-               <module>Mage_Adminhtml</module>
-            </setup>
-            <connection>
-               <use>core_setup</use>
-            </connection>
-         </adminhtml_setup>
-         <adminhtml_write>
-            <connection><use>core_write</use></connection>
-         </adminhtml_write>
-         <adminhtml_read>
-            <connection><use>core_read</use></connection>
-         </adminhtml_read>
-      </resources>
         <block>
             <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
         </block>
@@ -67,7 +36,7 @@
             <observers>
                <auth>
                   <type>singleton</type>
-                  <class>adminhtml/observer</class>
+                  <class>admin/observer</class>
                   <method>actionPreDispatchAdmin</method>
                </auth>
             </observers>

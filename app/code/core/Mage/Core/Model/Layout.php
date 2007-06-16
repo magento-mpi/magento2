@@ -214,7 +214,7 @@ echo "TEST:".$i;
     
     protected function _generateBlock($node, $parent)
     {
-#Varien_Profiler::setTimer('block');
+#Varien_Profiler::start('block');
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
@@ -256,7 +256,7 @@ echo "TEST:".$i;
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-#Varien_Profiler::setTimer('block', true);
+#Varien_Profiler::stop('block');
     }
     
     protected function _generateAction($node, $parent)
@@ -286,9 +286,9 @@ echo "TEST:".$i;
         }
 #echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
 #$timerName = 'action';#-'.$block->getName().'-'.$method;
-#Varien_Profiler::setTimer($timerName);
+#Varien_Profiler::start($timerName);
         call_user_func_array(array($block, $method), $args);
-#Varien_Profiler::setTimer($timerName, true);
+#Varien_Profiler::stop($timerName);
     }
     
     
@@ -326,7 +326,7 @@ echo "TEST:".$i;
      */
     public function createBlock($type, $name='', array $attributes = array())
     {
-        #Mage::setTimer(__METHOD__);
+        #Mage::start(__METHOD__);
 
         if (!$className = Mage::getConfig()->getBlockClassName($type)) {
             Mage::exception('Invalid block type ' . $type);
@@ -352,7 +352,7 @@ echo "TEST:".$i;
         
         $this->_blocks[$name] = $block;
         
-        #Mage::setTimer(__METHOD__, true);
+        #Mage::stop(__METHOD__, true);
 
         return $this->_blocks[$name];
     }

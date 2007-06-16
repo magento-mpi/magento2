@@ -225,22 +225,22 @@ final class Mage {
         set_error_handler('my_error_handler');
         date_default_timezone_set('America/Los_Angeles');
 
-        Varien_Profiler::setTimer('init');
+        Varien_Profiler::start('init');
 
         Mage::setRoot();
         Mage::register('events', new Varien_Event_Collection());
         Mage::register('config', new Mage_Core_Model_Config());
 
-        Varien_Profiler::setTimer('config');
+        Varien_Profiler::start('config');
         Mage::getConfig()->init();
-        Varien_Profiler::setTimer('config', true);
+        Varien_Profiler::stop('config');
 
-        Varien_Profiler::setTimer('init', true);
+        Varien_Profiler::stop('init');
 
         // check modules db
-        Varien_Profiler::setTimer('applyDbUpdates');
+        Varien_Profiler::start('applyDbUpdates');
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Varien_Profiler::setTimer('applyDbUpdates', true);
+        Varien_Profiler::stop('applyDbUpdates');
     }
 
     /**
@@ -251,7 +251,7 @@ final class Mage {
     public static function run($websiteCode='')
     {
         try {
-            Varien_Profiler::setTimer('totalApp');
+            Varien_Profiler::start('totalApp');
 
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
@@ -261,8 +261,7 @@ final class Mage {
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
 
-            Varien_Profiler::setTimer('totalApp', true);
-            #self::displayProfiler();
+            Varien_Profiler::stop('totalApp');
         }
         catch (Exception $e) {
             if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {
@@ -283,17 +282,6 @@ final class Mage {
                 echo $e;
             }
         }
-    }
-
-    public static function displayProfiler()
-    {
-        echo '<hr><table border=1 align=center>';
-        $timers = Varien_Profiler::getCumulativeTimer();
-        foreach ($timers as $name=>$timer) echo '<tr><td>'.$name.'</td><td>'.number_format($timer[0],4).'</td></tr>';
-        echo '</table>';
-        echo '<pre>';
-        print_r(Varien_Profiler::getSqlProfiler(Mage::getSingleton('core/resource')->getConnection('dev_write')));
-        echo '</pre>';
     }
 
     /**

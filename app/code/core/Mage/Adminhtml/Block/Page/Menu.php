@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         $this->setTemplate('adminhtml/page/menu.phtml');
     }
     
-    public function toHtml()
+    protected function _beforeToHtml()
     {
         $menu = array(
             'dashboard' => array(
@@ -70,6 +70,6 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             )
         );
         $this->assign('menu', $menu);
-        return parent::toHtml();
+        return true;
     }
 }
