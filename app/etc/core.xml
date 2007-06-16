@@ -85,5 +85,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Rating>
+        <Mage_SearchLucene>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_SearchLucene>
     </modules>
 </config>

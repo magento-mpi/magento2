@@ -7,7 +7,7 @@
  * @author	   Andrey Korolyov <andrey@varien.com>
  */
 
-class Mage_Search_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_SearchLucene_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction()
     {

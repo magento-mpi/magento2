@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <modules>
+    <Mage_SearchLucene>
+      <version>0.1.0</version>
+    </Mage_SearchLucene>
+  </modules>
+  <front>
+    <routers>
+      <myroute>
+        <args>
+          <module>Mage_SearchLucene</module>
+          <frontName>searchlucene</frontName>
+        </args>
+      </myroute>
+    </routers>
+  </front>
+</config>
