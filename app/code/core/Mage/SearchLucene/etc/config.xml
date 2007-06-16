@@ -7,12 +7,13 @@
   </modules>
   <front>
     <routers>
-      <myroute>
+      <searchlucene>
+        <class>Mage_Core_Controller_Front_Router</class>
         <args>
           <module>Mage_SearchLucene</module>
           <frontName>searchlucene</frontName>
         </args>
-      </myroute>
+      </searchlucene>
     </routers>
   </front>
 </config>
