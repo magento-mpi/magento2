@@ -51,6 +51,10 @@ class Mage_SearchLucene_IndexController extends Mage_Core_Controller_Front_Actio
 
         $index = Zend_Search_Lucene::open($index_dir);
 
+        if ($index->count()) {
+            return true;
+        }
+
         $collection = Mage::getModel('catalog_resource/product_collection');
         $collection->addAttributeToSelect('name')
             ->addAttributeToSelect('description')

@@ -6,7 +6,7 @@ class Mage_Core_Block_Statistics extends Mage_Core_Block_Abstract
     {
         $timers = Varien_Profiler::getTimerSum();
 
-        $out = '<div style="position:fixed;top:5px;left:5px; float : left;">';
+        $out = '<div style="position:fixed;top:5px;right:5px;">';
         $out .= '<table border=1>';
         $out .= '<tr><th colspan="2">Debug Console</th></tr>';
         foreach ($timers as $name=>$sum) {
