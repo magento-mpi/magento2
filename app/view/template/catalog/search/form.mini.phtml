@@ -1,8 +1,8 @@
-<form action="<?=$baseUrl?>catalog/search/result/" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return 
+<form action="<?=$baseUrl?>searchlucene/index/search/" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return
 false;">
     <fieldset class="search">
     <legend><span>Search Site</span></legend>
-    <input name="q" type="text" id="search" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Enter your search term')?><?endif?>" class="input-text" onfocus="if(this.value=='<?=__('Enter your search term')?>')this.value=''; " onblur="if(this.value=='')this.value='<?=__('Enter your search term')?>';"/> 
+    <input name="q" type="text" id="search" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Enter your search term')?><?endif?>" class="input-text" onfocus="if(this.value=='<?=__('Enter your search term')?>')this.value=''; " onblur="if(this.value=='')this.value='<?=__('Enter your search term')?>';"/>
     <input type="submit" value="<?=__('Search')?>" alt="Search" class="input-button"/>
     </fieldset>
 </form>

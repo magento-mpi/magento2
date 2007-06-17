@@ -5,6 +5,11 @@
       <version>0.1.0</version>
     </Mage_SearchLucene>
   </modules>
+  <global>
+      <block>
+		 <groups><searchlucene><class>Mage_SearchLucene_Block</class></searchlucene></groups>
+      </block>
+  </global>
   <front>
     <routers>
       <searchlucene>
