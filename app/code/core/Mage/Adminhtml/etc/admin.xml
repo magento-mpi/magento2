@@ -63,7 +63,7 @@
          <dashboard><title>Dashboard</title><action>adminhtml/index/dashboard</action><resource>dashboard</resource></dashboard>
          
          <customer><title>Customers</title><action>adminhtml/customer</action><resource>customer</resource><children>
-            <manage><title>Manage customers</title><action>adminhtml/customer/list</action><resource>customer/list</resource>
+            <manage><title>Manage customers</title><action>adminhtml/customer/list</action><resource>customer/list</resource></manage>
          </customer>
          
          <catalog><title>Catalog</title><children>
