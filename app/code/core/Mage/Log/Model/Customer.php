@@ -1,9 +1,9 @@
 <?php
-class Mage_Log_Model_Online extends Varien_Object
+class Mage_Log_Model_Customer extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getModel('log_resource/online_collection');
+        return Mage::getModel('log_resource/customers_collection');
     }
 
     public function getOnlineList()

@@ -1,16 +1,17 @@
 <?php
 
-class Mage_Admin_OnlineController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_OnlineController extends Mage_Core_Controller_Front_Action
 {
 
     public function IndexAction()
     {
-        $collection = Mage::getSingleton('log_resource/online_collection')
-            ->load();
+        $collection = Mage::getSingleton('log_resource/customer_collection')
+            ->useOnlineFilter()
+            ->load(true);
 
         foreach ($collection->getItems() as $item) {
         	$item->addIpData($item)
-        	     ->addCustomerData($item)
+                 ->addCustomerData($item)
         	     ->addQuoteData($item);
         }
 
@@ -18,5 +19,4 @@ class Mage_Admin_OnlineController extends Mage_Core_Controller_Front_Action
         print_r($collection->getItems());
         echo "</pre>";
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Mage_Log_Model_Mysql4_Online_Collection
+ * Mage_Log_Model_Mysql4_Customers_Collection
  *
  * @package     package
  * @subpackage  subpackage
@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Log_Model_Mysql4_Online_Collection extends Varien_Data_Collection_Db
+class Mage_Log_Model_Mysql4_Customer_Collection extends Varien_Data_Collection_Db
 {
     /**
      * Visitor data table name
@@ -39,13 +39,11 @@ class Mage_Log_Model_Mysql4_Online_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->from($this->_visitorTable);
         $this->_sqlSelect->join( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
 
-        $this->useOnlineFilter();
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/online'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/customer'));
     }
 
     /**
-     * Enables online only select
+     * Enables customer only select
      *
      * @param int $minutes
      * @return object
