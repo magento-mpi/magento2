@@ -1,0 +1,17 @@
+<?if(!empty($links)):?>
+<ul class="breadcrumbs"> 
+    <?$_size=count($links);?>
+    <?foreach ($links as $_index=>$_link):?>
+    <li>
+        <?if(empty($_link['url'])):?>
+            <?=$_link['label']?>
+        <?else:?>
+            <a href="<?=$_link['url']?>" title="<?=$_link['title']?>"><?=$_link['label']?></a> 
+        <?endif;?>
+        <?if($_index!=$_size-1):?>
+            &raquo;
+        <?endif;?>
+    </li>
+    <?endforeach;?>
+</ul>
+<?endif;?>

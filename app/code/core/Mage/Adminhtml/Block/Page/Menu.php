@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             'customer'  => array(
                 'label' => __('customer'),
                 'title' => __('customer title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
+                'url'   => Mage::getUrl('adminhtml', array('controller'=>'customer', 'action'=>'index')),
             ),
             'catalog'   => array(
                 'label' => __('catalog'),

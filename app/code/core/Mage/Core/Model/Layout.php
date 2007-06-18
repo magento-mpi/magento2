@@ -312,6 +312,7 @@ echo "TEST:".$i;
     {
         $this->_blocks[$name] = null;
         unset($this->_blocks[$name]);
+        return $this;
     }
     
     /**
