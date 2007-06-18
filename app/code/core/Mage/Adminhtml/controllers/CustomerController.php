@@ -13,10 +13,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $block = $this->getLayout()->createBlock('adminhtml/customer_grid', 'customer.grid');
+        
+        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_left'));
+        
+        $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');
+        $this->getLayout()->getBlock('content')->append($block);
+        
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('customers'), __('customers title'));
-        $this->getLayout()->getBlock('content')->append($block);
+
         $this->renderLayout();
     }
 }

@@ -13,22 +13,6 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        //$this->_outTemplate('frameset');
-        $this->_forward('layoutFrame');
-    }
-
-    public function jsFrameAction()
-    {
-        $this->_outTemplate('frame/js');
-    }
-
-    public function waitFrameAction()
-    {
-        $this->_outTemplate('frame/wait');
-    }
-
-    public function layoutFrameAction()
-    {
         $this->loadLayout('baseframe');
         
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
@@ -39,6 +23,11 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
             ->append($this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/system/left.phtml'));
         
         $this->renderLayout();
+    }
+
+    public function layoutFrameAction()
+    {
+        $this->_forward('index');
     }
 
     public function exampleAction()
