@@ -2,7 +2,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.1.1</version>
+        <version>0.1.2</version>
         <depends>
             <Mage_Core />
             <Mage_Customer />
@@ -20,6 +20,9 @@
                     <visitor>
                         <table>log_visitor</table>
                     </visitor>
+                    <url_table>
+                        <table>log_url_history</table>
+                    </url_table>
                 </entities>
             </log_resource>
         </models>

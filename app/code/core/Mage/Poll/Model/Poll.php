@@ -80,7 +80,6 @@ class Mage_Poll_Model_Poll extends Varien_Object
         $answersResource = Mage::getModel('poll_resource/poll_answer');
         $poll = $this->getPoll();
         foreach( $answers as $key => $answer ) {
-            #$answers[$key]['percent'] = ( $poll['votes_count'] > 0 ) ? ($answer['votes_count'] * 100 / $poll['votes_count']) : 0;
             $answers[$key]['percent'] = $answersResource->getPercent($poll['votes_count'], $answer['votes_count']);
         }
         $this->setAnswers($answers);
