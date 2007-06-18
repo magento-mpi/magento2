@@ -10,6 +10,9 @@
    </modules>
 
    <global>
+        <models>
+            <adminhtml><class>Mage_Adminhtml_Model</class></adminhtml>
+        </models>
         <block>
             <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
         </block>

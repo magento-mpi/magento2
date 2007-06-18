@@ -1,90 +1,36 @@
 <?xml version="1.0"?>
 <config>
     <admin>
-      <acl>
-         <asserts>
-            <ip><class>Mage_Admin_Model_Acl_Assert_Ip</class></ip>
-            <time><class>Mage_Admin_Model_Acl_Assert_Time</class></time>
-         </asserts>
-
-         <resources>
-            <admin>
-                <system>
-                   <permissions />
-                   <modules />
-                   <websites />
-                </system>
-                <catalog>
-                   <product />
-                   <product_attributes />
-                   <product_datafeeds />
-                </catalog>
-                <customer>
-                   <address />
-                </customer>
-                <paygate>
-                   <authorizenet />
-                   <paypal />
-                   <verisign />
-                </paygate>
-                <sales>
-                   <orders />
-                </sales>
-            </admin>
-         </resources>
-
-         <privilegeSets>
-            <default>
-               <view descr="View entity"/>
-               <edit descr="Edit entity"/>
-               <delete descr=""/>
-               <create descr=""/>
-            </default>
-         </privilegeSets>
-      </acl>
-
-      <search>
-         <global>
-            <collections>
-               <products>
-                  <class>catalog/admin_search</class>
-               </products>
-               <customers>
-                  <class>customers/admin_search</class>
-               </customers>
-               <sales>
-                  <class>sales/admin_search</class>
-               </sales>
-            </collections>
-         </global>
-      </search>
-      
-      <nav>
+      <menu>
          <dashboard>
             <title>Dashboard</title>
             <action>adminhtml/index/dashboard</action>
-            <resource>dashboard</resource>
+            <acl>dashboard</acl>
          </dashboard>
          <customer>
             <title>Customers</title>
             <action>adminhtml/customer</action>
-            <resource>customer</resource>
+            <acl>customer</acl>
             <children>
                 <manage>
                     <title>Manage customers</title>
                     <action>adminhtml/customer/list</action>
                     <resource>customer/list</resource>
                 </manage>
+            </children>
          </customer>
          <catalog>
             <title>Catalog</title>
+            <action>adminhtml/catalog</action>
             <children>
                 <products>
                     <title>Categories and Products</title>
+                    <action>adminhtml/products</action>
                 </products>
-            <attributes>
-                <title>Product attributes</title>
-            </attributes>
+                <attributes>
+                    <title>Product attributes</title>
+                    <action>adminhtml/productAttributes</action>
+                </attributes>
             </children>
         </catalog>
          <sales>
@@ -93,9 +39,18 @@
          </sales>
          <system>
             <title>System</title>
-            <children />
+            <children>
+                <config>
+                    <title>Configuration</title>
+                    <children>
+                        <payment>
+                            <title>Payment modules</title>
+                            <action>adminhtml/payments</action>
+                        </payment>
+                    </children>
+                </config>
+            </children>
          </system>
-      </nav>
+      </menu>
     </admin>
-    <translate></translate>
 </config>

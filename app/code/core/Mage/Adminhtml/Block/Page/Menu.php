@@ -17,59 +17,44 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
     
     protected function _beforeToHtml()
     {
-        $menu = array(
-            'dashboard' => array(
-                'label' => __('dashboard'),
-                'title' => __('dashboard title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-            ),
-            'system'    => array(
-                'label' => __('system'),
-                'title' => __('system title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                'active'=> true
-            ),
-            'customer'  => array(
-                'label' => __('customer'),
-                'title' => __('customer title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'customer', 'action'=>'index')),
-            ),
-            'catalog'   => array(
-                'label' => __('catalog'),
-                'title' => __('catalog title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                'children'  => array(
-                    'products'  => array(
-                        'label' => __('products'),
-                        'title' => __('products title'),
-                        'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                    ),
-                    'attributes'=> array(
-                        'label' => __('attributes'),
-                        'title' => __('attributes title'),
-                        'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                    )
-                )
-            ),
-            'sales'     => array(
-                'label' => __('sales'),
-                'title' => __('sales title'),
-                'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                'children'  => array(
-                    'orders'    => array(
-                        'label' => __('orders'),
-                        'title' => __('orders title'),
-                        'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                    ),
-                    'qoutes'    => array(
-                        'label' => __('qoutes'),
-                        'title' => __('qoutes title'),
-                        'url'   => Mage::getUrl('adminhtml', array('controller'=>'index', 'action'=>'layoutFrame')),
-                    )
-                )
-            )
-        );
+        $menu = $this->_buildMenuArray(); 
         $this->assign('menu', $menu);
         return true;
+    }
+    
+    protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='')
+    {
+        static $baseUrl = null;
+        if (is_null($baseUrl)) {
+            $baseUrl = Mage::getBaseUrl();
+        }
+        
+        if (is_null($parent)) {
+            $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
+        }
+        
+        $parentArr = array();
+        foreach ($parent->children() as $childName=>$child) {
+            $menuArr = array();
+            
+            $menuArr['label'] = (string)$child->title;
+            $menuArr['title'] = (string)$child->title;
+            
+            if ($child->action) {
+                $menuArr['url'] = $baseUrl.(string)$child->action.'/';
+            } else {
+                $menuArr['url'] = '#';
+            }
+            
+            $menuArr['active'] = $this->getActive()==$path.$childName;
+            
+            if ($child->children) {
+                $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/');
+            }
+
+            $parentArr[$childName] = $menuArr;
+        }
+        
+        return $parentArr;
     }
 }
