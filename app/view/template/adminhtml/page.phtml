@@ -18,27 +18,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
         <script type="text/javascript" src="<?=$baseJsUrl?>prototype/prototype.js"></script>
         <script type="text/javascript" src="<?=$baseJsUrl?>prototype/validation.js"></script>
-<?/*
-        <link rel="stylesheet" type="text/css" media="all" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="<?=$baseJsUrl?>extjs/resources/css/ytheme-default.css" id="theme_stylesheet"/>
-    
-        <script type="text/javascript" src="<?=$baseJsUrl?>extjs/adapter/yui/yui-utilities.js"></script>
-        <script type="text/javascript" src="<?=$baseJsUrl?>extjs/adapter/yui/ext-yui-adapter.js"></script>
-        <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-all.js"></script>
+        <script type="text/javascript" src="<?=$baseJsUrl?>lib/dropdown.js"></script>
+
         <script type="text/javascript">
-    
-            Ext.BLANK_IMAGE_URL = '<?=$baseJsUrl?>extjs/resources/images/default/s.gif';
-            Ext.UpdateManager.defaults.loadScripts = false;
-            Ext.UpdateManager.defaults.disableCaching = true;
-            //top.location.href = '<?=$baseUrl?>adminhtml/#controller/action/id/123';
-            //top.document.title = 'Testing dynamic title';
             var BASE_URL = '<?=$baseUrl?>admin/';
             var SKIN_URL = '<?=$baseUrl?>skins/admin/';
         </script>
-*/?>        
-        <style type="text/css" media="all">
-            /*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
-        </style>
+     
+    	<style type="text/css" media="all">
+    		/*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
+    	</style>
+    	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$baseUrl?>skins/adminhtml/menu-top.css" />
+    	<!--[if IE]> <link rel="stylesheet" href="<?=$baseUrl?>skins/adminhtml/iestyles.css" type="text/css" media="all" /> <![endif]-->
+    	<!--[if lt IE 7]><script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script><![endif]-->
     </head>
     <body>
         <div class="header">
