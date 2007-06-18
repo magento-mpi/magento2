@@ -1,13 +1,14 @@
-<?foreach($polls as $poll):?>
-     <div class="catalog-nav">
-            <h2>Active Poll</h2>
-            <ul>
-            <?=$poll->getPollTitle();?><br />
-            <?if( is_array($poll->getAnswers()) ):?>
-                    <?foreach( $poll->getAnswers() as $answer ):?>
-                    <li><?=$answer['answer_title']?> - <?=$answer['percent']?>% (<?=$answer['votes_count']?>)</li>
-                    <?endforeach;?>
-            <?endif;?>
-            </ul>
-    </div>
-<?endforeach;?>
+<?if($poll) :?>
+<?$_poll = $poll->getPoll();?>
+<div class="catalog-nav">
+        <h2>Active Poll</h2>
+        <ul>
+        <?=$_poll['poll_title'];?><br />
+        <?if( is_array($poll->getAnswers()) ):?>
+                <?foreach( $poll->getAnswers() as $answer ):?>
+                <li><?=$answer['answer_title']?> - <?=$answer['percent']?>% (<?=$answer['votes_count']?>)</li>
+                <?endforeach;?>
+        <?endif;?>
+        </ul>
+</div>
+<?endif;?>

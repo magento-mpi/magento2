@@ -47,6 +47,19 @@ class Mage_Poll_Model_Mysql4_Poll_Answer
         }
     }
 
+    function loadAnswers($pollId)
+    {
+        if( intval($pollId) > 0 ) {
+            $condition = $this->_read->quoteInto("{$this->_pollAnswerTable}.poll_id=?", $pollId);
+
+            $select = $this->_read->select();
+            $select->from($this->_pollAnswerTable);
+            $select->where($condition);
+
+            return $this->_read->fetchAll($select);
+        }
+    }
+
     function setId($answerId)
     {
         $this->_answerId = intval($answerId);
@@ -56,5 +69,10 @@ class Mage_Poll_Model_Mysql4_Poll_Answer
     function getId()
     {
         return $this->_answerId;
+    }
+
+    public function getPercent($totalVotesCount, $answerVotesCount)
+    {
+        return round(( $totalVotesCount > 0 ) ? ($answerVotesCount * 100 / $totalVotesCount) : 0);
     }
 }

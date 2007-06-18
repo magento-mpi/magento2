@@ -64,11 +64,9 @@ class Mage_Poll_Model_Mysql4_Poll
 
         if( $this->getId() ) {
             $condition = $this->_read->quoteInto("{$this->_pollTable}.poll_id=?", $this->getId());
-
             $select = $this->_read->select();
             $select->from($this->_pollTable);
             $select->where($condition);
-
             $this->_poll = $this->_read->fetchRow($select);
         }
         return $this;
@@ -83,5 +81,10 @@ class Mage_Poll_Model_Mysql4_Poll
     function getId()
     {
         return $this->_pollId;
+    }
+
+    function getPoll()
+    {
+        return $this->_poll;
     }
 }
