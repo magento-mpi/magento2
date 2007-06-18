@@ -1,3 +1,4 @@
+.entry-edit fieldset li,
 #nav,
 .main,
 .middle,
@@ -7,7 +8,8 @@
 #nav ul,
 #nav ul li,
 #nav ul a,
-dl.accordion dt { zoom:1; }
+dl.accordion dt,
+.content { zoom:1; }
 
 .clear {
 	clear:both;

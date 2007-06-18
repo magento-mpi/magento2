@@ -37,7 +37,7 @@ cite { font-style:normal; font-size:10px;}
 form { display:inline;}
 fieldset { border:none; }
 legend {display:none;}
-label { color:#666; font-weight:bold; font-size:.96em; }
+label { color:#333; }
 input, select { vertical-align:middle; }
 
 /* Lists */

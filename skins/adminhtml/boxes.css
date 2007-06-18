@@ -4,7 +4,7 @@
 
 
 .separator {
-	padding:0 10px;
+	padding:0 .6em;
 	}
 .box-left, .box-right {
 	width:49.25%;
@@ -28,11 +28,15 @@
 	background-image:url(images/btn_bg.png);
 	background-repeat:no-repeat;
 	}
-.button {
+.button-alt, .button-alt span {
+	background-image:url(images/btn_bg.png);
+	background-repeat:no-repeat;
+	}
+.button, .button-alt {
 	background-position:0 0;
 	padding:4px 0 4px 9px;
 	}
-.button span {
+.button span, .button-alt span {
 	background-position:100% -44px;
 	padding:4px 20px 4px 11px;
 	color:#fff;
@@ -154,13 +158,14 @@ dl.accordion dd.open {
 	width:40%;
 	margin:10px 15px;
 	color:#fff;
+	font-size:.95em;
 	text-align:right;
 	}
 .header-right a, .header-right a:hover {
 	color:#F5FCFF;
 	}
 .header-right fieldset .input-text {
-	width:20em;
+	width:18em;
 	text-align:left;
 	}
 #nav {
@@ -276,6 +281,9 @@ dl.accordion dd.open {
 .content .head .buttons {
 	text-align:right;
 	}
+	
+	
+/* Customer - Dashboard */
 .customer-personal .box {
 	border:1px solid #C3C196;
 	background:#F5F3CE;
@@ -305,9 +313,56 @@ dl.accordion dd.open {
 .sales-tally td.label {
 	text-align:right;
 	}
-	
-	
-	
+
+
+/* Customer - Addresses */
+.address-list {
+	float:left;
+	width:30%;
+	}
+.address-list li {
+	list-style:none;
+	margin-bottom:.9em;
+	border:3px solid #DCD9D9;
+	background:#F2F2F2;
+	padding:10px;
+	}
+.address-list li.over {
+	border:3px solid #C4DBE1;
+	background:#E9F2F5;
+	}
+.address-list li.on {
+	border:3px solid #DAD8BA;
+	background:#F5F4E3;
+	}
+.entry-edit {
+	float:right;
+	width:65.25%;
+	border-left:1px solid #BCBCBC;
+	padding-left:2.25%;
+	}
+.entry-edit fieldset {
+	margin-bottom:.9em;
+	border:1px solid #DAD8BA;
+	background:#F5F3CE;
+	padding:15px;
+	}
+.entry-edit fieldset li {
+	list-style:none;
+	margin:.7em 0;
+	}
+.entry-edit fieldset label {
+	float:left; 
+	width:10em;
+	}
+.entry-edit fieldset .input-text, 
+.entry-edit fieldset select, 
+.entry-edit fieldset textarea {
+	width:18em;
+	}
+
+
+
 /* Overrides */
 .v-mid {
 	vertical-align:middle;
@@ -318,6 +373,8 @@ dl.accordion dd.open {
 
 
 /* Clear */
+.entry-edit fieldset li:after,
+.content:after,
 #nav:after,
 .main:after,
 .container:after,
