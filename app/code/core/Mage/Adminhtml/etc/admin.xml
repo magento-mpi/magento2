@@ -60,24 +60,41 @@
       </search>
       
       <nav>
-         <dashboard><title>Dashboard</title><action>adminhtml/index/dashboard</action><resource>dashboard</resource></dashboard>
-         
-         <customer><title>Customers</title><action>adminhtml/customer</action><resource>customer</resource><children>
-            <manage><title>Manage customers</title><action>adminhtml/customer/list</action><resource>customer/list</resource></manage>
+         <dashboard>
+            <title>Dashboard</title>
+            <action>adminhtml/index/dashboard</action>
+            <resource>dashboard</resource>
+         </dashboard>
+         <customer>
+            <title>Customers</title>
+            <action>adminhtml/customer</action>
+            <resource>customer</resource>
+            <children>
+                <manage>
+                    <title>Manage customers</title>
+                    <action>adminhtml/customer/list</action>
+                    <resource>customer/list</resource>
+                </manage>
          </customer>
-         
-         <catalog><title>Catalog</title><children>
-            <products><title>Categories and Products</title></products>
-            <attributes><title>Product attributes</title></attributes>
-         </children></catalog>
-         
-         <sales><title>Sales</title><children>
-            
+         <catalog>
+            <title>Catalog</title>
+            <children>
+                <products>
+                    <title>Categories and Products</title>
+                </products>
+            <attributes>
+                <title>Product attributes</title>
+            </attributes>
+            </children>
+        </catalog>
+         <sales>
+            <title>Sales</title>
+            <children />
          </sales>
-         
-         <system><title>System</title><children>
-         
-         </children></system>
+         <system>
+            <title>System</title>
+            <children />
+         </system>
       </nav>
     </admin>
     <translate></translate>
