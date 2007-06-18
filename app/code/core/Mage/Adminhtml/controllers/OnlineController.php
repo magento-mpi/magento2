@@ -7,7 +7,7 @@ class Mage_Adminhtml_OnlineController extends Mage_Core_Controller_Front_Action
     {
         $collection = Mage::getSingleton('log_resource/customer_collection')
             ->useOnlineFilter()
-            ->load(true);
+            ->load();
 
         foreach ($collection->getItems() as $item) {
         	$item->addIpData($item)
