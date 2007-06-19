@@ -4,7 +4,7 @@
       <menu>
          <dashboard>
             <title>Dashboard</title>
-            <action>adminhtml/index/dashboard</action>
+            <action>adminhtml/dashboard</action>
             <acl>dashboard</acl>
          </dashboard>
          <customer>
