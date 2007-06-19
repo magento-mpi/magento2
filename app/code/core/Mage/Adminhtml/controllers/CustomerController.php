@@ -11,11 +11,14 @@
  */
 class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Action 
 {
+    /**
+     * Customers list action
+     */
     public function indexAction()
     {
         $this->loadLayout('baseframe');
         
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_left'));
+        //$this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_left'));
         
         $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');
         $this->getLayout()->getBlock('content')->append($block);
@@ -26,6 +29,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->renderLayout();
     }
     
+    /**
+     * Customer view action
+     */
     public function viewAction()
     {
         $this->loadLayout('baseframe');
@@ -40,8 +46,26 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
 
         $this->renderLayout();
     }
+    
+    /**
+     * Create new customer action
+     */
+    public function newAction()
+    {
+        $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('breadcrumbs')
+            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml', array('controller'=>'customer')))
+            ->addLink(__('new customer'), __('new customer title'));
+            
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('adminhtml/customer_tab_account')
+        );
+        $this->getLayout()->getBlock('left')
+            ->append($this->getLayout()->createBlock('adminhtml/customer_left'));        
+        $this->renderLayout();
+    }
 
-    public function OnlineAction()
+    public function onlineAction()
     {
         $this->loadLayout('baseframe');
         $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customer_online');

@@ -30,6 +30,7 @@ class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template
             'title' => $title,
             'url'   => $url
         );
+        return $this;
     }
     
     protected function _beforeToHtml()

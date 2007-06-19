@@ -42,6 +42,7 @@
         </div>
         <div class="middle">
             <?=$breadcrumbs?>
+            <?if(!empty($left)):?>
             <div class="container">
                 <div class="main">
                     <div class="content-container">
@@ -49,7 +50,6 @@
                         <?=$content?>
                         </div>
 <!--[ends] .content -->
-
                     </div>
                     <div class="section-menu">
                     <?=$left?>
@@ -57,6 +57,11 @@
 <!--[ends] .section-menu -->                    
                 </div>
             </div>
+            <?else:?>
+            <div class="simple-container">
+                <?=$content?>
+            </div>
+            <?endif;?>
         </div>
 <!--[ends] .middle -->
         <div class="footer">
