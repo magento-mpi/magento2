@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 {
     /**
      * Columns array
@@ -30,27 +30,38 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
      * @var Varien_Data_Collection
      */
     protected $_collection = null;
-
-    /**
-     * Request object
-     *
-     * @var Mage_Core_Controller_Zend_Request
-     */
-    protected $_request;
+    
+    protected $_varNameLimit    = 'limit';
+    protected $_varNamePage     = 'page';
+    protected $_varNameSort     = 'sort';
+    protected $_varNameDir      = 'dir';
 
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
-
-        if (Mage::registry('action')) {
-            $this->_request = Mage::registry('action')->getRequest();
-        }
-        else {
-            throw new Exception('Can\'t retrieve request object');
-        }
+    }
+    
+    public function getVarNameLimit()
+    {
+        return $this->_varNameLimit;
+    }
+    
+    public function getVarNamePage()
+    {
+        return $this->_varNamePage;
+    }
+    
+    public function getVarNameSort()
+    {
+        return $this->_varNameSort;
     }
 
+    public function getVarNameDir()
+    {
+        return $this->_varNameDir;
+    }
+    
     /**
      * Get request object
      *
@@ -96,6 +107,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
 
     protected function _beforeToHtml()
     {
+        if ($this->_collection) {
+            $this->_collection->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
+            $this->_collection->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));            
+            $this->_collection->load();
+        }
         $this->assign('collection', $this->_collection);
         $this->assign('columns', $this->_columns);
         return $this;
@@ -103,12 +119,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
 
     public function getRowField(Varien_Object $row, Varien_Object $column)
     {
-        $index = $column->getIndex();
-        if( preg_match("/^(.*?):(.*?)$/", $index, $indexes) ) {
-            array_shift($indexes);
-            return $row->getData($indexes[0], $indexes[1]);
-        } else {
-            return $row->getData($index);
-        }
+        return $row->getData($column->getIndex());
     }
 }

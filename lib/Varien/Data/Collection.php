@@ -130,6 +130,11 @@ class Varien_Data_Collection implements IteratorAggregate
         }
     }
     
+    public function getPageSize()
+    {
+        return $this->_pageSize;
+    }
+    
     /**
      * Get collection size
      *
@@ -228,7 +233,13 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function setCurPage($page)
     {
-        $this->_curPage = $page;
+        if ($page <= $this->getLastPageNumber()) {
+            $this->_curPage = $page;
+        }
+        else {
+            $this->_curPage = 1;
+        }
+        
         return $this;
     }
     

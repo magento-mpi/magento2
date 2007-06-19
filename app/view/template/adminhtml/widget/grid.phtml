@@ -1,5 +1,29 @@
 <?if(!empty($collection)):?>
-<table cellspacing="0" class="data">
+<div id="<?=$this->getId()?>">
+<div class="pager">
+    Page 
+    <select name="<?=$this->getvarNamePage()?>" onchange="<?=$this->getId()?>JsObject.reload(this)">
+    <?for($i=1; $i<=$collection->getLastPageNumber(); $i++):?>
+        <?$_selected = ($i==$collection->getCurPage()) ? ' selected' : ''?>
+        <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
+    <?endfor;?>
+    </select>
+    of &nbsp;<b><?=$collection->getLastPageNumber()?></b>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    View  
+    <select name="<?=$this->getvarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.reload(this)">
+        <option value="5"<?if($collection->getPageSize()==5):?> selected<?endif;?>>5</option>
+        <option value="20"<?if($collection->getPageSize()==20):?> selected<?endif;?>>20</option>
+        <option value="30"<?if($collection->getPageSize()==30):?> selected<?endif;?>>30</option>
+        <option value="50"<?if($collection->getPageSize()==50):?> selected<?endif;?>>50</option>
+        <option value="100"<?if($collection->getPageSize()==100):?> selected<?endif;?>>100</option>
+        <option value="200"<?if($collection->getPageSize()==200):?> selected<?endif;?>>200</option>
+    </select>
+    per page
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Total <b><?=$collection->getSize()?> records</b> found
+</div>
+<table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
     <?foreach ($columns as $column):?>
     <col <?=$column->toString('align="{{align}}" width="{{width}}"')?>/>
     <?endforeach;?>
@@ -20,4 +44,8 @@
     <?endforeach;?>
     </tbody>
 </table>
+</div>
+<script type="text/javascript" language="javascript">
+    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>');
+</script>
 <?endif?>

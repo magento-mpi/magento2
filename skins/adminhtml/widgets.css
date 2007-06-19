@@ -1,0 +1,21 @@
+.grid{
+    border:0px;
+    cursor:pointer;
+}
+
+.grid thead tr{
+    background:url(images/grid_th_bg.gif) repeat-x #DADBDD;
+    border-right:1px solid #C1C1C1;
+    border-bottom:1px solid #F6F6F6;
+}
+
+.grid tr.even {
+    background:#F1F1EF;
+}
+
+.grid tr.on-mouse{
+    background:#D7E5EF;
+}
+
+.pager{padding:5px;background:#F5F3CE}
+.pager select{width:50px}
