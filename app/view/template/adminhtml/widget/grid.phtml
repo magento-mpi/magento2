@@ -2,7 +2,7 @@
 <div id="<?=$this->getId()?>">
 <div class="pager">
     Page 
-    <select name="<?=$this->getvarNamePage()?>" onchange="<?=$this->getId()?>JsObject.reload(this)">
+    <select name="<?=$this->getvarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
     <?for($i=1; $i<=$collection->getLastPageNumber(); $i++):?>
         <?$_selected = ($i==$collection->getCurPage()) ? ' selected' : ''?>
         <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
@@ -11,7 +11,7 @@
     of &nbsp;<b><?=$collection->getLastPageNumber()?></b>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     View  
-    <select name="<?=$this->getvarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.reload(this)">
+    <select name="<?=$this->getvarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
         <option value="5"<?if($collection->getPageSize()==5):?> selected<?endif;?>>5</option>
         <option value="20"<?if($collection->getPageSize()==20):?> selected<?endif;?>>20</option>
         <option value="30"<?if($collection->getPageSize()==30):?> selected<?endif;?>>30</option>
@@ -25,12 +25,12 @@
 </div>
 <table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
     <?foreach ($columns as $column):?>
-    <col <?=$column->toString('align="{{align}}" width="{{width}}"')?>/>
+    <col <?=$this->getColumnHtmlProperty($column)?>/>
     <?endforeach;?>
     <thead>
 		<tr>
         <?foreach ($columns as $column):?>
-            <th><?=$column->getHeader()?></th>
+            <th><?=$this->getColumnHeader($column)?></th>
         <?endforeach;?>
 		</tr>
 	</thead>
@@ -46,6 +46,6 @@
 </table>
 </div>
 <script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>');
+    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>');
 </script>
 <?endif?>
