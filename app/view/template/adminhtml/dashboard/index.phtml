@@ -1,1 +1,21 @@
+<script type="text/javascript" src="<?=$baseJsUrl?>lib/flex.js"></script>
+
 <h1>Dashboard</h1>
+
+<div id="dashboardHolder"></div>
+<script type="text/javascript">
+<!--
+var dashboard = new Flex.Object( {
+    src: BASE_URL + '../media/flex/dashboard.swf',
+    flashVars: 'baseUrl='+ BASE_URL + '&languageUrl=flex/language&cssUrl=' + SKIN_URL + 'flex.swf',
+    width: '800',
+    height: '700'
+} );
+
+dashboard.addEventListener( 'load', function ( evt ) { 
+    // Do some configuration actions
+}, window );
+
+dashboard.apply( 'dashboardHolder' );
+//-->
+</script>
