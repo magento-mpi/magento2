@@ -48,4 +48,29 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
         $auth = Mage::getSingleton('admin/session')->unsetAll();
         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml'));
     }
+    
+    public function globalSearchAction()
+    {
+        $searchModules = Mage::getConfig()->getNode("admin/search/global/collections");
+        $items = array();
+        if (empty($searchModules)) {
+            $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>'No search modules registered', 'description'=>'Please make sure that all global admin search modules are installed and activated.');
+            $totalCount = 1;
+        } else {
+            $request = $this->getRequest()->getPost();
+            foreach ($searchModules->children() as $searchConfig) {
+                $className = $searchConfig->getClassName();
+                $searchInstance = new $className();
+                $results = $searchInstance->setStart($request['start'])->setLimit($request['limit'])->setQuery($request['query'])->load()->getResults();
+                $items = array_merge_recursive($items, $results);
+            }
+            $totalCount = sizeof($items);
+        }
+
+        $block = $this->getLayout()->createBlock('core/template')
+            ->setTemplate('adminhtml/system/autocomplete.phtml')
+            ->assign('items', $items);
+        
+        $this->getResponse()->setBody($block->toHtml());
+    }
 }

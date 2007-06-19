@@ -6,7 +6,32 @@
     <a href="<?=$logoutLink?>"><?=__('Logout')?></a></p>
     <form action="" method="GET">
     <fieldset>
-        <input type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search by Keyword')?><?endif?>" onfocus="if(this.value=='<?=__('Search by Keyword')?>')this.value=''; " onblur="if(this.value=='')this.value='<?=__('Search by Keyword')?>';"/>
+        <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
+            <img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader.gif" alt="Working..." align="absmiddle" height="22"/>
+        </span>
+        <input id="global_search" name="q" type="text" class="input-text" 
+            value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search by Keyword')?><?endif?>" 
+            onfocus="if(this.value=='<?=__('Search by Keyword')?>')this.value=''; " 
+            onblur="if(this.value=='')this.value='<?=__('Search by Keyword')?>';"
+        />
+        <div id="global_search_autocomplete" class="autocomplete"></div>
+        <script type="text/javascript">
+            new Ajax.Autocompleter(
+                'global_search', 
+                'global_search_autocomplete', 
+                '<?=$baseUrl?>adminhtml/index/globalSearch/', 
+                {
+                    paramName:"value", 
+                    minChars:2, 
+                    indicator:"global_search_indicator", 
+                    afterUpdateElement:getSelectionId 
+                }
+            );
+            
+            function getSelectionId(text, li) {
+                console.log(li);
+            }
+        </script>
     </fieldset>
     </form>
 </div>

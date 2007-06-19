@@ -41,6 +41,33 @@
 	padding:4px 20px 4px 11px;
 	color:#fff;
 	}
+	
+/* autocomplete */
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  color:black;
+  font:normal 12px Arial;
+  text-align:left;
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  min-height:32px;
+  cursor:pointer;
+}
 
 
 /* Tabular Data */

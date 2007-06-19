@@ -35,10 +35,12 @@
         </catalog>
          <sales>
             <title>Sales</title>
+            <action>adminhtml/sales</action>
             <children />
          </sales>
          <system>
             <title>System</title>
+            <action>adminhtml/system</action>
             <children>
                 <config>
                     <title>Configuration</title>

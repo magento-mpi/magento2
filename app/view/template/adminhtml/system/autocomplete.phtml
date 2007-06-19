@@ -1,0 +1,9 @@
+<ul>
+<?foreach ($items as $item):?>
+    <li id="<?=$item['id']?>">
+        <div style="float:right;"><?=$item['type']?></div>
+        <strong><?=$item['name']?></strong><br>
+        <span class="informal"><?=$item['description']?></span>
+    </li>
+<?endforeach?>
+</ul>

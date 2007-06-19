@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         return true;
     }
     
-    protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='')
+    protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         static $baseUrl = null;
         if (is_null($baseUrl)) {
@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         foreach ($parent->children() as $childName=>$child) {
             $menuArr = array();
             
-            $menuArr['label'] = (string)$child->title;
-            $menuArr['title'] = (string)$child->title;
+            $menuArr['label'] = __((string)$child->title);
+            $menuArr['title'] = __((string)$child->title);
             
             if ($child->action) {
                 $menuArr['url'] = $baseUrl.(string)$child->action.'/';
@@ -48,8 +48,10 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             
             $menuArr['active'] = $this->getActive()==$path.$childName;
             
+            $menuArr['level'] = $level;
+            
             if ($child->children) {
-                $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/');
+                $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
             }
 
             $parentArr[$childName] = $menuArr;
