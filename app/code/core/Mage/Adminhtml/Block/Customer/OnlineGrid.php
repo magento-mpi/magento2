@@ -17,9 +17,25 @@ class Mage_Adminhtml_Block_Customer_OnlineGrid extends Mage_Adminhtml_Block_Widg
 
     protected function _initCollection()
     {
-        $collection = Mage::getSingleton('log_resource/visitor_collection')
-            ->useOnlineFilter()
-            ->load();
+        $filterOnlineOnly = $this->getRequest()->getParam('filterOnline', false);
+        $filterCustomersOnly = $this->getRequest()->getParam('filterCustomers', false);
+        $filterGuestsOnly = $this->getRequest()->getParam('filterGuests', false);
+
+        $collection = Mage::getSingleton('log_resource/visitor_collection');
+
+        if( $filterCustomersOnly ) {
+            $collection->showCustomersOnly();
+        }
+
+        if( $filterGuestsOnly ) {
+            $collection->showGuestsOnly();
+        }
+
+        if( $filterOnlineOnly === false ) {
+            $collection->useOnlineFilter();
+        }
+
+        $collection->load(false);
 
         foreach ($collection->getItems() as $item) {
         	$item->addIpData($item)

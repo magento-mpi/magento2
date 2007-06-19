@@ -43,7 +43,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     }
 
     /**
-     * Enables customer only select
+     * Enables online only select
      *
      * @param int $minutes
      * @return object
@@ -51,6 +51,22 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     public function useOnlineFilter($minutes=15)
     {
         $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_visitorTable}.last_visit_at >= (NOW() - INTERVAL {$minutes} MINUTE)") );
+        return $this;
+    }
+
+    /**
+     * Enables customer only select
+     *
+     */
+    public function showCustomersOnly()
+    {
+        $this->_sqlSelect->where( "{$this->_visitorTable}.customer_id > 0" );
+        return $this;
+    }
+
+    public function showGuestsOnly()
+    {
+        $this->_sqlSelect->where( "{$this->_visitorTable}.customer_id = 0" );
         return $this;
     }
 }
