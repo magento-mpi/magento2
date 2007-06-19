@@ -10,19 +10,8 @@ class Mage_Adminhtml_OnlineController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append($block);
 
         $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'));
+            ->addLink(__('customers'), __('online customers title'));
 
         $this->renderLayout();
-
-
-        $collection = Mage::getSingleton('log_resource/customer_collection')
-            ->useOnlineFilter()
-            ->load();
-
-        foreach ($collection->getItems() as $item) {
-        	$item->addIpData($item)
-                 ->addCustomerData($item)
-        	     ->addQuoteData($item);
-        }
     }
 }

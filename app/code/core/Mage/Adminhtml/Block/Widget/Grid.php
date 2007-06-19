@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
 {
     /**
      * Columns array
-     * 
+     *
      * array(
      *      'header'    => string,
      *      'width'     => int,
@@ -23,26 +23,26 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
      * @var array
      */
     protected $_columns = array();
-    
+
     /**
      * Collection object
      *
      * @var Varien_Data_Collection
      */
     protected $_collection = null;
-    
+
     /**
      * Request object
      *
      * @var Mage_Core_Controller_Zend_Request
      */
     protected $_request;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
-        
+
         if (Mage::registry('action')) {
             $this->_request = Mage::registry('action')->getRequest();
         }
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
             throw new Exception('Can\'t retrieve request object');
         }
     }
-    
+
     /**
      * Get request object
      *
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
     {
         return $this->_request;
     }
-    
+
     /**
      * set collection object
      *
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
     {
         $this->_collection = $collection;
     }
-    
+
     /**
      * get collection object
      *
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
     {
         return $this->_collection;
     }
-    
+
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
@@ -93,16 +93,22 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Core_Block_Template
             throw new Exception('Wrong column format');
         }
     }
-    
+
     protected function _beforeToHtml()
     {
         $this->assign('collection', $this->_collection);
         $this->assign('columns', $this->_columns);
         return $this;
     }
-    
+
     public function getRowField(Varien_Object $row, Varien_Object $column)
     {
-        return $row->getData($column->getIndex());
+        $index = $column->getIndex();
+        if( preg_match("/^(.*?):(.*?)$/", $index, $indexes) ) {
+            array_shift($indexes);
+            return $row->getData($indexes[0], $indexes[1]);
+        } else {
+            return $row->getData($index);
+        }
     }
 }
