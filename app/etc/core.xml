@@ -89,5 +89,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_SearchLucene>
+        <Mage_Cms>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Cms>
     </modules>
 </config>

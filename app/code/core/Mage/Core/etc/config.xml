@@ -22,7 +22,7 @@
                 </types>
             </connection>
         </resource>
-        
+
         <resources>
             <core_setup>
                 <setup>
@@ -30,12 +30,12 @@
                 </setup>
             </core_setup>
         </resources>
-    
+
         <models>
             <core>
                 <class>Mage_Core_Model</class>
             </core>
-            
+
             <core_resource>
                 <class>Mage_Core_Model_Mysql4</class>
                 <entities>
@@ -75,12 +75,11 @@
                 </entities>
             </core_resource>
         </models>
-    
+
         <block>
             <groups><core><class>Mage_Core_Block</class></core></groups>
         </block>
     </global>
-    
     <front>
         <layouts>
             <noRoute>
