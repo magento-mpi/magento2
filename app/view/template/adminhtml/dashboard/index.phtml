@@ -12,9 +12,16 @@ var dashboard = new Flex.Object( {
     height: '700'
 } );
 
-dashboard.addEventListener( 'load', function ( evt ) { 
-    // Do some configuration actions
-}, window );
+dashboard.addEventListener( 'initialize', function ( evt ) { 
+    $('dashboardControl').show();
+    dashboard.getApi().setConfig( {
+        hideTabs: true
+    } );
+} );
+
+Event.observe(window, 'load', function() {
+    $('dashboardControl').hide();
+} );
 
 dashboard.apply( 'dashboardHolder' );
 //-->

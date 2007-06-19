@@ -15,7 +15,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         $this->loadLayout('baseframe');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('dashboard'), __('dashboard title'));
-        
+        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('core/template', 'dashboard.menu')->setTemplate('adminhtml/dashboard/left.phtml'));
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/dashboard', 'dashboard'));
         $this->renderLayout();
     }
