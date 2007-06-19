@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_CustomersOnline extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Online extends Mage_Core_Block_Template
 {
     public function __construct() 
     {

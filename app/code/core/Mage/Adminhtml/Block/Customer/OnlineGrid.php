@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Customer_OnlineGrid extends Mage_Adminhtml_Block_Widg
 
     protected function _initCollection()
     {
-        $collection = Mage::getSingleton('log_resource/customer_collection')
+        $collection = Mage::getSingleton('log_resource/visitor_collection')
             ->useOnlineFilter()
             ->load();
 

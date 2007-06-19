@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Log_Model_Mysql4_Customer_Collection extends Varien_Data_Collection_Db
+class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 {
     /**
      * Visitor data table name
@@ -39,7 +39,7 @@ class Mage_Log_Model_Mysql4_Customer_Collection extends Varien_Data_Collection_D
         $this->_sqlSelect->from($this->_visitorTable);
         $this->_sqlSelect->join( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/customer'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
     }
 
     /**

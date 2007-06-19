@@ -29,7 +29,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     public function OnlineAction()
     {
         $this->loadLayout('baseframe');
-        $block = $this->getLayout()->createBlock('adminhtml/customersOnline', 'customersOnline');
+        $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customer_online');
         $this->getLayout()->getBlock('content')->append($block);
 
         $this->getLayout()->getBlock('breadcrumbs')
@@ -38,7 +38,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->renderLayout();
 
 
-        $collection = Mage::getSingleton('log_resource/customer_collection')
+        $collection = Mage::getSingleton('log_resource/visitor_collection')
             ->useOnlineFilter()
             ->load();
 

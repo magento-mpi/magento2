@@ -67,8 +67,6 @@ class Mage_Log_Model_Visitor extends Varien_Object
             return $this;
         }
 
-        $this->bindCustomer($observer);
-
         $this->getResource()->save($this);
         $this->saveUrl();
 
@@ -115,5 +113,32 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if ($observer->getEvent()->getCustomerSession() && $observer->getEvent()->getCustomerSession()->isLoggedIn()) {
             $this->setCustomerId($observer->getEvent()->getCustomerSession()->getCustomerId());
         }
+    }
+
+    public function addIpData($data)
+    {
+        $ipData = array();
+        $data->setIpData($ipData);
+        return $this;
+    }
+
+    public function addCustomerData($data)
+    {
+        $customerId = $data->getCustomerId();
+        if( intval($customerId) <= 0 ) {
+            return $this;
+        }
+        $data->setCustomerData(Mage::getModel('customer/customer')->load($customerId)->getData());
+        return $this;
+    }
+
+    public function addQuoteData($data)
+    {
+        $quoteId = $data->getQuoteId();
+        if( intval($quoteId) <= 0 ) {
+            return $this;
+        }
+        $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
+        return $this;
     }
 }
