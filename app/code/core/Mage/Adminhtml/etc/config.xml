@@ -4,7 +4,7 @@
       <Mage_Adminhtml>
          <version>0.2.0</version>
          <depends>
-            <Mage_Core />
+            <Mage_Admin />
          </depends>
       </Mage_Adminhtml>
    </modules>
