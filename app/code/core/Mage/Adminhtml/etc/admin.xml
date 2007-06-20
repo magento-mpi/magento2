@@ -5,7 +5,7 @@
          <dashboard>
             <title>Dashboard</title>
             <action>adminhtml/dashboard/</action>
-            <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
+            <!--<acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>-->
          </dashboard>
          <customer>
             <title>Customers</title>

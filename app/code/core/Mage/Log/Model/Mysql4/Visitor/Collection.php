@@ -64,10 +64,14 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
                 $measureDateFormat = '%Y-%m-%d %h:%i';
                 break;
         }
-        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("COUNT( `first_visit_at` ) AS first_visit_at_count, DATE_FORMAT( first_visit_at, '{$measureDateFormat}' ) as first_visit_at"));
-        $this->_sqlSelect->group("first_visit_at");
-        $this->_sqlSelect->having('first_visit_at_count');
+        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("COUNT( `first_visit_at` ) AS first_visit_at_count, DATE_FORMAT( first_visit_at, '{$measureDateFormat}' ) as first_visit_at_date"));
+        $this->_sqlSelect->group("first_visit_at_date");
         return $this;
+    }
+
+    public function getTimeline($hoursCount=12)
+    {
+        #
     }
 
     /**

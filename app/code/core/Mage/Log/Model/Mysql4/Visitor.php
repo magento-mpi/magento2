@@ -91,7 +91,8 @@ class Mage_Log_Model_Mysql4_Visitor
     {
         $data = array(
                     'session_id' => $visitor->getSessionId(),
-                    'url_value' => $visitor->getUrl()
+                    'url_value' => $visitor->getUrl(),
+                    'visit_time' => $this->getNow()
                 );
         $this->_write->insert($this->_urlTable, $data);
 

@@ -30,7 +30,7 @@ class Mage_Cms_Model_Mysql4_Page
         $select->from($this->_pageTable);
         $select->where($condition);
 
-        return $this->_read->fetchOne($select);
+        return $this->_read->fetchRow($select);
     }
 
 }

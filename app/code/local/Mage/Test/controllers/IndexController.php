@@ -14,6 +14,16 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         // Load default layout
+
+        $collection = Mage::getSingleton('log_resource/visitor_collection')
+            ->getStatistics()
+            ->applyDateRange('2007-01-01', '2007-12-12')
+            ->load(true);
+
+        print "<pre>debug: \n";
+        print_r($collection);
+        print "</pre>\n";
+
         $block = $this->getLayout()->createBlock('core/template', 'upload');
         $block->settemplate('test/index.phtml');
 

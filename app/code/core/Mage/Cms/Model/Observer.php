@@ -17,7 +17,7 @@ class Mage_Cms_Model_Observer
             ->setLoaded(true)
             ->setForwardModule('Mage_Cms')
             ->setForwardController('Index')
-            ->setForwardAction('noRoute');
+            ->setForwardAction('CmsNoRoute');
     }
 
 }

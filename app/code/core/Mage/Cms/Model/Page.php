@@ -20,13 +20,13 @@ class Mage_Cms_Model_Page extends Varien_Object
             return $this->noRoutePage();
         }
 
-        $this->setPage( $this->getResource()->load($pageId) );
+        $this->setData( $this->getResource()->load($pageId) );
         return $this;
     }
 
     public function noRoutePage()
     {
-        $this->setPage( $this->getResource()->load(self::NOROUTE_PAGE_ID) );
+        $this->setData( $this->getResource()->load(self::NOROUTE_PAGE_ID) );
         return $this;
     }
 

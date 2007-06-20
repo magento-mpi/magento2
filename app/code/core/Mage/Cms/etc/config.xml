@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Mage_Cms>
     </modules>
     <front>
@@ -35,7 +35,7 @@
                 <class>Mage_Cms_Model_Mysql4</class>
                 <entities>
                     <page>
-                        <table>page_static</table>
+                        <table>cms_page</table>
                     </page>
                 </entities>
             </cms_resource>
