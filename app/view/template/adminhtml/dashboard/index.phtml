@@ -12,12 +12,34 @@ var dashboard = new Flex.Object( {
     height: '700'
 } );
 
-dashboard.addEventListener( 'initialize', function ( evt ) { 
+dashboard.addEventListener( 'complete', function ( evt ) { 
     $('dashboardControl').show();
-    dashboard.getApi().setConfig( {
+} );
+
+dashboard.addEventListener( 'load', function ( evt ) { 
+    this.getApi().setConfig( {
+        customersMenu: [
+            {name:"Top 10", slice:10},
+            {name:"Top 20", slice:20},
+            {name:"Top 50", slice:50},
+            {name:"Top 100", slice:100}
+        ],
+        productSlider: {
+            labels: [5,10,'',20,'','','',40,'',50],
+            step:   5,
+            minimum: 5,
+            maximum: 50
+        },
+        allowedDatesViews: [
+            {name:"Hours",unit:"hours",maximum:2},
+            {name:"Days",unit:"days",maximum:90, minimum:2},
+            {name:"Weeks",unit:"weeks", minimum:8},
+            {name:"Months",unit:"months", minimum: 32},
+            {name:"Years",unit:"years", minimum:366}
+		],
         hideTabs: true
     } );
-} );
+}, dashboard );
 
 Event.observe(window, 'load', function() {
     $('dashboardControl').hide();
