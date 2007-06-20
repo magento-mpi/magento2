@@ -5,7 +5,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function CmsNoRouteAction($coreRoute = null)
     {
         $page = Mage::getSingleton('cms/page')->load();
-        if( !$page->getData() || !is_null($coreRoute) ) {
+        if( !$page->getPageId() || !is_null($coreRoute) ) {
             $this->_forward('noroute');
         } else {
             $this->loadLayout();
