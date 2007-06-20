@@ -5,12 +5,13 @@
          <dashboard>
             <title>Dashboard</title>
             <action>adminhtml/dashboard/</action>
-            <acl>dashboard</acl>
+            <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
          </dashboard>
          <customer>
             <title>Customers</title>
             <action>adminhtml/customer/</action>
-            <acl>customer</acl>
+            <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
+            <depends><module>Mage_Customer</module></depends>
             <children>
                 <online>
                     <title>View online customers</title>
@@ -27,26 +28,30 @@
          <catalog>
             <title>Catalog</title>
             <action>adminhtml/catalog</action>
+            <depends><module>Mage_Catalog</module></depends>
             <children>
                 <attributes>
                     <title>Product attributes</title>
                     <action>adminhtml/productAttributes/</action>
                 </attributes>
+                <datafeed>
+                    <title>Datafeeds</title>
+                    <action>adminhtml/datafeeds/</action>
+                </datafeed>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/catalogConfig/</action>
-                    <resource>catalog/config</resource>
                 </config>
             </children>
          </catalog>
          <sales>
             <title>Sales</title>
             <action>adminhtml/sales</action>
+            <depends><module>Mage_Sales</module></depends>
             <children>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/salesConfig/</action>
-                    <resource>sales/config</resource>
                 </config>
             </children>
          </sales>
@@ -54,6 +59,18 @@
             <title>Promotions</title>
             <action>adminhtml/promo</action>
             <children>
+                <catalog>
+                    <title>Catalog price rules</title>
+                    <action>adminhtml/catalogPriceRules/</action>
+                    <resource>promo/catalog</resource>
+                    <depends><module>Mage_Catalog</module></depends>
+                </catalog>
+                <quote>
+                    <title>Shopping cart price rules</title>
+                    <action>adminhtml/quotePriceRules/</action>
+                    <resource>promo/quote</resource>
+                    <depends><module>Mage_Sales</module></depends>
+                </quote>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/promoConfig/</action>

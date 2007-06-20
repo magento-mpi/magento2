@@ -80,6 +80,7 @@ class Mage_Admin_Model_Mysql4_User
                 'email'     => $user->getEmail(),
                 'username'  => $user->getUsername(),
                 'modified'  => new Zend_Db_Expr('NOW()'),
+                'reload_acl_flag' =>$user->getReloadAclFlag(),
             );
             
             if ($user->getPassword()) {

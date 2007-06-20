@@ -37,9 +37,17 @@ class Mage_Admin_Model_Observer
             return false;
         }
        
-        if ($session->getUser() && !$session->getAcl()) {
-            $session->setAcl(Mage::getModel('admin_resource/acl')->loadAcl());
-            #$session->setAcl(Mage::getModel('admin_resource/acl')->loadUserAcl($session->getUser()->getId()));
+        $reload = $session->getUser()->reload()->getReloadAclFlag();
+        
+        if ($user = $session->getUser()) {
+            $user->reload();
+            $reload = !$session->getAcl() || $user->getReloadAclFlag();
+            if ($reload) {
+                $session->setAcl(Mage::getModel('admin_resource/acl')->loadAcl());
+            }
+            if ($user->getReloadAclFlag()) {
+                $user->setReloadAclFlag(0)->save();
+            }
         }
         //var_dump($session->isAllowed('admin'));die();
         

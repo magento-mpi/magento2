@@ -29,11 +29,10 @@ class Mage_Admin_Model_User extends Varien_Object
      * Get user ACL role
      *
      * @return string
-     * @todo   dynamic defination user role
      */
     public function getAclRole()
     {
-        return 'G1';
+        return 'U'.$this->getUserId();
     }
     
     /**
@@ -59,6 +58,12 @@ class Mage_Admin_Model_User extends Varien_Object
             return $this;
         }
         return false;
+    }
+    
+    public function reload()
+    {
+        $this->load($this->getId());
+        return $this;
     }
     
     /**

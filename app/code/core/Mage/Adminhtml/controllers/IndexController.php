@@ -14,7 +14,7 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('dashboard');
+        #$this->getLayout()->getBlock('menu')->setActive('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
             ->setTemplate('adminhtml/system/info.phtml');
         

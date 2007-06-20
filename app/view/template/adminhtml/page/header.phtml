@@ -3,9 +3,9 @@
 </a>
 <div class="header-right">
     <p class="super">
-        <?=__("Today is")?> <strong><?=date("l, F dS, Y")?></strong>
+        <strong><?=__("Welcome, %s", $user->getName())?></strong> (<?=__("Administrator")?>)
         <span class="separator">|</span>
-        <?=__("Welcome,")?> <strong><?=$user->getName()?></strong> (<?=__("Administrator")?>)
+        <strong><?=__("Today is %s", date("l, F dS, Y"))?></strong>
         <span class="separator">|</span>
         <a href="<?=$logoutLink?>"><?=__('Logout')?></a>
     </p>

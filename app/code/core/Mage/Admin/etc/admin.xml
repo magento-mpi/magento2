@@ -9,19 +9,16 @@
 
          <resources>
             <admin>
-                <system>
-                   <permissions />
-                   <modules />
-                   <websites />
-                </system>
+                <dashboard />
+                <customer />
+                <customer_online />
+                <customer_config />
                 <catalog>
-                   <product />
+                   <manage />
                    <product_attributes />
-                   <product_datafeeds />
+                   <datafeeds />
+                   <config />
                 </catalog>
-                <customer>
-                   <address />
-                </customer>
                 <paygate>
                    <authorizenet />
                    <paypal />
@@ -30,6 +27,11 @@
                 <sales>
                    <orders />
                 </sales>
+                <system>
+                   <permissions />
+                   <modules />
+                   <websites />
+                </system>
             </admin>
          </resources>
 

@@ -35,6 +35,12 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         
         $parentArr = array();
         foreach ($parent->children() as $childName=>$child) {
+            if ($child->depends && !$this->_checkDepends($child->depends)) {
+                continue;
+            }
+            if ($child->acl && !$this->_checkAcl($child->acl)) {
+                continue;
+            }
             $menuArr = array();
             
             $menuArr['label'] = __((string)$child->title);
@@ -59,5 +65,27 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         }
         
         return $parentArr;
+    }
+    
+    protected function _checkDepends(Varien_Simplexml_Element $depends)
+    {
+        if ($depends->module) {
+            $modulesConfig = Mage::getConfig()->getNode('modules');
+            foreach ($depends->module as $module) {
+                if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    protected function _checkAcl(Varien_Simplexml_Element $acl)
+    {
+        #return true;
+        $resource = (string)$acl->resource;
+        $privilege = (string)$acl->privilege;        
+        return Mage::getSingleton('admin/session')->isAllowed($resource, $privilege);
     }
 }
