@@ -13,9 +13,9 @@
             <acl>customer</acl>
             <children>
                 <manage>
-                    <title>Manage customers</title>
-                    <action>adminhtml/customer/list</action>
-                    <resource>customer/list</resource>
+                    <title>View online customers</title>
+                    <action>adminhtml/customer/online</action>
+                    <resource>customer/online</resource>
                 </manage>
             </children>
          </customer>
@@ -23,10 +23,6 @@
             <title>Catalog</title>
             <action>adminhtml/catalog</action>
             <children>
-                <products>
-                    <title>Categories and Products</title>
-                    <action>adminhtml/products</action>
-                </products>
                 <attributes>
                     <title>Product attributes</title>
                     <action>adminhtml/productAttributes</action>
@@ -42,6 +38,15 @@
             <title>System</title>
             <action>adminhtml/system</action>
             <children>
+                <tools>
+                    <title>Tools</title>
+                    <children>
+                        <backup>
+                            <title>Backup</title>
+                            <action>adminhtml/backup</action>
+                        </backup>
+                    </children>
+                </tools>
                 <config>
                     <title>Configuration</title>
                     <children>

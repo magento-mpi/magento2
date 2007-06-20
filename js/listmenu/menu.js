@@ -9,11 +9,10 @@
 
 
 
-window.onload = function()
-{
-	var verticals = new simpleMenu('menu-v', 'vertical');
-	var horizontals = new simpleMenu('menu-h', 'horizontal');
-};
+Event.observe(window, 'load', function() {
+	//var verticals = new simpleMenu('menu-v', 'vertical');
+	var horizontals = new simpleMenu('topnav', 'horizontal');
+});
 
 
 

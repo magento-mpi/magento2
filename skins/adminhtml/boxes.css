@@ -143,6 +143,7 @@ dl.accordion dd.open {
 .header { 
     background:#6D6D6D;
     z-index:9;
+    text-align:right;
     }
 .middle {
     background:#fff;
@@ -185,23 +186,36 @@ dl.accordion dd.open {
 /* Header */
 .logo { 
     float:left; 
-    margin:15px; 
+    margin:5px 15px; 
     }
 .header-right {
-    float:right;
-    width:40%;
-    margin:10px 15px;
+    padding:10px 15px;
     color:#fff;
     font-size:.95em;
-    text-align:right;
     }
 .header-right a, .header-right a:hover {
     color:#F5FCFF;
+    }
+.header-right fieldset { 
+    display:inline;
     }
 .header-right fieldset .input-text {
     width:18em;
     text-align:left;
     }
+.header-right .super {
+    float:right;
+    margin-left:1.3em;
+    line-height:2.2em; 
+    }
+
+.topnav-container {
+    border-bottom:4px solid #F2F2F2;
+    background:url(images/nav_bg.gif) repeat-x #31212C;
+    padding:.9em 1.8em 0 1.8em;
+    z-index:9;
+}    
+/*
 #nav {
     border-bottom:4px solid #F2F2F2;
     background:url(images/nav_bg.gif) repeat-x #31212C;
@@ -263,14 +277,19 @@ dl.accordion dd.open {
     float:none;
     margin:0;
     }
-#nav ul a { /* Second level nav */
+#nav ul a { /* Second level nav * /
     border-top:1px solid #EFF5F7;
     background:none;
     padding:3px 10px;
     color:#363636;
     font-weight:normal;
     }
-
+    
+#nav a.level-1:hover {
+    color:white;
+	background:red;
+}
+*/
 
 /* Middle */
 .breadcrumbs {
@@ -409,9 +428,10 @@ dl.accordion dd.open {
 /* Clear */
 .entry-edit fieldset li:after,
 .content:after,
-#nav:after,
+#topnav:after,
 .main:after,
 .container:after,
+.header:after,
 .clear:after {
     clear:both;
     content:".";

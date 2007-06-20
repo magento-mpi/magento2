@@ -2,9 +2,13 @@
     <img src="<?=$baseUrl?>skins/adminhtml/images/logo.gif" alt="Magento logo" class="logo"/>
 </a>
 <div class="header-right">
-    <p><strong><?=$user->getName()?></strong> (Administrator)<span class="separator">|</span>
-    <a href="<?=$logoutLink?>"><?=__('Logout')?></a></p>
-    <form action="" method="GET">
+    <p class="super">
+        <?=__("Today is")?> <strong><?=date("l, F dS, Y")?></strong>
+        <span class="separator">|</span>
+        <?=__("Welcome,")?> <strong><?=$user->getName()?></strong> (<?=__("Administrator")?>)
+        <span class="separator">|</span>
+        <a href="<?=$logoutLink?>"><?=__('Logout')?></a>
+    </p>
     <fieldset>
         <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
             <img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader.gif" alt="Working..." align="absmiddle" height="22"/>
@@ -22,9 +26,9 @@
                 '<?=$baseUrl?>adminhtml/index/globalSearch/', 
                 {
                     paramName:"value", 
-                    minChars:2, 
+                    minChars:2,
                     indicator:"global_search_indicator", 
-                    afterUpdateElement:getSelectionId 
+                    afterUpdateElement:getSelectionId
                 }
             );
             
@@ -33,5 +37,4 @@
             }
         </script>
     </fieldset>
-    </form>
 </div>
