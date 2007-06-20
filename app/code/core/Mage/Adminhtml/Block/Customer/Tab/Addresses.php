@@ -1,6 +1,6 @@
 <?php
 /**
- * Customer edit block
+ * Custmer addresses forms
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,17 +8,11 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/edit.phtml');
-    }
-    
-    protected function _beforeToHtml()
-    {
-        $this->assign('header', __('edit customer'));
-        return $this;
+        $this->setTemplate('adminhtml/customer/tab/addresses.phtml');
     }
 }

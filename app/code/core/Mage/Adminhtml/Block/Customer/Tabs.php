@@ -14,6 +14,7 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
     {
         parent::__construct();
         $this->setId('customer_info_tabs');
+        $this->setDestElementId('customer_edit_form');
     }
     
     protected function _beforeToHtml()
@@ -21,14 +22,14 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
         $this->addTab('account', array(
             'label'     => __('customer account'),
             'title'     => __('customer account title'),
-            'content'   => 'customer account content',
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_account')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('customer addresses'),
             'title'     => __('customer addresses title'),
-            'content'   => 'customer addresses content',
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_addresses')->toHtml(),
         ));
         
         return parent::_beforeToHtml();

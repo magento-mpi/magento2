@@ -23,3 +23,15 @@
 .tabs .active, .tabs a.active:hover{
     background: white;
 }
+
+/* Form Validation */
+.validation-advice {
+    margin-left:10em; 
+    color:#d40707;
+    font-weight:bold;
+    margin-right:20px;
+}
+
+input.validation-failed, textarea.validation-failed {
+    border: 1px solid #d40707;
+}

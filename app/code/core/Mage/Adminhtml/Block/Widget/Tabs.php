@@ -40,6 +40,12 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
         return $this->_destElementId;
     }
     
+    public function setDestElementId($elementId)
+    {
+        $this->_destElementId = $elementId;
+        return $this;
+    }
+    
     /**
      * Add new tab
      *

@@ -48,6 +48,11 @@ class Varien_Data_Form_Abstract extends Varien_Object
         }
         return $element;
     }
+    
+    public function getElements()
+    {
+        return $this->_elements;
+    }
 
     public function addFieldset($elementId, $config)
     {

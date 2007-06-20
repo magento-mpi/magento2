@@ -13,6 +13,13 @@ varienTabs.prototype = {
         this.hideAllTabsContent();
         for(var tab in this.tabs){
             Event.observe(this.tabs[tab],'click',this.tabOnClick);
+            // move tab contents to destination element
+            if($(this.destElementId)){
+                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
+                if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
+                    $(this.destElementId).appendChild(tabContentElement);
+                }
+            }
         }
         this.showTabContent($(activeTabId));
     },
@@ -24,7 +31,8 @@ varienTabs.prototype = {
     tabMouseClick : function(event){
         var tab = Event.findElement(event, 'a');
         this.hideAllTabsContent();
-        if(tab.href[tab.href.length-1] != '#'){
+        
+        if(tab.href.indexOf('#') != tab.href.length-1){
             alert(tab.href);
         }
         else {
@@ -42,11 +50,10 @@ varienTabs.prototype = {
     
     showTabContent : function(tab){
         var tabContentElement = $(this.getTabContentElementId(tab));
-        if($(this.destElementId) && tabContentElement){
-           $(this.destElementId).appendChild(tabContentElement);
-           Element.show(tabContentElement);
-           Element.addClassName(tab, 'active');
-           this.activeTab = tab;
+        if(tabContentElement){
+            Element.show(tabContentElement);
+            Element.addClassName(tab, 'active');
+            this.activeTab = tab;
         }
     },
     

@@ -59,9 +59,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml', array('controller'=>'customer')))
             ->addLink(__('new customer'), __('new customer title'));
             
-        /*$this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('adminhtml/customer_tab_account')
-        );*/
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('adminhtml/customer_edit')
+        );
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
         $this->renderLayout();

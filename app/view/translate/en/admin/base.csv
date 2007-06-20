@@ -1,4 +1,20 @@
 #Product attributes
+home;Home
+home title;Go to admin home page
+customers;Customers
+customers title;View customers list
+new customer;New Customer
+customer account;Account Information
+customer addresses;Addresses
+id;ID #
+email;Email Address
+firstname;Firstname
+lastname;Lastname
+
+save;Save
+delete;Delete
+edit;Edit
+
 name;Name
 cost;Cost
 default_category;Default Category

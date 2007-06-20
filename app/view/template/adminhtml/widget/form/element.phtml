@@ -1,0 +1,20 @@
+<?switch ($element->getType()){
+    case 'fieldset':?>
+    <h3><?=$element->getLegend()?></h3>
+    <fieldset>
+        <legend><?=$element->getLegend()?></legend>
+        <?foreach ($element->getElements() as $_element):?>
+            <?=$formBlock->drawElement($_element)?>
+        <?endforeach;?>
+    </fieldset>
+      <?break;
+    case 'column':?>
+      <?break;
+    case 'text':
+    case 'password':?>
+    <span>
+        <label for="<?$element->getId()?>"><?=$element->getLabel()?>:</label>
+        <input type="<?=$element->getType()?>" id="<?=$element->getId()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>">
+    </span>
+      <?break;
+}?>
