@@ -4,19 +4,24 @@
       <menu>
          <dashboard>
             <title>Dashboard</title>
-            <action>adminhtml/dashboard</action>
+            <action>adminhtml/dashboard/</action>
             <acl>dashboard</acl>
          </dashboard>
          <customer>
             <title>Customers</title>
-            <action>adminhtml/customer</action>
+            <action>adminhtml/customer/</action>
             <acl>customer</acl>
             <children>
-                <manage>
+                <online>
                     <title>View online customers</title>
-                    <action>adminhtml/customer/online</action>
+                    <action>adminhtml/customer/online/</action>
                     <resource>customer/online</resource>
-                </manage>
+                </online>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/customerConfig/</action>
+                    <resource>customer/config</resource>
+                </config>
             </children>
          </customer>
          <catalog>
@@ -25,19 +30,61 @@
             <children>
                 <attributes>
                     <title>Product attributes</title>
-                    <action>adminhtml/productAttributes</action>
+                    <action>adminhtml/productAttributes/</action>
                 </attributes>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/catalogConfig/</action>
+                    <resource>catalog/config</resource>
+                </config>
             </children>
-        </catalog>
+         </catalog>
          <sales>
             <title>Sales</title>
             <action>adminhtml/sales</action>
-            <children />
+            <children>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/salesConfig/</action>
+                    <resource>sales/config</resource>
+                </config>
+            </children>
          </sales>
+         <promo>
+            <title>Promotions</title>
+            <action>adminhtml/promo</action>
+            <children>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/promoConfig/</action>
+                    <resource>promo/config</resource>
+                </config>
+            </children>
+         </promo>
+         <cms>
+            <title>CMS</title>
+            <action>adminhtml/cms</action>
+            <children>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/cmsConfig/</action>
+                    <resource>cms/config</resource>
+                </config>
+            </children>
+         </cms>
+         <report>
+            <title>Reports</title>
+            <action>adminhtml/report</action>
+            <children/>
+         </report>
          <system>
             <title>System</title>
             <action>adminhtml/system</action>
             <children>
+                <myaccount>
+                    <title>My Account</title>
+                    <action>adminhtml/myAccount</action>
+                </myaccount>
                 <tools>
                     <title>Tools</title>
                     <children>
@@ -50,10 +97,18 @@
                 <config>
                     <title>Configuration</title>
                     <children>
-                        <payment>
-                            <title>Payment modules</title>
-                            <action>adminhtml/payments</action>
-                        </payment>
+                        <modules>
+                            <title>Modules</title>
+                            <action>adminhtml/moduleConfig</action>
+                        </modules>
+                        <website>
+                            <title>Websites</title>
+                            <action>adminhtml/websiteConfig</action>
+                        </website>
+                        <acl>
+                            <title>Permissions</title>
+                            <action>adminhtml/acl</action>
+                        </acl>
                     </children>
                 </config>
             </children>

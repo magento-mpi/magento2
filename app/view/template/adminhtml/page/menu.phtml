@@ -5,19 +5,18 @@
     <ul id="topnav" class="horizontal">
     <?foreach ($menu as $_item):?>
         <li>
-        <?if(!empty($_item['active']) && $_item['active']):?>
-            <a href="#" title="<?=$_item['title']?>"><?=$_item['label']?></a>
-        <?else:?>
-            <a href="<?=$_item['url']?>" title="<?=$_item['title']?>"><?=$_item['label']?></a>
-        <?endif;?>
+            <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>">
+                <?=$_item['label']?></a>
         <?if(!empty($_item['children']) && is_array($_item['children'])):?>
             <ul>
             <?foreach ($_item['children'] as $_child):?>
-                <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>"><?=$_child['label']?></a>       
+                <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'on':''?>">
+                    <?=$_child['label']?></a>       
                 <?if(!empty($_child['children'])):?>
                     <ul>
                     <?foreach ($_child['children'] as $_grandchild):?>
-                        <li><a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>"><?=$_grandchild['label']?></a></li>
+                        <li><a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'on':''?>">
+                            <?=$_grandchild['label']?></a></li>
                     <?endforeach;?>
                     </ul>
                 <?endif;?>

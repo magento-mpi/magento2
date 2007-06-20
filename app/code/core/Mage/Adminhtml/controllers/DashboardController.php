@@ -13,6 +13,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     public function indexAction()
     {
         $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('dashboard');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('dashboard'), __('dashboard title'));
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('core/template', 'dashboard.menu')->setTemplate('adminhtml/dashboard/left.phtml'));

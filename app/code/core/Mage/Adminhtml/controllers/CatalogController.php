@@ -13,6 +13,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('catalog');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('catalog'), __('catalog title'));
         $this->renderLayout();

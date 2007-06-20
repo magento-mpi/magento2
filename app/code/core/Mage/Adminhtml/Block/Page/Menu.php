@@ -41,12 +41,13 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             $menuArr['title'] = __((string)$child->title);
             
             if ($child->action) {
-                $menuArr['url'] = $baseUrl.(string)$child->action.'/';
+                $menuArr['url'] = $baseUrl.(string)$child->action;
             } else {
                 $menuArr['url'] = '#';
             }
-            
-            $menuArr['active'] = $this->getActive()==$path.$childName;
+#print_r($this->getActive().','.$path.$childName."<hr>");
+            $menuArr['active'] = ($this->getActive()==$path.$childName)
+                || (strpos($this->getActive(), $path.$childName.'/')===0);
             
             $menuArr['level'] = $level;
             

@@ -18,6 +18,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     {
         $this->loadLayout('baseframe');
         
+        $this->getLayout()->getBlock('menu')->setActive('customer');
         //$this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_left'));
         
         $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');
@@ -68,6 +69,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     public function onlineAction()
     {
         $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('customer/online');
         $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customer_online');
         $this->getLayout()->getBlock('content')->append($block);
 

@@ -229,7 +229,7 @@ ul.horizontal li {
 
 /* further child-menu offset */
 ul.horizontal ul ul {
-	margin:0.45em 0 0 15.65em;
+	margin:0.1em 0 0 15.90em;
 }
 
 /* default menu-items style */
@@ -247,7 +247,7 @@ ul.horizontal ul a, ul.horizontal ul a:visited {
 }
 
 /* active links */
-ul.horizontal li.on a, ul.horizontal li.on a:visited {
+ul.horizontal a.on, ul.horizontal a.on:visited {
     background:#F2F2F2;
     color:#343434;
     font-weight:bold;

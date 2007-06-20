@@ -13,6 +13,7 @@ class Mage_Adminhtml_SystemController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('system');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('system'), __('system title'));
         $this->renderLayout();
