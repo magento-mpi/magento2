@@ -19,3 +19,7 @@
 
 .pager{padding:5px;background:#F5F3CE}
 .pager select{width:50px}
+
+.tabs .active, .tabs a.active:hover{
+    background: white;
+}
