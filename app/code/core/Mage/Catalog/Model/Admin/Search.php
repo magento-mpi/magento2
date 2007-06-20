@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Admin_Search extends Varien_Object
                 'id'            => 'product/1/'.$product->getProductId(),
                 'type'          => 'Product',
                 'name'          => $product->getName(),
-                'description'   => $product->getDescription(),
+                'description'   => substr($product->getDescription(), 0, 50),
             );
         }
         

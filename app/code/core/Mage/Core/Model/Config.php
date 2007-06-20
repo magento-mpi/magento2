@@ -412,6 +412,9 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         }
         
         $config = $this->getNode($groupRootNode);
+        if (empty($config)) {
+            return false;
+        }
 
         if (isset($config->classes->$class)) {
             $className = (string)$config->classes->$class;

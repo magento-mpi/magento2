@@ -13,10 +13,11 @@
         <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
             <img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader.gif" alt="Working..." align="absmiddle" height="22"/>
         </span>
-        <input id="global_search" name="q" type="text" class="input-text" 
-            value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search by Keyword')?><?endif?>" 
-            onfocus="if(this.value=='<?=__('Search by Keyword')?>')this.value=''; " 
-            onblur="if(this.value=='')this.value='<?=__('Search by Keyword')?>';"
+        <?$defSearch = __('Global search')?>
+        <input id="global_search" name="query" type="text" class="input-text" 
+            value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" 
+            onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " 
+            onblur="if(this.value=='')this.value='<?=$defSearch?>';"
         />
         <div id="global_search_autocomplete" class="autocomplete"></div>
         <script type="text/javascript">
@@ -25,14 +26,14 @@
                 'global_search_autocomplete', 
                 '<?=$baseUrl?>adminhtml/index/globalSearch/', 
                 {
-                    paramName:"value", 
+                    paramName:"query", 
                     minChars:2,
                     indicator:"global_search_indicator", 
-                    afterUpdateElement:getSelectionId
+                    updateElement:getSelectionId
                 }
             );
             
-            function getSelectionId(text, li) {
+            function getSelectionId(li) {
                 console.log(li);
             }
         </script>

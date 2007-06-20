@@ -51,17 +51,22 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
     
     public function globalSearchAction()
     {
-        $searchModules = Mage::getConfig()->getNode("admin/search/global/collections");
+        $searchModules = Mage::getSingleton('admin/config')->getNode("admin/search/global/collections");
         $items = array();
         if (empty($searchModules)) {
             $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>'No search modules registered', 'description'=>'Please make sure that all global admin search modules are installed and activated.');
             $totalCount = 1;
         } else {
-            $request = $this->getRequest()->getPost();
+            $start = $this->getRequest()->getParam('start', 1);
+            $limit = $this->getRequest()->getParam('limit', 10);
+            $query = $this->getRequest()->getParam('query', '');
             foreach ($searchModules->children() as $searchConfig) {
                 $className = $searchConfig->getClassName();
+                if (empty($className)) {
+                    continue;
+                }
                 $searchInstance = new $className();
-                $results = $searchInstance->setStart($request['start'])->setLimit($request['limit'])->setQuery($request['query'])->load()->getResults();
+                $results = $searchInstance->setStart($start)->setLimit($limit)->setQuery($query)->load()->getResults();
                 $items = array_merge_recursive($items, $results);
             }
             $totalCount = sizeof($items);

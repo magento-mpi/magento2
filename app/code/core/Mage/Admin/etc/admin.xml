@@ -52,10 +52,10 @@
                   <class>catalog/admin_search</class>
                </products>
                <customers>
-                  <class>customers/admin_search</class>
+                  <class>customer/admin_search</class>
                </customers>
                <sales>
-                  <class>sales/admin_search</class>
+                  <classa>sales/admin_search</classa>
                </sales>
             </collections>
          </global>
