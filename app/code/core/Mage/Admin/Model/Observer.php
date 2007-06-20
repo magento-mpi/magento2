@@ -14,42 +14,37 @@ class Mage_Admin_Model_Observer
     {
         Mage::log('Admin observer: preDispatch admin action');
         $session  = Mage::getSingleton('admin/session');
-        $request= Mage::registry('controller')->getRequest();
+        $request = Mage::registry('controller')->getRequest();
+        $user = $session->getUser();
 
-        //$session->unsetAll();
-        if (!$session->getUser() && $request->getPost('login')) {
-            extract($request->getPost('login'));
-            if (!empty($username) && !empty($password)) {
-                $session->setUser(Mage::getModel('admin_resource/user')->authenticate($username, $password));
-                header('Location: '.$request->getRequestUri());
-                exit;
+        if (!$user) {
+            if ($request->getPost('login')) {
+                extract($request->getPost('login'));
+                if (!empty($username) && !empty($password)) {
+                    $user = Mage::getModel('admin/user')->login($username, $password);
+                    if ($user->getId()) {
+                        $session->setUser($user);
+                        header('Location: '.$request->getRequestUri());
+                        exit;
+                    }
+                }
+            } 
+            if (!$request->getParam('forwarded')) {
+                $request->setParam('forwarded', true)
+                    ->setControllerName('index')                
+                    ->setActionName('login')
+                    ->setDispatched(false);
+                return false;
             }
-        }
-        else {
-            // TODO: check reload user ACL table
-        }
-        
-        if (!$session->getUser() && !$request->getParam('forwarded')) {
-            $request->setParam('forwarded', true)
-                ->setControllerName('index')                
-                ->setActionName('login')
-                ->setDispatched(false);
-            return false;
-        }
-       
-        $reload = $session->getUser()->reload()->getReloadAclFlag();
-        
-        if ($user = $session->getUser()) {
+        } else {
             $user->reload();
-            $reload = !$session->getAcl() || $user->getReloadAclFlag();
-            if ($reload) {
+            if (!$session->getAcl() || $user->getReloadAclFlag()) {
                 $session->setAcl(Mage::getModel('admin_resource/acl')->loadAcl());
             }
             if ($user->getReloadAclFlag()) {
                 $user->setReloadAclFlag(0)->save();
             }
         }
-        //var_dump($session->isAllowed('admin'));die();
         
         Mage::getSingleton('core/translate')->loadTranslationFile('admin/base.csv');        
     }

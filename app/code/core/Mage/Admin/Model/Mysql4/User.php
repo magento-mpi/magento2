@@ -26,7 +26,11 @@ class Mage_Admin_Model_Mysql4_User
         $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'user');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
-        $this->_authAdapter = new Zend_Auth_Adapter_DbTable($this->_read, $this->_userTable, 'username', 'password', 'md5(?)');
+    }
+    
+    public function getAuthAdapter()
+    {
+        return new Zend_Auth_Adapter_DbTable($this->_read, $this->_userTable, 'username', 'password', 'md5(?)');
     }
 
     /**
@@ -36,23 +40,15 @@ class Mage_Admin_Model_Mysql4_User
      * @param string $password
      * @return boolean|Object
      */
-    public function authenticate($username, $password)
+    public function recordLogin(Mage_Admin_Model_User $user)
     {
-        $result = $this->_authAdapter->setIdentity($username)->setCredential($password)->authenticate();
-        
-        if (Zend_Auth_Result::SUCCESS===$result->getCode()) {
-            $user = Mage::getModel('admin/user')->setData((array)$this->_authAdapter->getResultRowObject());
-            $data = array(
-                'logdate' => new Zend_Db_Expr('NOW()'),
-                'lognum'  => $user->getLognum()+1
-            );
-            $condition = $this->_write->quoteInto('user_id=?', $user->getUserId());
-            $this->_write->update($this->_userTable, $data, $condition);
-            
-            return $user;
-        } else {
-            return false;
-        }
+        $data = array(
+            'logdate' => new Zend_Db_Expr('NOW()'),
+            'lognum'  => $user->getLognum()+1
+        );
+        $condition = $this->_write->quoteInto('user_id=?', $user->getUserId());
+        $this->_write->update($this->_userTable, $data, $condition);
+        return $this;
     }
     
     public function load($userId)

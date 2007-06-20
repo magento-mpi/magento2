@@ -46,18 +46,27 @@ class Mage_Admin_Model_User extends Varien_Object
     }
     
     /**
-     * Authenticate user
+     * Login user
      *
      * @param   string $login
      * @param   string $password
      * @return  Mage_Admin_Model_User
      */
-    public function authenticate($login, $password)
+    public function login($username, $password)
     {
-        if ($this->getResource()->authenticate($this, $login, $password)) {
+        $authAdapter = $this->getResource()->getAuthAdapter();
+        $authAdapter->setIdentity($username)->setCredential($password);
+        $resultCode = $authAdapter->authenticate()->getCode();
+
+        if (Zend_Auth_Result::SUCCESS!==$resultCode) {
             return $this;
         }
-        return false;
+        
+        $this->addData((array)$authAdapter->getResultRowObject());
+        
+        $this->getResource()->recordLogin($this);
+        
+        return $this;
     }
     
     public function reload()
