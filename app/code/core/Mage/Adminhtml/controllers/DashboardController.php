@@ -61,9 +61,43 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     
     public function quoteAction()
     {
-        $collection = Mage::getModel('sales/quote')
-                    ->load($this->getRequest()->getPost('quoteId',0));
+        $quote = Mage::getModel('sales/quote')
+               ->load($this->getRequest()->getParam('quoteId',0));
         
-        $this->getResponse()->setBody($collection->toXml());
+       
+        
+        $itemsFilter = new Varien_Filter_Object_Grid();
+        $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'price');
+        $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'row_total');
+        $cartItems = $itemsFilter->filter($quote->getItems());
+
+        $totalsFilter = new Varien_Filter_Array_Grid();
+        $totalsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'value');
+        $cartTotals = $totalsFilter->filter($quote->getTotals());
+        
+        $itemsXML = "";
+        
+        $itemObject = new Varien_Object();
+        $xmlObject = new Varien_Object();
+        
+        foreach( $cartItems as $cartItem ) {
+            $itemObject->addData($cartItem);
+            $itemObject->setUrl(Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 
+                                                               'id'=>$itemObject->getProductId())));
+            $itemsXML.= $itemObject->toXml(array('price', 'qty', 'row_total', 'name', 'url'), "item", false, true);
+        }
+        
+        $xmlObject->setItems( $itemsXML );
+        
+        $totalXML = "";
+        $totalObject = new Varien_Object();
+        foreach( $cartTotals as $cartTotal ) {
+            $totalObject->addData( $cartTotal );
+            $totalXML.= $totalObject->toXml(array('title','value'), "total", false, true);
+        }
+        
+        $xmlObject->setTotals( $totalXML );
+        $this->getResponse()->setBody( $xmlObject->toXml(array(), "dataSource", true, false) );
     }
 }
