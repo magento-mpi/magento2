@@ -18,6 +18,8 @@ varienTabs.prototype = {
                 var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
                 if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
                     $(this.destElementId).appendChild(tabContentElement);
+                    tabContentElement.tabsObject = this;
+                    tabContentElement.tabObject  = this.tabs[tab];
                 }
             }
         }
@@ -30,8 +32,6 @@ varienTabs.prototype = {
     
     tabMouseClick : function(event){
         var tab = Event.findElement(event, 'a');
-        this.hideAllTabsContent();
-        
         if(tab.href.indexOf('#') != tab.href.length-1){
             alert(tab.href);
         }
@@ -49,11 +49,15 @@ varienTabs.prototype = {
     },
     
     showTabContent : function(tab){
+        this.hideAllTabsContent();
         var tabContentElement = $(this.getTabContentElementId(tab));
         if(tabContentElement){
             Element.show(tabContentElement);
             Element.addClassName(tab, 'active');
             this.activeTab = tab;
+        }
+        if(varienGlobalEvents){
+            varienGlobalEvents.fireEvent('showTab', {tab:tab});
         }
     },
     
@@ -62,6 +66,9 @@ varienTabs.prototype = {
         if($(this.destElementId) && tabContentElement){
            Element.hide(tabContentElement);
            Element.removeClassName(tab, 'active');
+        }
+        if(varienGlobalEvents){
+            varienGlobalEvents.fireEvent('hideTab', {tab:tab});
         }
     }
 }

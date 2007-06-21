@@ -3,6 +3,7 @@
         <tr>
             <td style="width:50%;"><h2><?=$header?></h2></td>
             <td class="buttons">
+                <strong class="button" id="add_address_button"><span><a href="#" onclick=""><?=__('add new address')?></a></span></strong>
                 <strong class="button"><span><a href="#" onclick="customerForm.submit();return false;"><?=__('save')?></a></span></strong>
                 <strong class="button"><span><a href="#"><?=__('delete')?></a></span></strong>
             </td>
@@ -13,4 +14,19 @@
 </form>
 <script type="text/javascript" language="javascript">
     var customerForm = new varienForm('customer_edit_form');
+    
+    function customerEditShowButtons(data){
+        if(data.tab.id && data.tab.id=='customer_info_tabs_addresses'){
+            Element.show($('add_address_button'));
+        }
+    }
+    
+    function customerEditHideButtons(data){
+        if(data.tab && data.tab.id=='customer_info_tabs_addresses'){
+            Element.hide($('add_address_button'));
+        }
+    }
+    
+    varienGlobalEvents.attachEventHandler('showTab', customerEditShowButtons);
+    varienGlobalEvents.attachEventHandler('hideTab', customerEditHideButtons);
 </script>

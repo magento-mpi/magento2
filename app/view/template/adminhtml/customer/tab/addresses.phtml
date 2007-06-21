@@ -1,33 +1,5 @@
-<div class="address-list">
-    <h3>Customer Addresses</h3>
-    <ul>
-        <li class="on">
-            <address>Minu Oh<br/>
-                3402 Motor Ave Suite B<br/>
-                Los Angeles, CA 90034<br/>
-                T | 310-123-1234
-            </address>
-        </li>
-        <li>
-            <address>Minu Oh<br/>
-                3402 Motor Ave Suite B<br/>
-                Los Angeles, CA 90034<br/>
-                T | 310-123-1234
-            </address>
-        </li>
-        <li class="over">
-            <address>Minu Oh<br/>
-                3402 Motor Ave Suite B<br/>
-                Los Angeles, CA 90034<br/>
-                T | 310-123-1234
-            </address>
-        </li>
-        <li>
-            <address>Minu Oh<br/>
-                3402 Motor Ave Suite B<br/>
-                Los Angeles, CA 90034<br/>
-                T | 310-123-1234
-            </address>
-        </li>
-    </ul>
+<div class="entry-edit">
+<?foreach ($form->getElements() as $_element):?>
+    <?=$this->drawElement($_element)?>
+<?endforeach;?>
 </div>

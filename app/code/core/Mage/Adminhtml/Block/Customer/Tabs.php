@@ -19,6 +19,7 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
     
     protected function _beforeToHtml()
     {
+        Varien_Profiler::start('customerCard');
         $this->addTab('account', array(
             'label'     => __('customer account'),
             'title'     => __('customer account title'),
@@ -31,7 +32,7 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
             'title'     => __('customer addresses title'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_addresses')->toHtml(),
         ));
-        
+        Varien_Profiler::stop('customerCard');
         return parent::_beforeToHtml();
     }
 }
