@@ -65,13 +65,16 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
                 break;
         }
         $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("COUNT( `first_visit_at` ) AS first_visit_at_count, DATE_FORMAT( first_visit_at, '{$measureDateFormat}' ) as first_visit_at_date"));
-        $this->_sqlSelect->group("first_visit_at_date");
+        $this->_sqlSelect->group('first_visit_at_date');
         return $this;
     }
 
     public function getTimeline($hoursCount=12)
     {
-        #
+        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("DATE_FORMAT( first_visit_at, '%Y-%m-%d %H' ) as first_visit_at_date, IF ((customer_id > 0), COUNT(customer_id), 0) as customers, IF ((customer_id = 0), COUNT(customer_id), 0) as visitors"));
+        $this->_sqlSelect->where( new Zend_Db_Expr("NOW() - INTERVAL {$hoursCount} HOUR <= first_visit_at") );
+        $this->_sqlSelect->group('first_visit_at_date');
+        return $this;
     }
 
     /**

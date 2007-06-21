@@ -1,10 +1,10 @@
 <?php
-
 class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function CmsNoRouteAction($coreRoute = null)
     {
-        $page = Mage::getSingleton('cms/page')->load();
+        $pageId = ( $this->getRequest()->getRequestUri() ) ? trim($this->getRequest()->getRequestUri(), '/') : null;
+        $page = Mage::getSingleton('cms/page')->load($pageId);
         if( !$page->getPageId() || !is_null($coreRoute) ) {
             $this->_forward('noroute');
         } else {
