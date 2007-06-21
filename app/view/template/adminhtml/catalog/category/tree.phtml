@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/xtheme-aero.css" />
+    <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>extjs/adapter/yui/yui-utilities.js" ></script>
+    <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>extjs/adapter/yui/ext-yui-adapter.js" ></script>
+    <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-all.js" ></script>
+    <script type="text/javascript" language="Javascript">
+        var BASE_URL = '<?=$baseUrl?>adminhtml/';
+        var SKIN_URL = '<?=$baseUrl?>skins/adminhmtl/';
+        
+        Ext.BLANK_IMAGE_URL = '<?=$baseJsUrl?>extjs/resources/images/default/s.gif';
+        Ext.UpdateManager.defaults.loadScripts = false;
+        Ext.UpdateManager.defaults.disableCaching = true;
+        
+        var treeLoaderUrl = BASE_URL+'catalog/categoryTreeData/';
+        var productGridUrl = BASE_URL+'catalog/productGrid/';
+        var rootNodeText = '<?=__("Application root")?>';
+    </script>
+</head>
+<body>
+    <div id="tree-div"></div>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/catalog/category/tree.js"></script>
+</body>
+</html>

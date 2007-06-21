@@ -13,15 +13,20 @@
             <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
             <depends><module>Mage_Customer</module></depends>
             <children>
+                <group>
+                    <title>Customer groups</title>
+                    <action>adminhtml/customerGroup/</action>
+                    <resource>admin/customer/group</resource>
+                </group>
                 <online>
                     <title>View online customers</title>
                     <action>adminhtml/customer/online/</action>
-                    <resource>customer/online</resource>
+                    <resource>admin/customer/online</resource>
                 </online>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/customerConfig/</action>
-                    <resource>customer/config</resource>
+                    <resource>admin/customer/config</resource>
                 </config>
             </children>
          </customer>
@@ -34,6 +39,14 @@
                     <title>Product attributes</title>
                     <action>adminhtml/productAttributes/</action>
                 </attributes>
+                <reviews>
+                    <title>Reviews</title>
+                    <action>adminhtml/reviews/</action>
+                </reviews>
+                <tags>
+                    <title>Tags</title>
+                    <action>adminhtml/tags/</action>
+                </tags>
                 <datafeed>
                     <title>Datafeeds</title>
                     <action>adminhtml/datafeeds/</action>

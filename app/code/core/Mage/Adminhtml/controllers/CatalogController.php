@@ -16,6 +16,60 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('menu')->setActive('catalog');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('catalog'), __('catalog title'));
+            
+        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/catalog'));
         $this->renderLayout();
+    }
+    
+    public function framesetAction()
+    {
+        $frameset = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/frameset.phtml');
+        $this->getResponse()->setBody($frameset->toHtml());
+    }
+    
+    public function categoryTreeAction()
+    {
+        $treeBlock = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/category/tree.phtml');
+        $this->getResponse()->setBody($treeBlock->toHtml());
+    }
+    
+    public function categoryTreeDataAction()
+    {
+        $tree = Mage::getModel('catalog_resource/category_tree');
+        $parentNodeId = (int) $this->getRequest()->getPost('node',1);
+        $websiteId = (int) $this->getRequest()->getPost('website',1);
+
+        $nodes = $tree->setWebsiteId($websiteId)
+                    ->joinAttribute('name')
+                    ->loadNode($parentNodeId)
+                        ->loadChildren(1)
+                        ->getChildren();
+
+        $items = array();
+        foreach ($nodes as $node) {
+            $item = array();
+            $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+            $item['id']  = $node->getId();
+            $item['cls'] = 'folder';
+            $item['allowDrop'] = true;
+            $item['allowDrag'] = true;
+            if (!$node->hasChildren()) {
+                $item['leaf'] = 'true';    
+            }
+            $items[] = $item;
+        }
+
+        $this->getResponse()->setBody(Zend_Json::encode($items));
+    }
+    
+    public function productGridAction()
+    {
+        $grid = $this->getLayout()->createBlock('adminhtml/catalog_product_grid');
+        $grid->setCategoryId($this->getRequest()->getParam('categoryId', 1));
+
+        $page = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/page.phtml');
+        $page->setChild('content', $grid);
+        
+        $this->getResponse()->setBody($page->toHtml());
     }
 }

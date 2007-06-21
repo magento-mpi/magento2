@@ -92,6 +92,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
     
+    public function getColumn($columnId=null)
+    {
+        if (is_null($columnId)) {
+            return $this->_columns;
+        } elseif (!empty($this->_columns[$columnId])) {
+            return $this->_columns[$columnId];
+        }
+        return false;
+    }
+    
     public function getColumnHtmlProperty($column)
     {
         $out = ' ';
@@ -104,7 +114,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $out;
     }
     
-    public function getColumnHeader($column)
+    public function getColumnHeaderHtml($column)
     {
         $out = '';
         if ($column->getSortable()!==false) {
@@ -119,9 +129,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _beforeToHtml()
     {
-        if ($this->_collection) {
-            $this->_collection->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
-            $this->_collection->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
+        if ($this->getCollection()) {
+            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
+            $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
             
             $columnId = $this->_request->getParam($this->getVarNameSort(), false);
             $dir      = $this->_request->getParam($this->getVarNameDir(), 'asc');
@@ -129,12 +139,12 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
                 $this->_columns[$columnId]->setDir($dir);
-                $this->_collection->setOrder($this->_columns[$columnId]->getIndex(), $dir);
+                $this->getCollection()->setOrder($this->_columns[$columnId]->getIndex(), $dir);
             }
             
-            $this->_collection->load();
+            $this->getCollection()->load();
         }
-        $this->assign('collection', $this->_collection);
+        $this->assign('collection', $this->getCollection());
         $this->assign('columns', $this->_columns);
         return $this;
     }
