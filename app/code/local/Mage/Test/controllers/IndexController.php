@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  *
  * @file        IndexController.php
  * @copyright   Varien (c) 2007 (http://www.varien.com)
@@ -16,8 +16,8 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         // Load default layout
 
         $collection = Mage::getSingleton('log_resource/visitor_collection')
-            ->getStatistics()
-            ->applyDateRange('2007-01-01', '2007-12-12')
+            ->getTimeline(90)
+            #->applyDateRange('2007-01-01', '2007-12-12')
             ->load(true);
 
         print "<pre>debug: \n";
@@ -30,6 +30,15 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody($block->toHtml());
     }
 
+    public function pagesAction()
+    {
+        $collection = Mage::getSingleton('cms_resource/page_collection')
+            ->load(true);
+        echo "<pre>";
+        print_r($collection);
+        echo "</pre>";
+    }
+
     public function uploadAction()
     {
         require_once("lib/tmp/upload.php");
@@ -37,7 +46,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
             // ---------- SIMPLE UPLOAD ----------
 
-            // we create an instance of the class, giving as argument the PHP object 
+            // we create an instance of the class, giving as argument the PHP object
             // corresponding to the file field from the form
             // All the uploads are accessible from the PHP object $_FILES
             $handle = new Upload($_FILES['my_field']);
@@ -103,7 +112,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
             // ---------- IMAGE UPLOAD ----------
 
-            // we create an instance of the class, giving as argument the PHP object 
+            // we create an instance of the class, giving as argument the PHP object
             // corresponding to the file field from the form
             // All the uploads are accessible from the PHP object $_FILES
             $handle = new Upload($_FILES['my_field']);
@@ -190,7 +199,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
             $files = array();
             foreach ($_FILES['my_field'] as $k => $l) {
                 foreach ($l as $i => $v) {
-                    if (!array_key_exists($i, $files)) 
+                    if (!array_key_exists($i, $files))
                         $files[$i] = array();
                     $files[$i][$k] = $v;
                 }
@@ -242,7 +251,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
             // ---------- LOCAL PROCESSING ----------
 
 
-            //error_reporting(E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING | E_USER_WARNING)); 
+            //error_reporting(E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING | E_USER_WARNING));
             ini_set("max_execution_time",0);
 
             // we don't upload, we just send a local filename (image)
@@ -273,7 +282,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                         echo '  <pre class="code php">' . htmlentities($details) . '</pre>';
                         echo '</fieldset>';
                     }
-                }    
+                }
                 if (!file_exists("./test")) mkdir('test');
 
                 // -----------
@@ -377,7 +386,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 TestProcess($handle, '90 degrees rotation', "\$foo->image_rotate          = '90';");
 
                 // -----------
-                $handle->image_rotate          = '180'; 
+                $handle->image_rotate          = '180';
                 TestProcess($handle, '180 degrees rotation', "\$foo->image_rotate          = '180';");
 
                 // -----------
@@ -386,29 +395,29 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
                 // -----------
                 $handle->image_convert         = 'gif';
-                $handle->image_flip            = 'V'; 
+                $handle->image_flip            = 'V';
                 TestProcess($handle, 'vertical flip, into GIF file', "\$foo->image_convert         = 'gif';\n\$foo->image_flip            = 'V';");
 
                 // -----------
-                $handle->image_rotate          = '180'; 
+                $handle->image_rotate          = '180';
                 TestProcess($handle, '180 degrees rotation', "\$foo->image_rotate          = '180';");
 
                 // -----------
                 $handle->image_convert         = 'png';
                 $handle->image_flip            = 'H';
-                $handle->image_rotate          = '90'; 
+                $handle->image_rotate          = '90';
                 TestProcess($handle, '90 degrees rotation and horizontal flip, into PNG', "\$foo->image_convert         = 'png';\n\$foo->image_flip            = 'H';\n\$foo->image_rotate          = '90';");
 
                 // -----------
                 $handle->image_bevel           = 20;
                 $handle->image_bevel_color1    = '#FFFFFF';
-                $handle->image_bevel_color2    = '#000000'; 
+                $handle->image_bevel_color2    = '#000000';
                 TestProcess($handle, '20px black and white bevel', "\$foo->image_bevel           = 20;\n\$foo->image_bevel_color1    = '#FFFFFF';\n\$foo->image_bevel_color2    = '#000000';");
 
                 // -----------
                 $handle->image_bevel           = 5;
                 $handle->image_bevel_color1    = '#FFFFFF';
-                $handle->image_bevel_color2    = '#FFFFFF'; 
+                $handle->image_bevel_color2    = '#FFFFFF';
                 TestProcess($handle, '5px white bevel (smooth border)', "\$foo->image_bevel           = 5;\n\$foo->image_bevel_color1    = '#FFFFFF';\n\$foo->image_bevel_color2    = '#FFFFFF';");
 
                 // -----------
@@ -432,29 +441,29 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 TestProcess($handle, 'crossed colored frame, 7 px wide', "\$foo->image_frame           = 2;\n\$foo->image_frame_colors    = '#FFFFFF #BBBBBB\n                               #999999 #FF0000\n                               #666666 #333333\n                               #000000';");
 
                 // -----------
-                $handle->image_overlay_color   = '#FFFFFF'; 
-                $handle->image_overlay_percent = 50; 
-                $handle->image_rotate          = '180'; 
-                $handle->image_tint_color      = '#FF0000'; 
+                $handle->image_overlay_color   = '#FFFFFF';
+                $handle->image_overlay_percent = 50;
+                $handle->image_rotate          = '180';
+                $handle->image_tint_color      = '#FF0000';
                 TestProcess($handle, 'tint and 50% overlay and 180\' rotation', "\$foo->image_overlay_color   = '#FFFFFF';\n\$foo->image_overlay_percent = 50;\n\$foo->image_rotate          = '180';\n\$foo->image_tint_color      = '#FF0000';");
 
                 // -----------
-                $handle->image_tint_color      = '#FF0000'; 
+                $handle->image_tint_color      = '#FF0000';
                 TestProcess($handle, '#FF0000 tint', "\$foo->image_tint_color      = '#FF0000';");
 
                 // -----------
-                $handle->image_overlay_color   = '#FF0000'; 
-                $handle->image_overlay_percent = 50; 
+                $handle->image_overlay_color   = '#FF0000';
+                $handle->image_overlay_percent = 50;
                 TestProcess($handle, '50% overlay #FF0000', "\$foo->image_overlay_color   = '#FF0000';\n\$foo->image_overlay_percent = 50;");
 
                 // -----------
                 $handle->image_overlay_color   = '#0000FF';
-                $handle->image_overlay_percent = 5; 
+                $handle->image_overlay_percent = 5;
                 TestProcess($handle, '5% overlay #0000FF', "\$foo->image_overlay_color   = '#0000FF';\n\$foo->image_overlay_percent = 5;");
 
                 // -----------
                 $handle->image_overlay_color   = '#FFFFFF';
-                $handle->image_overlay_percent = 90; 
+                $handle->image_overlay_percent = 90;
                 TestProcess($handle, '90% overlay #FFFFFF', "\$foo->image_overlay_color   = '#FFFFFF';\n\$foo->image_overlay_percent = 90;");
 
                 // -----------
@@ -487,49 +496,49 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 $handle->image_y               = 200;
                 $handle->image_x               = 100;
                 $handle->image_rotate          = '90';
-                $handle->image_overlay_color   = '#FF0000'; 
-                $handle->image_overlay_percent = 50; 
+                $handle->image_overlay_color   = '#FF0000';
+                $handle->image_overlay_percent = 50;
                 $handle->image_text            = 'verot.net';
                 $handle->image_text_color      = '#0000FF';
                 $handle->image_text_background = '#FFFFFF';
-                $handle->image_text_position   = 'BL'; 
+                $handle->image_text_position   = 'BL';
                 $handle->image_text_padding_x  = 10;
-                $handle->image_text_padding_y  = 2;   
+                $handle->image_text_padding_y  = 2;
                 TestProcess($handle, 'brightness, resize, rotation, overlay &amp; label', "\$foo->image_brightness      = 75;\n\$foo->image_resize          = true;\n\$foo->image_y               = 200;\n\$foo->image_x               = 100;\n\$foo->image_rotate          = '90';\n\$foo->image_overlay_color   = '#FF0000';\n\$foo->image_overlay_percent = 50;\n\$foo->image_text            = 'verot.net';\n\$foo->image_text_color      = '#0000FF';\n\$foo->image_text_background = '#FFFFFF';\n\$foo->image_text_position   = 'BL';\n\$foo->image_text_padding_x  = 10;\n\$foo->image_text_padding_y  = 2;");
 
                 // -----------
                 $handle->image_text            = 'verot.net';
                 $handle->image_text_color      = '#000000';
                 $handle->image_text_percent    = 80;
-                $handle->image_text_background = '#FFFFFF';  
-                $handle->image_text_background_percent  = 70;  
-                $handle->image_text_font       = 5; 
+                $handle->image_text_background = '#FFFFFF';
+                $handle->image_text_background_percent  = 70;
+                $handle->image_text_font       = 5;
                 $handle->image_text_padding    = 20;
                 TestProcess($handle, 'overlayed transparent label', "\$foo->image_text            = 'verot.net';\n\$foo->image_text_color      = '#000000';\n\$foo->image_text_percent    = 80;\n\$foo->image_text_background = '#FFFFFF';\n\$foo->image_text_background_percent = 70;\n\$foo->image_text_font       = 5;\n\$foo->image_text_padding    = 20;");
 
                 // -----------
                 $handle->image_text            = 'verot.net';
                 $handle->image_text_direction  = 'v';
-                $handle->image_text_background = '#000000';  
-                $handle->image_text_font       = 2; 
-                $handle->image_text_position   = 'BL'; 
+                $handle->image_text_background = '#000000';
+                $handle->image_text_font       = 2;
+                $handle->image_text_position   = 'BL';
                 $handle->image_text_padding_x  = 2;
-                $handle->image_text_padding_y  = 8;    
+                $handle->image_text_padding_y  = 8;
                 TestProcess($handle, 'overlayed vertical plain label bottom left', "\$foo->image_text            = 'verot.net';\n\$foo->image_text_direction  = 'v';\n\$foo->image_text_background = '#000000';\n\$foo->image_text_font       = 2;\n\$foo->image_text_position   = 'BL';\n\$foo->image_text_padding_x  = 2;\n\$foo->image_text_padding_y  = 8;");
 
                 // -----------
                 $handle->image_text            = 'verot.net';
                 $handle->image_text_direction  = 'v';
                 $handle->image_text_color      = '#FFFFFF';
-                $handle->image_text_background = '#000000'; 
-                $handle->image_text_background_percent = 50; 
+                $handle->image_text_background = '#000000';
+                $handle->image_text_background_percent = 50;
                 $handle->image_text_padding    = 5;
                 TestProcess($handle, 'overlayed vertical label', "\$foo->image_text            = 'verot.net';\n\$foo->image_text_direction  = 'v';\n\$foo->image_text_color      = '#FFFFFF';\n\$foo->image_text_background = '#000000';\n\$foo->image_text_background_percent = 50;\n\$foo->image_text_padding    = 5;");
 
                 // -----------
                 $handle->image_text            = 'verot.net';
-                $handle->image_text_percent    = 50; 
-                $handle->image_text_background  = '#0000FF'; 
+                $handle->image_text_percent    = 50;
+                $handle->image_text_background  = '#0000FF';
                 $handle->image_text_x          = -5;
                 $handle->image_text_y          = -5;
                 $handle->image_text_padding    = 5;
@@ -537,8 +546,8 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
                 // -----------
                 $handle->image_text            = 'verot.net';
-                $handle->image_text_background = '#0000FF'; 
-                $handle->image_text_background_percent = 25;  
+                $handle->image_text_background = '#0000FF';
+                $handle->image_text_background_percent = 25;
                 $handle->image_text_x          = 5;
                 $handle->image_text_y          = 5;
                 $handle->image_text_padding    = 20;
@@ -546,31 +555,31 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
                 // -----------
                 $handle->image_text    = "verot.net\nclass\nupload";
-                $handle->image_text_background = '#000000'; 
-                $handle->image_text_background_percent = 75; 
+                $handle->image_text_background = '#000000';
+                $handle->image_text_background_percent = 75;
                 $handle->image_text_font       = 1;
                 $handle->image_text_padding    = 10;
                 TestProcess($handle, 'text label with multiple lines and small font', "\$foo->image_text            = \"verot.net\\nclass\\nupload\";\n\$foo->image_text_background = '#000000';\n\$foo->image_text_background_percent = 75;\n\$foo->image_text_font       = 1;\n\$foo->image_text_padding    = 10;");
 
                 // -----------
                 $handle->image_text    = "verot.net\nclass\nupload";
-                $handle->image_text_color      = '#000000'; 
-                $handle->image_text_background = '#FFFFFF'; 
-                $handle->image_text_background_percent = 60;  
+                $handle->image_text_color      = '#000000';
+                $handle->image_text_background = '#FFFFFF';
+                $handle->image_text_background_percent = 60;
                 $handle->image_text_padding    = 3;
                 $handle->image_text_font       = 3;
-                $handle->image_text_alignment  = 'R'; 
-                $handle->image_text_direction  = 'V'; 
+                $handle->image_text_alignment  = 'R';
+                $handle->image_text_direction  = 'V';
                 TestProcess($handle, 'vertical multi-lines text, right aligned', "\$foo->image_text            = \"verot.net\\nclass\\nupload\";\n\$foo->image_text_color      = '#000000';\n\$foo->image_text_background = '#FFFFFF';\n\$foo->image_text_background_percent = 60;\n\$foo->image_text_padding    = 3;\n\$foo->image_text_font       = 3;\n\$foo->image_text_alignment  = 'R';\n\$foo->image_text_direction  = 'V';");
 
                 // -----------
                 $handle->image_text    = "verot.net\nclass\nupload";
-                $handle->image_text_background = '#000000'; 
-                $handle->image_text_background_percent = 50;  
+                $handle->image_text_background = '#000000';
+                $handle->image_text_background_percent = 50;
                 $handle->image_text_padding    = 10;
                 $handle->image_text_x          = -5;
-                $handle->image_text_y          = -5;        
-                $handle->image_text_line_spacing = 10; 
+                $handle->image_text_y          = -5;
+                $handle->image_text_line_spacing = 10;
                 TestProcess($handle, 'text label with 10 pixels of line spacing', "\$foo->image_text            = \"verot.net\\nclass\\nupload\";\n\$foo->image_text_background = '#000000';\n\$foo->image_text_background_percent = 50;\n\$foo->image_text_padding    = 10;\n\$foo->image_text_x          = -5;\n\$foo->image_text_y          = -5;\n\$foo->image_text_line_spacing = 10;");
 
                 // -----------
@@ -584,8 +593,8 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 // -----------
                 $handle->image_crop            = '-3 -3 -30 -3';
                 $handle->image_text            = '[dst_name] [dst_x]x[dst_y]';
-                $handle->image_text_background = '#6666ff'; 
-                $handle->image_text_color      = '#ffffff'; 
+                $handle->image_text_background = '#6666ff';
+                $handle->image_text_color      = '#ffffff';
                 $handle->image_background_color = '#000099';
                 $handle->image_text_font       = 2;
                 $handle->image_text_y          = -7;
@@ -604,18 +613,18 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
                 // -----------
                 $handle->image_text    = "verot.net\nclass\nupload";
-                $handle->image_text_background = '#000000';  
+                $handle->image_text_background = '#000000';
                 $handle->image_text_padding    = 10;
-                $handle->image_text_font = "fonts/bmreceipt.gdf";    
-                $handle->image_text_line_spacing = 2; 
+                $handle->image_text_font = "fonts/bmreceipt.gdf";
+                $handle->image_text_line_spacing = 2;
                 TestProcess($handle, 'text label with external GDF font', "\$foo->image_text            = \"verot.net\\nclass\\nupload\";\n\$foo->image_text_background = '#000000';\n\$foo->image_text_padding    = 10;\n\$foo->image_text_font       = \"fonts/bmreceipt.gdf\";\n\$foo->image_text_line_spacing = 2;");
 
                 // -----------
                 $handle->image_text            = "PHP";
-                $handle->image_text_color      = '#FFFF00'; 
-                $handle->image_text_background = '#FF0000'; 
+                $handle->image_text_color      = '#FFFF00';
+                $handle->image_text_background = '#FF0000';
                 $handle->image_text_padding    = 10;
-                $handle->image_text_font = "fonts/atommicclock.gdf";    
+                $handle->image_text_font = "fonts/atommicclock.gdf";
                 TestProcess($handle, 'text label with external GDF font', "\$foo->image_text            = 'PHP';\n\$foo->image_text_color      = '#FFFF00';\n\$foo->image_text_background = '#FF0000';\n\$foo->image_text_padding    = 10;\n\$foo->image_text_font       = \"fonts/atommicclock.gdf\";");
 
                 // -----------
@@ -625,9 +634,9 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 // -----------
                 $handle->image_reflection_height = '50%';
                 $handle->image_text    = "verot.net\nclass\nupload";
-                $handle->image_text_background = '#000000'; 
+                $handle->image_text_background = '#000000';
                 $handle->image_text_padding    = 10;
-                $handle->image_text_line_spacing = 10; 
+                $handle->image_text_line_spacing = 10;
                 TestProcess($handle, 'text label and 50% reflection', "\$foo->image_text            = \"verot.net\\nclass\\nupload\";\n\$foo->image_text_background = '#000000';\n\$foo->image_text_padding    = 10;\n\$foo->image_text_line_spacing = 10;\n\$foo->image_reflection_height = '50%';");
 
                 // -----------
@@ -656,33 +665,33 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
                 TestProcess($handle, '50% reflection, black background', "\$foo->image_reflection_height = '50%';\n\$foo->image_reflection_color = '#000000';");
 
                 // -----------
-                $handle->image_watermark       = "watermark.png"; 
+                $handle->image_watermark       = "watermark.png";
                 TestProcess($handle, 'overlayed watermark (alpha transparent PNG)', "\$foo->image_watermark       = 'watermark.png';");
 
                 // -----------
-                $handle->image_watermark       = "watermark.png"; 
-                $handle->image_watermark_position = 'BR'; 
+                $handle->image_watermark       = "watermark.png";
+                $handle->image_watermark_position = 'BR';
                 TestProcess($handle, 'overlayed watermark, bottom right position', "\$foo->image_watermark       = 'watermark.png';\n\$foo->image_watermark_position = 'BR;");
 
                 // -----------
-                $handle->image_watermark       = "watermark.png"; 
-                $handle->image_watermark_x     = 10; 
-                $handle->image_watermark_y     = 10; 
+                $handle->image_watermark       = "watermark.png";
+                $handle->image_watermark_x     = 10;
+                $handle->image_watermark_y     = 10;
                 $handle->image_greyscale       = true;
                 TestProcess($handle, 'watermark on greyscale pic, absolute position', "\$foo->image_watermark       = 'watermark.png';\n\$foo->image_watermark_x     = 10;\n\$foo->image_watermark_y     = 10;\n\$foo->image_greyscale       = true;");
 
                 // -----------
-                $handle->jpeg_size             = 3072; 
+                $handle->jpeg_size             = 3072;
                 TestProcess($handle, 'desired JPEG size set to 3KB', "\$foo->jpeg_size             = 3072;");
 
                 // -----------
                 $handle->image_convert         = 'jpg';
-                $handle->jpeg_quality          = 10; 
+                $handle->jpeg_quality          = 10;
                 TestProcess($handle, 'JPG quality set to 10%', "\$foo->image_convert         = 'jpg';\n\$foo->jpeg_quality          = 10;");
 
                 // -----------
                 $handle->image_convert         = 'jpg';
-                $handle->jpeg_quality          = 80; 
+                $handle->jpeg_quality          = 80;
                 TestProcess($handle, 'JPG quality set to 80%', "\$foo->image_convert         = 'jpg';\n\$foo->jpeg_quality          = 80;");
 
 
@@ -702,15 +711,15 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
         echo '<pre>';
         echo($handle->log);
-        echo '</pre>';         
-    } 
+        echo '</pre>';
+    }
 
     public function testAction()
     {
         if( intval($this->getRequest()->getParam('do_upload')) == 1 ) {
             foreach ($_FILES['my_field'] as $k => $l) {
                 foreach ($l as $i => $v) {
-                    if (!@array_key_exists($i, $files)) 
+                    if (!@array_key_exists($i, $files))
                         $files[$i] = array();
                     $files[$i][$k] = $v;
                 }

@@ -14,9 +14,9 @@ class Mage_Cms_Model_Mysql4_Page
 
     protected $_pageTable;
 
-    protected $_pageData;
+    protected $_write;
 
-    protected $_pageId;
+    protected $_read;
 
     function __construct()
     {
@@ -26,32 +26,14 @@ class Mage_Cms_Model_Mysql4_Page
         $this->_write = Mage::getSingleton('core/resource')->getConnection('cms_write');
     }
 
-    public function load($pageId, $reload=null)
+    public function load($pageId)
     {
-        if( $pageId != $this->_pageId ) {
-            $this->_pageData = null;
-            $this->_pageId = $pageId;
-            $reload = true;
-        }
-
         $condition = $this->_read->quoteInto("{$this->_pageTable}.page_identifier = ?", $pageId);
         $select = $this->_read->select();
         $select->from($this->_pageTable);
         $select->where($condition);
 
-        $this->_pageData = ( $reload === true ) ? $this->_read->fetchRow($select) : $this->_pageData;
-        return $this->_pageData;
-    }
-
-    public function isDisabled($pageId)
-    {
-        $this->load($pageId);
-
-        if( $this->_pageData['page_active'] == 0 ) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->_read->fetchRow($select);
     }
 
     public function save($page)
