@@ -20,8 +20,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
-        $this->_groupTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_group');
-        $this->_inSetTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_in_set');
+        $this->_groupTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_group');
+        $this->_inSetTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_in_set');
     }
     
     /**
@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group
      */
     public function getAttributes($groupId, $onlyVisible=false)
     {
-        $collection = Mage::getModel('catalog_resource/product_attribute_collection')
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->addGroupFilter($groupId)
             ->setOrder($this->_inSetTable.'.position', 'asc');
         if ($onlyVisible) {

@@ -47,12 +47,12 @@ class Mage_Admin_Model_Mysql4_Acl
         
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
-        $roleTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'role');
+        $roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
         $rolesArr = $this->_read->fetchAll("select * from $roleTable order by tree_level");
         $this->loadRoles($acl, $rolesArr);
         
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'rule');
-        $assertTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'assert');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin/rule');
+        $assertTable = Mage::getSingleton('core/resource')->getTableName('admin/assert');
         $rulesArr = $this->_read->fetchAll("select r.*, a.assert_type, a.assert_data 
             from $ruleTable r left join $assertTable a on a.assert_id=r.assert_id");        
         $this->loadRules($acl, $rulesArr);

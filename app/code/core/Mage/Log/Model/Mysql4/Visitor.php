@@ -39,8 +39,8 @@ class Mage_Log_Model_Mysql4_Visitor
      */
     public function __construct()
     {
-        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log_resource', 'visitor');
-        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log_resource', 'url_table');
+        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
+        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('log_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('log_write');

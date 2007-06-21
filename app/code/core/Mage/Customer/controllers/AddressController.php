@@ -28,7 +28,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         
         // Load addresses
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $addressCollection = Mage::getModel('customer_resource/address_collection');
+        $addressCollection = Mage::getResourceModel('customer/address_collection');
         $addressCollection->loadByCustomerId($customerId);
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.address')
@@ -75,7 +75,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $data = $address;
         }
 
-        $countries = Mage::getModel('directory_resource/country_collection');       
+        $countries = Mage::getResourceModel('directory/country_collection');       
         // Form block
         $block = $this->getLayout()->createBlock('core/template', 'customer.address.form')
             ->setTemplate('customer/form/address.phtml')

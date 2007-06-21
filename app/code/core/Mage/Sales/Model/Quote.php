@@ -59,7 +59,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function loadByCustomerId($customerId)
     {
-        $quotes = Mage::getModel('sales_resource/quote')->getQuoteIdsByCustomerId($customerId);
+        $quotes = Mage::getResourceModel('sales/quote')->getQuoteIdsByCustomerId($customerId);
         if (empty($quotes)) {
             return false;
         }
@@ -298,7 +298,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         
         $order = Mage::getModel('sales/order')->addData($this->getData());
         
-        $order->setRealOrderId(Mage::getModel('sales_resource/counter')->getCounter('order'))            
+        $order->setRealOrderId(Mage::getResourceModel('sales/counter')->getCounter('order'))            
             ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
             ->setCreatedAt($now)
             ->setWebsiteId($website->getId())

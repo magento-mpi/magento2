@@ -55,7 +55,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'label' => __('Country'),
                 'id'    => 'address_country',
                 'title' => __('Country'),
-                'values'=> Mage::getModel('directory_resource/country_collection')->load()->toOptionArray(),
+                'values'=> Mage::getResourceModel('directory/country_collection')->load()->toOptionArray(),
                 'allowBlank'=> false,
                 'emptyText' => __('Select a country ...')
             )

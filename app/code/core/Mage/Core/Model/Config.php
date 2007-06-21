@@ -172,7 +172,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     function loadFromDb()
     {
         try{
-            Mage::getModel('core_resource/config')->updateXmlFromDb($this->_xml);
+            Mage::getResourceModel('core/config')->updateXmlFromDb($this->_xml);
         }
         catch (Exception $e) {
 
@@ -487,6 +487,16 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             $className = $config->getClassName();
             return new $className();
         }
+    }
+    
+    public function getResourceModelInstance($modelClass='', $constructArguments=array())
+    {
+        $classArr = explode('/', $modelClass);
+        $resourceModel = $this->getNode('global/models/'.$classArr[0].'/resourceModel');
+        if (!$resourceModel) {
+            return false;
+        }
+        return $this->getModelInstance($resourceModel.'/'.$classArr[1], $constructArguments);
     }
 
     /**

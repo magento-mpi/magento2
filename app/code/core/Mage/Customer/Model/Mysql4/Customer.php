@@ -27,7 +27,7 @@ class Mage_Customer_Model_Mysql4_Customer
     
     public function __construct() 
     {
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'customer');
+        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('customer/customer');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('customer_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('customer_write');
     }
@@ -58,7 +58,7 @@ class Mage_Customer_Model_Mysql4_Customer
     
     protected function _loginLog($customerId)
     {
-        $logTable = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'customer_log');
+        $logTable = Mage::getSingleton('core/resource')->getTableName('customer/customer_log');
         $data = array(
             'customer_id'   => $customerId,
             'login_at'      => new Zend_Db_Expr('NOW()'),

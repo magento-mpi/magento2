@@ -19,8 +19,9 @@
       <models>
          <customer>
             <class>Mage_Customer_Model</class>
+            <resourceModel>customer_mysql4</resourceModel>
          </customer>
-         <customer_resource>
+         <customer_mysql4>
             <class>Mage_Customer_Model_Mysql4</class>
             <entities>
                <customer>
@@ -54,7 +55,7 @@
                   <table>customer_log</table>
                </customer_log>
             </entities>
-         </customer_resource>
+         </customer_mysql4>
       </models>
       <resources>
          <customer_setup>

@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _initCollection()
     {
-        $collection = Mage::getModel('customer_resource/customer_collection');
+        $collection = Mage::getResourceModel('customer/customer_collection');
         $this->setCollection($collection);
     }
 

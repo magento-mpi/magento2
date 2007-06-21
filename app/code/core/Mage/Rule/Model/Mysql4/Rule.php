@@ -45,7 +45,7 @@ abstract class Mage_Rule_Model_Mysql4_Rule
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
-        $this->_ruleTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'quote_rule');
+        $this->_ruleTable = Mage::getSingleton('core/resource')->getTableName('sales/quote_rule');
         
         $this->_ruleIdField = 'quote_rule_id';
         $this->_ruleTableFields = array('quote_rule_id', 'name', 'description', 'is_active', 'start_at', 'expire_at', 'coupon_code', 'customer_registered', 'customer_new_buyer', 'show_in_catalog', 'sort_order', 'conditions_serialized', 'actions_serialized');

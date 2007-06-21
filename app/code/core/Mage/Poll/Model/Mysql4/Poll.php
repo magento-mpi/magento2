@@ -20,7 +20,7 @@ class Mage_Poll_Model_Mysql4_Poll
 
     function __construct()
     {
-        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
+        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll/poll');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('poll_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');

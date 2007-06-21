@@ -68,8 +68,8 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
     public function removeAction() {
         $categoryId = $this->getRequest()->getParam('id',false);
         if ($categoryId) {
-            $tree = Mage::getModel('catalog_resource/category_tree');
-            $node = Mage::getModel('catalog_resource/category_tree')->loadNode($categoryId);
+            $tree = Mage::getResourceModel('catalog/category_tree');
+            $node = Mage::getResourceModel('catalog/category_tree')->loadNode($categoryId);
             try {
                 $tree->removeNode($node);
             }
@@ -85,7 +85,7 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
         $prevNodeId = $this->getRequest()->getPost('aid', false);
         
         try {
-            $tree = Mage::getModel('catalog_resource/category_tree');
+            $tree = Mage::getResourceModel('catalog/category_tree');
             $node = $tree->loadNode($nodeId);
             $parentNode = $tree->loadNode($parentNodeId)->loadChildren();
             $prevNode = $tree->loadNode($prevNodeId);
@@ -106,7 +106,7 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
      */
     public function treeChildrenAction()
     {
-        $tree = Mage::getModel('catalog_resource/category_tree');
+        $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
         $websiteId = (int) $this->getRequest()->getPost('website',1);
 

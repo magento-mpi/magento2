@@ -18,7 +18,7 @@ class Mage_Catalog_Model_Mysql4_Product_Rule_Collection extends Mage_Rule_Model_
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
         
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_rule');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_rule'));

@@ -34,7 +34,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
         }
         else {
             if (!$attributeSetId) {
-                $setCollection  = Mage::getModel('catalog_resource/product_attribute_set_collection')->load();
+                $setCollection  = Mage::getResourceModel('catalog/product_attribute_set_collection')->load();
                 if ($setCollection->getSize()) {
                     $set = $setCollection->getFirstItem();
                 }

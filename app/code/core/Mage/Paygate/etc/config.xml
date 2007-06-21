@@ -12,11 +12,12 @@
       <models>
          <paygate>
             <class>Mage_Paygate_Model</class>
+            <resourceModel>paygate_mysql4</resourceModel>
          </paygate>
-         <paygate_resource>
+         <paygate_mysql4>
             <class>Mage_Paygate_Model_Mysql4</class>
             <entities> </entities>
-         </paygate_resource>
+         </paygate_mysql4>
       </models>
       <resources>
          <paygate_setup>

@@ -11,9 +11,9 @@ class Mage_Poll_Model_Mysql4_Poll_Answer_Vote
 
     function __construct()
     {
-        $this->_pollVoteTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll_vote');
-        $this->_pollAnswerTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll_answer');
-        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
+        $this->_pollVoteTable = Mage::getSingleton('core/resource')->getTableName('poll/poll_vote');
+        $this->_pollAnswerTable = Mage::getSingleton('core/resource')->getTableName('poll/poll_answer');
+        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll/poll');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('poll_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');

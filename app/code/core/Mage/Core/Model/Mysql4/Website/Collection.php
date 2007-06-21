@@ -15,7 +15,7 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Varien_Data_Collection_D
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('core_read'));
         
-        $this->_websiteTable = Mage::getSingleton('core/resource')->getTableName('core_resource', 'website');
+        $this->_websiteTable = Mage::getSingleton('core/resource')->getTableName('core/website');
         $this->_sqlSelect->from($this->_websiteTable);
     }
 

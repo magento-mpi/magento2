@@ -11,7 +11,7 @@ class Mage_Customer_Model_Admin_Search extends Varien_Object
             return $this;
         }
         
-        $collection = Mage::getModel('customer_resource/customer_collection')
+        $collection = Mage::getResourceModel('customer/customer_collection')
             ->addFilter('firstname', $this->getQuery(), 'or')
             ->addFilter('lastname', $this->getQuery(), 'or')
             ->setCurPage($this->getStart())

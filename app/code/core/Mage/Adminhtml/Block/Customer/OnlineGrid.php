@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Customer_OnlineGrid extends Mage_Adminhtml_Block_Widg
         $filterCustomersOnly = $this->getRequest()->getParam('filterCustomers', false);
         $filterGuestsOnly = $this->getRequest()->getParam('filterGuests', false);
 
-        $collection = Mage::getSingleton('log_resource/visitor_collection');
+        $collection = Mage::getResourceSingleton('log/visitor_collection');
 
         if( $filterCustomersOnly ) {
             $collection->showCustomersOnly();

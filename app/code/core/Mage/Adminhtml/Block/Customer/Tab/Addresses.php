@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Country'),
                 'id'    => 'address_country',
                 'title' => __('Country'),
-                'values'=> Mage::getModel('directory_resource/country_collection')->load()->toOptionArray(),
+                'values'=> Mage::getResourceModel('directory/country_collection')->load()->toOptionArray(),
                 'allowBlank'=> false,
                 'emptyText' => __('Select a country ...')
             )

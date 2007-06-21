@@ -15,7 +15,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         parent::__construct($data);
         
         try {
-            $currencies = Mage::getModel('directory_resource/currency_collection')
+            $currencies = Mage::getResourceModel('directory/currency_collection')
                 ->addLanguageFilter()
                 ->addCodeFilter(Mage::getSingleton('core/website')->getAvailableCurrencyCodes())
                 ->load();

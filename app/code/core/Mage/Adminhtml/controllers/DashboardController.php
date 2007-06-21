@@ -24,7 +24,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     
     public function onlineAction() 
     {
-       $collection = Mage::getSingleton('log_resource/visitor_collection')
+       $collection = Mage::getResourceSingleton('log/visitor_collection')
                    ->useOnlineFilter()
                    ->load();
        
@@ -51,7 +51,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     {
         $range = $this->getRequest()->getPost('range');
         
-        $collection = Mage::getSingleton('log_resource/visitor_collection')
+        $collection = Mage::getResourceSingleton('log/visitor_collection')
                     ->getStatistics('d')
                     ->applyDateRange($range['start'], $range['end'])
                     ->load();

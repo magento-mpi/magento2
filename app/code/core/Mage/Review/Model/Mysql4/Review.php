@@ -33,10 +33,10 @@ class Mage_Review_Model_Mysql4_Review
     {
         $resources = Mage::getSingleton('core/resource');
         
-        $this->_reviewTable         = $resources->getTableName('review_resource', 'review');
-        $this->_reviewDetailTable   = $resources->getTableName('review_resource', 'review_detail');
-        $this->_reviewStatusTable   = $resources->getTableName('review_resource', 'review_status');
-        $this->_reviewEntityTable   = $resources->getTableName('review_resource', 'review_entity');
+        $this->_reviewTable         = $resources->getTableName('review/review');
+        $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
+        $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
+        $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
         
         $this->_read    = $resources->getConnection('review_read');
         $this->_write   = $resources->getConnection('review_write');

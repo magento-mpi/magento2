@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/category_attribute');
+        return Mage::getResourceSingleton('catalog/category_attribute');
     }
 
     public function load($attributeId)
@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Category_Attribute extends Varien_Object
     
     public function getTableName()
     {
-        return Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
+        return Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_value');
     }
     
     public function getTableAlias()

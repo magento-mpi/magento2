@@ -13,11 +13,12 @@
       <models>
          <install>
             <class>Mage_Install_Model</class>
+            <resourceModel>install_mysql4</resourceModel>
          </install>
 
-         <install_resource>
+         <install_mysql4>
             <class>Mage_Install_Model_Mysql4</class>
-         </install_resource>
+         </install_mysql4>
       </models>
 
       <resources>

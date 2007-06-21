@@ -34,9 +34,10 @@
         <models>
             <core>
                 <class>Mage_Core_Model</class>
+                <resourceModel>core_mysql4</resourceModel>
             </core>
 
-            <core_resource>
+            <core_mysql4>
                 <class>Mage_Core_Model_Mysql4</class>
                 <entities>
                     <config>
@@ -73,7 +74,7 @@
                         <table>core_data_change_info</table>
                     </data_change_info>
                 </entities>
-            </core_resource>
+            </core_mysql4>
         </models>
 
         <block>

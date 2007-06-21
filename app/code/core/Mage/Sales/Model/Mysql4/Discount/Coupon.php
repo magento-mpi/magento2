@@ -13,7 +13,7 @@ class Mage_Sales_Model_Mysql4_Discount_Coupon
     
     public function loadByCode($couponCode)
     {
-        $couponTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'discount_coupon');
+        $couponTable = Mage::getSingleton('core/resource')->getTableName('sales/discount_coupon');
         $result = $this->_read->fetchRow("select * from ".$couponTable." where coupon_code=?", $couponCode);
         Mage::getSingleton('core/resource')->cleanDbRow($result);
         return $result;

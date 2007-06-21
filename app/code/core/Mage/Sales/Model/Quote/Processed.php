@@ -44,7 +44,7 @@ class Mage_Sales_Model_Quote_Processed extends Mage_Sales_Model_Quote
         $env = Mage::getModel('sales/quote_rule_environment');
         $env->addData($envArr);
 
-        $rules = Mage::getSingleton('sales_resource/quote_rule_collection');
+        $rules = Mage::getResourceSingleton('sales/quote_rule_collection');
         
         $rules->setEnv($env)->setActiveFilter()->loadData()->processQuote($this);
         

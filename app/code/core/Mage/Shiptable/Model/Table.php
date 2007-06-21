@@ -46,6 +46,6 @@ class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstra
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
     {
-        return Mage::getModel('shiptable_resource/table')->getRate($request);
+        return Mage::getResourceModel('shiptable/table')->getRate($request);
     }
 }

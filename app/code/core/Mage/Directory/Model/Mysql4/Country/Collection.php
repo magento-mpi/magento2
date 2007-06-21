@@ -16,8 +16,8 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
         
-        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country');
-        $countryNameTable = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_name');
+        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
+        $countryNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_name');
         
         $lang = Mage::getSingleton('core/website')->getLanguage();
         
@@ -47,7 +47,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         if($usedId) {
             return $this->getItemById($usedId);
         }
-        return $this->_defaultCountry ? $this->_defaultCountry : Mage::getModel('directory_resource/country');
+        return $this->_defaultCountry ? $this->_defaultCountry : Mage::getResourceModel('directory/country');
     }
     
     public function getItemById($countryId)
@@ -57,7 +57,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
                 return $country;
             }
         }
-        return Mage::getModel('directory_resource/country');
+        return Mage::getResourceModel('directory/country');
     }
     
     public function toHtmlOptions($default=false)

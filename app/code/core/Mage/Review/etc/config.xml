@@ -12,8 +12,9 @@
         <models>
             <review>
                 <class>Mage_Review_Model</class>
+                <resourceModel>review_mysql4</resourceModel>
             </review>
-            <review_resource>
+            <review_mysql4>
                 <class>Mage_Review_Model_Mysql4</class>
                 <entities>
                     <review>
@@ -29,7 +30,7 @@
                         <table>review_entity</table>
                     </review_entity>
                 </entities>
-            </review_resource>
+            </review_mysql4>
         </models>
         <resources>
             <review_setup>

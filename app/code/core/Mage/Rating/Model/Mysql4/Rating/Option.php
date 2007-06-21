@@ -18,8 +18,8 @@ class Mage_Rating_Model_Mysql4_Rating_Option
     
     public function __construct() 
     {
-        $this->_ratingOptionTable  = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating_option');
-        $this->_ratingVoteTable    = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating_vote');
+        $this->_ratingOptionTable  = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
+        $this->_ratingVoteTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
         
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('rating_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('rating_write');

@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Product_Link_Type extends Mage_Catalog_Model_Mys
     
     public function __construct() 
     {
-        $this->_linkTypeTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link_type');
+        $this->_linkTypeTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_link_type');
     }
     
     public function getAttributes()

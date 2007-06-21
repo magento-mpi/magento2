@@ -12,7 +12,7 @@ class Mage_Core_Model_Mysql4_Resource
     
     public function __construct()
     {
-        self::$_resTable = Mage::getSingleton('core/resource')->getTableName('core_resource', 'resource');
+        self::$_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
         self::$_read = Mage::getSingleton('core/resource')->getConnection('core_read');
         self::$_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }

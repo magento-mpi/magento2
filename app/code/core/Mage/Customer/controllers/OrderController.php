@@ -17,7 +17,7 @@ class Mage_Customer_OrderController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $orders = Mage::getModel('sales_resource/order_collection');
+        $orders = Mage::getResourceModel('sales/order_collection');
         $orders->addAttributeSelect('self');
         $orders->addAttributeFilter('self/customer_id', Mage::getSingleton('customer/session')->getCustomerId());
         $orders->setOrder('self/created_at');

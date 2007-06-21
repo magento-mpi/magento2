@@ -11,7 +11,7 @@ class Mage_Sales_Model_Admin_Search extends Varien_Object
             return $this;
         }
         
-        $collection = Mage::getModel('sales_resource/order_collection')
+        $collection = Mage::getResourceModel('sales/order_collection')
             ->addAttributeSelect('self/real_order_id')
             ->addAttributeSelect('address/address_type')
             ->addAttributeSelect('address/firstname')

@@ -16,8 +16,8 @@ class Mage_Catalog_Model_Mysql4_Category_Filter
     
     public function __construct() 
     {
-        $this->_filterTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_filter');
-        $this->_filterValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_filter_value');
+        $this->_filterTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_filter');
+        $this->_filterValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_filter_value');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('catalog_read');
     }

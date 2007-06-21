@@ -16,8 +16,9 @@
         <models>
             <directory>
                 <class>Mage_Directory_Model</class>
+                <resourceModel>directory_mysql4</resourceModel>
             </directory>    
-            <directory_resource>
+            <directory_mysql4>
                 <class>Mage_Directory_Model_Mysql4</class>
                 <entities>
                     <country>
@@ -45,7 +46,7 @@
                         <table>directory_currency_name</table>
                     </currency_name>
                 </entities>
-            </directory_resource>
+            </directory_mysql4>
         </models>
     
         <resources>

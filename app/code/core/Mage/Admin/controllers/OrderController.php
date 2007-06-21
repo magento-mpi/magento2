@@ -12,7 +12,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
                 'id' => 'all',
                 'text'  => __('All websites'),
             ));
-            $arrSites = Mage::getModel('core_resource/website_collection')->load();
+            $arrSites = Mage::getResourceModel('core/website_collection')->load();
             foreach ($arrSites as $website) {
                 $data[] = array(
                     'id' => $website->getWebsiteId(),
@@ -43,7 +43,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         $sort = $this->getRequest()->getPost('sort', '');
         $dir = $this->getRequest()->getPost('dir', '');
 
-        $orders = Mage::getModel('sales_resource/order_collection')
+        $orders = Mage::getResourceModel('sales/order_collection')
             ->addAttributeSelect('self/real_order_id')
             ->addAttributeSelect('self/customer_id')
             ->addAttributeSelect('self/grand_total')

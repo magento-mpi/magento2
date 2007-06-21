@@ -26,7 +26,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function imageAction()
     {
-        $product = Mage::getModel('catalog_resource/product');
+        $product = Mage::getResourceModel('catalog/product');
         $product->load($this->getRequest()->getParam('id'));
         $this->getLayout()->createBlock('core/template', 'root')->setTemplate('catalog/product/large.image.phtml')
             ->assign('product', $product);

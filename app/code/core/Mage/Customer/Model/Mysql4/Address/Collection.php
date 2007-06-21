@@ -16,9 +16,9 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('customer_read'));
-        self::$_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address');
-        self::$_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address_type');
-        self::$_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address_type_link');
+        self::$_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer/address');
+        self::$_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer/address_type');
+        self::$_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer/address_type_link');
         $this->_sqlSelect->from(self::$_addressTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/address'));
     }

@@ -36,7 +36,7 @@ class Mage_Cms_Model_Page extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getModel('cms_resource/page');
+        return Mage::getResourceModel('cms/page');
     }
 
     public function save($page)

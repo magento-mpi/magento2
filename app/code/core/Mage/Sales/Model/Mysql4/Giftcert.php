@@ -13,7 +13,7 @@ class Mage_Sales_Model_Mysql4_Giftcert
     
     public function getGiftcertByCode($giftCode)
     {
-        $giftTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'giftcert');
+        $giftTable = Mage::getSingleton('core/resource')->getTableName('sales/giftcert');
         $result = $this->_read->fetchRow("select * from ".$giftTable." where giftcert_code=?", $giftCode);
         return $result;
     }

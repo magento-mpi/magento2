@@ -28,8 +28,9 @@
         <models>
             <poll>
                 <class>Mage_Poll_Model</class>
+                <resourceModel>poll_mysql4</resourceModel>
             </poll>
-            <poll_resource>
+            <poll_mysql4>
                 <class>Mage_Poll_Model_Mysql4</class>
                 <entities>
                     <poll>
@@ -42,7 +43,7 @@
                         <table>poll_vote</table>
                     </poll_vote>
                 </entities>
-            </poll_resource>
+            </poll_mysql4>
         </models>
         <resources>
             <poll_setup>

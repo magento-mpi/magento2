@@ -17,7 +17,7 @@ class Mage_Rating_Model_Rating_Option extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('rating_resource/rating_option');
+        return Mage::getResourceSingleton('rating/rating_option');
     }
     
     public function getId()

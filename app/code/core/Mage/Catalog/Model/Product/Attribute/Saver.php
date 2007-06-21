@@ -29,7 +29,7 @@ class Mage_Catalog_Model_Product_Attribute_Saver
 
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/product_attribute_saver');
+        return Mage::getResourceSingleton('catalog/product_attribute_saver');
     }
     
     public function save($productId, $value)

@@ -65,7 +65,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $categories = Mage::getModel('catalog_resource/category_tree')
+        $categories = Mage::getResourceModel('catalog/category_tree')
             ->joinAttribute('name')
             ->load(1) // TODO: from config
             ->getNodes();

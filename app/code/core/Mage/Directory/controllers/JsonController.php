@@ -14,7 +14,7 @@ class Mage_Directory_JsonController extends Mage_Core_Controller_Front_Action
         $arrRes = array();
             
         $countryId = $this->getRequest()->getParam('parent');
-        $arrRegions = Mage::getModel('directory_resource/region_collection')
+        $arrRegions = Mage::getResourceModel('directory/region_collection')
             ->addCountryFilter($countryId)
             ->load()
             ->getItems();

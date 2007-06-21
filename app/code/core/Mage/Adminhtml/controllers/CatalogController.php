@@ -35,7 +35,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
     
     public function categoryTreeDataAction()
     {
-        $tree = Mage::getModel('catalog_resource/category_tree');
+        $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
         $websiteId = (int) $this->getRequest()->getPost('website',1);
 

@@ -33,10 +33,10 @@ class Mage_Directory_Model_Mysql4_Currency
     
     public function __construct() 
     {
-        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency');
-        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency_name');
-        $this->_currencyRateTable   = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency_rate');
-        $this->_countryCurrencyTable= Mage::getSingleton('core/resource')->getTableName('directory_resource', 'country_currency');
+        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory/currency');
+        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_name');
+        $this->_currencyRateTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_rate');
+        $this->_countryCurrencyTable= Mage::getSingleton('core/resource')->getTableName('directory/country_currency');
         
         $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');

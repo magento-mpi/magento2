@@ -21,10 +21,10 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         
         parent::__construct($resources->getConnection('review_read'));
         
-        $this->_reviewTable         = $resources->getTableName('review_resource', 'review');
-        $this->_reviewDetailTable   = $resources->getTableName('review_resource', 'review_detail');
-        $this->_reviewStatusTable   = $resources->getTableName('review_resource', 'review_status');
-        $this->_reviewEntityTable   = $resources->getTableName('review_resource', 'review_entity');
+        $this->_reviewTable         = $resources->getTableName('review/review');
+        $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
+        $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
+        $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
         
         $this->_sqlSelect->from($this->_reviewTable)
             ->join($this->_reviewDetailTable, $this->_reviewTable.'.review_id='.$this->_reviewDetailTable.'.review_id');

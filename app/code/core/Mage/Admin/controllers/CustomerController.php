@@ -15,7 +15,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
     public function gridDataAction()
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
-        $collection = Mage::getModel('customer_resource/customer_collection');
+        $collection = Mage::getResourceModel('customer/customer_collection');
         $collection->setPageSize($pageSize);
         
         
@@ -197,7 +197,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         $arrRes = array();
         $customerId = $this->getRequest()->getParam('id', false);
         if ($customerId) {
-            $addressCollection = Mage::getModel('customer_resource/address_collection')->loadByCustomerId($customerId);
+            $addressCollection = Mage::getResourceModel('customer/address_collection')->loadByCustomerId($customerId);
             foreach ($addressCollection as $address) {
                 $arrRes[] = array(
                     'address_id'=> $address->getAddressId(),

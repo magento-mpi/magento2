@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Group_Collection extends Varie
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
-        $this->_groupTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_group');
-        $this->_setTable    = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_set');
+        $this->_groupTable  = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_group');
+        $this->_setTable    = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_set');
         
         $this->_sqlSelect->from($this->_groupTable);
         $this->_sqlSelect->join($this->_setTable, "$this->_groupTable.set_id=$this->_setTable.set_id", 'set_id');

@@ -10,7 +10,7 @@ class Mage_Core_Model_Mysql4_Config
     {
         self::$_read = Mage::getSingleton('core/resource')->getConnection('core_read');
         self::$_write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        self::$_configTable = Mage::getSingleton('core/resource')->getTableName('core_resource', 'config');
+        self::$_configTable = Mage::getSingleton('core/resource')->getTableName('core/config');
     }
     
     function getValueByKey($key)

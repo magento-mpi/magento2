@@ -13,8 +13,9 @@
         <models>
             <log>
                 <class>Mage_Log_Model</class>
+                <resourceModel>log_mysql4</resourceModel>
             </log>
-            <log_resource>
+            <log_mysql4>
                 <class>Mage_Log_Model_Mysql4</class>
                 <entities>
                     <visitor>
@@ -24,7 +25,7 @@
                         <table>log_url_history</table>
                     </url_table>
                 </entities>
-            </log_resource>
+            </log_mysql4>
         </models>
         <resources>
             <log_setup>

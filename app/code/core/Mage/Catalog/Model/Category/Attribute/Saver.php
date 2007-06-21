@@ -29,7 +29,7 @@ class Mage_Catalog_Model_Category_Attribute_Saver
 
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/category_attribute_saver');
+        return Mage::getResourceSingleton('catalog/category_attribute_saver');
     }
     
     public function save($categoryId, $value)

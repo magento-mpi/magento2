@@ -10,7 +10,7 @@ class Mage_Sales_Model_Mysql4_Counter
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
-        $this->_counterTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'counter');
+        $this->_counterTable = Mage::getSingleton('core/resource')->getTableName('sales/counter');
     }
     
     public function getCounter($type, $website=null, $increase=true)

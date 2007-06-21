@@ -23,7 +23,7 @@ class Mage_Admin_Model_Mysql4_User
     
     public function __construct() 
     {
-        $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin_resource', 'user');
+        $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin/user');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
     }

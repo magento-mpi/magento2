@@ -41,12 +41,12 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function getCollection()
     {
-        return Mage::getModel('poll_resource/poll_collection');
+        return Mage::getResourceModel('poll/poll_collection');
     }
 
     public function getResource()
     {
-        return Mage::getModel('poll_resource/poll');
+        return Mage::getResourceModel('poll/poll');
     }
 
     public function setVoted($pollId=null)
@@ -69,7 +69,7 @@ class Mage_Poll_Model_Poll extends Varien_Object
 
     public function loadAnswers()
     {
-        $answers = Mage::getModel('poll_resource/poll_answer')->loadAnswers($this->getId());
+        $answers = Mage::getResourceModel('poll/poll_answer')->loadAnswers($this->getId());
         $this->setAnswers($answers);
         return $this;
     }
@@ -77,7 +77,7 @@ class Mage_Poll_Model_Poll extends Varien_Object
     public function calculatePercent()
     {
         $answers = $this->getAnswers();
-        $answersResource = Mage::getModel('poll_resource/poll_answer');
+        $answersResource = Mage::getResourceModel('poll/poll_answer');
         $poll = $this->getPoll();
         foreach( $answers as $key => $answer ) {
             $answers[$key]['percent'] = $answersResource->getPercent($poll['votes_count'], $answer['votes_count']);

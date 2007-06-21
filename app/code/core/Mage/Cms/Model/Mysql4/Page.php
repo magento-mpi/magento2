@@ -20,7 +20,7 @@ class Mage_Cms_Model_Mysql4_Page
 
     function __construct()
     {
-        $this->_pageTable = Mage::getSingleton('core/resource')->getTableName('cms_resource', 'page');
+        $this->_pageTable = Mage::getSingleton('core/resource')->getTableName('cms/page');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('cms_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('cms_write');

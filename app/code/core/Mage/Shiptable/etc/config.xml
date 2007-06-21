@@ -10,9 +10,10 @@
       <models>
          <shiptable>
             <class>Mage_Shiptable_Model</class>
+            <resourceModel>shiptable_mysql4</resourceModel>
          </shiptable>
 
-         <shiptable_resource>
+         <shiptable_mysql4>
             <class>Mage_Shiptable_Model_Mysql4</class>
 
             <entities>
@@ -20,7 +21,7 @@
                   <table>shiptable_data</table>
                </shiptable>
             </entities>
-         </shiptable_resource>
+         </shiptable_mysql4>
       </models>
 
       <resources>

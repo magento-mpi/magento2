@@ -80,7 +80,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->renderLayout();
 
 
-        $collection = Mage::getSingleton('log_resource/visitor_collection')
+        $collection = Mage::getResourceSingleton('log/visitor_collection')
             ->useOnlineFilter()
             ->load();
 

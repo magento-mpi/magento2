@@ -27,7 +27,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $pageSize = $this->getRequest()->getPost('limit', 30);
         $websiteId = $this->getRequest()->getParam('website');
         
-        $prodCollection = Mage::getModel('catalog_resource/product_collection')
+        $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->setWebsiteId(Mage::getSingleton('core/website')->getId())
             ->distinct(true)
             ->addAttributeToSelect('name')
@@ -37,7 +37,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
 
         if (($categoryId = (int) $this->getRequest()->getParam('category')) && $categoryId != 1) {
 
-            $nodes = Mage::getModel('catalog_resource/category_tree')
+            $nodes = Mage::getResourceModel('catalog/category_tree')
                         ->load($categoryId, 10)
                         ->getNodes();
 
@@ -376,7 +376,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $data  = array();
                 
         if ($rootNode == 'croot') {
-            $setCollection  = Mage::getModel('catalog_resource/product_attribute_set_collection')
+            $setCollection  = Mage::getResourceModel('catalog/product_attribute_set_collection')
                 ->load();
                 
             foreach($setCollection as $set) {
@@ -490,7 +490,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         $order = $this->getRequest()->getPost('sort', 'attribute_id');
         $dir   = $this->getRequest()->getPost('dir', 'asc');
-        $collection  = Mage::getModel('catalog_resource/product_attribute_collection')
+        $collection  = Mage::getResourceModel('catalog/product_attribute_collection')
             ->addFilter('is_visible', 1)
             ->setOrder($order, $dir)
             ->load();

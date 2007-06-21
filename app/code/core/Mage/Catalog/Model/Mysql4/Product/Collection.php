@@ -29,10 +29,10 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     function __construct($config = array())
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
-        $this->_attributes = Mage::getModel('catalog_resource/product_attribute_collection')->load();
+        $this->_attributes = Mage::getResourceModel('catalog/product_attribute_collection')->load();
         
-        $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product');
-        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_product');
+        $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog/product');
+        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
 
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         

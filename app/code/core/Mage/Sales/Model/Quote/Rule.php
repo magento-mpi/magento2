@@ -106,6 +106,6 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
     
     public function getResource()
     {
-        return Mage::getModel('sales_resource/quote_rule');
+        return Mage::getResourceModel('sales/quote_rule');
     }
 }

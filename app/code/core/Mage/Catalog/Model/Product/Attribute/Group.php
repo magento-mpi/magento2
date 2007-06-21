@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute_Group extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/product_attribute_group');
+        return Mage::getResourceSingleton('catalog/product_attribute_group');
     }
     
     public function getId()

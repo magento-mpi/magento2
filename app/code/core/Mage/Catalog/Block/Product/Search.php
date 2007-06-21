@@ -25,7 +25,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Search results for: '.$queryEscaped);
 
         $page = $request->getParam('p',1);
-        $prodCollection = Mage::getModel('catalog_resource/product_collection')
+        $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->distinct(true)
             ->addCategoryFilter(Mage::getSingleton('core/website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
@@ -61,7 +61,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
 
         $page = $request->getParam('p',1);
         
-        $prodCollection = Mage::getModel('catalog_resource/product_collection')
+        $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->distinct(true)
             ->addCategoryFilter(Mage::getSingleton('core/website')->getArrCategoriesId())
             ->addAttributeToSelect('name')
@@ -94,7 +94,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         Mage::registry('action')->getLayout()->getBlock('head.title')->setContents('Advanced search results');
 
         $page = $request->getParam('p',1);
-        $prodCollection = Mage::getModel('catalog_resource/product_collection')
+        $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->distinct(true)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

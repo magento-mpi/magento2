@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
     {
         parent::__construct(
             Mage::getSingleton('core/resource')->getConnection('catalog_read'),
-            Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category'),
+            Mage::getSingleton('core/resource')->getTableName('catalog/category'),
             array(
                 Varien_Data_Tree_Db::ID_FIELD       => 'category_id',
                 Varien_Data_Tree_Db::PARENT_FIELD   => 'pid',
@@ -29,9 +29,9 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
             )
         );
         
-        $this->_attributes          = Mage::getModel('catalog_resource/category_attribute_collection')->load();
-        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
+        $this->_attributes          = Mage::getResourceModel('catalog/category_attribute_collection')->load();
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute');
+        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_value');
     }
     
     public function joinAttribute($attributeCode)

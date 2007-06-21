@@ -12,8 +12,9 @@
       <models>
          <catalog>
             <class>Mage_Catalog_Model</class>
+            <resourceModel>catalog_mysql4</resourceModel>
          </catalog>
-         <catalog_resource>
+         <catalog_mysql4>
             <class>Mage_Catalog_Model_Mysql4</class>
             <entities>
                <category>
@@ -95,7 +96,7 @@
                   <table>catalog_product_rule</table>
                </product_rule>
             </entities>
-         </catalog_resource>
+         </catalog_mysql4>
       </models>
       <catalog>
          <product>

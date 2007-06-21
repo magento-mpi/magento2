@@ -28,8 +28,8 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Set
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
 
-        $this->_setTable    = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_set');
-        $this->_inSetTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_in_set');
+        $this->_setTable    = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_set');
+        $this->_inSetTable  = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_in_set');
     }
     
     public function load($setId)

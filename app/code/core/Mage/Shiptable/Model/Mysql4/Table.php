@@ -10,7 +10,7 @@ class Mage_Shiptable_Model_Mysql4_Table
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('shiptable_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('shiptable_write');
-        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shiptable_resource', 'shiptable');
+        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shiptable/shiptable');
     }
     
     public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)

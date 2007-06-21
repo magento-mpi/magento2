@@ -19,10 +19,10 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('rating_read'));
         
-        $this->_ratingTable         = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating');
-        $this->_ratingEntityTable   = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating_entity');
-        $this->_ratingOptionTable   = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating_option');
-        $this->_ratingVoteTable     = Mage::getSingleton('core/resource')->getTableName('rating_resource', 'rating_vote');
+        $this->_ratingTable         = Mage::getSingleton('core/resource')->getTableName('rating/rating');
+        $this->_ratingEntityTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_entity');
+        $this->_ratingOptionTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
+        $this->_ratingVoteTable     = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
         
         $this->_sqlSelect->from($this->_ratingTable);
         
@@ -73,7 +73,7 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getModel('rating_resource/rating_option_collection')
+            $collection = Mage::getResourceModel('rating/rating_option_collection')
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();

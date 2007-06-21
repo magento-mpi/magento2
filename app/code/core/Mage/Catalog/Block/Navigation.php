@@ -11,7 +11,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
     protected function _loadCategories($parent)
     {
-        $nodes = Mage::getModel('catalog_resource/category_tree')
+        $nodes = Mage::getResourceModel('catalog/category_tree')
             ->joinAttribute('name')
             ->load($parent)
             ->getNodes();

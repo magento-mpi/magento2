@@ -40,7 +40,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getSingleton('customer_resource/customer');
+        return Mage::getResourceSingleton('customer/customer');
     }
     
     public function authenticate($login, $password)
@@ -101,7 +101,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     public function addAddress(Mage_Customer_Model_Address $address)
     {
         if (!$this->_addresses) {
-            $this->_addresses = Mage::getModel('customer_resource/address_collection');
+            $this->_addresses = Mage::getResourceModel('customer/address_collection');
         }
         
         $this->_addresses->addItem($address);
@@ -122,10 +122,10 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         
         if ($this->getCustomerId()) {
-            $this->_addresses = Mage::getModel('customer_resource/address_collection')->loadByCustomerId($this->getCustomerId());
+            $this->_addresses = Mage::getResourceModel('customer/address_collection')->loadByCustomerId($this->getCustomerId());
         }
         else {
-            $this->_addresses = Mage::getModel('customer_resource/address_collection');
+            $this->_addresses = Mage::getResourceModel('customer/address_collection');
         }
         
         return $this->_addresses;
@@ -141,7 +141,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     
     public function getWishlistCollection()
     {
-        $collection = Mage::getModel('customer_resource/wishlist_collection');
+        $collection = Mage::getResourceModel('customer/wishlist_collection');
         $collection->addCustomerFilter($this->getId());
 
         return $collection;

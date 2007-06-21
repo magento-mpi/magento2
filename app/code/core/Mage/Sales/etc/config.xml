@@ -13,8 +13,9 @@
     <models>
       <sales>
         <class>Mage_Sales_Model</class>
+        <resourceModel>sales_mysql4</resourceModel>
       </sales>
-      <sales_resource>
+      <sales_mysql4>
         <class>Mage_Sales_Model_Mysql4</class>
         <entities>
           <quote>
@@ -54,7 +55,7 @@
             <table>sales_counter</table>
           </counter>
         </entities>
-      </sales_resource>
+      </sales_mysql4>
     </models>
     <resources>
       <sales_setup>

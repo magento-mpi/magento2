@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/product_attribute');
+        return Mage::getResourceSingleton('catalog/product_attribute');
     }
 
     public function load($attributeId)
@@ -121,7 +121,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
     
     public function getOptions()
     {
-        $collection = Mage::getModel('catalog_resource/product_attribute_option_collection')
+        $collection = Mage::getResourceModel('catalog/product_attribute_option_collection')
             ->addAttributeFilter($this->getId())
             ->load();
             

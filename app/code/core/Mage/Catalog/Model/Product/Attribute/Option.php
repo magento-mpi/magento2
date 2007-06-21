@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute_Option extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/product_attribute_option');
+        return Mage::getResourceSingleton('catalog/product_attribute_option');
     }
     
     public function load($optionId)

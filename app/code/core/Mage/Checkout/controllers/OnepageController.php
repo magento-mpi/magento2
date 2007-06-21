@@ -76,7 +76,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
             return;
         }
-        $collection = Mage::getModel('sales_resource/order_collection')
+        $collection = Mage::getResourceModel('sales/order_collection')
             ->addAttributeSelect('self/real_order_id')
             ->addAttributeFilter('self/customer_id', $customerSession->getCustomerId())
             ->setOrder('self/created_at', 'DESC')
@@ -177,7 +177,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 }
             }
             if ($address->getCustomerPassword()) {
-                $customerResource = Mage::getModel('customer_resource/customer');
+                $customerResource = Mage::getResourceModel('customer/customer');
                 $this->_quote->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
             }
             $this->_quote->save();

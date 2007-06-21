@@ -30,15 +30,16 @@
         <models>
             <cms>
                 <class>Mage_Cms_Model</class>
+                <resourceModel>cms_mysql4</resourceModel>
             </cms>
-            <cms_resource>
+            <cms_mysql4>
                 <class>Mage_Cms_Model_Mysql4</class>
                 <entities>
                     <page>
                         <table>cms_page</table>
                     </page>
                 </entities>
-            </cms_resource>
+            </cms_mysql4>
         </models>
         <resources>
             <cms_setup>

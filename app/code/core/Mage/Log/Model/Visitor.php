@@ -4,7 +4,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getModel('log_resource/visitor');
+        return Mage::getResourceModel('log/visitor');
     }
 
     public function collectBrowserData()

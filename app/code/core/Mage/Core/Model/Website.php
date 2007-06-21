@@ -50,7 +50,7 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getSingleton('core_resource/website');
+        return Mage::getResourceSingleton('core/website');
     }
     
     /**
@@ -84,7 +84,7 @@ class Mage_Core_Model_Website extends Varien_Object
     {
         $arr = array();
         // TODO: depended from website id
-        $nodes = Mage::getModel('catalog_resource/category_tree')
+        $nodes = Mage::getResourceModel('catalog/category_tree')
             ->load(2,10) // TODO: from config
             ->getNodes();
         foreach ($nodes as $node) {

@@ -187,7 +187,7 @@ final class Mage {
      * @link Mage_Core_Model_Config::getModelInstance
      * @param string $modelClass
      * @param array $arguments
-     * @return Mage_Core_Model_Abstract
+     * @return Varien_Object
      */
     public static function getModel($modelClass='', $arguments=array())
     {
@@ -199,6 +199,27 @@ final class Mage {
         $registryKey = '_singleton/'.$modelClass;
         if (!Mage::registry($registryKey)) {
             Mage::register($registryKey, Mage::getModel($modelClass, $arguments));
+        }
+        return Mage::registry($registryKey);
+    }
+    
+    /**
+     * Get resource model class
+     *
+     * @param string $modelClass
+     * @param array $arguments
+     * @return Object
+     */  
+    public static function getResourceModel($modelClass, $arguments=array())
+    {
+        return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
+    }
+    
+    public static function getResourceSingleton($modelClass='', array $arguments=array())
+    {
+        $registryKey = '_resource_singleton/'.$modelClass;
+        if (!Mage::registry($registryKey)) {
+            Mage::register($registryKey, Mage::getResourceModel($modelClass, $arguments));
         }
         return Mage::registry($registryKey);
     }

@@ -15,7 +15,7 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
-        $this->_optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_option');
+        $this->_optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_option');
         
         $this->_sqlSelect->from($this->_optionTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute_option'));

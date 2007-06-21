@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Mysql4_Category_Filter_Collection extends Varien_Data_C
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
-        $this->_filterTable     = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_filter');
-        $this->_attributeTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute');
+        $this->_filterTable     = Mage::getSingleton('core/resource')->getTableName('catalog/category_filter');
+        $this->_attributeTable  = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute');
         
         $this->_sqlSelect->from($this->_filterTable);
         $this->_sqlSelect->joinLeft($this->_attributeTable, "$this->_filterTable.attribute_id=$this->_attributeTable.attribute_id");

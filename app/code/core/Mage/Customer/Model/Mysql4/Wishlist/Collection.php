@@ -16,8 +16,8 @@ class Mage_Customer_Model_Mysql4_Wishlist_Collection extends Varien_Data_Collect
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
         
-        $this->_wishlistTable = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'wishlist');
-        $this->_productCollection = Mage::getModel('catalog_resource/product_collection');
+        $this->_wishlistTable = Mage::getSingleton('core/resource')->getTableName('customer/wishlist');
+        $this->_productCollection = Mage::getResourceModel('catalog/product_collection');
         $this->_sqlSelect->from($this->_wishlistTable);
     }
     

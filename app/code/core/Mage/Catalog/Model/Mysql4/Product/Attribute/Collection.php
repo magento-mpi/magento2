@@ -18,8 +18,8 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Collection extends Varien_Data
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
         
-        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute');
-        $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_in_set');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute');
+        $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_in_set');
         
         $this->_sqlSelect->from($this->_attributeTable);
         

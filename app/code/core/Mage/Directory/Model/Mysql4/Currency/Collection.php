@@ -16,8 +16,8 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
-        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency');
-        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory_resource', 'currency_name');
+        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory/currency');
+        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_name');
         
         $this->_sqlSelect->from($this->_currencyTable);
         $this->_sqlSelect->join($this->_currencyNameTable, 

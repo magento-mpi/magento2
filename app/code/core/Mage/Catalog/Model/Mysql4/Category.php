@@ -18,9 +18,9 @@ class Mage_Catalog_Model_Mysql4_Category
     
     public function __construct() 
     {
-        $this->_categoryTable   = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category');
-        $this->_attributeTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable  = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');
+        $this->_categoryTable   = Mage::getSingleton('core/resource')->getTableName('catalog/category');
+        $this->_attributeTable  = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute');
+        $this->_attributeValueTable  = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_value');
         
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Mysql4_Category
                     throw new Exception('Empty parent id for category');
                 }
                 
-                $tree = Mage::getModel('catalog_resource/category_tree');
+                $tree = Mage::getResourceModel('catalog/category_tree');
                 $parentNode = $tree->loadNode($parentId);
                 
                 $node = $tree->appendChild(array('attribute_set_id'=>$category->getAttributeSetId()), $parentNode);
@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Mysql4_Category
      */
     public function getAttributesBySet($setId)
     {
-        $collection = Mage::getModel('catalog_resource/category_attribute_collection')
+        $collection = Mage::getResourceModel('catalog/category_attribute_collection')
             ->addSetFilter($setId)
             ->load();
         return $collection;

@@ -25,7 +25,7 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Varien_Data_Collection_Db
     function __construct()
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('cms_read'));
-        $this->_pageTable = Mage::getSingleton('core/resource')->getTableName('cms_resource', 'page');
+        $this->_pageTable = Mage::getSingleton('core/resource')->getTableName('cms/page');
 
         $this->_sqlSelect->from($this->_pageTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('cms/page'));

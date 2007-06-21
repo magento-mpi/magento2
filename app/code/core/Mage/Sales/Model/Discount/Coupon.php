@@ -4,7 +4,7 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Object
 {
     public function loadByCode($code)
     {
-        $data = Mage::getModel('sales_resource/discount_coupon')->loadByCode($code);
+        $data = Mage::getResourceModel('sales/discount_coupon')->loadByCode($code);
         $this->setData($data);
         return $this;
     }

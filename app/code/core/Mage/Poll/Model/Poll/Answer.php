@@ -45,7 +45,7 @@ class Mage_Poll_Model_Poll_Answer extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getSingleton('poll_resource/answer');
+        return Mage::getResourceSingleton('poll/answer');
     }
 
     protected function setId($id)

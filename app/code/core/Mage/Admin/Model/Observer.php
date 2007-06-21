@@ -39,7 +39,7 @@ class Mage_Admin_Model_Observer
         } else {
             $user->reload();
             if (!$session->getAcl() || $user->getReloadAclFlag()) {
-                $session->setAcl(Mage::getModel('admin_resource/acl')->loadAcl());
+                $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
             }
             if ($user->getReloadAclFlag()) {
                 $user->setReloadAclFlag(0)->save();

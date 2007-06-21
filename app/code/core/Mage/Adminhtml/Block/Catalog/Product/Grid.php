@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     public function getCollection()
     {
         if (empty($this->_collection)) {
-            $this->_collection = Mage::getModel('catalog_resource/product_collection');
+            $this->_collection = Mage::getResourceModel('catalog/product_collection');
             if ($this->getCategoryId()) {
                 $this->_collection->addCategoryFilter($this->getCategoryId());
             }

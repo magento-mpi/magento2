@@ -18,7 +18,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
         
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', 'quote_rule');
+        $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales/quote_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));

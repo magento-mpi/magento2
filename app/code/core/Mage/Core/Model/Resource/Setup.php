@@ -45,7 +45,7 @@ class Mage_Core_Model_Resource_Setup
     
     public function applyUpdates()
     {
-        $dbVer = Mage::getModel('core_resource/resource')->getDbVersion($this->_resourceName);
+        $dbVer = Mage::getResourceModel('core/resource')->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
         // Module is installed
         if ($dbVer!==false) {
@@ -166,7 +166,7 @@ class Mage_Core_Model_Resource_Setup
                 try {
                     $result = Mage::getSingleton('core/resource')->getConnection($this->_resourceName)->multi_query($sql);
                     if ($result) {
-                        Mage::getModel('core_resource/resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+                        Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
                     }
                 }
                 catch (Exception $e){

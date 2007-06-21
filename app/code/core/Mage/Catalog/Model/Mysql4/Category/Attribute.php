@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute
     
     public function __construct()
     {
-        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
+        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
     }

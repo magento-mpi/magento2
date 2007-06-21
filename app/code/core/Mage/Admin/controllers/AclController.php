@@ -4,7 +4,7 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
 {
     public function userTreeAction()
     {
-        $users = Mage::getModel('admin_resource/user_collection')->setOrder('firstname,lastname')->loadData();
+        $users = Mage::getResourceModel('admin/user_collection')->setOrder('firstname,lastname')->loadData();
         $userTree = $this->_buildUserTree($users);
         $this->getResponse()->setBody(Zend_Json::encode($userTree));
     }
@@ -25,7 +25,7 @@ class Mage_Admin_AclController extends Mage_Core_Controller_Front_Action
     
     public function roleTreeAction()
     {
-        $roles = Mage::getModel('admin_resource/acl_role_collection')->loadData();
+        $roles = Mage::getResourceModel('admin/acl_role_collection')->loadData();
         $roleTree = $this->_buildRoleTree($roles);
         $this->getResponse()->setBody(Zend_Json::encode($roleTree));
     }

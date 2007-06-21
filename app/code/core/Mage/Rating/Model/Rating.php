@@ -17,7 +17,7 @@ class Mage_Rating_Model_Rating extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('rating_resource/rating');
+        return Mage::getResourceSingleton('rating/rating');
     }
     
     public function getId()
@@ -63,7 +63,7 @@ class Mage_Rating_Model_Rating extends Varien_Object
             return $options;
         }
         elseif ($id = $this->getId()) {
-        	return Mage::getModel('rating_resource/rating_option_collection')
+        	return Mage::getResourceModel('rating/rating_option_collection')
         	   ->addRatingFilter($id)
         	   ->setPositionOrder()
         	   ->load()
@@ -79,6 +79,6 @@ class Mage_Rating_Model_Rating extends Varien_Object
      */
     public function getCollection()
     {
-        return Mage::getModel('rating_resource/rating_collection');
+        return Mage::getResourceModel('rating/rating_collection');
     }
 }

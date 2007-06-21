@@ -9,7 +9,7 @@ class Mage_Admin_WebsiteController extends Mage_Core_Controller_Admin_Action
             'value' => 0,
             'text'  => __('All websites')
         );
-        $arrSites = Mage::getModel('core_resource/website_collection')->load();
+        $arrSites = Mage::getResourceModel('core/website_collection')->load();
         
         foreach ($arrSites as $website) {
             $data[] = array(

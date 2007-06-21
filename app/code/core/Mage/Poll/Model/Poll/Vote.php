@@ -26,7 +26,7 @@ class Mage_Poll_Model_Poll_Vote extends Varien_Object
     protected function _getResource()
     {
         if (!$this->_resource) {
-        	$this->_resource = Mage::getSingleton('poll_resource/poll_answer_vote');
+        	$this->_resource = Mage::getResourceSingleton('poll/poll_answer_vote');
         }
         return $this->_resource;
     }

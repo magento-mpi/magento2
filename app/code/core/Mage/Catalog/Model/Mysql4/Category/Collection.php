@@ -11,10 +11,10 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
     public function __construct() 
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('catalog_read'));
-        $this->_categoryTable       = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category');
-        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_product');
-        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute');
-        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_attribute_value');;
+        $this->_categoryTable       = Mage::getSingleton('core/resource')->getTableName('catalog/category');
+        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute');
+        $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_value');;
 
         $this->_websiteId = Mage::getSingleton('core/website')->getId();
                

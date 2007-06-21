@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getResource()
     {
-        return Mage::getSingleton('catalog_resource/product_attribute_set');
+        return Mage::getResourceSingleton('catalog/product_attribute_set');
     }
 
     public function load($setId)
@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getGroups()
     {
-        $collection = Mage::getModel('catalog_resource/product_attribute_group_collection')
+        $collection = Mage::getResourceModel('catalog/product_attribute_group_collection')
             ->addSetFilter($this->getId())
             ->load();
         return $collection;
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Product_Attribute_Set extends Varien_Object
     
     public function getAttributes($onlyVisible = false)
     {
-        $collection = Mage::getModel('catalog_resource/product_attribute_collection')
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->addSetFilter($this->getId())
             ->setPositionOrder();
         if ($onlyVisible) {

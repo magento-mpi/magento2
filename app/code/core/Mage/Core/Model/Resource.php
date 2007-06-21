@@ -38,7 +38,7 @@ class Mage_Core_Model_Resource
         if (!isset($this->_connections[$name])) {
             $conn = Mage::getConfig()->getResourceConnectionConfig($name);
             if ($conn && $conn->is('active', 1)) {
-                $typeObj = $this->getConnectionTypeObj((string)$conn->type);
+                $typeObj = $this->getConnectionTypeInstance((string)$conn->type);
                 $this->_connections[$name] = $typeObj->getConnection($conn);
             }
             else {
@@ -56,7 +56,7 @@ class Mage_Core_Model_Resource
      * @param string $type
      * @return Mage_Core_Model_Resource_Type_Abstract
      */
-    public function getConnectionTypeObj($type)
+    public function getConnectionTypeInstance($type)
     {
         if (!isset($this->_connectionTypes[$type])) {
             $config = Mage::getConfig()->getResourceTypeConfig($type);
@@ -85,9 +85,11 @@ class Mage_Core_Model_Resource
      * @param   string $entity
      * @return  string
      */
-    public function getTableName($model, $entity)
+    public function getTableName($modelEntity)
     {
-        return (string)$this->getEntity($model, $entity)->table;
+        list($model, $entity) = explode('/', $modelEntity);
+        $resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
+        return (string)$this->getEntity($resourceModel, $entity)->table;
     }
     
     public function cleanDbRow(&$row) {
@@ -105,7 +107,7 @@ class Mage_Core_Model_Resource
     public function createConnection($name, $type, $config)
     {
         if (!isset($this->_connections[$name])) {
-            $typeObj = $this->getConnectionTypeObj($type);
+            $typeObj = $this->getConnectionTypeInstance($type);
             $this->_connections[$name] = $typeObj->getConnection($config);
         }
         return $this->_connections[$name];

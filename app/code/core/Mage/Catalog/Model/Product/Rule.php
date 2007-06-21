@@ -109,6 +109,6 @@ class Mage_Catalog_Model_Product_Rule extends Mage_Rule_Model_Abstract
     
     public function getResource()
     {
-        return Mage::getModel('catalog_resource/product_rule');
+        return Mage::getResourceModel('catalog/product_rule');
     }
 }

@@ -27,11 +27,11 @@ class Mage_Catalog_Model_Mysql4_Product
 
     public function __construct($data=array()) 
     {
-        $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product');
-        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute');
-        $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_attribute_in_set');
-        $this->_linkTable           = Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'product_link');
-        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog_resource', 'category_product');
+        $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog/product');
+        $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute');
+        $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_in_set');
+        $this->_linkTable           = Mage::getSingleton('core/resource')->getTableName('catalog/product_link');
+        $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
         
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Mysql4_Product
     public function getAttributes($attributeSetId)
     {
         if (!$this->_attributes) {
-            $this->_attributes = Mage::getModel('catalog_resource/product_attribute_collection')
+            $this->_attributes = Mage::getResourceModel('catalog/product_attribute_collection')
                 ->addSetFilter($attributeSetId)
                 ->load();
         }

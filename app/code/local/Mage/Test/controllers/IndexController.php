@@ -15,7 +15,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
     {
         // Load default layout
 
-        $collection = Mage::getSingleton('log_resource/visitor_collection')
+        $collection = Mage::getResourceSingleton('log/visitor_collection')
             ->getTimeline(90)
             #->applyDateRange('2007-01-01', '2007-12-12')
             ->load(true);
@@ -32,7 +32,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
     public function pagesAction()
     {
-        $collection = Mage::getSingleton('cms_resource/page_collection')
+        $collection = Mage::getResourceSingleton('cms/page_collection')
             ->load(true);
         echo "<pre>";
         print_r($collection);

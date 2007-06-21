@@ -13,8 +13,9 @@
       <models>
          <admin>
             <class>Mage_Admin_Model</class>
+            <resourceModel>admin_mysql4</resourceModel>
          </admin>
-         <admin_resource>
+         <admin_mysql4>
             <class>Mage_Admin_Model_Mysql4</class>
             <entities>
                <user><table>admin_user</table></user>
@@ -22,7 +23,7 @@
                <rule><table>admin_rule</table></rule>
                <assert><table>admin_assert</table></assert>
             </entities>
-         </admin_resource>
+         </admin_mysql4>
       </models>
 
       <resources>

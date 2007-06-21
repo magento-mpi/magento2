@@ -55,7 +55,7 @@ class Mage_SearchLucene_IndexController extends Mage_Core_Controller_Front_Actio
             return true;
         }
 
-        $collection = Mage::getModel('catalog_resource/product_collection');
+        $collection = Mage::getResourceModel('catalog/product_collection');
         $collection->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addAttributeToSelect('sku')

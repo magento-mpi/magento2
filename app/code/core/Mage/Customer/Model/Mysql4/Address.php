@@ -29,9 +29,9 @@ class Mage_Customer_Model_Mysql4_Address
     
     public function __construct() 
     {
-        self::$_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address');
-        self::$_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address_type');
-        self::$_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address_type_link');
+        self::$_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer/address');
+        self::$_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer/address_type');
+        self::$_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer/address_type_link');
         self::$_read    = Mage::getSingleton('core/resource')->getConnection('customer_read');
         self::$_write   = Mage::getSingleton('core/resource')->getConnection('customer_write');
     }
@@ -147,7 +147,7 @@ class Mage_Customer_Model_Mysql4_Address
         
         // Validate region id
         if (!empty($data['region_id'])) {
-            $region = Mage::getModel('directory_resource/region')->load($data['region_id']);
+            $region = Mage::getResourceModel('directory/region')->load($data['region_id']);
             if ($region && $region->getCountryId() && $region->getCountryId() == $data['country_id']) {
                 $data['region'] = $region->getName();
             }
@@ -204,7 +204,7 @@ class Mage_Customer_Model_Mysql4_Address
      */
     public function getAvailableTypes($by='code', $langCode='en')
     {
-        $langTable = Mage::getSingleton('core/resource')->getTableName('customer_resource', 'address_type_language');
+        $langTable = Mage::getSingleton('core/resource')->getTableName('customer/address_type_language');
         
         $select = self::$_read->select()->from(self::$_typeTable)
             ->join($langTable, "$langTable.address_type_id=".self::$_typeTable.".address_type_id", "$langTable.name");

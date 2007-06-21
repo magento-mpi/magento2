@@ -7,7 +7,7 @@ class Mage_Catalog_Import {
     
     public function __construct()
     {
-        $this->_products = Mage::getModel('catalog_resource/product_collection');
+        $this->_products = Mage::getResourceModel('catalog/product_collection');
     }
     
     public function loadCsv($fileName, $fieldMap)

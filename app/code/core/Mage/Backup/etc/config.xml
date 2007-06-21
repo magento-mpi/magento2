@@ -12,10 +12,11 @@
         <models>
             <backup>
                 <class>Mage_Backup_Model</class>
+                <resourceModel>backup_mysql4</resourceModel>
             </backup>
-            <backup_resource>
+            <backup_mysql4>
                 <class>Mage_Backup_Model_Mysql4</class>
-            </backup_resource>
+            </backup_mysql4>
         </models>
         <resources>
             <backup_setup>

@@ -33,8 +33,8 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('log_read'));
 
-        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log_resource', 'visitor');
-        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log_resource', 'url_table');
+        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
+        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
     }

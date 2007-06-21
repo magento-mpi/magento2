@@ -19,7 +19,7 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('poll_read'));
 
-        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll_resource', 'poll');
+        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll/poll');
 
         $this->_sqlSelect
             ->from($this->_pollTable);
@@ -56,7 +56,7 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
     protected  function _getAnswersCollection()
     {
         if( !$this->_answerCollection ) {
-            $this->_answerCollection = Mage::getModel('poll_resource/poll_answer_collection');
+            $this->_answerCollection = Mage::getResourceModel('poll/poll_answer_collection');
         }
         return $this->_answerCollection;
     }

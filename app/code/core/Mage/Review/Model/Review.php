@@ -12,7 +12,7 @@ class Mage_Review_Model_Review extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getSingleton('review_resource/review');
+        return Mage::getResourceSingleton('review/review');
     }
     
     public function getId()
@@ -40,6 +40,6 @@ class Mage_Review_Model_Review extends Varien_Object
     
     public function getCollection()
     {
-        return Mage::getModel('review_resource/review_collection');
+        return Mage::getResourceModel('review/review_collection');
     }
 }
