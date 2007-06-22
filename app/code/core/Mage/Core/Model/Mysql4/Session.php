@@ -47,19 +47,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
     }
     
     /**
-     * Open session
-     *
-     * @param string $savePath ignored
-     * @param string $sessName ignored
-     * @return boolean
-     */
-    public function open($savePath, $sessName) 
-    {
-        $this->_lifeTime = get_cfg_var('session.gc_maxlifetime');
-        return true;
-    }
-    
-    /**
      * Check DB connection
      *
      * @return bool
@@ -74,6 +61,36 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
             return false;
         }
         
+        return true;
+    }
+    
+    public function setSaveHandler()
+    {
+        if ($this->hasConnection()) {
+            session_set_save_handler(
+                array($this, 'open'), 
+                array($this, 'close'), 
+                array($this, 'read'),
+                array($this, 'write'),
+                array($this, 'destroy'),
+                array($this, 'gc')
+            );
+        } else {
+            session_save_path(Mage::getBaseDir('session'));
+        }
+        return $this;
+    }
+    
+    /**
+     * Open session
+     *
+     * @param string $savePath ignored
+     * @param string $sessName ignored
+     * @return boolean
+     */
+    public function open($savePath, $sessName) 
+    {
+        $this->_lifeTime = get_cfg_var('session.gc_maxlifetime');
         return true;
     }
     

@@ -20,9 +20,9 @@ class Mage_Sales_Model_Mysql4_Document
     
     public function setDocType($docType)
     {
-        $this->_documentTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType);
+        $this->_documentTable = Mage::getSingleton('core/resource')->getTableName('sales/'.$docType);
         $this->_idField = $docType.'_id';
-        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('sales_resource', $docType.'_attribute');
+        $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('sales/'.$docType.'_attribute');
     }
     
     /**
