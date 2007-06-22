@@ -8,13 +8,22 @@
 var dashboard = new Flex.Object( {
     src: BASE_URL + '../media/flex/dashboard.swf',
     flashVars: 'baseUrl='+ BASE_URL + '&languageUrl=flex/language&cssUrl=' + SKIN_URL + 'flex.swf',
-    width: '800',
+    width: '100%',
+    wmode: "window",
     height: '700'
 } );
 
 dashboard.addEventListener( 'complete', function ( evt ) { 
     $('dashboardControl').show();
 } );
+
+dashboard.addEventListener( 'beforefullscreen', function ( evt ) { 
+    this.setForFullScreen( true );
+}, dashboard);
+
+dashboard.addEventListener( 'afterfullscreen', function ( evt ) { 
+    this.setForFullScreen( false );
+}, dashboard);
 
 dashboard.addEventListener( 'load', function ( evt ) { 
     this.getApi().setConfig( {
@@ -40,6 +49,8 @@ dashboard.addEventListener( 'load', function ( evt ) {
         hideTabs: true
     } );
 }, dashboard );
+
+
 
 Event.observe(window, 'load', function() {
     $('dashboardControl').hide();

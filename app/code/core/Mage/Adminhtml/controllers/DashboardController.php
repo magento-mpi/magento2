@@ -59,6 +59,18 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         $this->getResponse()->setBody($collection->toXml());
     }
     
+    public function visitorsLiveAction()
+    {
+        $range = $this->getRequest()->getPost('range');
+        
+        $collection = Mage::getSingleton('log_resource/visitor_collection')
+                    ->getStatistics('d')
+                    ->applyDateRange($range['start'], $range['end'])
+                    ->load();
+        
+        $this->getResponse()->setBody($collection->toXml());
+    }
+    
     public function quoteAction()
     {
         $quote = Mage::getModel('sales/quote')
@@ -76,6 +88,8 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         $totalsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'value');
         $cartTotals = $totalsFilter->filter($quote->getTotals());
         
+        // Creating XML response. 
+        // In future would be good if it will be in some collection.
         $itemsXML = "";
         
         $itemObject = new Varien_Object();
@@ -92,6 +106,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         
         $totalXML = "";
         $totalObject = new Varien_Object();
+        
         foreach( $cartTotals as $cartTotal ) {
             $totalObject->addData( $cartTotal );
             $totalXML.= $totalObject->toXml(array('title','value'), "total", false, true);

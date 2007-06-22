@@ -223,8 +223,7 @@ Object.extend( Flex.Object.prototype, {
             	this.isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
             	this.attributes = {
             		 quality:"high",
-            		 wmode:"opaque",
-            		 bgcolor:"#FFFFFF",
+                     bgcolor:"#FFFFFF",
             		 pluginspage: "http://www.adobe.com/go/getflashplayer",
             		 type: "application/x-shockwave-flash",
             		 allowScriptAccess: "always",
@@ -249,7 +248,7 @@ Object.extend( Flex.Object.prototype, {
             	
             	
             	
-            	this.paramtersTemplate = new Template( '<param name="{name}" value="{value}" />', myTemplatesPattern );
+            	this.paramtersTemplate = new Template( '<param name="{name}" {wmodeID} value="{value}" />', myTemplatesPattern );
             	this.attributesTemplate = new Template( ' {name}="{value}" ', myTemplatesPattern );            	
             },
             
@@ -283,6 +282,18 @@ Object.extend( Flex.Object.prototype, {
 					var readyHTML = this.template.evaluate( this.generateTemplateValues() );
                     $(container).update( readyHTML );
 					Mage.FlexObjectApi.registerObject( this.getAttribute("id"), this );
+				}
+				this.applied = true;
+			},
+            
+            applyWrite : function( ) {
+				if (!this.applied)	{
+                                        
+					this.setAttribute( "id", Flex.uniqId());
+					var readyHTML = this.template.evaluate( this.generateTemplateValues() );
+                    //$(container).update( readyHTML );
+                    document.write( readyHTML );
+                    Mage.FlexObjectApi.registerObject( this.getAttribute("id"), this );
 				}
 				this.applied = true;
 			},
@@ -353,13 +364,37 @@ Object.extend( Flex.Object.prototype, {
 				}
 				
 				for ( i in parameters) {
-					result.objectParameters += this.paramtersTemplate.evaluate( {name:i, value: parameters[i]} );
+                
+                    var wmodeId = ' id="' + this.getAttribute('id') + 'wmode' + '"';
+                    
+                    if( i.toLowerCase() != 'wmode' ) {
+                        wmodeId = '';
+                    }
+                    
+					result.objectParameters += this.paramtersTemplate.evaluate( {name:i, wmodeID: wmodeId, value: parameters[i]} );
 				}
 				
 				return result;
 			},
             escapeAttributes: function (value) {
                 return value.replace(new RegExp("&","g"), "&amp;");
+            },
+            setForFullScreen: function (value) {
+                if( value ) {
+                    if( this.isIE && !this.isOpera ) {
+                        $(this.getAttribute('id') + 'wmode').value = 'window';
+                       
+                    } else {
+                        $(this.getAttribute('id')).wmode = 'window';
+                    }                        
+                } else {
+                    if( this.isIE && !this.isOpera ) {
+                        $(this.getAttribute('id') + 'wmode').value = 'opaque';
+                       
+                    } else {
+                        $(this.getAttribute('id')).wmode = 'opaque';
+                    }    
+                }
             },
 			detectFlashVersion : function( reqMajorVer, reqMinorVer, reqRevision ) {
 				var versionStr = this.getSwfVer();
