@@ -40,39 +40,45 @@
             <core_mysql4>
                 <class>Mage_Core_Model_Mysql4</class>
                 <entities>
-                    <config>
-                        <table>core_config</table>
-                    </config>
-                    <website>
-                        <table>core_website</table>
-                    </website>
-                    <language>
-                        <table>core_language</table>
-                    </language>
                     <resource>
                         <table>core_resource</table>
                     </resource>
-                    <module>
-                        <table>core_module</table>
-                    </module>
-                    <table>
-                        <table>core_table</table>
-                    </table>
-                    <setting>
-                        <table>core_setting</table>
-                    </setting>
+                    <language>
+                        <table>core_language</table>
+                    </language>
+                    <website>
+                        <table>core_website</table>
+                    </website>
+                    <store>
+                        <table>core_store</table>
+                    </store>
                     <session>
                         <table>core_session</table>
                     </session>
-                    <data_change>
-                        <table>core_data_change</table>
-                    </data_change>
-                    <data_change_type>
-                        <table>core_data_change_type</table>
-                    </data_change_type>
-                    <data_change_info>
-                        <table>core_data_change_info</table>
-                    </data_change_info>
+                    <entity_type>
+                        <table>core_entity_type</table>
+                    </entity_type>
+                    <entity>
+                        <table>core_entity</table>
+                    </entity>
+                    <attribute>
+                        <table>core_attribute</table>
+                    </attribute>
+                    <attribute_int>
+                        <table>core_attribute_int</table>
+                    </attribute_int>
+                    <attribute_date>
+                        <table>core_attribute_date</table>
+                    </attribute_date>
+                    <attribute_text>
+                        <table>core_attribute_text</table>
+                    </attribute_text>
+                    <attribute_decimal>
+                        <table>core_attribute_decimal</table>
+                    </attribute_decimal>
+                    <attribute_varchar>
+                        <table>core_attribute_varchar</table>
+                    </attribute_varchar>
                 </entities>
             </core_mysql4>
         </models>

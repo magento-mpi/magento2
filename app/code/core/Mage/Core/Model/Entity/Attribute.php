@@ -1,0 +1,40 @@
+<?php
+/**
+ * Entity attribute model
+ *
+ * @package     Mage
+ * @subpackage  Core
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Core_Model_Entity_Attribute extends Varien_Object
+{
+    public function __construct() 
+    {
+        parent::__construct();
+    }
+    
+    public function getResource()
+    {
+        return Mage::getResourceSingleton('core/entity_attribute');
+    }
+    
+    public function load($entityId)
+    {
+        $this->setData($this->getResource()->load($entityId, $this->_type));
+        return $this;
+    }
+    
+    public function save()
+    {
+        $this->getResource()->save($this);
+        return $this;
+    }
+    
+    public function delete()
+    {
+        $this->getResource()->delete($this);
+        return $this;
+    }    
+}

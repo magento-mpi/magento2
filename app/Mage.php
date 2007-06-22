@@ -237,6 +237,11 @@ final class Mage {
         return new $className($message, $code);
         //throw new $className($message, $code);
     }
+    
+    public static function throwException($message)
+    {
+        throw new Exception($message);
+    }
 
     /**
      * Initialize Mage

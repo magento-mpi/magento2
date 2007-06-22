@@ -33,6 +33,13 @@ class Varien_Object
      * @var boolean
      */
     protected $_isDeleted = false;
+    
+    /**
+     * Name of object id field
+     *
+     * @var string
+     */
+    protected $_idFieldName = null;
 
     /**
      * Setter/Getter underscore transformation cache
@@ -55,6 +62,48 @@ class Varien_Object
             $args[0] = array();
         }
         $this->_data = $args[0];
+    }
+    
+    /**
+     * set name of object id field
+     *
+     * @param   string $name
+     * @return  Varien_Object
+     */
+    public function setIdFieldName($name)
+    {
+        $this->_idFieldName = $name;
+        return $this;
+    }
+    
+    /**
+     * Retrieve object id
+     * 
+     * @return mixed
+     */
+    public function getId()
+    {
+        if ($this->_idFieldName) {
+            return $this->getData($this->_idFieldName);
+        }
+        return $this->getData('id');
+    }
+    
+    /**
+     * Set object id field value
+     *
+     * @param   mixed $value
+     * @return  Varien_Object
+     */
+    public function setId($value)
+    {
+        if ($this->_idFieldName) {
+            $this->setData($this->_idFieldName, $value);
+        }
+        else {
+            $this->setData('id', $value);
+        }
+        return $this;
     }
 
     /**
