@@ -44,7 +44,7 @@ class Mage_Core_Controller_Zend_Front {
      */
     public function __construct() 
     {
-        Varien_Profiler::start('controllerInit');
+        Varien_Profiler::start('ctrl/init');
         
         $this->_front  = Zend_Controller_Front::getInstance();
         $this->_front->throwExceptions(true);
@@ -91,10 +91,10 @@ class Mage_Core_Controller_Zend_Front {
         if (!empty($defaultModule)) {
             $this->_dispatcher->setDefaultModuleName($defaultModule);
         }
-        Varien_Profiler::stop('controllerInit', true);
+        Varien_Profiler::stop('ctrl/init');
         
-        Varien_Profiler::start('totalDispatch');
+        Varien_Profiler::start('ctrl/dispatch');
         $this->_front->dispatch($this->_request);
-        Varien_Profiler::stop('totalDispatch', true);
+        Varien_Profiler::stop('ctrl/dispatch');
     }
 }

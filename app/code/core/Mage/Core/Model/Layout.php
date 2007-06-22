@@ -214,7 +214,7 @@ echo "TEST:".$i;
     
     protected function _generateBlock($node, $parent)
     {
-#Varien_Profiler::start('block');
+#Varien_Profiler::start('block-'.$node['name']);
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
@@ -256,7 +256,7 @@ echo "TEST:".$i;
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-#Varien_Profiler::stop('block');
+#Varien_Profiler::stop('block-'.$node['name']);
     }
     
     protected function _generateAction($node, $parent)

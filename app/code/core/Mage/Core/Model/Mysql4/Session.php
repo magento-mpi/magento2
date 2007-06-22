@@ -69,7 +69,6 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
         if (!$this->_read) {
             return false;
         }
-
         $tables = $this->_read->fetchAssoc('show tables');
         if (!isset($tables[$this->_sessionTable])) {
             return false;

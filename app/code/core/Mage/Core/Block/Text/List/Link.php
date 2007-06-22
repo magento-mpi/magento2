@@ -19,6 +19,7 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
         $this->setAParams($aParams);
         $this->setInnerText($innerText);
         $this->setAfterText($afterText);
+
         return $this;
     }
 

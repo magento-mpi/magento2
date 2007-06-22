@@ -460,7 +460,23 @@ class Varien_Object
         if (isset(self::$_underscoreCache[$name])) {
             return self::$_underscoreCache[$name];
         }
+        
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        /*
+        for ($i=0, $l=strlen($name), $result=''; $i<$l; $i++) {
+            $c = $name{$i};
+            $a = ord($c);
+            if ($a>=65 && $a<=91) {
+                if ($i>0) {
+                    $result .= '_';
+                }
+                $result .= strtolower($c);
+            } else {
+                $result .= $c;
+            }
+        }
+        */
+
         self::$_underscoreCache[$name] = $result;
 
         return $result;

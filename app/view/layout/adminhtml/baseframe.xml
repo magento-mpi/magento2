@@ -9,6 +9,7 @@
         <block type="adminhtml/widget_breadcrumbs" name="breadcrumbs" as="breadcrumbs"></block>
         <block type="core/text_list" name="left" as="left"/>
         <block type="core/text_list" name="content" as="content"/>
-        <block type="adminhtml/page_footer" name="footer" as="footer"></block>
+        <block type="adminhtml/page_footer" name="footer" as="footer"/>
+        <block type="core/profiler" name="profiler" as="profiler"/>
     </block>
 </layoutUpdate>

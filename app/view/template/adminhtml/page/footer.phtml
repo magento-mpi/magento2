@@ -1,40 +1,4 @@
 <p>
     Copyright &copy; 2007 Magento Commerce. All Right Reserved.<br/>
     <strong>Version 1.0</strong> | Powered by <a href="#">Varien</a>
-    <?if(!empty($dbProfiler)):?>
-    <table cellspacing="0" class="data" style="width:200px">
-    <thead>
-        <tr>
-            <th colspan="2">DB Profiler</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Executed queries:</td>
-            <td><?=$dbProfiler->getTotalNumQueries()?></td>
-        </tr>
-        <tr>
-            <td>Execution time:</td>
-            <td><?=number_format($dbProfiler->getTotalElapsedSecs(),4)?></td>
-        </tr>
-    </tbody>
-    </table>
-    <?endif;?>
-    <?if(!empty($timers)):?>
-    <table cellspacing="0" class="data" style="width:200px">
-    <thead>
-        <tr>
-            <th colspan="2">System Profiler</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?foreach ($timers as $name=>$sum):?> 
-        <tr>
-            <td><?=$name?></td>
-            <td><?=number_format($sum,4)?></td>
-        </tr>
-    <?endforeach;?>
-    </tbody>
-    </table>
-    <?endif;?>
 </p>

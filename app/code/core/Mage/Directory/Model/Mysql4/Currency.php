@@ -33,6 +33,7 @@ class Mage_Directory_Model_Mysql4_Currency
     
     public function __construct() 
     {
+
         $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory/currency');
         $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_name');
         $this->_currencyRateTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_rate');
@@ -54,7 +55,8 @@ class Mage_Directory_Model_Mysql4_Currency
                 ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
                 ->where($this->_read->quoteInto($this->_currencyTable.'.currency_code=?', $code))
                 ->where($this->_read->quoteInto($this->_currencyNameTable.'.language_code=?', $lang));
-            return $this->_read->fetchRow($select);
+            $result = $this->_read->fetchRow($select);
+            return $result;
         }
         return array();
     }

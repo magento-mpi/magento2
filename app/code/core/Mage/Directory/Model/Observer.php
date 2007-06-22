@@ -33,7 +33,6 @@ class Mage_Directory_Model_Observer
         if ($code) {
             Mage::getSingleton('core/website')->setCurrentCurrency(Mage::getModel('directory/currency')->load($code));
         }
-        
     }
     
     /**

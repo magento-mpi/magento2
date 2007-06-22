@@ -76,5 +76,5 @@
             </block>
         </block>
     </block>
-    <block type="core/statistics" output="toHtml"/>
+    <block type="core/profiler" output="toHtml"/>
 </layoutUpdate>

@@ -252,16 +252,18 @@ final class Mage {
         Mage::register('events', new Varien_Event_Collection());
         Mage::register('config', new Mage_Core_Model_Config());
 
-        Varien_Profiler::start('config');
+        Varien_Profiler::start('init/config');
         Mage::getConfig()->init();
-        Varien_Profiler::stop('config');
+        Varien_Profiler::stop('init/config');
 
         Varien_Profiler::stop('init');
 
         // check modules db
-        Varien_Profiler::start('applyDbUpdates');
+        Varien_Profiler::start('dbUpdates');
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Varien_Profiler::stop('applyDbUpdates');
+        Varien_Profiler::stop('dbUpdates');
+        
+        Mage::getSingleton('core/resource')->getConnection('core_write')->getProfiler()->setEnabled(true);
     }
 
     /**
@@ -272,7 +274,7 @@ final class Mage {
     public static function run($websiteCode='')
     {
         try {
-            Varien_Profiler::start('totalApp');
+            Varien_Profiler::start('app');
 
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
@@ -282,7 +284,7 @@ final class Mage {
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
             Mage::registry('controller')->run();
 
-            Varien_Profiler::stop('totalApp');
+            Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
             if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {

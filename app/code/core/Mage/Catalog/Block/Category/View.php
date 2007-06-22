@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Category View block
  *
@@ -78,7 +76,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         
         $this->assign('sortUrl', $sortUrl);
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
-        
+
         return $this;
     }
 }
