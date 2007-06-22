@@ -61,14 +61,70 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     
     public function visitorsLiveAction()
     {
-        $range = $this->getRequest()->getPost('range');
+        $minimum = time() - 12 * 60 * 60;
+        $maximum = time() +  15 * 60;
         
-        $collection = Mage::getSingleton('log_resource/visitor_collection')
-                    ->getStatistics('d')
-                    ->applyDateRange($range['start'], $range['end'])
-                    ->load();
+        $allData = new Varien_Object();
+        $allData->setMinimum(date('Y/m/d H:i', $minimum ));
+        $allData->setMaximum(date('Y/m/d H:i', $maximum ));
         
-        $this->getResponse()->setBody($collection->toXml());
+        $logItem = new Varien_Object();
+        
+        $logXML = '';
+        
+        // Last 11 hours by hours
+        for($i = $minimum; $i < $maximum - ( 15*60 + 60*60 ); $i += 60*60) {
+            $visitors  = rand( 1, 100000 );
+            $customers = rand( 0, $visitors);
+            $logItem->addData(array(
+                'time'      => date('Y/m/d H:i', $i),
+                'customers' => $customers,
+                'visitors'  => $visitors
+            ));
+            
+            $logXML.= $logItem->toXml(array(), 'item', false, true);
+        }
+        
+        // Last hour by 5 minutes
+        for($i = time() - 60*60; $i < time(); $i += 5*60) {
+            $visitors  = rand( 1, 100000 );
+            $customers = rand( 0, $visitors);
+            $logItem->addData(array(
+                'time'      => date('Y/m/d H:i', $i),
+                'customers' => $customers,
+                'visitors'  => $visitors
+            ));
+            
+            $logXML.= $logItem->toXml(array(), 'item', false, true);
+        }
+        
+        $allData->setItems($logXML);
+        
+        $this->getResponse()->setBody($allData->toXml(array(),'dataSource',true,false));
+    }
+    
+    public function visitorsReportAction()
+    {
+        // Not implemented yet
+        $this->getResponse()->setBody( 'Not implemented yet' );
+    }
+    
+    public function visitorsLiveUpdateAction()
+    {
+        $minimum = time() - 12 * 60 * 60;
+        $maximum = time() +  15 * 60;
+        
+        $visitors = rand( 1, 100000 );
+        $customers = rand( 0, $visitors);
+        
+        $updateData = new Varien_Object();
+        $updateData->setMinimum(date('Y/m/d H:i', $minimum ));
+        $updateData->setMaximum(date('Y/m/d H:i', $maximum ));
+        $updateData->setTime(date('Y/m/d H:i', time() ));
+        $updateData->setCustomers($customers);
+        $updateData->setVisitors($visitors);
+        
+        $this->getResponse()->setBody($updateData->toXml(array(),'update',true,false));
     }
     
     public function quoteAction()
@@ -109,10 +165,10 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         
         foreach( $cartTotals as $cartTotal ) {
             $totalObject->addData( $cartTotal );
-            $totalXML.= $totalObject->toXml(array('title','value'), "total", false, true);
+            $totalXML.= $totalObject->toXml(array('title','value'), 'total', false, true);
         }
         
         $xmlObject->setTotals( $totalXML );
-        $this->getResponse()->setBody( $xmlObject->toXml(array(), "dataSource", true, false) );
+        $this->getResponse()->setBody( $xmlObject->toXml(array(), 'dataSource', true, false) );
     }
 }
