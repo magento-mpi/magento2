@@ -122,7 +122,7 @@
                 <base_path>{{base_path}}admin/</base_path>            
             </secure>
          </admin>
-      </websites>
+      </stores>
       
       <resources>
          <dev_setup>
