@@ -10,6 +10,8 @@
 class Mage_Core_Model_Store extends Varien_Object
 {
     protected $_priceFilter;
+    protected $_website;
+    
     /**
      * Set store code
      *
@@ -19,14 +21,12 @@ class Mage_Core_Model_Store extends Varien_Object
     public function setCode($code)
     {
         $this->setData('code', $code);
-        
         $config = $this->getConfig();
-        if ($config) {
-            $this->setId((int)$config->id);
-            $this->setLanguage((string)$config->language);
-            $this->setGroup((string)$config->group);
-            Mage::dispatchEvent('setStoreCode', array('store'=>$this));
-        }
+        $this->setId((int)$config->id);
+        $this->setLanguageCode((string)$config->language);
+        $this->setWebsiteCode((string)$config->website);
+        Mage::dispatchEvent('setStoreCode', array('store'=>$this));
+        
         return $this;
     }
     
@@ -68,30 +68,28 @@ class Mage_Core_Model_Store extends Varien_Object
     /**
      * Get store config data
      *
+     * @param string $section
      * @return mixed
      */
-    public function getConfig()
+    public function getConfig($section='general')
     {
-        return Mage::getConfig()->getStoreConfig($this->getCode());
-    }
-    
-    /**
-     * Get store categories
-     *
-     * @return array
-     */
-    public function getArrCategoriesId()
-    {
-        $arr = array();
-        // TODO: dependent from store id
-        $nodes = Mage::getResourceModel('catalog/category_tree')
-            ->load(2,10) // TODO: from config
-            ->getNodes();
-        foreach ($nodes as $node) {
-            $arr[] = $node->getId();
+        if (empty($section)) {
+            return Mage::getConfig()->getNode('global/stores/'.$this->getCode());
         }
         
-        return $arr;
+        $config = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$section);
+        if (!$config || $config->is('default')) {
+            $config = $this->getWebsite()->getConfig($section);
+        }
+        return $config;
+    }
+    
+    public function getWebsite()
+    {
+        if (empty($this->_website)) {
+            $this->_website = Mage::getModel('core/website')->setCode($this->getWebsiteCode());
+        }
+        return $this->_website;
     }
     
     /**
@@ -102,9 +100,67 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDir($type)
     {
-        if ($this->getConfig()) {
-            return (string)$this->getConfig()->filesystem->$type;
+        $dir = (string)$this->getConfig('filesystem')->$type;
+        if (!$dir) {
+            $dir = $this->getDefaultDir($type);
         }
+        
+        if (!$dir) {
+            throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
+        }
+        
+        switch ($type) {
+            case 'var': case 'session': case 'cache_config': case 'cache_layout': case 'cache_block':
+                if (!file_exists($dir)) {
+                    mkdir($dir, 0777, true);
+                }
+                break;
+        }
+        
+        $dir = str_replace('/', DS, $dir);
+        
+        return $dir;
+    }
+    
+    public function getDefaultDir($type)
+    {
+        $dir = Mage::getRoot();
+        switch ($type) {
+            case 'etc':
+                $dir = Mage::getRoot().DS.'etc';
+                break;
+                
+            case 'code':
+                $dir = Mage::getRoot().DS.'code';
+                break;
+                
+            case 'var':
+                $dir = $this->getTempVarDir();
+                break;
+                
+            case 'session':
+                $dir = $this->getDir('var').DS.'session';
+                break;
+                
+            case 'cache_config':
+                $dir = $this->getDir('var').DS.'cache'.DS.'config';
+                break;
+                                    
+            case 'cache_layout':
+                $dir = $this->getDir('var').DS.'cache'.DS.'layout';
+                break;
+                
+            case 'cache_block':
+                $dir = $this->getDir('var').DS.'cache'.DS.'block';
+                break;
+                
+        }
+        return $dir;
+    }
+    
+    public function getTempVarDir()
+    {
+        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
     }
     
     /**
@@ -115,30 +171,29 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getUrl($params)
     {
-        $config = $this->getConfig();
-        if ($config) {
-            if (!empty($_SERVER['HTTPS'])) {
-                if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
-                    $params['_secure'] = true;
-                }
-            }
-            
-            $urlConfig = empty($params['_secure']) ? $config->unsecure : $config->secure;
-    
-            $protocol = (string)$urlConfig->protocol;
-            $host = (string)$urlConfig->host;
-            $port = (int)$urlConfig->port;
-            $basePath = (string)$urlConfig->base_path;
-            if (!empty($params['_type'])) {
-                $basePath = (string)$config->url->$params['_type'];
-            }
-            
-            $url = $protocol.'://'.$host;
-            $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-            $url .= empty($basePath) ? '/' : $basePath;
-        } else {
-            $url = dirname($_SERVER['PHP_SELF']);
+        if (!$this->getConfig()) {
+            return dirname($_SERVER['PHP_SELF']);
         }
+    
+        if (!empty($_SERVER['HTTPS'])) {
+            if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
+                $params['_secure'] = true;
+            }
+        }
+        
+        $urlConfig = empty($params['_secure']) ? $this->getConfig('unsecure') : $this->getConfig('secure');
+        $protocol = (string)$urlConfig->protocol;
+        $host = (string)$urlConfig->host;
+        $port = (int)$urlConfig->port;
+        $basePath = (string)$urlConfig->base_path;
+        if (!empty($params['_type'])) {
+            $basePath = (string)$this->getConfig('url')->$params['_type'];
+        }
+        
+        $url = $protocol.'://'.$host;
+        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+        $url .= empty($basePath) ? '/' : $basePath;
+
         return $url;
     }
     
@@ -149,9 +204,7 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDefaultCurrencyCode()
     {
-        if (Mage::getConfig()->getStoreConfig($this->getCode())) {
-            return (string) Mage::getConfig()->getStoreConfig($this->getCode())->currency->default;
-        }
+        return (string) $this->getConfig()->currency->default;
     }
     
     /**
@@ -190,10 +243,7 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getAvailableCurrencyCodes()
     {
-        if ($this->getConfig()) {
-            return array_keys($this->getConfig()->currency->available->asArray());
-        }
-        return array();
+        return array_keys($this->getConfig()->currency->available->asArray());
     }
     
     /**

@@ -31,7 +31,7 @@ class Mage_Directory_Model_Mysql4_Region extends Mage_Directory_Model_Region
 
     public function load($regionId)
     {
-        $lang = Mage::getSingleton('core/store')->getLanguage();
+        $lang = Mage::getSingleton('core/store')->getLanguageCode();
         
         $select = self::$_read->select()->from(self::$_regionTable)
             ->where(self::$_read->quoteInto(self::$_regionTable.".region_id=?", $regionId))

@@ -116,16 +116,6 @@ final class Mage {
         return Mage::getConfig()->getModuleDir($type, $moduleName);
     }
 
-    public static function getStoreDir($type, $storeCode=null)
-    {
-        if (is_null($storeCode)) {
-            $store = Mage::getSingleton('core/store');
-        } else {
-            $store = Mage::getModel('core/store')->setCode($storeCode);
-        }
-        return $store->getDir($type);
-    }
-
     /**
      * Get base URL path by type
      *
@@ -277,8 +267,8 @@ final class Mage {
             }
         }
         
-        if (Mage::getSingleton('core/resource')->getConnection('core_write')) {
-            Mage::getSingleton('core/resource')->getConnection('core_write')->getProfiler()->setEnabled(true);
+        if ($conn = Mage::getSingleton('core/resource')->getConnection('core_write')) {
+            $conn->getProfiler()->setEnabled(true);
         }
     }
 
@@ -294,7 +284,10 @@ final class Mage {
 
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
-            Mage::getSingleton('core/store')->setCode($storeCode);
+            
+            $store = Mage::getSingleton('core/store')->setCode($storeCode);
+            Mage::getSingleton('core/website')->setCode($store->getWebsiteCode());
+
             Mage::dispatchEvent('beforeFrontRun');
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());
@@ -303,8 +296,9 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (Mage::getConfig()->getNode('global/install/date') && strtotime(Mage::getConfig()->getNode('global/install/date'))) {
-                echo $e;
+            $installDate = Mage::getConfig()->getNode('global/install/date');
+            if ($installDate && strtotime($installDate)) {
+                echo "<pre>$e</pre>";
                 exit();
             }
             try {
@@ -313,12 +307,12 @@ final class Mage {
                     header('Location:'.Mage::getBaseUrl().'install/');
                 }
                 else {
-                    echo $e;
+                    echo "<pre>$e</pre>";
                 }
             }
             catch (Exception $ne){
-                echo $ne;
-                echo $e;
+                echo "<pre>$e</pre>";
+                echo "<pre>$e</pre>";
             }
         }
     }

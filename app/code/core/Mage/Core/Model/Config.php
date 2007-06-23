@@ -535,9 +535,9 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         return $this->getNode("global/resource/connection/types/$type");
     }
 
-    public function getStoreConfig($store='base')
+    public function getStoreConfig($storeCode='base', $section='general')
     {
-        return $this->getNode("global/stores/$store");
+        return Mage::getModel('core/store')->setCode($storeCode)->getConfig($section);
     }
 
     /**

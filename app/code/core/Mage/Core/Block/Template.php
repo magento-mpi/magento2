@@ -65,7 +65,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function renderView()
     {
-        $templatesDir = Mage::getStoreDir('template');
+        $templatesDir = Mage::getSingleton('core/store')->getDir('template');
 
         $this->assign('baseUrl', Mage::getBaseUrl());
         $this->assign('baseSecureUrl', Mage::getBaseUrl(array('_secure'=>true)));

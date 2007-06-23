@@ -16,6 +16,20 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         parent::__construct();
     }
 
+    public function getArrCategoriesId()
+    {
+        $arr = array();
+        // TODO: dependent from store id
+        $nodes = Mage::getResourceModel('catalog/category_tree')
+            ->load(2,10) // TODO: from config
+            ->getNodes();
+        foreach ($nodes as $node) {
+            $arr[] = $node->getId();
+        }
+        
+        return $arr;
+    }
+
     public function loadByQuery(Zend_Controller_Request_Http $request)
     {
         $this->setTemplate('catalog/search/result.phtml');
@@ -27,7 +41,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->distinct(true)
-            ->addCategoryFilter(Mage::getSingleton('core/store')->getArrCategoriesId())
+            ->addCategoryFilter($this->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -63,7 +77,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
             ->distinct(true)
-            ->addCategoryFilter(Mage::getSingleton('core/store')->getArrCategoriesId())
+            ->addCategoryFilter($this->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -110,7 +124,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             $prodCollection->addCategoryFilter($search['category']);
         }
         else {
-            $prodCollection->addCategoryFilter(Mage::getSingleton('core/store')->getArrCategoriesId());
+            $prodCollection->addCategoryFilter($this->getArrCategoriesId());
         }
         if (!empty($search['price'])) {
             
