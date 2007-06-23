@@ -5,8 +5,13 @@
         <date>{{date}}</date>
       </install>
       <default>
-         <store>base</store>
-         <currency>USD</currency>
+         <general>
+            <store>base</store>
+            <currency>
+                <base>USD</base>
+            </currency>
+         </general>
+         
          <filesystem>
             <etc>{{root_dir}}/app/etc</etc>
             <code>{{root_dir}}/app/code</code>
@@ -18,20 +23,30 @@
          </filesystem>
       </default>
       
+      <websites>
+         <default>
+            <general>
+
+            </general>
+         </default>
+      </websites>
+      
       <stores>
          <base>
-            <id>1</id>
-            <language>en</language>
-            <website>default</website>
-            <currency>
-                <default>USD</default>
-                <available>
-                    <USD />
-                    <CAD />
-                    <UAH />
-                    <RUB />
-                </available>
-            </currency>
+            <general>
+                <id>1</id>
+                <language>en</language>
+                <website>default</website>
+                <currency>
+                    <default>USD</default>
+                    <available>
+                        <USD />
+                        <CAD />
+                        <UAH />
+                        <RUB />
+                    </available>
+                </currency>
+            </general>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>
@@ -64,16 +79,18 @@
          </base>
          
          <russian>
-            <id>2</id>
-            <language>ru</language>
-            <website>default</website>
-            <currency>
-                <default>UAH</default>
-                <available>
-                    <UAH />
-                    <RUB />
-                </available>
-            </currency>
+            <general>
+                <id>2</id>
+                <language>ru</language>
+                <website>default</website>
+                <currency>
+                    <default>UAH</default>
+                    <available>
+                        <UAH />
+                        <RUB />
+                    </available>
+                </currency>
+            </general>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>
