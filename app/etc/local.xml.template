@@ -5,7 +5,7 @@
         <date>{{date}}</date>
       </install>
       <default>
-         <website>base</website>
+         <store>base</store>
          <currency>USD</currency>
          <filesystem>
             <etc>{{root_dir}}/app/etc</etc>
@@ -18,11 +18,11 @@
          </filesystem>
       </default>
       
-      <websites>
+      <stores>
          <base>
             <id>1</id>
             <language>en</language>
-            <group>default</group>
+            <website>default</website>
             <currency>
                 <default>USD</default>
                 <available>
@@ -66,7 +66,7 @@
          <russian>
             <id>2</id>
             <language>ru</language>
-            <group>default</group>
+            <website>default</website>
             <currency>
                 <default>UAH</default>
                 <available>
@@ -105,7 +105,7 @@
             </url>
          </russian>
 
-         <admin extends="//global/websites/base">
+         <admin extends="//global/stores/base">
             <filesystem>
                 <layout>{{root_dir}}/app/view/admin/layout</layout>
                 <template>{{root_dir}}/app/view/admin/template</template>
