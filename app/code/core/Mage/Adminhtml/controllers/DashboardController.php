@@ -49,14 +49,59 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
     
     public function visitorsAction()
     {
-        $range = $this->getRequest()->getPost('range');
+        $range = $this->getRequest()->getParam('range');
+       
+        $start = strtotime($range['start']);
+        $end = strtotime($range['end']);
+        $period = $end - $start;
         
+        $detailPeriod = 60*60;
+        
+        if( $period > 2*24*60*60 )  {
+            $detailPeriod = 24*60*60;
+        }
+        
+        if( $period > 28*24*60*60 )  {
+            $detailPeriod = 7*24*60*60;
+        }
+        
+        if( $period > 365*24*60*60 )  {
+            $detailPeriod = 30*24*60*60;
+        }
+        
+        $allData = new Varien_Object();
+        $allData->setMinimum(date('Y/m/d H:i', $start ));
+        $allData->setMaximum(date('Y/m/d H:i', $end ));
+        
+        $logItem = new Varien_Object();
+        
+        $logXML = '';
+        
+        for($i = $start; $i < $end; $i += $detailPeriod) {
+            $visitors  = rand( 1, 100000 );
+            $customers = rand( 0, $visitors);
+            $logItem->addData(array(
+                'time'      => date('Y/m/d H:i', $i),
+                'customers' => $customers,
+                'visitors'  => $visitors
+            ));
+            
+            $logXML.= $logItem->toXml(array(), 'item', false, true);
+        }
+        
+        $allData->setItems($logXML);
+        
+        $this->getResponse()->setBody($allData->toXml(array(),'dataSource',true,false));
+        
+        /* 
         $collection = Mage::getResourceSingleton('log/visitor_collection')
                     ->getStatistics('d')
                     ->applyDateRange($range['start'], $range['end'])
                     ->load();
+               
         
         $this->getResponse()->setBody($collection->toXml());
+        */
     }
     
     public function visitorsLiveAction()
@@ -72,7 +117,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         
         $logXML = '';
         
-        // Last 11 hours by hours
+       /* // Last 11 hours by hours
         for($i = $minimum; $i < $maximum - ( 15*60 + 60*60 ); $i += 60*60) {
             $visitors  = rand( 1, 100000 );
             $customers = rand( 0, $visitors);
@@ -83,10 +128,10 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
             ));
             
             $logXML.= $logItem->toXml(array(), 'item', false, true);
-        }
+        }*/
         
-        // Last hour by 5 minutes
-        for($i = time() - 60*60; $i < time(); $i += 5*60) {
+        // Last 12 hours by 5 minutes
+        for($i = $minimum; $i < time(); $i += 5*60) {
             $visitors  = rand( 1, 100000 );
             $customers = rand( 0, $visitors);
             $logItem->addData(array(
