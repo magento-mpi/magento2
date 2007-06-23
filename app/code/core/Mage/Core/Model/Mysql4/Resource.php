@@ -30,8 +30,8 @@ class Mage_Core_Model_Mysql4_Resource
         }
         // if Core module not instaled
         try {
-            $select = self::$_read->select()->from(self::$_resTable, 'resource_db_version')
-                ->where(self::$_read->quoteInto('resource_name=?', $resName));
+            $select = self::$_read->select()->from(self::$_resTable, 'version')
+                ->where(self::$_read->quoteInto('code=?', $resName));
             $dbVersion = self::$_read->fetchOne($select);
         }
         catch (Exception $e){
@@ -51,11 +51,11 @@ class Mage_Core_Model_Mysql4_Resource
     function setDbVersion($resName, $version)
     {
         $dbModuleInfo = array(
-            'resource_name'       => $resName,
-            'resource_db_version' => $version,
+            'code'    => $resName,
+            'version' => $version,
         );
         if ($this -> getDbVersion($resName)) {
-        	$condition = self::$_write->quoteInto('resource_name=?', $resName);
+        	$condition = self::$_write->quoteInto('code=?', $resName);
         	return self::$_write->update(self::$_resTable, $dbModuleInfo, $condition);
         }
         else {
