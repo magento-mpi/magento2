@@ -10,9 +10,12 @@
  */
 class Mage_Core_Model_Entity_Attribute extends Varien_Object
 {
+    protected $_valueTableName;
+    
     public function __construct() 
     {
         parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
     }
     
     public function getResource()
@@ -36,5 +39,36 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object
     {
         $this->getResource()->delete($this);
         return $this;
-    }    
+    }
+    
+    /**
+     * Retrieve attribute value store table
+     *
+     * @return string
+     */
+    public function getValueTableName()
+    {
+        if ($this->_valueTableName) {
+            return $this->_valueTableName;
+        }
+        
+        /**
+         * @see  Varien_Object::__call()
+         */
+        if ($this->getAttributeTable()) {
+            $this->_valueTableName = Mage::getSingleton('core/resource')->getTableName($this->getAttributeTable());
+            return $this->_valueTableName;
+        }
+        Mage::throwException('Can\'t get value table name');
+    }
+    
+    public function getValueSelect()
+    {
+        return $this->getResource()->getValueSelect($this);
+    }
+    
+    public function getValueColumns()
+    {
+        return $this->getResource()->getValueColumns();
+    }
 }

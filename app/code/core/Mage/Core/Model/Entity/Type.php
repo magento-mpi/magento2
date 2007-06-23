@@ -14,7 +14,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     public function __construct() 
     {
         parent::__construct();
-        $this->setIdFieldName('entity_type_id');
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
     }
     
     public function getResource()
@@ -42,12 +42,25 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     
     public function getAttributesTableName()
     {
-        /**
-         * @see  Varien_Object::__call()
-         */
-        if ($this->getAttributeTable()) {
-            return Mage::getSingleton('core/resource')->getTableName($this->getAttributeTable());
+        if ($this->getData('attributes_table_name')) {
+            $tableName = $this->getData('attributes_table_name');
         }
-        Mage::throwException('Entity type attribute table not defined');
+        else {
+            $tableName = Mage::getSingleton('core/resource')->getTableName($this->getAttributeTable());
+            $this->setData('attributes_table_name', $tableName);
+        }
+        return $tableName;
+    }
+    
+    public function getEntityTableName()
+    {
+        if ($this->getData('entity_table_name')) {
+            $tableName = $this->getData('entity_table_name');
+        }
+        else {
+            $tableName = Mage::getSingleton('core/resource')->getTableName($this->getEntityTable());
+            $this->setData('entity_table_name', $tableName);
+        }
+        return $tableName;
     }
 }

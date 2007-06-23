@@ -35,12 +35,12 @@ class Mage_Core_Model_Mysql4_Entity_Type
         $this->_write           = $resource->getConnection('core_write');
     }
     
-    public function getIdName()
+    public function getIdFieldName()
     {
         return 'entity_type_id';
     }
     
-    public function load(Mage_Core_Model_Entity $type, $typeId)
+    public function load(Mage_Core_Model_Entity_Type $type, $typeId)
     {
         if (is_string($typeId)) {
             $condition = $this->_read->quoteInto('entity_code=?', $typeId);

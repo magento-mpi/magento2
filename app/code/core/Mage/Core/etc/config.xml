@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.3.0</version>
+             <version>0.3.1</version>
         </Mage_Core>
     </modules>
 
@@ -30,6 +30,31 @@
                 </setup>
             </core_setup>
         </resources>
+
+        <entities>
+            <default>
+                <class>Mage_Core_Model_Entity</class>
+                <attribute>
+                    <types>
+                        <varchar>
+                            <class>Mage_Core_Model_Entity_Attribute_Type_Varchar</class>
+                        </varchar>
+                        <decimal>
+                            <class>Mage_Core_Model_Entity_Attribute_Type_Decimal</class>
+                        </decimal>
+                        <datetime>
+                            <class>Mage_Core_Model_Entity_Attribute_Type_Datetime</class>
+                        </datetime>
+                        <text>
+                            <class>Mage_Core_Model_Entity_Attribute_Type_Text</class>
+                        </text>
+                        <int>
+                            <class>Mage_Core_Model_Entity_Attribute_Type_Int</class>
+                        </int>
+                    </types>
+                </attribute>
+            </default>
+        </entities>
 
         <models>
             <core>
@@ -67,9 +92,9 @@
                     <attribute_int>
                         <table>core_attribute_int</table>
                     </attribute_int>
-                    <attribute_date>
-                        <table>core_attribute_date</table>
-                    </attribute_date>
+                    <attribute_datetime>
+                        <table>core_attribute_datetime</table>
+                    </attribute_datetime>
                     <attribute_text>
                         <table>core_attribute_text</table>
                     </attribute_text>

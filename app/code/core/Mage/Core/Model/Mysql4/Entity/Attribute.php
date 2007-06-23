@@ -12,7 +12,18 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
 {
     protected $_attributeTable;
     
+    /**
+     * Read connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_read;
+
+    /**
+     * Write connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_write;
     
     public function __construct() 
@@ -24,7 +35,7 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
         $this->_write           = $resource->getConnection('core_write');
     }
     
-    public function getIdName()
+    public function getIdFieldName()
     {
         return 'attribute_id';
     }
@@ -42,5 +53,17 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
     public function delete($attribute)
     {
         
+    }
+    
+    public function getValueSelect(Mage_Core_Model_Entity_Attribute $attribute)
+    {
+        return $this->_read->select()
+            ->from($attribute->getValueTableName())
+            ->where($this->_read->quoteInto($this->getIdFieldName().'=?', $attribute->getId()));
+    }
+
+    public function getValueColumns()
+    {
+        return array($this->getIdFieldName(), 'value');
     }
 }

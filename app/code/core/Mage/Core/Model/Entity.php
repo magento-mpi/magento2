@@ -15,8 +15,16 @@ class Mage_Core_Model_Entity extends Varien_Object
     public function __construct($type) 
     {
         parent::__construct();
-        $this->setIdFieldName($this->getResource()->getIdName());
-        $this->_type = Mage::getModel('core/entity_type')->load($type);
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
+        if (is_string($type)) {
+            $this->_type = Mage::getModel('core/entity_type')->load($type);
+        }
+        elseif (is_array($type) && isset($type['type'])) {
+        	$this->_type = Mage::getModel('core/entity_type')->load($type['type']);
+        }
+        else {
+            Mage::throwException('Wrong entity type parameter');
+        }
     }
     
     /**
@@ -36,7 +44,7 @@ class Mage_Core_Model_Entity extends Varien_Object
     
     public function load($entityId)
     {
-        $this->setData($this->getResource()->load($entityId, $this->_type));
+        $this->getResource()->load($this, $entityId);
         return $this;
     }
     
@@ -52,8 +60,18 @@ class Mage_Core_Model_Entity extends Varien_Object
         return $this;
     }
     
+    /**
+     * Retrieve entity attributes
+     *
+     * @return Varien_Data_Collectio
+     */
     public function getAttributes()
     {
-        return $this->getType()-getAttributes();
+        return $this->getType()->getAttributes();
+    }
+    
+    public function getValueTableName()
+    {
+        return $this->getType()->getEntityTableName();
     }
 }

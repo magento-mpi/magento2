@@ -101,7 +101,11 @@ class Mage_Core_Model_Resource
     {
         list($model, $entity) = explode('/', $modelEntity);
         $resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
-        return (string)$this->getEntity($resourceModel, $entity)->table;
+        
+        if ($entityConfig = $this->getEntity($resourceModel, $entity)) {
+            return (string)$entityConfig->table;
+        }
+        Mage::throwException('Can\'t retrieve entity config for entity:'.$entity.' of model:'.$model);
     }
     
     public function cleanDbRow(&$row) {
