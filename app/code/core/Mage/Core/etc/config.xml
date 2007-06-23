@@ -33,23 +33,30 @@
 
         <entities>
             <default>
-                <class>Mage_Core_Model_Entity</class>
+                <model>core/entity</model>
+                <resourceTable>core/entity</resourceTable>
                 <attribute>
+                    <resourceTable>core/attribute</resourceTable>
                     <types>
                         <varchar>
-                            <class>Mage_Core_Model_Entity_Attribute_Type_Varchar</class>
+                            <model>core/entity_attribute_type_varchar</model>
+                            <resourceTable>core/attribute_varchar</resourceTable>
                         </varchar>
                         <decimal>
-                            <class>Mage_Core_Model_Entity_Attribute_Type_Decimal</class>
+                            <model>core/entity_attribute_type_decimal</model>
+                            <resourceTable>core/attribute_decimal</resourceTable>
                         </decimal>
                         <datetime>
-                            <class>Mage_Core_Model_Entity_Attribute_Type_Datetime</class>
+                            <model>core/entity_attribute_type_datetime</model>
+                            <resourceTable>core/attribute_datetime</resourceTable>
                         </datetime>
                         <text>
-                            <class>Mage_Core_Model_Entity_Attribute_Type_Text</class>
+                            <model>core/entity_attribute_type_text</model>
+                            <resourceTable>core/attribute_text</resourceTable>
                         </text>
                         <int>
-                            <class>Mage_Core_Model_Entity_Attribute_Type_Int</class>
+                            <model>core/entity_attribute_type_int</model>
+                            <resourceTable>core/attribute_int</resourceTable>
                         </int>
                     </types>
                 </attribute>

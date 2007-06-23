@@ -264,6 +264,9 @@ final class Mage {
         Varien_Profiler::stop('init');
 
         // check modules db
+        /**
+         * @todo abstract updates check algorithm
+         */
         $checkFile = Mage::getBaseDir('etc').DS.'update'.DS.'db';
         if (file_exists($checkFile)) {
             Varien_Profiler::start('dbUpdates');

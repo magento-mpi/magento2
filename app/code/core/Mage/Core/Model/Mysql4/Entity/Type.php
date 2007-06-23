@@ -63,12 +63,13 @@ class Mage_Core_Model_Mysql4_Entity_Type
                 ->setAttributeTable($type->getAttributesTableName())
                 ->addEntityTypeFilter($type->getId())
                 ->addStoreFilter()
+                ->setPositionOrder()
                 ->load();
                 
             /**
              * @see  Varien_Object::__call()
              */
-            $type->setAttributes($attributes);
+            $type->setAttributeCollection($attributes);
         }
         return $type;
     }

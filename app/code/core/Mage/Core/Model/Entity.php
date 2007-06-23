@@ -65,9 +65,9 @@ class Mage_Core_Model_Entity extends Varien_Object
      *
      * @return Varien_Data_Collectio
      */
-    public function getAttributes()
+    public function getAttributeCollection()
     {
-        return $this->getType()->getAttributes();
+        return $this->getType()->getAttributeCollection();
     }
     
     public function getValueTableName()

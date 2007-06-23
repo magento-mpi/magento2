@@ -11,6 +11,8 @@
  */
 class Mage_Core_Model_Entity_Type extends Varien_Object 
 {
+    protected $_config;
+    
     public function __construct() 
     {
         parent::__construct();
@@ -24,7 +26,11 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     
     public function load($typeId)
     {
-        $this->getResource()->load($this, $typeId);
+        $this->_config = Mage::getConfig()->getNode('global/entities/'.$typeId);
+        if (false === $this->_config) {
+            Mage::throwException('Can not retrieve config for entity type "'.$typeId.'"');
+        }
+        $this->getResource()->load($this, $typeId);        
         return $this;
     }
     
@@ -40,13 +46,30 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
         return $this;
     }
     
+    public function setAttributeCollection($collection)
+    {
+        $types = (array) $this->_config->attribute->types;
+        foreach ($collection as $attribute) {
+        	if (isset($types[$attribute->getAttributeType()])) {
+        	    /**
+        	     * @see  Varien_Object::__call()
+        	     */
+        	    $attribute->setConfig($types[$attribute->getAttributeType()]);
+        	}
+        	else {
+        	    Mage::throwException('Can not retrieve type("'.$attribute->getAttributeType().'") config by attribute "'.$attribute->getAttributeCode().'"');
+        	}
+        }
+        $this->setData('attribute_collection', $collection);
+    }
+    
     public function getAttributesTableName()
     {
         if ($this->getData('attributes_table_name')) {
             $tableName = $this->getData('attributes_table_name');
         }
         else {
-            $tableName = Mage::getSingleton('core/resource')->getTableName($this->getAttributeTable());
+            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->attribute->resourceTable);
             $this->setData('attributes_table_name', $tableName);
         }
         return $tableName;
@@ -58,7 +81,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
             $tableName = $this->getData('entity_table_name');
         }
         else {
-            $tableName = Mage::getSingleton('core/resource')->getTableName($this->getEntityTable());
+            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->resourceTable);
             $this->setData('entity_table_name', $tableName);
         }
         return $tableName;

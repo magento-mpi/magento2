@@ -38,6 +38,12 @@ class Mage_Core_Model_Mysql4_Entity_Attribute_Collection extends Varien_Data_Col
         return $this;
     }
     
+    public function setPositionOrder($dir='ASC')
+    {
+        $this->setOrder('position', $dir);
+        return $this;
+    }
+    
     public function setAttributeTable($attributeTable)
     {
         $this->_sqlSelect->reset(Zend_Db_Select::FROM);

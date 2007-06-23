@@ -14,18 +14,10 @@
     </modules>
     <global>
         <entities>
-            <customer>
-                <class>Mage_Customer_Model_Customer</class>
-                <attribute>
-                    <types extends="//global/entities/default/attribute/types"/>
-                </attribute>
+            <customer extends="//global/entities/default">
+                <model>customer/customer</model>
             </customer>
-            <address>
-                <class>Mage_Customer_Model_Address</class>
-                <attribute>
-                    <types extends="//global/entities/default/attribute/types"/>
-                </attribute>
-            </address>
+            <address extends="//global/entities/default"/>
         </entities>
         
         <block>

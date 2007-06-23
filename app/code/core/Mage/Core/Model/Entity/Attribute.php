@@ -41,6 +41,13 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object
         return $this;
     }
     
+    public function setConfig($config)
+    {
+        $this->setType(Mage::getModel((string)$config->model));
+        $this->setData('config', $config);
+        return $this;
+    }
+    
     /**
      * Retrieve attribute value store table
      *
@@ -55,11 +62,11 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object
         /**
          * @see  Varien_Object::__call()
          */
-        if ($this->getAttributeTable()) {
-            $this->_valueTableName = Mage::getSingleton('core/resource')->getTableName($this->getAttributeTable());
+        if ($config = $this->getConfig()) {
+            $this->_valueTableName = Mage::getSingleton('core/resource')->getTableName((string)$config->resourceTable);
             return $this->_valueTableName;
         }
-        Mage::throwException('Can\'t get value table name');
+        Mage::throwException('Can not retrieve config for attribute "'.$this->getAttributeCode().'"');
     }
     
     public function getValueSelect()

@@ -51,7 +51,7 @@ class Mage_Core_Model_Mysql4_Entity
         /**
          * Load entity attributes
          */
-        $attributeCollection = $entity->getAttributes();
+        $attributeCollection = $entity->getAttributeCollection();
         
         // prepare value tables unions
         $unions = array();
