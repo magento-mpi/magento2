@@ -33,16 +33,16 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
     }
     
     /**
-     * Add website filter
+     * Add store filter
      *
-     * @param   int $websiteId
+     * @param   int $storeId
      * @return  Varien_Data_Collection_Db
      */
-    public function addWebsiteFilter($websiteId)
+    public function addStoreFilter($storeId)
     {
-        Mage::log('Add website filter to review collection');
-        $this->addFilter('website', 
-            $this->getConnection()->quoteInto($this->_reviewDetailTable.'.website_id=?', $websiteId), 
+        Mage::log('Add store filter to review collection');
+        $this->addFilter('store', 
+            $this->getConnection()->quoteInto($this->_reviewDetailTable.'.store_id=?', $storeId), 
             'string');
             
         return $this;

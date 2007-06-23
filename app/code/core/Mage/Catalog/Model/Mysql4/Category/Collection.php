@@ -6,7 +6,7 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
     protected $_categoryProductTable;
     protected $_attributeTable;
     protected $_attributeValueTable;
-    protected $_websiteId;
+    protected $_storeId;
     
     public function __construct() 
     {
@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
         $this->_attributeTable      = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute');
         $this->_attributeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_attribute_value');;
 
-        $this->_websiteId = Mage::getSingleton('core/website')->getId();
+        $this->_storeId = Mage::getSingleton('core/store')->getId();
                
         $this->_sqlSelect->from($this->_categoryTable);
         $this->_sqlSelect->join($this->_categoryProductTable, 
@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Mysql4_Category_Collection extends Varien_Data_Collecti
         // TODO: dynamic add attribute
         $this->_sqlSelect->join($this->_attributeValueTable, 
             "$this->_attributeValueTable.category_id=$this->_categoryTable.category_id
-            AND $this->_attributeValueTable.website_id=$this->_websiteId
+            AND $this->_attributeValueTable.store_id=$this->_storeId
             AND $this->_attributeValueTable.attribute_id=1", 'attribute_value AS name');
             
         $this->setOrder($this->_categoryProductTable.'.position', 'asc');

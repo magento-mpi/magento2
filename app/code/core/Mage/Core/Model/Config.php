@@ -535,9 +535,9 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
         return $this->getNode("global/resource/connection/types/$type");
     }
 
-    public function getWebsiteConfig($website='base')
+    public function getStoreConfig($store='base')
     {
-        return $this->getNode("global/websites/$website");
+        return $this->getNode("global/stores/$store");
     }
 
     /**
@@ -558,7 +558,7 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
      */
     public function getCurrentDomain()
     {
-        return $this->getDomain('base');#::registry('website')->getDomain());
+        return $this->getDomain('base');
     }
 
 }

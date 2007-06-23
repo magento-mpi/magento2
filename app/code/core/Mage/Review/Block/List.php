@@ -20,7 +20,7 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         
         $this->_collection = Mage::getModel('review/review')->getCollection();
         $this->_collection->setPageSize(10)
-            ->addWebsiteFilter(Mage::getSingleton('core/website')->getId())
+            ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addStatusFilter('approved')
             ->addEntityFilter('product', $productId)
             ->setDateOrder();

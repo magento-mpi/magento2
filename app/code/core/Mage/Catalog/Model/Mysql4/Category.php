@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Mysql4_Category
                 $tableAlias= $attribute->getTableAlias();
                 $condition = "$tableAlias.category_id=".$this->_categoryTable.".category_id
                               AND $tableAlias.attribute_id=".$attribute->getId()."
-                              AND $tableAlias.website_id=".Mage::getSingleton('core/website')->getId();
+                              AND $tableAlias.store_id=".Mage::getSingleton('core/store')->getId();
                 
                 $select->joinLeft($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }

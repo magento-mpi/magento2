@@ -19,12 +19,12 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Saver
     public function save(Mage_Catalog_Model_Category_Attribute $attribute, $categoryId, $value)
     {
         $table = $attribute->getTableName();
-        $websiteId = Mage::getSingleton('core/website')->getId();
+        $storeId = Mage::getSingleton('core/store')->getId();
         $attributeId = $attribute->getId();
         
         $condition = $this->_write->quoteInto('category_id=?',$categoryId)
                      . ' AND ' . $this->_write->quoteInto('attribute_id=?',$attributeId)
-                     . ' AND ' . $this->_write->quoteInto('website_id=?',$websiteId);
+                     . ' AND ' . $this->_write->quoteInto('store_id=?',$storeId);
         
         try {
             $this->_write->delete($table, $condition);
@@ -32,7 +32,7 @@ class Mage_Catalog_Model_Mysql4_Category_Attribute_Saver
             $data = array(
                 'category_id'   => $categoryId,
                 'attribute_id'  => $attributeId,
-                'website_id'    => $websiteId
+                'store_id'    => $storeId
             );
             
             if (is_array($value)) {

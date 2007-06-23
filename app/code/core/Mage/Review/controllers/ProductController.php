@@ -21,7 +21,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($productId)
                     ->setStatusId(1) // approved
-                    ->setWebsiteId(Mage::getSingleton('core/website')->getId())
+                    ->setStoreId(Mage::getSingleton('core/store')->getId())
                     ->save();
                     
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());

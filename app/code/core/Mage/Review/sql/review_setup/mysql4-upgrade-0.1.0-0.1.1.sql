@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
 
 SET NAMES utf8;
 
@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS `review_detail`;
 CREATE TABLE `review_detail` (
   `detail_id` bigint(20) unsigned NOT NULL auto_increment,
   `review_id` bigint(20) unsigned NOT NULL default '0',
-  `website_id` smallint(6) unsigned NOT NULL default '0',
+  `store_id` smallint(6) unsigned NOT NULL default '0',
   `title` varchar(255) NOT NULL default '',
   `detail` text NOT NULL,
   `nickname` varchar(128) NOT NULL default '',

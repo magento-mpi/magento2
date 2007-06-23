@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
 
 SET NAMES utf8;
 
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `review_detail`;
 CREATE TABLE `review_detail` (
   `detail_id` bigint(20) unsigned NOT NULL auto_increment,
   `review_id` bigint(20) unsigned NOT NULL default '0',
-  `website_id` smallint(6) unsigned NOT NULL default '0',
+  `store_id` smallint(6) unsigned NOT NULL default '0',
   `title` varchar(255) NOT NULL default '',
   `detail` text NOT NULL,
   PRIMARY KEY  (`detail_id`),
@@ -50,7 +50,7 @@ CREATE TABLE `review_detail` (
 
 /*Data for the table `review_detail` */
 
-insert into `review_detail` (`detail_id`,`review_id`,`website_id`,`title`,`detail`) values (3,3,1,'test','test'),(4,4,1,'test','test'),(5,5,1,'test','test'),(6,6,1,'test','test'),(7,7,1,'test','test'),(8,8,1,'test','test');
+insert into `review_detail` (`detail_id`,`review_id`,`store_id`,`title`,`detail`) values (3,3,1,'test','test'),(4,4,1,'test','test'),(5,5,1,'test','test'),(6,6,1,'test','test'),(7,7,1,'test','test'),(8,8,1,'test','test');
 
 /*Table structure for table `review_entity` */
 

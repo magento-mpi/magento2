@@ -108,9 +108,9 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $websiteId = (int) $this->getRequest()->getPost('website',1);
+        $storeId = (int) $this->getRequest()->getPost('store',1);
 
-        $nodes = $tree->setWebsiteId($websiteId)
+        $nodes = $tree->setStoreId($storeId)
                     ->joinAttribute('name')
                     ->loadNode($parentNodeId)
                         ->loadChildren(1)
@@ -133,19 +133,19 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody(Zend_Json::encode($items));
     }
     
-    public function treeWebsiteAction()
+    public function treeStoreAction()
     {
-            $websiteId = (int) $this->getRequest()->getParam('website', false);
-            if ($websiteId) {
-                $website = Mage::getModel('core/website')->load($websiteId);
+            $storeId = (int) $this->getRequest()->getParam('store', false);
+            if ($storeId) {
+                $store = Mage::getModel('core/store')->load($storeId);
             }
             else {
-                $website = Mage::getModel('core/website')->setRootCategoryId(1);
+                $store = Mage::getModel('core/store')->setRootCategoryId(1);
             }
             
             $item = array(
                 'text'  => __('Catalog categories'),
-                'id'    => $website->getRootCategoryId(),
+                'id'    => $store->getRootCategoryId(),
                 'cls'   => 'folder',
                 'isRoot'=> 'true',
                 'expanded' => 'true'

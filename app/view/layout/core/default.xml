@@ -52,7 +52,7 @@
         
         <block type="core/text_list" name="top.forms" as="topForms"/>
         
-        <block type="core/website" name="website" as="website"/>
+        <block type="core/store" name="store" as="store"/>
         
         <block type="core/text_list" name="left" as="left"/>
         

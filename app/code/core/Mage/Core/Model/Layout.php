@@ -67,8 +67,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function init($id)
     {
-        if (Mage::getSingleton('core/website')->getCode()) {
-            $id = Mage::getSingleton('core/website')->getCode() . '_' . $id;
+        if (Mage::getSingleton('core/store')->getCode()) {
+            $id = Mage::getSingleton('core/store')->getCode() . '_' . $id;
         }
         $this->getCache()->setDir(Mage::getBaseDir('cache_layout'))->setKey($id);
         if (!$xml = $this->getCache()->load()) {
@@ -165,7 +165,7 @@ echo "TEST:".$i;
         $updates = Mage::getConfig()->getNode("$area/layouts/$id/updates");
         if (!empty($updates)) {
             foreach ($updates->children() as $update) {
-                $fileName = Mage::getWebsiteDir('layout').DS.(string)$update->file;
+                $fileName = Mage::getStoreDir('layout').DS.(string)$update->file;
                 $this->loadUpdateFile($fileName);
             }
         }

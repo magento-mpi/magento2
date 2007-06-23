@@ -17,7 +17,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         try {
             $currencies = Mage::getResourceModel('directory/currency_collection')
                 ->addLanguageFilter()
-                ->addCodeFilter(Mage::getSingleton('core/website')->getAvailableCurrencyCodes())
+                ->addCodeFilter(Mage::getSingleton('core/store')->getAvailableCurrencyCodes())
                 ->load();
         }
         catch (Exception $e){
@@ -25,6 +25,6 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         }
             
         $this->assign('currencies', $currencies);
-        $this->assign('currentCurrencyCode', Mage::getSingleton('core/website')->getCurrentCurrencyCode());
+        $this->assign('currentCurrencyCode', Mage::getSingleton('core/store')->getCurrentCurrencyCode());
     }
 }

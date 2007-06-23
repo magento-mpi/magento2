@@ -139,6 +139,10 @@
                             <title>Permissions</title>
                             <action>adminhtml/acl</action>
                         </acl>
+                        <resources>
+                            <title>Resources</title>
+                            <action>adminhtml/resources</action>
+                        </resources>
                     </children>
                 </config>
             </children>

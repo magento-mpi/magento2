@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
 
 SET NAMES utf8;
 
@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating` (
   `rating_id` smallint(6) unsigned NOT NULL auto_increment,
   `entity_id` smallint(5) unsigned NOT NULL default '0',
-  `website_id` smallint(5) unsigned NOT NULL default '0',
+  `store_id` smallint(5) unsigned NOT NULL default '0',
   `rating_code` varchar(64) NOT NULL default '',
   `position` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`rating_id`),
@@ -30,7 +30,7 @@ CREATE TABLE `rating` (
 
 /*Data for the table `rating` */
 
-insert into `rating` (`rating_id`,`entity_id`,`website_id`,`rating_code`,`position`) values (1,2,1,'product_review_quality',1),(2,2,1,'product_review_use',2),(3,2,1,'product_review_value',3),(4,3,1,'review_quality',0),(5,1,1,'product_quality',1),(6,1,1,'product_use',1),(7,1,1,'product_value',1);
+insert into `rating` (`rating_id`,`entity_id`,`store_id`,`rating_code`,`position`) values (1,2,1,'product_review_quality',1),(2,2,1,'product_review_use',2),(3,2,1,'product_review_value',3),(4,3,1,'review_quality',0),(5,1,1,'product_quality',1),(6,1,1,'product_use',1),(7,1,1,'product_value',1);
 
 /*Table structure for table `rating_entity` */
 

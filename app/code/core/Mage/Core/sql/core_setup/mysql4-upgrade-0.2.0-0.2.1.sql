@@ -28,7 +28,7 @@ CREATE TABLE `core_session_visitor` (
   `http_accept_language` varchar(255) NOT NULL default '',
   `http_accept_charset` varchar(255) NOT NULL default '',
   `request_uri` text NOT NULL,
-  `website_id` int(10) unsigned NOT NULL default '0',
+  `store_id` int(10) unsigned NOT NULL default '0',
   `customer_id` int(10) unsigned NOT NULL default '0',
   `quote_id` int(10) unsigned NOT NULL default '0',
   `url_history` text not null,

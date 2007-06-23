@@ -37,9 +37,9 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $websiteId = (int) $this->getRequest()->getPost('website',1);
+        $storeId = (int) $this->getRequest()->getPost('store',1);
 
-        $nodes = $tree->setWebsiteId($websiteId)
+        $nodes = $tree->setStoreId($storeId)
                     ->joinAttribute('name')
                     ->loadNode($parentNodeId)
                         ->loadChildren(1)

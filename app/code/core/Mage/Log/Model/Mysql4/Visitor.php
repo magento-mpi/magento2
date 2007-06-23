@@ -71,7 +71,7 @@ class Mage_Log_Model_Mysql4_Visitor
 		          'http_accept_language' => $visitor->getHttpAcceptLanguage(),
 		          'http_accept_charset' => $visitor->getHttpAcceptCharset(),
 		          'http_host' => $visitor->getHttpHost(),
-		          'website_id' => $visitor->getWebsiteId(),
+		          'store_id' => $visitor->getStoreId(),
 		          'customer_id' => ( $visitor->getCustomerId() ) ? $visitor->getCustomerId() : 0,
 		          'quote_id' => ( $visitor->getQuoteId() > 0 ) ? $visitor->getQuoteId() : 0
 		    );

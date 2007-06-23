@@ -86,11 +86,11 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
     
     /**
-     * Get websites collection for category
+     * Get stores collection for category
      *
      * @return Varien_Data_Collection_Db
      */
-    public function getWebsites()
+    public function getStores()
     {
         $arrNodes = Mage::getResourceModel('catalog/category_tree')
             ->load()
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
             $arrCategoryId[] = $node->getId();
         }
         
-        $collection = Mage::getResourceModel('core/website_collection')
+        $collection = Mage::getResourceModel('core/store_collection')
             ->addCategoryFilter($arrCategoryId)
             ->load();
         return $collection;

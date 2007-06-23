@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
     protected $_attributeTable;
     protected $_attributeValueTable;
     protected $_attributes;
-    protected $_websiteId;
+    protected $_storeId;
     protected $_joinedAttributes = array();
     
     public function __construct()
@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
         
         $condition = $attribute->getTableAlias().".category_id=$this->_table.category_id AND ".
                      $attribute->getTableAlias().'.attribute_id='.$attribute->getId().' AND ' .
-                     $attribute->getTableAlias().'.website_id='.(int) $this->getWebsiteId();
+                     $attribute->getTableAlias().'.store_id='.(int) $this->getStoreId();
         
         $this->_select->join($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
         return $this;
@@ -58,19 +58,19 @@ class Mage_Catalog_Model_Mysql4_Category_Tree extends Varien_Data_Tree_Db
         return isset($this->_joinedAttributes[$attribute->getCode()]);
     }
     
-    public function getWebsiteId()
+    public function getStoreId()
     {
-        if ($this->_websiteId) {
-            return $this->_websiteId;
+        if ($this->_storeId) {
+            return $this->_storeId;
         }
         else {
-            return Mage::getSingleton('core/website')->getId();
+            return Mage::getSingleton('core/store')->getId();
         }
     }
     
-    public function setWebsiteId($websiteId)
+    public function setStoreId($storeId)
     {
-        $this->_websiteId = $websiteId;
+        $this->_storeId = $storeId;
         return $this;
     }
 }

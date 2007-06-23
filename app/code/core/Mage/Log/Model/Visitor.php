@@ -101,10 +101,10 @@ class Mage_Log_Model_Visitor extends Varien_Object
         return $this;
     }
 
-    public function bindWebsite($observer)
+    public function bindStore($observer)
     {
-        if ($observer->getEvent()->getWebsite()) {
-            $this->setWebsiteId($observer->getEvent()->getWebsite()->getId());
+        if ($store = $observer->getEvent()->getStore()) {
+            $this->setStoreId($store->getId());
         }
     }
 

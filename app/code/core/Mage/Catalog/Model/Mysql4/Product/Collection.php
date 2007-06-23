@@ -13,7 +13,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     protected $_productTable;
     protected $_categoryProductTable;
     
-    protected $_websiteId;
+    protected $_storeId;
     protected $_isCategoryJoined=false;
     protected $_isLinkJoined=false;
     
@@ -37,18 +37,18 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product'));
-        $this->setWebsiteId(Mage::getSingleton('core/website')->getId());
+        $this->setStoreId(Mage::getSingleton('core/store')->getId());
     }
     
-    public function setWebsiteId($websiteId)
+    public function setStoreId($storeId)
     {
-        $this->_websiteId = $websiteId;
+        $this->_storeId = $storeId;
         return $this;
     }
     
-    public function getWebsiteId()
+    public function getStoreId()
     {
-        return $this->_websiteId;
+        return $this->_storeId;
     }
     
     /**
@@ -97,9 +97,9 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         $condition = $attribute->getTableAlias().".product_id=$this->_productTable.product_id AND ".
                      $attribute->getTableAlias().'.attribute_id='.$attribute->getId();
         
-        if ($this->_websiteId) {
+        if ($this->_storeId) {
             
-            $condition.= ' AND '.$attribute->getTableAlias().'.website_id='.(int) $this->_websiteId;
+            $condition.= ' AND '.$attribute->getTableAlias().'.store_id='.(int) $this->_storeId;
         }
         return $condition;
     }

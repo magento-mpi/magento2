@@ -11,7 +11,7 @@ CREATE TABLE `poll` (
   `poll_id` int(11) NOT NULL auto_increment,
   `poll_title` varchar(255) NOT NULL,
   `votes_count` int(10) unsigned NOT NULL,
-  `website_id` smallint(6) NOT NULL,
+  `store_id` smallint(6) NOT NULL,
   `date_posted` datetime NOT NULL,
   `date_closed` datetime default NULL,
   `status` smallint(6) NOT NULL default '1',
@@ -20,7 +20,7 @@ CREATE TABLE `poll` (
 ) TYPE=InnoDB AUTO_INCREMENT=2 ;
 
 
-INSERT INTO `poll` (`poll_id`, `poll_title`, `votes_count`, `website_id`, `date_posted`, `date_closed`, `status`, `answers_display`) VALUES 
+INSERT INTO `poll` (`poll_id`, `poll_title`, `votes_count`, `store_id`, `date_posted`, `date_closed`, `status`, `answers_display`) VALUES 
 (1, 'What is the best e-commerce solution?', 1, 1, '2007-06-15 19:17:49', NULL, 1, NULL);
 
 

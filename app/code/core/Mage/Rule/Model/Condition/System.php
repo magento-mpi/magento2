@@ -7,7 +7,7 @@ class Mage_Rule_Model_Condition_System extends Mage_Rule_Model_Condition_Abstrac
         $this->setAttributeOption(array(
             'date'=>'Date',
             'visitor_ip'=>'Visitor IP Address',
-            'website_code'=>'Website code',
+            'store_code'=>'Store code',
             'language_code'=>'Language code',
         ));
         return $this;

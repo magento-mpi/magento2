@@ -10,7 +10,7 @@
 class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Varien_Data_Collection_Db
 {
     protected $_optionTable;
-    protected $_websiteId;
+    protected $_storeId;
     
     public function __construct() 
     {
@@ -21,22 +21,22 @@ class Mage_Catalog_Model_Mysql4_Product_Attribute_Option_Collection extends Vari
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product_attribute_option'));
     }
     
-    public function setWebsiteId($websiteId)
+    public function setStoreId($storeId)
     {
-        $this->_websiteId = $websiteId;
+        $this->_storeId = $storeId;
     }
     
-    public function getWebsiteId()
+    public function getStoreId()
     {
-        if ($this->_websiteId) {
-            return $this->_websiteId;
+        if ($this->_storeId) {
+            return $this->_storeId;
         }
-        return Mage::getSingleton('core/website')->getId();
+        return Mage::getSingleton('core/store')->getId();
     }
     
     public function loadData($printQuery = false, $logQuery = false)
     {
-        $this->addFilter('website_id', $this->getWebsiteId());
+        $this->addFilter('store_id', $this->getStoreId());
         parent::loadData($printQuery, $logQuery);
         return $this;
     }

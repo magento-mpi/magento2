@@ -35,7 +35,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
     public function addLanguageFilter($lang=null)
     {
         if (is_null($lang)) {
-            $lang = Mage::getSingleton('core/website')->getLanguage();
+            $lang = Mage::getSingleton('core/store')->getLanguage();
         }
         $this->addFilter('language', "$this->_currencyNameTable.language_code='$lang'", 'string');
         return $this;

@@ -1,24 +1,24 @@
 <?php
 
-class Mage_Core_Model_Mysql4_Website
+class Mage_Core_Model_Mysql4_Store
 {
     protected $_read;
     protected $_write;
-    protected $_websiteTable;
+    protected $_storeTable;
     
     public function __construct()
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $this->_websiteTable = Mage::getSingleton('core/resource')->getTableName('core/website');
+        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
     }
     
-    public function load($website)
+    public function load($store)
     {
-        if (is_numeric($website)) {
-            return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_id=?", $website);
-        } elseif (is_string($website)) {
-            return $this->_read->fetchRow("select * from ".$this->_websiteTable." where website_code=?", $website);
+        if (is_numeric($store)) {
+            return $this->_read->fetchRow("select * from ".$this->_storeTable." where store_id=?", $store);
+        } elseif (is_string($store)) {
+            return $this->_read->fetchRow("select * from ".$this->_storeTable." where store_code=?", $store);
         }
     }
 }

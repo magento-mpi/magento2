@@ -21,12 +21,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartView = 'checkout/cart/view.phtml';
             $itemsFilter = new Varien_Filter_Object_Grid();
             $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-            $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'price');
-            $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'row_total');
+            $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
+            $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'row_total');
             $cartData['items'] = $itemsFilter->filter($quote->getItems());
 
             $totalsFilter = new Varien_Filter_Array_Grid();
-            $totalsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'value');
+            $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
             $cartData['totals'] = $totalsFilter->filter($quote->getTotals());
             
             $alnumFilter = new Zend_Filter_Alnum();
@@ -35,7 +35,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cartData['giftcert_code'] = $alnumFilter->filter($quote->getGiftcertCode());
             
             $estimateFilter = new Varien_Filter_Object_Grid();
-            $estimateFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'amount');
+            $estimateFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'amount');
             $cartData['estimate_methods'] = $estimateFilter->filter($quote->getEntitiesByType('shipping'));
             $cartData['estimate_method'] = $quote->getShippingMethod();
 

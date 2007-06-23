@@ -19,7 +19,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         $this->_regionTable     = Mage::getSingleton('core/resource')->getTableName('directory/country_region');
         $this->_regionNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_region_name');
         
-        $lang = Mage::getSingleton('core/website')->getLanguage();
+        $lang = Mage::getSingleton('core/store')->getLanguage();
         
         $this->_sqlSelect->from($this->_regionTable);
         $this->_sqlSelect->join($this->_regionNameTable, "$this->_regionNameTable.region_id=$this->_regionTable.region_id AND $this->_regionNameTable.language_code='$lang'");

@@ -18,10 +18,10 @@ class Mage_Core_Model_Translate
     
     public function __construct() 
     {
-        $this->_language = Mage::getSingleton('core/website')->getLanguage();
+        $this->_language = Mage::getSingleton('core/store')->getLanguage();
         $this->_sections = (array) Mage::getConfig()->getNode('translate');
 		$this->_adapter  = 'csv';
-        $this->_baseDir = Mage::getWebsiteDir('translate').DS.$this->_language.DS;
+        $this->_baseDir = Mage::getStoreDir('translate').DS.$this->_language.DS;
         
         $this->_translate = new Zend_Translate($this->_adapter, $this->_baseDir.'base.csv', $this->_language);
         

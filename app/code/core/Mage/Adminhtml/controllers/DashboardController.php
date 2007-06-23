@@ -136,12 +136,12 @@ class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Acti
         
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-        $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'price');
-        $itemsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'row_total');
+        $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
+        $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'row_total');
         $cartItems = $itemsFilter->filter($quote->getItems());
 
         $totalsFilter = new Varien_Filter_Array_Grid();
-        $totalsFilter->addFilter(Mage::getSingleton('core/website')->getPriceFilter(), 'value');
+        $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
         $cartTotals = $totalsFilter->filter($quote->getTotals());
         
         // Creating XML response. 

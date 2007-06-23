@@ -1,5 +1,5 @@
 <?php
-class Mage_Admin_WebsiteController extends Mage_Core_Controller_Admin_Action
+class Mage_Admin_StoreController extends Mage_Core_Controller_Admin_Action
 {
     function listAction()
     {
@@ -7,14 +7,14 @@ class Mage_Admin_WebsiteController extends Mage_Core_Controller_Admin_Action
         //TODO: move node to JS
         $data[] = array(
             'value' => 0,
-            'text'  => __('All websites')
+            'text'  => __('All stores')
         );
-        $arrSites = Mage::getResourceModel('core/website_collection')->load();
+        $arrSites = Mage::getResourceModel('core/store_collection')->load();
         
-        foreach ($arrSites as $website) {
+        foreach ($arrSites as $store) {
             $data[] = array(
-                'value' => $website->getWebsiteId(),
-                'text'  => $website->getWebsiteCode()
+                'value' => $store->getStoreId(),
+                'text'  => $store->getStoreCode()
             );
         }
         
@@ -25,19 +25,19 @@ class Mage_Admin_WebsiteController extends Mage_Core_Controller_Admin_Action
         $data = array(
                array(
                     'id' => 1,
-                    'text'  => 'website1'
+                    'text'  => 'store1'
                 ),
                 array(
                     'id' => 2,
-                    'text'  => 'website2'
+                    'text'  => 'store2'
                 ),
                 array(
                     'id' => 3,
-                    'text'  => 'website3'
+                    'text'  => 'store3'
                 ),
                 array(
                     'id' => 4,
-                    'text'  => 'website4'
+                    'text'  => 'store4'
                 )
         );
         $this->getResponse()->setBody(Zend_Json::encode($data));

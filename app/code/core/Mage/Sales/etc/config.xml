@@ -163,9 +163,9 @@
               <status>
                 <type>varchar</type>
               </status>
-              <website_code>
+              <store_code>
                 <type>varchar</type>
-              </website_code>
+              </store_code>
               <created_at>
                 <type>datetime</type>
               </created_at>
@@ -252,18 +252,18 @@
               <base_currency_code>
                 <type>varchar</type>
               </base_currency_code>
-              <website_currency_code>
+              <store_currency_code>
                 <type>varchar</type>
-              </website_currency_code>
+              </store_currency_code>
               <current_currency_code>
                 <type>varchar</type>
               </current_currency_code>
-              <website_to_current_currency_rate>
+              <store_to_current_currency_rate>
                 <type>decimal</type>
-              </website_to_current_currency_rate>
-              <website_to_base_currency_rate>
+              </store_to_current_currency_rate>
+              <store_to_base_currency_rate>
                 <type>decimal</type>
-              </website_to_base_currency_rate>
+              </store_to_base_currency_rate>
             </attributes>
           </self>
           <address>
@@ -522,9 +522,9 @@
               <status>
                 <type>varchar</type>
               </status>
-              <website_id>
+              <store_id>
                 <type>int</type>
-              </website_id>
+              </store_id>
               <currency_id>
                 <type>int</type>
               </currency_id>

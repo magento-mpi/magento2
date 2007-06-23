@@ -12,7 +12,7 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Varien_Data_Collection_Db
 {
     protected $_pollTable;
     protected $_pollId;
-    protected $_websiteId;
+    protected $_storeId;
     protected $_answerCollection;
 
     public function __construct()

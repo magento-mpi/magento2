@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Mysql4_Product
             
             $condition = "$tableAlias.product_id=".$this->_productTable.".product_id
                           AND $tableAlias.attribute_id=".$attribute->getId()."
-                          AND $tableAlias.website_id=".Mage::getSingleton('core/website')->getId();
+                          AND $tableAlias.store_id=".Mage::getSingleton('core/store')->getId();
             
             // Join
             if ($attribute->isRequired()) {
@@ -82,7 +82,7 @@ class Mage_Catalog_Model_Mysql4_Product
             $select->from($attribute->getSelectTable(), $attribute->getTableColumns())
                 ->where('product_id='.$productId)
                 ->where('attribute_id='.$attribute->getId())
-                ->where('website_id='.Mage::getSingleton('core/website')->getId());
+                ->where('store_id='.Mage::getSingleton('core/store')->getId());
             
             if ($order = $attribute->getMultipleOrder()) {
                 $select->order($order);

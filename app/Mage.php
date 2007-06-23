@@ -116,14 +116,14 @@ final class Mage {
         return Mage::getConfig()->getModuleDir($type, $moduleName);
     }
 
-    public static function getWebsiteDir($type, $websiteCode=null)
+    public static function getStoreDir($type, $storeCode=null)
     {
-        if (is_null($websiteCode)) {
-            $website = Mage::getSingleton('core/website');
+        if (is_null($storeCode)) {
+            $store = Mage::getSingleton('core/store');
         } else {
-            $website = Mage::getModel('core/website')->setCode($websiteCode);
+            $store = Mage::getModel('core/store')->setCode($storeCode);
         }
-        return $website->getDir($type);
+        return $store->getDir($type);
     }
 
     /**
@@ -134,7 +134,7 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::getSingleton('core/website')->getUrl($params);
+        return Mage::getSingleton('core/store')->getUrl($params);
     }
 
     public static function getUrl($routeName='', $params=array())
@@ -274,16 +274,16 @@ final class Mage {
     /**
      * Front end main entry point
      *
-     * @param string $websiteCode
+     * @param string $storeCode
      */
-    public static function run($websiteCode='')
+    public static function run($storeCode='')
     {
         try {
             Varien_Profiler::start('app');
 
             Mage::init();
             Mage::getConfig()->loadEventObservers('front');
-            Mage::getSingleton('core/website')->setCode($websiteCode);
+            Mage::getSingleton('core/store')->setCode($storeCode);
             Mage::dispatchEvent('beforeFrontRun');
 
             Mage::register('controller', new Mage_Core_Controller_Zend_Front());

@@ -293,7 +293,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     
     public function createOrders()
     {
-        $website = Mage::getSingleton('core/website');
+        $store = Mage::getSingleton('core/store');
         $now = new Zend_Db_Expr("now()");
         
         $order = Mage::getModel('sales/order')->addData($this->getData());
@@ -301,10 +301,10 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
         $order->setRealOrderId(Mage::getResourceModel('sales/counter')->getCounter('order'))            
             ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
             ->setCreatedAt($now)
-            ->setWebsiteId($website->getId())
-            ->setCurrencyId($website->getCurrencyId())
-            ->setCurrencyBaseId($website->getCurrencyBaseId())
-            ->setCurrencyRate($website->getCurrencyRate());
+            ->setStoreId($store->getId())
+            ->setCurrencyId($store->getCurrencyId())
+            ->setCurrencyBaseId($store->getCurrencyBaseId())
+            ->setCurrencyRate($store->getCurrencyRate());
         
         foreach (array('item', 'address', 'payment') as $entityType) {
             $entities = $this->getEntitiesByType($entityType);

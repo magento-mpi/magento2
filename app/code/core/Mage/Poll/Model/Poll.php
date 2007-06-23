@@ -33,9 +33,9 @@ class Mage_Poll_Model_Poll extends Varien_Object
         return $this;
     }
 
-    public function setWebsiteId($websiteId)
+    public function setStoreId($storeId)
     {
-        $this->getResource()->setWebsiteId($websiteId);
+        $this->getResource()->setStoreId($storeId);
         return $this;
     }
 

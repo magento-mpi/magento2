@@ -10,14 +10,14 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         if ($parent==='wsroot') {
             $data = array(array(
                 'id' => 'all',
-                'text'  => __('All websites'),
+                'text'  => __('All stores'),
             ));
-            $arrSites = Mage::getResourceModel('core/website_collection')->load();
-            foreach ($arrSites as $website) {
+            $arrSites = Mage::getResourceModel('core/store_collection')->load();
+            foreach ($arrSites as $store) {
                 $data[] = array(
-                    'id' => $website->getWebsiteId(),
-                    'siteId' => $website->getWebsiteId(),
-                    'text'  => $website->getWebsiteCode()
+                    'id' => $store->getStoreId(),
+                    'siteId' => $store->getStoreId(),
+                    'text'  => $store->getStoreCode()
                 );
             } 
         } else {
@@ -37,7 +37,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
 
     public function gridAction()
     {
-        $websiteId = $this->getRequest()->getParam('siteid', '');
+        $storeId = $this->getRequest()->getParam('siteid', '');
         $orderStatus = $this->getRequest()->getParam('orderstatus', '');
         $pageSize = $this->getRequest()->getPost('pageSize', '');
         $sort = $this->getRequest()->getPost('sort', '');
@@ -49,7 +49,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
             ->addAttributeSelect('self/grand_total')
             ->addAttributeSelect('self/status')
             ->addAttributeSelect('self/created_at')
-            ->addAttributeSelect('self/website_id')
+            ->addAttributeSelect('self/store_id')
             ->addAttributeSelect('address/address_type')
             ->addAttributeSelect('address/firstname')
             ->addAttributeSelect('address/lastname');
@@ -57,8 +57,8 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         $orders->addAttributeFilter('address/address_type', 'billing');
         
 
-        if (!empty($websiteId) && is_numeric($websiteId)) {
-            $orders->addAttributeFilter('self/website_id', $websiteId);
+        if (!empty($storeId) && is_numeric($storeId)) {
+            $orders->addAttributeFilter('self/store_id', $storeId);
         }
         if (!empty($orderStatus)) {
             $orders->addAttributeFilter('self/status', $orderStatus);

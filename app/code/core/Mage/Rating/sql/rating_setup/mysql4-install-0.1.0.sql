@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
 
 SET NAMES utf8;
 
@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating` (
   `rating_id` smallint(6) unsigned NOT NULL auto_increment,
   `entity_id` smallint(5) unsigned NOT NULL default '0',
-  `website_id` smallint(5) unsigned NOT NULL default '0',
+  `store_id` smallint(5) unsigned NOT NULL default '0',
   `rating_code` varchar(64) NOT NULL default '',
   PRIMARY KEY  (`rating_id`),
   KEY `FK_RATING_ENTITY` (`entity_id`),
@@ -28,7 +28,7 @@ CREATE TABLE `rating` (
 
 /*Data for the table `rating` */
 
-insert into `rating` (`rating_id`,`entity_id`,`website_id`,`rating_code`) values (1,1,1,'product_quality'),(2,1,1,'product_use'),(3,1,1,'product_value'),(4,2,1,'review_quality');
+insert into `rating` (`rating_id`,`entity_id`,`store_id`,`rating_code`) values (1,1,1,'product_quality'),(2,1,1,'product_use'),(3,1,1,'product_value'),(4,2,1,'review_quality');
 
 /*Table structure for table `rating_entity` */
 

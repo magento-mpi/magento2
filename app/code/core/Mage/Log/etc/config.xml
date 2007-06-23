@@ -77,15 +77,15 @@
                     </log>
                 </observers>
             </initCustomerSession>
-            <setWebsiteCode>
+            <setStoreCode>
                 <observers>
                     <log>
                         <type>singleton</type>
                         <class>log/visitor</class>
-                        <method>bindWebsite</method>
+                        <method>bindStore</method>
                     </log>
                 </observers>
-            </setWebsiteCode>            
+            </setStoreCode>            
             <action_postDispatch>
                 <observers>
                     <log>

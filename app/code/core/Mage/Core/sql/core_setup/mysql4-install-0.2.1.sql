@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.20 : Database - magenta
 *********************************************************************
 Server version : 4.1.20
-*/
+*/
 
 SET NAMES utf8;
 
@@ -230,20 +230,20 @@ CREATE TABLE `core_table` (
 
 /*Data for the table `core_table` */
 
-/*Table structure for table `core_website` */
+/*Table structure for table `core_store` */
 
-DROP TABLE IF EXISTS `core_website`;
+DROP TABLE IF EXISTS `core_store`;
 
-CREATE TABLE `core_website` (
-  `website_id` smallint(6) unsigned NOT NULL auto_increment,
+CREATE TABLE `core_store` (
+  `store_id` smallint(6) unsigned NOT NULL auto_increment,
   `language_code` varchar(2) NOT NULL default '',
-  `website_code` varchar(32) NOT NULL default '',
-  PRIMARY KEY  (`website_id`),
-  KEY `FK_WEBSITE_LANGUAGE` (`language_code`),
-  CONSTRAINT `FK_WEBSITE_LANGUAGE` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Websites';
+  `store_code` varchar(32) NOT NULL default '',
+  PRIMARY KEY  (`store_id`),
+  KEY `FK_STORE_LANGUAGE` (`language_code`),
+  CONSTRAINT `FK_STORE_LANGUAGE` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Stores';
 
-insert into `core_website` (`website_id`,`language_code`,`website_code`) values (1,'en','base'),(2,'en','site2'),(3,'en','site3'),(4,'en','site4'),(5,'en','site5');
+insert into `core_store` (`store_id`,`language_code`,`store_code`) values (1,'en','base'),(2,'en','site2'),(3,'en','site3'),(4,'en','site4'),(5,'en','site5');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

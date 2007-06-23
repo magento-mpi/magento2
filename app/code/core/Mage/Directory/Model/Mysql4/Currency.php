@@ -46,7 +46,7 @@ class Mage_Directory_Model_Mysql4_Currency
     public function load($code, $lang=null)
     {
         if (is_null($lang)) {
-            $lang = Mage::getSingleton('core/website')->getLanguage();
+            $lang = Mage::getSingleton('core/store')->getLanguage();
         }
         
         if ($this->_read) {

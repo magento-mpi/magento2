@@ -25,10 +25,10 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     public function gridDataAction()
     {
         $pageSize = $this->getRequest()->getPost('limit', 30);
-        $websiteId = $this->getRequest()->getParam('website');
+        $storeId = $this->getRequest()->getParam('store');
         
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
-            ->setWebsiteId(Mage::getSingleton('core/website')->getId())
+            ->setStoreId(Mage::getSingleton('core/store')->getId())
             ->distinct(true)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
@@ -77,21 +77,21 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * List allowed websites for category
+     * List allowed stores for category
      *
      */
-    public function allowWebsitesAction()
+    public function allowStoresAction()
     {
         $categoryId = (int) $this->getRequest()->getParam('category', false);
 
         $category = Mage::getModel('catalog/category')->setCategoryId($categoryId);
-        $websites = $category->getWebsites();
+        $stores = $category->getStores();
         
         $data = array();
-        foreach ($websites as $website) {
+        foreach ($stores as $store) {
             $data[] = array(
-                'value' => $website->getWebsiteId(),
-                'text'  => $website->getWebsiteCode()
+                'value' => $store->getStoreId(),
+                'text'  => $store->getStoreCode()
             );
         }
         
@@ -166,7 +166,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         if (isset($_FILES['image'])) {
             $id = $this->getRequest()->getParam('product', -1);
-            $fileDir = Mage::getWebsiteDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
+            $fileDir = Mage::getStoreDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
             if (!file_exists($fileDir)) {
                 mkdir($fileDir, 0777, true);
                 chmod($fileDir, 0777);

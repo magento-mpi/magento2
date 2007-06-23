@@ -3,7 +3,7 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.21-community-nt : Database - magento
 *********************************************************************
 Server version : 4.1.21-community-nt
-*/
+*/
 
 SET NAMES utf8;
 
@@ -29,7 +29,7 @@ CREATE TABLE `log_visitor` (
   `http_accept_language` varchar(255) NOT NULL default '',
   `http_accept_charset` varchar(255) NOT NULL default '',
   `request_uri` text NOT NULL,
-  `website_id` int(10) unsigned NOT NULL default '0',
+  `store_id` int(10) unsigned NOT NULL default '0',
   `customer_id` int(10) unsigned NOT NULL default '0',
   `quote_id` int(10) unsigned NOT NULL default '0',
   `url_history` text NOT NULL,

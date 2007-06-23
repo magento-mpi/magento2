@@ -1,20 +1,20 @@
 <?php
 /**
- * Website
+ * Store
  *
  * @package    Mage
  * @subpackage Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Website extends Varien_Object
+class Mage_Core_Model_Store extends Varien_Object
 {
     protected $_priceFilter;
     /**
-     * Set website code
+     * Set store code
      *
      * @param   string $code
-     * @return  Mage_Core_Model_Website
+     * @return  Mage_Core_Model_Store
      */
     public function setCode($code)
     {
@@ -25,65 +25,65 @@ class Mage_Core_Model_Website extends Varien_Object
             $this->setId((int)$config->id);
             $this->setLanguage((string)$config->language);
             $this->setGroup((string)$config->group);
-            Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
+            Mage::dispatchEvent('setStoreCode', array('store'=>$this));
         }
         return $this;
     }
     
     /**
-     * Get website id
+     * Get store id
      *
      * @return int
      */
     public function getId()
     {
-        if ($this->getWebsiteId()) {
-            return $this->getWebsiteId();
+        if ($this->getStoreId()) {
+            return $this->getStoreId();
         }
         return (int) $this->getConfig()->id;
     }
     
     /**
-     * Get website resource model
+     * Get store resource model
      *
      * @return mixed
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('core/website');
+        return Mage::getResourceSingleton('core/store');
     }
     
     /**
-     * Load website data
+     * Load store data
      *
-     * @param   int $websiteId
-     * @return  Mage_Core_Model_Website
+     * @param   int $storeId
+     * @return  Mage_Core_Model_Store
      */
-    public function load($websiteId)
+    public function load($storeId)
     {
-        $this->setData($this->getResource()->load($websiteId));
+        $this->setData($this->getResource()->load($storeId));
         return $this;
     }
     
     /**
-     * Get website config data
+     * Get store config data
      *
      * @return mixed
      */
     public function getConfig()
     {
-        return Mage::getConfig()->getWebsiteConfig($this->getCode());
+        return Mage::getConfig()->getStoreConfig($this->getCode());
     }
     
     /**
-     * Get website categories
+     * Get store categories
      *
      * @return array
      */
     public function getArrCategoriesId()
     {
         $arr = array();
-        // TODO: depended from website id
+        // TODO: dependent from store id
         $nodes = Mage::getResourceModel('catalog/category_tree')
             ->load(2,10) // TODO: from config
             ->getNodes();
@@ -95,7 +95,7 @@ class Mage_Core_Model_Website extends Varien_Object
     }
     
     /**
-     * Get website directory by type
+     * Get store directory by type
      *
      * @param   string $type
      * @return  string
@@ -108,7 +108,7 @@ class Mage_Core_Model_Website extends Varien_Object
     }
     
     /**
-     * Get website url
+     * Get store url
      *
      * @param   array $params
      * @return  string
@@ -143,19 +143,19 @@ class Mage_Core_Model_Website extends Varien_Object
     }
     
     /**
-     * Get default website currency code
+     * Get default store currency code
      *
      * @return string
      */
     public function getDefaultCurrencyCode()
     {
-        if (Mage::getConfig()->getWebsiteConfig($this->getCode())) {
-            return (string) Mage::getConfig()->getWebsiteConfig($this->getCode())->currency->default;
+        if (Mage::getConfig()->getStoreConfig($this->getCode())) {
+            return (string) Mage::getConfig()->getStoreConfig($this->getCode())->currency->default;
         }
     }
     
     /**
-     * Set current website currency code
+     * Set current store currency code
      * 
      * @param   string $code
      * @return  string
@@ -170,7 +170,7 @@ class Mage_Core_Model_Website extends Varien_Object
     }
 
     /**
-     * Get current website currency code
+     * Get current store currency code
      *
      * @return string
      */
@@ -184,7 +184,7 @@ class Mage_Core_Model_Website extends Varien_Object
     }
 
     /**
-     * Get allowed website currency codes
+     * Get allowed store currency codes
      *
      * @return array
      */
@@ -224,7 +224,7 @@ class Mage_Core_Model_Website extends Varien_Object
     }
     
     /**
-     * Get website price filter
+     * Get store price filter
      *
      * @return unknown
      */
