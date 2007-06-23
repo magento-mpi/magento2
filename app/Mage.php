@@ -268,7 +268,9 @@ final class Mage {
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         Varien_Profiler::stop('dbUpdates');
         
-        Mage::getSingleton('core/resource')->getConnection('core_write')->getProfiler()->setEnabled(true);
+        if (Mage::getSingleton('core/resource')->getConnection('core_write')) {
+            Mage::getSingleton('core/resource')->getConnection('core_write')->getProfiler()->setEnabled(true);
+        }
     }
 
     /**
