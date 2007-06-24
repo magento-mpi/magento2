@@ -33,30 +33,44 @@
 
         <entities>
             <default>
-                <model>core/entity</model>
                 <resourceTable>core/entity</resourceTable>
                 <attribute>
                     <resourceTable>core/attribute</resourceTable>
                     <types>
                         <varchar>
                             <model>core/entity_attribute_type_varchar</model>
-                            <resourceTable>core/attribute_varchar</resourceTable>
+                            <resource>
+                                <model>core/entity_attribute_type</model>
+                                <table>core/attribute_varchar</table>
+                            </resource>
                         </varchar>
                         <decimal>
                             <model>core/entity_attribute_type_decimal</model>
-                            <resourceTable>core/attribute_decimal</resourceTable>
+                            <resource>
+                                <model>core/entity_attribute_type</model>
+                                <table>core/attribute_decimal</table>
+                            </resource>
                         </decimal>
                         <datetime>
                             <model>core/entity_attribute_type_datetime</model>
-                            <resourceTable>core/attribute_datetime</resourceTable>
+                            <resource>
+                                <model>core/entity_attribute_type</model>
+                                <table>core/attribute_datetime</table>
+                            </resource>
                         </datetime>
                         <text>
                             <model>core/entity_attribute_type_text</model>
-                            <resourceTable>core/attribute_text</resourceTable>
+                            <resource>
+                                <model>core/entity_attribute_type</model>
+                                <table>core/attribute_text</table>
+                            </resource>
                         </text>
                         <int>
                             <model>core/entity_attribute_type_int</model>
-                            <resourceTable>core/attribute_int</resourceTable>
+                            <resource>
+                                <model>core/entity_attribute_type</model>
+                                <table>core/attribute_int</table>
+                            </resource>
                         </int>
                     </types>
                 </attribute>

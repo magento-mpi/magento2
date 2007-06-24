@@ -77,6 +77,17 @@ class Varien_Object
     }
     
     /**
+     * Retrieve name of object id field
+     *
+     * @param   string $name
+     * @return  Varien_Object
+     */
+    public function getIdFieldName()
+    {
+        return $this->_idFieldName;
+    }
+
+    /**
      * Retrieve object id
      * 
      * @return mixed

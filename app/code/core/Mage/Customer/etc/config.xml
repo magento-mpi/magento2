@@ -15,7 +15,13 @@
     <global>
         <entities>
             <customer extends="//global/entities/default">
-                <model>customer/customer</model>
+                <attribute>
+                    <types>
+                        <addresses>
+                            <model>customer/address_entity</model>
+                        </addresses>
+                    </types>
+                </attribute>
             </customer>
             <address extends="//global/entities/default"/>
         </entities>

@@ -40,7 +40,7 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
         return 'attribute_id';
     }
     
-    public function load($attributeId)
+    public function load(Mage_Core_Model_Entity_Attribute $attribute, $attributeId)
     {
         
     }

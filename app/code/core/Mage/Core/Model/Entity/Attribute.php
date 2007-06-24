@@ -5,77 +5,104 @@
  * @package     Mage
  * @subpackage  Core
  * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @methods     getType
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Core_Model_Entity_Attribute extends Varien_Object
+class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Core_Model_Entity_Attribute_Interface
 {
-    protected $_valueTableName;
-    
     public function __construct() 
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getIdFieldName());
     }
     
+    /**
+     * Retrieve arrtibute resource model
+     *
+     * @return Object
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('core/entity_attribute');
     }
     
-    public function load($entityId)
+    /**
+     * Load attribute
+     *
+     * @param   int|string $attributeId
+     * @return  Mage_Core_Model_Entity_Attribute
+     */
+    public function load($attributeId)
     {
-        $this->setData($this->getResource()->load($entityId, $this->_type));
+        $this->getResource()->load($this, $attributeId);
         return $this;
     }
     
+    /**
+     * Save attribute
+     *
+     * @return Mage_Core_Model_Entity_Attribute
+     */
     public function save()
     {
         $this->getResource()->save($this);
         return $this;
     }
     
+    /**
+     * Delete attribute
+     *
+     * @return Mage_Core_Model_Entity_Attribute
+     */
     public function delete()
     {
         $this->getResource()->delete($this);
         return $this;
     }
     
-    public function setConfig($config)
+    /**
+     * Set attribute configuration and type object
+     *
+     * @param   Varien_Simplexml_Element $config
+     * @return  Mage_Core_Model_Entity_Attribute
+     */
+    public function setConfig(Varien_Simplexml_Element $config)
     {
-        $this->setType(Mage::getModel((string)$config->model));
-        $this->setData('config', $config);
+        $type = Mage::getModel((string)$config->model)
+            ->setConfig($config);
+        $this->setType($type)
+            ->setData('config', $config);
         return $this;
     }
     
-    /**
-     * Retrieve attribute value store table
-     *
-     * @return string
-     */
-    public function getValueTableName()
+    public function setType(Mage_Core_Model_Entity_Attribute_Type_Interface $type)
     {
-        if ($this->_valueTableName) {
-            return $this->_valueTableName;
+        $this->setData('type', $type);
+        return $this;
+    }
+    
+    public function getTypeCode()
+    {
+        if ($this->getType()) {
+            return $this->getType()->getCode();
         }
+        Mage::throwException('Can not retrieve attribute type');
+    }
+    
+    public function getValueFromTypeValues($typeValues)
+    {
+        foreach ($typeValues as $row) {
+        	if ($row[$this->getIdFieldName()] == $this->getId()) {
+        	    return $row[$this->getType()->getValueFieldName()];
+        	}
+        }
+        return null;
+    }
+
+    public function saveValue()
+    {
         
-        /**
-         * @see  Varien_Object::__call()
-         */
-        if ($config = $this->getConfig()) {
-            $this->_valueTableName = Mage::getSingleton('core/resource')->getTableName((string)$config->resourceTable);
-            return $this->_valueTableName;
-        }
-        Mage::throwException('Can not retrieve config for attribute "'.$this->getAttributeCode().'"');
     }
     
-    public function getValueSelect()
-    {
-        return $this->getResource()->getValueSelect($this);
-    }
-    
-    public function getValueColumns()
-    {
-        return $this->getResource()->getValueColumns();
-    }
 }

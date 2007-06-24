@@ -48,38 +48,22 @@ class Mage_Core_Model_Mysql4_Entity
 
         $entity->setData($this->_read->fetchRow($select));
         
+        if (!$entity->getId()) {
+            return $entity;
+        }
+        
         /**
-         * Load entity attributes
+         * Load entity attributes values
          */
         $attributeCollection = $entity->getAttributeCollection();
         
-        // prepare value tables unions
-        $unions = array();
+        $values = array();
         foreach ($attributeCollection as $attribute) {
-        	if (!isset($unions[$attribute->getValueTableName()])) {
-        	    $select = $this->_read->select()
-        	       ->from($attribute->getValueTableName(), $attribute->getValueColumns())
-        	       ->where($this->_read->quoteInto($this->getIdFieldName().'=?', $entityId));
-        	       
-        	    /**
-        	     * @todo add store condition
-        	     */
-        	    $unions[$attribute->getValueTableName()] = $select;
+        	if (!isset($values[$attribute->getTypeCode()])) {
+        	    $values[$attribute->getTypeCode()] = $attribute->getType()->loadAttributesValues($entity);
         	}
+        	$entity->bindAttribute($attribute, $values[$attribute->getTypeCode()]);
         }
-        
-        $sql = implode(" \nUNION \n", $unions);
-        
-        $data = $this->_read->fetchPairs($sql);
-        
-        if (!empty($data)) {
-            foreach ($attributeCollection as $attribute) {
-            	if (isset($data[$attribute->getId()])) {
-            	    $entity->setData($attribute->getAttributeCode(), $data[$attribute->getId()]);
-            	}
-            }
-        }
-        
         return $entity;
     }
     
