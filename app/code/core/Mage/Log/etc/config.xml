@@ -110,6 +110,7 @@
                     </log>
                 </observers>
             </initCustomerSession>
+	    <!--
             <setStoreCode>
                 <observers>
                     <log>
@@ -119,6 +120,7 @@
                     </log>
                 </observers>
             </setStoreCode>
+	    -->
             <action_postDispatch>
                 <observers>
                     <log>
