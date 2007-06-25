@@ -2,7 +2,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
         <depends>
             <Mage_Core />
             <Mage_Customer />
@@ -18,12 +18,27 @@
             <log_mysql4>
                 <class>Mage_Log_Model_Mysql4</class>
                 <entities>
+                    <customer>
+                        <table>log_customer</table>
+                    </customer>
                     <visitor>
                         <table>log_visitor</table>
                     </visitor>
+                    <visitor_info>
+                        <table>log_visitor_info</table>
+                    </visitor_info>
                     <url_table>
-                        <table>log_url_history</table>
+                        <table>log_url</table>
                     </url_table>
+                    <url_info_table>
+                        <table>log_url_info</table>
+                    </url_info_table>
+                    <summary_table>
+                        <table>log_summary</table>
+                    </summary_table>
+                    <summary_type_table>
+                        <table>log_summary_type</table>
+                    </summary_type_table>
                 </entities>
             </log_mysql4>
         </models>
@@ -50,6 +65,24 @@
     </global>
     <front>
         <events>
+            <customerLogin>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>bindCustomerLogin</method>
+                    </log>
+                </observers>
+            </customerLogin>
+            <customerLogout>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>bindCustomerLogout</method>
+                    </log>
+                </observers>
+            </customerLogout>
             <action_preDispatch>
                 <observers>
                     <log>
@@ -85,7 +118,7 @@
                         <method>bindStore</method>
                     </log>
                 </observers>
-            </setStoreCode>            
+            </setStoreCode>
             <action_postDispatch>
                 <observers>
                     <log>

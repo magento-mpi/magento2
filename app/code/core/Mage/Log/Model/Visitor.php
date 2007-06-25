@@ -66,17 +66,11 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if ($observer && $observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
             return $this;
         }
-
-        $this->getResource()->save($this);
-        $this->saveUrl();
+        $this->getResource()
+            ->logVisitor($this)
+            ->logUrl($this);
 
         return $this;
-    }
-
-    public function saveUrl()
-    {
-        $this->setUrl($this->getUrl());
-        $this->getResource()->saveUrl($this);
     }
 
     public function delete()
@@ -139,6 +133,25 @@ class Mage_Log_Model_Visitor extends Varien_Object
             return $this;
         }
         $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
+        return $this;
+    }
+
+    public function bindCustomerLogin()
+    {
+        $this->setLoginAt( $this->getResource()->getNow() );
+        $this->setCustomerId( Mage::getSingleton('customer/session')->getCustomerId() );
+        $this->getResource()
+            ->logCustomer($this);
+        return $this;
+    }
+
+    public function bindCustomerLogout($observer)
+    {
+        $eventData = $observer->getEvent()->getData();
+        $this->setLogoutAt( $this->getResource()->getNow() );
+        $this->setCustomerId( $eventData['customer']->getCustomerId() );
+        $this->getResource()
+            ->logCustomer($this);
         return $this;
     }
 }
