@@ -11,19 +11,39 @@
 class Mage_Core_Model_Entity extends Varien_Object
 {
     protected $_type;
+    protected $_cacheObject;
     
     /**
      * Entity constructor
      * 
      * Initialize entity type object
      *
+     * @todo  Make type objects sleep for type caching
      * @param string $type Entity type code
      */
-    public function __construct($type) 
+    public function __construct($type, $useTypeCache = false) 
     {
+        $useTypeCache = false;
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getIdFieldName());
         
+        if ($useTypeCache) {
+            $this->_initCacheObject();
+            if($this->_loadTypeCache($type)){
+                return $this;
+            }
+            else {
+                $this->_initType($type);
+            }
+            $this->_saveTypeCache($type);
+        }
+        else {
+            $this->_initType($type);
+        }
+    }
+    
+    protected function _initType($type)
+    {
         if (is_string($type)) {
             $this->_type = Mage::getModel('core/entity_type')->load($type);
         }
@@ -33,6 +53,33 @@ class Mage_Core_Model_Entity extends Varien_Object
         else {
             Mage::throwException('Wrong entity type parameter');
         }
+        return $this;
+    }
+    
+    protected function _initCacheObject()
+    {
+        $frontendOptions = array(
+            'lifetime' => 7200,
+            'automatic_serialization' => true
+        );
+        $backendOptions = array();
+        
+        $this->_cacheObject = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+        return $this;
+    }
+    
+    protected function _loadTypeCache($type)
+    {
+        if ($this->_type = $this->_cacheObject->load($type)) {
+            return true;
+        }
+        return false;
+    }
+    
+    protected function _saveTypeCache($type)
+    {
+        $this->_cacheObject->save($this->_type, $type);
+        return $this;
     }
     
     /**
@@ -99,6 +146,11 @@ class Mage_Core_Model_Entity extends Varien_Object
     public function getAttributeCollection()
     {
         return $this->getTypeObject()->getAttributeCollection();
+    }
+    
+    public function getAttributesCollection()
+    {
+        return $this->getAttributeCollection();
     }
     
     /**

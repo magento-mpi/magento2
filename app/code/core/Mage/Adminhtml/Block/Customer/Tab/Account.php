@@ -20,14 +20,28 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
     {
         $form = new Varien_Data_Form();
         
-        $customerId = false;
-        /*if ($customer) {
-            $customerId = $customer->getId();
-        }*/
-        
+        $customer = Mage::getModel('customer/entity');
+        if ($id = $this->_request->getParam('id')) {
+            $customer->load($id);
+        }
+            
+            
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
         
-        $fieldset->addField('firstname', 'text', 
+        foreach ($customer->getAttributeCollection() as $attribute) {
+        	$fieldset->addField($attribute->getCode(), 'text', 
+                array(
+                    'name'  => $attribute->getFormFieldName(),
+                    'label' => __($attribute->getCode()),
+                    'id'    => $attribute->getCode(),
+                    'title' => __($attribute->getCode().' title'),
+                    'class' => $attribute->getIsRequired() ? 'required-entry' : '',
+                    'value' => $customer->getData($attribute->getCode())
+                )
+            );
+        }
+        
+        /*$fieldset->addField('firstname', 'text', 
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -55,7 +69,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                 'title' => __('Customer Email'),
                 'class' => 'required-entry validate-email',
             )
-        );
+        );*/
         
         /*if ($customer) {
             $this->setValues($customer->toArray());
@@ -73,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
             );
         }
         else {*/
-           $fieldset->addField('password', 'password', 
+           /*$fieldset->addField('password', 'password', 
                 array(
                     'name'  => 'password',
                     'label' => __('Password'),
@@ -90,7 +104,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                     'title' => __('Password Confirmation'),
                     'class' => 'required-entry validate-cpassword',
                 )
-            );
+            );*/
         //}
         
         $this->setForm($form);

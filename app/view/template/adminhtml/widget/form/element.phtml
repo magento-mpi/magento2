@@ -14,7 +14,7 @@
     case 'password':?>
     <span>
         <label for="<?$element->getId()?>"><?=$element->getLabel()?>:</label>
-        <input type="<?=$element->getType()?>" id="<?=$element->getId()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>">
+        <input type="<?=$element->getType()?>" id="<?=$element->getId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>">
     </span>
       <?break;
 }?>

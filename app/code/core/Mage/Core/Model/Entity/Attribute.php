@@ -17,6 +17,11 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
         $this->setIdFieldName($this->getResource()->getIdFieldName());
     }
     
+    public function getCode()
+    {
+        return $this->getAttributeCode();
+    }
+    
     /**
      * Retrieve arrtibute resource model
      *
