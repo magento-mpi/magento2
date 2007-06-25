@@ -35,3 +35,7 @@
 input.validation-failed, textarea.validation-failed {
     border: 1px solid #d40707;
 }
+
+.left-col-field{
+    margin:5px 0px;padding:2px;width:205px;
+}

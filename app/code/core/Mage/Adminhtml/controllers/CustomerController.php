@@ -35,7 +35,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
      */
     public function viewAction()
     {
-        $this->loadLayout('baseframe');
+        /*$this->loadLayout('baseframe');
         
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
         
@@ -45,7 +45,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('customers'), __('customers title'));
 
-        $this->renderLayout();
+        $this->renderLayout();*/
+        $this->_forward('new');
     }
     
     /**
@@ -62,8 +63,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('adminhtml/customer_edit')
         );
+        
         $this->getLayout()->getBlock('left')
+            ->append($this->getLayout()->createBlock('adminhtml/store_switcher'))
             ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
+        
         $this->renderLayout();
     }
 
