@@ -89,6 +89,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_SearchLucene>
+        <Mage_Taggedproducts>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Taggedproducts>
         <Mage_Cms>
             <active>true</active>
             <codePool>core</codePool>

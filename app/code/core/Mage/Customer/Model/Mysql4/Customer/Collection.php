@@ -19,4 +19,11 @@ class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collect
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/customer'));
     }
+    
+    public function addNameFilter($name) {
+    	$this->addFilter('firstname', 
+                $this->_customerTable.".firstname LIKE \"%{$name}%\"", 
+                'string');
+        return $this;
+    }
 }

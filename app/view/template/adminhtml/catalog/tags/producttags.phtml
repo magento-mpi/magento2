@@ -1,0 +1,45 @@
+<script type="text/javascript">
+function markAll(val) {
+	var slcts = $('tags_list').getElementsByTagName('select');
+	for (var i = 0; i < slcts.length; i++) {
+		slcts[i].selectedIndex = val - 1;
+	}
+}
+</script>
+<div class="head">
+<h2>Product Tags</h2>
+</div>
+<?php if (0 == count($tags)) { ?>
+	 There are no pending tags.
+<?php } else { ?>
+<div>
+	<form action="/adminhtml/catalog/tagSetStatusPost" method="POST">
+		<table id="tags_list">
+			<tr>
+				<td>ID</td>
+				<td>Tag Name</td>
+				<td>Status</td>
+			</tr>
+		<?php foreach ($tags as $tag) {?>
+			<tr>
+				<td><?=$tag['id'];?></td>
+				<td><?=$tag['tag_name'];?></td>
+				<td>
+					<select name="tags['<?=$tag['id'];?>']">
+						<option value="1">pending</option>
+						<option value="2">approved</option>
+						<option value="4">unapproved</option>
+					</select>
+				</td>
+			</tr>
+		<?php } ?>
+		</table>
+		<ul>
+			<li><a href="#" onclick="markAll(1); return false;">mark all as pending</a></li>
+			<li><a href="#" onclick="markAll(2); return false;">mark all as approved</a></li>
+			<li><a href="#" onclick="markAll(3); return false;">mark all as unapproved</a></li>
+		</ul>
+		<input type="submit" value="Done" />
+	</form>
+</div>
+<?php } ?>

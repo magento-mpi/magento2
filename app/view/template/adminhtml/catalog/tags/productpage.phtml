@@ -1,0 +1,29 @@
+<div class="head">
+	<h2>Product Page</h2>
+</div>
+<form action="/adminhtml/productpage/dosearchproducts/" method="POST">
+	<input type="text" name="pname" /> <input type="submit" value="find" />
+</form>
+<?php if (count(@$products) > 0) { ?>
+	<div>
+		<?php foreach ($products as $product) { ?>
+			<h3><?=$product['name'];?></h3>
+			<div>
+				Tags: 
+				<?php if (0 == $product['tags']['total']) { echo "No tags"; } else {
+				foreach ($product['tags']['data'] as $tag) { ?>
+					<?=$tag['tag_name'];?> 
+				<?php } } ?>
+			</div>
+			<div>
+				Customers: 
+				<?php if (0 == count($product['customers'])) { echo "No tagged customers"; } else {
+				foreach ($product['customers'] as $customer) { ?>
+					<a href="/adminhtml/customerpage/dosearchcustomers/?uname=<?=$customer['firstname'];?>">
+						<?=$customer['firstname'];?>
+					</a> 
+				<?php } } ?>
+			</div>
+		<?php } ?>
+	</div>
+<?php } ?>

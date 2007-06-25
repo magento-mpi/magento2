@@ -26,6 +26,12 @@
                <category_attribute_value>
                   <table>catalog_category_attribute_value</table>
                </category_attribute_value>
+               <product_tags>
+                  <table>catalog_product_tags</table>
+               </product_tags>
+               <tags>
+                  <table>catalog_tags</table>
+               </tags>
                <category_attribute_set>
                   <table>catalog_category_attribute_set</table>
                </category_attribute_set>
@@ -242,7 +248,7 @@
                <module>Mage_Catalog</module>
                <frontName>catalog</frontName>
             </args>
-         </catalog>
+         </catalog>         
       </routers>
    </front>
 </config>

@@ -307,6 +307,19 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
     }
     
+    public function mytagsAction() {
+    	$this->loadLayout();
+    	
+    	$tags = Mage::getModel('catalog/tags');
+        
+        $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
+            ->setTemplate('customer/mytags.phtml')
+            ->assign('tags',    $tags->getUserTags(Mage::getSingleton('customer/session')->getCustomerId(), 7));
+        $this->getLayout()->getBlock('content')->append($block);
+        
+        $this->renderLayout();
+    }
+    
     public function balanceAction()
     {
         $this->loadLayout();
