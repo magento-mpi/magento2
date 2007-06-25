@@ -5,8 +5,15 @@ SET SQL_MODE='';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
-
+DROP TABLE IF EXISTS `log_visitor`;
+DROP TABLE IF EXISTS `log_visitor_info`;
 DROP TABLE IF EXISTS `log_customer`;
+DROP TABLE IF EXISTS `log_quote`;
+DROP TABLE IF EXISTS `log_summary`;
+DROP TABLE IF EXISTS `log_summary_type`;
+DROP TABLE IF EXISTS `log_url`;
+DROP TABLE IF EXISTS `log_url_info`;
+
 CREATE TABLE `log_customer` (
   `log_id` int(10) unsigned NOT NULL auto_increment,
   `visitor_id` bigint(20) unsigned default NULL,
@@ -15,10 +22,9 @@ CREATE TABLE `log_customer` (
   `logout_at` datetime default NULL,
   PRIMARY KEY  (`log_id`),
   KEY `FK_LOG_CUSTOMER_VISITOR` (`visitor_id`)
-) TYPE=InnoDB COMMENT='Customers log information' AUTO_INCREMENT=1 ;
+) TYPE=InnoDB COMMENT='Customers log information';
 
 
-DROP TABLE IF EXISTS `log_quote`;
 CREATE TABLE `log_quote` (
   `quote_id` int(10) unsigned NOT NULL default '0',
   `visitor_id` bigint(20) unsigned default NULL,
@@ -29,7 +35,6 @@ CREATE TABLE `log_quote` (
 ) TYPE=InnoDB COMMENT='Quote log data';
 
 
-DROP TABLE IF EXISTS `log_summary`;
 CREATE TABLE `log_summary` (
   `summary_id` bigint(20) unsigned NOT NULL auto_increment,
   `type_id` smallint(5) unsigned default NULL,
@@ -38,33 +43,30 @@ CREATE TABLE `log_summary` (
   `add_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`summary_id`),
   KEY `FK_LOG_SUMMARY_TYPE` (`type_id`)
-) TYPE=InnoDB COMMENT='Summary log information' AUTO_INCREMENT=1 ;
+) TYPE=InnoDB COMMENT='Summary log information';
 
 
-DROP TABLE IF EXISTS `log_summary_type`;
 CREATE TABLE `log_summary_type` (
   `type_id` smallint(5) unsigned NOT NULL auto_increment,
   `type_code` varchar(64) NOT NULL default '',
   `period` smallint(5) unsigned NOT NULL default '0',
   `period_type` enum('MINUTE','HOUR','DAY','WEEK','MONTH') NOT NULL default 'MINUTE',
   PRIMARY KEY  (`type_id`)
-) TYPE=InnoDB COMMENT='Type of summary information' AUTO_INCREMENT=2 ;
+) TYPE=InnoDB COMMENT='Type of summary information';
 
 
 INSERT INTO `log_summary_type` (`type_id`, `type_code`, `period`, `period_type`) VALUES 
 (1, 'live_5_mins', 5, 'MINUTE');
 
 
-DROP TABLE IF EXISTS `log_url`;
 CREATE TABLE `log_url` (
   `url_id` bigint(20) unsigned NOT NULL auto_increment,
   `visitor_id` bigint(20) unsigned default NULL,
   `visit_time` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`url_id`),
   KEY `FK_URL_VISIT_VISITOR` (`visitor_id`)
-) TYPE=InnoDB COMMENT='URL visiting history' AUTO_INCREMENT=1 ;
+) TYPE=InnoDB COMMENT='URL visiting history';
 
-DROP TABLE IF EXISTS `log_url_info`;
 CREATE TABLE `log_url_info` (
   `url_id` bigint(20) unsigned NOT NULL default '0',
   `url` varchar(255) NOT NULL default '',
@@ -73,7 +75,6 @@ CREATE TABLE `log_url_info` (
 ) TYPE=InnoDB COMMENT='Detale information about url visit';
 
 
-DROP TABLE IF EXISTS `log_visitor`;
 CREATE TABLE `log_visitor` (
   `visitor_id` bigint(20) unsigned NOT NULL auto_increment,
   `session_id` char(64) NOT NULL default '',
@@ -83,10 +84,9 @@ CREATE TABLE `log_visitor` (
   `remote_addr` bigint(19) default NULL,
   `last_url_id` bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (`visitor_id`)
-) TYPE=InnoDB COMMENT='System visitors log' AUTO_INCREMENT=1 ;
+) TYPE=InnoDB COMMENT='System visitors log';
 
 
-DROP TABLE IF EXISTS `log_visitor_info`;
 CREATE TABLE `log_visitor_info` (
   `visitor_id` bigint(20) unsigned NOT NULL default '0',
   `http_referer` varchar(255) default NULL,
