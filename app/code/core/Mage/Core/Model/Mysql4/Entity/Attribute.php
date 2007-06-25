@@ -55,15 +55,4 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
         
     }
     
-    public function getValueSelect(Mage_Core_Model_Entity_Attribute $attribute)
-    {
-        return $this->_read->select()
-            ->from($attribute->getValueTableName())
-            ->where($this->_read->quoteInto($this->getIdFieldName().'=?', $attribute->getId()));
-    }
-
-    public function getValueColumns()
-    {
-        return array($this->getIdFieldName(), 'value');
-    }
 }

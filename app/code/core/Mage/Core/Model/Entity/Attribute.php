@@ -71,7 +71,10 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
     {
         $type = Mage::getModel((string)$config->model)
             ->setConfig($config);
-        $this->setType($type)
+        /**
+         * @see  Varien_Object::__call()
+         */    
+        $this->setTypeObject($type)
             ->setData('config', $config);
         return $this;
     }
@@ -84,8 +87,8 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
     
     public function getTypeCode()
     {
-        if ($this->getType()) {
-            return $this->getType()->getCode();
+        if ($this->getTypeObject()) {
+            return $this->getTypeObject()->getCode();
         }
         Mage::throwException('Can not retrieve attribute type');
     }
@@ -94,10 +97,37 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
     {
         foreach ($typeValues as $row) {
         	if ($row[$this->getIdFieldName()] == $this->getId()) {
-        	    return $row[$this->getType()->getValueFieldName()];
+        	    return $row[$this->getTypeObject()->getValueFieldName()];
         	}
         }
         return null;
+    }
+    
+    public function getJoinTableName()
+    {
+        return $this->getTypeObject()->getTableName().' AS '.$this->getJoinTableAlias();
+    }
+    
+    public function getJoinTableAlias()
+    {
+        return $this->getTypeCode().'_'.$this->getAttributeCode();
+    }
+    
+    public function getJoinCondition($entity)
+    {
+        $condition = $this->getJoinTableAlias().'.'.$entity->getIdFieldName().'='
+                    .$entity->getValueTableName().'.'.$entity->getIdFieldName()
+                    .' AND '.$this->getJoinTableAlias().'.'.$this->getIdFieldName().'='.$this->getId();
+        return $condition;
+    }
+    
+    public function getJoinColumns($withAlias = false)
+    {
+        $columns = $this->getJoinTableAlias().'.'.$this->getTypeObject()->getValueFieldName();
+        if ($withAlias) {
+            $columns.= ' AS '.$this->getAttributeCode();
+        }
+        return $columns;
     }
 
     public function saveValue()

@@ -60,7 +60,7 @@ class Mage_Core_Model_Mysql4_Entity
         $values = array();
         foreach ($attributeCollection as $attribute) {
         	if (!isset($values[$attribute->getTypeCode()])) {
-        	    $values[$attribute->getTypeCode()] = $attribute->getType()->loadAttributesValues($entity);
+        	    $values[$attribute->getTypeCode()] = $attribute->getTypeObject()->loadAttributesValues($entity);
         	}
         	$entity->bindAttribute($attribute, $values[$attribute->getTypeCode()]);
         }

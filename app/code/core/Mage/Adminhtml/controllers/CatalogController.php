@@ -21,14 +21,6 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
     
-    public function tagSetStatusPostAction() {
-    	$tags = $this->getRequest()->getParam('tags', false);
-    	$tag_model = Mage::getSingleton('catalog/tags');
-    	$tag_model->setStatus($tags);
-    	
-    	$this->producttagsAction();
-    }    
-    
     public function framesetAction()
     {
         $frameset = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/frameset.phtml');
@@ -80,6 +72,4 @@ class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action
         
         $this->getResponse()->setBody($page->toHtml());
     }
-    
-    
 }

@@ -230,7 +230,8 @@ class Mage_Customer_Model_Mysql4_Customer
         return $this->_read->fetchOne($sql, $arrData);
     }
     
-    public function hashPassword($password) {
+    public function hashPassword($password)
+    {
         return md5($password);
     }
 }

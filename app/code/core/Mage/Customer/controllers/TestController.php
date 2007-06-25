@@ -13,10 +13,20 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         Varien_Profiler::start('entity');
-        $customer = Mage::getModel('customer/entity');
-        $customer->load(1);
+        $customer = Mage::getModel('customer/entity')
+            ->load(1);
+        
         echo '<pre>';
         print_r($customer->getData());
+        echo '</pre>';
+        
+        $collection = $customer->getEmptyCollection()
+            ->addAttributeSelect('firstname')
+            ->addAttributeSelect('lastname')
+            ->addAttributeFilter('lastname', 'soroka')
+            ->load(true);
+        echo '<pre>';
+        print_r($collection->getItems());
         echo '</pre>';
         Varien_Profiler::stop('entity');
         echo '<pre>';

@@ -38,6 +38,11 @@ class Mage_Core_Model_Entity_Attribute_Type_Abstract implements Mage_Core_Model_
         return $this->getResource()->loadAttributesValues($this->_tableName, $entity);
     }
     
+    public function getTableName()
+    {
+        return $this->_tableName;
+    }
+    
     public function saveValue()
     {
         

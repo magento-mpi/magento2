@@ -47,7 +47,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
      *
      * @return mixed
      */
-    public function getResource() {
+    public function getResource()
+    {
         return Mage::getResourceSingleton('catalog/product');
     }
     

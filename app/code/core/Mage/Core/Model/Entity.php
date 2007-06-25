@@ -40,7 +40,7 @@ class Mage_Core_Model_Entity extends Varien_Object
      *
      * @return Mage_Core_Model_Entity_Type
      */
-    public function getType()
+    public function getTypeObject()
     {
         return $this->_type;
     }
@@ -98,7 +98,7 @@ class Mage_Core_Model_Entity extends Varien_Object
      */
     public function getAttributeCollection()
     {
-        return $this->getType()->getAttributeCollection();
+        return $this->getTypeObject()->getAttributeCollection();
     }
     
     /**
@@ -108,24 +108,26 @@ class Mage_Core_Model_Entity extends Varien_Object
      */
     public function getValueTableName()
     {
-        return $this->getType()->getEntityTableName();
+        return $this->getTypeObject()->getEntityTableName();
     }
     
     /**
      * Bind attribute and attribute value for entity
      *
-     * @param Mage_Core_Model_Entity_Attribute_Interface $attribute
-     * @param unknown_type $attributeTypeValues
+     * @param   Mage_Core_Model_Entity_Attribute_Interface $attribute
+     * @param   array $attributeTypeValues
+     * @return  Mage_Core_Model_Entity
      */
     public function bindAttribute(Mage_Core_Model_Entity_Attribute_Interface $attribute, $attributeTypeValues)
     {
         $value = $attribute->getValueFromTypeValues($attributeTypeValues);
         $this->setData($attribute->getAttributeCode(), $value);
+        return $this;
     }
     
-    public function getCollection()
+    public function getEmptyCollection()
     {
         return Mage::getResourceModel('core/entity_collection')
-            ->setEntity($this);
+            ->setEntityObject($this);
     }
 }

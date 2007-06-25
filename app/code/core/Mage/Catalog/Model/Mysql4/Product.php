@@ -19,8 +19,6 @@ class Mage_Catalog_Model_Mysql4_Product
     protected $_attributeTable;
     protected $_attributeInSetTable;
     protected $_linkTable;
-    protected $_relationTable;
-    protected $_tagTable;
     
     protected $_attributes;
     
@@ -34,8 +32,6 @@ class Mage_Catalog_Model_Mysql4_Product
         $this->_attributeInSetTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_in_set');
         $this->_linkTable           = Mage::getSingleton('core/resource')->getTableName('catalog/product_link');
         $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
-        $this->_relationTable 		= Mage::getSingleton('core/resource')->getTableName('catalog/product_tags');
-        $this->_tagTable 			= Mage::getSingleton('core/resource')->getTableName('catalog/tags');
         
         $this->_read = Mage::getSingleton('core/resource')->getConnection('catalog_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('catalog_write');
@@ -99,13 +95,6 @@ class Mage_Catalog_Model_Mysql4_Product
                 $arr[$attribute->getCode()] = $this->_read->fetchCol($select);
             }
         }
-        
-        
-        $sql = 'SELECT * FROM ' . $this->_productTable . ' WHERE product_id=:product_id';
-        $baseInfo = $this->_read->fetchRow($sql, array('product_id'=>$productId));
-        
-        $tags = Mage::getModel('catalog/tags');        
-        $arr['tags'] = $tags->getProductTags($productId, 2);
         
         return $arr;
     }
@@ -234,5 +223,5 @@ class Mage_Catalog_Model_Mysql4_Product
                 ->load();
         }
         return $this->_attributes;
-    }    
+    }
 }

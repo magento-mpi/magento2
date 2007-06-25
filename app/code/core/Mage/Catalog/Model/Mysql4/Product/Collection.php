@@ -12,8 +12,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 {
     protected $_productTable;
     protected $_categoryProductTable;
-    protected $_tagTable;
-    protected $_tagRelationTable;    
     
     protected $_storeId;
     protected $_isCategoryJoined=false;
@@ -35,8 +33,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         
         $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog/product');
         $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
-        $this->_tagRelationTable	= Mage::getSingleton('core/resource')->getTableName('catalog/product_tags');
-        $this->_tagTable			= Mage::getSingleton('core/resource')->getTableName('catalog/tags');
 
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         
@@ -298,28 +294,5 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
             
         return $this->_conn->fetchRow($select);
-    }
-    
-    /**
-     * @todo REFACTOR!
-     *
-     * @param unknown_type $tagName
-     * @return unknown
-     */
-    public function addTagFilter($tagName) {
-    	$tagName = mysql_escape_string($tagName);
-        $sql = "SELECT t1.product_id
-				FROM catalog_product AS t1
-				INNER JOIN catalog_product_tags AS t2 USING(product_id)
-				INNER JOIN catalog_tags AS t3 ON t3.id = t2.tag_id
-				WHERE t3.tag_name = '$tagName'";
-        $col = $this->getConnection()->fetchCol($sql);
-        $product = Mage::getModel("catalog/product");
-        $list = array();
-        foreach ($col as $id) {
-        	$list[] = $product->load($id)->getData();
-        }
-                
-        return $list;
     }
 }
