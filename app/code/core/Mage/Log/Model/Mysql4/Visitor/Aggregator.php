@@ -99,6 +99,10 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
             $customersCondition = $this->_read->quoteInto('visitor_id NOT IN(?)', $customers);
             $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
 
+            if( $customerCount == 0 && $visitorCount == 0 ) {
+                return;
+            }
+
             $data = array(
                     'type_id' => $type['type_id'],
                     'visitor_count' => $visitorCount,
@@ -107,5 +111,10 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
                     );
             $this->_write->insert($this->_summaryTable, $data);
         }
+    }
+
+    protected function _updateOneshot()
+    {
+        #
     }
 }

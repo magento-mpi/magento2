@@ -122,6 +122,13 @@ class Mage_Log_Model_Mysql4_Visitor
 		          'login_at' => $collectedData->getLoginAt(),
 		          'logout_at' => $collectedData->getLogoutAt()
 		      );
+
+		    foreach ($data as $key => $value) {
+		    	if( !$value ) {
+		    		unset($data[$key]);
+		    	}
+		    }
+
 	        if( $collectedData->getLogoutAt() ) {
 	            $where = $this->_write->quoteInto('log_id=?', $this->getLogId( $collectedData->getCustomerId(), $this->getVisitorId($sessId) ));
 	            $this->_write->update($this->_customerTable, $data, $where);

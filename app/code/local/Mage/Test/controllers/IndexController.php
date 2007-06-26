@@ -29,7 +29,6 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
         $this->getResponse()->setBody($block->toHtml());
         */
-
         $aggregator = Mage::getSingleton('log/visitor_aggregator');
         $aggregator->update();
     }
