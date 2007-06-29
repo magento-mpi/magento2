@@ -305,6 +305,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     	$this->_sqlSelect->join($this->_tagRelTable, "{$this->_productTable}.product_id={$this->_tagRelTable}.entity_val_id AND {$this->_tagRelTable}.entity_id = 1");
     	$this->_sqlSelect->join($this->_tagTable, "{$this->_tagTable}.tag_id={$this->_tagRelTable}.tag_id");
     	$this->_sqlSelect->where("{$this->_tagTable}.tagname = '{$q}'");
+    	$this->_sqlSelect->group("{$this->_productTable}.product_id");
     	
     	return $this;
     }
