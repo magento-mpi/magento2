@@ -1,3 +1,6 @@
+.no-display{
+    display:none;
+}
 .grid{
     border:0px;
     cursor:pointer;
@@ -38,4 +41,9 @@ input.validation-failed, textarea.validation-failed {
 
 .left-col-field{
     margin:5px 0px;padding:2px;width:205px;
+}
+
+.changed {
+    color:red !important;
+    font-style:italic !important;
 }

@@ -20,6 +20,7 @@ varienTabs.prototype = {
                     $(this.destElementId).appendChild(tabContentElement);
                     tabContentElement.tabsObject = this;
                     tabContentElement.tabObject  = this.tabs[tab];
+                    tabContentElement.changeRelation = this.tabs[tab];
                 }
             }
         }

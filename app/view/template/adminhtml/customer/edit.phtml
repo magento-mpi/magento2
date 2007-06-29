@@ -16,6 +16,7 @@
     var customerForm = new varienForm('customer_edit_form');
     
     function customerEditShowButtons(data){
+        customerForm.initFormElements();
         if(data.tab.id && data.tab.id=='customer_info_tabs_addresses'){
             Element.show($('add_address_button'));
         }
