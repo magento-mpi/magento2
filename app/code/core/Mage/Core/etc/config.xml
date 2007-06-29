@@ -142,14 +142,27 @@
                     </core>
                 </updates>
             </noRoute>
-        <default>
-            <updates>
-                <page>
-                    <file>core/default.xml</file>
-                </page>
-            </updates>
-        </default>
+            <default>
+                <updates>
+                    <page>
+                        <file>core/default.xml</file>
+                    </page>
+                </updates>
+            </default>
         </layouts>
+        <routers>
+         <core>
+            <use>default</use>
+            <class>Mage_Core_Controller_Front_Router</class>
+            <args>
+               <module>Mage_Core</module>
+               <frontName>core</frontName>
+            </args>
+         </core>
+        </routers>
+        <default>
+            <router>core</router>
+        </default>
     </front>
     <translate></translate>
 </config>

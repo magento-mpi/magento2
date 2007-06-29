@@ -19,7 +19,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             $data = new Varien_Object();
         }
         
-        $productId = Mage::registry('controller')->getFront()->getRequest()->getParam('id', false);
+        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         $this->setTemplate('review/form.phtml')
             ->assign('action', Mage::getUrl('review', array('controller'=>'product', 'action'=>'post', 'id'=>$productId)))
             ->assign('data', $data)

@@ -35,7 +35,7 @@
          </baseframe>
       </layouts>
       <events>
-         <action_preDispatch_Mage_Adminhtml>
+         <action_preDispatch_adminhtml>
             <observers>
                <auth>
                   <type>singleton</type>
@@ -43,10 +43,11 @@
                   <method>actionPreDispatchAdmin</method>
                </auth>
             </observers>
-         </action_preDispatch_Mage_Adminhtml>
+         </action_preDispatch_adminhtml>
       </events>
       <routers>
          <adminhtml>
+            <use>default</use>
             <class>Mage_Core_Controller_Front_Router</class>
             <args>
                <module>Mage_Adminhtml</module>

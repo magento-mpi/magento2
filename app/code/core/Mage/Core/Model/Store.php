@@ -21,10 +21,10 @@ class Mage_Core_Model_Store extends Varien_Object
     public function setCode($code)
     {
         $this->setData('code', $code);
-        $config = $this->getConfig();
-        $this->setId((int)$config->id);
-        $this->setLanguageCode((string)$config->language);
-        $this->setWebsiteCode((string)$config->website);
+        $config = $this->getConfig('core/id');
+        $this->setId((int)$this->getConfig('core/id'));
+        $this->setLanguageCode((string)$this->getConfig('core/language'));
+        $this->setWebsiteCode((string)$this->getConfig('core/website'));
         Mage::dispatchEvent('setStoreCode', array('store'=>$this));
         
         return $this;
@@ -40,7 +40,7 @@ class Mage_Core_Model_Store extends Varien_Object
         if ($this->getStoreId()) {
             return $this->getStoreId();
         }
-        return (int) $this->getConfig()->id;
+        return (int) $this->getConfig('core/id');
     }
     
     /**
@@ -71,17 +71,28 @@ class Mage_Core_Model_Store extends Varien_Object
      * @param string $section
      * @return mixed
      */
-    public function getConfig($section='general')
+    public function getConfig($sectionVar='')
     {
-        if (empty($section)) {
+        $sectionArr = explode('/', $sectionVar);
+        
+        if (empty($sectionArr[0])) {
             return Mage::getConfig()->getNode('global/stores/'.$this->getCode());
         }
         
-        $config = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$section);
+        $config = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$sectionArr[0]);
         if (!$config || $config->is('default')) {
-            $config = $this->getWebsite()->getConfig($section);
+            return $this->getWebsite()->getConfig($sectionVar);
         }
-        return $config;
+        
+        if (!isset($sectionArr[1])) {
+            return $config;
+        }
+        
+        if (!$config->{$sectionArr[1]}) {
+            return $this->getWebsite()->getConfig($sectionVar);
+        }
+
+        return $config->{$sectionArr[1]};
     }
     
     public function getWebsite()
@@ -100,7 +111,7 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDir($type)
     {
-        $dir = (string)$this->getConfig('filesystem')->$type;
+        $dir = (string)$this->getConfig("filesystem/$type");
         if (!$dir) {
             $dir = $this->getDefaultDir($type);
         }
@@ -181,13 +192,13 @@ class Mage_Core_Model_Store extends Varien_Object
             }
         }
         
-        $urlConfig = empty($params['_secure']) ? $this->getConfig('unsecure') : $this->getConfig('secure');
-        $protocol = (string)$urlConfig->protocol;
-        $host = (string)$urlConfig->host;
-        $port = (int)$urlConfig->port;
-        $basePath = (string)$urlConfig->base_path;
+        $section = empty($params['_secure']) ? 'unsecure' : 'secure';
+        $protocol = (string)$this->getConfig("$section/protocol");
+        $host = (string)$this->getConfig("$section/host");
+        $port = (int)$this->getConfig("$section/port");
+        $basePath = (string)$this->getConfig("$section/base_path");
         if (!empty($params['_type'])) {
-            $basePath = (string)$this->getConfig('url')->$params['_type'];
+            $basePath = (string)$this->getConfig('url/'.$params['_type']);
         }
         
         $url = $protocol.'://'.$host;
@@ -204,7 +215,8 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDefaultCurrencyCode()
     {
-        return (string) $this->getConfig()->currency->default;
+        $currencyConfig = $this->getConfig('core/currency');
+        return (string) $currencyConfig->default;
     }
     
     /**
@@ -243,7 +255,11 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getAvailableCurrencyCodes()
     {
-        return array_keys($this->getConfig()->currency->available->asArray());
+        $availableCurrency = $this->getConfig('core/currency')->available;
+        if (!empty($availableCurrency)) {
+            return array_keys($this->getConfig('core/currency')->available->asArray());
+        }
+        return array();
     }
     
     /**

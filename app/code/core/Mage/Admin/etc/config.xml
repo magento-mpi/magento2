@@ -57,7 +57,7 @@
          </admin>
       </layouts>
       <events>
-         <action_preDispatch_Mage_Admin>
+         <action_preDispatch_admin>
             <observers>
                <auth>
                   <type>singleton</type>
@@ -65,7 +65,7 @@
                   <method>actionPreDispatchAdmin</method>
                </auth>
             </observers>
-         </action_preDispatch_Mage_Admin>
+         </action_preDispatch_admin>
       </events>
       <routers>
          <admin>

@@ -236,7 +236,7 @@
       </layouts>
       <routers>
          <catalog>
-            <default>true</default>
+            <use>default</use>
             <class>Mage_Catalog_Router</class>
             <args>
                <module>Mage_Catalog</module>
@@ -244,5 +244,8 @@
             </args>
          </catalog>
       </routers>
+      <default>
+         <router>catalog</router>
+      </default>
    </front>
 </config>

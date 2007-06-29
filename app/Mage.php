@@ -290,8 +290,15 @@ final class Mage {
 
             Mage::dispatchEvent('beforeFrontRun');
 
-            Mage::register('controller', new Mage_Core_Controller_Zend_Front());
-            Mage::registry('controller')->run();
+            Mage::register('controller', new Mage_Core_Controller_Varien_Front());
+            
+            Varien_Profiler::start('ctrl/init');
+            Mage::registry('controller')->init();
+            Varien_Profiler::stop('ctrl/init');
+            
+            Varien_Profiler::start('ctrl/dispatch');
+            Mage::registry('controller')->dispatch();
+            Varien_Profiler::stop('ctrl/dispatch');
 
             Varien_Profiler::stop('app');
         }

@@ -19,7 +19,7 @@ class Mage_Core_Model_Website extends Varien_Object
         if ($this->getWebsiteId()) {
             return $this->getWebsiteId();
         }
-        return (int) $this->getConfig()->id;
+        return (int) $this->getConfig('core/id');
     }
     
     /**
@@ -32,9 +32,9 @@ class Mage_Core_Model_Website extends Varien_Object
     {
         $this->setData('code', $code);
         
-        $config = $this->getConfig();
-        if ($config) {
-            $this->setId((int)$config->id);
+        $id = (int)$this->getConfig('core/id');
+        if ($id) {
+            $this->setId($id);
             Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
         }
         return $this;
@@ -46,17 +46,39 @@ class Mage_Core_Model_Website extends Varien_Object
      * @param string $section
      * @return mixed
      */
-    public function getConfig($section='general')
+    public function getConfig($sectionVar='')
     {
-        if (empty($section)) {
+        $sectionArr = explode('/', $sectionVar);
+        
+        if (empty($sectionArr[0])) {
             return Mage::getConfig()->getNode('global/websites/'.$this->getCode());
         }
         
-        $config = Mage::getConfig()->getNode('global/websites/'.$this->getCode().'/'.$section);
+        $config = Mage::getConfig()->getNode('global/websites/'.$this->getCode().'/'.$sectionArr[0]);
+        $defaultConfig = Mage::getConfig()->getNode('global/default/'.$sectionArr[0]);
+        
         if (!$config || $config->is('default')) {
-            $config = Mage::getConfig()->getNode('global/default/config/'.$section);
+            if (isset($sectionArr[1])) {
+                if (!empty($defaultConfig)) {
+                    return $defaultConfig->{$sectionArr[1]};
+                }
+                return false;
+            }
+            return $defaultConfig;
         }
-        return $config;
+        
+        if (!isset($sectionArr[1])) {
+            return $config;
+        }
+        
+        if (!$config->{$sectionArr[1]}) {
+            if (!empty($defaultConfig)) {
+                return $defaultConfig->{$sectionArr[1]};
+            }
+            return false;
+        }
+        
+        return $config->$sectionArr[1];
     }
     
     public function getStoreCodes()
@@ -64,7 +86,7 @@ class Mage_Core_Model_Website extends Varien_Object
         $stores = Mage::getConfig()->getNode('global/stores')->children();
         $storeCodes = array();
         foreach ($stores as $storeCode=>$storeConfig) {
-            if ($this->getCode()===(string)$storeConfig->general->website) {
+            if ($this->getCode()===(string)$storeConfig->core->website) {
                 $storeCodes[] = $storeCode;
             }
         }

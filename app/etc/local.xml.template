@@ -4,13 +4,17 @@
       <install>
         <date>{{date}}</date>
       </install>
+      
       <default>
-         <general>
+         <core>
             <store>base</store>
+            <defaultFrontName>catalog</defaultFrontName>
+            <defaultRoute>core/index/noroute</defaultRoute>
             <currency>
                 <base>USD</base>
+                <default>USD</default>
             </currency>
-         </general>
+         </core>
          
          <filesystem>
             <etc>{{root_dir}}/app/etc</etc>
@@ -21,19 +25,25 @@
             <cache_config>{{var_dir}}/cache/config</cache_config>
             <cache_layout>{{var_dir}}/cache/layout</cache_layout>
          </filesystem>
+         
+        <url>
+            <media>{{base_path}}media/</media>
+            <skin>{{base_path}}skins/default/</skin>
+            <js>{{base_path}}js/</js>
+        </url>
       </default>
       
       <websites>
          <default>
             <general>
-
+                <default>true</default>
             </general>
          </default>
       </websites>
       
       <stores>
          <base>
-            <general>
+            <core>
                 <id>1</id>
                 <language>en</language>
                 <website>default</website>
@@ -46,7 +56,7 @@
                         <RUB />
                     </available>
                 </currency>
-            </general>
+            </core>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>
@@ -79,7 +89,7 @@
          </base>
          
          <russian>
-            <general>
+            <core>
                 <id>2</id>
                 <language>ru</language>
                 <website>default</website>
@@ -90,7 +100,7 @@
                         <RUB />
                     </available>
                 </currency>
-            </general>
+            </core>
             
             <filesystem>
                 <layout>{{root_dir}}/app/view/layout</layout>

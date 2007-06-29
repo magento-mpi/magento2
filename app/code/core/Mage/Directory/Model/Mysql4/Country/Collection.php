@@ -29,16 +29,18 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function loadByStore($defaultCountryId=false)
     {
-        $config = Mage::getSingleton('core/store')->getConfig();
-        $allowCountries = (string)$config->allowCountries;
-        
+        $allowCountries = (string)Mage::getSingleton('core/store')->getConfig('core/allowCountries');
         if (!empty($allowCountries)) {
             $this->addFilter('countries', "$this->_countryTable.country_id IN ($allowCountries)", 'string');
         }
+
         $this->load();
         
-        $defaultCountryId = $defaultCountryId ? $defaultCountryId : (string)$config->defaultCountry;
+        if (empty($defaultCountryId)) {
+            $defaultCountryId = (string)Mage::getSingleton('core/store')->getConfig('core/defaultCountry');
+        }
         $this->_defaultCountry = $this->getItemById($defaultCountryId);
+
         return $this;
     }
     

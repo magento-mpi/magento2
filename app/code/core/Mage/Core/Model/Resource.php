@@ -133,7 +133,7 @@ class Mage_Core_Model_Resource
     public function checkDbConnection()
     {
     	if (!$this->getConnection('core_read')) {
-    		//Mage::registry('controller')->getFront()->getResponse()->setRedirect(Mage::getUrl('install'));
+    		//Mage::registry('controller')->getResponse()->setRedirect(Mage::getUrl('install'));
     	}
     }
 }
