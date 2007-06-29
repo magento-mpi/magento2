@@ -14,6 +14,11 @@ class Mage_Tag_Model_Tag extends Varien_Object {
         return $this;        
     }
     
+    public function update() {
+        $this->getResource()->update($this);
+        return $this;        
+    }
+    
     public function delete() {
         $this->getResource()->delete($this);
         return $this;

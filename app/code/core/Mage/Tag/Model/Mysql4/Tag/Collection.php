@@ -13,9 +13,10 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
         $this->_tagRelTable   = $resources->getTableName('tag/tag_relations');
         $this->_tagEntityTable   = $resources->getTableName('tag/tag_entity');
         
-        $this->_sqlSelect->from($this->_tagTable)
-            ->join($this->_tagRelTable, $this->_tagTable.'.id='.$this->_tagRelTable.'.tag_id');
-                    
+        $this->_sqlSelect->from($this->_tagTable, array('total' => "COUNT(*)", $this->_tagTable.'.*'))
+            ->join($this->_tagRelTable, $this->_tagTable.'.tag_id='.$this->_tagRelTable.'.tag_id')
+            ->group($this->_tagRelTable.'.tag_id');
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('tag/tag'));
     }
     
@@ -49,7 +50,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
                 'string');
         } elseif (is_string($entity)) {
             $this->_sqlSelect->join($this->_tagEntityTable,
-                $this->_tagRelTable.'.entity_id='.$this->_tagEntityTable.'.id');
+                $this->_tagRelTable.'.entity_id='.$this->_tagEntityTable.'.tag_entity_id');
                 
             $this->addFilter('entity', 
                 $this->getConnection()->quoteInto($this->_tagEntityTable.'.title=?', $entity), 

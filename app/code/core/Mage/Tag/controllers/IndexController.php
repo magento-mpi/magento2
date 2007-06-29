@@ -34,11 +34,19 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action {
     }
     
     public function deleteAction() {
-    	Mage::getSingleton('tag/tag')->delete();
+    	Mage::getSingleton('tag/tag')
+    		->setId($this->getRequest()->getParam('tag_id'))
+    		->setEntityValId(Mage::getSingleton('customer/session')->getCustomerId())
+    		->setEntityId('customer')
+    		->delete();
     }
     
     public function updateAction() {
-    	
+    	Mage::getSingleton('tag/tag')
+    		->setId($this->getRequest()->getParam('tag_id'))
+    		->setStatus($this->getRequest()->getParam('status'))
+    		->setTagName($this->getRequest()->getParam('tagname'))
+    		->update();
     }
 }
 ?>

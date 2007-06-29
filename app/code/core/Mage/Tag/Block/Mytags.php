@@ -10,7 +10,7 @@ class Mage_Tag_Block_Mytags extends Mage_Core_Block_Template {
         $this->_collection = Mage::getModel('tag/tag')->getCollection();
         $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
-            ->addStatusFilter(2)
+            ->addStatusFilter(1)
             ->addEntityFilter('customer', $customerId);
     }
     

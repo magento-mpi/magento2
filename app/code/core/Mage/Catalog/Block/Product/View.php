@@ -44,6 +44,8 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
         
+        $this->assign('tags', $this->getLayout()->createBlock('tag/list')->toHtml());
+        
         $this->assign('reviewCount', $this->getLayout()->createBlock('review/list')->count());
         $this->assign('reviewLink', Mage::getUrl('review', array('controller'=>'product', 'action'=>'list', 'id'=>$productId)));
         $this->assign('rating', $this->getLayout()->createBlock('rating/product')->toHtml());

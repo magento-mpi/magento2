@@ -39,7 +39,7 @@ class Mage_Tag_Model_Mysql4_Tag {
             if ($tag->getId() && 0) {
                 $data = $this->_prepareUpdateData($tag);
             } else {            	
-            	$sql = "SELECT id 
+            	$sql = "SELECT tag_id 
 		    			FROM {$this->_tagTable} 
 		    			WHERE tagname = :tag_name";
 		        $nid = $this->_read->fetchOne($sql, array('tag_name' => $tag->getTagName()));		        
@@ -63,6 +63,15 @@ class Mage_Tag_Model_Mysql4_Tag {
         }
     }
     
+    private function _getEntityId($eid) {
+    	if (is_string($eid)) {
+    		$sql = "SELECT tag_entity_id FROM {$this->_tagEntityTable} WHERE title = :title";
+    		$id = $this->_read->fetchOne($sql, array('title' => $eid));    		
+    	}
+    	
+    	return $id;
+    }
+    
     /**
      * Prepare data for tag insert
      *
@@ -71,11 +80,7 @@ class Mage_Tag_Model_Mysql4_Tag {
      * @return  array
      */
     protected function _prepareInsertData(Mage_Tag_Model_Tag $tag) {
-    	if (is_string($tag->getEntityId())) {
-    		$sql = "SELECT id FROM {$this->_tagEntityTable} WHERE title = :title";
-    		$id = $this->_read->fetchOne($sql, array('title' => $tag->getEntityId()));
-    		$tag->setEntityId($id);
-    	}
+    	$tag->setEntityId($this->_getEntityId($tag->getEntityId()));
     	
         $data = array(
             'base'  => array(
@@ -96,21 +101,44 @@ class Mage_Tag_Model_Mysql4_Tag {
         
     }
     
-    public function delete(Mage_Tag_Model_Tag $tag) {
-    	/*
-        $uid = $tag->getUserId();
-    	$id = $tag->getTagId();
-    	
-    	if (!empty($uid)) {
-			$condition = $this->_write->quoteInto('tag_id=?', $id).
-						 " AND ".
-						 $this->_write->quoteInto('user_id=?', $uid);
-       		$this->_write->delete($this->_tagRelTable, $condition);
+    public function update(Mage_Tag_Model_Tag $tag) {
+    	$sql = "SELECT tag_id 
+				FROM {$this->_tagTable} 
+				WHERE tagname = :tag_name";
+		$nid = $this->_read->fetchOne($sql, array('tag_name' => $tag->getTagName()));
+		if (!empty($nid)) {
+			$sql = "UPDATE IGNORE {$this->_tagRelTable} 
+					SET tag_id = {$nid}
+					WHERE tag_id = ".$tag->getId();			
+			$result = $this->_write->query($sql);
+			
+			$this->_write->delete($this->_tagTable, 'tag_id = '.$tag->getId());
+			$this->_write->delete($this->_tagRelTable, 'tag_id = '.$tag->getId());
 		} else {
-			$condition = $this->_write->quoteInto('id=?', $id);
-        	$this->_write->delete($this->_tagTable, $condition);
+			$data = array();
+
+			if ($tag->getStatus()) {
+				$data['status'] = $tag->getStatus();
+			}
+
+			if ($tag->getTagName()) {
+				$data['tagname'] = $tag->getTagName();
+			}
+
+			$result = $this->_write->update($this->_tagTable, $data, 'tag_id = '.$tag->getId());
 		}
-		*/
+    }
+    
+    public function delete(Mage_Tag_Model_Tag $tag) {
+    	$tag->setEntityId($this->_getEntityId($tag->getEntityId()));
+    	
+		$condition = $this->_write->quoteInto('tag_id=?', $tag->getId()).
+						 " AND ".
+						 $this->_write->quoteInto('entity_val_id=?', $tag->getEntityValId()).
+						 " AND ".
+						 $this->_write->quoteInto('entity_id=?', $tag->getEntityId());
+						 echo $condition;
+  		$this->_write->delete($this->_tagRelTable, $condition);
     }
 }
 ?>

@@ -295,7 +295,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
+        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')        	
             ->setTemplate('customer/form/newsletter.phtml');
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -305,6 +305,23 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function newsletterPostAction()
     {
         
+    }
+    
+    public function mytagsAction() {
+    	$this->loadLayout();
+        
+    	$collection = Mage::getModel('tag/tag')->getCollection();
+        $collection->addStoreFilter(Mage::getSingleton('core/store')->getId())
+            ->addStatusFilter(1)
+            ->addEntityFilter('customer', Mage::getSingleton('customer/session')->getCustomerId())
+            ->load();
+            
+        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
+        	->assign('collection', $collection->getItems())
+            ->setTemplate('tag/mytags.phtml');
+        $this->getLayout()->getBlock('content')->append($block);
+        
+        $this->renderLayout();
     }
     
     public function balanceAction()
