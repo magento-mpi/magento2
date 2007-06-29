@@ -539,26 +539,4 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     {
         return Mage::getModel('core/store')->setCode($storeCode)->getConfig($section);
     }
-
-    /**
-     * Get domain configuration
-     *
-     * @param   stting $name
-     * @return  Varien_Simplexml_Object
-     */
-    public function getDomain($name)
-    {
-        return $this->getNode("domains/$name");
-    }
-
-    /**
-     * Get current domain configuration
-     *
-     * @return  Varien_Simplexml_Object
-     */
-    public function getCurrentDomain()
-    {
-        return $this->getDomain('base');
-    }
-
 }

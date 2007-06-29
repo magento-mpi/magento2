@@ -27,9 +27,9 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
     }
     
-    public function loadByCurrentDomain($defaultCountryId=false)
+    public function loadByStore($defaultCountryId=false)
     {
-        $config = Mage::getConfig()->getCurrentDomain();
+        $config = Mage::getSingleton('core/store')->getConfig();
         $allowCountries = (string)$config->allowCountries;
         
         if (!empty($allowCountries)) {

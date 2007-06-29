@@ -80,7 +80,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $block = $this->getLayout()->createBlock('core/template', 'customer.address.form')
             ->setTemplate('customer/form/address.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'address', 'action'=>'formPost')))
-            ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('countries',   $countries->loadByStore())
             ->assign('regions',     $countries->getDefault($address->getCountryId())->getRegions())
             ->assign('address',     $address)
             ->assign('data',        $data)

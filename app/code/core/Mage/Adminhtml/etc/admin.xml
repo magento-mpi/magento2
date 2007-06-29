@@ -126,15 +126,12 @@
                 </tools>
                 <config>
                     <title>Configuration</title>
+                    <action>adminhtml/config</action>
                     <children>
                         <modules>
                             <title>Modules</title>
                             <action>adminhtml/moduleConfig</action>
                         </modules>
-                        <website>
-                            <title>Websites</title>
-                            <action>adminhtml/websiteConfig</action>
-                        </website>
                         <acl>
                             <title>Permissions</title>
                             <action>adminhtml/acl</action>

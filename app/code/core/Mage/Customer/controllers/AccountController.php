@@ -102,7 +102,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $block = $this->getLayout()->createBlock('core/template', 'customer.regform')
             ->setTemplate('customer/form/registration.phtml')
             ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'createPost', '_secure'=>true)))
-            ->assign('countries',   $countries->loadByCurrentDomain())
+            ->assign('countries',   $countries->loadByStore())
             ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
