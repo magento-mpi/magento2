@@ -91,17 +91,22 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         foreach ($this->_allElements as $element) {
         	$name = $element->getName();
         	if ($name) {
-        	    $vars = explode('[', $name);
-        	    $newName = $prefix;
-        	    foreach ($vars as $index=>$value) {
-        	    	$newName.= '['.$value;
-        	    	if ($index==0) {
-        	    	    $newName.= ']';
-        	    	}
-        	    }
-        	    $element->setName($newName);
+        	    $element->setName($this->addPrefixToName($name, $prefix));
         	}
         }
+    }
+    
+    public function addPrefixToName($name, $prefix)
+    {
+	    $vars = explode('[', $name);
+	    $newName = $prefix;
+	    foreach ($vars as $index=>$value) {
+	    	$newName.= '['.$value;
+	    	if ($index==0) {
+	    	    $newName.= ']';
+	    	}
+	    }
+        return $newName;
     }
 
     public function removeField($elementId)

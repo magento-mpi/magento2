@@ -54,6 +54,7 @@ varienTabs.prototype = {
         var tabContentElement = $(this.getTabContentElementId(tab));
         if(tabContentElement){
             Element.show(tabContentElement);
+            //new Effect.Appear(tabContentElement, {duration :0.3});
             Element.addClassName(tab, 'active');
             this.activeTab = tab;
         }

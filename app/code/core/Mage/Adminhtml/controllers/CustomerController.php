@@ -60,6 +60,24 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     {
         $this->_forward('view');
     }
+    
+    public function saveAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
+            $customer = Mage::getModel('customer/entity');
+            
+            if (isset($data['attribute'])) {
+                $customer->setAttributes($data['attribute']);
+            }
+            
+            if (isset($data['address'])) {
+                
+                foreach ($data['address'] as $address) {
+                	
+                }
+            }
+        }
+    }
 
     public function onlineAction()
     {

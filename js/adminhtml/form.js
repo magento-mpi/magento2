@@ -6,6 +6,7 @@ varienForm.prototype = {
         this.onElementChange = this.registerElementChanges.bindAsEventListener(this);
         this.validator  = new Validation(this.formId, {onElementValidate : this.showNotVisibleElement});
         this.initFormElements();
+        this.canShowElement = false;
     },
     
     initFormElements : function(){
@@ -19,20 +20,25 @@ varienForm.prototype = {
         if(!result){
             while(elm.tagName != 'BODY') {
                 if(!$(elm).visible()){ 
-                    if($(elm).tabsObject && $(elm).tabObject){
-                        $(elm).tabsObject.showTabContent($(elm).tabObject);
+                    if(this.canShowElement){
+                        if($(elm).tabsObject && $(elm).tabObject){
+                            $(elm).tabsObject.showTabContent($(elm).tabObject);
+                            this.canShowElement = false;
+                        }
+                        else {
+                            Element.show(elm);
+                            this.canShowElement = false;
+                        }
                     }
-                    else {
-                        Element.show(elm);
-                    }                    
-                    return true;
                 }
                 elm = elm.parentNode;
-            }            
+            }
+            this.canShowElement = false;
         }
     },
     
     submit : function(){
+        this.canShowElement = true;
         if(this.validator.validate()){
             $(this.formId).submit();
             return true;

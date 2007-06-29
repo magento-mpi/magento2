@@ -15,8 +15,23 @@ class Mage_Customer_Model_Entity extends Mage_Core_Model_Entity
         parent::__construct('customer');
     }
     
+    /**
+     * Retrieve customer entity resource
+     *
+     * @return unknown
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('customer/entity');
+    }
+    
+    public function auth()
+    {
+        
+    }
+    
+    public function addAddress()
+    {
+        
     }
 }

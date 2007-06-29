@@ -68,6 +68,15 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         return $this->getData('html_id').$this->getForm()->getHtmlIdPrefix();
     }
     
+    public function getName()
+    {
+        $name = $this->getData('name');
+        if ($prefix = $this->getForm()->getFieldNamePrefix()) {
+            $name = $this->getForm()->addPrefixToName($name, $prefix);
+        }
+        return $name;
+    }
+    
     public function setType($type)
     {
         $this->_type = $type;

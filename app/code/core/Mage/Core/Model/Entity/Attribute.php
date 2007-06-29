@@ -134,6 +134,11 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
         }
         return $columns;
     }
+    
+    public function getFormFieldName()
+    {
+        return 'attribute['.$this->getId().']';
+    }
 
     public function saveValue()
     {
