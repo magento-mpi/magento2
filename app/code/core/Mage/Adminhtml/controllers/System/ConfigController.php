@@ -12,18 +12,31 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Core_Controller_Front_
 {
     public function indexAction()
     {
+        $this->_forward('edit');
+    }
+    
+    public function editAction()
+    {
         $this->loadLayout('baseframe');
         $this->getLayout()->getBlock('menu')->setActive('system/config');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('system'), __('system title'))
-            ->addLink(__('config'), __('config title'));
+        
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')
+            ->addLink(__('system'), __('system title'), Mage::getUrl('adminhtml/system'));
         
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('adminhtml/system_config_tabs')
+            $this->getLayout()->createBlock('adminhtml/system_config_edit')
         );
         $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
+            ->append(
+                $this->getLayout()->createBlock('adminhtml/system_config_left')
+                    ->bindBreadcrumbs($breadcrumbs)
+            );
             
         $this->renderLayout();
+    }
+    
+    public function saveAction()
+    {
+        
     }
 }

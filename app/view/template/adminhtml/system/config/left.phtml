@@ -1,0 +1,13 @@
+<?
+/**
+ * @methods
+ * 
+ *  getLinks()
+ */
+?>
+<h2>Config sections</h2>
+<ul class="tabs">
+    <?foreach ($this->getLinks() as $_link):?>
+    <li><a href="<?=$_link->getUrl()?>" title="<?=$_link->getTitle()?>" class="<?=$_link->getClass()?>"><?=$_link->getLabel()?></a></li>
+    <?endforeach;?>
+</ul>

@@ -26,6 +26,9 @@
 .tabs .active, .tabs a.active:hover{
     background: white;
 }
+.tabs a.subitem{
+    padding-left:2.2em;
+}
 
 /* Form Validation */
 .validation-advice {

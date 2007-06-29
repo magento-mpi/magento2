@@ -37,7 +37,7 @@ class Mage_Core_Model_Website extends Varien_Object
         $id = (int)$this->getConfig('core/id');
         if ($id) {
             $this->setId($id);
-            Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
+            //Mage::dispatchEvent('setWebsiteCode', array('website'=>$this));
         }
         return $this;
     }

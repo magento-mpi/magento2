@@ -1,0 +1,41 @@
+<?
+/**
+ * @methods
+ *  getTitle()
+ *  getSaveUrl()
+ */
+?>
+<div class="head">
+    <table cellspacing="0"> 
+        <tr>
+            <td style="width:50%;"><h2><?=$this->getTitle()?></h2></td>
+            <td class="buttons">
+                <strong class="button"><span><a href="#" onclick="configForm.submit();return false;"><?=__('save config')?></a></span></strong>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
+<div class="address-list" style="margin-right:20px">
+    <h3>Title</h3>
+    <ul>
+        <li>
+            <a href="">test</a>
+        </li>
+        <li>
+            <a href="">test</a>
+        </li>
+    </ul>
+</div>
+<div class="entry-edit">
+    <div>
+    <?foreach ($this->getForm()->getElements() as $_element):?>
+        <?=$this->drawElement($_element)?>
+    <?endforeach;?>
+    </div>
+</div>
+
+</form>
+<script type="text/javascript" language="javascript">
+    var configForm = new varienForm('config_edit_form');
+</script>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <sections>
+            <general>
+                <block>adminhtml/system_config_form</block>
+                <fields>
+                    <field1 />
+                </fields>
+            </general>
+        </sections>
+    </global>
+    <website>
+        <sections>
+            <general>
+                <block>adminhtml/system_config_form</block>
+                <fields>
+                    <name />
+                    <code />
+                </fields>
+            </general>
+        </sections>
+    </website>
+    <store>
+        <sections>
+            <general>
+                <block>adminhtml/system_config_form</block>
+                <fields>
+                    <name />
+                    <code />
+                </fields>
+            </general>
+            <sharing>
+                <block>adminhtml/system_config_sharing</block>
+            </sharing>
+        </sections>
+    </store>
+</config>
