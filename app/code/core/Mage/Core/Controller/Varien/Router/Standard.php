@@ -124,6 +124,9 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $url .= $routeName.'/';
         
         if (!empty($params)) {
+            if (!empty($params['_current'])) {
+                $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
+            }
             $paramsStr = '';
             foreach ($params as $key=>$value) {
                 if (!isset($reservedKeys[$key]) && '_'!==$key{0} && !empty($value)) {
@@ -132,12 +135,12 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             }
             
             if (empty($params['controller']) && !empty($paramsStr)) {
-                $params['controller'] = 'index';
+                $params['controller'] = $this->getFront()->getDefault('controller');
             }
             $url .= empty($params['controller']) ? '' : $params['controller'].'/';
             
             if (empty($params['action']) && !empty($paramsStr)) {
-                $params['action'] = 'index';
+                $params['action'] = $this->getFront()->getDefault('action');
             }
             $url .= empty($params['action']) ? '' : $params['action'].'/';
             

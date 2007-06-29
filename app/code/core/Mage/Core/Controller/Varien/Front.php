@@ -63,8 +63,6 @@ class Mage_Core_Controller_Varien_Front
     
     public function init()
     {
-        $this->getRequest()->setPathInfo();
-        
         // set defaults
         $defaultModule = (string)Mage::getSingleton('core/store')->getConfig('core/defaultFrontName');
         $this->setDefault(array('module'=>$defaultModule, 'controller'=>'index', 'action'=>'index'));
@@ -114,11 +112,14 @@ class Mage_Core_Controller_Varien_Front
     
     public function getUrl($route='', $params=array())
     {
+        // no route return base url
         if (empty($route)) {
             return Mage::getBaseUrl();
         }
         
+        
         if (is_string($route)) {
+            // parse string route
             $request = $this->getRequest();
             
             $p = explode('/', $route);
@@ -134,26 +135,33 @@ class Mage_Core_Controller_Varien_Front
                 }
             }
         } elseif (is_array($route)) {
+            // parse array route
             $routeName = $route['module'];
             $paramsArr = $route;
         } else {
+            // unknown route format
             return '';
         }
+        // merge with optional params
         $paramsArr = array_merge($paramsArr, $params);
         
+        // empty route supplied - return base url
         if (empty($routeName)) {
             return Mage::getBaseUrl();
         }
         
+        // try standard router url assembly
         $standard = $this->getRouter('standard');
         if ($standard->getRealModuleName($routeName)) {
             return $standard->getUrl($routeName, $paramsArr);
         }
         
+        // try custom router url assembly
         if ($router = $this->getRouter($routeName)) {
             return $router->getUrl($routeName, $paramsArr);
         }
         
+        // get default router url
         $default = $this->getRouter('default');
         return $default->getUrl($routeName, $paramsArr);
     }

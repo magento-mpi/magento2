@@ -25,7 +25,7 @@
                 </online>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/customerConfig/</action>
+                    <action>adminhtml/customer_config/</action>
                     <resource>admin/customer/config</resource>
                 </config>
             </children>
@@ -126,7 +126,7 @@
                 </tools>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/config</action>
+                    <action>adminhtml/system_config</action>
                     <children>
                         <modules>
                             <title>Modules</title>

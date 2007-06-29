@@ -7,6 +7,7 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
         $timers = Varien_Profiler::getTimers();
 
         $out = '<div style1="position:fixed;bottom:5px;right:5px;opacity:.1;background:white" onmouseover1="this.style.opacity=1" onmouseout1="this.style.opacity=.1">';
+        $out .= '<pre>Memory usage: real: '.memory_get_usage(true).', emalloc: '.memory_get_usage().'</pre>';
         $out .= '<table border=1 cellspacing=0 cellpadding=2 style="width:auto">';
         $out .= '<tr><th colspan="3">Debug Console</th></tr>';
         foreach ($timers as $name=>$timer) {
