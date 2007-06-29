@@ -1,0 +1,51 @@
+<script type="text/javascript">
+function editTag(id, name) {
+	var new_name = prompt('Please type new tag name', name)
+	if (new_name) {
+		var req = new Ajax.Request('/tag/index/update', { 
+			method:'post',
+			parameters: {
+				tag_name: new_name, 
+				tag_id: id
+			},
+			onSuccess: function(req, json){
+				eval('var json = ' + req.responseText);
+				if (1 === json.error) {				
+					alert(json.error_message);
+				}
+			}
+		});	
+	}
+}
+
+function deleteTag(id) {
+	if (confirm('Do tou realy want to delete the Tag?')) {
+		var req = new Ajax.Request('/tag/index/delete', { 
+			method:'post',
+			parameters: {
+				tag_id: id
+			},
+			onSuccess: function(req, json){
+				eval('var json = ' + req.responseText);
+				if (1 === json.error) {				
+					alert(json.error_message);
+				}
+			}
+		});	
+	}
+}
+</script>
+
+<h1 class="page-heading">My Tags</h1>
+<?php
+foreach ($collection as $tag) { $tag = $tag->getData();?>
+	<span>
+		<a style="font-size:<?=$tag['id'];?>" href="/taggedproducts/?tag=<?=$tag['tagname'];?>">
+			<?=$tag['tagname'];?>
+		</a> 
+		<span>
+			<a href="#" title="edit tag" onclick="editTag(<?=$tag['id'];?>, '<?=$tag['tagname'];?>'); return false;">e</a> 
+			<a href="#" title="delete tag" onclick="deleteTag(<?=$tag['id'];?>); return false;">d</a>
+		</span>
+	</span>
+<?php } ?>

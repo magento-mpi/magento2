@@ -1,0 +1,57 @@
+<p>
+<script type="text/javascript">
+var pid;
+function doAddTag(prod_id) {
+	pid = prod_id;
+	var input = document.createElement('input');
+	with (input) {
+		type = 'text';
+	}
+
+	var add_btn = document.createElement('input');
+	with (add_btn) {
+		type = 'button';
+		value = "Add";		
+	}
+	add_btn.onclick = function () {
+		sendTag2Add();
+	}
+	
+	with ($('tag_adding')) {
+		appendChild(input);
+		appendChild(add_btn);
+	}
+	input.focus();
+}
+
+function sendTag2Add() {
+	var tag_name = $('tag_adding').getElementsByTagName('input')[0].value;
+	
+	var req = new Ajax.Request('/tag/index/addtag', { 
+		method:'post',
+		parameters: {
+			tag_name: tag_name, 
+			entity_val_id: pid,
+			entity: 'product'
+		},
+		onSuccess: function(req, json){
+			eval('var json = ' + req.responseText);
+			if (1 === json.error) {				
+				alert(json.error_message);
+			}
+			
+			$('tag_adding').innerHTML = "";
+		}
+	});	
+}
+</script>
+<h3>Product tags: <a href="#" onclick="doAddTag(<?=$productId;?>); return false;" style="font-size:10px; color:#AAA">Add a Tag</a></h3>
+<div id="tag_adding"></div>
+<?if(!empty($collection) && $collection->getSize()):?>
+
+<?php foreach ($collection as $tag) { ?>
+	<a style="font-size:<?=$tag->getSize();?>" href="/taggedproducts/?tag=<?=$tag->getTagname();?>"><?=$tag->getTagname();?></a> 
+<?php } ?>
+
+<?endif;?>
+</p>
