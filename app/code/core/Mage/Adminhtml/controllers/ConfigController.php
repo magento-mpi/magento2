@@ -15,7 +15,15 @@ class Mage_Adminhtml_ConfigController extends Mage_Core_Controller_Front_Action
         $this->loadLayout('baseframe');
         $this->getLayout()->getBlock('menu')->setActive('system/config');
         $this->getLayout()->getBlock('breadcrumbs')
+            ->addLink(__('system'), __('system title'))
             ->addLink(__('config'), __('config title'));
+        
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('adminhtml/customer_edit')
+        );
+        $this->getLayout()->getBlock('left')
+            ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
+            
         $this->renderLayout();
     }
 }
