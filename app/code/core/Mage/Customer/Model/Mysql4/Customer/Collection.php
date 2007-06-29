@@ -19,4 +19,10 @@ class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collect
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/customer'));
     }
+    
+    public function setNameFilter($q) {
+    	$this->_sqlSelect->where("firstname LIKE '%{$q}%' OR lastname LIKE '%{$q}%'");
+    	
+    	return $this;
+    }
 }

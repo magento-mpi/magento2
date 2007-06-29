@@ -1,0 +1,35 @@
+<script type="text/javascript">
+function mark(index) {
+	var sels = document.getElementById('tags').getElementsByTagName('select');
+	for (var i = 0; i < sels.length; i++) {
+		sels[i].selectedIndex = index - 1;
+	}
+}
+</script>
+<h1>Peding tags</h1>
+<?php if (count($collection->getItems()) > 0) { ?>
+<form id="tags" action="/adminhtml/tag/approve">
+	<ol>
+	<?php foreach ($collection->getItems() as $tag) { $tag = $tag->getData();?>
+		<li>		
+			<select name="tags['<?=$tag['tag_id'];?>']">
+				<option value="1">pending
+				<option value="2">approved
+				<option value="4">unapproved
+			</select> 
+			<?=$tag['tagname'];?>
+		</li>	
+	<?php } ?>
+	</ol>
+	
+	<ul>
+		<li><a href="#" onclick="mark(1)">mark all as pending</a></li>
+		<li><a href="#" onclick="mark(2)">mark all as approved</a></li>
+		<li><a href="#" onclick="mark(3)">mark all as unapproved</a></li>
+	</ul>
+	
+	<input type="submit" value="Update Tags Statuses" />
+</form>
+<?php } else { ?>
+	There are no pending tags.
+<?php } ?>

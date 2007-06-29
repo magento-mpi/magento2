@@ -1,17 +1,16 @@
 <?php
-class Mage_Tag_Block_Mytags extends Mage_Core_Block_Template {
+class Mage_Tag_Block_Adminhtml_Pending extends Mage_Core_Block_Template {
 	protected $_collection;
     
     public function __construct() {    	
         parent::__construct();
-        $this->setTemplate('tag/mytags.phtml');
+        $this->setTemplate('tag/adminhtml/pending.phtml');
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         
         $this->_collection = Mage::getModel('tag/tag')->getCollection();
         $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
-            ->addStatusFilter(2)
-            ->addEntityFilter('customer', $customerId);
+            ->addStatusFilter(1);
     }
     
     public function count() {

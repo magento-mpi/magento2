@@ -1,0 +1,19 @@
+<h1>Tags by Users</h1>
+<form action="">
+	<input type="text" name="q" value="<?=@$query;?>" /> <input type="submit" value="Search" />
+</form>
+
+<?php if (!empty($collection)) {?>
+<ol>
+<?php foreach ($collection as $item) { ?>
+	<li>
+		<?=$item['firstname'];?> <?=$item['lastname'];?>
+		<div style="font-color:999; font-size:12px">Tags: 
+			<?php foreach ($item['tags'] as $tag) { ?>
+				<A href="#"><?=$tag['tagname'];?></a> 
+			<?php } ?>
+		</div>
+	</li>
+<?php } ?>
+</ol>
+<?php } ?>

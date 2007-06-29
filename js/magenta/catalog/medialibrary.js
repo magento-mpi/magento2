@@ -1,3 +1,83 @@
+/**
+ * Create a DragZone instance for our JsonView
+ */
+ImageDragZone = function(view, config){
+    this.view = view;
+    console.log(this.view);
+    ImageDragZone.superclass.constructor.call(this, view.getEl(), config);
+};
+Ext.extend(ImageDragZone, Ext.dd.DragZone, {
+    // We don't want to register our image elements, so let's 
+    // override the default registry lookup to fetch the image 
+    // from the event instead
+    getDragData : function(e){
+        e = Ext.EventObject.setEvent(e);
+        var target = e.getTarget('.thumbnail');
+
+        if(target){
+            var view = this.view;
+            if(!view.isSelected(target)){
+                view.select(target, e.ctrlKey);
+            }
+            var selNodes = view.getSelectedNodes();
+            var dragData = {
+                nodes: selNodes
+            };
+            console.log('dragData1', dragData);
+            if(selNodes.length == 1){
+                dragData.ddel = target.firstChild.nextSibling; // the img element
+                dragData.single = true;
+            }
+            console.log('dragData2', dragData);            
+			console.log('ne inna',dragData);
+            return dragData;
+        }
+        console.log('Inna');
+        return false;
+    },
+    
+    // this method is called by the TreeDropZone after a node drop 
+    // to get the new tree node (there are also other way, but this is easiest)
+    getTreeNode : function(){
+        var treeNodes = [];
+        var nodeData = this.view.getNodeData(this.dragData.nodes);
+        for(var i = 0, len = nodeData.length; i < len; i++){
+            var data = nodeData[i];
+            treeNodes.push(new Ext.tree.TreeNode({
+                text: data.name,
+                icon: data.url,
+                data: data,
+                leaf:true,
+                cls: 'image-node',
+                qtip: data.qtip
+            }));
+        }
+        return treeNodes;
+    },
+    
+    // the default action is to "highlight" after a bad drop
+    // but since an image can't be highlighted, let's frame it 
+    afterRepair:function(){
+        for(var i = 0, len = this.dragData.nodes.length; i < len; i++){
+            Ext.fly(this.dragData.nodes[i]).frame('#8db2e3', 1);
+        }
+        this.dragging = false;    
+    },
+    
+    // override the default repairXY with one offset for the margins and padding
+    getRepairXY : function(e){
+        if(!this.dragData.multi){
+            var xy = Ext.Element.fly(this.dragData.ddel).getXY();
+            xy[0]+=3;xy[1]+=3;
+            return xy;
+        }
+        return false;
+    }
+});
+
+
+
+
 Mage.Medialibrary = function () {   
     return { 
         settings : {}, 
@@ -27,7 +107,7 @@ Mage.Medialibrary = function () {
         /**
          * global dialog initialization
          */
-        init : function () {
+        init : function (config) {
         	if (!this.dialog) {
 	            this.dialog = new Ext.LayoutDialog(Ext.DomHelper.append(document.body, {tag:'div'}, true), {
 	                    title: "Mediabrowser",
@@ -113,7 +193,7 @@ Mage.Medialibrary = function () {
 	                    alwaysShowTabs: false
 	                }                
 	            });
-	            var dashPanel = innerLayout.add('south', new Ext.ContentPanel('south', {
+	            this.dashPanel = innerLayout.add('south', new Ext.ContentPanel(Ext.id(), {
 	            	title:"Upload file",
 	           		fitToFrame:true, 
 					autoScroll : false,
@@ -154,59 +234,9 @@ Mage.Medialibrary = function () {
 	            this.loadSettings();
 	            
 	            layout.endUpdate();    
-        	}         
+        	}                 
             
-            /**
-             * Flex uploader initialization and adding
-             */
-            if (!this.dashboard) {
-                this.dashboard = new Mage.FlexUpload({
-                    src: Mage.url+'../media/flex/reports.swf',
-                    flashVars: 'baseUrl=' + Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
-                    width: '100%',
-                    height: '90%'
-                }); 
-
-                this.dashboard.on("load", function (e) { 
-                    this.dashboard.setConfig( {
-                        uploadFileField: 'upload_file',
-                        cookie: document.cookie,
-                        uploadUrl: Mage.url + 'media/upload?'+ document.cookie,
-                        fileFilter: {name:"*.*", filter:"*.*"},
-                        uploadParameters : {
-                            destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
-                        }
-                    });                    
-                }, this );
-                
-                this.dashboard.on("afterupload", function(e) {
-                	 /**
-                	  * updating content of the view by passing standart events registered earlier
-                	  */
-                	 console.log(e.data[0]);
-                	 
-                	 var node = this.tree.getSelectionModel().getSelectedNode();
-                     if (!node) return false;
-	                 this.view.store.load({
-	                    params: {node : node.attributes.id}
-	                 });
-                } , this); 
-
-                this.dashboard.apply(dashPanel.getEl());
-
-/**
- * debug
- */
-                alert(this.dashboard.getAttribute('id'));
-                for (var x in Mage.FlexObjectApi.objectMap) {
-					alert(x + " = " + Mage.FlexObjectApi.objectMap[x].getApi().classid);
-                }
-/**
- * 
- */
-            }
-            
-            this.dialog.show();
+            this.dialog.show(config ? config.btn.getEl() : {});
         },
         
         /**
@@ -330,6 +360,9 @@ Mage.Medialibrary = function () {
                     store: store
             });
             
+            var dragZone = new ImageDragZone(this.view, {containerScroll:true,
+                ddGroup: 'organizerDD'});
+            
             var lookup = {};
             var formatSize = function(size){
                 if (!size) return "unknown";
@@ -389,6 +422,43 @@ Mage.Medialibrary = function () {
                 
         },
         
+        addFlexUploader : function () {
+        	/**
+             * Flex uploader initialization and adding
+             */
+            if (!this.dashboard) {
+                this.dashboard = new Mage.FlexUpload({
+                    src: Mage.url+'../media/flex/reports.swf',
+                    flashVars: 'baseUrl=' + Mage.url + '&languageUrl=flex/language&cssUrl=' + Mage.skin + 'flex.swf',
+                    width: '100%',
+                    height: '90%'
+                }); 
+
+                this.dashboard.on("load", function (e) { 
+                    this.dashboard.setConfig( {
+                        uploadFileField: 'upload_file',
+                        cookie: document.cookie,
+                        uploadUrl: Mage.url + 'media/upload?'+ document.cookie,
+                        fileFilter: {name:"*.*", filter:"*.*"}
+                    });                    
+                }, this );
+                
+                this.dashboard.on('beforeupload', function (e) {
+                	this.dashboard.setConfig( {
+                		uploadParameters : {
+                            destination_dir : this.tree.getSelectionModel().getSelectedNode().attributes.id
+                        }
+                    });
+                }, this);
+                
+                this.dashboard.on("afterupload", function(e) {
+                	 this.view.store.reload();
+                } , this); 
+
+                this.dashboard.apply(this.dashPanel.getEl());
+            }
+        },
+        
         /**
          * creates and add tree object at mediabrowser
          */
@@ -399,6 +469,7 @@ Mage.Medialibrary = function () {
                 animate:true, 
                 loader: new Tree.TreeLoader({dataUrl:this.getFoldersUrl}),
                 enableDD:true,
+                ddGroup: 'organizerDD',
                 containerScroll: true
             });     
             
@@ -450,7 +521,9 @@ Mage.Medialibrary = function () {
 
             this.tree.render();
             root.expand();
-            root.select();      
+            root.select(); 
+            
+            this.addFlexUploader();     
             
             var ge = new Ext.tree.TreeEditor(this.tree, {
                 allowBlank:false,

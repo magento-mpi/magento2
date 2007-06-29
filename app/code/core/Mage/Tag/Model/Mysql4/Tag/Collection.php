@@ -80,5 +80,9 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
             
         return $this;
     }
+        
+    public function addSearch($q) {
+    	return $this;
+    }
 }
 ?>

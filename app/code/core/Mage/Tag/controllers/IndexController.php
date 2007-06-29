@@ -48,5 +48,26 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action {
     		->setTagName($this->getRequest()->getParam('tagname'))
     		->update();
     }
+    
+    public function searchAction() {
+    	$q = $this->getRequest()->getParam('q');
+    	
+    	$tags = Mage::getSingleton('tag/tag')->getCollection()
+    		->addSearch($q)
+    		->load();
+
+    	/***********************************/
+    	$this->loadLayout();
+/*
+        $homeBlock = $this->getLayout()->createBlock('core/template', 'homecontent')->setTemplate('catalog/home.phtml');
+        $this->getLayout()->getBlock('content')->append($homeBlock);
+  */      
+        $block = $this->getLayout()->createBlock('tag/search')
+            ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true));
+		
+        $this->getLayout()->getBlock('content')->append($block);
+		 
+        $this->renderLayout();
+    }
 }
 ?>

@@ -12,6 +12,8 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 {
     protected $_productTable;
     protected $_categoryProductTable;
+    protected $_tagRelTable;
+    protected $_tagTable;
     
     protected $_storeId;
     protected $_isCategoryJoined=false;
@@ -33,7 +35,9 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         
         $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog/product');
         $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
-
+		$this->_tagRelTable			= Mage::getSingleton('core/resource')->getTableName('tag/tag_relations');
+		$this->_tagTable			= Mage::getSingleton('core/resource')->getTableName('tag/tag');
+		
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('catalog/product'));
@@ -151,6 +155,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         }
         return $this;
     }
+    
 
     /**
      * Set select order

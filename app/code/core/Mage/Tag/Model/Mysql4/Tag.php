@@ -132,12 +132,11 @@ class Mage_Tag_Model_Mysql4_Tag {
     public function delete(Mage_Tag_Model_Tag $tag) {
     	$tag->setEntityId($this->_getEntityId($tag->getEntityId()));
     	
-		$condition = $this->_write->quoteInto('tag_id=?', $tag->getId()).
-						 " AND ".
-						 $this->_write->quoteInto('entity_val_id=?', $tag->getEntityValId()).
-						 " AND ".
-						 $this->_write->quoteInto('entity_id=?', $tag->getEntityId());
-						 echo $condition;
+	    $condition = $this->_write->quoteInto('tag_id=?', $tag->getId()).
+	    	" AND ".
+	    	$this->_write->quoteInto('entity_val_id=?', $tag->getEntityValId()).
+	    	" AND ".
+	    	$this->_write->quoteInto('entity_id=?', $tag->getEntityId());
   		$this->_write->delete($this->_tagRelTable, $condition);
     }
 }
