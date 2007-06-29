@@ -50,7 +50,7 @@
     </tr>
     <?foreach($items as $item):?>
     <tr>
-        <td><a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item['product_id']))?>"><?=$item['name']?></a></td>
+        <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
         <td class="align-center"><?=$item['price']?></td>
         <td class="align-center"><?=$item['qty']?></td>
         <td class="align-right"><?=$item['row_total']?></td>

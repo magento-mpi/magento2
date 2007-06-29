@@ -1,6 +1,6 @@
 
 <h1 class="page-heading">Shopping Cart</h1>
-<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'updatePost'))?>" method="post">
+<form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
     <table cellspacing="0" class="data-table">
         <tr>
             <th class="align-left">Product Name</th>
@@ -14,7 +14,7 @@
         </tr>
         <?foreach($data['cart']['items'] as $item):?>
         <tr>
-            <td><a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item['product_id']))?>"><?=$item['name']?></a></td>
+            <td><a href="<?=$this->('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
 <?if(!empty($wishlistActive) && $customerIsLogin):?>            
             <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][wishlist]"/></td>
 <?endif?>
@@ -41,13 +41,13 @@
 <div class="box-shipping-estimate">
 	<h2>Estimate</h2>
 	<fieldset>
-	<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'estimatePost'))?>" method="post">
+	<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
 			<p><label for="">Zip Code:</label><br/>
 			<input class="input-text" name="estimate_postcode" value="<?=$data['cart']['estimate_postcode']?>" style="width:6em;"/> <input type="submit" value="Estimate" class="input-button" 
 			name="do"/></p>
 	</form>
 	<?if (!empty($data['cart']['estimate_methods'])):?>
-			<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'estimateUpdatePost'))?>" method="post">
+			<form action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>" method="post">
 					<table cellspacing="1" width="100%" style="margin-bottom:7px;">
 					<?foreach ($data['cart']['estimate_methods'] as $method):?>
 						 <?if (isset($method['error_message'])):?>
@@ -73,14 +73,14 @@
 </div>
 <div class="box-discounts">
 	<h2>Discounts</h2>
-	<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'couponPost'))?>couponPost/" method="post">
+	<form action="<?=$this->getUrl('checkout/cart/couponPost')?>" method="post">
 		<fieldset>
 			<p><label for="coupon_code">Coupon code:</label><br />
 			<input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>" name="do"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" 
 			class="input-button-sub" name="do"/></p>
 		</fieldset>
 	</form>
-	<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'giftCertPost'))?>" method="post">
+	<form action="<?=$this->getUrl('checkout/cart/giftCertPost')?>" method="post">
 		<fieldset>
 			<p><label for="giftcert_code">Gift certificate:</label><br />
 			<input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button-sub" name="do"/></p>
@@ -91,5 +91,5 @@
 
 <div class="buttons-container">
 	<a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; Continue Shopping</a>
-	<a href="<?=Mage::getUrl('checkout')?>"><img src="<?=$baseSkinUrl?>images/btn_checkout.gif" alt="Checkout"/></a>
+	<a href="<?=$this->getUrl('checkout')?>"><img src="<?=$baseSkinUrl?>images/btn_checkout.gif" alt="Checkout"/></a>
 </div>

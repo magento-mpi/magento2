@@ -44,7 +44,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('customer/login', 'customer.login')
             ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true))
-            ->assign('postAction', Mage::getUrl('customer', array('controller'=>'account', 'action'=>'loginPost', '_secure'=>true)));
+            ->assign('postAction', Mage::getUrl('customer/account/loginPost', array('_secure'=>true)));
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
@@ -70,7 +70,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
-        //$this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'login', '_secure'=>true)));
+        //$this->getResponse()->setRedirect(Mage::getUrl('customer/account/login', array('_secure'=>true)));
     }
     
     public function logoutAction()
@@ -89,7 +89,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         // if customer logged in
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+            $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
             return;
         }
         
@@ -101,7 +101,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         $block = $this->getLayout()->createBlock('core/template', 'customer.regform')
             ->setTemplate('customer/form/registration.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'createPost', '_secure'=>true)))
+            ->assign('action',      Mage::getUrl('customer/account/createPost', array('_secure'=>true)))
             ->assign('countries',   $countries->loadByStore())
             ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
             ->assign('data',        $data)
@@ -137,7 +137,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                         ->setCustomer($customer)
                         ->send();
                         
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
                 return;
             }
             catch (Mage_Core_Exception $e) {
@@ -147,7 +147,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'create', '_secure'=>true)));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/create', array('_secure'=>true)));
     }
     
     /**
@@ -160,7 +160,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.forgotpassword')
             ->setTemplate('customer/form/forgotpassword.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpasswordpost')))
+            ->assign('action',      Mage::getUrl('customer/account/forgotpasswordpost'))
             ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
             
         $this->getLayout()->getBlock('content')->append($block);
@@ -192,7 +192,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     Mage::getSingleton('customer/session')
                         ->addMessage(Mage::getModel('customer/message')->success('CSTS006'));
                     
-                    $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                    $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
                     return;
                 }
                 catch (Exception $e){
@@ -202,7 +202,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             else {
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->error('CSTE024'));
-               $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword')));
+               $this->getResponse()->setRedirect(Mage::getUrl('customer/account/forgotpassword'));
             }
         }
     }
@@ -219,7 +219,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.edit')
             ->setTemplate('customer/form/edit.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'editPost')))
+            ->assign('action',      Mage::getUrl('customer/account/editPost'))
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
             
@@ -240,7 +240,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS002'));
                 
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
                 return;
             }
             catch (Mage_Core_Exception $e) {
@@ -249,7 +249,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->addMessages($e->getMessages());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'edit')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/edit'));
     }
     
     /**
@@ -262,7 +262,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.changepassword')
             ->setTemplate('customer/form/changepassword.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePasswordPost', '_secure'=>true)))
+            ->assign('action',      Mage::getUrl('customer/account/changePasswordPost', array('_secure'=>true)))
             ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
             
         $this->getLayout()->getBlock('content')->append($block);
@@ -281,14 +281,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS003'));
 
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
                 return;
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')->addMessages($e->getMessages());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'account', 'action'=>'changePassword', '_secure'=>true)));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/changePassword', array('_secure'=>true)));
     }
     
     public function newsletterAction()

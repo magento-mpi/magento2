@@ -14,7 +14,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
     {
         parent::__construct();
         $this->setId('customer_form');
-        $this->setAction(Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'save')));
+        $this->setAction(Mage::getUrl('admin/customer/save'));
         
         $customerId = false;
         if ($customer) {

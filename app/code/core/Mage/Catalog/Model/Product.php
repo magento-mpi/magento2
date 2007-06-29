@@ -82,10 +82,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getProductUrl()
     {
-        $url = Mage::getUrl('catalog', 
+        $url = Mage::getUrl('catalog/product/view', 
             array(
-                'controller'=>'product', 
-                'action'=>'view', 
                 'id'=>$this->getId(),
                 'category'=>$this->getCategoryId()
             ));
@@ -99,7 +97,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getCategoryUrl()
     {
-        $url = Mage::getUrl('catalog', array('controller'=>'category', 'action'=>'view', 'id'=>$this->getCategoryId()));
+        $url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
         return $url;
     }
     

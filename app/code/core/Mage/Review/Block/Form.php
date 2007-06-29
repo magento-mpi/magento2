@@ -21,7 +21,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
         
         $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         $this->setTemplate('review/form.phtml')
-            ->assign('action', Mage::getUrl('review', array('controller'=>'product', 'action'=>'post', 'id'=>$productId)))
+            ->assign('action', Mage::getUrl('review/product/post/id/'.$productId))
             ->assign('data', $data)
             ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
         

@@ -45,7 +45,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                     'type'  => 'form',
                     'form'  => $form->toArray()
                 );
-                $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>2));
+                $cardStruct['nextPoint']['url'] = Mage::getUrl('admin/customer/wizard/step/2');
                 break;
             // Address form
             case 2:
@@ -71,7 +71,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                         'type'  => 'form',
                         'form'  => $form->toArray()
                     );
-                    $cardStruct['nextPoint']['url'] = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'wizard', 'step'=>3));
+                    $cardStruct['nextPoint']['url'] = Mage::getUrl('admin/customer/wizard/step/3');
                 }
                 break;
             // Create preview
@@ -97,7 +97,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                         'type'  => 'view',
                         'content' => $previewBlock->toHtml()
                     );
-                    $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'create'));
+                    $cardStruct['saveUrl']  = Mage::getUrl('admin/customer/create');
                     $cardStruct['btnFinish']= true;
                 }
                 break;

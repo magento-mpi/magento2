@@ -41,13 +41,7 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
             ->load();
         $this->assign('collection', $this->_collection);
         
-        $backUrl = Mage::getUrl('catalog', 
-            array(
-                'controller'=>'product', 
-                'action'=>'view', 
-                'id'=>$productId,
-            )
-        );
+        $backUrl = Mage::getUrl('catalog/product/view/id/'.$productId);
         $this->assign('backLink', $backUrl);
         
         $pageUrl = clone $request;

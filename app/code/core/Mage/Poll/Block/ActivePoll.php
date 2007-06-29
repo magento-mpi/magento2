@@ -22,7 +22,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
                         ->calculatePercent();
 
         $this->assign('poll', $poll)
-             ->assign('action', Mage::getUrl('poll', array('controller'=>'vote', 'action'=>'add', 'poll_id'=>$pollId)));
+             ->assign('action', Mage::getUrl('poll/vote/add/poll_id/'.$pollId));
 
         $voted = Mage::getModel('poll/poll')->isVoted($pollId);
         if( $voted === true ) {

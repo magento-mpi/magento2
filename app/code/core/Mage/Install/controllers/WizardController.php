@@ -32,7 +32,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('languages', Mage::getSingleton('install/config')->getLanguages())
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()))
-            ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'beginPost')));
+            ->assign('postAction', Mage::getUrl('install/wizard/beginPost'));
 
         $this->getLayout()->getBlock('content')->append($contentBlock);
         $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
@@ -66,7 +66,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
             ->setTemplate('install/config.phtml')
-            ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'configPost')))
+            ->assign('postAction', Mage::getUrl('install/wizard/configPost'))
             ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('data', $data)
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
@@ -106,7 +106,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
-            ->assign('postAction', Mage::getUrl('install', array('controller'=>'wizard', 'action'=>'administratorPost')))
+            ->assign('postAction', Mage::getUrl('install/wizard/administratorPost'))
             ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('data', new Varien_Object())
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));

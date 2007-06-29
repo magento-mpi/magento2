@@ -62,11 +62,11 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
                 }
             }
             if (isset($p['to_cart'])) {
-                $this->getResponse()->setRedirect(Mage::getUrl('checkout', array('controller'=>'cart')));
+                $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/wishlist'));
     }
     
     public function addAction()
@@ -82,6 +82,6 @@ class Mage_Customer_WishlistController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect($url);
             return;
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'wishlist')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/wishlist'));
     }
 }

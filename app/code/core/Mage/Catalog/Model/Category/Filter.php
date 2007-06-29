@@ -90,7 +90,6 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
         $currentValues = $this->getValue();
         
         $request = clone Mage::registry('controller')->getRequest();
-        
 
         $values = Mage::getModel('catalog/product_attribute')
             ->setAttributeId($this->getAttributeId())
@@ -101,18 +100,17 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
                 $arrParam = array('filter' => $current);
                 if (in_array($value->getId(), $available) && !in_array($value->getId(), $currentValues)) {
                     $arrParam['filter'][$this->getId()][] = $value->getId();
-    
                     $arr[] = array(
                         'label' => $value->getValue(),
                         'count' => $availableCount[$value->getId()],
-                        'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
+                        'url'   => Mage::getUrl('catalog/*/*', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
                 elseif (in_array($value->getId(), $currentValues)) {
                     unset($arrParam['filter'][$this->getId()]);
                     $arr[] = array(
                         'label' => 'Clear (' . $value->getValue() . ')',
-                        'url'   => Mage::getUrl('catalog', $request->setParam('array',$arrParam)->getParams()),
+                        'url'   => Mage::getUrl('catalog/*/*', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
             }

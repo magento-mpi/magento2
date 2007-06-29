@@ -61,7 +61,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             if ($address->getCustomerId()!=Mage::getSingleton('customer/session')->getCustomerId()) {
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->error('CSTE020'));
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'address')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/address'));
                 return;
             }
             
@@ -79,7 +79,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         // Form block
         $block = $this->getLayout()->createBlock('core/template', 'customer.address.form')
             ->setTemplate('customer/form/address.phtml')
-            ->assign('action',      Mage::getUrl('customer', array('controller'=>'address', 'action'=>'formPost')))
+            ->assign('action',      Mage::getUrl('customer/address/formPost'))
             ->assign('countries',   $countries->loadByStore())
             ->assign('regions',     $countries->getDefault($address->getCountryId())->getRegions())
             ->assign('address',     $address)
@@ -98,7 +98,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $address = Mage::getModel('customer/address')->setData($this->getRequest()->getPost());
             
-            $url = Mage::getUrl('customer', array('controller'=>'address', 'action'=>'form', 'address'=>$address->getAddressId()));
+            $url = Mage::getUrl('customer/address/form/address/'.$address->getAddressId());
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId()!==Mage::getSingleton('customer/session')->getCustomerId()) {
@@ -112,7 +112,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $address->save();
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS004'));
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'address')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/address'));
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')
@@ -134,7 +134,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             if ($address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->error('CSTE020'));
-                $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'address')));
+                $this->getResponse()->setRedirect(Mage::getUrl('customer/address'));
                 return;
             }
             
@@ -151,6 +151,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer', array('controller'=>'address')));
+        $this->getResponse()->setRedirect(Mage::getUrl('customer/address'));
     }
 }// Class Mage_Customer_AccountController END

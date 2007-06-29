@@ -20,7 +20,7 @@
                     <label for="password">Password</label></br>
                     <input type="password" class="input-text" id="password" name="login[password]" />
                 </div>
-                <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=Mage::getUrl('customer', array('controller'=>'account', 'action'=>'forgotpassword'))?>">Forgot your 
+                <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=$this->getUrl('customer/account/forgotpassword')?>">Forgot your 
                                 password?</a></div>
             </li>
         </ul>

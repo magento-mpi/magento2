@@ -107,14 +107,14 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         }
         
         
-        $cardStruct['saveUrl']  = Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'save', 'id'=>$customerId));
+        $cardStruct['saveUrl']  = Mage::getUrl('admin/customer/save/id/'.$customerId);
         
         $form = new Mage_Admin_Block_Customer_Form($customer);
         $cardStruct['tabs'] = array(
             array(
                 'name'  => 'customer_view',
                 'title' => __('Customer View'),
-                'url'   => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'view', 'id'=>$customerId)),
+                'url'   => Mage::getUrl('admin/customer/view/id/'.$customerId),
                 'type'  => 'view'
             ),
             array(
@@ -128,7 +128,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
                 'name'  => 'address',
                 'type'  => 'address',
                 'title' => __('Address List'),
-                'storeUrl' => Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressList', 'id'=>$customerId)),
+                'storeUrl' => Mage::getUrl('admin/customer/addressList/id/'.$customerId),
                 'background'=>true,
             ),
         );

@@ -41,7 +41,7 @@ class Mage_Admin_Block_Catalog_Product_Form extends Varien_Data_Form
         $productId= (int) Mage::registry('controller')->getRequest()->getParam('product', false);
 
         // Set form attributes
-        $postUrl = Mage::getUrl('admin', array('controller'=>'product', 'action'=>'save'));
+        $postUrl = Mage::getUrl('admin/product/save');
         if ($productId) {
             $postUrl.= 'product/'.$productId;
         }

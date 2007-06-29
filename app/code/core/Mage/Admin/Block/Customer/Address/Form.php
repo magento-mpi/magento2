@@ -14,7 +14,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
     {
         parent::__construct();
         $this->setId('customer_address_form');
-        $this->setAction(Mage::getUrl('admin', array('controller'=>'customer', 'action'=>'addressSave')));
+        $this->setAction(Mage::getUrl('admin/customer/addressSave'));
         
         $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Customer address')));
         $fieldset->addField( 'firstname', 'text',

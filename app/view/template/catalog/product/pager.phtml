@@ -4,19 +4,19 @@
         <li><strong><?=__("Page")?></strong></li>
         <?if ($productCollection->getCurPage() != 1):?>
         <li>
-            <a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">&laquo;</a>
+            <a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">&laquo;</a>
         </li>
         <?endif?>
         <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
             <?if ($i == $productCollection->getCurPage()):?>
                 <li><strong><?=$i?></strong>&nbsp;|</li>
             <?else:?>
-                <li><a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
+                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
             <?endif?>
         <?endfor?>
         <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
         <li>
-            <a href="<?=Mage::getUrl('catalog', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">&raquo;</a>
+            <a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">&raquo;</a>
         </li>
         <?endif?>
         <li style="padding-left:10px;">
@@ -25,8 +25,8 @@
     </ul>
     <span class="sort-by">
         <?=__("Sort by:")?>
-        <a href="<?=Mage::getUrl('catalog', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>"><?=__("Name")?></a> | 
-        <a href="<?=Mage::getUrl('catalog', $sortUrl->setParam('order', 'price')->getParams())?>"><?=__("Price")?></a>
+        <a href="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>"><?=__("Name")?></a> | 
+        <a href="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->getParams())?>"><?=__("Price")?></a>
     </span>
     <div class="clearfix"></div>
 </div>

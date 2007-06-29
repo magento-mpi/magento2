@@ -47,7 +47,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('tags', $this->getLayout()->createBlock('tag/list')->toHtml());
         
         $this->assign('reviewCount', $this->getLayout()->createBlock('review/list')->count());
-        $this->assign('reviewLink', Mage::getUrl('review', array('controller'=>'product', 'action'=>'list', 'id'=>$productId)));
+        $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
         $this->assign('rating', $this->getLayout()->createBlock('rating/product')->toHtml());
         $this->assign('reviewForm', $this->getLayout()->createBlock('review/form')->toHtml());
         

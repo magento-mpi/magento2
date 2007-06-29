@@ -63,6 +63,8 @@ class Mage_Core_Controller_Varien_Front
     
     public function init()
     {
+        $this->getRequest()->setPathInfo();
+        
         // set defaults
         $defaultModule = (string)Mage::getSingleton('core/store')->getConfig('core/defaultFrontName');
         $this->setDefault(array('module'=>$defaultModule, 'controller'=>'index', 'action'=>'index'));
@@ -110,18 +112,49 @@ class Mage_Core_Controller_Varien_Front
         return $this;
     }
     
-    public function getUrl($routeName, $params)
+    public function getUrl($route='', $params=array())
     {
+        if (empty($route)) {
+            return Mage::getBaseUrl();
+        }
+        
+        if (is_string($route)) {
+            $request = $this->getRequest();
+            
+            $p = explode('/', $route);
+            $routeName = $p[0];
+            $paramsArr = array();
+            if (isset($p[1])) {
+                $paramsArr['controller'] = $p[1]==='*' ? $request->getControllerName() : $p[1];
+                if (isset($p[2])) {
+                    $paramsArr['action'] = $p[2]==='*' ? $request->getActionName() : $p[2];
+                    for ($i=3, $l=sizeof($p); $i<$l; $i+=2) {
+                        $paramsArr[$p[$i]] = isset($p[$i+1]) ? $p[$i+1] : '';
+                    }
+                }
+            }
+        } elseif (is_array($route)) {
+            $routeName = $route['module'];
+            $paramsArr = $route;
+        } else {
+            return '';
+        }
+        $paramsArr = array_merge($paramsArr, $params);
+        
+        if (empty($routeName)) {
+            return Mage::getBaseUrl();
+        }
+        
         $standard = $this->getRouter('standard');
         if ($standard->getRealModuleName($routeName)) {
-            return $standard->getUrl($routeName, $params);
+            return $standard->getUrl($routeName, $paramsArr);
         }
         
         if ($router = $this->getRouter($routeName)) {
-            return $router->getUrl($routeName, $params);
+            return $router->getUrl($routeName, $paramsArr);
         }
         
         $default = $this->getRouter('default');
-        return $default->getUrl($routeName, $params);
+        return $default->getUrl($routeName, $paramsArr);
     }
 }

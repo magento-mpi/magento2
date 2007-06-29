@@ -80,7 +80,7 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         
         $block = $this->getLayout()->createBlock('core/template', 'catalog.search.advanced')
             ->setTemplate('catalog/search/form.advanced.phtml')
-            ->assign('action', Mage::getUrl('catalog', array('controller'=>'search', 'action'=>'advancedResult')))
+            ->assign('action', Mage::getUrl('catalog/search/advancedResult'))
             ->assign('categories', $categories)
             ->assign('types', $types)
             ->assign('manufacturers', $manufacturers);

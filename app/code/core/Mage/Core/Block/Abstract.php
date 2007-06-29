@@ -240,6 +240,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         
     }
     
+    public function getUrl($params='', $params2=array())
+    {
+        return Mage::registry('controller')->getUrl($params, $params2);
+    }
+    
     public function getCacheKey()
     {
         if (!$this->hasData('cache_key')) {

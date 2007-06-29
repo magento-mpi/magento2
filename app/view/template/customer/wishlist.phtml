@@ -1,7 +1,7 @@
 
 <h1 class="page-heading">Wishlist</h1>
 <?if($wishlist->getSize()):?>
-<form action="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'updatePost'))?>" method="post">
+<form action="<?=$this->getUrl('customer/wishlist/updatePost')?>" method="post">
     <table cellspacing="0" width="100%" class="data-table">
         <tr>
             <th class="align-left">Product</th>
@@ -13,7 +13,7 @@
         <tr>
             <td>
                 <input type="hidden" value="1" name="wishlist[<?=$item->getItemId()?>]"/>
-                <a href="<?=Mage::getUrl('catalog', array('controller'=>'product', 'action'=>'view', 'id'=>$item->getProduct()->getId()))?>"><?=$item->getProduct()->getName()?></a>
+                <a href="<?=$this->getUrl('catalog/product/view/id/'.$item->getProduct()->getId())?>"><?=$item->getProduct()->getName()?></a>
             </td>
             <td class="align-center"><?=$item->getStatus()?></td>
             <td class="align-center"><input type="checkbox" value="1" name="to_cart[<?=$item->getItemId()?>]"/></td>

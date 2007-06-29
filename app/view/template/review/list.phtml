@@ -12,19 +12,19 @@
             <li><strong><?=__("Page")?></strong></li>
             <?if ($collection->getCurPage() != 1):?>
             <li>
-                <a href="<?=Mage::getUrl('review', $pageUrl->setParam('p', $collection->getCurPage(-1))->getParams())?>">&laquo;</a>
+                <a href="<?=$this->getUrl('review/*/*', $pageUrl->setParam('p', $collection->getCurPage(-1))->getParams())?>">&laquo;</a>
             </li>
             <?endif?>
             <?for($i=$collection->getCurPage(-3); $i <= $collection->getCurPage(+3); $i++):?>
                 <?if ($i == $collection->getCurPage()):?>
                     <li><strong><?=$i?></strong>&nbsp;|</li>
                 <?else:?>
-                    <li><a href="<?=Mage::getUrl('review', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
+                    <li><a href="<?=Mage::getUrl('review/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
                 <?endif?>
             <?endfor?>
             <?if ($collection->getCurPage() < $collection->getLastPageNumber()):?>
             <li>
-                <a href="<?=Mage::getUrl('review', $pageUrl->setParam('p', $collection->getCurPage(1))->getParams())?>">&raquo;</a>
+                <a href="<?=Mage::getUrl('review/*/*', $pageUrl->setParam('p', $collection->getCurPage(1))->getParams())?>">&raquo;</a>
             </li>
             <?endif?>
             <li style="padding-left:10px;">

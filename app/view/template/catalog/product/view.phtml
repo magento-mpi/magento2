@@ -74,7 +74,7 @@
     </div>
 </div>
 
-<form action="<?=Mage::getUrl('checkout', array('controller'=>'cart', 'action'=>'add'))?>" method="post">
+<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post">
     <input type="hidden" name="product_id" value="<?=$product->getProductId()?>">
     <div class="product-info">
         <h1 class="page-heading"><?=$product->getName()?></h1>
@@ -110,7 +110,7 @@
             </li>
         -->
             <li>
-                <a href="<?=Mage::getUrl('customer', array('controller'=>'wishlist', 'action'=>'add', 'product'=>$product->getId()))?>"><strong>Add to Wishlist</strong></a>
+                <a href="<?=$this->getUrl('customer/wishlist/add/product/'.$product->getId())?>"><strong>Add to Wishlist</strong></a>
             </li>
             <li>&nbsp;</li>
         </ul>

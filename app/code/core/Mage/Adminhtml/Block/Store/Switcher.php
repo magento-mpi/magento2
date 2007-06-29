@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Widget
         $stores = Mage::getSingleton('core/store')->getEmptyCollection()
             ->load();
         $this->assign('stores', $stores);
-        $this->assign('switchUrl', Mage::getUrl('adminhtml', array('controller'=>'system', 'action'=>'setStore')));
+        $this->assign('switchUrl', Mage::getUrl('adminhtml/system/setStore'));
         $this->assign('selectedStoreId', Mage::getSingleton('adminhtml/session')->getStoreId());
         return $this;
     }

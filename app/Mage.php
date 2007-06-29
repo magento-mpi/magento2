@@ -127,10 +127,9 @@ final class Mage {
         return Mage::getSingleton('core/store')->getUrl($params);
     }
 
-    public static function getUrl($routeName='', $params=array())
+    public static function getUrl($route='', $params=array())
     {
-        return Mage::registry('controller')->getUrl($routeName, $params);
-        #return Mage::getConfig()->getRouterInstance($routeName)->getUrl($params);
+        return Mage::registry('controller')->getUrl($route, $params);
     }
 
     /**

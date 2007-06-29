@@ -23,14 +23,14 @@ class Mage_Customer_Model_Observer
             return false;
         }
         $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.wishlist')
-            ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'wishlist')).'"', __('Wishlist'), ''));
+            ->setLink('', 'href="'.Mage::getUrl('customer/wishlist').'"', __('Wishlist'), ''));
 
         // Add logout link
         $custSession = Mage::getSingleton('customer/session');
         if ($custSession->isLoggedIn()) {
             if ($topLinks) {
                 $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.logout')
-                    ->setLink('', 'href="'.Mage::getUrl('customer', array('controller'=>'account', 'action'=>'logout')).'"', __('Logout'), ''));
+                    ->setLink('', 'href="'.Mage::getUrl('customer/account/logout').'"', __('Logout'), ''));
             }
             
             $topMenu = $layout->getBlock('top.menu');
