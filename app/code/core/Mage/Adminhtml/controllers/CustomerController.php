@@ -8,6 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Action 
 {
@@ -83,5 +84,28 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         	     ->addQuoteData($item);
         }
     }
-
+    
+ /*   
+    public function groupAction() 
+    {
+        $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('customer/group');
+        $this->getLayout()->getBlock('breadcrumbs')
+            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
+            ->addLink(__('customers groups'), __('customers groups title'));
+            
+        $this->renderLayout();
+    }
+    
+    public function groupNewAction() 
+    {
+        $this->loadLayout('baseframe');
+        $this->getLayout()->getBlock('menu')->setActive('customer/group');
+        $this->getLayout()->getBlock('breadcrumbs')
+            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
+            ->addLink(__('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer','action'=>'group')))
+            ->addLink(__('new customer group'), __('new customer groups title'));
+            
+        $this->renderLayout();
+    }*/
 }

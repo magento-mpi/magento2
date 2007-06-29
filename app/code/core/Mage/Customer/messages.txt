@@ -17,6 +17,12 @@ CSTE021 Invalid customer ID while saving the address
 CSTE022 Invalid region for country specified in this address
 CSTE023 There has been an error deleting the address
 
+// Groups
+CSTE024 There has been an error while saving the group information
+CSTE025 Group name is required
+CSTE026 Invalid group id to delete
+CSTE027 Group delete error
+
 [warning]
 
 [notice]

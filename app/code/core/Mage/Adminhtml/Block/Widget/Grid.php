@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      'renderer'  => Zend_Filter,
+     *      'renderer'  => Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface,
      *      'format'    => string
      * )
      * @var array

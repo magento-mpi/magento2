@@ -15,7 +15,7 @@
             <children>
                 <group>
                     <title>Customer groups</title>
-                    <action>adminhtml/customerGroup/</action>
+                    <action>adminhtml/customer/group/</action>
                     <resource>admin/customer/group</resource>
                 </group>
                 <online>
