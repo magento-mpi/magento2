@@ -130,7 +130,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         
         
         fwrite($fResource, pack("ll", $compress, strlen($rawContent)));
-        fwrite($fResource, pack("a*", $rawContent));
+        fwrite($fResource, $rawContent);
         fclose($fResource);
         
         return $this;
@@ -142,7 +142,8 @@ class Mage_Backup_Model_Backup extends Varien_Object
      * @return string
      * @throws Mage_Backup_Exception
      */
-    public function &getFile() {
+    public function &getFile() 
+    {
         
         if (!$this->exists()) {
             throw Mage::exception('Mage_Backup',"Backup file doesn't exists");
