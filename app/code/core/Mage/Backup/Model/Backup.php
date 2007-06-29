@@ -20,6 +20,13 @@ class Mage_Backup_Model_Backup extends Varien_Object
     const COMPRESS_RATE     = 7;
 
     /**
+     * Type of backup file
+     * 
+     * @var string db|media|view
+     */
+    private $_type  = 'db';
+    
+    /**
      * Load backup file info
      *
      * @param string fileName
@@ -30,9 +37,9 @@ class Mage_Backup_Model_Backup extends Varien_Object
     {
         list ($time, $type) = explode("_", substr($fileName, 0, strrpos($fileName, ".")));
         $this->addData(array('time' => (int)$time,
-                             'type' => $type,
                              'path' => $filePath,
-                             'time_formated' => date('m/d/Y H:i:s', (int)$time)));
+                             'time_formated' => date('m/d/Y H:i:s', (int)$time)))
+             ->setType($type);
         return $this;
     }
     
@@ -55,6 +62,33 @@ class Mage_Backup_Model_Backup extends Varien_Object
     {
         return $this->getPath() . DS . $this->getTime() . "_" . $this->getType() 
                . "." . self::BACKUP_EXTENSION;
+    }
+    
+    /**
+     * Sets type of file
+     *
+     * @param string $value db|media|view
+     */
+    public function setType($value='db')
+    {
+        if(!in_array($value, array('db','media','view'))) {
+            $value = 'db';
+        }
+        
+        $this->_type = $value;
+        $this->setData('type', $this->_type);
+        
+        return $this;
+    }
+    
+    /**
+     * Returns type of backup file
+     *
+     * @return string db|media|view
+     */
+    public function getType()
+    {
+        return $this->_type;
     }
     
     /**
@@ -138,6 +172,16 @@ class Mage_Backup_Model_Backup extends Varien_Object
         fclose($fResource);
         
         return $content;
+    }
+    
+    public function deleteFile()
+    {
+        if (!$this->exists()) {
+            throw Mage::exception('Mage_Backup',"Backup file doesn't exists");
+        }
+        
+        unlink($this->getFilePath());
+        return $this;
     }
     
 }

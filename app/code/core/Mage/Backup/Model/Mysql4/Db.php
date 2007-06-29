@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Backup_Model_Mysql4_Db
 {
@@ -76,5 +77,29 @@ class Mage_Backup_Model_Mysql4_Db
         }
         
         return $sql;
+    }
+    
+    /**
+     * Returns SQL header data
+     */
+    public function getHeader()
+    {
+        $header = "SET NAMES utf8;\n\n"
+                . "SET SQL_MODE='';\n\n"
+                . "SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;\n"
+                . "SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';\n";
+        
+        return $header;
+    }
+    
+    /**
+     * Returns SQL footer data
+     */
+    public function getFooter()
+    {   
+        $footer = "SET SQL_MODE=@OLD_SQL_MODE;\n"
+                . "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\n";
+        
+        return $footer;
     }
 }

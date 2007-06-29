@@ -10,6 +10,9 @@
  */
 class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action 
 {
+    /**
+     * Backup list action
+     */
     public function indexAction()
     {
         $this->loadLayout('baseframe');
@@ -23,6 +26,9 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
     
+    /**
+     * Create backup action
+     */
     public function createAction()
     {
         $backup = Mage::getModel('backup/backup')
@@ -32,8 +38,48 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
         
         $dbDump = Mage::getModel('backup/db')->renderSql();
         $backup->setFile($dbDump);
-        
+        $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
     }
     
+    /**
+     * Download backup action
+     */
+    public function downloadAction()
+    {
+        $backup = Mage::getModel('backup/backup')
+                ->setTime((int)$this->getRequest()->getParam('time'))
+                ->setType($this->getRequest()->getParam('type'))
+                ->setPath(Mage::getBaseDir("var") . DS . "backups");
+        
+        if (!$backup->exists()) {
+            $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
+        }
+        
+        if ($this->getRequest()->getParam('file') == 'gz') {
+            $fileName = 'backup-' . date('YmdHis', $backup->getTime()) . '.sql.gz';
+            $fileContent = gzencode($backup->getFile(),7);
+        } else {
+            $fileName = 'backup-' . date('YmdHis', $backup->getTime()) . '.sql';
+            $fileContent = $backup->getFile();
+        }
+        
+        header("Content-Disposition: attachment; filename=$fileName");
+        header("Content-Type: application/octet-stream");
+        echo $fileContent;
+    }
     
+    /**
+     * Delete backup action
+     */
+    public function deleteAction()
+    {
+        $backup = Mage::getModel('backup/backup')
+                ->setTime((int)$this->getRequest()->getParam('time'))
+                ->setType($this->getRequest()->getParam('type'))
+                ->setPath(Mage::getBaseDir("var") . DS . "backups")
+                ->deleteFile();
+                
+        $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
+            
+    }
 }
