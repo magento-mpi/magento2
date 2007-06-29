@@ -10,7 +10,10 @@
 class Mage_Core_Model_Store extends Varien_Object
 {
     protected $_priceFilter;
+    
     protected $_website;
+    
+    protected $_configCache = array();
     
     /**
      * Set store code
@@ -73,26 +76,28 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getConfig($sectionVar='')
     {
+        if (isset($this->_configCache[$sectionVar])) {
+            return $this->_configCache[$sectionVar];
+        }
+        
         $sectionArr = explode('/', $sectionVar);
         
         if (empty($sectionArr[0])) {
-            return Mage::getConfig()->getNode('global/stores/'.$this->getCode());
+            $result = Mage::getConfig()->getNode('global/stores/'.$this->getCode());
+            if (!$result || $result->is('default')) {
+                $result = $this->getWebsite()->getConfig();
+            }
+        } else {
+            $result = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$sectionArr[0]);
+            if (!$result || $result->is('default') || (isset($sectionArr[1]) && !$result->{$sectionArr[1]})) {
+                $result = $this->getWebsite()->getConfig($sectionVar);
+            } elseif (isset($sectionArr[1])) {
+                $result = $result->{$sectionArr[1]};
+            }
         }
         
-        $config = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$sectionArr[0]);
-        if (!$config || $config->is('default')) {
-            return $this->getWebsite()->getConfig($sectionVar);
-        }
-        
-        if (!isset($sectionArr[1])) {
-            return $config;
-        }
-        
-        if (!$config->{$sectionArr[1]}) {
-            return $this->getWebsite()->getConfig($sectionVar);
-        }
-
-        return $config->{$sectionArr[1]};
+        $this->_configCache[$sectionVar] = $result;
+        return $result;
     }
     
     public function getWebsite()
@@ -182,10 +187,6 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getUrl($params)
     {
-        if (!$this->getConfig()) {
-            return dirname($_SERVER['PHP_SELF']);
-        }
-    
         if (!empty($_SERVER['HTTPS'])) {
             if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                 $params['_secure'] = true;
@@ -193,10 +194,11 @@ class Mage_Core_Model_Store extends Varien_Object
         }
         
         $section = empty($params['_secure']) ? 'unsecure' : 'secure';
-        $protocol = (string)$this->getConfig("$section/protocol");
-        $host = (string)$this->getConfig("$section/host");
-        $port = (int)$this->getConfig("$section/port");
-        $basePath = (string)$this->getConfig("$section/base_path");
+        $config = $this->getConfig($section);
+        $protocol = (string)$config->protocol;
+        $host = (string)$config->host;
+        $port = (int)$config->port;
+        $basePath = (string)$config->base_path;
         if (!empty($params['_type'])) {
             $basePath = (string)$this->getConfig('url/'.$params['_type']);
         }
@@ -309,5 +311,18 @@ class Mage_Core_Model_Store extends Varien_Object
             }
         }
         return $this->_priceFilter;
+    }
+    
+    public function getDatashareStores($feature)
+    {
+        $config = $this->getConfig('datashare/'.$feature);
+        $shared = array();
+        foreach ($config->children() as $storeCode=>$isShared) {
+            if ($isShared) {
+                $store = Mage::getModel('core/store')->setCode($storeCode);
+                $shared[$storeCode] = $store->getId();
+            }
+        }
+        return $shared;
     }
 }

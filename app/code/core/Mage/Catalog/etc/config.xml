@@ -236,8 +236,7 @@
       </layouts>
       <routers>
          <catalog>
-            <use>default</use>
-            <class>Mage_Catalog_Router</class>
+            <use>standard</use>
             <args>
                <module>Mage_Catalog</module>
                <frontName>catalog</frontName>

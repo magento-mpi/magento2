@@ -3,6 +3,7 @@
     <front>
         <routers>
             <test>
+                <use>standard</use>
                 <args>
                     <module>Mage_Test</module>
                     <frontName>test</frontName>

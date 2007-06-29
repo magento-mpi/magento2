@@ -129,7 +129,8 @@ final class Mage {
 
     public static function getUrl($routeName='', $params=array())
     {
-        return Mage::getConfig()->getRouterInstance($routeName)->getUrl($params);
+        return Mage::registry('controller')->getUrl($routeName, $params);
+        #return Mage::getConfig()->getRouterInstance($routeName)->getUrl($params);
     }
 
     /**

@@ -63,6 +63,7 @@
     <front>
       <routers>
          <review>
+            <use>standard</use>
             <args>
                <module>Mage_Review</module>
                <frontName>review</frontName>

@@ -69,7 +69,7 @@
       </events>
       <routers>
          <admin>
-            <class>Mage_Core_Controller_Front_Router</class>
+            <use>standard</use>
             <args>
                <module>Mage_Admin</module>
                <frontName>admin</frontName>

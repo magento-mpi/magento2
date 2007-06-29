@@ -17,6 +17,7 @@
         </layouts>
         <routers>
             <poll>
+                <use>standard</use>
                 <args>
                     <module>Mage_Poll</module>
                     <frontName>poll</frontName>

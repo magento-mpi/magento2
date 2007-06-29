@@ -152,8 +152,7 @@
         </layouts>
         <routers>
          <core>
-            <use>default</use>
-            <class>Mage_Core_Controller_Front_Router</class>
+            <use>standard</use>
             <args>
                <module>Mage_Core</module>
                <frontName>core</frontName>

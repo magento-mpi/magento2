@@ -60,9 +60,6 @@ class Varien_Profiler
                 
             case 'count':
                 $count = self::$_timers[$timerName]['count'];
-                if (self::$_timers[$timerName]['start']!==false) {
-                    $count ++;
-                }
                 return $count;
                 
             default:

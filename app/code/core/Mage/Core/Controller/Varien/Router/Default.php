@@ -13,4 +13,9 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
         
         return true;
     }
+    
+    public function getUrl($routeName, $params)
+    {
+        return 'ERROR (404)';
+    }
 }

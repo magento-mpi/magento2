@@ -76,7 +76,7 @@ class Mage_Core_Controller_Varien_Front
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
             
-            if (true || $use==='standard') {
+            if ($use==='standard') {
                 $module = (string)$routerConfig->args->module;
                 $frontName = (string)$routerConfig->args->frontName;
                 $standard->addModule($frontName, $module);
@@ -108,5 +108,20 @@ class Mage_Core_Controller_Varien_Front
         $this->getResponse()->sendResponse();
 
         return $this;
+    }
+    
+    public function getUrl($routeName, $params)
+    {
+        $standard = $this->getRouter('standard');
+        if ($standard->getRealModuleName($routeName)) {
+            return $standard->getUrl($routeName, $params);
+        }
+        
+        if ($router = $this->getRouter($routeName)) {
+            return $router->getUrl($routeName, $params);
+        }
+        
+        $default = $this->getRouter('default');
+        return $default->getUrl($routeName, $params);
     }
 }

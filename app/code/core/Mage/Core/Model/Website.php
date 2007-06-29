@@ -9,6 +9,8 @@
  */
 class Mage_Core_Model_Website extends Varien_Object
 {
+    protected $_configCache = array();
+    
     /**
      * Get website id
      *
@@ -48,37 +50,43 @@ class Mage_Core_Model_Website extends Varien_Object
      */
     public function getConfig($sectionVar='')
     {
+        if (isset($this->_configCache[$sectionVar])) {
+            return $this->_configCache[$sectionVar];
+        }
+        
         $sectionArr = explode('/', $sectionVar);
         
         if (empty($sectionArr[0])) {
-            return Mage::getConfig()->getNode('global/websites/'.$this->getCode());
-        }
+            $result = Mage::getConfig()->getNode('global/websites/'.$this->getCode());
+        } else {
         
-        $config = Mage::getConfig()->getNode('global/websites/'.$this->getCode().'/'.$sectionArr[0]);
-        $defaultConfig = Mage::getConfig()->getNode('global/default/'.$sectionArr[0]);
-        
-        if (!$config || $config->is('default')) {
-            if (isset($sectionArr[1])) {
-                if (!empty($defaultConfig)) {
-                    return $defaultConfig->{$sectionArr[1]};
+            $result = Mage::getConfig()->getNode('global/websites/'.$this->getCode().'/'.$sectionArr[0]);
+            $defaultConfig = Mage::getConfig()->getNode('global/default/'.$sectionArr[0]);
+            
+            if (!$result || $result->is('default')) {
+                if (isset($sectionArr[1])) {
+                    if (!empty($defaultConfig)) {
+                        return $defaultConfig->{$sectionArr[1]};
+                    }
+                    $result = false;
+                } else {
+                    $result = $defaultConfig;
                 }
-                return false;
+            } elseif (isset($sectionArr[1])) {
+                if (!$config->{$sectionArr[1]}) {
+                    if (!empty($defaultConfig)) {
+                        $result = $defaultConfig->{$sectionArr[1]};
+                    } else {
+                        $result = false;
+                    }
+                } else {
+                    $result = $config->$sectionArr[1];
+                }
             }
-            return $defaultConfig;
         }
         
-        if (!isset($sectionArr[1])) {
-            return $config;
-        }
-        
-        if (!$config->{$sectionArr[1]}) {
-            if (!empty($defaultConfig)) {
-                return $defaultConfig->{$sectionArr[1]};
-            }
-            return false;
-        }
-        
-        return $config->$sectionArr[1];
+        $this->_configCache[$sectionVar] = $result;
+        return $result;
     }
     
     public function getStoreCodes()

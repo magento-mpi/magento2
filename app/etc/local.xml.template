@@ -86,6 +86,14 @@
                 <skin>{{base_path}}skins/default/</skin>
                 <js>{{base_path}}js/</js>
             </url>
+            
+            <datashare>
+                <customers><russian>1</russian></customers>
+                <catalog><russian>1</russian></catalog>
+                <wishlist><russian>1</russian></wishlist>
+                <quotes><russian>1</russian></quotes>
+                <orders><russian>1</russian></orders>
+            </datashare>
          </base>
          
          <russian>
@@ -130,6 +138,14 @@
                 <skin>{{base_path}}skins/default/</skin>
                 <js>{{base_path}}js/</js>
             </url>
+            
+            <datashare>
+                <customers><base>1</base></customers>
+                <catalog><base>1</base></catalog>
+                <wishlist><base>1</base></wishlist>
+                <quotes><base>1</base></quotes>
+                <orders><base>1</base></orders>
+            </datashare>
          </russian>
 
          <admin extends="//global/stores/base">
@@ -192,3 +208,4 @@
       </resources>
    </global>
 </config>
+

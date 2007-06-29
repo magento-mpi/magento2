@@ -17,14 +17,6 @@
                 </observers>
             </action_noRoute>
         </events>
-        <routers>
-            <noRoute>
-                <args>
-                    <module>Mage_Cms</module>
-                    <frontName>noRoute</frontName>
-                </args>
-            </noRoute>
-        </routers>
     </front>
     <global>
         <models>

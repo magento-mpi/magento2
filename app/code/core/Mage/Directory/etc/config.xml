@@ -108,7 +108,7 @@
         </events>
         <routers>
             <directory>
-                <class>Mage_Core_Controller_Front_Router</class>
+                <use>standard</use>
                 <args>
                     <module>Mage_Directory</module>
                     <frontName>directory</frontName>
