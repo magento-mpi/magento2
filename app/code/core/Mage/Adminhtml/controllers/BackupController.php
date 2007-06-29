@@ -65,6 +65,7 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
         
         header("Content-Disposition: attachment; filename=$fileName");
         header("Content-Type: application/octet-stream");
+        header("Content-Length: ".strlen($fileContent));
         echo $fileContent;
     }
     

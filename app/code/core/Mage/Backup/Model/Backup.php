@@ -96,6 +96,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      *
      * @param string $content
      * @return Mage_Backup_Model_Backup
+     * @throws Mage_Backup_Exception
      */
     public function setFile(&$content)
     {
@@ -139,6 +140,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      * Return content of backup file
      *
      * @return string
+     * @throws Mage_Backup_Exception
      */
     public function &getFile() {
         
@@ -174,6 +176,11 @@ class Mage_Backup_Model_Backup extends Varien_Object
         return $content;
     }
     
+    /**
+     * Delete backup file
+     *
+     * @throws Mage_Backup_Exception
+     */
     public function deleteFile()
     {
         if (!$this->exists()) {

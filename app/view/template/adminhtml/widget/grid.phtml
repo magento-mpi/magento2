@@ -1,5 +1,6 @@
 <?if(!empty($collection)):?>
 <div id="<?=$this->getId()?>">
+<?if($this->getPagerVisibility()):?>
 <div class="pager">
     Page 
     <select name="<?=$this->getvarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
@@ -23,6 +24,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Total <b><?=$collection->getSize()?> records</b> found
 </div>
+<?endif?>
 <table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
     <?foreach ($columns as $column):?>
     <col <?=$this->getColumnHtmlProperty($column)?>/>

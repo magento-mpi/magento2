@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 {
@@ -18,7 +19,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      'renderer'  => string ???
+     *      'renderer'  => Zend_Filter,
+     *      'format'    => string
      * )
      * @var array
      */
@@ -32,6 +34,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_collection = null;
     
     /**
+     * Default column item renderer
+     * 
+     * @var Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
+     */
+    protected $_gridItemRenderer = null;
+    
+    /**
      * Page and sorting var names
      *
      * @var string
@@ -40,11 +49,19 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_varNamePage     = 'page';
     protected $_varNameSort     = 'sort';
     protected $_varNameDir      = 'dir';
+    
+    /**
+     * Pager visibility
+     * 
+     * @var boolean
+     */
+    protected $_pagerVisibility = true;
 
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
+        $this->_gridItemRenderer = new Mage_Adminhtml_Block_Widget_Grid_Renderer();
     }
     
     /**
@@ -146,12 +163,24 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         $this->assign('collection', $this->getCollection());
         $this->assign('columns', $this->_columns);
+        
         return $this;
     }
 
     public function getRowField(Varien_Object $row, Varien_Object $column)
     {
-        return $row->getData($column->getIndex());
+        //return $row->getData($column->getIndex());
+        $format = null;
+        if ($column->getFormat() != '') {
+            $format = $column->getFormat();
+        }
+        if (!($column->getRenderer() instanceof Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface)) {
+            // If no item rederer specified use default
+            return $this->_gridItemRenderer->render($row, $column->getIndex(), $format);
+        } else {
+            // If custom item renderer
+            return $column->getRenderer()->render($row, $column->getIndex(), $format);
+        }
     }
 
     public function getVarNameLimit()
@@ -192,5 +221,25 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function setVarNameDir()
     {
         return $this->_varNameDir = $name;
-    }    
+    }
+    
+    /**
+     * Set visibility of pager 
+     *
+     * @param boolean $visible
+     */
+    public function setPagerVisibility($visible=true) 
+    {
+        $this->_pagerVisibility = $visible;
+    }
+    
+    /**
+     * Return visibility of pager 
+     *
+     * @return boolean
+     */
+    public function getPagerVisibility()
+    {
+        return $this->_pagerVisibility;
+    }
 }
