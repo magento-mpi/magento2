@@ -25,8 +25,7 @@ CREATE TABLE `log_customer` (
   `customer_id` int(11) NOT NULL default '0',
   `login_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `logout_at` datetime default NULL,
-  PRIMARY KEY  (`log_id`),
-  KEY `FK_LOG_CUSTOMER_VISITOR` (`visitor_id`)
+  PRIMARY KEY  (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customers log information';
 
 --
@@ -41,8 +40,7 @@ CREATE TABLE `log_quote` (
   `visitor_id` bigint(20) unsigned default NULL,
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `deleted_at` datetime NOT NULL,
-  PRIMARY KEY  (`quote_id`),
-  KEY `FK_LOG_QUOTE_VISITOR` (`visitor_id`)
+  PRIMARY KEY  (`quote_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote log data';
 
 --
@@ -58,8 +56,7 @@ CREATE TABLE `log_summary` (
   `visitor_count` int(11) NOT NULL default '0',
   `customer_count` int(11) NOT NULL default '0',
   `add_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`summary_id`),
-  KEY `FK_LOG_SUMMARY_TYPE` (`type_id`)
+  PRIMARY KEY  (`summary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Summary log information';
 
 --
@@ -90,8 +87,7 @@ CREATE TABLE `log_url` (
   `url_id` bigint(20) unsigned NOT NULL auto_increment,
   `visitor_id` bigint(20) unsigned default NULL,
   `visit_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`url_id`),
-  KEY `FK_URL_VISIT_VISITOR` (`visitor_id`)
+  PRIMARY KEY  (`url_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
 
 --

@@ -17,6 +17,12 @@
             <backup_mysql4>
                 <class>Mage_Backup_Model_Mysql4</class>
             </backup_mysql4>
+            <collection>
+                <class>Mage_Backup_Model_Fs_Collection</class>
+            </collection>
+            <collection_item>
+                <class>Mage_Backup_Model_Backup</class>
+            </collection_item>
         </models>
         <resources>
             <backup_setup>
