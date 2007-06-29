@@ -66,6 +66,12 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if ($observer && $observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
             return $this;
         }
+
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if( empty($customerId) ) {
+            $this->setLogoutNeeded(1);
+        }
+
         $this->getResource()
             ->logVisitor($this)
             ->logUrl($this);
@@ -138,10 +144,12 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function bindCustomerLogin()
     {
+        $session = Mage::getSingleton('customer/session');
         $this->setLoginAt( $this->getResource()->getNow() );
-        $this->setCustomerId( Mage::getSingleton('customer/session')->getCustomerId() );
+        $this->setCustomerId( $session->getCustomerId() );
         $this->getResource()
             ->logCustomer($this);
+
         return $this;
     }
 
@@ -150,8 +158,29 @@ class Mage_Log_Model_Visitor extends Varien_Object
         $eventData = $observer->getEvent()->getData();
         $this->setLogoutAt( $this->getResource()->getNow() );
         $this->setCustomerId( $eventData['customer']->getCustomerId() );
-        $this->getResource()
-            ->logCustomer($this);
+        $this->getResource()->logCustomer($this);
+        return $this;
+    }
+
+    public function bindQuoteCreate($observer)
+    {
+        $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
+        if( $quoteId ) {
+            $this->setQuoteId($quoteId);
+            $this->setQuoteCreatedAt($this->getResource()->getNow());
+            $this->getResource()->logQuote($this);
+        }
+        return $this;
+    }
+
+    public function bindQuoteDestoy()
+    {
+        $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
+        if( $quoteId ) {
+            $this->setQuoteId($quoteId);
+            $this->setQuoteDeletedAt($this->getResource()->getNow());
+            $this->getResource()->logQuote($this);
+        }
         return $this;
     }
 }

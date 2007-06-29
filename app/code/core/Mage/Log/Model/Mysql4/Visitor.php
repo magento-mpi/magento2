@@ -38,6 +38,13 @@ class Mage_Log_Model_Mysql4_Visitor
     protected $_urlTable;
 
     /**
+     * Log quote data table name.
+     *
+     * @var string
+     */
+    protected $_quoteTable;
+
+    /**
      * Database read connection
      *
      * @var Zend_Db_Adapter_Abstract
@@ -62,6 +69,7 @@ class Mage_Log_Model_Mysql4_Visitor
         $this->_urlInfoTable = Mage::getSingleton('core/resource')->getTableName('log/url_info_table');
 
         $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
+        $this->_quoteTable = Mage::getSingleton('core/resource')->getTableName('log/quote_table');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('log_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('log_write');
@@ -87,8 +95,15 @@ class Mage_Log_Model_Mysql4_Visitor
 		              'last_url_id' => intval($collectedData->getLastUrlId())
 		          );
 
-	        $exists = $this->_write->fetchOne("SELECT session_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
-	        if ($exists) {
+	        #$visitorId = $this->_write->fetchOne("SELECT visitor_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
+	        $visitorId = $this->getVisitorId($sessId);
+
+	        if ($visitorId) {
+    		    if( $collectedData->getLogoutNeeded() ) {
+    		        $query = $this->_write->quoteInto("UPDATE {$this->_customerTable} SET logout_at = ? WHERE visitor_id = {$visitorId}", new Zend_Db_Expr('NOW()') );
+    		        $this->_write->query($query);
+    		    }
+
 	            $where = $this->_write->quoteInto('session_id=?', $sessId);
 	            $this->_write->update($this->_visitorTable, $data, $where);
 	        } else {
@@ -108,14 +123,13 @@ class Mage_Log_Model_Mysql4_Visitor
                 $this->_write->insert($this->_visitorInfoTable, $data);
 	        }
 		}
-
 		return $this;
     }
 
     public function logCustomer(Mage_Log_Model_Visitor $collectedData)
     {
         $sessId = $collectedData->getSessionId();
-        if ($this->_write && $collectedData->getCustomerId() > 0 ) {
+        if ($this->_write && ($collectedData->getCustomerId() > 0) ) {
 		    $data = array(
 		          'visitor_id' => $this->getVisitorId($sessId),
 		          'customer_id' => $collectedData->getCustomerId(),
@@ -136,7 +150,6 @@ class Mage_Log_Model_Mysql4_Visitor
 	            $this->_write->insert($this->_customerTable, $data);
 	        }
 		}
-
 		return $this;
     }
 
@@ -164,6 +177,21 @@ class Mage_Log_Model_Mysql4_Visitor
 		}
 
 		return $this;
+    }
+
+    public function logQuote($collectedData)
+    {
+        $sessId = $collectedData->getSessionId();
+        if( $this->_write ) {
+            $data = array(
+                'quote_id' => $collectedData->getQuoteId(),
+                'visitor_id' => $this->getVisitorId($sessId),
+                'created_at' => $collectedData->getQuoteCreatedAt(),
+                'deleted_at' => $collectedData->getQuoteDeletedAt()
+            );
+            $this->_write->insert($this->_quoteTable, $data);
+        }
+        return $this;
     }
 
     public function saveUrl(Mage_Log_Model_Visitor $visitor)

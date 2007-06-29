@@ -113,8 +113,21 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
         }
     }
 
-    protected function _updateOneshot()
+    protected function _updateOneshot($minutes=60, $interval=5)
     {
-        #
+        $this->_read->fetchAssoc("SELECT
+                                    	v.visitor_id,
+                                    	c.customer_id,
+                                    	v.last_visit_at,
+                                    	CEIL( (UNIX_TIMESTAMP(v.last_visit_at) - UNIX_TIMESTAMP(NOW() - INTERVAL {$type['period']} {$type['period_type']} )) / {$interval} )  as _diff,
+                                    	COUNT(DISTINCT(v.visitor_id)),
+                                    	COUNT(DISTINCT(c.customer_id))
+                                    FROM
+                                    	{$this->_visitorTable} v
+                                    LEFT JOIN {$this->_customerTable} c on(c.visitor_id = v.visitor_id)
+                                    WHERE
+                                    	NOW() - INTERVAL 1 HOUR <= v.last_visit_at
+                                    group by _diff");
+
     }
 }

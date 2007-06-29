@@ -39,6 +39,9 @@
                     <summary_type_table>
                         <table>log_summary_type</table>
                     </summary_type_table>
+                    <quote_table>
+                        <table>log_quote</table>
+                    </quote_table>
                 </entities>
             </log_mysql4>
         </models>
@@ -110,6 +113,24 @@
                     </log>
                 </observers>
             </initCustomerSession>
+            <initQuote>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>bindQuoteCreate</method>
+                    </log>
+                </observers>
+            </initQuote>
+            <destroyQuote>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>bindQuoteDelete</method>
+                    </log>
+                </observers>
+            </destroyQuote>
 	    <!--
             <setStoreCode>
                 <observers>

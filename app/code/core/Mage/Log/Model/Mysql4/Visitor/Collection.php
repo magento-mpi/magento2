@@ -19,11 +19,39 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     protected $_visitorTable;
 
     /**
+     * Customer data table
+     *
+     * @var string
+     */
+    protected $_customerTable;
+
+    /**
      * Log URL data table name.
      *
      * @var string
      */
     protected $_urlTable;
+
+    /**
+     * Log URL expanded data table name.
+     *
+     * @var string
+     */
+    protected $_urlInfoTable;
+
+    /**
+     * Aggregator data table.
+     *
+     * @var string
+     */
+    protected $_summaryTable;
+
+    /**
+     * Aggregator type data table.
+     *
+     * @var string
+     */
+    protected $_summaryTypeTable;
 
     /**
      * Construct
@@ -35,6 +63,10 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 
         $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
         $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
+        $this->_urlInfoTable = Mage::getSingleton('core/resource')->getTableName('log/url_info_table');
+        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
+        $this->_summaryTable = Mage::getSingleton('core/resource')->getTableName('log/summary_table');
+        $this->_summaryTypeTable = Mage::getSingleton('core/resource')->getTableName('log/summary_type_table');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
     }
@@ -47,67 +79,12 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      */
     public function useOnlineFilter($minutes=15)
     {
-        $this->_sqlSelect->from($this->_visitorTable);
-        $this->_sqlSelect->join( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
-        $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_visitorTable}.last_visit_at >= (NOW() - INTERVAL {$minutes} MINUTE)") );
-        return $this;
-    }
-
-    public function getStatistics($measure='d')
-    {
-        switch( $measure ) {
-            case 'd':
-                $measureDateFormat = '%Y-%m-%d';
-                break;
-
-            case 'h':
-                $measureDateFormat = '%Y-%m-%d %h:%i';
-                break;
-        }
-        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("COUNT( `first_visit_at` ) AS first_visit_at_count, DATE_FORMAT( first_visit_at, '{$measureDateFormat}' ) as first_visit_at_date"));
-        $this->_sqlSelect->group('first_visit_at_date');
-        return $this;
-    }
-
-    public function getTimeline($hoursCount=12)
-    {
-        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("DATE_FORMAT( first_visit_at, '%Y-%m-%d %H' ) as first_visit_at_date, IF ((customer_id > 0), COUNT(customer_id), 0) as customers, IF ((customer_id = 0), COUNT(customer_id), 0) as visitors"));
-        $this->_sqlSelect->where( new Zend_Db_Expr("NOW() - INTERVAL {$hoursCount} HOUR <= first_visit_at") );
-        $this->_sqlSelect->group('first_visit_at_date');
-        return $this;
-    }
-
-    /**
-     * Enables customer only select
-     *
-     * @access public
-     * @return void
-     */
-    public function showCustomersOnly()
-    {
-        $this->_sqlSelect->from($this->_visitorTable);
-        $this->_sqlSelect->join( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
-        $this->_sqlSelect->where( "{$this->_visitorTable}.customer_id > 0" );
-        return $this;
-    }
-
-    /**
-     * Enables guests only select
-     *
-     * @access public
-     * @return void
-     */
-    public function showGuestsOnly()
-    {
-        $this->_sqlSelect->from($this->_visitorTable);
-        $this->_sqlSelect->join( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
-        $this->_sqlSelect->where( "{$this->_visitorTable}.customer_id = 0" );
-        return $this;
-    }
-
-    public function applyDateRange($dateFrom, $dateTo)
-    {
-        $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_visitorTable}.last_visit_at BETWEEN '{$dateFrom}' AND '{$dateTo}' ") );
+        $this->_sqlSelect->from($this->_urlTable);
+        $this->_sqlSelect->joinLeft( $this->_visitorTable, "{$this->_visitorTable}.visitor_id = {$this->_urlTable}.visitor_id" );
+        $this->_sqlSelect->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" );
+        $this->_sqlSelect->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" );
+        $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_urlTable}.visit_time >= (NOW() - INTERVAL {$minutes} MINUTE)") );
+        $this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
         return $this;
     }
 }

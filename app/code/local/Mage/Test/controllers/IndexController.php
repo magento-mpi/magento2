@@ -16,9 +16,25 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         // Load default layout
         /*
         $collection = Mage::getResourceSingleton('log/visitor_collection')
-            ->getTimeline(90)
+            #->getTimeline(90)
             #->applyDateRange('2007-01-01', '2007-12-12')
+            ->useOnlineFilter()
             ->load(true);
+
+        foreach( $collection -> getItems() as $item ) {
+            $item->setLocation(long2ip($item->getRemoteAddr()))
+                 ->addCustomerData($item);
+
+            if( $item->getCustomerId() > 0 ) {
+                //print_r( $item );
+                $item->setFullName( $item->getCustomerData()->getName() );
+
+                // Not needed yet...
+                // $adresses = $item->getCustomerData()->getAddressCollection()->getPrimaryAddresses();
+            } else {
+                $item->setFullName('Guest');
+            }
+        }
 
         print "<pre>debug: \n";
         print_r($collection);
@@ -28,9 +44,10 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         $block->settemplate('test/index.phtml');
 
         $this->getResponse()->setBody($block->toHtml());
-        */
+        
         $aggregator = Mage::getSingleton('log/visitor_aggregator');
         $aggregator->update();
+        */
     }
 
     public function pagesAction()
