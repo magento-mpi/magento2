@@ -62,24 +62,30 @@ class Mage_Log_Model_Mysql4_Visitor
 
     public function __construct()
     {
-        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
-        $this->_visitorInfoTable = Mage::getSingleton('core/resource')->getTableName('log/visitor_info');
+        $resource = Mage::getSingleton('core/resource');
 
-        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
-        $this->_urlInfoTable = Mage::getSingleton('core/resource')->getTableName('log/url_info_table');
+        $this->_visitorTable = $resource->getTableName('log/visitor');
+        $this->_visitorInfoTable = $resource->getTableName('log/visitor_info');
 
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
-        $this->_quoteTable = Mage::getSingleton('core/resource')->getTableName('log/quote_table');
+        $this->_urlTable = $resource->getTableName('log/url_table');
+        $this->_urlInfoTable = $resource->getTableName('log/url_info_table');
 
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('log_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('log_write');
+        $this->_customerTable = $resource->getTableName('log/customer');
+        $this->_quoteTable = $resource->getTableName('log/quote_table');
+
+        $this->_read = $resource->getConnection('log_read');
+        $this->_write = $resource->getConnection('log_write');
     }
 
-    public function load($sessId)
+    public function load($visitorId)
     {
     	$data = array();
     	if ($this->_read) {
-    		$data = $this->_read->fetchRow("SELECT * FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
+            try {
+                $data = $this->_read->fetchRow("SELECT * FROM $this->_visitorTable WHERE visitor_id = ?", array($visitorId));
+            } catch (Exception $e) {
+                Mage::log($e);
+            }
     	}
         return $data;
     }
@@ -88,39 +94,43 @@ class Mage_Log_Model_Mysql4_Visitor
     {
         $sessId = $collectedData->getSessionId();
 		if ($this->_write) {
-		    $data = array(
-		              'session_id' => $sessId,
-		              'first_visit_at' => $collectedData->getFirstVisitAt(),
-		              'last_visit_at' => $collectedData->getLastVisitAt(),
-		              'last_url_id' => intval($collectedData->getLastUrlId())
-		          );
+		    $this->_write->beginTransaction();
+		    try {
+    		    $data = array(
+    		              'session_id' => $sessId,
+    		              'first_visit_at' => $collectedData->getFirstVisitAt(),
+    		              'last_visit_at' => $collectedData->getLastVisitAt(),
+    		              'last_url_id' => intval($collectedData->getLastUrlId())
+    		          );
 
-	        #$visitorId = $this->_write->fetchOne("SELECT visitor_id FROM $this->_visitorTable WHERE session_id = ?", array($sessId));
-	        $visitorId = $this->getVisitorId($sessId);
+    	        if ($collectedData->getVisitorId()) {
+        		    if( $collectedData->getLogoutNeeded() ) {
+        		        $visitorId = $collectedData->getVisitorId();
+        	            $query = $this->_write->quoteInto("UPDATE {$this->_customerTable} SET logout_at = ? WHERE visitor_id = {$visitorId}", new Zend_Db_Expr('NOW()') );
+        		        $this->_write->query($query);
+        		    }
 
-	        if ($visitorId) {
-    		    if( $collectedData->getLogoutNeeded() ) {
-    		        $query = $this->_write->quoteInto("UPDATE {$this->_customerTable} SET logout_at = ? WHERE visitor_id = {$visitorId}", new Zend_Db_Expr('NOW()') );
-    		        $this->_write->query($query);
-    		    }
+    	            $where = $this->_write->quoteInto('visitor_id=?', $collectedData->getVisitorId());
+    	            $this->_write->update($this->_visitorTable, $data, $where);
+    	        } else {
+    	            $this->_write->insert($this->_visitorTable, $data);
+    	            $collectedData->setVisitorId($this->_write->lastInsertId());
 
-	            $where = $this->_write->quoteInto('session_id=?', $sessId);
-	            $this->_write->update($this->_visitorTable, $data, $where);
-	        } else {
-	            $this->_write->insert($this->_visitorTable, $data);
-
-	            $visitorId = $this->_write->lastInsertId();
-
-	            $data = array(
-	                   'visitor_id' => $visitorId,
-	                   'http_referer' => $collectedData->getHttpReferer(),
-	                   'http_user_agent' => $collectedData->getHttpUserAgent(),
-	                   'http_accept_charset' => $collectedData->getHttpAcceptCharset(),
-	                   'http_accept_language' => $collectedData->getHttpAcceptLanguage(),
-	                   'server_addr' => $collectedData->getServerAddr(),
-	                   'remote_addr' => $collectedData->getRemoteAddr()
-	               );
-                $this->_write->insert($this->_visitorInfoTable, $data);
+    	            $data = array(
+    	                   'visitor_id' => $collectedData->getVisitorId(),
+    	                   'http_referer' => $collectedData->getHttpReferer(),
+    	                   'http_user_agent' => $collectedData->getHttpUserAgent(),
+    	                   'http_accept_charset' => $collectedData->getHttpAcceptCharset(),
+    	                   'http_accept_language' => $collectedData->getHttpAcceptLanguage(),
+    	                   'server_addr' => $collectedData->getServerAddr(),
+    	                   'remote_addr' => $collectedData->getRemoteAddr()
+    	               );
+                    $this->_write->insert($this->_visitorInfoTable, $data);
+    	        }
+                $this->_write->commit();
+	        } catch (Exception $e) {
+	            $this->_write->rollBack();
+	            Mage::log($e);
 	        }
 		}
 		return $this;
@@ -128,10 +138,9 @@ class Mage_Log_Model_Mysql4_Visitor
 
     public function logCustomer(Mage_Log_Model_Visitor $collectedData)
     {
-        $sessId = $collectedData->getSessionId();
-        if ($this->_write && ($collectedData->getCustomerId() > 0) ) {
+        if ($this->_write && ($collectedData->getCustomerId() > 0)  && $collectedData->getVisitorId() ) {
 		    $data = array(
-		          'visitor_id' => $this->getVisitorId($sessId),
+		          'visitor_id' => $collectedData->getVisitorId(),
 		          'customer_id' => $collectedData->getCustomerId(),
 		          'login_at' => $collectedData->getLoginAt(),
 		          'logout_at' => $collectedData->getLogoutAt()
@@ -143,37 +152,49 @@ class Mage_Log_Model_Mysql4_Visitor
 		    	}
 		    }
 
-	        if( $collectedData->getLogoutAt() ) {
-	            $where = $this->_write->quoteInto('log_id=?', $this->getLogId( $collectedData->getCustomerId(), $this->getVisitorId($sessId) ));
-	            $this->_write->update($this->_customerTable, $data, $where);
-	        } elseif( $collectedData->getLoginAt() ) {
-	            $this->_write->insert($this->_customerTable, $data);
-	        }
+		    $this->_write->beginTransaction();
+            try {
+                if( $collectedData->getLogoutAt() ) {
+                    $where = $this->_write->quoteInto('log_id=?', $this->getLogId( $collectedData->getCustomerId(), $collectedData->getVisitorId() ));
+                    $this->_write->update($this->_customerTable, $data, $where);
+                } elseif( $collectedData->getLoginAt() ) {
+                    $this->_write->insert($this->_customerTable, $data);
+                }
+                $this->_write->commit();
+            } catch (Exception $e) {
+                $this->_write->rollBack();
+                Mage::log($e);
+            }
 		}
 		return $this;
     }
 
     public function logUrl(Mage_Log_Model_Visitor $collectedData)
     {
-		if ($this->_write) {
-		    $sessId = $collectedData->getSessionId();
+		if ($this->_write && $collectedData->getVisitorId()) {
             $data = array(
                         'visit_time' => $this->getNow(),
-                        'visitor_id' => $this->getVisitorId($sessId)
+                        'visitor_id' => $collectedData->getVisitorId()
                     );
-            $this->_write->insert($this->_urlTable, $data);
 
-            $urlId = $this->_write->lastInsertId();
+            $this->_write->beginTransaction();
+            try {
+                $this->_write->insert($this->_urlTable, $data);
+                $urlId = $this->_write->lastInsertId();
+                $where = $this->_write->quoteInto("{$this->_visitorTable}.visitor_id = ?", $collectedData->getVisitorId());
+                $this->_write->update($this->_visitorTable, array('last_url_id' => $urlId), $where);
 
-            $where = $this->_write->quoteInto("{$this->_visitorTable}.session_id = ?", $collectedData->getSessionId());
-            $this->_write->update($this->_visitorTable, array('last_url_id' => $urlId), $where);
-
-            $data = array(
-                        'url_id' => $urlId,
-                        'url' => $collectedData->getUrl(),
-                        'referer' => $collectedData->getHttpReferer()
-                    );
-            $this->_write->insert($this->_urlInfoTable, $data);
+                $data = array(
+                            'url_id' => $urlId,
+                            'url' => $collectedData->getUrl(),
+                            'referer' => $collectedData->getHttpReferer()
+                        );
+                $this->_write->insert($this->_urlInfoTable, $data);
+                $this->_write->commit();
+            } catch (Exception $e) {
+                $this->_write->rollBack();
+                Mage::log($e);
+            }
 		}
 
 		return $this;
@@ -181,37 +202,24 @@ class Mage_Log_Model_Mysql4_Visitor
 
     public function logQuote($collectedData)
     {
-        $sessId = $collectedData->getSessionId();
         if( $this->_write ) {
             $data = array(
                 'quote_id' => $collectedData->getQuoteId(),
-                'visitor_id' => $this->getVisitorId($sessId),
+                'visitor_id' => $collectedData->getVisitorId(),
                 'created_at' => $collectedData->getQuoteCreatedAt(),
                 'deleted_at' => $collectedData->getQuoteDeletedAt()
             );
-            $this->_write->insert($this->_quoteTable, $data);
+
+            $this->_write->beginTransaction();
+            try {
+                $this->_write->insert($this->_quoteTable, $data);
+                $this->_write->commit();
+            } catch (Exception $e) {
+                $this->_write->rollBack();
+                Mage::log($e);
+            }
         }
         return $this;
-    }
-
-    public function saveUrl(Mage_Log_Model_Visitor $visitor)
-    {
-        $data = array(
-                    'session_id' => $visitor->getSessionId(),
-                    'url_value' => $visitor->getUrl(),
-                    'visit_time' => $this->getNow()
-                );
-        $this->_write->insert($this->_urlTable, $data);
-
-        $where = $this->_write->quoteInto("{$this->_visitorTable}.session_id = ?", $visitor->getSessionId());
-        $this->_write->update($this->_visitorTable, array('last_url_id' => $this->_write->lastInsertId()), $where);
-        return $this;
-    }
-
-    public function delete(Mage_Log_Model_Visitor $visitor)
-    {
-        $this->_write->query("DELETE FROM $this->_visitorTable WHERE session_id = ?", $visitor->getSessionId());
-        return true;
     }
 
     public function getNow()
@@ -219,16 +227,8 @@ class Mage_Log_Model_Mysql4_Visitor
         return new Zend_Db_Expr('NOW()');
     }
 
-    public function getVisitorId($sessionId)
-    {
-        if( intval($this->_visitorId) <= 0 ) {
-            $this->_visitorId = $this->_write->fetchOne("SELECT visitor_id FROM $this->_visitorTable WHERE session_id = ?", array($sessionId));
-        }
-        return $this->_visitorId;
-    }
-
     public function getLogId($customerId, $visitorId)
     {
         return $this->_read->fetchOne("SELECT MAX(log_id) FROM {$this->_customerTable} WHERE {$this->_customerTable}.customer_id = ? AND {$this->_customerTable}.visitor_id = ? ", array($customerId, $visitorId));
     }
-}
+ }

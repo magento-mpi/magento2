@@ -90,7 +90,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
     {
         $count = $this->_read->fetchOne("SELECT COUNT(summary_id) FROM {$this->_summaryTable} WHERE type_id = ? HAVING (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)", array($type['type_id']));
         if( intval($count) == 0 ) {
-            $customers = $this->_read->fetchCol("SELECT visitor_id FROM {$this->_customerTable} WHERE (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= login_at AND logout_at IS NULL");
+			$customers = $this->_read->fetchCol("SELECT visitor_id FROM {$this->_customerTable} WHERE (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= login_at AND logout_at IS NULL");
 
             $customerCount = count($customers);
 
@@ -113,21 +113,37 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
         }
     }
 
-    protected function _updateOneshot($minutes=60, $interval=5)
+    public function updateOneshot($minutes=60, $interval=300)
     {
-        $this->_read->fetchAssoc("SELECT
-                                    	v.visitor_id,
-                                    	c.customer_id,
-                                    	v.last_visit_at,
-                                    	CEIL( (UNIX_TIMESTAMP(v.last_visit_at) - UNIX_TIMESTAMP(NOW() - INTERVAL {$type['period']} {$type['period_type']} )) / {$interval} )  as _diff,
-                                    	COUNT(DISTINCT(v.visitor_id)),
-                                    	COUNT(DISTINCT(c.customer_id))
-                                    FROM
-                                    	{$this->_visitorTable} v
-                                    LEFT JOIN {$this->_customerTable} c on(c.visitor_id = v.visitor_id)
-                                    WHERE
-                                    	NOW() - INTERVAL 1 HOUR <= v.last_visit_at
-                                    group by _diff");
+    	$last_update = $this->_read->fetchOne("SELECT UNIX_TIMESTAMP(MAX(add_date)) FROM {$this->_summaryTable} WHERE type_id IS NULL");
+    	$next_update = $last_update + $interval;
+
+    	if( time() >= $next_update ) {
+	        $stats = $this->_read->fetchAssoc("SELECT
+	        								u.visit_time,
+	                                    	v.visitor_id,
+	                                    	c.customer_id,
+	                                    	ROUND( (UNIX_TIMESTAMP(u.visit_time) - UNIX_TIMESTAMP(NOW() - INTERVAL {$minutes} MINUTE )) / {$interval} )  as _diff,
+	                                    	COUNT(DISTINCT(v.visitor_id)) as visitor_count,
+	                                    	COUNT(DISTINCT(c.customer_id)) as customer_count
+	                                    FROM
+	                                    	{$this->_urlTable} u
+	                                    LEFT JOIN {$this->_visitorTable} v ON(v.visitor_id = u.visitor_id)
+	                                    LEFT JOIN {$this->_customerTable} c on(c.visitor_id = v.visitor_id)
+	                                    WHERE
+	                                    	UNIX_TIMESTAMP(u.visit_time) > {$next_update}
+	                                    group by _diff");
+
+			foreach( $stats as $stat ) {
+		        $data = array(
+		        	'type_id' => new Zend_Db_Expr('NULL'),
+		        	'visitor_count' => $stat['visitor_count'],
+		        	'customer_count' => $stat['customer_count'],
+		        	'add_date' => $stat['visit_time']
+		        );
+				$this->_write->insert($this->_summaryTable, $data);				
+			}
+    	}
 
     }
 }

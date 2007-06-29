@@ -21,4 +21,10 @@ class Mage_Log_Model_Visitor_Aggregator extends Varien_Object
         $this->getResource()->update();
         return $this;
     }
+    
+    public function updateOneShot()
+    {
+        $this->getResource()->updateOneShot();
+        return $this;
+    }
 }

@@ -2,9 +2,15 @@
 
 class Mage_Log_Model_Visitor extends Varien_Object
 {
+
+    protected $_resource;
+
     public function getResource()
     {
-        return Mage::getResourceModel('log/visitor');
+        if( !$this->_resource ) {
+            $this->_resource = Mage::getResourceModel('log/visitor');
+        }
+        return $this->_resource;
     }
 
     public function collectBrowserData()
@@ -35,14 +41,16 @@ class Mage_Log_Model_Visitor extends Varien_Object
         return $url;
     }
 
-    public function load($sessId)
+    public function load()
     {
+        $session = Mage::getSingleton('core/session');
         $now = $this->getResource()->getNow();
-        $data = $this->getResource()->load($sessId);
+        $data = $this->getResource()->load($session->getLogVisitorId());
         if ($data) {
             $this->setData($data);
         } else {
-            $this->setSessionId($sessId);
+
+            $this->setSessionId($session->getSessionId());
             $this->setFirstVisitAt($now);
         }
         $this->setLastVisitAt($now);
@@ -63,9 +71,17 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function save($observer = null)
     {
-        if ($observer && $observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
-            return $this;
+        $ignores = Mage::getConfig()->getNode('global/log/ignore/module')->asArray();
+
+        if( is_array($ignores) && $observer ) {
+            foreach( $ignores as $key => $ignore ) {
+                if( $observer->getEvent()->getControllerAction()->getRequest()->getModuleName() == $key ) {
+                    return $this;
+                }
+            }
         }
+
+        $this->setResourceVisitorId();
 
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         if( empty($customerId) ) {
@@ -75,6 +91,8 @@ class Mage_Log_Model_Visitor extends Varien_Object
         $this->getResource()
             ->logVisitor($this)
             ->logUrl($this);
+
+        Mage::getSingleton('core/session')->setLogVisitorId($this->getVisitorId());
 
         return $this;
     }
@@ -144,6 +162,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function bindCustomerLogin()
     {
+        $this->setResourceVisitorId();
         $session = Mage::getSingleton('customer/session');
         $this->setLoginAt( $this->getResource()->getNow() );
         $this->setCustomerId( $session->getCustomerId() );
@@ -155,32 +174,50 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function bindCustomerLogout($observer)
     {
+        $this->setResourceVisitorId();
         $eventData = $observer->getEvent()->getData();
         $this->setLogoutAt( $this->getResource()->getNow() );
         $this->setCustomerId( $eventData['customer']->getCustomerId() );
         $this->getResource()->logCustomer($this);
+        Mage::getSingleton('core/session')->setLogVisitorId(null);
+
         return $this;
     }
 
     public function bindQuoteCreate($observer)
     {
+        $this->setResourceVisitorId();
         $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
         if( $quoteId ) {
             $this->setQuoteId($quoteId);
             $this->setQuoteCreatedAt($this->getResource()->getNow());
             $this->getResource()->logQuote($this);
         }
+
         return $this;
     }
 
     public function bindQuoteDestoy()
     {
+        $this->setResourceVisitorId();
         $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
         if( $quoteId ) {
             $this->setQuoteId($quoteId);
             $this->setQuoteDeletedAt($this->getResource()->getNow());
             $this->getResource()->logQuote($this);
         }
+
         return $this;
+    }
+
+    public function setResourceVisitorId()
+    {
+        $session = Mage::getSingleton('core/session');
+        if( intval($session->getLogVisitorId()) > 0 ) {
+            $this->setSessionVisitorId($session->getLogVisitorId());
+            $this->setVisitorId($session->getLogVisitorId());
+        } else {
+            $session->setLogVisitorId($this->getVisitorId());
+        }
     }
 }

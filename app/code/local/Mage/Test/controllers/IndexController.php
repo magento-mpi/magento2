@@ -23,6 +23,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
 
         foreach( $collection -> getItems() as $item ) {
             $item->setLocation(long2ip($item->getRemoteAddr()))
+                 ->addQuoteData($item)
                  ->addCustomerData($item);
 
             if( $item->getCustomerId() > 0 ) {
@@ -39,14 +40,25 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         print "<pre>debug: \n";
         print_r($collection);
         print "</pre>\n";
+        */
 
+        /*
         $block = $this->getLayout()->createBlock('core/template', 'upload');
         $block->settemplate('test/index.phtml');
 
         $this->getResponse()->setBody($block->toHtml());
         
         $aggregator = Mage::getSingleton('log/visitor_aggregator');
-        $aggregator->update();
+        $aggregator->updateOneShot();
+        */
+        /*
+        $collection = Mage::getResourceSingleton('log/visitor_collection')
+            ->getAggregatedData()
+            ->load();
+
+        echo "DEBUG: <pre>";
+        print_r($collection->getItems());
+        echo "</pre>";
         */
     }
 

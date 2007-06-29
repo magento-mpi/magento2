@@ -2,7 +2,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.1.5</version>
+        <version>0.1.6</version>
         <depends>
             <Mage_Core />
             <Mage_Customer />
@@ -10,6 +10,15 @@
     </Mage_Log>
     </modules>
     <global>
+        <log>
+            <ignore>
+                <module>
+                    <Mage_Install />
+                    <Mage_Adminhtml />
+                    <Mage_Admin />
+                </module>
+            </ignore>
+        </log>
         <models>
             <log>
                 <class>Mage_Log_Model</class>

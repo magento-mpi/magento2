@@ -54,6 +54,13 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     protected $_summaryTypeTable;
 
     /**
+     * Quote data table.
+     *
+     * @var string
+     */
+    protected $_quoteTable;
+
+    /**
      * Construct
      *
      */
@@ -67,6 +74,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
         $this->_summaryTable = Mage::getSingleton('core/resource')->getTableName('log/summary_table');
         $this->_summaryTypeTable = Mage::getSingleton('core/resource')->getTableName('log/summary_type_table');
+        $this->_quoteTable = Mage::getSingleton('core/resource')->getTableName('log/quote_table');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
     }
@@ -83,8 +91,22 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->joinLeft( $this->_visitorTable, "{$this->_visitorTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" );
         $this->_sqlSelect->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" );
+        $this->_sqlSelect->joinLeft( $this->_quoteTable, "{$this->_quoteTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_urlTable}.visit_time >= (NOW() - INTERVAL {$minutes} MINUTE)") );
         $this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
         return $this;
+    }
+
+    public function getAggregatedData($period=720, $type_id=null)
+    {
+    	$this->_sqlSelect->from($this->_summaryTable);
+    	$this->_sqlSelect->where( new Zend_Db_Expr("{$this->_summaryTable}.add_date >= NOW() - INTERVAL {$period} MINUTE") );
+    	if( is_null($type_id) ) {
+    		$this->_sqlSelect->where("{$this->_summaryTable}.type_id IS NULL");
+    	} else {
+			$this->_sqlSelect->where("{$this->_summaryTable}.type_id = {$type_id}");
+    	}
+
+    	return $this;
     }
 }
