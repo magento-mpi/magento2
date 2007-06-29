@@ -84,5 +84,22 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
     public function addSearch($q) {
     	return $this;
     }
+    
+    public function getFSize($id) {    	
+    	$max = 0;
+    	foreach ($this->getItems() as $item) {
+    		if ($item->getTotal() > $max) {
+    			$max = $item->getTotal();
+    		}
+    	}
+    	
+    	foreach ($this->getItems() as $item) {
+    		if ($item->getTag_id() != $id) {
+    			continue;
+    		} else {
+    			return ($item->getTotal() / $max * 21)."px";
+    		}
+    	}
+    }
 }
 ?>

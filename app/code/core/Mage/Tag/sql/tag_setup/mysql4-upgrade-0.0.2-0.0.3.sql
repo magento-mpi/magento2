@@ -1,0 +1,1 @@
+ALTER TABLE `tag_relations` DROP INDEX `Index_2`;

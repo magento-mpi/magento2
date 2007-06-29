@@ -50,24 +50,62 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action {
     }
     
     public function searchAction() {
-    	$q = $this->getRequest()->getParam('q');
-    	
-    	$tags = Mage::getSingleton('tag/tag')->getCollection()
-    		->addSearch($q)
-    		->load();
-
-    	/***********************************/
     	$this->loadLayout();
-/*
-        $homeBlock = $this->getLayout()->createBlock('core/template', 'homecontent')->setTemplate('catalog/home.phtml');
-        $this->getLayout()->getBlock('content')->append($homeBlock);
-  */      
-        $block = $this->getLayout()->createBlock('tag/search')
-            ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true));
-		
+      
+        $block = $this->getLayout()->createBlock('tag/search');		
         $this->getLayout()->getBlock('content')->append($block);
 		 
         $this->renderLayout();
+    }
+    
+    public function xmlAction() {
+    	$r_tag = $this->getRequest()->getParam('tag');
+    	$collection = Mage::getResourceModel('catalog/product_collection')
+            ->addTagFilter($r_tag)
+            ->load();
+            
+		foreach ($collection->getItems() as $item) {
+        	$item = $item->getData();
+        	$dt = Mage::getModel('catalog/product')        				
+		        		->load($item['product_id'])->getData();
+		        		
+        	$var = Mage::getModel('tag/tag')->getCollection()
+			        	->addStoreFilter(Mage::getSingleton('core/store')->getId())
+			        	->addStatusFilter(2)
+			        	->addEntityFilter('product', $item['product_id'])
+			        	->load();
+
+        	$tags = array();
+        	foreach ($var->getItems() as $tag) {
+        		$tags[] = $tag->getData();
+        	}
+		            
+        	$coll[] = array_merge($dt, array('tags' => $tags));
+        }
+        
+        
+        $doc = new DOMDocument("1.0", "utf-8");
+        $root = $doc->createElement("rss");
+        
+        $root->setAttribute("version", "2.0");
+        $doc->appendChild($root);
+        
+        $channel = $doc->createElement("channel");
+        $root->appendChild($channel);
+        
+        $channel->appendChild($doc->createElement("title", "Products tagged with TAG \"{$r_tag}\""));
+        $channel->appendChild($doc->createElement("generator", "Generic generator by Varien"));
+        
+        foreach ($coll as $product) {
+        	$item = $doc->createElement("item");
+        	$channel->appendChild($item);
+        	
+        	$item->appendChild($doc->createElement("title", htmlspecialchars($product['name'])));
+        	$item->appendChild($doc->createElement("description", htmlspecialchars($product['description'])));
+        	$item->appendChild($doc->createElement("link", "http://magento-alexey.kiev-dev/catalog/product/view/id/{$product['product_id']}/"));
+        }
+        header("Content-type: application/xhtml+xml");
+        echo $doc->saveXML();
     }
 }
 ?>

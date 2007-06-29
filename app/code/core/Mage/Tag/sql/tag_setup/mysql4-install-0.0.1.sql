@@ -24,3 +24,5 @@ CREATE TABLE  `tag_relations` (
   PRIMARY KEY  USING BTREE (`tag_relations_id`),
   UNIQUE KEY `Index_2` (`tag_id`,`entity_id`,`entity_val_id`)
 ) ENGINE=InnoDB;
+
+ALTER TABLE `tag_entity` ADD UNIQUE INDEX `Index_2`(`title`);

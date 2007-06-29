@@ -5,7 +5,7 @@ class Mage_Tag_Model_Tag extends Varien_Object {
     }
     
     public function load($reviewId) {
-        $this->setData($this->getResource()->load($tagId));
+        $this->setData($this->getResource()->load($tagId));        
         return $this;
     }
     

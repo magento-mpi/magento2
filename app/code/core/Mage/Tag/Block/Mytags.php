@@ -11,7 +11,7 @@ class Mage_Tag_Block_Mytags extends Mage_Core_Block_Template {
         $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addStatusFilter(2)
-            ->addEntityFilter('customer', $customerId);
+            ->addEntityFilter('customer', $customerId);           
     }
     
     public function count() {
@@ -20,6 +20,7 @@ class Mage_Tag_Block_Mytags extends Mage_Core_Block_Template {
     
     public function toHtml() {
         $this->_collection->load();        
+        
         $this->assign('collection', $this->_collection);
 		$this->assign('productId', Mage::registry('controller')->getRequest()->getParam('id', false));
         return parent::toHtml();

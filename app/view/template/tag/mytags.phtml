@@ -37,14 +37,14 @@ function deleteTag(id) {
 </script>
 
 <h1 class="page-heading">My Tags</h1>
-<?php foreach ($collection->getItems() as $tag) { $tag = $tag->getData();?>
+<?php foreach ($collection->getItems() as $tag) { /* $tag = $tag->getData();*/ ?> 
 	<span>
-		<a style="font-size:<?=intval($tag['total'] * 1.2 * 10);?>px" href="/tag/index/show?tag=<?=$tag['tagname'];?>">
-			<?=$tag['tagname'];?>
+		<a style="font-size:<?=$collection->getFSize($tag->getTag_id());?>" href="/tag/index/show?tag=<?=$tag->getTagname();?>">
+			<?=$tag->getTagname();?>
 		</a> 
 		<span>
-			<a href="#" title="edit tag" onclick="editTag(<?=$tag['tag_id'];?>, '<?=$tag['tagname'];?>'); return false;">e</a> 
-			<a href="#" title="delete tag" onclick="deleteTag(<?=$tag['tag_id'];?>); return false;">d</a>
+			<a href="#" title="edit tag" onclick="editTag(<?=$tag->getTag_id();?>, '<?=$tag->getTagname();?>'); return false;">e</a> 
+			<a href="#" title="delete tag" onclick="deleteTag(<?=$tag->getTag_id();?>); return false;">d</a>
 		</span>
 	</span>
 <?php } ?>

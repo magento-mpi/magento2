@@ -45,7 +45,7 @@
                 </reviews>
                 <tags>
                     <title>Tags</title>
-                    <action>adminhtml/tags/</action>
+                    <action>adminhtml/tag/</action>
                 </tags>
                 <datafeed>
                     <title>Datafeeds</title>

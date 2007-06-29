@@ -4,14 +4,13 @@ class Mage_Tag_Block_Search extends Mage_Core_Block_Template {
     
     public function __construct() {    	
         parent::__construct();
-        $this->setTemplate('tag/search.phtml');
-        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         
-        $this->_collection = Mage::getModel('tag/tag')->getCollection();
-        $this->_collection
-            ->addStoreFilter(Mage::getSingleton('core/store')->getId())
-            ->addStatusFilter(2)
-            ->addEntityFilter('product', $productId);
+        $q = Mage::registry('controller')->getRequest()->getParam('q', false);
+    	
+        $this->setTemplate('tag/search.phtml');
+        
+        $this->_collection = Mage::getResourceModel('catalog/product_collection')
+            ->addTagFilter($q);
     }
     
     public function count() {
@@ -19,9 +18,28 @@ class Mage_Tag_Block_Search extends Mage_Core_Block_Template {
     }
     
     public function toHtml() {
-        $this->_collection->load();        
-        $this->assign('collection', $this->_collection);
-		$this->assign('productId', Mage::registry('controller')->getRequest()->getParam('id', false));
+        $this->_collection->load();
+        $coll = array();
+        foreach ($this->_collection->getItems() as $item) {
+        	$item = $item->getData();
+        	$dt = Mage::getModel('catalog/product')        				
+		        		->load($item['product_id'])->getData();
+		        		
+        	$var = Mage::getModel('tag/tag')->getCollection()
+			        	->addStoreFilter(Mage::getSingleton('core/store')->getId())
+			        	->addStatusFilter(2)
+			        	->addEntityFilter('product', $item['product_id'])
+			        	->load();
+
+        	$tags = array();
+        	foreach ($var->getItems() as $tag) {
+        		$tags[] = $tag->getData();
+        	}
+		            
+        	$coll[] = array_merge($dt, array('tags' => $tags));
+        }
+        $this->assign('collection', $coll);
+        $this->assign('query', Mage::registry('controller')->getRequest()->getParam('q', false));
         return parent::toHtml();
     }
 }

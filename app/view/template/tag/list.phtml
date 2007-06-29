@@ -50,7 +50,7 @@ function sendTag2Add() {
 <?if(!empty($collection) && $collection->getSize()):?>
 
 <?php foreach ($collection as $tag) { ?>
-	<a style="font-size:<?=$tag->getSize();?>" href="/taggedproducts/?tag=<?=$tag->getTagname();?>"><?=$tag->getTagname();?></a> 
+	<a style="font-size:<?=$collection->getFSize($tag->getTag_id());?>" href="/tag/index/search?q=<?=$tag->getTagname();?>"><?=$tag->getTagname();?></a> 
 <?php } ?>
 
 <?endif;?>
