@@ -19,8 +19,30 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
     protected function _beforeToHtml()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer address')));
-        $fieldset->addField( 'firstname', 'text',
+        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('edit customer address')));
+        
+        $address    = Mage::getModel('customer/address_entity');
+        $collection = $address->getEmptyCollection();
+        
+        if ($customerId = (int) $this->_request->getParam('id')) {
+            
+        }
+        
+        $this->assign('addressCollection', $collection);
+        
+        foreach ($address->getAttributeCollection() as $attribute) {
+        	$fieldset->addField($attribute->getCode(), 'text', 
+                array(
+                    'name'  => $attribute->getFormFieldName(),
+                    'label' => __($attribute->getCode()),
+                    'title' => __($attribute->getCode().' title'),
+                    'class' => $attribute->getIsRequired() ? 'required-entry' : '',
+                    //'value' => $customer->getData($attribute->getCode())
+                )
+            );
+        }
+        
+        /*$fieldset->addField( 'firstname', 'text',
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -126,29 +148,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'id'    => 'address_fax',
                 'title' => __('Fax'),
             )
-        );
-        /*
-        if ($address) {
-            $this->setValues($address->toArray());
-        }
-        
-        
-        $addressTypes = $address->getAvailableTypes('address_type_id');
-        foreach ($addressTypes as $typeId => $info) {
-            if (!$address->isPrimary($typeId)) {
-                $fieldset->addField('primary_type'.$typeId, 'checkbox',
-                    array(
-                        'name'  => 'primary_types['.$typeId.']',
-                        'label' => __("Use for <strong>%s</strong>", $info['name']),
-                        'id'    => 'primary_types_'.$typeId,
-                        'title' => __("Use as my primary <strong>%s</strong> address", $info['name']),
-                        'value' => $typeId,
-                        'validation'=> '',
-                        'ext_type'  => 'Checkbox'
-                    )
-                );
-            }
-        } */
+        );*/
         $this->setForm($form);
         return parent::_beforeToHtml();
     }

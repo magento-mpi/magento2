@@ -28,25 +28,43 @@ class Varien_Data_Form_Abstract extends Varien_Object
      * @param   Varien_Data_Form_Element_Abstract $element
      * @return  Varien_Data_Form
      */
-    protected function _addElement($element)
+    public function addElement(Varien_Data_Form_Element_Abstract $element, $after=null)
     {
-        $this->_elements->add($element);
+        $this->_elements->add($element, $after);
         return $this;
     }
-
-    public function addField($elementId, $type, $config)
+    
+    /**
+     * Add child element
+     * 
+     * if $after parameter is false - then element adds to end of collection
+     * if $after parameter is null - then element adds to befin of collection
+     * if $after parameter is string - then element adds after of the element with some id
+     * 
+     * @param   string $elementId
+     * @param   string $type
+     * @param   array  $config
+     * @param   mixed  $after
+     * @return unknown
+     */
+    public function addField($elementId, $type, $config, $after=false)
     {
         $className = 'Varien_Data_Form_Element_'.ucfirst(strtolower($type));
         try {
             $element = new $className($config);
-            $element->setForm($this)
-                ->setId($elementId);
-            $this->_addElement($element);
+            $element->setId($elementId);
+            $this->addElement($element, $after);
         }
         catch (Exception $e){
             throw new Exception('Form not support element type "'.$type.'"');
         }
         return $element;
+    }
+    
+    public function removeField($elementId)
+    {
+        $this->_elements->remove($elementId);
+        return $this;
     }
     
     public function getElements()
@@ -59,7 +77,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
         $element = new Varien_Data_Form_Element_Fieldset($config);
         $element->setForm($this)
             ->setId($elementId);
-        $this->_addElement($element);
+        $this->addElement($element);
         return $element;
     }
     
@@ -68,7 +86,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
         $element = new Varien_Data_Form_Element_Column($config);
         $element->setForm($this)
             ->setId($elementId);
-        $this->_addElement($element);
+        $this->addElement($element);
         return $element;
     }
 

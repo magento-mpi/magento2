@@ -21,8 +21,8 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
         $form = new Varien_Data_Form();
         
         $customer = Mage::getModel('customer/entity');
-        if ($id = $this->_request->getParam('id')) {
-            $customer->load($id);
+        if ($customerId = (int) $this->_request->getParam('id')) {
+            $customer->load($customerId);
         }
             
             
@@ -33,7 +33,6 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                 array(
                     'name'  => $attribute->getFormFieldName(),
                     'label' => __($attribute->getCode()),
-                    'id'    => $attribute->getCode(),
                     'title' => __($attribute->getCode().' title'),
                     'class' => $attribute->getIsRequired() ? 'required-entry' : '',
                     'value' => $customer->getData($attribute->getCode())
@@ -41,71 +40,31 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
             );
         }
         
-        /*$fieldset->addField('firstname', 'text', 
-            array(
-                'name'  => 'firstname',
-                'label' => __('Firstname'),
-                'id'    => 'customer_firstname',
-                'title' => __('Customer Firstname'),
-                'class' => 'required-entry',
-            )
-        );
-
-        $fieldset->addField('lastname', 'text', 
-            array(
-                'name'  => 'lastname',
-                'label' => __('Lastname'),
-                'id'    => 'customer_lastname',
-                'title' => __('Customer Lastname'),
-                'class' => 'required-entry',
-            )
-        );
-
-        $fieldset->addField('email', 'text', 
-            array(
-                'name'  => 'email',
-                'label' => __('Email'),
-                'id'    => 'customer_email',
-                'title' => __('Customer Email'),
-                'class' => 'required-entry validate-email',
-            )
-        );*/
-        
-        /*if ($customer) {
-            $this->setValues($customer->toArray());
-        }*/
-       
-        /*if ($customerId) {
-            $fieldset->addField('password', 'password', 
-                array(
-                    'name'  => 'password',
-                    'label' => __('New Password'),
-                    'id'    => 'customer_pass',
-                    'title' => __('New Password'),
-                    'class' => 'required-entry',
-                )
-            );
+        if ($element = $form->getElement('password')) {
+            $element->setType('password');
+            $element->setClass('required-entry validate-password');
+            
+            if ($customer->getId()) {
+                $element->setLabel(__('new password'));
+                $element->setTitle(__('new password title'));
+            }
+            else {
+            	$fieldset->addField('confirmation', 'password', 
+                    array(
+                        'name'  => 'password_confirm',
+                        'label' => __('password confirm'),
+                        'title' => __('password confirm title'),
+                        'class' => 'required-entry validate-cpassword',
+                        'value' => $customer->getData($attribute->getCode())
+                    ),
+                    'password'
+                );
+            }
         }
-        else {*/
-           /*$fieldset->addField('password', 'password', 
-                array(
-                    'name'  => 'password',
-                    'label' => __('Password'),
-                    'id'    => 'customer_pass',
-                    'title' => __('Password'),
-                    'class' => 'required-entry validate-password',
-                )
-            );
-           $fieldset->addField('confirmation', 'password', 
-                array(
-                    'name'  => 'password_confirmation',
-                    'label' => __('Password Confirm'),
-                    'id'    => 'confirmation',
-                    'title' => __('Password Confirmation'),
-                    'class' => 'required-entry validate-cpassword',
-                )
-            );*/
-        //}
+        if ($element = $form->getElement('email')) {
+            $element->setClass('required-entry validate-email');
+        }
+        
         
         $this->setForm($form);
     }

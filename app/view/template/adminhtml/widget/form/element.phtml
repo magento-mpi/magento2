@@ -10,11 +10,26 @@
       <?break;
     case 'column':?>
       <?break;
+    case 'select':?>
+    <span>
+        <label for="<?$element->getId()?>"><?=$element->getLabel()?>:</label>
+        <select name="<?=$element->getName()?>" id="<?=$element->getId()?>" class="<?=$element->getClass()?>" title="<?=$element->getTitle()?>">
+        <?foreach ($element->getValues() as $_value):?>
+            <option value="<?=$_value['value']?>"><?=$_value['label']?></option>
+        <?endforeach;?>
+        </select>
+    </span>
+      <?break;
     case 'text':
     case 'password':?>
     <span>
         <label for="<?$element->getId()?>"><?=$element->getLabel()?>:</label>
-        <input type="<?=$element->getType()?>" id="<?=$element->getId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>">
+        <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>">
     </span>
       <?break;
 }?>
+<?if($element->getScript()):?>
+<script type="text/javascript">
+    <?=$element->getScript()?>
+</script>>
+<?endif;?>

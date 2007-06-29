@@ -61,18 +61,45 @@ class Varien_Data_Form_Element_Collection implements ArrayAccess, IteratorAggreg
     /**
     * Add element to collection
     */
-    public function add(Varien_Data_Form_Element_Abstract $element)
+    public function add(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
-        //$element->setParent($this->_container);
-
-        // Set the Tree for the node
+        // Set the Form for the node
         if ($this->_container->getForm() instanceof Varien_Data_Form) {
             $element->setForm($this->_container->getForm());
         }
-
-        $this->_elemetnts[] = $element;
+        
+        if ($after === false) {
+            $this->_elemetnts[] = $element;
+        }
+        elseif ($after === null) {
+        	array_unshift($this->_elemetnts, $element);
+        }
+        elseif (is_string($after)) {
+            $newOrderElements = array();
+        	foreach ($this->_elemetnts as $index => $currElement) {
+        	    if ($currElement->getId() == $after) {
+        	        $newOrderElements[] = $currElement;
+        	        $newOrderElements[] = $element;
+        	        $this->_elemetnts = array_merge($newOrderElements, array_slice($this->_elemetnts, $index+1));
+        	        return $element;
+        	    }
+        	    $newOrderElements[] = $currElement;
+        	}
+        	$this->_elemetnts[] = $element;
+        }
+        
+        
 
         return $element;
+    }
+    
+    public function remove($elementId)
+    {
+        foreach ($this->_elemetnts as $index => $element) {
+        	if ($elementId == $element->getId()) {
+        	    unset($this->_elemetnts[$index]);
+        	}
+        }
     }
     
     public function count()

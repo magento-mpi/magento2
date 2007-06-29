@@ -1,12 +1,20 @@
-<?if(!empty($stores) && is_array($stores)):?>
-<select name="store_switcher" id="store_switcher" class="left-col-field" onchange="switchStore(this)">
+<?if(!empty($stores)):?>
+<label for="store_switcher"><?=__('choose store')?>:</label>
+<select name="store_switcher" id="store_switcher" class="left-col-field" onchange="return switchStore(this);">
     <?foreach ($stores as $store):?>
         <option value="<?=$store->getId()?>"<?if($selectedStoreId == $store->getId()):?> selected<?endif;?>><?=$store->getName()?></option>
     <?endforeach;?>
 </select>
 <script type="text/javascript">
     function switchStore(obj){
-        location.href='<?=$switchUrl?>'+'store/'+obj.value
+        if(confirm('<?=__('site switch confirm')?>')){
+            location.href='<?=$switchUrl?>'+'store/'+obj.value
+            return true;
+        }
+        else {
+            <?if(!empty($selectedStoreId)):?>obj.value = '<?=$selectedStoreId?>'<?endif;?>;
+        }
+        return false;
     }
 </script>
 <?endif;?>

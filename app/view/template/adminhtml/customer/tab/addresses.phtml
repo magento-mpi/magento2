@@ -1,5 +1,112 @@
-<div class="entry-edit">
+<!-- -->
+<div id="address_item_template" style="display:none">
+    <div id="address_item_{{}}">
+	<address>New address</address>
+	</div>
+</div>
+
+<!-- -->
+<div id="address_form_template" style="display:none">
+<div id="address_form_{{}}">
 <?foreach ($form->getElements() as $_element):?>
     <?=$this->drawElement($_element)?>
 <?endforeach;?>
 </div>
+</div>
+
+<!-- -->
+<div class="address-list" style="margin-right:20px">
+	<h3>Customer Addresses</h3>
+	<ul id="address_list">
+	<?if($addressCollection->getSize()):?>
+        <?foreach ($addressCollection as $_address)?>
+		<li>
+			<address>Minu Oh<br/>
+				3402 Motor Ave Suite B<br/>
+				Los Angeles, CA 90034<br/>
+				T | 310-123-1234
+			</address>
+		</li>
+		<??>
+	<?else:?>
+		<li>
+			<address>
+			 New customer address
+			</address>
+		</li>
+	<?endif;?>
+	</ul>
+</div>
+<div class="entry-edit" id="address_form_container">
+<?foreach ($form->getElements() as $_element):?>
+    <?=$this->drawElement($_element)?>
+<?endforeach;?>
+</div>
+
+<!-- -->
+<script type="text/javascript">
+var addressesModel = Class.create();
+addressesModel.prototype = {
+    initialize : function() {
+        this.activeItem   = null;
+        this.itemTemplate = $('address_item_template');
+        this.formTemplate = $('address_form_template');
+        this.itemList     = $$('#address_list li');
+        this.itemContainer= $('address_list');
+        this.formContainer= $('address_form_container');
+        
+        this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
+        this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
+        this.onItemMouseOut     = this.itemMouseOut.bindAsEventListener(this);
+        this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
+        
+        for(var i in this.itemList){
+            this.addItemObservers(this.itemList[i]);
+        }
+        if($('add_new_address_button')){
+            Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
+        }
+        
+        this.setActiveItem(this.itemList[0]);
+    },
+    addItemObservers : function(item){
+        Event.observe(item, 'mouseover', this.onItemMouseOver);
+        Event.observe(item, 'mouseout', this.onItemMouseOut);
+        Event.observe(item, 'click', this.onItemMouseClick);
+    },
+    addNewAddress : function(event){
+        if(this.canCreateNewAddress){
+            var newItem = document.createElement('li');
+            this.itemContainer.appendChild(newItem);
+            newItem.innerHTML = this.itemTemplate.innerHTML;
+            
+            this.addItemObservers(newItem);
+            this.setActiveItem(newItem);
+        }
+        Event.stop(event);
+    },
+    canCreateNewAddress : function(){
+        return true;
+    },
+    itemMouseOver : function(event){
+        var element = Event.findElement(event, 'li');
+        Element.addClassName(element, 'over');
+    },
+    itemMouseOut : function(event){
+        var element = Event.findElement(event, 'li');
+        Element.removeClassName(element, 'over');
+    },
+    itemMouseClick : function(event){
+        var element = Event.findElement(event, 'li');
+        this.setActiveItem(element)
+    },
+    setActiveItem : function(item){
+        if(this.activeItem){
+            Element.removeClassName(this.activeItem, 'on');
+        }
+        Element.addClassName(item, 'on');
+        this.activeItem = item;
+    }
+}
+customerAddresses = new addressesModel();
+</script>

@@ -15,6 +15,12 @@ class Mage_Core_Model_Store extends Varien_Object
     
     protected $_configCache = array();
     
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
+    }
+    
     /**
      * Set store code
      *
@@ -40,8 +46,8 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getId()
     {
-        if ($this->getStoreId()) {
-            return $this->getStoreId();
+        if ($id = parent::getId()) {
+            return $id;
         }
         return (int) $this->getConfig('core/id');
     }
@@ -324,5 +330,10 @@ class Mage_Core_Model_Store extends Varien_Object
             }
         }
         return $shared;
+    }
+    
+    public function getEmptyCollection()
+    {
+        return Mage::getResourceModel('core/store_collection');
     }
 }

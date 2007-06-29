@@ -17,10 +17,8 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Widget
     
     protected function _beforeToHtml()
     {
-        $stores = array(
-            'store1' => new Varien_Object(array('id'=>1, 'name'=>'Store 1')),
-            'store2' => new Varien_Object(array('id'=>2, 'name'=>'Store 2')),
-        );
+        $stores = Mage::getSingleton('core/store')->getEmptyCollection()
+            ->load();
         $this->assign('stores', $stores);
         $this->assign('switchUrl', Mage::getUrl('adminhtml', array('controller'=>'system', 'action'=>'setStore')));
         $this->assign('selectedStoreId', Mage::getSingleton('adminhtml/session')->getStoreId());

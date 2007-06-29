@@ -391,6 +391,38 @@ class Varien_Data_Collection implements IteratorAggregate
         return $arrItems;
     }
     
+    /**
+     * Convert items array to array for select options
+     * 
+     * return items array
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     * 
+     * @param   string $valueField
+     * @param   string $labelField
+     * @return  array
+     */
+    protected function _toOptionArray($valueField='id', $labelField='name')
+    {
+        $res = array();
+        foreach ($this as $item) {
+        	$res[] = array(
+        	   'value' => $item->getData($valueField),
+        	   'label' => $item->getData($labelField)
+        	);
+        }
+        return $res;
+    }
+    
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray();
+    }
+    
     public function getItemById($idValue)
     {
         foreach ($this as $item) {

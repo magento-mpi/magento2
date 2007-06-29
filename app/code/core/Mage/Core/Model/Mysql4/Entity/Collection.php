@@ -25,6 +25,7 @@ class Mage_Core_Model_Mysql4_Entity_Collection extends Varien_Data_Collection_Db
         }
         $this->_entity = $entity;
         $this->_sqlSelect->from($entity->getValueTableName());
+        $this->addFilter($this->_entity->getValueTableName().'.entity_type_id', $this->_entity->getTypeObject()->getId());
         return $this;
     }
     

@@ -35,25 +35,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
      */
     public function viewAction()
     {
-        /*$this->loadLayout('baseframe');
-        
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
-        
-        $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');
-        $this->getLayout()->getBlock('content')->append($block);
-        
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'));
-
-        $this->renderLayout();*/
-        $this->_forward('new');
-    }
-    
-    /**
-     * Create new customer action
-     */
-    public function newAction()
-    {
         $this->loadLayout('baseframe');
         $this->getLayout()->getBlock('menu')->setActive('customer/new');
         $this->getLayout()->getBlock('breadcrumbs')
@@ -69,6 +50,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
         
         $this->renderLayout();
+    }
+    
+    /**
+     * Create new customer action
+     */
+    public function newAction()
+    {
+        $this->_forward('view');
     }
 
     public function onlineAction()

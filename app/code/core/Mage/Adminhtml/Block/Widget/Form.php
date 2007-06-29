@@ -11,7 +11,7 @@
 class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget 
 {
     protected $_form;
-    
+    protected $_elementBlock;
     public function __construct()
     {
         parent::__construct();
@@ -28,10 +28,17 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         $this->_form = $form;
     }
     
+    protected function _getElementBlock()
+    {
+        if (!$this->_elementBlock) {
+            $this->_elementBlock = $this->getLayout()->createBlock('adminhtml/widget_form_element');
+        }
+        return $this->_elementBlock;
+    }
+    
     public function drawElement(Varien_Data_Form_Abstract $element)
     {
-        return $this->getLayout()->createBlock('adminhtml/widget_form_element')
-            ->setForm($this->getForm())
+        return $this->_getElementBlock()->setForm($this->getForm())
             ->setElement($element)
             ->setFormBlock($this)
             ->toHtml();

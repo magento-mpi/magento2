@@ -8,9 +8,15 @@ class Mage_Core_Model_Mysql4_Store
     
     public function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_read        = $resource->getConnection('core_read');
+        $this->_write       = $resource->getConnection('core_write');
+        $this->_storeTable  = $resource->getTableName('core/store');
+    }
+    
+    public function getIdFieldName()
+    {
+        return 'store_id';
     }
     
     public function load($store)

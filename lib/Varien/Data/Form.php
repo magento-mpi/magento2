@@ -35,10 +35,10 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
      * @param   Varien_Data_Form_Element_Abstract $element
      * @return  Varien_Data_Form
      */
-    protected function _addElement($element)
+    public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
         $this->checkElementId($element->getId());
-        parent::_addElement($element);
+        parent::addElement($element);
         $this->addElementToCollection($element);
         return $this;
     }
@@ -91,8 +91,6 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         foreach ($this->_allElements as $element) {
         	$name = $element->getName();
         	if ($name) {
-        	    //$test = preg_replace('/(.*)\[.*/is', $prefix.'[$1]', $name);
-        	    //echo $test;
         	    $vars = explode('[', $name);
         	    $newName = $prefix;
         	    foreach ($vars as $index=>$value) {
@@ -106,4 +104,11 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
     }
 
+    public function removeField($elementId)
+    {
+        if ($this->_elementIdExists($elementId)) {
+            unset($this->_elementsIndex[$elementId]);
+        }
+        return $this;
+    }
 }

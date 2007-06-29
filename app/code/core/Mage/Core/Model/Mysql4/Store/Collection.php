@@ -13,10 +13,12 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Varien_Data_Collection_Db
     
     public function __construct() 
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('core_read'));
+        $resource = Mage::getSingleton('core/resource');
+        parent::__construct($resource->getConnection('core_read'));
         
-        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $this->_storeTable = $resource->getTableName('core/store');
         $this->_sqlSelect->from($this->_storeTable);
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/store'));
     }
 
     public function addCategoryFilter($category)
@@ -30,5 +32,10 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Varien_Data_Collection_Db
 
         $this->addFilter('category', $condition, 'string');
         return $this;
+    }
+
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('store_id', 'name');
     }
 }

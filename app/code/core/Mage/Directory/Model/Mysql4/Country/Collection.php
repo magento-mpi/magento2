@@ -82,13 +82,6 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function toOptionArray()
     {
-        $arrRes = array();
-        foreach ($this->getItems() as $item) {
-            $arrRes[] = array(
-                'value'=>$item->getCountryId(),
-                'label'=>$item->getName()
-            );
-        }
-        return $arrRes;
+        return $this->_toOptionArray('country_id', 'name');
     }
 }

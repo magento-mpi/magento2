@@ -25,14 +25,14 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
      * @param   Varien_Data_Form_Element_Abstract $element
      * @return  Varien_Data_Form
      */
-    protected function _addElement($element)
+    public function addElement(Varien_Data_Form_Element_Abstract $element, $after=null)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());
             $this->getForm()->addElementToCollection($element);
         }
         
-        parent::_addElement($element);
+        parent::addElement($element, $after);
         return $this;
     }
 
@@ -74,5 +74,11 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     {
         $this->_form = $form;
         return $this;
+    }
+
+    public function removeField($elementId)
+    {
+        $this->getForm()->removeField($elementId);
+        return parent::removeField($elementId);
     }
 }
