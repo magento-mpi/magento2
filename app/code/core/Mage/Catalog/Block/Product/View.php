@@ -9,19 +9,16 @@
  */
 class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 {
-    protected $_request;
-    
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->_request = Mage::registry('controller')->getRequest();
+        parent::_construct();
         $this->setTemplate('catalog/product/view.phtml');
     }
 
     public function loadData()
     {
-        $categoryId = $this->_request->getParam('category', false);
-        $productId  = $this->_request->getParam('id');
+        $categoryId = $this->getRequest()->getParam('category', false);
+        $productId  = $this->getRequest()->getParam('id');
         
         $product = Mage::getModel('catalog/product')
             ->load($productId)

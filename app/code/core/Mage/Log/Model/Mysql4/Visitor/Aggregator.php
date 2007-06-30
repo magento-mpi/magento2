@@ -88,16 +88,16 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 
     protected function _update($type)
     {
-        $count = $this->_read->fetchOne("SELECT COUNT(summary_id) FROM {$this->_summaryTable} WHERE type_id = ? HAVING (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)", array($type['type_id']));
+        $count = $this->_read->fetchOne("SELECT COUNT(summary_id) FROM {$this->_summaryTable} WHERE type_id = ? HAVING (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)", array($type['type_id']));
         if( intval($count) == 0 ) {
-			$customers = $this->_read->fetchCol("SELECT visitor_id FROM {$this->_customerTable} WHERE (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= login_at AND logout_at IS NULL");
+			$customers = $this->_read->fetchCol("SELECT visitor_id FROM {$this->_customerTable} WHERE (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= login_at AND logout_at IS NULL");
 
             $customerCount = count($customers);
 
             $customers = ( $customerCount > 0 ) ? $customers : 0;
 
             $customersCondition = $this->_read->quoteInto('visitor_id NOT IN(?)', $customers);
-            $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
+            $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
 
             if( $customerCount == 0 && $visitorCount == 0 ) {
                 return;
@@ -107,7 +107,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
                     'type_id' => $type['type_id'],
                     'visitor_count' => $visitorCount,
                     'customer_count' => $customerCount,
-                    'add_date' => new Zend_Db_Expr('NOW()')
+                    'add_date' => now()
                     );
             $this->_write->insert($this->_summaryTable, $data);
         }
@@ -123,7 +123,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 	        								u.visit_time,
 	                                    	v.visitor_id,
 	                                    	c.customer_id,
-	                                    	ROUND( (UNIX_TIMESTAMP(u.visit_time) - UNIX_TIMESTAMP(NOW() - INTERVAL {$minutes} MINUTE )) / {$interval} )  as _diff,
+	                                    	ROUND( (UNIX_TIMESTAMP(u.visit_time) - UNIX_TIMESTAMP(".now()." - INTERVAL {$minutes} MINUTE )) / {$interval} )  as _diff,
 	                                    	COUNT(DISTINCT(v.visitor_id)) as visitor_count,
 	                                    	COUNT(DISTINCT(c.customer_id)) as customer_count
 	                                    FROM

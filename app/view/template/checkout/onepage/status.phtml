@@ -21,7 +21,7 @@
         <li class="complete">
             <h4>Payment Method</h4>
             <div class="step-body">
-                <?=$payment?>
+                <?=$this->getChildHtml('payment')?>
                 <p><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></strong></p>
             </div>
         </li>
@@ -50,7 +50,7 @@
         <li class="complete">
             <h4>Shipping Method</h4>
             <div class="step-body">
-                <?=$shippingDescription?>
+                <?=$this->getChildHtml('shippingDescription')?>
                 <p><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">Edit</a></strong></p>
             </div>
         </li>

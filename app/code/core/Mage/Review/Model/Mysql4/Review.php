@@ -57,7 +57,7 @@ class Mage_Review_Model_Mysql4_Review
             }
             else {
                 $data = $this->_prepareInsertData($review);
-                $data['base']['created_at'] = new Zend_Db_Expr('NOW()');
+                $data['base']['created_at'] = now();
                 $this->_write->insert($this->_reviewTable, $data['base']);
                 
                 $review->setReviewId($this->_write->lastInsertId());

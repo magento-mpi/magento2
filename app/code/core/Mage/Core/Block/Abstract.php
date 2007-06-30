@@ -29,6 +29,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var array
      */
     protected $_children = array();
+    
+    protected $_childrenHtmlCache = array();
+    
+    protected $_request;
 
     /**
      * Constructor
@@ -41,12 +45,25 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
+        
+        if (Mage::registry('controller')) {
+            $this->_request = Mage::registry('controller')->getRequest();
+        }
+        else {
+            throw new Exception("Can't retrieve request object");
+        }
+        
         $this->_construct();
     }
     
     protected function _construct()
     {
         
+    }
+    
+    public function getRequest()
+    {
+        return $this->_request;
     }
     
     public function setLayout(Mage_Core_Model_Layout $layout)
@@ -151,6 +168,25 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             return $this->_children[$name];
         }
         return false;
+    }
+    
+    public function getChildHtml($name, $useCache=true)
+    {
+        if ($useCache && isset($this->_childrenHtmlCache[$name])) {
+            return $this->_childrenHtmlCache[$name];
+        }
+        
+        $child = $this->getChild($name);
+        if (!$child) {
+            $html = '';
+        } else {
+            $this->_beforeChildToHtml($name, $child);
+            $html = $child->toHtml();
+        }
+                
+        $this->_childrenHtmlCache[$name] = $html;
+        
+        return $html;
     }
 
     /**

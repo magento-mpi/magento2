@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
         $address    = Mage::getModel('customer/address_entity');
         $collection = $address->getEmptyCollection();
         
-        if ($customerId = (int) $this->_request->getParam('id')) {
+        if ($customerId = (int) $this->getRequest()->getParam('id')) {
             
         }
         

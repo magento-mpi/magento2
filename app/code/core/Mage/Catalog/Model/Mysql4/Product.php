@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Mysql4_Product
             if (!$product->getId()) {
                 $this->_checkRequiredAttributes($product);
                 $data = array(
-                    'create_date'=> new Zend_Db_Expr('NOW()'),
+                    'create_date'=> now(),
                     'set_id'     => $product->getSetId(),
                     'type_id'    => $product->getTypeId(),
                 );

@@ -26,7 +26,7 @@
         <td style="padding:10px 15px;">
             <h4>Payment Method</h4>
             <div class="step-body">
-                <?=$payment?>
+                <?=$this->getChildHtml('payment')?>
                 <br/><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></strong>
             </div>
         </td>
@@ -35,7 +35,7 @@
         <td style="padding:10px 15px;">
             <h4>Shipping Method</h4>
             <div class="step-body">
-                <?=$shippingDescription?>
+                <?=$this->getChildHtml('shippingDescription')?>
                 <br/><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">Edit</a></strong>
             </div>
         </td>

@@ -8,7 +8,18 @@ class Varien_Profiler
      *
      * @var array
      */
-    static private $_timers;
+    static private $_timers = array();
+    static private $_enabled = false;
+    
+    public static function enable()
+    {
+        self::$_enabled = true;
+    }
+    
+    public static function disable()
+    {
+        self::$_enabled = false;
+    }
     
     public static function reset($timerName)
     {
@@ -17,6 +28,10 @@ class Varien_Profiler
     
     public static function resume($timerName)
     {
+        if (!self::$_enabled) {
+            return;
+        }
+        
         if (empty(self::$_timers[$timerName])) {
             self::reset($timerName);
         }
@@ -31,11 +46,17 @@ class Varien_Profiler
     
     public static function pause($timerName)
     {
+        if (!self::$_enabled) {
+            return;
+        }
+        
         if (empty(self::$_timers[$timerName])) {
             self::reset($timerName);
         }
-        self::$_timers[$timerName]['sum'] += microtime(true)-self::$_timers[$timerName]['start'];
-        self::$_timers[$timerName]['start'] = false;
+        if (false!==self::$_timers[$timerName]['start']) {
+            self::$_timers[$timerName]['sum'] += microtime(true)-self::$_timers[$timerName]['start'];
+            self::$_timers[$timerName]['start'] = false;
+        }
     }
     
     public static function stop($timerName)

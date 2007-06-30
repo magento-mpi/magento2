@@ -3,7 +3,7 @@
 </a>
 <div class="header-right">
     <p class="super">
-        <strong><?=__("Welcome, %s", $user->getName())?></strong> (<?=__("Administrator")?>)
+        <strong><?=__("Welcome, %s", $user->getName())?></strong>
         <span class="separator">|</span>
         <strong><?=__("Today is %s", date("l, F dS, Y"))?></strong>
         <span class="separator">|</span>
@@ -13,7 +13,7 @@
         <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
             <img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader.gif" alt="Working..." align="absmiddle" height="20"/>
         </span>
-        <?$defSearch = __('Global search')?>
+        <?$defSearch = __('Global record search')?>
         <input id="global_search" name="query" type="text" class="input-text" 
             value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" 
             onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " 

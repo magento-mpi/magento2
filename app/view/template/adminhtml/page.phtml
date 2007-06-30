@@ -41,37 +41,37 @@
 </head>
 <body>
     <div class="header">
-        <?=$header?>
+        <?=$this->getChildHtml('header')?>
         <div class="clear"></div>
-        <?=$menu?>
+        <?=$this->getChildHtml('menu')?>
     </div>
     <div class="middle">
-        <?=$breadcrumbs?>
-        <?if(!empty($left)):?>
+        <?=$this->getChildHtml('breadcrumbs')?>
+        <?if($this->getChildHtml('left')):?>
         <div class="container">
             <div class="main">
                 <div class="content-container">
                     <div class="content" id="content">
-                    <?=$content?>
+                    <?=$this->getChildHtml('content')?>
                     </div>
 <!--[ends] .content -->
                 </div>
                 <div class="section-menu">
-                <?=$left?>
+                <?=$this->getChildHtml('left')?>
                 </div>
 <!--[ends] .section-menu -->                    
             </div>
         </div>
         <?else:?>
         <div class="simple-container">
-            <?=$content?>
+            <?=$this->getChildHtml('content')?>
         </div>
         <?endif;?>
     </div>
 <!--[ends] .middle -->
     <div class="footer">
-        <?=$footer?>
+        <?=$this->getChildHtml('footer')?>
     </div>
-    <?=$profiler?>
+    <?=$this->getChildHtml('profiler')?>
 </body>
 </html>

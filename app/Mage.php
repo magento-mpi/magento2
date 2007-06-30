@@ -280,6 +280,7 @@ final class Mage {
     public static function run($storeCode='')
     {
         try {
+            Varien_Profiler::enable();
             Varien_Profiler::start('app');
 
             Mage::init();
@@ -291,14 +292,7 @@ final class Mage {
             Mage::dispatchEvent('beforeFrontRun');
 
             Mage::register('controller', new Mage_Core_Controller_Varien_Front());
-            
-            Varien_Profiler::start('ctrl/init');
-            Mage::registry('controller')->init();
-            Varien_Profiler::stop('ctrl/init');
-            
-            Varien_Profiler::start('ctrl/dispatch');
-            Mage::registry('controller')->dispatch();
-            Varien_Profiler::stop('ctrl/dispatch');
+            Mage::registry('controller')->init()->dispatch();
 
             Varien_Profiler::stop('app');
         }
@@ -397,6 +391,17 @@ function __()
 function uc_words($str, $destSep='_', $srcSep='_')
 {
     return str_replace(' ', $destSep, ucwords(str_replace($srcSep, ' ', $str)));
+}
+
+/**
+ * Simple sql format date
+ *
+ * @param string $format
+ * @return string
+ */
+function now($dayOnly=false)
+{
+    return date($dayOnly ? 'Y-m-d' : 'Y-m-d H:i:s');
 }
 
 function my_error_handler($errno, $errstr, $errfile, $errline){

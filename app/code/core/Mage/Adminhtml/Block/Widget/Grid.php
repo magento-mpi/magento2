@@ -63,16 +63,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setTemplate('adminhtml/widget/grid.phtml');
         $this->_gridItemRenderer = new Mage_Adminhtml_Block_Widget_Grid_Renderer();
     }
-    
-    /**
-     * Get request object
-     *
-     * @return Mage_Core_Controller_Zend_Request
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
 
     /**
      * set collection object
@@ -150,8 +140,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
             $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
             
-            $columnId = $this->_request->getParam($this->getVarNameSort(), false);
-            $dir      = $this->_request->getParam($this->getVarNameDir(), 'asc');
+            $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);
+            $dir      = $this->getRequest()->getParam($this->getVarNameDir(), 'asc');
             
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';

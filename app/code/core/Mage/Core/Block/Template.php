@@ -65,6 +65,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function renderView()
     {
+        Varien_Profiler::start(__METHOD__);
         $templatesDir = Mage::getSingleton('core/store')->getDir('template');
 
         $this->assign('baseUrl', Mage::getBaseUrl());
@@ -77,6 +78,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         
         $this->setScriptPath($templatesDir.DS);
         $html = $this->fetchView($this->getTemplateName());
+        Varien_Profiler::stop(__METHOD__);
         
         return $html;
     }
@@ -98,7 +100,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      *
      * @param string $blockName
      */
-    protected function _beforeAssign($blockName, $blockObject)
+    protected function _beforeChildToHtml($blockName, $blockObject)
     {
         // before assign child block actions
     }
@@ -116,19 +118,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         
         if (!$this->_beforeToHtml()) {
             return '';
-        }
-        
-        if (!empty($this->_children)) {
-            // Render child elements
-            foreach ($this->_children as $name=>$block) {
-                if ($block instanceof Mage_Core_Block_Abstract) {
-                   $childHtml = $block->toHtml();
-                } elseif (is_string($block)) {
-                   $childHtml = $block;
-                }
-                $this->_beforeAssign($name, $block);
-                $this->assign($name, $childHtml);
-            }
         }
 
         $html = $this->renderView();

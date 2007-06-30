@@ -140,7 +140,7 @@ return ;
                 $attr['product_id']     = $product_id;
                 $attr['attribute_id']   = 7;
                 $attr['store_id']     = $store;
-                $attr['attribute_value']= new Zend_Db_Expr('NOW()');;
+                $attr['attribute_value']= now();
                 $db->insert('catalog_product_attribute_date', $attr);
 
                 $attr = array();

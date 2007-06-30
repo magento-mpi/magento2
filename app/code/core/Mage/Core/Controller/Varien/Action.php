@@ -1,14 +1,17 @@
 <?php
 
 /**
- * Custom Zend_Controller_Action class
+ * Custom Zend_Controller_Action class (formally)
  *
  * Allows dispatching before and after events for each controller action
  *
  * @author Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
+abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Action
 {
+    protected $_request;
+    protected $_response;
+    
      /**
       * Action flags
       *
@@ -28,8 +31,10 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
       */
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
      {
-         Zend_Controller_Action_HelperBroker::resetHelpers();
-         parent::__construct($request, $response, $invokeArgs);
+         $this->_request = $request;
+         $this->_response = $response;
+         #Zend_Controller_Action_HelperBroker::resetHelpers();
+         #parent::__construct($request, $response, $invokeArgs);
 
          if (!Mage::registry('action')) {
              Mage::register('action', $this);
@@ -41,6 +46,37 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
      protected function _construct()
      {
 
+     }
+     
+    final protected function _forward($action, $controller = null, $module = null, array $params = null)
+    {
+        $request = $this->getRequest();
+    
+        if (null !== $params) {
+            $request->setParams($params);
+        }
+    
+        if (null !== $controller) {
+            $request->setControllerName($controller);
+    
+            // Module should only be reset if controller has been specified
+            if (null !== $module) {
+                $request->setModuleName($module);
+            }
+        }
+    
+        $request->setActionName($action)
+                ->setDispatched(false);
+    }
+     
+     function getRequest()
+     {
+         return $this->_request;
+     }
+     
+     function getResponse()
+     {
+         return $this->_response;
      }
 
      function getFlag($action, $flag='')
@@ -86,7 +122,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
      function loadLayout($ids=null, $key='', $generateBlocks=true)
      {
         $area = 'front';
-        Varien_Profiler::start('ctrl/dispatch/action/load');
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+        Varien_Profiler::start("$_profilerKey/load");
 
         if (''===$key) {
             if (is_array($ids)) {
@@ -109,12 +146,12 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
             }
             $layout->getCache()->save();
         }
-        Varien_Profiler::stop('ctrl/dispatch/action/load');
+        Varien_Profiler::stop("$_profilerKey/load");
 
         if ($generateBlocks) {
-            Varien_Profiler::start('ctrl/dispatch/action/blocks');
+            Varien_Profiler::start("$_profilerKey/blocks");
             $layout->generateBlocks();
-            Varien_Profiler::stop('ctrl/dispatch/action/blocks');
+            Varien_Profiler::stop("$_profilerKey/blocks");
         }
 
         return $this;
@@ -122,7 +159,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
 
      function renderLayout($output='')
      {
-         Varien_Profiler::start('ctrl/dispatch/action/render');
+         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+         Varien_Profiler::start("$_profilerKey/render");
 
          if ($this->getFlag('', 'no-renderLayout')) {
              return;
@@ -138,7 +176,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
          $output = $this->getLayout()->getOutput();
 
          $this->getResponse()->appendBody($output);
-         Varien_Profiler::stop('ctrl/dispatch/action/render');
+         Varien_Profiler::stop("$_profilerKey/render");
 
          return $this;
      }
@@ -148,19 +186,20 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
         Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
         Mage::log('Request Params:');
         Mage::log($this->getRequest()->getParams());
-        Varien_Profiler::start('ctrl/dispatch/pre');
+        
         $this->preDispatch();
-        Varien_Profiler::stop('ctrl/dispatch/pre');
+        
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
             if (!$this->getFlag('', 'no-dispatch')) {
-                Varien_Profiler::start('ctrl/dispatch/action');
+                $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+                Varien_Profiler::start($_profilerKey);
                 $this->$action();
-                Varien_Profiler::stop('ctrl/dispatch/action');
+                Varien_Profiler::stop($_profilerKey);
             }
-            Varien_Profiler::start('ctrl/dispatch/post');
+            
             $this->postDispatch();
-            Varien_Profiler::stop('ctrl/dispatch/post');
+            
         }
     }
 
@@ -172,10 +211,12 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
         if ($this->getFlag('', 'no-preDispatch')) {
             return;
         }
-
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
+        Varien_Profiler::start($_profilerKey);
         Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName());
-        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName());
+        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Varien_Profiler::stop($_profilerKey);
     }
 
     /**
@@ -186,10 +227,12 @@ abstract class Mage_Core_Controller_Varien_Action extends Zend_Controller_Action
         if ($this->getFlag('', 'no-postDispatch')) {
             return;
         }
-
-        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName());
-        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName());
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';
+        Varien_Profiler::start($_profilerKey);
+        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
         Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
+        Varien_Profiler::stop($_profilerKey);
     }
     
     function norouteAction($coreRoute = null)

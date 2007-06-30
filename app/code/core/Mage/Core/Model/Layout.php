@@ -214,13 +214,16 @@ echo "TEST:".$i;
     
     protected function _generateBlock($node, $parent)
     {
-#Varien_Profiler::start('block-'.$node['name']);
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
             $className = Mage::getConfig()->getBlockClassName((string)$node['type']);
         }
         $blockName = (string)$node['name'];
+        
+        $_profilerKey = 'BLOCK: '.$blockName;
+        Varien_Profiler::start($_profilerKey);
+        
         $block = $this->addBlock($className, $blockName);
         
         if (!empty($node['parent'])) {
@@ -256,20 +259,27 @@ echo "TEST:".$i;
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-#Varien_Profiler::stop('block-'.$node['name']);
+        
+        Varien_Profiler::stop($_profilerKey);
+        
+        return $this;
     }
     
     protected function _generateAction($node, $parent)
     {
+        $method = (string)$node['method'];
         if (!empty($node['block'])) {
             $parentName = (string)$node['block'];
         } else {
             $parentName = $parent->getBlockName();
         }
+        
+        $_profilerKey = 'BLOCK: '.$parentName.' -> '.$method;
+        Varien_Profiler::start($_profilerKey);
+        
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
         }
-        $method = (string)$node['method'];
         $args = (array)$node->children();
         unset($args['@attributes']);
         if (isset($node['json'])) {
@@ -284,11 +294,12 @@ echo "TEST:".$i;
                 $args[$arg] = __($args[$arg]);
             }
         }
-#echo "<hr><pre>".$name."::".$method." / "; print_r($args); echo "</pre>";
-#$timerName = 'action';#-'.$block->getName().'-'.$method;
-#Varien_Profiler::start($timerName);
+
         call_user_func_array(array($block, $method), $args);
-#Varien_Profiler::stop($timerName);
+        
+        Varien_Profiler::stop($_profilerKey);
+        
+        return $this;
     }
     
     

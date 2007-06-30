@@ -294,7 +294,7 @@ class Mage_Sales_Model_Quote extends Mage_Sales_Model_Document
     public function createOrders()
     {
         $store = Mage::getSingleton('core/store');
-        $now = new Zend_Db_Expr("now()");
+        $now = now();
         
         $order = Mage::getModel('sales/order')->addData($this->getData());
         

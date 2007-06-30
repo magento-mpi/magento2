@@ -19,9 +19,9 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
         parent::__construct();
         $this->setTemplate('adminhtml/system/config/left.phtml');
         
-        $this->_websiteCode = $this->_request->getParam('website');
-        $this->_storeCode   = $this->_request->getParam('store');
-        $this->_sectionCode = $this->_request->getParam('section');
+        $this->_websiteCode = $this->getRequest()->getParam('website');
+        $this->_storeCode   = $this->getRequest()->getParam('store');
+        $this->_sectionCode = $this->getRequest()->getParam('section');
 
     }
     

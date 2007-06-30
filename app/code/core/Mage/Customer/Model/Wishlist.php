@@ -28,7 +28,7 @@ class Mage_Customer_Model_Wishlist extends Varien_Object
     public function save()
     {
         if (!$this->getId()) {
-            $this->setAddDate(new Zend_Db_Expr('NOW()'));
+            $this->setAddDate(now());
         }
         
         $this->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());

@@ -63,6 +63,8 @@ class Mage_Core_Controller_Varien_Front
     
     public function init()
     {
+        Varien_Profiler::start('ctrl/init');
+        
         // set defaults
         $defaultModule = (string)Mage::getSingleton('core/store')->getConfig('core/defaultFrontName');
         $this->setDefault(array('module'=>$defaultModule, 'controller'=>'index', 'action'=>'index'));
@@ -89,10 +91,16 @@ class Mage_Core_Controller_Varien_Front
         // init default router (articles and 404)
         $default = new Mage_Core_Controller_Varien_Router_Default();
         $this->addRouter('default', $default);
+        
+        Varien_Profiler::stop('ctrl/init');
+        
+        return $this;
     }
     
     public function dispatch()
     {
+        Varien_Profiler::start('ctrl/dispatch');
+        
         $request = $this->getRequest();
         $request->setPathInfo()->setDispatched(false);
 
@@ -105,7 +113,11 @@ class Mage_Core_Controller_Varien_Front
             }
         }
         
+        Varien_Profiler::stop('ctrl/dispatch');
+        
+        Varien_Profiler::start('ctrl/response');
         $this->getResponse()->sendResponse();
+        Varien_Profiler::stop('ctrl/response');
 
         return $this;
     }

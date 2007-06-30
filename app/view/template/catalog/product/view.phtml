@@ -1,4 +1,4 @@
-<?=$breadcrumbs?>
+<?=$this->getChildHtml('breadcrumbs')?>
 <script src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js" type="text/javascript"></script>
 <script src="<?=$baseJsUrl?>varien/product.js" type="text/javascript"></script>
 <div class="product-image">
@@ -145,7 +145,7 @@
             <div class="clearfix"></div>
     </div>
 <?endif?>
-<?=$rating?>
+<?=$this->getChildHtml('rating')?>
 <?=$tags;?>
 <p></p>
 <?if($reviewCount):?>
@@ -153,4 +153,4 @@
 <?endif;?>
 <p></p>
 <?//=$reviewList?>
-<?=$reviewForm?>
+<?=$this->getChildHtml('reviewForm')?>

@@ -40,10 +40,10 @@ class Mage_Cms_Model_Mysql4_Page
     {
         if( $page->getPageId() ) {
             $condition = $this->_write->quoteInto("{$this->_pageTable}.page_id=?", $page->getPageId());
-            $page->setPageCreationTime(new Zend_Db_Expr('NOW()'));
+            $page->setPageCreationTime(now());
             $this->_write->update($this->_pageTable, $page->getData(), $condition);
         } else {
-            $page->setPageUpdateTime(new Zend_Db_Expr('NOW()'));
+            $page->setPageUpdateTime(now());
             $this->_write->insert($this->_pageTable, $page->getData());
         }
         return $this;

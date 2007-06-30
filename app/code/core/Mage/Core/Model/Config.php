@@ -474,7 +474,6 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     public function getModelInstance($modelClass='', $constructArguments=array())
     {
         $className = $this->getModelClassName($modelClass);
-        
         return new $className($constructArguments);
     }
     
@@ -491,8 +490,9 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
     
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
+
         $classArr = explode('/', $modelClass);
-        $resourceModel = $this->getNode('global/models/'.$classArr[0].'/resourceModel');
+        $resourceModel = (string)$this->getNode('global/models/'.$classArr[0].'/resourceModel');
         if (!$resourceModel) {
             return false;
         }

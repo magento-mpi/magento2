@@ -12,7 +12,7 @@ class Mage_Catalog_Model_Product_Attribute_Saver_Date extends Mage_Catalog_Model
     public function save($productId, $value)
     {
         if (empty($value) && $this->_attribute->isRequired()) {
-            $value = new Zend_Db_Expr('NOW()');
+            $value = now();
         }
         else {
             return $this;

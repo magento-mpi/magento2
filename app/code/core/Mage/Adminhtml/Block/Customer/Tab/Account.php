@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_account');
         $customer = Mage::getModel('customer/entity');
-        if ($customerId = (int) $this->_request->getParam('id')) {
+        if ($customerId = (int) $this->getRequest()->getParam('id')) {
             $customer->load($customerId);
         }
             

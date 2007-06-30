@@ -106,7 +106,7 @@ class Mage_Log_Model_Mysql4_Visitor
     	        if ($collectedData->getVisitorId()) {
         		    if( $collectedData->getLogoutNeeded() ) {
         		        $visitorId = $collectedData->getVisitorId();
-        	            $query = $this->_write->quoteInto("UPDATE {$this->_customerTable} SET logout_at = ? WHERE visitor_id = {$visitorId}", new Zend_Db_Expr('NOW()') );
+        	            $query = $this->_write->quoteInto("UPDATE {$this->_customerTable} SET logout_at = ? WHERE visitor_id = {$visitorId}", now() );
         		        $this->_write->query($query);
         		    }
 
@@ -224,7 +224,7 @@ class Mage_Log_Model_Mysql4_Visitor
 
     public function getNow()
     {
-        return new Zend_Db_Expr('NOW()');
+        return now();
     }
 
     public function getLogId($customerId, $visitorId)

@@ -39,7 +39,7 @@ class Mage_Admin_Model_Mysql4_Acl_Role
                 $condition = $this->_write->quoteInto('role_id=?', $role->getRoleId());
                 $this->_write->update($this->_roleTable, $data, $condition);
             } else { 
-                $data['created'] = new Zend_Db_Expr('NOW()');
+                $data['created'] = now();
                 $this->_write->insert($this->_roleTable, $data);
                 $role->setRoleId($this->_write->lastInsertId());
             }

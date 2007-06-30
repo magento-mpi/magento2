@@ -43,7 +43,7 @@ class Mage_Admin_Model_Mysql4_User
     public function recordLogin(Mage_Admin_Model_User $user)
     {
         $data = array(
-            'logdate' => new Zend_Db_Expr('NOW()'),
+            'logdate' => now(),
             'lognum'  => $user->getLognum()+1
         );
         $condition = $this->_write->quoteInto('user_id=?', $user->getUserId());
@@ -75,7 +75,7 @@ class Mage_Admin_Model_Mysql4_User
                 'lastname'  => $user->getLastname(),
                 'email'     => $user->getEmail(),
                 'username'  => $user->getUsername(),
-                'modified'  => new Zend_Db_Expr('NOW()'),
+                'modified'  => now(),
                 //'reload_acl_flag' =>$user->getReloadAclFlag(),
             );
             
@@ -87,7 +87,7 @@ class Mage_Admin_Model_Mysql4_User
                 $condition = $this->_write->quoteInto('user_id=?', $user->getId());
                 $this->_write->update($this->_userTable, $data, $condition);
             } else { 
-                $data['created'] = new Zend_Db_Expr('NOW()');
+                $data['created'] = now();
                 $this->_write->insert($this->_userTable, $data);
                 $user->setUserId($this->_write->lastInsertId());
             }

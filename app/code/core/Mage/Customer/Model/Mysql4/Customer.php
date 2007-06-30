@@ -61,7 +61,7 @@ class Mage_Customer_Model_Mysql4_Customer
         $logTable = Mage::getSingleton('core/resource')->getTableName('customer/customer_log');
         $data = array(
             'customer_id'   => $customerId,
-            'login_at'      => new Zend_Db_Expr('NOW()'),
+            'login_at'      => now(),
         );
         $this->_write->insert($logTable, $data);
     }
@@ -101,7 +101,7 @@ class Mage_Customer_Model_Mysql4_Customer
                 $condition = $this->_write->quoteInto('customer_id=?', $customer->getId());
                 $this->_write->update($this->_customerTable, $data, $condition);
             } else { 
-                $data['created_at'] = new Zend_Db_Expr('NOW()');
+                $data['created_at'] = now();
                 $this->_write->insert($this->_customerTable, $data);
                 $customer->setCustomerId($this->_write->lastInsertId());
                 
