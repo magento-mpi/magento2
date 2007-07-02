@@ -125,8 +125,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $out = '';
         if ($column->getSortable()!==false) {
+            
+            $className = 'not-sort';
             $dir = (strtolower($column->getDir())=='asc') ? 'desc' : 'asc';
-            $out = '<a href="" name="'.$column->getId().'" target="'.$dir.'">'.$column->getHeader().'</a>';
+            if ($column->getDir()) {
+                $className = 'sort-arrow-' . $dir;
+            }
+            $out = '<a href="" name="'.$column->getId().'" target="'.$dir.'" class="' . $className . '">'.$column->getHeader().'</a>';
         }
         else {
             $out = $column->getHeader();

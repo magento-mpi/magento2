@@ -126,7 +126,7 @@ class Mage_Customer_Model_Mysql4_Group
         
         $this->_write->beginTransaction();
         try {
-            $this->_write->delete($this->_groupTable, $this->_write->quoteInto('customer_group_id=?',$groupId);
+            $this->_write->delete($this->_groupTable, $this->_write->quoteInto('customer_group_id=?',$groupId));
             $this->_write->commit();
         }
         catch (Exception $e) {

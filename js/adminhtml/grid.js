@@ -52,11 +52,11 @@ varienGrid.prototype = {
     },
     
     rowMouseClick : function(event){
-        
+        varienGlobalEvents.fireEvent('gridRowClick', event);
     },
     
     rowMouseDblClick : function(event){
-        
+        varienGlobalEvents.fireEvent('gridRowDblClick', event);
     },
     
     keyPress : function(event){

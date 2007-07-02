@@ -10,6 +10,9 @@
       <?break;
     case 'column':?>
       <?break;
+    case 'hidden':?>
+    <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" value="<?=$element->getValue()?>">
+      <?break;
     case 'select':?>
     <span>
         <label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
@@ -31,5 +34,5 @@
 <?if($element->getScript()):?>
 <script type="text/javascript">
     <?=$element->getScript()?>
-</script>>
+</script>
 <?endif;?>

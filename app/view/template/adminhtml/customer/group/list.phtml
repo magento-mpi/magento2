@@ -7,3 +7,20 @@
 </table>
 </div>
 <?=$grid;?>
+<script type="text/javascript">
+<!--
+var gridController = {
+    onRowClick : function(e) {
+        if(e.target.tagName != 'A') {
+            var editHrefObjects = $(Event.findElement(e,'tr')).getElementsByClassName('edit-url');
+            if(editHrefObjects.length > 0) {
+                location.href = editHrefObjects[0].href;
+            }
+            //location.href = 
+        }
+    }
+};
+
+varienGlobalEvents.attachEventHandler('gridRowClick', gridController.onRowClick);
+//-->
+</script>

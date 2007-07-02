@@ -12,6 +12,27 @@
     border-bottom:1px solid #F6F6F6;
 }
 
+/* sort arrow desc */
+.grid .sort-arrow-desc {
+    padding-right: 30px;
+    background-image: url(images/sort-arrow-down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+/* no sort arrow asc */
+.grid .sort-arrow-asc {
+    padding-right: 30px;
+    background-image: url(images/sort-arrow-up.png);
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+/* no sort arrow */
+.grid .no-sort {
+   
+}
+
 .grid tr.even {
     background:#F1F1EF;
 }

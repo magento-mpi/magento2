@@ -10,12 +10,11 @@
  */
 class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    private $_gzInstalled = false;
-    
+       
     public function __construct()
     {
-        $this->_gzInstalled = extension_loaded('zlib');
         parent::__construct();
+        $this->setId('customerGrid');
     }
     
     /**
@@ -24,10 +23,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _initCollection()
     {       
-        $collection = Mage::getResourceSingleton('customer/group_collection');
-        $collection->load();
-        print_r($collection->getSize());
-        $this->setCollection($collection);
+        $this->setCollection(Mage::getResourceSingleton('customer/group_collection'));
     }
 
     /**
@@ -41,7 +37,8 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
         $this->addColumn('type', array('header'=>__('group name'),'align'=>'center', 'index'=>'customer_group_code'));
         
         $this->addColumn('action', array('header'=>__('action'),'align'=>'center',
-                                         'format'=>'<a href="' . $gridUrl .'delete/id/$customer_group_id/">' . __('delete') . '</a>',
+                                         'format'=> '<a href="' . $gridUrl .'edit/id/$customer_group_id/" class="edit-url">' . __('edit') . '</a> | ' 
+                                                 .  '<a href="' . $gridUrl .'delete/id/$customer_group_id/">' . __('delete') . '</a>',
                                          'index'=>'type', 'sortable'=>false));
         $this->_initCollection();
         return parent::_beforeToHtml();
