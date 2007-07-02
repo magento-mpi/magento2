@@ -36,7 +36,7 @@ class Mage_Customer_Model_Mysql4_Customer
     public function authenticate(Mage_Customer_Model_Customer $customer, $username, $password)
     {
         $authAdapter = new Zend_Auth_Adapter_DbTable(
-            $this->_getReadConnection(), 
+            $this->_read, 
             $this->_customerTable, 
             'email', 
             'password', 
@@ -63,18 +63,18 @@ class Mage_Customer_Model_Mysql4_Customer
      */
     public function load($customerId)
     {
-        $select = $this->_getReadConnection()->select()
+        $select = $this->_read->select()
             ->from($this->_customerTable)
-            ->where($this->_getReadConnection()->quoteInto("customer_id=?", $customerId));
-        return $this->_getReadConnection()->fetchRow($select);
+            ->where($this->_read->quoteInto("customer_id=?", $customerId));
+        return $this->_read->fetchRow($select);
     }    
 
     public function loadByEmail($customerEmail)
     {
-        $select = $this->_getReadConnection()->select()
+        $select = $this->_read->select()
             ->from($this->_customerTable)
-            ->where($this->_getReadConnection()->quoteInto("email=?", $customerEmail));
-        return $this->_getReadConnection()->fetchRow($select);
+            ->where($this->_read->quoteInto("email=?", $customerEmail));
+        return $this->_read->fetchRow($select);
     }
     
     /**
@@ -84,28 +84,28 @@ class Mage_Customer_Model_Mysql4_Customer
      */
     public function save(Mage_Customer_Model_Customer $customer)
     {
-        $this->_getWriteConnection()->beginTransaction();
+        $this->_write->beginTransaction();
 
         try {
             $data = $this->_prepareSaveData($customer);
             
             if ($customer->getId()) {
-                $condition = $this->_getWriteConnection()->quoteInto('customer_id=?', $customer->getId());
-                $this->_getWriteConnection()->update($this->_customerTable, $data, $condition);
+                $condition = $this->_write->quoteInto('customer_id=?', $customer->getId());
+                $this->_write->update($this->_customerTable, $data, $condition);
             } else { 
                 $data['created_at'] = now();
                 $data['customer_type_id'] = 1;
-                $this->_getWriteConnection()->insert($this->_customerTable, $data);
-                $customer->setId($this->_getWriteConnection()->lastInsertId());
+                $this->_write->insert($this->_customerTable, $data);
+                $customer->setId($this->_write->lastInsertId());
             }
 
             // Save customer addresses
             $customer->getAddressCollection()->walk('setCustomerId', $customer->getId());
             $customer->getAddressCollection()->walk('save', false);
-            $this->_getWriteConnection()->commit();
+            $this->_write->commit();
         }
         catch (Exception $e){
-            $this->_getWriteConnection()->rollBack();
+            $this->_write->rollBack();
             Mage::throwException('saving customer error');
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE001'));
         }
@@ -155,11 +155,11 @@ class Mage_Customer_Model_Mysql4_Customer
                 ->addMessage(Mage::getModel('customer/message')->error('CSTE009'));*/
         }
         
-        $condition = $this->_getWriteConnection()->quoteInto('customer_id=?', $customerId);
-        $this->_getWriteConnection()->beginTransaction();
+        $condition = $this->_write->quoteInto('customer_id=?', $customerId);
+        $this->_write->beginTransaction();
         try {
-            $this->_getWriteConnection()->delete($this->_customerTable, $condition);
-            $this->_getWriteConnection()->commit();
+            $this->_write->delete($this->_customerTable, $condition);
+            $this->_write->commit();
         }
         catch (Exception $e){
             Mage::throwException('can not delete customer');
@@ -199,15 +199,15 @@ class Mage_Customer_Model_Mysql4_Customer
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }
         
-        $this->_getWriteConnection()->beginTransaction();
+        $this->_write->beginTransaction();
         try {
-            $condition = $this->_getWriteConnection()->quoteInto('customer_id=?', $customerId);
+            $condition = $this->_write->quoteInto('customer_id=?', $customerId);
             $data = array('password'=>$this->hashPassword($data['password']));
-            $this->_getWriteConnection()->update($this->_customerTable, $data, $condition);
-            $this->_getWriteConnection()->commit();
+            $this->_write->update($this->_customerTable, $data, $condition);
+            $this->_write->commit();
         }
         catch (Exception $e){
-            $this->_getWriteConnection()->rollBack();
+            $this->_write->rollBack();
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE008'));
             Mage::throwException('updating the password error');
         }
@@ -223,7 +223,7 @@ class Mage_Customer_Model_Mysql4_Customer
         );
         
         $sql = 'SELECT customer_id FROM ' . $this->_customerTable . ' WHERE customer_id=:id AND password=:pass';
-        return $this->_getReadConnection()->fetchOne($sql, $arrData);
+        return $this->_read->fetchOne($sql, $arrData);
     }
     
     public function hashPassword($password)
