@@ -33,8 +33,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     /**
      * Customer view action
      */
-    public function viewAction()
+    public function editAction()
     {
+        $customerId = $this->getRequest()->getParam('id');
         $this->loadLayout('baseframe');
         $this->getLayout()->getBlock('menu')->setActive('customer/new');
         $this->getLayout()->getBlock('breadcrumbs')
@@ -45,9 +46,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             $this->getLayout()->createBlock('adminhtml/customer_edit')
         );
         
-        $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/store_switcher'))
-            ->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
+        if (!$customerId) {
+            $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
+        }
+        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
         
         $this->renderLayout();
     }
@@ -57,7 +59,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
      */
     public function newAction()
     {
-        $this->_forward('view');
+        $this->_forward('edit');
+    }
+    
+    public function deleteAction()
+    {
+        
     }
     
     public function saveAction()

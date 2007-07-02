@@ -24,10 +24,35 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _beforeToHtml()
     {
-        $this->addColumn('id', array('header'=>__('id'), 'width'=>5, 'align'=>'center', 'sortable'=>false, 'index'=>'customer_id'));
-        $this->addColumn('email', array('header'=>__('email'), 'width'=>40, 'align'=>'center', 'index'=>'email'));
-        $this->addColumn('firstname', array('header'=>__('firstname'), 'index'=>'firstname'));
-        $this->addColumn('lastname', array('header'=>__('lastname'), 'index'=>'lastname'));
+        $this->addColumn('id', array(
+            'header'=>__('id'), 
+            'width'=>5, 
+            'align'=>'center', 
+            'sortable'=>false, 
+            'index'=>'customer_id'
+        ));
+        $this->addColumn('email', array(
+            'header'=>__('email'), 
+            'width'=>40, 
+            'align'=>'center', 
+            'index'=>'email'
+        ));
+        $this->addColumn('firstname', array(
+            'header'=>__('firstname'), 
+            'index'=>'firstname'
+        ));
+        $this->addColumn('lastname', array(
+            'header'=>__('lastname'), 
+            'index'=>'lastname'
+        ));
+        $this->addColumn('action', array(
+            'header'=>__('action'),
+            'align'=>'center',
+            'format'=>'<a href="'.Mage::getUrl('adminhtml/*/edit/id/$customer_id').'">'.__('edit').
+                      '</a> | <a href="'.Mage::getUrl('adminhtml/*/delete/id/$customer_id').'">'.__('delete').'</a>',
+            'index'=>'customer_id', 
+            'sortable'=>false)
+        );
 
         $this->_initCollection();
         return parent::_beforeToHtml();

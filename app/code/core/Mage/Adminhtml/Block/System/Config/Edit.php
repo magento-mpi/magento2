@@ -16,6 +16,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     protected $_config;
     protected $_activeSection;
+    protected $_activeSectionCode;
     
     public function __construct() 
     {
@@ -28,23 +29,22 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         
         $config = Mage::getSingleton('adminhtml/system_config');
         if (!$this->_websiteCode) {
-            $this->_config = $config->getNode('configuration/global/sections')->asArray();
+            $this->_config = (array) $config->getNode('configuration/global/sections');
         }
         elseif (!$this->_storeCode){
-            $this->_config = $config->getNode('configuration/website/sections')->asArray();
+            $this->_config = (array) $config->getNode('configuration/website/sections');
         }
         else {
-            $this->_config = $config->getNode('configuration/store/sections')->asArray();
+            $this->_config = (array) $config->getNode('configuration/store/sections');
         }
         
         if (isset($this->_config[$this->_sectionCode])) {
             $this->_activeSection = $this->_config[$this->_sectionCode];
-            $this->_config[$this->_sectionCode]['active'] = true;
         }
         else {
             $keys = array_keys($this->_config);
             $this->_activeSection = $this->_config[$keys[0]];
-            $this->_config[$keys[0]]['active'] = true;
+            $this->_sectionCode = $keys[0];
         }
     }
     
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function getForm()
     {
-        return $this->getLayout()->createBlock($this->_activeSection['block'])
+        return $this->getLayout()->createBlock($this->_activeSection->block)
             ->setSection($this->_activeSection)
             ->toHtml();
     }
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
             $sections[] = new Varien_Object(array(
                 'label' => __($code),
                 'url'   => Mage::getUrl('adminhtml/*/*', array('_current'=>true, 'section'=>$code)),
-                'class' => empty($section['active']) ? '' : 'active'
+                'class' => ($code == $this->_sectionCode) ? 'active' : ''
             ));
         }
         return $sections;

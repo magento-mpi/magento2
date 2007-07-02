@@ -20,11 +20,18 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('config_fieldset', array('legend'=>__('configuration form')));
         
-        $fieldset->addField('test', 'text', array(
-            'label' => 'test',
-            'value' => 'test',
-            'class' => ''
-        ));
+        /**
+         * @see  Varien_Object::__call()
+         */
+        $section = $this->getSection();
+        
+        foreach ((array) $section->fields as $code => $config) {
+            $fieldset->addField($code, $config->attributes()->type, array(
+                'label' => $config->attributes()->label,
+                'value' => (string) Mage::getConfig()->getNode($config->attributes()->xpath),
+                'class' => $config->attributes()->class
+            ));
+        }
         
         $this->setForm($form);
         return parent::_beforeToHtml();

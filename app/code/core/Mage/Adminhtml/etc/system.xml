@@ -3,22 +3,26 @@
     <configuration>
         <global>
             <sections>
-                <path>
+                <filesystem>
                     <block>adminhtml/system_config_form</block>
                     <fields>
-                        <field1 />
+                        <upload label="Upload path" title="" xpath="global/default/filesystem/upload" type="text" class="required-entry"/>
+                        <var label="Var path" title="" xpath="global/default/filesystem/var" type="text" class="required-entry"/>
                     </fields>
-                </path>
+                </filesystem>
                 <database>
                     <block>adminhtml/system_config_form</block>
                     <fields>
-                        <field1 />
+                        <host label="DB host" title="" xpath="global/resources/dev_setup/connection/host" type="text" class="required-entry"/>
+                        <username label="DB user" title="" xpath="global/resources/dev_setup/connection/username" type="text" class="required-entry"/>
+                        <password label="DB pass" title="" xpath="global/resources/dev_setup/connection/password" type="password" class="required-entry"/>
+                        <dbname label="DB name" title="" xpath="global/resources/dev_setup/connection/dbname" type="text" class="required-entry"/>
                     </fields>
                 </database>
                 <templates>
                     <block>adminhtml/system_config_form</block>
                     <fields>
-                        <field1 />
+                        <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
                     </fields>
                 </templates>
             </sections>
@@ -28,8 +32,7 @@
                 <general>
                     <block>adminhtml/system_config_form</block>
                     <fields>
-                        <name />
-                        <code />
+                         <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
                     </fields>
                 </general>
             </sections>
@@ -39,8 +42,7 @@
                 <general>
                     <block>adminhtml/system_config_form</block>
                     <fields>
-                        <name />
-                        <code />
+                        <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
                     </fields>
                 </general>
                 <sharing>
