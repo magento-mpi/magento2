@@ -27,7 +27,7 @@
         <models>
             <customer>
                 <class>Mage_Customer_Model</class>
-                <resourceModel>customer_mysql4</resourceModel>
+                <resourceModel>customer_entity</resourceModel>
             </customer>
             
             <customer_entity>
@@ -39,6 +39,9 @@
                     <value_prefix>
                         <table>customer_entity</table>
                     </value_prefix>
+                    <customer_group>
+                        <table>customer_group</table>
+                    </customer_group>
                 </entities>
                 <classes>
                     <wishlist><class>Mage_Customer_Model_Mysql4_Wishlist</class></wishlist>
