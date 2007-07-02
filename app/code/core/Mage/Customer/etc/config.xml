@@ -100,30 +100,30 @@
               
               <attributes>              
                 <firstname>
-                  <id>1</id>
+                  <id>101</id>
                   <backend><type>varchar</type></backend>
                   <frontend><input>text</input><label>First name</label></frontend>
                 </firstname>
                 
                 <lastname>
-                  <id>2</id>
+                  <id>102</id>
                   <backend><type>varchar</type></backend>
                   <frontend><input>text</input><label>Last name</label></frontend>
                 </lastname>
                 
                 <email>
-                  <id>3</id>
+                  <id>103</id>
                   <backend><type>varchar</type></backend>
                   <frontend><input>text</input><label>Email</label></frontend>
                 </email>
                 
                 <password_hash>
-                  <id>3</id>
+                  <id>104</id>
                   <backend><type>varchar</type></backend>
                 </password_hash>
                 
                 <customer_group>
-                  <id>5</id>
+                  <id>105</id>
                   <backend><type>int</type></backend>
                   <frontend><input>select</input><label>Customer group</label></frontend>
                   <source><options>
@@ -133,7 +133,7 @@
                 </customer_group>
                 
                 <store_balance>
-                  <id>6</id>
+                  <id>106</id>
                   <backend><type>decimal</type></backend>
                   <frontend><input>type</input><label>Customer store balance</label></frontend>
                 </store_balance>
@@ -148,61 +148,61 @@
                 <backend extends="//global/entities/customer/backend"/>
                 <attributes>
                     <firstname>
-                      <id>7</id>
+                      <id>201</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>First name</label></frontend>
                     </firstname>
                     
                     <lastname>
-                      <id>8</id>
+                      <id>202</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>Last name</label></frontend>
                     </lastname>
                     
                     <postcode>
-                      <id>9</id>
+                      <id>203</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>Zip code</label></frontend>
                     </postcode>
                     
                     <street>
-                      <id>10</id>
+                      <id>204</id>
                       <backend><type>text</type></backend>
                       <frontend><input>text</input><label>Street address</label></frontend>
                     </street>
                     
                     <city>
-                      <id>11</id>
+                      <id>205</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>City</label></frontend>
                     </city>
                     
                     <region>
-                      <id>12</id>
+                      <id>206</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>Province</label></frontend>
                     </region>
                     
                     <region_id>
-                      <id>13</id>
+                      <id>207</id>
                       <backend><type>int</type></backend>
                       <frontend><input>text</input><label>State</label></frontend>
                     </region_id>
                     
                     <country_id>
-                      <id>14</id>
+                      <id>208</id>
                       <backend><type>int</type></backend>
                       <frontend><input>text</input><label>Country</label></frontend>
                     </country_id>
                     
                     <telephone>
-                      <id>15</id>
+                      <id>209</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>Telephone</label></frontend>
                     </telephone>
                     
                     <fax>
-                      <id>16</id>
+                      <id>210</id>
                       <backend><type>varchar</type></backend>
                       <frontend><input>text</input><label>Fax</label></frontend>
                     </fax>
@@ -217,7 +217,7 @@
                 <backend extends="//global/entities/customer/backend"/>
                 <attributes>
                     <method_type>
-                        <id>17</id>
+                        <id>301</id>
                         <backend><type>int</type></backend>
                         <frontend><type>select</type><label>Payment method</label></frontend>
                         <source><options><option><value>1</value><text>Credit card</text></option></options></source>

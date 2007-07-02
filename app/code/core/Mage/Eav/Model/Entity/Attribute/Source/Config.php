@@ -19,13 +19,15 @@ class Mage_Eav_Model_Entity_Attribute_Source extends Mage_Eav_Model_Entity_Attri
     {
         if (!$this->_options) {
             if ($this->getConfig()->rootNode) {
+                $rootNode = Mage::getConfig()->getNode((string)$this->getConfig()->rootNode);
+            } elseif ($this->getConfig()->rootNodeXpath) {
                 $rootNode = Mage::getConfig()->getXpath((string)$this->getConfig()->rootNode);
             }
             if (!$rootNode) {
                 $rootNode = $this->getConfig()->options;
             }
             if (!$rootNode) {
-                throw Mage::exception('Mage_Eav', 'No optinos root node found');
+                throw Mage::exception('Mage_Eav', 'No options root node found');
             }
             foreach ($rootNode->children() as $option) {
                 $this->_options[(string)$option->value] = (string)$option->text;
