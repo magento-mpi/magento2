@@ -124,6 +124,15 @@ class Mage_Core_Controller_Varien_Front
     
     public function getUrl($route='', $params=array())
     {
+        static $cache;
+        
+        if (!isset($params['_current'])) {
+            $cacheKey = md5($route.serialize($params));
+        }
+        if (isset($cacheKey) && isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+        
         // no route return base url
         if (empty($route)) {
             return Mage::getBaseUrl();
@@ -152,29 +161,32 @@ class Mage_Core_Controller_Varien_Front
             $paramsArr = $route;
         } else {
             // unknown route format
-            return '';
+            $url = '';
+            if (isset($cacheKey)) {
+                $cache[$cacheKey] = $url;
+            }
+            return $url;
         }
         // merge with optional params
         $paramsArr = array_merge($paramsArr, $params);
         
         // empty route supplied - return base url
         if (empty($routeName)) {
-            return Mage::getBaseUrl();
+            $url = Mage::getBaseUrl();
+        } elseif ($this->getRouter('standard')->getRealModuleName($routeName)) {
+            // try standard router url assembly
+            $url = $this->getRouter('standard')->getUrl($routeName, $paramsArr);
+        } elseif ($router = $this->getRouter($routeName)) {
+            // try custom router url assembly
+            $url = $router->getUrl($routeName, $paramsArr);
+        } else {
+            // get default router url
+            $default = $this->getRouter('default');
+            $url = $default->getUrl($routeName, $paramsArr);
         }
-        
-        // try standard router url assembly
-        $standard = $this->getRouter('standard');
-        if ($standard->getRealModuleName($routeName)) {
-            return $standard->getUrl($routeName, $paramsArr);
+        if (isset($cacheKey)) {
+            $cache[$cacheKey] = $url;
         }
-        
-        // try custom router url assembly
-        if ($router = $this->getRouter($routeName)) {
-            return $router->getUrl($routeName, $paramsArr);
-        }
-        
-        // get default router url
-        $default = $this->getRouter('default');
-        return $default->getUrl($routeName, $paramsArr);
+        return $url;
     }
 }

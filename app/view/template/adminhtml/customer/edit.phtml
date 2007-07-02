@@ -1,11 +1,13 @@
 <div class="head">
     <table cellspacing="0"> 
         <tr>
-            <td style="width:30%;"><h2><?=$header?></h2></td>
+            <td style="width:30%;"><h2><?=$this->getHeader()?></h2></td>
             <td class="buttons">
                 <strong class="button" id="add_address_button"><span><a href="#" id="add_new_address_button"><?=__('add new customer address')?></a></span></strong>
                 <strong class="button"><span><a href="#" onclick="customerForm.submit();return false;"><?=__('save customer')?></a></span></strong>
-                <strong class="button"><span><a href="#"><?=__('delete customer')?></a></span></strong>
+                <?if($this->getCustomerId()):?>
+                <strong class="button"><span><a href="#" onclick="customerDelete();return false;"><?=__('delete customer')?></a></span></strong>
+                <?endif;?>
             </td>
         </tr>
     </table>
@@ -25,6 +27,12 @@
     function customerEditHideButtons(data){
         if(data.tab && data.tab.id=='customer_info_tabs_addresses'){
             Element.hide($('add_address_button'));
+        }
+    }
+    
+    function customerDelete(){
+        if(confirm('<?=__('are you sure?')?>')){
+            location.href = '<?=$this->getDeleteUrl()?>'
         }
     }
     

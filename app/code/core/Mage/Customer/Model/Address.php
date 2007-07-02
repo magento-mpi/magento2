@@ -31,22 +31,12 @@ class Mage_Customer_Model_Address extends Varien_Object
     public function __construct($address=false) 
     {
         parent::__construct();
-        
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
         if (is_numeric($address)) {
             $this->load($address);
         } elseif (is_array($address)) {
             $this->setData($address);
         }
-    }
-    
-    /**
-     * get customer address id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->getAddressId();
     }
     
     /**
@@ -159,9 +149,12 @@ class Mage_Customer_Model_Address extends Varien_Object
      * @param   string $type
      * @return  bool
      */
-    public function isPrimary($type)
+    public function isPrimary($type=null)
     {
-        if (is_numeric($type)) {
+        if (is_null($type)) {
+            return count($this->getPrimaryTypes());
+        }
+        elseif (is_numeric($type)) {
             return in_array($type, $this->_primaryTypes);
         }
         else {
@@ -231,12 +224,12 @@ class Mage_Customer_Model_Address extends Varien_Object
      * @param   int $index
      * @return  mixed
      */
-    public function getData($key='', $index=false)
+    public function getData($key='', $index=null)
     {
         if (strncmp($key, 'street', 6)) {
             $index = substr($key, 6);
             if (!is_numeric($index)) {
-                $index = false;
+                $index = null;
             }
         }
         return parent::getData($key, $index);

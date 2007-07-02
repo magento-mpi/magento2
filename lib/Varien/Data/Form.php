@@ -78,6 +78,19 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     
     public function setValues($values)
     {
+        foreach ($this->_allElements as $element) {
+        	if (isset($values[$element->getId()])) {
+        	    $element->setValue($values[$element->getId()]);
+        	}
+        	else {
+        	    $element->setValue(null);
+        	}
+        }
+        return $this;
+    }
+    
+    public function addValues()
+    {
         foreach ($values as $elementId=>$value) {
             if ($element = $this->getElement($elementId)) {
                 $element->setValue($value);

@@ -57,6 +57,17 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
             )
         );
         
+        $fieldset->addField('group', 'select', 
+            array(
+                'name'  => 'group_id',
+                'label' => __('Group'),
+                'id'    => 'customer_group',
+                'title' => __('Customer Group'),
+                'class' => 'required-entry',
+                'values'=> Mage::getResourceModel('customer/group_collection')->load()->toOptionArray()
+            )
+        );
+        
         $fieldset->addField('store_balance', 'text', 
             array(
                 'name'  => 'store_balance',
@@ -66,6 +77,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                 'class' => 'required-entry',
             )
         );
+        
         $form->setValues($customer->getData());
        
         if ($customerId) {
@@ -75,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                     'label' => __('New Password'),
                     'id'    => 'customer_pass',
                     'title' => __('New Password'),
-                    'class' => 'required-entry',
+                    'class' => 'validate-password',
                 )
             );
         }

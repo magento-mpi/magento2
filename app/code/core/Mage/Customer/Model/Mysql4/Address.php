@@ -7,33 +7,23 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Address
+class Mage_Customer_Model_Mysql4_Address extends Mage_Core_Model_Mysql4_Abstract
 {
-    static protected $_addressTable;
-    static protected $_typeTable;
-    static protected $_typeLinkTable;
+    protected $_addressTable;
+    protected $_typeTable;
+    protected $_typeLinkTable;
 
-    /**
-     * DB read object
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    static protected $_read;
-    
-    /**
-     * DB write object
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    static protected $_write;
-    
     public function __construct() 
     {
-        self::$_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer/address');
-        self::$_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer/address_type');
-        self::$_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer/address_type_link');
-        self::$_read    = Mage::getSingleton('core/resource')->getConnection('customer_read');
-        self::$_write   = Mage::getSingleton('core/resource')->getConnection('customer_write');
+        parent::__construct('customer_read', 'customer_write');
+        $this->_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer/address');
+        $this->_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer/address_type');
+        $this->_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer/address_type_link');
+    }
+    
+    public function getIdFieldName()
+    {
+        return 'address_id';
     }
     
     /**
@@ -44,10 +34,11 @@ class Mage_Customer_Model_Mysql4_Address
      */
     public function load($addressId)
     {
-        $select = self::$_read->select()->from(self::$_addressTable)
-            ->where(self::$_read->quoteInto('address_id=?', $addressId));
+        $select = $this->_getReadConnection()->select()
+            ->from($this->_addressTable)
+            ->where($this->_getReadConnection()->quoteInto('address_id=?', $addressId));
         
-        $arr = self::$_read->fetchRow($select);
+        $arr = $this->_getReadConnection()->fetchRow($select);
         return $arr;
     }
     
@@ -69,14 +60,14 @@ class Mage_Customer_Model_Mysql4_Address
                     t.address_type_id,
                     at.is_primary
                 FROM
-                    '.self::$_typeLinkTable.' AS at,
-                    '.self::$_typeTable.' AS t
+                    '.$this->_typeLinkTable.' AS at,
+                    '.$this->_typeTable.' AS t
                 WHERE
                     at.address_type_id=t.address_type_id
                     AND at.address_id=:address_id';
         
         $arr = array();
-        $types = self::$_read->fetchAll($sql, array('address_id'=>$addressId));
+        $types = $this->_getReadConnection()->fetchAll($sql, array('address_id'=>$addressId));
         foreach ($types as $type) {
             $arr[$type['address_type_id']] = array(
                 'code'      => $type['code'], 
@@ -90,29 +81,29 @@ class Mage_Customer_Model_Mysql4_Address
     public function save(Mage_Customer_Model_Address $address, $useTransaction=true)
     {
         if ($useTransaction) {
-            self::$_write->beginTransaction();
+            $this->_getWriteConnection()->beginTransaction();
         }        
         
         $data = $this->_prepareSaveData($address);
         try {
             if ($address->getId()) {
-                $condition = self::$_write->quoteInto('address_id=?', $address->getId());
-                self::$_write->update(self::$_addressTable, $data, $condition);
+                $condition = $this->_getWriteConnection()->quoteInto('address_id=?', $address->getId());
+                $this->_getWriteConnection()->update($this->_addressTable, $data, $condition);
             } else {
-                self::$_write->insert(self::$_addressTable, $data);
-                $address->setAddressId(self::$_write->lastInsertId());
+                $this->_getWriteConnection()->insert($this->_addressTable, $data);
+                $address->setAddressId($this->_getWriteConnection()->lastInsertId());
             }
             $this->saveTypes($address);
             
             if ($useTransaction) {
-                self::$_write->commit();
+                $this->_getWriteConnection()->commit();
             }
         }
         catch (Exeption $e) {
             if ($useTransaction) {
-                self::$_write->rollBack();
+                $this->_getWriteConnection()->rollBack();
             }
-            throw $e;
+            Mage::throwException('customer address save error');
         }
         
         return $this;
@@ -137,7 +128,8 @@ class Mage_Customer_Model_Mysql4_Address
         );
         
         if (empty($data['customer_id'])) {
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE021'));
+            Mage::throwException('invalid customer id in address data');
+            //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE021'));
         }
         
         $region = (int) $data['region'];
@@ -152,7 +144,8 @@ class Mage_Customer_Model_Mysql4_Address
                 $data['region'] = $region->getName();
             }
             else {
-                throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE022'));
+                Mage::throwException('invalid region for country specified in address');
+                //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE022'));
             }
         }
 
@@ -179,15 +172,16 @@ class Mage_Customer_Model_Mysql4_Address
      */
     public function delete($addressId)
     {
-        self::$_write->beginTransaction();
+        $this->_getWriteConnection()->beginTransaction();
         try {
-            $condition = self::$_write->quoteInto('address_id=?', $addressId);
-            $result = self::$_write->delete(self::$_addressTable, $condition);
-            self::$_write->commit();
+            $condition = $this->_getWriteConnection()->quoteInto('address_id=?', $addressId);
+            $result = $this->_getWriteConnection()->delete($this->_addressTable, $condition);
+            $this->_getWriteConnection()->commit();
         }
         catch (Exception $e){
-            self::$_write->rollBack();
-            throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE023'));
+            $this->_getWriteConnection()->rollBack();
+            Mage::throwException('customer delete error');
+            //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE023'));
         }
         return $this;
     }
@@ -206,10 +200,10 @@ class Mage_Customer_Model_Mysql4_Address
     {
         $langTable = Mage::getSingleton('core/resource')->getTableName('customer/address_type_language');
         
-        $select = self::$_read->select()->from(self::$_typeTable)
-            ->join($langTable, "$langTable.address_type_id=".self::$_typeTable.".address_type_id", "$langTable.name");
+        $select = $this->_getReadConnection()->select()->from($this->_typeTable)
+            ->join($langTable, "$langTable.address_type_id=".$this->_typeTable.".address_type_id", "$langTable.name");
             
-        $typesArr = self::$_read->fetchAll($select);
+        $typesArr = $this->_getReadConnection()->fetchAll($select);
         $types = array();
         foreach ($typesArr as $type) {
             $types[$type[$by]] = $type;
@@ -231,17 +225,17 @@ class Mage_Customer_Model_Mysql4_Address
     
     protected function _setAsPrimaryByType(Mage_Customer_Model_Address $address, $typeId)
     {
-        $sql = 'UPDATE '.self::$_typeLinkTable.' 
+        $sql = 'UPDATE '.$this->_typeLinkTable.' 
                 SET is_primary=0 
                 WHERE 
-                    address_id IN(SELECT address_id FROM '.self::$_addressTable.' WHERE customer_id=:customer_id)
+                    address_id IN(SELECT address_id FROM '.$this->_addressTable.' WHERE customer_id=:customer_id)
                     AND address_type_id=:type_id';
-        self::$_write->query($sql, array('customer_id'=>$address->getCustomerId(), 'type_id'=>$typeId));
-        //self::$_write->update(self::$_typeLinkTable, array('is_primary'=>0),self::$_write->quoteInto('address_type_id=?',$typeId));
+        $this->_getWriteConnection()->query($sql, array('customer_id'=>$address->getCustomerId(), 'type_id'=>$typeId));
+        //$this->_getWriteConnection()->update($this->_typeLinkTable, array('is_primary'=>0),$this->_getWriteConnection()->quoteInto('address_type_id=?',$typeId));
         
-        $condition = self::$_write->quoteInto('address_id=?',$address->getId()) . 
-            ' AND ' .self::$_write->quoteInto('address_type_id=?',$typeId);
-        self::$_write->delete(self::$_typeLinkTable, $condition);
-        self::$_write->insert(self::$_typeLinkTable, array('address_id'=>$address->getId(), 'address_type_id'=>$typeId, 'is_primary'=>1));
+        $condition = $this->_getWriteConnection()->quoteInto('address_id=?',$address->getId()) . 
+            ' AND ' .$this->_getWriteConnection()->quoteInto('address_type_id=?',$typeId);
+        $this->_getWriteConnection()->delete($this->_typeLinkTable, $condition);
+        $this->_getWriteConnection()->insert($this->_typeLinkTable, array('address_id'=>$address->getId(), 'address_type_id'=>$typeId, 'is_primary'=>1));
     }
 }

@@ -15,6 +15,7 @@ class Mage_Core_Model_Translate
     protected $_translate;
     protected $_sections;
     protected $_loadedSections = array();
+    protected $_cache = array();
     
     public function __construct() 
     {
@@ -60,8 +61,13 @@ class Mage_Core_Model_Translate
     public function translate($args)
     {
         $text = array_shift($args);
-        $text = $this->_translate->_($text);
-        array_unshift($args, $text);
+        if (isset($this->_cache[$text])) {
+            $translated = $this->_cache[$text];
+        } else {
+            $translated = $this->_translate->_($text);
+            $this->_cache[$text] = $translated;
+        }
+        array_unshift($args, $translated);
         return call_user_func_array('sprintf', $args);
     }
 }

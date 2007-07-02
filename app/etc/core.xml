@@ -5,6 +5,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>
+        <Mage_Eav>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Eav>
         <Mage_Install>
             <active>true</active>
             <codePool>core</codePool>

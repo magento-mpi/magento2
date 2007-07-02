@@ -28,8 +28,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Firstname'),
                 'id'    => 'address_firstname',
                 'title' => __('Firstname'),
-                'vtype' => 'alphanum',
-                'allowBlank' => false
+                'class' => 'required-entry',
             )
         );
 
@@ -39,8 +38,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Lastname'),
                 'id'    => 'address_lastname',
                 'title' => __('Lastname'),
-                'vtype' => 'alphanum',
-                'allowBlank' => false
+                'class' => 'required-entry',
             )
         );
 
@@ -50,7 +48,6 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Company'),
                 'id'    => 'address_company',
                 'title' => __('Company'),
-                'vtype' => 'alphanum',
             )
         );
 
@@ -61,20 +58,28 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'id'    => 'address_country',
                 'title' => __('Country'),
                 'values'=> Mage::getResourceModel('directory/country_collection')->load()->toOptionArray(),
-                'allowBlank'=> false,
-                'emptyText' => __('Select a country ...')
+                'class' => 'required-entry',
             )
         );
         
+        $fieldset->addField('region_id', 'select',
+            array(
+                'name'  => 'region_id',
+                'label' => __('State'),
+                'id'    => 'address_region_id',
+                'title' => __('State'),
+                'values'=> Mage::getResourceModel('directory/region_collection')->load()->toOptionArray(),
+                'class' => '',
+            )
+        );
+
         $fieldset->addField('region', 'text',
             array(
                 'name'  => 'region',
-                'label' => __('State/Province'),
+                'label' => __('Province'),
                 'id'    => 'address_region',
-                'title' => __('State/Province'),
-                'validation'=> '',
-                'vtype' => 'alphanum',
-                'allowBlank' => false
+                'title' => __('Province'),
+                'class' => 'required-entry',
             )
         );
 
@@ -84,8 +89,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('City'),
                 'id'    => 'address_city',
                 'title' => __('City'),
-                'vtype' => 'alphanum',
-                'allowBlank' => false
+                'class' => 'required-entry',
             )
         );
 
@@ -95,7 +99,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Street Address'),
                 'id'    => 'address_street',
                 'title' => __('Street Address'),
-                'allowBlank' => false
+                'class' => 'required-entry',
             )
         );
 
@@ -105,8 +109,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Zip/Post Code'),
                 'id'    => 'address_postcode',
                 'title' => __('Zip/Post code'),
-                'vtype' => 'numeric',
-                'allowBlank' => false
+                'class' => 'required-entry',
             )
         );
 
@@ -116,8 +119,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 'label' => __('Telephone'),
                 'id'    => 'address_telephone',
                 'title' => __('Telephone'),
-                'validation'=> '',
-                'ext_type'  => 'TextField'
+                'class' => 'required-entry',
             )
         );
 

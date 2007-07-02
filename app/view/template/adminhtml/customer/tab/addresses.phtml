@@ -3,15 +3,16 @@
 	<h3>Customer Addresses</h3>
 	<ul id="address_list">
 	<?if($addressCollection->getSize()):?>
-        <?foreach ($addressCollection as $_address)?>
-		<li>
-			<address>Minu Oh<br/>
-				3402 Motor Ave Suite B<br/>
-				Los Angeles, CA 90034<br/>
-				T | 310-123-1234
-			</address>
+        <?foreach ($addressCollection as $_address):?>
+		<li id="address_item_<?=$_address->getId()?>">
+			<address>
+			<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+			</address>			
+			<?if(!$_address->isPrimary()):?>
+			<strong class="button"><span><a href="#" name="delete_address"><?=__('delete address')?></a></span></strong>
+			<?endif;?>
 		</li>
-		<??>
+		<?endforeach;?>
 	<?else:?>
 		<li id="new_item">
 			<address>
@@ -24,12 +25,27 @@
 </div>
 <!-- Addresses forms -->
 <div class="entry-edit" id="address_form_container">
+	<?if($addressCollection->getSize()):?>
+        <?foreach ($addressCollection as $_address):?>
+        <div id="form_address_item_<?=$_address->getId()?>">
+        <?
+            $form->setValues($_address->getData())
+                ->setHtmlIdPrefix($_address->getId())
+                ->setFieldNamePrefix('address['.$_address->getId().']')
+        ?>
+        <?foreach ($form->getElements() as $_element):?>
+            <?=$this->drawElement($_element)?>
+        <?endforeach;?>
+        </div>
+        <?endforeach;?>
+    <?else:?>
     <div id="form_new_item">
     <?$form->setFieldNamePrefix('address[new]')?>
     <?foreach ($form->getElements() as $_element):?>
         <?=$this->drawElement($_element)?>
     <?endforeach;?>
     </div>
+    <?endif;?>
 </div>
 
 
@@ -37,7 +53,7 @@
 <?$_templatePrefix = '_template_'?>
 <div id="address_item_template" class="no-display template">
 	<address>New address</address>
-	<strong class="button"><span><a href="#"><?=__('delete address')?></a></span></strong>
+	<strong class="button"><span><a href="#" name="delete_address"><?=__('delete address')?></a></span></strong>
 </div>
 
 <!-- Address form template -->
@@ -45,6 +61,7 @@
 <?
     // Set form template elements prefix
     $form->setHtmlIdPrefix($_templatePrefix)
+        ->setValues(array())
         ->setFieldNamePrefix('address['.$_templatePrefix.']');
 ?>
 <?foreach ($form->getElements() as $_element):?>
@@ -66,17 +83,19 @@ addressesModel.prototype = {
         this.itemContainer= $('address_list');
         this.formContainer= $('address_form_container');
         this.itemCount    = this.itemList.length;
-        this.baseItemId   = 'address_item';
-        this.itemContentTemplate = new Template('#{firstname} #{lastname} <br/> #{postcode} #{street} <br/> #{telephone}');
+        this.baseItemId   = 'new_item';
+        this.itemContentTemplate = new Template('<b>#{firstname} #{lastname}</b><br/>#{street}<br/>#{city}, #{regionName} #{postcode}<br/>T: #{telephone}');
         
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
         this.onItemMouseOut     = this.itemMouseOut.bindAsEventListener(this);
         this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
         this.onItemFormFieldChange = this.syncFormData.bindAsEventListener(this);
+        this.onItemDelete       = this.deleteAddress.bindAsEventListener(this);
         
         for(var i in this.itemList){
             this.addItemObservers(this.itemList[i]);
+            this.initItem(this.itemList[i]);
         }
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
@@ -84,10 +103,21 @@ addressesModel.prototype = {
         
         this.setActiveItem(this.itemList[0]);
     },
+    initItem : function(item){
+        if($('form_'+item.id)){
+            item.formBlock = $('form_'+item.id);
+            Element.hide($('form_'+item.id));
+            $('form_'+item.id).changeRelation = item;
+            $('form_'+item.id).addressItem = item;
+        }        
+    },    
     addItemObservers : function(item){
-        Event.observe(item, 'mouseover', this.onItemMouseOver);
-        Event.observe(item, 'mouseout', this.onItemMouseOut);
-        Event.observe(item, 'click', this.onItemMouseClick);
+        if(item.id){
+            Event.observe(item, 'mouseover', this.onItemMouseOver);
+            Event.observe(item, 'mouseout', this.onItemMouseOut);
+            Event.observe(item, 'click', this.onItemDelete);
+            Event.observe(item, 'click', this.onItemMouseClick);
+        }
     },
     addNewAddress : function(event){
         if(this.canCreateNewAddress){
@@ -101,8 +131,10 @@ addressesModel.prototype = {
             
             // create new item
             var newItem = document.createElement('li');
+            newItem.isNewAddress = true; // set is new flag
             newItem.id = this.baseItemId+this.itemCount;
             newItem.innerHTML = this.prepareTemplate(this.itemTemplate.innerHTML)
+            newItem.formBlock = newForm;
             this.itemContainer.appendChild(newItem);
             
             newForm.changeRelation = newItem;
@@ -143,9 +175,9 @@ addressesModel.prototype = {
             $('form_'+item.id).changeRelation = item;
             $('form_'+item.id).addressItem = item;
             Element.show($('form_'+item.id));
+            //new Effect.Appear($('form_'+item.id), {duration : 0.3 });
             $('form_'+item.id).focus();
             this.addFieldChangeObserver($('form_'+item.id));
-            //new Effect.Appear($('form_'+item.id), {duration : 1 });
         }
         this.activeItem = item;
     },
@@ -175,6 +207,7 @@ addressesModel.prototype = {
             for(var i in fields){
                 if(fields[i].id){
                     var id = fields[i].id.replace(/\_item\d*$/, '');
+                    id = id.replace(/\d*$/, '');
                     data[id] = fields[i].value;
                 }
             }
@@ -183,6 +216,21 @@ addressesModel.prototype = {
                 itemContainer[0].innerHTML = this.itemContentTemplate.evaluate(data);
             }
         }
+    },
+    deleteAddress : function(event){
+        var deleteLink = Event.findElement(event, 'a');
+        if(deleteLink && deleteLink.name=='delete_address'){
+            var item = Event.findElement(event, 'li');
+            if(item.isNewAddress){
+                this.formContainer.removeChild(item.formBlock);
+            }
+            else{
+                alert(123);
+            }
+            this.itemContainer.removeChild(item);
+        }
+        this.setActiveItem(this.itemList[0]);
+        Event.stop(event);
     }
 }
 customerAddresses = new addressesModel();

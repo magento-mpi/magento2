@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget 
 {
     public function __construct()
     {
@@ -18,12 +18,26 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Core_Block_Template
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('adminhtml', array('controller'=>'customer', 'action'=>'save'));
+        return $this->getUrl('adminhtml/*/save', array('_current'=>true));
     }
 
-    protected function _beforeToHtml()
+    public function getCustomerId()
     {
-        $this->assign('header', __('edit customer'));
-        return $this;
+        return $this->getRequest()->getParam('id');
+    }
+    
+    public function getDeleteUrl()
+    {
+        return $this->getUrl('adminhtml/*/delete', array('_current'=>true));
+    }
+    
+    public function getHeader()
+    {
+        if ($this->getCustomerId()) {
+            return __('edit customer');
+        }
+        else {
+            return __('new customer');
+        }
     }
 }

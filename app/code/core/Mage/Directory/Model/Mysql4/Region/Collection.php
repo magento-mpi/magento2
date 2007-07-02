@@ -34,18 +34,8 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         return $this;
     }
     
-    public function toHtmlOptions($default=false)
+    public function toOptionArray()
     {
-        $out = '';
-        foreach ($this->_items as $index => $item) {
-            $out.='<option value="'.$item->getRegionId().'"';
-            if ($default == $item->getRegionId()) {
-                $out.=' selected';
-            }
-            $out.='>' . $item->name;
-            $out.="</option>\n";
-        }
-         
-        return $out;
+        return parent::_toOptionArray('region_id', 'name');
     }
 }

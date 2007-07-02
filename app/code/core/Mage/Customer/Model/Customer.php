@@ -19,6 +19,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     public function __construct($customer=false) 
     {
         parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
         
         if (is_numeric($customer)) {
             $this->loadByCustomerId($customer);
@@ -33,11 +34,6 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return parent::__sleep();
     }
     
-    public function getId()
-    {
-        return $this->getCustomerId();
-    }
-
     public function getResource()
     {
         return Mage::getResourceSingleton('customer/customer');

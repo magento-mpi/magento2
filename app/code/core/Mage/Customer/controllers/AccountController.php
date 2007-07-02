@@ -95,9 +95,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         $countries = Mage::getResourceModel('directory/country_collection');
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
-        if (!$data) {
-            $data = new Varien_Object();
-        }
+        $data = new Varien_Object($data);
 
         $block = $this->getLayout()->createBlock('core/template', 'customer.regform')
             ->setTemplate('customer/form/registration.phtml')
@@ -140,10 +138,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
                 return;
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Exception $e) {
                 Mage::getSingleton('customer/session')
-                    ->setCustomerFormData($this->getRequest()->getPost())
-                    ->addMessages($e->getMessages());
+                    ->setCustomerFormData($this->getRequest()->getPost());
             }
         }
         

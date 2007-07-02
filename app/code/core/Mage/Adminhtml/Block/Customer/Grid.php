@@ -48,8 +48,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('action', array(
             'header'=>__('action'),
             'align'=>'center',
-            'format'=>'<a href="'.Mage::getUrl('adminhtml/*/edit/id/$customer_id').'">'.__('edit').
-                      '</a> | <a href="'.Mage::getUrl('adminhtml/*/delete/id/$customer_id').'">'.__('delete').'</a>',
+            'format'=>'<a href="'.Mage::getUrl('adminhtml/*/edit/id/$customer_id').'">'.__('edit').'</a>',
             'index'=>'customer_id', 
             'sortable'=>false)
         );

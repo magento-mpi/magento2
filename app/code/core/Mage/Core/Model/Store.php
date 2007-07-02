@@ -39,6 +39,18 @@ class Mage_Core_Model_Store extends Varien_Object
         return $this;
     }
     
+    public function findById($id)
+    {
+        $stores = Mage::getConfig()->getNode('global/stores');
+        foreach ($stores->children() as $code=>$store) {
+            if ((int)$store->core->id===$id) {
+                $this->setCode($code);
+                break;
+            }
+        }
+        return $this;
+    }
+    
     /**
      * Get store id
      *
@@ -122,6 +134,11 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDir($type)
     {
+        static $cache;
+        
+        if (isset($cache[$type])) {
+            return $cache[$type];
+        }
         $dir = (string)$this->getConfig("filesystem/$type");
         if (!$dir) {
             $dir = $this->getDefaultDir($type);
@@ -140,6 +157,8 @@ class Mage_Core_Model_Store extends Varien_Object
         }
         
         $dir = str_replace('/', DS, $dir);
+        
+        $cache[$type] = $dir;
         
         return $dir;
     }
@@ -193,6 +212,13 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getUrl($params)
     {
+        static $cache;
+        
+        $cacheKey = md5(serialize($params));
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+        
         if (!empty($_SERVER['HTTPS'])) {
             if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                 $params['_secure'] = true;
@@ -212,6 +238,8 @@ class Mage_Core_Model_Store extends Varien_Object
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
         $url .= empty($basePath) ? '/' : $basePath;
+        
+        $cache[$cacheKey] = $url;
 
         return $url;
     }
@@ -323,10 +351,12 @@ class Mage_Core_Model_Store extends Varien_Object
     {
         $config = $this->getConfig('datashare/'.$feature);
         $shared = array();
-        foreach ($config->children() as $storeCode=>$isShared) {
-            if ($isShared) {
-                $store = Mage::getModel('core/store')->setCode($storeCode);
-                $shared[$storeCode] = $store->getId();
+        if (!empty($config)) {
+            foreach ($config->children() as $storeCode=>$isShared) {
+                if ($isShared) {
+                    $store = Mage::getModel('core/store')->setCode($storeCode);
+                    $shared[$storeCode] = $store->getId();
+                }
             }
         }
         return $shared;

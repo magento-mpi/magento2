@@ -19,4 +19,9 @@ class Mage_Customer_Model_Mysql4_Group_Collection extends Varien_Data_Collection
         $this->_sqlSelect->from($this->_groupTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/group'));
     }
+    
+    public function toOptionArray()
+    {
+        return parent::_toOptionArray('customer_group_id', 'customer_group_code');
+    }
 }

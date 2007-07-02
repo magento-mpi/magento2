@@ -73,7 +73,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
         if ($code = $this->getRequest()->getParam('code')) {
             $customerGroup->setCode($code);
             $customerGroup->save();
-            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');        
+//            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');        
+            $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer_group'));        
         } else {
             $this->_forward('new');
         }
@@ -91,6 +92,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
             $customerGroup->delete();
         }
         
-        $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
+//        $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
+         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer_group'));
     }
 }

@@ -264,7 +264,7 @@ Validation.addAllThese([
                 return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
             }],
     ['validate-password', 'Please enter 6 or more characters.', function(v) {
-                return !(v.length < 6);
+                return !(v.length>0 && v.length < 6);
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
                 var pass = $('password') ? $('password') : $$('.validate-password')[0];

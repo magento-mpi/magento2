@@ -20,8 +20,9 @@ function __autoload($class)
 function __()
 {
     Varien_Profiler::start('translate');
-    return Mage::getSingleton('core/translate')->translate(func_get_args());
+    $result = Mage::getSingleton('core/translate')->translate(func_get_args());
     Varien_Profiler::stop('translate');
+    return $result;
 }
 
 /**

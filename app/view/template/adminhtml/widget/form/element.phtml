@@ -1,5 +1,6 @@
 <?switch ($element->getType()){
     case 'fieldset':?>
+
     <h3><?=$element->getLegend()?></h3>
     <fieldset>
         <legend><?=$element->getLegend()?></legend>
@@ -18,7 +19,7 @@
         <label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
         <select name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" class="select<?=$element->getClass()?>" title="<?=$element->getTitle()?>">
         <?foreach ($element->getValues() as $_value):?>
-            <option value="<?=$_value['value']?>"><?=$_value['label']?></option>
+            <option value="<?=$_value['value']?>"<?if($_value['value'] == $element->getValue()):?> selected<?endif;?>><?=$_value['label']?></option>
         <?endforeach;?>
         </select>
     </span>
@@ -61,15 +62,23 @@
 			convert_urls : 'false',
 			force_br_newlines : 'true',
 			doctype : '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-		});	
+		});
 		</script>
 	  <textarea name="<?=$element->getName()?>" title="<?=$element->getTitle()?>" id="<?=$element->getHtmlId()?>" class="textarea <?=$element->getClass()?>" cols="80" rows="20"><?=$element->getValue();?></textarea>
     </span>
 	  <?break;
-	case 'textarea':?>
-	  <label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
-	  <textarea name="<?=$element->getName()?>" title="<?=$element->getTitle()?>" id="<?=$element->getHtmlId()?>" class="textarea <?=$element->getClass()?>"><?=$element->getValue();?></textarea>
-	  <?break;
+		case 'textarea':?>
+			<span class="form_row">
+					<label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
+					<textarea name="<?=$element->getName()?>" title="<?=$element->getTitle()?>" id="<?=$element->getHtmlId()?>" class="textarea <?=$element->getClass()?>"><?=$element->getValue();?></textarea>
+			</span>
+      <?break;
+    case 'editor':?>
+      <?break;
+    case 'file':?>
+      <?break;
+    case 'checkbox':?>
+      <?break;
 }?>
 <?if($element->getScript()):?>
 <script type="text/javascript">
