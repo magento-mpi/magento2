@@ -9,13 +9,13 @@
  */
 class Mage_Core_Model_Mysql4_History
 {
-    protected static $_changeTable = null;
-    protected static $_changeInfoTable = null;
+    protected $_changeTable = null;
+    protected $_changeInfoTable = null;
     
     public function __construct() 
     {
-        self::$_changeTable = Mage::getSingleton('core/resource')->getTableName('core/data_change');
-        self::$_changeInfoTable = Mage::getSingleton('core/resource')->getTableName('core/data_change_info');
+        $this->_changeTable = Mage::getSingleton('core/resource')->getTableName('core/data_change');
+        $this->_changeInfoTable = Mage::getSingleton('core/resource')->getTableName('core/data_change_info');
     }
     
     /**

@@ -11,11 +11,11 @@ class Mage_Core_Controller_Zend_Front extends Zend_Controller_Front
      */
     public static function getInstance()
     {
-        if (null === self::$_instance) {
-            self::$_instance = new self();
+        if (null === $this->_instance) {
+            $this->_instance = new self();
         }
 
-        return self::$_instance;
+        return $this->_instance;
     }
     
     public function init()

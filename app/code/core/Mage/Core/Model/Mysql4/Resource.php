@@ -6,15 +6,15 @@
  */
 class Mage_Core_Model_Mysql4_Resource
 {
-    protected static $_read = null;
-    protected static $_write = null;
-    protected static $_resTable = null;
+    protected $_read = null;
+    protected $_write = null;
+    protected $_resTable = null;
     
     public function __construct()
     {
-        self::$_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
-        self::$_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        self::$_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }
     
     /**
@@ -25,14 +25,14 @@ class Mage_Core_Model_Mysql4_Resource
      */
     function getDbVersion($resName)
     {
-        if (!self::$_read) {
+        if (!$this->_read) {
             return false;
         }
         // if Core module not instaled
         try {
-            $select = self::$_read->select()->from(self::$_resTable, 'version')
-                ->where(self::$_read->quoteInto('code=?', $resName));
-            $dbVersion = self::$_read->fetchOne($select);
+            $select = $this->_read->select()->from($this->_resTable, 'version')
+                ->where($this->_read->quoteInto('code=?', $resName));
+            $dbVersion = $this->_read->fetchOne($select);
         }
         catch (Exception $e){
             return false;
@@ -55,11 +55,11 @@ class Mage_Core_Model_Mysql4_Resource
             'version' => $version,
         );
         if ($this -> getDbVersion($resName)) {
-        	$condition = self::$_write->quoteInto('code=?', $resName);
-        	return self::$_write->update(self::$_resTable, $dbModuleInfo, $condition);
+        	$condition = $this->_write->quoteInto('code=?', $resName);
+        	return $this->_write->update($this->_resTable, $dbModuleInfo, $condition);
         }
         else {
-        	return self::$_write->insert(self::$_resTable, $dbModuleInfo);
+        	return $this->_write->insert($this->_resTable, $dbModuleInfo);
         }
     }
 }

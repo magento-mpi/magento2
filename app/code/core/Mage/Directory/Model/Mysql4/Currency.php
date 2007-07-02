@@ -85,7 +85,7 @@ class Mage_Directory_Model_Mysql4_Currency
             return 1;
         }
         
-        if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
+        if (!isset($this->_rateCache[$currencyFrom][$currencyTo])) {
             $select = $this->_read->select()
                 ->from($this->_currencyRateTable, 'rate')
                 ->where($this->_read->quoteInto('currency_from=?', strtoupper($currencyFrom)))

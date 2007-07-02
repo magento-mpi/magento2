@@ -13,10 +13,10 @@ class Mage_Core_Exception extends Zend_Exception
 
     public function addMessage(Mage_Core_Model_Message_Abstract $message)
     {
-        if (!isset(self::$_messages[$message->getType()])) {
-            self::$_messages[$message->getType()] = array();
+        if (!isset($this->_messages[$message->getType()])) {
+            $this->_messages[$message->getType()] = array();
         }
-        self::$_messages[$message->getType()][] = $message;
+        $this->_messages[$message->getType()][] = $message;
         return $this;
     }   
     
@@ -24,11 +24,11 @@ class Mage_Core_Exception extends Zend_Exception
     {
         if ('' == $type) {
             $arrRes = array();
-            foreach (self::$_messages as $messageType => $messages) {
+            foreach ($this->_messages as $messageType => $messages) {
                 $arrRes = array_merge($arrRes, $messages);
             }
             return $arrRes;
         }
-        return isset(self::$_messages[$type]) ? self::$_messages[$type] : array();
+        return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
     }
 }

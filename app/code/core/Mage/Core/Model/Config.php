@@ -15,6 +15,9 @@
 
 class Mage_Core_Model_Config extends Varien_Simplexml_Config
 {
+    protected $_classNameCache = array();
+
+    protected $_blockClassNameCache = array();
     /**
      * Constructor
      *
@@ -405,10 +408,8 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
 
     public function getGrouppedClassName($groupRootNode, $class)
     {
-        static $classNameCache = array();
-
-        if (isset($classNameCache[$groupRootNode][$class])) {
-            return $classNameCache[$groupRootNode][$class];
+        if (isset($this->_classNameCache[$groupRootNode][$class])) {
+            return $this->_classNameCache[$groupRootNode][$class];
         }
         
         $config = $this->getNode($groupRootNode);
@@ -428,24 +429,22 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             }
         }
         
-        $classNameCache[$groupRootNode][$class] = $className;
+        $this->_classNameCache[$groupRootNode][$class] = $className;
         
         return $className;
     }
     
     public function getBlockClassName($blockType)
     {
-        static $blockClassNameCache = array();
-        
         $typeArr = explode('/', $blockType);
         if (!empty($typeArr[1])) {
             return $this->getGrouppedClassName('global/block/groups/'.$typeArr[0], $typeArr[1]);
         } else {
-            if (isset($blockClassNameCache[$blockType])) {
-                return $blockClassNameCache[$blockType];
+            if (isset($this->_blockClassNameCache[$blockType])) {
+                return $this->_blockClassNameCache[$blockType];
             }
             $className = $this->getNode('global/block/types/'.$typeArr[0])->getClassName();
-            $blockClassNameCache[$blockType] = $className;
+            $this->_blockClassNameCache[$blockType] = $className;
             return $className;
         }
     }

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
             new Varien_Object(array(
                 'label' => __('global config'),
                 'title' => __('global config title'),
-                'url'   => Mage::getUrl('adminhtml/system_config'),
+                'url'   => Mage::getUrl('adminhtml/system_config', array('section'=>$this->_sectionCode)),
                 'class' => is_null($this->_websiteCode) && is_null($this->_storeCode) ? 'active' : ''
             ))
         );
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
         foreach ($websites as $code => $info) {
             $links[] = new Varien_Object(array(
                 'label' => __($code),
-                'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code)),
+                'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code, 'section'=>$this->_sectionCode)),
                 'class' => ($this->_websiteCode == $code && is_null($this->_storeCode)) ? 'active' : ''
             ));
             
@@ -50,13 +50,13 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
             foreach ($storeCodes as $storeCode) {
                 $links[] = new Varien_Object(array(
                     'label' => __($storeCode),
-                    'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code, 'store'=>$storeCode)),
+                    'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code, 'store'=>$storeCode, 'section'=>$this->_sectionCode)),
                     'class' => ($this->_storeCode == $storeCode) ? 'subitem active' : 'subitem'
                 ));
             }
             
             $links[] = new Varien_Object(array(
-                'label' => __('new store'),
+                'label' => __('[new store]'),
                 'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code, 'store'=>'1')),
                 'class' => ($this->_storeCode == 1) ? 'subitem active' : 'subitem'
             ));
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
         }
         
         $links[] = new Varien_Object(array(
-            'label' => __('new website'),
+            'label' => __('[new website]'),
             'title' => __('new website title'),
             'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>1)),
             'class' => ($this->_websiteCode == 1) ? 'active' : ''
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
             $breadcrumbs->addLink(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
             if ($this->_storeCode) {
                 $breadcrumbs->addLink(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
-                $breadcrumbs->addLink(__($this->_storeCode), '');
+                $breadcrumbs->addLink(($this->_storeCode == 1) ? __('new store') :__($this->_storeCode), '');
             }
             else {
                 $breadcrumbs->addLink(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');
@@ -88,6 +88,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
         }
         else {
             $breadcrumbs->addLink(__('config'), __('config title'));
+            $breadcrumbs->addLink(__('global'), __('global title'));
         }
         return $this;
     }

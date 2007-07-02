@@ -25,12 +25,14 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
          */
         $section = $this->getSection();
         
-        foreach ((array) $section->fields as $code => $config) {
-            $fieldset->addField($code, $config->attributes()->type, array(
-                'label' => $config->attributes()->label,
-                'value' => (string) Mage::getConfig()->getNode($config->attributes()->xpath),
-                'class' => $config->attributes()->class
-            ));
+        if (!empty($section->fields)) {
+            foreach ($section->fields->children() as $config) {
+                $fieldset->addField((string) $config['name'], (string) $config['type'], array(
+                    'label' => (string) $config['label'],
+                    'value' => (string) Mage::getConfig()->getNode((string)$config['path']),
+                    'class' => (string) $config['class']
+                ));
+            }
         }
         
         $this->setForm($form);

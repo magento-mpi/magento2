@@ -42,7 +42,7 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
             ->setEntity($entity)->setObject($customer)
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('firstname', array('like'=>'mos%'))
-            ->addAttributeToSort('lastname')
+            #->addAttributeToSort('lastname')
             ->setPage(1,10)
             ->load();
         Varien_Profiler::stop('entity-collection');

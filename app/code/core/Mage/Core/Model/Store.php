@@ -14,6 +14,10 @@ class Mage_Core_Model_Store extends Varien_Object
     protected $_website;
     
     protected $_configCache = array();
+
+    protected $_dirCache = array();
+
+    protected $_urlCache = array();
     
     public function __construct()
     {
@@ -134,10 +138,8 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDir($type)
     {
-        static $cache;
-        
-        if (isset($cache[$type])) {
-            return $cache[$type];
+        if (isset($this->_dirCache[$type])) {
+            return $this->_dirCache[$type];
         }
         $dir = (string)$this->getConfig("filesystem/$type");
         if (!$dir) {
@@ -158,7 +160,7 @@ class Mage_Core_Model_Store extends Varien_Object
         
         $dir = str_replace('/', DS, $dir);
         
-        $cache[$type] = $dir;
+        $this->_dirCache[$type] = $dir;
         
         return $dir;
     }
@@ -212,11 +214,9 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getUrl($params)
     {
-        static $cache;
-        
         $cacheKey = md5(serialize($params));
-        if (isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
+        if (isset($this->_urlCache[$cacheKey])) {
+            return $this->_urlCache[$cacheKey];
         }
         
         if (!empty($_SERVER['HTTPS'])) {
@@ -239,7 +239,7 @@ class Mage_Core_Model_Store extends Varien_Object
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
         $url .= empty($basePath) ? '/' : $basePath;
         
-        $cache[$cacheKey] = $url;
+        $this->_urlCache[$cacheKey] = $url;
 
         return $url;
     }

@@ -29,14 +29,15 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Core_Controller_Front_
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('system'), __('system title'), Mage::getUrl('adminhtml/system'));
         
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('adminhtml/system_config_edit')
-        );
         $this->getLayout()->getBlock('left')
             ->append(
                 $this->getLayout()->createBlock('adminhtml/system_config_left')
                     ->bindBreadcrumbs($breadcrumbs)
             );
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('adminhtml/system_config_edit')
+                    ->bindBreadcrumbs($breadcrumbs)
+        );
             
         $this->renderLayout();
     }

@@ -10,6 +10,8 @@
  */
 class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget
 {
+    const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
+    
     protected $_websiteCode;
     protected $_storeCode;
     protected $_sectionCode;
@@ -61,7 +63,11 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function getForm()
     {
-        return $this->getLayout()->createBlock($this->_activeSection->block)
+        $blockName = (string)$this->_activeSection->block;
+        if (empty($blockName)) {
+            $blockName = self::DEFAULT_SECTION_BLOCK;
+        }
+        return $this->getLayout()->createBlock($blockName)
             ->setSection($this->_activeSection)
             ->toHtml();
     }
@@ -81,6 +87,12 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
  
     protected function _beforeToHtml()
     {
+        return $this;
+    }
+    
+    public function bindBreadcrumbs($breadcrumbs)
+    {
+        $breadcrumbs->addLink(__($this->_sectionCode), '');
         return $this;
     }
 }

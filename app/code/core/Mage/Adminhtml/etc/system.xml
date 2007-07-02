@@ -3,26 +3,41 @@
     <configuration>
         <global>
             <sections>
-                <filesystem>
-                    <block>adminhtml/system_config_form</block>
+                <general>
                     <fields>
-                        <upload label="Upload path" title="" xpath="global/default/filesystem/upload" type="text" class="required-entry"/>
-                        <var label="Var path" title="" xpath="global/default/filesystem/var" type="text" class="required-entry"/>
+                        <field name="base_currency" label="Base currency" title="" path="" type="select" class="required-entry"/>
+                    </fields>
+                </general>
+                <customer>
+                    <fields>
+                        
+                    </fields>
+                </customer>
+                <catalog>
+                    <fields>
+                        
+                    </fields>
+                </catalog>
+                <cart>
+                
+                </cart>
+                <filesystem>
+                    <fields>
+                        <field name="upload" label="Upload path" title="" path="global/default/filesystem/upload" type="text" class="required-entry"/>
+                        <field name="var" label="Var path" title="" path="global/default/filesystem/var" type="text" class="required-entry"/>
                     </fields>
                 </filesystem>
                 <database>
-                    <block>adminhtml/system_config_form</block>
                     <fields>
-                        <host label="DB host" title="" xpath="global/resources/dev_setup/connection/host" type="text" class="required-entry"/>
-                        <username label="DB user" title="" xpath="global/resources/dev_setup/connection/username" type="text" class="required-entry"/>
-                        <password label="DB pass" title="" xpath="global/resources/dev_setup/connection/password" type="password" class="required-entry"/>
-                        <dbname label="DB name" title="" xpath="global/resources/dev_setup/connection/dbname" type="text" class="required-entry"/>
+                        <field name="host" label="DB host" title="" path="global/resources/dev_setup/connection/host" type="text" class="required-entry"/>
+                        <field name="username" label="DB user" title="" path="global/resources/dev_setup/connection/username" type="text" class="required-entry"/>
+                        <field name="password" label="DB pass" title="" path="global/resources/dev_setup/connection/password" type="password" class="required-entry"/>
+                        <field name="dbname" label="DB name" title="" path="global/resources/dev_setup/connection/dbname" type="text" class="required-entry"/>
                     </fields>
                 </database>
                 <templates>
-                    <block>adminhtml/system_config_form</block>
                     <fields>
-                        <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
+                        <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
                     </fields>
                 </templates>
             </sections>
@@ -30,9 +45,8 @@
         <website>
             <sections>
                 <general>
-                    <block>adminhtml/system_config_form</block>
                     <fields>
-                         <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
+                         <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
                     </fields>
                 </general>
             </sections>
@@ -40,14 +54,13 @@
         <store>
             <sections>
                 <general>
-                    <block>adminhtml/system_config_form</block>
                     <fields>
-                        <skin label="Default skin" title="" xpath="" type="text" class="required-entry"/>
+                        <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
                     </fields>
                 </general>
                 <sharing>
-                    <block>adminhtml/system_config_form</block>
-                </sharing>
+
+               </sharing>
             </sections>
         </store>
     </configuration>

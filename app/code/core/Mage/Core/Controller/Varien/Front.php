@@ -9,6 +9,8 @@ class Mage_Core_Controller_Varien_Front
     protected $_defaults = array();
     
     protected $_routers = array();
+
+    protected $_urlCache = array();
     
     public function setDefault($key, $value=null)
     {
@@ -124,13 +126,11 @@ class Mage_Core_Controller_Varien_Front
     
     public function getUrl($route='', $params=array())
     {
-        static $cache;
-        
         if (!isset($params['_current'])) {
             $cacheKey = md5($route.serialize($params));
         }
-        if (isset($cacheKey) && isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
+        if (isset($cacheKey) && isset($this->_urlCache[$cacheKey])) {
+            return $this->_urlCache[$cacheKey];
         }
         
         // no route return base url
@@ -163,7 +163,7 @@ class Mage_Core_Controller_Varien_Front
             // unknown route format
             $url = '';
             if (isset($cacheKey)) {
-                $cache[$cacheKey] = $url;
+                $this->_urlCache[$cacheKey] = $url;
             }
             return $url;
         }
@@ -185,7 +185,7 @@ class Mage_Core_Controller_Varien_Front
             $url = $default->getUrl($routeName, $paramsArr);
         }
         if (isset($cacheKey)) {
-            $cache[$cacheKey] = $url;
+            $this->_urlCache[$cacheKey] = $url;
         }
         return $url;
     }
