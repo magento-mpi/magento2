@@ -19,12 +19,12 @@
             <div class="middle">
                 <!-- [start] column-left -->
                 <div class="column-left" id="column-left">
-                    <?=$left?>
+                    <?=$this->getChildHtml('left')?>
                 </div>
                 <!-- [end] column-left -->
                 <!-- [start] column-right -->
                 <div class="column-right">
-                    <?=$content?>
+                    <?=$this->getChildHtml('content')?>
                 </div>
                 <!-- [end] column-right -->
             </div>
