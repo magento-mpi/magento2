@@ -97,5 +97,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Cms>
+        <Mage_Newsletter>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Newsletter>
     </modules>
 </config>
