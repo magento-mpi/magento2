@@ -7,7 +7,7 @@
 		<li id="address_item_<?=$_address->getId()?>">
 			<address>
 			<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
-			</address>			
+			</address>
 			<?if(!$_address->isPrimary()):?>
 			<strong class="button"><span><a href="#" name="delete_address"><?=__('delete address')?></a></span></strong>
 			<?endif;?>
@@ -85,14 +85,13 @@ addressesModel.prototype = {
         this.itemCount    = this.itemList.length;
         this.baseItemId   = 'new_item';
         this.itemContentTemplate = new Template('<b>#{firstname} #{lastname}</b><br/>#{street}<br/>#{city}, #{regionName} #{postcode}<br/>T: #{telephone}');
-        
+
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
         this.onItemMouseOut     = this.itemMouseOut.bindAsEventListener(this);
         this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
         this.onItemFormFieldChange = this.syncFormData.bindAsEventListener(this);
-        this.onItemDelete       = this.deleteAddress.bindAsEventListener(this);
-        
+
         for(var i in this.itemList){
             this.addItemObservers(this.itemList[i]);
             this.initItem(this.itemList[i]);
@@ -100,7 +99,7 @@ addressesModel.prototype = {
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
-        
+
         this.setActiveItem(this.itemList[0]);
     },
     initItem : function(item){
@@ -109,13 +108,12 @@ addressesModel.prototype = {
             Element.hide($('form_'+item.id));
             $('form_'+item.id).changeRelation = item;
             $('form_'+item.id).addressItem = item;
-        }        
-    },    
+        }
+    },
     addItemObservers : function(item){
         if(item.id){
             Event.observe(item, 'mouseover', this.onItemMouseOver);
             Event.observe(item, 'mouseout', this.onItemMouseOut);
-            Event.observe(item, 'click', this.onItemDelete);
             Event.observe(item, 'click', this.onItemMouseClick);
         }
     },
@@ -128,7 +126,7 @@ addressesModel.prototype = {
             newForm.innerHTML = this.prepareTemplate(this.formTemplate.innerHTML);
             this.formContainer.appendChild(newForm);
             Element.hide(newForm);
-            
+
             // create new item
             var newItem = document.createElement('li');
             newItem.isNewAddress = true; // set is new flag
@@ -136,7 +134,7 @@ addressesModel.prototype = {
             newItem.innerHTML = this.prepareTemplate(this.itemTemplate.innerHTML)
             newItem.formBlock = newForm;
             this.itemContainer.appendChild(newItem);
-            
+
             newForm.changeRelation = newItem;
             newForm.addressItem = newItem;
             this.addItemObservers(newItem);
@@ -160,8 +158,14 @@ addressesModel.prototype = {
         Element.removeClassName(element, 'over');
     },
     itemMouseClick : function(event){
-        var element = Event.findElement(event, 'li');
-        this.setActiveItem(element)
+        var element = Event.findElement(event, 'li'); // find top item
+        var elem = Event.element(event); // exact element clicked
+        if ( (elem.tagName == 'A') && ( elem.name == 'delete_address') ) {
+            this.deleteAddress(element);
+        } else {
+            this.setActiveItem(element);
+        }
+        Event.stop(event);
     },
     setActiveItem : function(item){
         if(this.activeItem){
@@ -190,7 +194,7 @@ addressesModel.prototype = {
         for(var i in fields){
             Event.observe(fields[i], 'change', this.onItemFormFieldChange);
         }
-        
+
     },
     syncFormData : function(event){
         var container = false;
@@ -217,20 +221,16 @@ addressesModel.prototype = {
             }
         }
     },
-    deleteAddress : function(event){
-        var deleteLink = Event.findElement(event, 'a');
-        if(deleteLink && deleteLink.name=='delete_address'){
-            var item = Event.findElement(event, 'li');
-            if(item.isNewAddress){
+    deleteAddress : function(item){
+        if( item.isNewAddress){
+            if ( this.activeItem == item ) {
                 this.formContainer.removeChild(item.formBlock);
+                this.setActiveItem(this.itemList[0]);
             }
-            else{
-                alert(123);
-            }
-            this.itemContainer.removeChild(item);
+        } else {
+            alert(123);
         }
-        this.setActiveItem(this.itemList[0]);
-        Event.stop(event);
+        this.itemContainer.removeChild(item);
     }
 }
 customerAddresses = new addressesModel();
