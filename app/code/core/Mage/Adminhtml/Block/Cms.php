@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Cms extends Mage_Core_Block_Template
 
     public function _beforeToHtml()
     {
+        $this->assign('createUrl', Mage::getUrl('adminhtml/cms_page/newpage'));
         $this->assign('grid', $this->getLayout()->createBlock('adminhtml/cms_grid', 'cms.grid')->toHtml());
         return $this;
     }

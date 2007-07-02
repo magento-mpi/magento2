@@ -12,15 +12,6 @@ class Mage_Adminhtml_CmsController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('cms');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('CMS'), __('cms title'));
-
-
-        $block = $this->getLayout()->createBlock('adminhtml/cms', 'cms');
-        $this->getLayout()->getBlock('content')->append($block);
-
-        $this->renderLayout();
+        $this->_forward('index', 'cms_page');
     }
 }

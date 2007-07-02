@@ -1,5 +1,11 @@
 <div class="entry-edit">
-<?foreach ($form->getElements() as $_element):?>
-    <?=$this->drawElement($_element)?>
-<?endforeach;?>
-</div>      
+<?if( $this->getForm()->getUseContainer() === true ):?>
+<form id="<?=$this->getForm()->getFormId()?>" method="<?=( $this->getForm()->getFormMethod() ) ? $this->getForm()->getFormMethod() : 'POST' ;?>" action="<?=$this->getForm()->getFormAction()?>" <?=( $this->getForm()->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
+<?endif;?>
+	<?foreach ($form->getElements() as $_element):?>
+	<?=$this->drawElement($_element)?>
+	<?endforeach;?>
+<?if( $this->getForm()->getUseContainer() === true ):?>
+</form>
+<?endif;?>
+</div>

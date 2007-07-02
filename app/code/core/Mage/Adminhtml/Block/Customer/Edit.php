@@ -10,17 +10,17 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/customer/edit.phtml');
     }
-    
+
     public function getSaveUrl()
     {
         return Mage::getUrl('adminhtml', array('controller'=>'customer', 'action'=>'save'));
     }
-    
+
     protected function _beforeToHtml()
     {
         $this->assign('header', __('edit customer'));
