@@ -4,7 +4,7 @@
         <Mage_Customer>
             <version>0.2.2</version>
             <depends>
-                <Mage_Page />
+                <Mage_Eav />
             </depends>
             <crypt>
                 <key><![CDATA[h$$@j>21#Nn 34{}~|][fksn2)*@H NdfM99f+<lml1(23nR_JN]]></key>
@@ -29,6 +29,23 @@
                 <class>Mage_Customer_Model</class>
                 <resourceModel>customer_mysql4</resourceModel>
             </customer>
+            
+            <customer_entity>
+                <class>Mage_Customer_Model_Entity</class>
+                <entities>
+                    <entity>
+                        <table>customer_entity</table>
+                    </entity>
+                    <value_prefix>
+                        <table>customer_entity</table>
+                    </value_prefix>
+                </entities>
+                <classes>
+                    <wishlist><class>Mage_Customer_Model_Mysql4_Wishlist</class></wishlist>
+                    <wishlist_collection><class>Mage_Customer_Model_Mysql4_Wishlist_Collection</class></wishlist_collection>
+                </classes>
+            </customer_entity>
+            
             <customer_mysql4>
                 <class>Mage_Customer_Model_Mysql4</class>
                 <entities>
@@ -38,6 +55,9 @@
                     <entity>
                         <table>customer_entity</table>
                     </entity>
+                    <value_prefix>
+                        <table>customer_value</table>
+                    </value_prefix>
                     <customer_group>
                         <table>customer_group</table>
                     </customer_group>
@@ -68,6 +88,143 @@
                 </entities>
             </customer_mysql4>
         </models>
+        
+        <entities>
+            <customer>
+              <id>1</id>
+              <use_data_sharing>true</use_data_sharing>
+              
+              <backend>
+                <entity_table>customer/entity</entity_table>
+              </backend>
+              
+              <attributes>              
+                <firstname>
+                  <id>1</id>
+                  <backend><type>varchar</type></backend>
+                  <frontend><input>text</input><label>First name</label></frontend>
+                </firstname>
+                
+                <lastname>
+                  <id>2</id>
+                  <backend><type>varchar</type></backend>
+                  <frontend><input>text</input><label>Last name</label></frontend>
+                </lastname>
+                
+                <email>
+                  <id>3</id>
+                  <backend><type>varchar</type></backend>
+                  <frontend><input>text</input><label>Email</label></frontend>
+                </email>
+                
+                <password_hash>
+                  <id>3</id>
+                  <backend><type>varchar</type></backend>
+                </password_hash>
+                
+                <customer_group>
+                  <id>5</id>
+                  <backend><type>int</type></backend>
+                  <frontend><input>select</input><label>Customer group</label></frontend>
+                  <source><options>
+                    <option><value>1</value><text>Regular</text></option>
+                    <option><value>2</value><text>Wholesale</text></option>
+                  </options></source>
+                </customer_group>
+                
+                <store_balance>
+                  <id>6</id>
+                  <backend><type>decimal</type></backend>
+                  <frontend><input>type</input><label>Customer store balance</label></frontend>
+                </store_balance>
+                
+              </attributes>
+            </customer>
+            
+            <customer_address>
+                <id>2</id>
+                <use_data_sharing>true</use_data_sharing>
+                <parent>customer</parent>
+                <backend extends="//global/entities/customer/backend"/>
+                <attributes>
+                    <firstname>
+                      <id>7</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>First name</label></frontend>
+                    </firstname>
+                    
+                    <lastname>
+                      <id>8</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>Last name</label></frontend>
+                    </lastname>
+                    
+                    <postcode>
+                      <id>9</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>Zip code</label></frontend>
+                    </postcode>
+                    
+                    <street>
+                      <id>10</id>
+                      <backend><type>text</type></backend>
+                      <frontend><input>text</input><label>Street address</label></frontend>
+                    </street>
+                    
+                    <city>
+                      <id>11</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>City</label></frontend>
+                    </city>
+                    
+                    <region>
+                      <id>12</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>Province</label></frontend>
+                    </region>
+                    
+                    <region_id>
+                      <id>13</id>
+                      <backend><type>int</type></backend>
+                      <frontend><input>text</input><label>State</label></frontend>
+                    </region_id>
+                    
+                    <country_id>
+                      <id>14</id>
+                      <backend><type>int</type></backend>
+                      <frontend><input>text</input><label>Country</label></frontend>
+                    </country_id>
+                    
+                    <telephone>
+                      <id>15</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>Telephone</label></frontend>
+                    </telephone>
+                    
+                    <fax>
+                      <id>16</id>
+                      <backend><type>varchar</type></backend>
+                      <frontend><input>text</input><label>Fax</label></frontend>
+                    </fax>
+                    
+                </attributes>
+            </customer_address>
+            
+            <customer_payment>
+                <id>3</id>
+                <use_data_sharing>true</use_data_sharing>
+                <parent>customer</parent>
+                <backend extends="//global/entities/customer/backend"/>
+                <attributes>
+                    <method_type>
+                        <id>17</id>
+                        <backend><type>int</type></backend>
+                        <frontend><type>select</type><label>Payment method</label></frontend>
+                        <source><options><option><value>1</value><text>Credit card</text></option></options></source>
+                    </method_type>
+                </attributes>
+            </customer_payment>
+        </entities>
         
         <resources>
             <customer_setup>

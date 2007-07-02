@@ -18,6 +18,21 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
     protected $_config;
     
     /**
+     * Attribute name
+     *
+     * @var string
+     */
+    protected $_name;
+    
+    /**
+     * Attribute id
+     *
+     * @var string
+     */
+    protected $_id;
+    
+    
+    /**
      * Entity instance
      *
      * @var Mage_Eav_Model_Entity_Abstract
@@ -54,6 +69,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
     public function setConfig(Mage_Core_Model_Config_Element $config)
     {
         $this->_config = $config;
+        $this->_name = $config->getName();
+        $this->_id = (int)$config->id;
         return $this;
     }
     
@@ -77,7 +94,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
      */
     public function getName()
     {
-        return $this->getConfig()->getName();
+        return $this->_name;
     }
     
     /**
@@ -87,7 +104,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
      */
     public function getId()
     {
-        return (int)$this->getConfig()->id;
+        return $this->_id;
     }
     
     /**
@@ -122,7 +139,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_backend)) {
             $config = $this->getConfig()->backend;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element();
+                $config = new Mage_Core_Model_Config_Element('<backend/>');
             }
             if (empty($config->model)) {
                 $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_BACKEND_MODEL);

@@ -26,7 +26,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     
     public function load($typeId)
     {
-        $this->_config = Mage::getConfig()->getNode('global/entity/types/'.$typeId);
+        $this->_config = Mage::getConfig()->getNode('global/entities/'.$typeId);
         if (false === $this->_config) {
             Mage::throwException('Can not retrieve config for entity type "'.$typeId.'"');
         }

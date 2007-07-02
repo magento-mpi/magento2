@@ -6,51 +6,5 @@
                 <class>Mage_Eav_Model</class>
             </eav>
         </models>
-        <entity>
-          <types>
-            <customer>
-              <id>1</id>
-              <use_data_sharing>true</use_data_sharing>
-              
-              <backend>
-                <entity_table>core/entity</entity_table>
-                <entity_id_field>entity_id</entity_id_field>
-                <value_table_prefix>core/entity_attribute</value_table_prefix>
-              </backend>
-              
-              <attributes>
-              
-                <firstname>
-                  <id>1</id>
-                  <backend><type>varchar</type></backend>
-                  <frontend><input>text</input><label>First name</label></frontend>
-                </firstname>
-                
-                <lastname>
-                  <id>2</id>
-                  <backend><type>varchar</type></backend>
-                  <frontend><input>text</input><label>Last name</label></frontend>
-                </lastname>
-                
-                <email>
-                  <id>3</id>
-                  <backend><type>varchar</type></backend>
-                  <frontend><input>text</input><label>Email</label></frontend>
-                </email>
-                
-                <group>
-                  <id>5</id>
-                  <backend><type>int</type></backend>
-                  <frontend><input>select</input><label>Customer group</label></frontend>
-                  <source><options>
-                    <option><value>1</value><text>Regular</text></option>
-                    <option><value>2</value><text>Wholesale</text></option>
-                  </options></source>
-                </group>
-                
-              </attributes>
-            </customer>
-          </types>
-        </entity>
     </global>
 </config>

@@ -81,7 +81,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     
     protected $_valueTablePrefix;
     
-    
     /**
      * Set connections for entity operations
      *
@@ -89,11 +88,21 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * @param Zend_Db_Adapter_Abstract $write
      * @return Mage_Eav_Model_Entity_Abstract
      */
-    public function setConnection($read, $write=null)
+    public function setConnection(Zend_Db_Adapter_Abstract $read, Zend_Db_Adapter_Abstract $write=null)
     {
         $this->_read = $read;
         $this->_write = $write ? $write : $read;
         return $this;
+    }
+    
+    public function getReadConnection()
+    {
+        return $this->_read;
+    }
+    
+    public function getWriteConnection()
+    {
+        return $this->_write;
     }
 
     /**
@@ -107,7 +116,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function setType($type)
     {
         if (is_string($type)) {
-            $config = Mage::getConfig()->getNode("global/entity/types/$type");
+            $config = Mage::getConfig()->getNode("global/entities/$type");
         } elseif ($type instanceof Mage_Core_Model_Config_Element) {
             $config = $type;
         } else {
@@ -139,6 +148,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     /**
      * Set object to work with
      *
+     * @deprecated to be able to use entity as singleton
      * @param Varien_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
@@ -151,6 +161,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     /**
      * Get object current entity's working with
      *
+     * @deprecated to be able to use entity as singleton
      * @return Varien_Object
      */
     public function getObject()
@@ -319,55 +330,61 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function getAttribute($attribute)
     {
         if (is_numeric($attribute)) {
+
+            $attributeId = $attribute;
             
-            if (isset($this->_attributesById[$attribute])) {
-                return $this->_attributesById[$attribute];
+            if (isset($this->_attributesById[$attributeId])) {
+                return $this->_attributesById[$attributeId];
             }
             
             $attributes = $this->getConfig()->attributes;
-            $config = false;
-            foreach ($attributes as $attrName=>$attrConfig) {
-                if ((int)$attrConfig->id===$attribute) {
-                    $config = $attrConfig;
-                    $attribute = $attrName;
+            $attributeConfig = false;
+            foreach ($attributes->children() as $attrName=>$attrConfig) {
+                if ((int)$attrConfig->id===$attributeId) {
+                    $attributeName = $attrName;
+                    $attributeConfig = $attrConfig;
                     break;
                 }
             }
-            
         } elseif (is_string($attribute)) {
             
-            if (isset($this->_attributesByName[$attribute])) {
-                return $this->_attributesByName[$attribute];
-            }
-            $config = $this->getConfig()->attributes->$attribute;
-            
-        } elseif ($attribute instanceof Mage_Core_Model_Config_Element) {
-            
-            $config = $attribute;
-            $attribute = $config->getName();
-            if (isset($this->_attributesByName[$attribute])) {
-                return $this->_attributesByName[$attribute];
-            }
+            $attributeName = $attribute;
 
+            if (isset($this->_attributesByName[$attributeName])) {
+                return $this->_attributesByName[$attributeName];
+            }
+            $attributeConfig = $this->getConfig()->attributes->$attributeName;
+            $attributeId = (int)$attributeConfig->id;
+     
+        } elseif ($attribute instanceof Mage_Core_Model_Config_Element) {
+     
+            $attributeConfig = $attribute;
+            $attributeName = $attributeConfig->getName();
+            if (isset($this->_attributesByName[$attributeName])) {
+                return $this->_attributesByName[$attributeName];
+            }
+            $attributeId = (int)$attributeConfig->id;
         }
         
-        if (empty($config)) {
-            $instance = Mage::getModel('eav/entity_attribute');
-            $instance->setConfig(new Mage_Core_Model_Config_Element("<$attribute><backend/></$attribute>"));
-            return $instance;
+        if (empty($attributeConfig)) {
+            $attributeInstance = Mage::getModel('eav/entity_attribute');
+            $attributeInstance->setConfig(new Mage_Core_Model_Config_Element("<$attributeName><backend/><frontend/></$attributeName>"));
+            return $attributeInstance;
         }
-        if (empty($config->model)) {
-            $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL);
+        if (empty($attributeConfig->model)) {
+            $attributeConfig->addChild('model', Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL);
         }
         
-        $instance = Mage::getModel((string)$config->model)
-            ->setConfig($config)->setEntity($this);
+        $attributeInstance = Mage::getModel((string)$attributeConfig->model)
+            ->setConfig($attributeConfig)->setEntity($this);
             
-        $this->_attributesByName[$attribute] = $instance;
-        $this->_attributesById[$instance->getId()] = $instance;
-        $this->_attributesByTable[$instance->getBackend()->getTable()][$attribute] = $instance;
+        $this->_attributesByName[$attributeName] = $attributeInstance;
+        $this->_attributesById[$attributeId] = $attributeInstance;
         
-        return $instance;
+        $attributeTable = $attributeInstance->getBackend()->getTable();
+        $this->_attributesByTable[$attributeTable][$attributeName] = $attributeInstance;
+
+        return $attributeInstance;
     }
     
     /**
@@ -463,7 +480,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         if (empty($this->_valueEntityIdField)) {
             $this->_valueEntityIdField = (string)$this->getConfig()->descend('backend/value_entity_id_field');
-            if (empty($this->_valueEentityIdField)) {
+            if (empty($this->_valueEntityIdField)) {
                 $this->_valueEntityIdField = Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD;
             }
         }
@@ -479,10 +496,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         if (empty($this->_valueTablePrefix)) {
             $prefix = (string)$this->getConfig()->descend('backend/value_table_prefix');
-            if (empty($prefix)) {
-                $prefix = Mage_Eav_Model_Entity::DEFAULT_VALUE_TABLE;
+            if (!empty($prefix)) {
+                $this->_valueTablePrefix = Mage::getSingleton('core/resource')->getTableName($prefix);
+            } else {
+                $this->_valueTablePrefix = $this->getEntityTable();
             }
-            $this->_valueTablePrefix = Mage::getSingleton('core/resource')->getTableName($prefix);
         }
         return $this->_valueTablePrefix;
     }
@@ -501,18 +519,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     }
 
     /**
-     * Load entity's attributes into current object
+     * Load entity's attributes into the object
      *
+     * @param Varien_Object $object
      * @param integer $entityId
+     * @param array $attributes
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function load($entityId)
+    public function load($object, $entityId, array $attributes=array())
     {
         if (!$this->_read) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
         
-        $object = $this->getObject();
+        #$object = $this->getObject();
         
         $select = $this->_read->select()->from($this->getEntityTable());
         $select->where($this->getEntityIdField()."=?", $entityId);
@@ -530,7 +550,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $storeId = $this->getStoreId();
         }
         
-        $this->loadAllAttributes();        
+        if (empty($attributes)) {
+            $this->loadAllAttributes();
+        } else {
+            foreach ($attributes as $attrName) {
+                $this->getAttribute($attrName);
+            }
+        }
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
             $entityIdField = current($attributes)->getBackend()->getEntityIdField();
             #$sql = "select attribute_id, value from $table where $entityIdField=".(int)$entityId." and store_id=".$storeId;
@@ -551,20 +577,29 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     }
 
     /**
-     * Save entity's attributes into current object's resource
+     * Save entity's attributes into the object's resource
      *
+     * @param Varien_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function save()
+    public function save(Varien_Object $object)
     {
         if (!$this->_write) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
         
+        if (!$object->getEntityTypeId()) {
+            $object->setEntityTypeId($this->getTypeId());
+        }
+        
+        if ($this->getUseDataSharing() && !$object->getStoreId()) {
+            $object->setStoreId($this->getStoreId());
+        }
+
         $this->_write->beginTransaction();
         
         try {
-            $this->_processSaveData($this->_collectSaveData());
+            $this->_processSaveData($this->_collectSaveData($object));
         } catch (Exception $e) {
             $this->_write->rollback();
             throw $e;
@@ -575,32 +610,69 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
     
-    protected function _collectSaveData()
+    /**
+     * Delete entity using current object's data
+     * 
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    public function delete($object)
     {
-        $newObject = $this->getObject();
+        if (!$this->_write) {
+            throw Mage::exception('Mage_Eav', 'No connection available');
+        }
+        #$object = $this->getObject();
+        
+        if (is_numeric($object)) {
+            $id = (int)$object;
+        } elseif ($object instanceof Varien_Object) {
+            $id = (int)$object->getData($this->getEntityIdField());
+        }
+        
+        $this->_write->beginTransaction();
+        try {
+            $this->_write->delete($this->getEntityTable(), $this->getEntityIdField()."=".$id);
+            $this->loadAllAttributes();
+            foreach ($this->getAttributesByTable() as $table=>$attributes) {
+                $this->_write->delete($table, $this->getEntityIdField()."=".$id);
+            }
+        } catch (Exception $e) {
+            $this->_write->rollback();
+            throw $e;
+        }
+        $this->_write->commit();
+        
+        #$this->_write->delete($this);
+        return $this;
+    }
+    
+    protected function _collectSaveData($newObject)
+    {
+        #$newObject = $this->getObject();
         $newData = $newObject->getData();
         
         $entityId = $newObject->getData($this->getEntityIdField());
         if (!empty($entityId)) {
             // get current data in db for this entity
-            $origEntity = clone $this;
             $origObject = clone $newObject;
             $origObject->setData(array());
-            $origEntity->setObject($origObject)->load($entityId);
+            $this->load($origObject, $entityId, array_keys($this->_attributesByName));
             $origData = $origObject->getData();
             // drop attributes that are unknown in new data
+            /* // not needed after introduction of partial entity loading
             foreach ($origData as $k=>$v) {
                 if (!isset($newData[$k])) {
                     unset($origData[$k]);
                     continue;
                 }
             }
+            */
         }
-        
-        $saveData = array();
 
-        
         foreach ($newData as $k=>$v) {
+            if (is_numeric($k)) {
+                continue;
+                throw Mage::exception('Mage_Eav', 'Invalid data object key');
+            }
             $attribute = $this->getAttribute($k);
             $attrId = $attribute->getId();
             // if attribute is static add to entity row and continue
@@ -627,8 +699,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
         
-        $result = compact('entityRow', 'insert', 'update', 'delete');
-   
+        $result = compact('newObject', 'entityRow', 'insert', 'update', 'delete');
         return $result;
     }
     
@@ -637,18 +708,19 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         extract($saveData);
 
         $entityIdField = $this->getEntityIdField();
-        $entityId = $this->getObject()->getData($entityIdField);
+        $entityId = $newObject->getData($entityIdField);
         
         if (empty($entityId)) {
             // insert entity table row
             $this->_write->insert($this->getEntityTable(), $entityRow);
-            $this->getObject()->setData($entityIdField, $this->_write->lastInsertId());
+            $entityId = $this->_write->lastInsertId();
+            $newObject->setData($entityIdField, $entityId);
         } else {    
             // update entity table row
             $condition = $this->_write->quoteInto("$entityIdField=?", $entityId);
             $this->_write->update($this->getEntityTable(), $entityRow, $condition);
         }
-                
+
         // insert attribute values
         if (!empty($insert)) {
             foreach ($insert as $attrId=>$value) {
@@ -656,8 +728,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 $entityIdField = $attribute->getBackend()->getEntityIdField();
                 $valueRow = array(
                     $entityIdField => $entityId,
-                    'entity_type_id' => $this->getTypeId(),
-                    'store_id' => $this->getStoreId(),
+                    'entity_type_id' => $newObject->getEntityTypeId(),
+                    'store_id' => $newObject->getStoreId(),
                     'attribute_id'=>$attrId,
                     'value'=>$value,
                 );
@@ -684,37 +756,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
         
-        return $this;
-    }
-
-    /**
-     * Delete entity using current object's data
-     * 
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
-     */
-    public function delete()
-    {
-        if (!$this->_write) {
-            throw Mage::exception('Mage_Eav', 'No connection available');
-        }
-        $object = $this->getObject();
-        
-        if (is_numeric($object)) {
-            $id = (int)$object;
-        } elseif ($object instanceof Varien_Object) {
-            $id = (int)$object->getData();
-        }
-        
-        $this->_write->beginTransaction();
-        try {
-            $this->_write->delete($this->getEntityTable(), $this->getEntityIdField()."=".$id);
-        } catch (Exception $e) {
-            $this->_write->rollback();
-            throw $e;
-        }
-        $this->_write->commit();
-        
-        #$this->_write->delete($this);
         return $this;
     }
 }

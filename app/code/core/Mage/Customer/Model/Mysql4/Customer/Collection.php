@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collection_Db
+class Mage_Customer_Model_Mysql4_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     protected $_customerTable;
     

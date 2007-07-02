@@ -18,6 +18,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract
     protected $_read;
     
     /**
+     * Write connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_write;
+    
+    /**
      * Entity object to define collection's attributes
      *
      * @var Mage_Eav_Model_Entity_Abstract
@@ -74,14 +81,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract
     protected $_pageSize;
 
     /**
-     * Set db connection
+     * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract $read
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param Zend_Db_Adapter_Abstract $write
+     * @return Mage_Eav_Model_Entity_Abstract
      */
-    public function setConnection($read)
+    public function setConnection(Zend_Db_Adapter_Abstract $read, Zend_Db_Adapter_Abstract $write=null)
     {
         $this->_read = $read;
+        $this->_write = $write ? $write : $read;
         return $this;
     }
     
@@ -93,11 +102,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setEntity($entity)
     {
-        if ($entity instanceof Mage_Eav_Model_Entity_Interface) {
+        if ($entity instanceof Mage_Eav_Model_Entity_Abstract) {
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
             $this->_entity = Mage::getModel('eav/entity')->setType($entity);
         }
+        $this->_read = $entity->getReadConnection();
+        $this->_write = $entity->getWriteConnection();
         return $this;
     }
     
@@ -143,9 +154,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function getObject()
     {
+        /*
         if (!$this->_object && $this->_entity && $this->_entity->getObject()) {
             $this->setObject($this->_entity->getObject());
         }
+        */
         if (!$this->_object) {
             $this->setObject();
         }
@@ -171,7 +184,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addItem(Varien_Object $object)
     {
-        if (get_class($object)!==get_class($this->getEntity()->getObject())) {
+        if (get_class($object)!==get_class($this->getObject())) {
             throw Mage::exception('Mage_Eav', 'Attempt to add an invalid object');
         }
         
@@ -319,14 +332,37 @@ class Mage_Eav_Model_Entity_Collection_Abstract
     /**
      * Save all the entities in the collection
      *
+     * @todo make batch save directly from collection
      */
     public function save()
     {
-        
+        #$this->walk('save');
+        foreach ($this->getItems() as $item) {
+            $this->getEntity()->save($item);
+        }
+        return $this;
+    }
+    
+    
+    /**
+     * Delete all the entities in the collection
+     *
+     * @todo make batch delete directly from collection
+     */
+    public function delete()
+    {
+        #$this->walk('delete');
+        foreach ($this->getItems() as $k=>$item) {
+            $this->getEntity()->delete($item);
+            unset($this->_items[$k]);
+        }
+        return $this;
     }
     
     /**
      * Import 2D array into collection as objects
+     * 
+     * If the imported items already exist, update the data for existing objects
      *
      * @param array $arr
      * @return Mage_Eav_Model_Entity_Abstract

@@ -1,0 +1,106 @@
+<?php
+/**
+ * Customer entity resource model
+ *
+ * @package     Mage
+ * @subpackage  Customer
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
+{
+    public function __construct() 
+    {
+        $resource = Mage::getSingleton('core/resource');
+        $this->setType('customer')->setConnection(
+            $resource->getConnection('customer_read'),
+            $resource->getConnection('customer_write')
+        );
+    }
+    
+    public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
+    {
+        $collection = Mage::getResourceModel('customer/customer_collection')
+            ->setObject($customer)
+            ->addAttributeToFilter('email', $email)
+            ->setPage(1,1);
+            
+        if ($testOnly) {
+            $collection->addAttributeToSelect('email');
+        }
+        $collection->load();
+        $customer->setData(array());
+        foreach ($collection->getItems() as $item) {
+            $customer->setData($item->getData());
+            break;
+        }
+        return $this;
+    }
+    
+    /**
+     * Authenticate customer
+     *
+     * @param   string $email
+     * @param   string $password
+     * @return  false|object
+     */
+    public function authenticate(Mage_Customer_Model_Customer $customer, $email, $password)
+    {
+        $this->loadByEmail($customer, $email);
+        
+        $success = $customer->getPasswordHash()===$customer->hashPassword($password);
+        if (!$success) {
+            $customer->setData(array());
+        }
+        return $success;
+    }
+    
+    public function save(Varien_Object $customer)
+    {
+        $testCustomer = clone $customer;
+        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
+        if ($testCustomer->getId() && $testCustomer->getId()!==$customer->getId()) {
+            Mage::throwException('customer email already exist', 'customer/session');
+        }
+        return parent::save($customer);
+    }
+    
+    /**
+     * Change customer password
+     * $data = array(
+     *      ['password']
+     *      ['confirmation']
+     *      ['current_password']
+     * )
+     * 
+     * @param   Mage_Customer_Model_Customer
+     * @param   array $data
+     * @param   bool $checkCurrent
+     * @return  this
+     */
+    public function changePassword(Mage_Customer_Model_Customer $customer, $data, $checkCurrent=true)
+    {
+        if ($checkCurrent) {
+            if (empty($data['current_password'])) {
+                Mage::throwException('current customer password is empty');
+                //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
+            }
+            $testCustomer = clone $customer;
+            $this->load($testCustomer, $customer->getId(), array('password_hash'));
+            if ($testCustomer->getPasswordHash()!==$testCustomer->hashPassword($data['current_password'])) {
+                Mage::throwException('invalid current password');
+                //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
+            }
+        }
+        
+        if ($data['password'] != $data['confirmation']) {
+            Mage::throwException('new passwords do not match');
+            //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
+        }
+        
+        $customer->setPassword($data['password'])->save();
+        
+        return $this;
+    }
+}
