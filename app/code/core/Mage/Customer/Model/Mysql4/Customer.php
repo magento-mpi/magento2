@@ -7,14 +7,18 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Customer_Model_Mysql4_Customer
 {
+    protected $_read;
+    protected $_write;
     protected $_customerTable;
 
     public function __construct() 
     {
-        parent::__construct('customer_read', 'customer_write');
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('customer/customer');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_read =  $resource->getConnection('customer_read');
+        $this->_write = $resource->getConnection('customer_write');
+        $this->_customerTable = $resource->getTableName('customer/customer');
     }
     
     public function getIdFieldName()

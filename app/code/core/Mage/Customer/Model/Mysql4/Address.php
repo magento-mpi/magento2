@@ -7,18 +7,22 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Mysql4_Address extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Customer_Model_Mysql4_Address
 {
+    protected $_read;
+    protected $_write;
     protected $_addressTable;
     protected $_typeTable;
     protected $_typeLinkTable;
 
     public function __construct() 
     {
-        parent::__construct('customer_read', 'customer_write');
-        $this->_addressTable    = Mage::getSingleton('core/resource')->getTableName('customer/address');
-        $this->_typeTable       = Mage::getSingleton('core/resource')->getTableName('customer/address_type');
-        $this->_typeLinkTable   = Mage::getSingleton('core/resource')->getTableName('customer/address_type_link');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_read =  $resource->getConnection('customer_read');
+        $this->_write = $resource->getConnection('customer_write');
+        $this->_addressTable    = $resource->getTableName('customer/address');
+        $this->_typeTable       = $resource->getTableName('customer/address_type');
+        $this->_typeLinkTable   = $resource->getTableName('customer/address_type_link');
     }
     
     public function getIdFieldName()
