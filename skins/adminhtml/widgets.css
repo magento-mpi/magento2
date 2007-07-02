@@ -30,6 +30,26 @@
     padding-left:2.2em;
 }
 
+ul.tabs {
+    border:1px solid #bcbcbc;
+    border-top:none;
+    }
+ul.tabs li {
+    list-style-type:none;
+    }
+ul.tabs li a {
+    display:block;
+    border-top:1px solid #bcbcbc;
+    border-bottom:1px solid #fff;
+    background:#F2F1F1;
+    padding:.25em 1.5em;
+    color:#2A2424;
+    text-decoration:none;
+    }
+ul.tabs li a:hover {
+    background:#ddd; 
+    }
+
 /* Form Validation */
 .validation-advice {
     margin-left:10em; 

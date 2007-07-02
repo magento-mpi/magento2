@@ -8,11 +8,14 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget
 {
     protected $_websiteCode;
     protected $_storeCode;
     protected $_sectionCode;
+    
+    protected $_config;
+    protected $_activeSection;
     
     public function __construct() 
     {
@@ -22,6 +25,27 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->_websiteCode = $this->getRequest()->getParam('website');
         $this->_storeCode   = $this->getRequest()->getParam('store');
         $this->_sectionCode = $this->getRequest()->getParam('section');
+        
+        $config = Mage::getSingleton('adminhtml/system_config');
+        if (!$this->_websiteCode) {
+            $this->_config = $config->getNode('configuration/global/sections')->asArray();
+        }
+        elseif (!$this->_storeCode){
+            $this->_config = $config->getNode('configuration/website/sections')->asArray();
+        }
+        else {
+            $this->_config = $config->getNode('configuration/store/sections')->asArray();
+        }
+        
+        if (isset($this->_config[$this->_sectionCode])) {
+            $this->_activeSection = $this->_config[$this->_sectionCode];
+            $this->_config[$this->_sectionCode]['active'] = true;
+        }
+        else {
+            $keys = array_keys($this->_config);
+            $this->_activeSection = $this->_config[$keys[0]];
+            $this->_config[$keys[0]]['active'] = true;
+        }
     }
     
     public function getSaveUrl()
@@ -35,28 +59,28 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         return '';
     }
     
+    public function getForm()
+    {
+        return $this->getLayout()->createBlock($this->_activeSection['block'])
+            ->setSection($this->_activeSection)
+            ->toHtml();
+    }
+    
     public function getSections()
     {
-        $sections = array(
-        );
+        $sections = array();
+        foreach ($this->_config as $code => $section) {
+            $sections[] = new Varien_Object(array(
+                'label' => __($code),
+                'url'   => Mage::getUrl('adminhtml/*/*', array('_current'=>true, 'section'=>$code)),
+                'class' => empty($section['active']) ? '' : 'active'
+            ));
+        }
         return $sections;
     }
  
     protected function _beforeToHtml()
     {
-        $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('config_fieldset', array('legend'=>__('configuration form')));
-        $fieldset->addField('test', 'text', 
-            array(
-                'name'  => 'test',
-                'label' => __('test field'),
-                'title' => __('test field title'),
-                'class' => 'required-entry',
-            ),
-            'password'
-        );
-        
-        $this->setForm($form);
         return $this;
     }
 }

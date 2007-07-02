@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
                 'label' => __('global config'),
                 'title' => __('global config title'),
                 'url'   => Mage::getUrl('adminhtml/system_config'),
-                'class' => is_null($this->_websiteCode) ? 'active' : ''
+                'class' => is_null($this->_websiteCode) && is_null($this->_storeCode) ? 'active' : ''
             ))
         );
         
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
             $links[] = new Varien_Object(array(
                 'label' => __($code),
                 'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code)),
-                'class' => ($this->_websiteCode == $code) ? 'active' : ''
+                'class' => ($this->_websiteCode == $code && is_null($this->_storeCode)) ? 'active' : ''
             ));
             
             $website = Mage::getModel('core/website')
@@ -79,7 +79,8 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
         if ($this->_websiteCode) {
             $breadcrumbs->addLink(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
             if ($this->_storeCode) {
-                
+                $breadcrumbs->addLink(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
+                $breadcrumbs->addLink(__($this->_storeCode), '');
             }
             else {
                 $breadcrumbs->addLink(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');

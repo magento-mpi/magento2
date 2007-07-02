@@ -1,8 +1,10 @@
 <?
 /**
  * @methods
- *  getTitle()
- *  getSaveUrl()
+ *  getTitle() - string
+ *  getSaveUrl() - string
+ *  getSections() - array
+ *  getForm() - html
  */
 ?>
 <div class="head">
@@ -16,23 +18,16 @@
     </table>
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
-<div class="address-list" style="margin-right:20px">
-    <h3>Title</h3>
-    <ul>
-        <li>
-            <a href="">test</a>
-        </li>
-        <li>
-            <a href="">test</a>
-        </li>
+<div class="content-left-nav">
+    <h2><?=__('sections')?></h2>
+    <ul class="tabs">
+    <?foreach ($this->getSections() as $_section):?>
+        <li><a href="<?=$_section->getUrl()?>" class="<?=$_section->getClass()?>"><?=$_section->getLabel()?></a></li>
+    <?endforeach;?>
     </ul>
 </div>
 <div class="entry-edit">
-    <div>
-    <?foreach ($this->getForm()->getElements() as $_element):?>
-        <?=$this->drawElement($_element)?>
-    <?endforeach;?>
-    </div>
+    <?=$this->getForm()?>
 </div>
 
 </form>
