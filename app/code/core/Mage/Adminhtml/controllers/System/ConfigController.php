@@ -10,6 +10,12 @@
  */
 class Mage_Adminhtml_System_ConfigController extends Mage_Core_Controller_Front_Action 
 {
+    protected function _construct()
+    {
+        $this->setFlag('index', 'no-preDispatch', true);
+        return parent::_construct();
+    }
+
     public function indexAction()
     {
         $this->_forward('edit');

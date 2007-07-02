@@ -15,7 +15,7 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
             if ($sum<.0005) {
                 continue;
             }
-            $out .= '<tr><th>'.$name.'</th><td>'.number_format(Varien_Profiler::fetch($name,'sum'),4).'</td><td>'.Varien_Profiler::fetch($name,'count').'</td></tr>';
+            $out .= '<tr><td>'.$name.'</td><td>'.number_format(Varien_Profiler::fetch($name,'sum'),4).'</td><td>'.Varien_Profiler::fetch($name,'count').'</td></tr>';
         }
         $out .= '</table>';
         $out .= '<pre>';

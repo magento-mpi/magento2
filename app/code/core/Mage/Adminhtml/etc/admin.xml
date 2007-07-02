@@ -20,12 +20,12 @@
                 </group>
                 <online>
                     <title>View online customers</title>
-                    <action>adminhtml/customer/online/</action>
+                    <action>adminhtml/customer_online/</action>
                     <resource>admin/customer/online</resource>
                 </online>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/customer_config/</action>
+                    <action>adminhtml/system_config/</action>
                     <resource>admin/customer/config</resource>
                 </config>
             </children>
@@ -37,23 +37,23 @@
             <children>
                 <attributes>
                     <title>Product attributes</title>
-                    <action>adminhtml/productAttributes/</action>
+                    <action>adminhtml/catalog_product_attributes/</action>
                 </attributes>
                 <reviews>
                     <title>Reviews</title>
-                    <action>adminhtml/reviews/</action>
+                    <action>adminhtml/catalog_product_reviews/</action>
                 </reviews>
                 <tags>
                     <title>Tags</title>
-                    <action>adminhtml/tag/</action>
+                    <action>adminhtml/catalog_product_tags/</action>
                 </tags>
                 <datafeed>
                     <title>Datafeeds</title>
-                    <action>adminhtml/datafeeds/</action>
+                    <action>adminhtml/catalog_datafeeds/</action>
                 </datafeed>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/catalogConfig/</action>
+                    <action>adminhtml/system_config/</action>
                 </config>
             </children>
          </catalog>
@@ -64,7 +64,7 @@
             <children>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/salesConfig/</action>
+                    <action>adminhtml/sales_config/</action>
                 </config>
             </children>
          </sales>
@@ -74,19 +74,19 @@
             <children>
                 <catalog>
                     <title>Catalog price rules</title>
-                    <action>adminhtml/catalogPriceRules/</action>
+                    <action>adminhtml/promo_catalogPriceRules/</action>
                     <resource>promo/catalog</resource>
                     <depends><module>Mage_Catalog</module></depends>
                 </catalog>
                 <quote>
                     <title>Shopping cart price rules</title>
-                    <action>adminhtml/quotePriceRules/</action>
+                    <action>adminhtml/promo_quotePriceRules/</action>
                     <resource>promo/quote</resource>
                     <depends><module>Mage_Sales</module></depends>
                 </quote>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/promoConfig/</action>
+                    <action>adminhtml/system_onfig/</action>
                     <resource>promo/config</resource>
                 </config>
             </children>
@@ -97,7 +97,7 @@
             <children>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/cmsConfig/</action>
+                    <action>adminhtml/cms_config/</action>
                     <resource>cms/config</resource>
                 </config>
             </children>
@@ -113,14 +113,14 @@
             <children>
                 <myaccount>
                     <title>My Account</title>
-                    <action>adminhtml/myAccount</action>
+                    <action>adminhtml/system_account</action>
                 </myaccount>
                 <tools>
                     <title>Tools</title>
                     <children>
                         <backup>
                             <title>Backup</title>
-                            <action>adminhtml/backup</action>
+                            <action>adminhtml/system_backup</action>
                         </backup>
                     </children>
                 </tools>

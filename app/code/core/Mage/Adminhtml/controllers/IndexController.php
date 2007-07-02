@@ -24,16 +24,6 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
         
         $this->renderLayout();
     }
-
-    public function layoutFrameAction()
-    {
-        $this->_forward('index');
-    }
-
-    public function exampleAction()
-    {
-        $this->_outTemplate('example');
-    }
     
     public function loginAction()
     {

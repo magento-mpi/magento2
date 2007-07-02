@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Core_Block_Template
     
     public function _beforeToHtml()
     {
-        $this->assign('grid', $this->getLayout()->createBlock('adminhtml/backup_grid', 'backup.grid')->toHtml());
+        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/backup_grid', 'backup.grid'));
         return $this;
     }
    

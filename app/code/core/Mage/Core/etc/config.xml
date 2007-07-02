@@ -31,51 +31,33 @@
             </core_setup>
         </resources>
 
-        <entities>
-            <default>
-                <resourceTable>core/entity</resourceTable>
-                <attribute>
-                    <resourceTable>core/attribute</resourceTable>
-                    <types>
-                        <varchar>
-                            <model>core/entity_attribute_type_varchar</model>
-                            <resource>
-                                <model>core/entity_attribute_type</model>
-                                <table>core/attribute_varchar</table>
-                            </resource>
-                        </varchar>
-                        <decimal>
-                            <model>core/entity_attribute_type_decimal</model>
-                            <resource>
-                                <model>core/entity_attribute_type</model>
-                                <table>core/attribute_decimal</table>
-                            </resource>
-                        </decimal>
-                        <datetime>
-                            <model>core/entity_attribute_type_datetime</model>
-                            <resource>
-                                <model>core/entity_attribute_type</model>
-                                <table>core/attribute_datetime</table>
-                            </resource>
-                        </datetime>
-                        <text>
-                            <model>core/entity_attribute_type_text</model>
-                            <resource>
-                                <model>core/entity_attribute_type</model>
-                                <table>core/attribute_text</table>
-                            </resource>
-                        </text>
-                        <int>
-                            <model>core/entity_attribute_type_int</model>
-                            <resource>
-                                <model>core/entity_attribute_type</model>
-                                <table>core/attribute_int</table>
-                            </resource>
-                        </int>
-                    </types>
-                </attribute>
-            </default>
-        </entities>
+        <entity>
+            <types>
+                <default>
+                    <resource><table>core/entity</table></resource>
+                    <attribute>
+                        <resource><table>core/entity_attribute</table></resource>
+                        <types>
+                            <varchar>
+                                <resource><table>core/entity_attribute_varchar</table></resource>
+                            </varchar>
+                            <decimal>
+                                <resource><table>core/entity_attribute_decimal</table></resource>
+                            </decimal>
+                            <datetime>
+                                <resource><table>core/entity_attribute_datetime</table></resource>
+                            </datetime>
+                            <text>
+                                <resource><table>core/entity_attribute_text</table></resource>
+                            </text>
+                            <int>
+                                <resource><table>core/entity_attribute_int</table></resource>
+                            </int>
+                        </types>
+                    </attribute>
+                </default>
+            </types>
+        </entity>
 
         <models>
             <core>
@@ -107,24 +89,24 @@
                     <entity>
                         <table>core_entity</table>
                     </entity>
-                    <attribute>
+                    <entity_attribute>
                         <table>core_attribute</table>
-                    </attribute>
-                    <attribute_int>
+                    </entity_attribute>
+                    <entity_attribute_int>
                         <table>core_attribute_int</table>
-                    </attribute_int>
-                    <attribute_datetime>
+                    </entity_attribute_int>
+                    <entity_attribute_datetime>
                         <table>core_attribute_datetime</table>
-                    </attribute_datetime>
-                    <attribute_text>
+                    </entity_attribute_datetime>
+                    <entity_attribute_text>
                         <table>core_attribute_text</table>
-                    </attribute_text>
-                    <attribute_decimal>
+                    </entity_attribute_text>
+                    <entity_attribute_decimal>
                         <table>core_attribute_decimal</table>
-                    </attribute_decimal>
-                    <attribute_varchar>
+                    </entity_attribute_decimal>
+                    <entity_attribute_varchar>
                         <table>core_attribute_varchar</table>
-                    </attribute_varchar>
+                    </entity_attribute_varchar>
                 </entities>
             </core_mysql4>
         </models>

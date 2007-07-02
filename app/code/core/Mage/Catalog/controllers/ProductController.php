@@ -11,7 +11,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         $id = $this->getRequest()->getParam('id', false);
-        $this->loadLayout();
+        $this->loadLayout(null, '', false);
         
         $product = Mage::getModel('catalog/product')->load($id);
         if ($product->getCustomLayout()) {

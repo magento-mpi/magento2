@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Customers extends Mage_Core_Block_Template
     public function _beforeToHtml()
     {
         $this->assign('createUrl', Mage::getUrl('adminhtml/customer/new'));
-        $this->assign('grid', $this->getLayout()->createBlock('adminhtml/customer_grid', 'customer.grid')->toHtml());
+        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_grid', 'customer.grid'));
         return $this;
     }
 }

@@ -14,7 +14,7 @@
         </tr>
         <?foreach($data['cart']['items'] as $item):?>
         <tr>
-            <td><a href="<?=$this->('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
+            <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
 <?if(!empty($wishlistActive) && $customerIsLogin):?>            
             <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][wishlist]"/></td>
 <?endif?>

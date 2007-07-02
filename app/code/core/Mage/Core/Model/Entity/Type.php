@@ -26,7 +26,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     
     public function load($typeId)
     {
-        $this->_config = Mage::getConfig()->getNode('global/entities/'.$typeId);
+        $this->_config = Mage::getConfig()->getNode('global/entity/types/'.$typeId);
         if (false === $this->_config) {
             Mage::throwException('Can not retrieve config for entity type "'.$typeId.'"');
         }
@@ -48,7 +48,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
     
     public function setAttributeCollection($collection)
     {
-        $types = (array) $this->_config->attribute->types;
+        $types = (array) $this->_config->descend('attribute/types');
         foreach ($collection as $attribute) {
         	if (isset($types[$attribute->getAttributeType()])) {
         	    /**
@@ -69,7 +69,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
             $tableName = $this->getData('attributes_table_name');
         }
         else {
-            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->attribute->resourceTable);
+            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->descend('attribute/resource/table'));
             $this->setData('attributes_table_name', $tableName);
         }
         return $tableName;
@@ -81,7 +81,7 @@ class Mage_Core_Model_Entity_Type extends Varien_Object
             $tableName = $this->getData('entity_table_name');
         }
         else {
-            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->resourceTable);
+            $tableName = Mage::getSingleton('core/resource')->getTableName((string)$this->_config->descend('resource/table'));
             $this->setData('entity_table_name', $tableName);
         }
         return $tableName;

@@ -10,15 +10,13 @@
     </Mage_Log>
     </modules>
     <global>
-        <log>
-            <ignore>
-                <module>
-                    <Mage_Install />
-                    <Mage_Adminhtml />
-                    <Mage_Admin />
-                </module>
-            </ignore>
-        </log>
+        <ignoredModules>
+            <entities>
+                <install />
+                <adminhtml />
+                <admin />
+            </entities>
+        </ignoredModules>
         <models>
             <log>
                 <class>Mage_Log_Model</class>

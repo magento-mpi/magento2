@@ -21,7 +21,7 @@ class Mage_Core_Model_Mysql4_Entity_Attribute_Collection extends Varien_Data_Col
             $this->setAttributeTable($attributeTable);
         }
         else {
-            $this->setAttributeTable($resource->getTableName('core/attribute'));
+            $this->setAttributeTable($resource->getTableName('core/entity_attribute'));
         }
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/entity_attribute'));

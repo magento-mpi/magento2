@@ -1,6 +1,6 @@
 <?php
 /**
- * Entity base model
+ * Entity type mysql4 resource model
  *
  * @package     Mage
  * @subpackage  Core
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Core_Model_Entity extends Mage_Core_Model_Entity_Abstract
+class Mage_Core_Model_Mysql4_Entity_Attribute_Type_Default extends Mage_Core_Model_Mysql4_Entity_Attribute_Type_Abstract
 {
-
+    
 }

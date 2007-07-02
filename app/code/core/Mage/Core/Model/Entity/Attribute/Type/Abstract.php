@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Core_Model_Entity_Attribute_Type_Abstract implements Mage_Core_Model_Entity_Attribute_Type_Interface
+abstract class Mage_Core_Model_Entity_Attribute_Type_Abstract implements Mage_Core_Model_Entity_Attribute_Type_Interface
 {
     protected $_code;
     protected $_config;
@@ -28,7 +28,7 @@ class Mage_Core_Model_Entity_Attribute_Type_Abstract implements Mage_Core_Model_
     public function setConfig(Varien_Simplexml_Element $config)
     {
         $this->_config      = $config;
-        $this->_tableName   = Mage::getSingleton('core/resource')->getTableName($config->resource->table);
+        $this->_tableName   = Mage::getSingleton('core/resource')->getTableName((string)$config->descend('resource/table'));
         return $this;
     }
     
@@ -50,6 +50,10 @@ class Mage_Core_Model_Entity_Attribute_Type_Abstract implements Mage_Core_Model_
     
     public function getResource()
     {
-        return Mage::getResourceSingleton((string)$this->_config->resource->model);
+        $className = (string)$this->_config->descend('resource/model');
+        if (!$className) {
+            $className = 'core/entity_attribute_type_default';
+        }
+        return Mage::getResourceSingleton($className);
     }
 }

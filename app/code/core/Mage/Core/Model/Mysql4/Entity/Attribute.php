@@ -30,7 +30,7 @@ class Mage_Core_Model_Mysql4_Entity_Attribute
     {
         $resource = Mage::getSingleton('core/resource');
         
-        $this->_attributeTable  = $resource->getTableName('core/attribute');
+        $this->_attributeTable  = $resource->getTableName('core/entity_attribute');
         $this->_read            = $resource->getConnection('core_read');
         $this->_write           = $resource->getConnection('core_write');
     }

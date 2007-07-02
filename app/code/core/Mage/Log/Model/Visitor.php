@@ -59,26 +59,35 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
         return $this;
     }
+    
+    public function isModuleIgnored($observer)
+    {
+        $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+
+        if( is_array($ignores) && $observer) {
+            $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getModuleName();
+            if (isset($ignores[$curModule])) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function loadByAction($observer)
     {
-        if ($observer->getEvent()->getControllerAction()->getRequest()->getModuleName()=='Mage_Install') {
+        if ($this->isModuleIgnored($observer)) {
             return $this;
         }
+        
         $this->load(Mage::getSingleton('core/session')->getSessionId());
         return $this;
     }
+    
 
     public function save($observer = null)
     {
-        $ignores = Mage::getConfig()->getNode('global/log/ignore/module')->asArray();
-
-        if( is_array($ignores) && $observer ) {
-            foreach( $ignores as $key => $ignore ) {
-                if( $observer->getEvent()->getControllerAction()->getRequest()->getModuleName() == $key ) {
-                    return $this;
-                }
-            }
+        if ($this->isModuleIgnored($observer)) {
+            return $this;
         }
 
         $this->setResourceVisitorId();

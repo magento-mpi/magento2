@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_System_BackupController extends Mage_Core_Controller_Front_Action 
 {
     /**
      * Backup list action
@@ -38,7 +38,7 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
         
         $dbDump = Mage::getModel('backup/db')->renderSql();
         $backup->setFile($dbDump);
-        $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
+        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/backup'));
     }
     
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
                 ->setPath(Mage::getBaseDir("var") . DS . "backups");
         
         if (!$backup->exists()) {
-            $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
+            $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/backup'));
         }
         
         if ($this->getRequest()->getParam('file') == 'gz') {
@@ -80,7 +80,7 @@ class Mage_Adminhtml_BackupController extends Mage_Core_Controller_Front_Action
                 ->setPath(Mage::getBaseDir("var") . DS . "backups")
                 ->deleteFile();
                 
-        $this->_helper->redirector->gotoAndExit('','backup','adminhtml');
+        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/backup'));
             
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Adminhtml_OnlineController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Customer_OnlineController extends Mage_Core_Controller_Front_Action
 {
 
-    public function IndexAction()
+    public function indexAction()
     {
         $this->loadLayout('baseframe');
         $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');

@@ -74,8 +74,11 @@ class Mage_Core_Model_Entity_Attribute extends Varien_Object implements Mage_Cor
      */
     public function setConfig(Varien_Simplexml_Element $config)
     {
-        $type = Mage::getModel((string)$config->model)
-            ->setConfig($config);
+        $className = (string)$config->model;
+        if (!$className) {
+            $className = 'core/entity_attribute_type_default';
+        }
+        $type = Mage::getModel($className)->setConfig($config);
         /**
          * @see  Varien_Object::__call()
          */    
