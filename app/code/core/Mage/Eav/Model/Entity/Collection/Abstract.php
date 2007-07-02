@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
+class Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
      * Read connection
@@ -568,47 +568,5 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $sql = $this->_read->quoteInto("$fieldName = ?", $condition);
         }
         return $sql;
-    }
-    
-    public function setPageSize($pageSize)
-    {
-        $this->_pageSize = $pageSize;
-        return $this;
-    }
-    
-    public function setCurPage($page)
-    {
-        $this->_pageStart = $page;
-        return $this;
-    }
-    
-    public function getLastPageNumber()
-    {
-        return 10;
-    }
-    
-    public function getCurPage()
-    {
-        return $this->_pageStart;
-    }
-    
-    public function getPageSize()
-    {
-        return $this->_pageSize;
-    }
-    
-    public function getSize()
-    {
-        return 10;
-    }
-    
-    public function setOrder($attribute, $dir='desc')
-    {
-        return $this->addAttributeToSort($attribute, $dir);
-    }
-    
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_items);
     }
 }

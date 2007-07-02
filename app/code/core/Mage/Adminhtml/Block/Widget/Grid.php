@@ -69,8 +69,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param Varien_Data_Collection $collection
      */
-    //public function setCollection(Varien_Data_Collection $collection)
-    public function setCollection($collection)
+    public function setCollection(Varien_Data_Collection $collection)
     {
         $this->_collection = $collection;
     }
@@ -157,7 +156,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             
             $this->getCollection()->load();
         }
-        
         $this->assign('collection', $this->getCollection());
         $this->assign('columns', $this->_columns);
         

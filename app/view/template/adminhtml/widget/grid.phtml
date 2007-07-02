@@ -30,13 +30,13 @@
     <col <?=$this->getColumnHtmlProperty($column)?>/>
     <?endforeach;?>
     <thead>
-        <tr>
+		<tr>
         <?foreach ($columns as $column):?>
             <th><?=$this->getColumnHeaderHtml($column)?></th>
         <?endforeach;?>
-        </tr>
-    </thead>
-    <tbody>
+		</tr>
+	</thead>
+	<tbody>
     <?foreach ($collection as $_index=>$_item):?>
         <tr>
         <?foreach ($columns as $column):?>
