@@ -99,15 +99,7 @@ addressesModel.prototype = {
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
-        
-        var options = $$('option');
-        for(var i in options){
-            if(options[i].title){
-                //options[i].style['color'] = 'red';
-                Element.setStyle(options[i], {padding:'0 0 0 20px', backgroundImage:'url(<?=$baseUrl?>skins/default/images/icons/flags/'+options[i].title.toLowerCase()+'.gif)',backgroundRepeat:'no-repeat'});
-            }
-        }
-        
+
         this.setActiveItem(this.itemList[0]);
     },
     initItem : function(item){

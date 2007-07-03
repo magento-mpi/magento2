@@ -91,3 +91,8 @@ input.validation-failed, textarea.validation-failed {
     color:red !important;
     font-style:italic !important;
 }
+
+select.countries option{
+    padding-left:20px;
+    background-repeat:no-repeat;
+}

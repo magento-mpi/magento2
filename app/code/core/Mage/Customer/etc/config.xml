@@ -246,7 +246,7 @@
                       <frontend>
                         <input>select</input>
                         <label>Country</label>
-                        <class>required-entry</class>
+                        <class>required-entry countries</class>
                       </frontend>
                       <source>
                         <model>customer/entity_attribute_source_country</model>
