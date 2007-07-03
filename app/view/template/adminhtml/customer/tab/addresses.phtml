@@ -9,7 +9,7 @@
 			<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
 			</address>
 			<?if(!$_address->isPrimary()):?>
-			<strong class="button"><span><a href="#" name="delete_address"><?=__('delete address')?></a></span></strong>
+			<strong class="button"><span><a href="#" name="delete_address" id="delete_address_item_<?=$_address->getId()?>"><?=__('delete address')?></a></span></strong>
 			<?endif;?>
 		</li>
 		<?endforeach;?>
@@ -66,7 +66,6 @@
 <?foreach ($form->getElements() as $_element):?>
     <?=$this->drawElement($_element)?>
 <?endforeach;?>
-
 </div>
 
 
@@ -91,8 +90,9 @@ addressesModel.prototype = {
         this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
         this.onItemFormFieldChange = this.syncFormData.bindAsEventListener(this);
 
-        for(var i in this.itemList){
+        for(var i=0,n=this.itemList.length; i<n; i++){
             this.addItemObservers(this.itemList[i]);
+            Event.observe($('delete_'+this.itemList[i].id), 'click', this.onItemMouseClick);
             this.initItem(this.itemList[i]);
         }
         if($('add_new_address_button')){
@@ -222,13 +222,12 @@ addressesModel.prototype = {
     },
     deleteAddress : function(item){
         if( item.isNewAddress){
-            if ( this.activeItem == item ) {
-                this.formContainer.removeChild(item.formBlock);
-                this.setActiveItem(this.itemList[0]);
-            }
+            if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
         } else {
-            alert(123);
+            // alert($('address['+item.id+'][_deleted]').name);
+            $('address['+item.id+'][_deleted]').value = 1;
         }
+        if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
         this.itemContainer.removeChild(item);
     }
 }
