@@ -35,6 +35,7 @@
         <?foreach ($form->getElements() as $_element):?>
             <?=$this->drawElement($_element)?>
         <?endforeach;?>
+        <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
         </div>
         <?endforeach;?>
     <?else:?>
@@ -224,8 +225,9 @@ addressesModel.prototype = {
         if( item.isNewAddress){
             if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
         } else {
-            // alert($('address['+item.id+'][_deleted]').name);
-            $('address['+item.id+'][_deleted]').value = 1;
+            if($('deleted_'+item.id)){
+                $('deleted_'+item.id).value = 1;
+            }
         }
         if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
         this.itemContainer.removeChild(item);

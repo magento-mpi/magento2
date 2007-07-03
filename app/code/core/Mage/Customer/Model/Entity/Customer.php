@@ -72,8 +72,14 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         foreach ($customer->getAddressCollection() as $address)
         {
-            $address->setParentId($customer->getId())
-                ->save();
+            if ($address->getData('_deleted')) {
+                $address->delete();
+            }
+            else {
+                $address->unsetData('_deleted')
+                    ->setParentId($customer->getId())
+                    ->save();
+            }
         }
         return $this;
     }

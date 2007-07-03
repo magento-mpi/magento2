@@ -146,10 +146,7 @@
                     <class>required-entry</class>
                   </frontend>
                   <source>
-                    <options>
-                        <option><value>1</value><label>Regular</label></option>
-                        <option><value>2</value><label>Wholesale</label></option>
-                    </options>
+                    <model>customer/entity_attribute_source_group</model>
                   </source>
                 </customer_group>
                 
@@ -235,9 +232,12 @@
                       <id>207</id>
                       <backend><type>int</type></backend>
                       <frontend>
-                        <input>text</input>
+                        <input>select</input>
                         <label>State</label>
                       </frontend>
+                      <source>
+                        <model>customer/entity_attribute_source_region</model>
+                      </source>
                     </region_id>
                     
                     <country_id>

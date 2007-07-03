@@ -8,7 +8,7 @@ varienTabs.prototype = {
         
         this.tabOnClick     = this.tabMouseClick.bindAsEventListener(this);
         
-        this.tabs = $$('#'+this.containerId+' li a');
+        this.tabs = $$('#'+this.containerId+' li a.tab-item-link');
         
         this.hideAllTabsContent();
         for(var tab in this.tabs){
