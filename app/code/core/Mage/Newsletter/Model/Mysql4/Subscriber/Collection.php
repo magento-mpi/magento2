@@ -18,6 +18,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     protected $_subscriberTable;
     
+    /**
+     * Customers table name
+     *
+     * @var string
+     */
+    protected $_customersTable;
+    
      /**
      * Queue link table name
      *
@@ -35,20 +42,65 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
         $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
+        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('customer/customer');
         $this->_sqlSelect->from($this->_subscriberTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
     }
     
     /**
-     * Load subscribers by queue
+     * Set loading mode subscribers by queue
      * 
      * @param Mage_Newsletter_Model_Queue $queue
      */
     public function useQueue(Mage_Newsletter_Model_Queue $queue)
     {
-        $this->_sqlSelect->join($this->_queueLinkTable, "{$this->_queueLinkTable}.subscriber_id = {$this->_subscriberTable}.subscriber_id")
-            ->where(new Zend_Db_Expression('{$this->_queueLinkTable}.queue_id = ' . intval($queue->getId()));
+        $this->_sqlSelect->join($this->_queueLinkTable, array(), "{$this->_queueLinkTable}.subscriber_id = {$this->_subscriberTable}.subscriber_id")
+            ->where("{$this->_queueLinkTable}.queue_id = ? ", $queue->getId());
             
+        return $this;
+    }
+    
+    /**
+     * Set loading mode subscribers by queue
+     * 
+     * @param   int $websiteId
+     */
+    public function useWebsite($websiteId)
+    {
+        $this->_sqlSelect->where("{$this->_subscriberTable}.website_id = ?", $websiteId);
+   
+        return $this;
+    }
+    
+    /**
+     * Show customer info too
+     */
+    public function showCustomersInfo( )
+    {
+        $this->_sqlSelect->joinLeft($this->_customerTable, 
+                                    "{$this->_customerTable}.customer_id = {$this->_subscriberTable}.customer_id",
+                                    array('firstname','lastname'));
+        
+        return $this;
+    }
+    
+    /**
+     * Load only subscribed customers
+     */
+    public function useOnlyCustomers()
+    {
+        $this->_sqlSelect->where("{$this->_subscriberTable}.customer_id > 0");
+        
+        return $this;
+    }
+    
+    /**
+     * Show only with subscribed status
+     */
+    public function useOnlySubscribed() 
+    {
+        $this->_sqlSelect->where("{$this->_subscriberTable}.status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        
         return $this;
     }
 }

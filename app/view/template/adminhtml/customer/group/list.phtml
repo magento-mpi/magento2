@@ -11,7 +11,11 @@
 <!--
 var gridController = {
     onRowClick : function(e) {
-        if(e.target.tagName != 'A') {
+              
+        if( (e.srcElement && e.srcElement.tagName != 'A') 
+            ||
+            (e.target && e.target.tagName != 'A') 
+           ) {
             var editHrefObjects = $(Event.findElement(e,'tr')).getElementsByClassName('edit-url');
             if(editHrefObjects.length > 0) {
                 location.href = editHrefObjects[0].href;

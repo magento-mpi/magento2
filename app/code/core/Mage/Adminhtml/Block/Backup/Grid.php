@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _beforeToHtml()
     {
-        $gridUrl = Mage::getUrl('adminhtml',array('controller'=>'backup'));
+        $gridUrl = Mage::getUrl('adminhtml/*/');
         $this->setPagerVisibility(false);
         $this->addColumn('time', array('header'=>__('time'), 'align'=>'center', 'index'=>'time_formated'));
         $this->addColumn('type', array('header'=>__('type'),'align'=>'center', 'index'=>'type'));

@@ -1,0 +1,20 @@
+<div class="head">
+    <table cellspacing="0"> 
+        <tr>
+            <td style="width:30%;"><h2><?=$header?></h2></td>
+            <td class="buttons">
+                <strong class="button"><span><a href="#" onclick="history.back();return false;"><?=__('back')?></a></span></strong>
+                <strong class="button"><span><a href="#" onclick="templateForm.submit();return false;"><?=__('save template')?></a></span></strong>
+                <?if($this->getEditMode()):?>
+                <strong class="button"><span><a href="<?=$this->getDeleteUrl()?>"><?=__('delete template')?></a></span></strong>
+                <?endif?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="POST" id="newsletter_template_edit_form">
+<?=$this->getForm()?>
+</form>
+<script type="text/javascript" language="javascript">
+    var templateForm = new varienForm('newsletter_template_edit_form');
+</script>

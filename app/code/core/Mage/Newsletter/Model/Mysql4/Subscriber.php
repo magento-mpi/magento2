@@ -79,6 +79,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
                     $subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE);
                 }
                 $this->_write->insert($this->_subscriberTable, $data);
+                $subscriber->setId($this->_write->lastInsertId($this->_subscriberTable));
             }            
             $this->_write->commit();
         }
