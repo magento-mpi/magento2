@@ -6,6 +6,15 @@
         </Mage_Cms>
     </modules>
     <front>
+        <routers>
+         <cms>
+            <use>standard</use>
+            <args>
+               <module>Mage_Cms</module>
+               <frontName>cms</frontName>
+            </args>
+         </cms>
+        </routers>
         <events>
             <action_noRoute>
                 <observers>

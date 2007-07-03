@@ -3,14 +3,14 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function CmsNoRouteAction($coreRoute = null)
     {
-        $pageId = ( $this->getRequest()->getRequestUri() ) ? trim($this->getRequest()->getRequestUri(), '/') : null;
+        $pageId = ( $this->getRequest()->getPathInfo() ) ? trim($this->getRequest()->getPathInfo(), '/') : null;
         $pageResource = Mage::getSingleton('cms/page');
         $page = $pageResource->load($pageId);
+
         if( !$page->getPageId() || !is_null($coreRoute) ) {
             $this->_forward('noroute');
             return;
         }
-
         $this->loadLayout();
         $contentBlock = $this->getLayout()->createBlock('core/template', 'cms.block');
         $contentBlock->setTemplate('cms/content.phtml');

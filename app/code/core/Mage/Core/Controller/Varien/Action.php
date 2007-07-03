@@ -48,25 +48,26 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
 
      }
      
-    final protected function _forward($action, $controller = null, $module = null, array $params = null)
+    protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $request = $this->getRequest();
     
-        if (null !== $params) {
+        if (!is_null($params)) {
             $request->setParams($params);
         }
     
-        if (null !== $controller) {
+        if (!is_null($controller)) {
             $request->setControllerName($controller);
     
             // Module should only be reset if controller has been specified
-            if (null !== $module) {
+            if (!is_null($module)) {
                 $request->setModuleName($module);
             }
         }
     
         $request->setActionName($action)
                 ->setDispatched(false);
+
     }
      
      function getRequest()
@@ -244,6 +245,7 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
             $this->renderLayout();
         } else {
             $status->setForwarded(true);
+            #$this->_forward('cmsNoRoute', 'index', 'cms');
             $this->_forward($status->getForwardAction(), $status->getForwardController(), $status->getForwardModule(), array('__status__' => $status));
         }
     }

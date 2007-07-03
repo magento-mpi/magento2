@@ -15,9 +15,9 @@ class Mage_Cms_Model_Observer
     {
         $observer->getEvent()->getStatus()
             ->setLoaded(true)
-            ->setForwardModule('Mage_Cms')
-            ->setForwardController('Index')
-            ->setForwardAction('CmsNoRoute');
+            ->setForwardModule('cms')
+            ->setForwardController('index')
+            ->setForwardAction('cmsNoRoute');
     }
 
 }

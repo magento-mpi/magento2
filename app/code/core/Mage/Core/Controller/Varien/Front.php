@@ -108,6 +108,7 @@ class Mage_Core_Controller_Varien_Front
 
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
+Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
             foreach ($this->_routers as $router) {
                 if ($router->match($this->getRequest())) {
                     break;
