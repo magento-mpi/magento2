@@ -24,6 +24,16 @@ class Mage_Cms_Model_Page extends Varien_Object
         return $this;
     }
 
+    public function loadById($pageId=null)
+    {
+        if( is_null($pageId) ) {
+            return $this->noRoutePage();
+        }
+
+        $this->setData( $this->getResource()->loadById($pageId) );
+        return $this;
+    }
+
     public function noRoutePage()
     {
         if( !$this->isDisabled(self::NOROUTE_PAGE_ID) ) {
@@ -42,6 +52,7 @@ class Mage_Cms_Model_Page extends Varien_Object
     public function save($page)
     {
         $this->getResource()->save($page);
+        return $this;
     }
 
     public function enablePage($pageId)
@@ -53,6 +64,12 @@ class Mage_Cms_Model_Page extends Varien_Object
     public function disablePage($pageId)
     {
         $this->getResource()->disablePage($pageId);
+        return $this;
+    }
+
+    public function delete($pageId)
+    {
+        $this->getResource()->delete($pageId);
         return $this;
     }
 }

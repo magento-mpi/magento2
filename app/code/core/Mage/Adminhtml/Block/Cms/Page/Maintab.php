@@ -13,7 +13,6 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->_initForm();
     }
 
     protected function _initForm()
@@ -23,12 +22,22 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('main data')));
 
+        if( intval($this->getPageObject()->getPageId()) > 0 ) {
+        	$fieldset->addField('page_id', 'hidden',
+                array(
+                    'name' => 'page_id',
+                    'value' => $this->getPageObject()->getPageId()
+                )
+            );
+        }
+
     	$fieldset->addField('page_title', 'text',
             array(
                 'name' => 'page_title',
                 'label' => __('page title'),
                 'title' => __('page title'),
-                'class' => 'required-entry'
+                'class' => 'required-entry',
+                'value' => $this->getPageObject()->getPageTitle()
             )
         );
 
@@ -37,7 +46,8 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                 'name' => 'page_identifier',
                 'label' => __('page identifier'),
                 'title' => __('page identifier title'),
-                'class' => 'required-entry'
+                'class' => 'required-entry',
+                'value' => $this->getPageObject()->getPageIdentifier()
             )
         );
 
@@ -45,7 +55,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
             array(
                     'label' => __('page enabled'),
                     'title' => __('page enabled title'),
-                    'checked' => 'page_enabled',
+                    'checked' => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
                     'class' => 'required-entry',
 
                     'radios' => array(
@@ -72,10 +82,17 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                 'label' => __('page content'),
                 'title' => __('page content title'),
                 'class' => 'required-entry',
-                'wysiwyg' => true
+                'wysiwyg' => true,
+                'value' => $this->getPageObject()->getPageContent()
             )
         );
 
         $this->setForm($form);
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_initForm();
+        return parent::_beforeToHtml();
     }
 }

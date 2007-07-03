@@ -1,11 +1,11 @@
 <div class="entry-edit">
-<?if( $this->getForm()->getUseContainer() === true ):?>
-<form id="<?=$this->getForm()->getFormId()?>" method="<?=( $this->getForm()->getFormMethod() ) ? $this->getForm()->getFormMethod() : 'POST' ;?>" action="<?=$this->getForm()->getFormAction()?>" <?=( $this->getForm()->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
+<?if( $form->getUseContainer() === true ):?>
+<form id="<?=$form->getFormId()?>" method="<?=( $form->getFormMethod() ) ? $form->getFormMethod() : 'POST' ;?>" action="<?=$form->getFormAction()?>" <?=( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
 <?endif;?>
 	<?foreach ($form->getElements() as $_element):?>
 	<?=$this->drawElement($_element)?>
 	<?endforeach;?>
-<?if( $this->getForm()->getUseContainer() === true ):?>
+<?if( $form->getUseContainer() === true ):?>
 </form>
 <?endif;?>
 </div>

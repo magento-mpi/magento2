@@ -36,6 +36,16 @@ class Mage_Cms_Model_Mysql4_Page
         return $this->_read->fetchRow($select);
     }
 
+    public function loadById($pageId=0)
+    {
+        $condition = $this->_read->quoteInto("{$this->_pageTable}.page_id = ?", $pageId);
+        $select = $this->_read->select();
+        $select->from($this->_pageTable);
+        $select->where($condition);
+
+        return $this->_read->fetchRow($select);
+    }
+
     public function save($page)
     {
         if( $page->getPageId() ) {
@@ -61,5 +71,12 @@ class Mage_Cms_Model_Mysql4_Page
         $page = $this->load($pageId);
         $page->setPageActive(1);
         $this->save($page);
+    }
+
+    public function delete($pageId)
+    {
+        $condition = $this->_write->quoteInto("{$this->_pageTable}.page_id=?", $pageId);
+        $this->_write->delete($this->_pageTable, $condition);
+        return $this;
     }
 }

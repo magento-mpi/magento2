@@ -19,19 +19,27 @@ class Mage_Adminhtml_Block_Cms_Page_Tabs extends Mage_Adminhtml_Block_Widget_Tab
 
     protected function _beforeToHtml()
     {
+        $pageId = intval( $this->_request->getParam('page') );
+        $pageObject = Mage::getModel('cms/page')->loadById($pageId);
+
         Varien_Profiler::start('pageForm');
         $this->addTab('main_section', array(
             'label'     => __('main page data'),
             'title'     => __('main page data title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_maintab')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_maintab')
+                            ->setPageObject($pageObject)
+                            ->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('meta_section', array(
             'label'     => __('meta data'),
             'title'     => __('meta data title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_metatab')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_metatab')
+                            ->setPageObject($pageObject)
+                            ->toHtml(),
         ));
+
         Varien_Profiler::stop('pageForm');
         return parent::_beforeToHtml();
     }

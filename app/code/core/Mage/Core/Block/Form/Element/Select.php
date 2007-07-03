@@ -10,14 +10,14 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_Abstract 
+class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_Abstract
 {
-    public public function __construct($attributes) 
+    public public function __construct($attributes)
     {
         $attributes['type'] = 'select';
         parent::__construct($attributes);
     }
-    
+
     public function toHtml()
     {
         $html = $this->renderElementLabel();
@@ -39,14 +39,14 @@ class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_A
                ,'onblur'
                ,'ext_type'));
         $html.= '>';
-        
+
         $value  = $this->getAttribute('value');
         $values = $this->getAttribute('values');
-        
+
         if (!is_array($value)) {
             $value = array($value);
         }
-        
+
         if (is_array($values)) {
             foreach ($values as $optionInfo) {
                 if (is_array($optionInfo['value'])) {
@@ -61,12 +61,12 @@ class Mage_Core_Block_Form_Element_Select extends Mage_Core_Block_Form_Element_A
                 }
             }
         }
-        
+
         $html.= '</select>';
-        
+
         return $html;
     }
-    
+
     protected function _renderOption($optionInfo, $selected)
     {
         $html = '<option value="'.htmlspecialchars($optionInfo['value'], ENT_COMPAT).'"';

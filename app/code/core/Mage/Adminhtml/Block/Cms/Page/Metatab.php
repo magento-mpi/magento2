@@ -13,16 +13,39 @@ class Mage_Adminhtml_Block_Cms_Page_Metatab extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->_initForm();
     }
 
     protected function _initForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('_meta');
+        $form->setHtmlIdPrefix('_main');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('meta information')));
+        $fieldset = $form->addFieldset('meta_fieldset', array('legend'=>__('meta data')));
+
+    	$fieldset->addField('page_title', 'editor',
+            array(
+                'name' => 'page_meta_keywords',
+                'label' => __('meta keywords'),
+                'title' => __('meta keywords title'),
+                'value' => $this->getPageObject()->getPageMetaKeywords()
+            )
+        );
+
+    	$fieldset->addField('page_meta_description', 'editor',
+            array(
+                'name' => 'page_meta_description',
+                'label' => __('meta description'),
+                'title' => __('meta description title'),
+                'value' => $this->getPageObject()->getPageMetaDescription()
+            )
+        );
 
         $this->setForm($form);
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_initForm();
+        return parent::_beforeToHtml();
     }
 }

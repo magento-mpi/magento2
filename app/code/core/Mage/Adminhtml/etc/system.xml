@@ -4,59 +4,75 @@
         <global>
             <sections>
                 <general>
-                    <fields>
-                        <field name="base_currency" label="Base currency" title="" path="" type="select" class="required-entry"/>
-                    </fields>
+                    <fieldset name="general" legend="General options">
+                        <field name="base_currency" label="Base currency" title="" path="" type="select"/>
+                    </fieldset>
                 </general>
-                <customer>
-                    <fields>
-                        
-                    </fields>
-                </customer>
-                <catalog>
-                    <fields>
-                        
-                    </fields>
-                </catalog>
-                <cart>
                 
-                </cart>
+                <customer>
+                    <fieldset name="customer" legend="Customer options">
+                        
+                    </fieldset>
+                    <fieldset name="wishlist" legend="Wishlist">
+                        <field name="enable" label="Enabled" type="checkbox"/>
+                    </fieldset>
+                </customer>
+                
+                <catalog>
+                    <fieldset name="reviews" legend="Product reviews/ratings">
+                        
+                    </fieldset>
+                    <fieldset name="tags" legend="Product tags">
+                    </fieldset>
+                    <fieldset name="filters" legend="Intelligent browsing">
+                    </fieldset>
+                </catalog>
+                
+                <gift_messages>
+                    <fieldset name="gift_messages" legend="Gift messages">
+                        <field name="enable_per_item" label="Enable per item" type="select"/>
+                        <field name="enable_per_address" label="Enable per address" type="select"/>
+                    </fieldset>
+                </gift_messages>
+                
                 <filesystem>
-                    <fields>
+                    <fieldset name="filesystem" legend="Filesystem">
                         <field name="upload" label="Upload path" title="" path="global/default/filesystem/upload" type="text" class="required-entry"/>
                         <field name="var" label="Var path" title="" path="global/default/filesystem/var" type="text" class="required-entry"/>
-                    </fields>
+                    </fieldset>
                 </filesystem>
+                
                 <database>
-                    <fields>
+                    <fieldset name="default" legend="Database settings">
                         <field name="host" label="DB host" title="" path="global/resources/dev_setup/connection/host" type="text" class="required-entry"/>
                         <field name="username" label="DB user" title="" path="global/resources/dev_setup/connection/username" type="text" class="required-entry"/>
                         <field name="password" label="DB pass" title="" path="global/resources/dev_setup/connection/password" type="password" class="required-entry"/>
                         <field name="dbname" label="DB name" title="" path="global/resources/dev_setup/connection/dbname" type="text" class="required-entry"/>
-                    </fields>
+                    </fieldset>
                 </database>
+                
                 <templates>
-                    <fields>
+                    <fieldset name="templates" legend="Templates">
                         <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fields>
+                    </fieldset>
                 </templates>
             </sections>
         </global>
         <website>
             <sections>
                 <general>
-                    <fields>
+                    <fieldset legend="General options">
                          <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fields>
+                    </fieldset>
                 </general>
             </sections>
         </website>
         <store>
             <sections>
                 <general>
-                    <fields>
+                    <fieldset legend="General options">
                         <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fields>
+                    </fieldset>
                 </general>
                 <sharing>
 

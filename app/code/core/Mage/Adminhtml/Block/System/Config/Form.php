@@ -17,24 +17,31 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     
     protected function _beforeToHtml()
     {
-        $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('config_fieldset', array('legend'=>__('configuration form')));
-        
         /**
          * @see  Varien_Object::__call()
          */
         $section = $this->getSection();
         
-        if (!empty($section->fields)) {
-            foreach ($section->fields->children() as $config) {
-                $fieldset->addField((string) $config['name'], (string) $config['type'], array(
-                    'label' => (string) $config['label'],
-                    'value' => (string) Mage::getConfig()->getNode((string)$config['path']),
-                    'class' => (string) $config['class']
-                ));
+        $form = new Varien_Data_Form();
+        if (!empty($section->fieldset)) {
+            foreach ($section->fieldset as $fieldsetConfig) {
+                if (!empty($fieldsetConfig['name'])) {
+                    $fieldsetName = (string)$fieldsetConfig['name'];
+                } else {
+                    $fieldsetName = $section->getName();
+                }
+                $legend = (string) $fieldsetConfig['legend'];
+                $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__($legend)));
+                
+                foreach ($fieldsetConfig->field as $fieldConfig) {
+                    $fieldset->addField((string) $fieldConfig['name'], (string) $fieldConfig['type'], array(
+                        'label' => (string) $fieldConfig['label'],
+                        'value' => (string) Mage::getConfig()->getNode((string) $fieldConfig['path']),
+                        'class' => (string) $fieldConfig['class']
+                    ));
+                }
             }
         }
-        
         $this->setForm($form);
         return parent::_beforeToHtml();
     }

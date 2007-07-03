@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('adminhtml', array('controller'=>'cms/page', 'action'=>'save'));
+        return Mage::getUrl('adminhtml', array('controller'=>'cms_page', 'action'=>'save'));
     }
 
     protected function _beforeToHtml()

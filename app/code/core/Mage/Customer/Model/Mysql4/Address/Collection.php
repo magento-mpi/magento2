@@ -9,9 +9,9 @@
  */
 class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collection_Db
 {
-    static protected $_addressTable;
-    static protected $_typeTable;
-    static protected $_typeLinkTable;
+    protected $_addressTable;
+    protected $_typeTable;
+    protected $_typeLinkTable;
 
     public function __construct() 
     {

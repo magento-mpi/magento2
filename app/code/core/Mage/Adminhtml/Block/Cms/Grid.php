@@ -60,11 +60,13 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('page_actions', array('header'=>__('actions'),
                                              'width'=>10,
-                                             'format' =>
-                                                        '[<a href="' . $actionsUrl . 'edit/page/$page_id" target="_blank">'.__('edit').'</a>]
+                                             '_format' =>
+                                                        '[<a href="' . $actionsUrl . 'edit/page/$page_id">'.__('edit').'</a>]
                                                          &nbsp;
-                                                         [<a href="' . $actionsUrl . 'delete/page/$page_id" target="_blank">'.__('delete').'</a>]',
-                                             'sortable'=>false
+                                                         [<a href="' . $actionsUrl . 'delete/page/$page_id">'.__('delete').'</a>]',
+                                             'sortable'=>false,
+                                             'renderer' => new Mage_Adminhtml_Block_Widget_Grid_Block(),
+                                             'format' => $this->getLayout()->createBlock('adminhtml/cms_page_actions')
                                        )
                         );
 

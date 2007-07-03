@@ -32,14 +32,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var Varien_Data_Collection
      */
     protected $_collection = null;
-    
+
     /**
      * Default column item renderer
-     * 
+     *
      * @var Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
      */
     protected $_gridItemRenderer = null;
-    
+
     /**
      * Page and sorting var names
      *
@@ -49,10 +49,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_varNamePage     = 'page';
     protected $_varNameSort     = 'sort';
     protected $_varNameDir      = 'dir';
-    
+
     /**
      * Pager visibility
-     * 
+     *
      * @var boolean
      */
     protected $_pagerVisibility = true;
@@ -62,6 +62,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
         $this->_gridItemRenderer = new Mage_Adminhtml_Block_Widget_Grid_Renderer();
+    }
+
+    /**
+     * Get request object
+     *
+     * @return Mage_Core_Controller_Zend_Request
+     */
+    public function getRequest()
+    {
+        return $this->_request;
     }
 
     /**
@@ -98,7 +108,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_columns[$columnId]->setId($columnId);
         return $this;
     }
-    
+
     public function getColumn($columnId=null)
     {
         if (is_null($columnId)) {
@@ -108,7 +118,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         return false;
     }
-    
+
     public function getColumnHtmlProperty($column)
     {
         $out = ' ';
@@ -120,7 +130,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         return $out;
     }
-    
+
     public function getColumnHeaderHtml($column)
     {
         $out = '';
@@ -144,21 +154,21 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         if ($this->getCollection()) {
             $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
             $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
-            
+
             $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);
             $dir      = $this->getRequest()->getParam($this->getVarNameDir(), 'asc');
-            
+
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
                 $this->_columns[$columnId]->setDir($dir);
                 $this->getCollection()->setOrder($this->_columns[$columnId]->getIndex(), $dir);
             }
-            
+
             $this->getCollection()->load();
         }
         $this->assign('collection', $this->getCollection());
         $this->assign('columns', $this->_columns);
-        
+
         return $this;
     }
 
@@ -182,12 +192,12 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_varNameLimit;
     }
-    
+
     public function getVarNamePage()
     {
         return $this->_varNamePage;
     }
-    
+
     public function getVarNameSort()
     {
         return $this->_varNameSort;
@@ -197,17 +207,17 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_varNameDir;
     }
-    
+
     public function setVarNameLimit($name)
     {
         return $this->_varNameLimit = $name;
     }
-    
+
     public function setVarNamePage($name)
     {
         return $this->_varNamePage = $name;
     }
-    
+
     public function setVarNameSort($name)
     {
         return $this->_varNameSort = $name;
@@ -217,19 +227,19 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_varNameDir = $name;
     }
-    
+
     /**
-     * Set visibility of pager 
+     * Set visibility of pager
      *
      * @param boolean $visible
      */
-    public function setPagerVisibility($visible=true) 
+    public function setPagerVisibility($visible=true)
     {
         $this->_pagerVisibility = $visible;
     }
-    
+
     /**
-     * Return visibility of pager 
+     * Return visibility of pager
      *
      * @return boolean
      */
