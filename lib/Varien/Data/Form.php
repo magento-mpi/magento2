@@ -38,7 +38,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
         $this->checkElementId($element->getId());
-        parent::addElement($element);
+        parent::addElement($element, $after);
         $this->addElementToCollection($element);
         return $this;
     }

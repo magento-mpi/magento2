@@ -72,12 +72,12 @@ class Varien_Data_Form_Abstract extends Varien_Object
         return $this->_elements;
     }
 
-    public function addFieldset($elementId, $config)
+    public function addFieldset($elementId, $config, $after=false)
     {
         $element = new Varien_Data_Form_Element_Fieldset($config);
         $element->setForm($this)
             ->setId($elementId);
-        $this->addElement($element);
+        $this->addElement($element, $after);
         return $element;
     }
     
