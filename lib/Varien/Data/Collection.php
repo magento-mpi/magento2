@@ -406,14 +406,17 @@ class Varien_Data_Collection implements IteratorAggregate
      * @param   string $labelField
      * @return  array
      */
-    protected function _toOptionArray($valueField='id', $labelField='name')
+    protected function _toOptionArray($valueField='id', $labelField='name', $additional=array())
     {
         $res = array();
+        $additional['value'] = $valueField;
+        $additional['label'] = $labelField;
+        
         foreach ($this as $item) {
-        	$res[] = array(
-        	   'value' => $item->getData($valueField),
-        	   'label' => $item->getData($labelField)
-        	);
+            foreach ($additional as $code => $field) {
+                $data[$code] = $item->getData($field);
+            }
+        	$res[] = new Varien_Object($data);
         }
         return $res;
     }

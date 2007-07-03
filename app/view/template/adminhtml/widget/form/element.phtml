@@ -19,7 +19,7 @@
         <?if($element->getLabel()):?><label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label><?endif;?>
         <select name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" class="select<?=$element->getClass()?>" title="<?=$element->getTitle()?>">
         <?foreach ($element->getValues() as $_value):?>
-            <option value="<?=$_value['value']?>"<?if($_value['value'] == $element->getValue()):?> selected<?endif;?>><?=$_value['label']?></option>
+            <option <?=$_value->serialize()?><?if($_value->getValue() == $element->getValue()):?> selected<?endif;?>><?=$_value->getLabel()?></option>
         <?endforeach;?>
         </select>
     </span>

@@ -26,7 +26,7 @@
 <div class="entry-edit" id="address_form_container">
 	<?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
-        <div id="form_address_item_<?=$_address->getId()?>">
+        <div id="form_address_item_<?=$_address->getId()?>" style="display:none">
         <?
             $form->setValues($_address->getData())
                 ->setHtmlIdPrefix($_address->getId())
@@ -99,7 +99,15 @@ addressesModel.prototype = {
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
-
+        
+        var options = $$('option');
+        for(var i in options){
+            if(options[i].title){
+                //options[i].style['color'] = 'red';
+                Element.setStyle(options[i], {padding:'0 0 0 20px', backgroundImage:'url(<?=$baseUrl?>skins/default/images/icons/flags/'+options[i].title.toLowerCase()+'.gif)',backgroundRepeat:'no-repeat'});
+            }
+        }
+        
         this.setActiveItem(this.itemList[0]);
     },
     initItem : function(item){

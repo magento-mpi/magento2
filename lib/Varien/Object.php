@@ -541,6 +541,17 @@ class Varien_Object
 
         return $result;
     }
+    
+    public function serialize($valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    {
+        $res  = '';
+        $data = array();
+        foreach ($this->_data as $key => $value) {
+            $data[] = $key.$valueSeparator.$quote.$value.$quote;
+        }
+        $res = implode($fieldSeparator, $data);
+        return $res;
+    }
 
     /**
      * Serialization before saving to session
