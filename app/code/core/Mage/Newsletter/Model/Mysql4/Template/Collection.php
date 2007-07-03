@@ -22,6 +22,7 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
         $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('newsletter/template');
         $this->_sqlSelect->from($this->_templateTable, array('template_id','template_code',
+                                                             'template_type',
                                                              'template_subject','template_sender_name',
                                                              'template_sender_email'));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/template'));

@@ -86,7 +86,7 @@ class Mage_Newsletter_Model_Mysql4_Template {
     {
         if($template->getTemplateActual()!=='false') {
             $select = $this->_read->select()
-                ->from($this->_queueTable, new Zend_Db_Expression('COUNT(queue_id)'))
+                ->from($this->_queueTable, new Zend_Db_Expr('COUNT(queue_id)'))
                 ->where('template_id=?',$template->getId());
             
             $countOfQueue = $this->_read->fetchOne($select);
@@ -107,7 +107,7 @@ class Mage_Newsletter_Model_Mysql4_Template {
     {
         if($template->getTemplateActual()!=='false') {
             $select = $this->_read->select()
-                ->from($this->_queueTable, new Zend_Db_Expression('COUNT(template_id)'))
+                ->from($this->_templateTable, new Zend_Db_Expr('COUNT(template_id)'))
                 ->where('template_id!=?',$template->getId())
                 ->where('template_code=?',$template->getTemplateCode())
                 ->where('template_actual=?','true');

@@ -69,6 +69,15 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     }
     
     /**
+     * Set id of template
+     * @param int $value 
+     */
+    public function isValidForSend()
+    {
+        return $this->getTemplateSenderName() && $this->getTemplateSenderEmail() && $this->getTemplateSubject();
+    }
+    
+    /**
      * Save template
      */
     public function save()

@@ -1,10 +1,14 @@
 <div class="head">
     <table cellspacing="0"> 
         <tr>
-            <td style="width:30%;"><h2><?=$header?></h2></td>
+            <td style="width:30%;"><h2><?=$this->getHeaderText()?></h2></td>
             <td class="buttons">
                 <strong class="button"><span><a href="#" onclick="history.back();return false;"><?=__('back')?></a></span></strong>
-                <strong class="button"><span><a href="#" onclick="templateForm.submit();return false;"><?=__('save template')?></a></span></strong>
+                <?if(!$this->isTextType()):?>
+                <strong class="button" id="convert_button"><span><a href="#" onclick="return templateControl.stripTags();"><?=__('convert to plain text')?></a></span></strong>
+                <strong class="button" id="convert_button_back" style="display:none;"><span><a href="#" onclick="return templateControl.unStripTags();"><?=__('return html version')?></a></span></strong>
+                <?endif?>
+                <strong class="button"><span><a href="#" onclick="return templateControl.save();"><?=__('save template')?></a></span></strong>
                 <?if($this->getEditMode()):?>
                 <strong class="button"><span><a href="<?=$this->getDeleteUrl()?>"><?=__('delete template')?></a></span></strong>
                 <?endif?>
@@ -13,8 +17,40 @@
     </table>
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="POST" id="newsletter_template_edit_form">
+<input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
 <?=$this->getForm()?>
 </form>
 <script type="text/javascript" language="javascript">
     var templateForm = new varienForm('newsletter_template_edit_form');
+    var templateControl = {
+        unconvertedText: '',
+        typeChange: false,
+        stripTags: function () {
+            if(!window.confirm("<?=__('convert to plain text?')?>")) { 
+                return false;
+            }
+            tinyMCE.execCommand('mceRemoveControl', false, 'text');
+            this.unconvertedText = $('text').value; 
+            $('convert_button').hide();
+            $('text').value =  $('text').value.stripScripts().stripTags();
+            $('convert_button_back').show();
+            this.typeChange = true;
+            return false;
+        },
+        unStripTags: function () {
+            $('convert_button').show();
+            $('convert_button_back').hide();
+            $('text').value =  this.unconvertedText;
+            tinyMCE.execCommand('mceAddControl', false, 'text');
+            this.typeChange = false;
+            return false;
+        },
+        save: function() {
+            if (this.typeChange) {
+                $('change_flag_element').value = '1';
+            }
+            templateForm.submit();
+            return false;
+        }
+    };
 </script>

@@ -13,7 +13,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('newsletter');
+        $this->getLayout()->getBlock('menu')->setActive('newsletter/template');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'))
             ->addLink(__('newsletter templates'), __('newsletter templates title'));
@@ -25,7 +25,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
     public function newAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('newsletter');
+        $this->getLayout()->getBlock('menu')->setActive('newsletter/template');
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'))
             ->addLink(__('newsletter templates'), __('newsletter templates title'), Mage::getUrl('adminhtml/*'));
@@ -57,14 +57,21 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
         }
         
         try {
-              
             $template->setTemplateSubject($request->getParam('subject'))
                 ->setTemplateCode($request->getParam('code'))
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
-                ->setTemplateType($request->getParam('type'))
                 ->setTemplateText($request->getParam('text'));
             
+            if (!$template->getId()) {
+                $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_HTML");
+                $template->setTemplateType($type);
+            }
+            
+            if($this->getRequest()->getParam('_change_type_flag')) {
+                $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_TEXT");
+                $template->setTemplateType($type);
+            }
             
             $template->save();
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
@@ -73,5 +80,21 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
             $this->_forward('new');
         }
         
+    }
+    
+    public function deleteAction() {
+      
+        $template = Mage::getModel('newsletter/template');
+        $id = (int)$this->getRequest()->getParam('id');
+        $template->load($id);
+        if($template->getId()) {
+            try {
+                $template->delete();
+            } 
+            catch (Exception $e) {
+                // Nothing
+            }
+        }
+        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*'));
     }
 }

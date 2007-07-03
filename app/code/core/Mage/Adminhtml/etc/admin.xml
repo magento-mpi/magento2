@@ -36,21 +36,21 @@
             <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
             <depends><module>Mage_Newsletter</module></depends>
             <children>
-                <group>
+                <template>
                     <title>Templates</title>
                     <action>adminhtml/newsletter_template/</action>
                     <resource>admin/newsletter/template</resource>
-                </group>
-                <online>
+                </template>
+                <subscriber>
                     <title>Subscribers</title>
                     <action>adminhtml/newsletter_subscriber/</action>
                     <resource>admin/newsletter/subscriber</resource>
-                </online>
-                <config>
+                </subscriber>
+                <queue>
                     <title>Queue</title>
                     <action>adminhtml/newsletter_queue/</action>
                     <resource>admin/newsletter/queue</resource>
-                </config>
+                </queue>
             </children>
          </newsletter>
          <catalog>
