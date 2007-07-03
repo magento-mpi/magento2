@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Cms_Page_Actions extends Mage_Adminhtml_Block_Widget_
                     ),
 
                     array(
-                        'value' => $actionsUrl . ( $row->getPageActive() == 0 ) ? 'enable/page/' : 'disable/page/' . $row->getPageId(),
+                        'value' => $actionsUrl . (( $row->getPageActive() == 0 ) ? 'enable/page/' : 'disable/page/') . $row->getPageId(),
                         'label' => __( (($row->getPageActive() == 0 ) ? 'enable' : 'disable') . ' page' ),
                     )
                 )

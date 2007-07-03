@@ -56,6 +56,20 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Core_Controller_Front_Actio
         $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
     }
 
+    public function enableAction()
+    {
+        $pageId = intval( $this->getRequest()->getParam('page') );
+        Mage::getModel('cms/page')->enablePage($pageId);
+        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+    }
+
+    public function disableAction()
+    {
+        $pageId = intval( $this->getRequest()->getParam('page') );
+        Mage::getModel('cms/page')->disablePage($pageId);
+        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+    }
+
     public function saveAction()
     {
         $pageData = array(

@@ -61,16 +61,20 @@ class Mage_Cms_Model_Mysql4_Page
 
     public function disablePage($pageId)
     {
-        $page = $this->load($pageId);
-        $page->setPageActive(0);
-        $this->save($page);
+        $page = $this->loadById($pageId);
+        $pageObject = new Varien_Object();
+        $pageObject->setData($page);
+        $pageObject->setPageActive(0);
+        $this->save($pageObject);
     }
 
     public function enablePage($pageId)
     {
-        $page = $this->load($pageId);
-        $page->setPageActive(1);
-        $this->save($page);
+        $page = $this->loadById($pageId);
+        $pageObject = new Varien_Object();
+        $pageObject->setData($page);
+        $pageObject->setPageActive(1);
+        $this->save($pageObject);
     }
 
     public function delete($pageId)
