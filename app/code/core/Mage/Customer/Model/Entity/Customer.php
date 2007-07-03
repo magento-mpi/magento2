@@ -63,7 +63,19 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         if ($testCustomer->getId() && $testCustomer->getId()!==$customer->getId()) {
             Mage::throwException('customer email already exist', 'customer/session');
         }
-        return parent::save($customer);
+        parent::save($customer);
+        $this->_saveAddresses($customer);
+        return $customer;
+    }
+    
+    protected function _saveAddresses($customer)
+    {
+        foreach ($customer->getAddressCollection() as $address)
+        {
+            $address->setParentId($customer->getId())
+                ->save();
+        }
+        return $this;
     }
     
     /**

@@ -24,10 +24,26 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
         if ($customerId = (int) $this->getRequest()->getParam('id')) {
             $customer->load($customerId);
         }
-            
-            
+        
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
-        $fieldset->addField('firstname', 'text', 
+        
+        foreach ($customer->getAttributes() as $attribute) {
+            if ($inputType = $attribute->getFrontend()->getInputType()) {
+                $element = $fieldset->addField($attribute->getName(), $inputType,
+                    array(
+                        'name'  => $attribute->getName(),
+                        'label' => $attribute->getFrontend()->getConfigField('label'),
+                        'class' => $attribute->getFrontend()->getConfigField('class')
+                    )
+                );
+                if ($inputType == 'select') {
+                    $element->setValues($attribute->getFrontend()->getSelectOptions());
+                }
+            }
+        }
+        
+        $form->setValues($customer->getData());
+        /*$fieldset->addField('firstname', 'text', 
             array(
                 'name'  => 'firstname',
                 'label' => __('Firstname'),
@@ -110,7 +126,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
                     'class' => 'required-entry validate-cpassword',
                 )
             );
-        }
+        }*/
         
         /*foreach ($customer->getAttributeCollection() as $attribute) {
         	$fieldset->addField($attribute->getCode(), 'text', 

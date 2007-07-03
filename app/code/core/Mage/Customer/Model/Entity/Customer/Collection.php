@@ -12,5 +12,6 @@ class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Enti
     public function __construct()
     {
         $this->setEntity(Mage::getResourceSingleton('customer/customer'));
+        $this->setObject('customer/customer');
     }
 }

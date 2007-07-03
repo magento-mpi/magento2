@@ -98,6 +98,18 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
     }
     
     /**
+     * Set attribute name
+     *
+     * @param   string $name
+     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
+    }
+    
+    /**
      * Get attribute id
      *
      * @return integer
@@ -145,7 +157,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
                 $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_BACKEND_MODEL);
             }
             $this->_backend = Mage::getModel((string)$config->model)
-                ->setConfig($config)->setAttribute($this);
+                ->setConfig($config)
+                ->setAttribute($this);
         }
         return $this->_backend;       
     }
@@ -160,13 +173,14 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_frontend)) {
             $config = $this->getConfig()->frontend;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element();
+                $config = new Mage_Core_Model_Config_Element('<frontend/>');
             }
             if (empty($config->model)) {
                 $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_FRONTEND_MODEL);
             }
             $this->_frontend = Mage::getModel((string)$config->model)
-                ->setConfig($config)->setAttribute($this);
+                ->setConfig($config)
+                ->setAttribute($this);
         }
         return $this->_frontend;  
     }
@@ -181,7 +195,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_source)) {
             $config = $this->getConfig()->source;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element();
+                $config = new Mage_Core_Model_Config_Element('<source/>');
             }
             if (empty($config->model)) {
                 $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL);

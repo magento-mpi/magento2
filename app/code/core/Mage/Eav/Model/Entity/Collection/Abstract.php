@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 {
     /**
      * Read connection
@@ -79,6 +79,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract
      * @var integer
      */
     protected $_pageSize;
+    
+    protected $_rowCount;
 
     /**
      * Set connections for entity operations
@@ -109,6 +111,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract
         }
         $this->_read = $entity->getReadConnection();
         $this->_write = $entity->getWriteConnection();
+
+        if ($entity->getTypeId()) {
+            $this->addAttributeToFilter('entity_type_id', $entity->getTypeId());
+        }
         return $this;
     }
     
@@ -188,7 +194,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract
             throw Mage::exception('Mage_Eav', 'Attempt to add an invalid object');
         }
         
-        $entityId = $row[$this->getEntity()->getEntityIdField()];
+        //$entityId = $row[$this->getEntity()->getEntityIdField()];
+        $entityId = $object->getId();
         $this->_items[$entityId] = $object;
         
         return $this;
@@ -307,7 +314,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setPage($pageNum, $pageSize)
     {
-        $this->getSelect()->limitPage($pageNum, $pageSize);
+        //$this->getSelect()->limitPage($pageNum, $pageSize);
+        $this->setCurPage($pageNum)
+            ->getPageSize($pageSize);
         return $this;
     }
 
@@ -425,7 +434,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract
     {
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
-
+        
+        if ($this->_pageStart && $this->_pageSize) {
+            $this->getSelect()->limitPage($this->_pageStart, $this->_pageSize);
+        }
+        
         $rows = $this->_read->fetchAll($this->getSelect());
         if (!$rows) {
             return $this;
@@ -568,5 +581,76 @@ class Mage_Eav_Model_Entity_Collection_Abstract
             $sql = $this->_read->quoteInto("$fieldName = ?", $condition);
         }
         return $sql;
+    }
+    
+    public function setPageSize($pageSize)
+    {
+        $this->_pageSize = $pageSize;
+        return $this;
+    }
+    
+    public function setCurPage($page)
+    {
+        $this->_pageStart = $page;
+        return $this;
+    }
+    
+    public function getLastPageNumber()
+    {
+        $collectionSize = $this->getSize();
+        if (0 === $collectionSize) {
+            return 1;
+        } 
+        elseif($this->_pageSize) {
+            return ceil($collectionSize/$this->_pageSize);
+        }
+        else{
+            return 1;
+        }
+    }
+    
+    public function getCurPage()
+    {
+        return $this->_pageStart;
+    }
+    
+    public function getPageSize()
+    {
+        return $this->_pageSize;
+    }
+    
+    /**
+     * Get sql for get record count
+     *
+     * @return  string
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        $sql = $countSelect->__toString();
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
+        return $sql;
+    }
+    
+    public function getSize()
+    {
+        if (is_null($this->_rowCount)) {
+            $this->_rowCount = $this->_read->fetchOne($this->getSelectCountSql());
+        }
+        return $this->_rowCount;
+    }
+    
+    public function setOrder($attribute, $dir='desc')
+    {
+        return $this->addAttributeToSort($attribute, $dir);
+    }
+    
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_items);
     }
 }

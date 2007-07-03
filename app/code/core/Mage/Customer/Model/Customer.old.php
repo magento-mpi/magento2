@@ -16,18 +16,22 @@ class Mage_Customer_Model_Customer extends Varien_Object
      */
     protected $_addresses;
     
-    static protected $_entity;
-    
     public function __construct($customer=false) 
     {
         parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
         
         if (is_numeric($customer)) {
-            $this->load($customer);
+            $this->loadByCustomerId($customer);
         } elseif (is_array($customer)) {
             $this->setData($customer);
         }
+    }
+    
+    public function __sleep()
+    {
+        unset($this->_addresses);
+        return parent::__sleep();
     }
     
     public function getResource()
@@ -45,15 +49,14 @@ class Mage_Customer_Model_Customer extends Varien_Object
     
     public function load($customerId)
     {
-        $this->getResource()->load($this, $customerId);
-        #$this->setData($this->getResource()->load($customerId));
+        $this->setData($this->getResource()->load($customerId));
         return $this;
     }
     
     public function loadByEmail($customerEmail)
     {
-        #$this->setData($this->getResource()->loadByEmail($customerEmail));
-        $this->getResource()->loadByEmail($this, $customerEmail);
+        $this->setData($this->getResource()->loadByEmail($customerEmail));
+        return $this;
     }
     
     public function save()
@@ -76,13 +79,13 @@ class Mage_Customer_Model_Customer extends Varien_Object
      */
     public function changePassword($data, $checkCurrent=true)
     {
-        $this->getResource()->changePassword($this, $data, $checkCurrent);
+        $this->getResource()->changePassword($this->getId(), $data, $checkCurrent);
         return $this;
     }
     
     public function delete()
     {
-        $this->getResource()->delete($this);
+        $this->getResource()->delete($this->getId());
         return $this;
     }
     
@@ -97,7 +100,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
             $this->_addresses = Mage::getResourceModel('customer/address_collection');
         }
         
-        $this->getAddressCollection()->addItem($address);
+        $this->_addresses->addItem($address);
         return $this;
     }   
     
@@ -124,34 +127,19 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return $this->_addresses;
     }
     
-    public function setPassword($password)
+    public function getPasswordHash()
     {
-        $this->setData('password', $password);
-        $this->setPasswordHash($this->hashPassword($password));
-        return $this;
+        if (!$this->getData('password_hash') && $this->getPassword()) {
+            $this->setPasswordHash($this->getResource()->hashPassword($this->getPassword()));
+        }
+        return $this->getData('password_hash');
     }
     
     public function getWishlistCollection()
     {
-        if ($this->_wishlist && !$reload) {
-            return $this->_wishlist;
-        }
-        
-        $this->_wishlist = Mage::getResourceModel('customer/wishlist_collection');
-        $this->_wishlist->addCustomerFilter($this->getId());
+        $collection = Mage::getResourceModel('customer/wishlist_collection');
+        $collection->addCustomerFilter($this->getId());
 
-        return $this->_wishlist;
-    }
-    
-    public function hashPassword($password)
-    {
-        return md5($password);
-    }
-    
-    public function getAttributes()
-    {
-        return $this->getResource()
-            ->loadAllAttributes()
-            ->getAttributesById();
+        return $collection;
     }
 }

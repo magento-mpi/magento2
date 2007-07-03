@@ -31,7 +31,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     public function __construct($address=false) 
     {
         parent::__construct();
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
+        $this->setIdFieldName($this->getResource()->getEntityIdField());
         if (is_numeric($address)) {
             $this->load($address);
         } elseif (is_array($address)) {
@@ -57,7 +57,7 @@ class Mage_Customer_Model_Address extends Varien_Object
      */
     public function load($addressId) 
     {
-        $this->setData($this->getResource()->load($addressId));
+        $this->getResource()->load($this, $addressId);
         $types = $this->getResource()->loadTypes($addressId);
         foreach ($types as $typeId => $typeInfo) {
             $this->setType($typeId, $typeInfo['code'], $typeInfo['primary']);
@@ -255,5 +255,12 @@ class Mage_Customer_Model_Address extends Varien_Object
     public function implodeStreetAddress()
     {
         $this->setStreet($this->getData('street'));
+    }
+    
+    public function getAttributes()
+    {
+        return $this->getResource()
+            ->loadAllAttributes()
+            ->getAttributesById();
     }
 }

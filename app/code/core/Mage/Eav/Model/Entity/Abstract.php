@@ -376,8 +376,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         
         $attributeInstance = Mage::getModel((string)$attributeConfig->model)
-            ->setConfig($attributeConfig)->setEntity($this);
-            
+            ->setConfig($attributeConfig)
+            ->setName($attributeName)
+            ->setEntity($this);
+
         $this->_attributesByName[$attributeName] = $attributeInstance;
         $this->_attributesById[$attributeId] = $attributeInstance;
         
@@ -655,7 +657,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             // get current data in db for this entity
             $origObject = clone $newObject;
             $origObject->setData(array());
-            $this->load($origObject, $entityId, array_keys($this->_attributesByName));
+            //$this->load($origObject, $entityId, array_keys($this->_attributesByName));
+            $this->load($origObject, $entityId);
             $origData = $origObject->getData();
             // drop attributes that are unknown in new data
             /* // not needed after introduction of partial entity loading
@@ -673,6 +676,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 continue;
                 throw Mage::exception('Mage_Eav', 'Invalid data object key');
             }
+            
             $attribute = $this->getAttribute($k);
             $attrId = $attribute->getId();
             // if attribute is static add to entity row and continue
@@ -694,7 +698,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                         'value'=>$v
                     );
                 }
-            } elseif (!empty($v)) {
+            } 
+            elseif (!empty($v)) {
                 $insert[$attrId] = $v;
             }
         }

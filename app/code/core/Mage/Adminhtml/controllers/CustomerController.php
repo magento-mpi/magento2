@@ -89,12 +89,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     {
         if ($data = $this->getRequest()->getPost()) {
             $customer = Mage::getModel('customer/customer');
-            $customer->setData($data);
-            
+            //$customer->setData($data);
             if ($customerId = $this->getRequest()->getParam('id')) {
                 $customer->setId($customerId);
             }
-            
             if (isset($data['address'])) {
                 if (isset($data['address']['_template_'])) {
                     unset($data['address']['_template_']);
@@ -107,7 +105,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
                     }
                 	$customer->addAddress($address);
                 }
+                unset($data['address']);
             }
+            $customer->addData($data);
             
             try {
                 $customer->save();

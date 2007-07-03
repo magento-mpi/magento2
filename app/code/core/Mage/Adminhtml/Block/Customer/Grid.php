@@ -18,7 +18,10 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _initCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection = Mage::getResourceModel('customer/customer_collection')
+            ->addAttributeToSelect('firstname')
+            ->addAttributeToSelect('lastname')
+            ->addAttributeToSelect('email');
         $this->setCollection($collection);
     }
 
@@ -28,8 +31,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'=>__('id'), 
             'width'=>5, 
             'align'=>'center', 
-            'sortable'=>false, 
-            'index'=>'customer_id'
+            'sortable'=>true, 
+            'index'=>'entity_id'
         ));
         $this->addColumn('email', array(
             'header'=>__('email'), 
@@ -48,7 +51,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('action', array(
             'header'=>__('action'),
             'align'=>'center',
-            'format'=>'<a href="'.Mage::getUrl('adminhtml/*/edit/id/$customer_id').'">'.__('edit').'</a>',
+            'format'=>'<a href="'.Mage::getUrl('adminhtml/*/edit/id/$entity_id').'">'.__('edit').'</a>',
             'index'=>'customer_id', 
             'sortable'=>false)
         );

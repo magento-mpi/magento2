@@ -81,6 +81,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         return (string)$this->getConfig()->input;
     }
     
+    public function getConfigField($fieldName)
+    {
+        return (string)$this->getConfig()->$fieldName;
+    }
+    
     /**
      * Get select options in case it's select box and options source is defined
      *
