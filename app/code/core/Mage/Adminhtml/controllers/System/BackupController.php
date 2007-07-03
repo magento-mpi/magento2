@@ -38,7 +38,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Core_Controller_Front_
         
         $dbDump = Mage::getModel('backup/db')->renderSql();
         $backup->setFile($dbDump);
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*/'));
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
     }
     
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Core_Controller_Front_
                 ->setPath(Mage::getBaseDir("var") . DS . "backups");
         
         if (!$backup->exists()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*/'));
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         }
         
         if ($this->getRequest()->getParam('file') == 'gz') {
@@ -80,7 +80,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Core_Controller_Front_
                 ->setPath(Mage::getBaseDir("var") . DS . "backups")
                 ->deleteFile();
                 
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*/'));
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             
     }
 }

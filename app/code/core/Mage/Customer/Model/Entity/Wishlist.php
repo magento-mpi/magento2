@@ -13,7 +13,7 @@ class Mage_Customer_Model_Entity_Wishlist extends Mage_Eav_Model_Entity_Abstract
     public function __construct() 
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->setType('customer_payment')->setConnection(
+        $this->setType('customer_wishlist')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
         );

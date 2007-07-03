@@ -145,7 +145,7 @@ Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName
             $request = $this->getRequest();
             
             $p = explode('/', $route);
-            $routeName = $p[0];
+            $routeName = $p[0]==='*' ? $request->getModuleName() : $p[0];
             $paramsArr = array();
             if (isset($p[1])) {
                 $paramsArr['controller'] = $p[1]==='*' ? $request->getControllerName() : $p[1];

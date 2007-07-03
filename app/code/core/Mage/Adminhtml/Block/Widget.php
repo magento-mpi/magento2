@@ -25,6 +25,6 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
         	$urlParams[$paramCode] = $paramValue;
         }
 
-        return Mage::getUrl('adminhtml/*/*', $urlParams);
+        return Mage::getUrl('*/*/*', $urlParams);
     }
 }

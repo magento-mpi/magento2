@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function getSaveUrl()
     {
-        return Mage::getUrl('adminhtml/*/save', array('_current'=>true));
+        return Mage::getUrl('*/*/save', array('_current'=>true));
     }
     
     public function getTitle()
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         foreach ($this->_config as $code => $section) {
             $sections[] = new Varien_Object(array(
                 'label' => __($code),
-                'url'   => Mage::getUrl('adminhtml/*/*', array('_current'=>true, 'section'=>$code)),
+                'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
                 'class' => ($code == $this->_sectionCode) ? 'active' : ''
             ));
         }

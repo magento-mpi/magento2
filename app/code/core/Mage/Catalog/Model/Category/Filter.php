@@ -103,14 +103,14 @@ class Mage_Catalog_Model_Category_Filter extends Varien_Object
                     $arr[] = array(
                         'label' => $value->getValue(),
                         'count' => $availableCount[$value->getId()],
-                        'url'   => Mage::getUrl('catalog/*/*', $request->setParam('array',$arrParam)->getParams()),
+                        'url'   => Mage::getUrl('*/*/*', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
                 elseif (in_array($value->getId(), $currentValues)) {
                     unset($arrParam['filter'][$this->getId()]);
                     $arr[] = array(
                         'label' => 'Clear (' . $value->getValue() . ')',
-                        'url'   => Mage::getUrl('catalog/*/*', $request->setParam('array',$arrParam)->getParams()),
+                        'url'   => Mage::getUrl('*/*/*', $request->setParam('array',$arrParam)->getParams()),
                     );
                 }
             }

@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
 
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current'=>true));
+        return $this->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function getCustomerId()
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
     
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array('_current'=>true));
+        return $this->getUrl('*/*/delete', array('_current'=>true));
     }
     
     public function getHeader()

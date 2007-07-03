@@ -67,7 +67,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
             
             
             $template->save();
-            $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*/'));
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         }
         catch (Exception $e) {
             $this->_forward('new');
