@@ -39,7 +39,7 @@
         </div>
         <?endforeach;?>
     <?else:?>
-    <div id="form_new_item">
+    <div id="form_new_item" style="display:none">
     <?$form->setFieldNamePrefix('address[new]')?>
     <?foreach ($form->getElements() as $_element):?>
         <?=$this->drawElement($_element)?>
@@ -93,13 +93,12 @@ addressesModel.prototype = {
 
         for(var i=0,n=this.itemList.length; i<n; i++){
             this.addItemObservers(this.itemList[i]);
-            Event.observe($('delete_'+this.itemList[i].id), 'click', this.onItemMouseClick);
             this.initItem(this.itemList[i]);
         }
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
-
+        
         this.setActiveItem(this.itemList[0]);
     },
     initItem : function(item){
