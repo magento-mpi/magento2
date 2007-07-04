@@ -784,7 +784,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $attribute = $this->getAttribute($k);
             $attrId = $attribute->getId();
             // if attribute is static add to entity row and continue
-            if (isset($this->_staticAttributes[$k]) {
+            if (isset($this->_staticAttributes[$k])) {
                 $entityRow[$k] = $v;
                 unset($newData[$k]);
                 if (isset($origData)) {
