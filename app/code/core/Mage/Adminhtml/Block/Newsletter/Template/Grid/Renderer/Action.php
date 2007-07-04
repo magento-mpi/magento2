@@ -16,6 +16,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
         $str = '<a class="" href="' . Mage::getUrl('adminhtml/*/edit',array('id'=>$row->getId())) . '">' . __('edit') 
              . '</a> ' . ($row->isValidForSend() ?  '| <a href="' . Mage::getUrl('adminhtml/*/toqueue',array('id'=>$row->getId())) . '">' 
              . __('create queue') . '</a>' : '' )  
+             . '| <a href="' . Mage::getUrl('adminhtml/*/preview',array('id'=>$row->getId())) . '" target="_blank">' 
+             . __('preview') . '</a>'
              . '| <a href="' . Mage::getUrl('adminhtml/*/delete',array('id'=>$row->getId())) . '">' 
              . __('delete') . '</a>';
         

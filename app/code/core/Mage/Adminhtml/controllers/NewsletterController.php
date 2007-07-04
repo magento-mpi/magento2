@@ -18,5 +18,4 @@ class Mage_Adminhtml_NewsletterController extends Mage_Core_Controller_Front_Act
             ->addLink(__('newsletter'), __('newsletter title'));
         $this->renderLayout();
     }
-    
 }

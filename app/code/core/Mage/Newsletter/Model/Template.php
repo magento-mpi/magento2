@@ -69,12 +69,23 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     }
     
     /**
-     * Set id of template
-     * @param int $value 
+     * Return true if this template can be used for sending queue as main template
+     *
+     * @return boolean
      */
     public function isValidForSend()
     {
         return $this->getTemplateSenderName() && $this->getTemplateSenderEmail() && $this->getTemplateSubject();
+    }
+    
+    /**
+     * Return true if template type eq text
+     *
+     * @return boolean
+     */
+    public function isPlain()
+    {
+        return $this->getTemplateType() == self::TYPE_TEXT;
     }
     
     /**
@@ -84,6 +95,24 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     {
         $this->getResource()->save($this);
         return $this;
+    }
+    
+    public function getProcessedTemplate(array $variables = array())
+    {
+        $processor = new Mage_Newsletter_Filter_Template();
+        $processor
+            ->setIncludeProcessor(array($this, 'getInclude'))
+            ->setVariables($variables);
+        
+        return $processor->filter($this->getTemplateText());
+    }
+    
+    public function getInclude($template, array $variables) {
+        $thisClass = __CLASS__;
+        $includeTemplate = new $thisClass();
+        $includeTemplate->loadByCode($template);
+        
+        return $includeTemplate->getProcessedTemplate($variables);
     }
     
     /**

@@ -33,6 +33,13 @@
                </baseframe>
             </updates>
          </baseframe>
+         <preview>
+            <updates>
+               <baseframe>
+                  <file>adminhtml/preview.xml</file>
+               </baseframe>
+            </updates>
+         </preview>
       </layouts>
       <events>
          <action_preDispatch_adminhtml>

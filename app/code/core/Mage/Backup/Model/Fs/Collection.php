@@ -6,7 +6,7 @@
  * @subpackage  Backup
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Ivan Chepurnyi <alexander@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
@@ -40,26 +40,35 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
         parent::loadData($printQuery, $logQuery);
         
         $readPath = Mage::getBaseDir("var") . DS . "backups";
-        if (!is_dir($readPath)) {
-            mkdir($readPath, 0755);
-            chmod($readPath, 0755);
+        
+        $ioProxy = new Varien_Io_File();
+        
+        try {
+            $ioProxy->open(array('path'=>$readPath));
+        }
+        catch (Exception $e) {
+            $ioProxy->mkdir($readPath, 0755);
+            $ioProxy->chmod($readPath, 0755);
+            $ioProxy->open(array('path'=>$readPath));
+        }
+                
+        if (!is_file($readPath . DS . ".htaccess")) {
+            // Deny from reading in browser
+            $ioProxy->write(".htaccess","deny from all", 0644);            
         }
         
         if(!$this->_isLoaded) { // Workaround for duplicating of records in grid
-            $dirResource = dir($readPath);
-            if (!$dirResource) {
-                throw Mage::exception('Mage_Backup', "Couldn't read backups directory");
-            }
+            $list = $ioProxy->ls(Varien_Io_File::GREP_FILES);
             
             $fileExtension = constant($this->_itemObjectClass . "::BACKUP_EXTENSION"); 
             
-            while ($entity = $dirResource->read()) {
-                if (substr($entity, strrpos($entity,".")+1)==$fileExtension) {
+            foreach ($list as $entry) {
+                if ($entry['filetype'] == $fileExtension) {
                     $item = new $this->_itemObjectClass();
-                    $this->addItem($item->load($entity, $readPath));
+                    $this->addItem($item->load($entry['text'], $readPath));
                 }
             }
-            
+                        
             $this->_isLoaded = true;
         }
         

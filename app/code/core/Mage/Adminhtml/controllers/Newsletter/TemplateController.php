@@ -97,4 +97,10 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
         }
         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*'));
     }
+    
+    public function previewAction() 
+    {
+        $this->loadLayout('preview');
+        $this->renderLayout();
+    }
 }

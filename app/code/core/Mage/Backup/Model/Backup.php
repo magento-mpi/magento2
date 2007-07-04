@@ -50,17 +50,17 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function exists()
     {
-        return file_exists($this->getFilePath());
+        return is_file($this->getPath() . DS . $this->getFileName());
     }
     
     /**
-     * Return full file path of backup file
+     * Return file name of backup file
      *
      * @return string
      */
-    public function getFilePath()
+    public function getFileName()
     {
-        return $this->getPath() . DS . $this->getTime() . "_" . $this->getType() 
+        return $this->getTime() . "_" . $this->getType() 
                . "." . self::BACKUP_EXTENSION;
     }
     
@@ -101,24 +101,15 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function setFile(&$content)
     {
         if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            throw Mage::exception('Mage_Backup','Wrong order of creation new backup');
+            Mage::throwException('Wrong order of creation new backup');
         }
-        if (!is_string($content)) {
-            return $this;
-        }
-        if (!is_dir($this->getPath())) {
-            mkdir($this->getPath(),0755);
-            chmod($this->getPath(),0755);
-        }
+        
+        $ioProxy = new Varien_Io_File();
+        $ioProxy->open(array('path'=>$this->getPath()));
         
         $compress = 0;
         if (extension_loaded("zlib")) {
             $compress = 1;
-        }
-        
-        $fResource = @fopen($this->getFilePath(), "wb");
-        if (!$fResource) {
-            throw Mage::exception('Mage_Backup',"Couldn't write backup file");
         }
         
         $rawContent = '';
@@ -128,17 +119,15 @@ class Mage_Backup_Model_Backup extends Varien_Object
             $rawContent = $content;
         }
         
-        
-        fwrite($fResource, pack("ll", $compress, strlen($rawContent)));
-        fwrite($fResource, $rawContent);
-        fclose($fResource);
-        
+        $fileHeaders = pack("ll", $compress, strlen($rawContent));
+        $ioProxy->write($this->getFileName(), $fileHeaders . $rawContent);
         return $this;
     }
     
     /**
      * Return content of backup file
      *
+     * @todo rewrite to Varien_IO, but there no possibility read part of files. 
      * @return string
      * @throws Mage_Backup_Exception
      */
@@ -146,12 +135,12 @@ class Mage_Backup_Model_Backup extends Varien_Object
     {
         
         if (!$this->exists()) {
-            throw Mage::exception('Mage_Backup',"Backup file doesn't exists");
+            Mage::throwException("Backup file doesn't exists");
         }
         
-        $fResource = @fopen($this->getFilePath(), "rb");
+        $fResource = @fopen($this->getPath() . DS . $this->getFileName(), "rb");
         if (!$fResource) {
-            throw Mage::exception('Mage_Backup',"Couldn't read backup file");
+            Mage::throwException("Couldn't read backup file");
         }
         
         $content = '';
@@ -161,9 +150,10 @@ class Mage_Backup_Model_Backup extends Varien_Object
         if ($info['compress']) { // If file compressed by zlib
             $compressed = 1;
         }
+        
         if ($compressed && !extension_loaded("zlib")) {
             fclose($fResource);
-            throw Mage::exception('Mage_Backup','File compressed with Zlib, but this extension not installed on server');
+            Mage::throwException('File compressed with Zlib, but this extension not installed on server');
         }
         
         if ($compressed) {
@@ -185,10 +175,12 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function deleteFile()
     {
         if (!$this->exists()) {
-            throw Mage::exception('Mage_Backup',"Backup file doesn't exists");
+            Mage::throwException("Backup file doesn't exists");
         }
         
-        unlink($this->getFilePath());
+        $ioProxy = new Varien_Io_File();
+        $ioProxy->open(array('path'=>$this->getPath()));
+        $ioProxy->rm($this->getFileName());
         return $this;
     }
     

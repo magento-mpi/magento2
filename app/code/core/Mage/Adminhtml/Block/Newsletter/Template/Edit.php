@@ -82,6 +82,16 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         return Mage::getUrl('adminhtml/*/save');
     }
     
+    /**
+     * Return preview action url for form
+     *
+     * @return string
+     */
+    public function getPreviewUrl()
+    {
+        return Mage::getUrl('adminhtml/*/preview');
+    }
+    
     public function isTextType()
     {
         return $this->_template->getTemplateType() == constant(Mage::getConfig()->getModelClassName('newsletter/template') 

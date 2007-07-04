@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layoutUpdate> 
+    <block type="core/template" name="root" output="toHtml">
+        <action method="setTemplate"><template>adminhtml/newsletter/template/preview.phtml</template></action>
+        <block type="adminhtml/newsletter_template_preview" name="content" as="content"></block>
+    </block>
+</layoutUpdate>
