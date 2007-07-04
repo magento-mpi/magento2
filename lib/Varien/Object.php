@@ -522,32 +522,31 @@ class Varien_Object
         }
         
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
-        /*
-        for ($i=0, $l=strlen($name), $result=''; $i<$l; $i++) {
-            $c = $name{$i};
-            $a = ord($c);
-            if ($a>=65 && $a<=91) {
-                if ($i>0) {
-                    $result .= '_';
-                }
-                $result .= strtolower($c);
-            } else {
-                $result .= $c;
-            }
-        }
-        */
-
         self::$_underscoreCache[$name] = $result;
-
         return $result;
     }
     
-    public function serialize($valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    /**
+     * serialize object attributes
+     *
+     * @param   array $attributes
+     * @param   string $valueSeparator
+     * @param   string $fieldSeparator
+     * @param   string $quote
+     * @return  string
+     */
+    public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
     {
         $res  = '';
         $data = array();
+        if (empty($attributes)) {
+            $attributes = array_keys($this->_data);
+        }
+        
         foreach ($this->_data as $key => $value) {
-            $data[] = $key.$valueSeparator.$quote.$value.$quote;
+            if (in_array($key, $attributes)) {
+                $data[] = $key.$valueSeparator.$quote.$value.$quote;
+            }
         }
         $res = implode($fieldSeparator, $data);
         return $res;

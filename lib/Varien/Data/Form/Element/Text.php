@@ -15,4 +15,10 @@ class Varien_Data_Form_Element_Text extends Varien_Data_Form_Element_Abstract
         $this->setType('text');
         $this->setExtType('textfield');
     }
+    
+    public function toHtml()
+    {
+        $this->addClass('input-text');
+        return parent::toHtml();
+    }
 }

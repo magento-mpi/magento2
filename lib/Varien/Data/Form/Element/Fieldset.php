@@ -14,4 +14,17 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         parent::__construct($attributes);
         $this->setType('fieldset');
     }
+    
+    public function toHtml()
+    {
+        $html = '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
+        if ($this->getLegend()) {
+            $html.= '<legend>'.$this->getLegend().'</legend>'."\n";
+        }
+        foreach ($this->getElements() as $element) {
+        	$html.= $element->toHtml();
+        }
+        $html.= '</fieldset>'."\n";
+        return $html;
+    }
 }

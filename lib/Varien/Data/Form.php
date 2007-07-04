@@ -43,6 +43,12 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         return $this;
     }
     
+    /**
+     * Check existing element
+     *
+     * @param   string $elementId
+     * @return  bool
+     */
     protected function _elementIdExists($elementId)
     {
         return isset($this->_elementsIndex[$elementId]);
@@ -128,5 +134,29 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
             unset($this->_elementsIndex[$elementId]);
         }
         return $this;
+    }
+    
+    public function toHtml()
+    {
+        Varien_Profiler::start('form/toHtml');
+        $html = '';
+        if ($useContainer = $this->getUseContainer()) {
+            $html.= '<form '.$this->serialize(array('id', 'method', 'action', 'enctype', 'class')).'>';
+        }
+        
+        foreach ($this->getElements() as $element) {
+        	$html.= $element->toHtml();
+        }
+        
+        if ($useContainer) {
+            $html.= '</form>';
+        }
+        Varien_Profiler::stop('form/toHtml');
+        return $html;
+    }
+    
+    public function getHtml()
+    {
+        return $this->toHtml();
     }
 }

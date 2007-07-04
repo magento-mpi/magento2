@@ -29,13 +29,19 @@
     case 'password':?>
     <span class="form_row">
         <?if($element->getLabel()):?><label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label><?endif;?>
-        <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>" <?=( $element->getOnClick() ? 'onClick="'.$element->getOnClick().'"' : '' )?>>
+        <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>" <?=( $element->getOnClick() ? 'onClick="'.$element->getOnClick().'"' : '' )?>/>
+    </span>
+      <?break;
+    case 'radio':?>
+    <span class="form_row">
+        <?if($element->getLabel()):?><label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label><?endif;?>
+        <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" value="<?=$element->getValue()?>" class="input-text <?=$element->getClass()?>" title="<?=$element->getTitle()?>"/>
     </span>
       <?break;
     case 'hidden':?>
         <input type="<?=$element->getType()?>" name="<?=$element->getName()?>" id="<?=$element->getHtmlId()?>" value="<?=$element->getValue()?>">
       <?break;
-    case 'radio':?>
+    case 'radios':?>
     <span class="form_row">
         <label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
 	<?foreach($element->getRadios() as $_radio):?>

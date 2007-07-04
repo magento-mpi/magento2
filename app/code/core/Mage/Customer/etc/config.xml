@@ -273,6 +273,17 @@
                       <frontend><input>text</input><label>Fax</label></frontend>
                     </fax>
                     
+                    <default_billint>
+                      <id>211</id>
+                      <backend><type>int</type></backend>
+                      <frontend><input>radio</input><label>Default billing</label></frontend>
+                    </default_billint>
+
+                    <default_shipping>
+                      <id>212</id>
+                      <backend><type>int</type></backend>
+                      <frontend><input>radio</input><label>Default shipping</label></frontend>
+                    </default_shipping>
                 </attributes>
             </customer_address>
             

@@ -5,7 +5,7 @@
         <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link">
             <?=$_tab->getLabel()?>
         </a>
-        <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content"><?=$_tab->getContent()?></div>
+        <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
     </li>
 <?endforeach;?>
 </ul>

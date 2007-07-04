@@ -15,4 +15,23 @@ class Varien_Data_Form_Element_Textarea extends Varien_Data_Form_Element_Abstrac
         $this->setType('textarea');
         $this->setExtType('textarea');
     }
+    
+    public function getHtmlAttributes()
+    {
+        return array('type', 'name', 'title', 'class', 'style', 'onclick', 'onchange');
+    }
+    
+    public function toHtml()
+    {
+        $this->addClass('textarea');
+        $html = '<span class="field-row">'."\n";
+        if ($this->getLabel()) {
+            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
+        }
+        $html.= '<textarea id="'.$this->getHtmlId().'" '.$this->serialize($this->getHtmlAttributes()).'/>';
+        $html.= $this->getValue();
+        $html.= "</textarea>\n";
+        $html.= '</span>'."\n";
+        return $html;
+    }
 }

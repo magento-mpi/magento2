@@ -51,23 +51,20 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
             )
         );
 
-    	$fieldset->addField('page_active', 'radio',
+    	$fieldset->addField('page_active', 'radios',
             array(
-                    'label' => __('page enabled'),
-                    'title' => __('page enabled title'),
-                    'checked' => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
-                    'class' => 'required-entry',
-
-                    'radios' => array(
-                        'page_enabled' => array(
-                            'name' => 'page_active',
+                    'label'     => __('page enabled'),
+                    'title'     => __('page enabled title'),
+                    'value'     => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
+                    'class'     => 'required-entry',
+                    'name'      => 'page_active',
+                    'values'    => array(
+                        array(
                             'value' => 1,
                             'label' => 'enabled',
                             'title' => 'enabled title'
                         ),
-
-                        'page_disabled' => array(
-                            'name' => 'page_active',
+                        array(
                             'value' => 0,
                             'label' => 'disabled',
                             'title' => 'disabled title'

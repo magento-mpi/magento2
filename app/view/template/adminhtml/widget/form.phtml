@@ -1,5 +1,6 @@
 <div class="entry-edit">
-<?if( $form->getUseContainer() === true ):?>
+<?=$this->getFormObject()->getHtml()?>
+<?/*if( $form->getUseContainer() === true ):?>
 <form id="<?=$form->getFormId()?>" method="<?=( $form->getFormMethod() ) ? $form->getFormMethod() : 'POST' ;?>" action="<?=$form->getFormAction()?>" <?=( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
 <?endif;?>
 	<?foreach ($form->getElements() as $_element):?>
@@ -7,5 +8,5 @@
 	<?endforeach;?>
 <?if( $form->getUseContainer() === true ):?>
 </form>
-<?endif;?>
+<?endif;*/?>
 </div>

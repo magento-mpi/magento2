@@ -28,22 +28,18 @@
         <?foreach ($addressCollection as $_address):?>
         <div id="form_address_item_<?=$_address->getId()?>" style="display:none">
         <?
-            $form->setValues($_address->getData())
+            $this->getFormObject()->setValues($_address->getData())
                 ->setHtmlIdPrefix($_address->getId())
                 ->setFieldNamePrefix('address['.$_address->getId().']')
         ?>
-        <?foreach ($form->getElements() as $_element):?>
-            <?=$this->drawElement($_element)?>
-        <?endforeach;?>
+        <?=$this->getFormObject()->getHtml()?>
         <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
         </div>
         <?endforeach;?>
     <?else:?>
     <div id="form_new_item" style="display:none">
-    <?$form->setFieldNamePrefix('address[new]')?>
-    <?foreach ($form->getElements() as $_element):?>
-        <?=$this->drawElement($_element)?>
-    <?endforeach;?>
+    <?$this->getFormObject()->setFieldNamePrefix('address[new]')?>
+    <?=$this->getFormObject()->getHtml()?>
     </div>
     <?endif;?>
 </div>
@@ -60,13 +56,11 @@
 <div id="address_form_template" class="no-display template">
 <?
     // Set form template elements prefix
-    $form->setHtmlIdPrefix($_templatePrefix)
+    $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
         ->setValues(array())
         ->setFieldNamePrefix('address['.$_templatePrefix.']');
 ?>
-<?foreach ($form->getElements() as $_element):?>
-    <?=$this->drawElement($_element)?>
-<?endforeach;?>
+<?=$this->getFormObject()->getHtml()?>
 </div>
 
 

@@ -95,4 +95,27 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         $this->getForm()->removeField($elementId);
         return parent::removeField($elementId);
     }
+    
+    public function getHtmlAttributes()
+    {
+        return array('type', 'name', 'value', 'title', 'class', 'style', 'onclick', 'onchange');
+    }
+    
+    public function addClass($class)
+    {
+        $oldClass = $this->getClass();
+        $this->setClass($oldClass.' '.$class);
+        return $this;
+    }
+    
+    public function toHtml()
+    {
+        $html = '<span class="field-row">'."\n";
+        if ($this->getLabel()) {
+            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
+        }
+        $html.= '<input id="'.$this->getHtmlId().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+        $html.= '</span>'."\n";
+        return $html;
+    }
 }
