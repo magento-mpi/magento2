@@ -73,6 +73,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     protected $_attributesByTable = array();
     
+    /**
+     * Attributes that are static fields in entity table
+     *
+     * @var array
+     */
+    protected $_staticAttributes = array();
+    
     protected $_entityTable;
     
     protected $_entityIdField;
@@ -398,7 +405,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         $this->_attributesByName[$attributeName] = $attributeInstance;
         
-        if (!$attributeInstance->getBackend()->isStatic()) {
+        if ($attributeInstance->getBackend()->isStatic()) {
+            $this->_staticAttributes[$attributeName] = $attributeInstance;
+        } else {
             $this->_attributesById[$attributeId] = $attributeInstance;
             
             $attributeTable = $attributeInstance->getBackend()->getTable();
