@@ -713,6 +713,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
     
+    
+    public function saveAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value)
+    {
+        
+    }
+
     /**
      * Delete entity using current object's data
      * 
