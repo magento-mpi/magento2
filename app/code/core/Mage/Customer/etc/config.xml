@@ -210,6 +210,9 @@
                 <parent>customer</parent>
                 <backend extends="//global/entities/customer/backend"/>
                 <attributes>
+                    <parent_id />
+                    <is_active />
+                    
                     <firstname>
                       <id>201</id>
                       <backend><type>varchar</type><required>true</required></backend>

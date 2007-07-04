@@ -530,6 +530,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
         $attribute = $entity->getAttribute($attributeName);
+        if (!$attribute) {
+            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeName);
+        }
         
         $select = $this->getSelect();
         

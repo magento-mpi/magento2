@@ -378,7 +378,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 return $this->_attributesByName[$attributeName];
             }
             $attributeConfig = $this->getConfig()->attributes->$attributeName;
-            $attributeId = (int)$attributeConfig->id;
      
         } elseif ($attribute instanceof Mage_Core_Model_Config_Element) {
      
@@ -387,11 +386,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             if (isset($this->_attributesByName[$attributeName])) {
                 return $this->_attributesByName[$attributeName];
             }
-            $attributeId = (int)$attributeConfig->id;
         }
 
-        if (empty($attributeConfig)) {
-            $attributeConfig = new Mage_Core_Model_Config_Element("<$attributeName/>");
+        if (empty($attributeConfig) && !($attributeConfig instanceof Mage_Eav_Model_Entity_Attribute_Abstract)) {
+            return false;
+        }
+        
+        if (empty($attributeId)) {
+            $attributeId = (int)$attributeConfig->id;
         }
         
         if (empty($attributeConfig->model)) {
@@ -596,7 +598,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function isAttributeStatic($attribute)
     {
         $attrInstance = $this->getAttribute($attribute);
-        return !$attrInstance || $attrInstance->getBackend()->isStatic();
+        return $attrInstance && $attrInstance->getBackend()->isStatic();
     }
     
     /**
@@ -782,9 +784,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
             
             $attribute = $this->getAttribute($k);
+            if (empty($attribute)) {
+                continue;
+            }
+            
             $attrId = $attribute->getId();
             // if attribute is static add to entity row and continue
-            if (isset($this->_staticAttributes[$k])) {
+            if ($this->isAttributeStatic($k)) {
                 $entityRow[$k] = $v;
                 unset($newData[$k]);
                 if (isset($origData)) {
@@ -901,11 +907,15 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     
     protected function _afterSetConfig()
     {
-        if (empty($this->_config->attributes->created_at)) {
-            $this->_config->attributes->addChild('created_at', '');
+        $attributes = $this->_config->attributes;
+        if (empty($attributes->entity_type_id)) {
+            $attributes->addChild('entity_type_id', '');
         }
-        if (empty($this->_config->attributes->updated_at)) {
-            $this->_config->attributes->addChild('updated_at', '');
+        if (empty($attributes->created_at)) {
+            $attributes->addChild('created_at', '');
+        }
+        if (empty($attributes->updated_at)) {
+            $attributes->addChild('updated_at', '');
         }
     }
 }
