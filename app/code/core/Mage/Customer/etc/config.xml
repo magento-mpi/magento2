@@ -103,66 +103,101 @@
               
               <attributes>
                 <store_id>
-                    <frontend><input>select</input><label>Associated to store</label></frontend>
+                    <frontend>
+                        <input>select</input>
+                        <label>Associated to store</label>
+                    </frontend>
                 </store_id>
                 
                 <firstname>
-                  <id>101</id>
-                  <backend><type>varchar</type><required>true</required></backend>
-                  <frontend>
-                    <input>text</input>
-                    <label>First name</label>
-                    <class>required-entry</class>
-                  </frontend>
+                    <id>101</id>
+                    <backend>
+                        <type>varchar</type>
+                        <required>true</required>
+                    </backend>
+                    <frontend>
+                        <input>text</input>
+                        <label>First name</label>
+                        <class>required-entry</class>
+                    </frontend>
                 </firstname>
                 
                 <lastname>
-                  <id>102</id>
-                  <backend><type>varchar</type><required>true</required></backend>
-                  <frontend>
-                    <input>text</input>
-                    <label>Last name</label>
-                    <class>required-entry</class>
-                  </frontend>
+                    <id>102</id>
+                    <backend>
+                        <type>varchar</type>
+                        <required>true</required>
+                    </backend>
+                    <frontend>
+                        <input>text</input>
+                        <label>Last name</label>
+                        <class>required-entry</class>
+                    </frontend>
                 </lastname>
                 
                 <email>
-                  <id>103</id>
-                  <backend><type>varchar</type><required>true</required></backend>
-                  <frontend>
-                    <input>text</input>
-                    <label>Email</label>
-                    <class>required-entry validate-email</class>
-                  </frontend>
+                    <id>103</id>
+                    <backend>
+                        <type>varchar</type>
+                        <required>true</required>
+                    </backend>
+                    <frontend>
+                        <input>text</input>
+                        <label>Email</label>
+                        <class>required-entry validate-email</class>
+                    </frontend>
                 </email>
                 
                 <password_hash>
-                  <id>104</id>
-                  <backend><type>varchar</type></backend>
+                    <id>104</id>
+                    <backend>
+                        <type>varchar</type>
+                    </backend>
                 </password_hash>
                 
                 <customer_group>
-                  <id>105</id>
-                  <backend><type>int</type><required>true</required></backend>
-                  <frontend>
-                    <input>select</input>
-                    <label>Customer group</label>
-                    <class>required-entry</class>
-                  </frontend>
-                  <source>
-                    <model>customer/entity_attribute_source_group</model>
-                  </source>
+                    <id>105</id>
+                    <backend>
+                        <type>int</type>
+                        <required>true</required>
+                    </backend>
+                    <frontend>
+                        <input>select</input>
+                        <label>Customer group</label>
+                        <class>required-entry</class>
+                    </frontend>
+                    <source>
+                        <model>customer/entity_attribute_source_group</model>
+                    </source>
                 </customer_group>
                 
                 <store_balance>
-                  <id>106</id>
-                  <backend><type>decimal</type></backend>
-                  <frontend>
-                    <input>text</input>
-                    <label>Customer store balance</label>
-                    <class>required-entry validate-number</class>
-                  </frontend>
+                    <id>106</id>
+                    <backend>
+                        <type>decimal</type>
+                    </backend>
+                    <frontend>
+                        <input>text</input>
+                        <label>Customer store balance</label>
+                        <class>required-entry validate-number</class>
+                    </frontend>
                 </store_balance>
+
+                <default_billing>
+                    <id>107</id>
+                    <backend>
+                        <type>int</type>
+                        <model>customer/entity_attribute_backend_customer_billing</model>
+                    </backend>
+                </default_billing>
+                
+                <default_shipping>
+                    <id>108</id>
+                    <backend>
+                        <type>int</type>
+                        <model>customer/entity_attribute_backend_customer_shipping</model>
+                    </backend>
+                </default_shipping>
                 
               </attributes>
             </customer>
@@ -273,17 +308,6 @@
                       <frontend><input>text</input><label>Fax</label></frontend>
                     </fax>
                     
-                    <default_billint>
-                      <id>211</id>
-                      <backend><type>int</type></backend>
-                      <frontend><input>radio</input><label>Default billing</label></frontend>
-                    </default_billint>
-
-                    <default_shipping>
-                      <id>212</id>
-                      <backend><type>int</type></backend>
-                      <frontend><input>radio</input><label>Default shipping</label></frontend>
-                    </default_shipping>
                 </attributes>
             </customer_address>
             

@@ -98,7 +98,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     
     public function getHtmlAttributes()
     {
-        return array('type', 'name', 'value', 'title', 'class', 'style', 'onclick', 'onchange');
+        return array('type', 'value', 'title', 'class', 'style', 'onclick', 'onchange');
     }
     
     public function addClass($class)
@@ -114,7 +114,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         if ($this->getLabel()) {
             $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
         }
-        $html.= '<input id="'.$this->getHtmlId().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+        $html.= '<input id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
         $html.= '</span>'."\n";
         return $html;
     }

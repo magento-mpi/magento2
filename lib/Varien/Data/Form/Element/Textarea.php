@@ -18,7 +18,7 @@ class Varien_Data_Form_Element_Textarea extends Varien_Data_Form_Element_Abstrac
     
     public function getHtmlAttributes()
     {
-        return array('type', 'name', 'title', 'class', 'style', 'onclick', 'onchange');
+        return array('type', 'title', 'class', 'style', 'onclick', 'onchange');
     }
     
     public function toHtml()
@@ -28,7 +28,7 @@ class Varien_Data_Form_Element_Textarea extends Varien_Data_Form_Element_Abstrac
         if ($this->getLabel()) {
             $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
         }
-        $html.= '<textarea id="'.$this->getHtmlId().'" '.$this->serialize($this->getHtmlAttributes()).'/>';
+        $html.= '<textarea id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'/>';
         $html.= $this->getValue();
         $html.= "</textarea>\n";
         $html.= '</span>'."\n";

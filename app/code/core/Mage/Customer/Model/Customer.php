@@ -9,32 +9,29 @@
  */
 class Mage_Customer_Model_Customer extends Varien_Object
 {
-    /**
-     * Customer address collection
-     *
-     * @var Varien_Data_Colection_Db
-     */
-    protected $_addresses;
-    
-    static protected $_entity;
-    
     public function __construct($customer=false) 
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
-        
-        if (is_numeric($customer)) {
-            $this->load($customer);
-        } elseif (is_array($customer)) {
-            $this->setData($customer);
-        }
     }
     
+    /**
+     * Retrieve customer resource model
+     *
+     * @return unknown
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('customer/customer');
     }
     
+    /**
+     * Authenticate customer
+     *
+     * @param   string $login
+     * @param   string $password
+     * @return  Mage_Customer_Model_Customer || false
+     */
     public function authenticate($login, $password)
     {
         if ($this->getResource()->authenticate($this, $login, $password)) {
@@ -43,19 +40,35 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return false;
     }
     
+    /**
+     * Load customer by customer id
+     *
+     * @param   int $customerId
+     * @return  Mage_Customer_Model_Customer
+     */
     public function load($customerId)
     {
         $this->getResource()->load($this, $customerId);
-        #$this->setData($this->getResource()->load($customerId));
         return $this;
     }
     
+    /**
+     * Load customer by email
+     *
+     * @param   string $customerEmail
+     * @return  Mage_Customer_Model_Customer
+     */
     public function loadByEmail($customerEmail)
     {
-        #$this->setData($this->getResource()->loadByEmail($customerEmail));
         $this->getResource()->loadByEmail($this, $customerEmail);
+        return $this;
     }
     
+    /**
+     * Save customer
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function save()
     {
         $this->getResource()->loadAllAttributes()->save($this);
@@ -80,44 +93,95 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return $this;
     }
     
+    /**
+     * Delete customer  
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function delete()
     {
         $this->getResource()->delete($this);
         return $this;
     }
     
+    /**
+     * Get full customer name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
-
+    
+    /**
+     * Add address to address collection
+     *
+     * @param   Mage_Customer_Model_Address $address
+     * @return  Mage_Customer_Model_Customer
+     */
     public function addAddress(Mage_Customer_Model_Address $address)
     {
         $this->getAddressCollection()->addItem($address);
         return $this;
-    }   
+    }
     
+    /**
+     * Retrieve customer address by address id
+     *
+     * @param   int $addressId
+     * @return  Mage_Customer_Model_Address
+     */
     public function getAddressById($addressId)
     {
-        $address = Mage::getConfig()->getModelClassName('customer/address')
+        return Mage::getModel('customer/address')
             ->load($addressId);
-        return $address;
     }
-
-    public function getAddressCollection($reload=false)
+    
+    /**
+     * Retrieve not loaded address collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function getAddressCollection()
     {
-        if ($this->_addresses && !$reload) {
-            return $this->_addresses;
+        $collection = $this->getData('address_collection');
+        if (is_null($collection)) {
+            $collection = Mage::getResourceModel('customer/address_collection');
+            $this->setData('address_collection', $collection);
         }
         
-        if ($this->getCustomerId()) {
-            $this->_addresses = Mage::getResourceModel('customer/address_collection')->loadByCustomerId($this->getCustomerId());
-        }
-        else {
-            $this->_addresses = Mage::getResourceModel('customer/address_collection');
+        return $collection;
+    }
+    
+    /**
+     * Retrieve loaded customer address collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function getLoadedAddressCollection()
+    {
+        $collection = $this->getData('loaded_address_collection');
+        if (is_null($collection)) {
+            $collection = Mage::getResourceModel('customer/address_collection')
+                ->setCustomerFilter($this)
+                ->load();
+            $this->setData('loaded_address_collection', $collection);
         }
         
-        return $this->_addresses;
+        return $collection;
+    }
+    
+    /**
+     * Retrieve all customer attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->getResource()
+            ->loadAllAttributes()
+            ->getAttributesByName();
     }
     
     public function setPassword($password)
@@ -142,12 +206,5 @@ class Mage_Customer_Model_Customer extends Varien_Object
     public function hashPassword($password)
     {
         return md5($password);
-    }
-    
-    public function getAttributes()
-    {
-        return $this->getResource()
-            ->loadAllAttributes()
-            ->getAttributesByName();
     }
 }

@@ -23,7 +23,7 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         if ($this->getLabel()) {
             $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
         }
-        $html.= '<select id="'.$this->getHtmlId().'" '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
+        $html.= '<select id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
         
         $value = $this->getValue();
         if (!is_array($value)) {

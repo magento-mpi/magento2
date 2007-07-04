@@ -19,6 +19,41 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         );
     }
     
+    /**
+     * Save customer
+     * 
+     * @param   Varien_Object $customer
+     * @return  Varien_Object
+     */
+    public function save(Varien_Object $customer)
+    {
+        $testCustomer = clone $customer;
+        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
+        if ($testCustomer->getId() && $testCustomer->getId()!==$customer->getId()) {
+            Mage::throwException('customer email already exist', 'customer/session');
+        }
+        
+        parent::save($customer);
+        $this->_saveAddresses($customer);
+        return $customer;
+    }
+    
+    protected function _afterSave(Varien_Object $customer)
+    {
+        /*foreach ($customer->getAddressCollection() as $address)
+        {
+            if ($address->getData('_deleted')) {
+                $address->delete();
+            }
+            else {
+                $address->setParentId($customer->getId())
+                    ->save();
+            }
+        }*/
+        
+        return parent::_afterSave();
+    }
+
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
@@ -54,34 +89,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             $customer->setData(array());
         }
         return $success;
-    }
-    
-    public function save(Varien_Object $customer)
-    {
-        $testCustomer = clone $customer;
-        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
-        if ($testCustomer->getId() && $testCustomer->getId()!==$customer->getId()) {
-            Mage::throwException('customer email already exist', 'customer/session');
-        }
-        parent::save($customer);
-        $this->_saveAddresses($customer);
-        return $customer;
-    }
-    
-    protected function _saveAddresses($customer)
-    {
-        foreach ($customer->getAddressCollection() as $address)
-        {
-            if ($address->getData('_deleted')) {
-                $address->delete();
-            }
-            else {
-                $address->unsetData('_deleted')
-                    ->setParentId($customer->getId())
-                    ->save();
-            }
-        }
-        return $this;
     }
     
     /**

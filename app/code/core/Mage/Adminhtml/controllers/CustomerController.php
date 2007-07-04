@@ -19,12 +19,21 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     {
         $this->loadLayout('baseframe');
         
+        /**
+         * Set active menu item
+         */
         $this->getLayout()->getBlock('menu')->setActive('customer');
-        //$this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_left'));
         
-        $block = $this->getLayout()->createBlock('adminhtml/customers', 'customers');
-        $this->getLayout()->getBlock('content')->append($block);
+        /**
+         * Append customers block to content
+         */
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('adminhtml/customers', 'customers')
+        );
         
+        /**
+         * Add breadcrumb item
+         */
         $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('customers'), __('customers title'));
 
@@ -32,18 +41,29 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     }
     
     /**
-     * Customer view action
+     * Customer edit action
      */
     public function editAction()
     {
-        $customerId = $this->getRequest()->getParam('id');
         $this->loadLayout('baseframe');
+        
+        $customerId = $this->getRequest()->getParam('id');
+
+        /**
+         * Set active menu item
+         */
         $this->getLayout()->getBlock('menu')->setActive('customer/new');
-            
+        
+        /**
+         * Append customer edit block to content
+         */
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('adminhtml/customer_edit')
         );
         
+        /**
+         * Add breadcrunb items
+         */
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')
             ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml/customer'));
         
@@ -51,10 +71,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             $breadcrumbs->addLink(__('customer').' #'.$customerId, __('customer').' #'.$customerId);
         }
         else {
-            $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));            
             $breadcrumbs->addLink(__('new customer'), __('new customer title'));
         }
         
+        /**
+         * Append customer edit tabs to left block
+         */
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
         
         $this->renderLayout();
@@ -68,47 +90,58 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         $this->_forward('edit');
     }
     
+    /**
+     * Delete customer action
+     */
     public function deleteAction()
     {
-        $customerId = $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('id');
         if ($customerId) {
             try {
                 $customer = Mage::getModel('customer/customer')
                     ->setId($customerId)
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addMessage();
+                //Mage::getSingleton('adminhtml/session')->addMessage();
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addMessage();
+                //Mage::getSingleton('adminhtml/session')->addMessage();
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
     }
     
+    /**
+     * Save customer action
+     */
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $customer = Mage::getModel('customer/customer');
-            //$customer->setData($data);
-            if ($customerId = $this->getRequest()->getParam('id')) {
+            
+            $customer = Mage::getModel('customer/customer')
+                ->addData($data);
+            
+            if ($customerId = (int) $this->getRequest()->getParam('id')) {
                 $customer->setId($customerId);
             }
+            
             if (isset($data['address'])) {
+                // unset template data
                 if (isset($data['address']['_template_'])) {
                     unset($data['address']['_template_']);
                 }
+                
                 foreach ($data['address'] as $index => $addressData) {
                     $address = Mage::getModel('customer/address');
                     $address->setData($addressData);
-                    if ($index = (int) $index) {
-                        $address->setId($index);
+                    
+                    if ($addressId = (int) $index) {
+                        $address->setId($addressId);
                     }
+                    $address->setPostIndex($index);
                 	$customer->addAddress($address);
                 }
-                unset($data['address']);
             }
-            $customer->addData($data);
-            
+
             try {
                 $customer->save();
             }
@@ -116,54 +149,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
                 echo $e;
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
+        
+        //$this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
     }
-
-    public function onlineAction()
-    {
-        $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/online');
-        $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customer_online');
-        $this->getLayout()->getBlock('content')->append($block);
-
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'));
-
-        $this->renderLayout();
-
-
-        $collection = Mage::getResourceSingleton('log/visitor_collection')
-            ->useOnlineFilter()
-            ->load();
-
-        foreach ($collection->getItems() as $item) {
-        	$item->addIpData($item)
-                 ->addCustomerData($item)
-        	     ->addQuoteData($item);
-        }
-    }
-    
- /*   
-    public function groupAction() 
-    {
-        $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/group');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
-            ->addLink(__('customers groups'), __('customers groups title'));
-            
-        $this->renderLayout();
-    }
-    
-    public function groupNewAction() 
-    {
-        $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/group');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
-            ->addLink(__('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer','action'=>'group')))
-            ->addLink(__('new customer group'), __('new customer groups title'));
-            
-        $this->renderLayout();
-    }*/
 }
