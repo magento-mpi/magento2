@@ -102,6 +102,8 @@
               </backend>
               
               <attributes>
+                <parent_id />
+                <is_active />
                 <store_id>
                     <frontend>
                         <input>select</input>
