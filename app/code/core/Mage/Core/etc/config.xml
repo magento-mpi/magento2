@@ -30,35 +30,7 @@
                 </setup>
             </core_setup>
         </resources>
-
-        <entity>
-            <types>
-                <default>
-                    <resource><table>core/entity</table></resource>
-                    <attribute>
-                        <resource><table>core/entity_attribute</table></resource>
-                        <types>
-                            <varchar>
-                                <resource><table>core/entity_attribute_varchar</table></resource>
-                            </varchar>
-                            <decimal>
-                                <resource><table>core/entity_attribute_decimal</table></resource>
-                            </decimal>
-                            <datetime>
-                                <resource><table>core/entity_attribute_datetime</table></resource>
-                            </datetime>
-                            <text>
-                                <resource><table>core/entity_attribute_text</table></resource>
-                            </text>
-                            <int>
-                                <resource><table>core/entity_attribute_int</table></resource>
-                            </int>
-                        </types>
-                    </attribute>
-                </default>
-            </types>
-        </entity>
-
+        
         <models>
             <core>
                 <class>Mage_Core_Model</class>

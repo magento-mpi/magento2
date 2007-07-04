@@ -46,6 +46,13 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     protected $_entityIdField;
     
     /**
+     * Default value for the attribute
+     *
+     * @var mixed
+     */
+    protected $_defaultValue = null;
+    
+    /**
      * Set backend configuration
      *
      * @param Mage_Core_Model_Config_Element $config
@@ -139,7 +146,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     {
         if (empty($this->_entityIdField)) {
             if ($this->getConfig()->entity_id_field) {
-                $this->_entityIdField = $this->getConfig()->entity_id_field;
+                $this->_entityIdField = (string)$this->getConfig()->entity_id_field;
             } else {
                 $this->_entityIdField = $this->getAttribute()->getEntity()->getValueEntityIdField();
             }
@@ -156,5 +163,54 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function getValueId()
     {
         return $this->_valueId;
+    }
+    
+    public function getDefaultValue()
+    {
+        if (is_null($this->_defaultValue)) {
+            if ($this->getConfig()->default_value) {
+                $this->_defaultValue = (string)$this->getConfig()->default_value;
+            } else {
+                $this->_defaultValue = "";
+            }
+        }
+        return $this->_defaultValue;
+    }
+    
+    public function validate($object)
+    {
+        $attrName = $this->getAttribute()->getName();
+        if ($this->getConfig()->is('required') && !$object->getData($attrName)) {
+            return false;
+        }
+        return true;
+    }
+    
+    public function afterLoad($object)
+    {
+        
+    }
+    
+    public function beforeSave($object)
+    {
+        $attrName = $this->getAttribute()->getName();
+        if (!$object->hasData($attrName)) {
+            $object->setData($attrName, $this->getDefaultValue());
+        }
+    }
+    
+    public function afterSave($object)
+    {
+        
+    }
+    
+    public function beforeDelete($object)
+    {
+        
+    }
+    
+    public function afterDelete($object)
+    {
+        
     }
 }

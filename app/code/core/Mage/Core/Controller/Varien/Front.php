@@ -108,7 +108,7 @@ class Mage_Core_Controller_Varien_Front
 
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
-Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
+#Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
             foreach ($this->_routers as $router) {
                 if ($router->match($this->getRequest())) {
                     break;
@@ -146,7 +146,7 @@ Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName
             
             $p = explode('/', $route);
             $routeName = $p[0]==='*' ? $request->getModuleName() : $p[0];
-            $paramsArr = array();
+            $paramsArr = array('module'=>$routeName);
             if (isset($p[1])) {
                 $paramsArr['controller'] = $p[1]==='*' ? $request->getControllerName() : $p[1];
                 if (isset($p[2])) {

@@ -192,6 +192,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return (int)$this->getConfig()->id;
     }
     
+    public function getMessages()
+    {
+        if (empty($this->_messages)) {
+            $this->_messages = Mage::getModel('core/message_collection');
+        }
+        return $this->_messages;
+    }
+    
     /**
      * Retrieve whether to support data sharing between stores for this entity
      * 
@@ -383,8 +391,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_attributesByName[$attributeName] = $attributeInstance;
         $this->_attributesById[$attributeId] = $attributeInstance;
         
-        $attributeTable = $attributeInstance->getBackend()->getTable();
-        $this->_attributesByTable[$attributeTable][$attributeName] = $attributeInstance;
+        if (!$attributeInstance->getBackend()->isStatic()) {
+            $attributeTable = $attributeInstance->getBackend()->getTable();
+            $this->_attributesByTable[$attributeTable][$attributeName] = $attributeInstance;
+        }
 
         return $attributeInstance;
     }
@@ -408,6 +418,57 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->getAttribute($attribute);
         }
         return $this;
+    }
+    
+    /**
+     * Walk through the attributes and run method with optional arguments
+     *
+     * Returns array with results for each attribute
+     * 
+     * if $method is in format "part/method" will run method on specified part
+     * for example: $this->walkAttributes('backend/validate');
+     * 
+     * @param string $method
+     * @param array $args
+     * @param array $part attribute, backend, frontend, source
+     * @return array
+     */
+    public function walkAttributes($partMethod, array $args=array())
+    {
+        $methodArr = explode('/', $partMethod);
+        switch (sizeof($methodArr)) {
+            case 1:
+                $part = 'attribute';
+                $method = $methodArr[0];
+                break;
+                
+            case 2:
+                $part = $methodArr[0];
+                $method = $methodArr[1];
+                break;
+        }
+        $results = array();
+        foreach ($this->getAttributesByName() as $attrName=>$attribute) {
+            switch ($part) {
+                case 'attribute':
+                    $instance = $attribute;
+                    break;
+                    
+                case 'backend':
+                    $instance = $attribute->getBackend();
+                    break;
+                    
+                case 'frontend':
+                    $instance = $attribute->getFrontend();
+                    break;
+                    
+                case 'source':
+                    $instance = $attribute->getSource();
+                    break;
+            }
+            $results[$attrName] = call_user_func_array(array($instance, $method), $args);
+        }
+        return $results;
     }
 
     /**
@@ -519,6 +580,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $attrInstance = $this->getAttribute($attribute);
         return !$attrInstance || $attrInstance->getBackend()->isStatic();
     }
+    
+    /**
+     * Validate all object's attributes against configuration
+     * 
+     * @param Varien_Object $object
+     * @return Varien_Object
+     */
+    public function validate($object)
+    {
+        $this->loadAllAttributes();
+        $this->walkAttributes('backend/validate', array($object));
+        
+        return $this;
+    }
 
     /**
      * Load entity's attributes into the object
@@ -575,6 +650,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
         
+        $this->_afterLoad($object);
+        
         return $this;
     }
 
@@ -597,6 +674,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if ($this->getUseDataSharing() && !$object->getStoreId()) {
             $object->setStoreId($this->getStoreId());
         }
+        
+        $this->_beforeSave($object);
 
         $this->_write->beginTransaction();
         
@@ -607,6 +686,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             throw $e;
         }
         $this->_write->commit();
+        
+        $this->_afterSave($object);
 
         #$this->_write->save($this);
         return $this;
@@ -630,6 +711,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $id = (int)$object->getData($this->getEntityIdField());
         }
         
+        $this->_beforeDelete($object);
+        
         $this->_write->beginTransaction();
         try {
             $this->_write->delete($this->getEntityTable(), $this->getEntityIdField()."=".$id);
@@ -642,6 +725,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             throw $e;
         }
         $this->_write->commit();
+        
+        $this->_afterDelete($object);
         
         #$this->_write->delete($this);
         return $this;
@@ -762,5 +847,30 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         
         return $this;
+    }
+    
+    protected function _afterLoad(Varien_Object $object)
+    {
+        $this->walkAttributes('backend/afterLoad', array($object));
+    }
+    
+    protected function _beforeSave(Varien_Object $object)
+    {
+        $this->walkAttributes('backend/beforeSave', array($object));
+    }
+    
+    protected function _afterSave(Varien_Object $object)
+    {
+        $this->walkAttributes('backend/afterSave', array($object));
+    }
+    
+    protected function _beforeDelete(Varien_Object $object)
+    {
+        $this->walkAttributes('backend/beforeDelete', array($object));
+    }
+    
+    protected function _afterDelete(Varien_Object $object)
+    {
+        $this->walkAttributes('backend/afterDelete', array($object));
     }
 }

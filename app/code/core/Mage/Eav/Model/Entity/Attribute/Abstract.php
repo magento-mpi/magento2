@@ -154,7 +154,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
                 $config = new Mage_Core_Model_Config_Element('<backend/>');
             }
             if (empty($config->model)) {
-                $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_BACKEND_MODEL);
+                $config->addChild('model', $this->_getDefaultBackendModel());
             }
             $this->_backend = Mage::getModel((string)$config->model)
                 ->setConfig($config)
@@ -176,7 +176,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
                 $config = new Mage_Core_Model_Config_Element('<frontend/>');
             }
             if (empty($config->model)) {
-                $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_FRONTEND_MODEL);
+                $config->addChild('model', $this->_getDefaultFrontendModel());
             }
             $this->_frontend = Mage::getModel((string)$config->model)
                 ->setConfig($config)
@@ -184,7 +184,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         }
         return $this->_frontend;  
     }
-    
+
     /**
      * Retrieve source instance
      *
@@ -198,11 +198,26 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
                 $config = new Mage_Core_Model_Config_Element('<source/>');
             }
             if (empty($config->model)) {
-                $config->addChild('model', Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL);
+                $config->addChild('model', $this->_getDefaultSourceModel());
             }
             $this->_source = Mage::getModel((string)$config->model)
                 ->setConfig($config)->setAttribute($this);
         }
         return $this->_source;  
+    }
+    
+    protected function _getDefaultBackendModel()
+    {
+        return Mage_Eav_Model_Entity::DEFAULT_BACKEND_MODEL;
+    }
+    
+    protected function _getDefaultFrontendModel()
+    {
+        return Mage_Eav_Model_Entity::DEFAULT_FRONTEND_MODEL;
+    }
+
+    protected function _getDefaultSourceModel()
+    {
+        return Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL;
     }
 }

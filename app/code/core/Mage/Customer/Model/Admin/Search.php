@@ -10,15 +10,15 @@ class Mage_Customer_Model_Admin_Search extends Varien_Object
             $this->setResults($arr);
             return $this;
         }
-        
         $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addFilter('firstname', $this->getQuery(), 'or')
-            ->addFilter('lastname', $this->getQuery(), 'or')
-            ->setCurPage($this->getStart())
-            ->setPageSize($this->getLimit())
-            ->loadData();
+            ->addAttributeToFilter(array(
+                array('attribute'=>'firstname', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'lastname', 'like'=>$this->getQuery().'%')
+            ))
+            ->setPage($this->getStart(), $this->getLimit())
+            ->load();
         
-        foreach ($collection as $customer) {
+        foreach ($collection->getItems() as $customer) {
             $arr[] = array(
                 'id'            => 'customer/1/'.$customer->getCustomerId(),
                 'type'          => 'Customer',

@@ -229,17 +229,30 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Add attribute filter to collection
      *
-     * @param string $attribute
-     * @param string|array $condition
+     * If $attribute is an array will add OR condition with following format:
+     * array(
+     *     array('attribute'=>'firstname', 'like'=>'test%'),
+     *     array('attribute'=>'lastname', 'like'=>'test%'),
+     * )
+     * 
+     * @see self::_getConditionSql for $condition
+     * @param string|array $attribute
+     * @param null|string|array $condition
      * @return Mage_Eav_Model_Entity_Abstract
      */
-    public function addAttributeToFilter($attribute, $condition)
+    public function addAttributeToFilter($attribute, $condition=null)
     {
-        if ($this->getEntity()->isAttributeStatic($attribute)) {
-            $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
-        } else {
-            $this->_addAttributeJoin($attribute);
-            $conditionSql = $this->_getConditionSql($this->_getAttributeTableAlias($attribute).'.value', $condition);
+        if (is_array($attribute)) {
+            $sqlArr = array();
+            foreach ($attribute as $condition) {
+                $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition);
+            }
+            $conditionSql = '('.join(') OR (', $sqlArr).')';
+        } elseif (is_string($attribute)) {
+            if (is_null($condition)) {
+                throw Mage::exception('Mage_Eav', 'Invalid condition');
+            }
+            $conditionSql = $this->_getAttributeConditionSql($attribute, $condition);
         }
         $this->getSelect()->where($conditionSql);
         return $this;
@@ -581,6 +594,17 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $sql = $this->_read->quoteInto("$fieldName = ?", $condition);
         }
         return $sql;
+    }
+    
+    protected function _getAttributeConditionSql($attribute, $condition)
+    {
+        if ($this->getEntity()->isAttributeStatic($attribute)) {
+            $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
+        } else {
+            $this->_addAttributeJoin($attribute);
+            $conditionSql = $this->_getConditionSql($this->_getAttributeTableAlias($attribute).'.value', $condition);
+        }
+        return $conditionSql;
     }
     
     public function setPageSize($pageSize)

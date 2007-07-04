@@ -52,6 +52,17 @@ function now($dayOnly=false)
 }
 
 /**
+ * Check whether sql date is empty
+ *
+ * @param string $date
+ * @return boolean
+ */
+function is_empty_date($date)
+{
+    return preg_replace('#[ 0:-]#', '', $date)==='';
+}
+
+/**
  * Custom error handler
  *
  * @param integer $errno

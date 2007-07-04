@@ -93,10 +93,6 @@ class Mage_Customer_Model_Customer extends Varien_Object
 
     public function addAddress(Mage_Customer_Model_Address $address)
     {
-        if (!$this->_addresses) {
-            $this->_addresses = Mage::getResourceModel('customer/address_collection');
-        }
-        
         $this->getAddressCollection()->addItem($address);
         return $this;
     }   
