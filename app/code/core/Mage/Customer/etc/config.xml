@@ -106,8 +106,6 @@
                     <frontend><input>select</input><label>Associated to store</label></frontend>
                 </store_id>
                 
-                <created_at/><updated_at/>
-                
                 <firstname>
                   <id>101</id>
                   <backend><type>varchar</type><required>true</required></backend>

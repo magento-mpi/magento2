@@ -11,9 +11,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Time_Updated extends Mage_Eav_Mode
 {
     public function beforeSave($object)
     {
-        $attrName = $this->getAttribute()->getName();
-        if (is_empty_date($object->getData($attrName))) {
-            $object->setData($this->getAttribute()->getName(), now());
-        }
+        $object->setData($this->getAttribute()->getName(), now());
     }
 }

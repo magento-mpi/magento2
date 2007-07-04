@@ -82,6 +82,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected $_valueTablePrefix;
     
     /**
+     * Success/error messages
+     *
+     * @var Mage_Core_Model_Message_Collection
+     */
+    protected $_messages;
+    
+    /**
      * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract $read
@@ -128,6 +135,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         $this->_config = $config;
+        
+        $this->_afterSetConfig();
         
         return $this;
     }
@@ -373,25 +382,25 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
             $attributeId = (int)$attributeConfig->id;
         }
-        
+
         if (empty($attributeConfig)) {
-            $attributeInstance = Mage::getModel('eav/entity_attribute');
-            $attributeInstance->setConfig(new Mage_Core_Model_Config_Element("<$attributeName><backend/><frontend/></$attributeName>"));
-            return $attributeInstance;
-        }
-        if (empty($attributeConfig->model)) {
-            $attributeConfig->addChild('model', Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL);
+            $attributeConfig = new Mage_Core_Model_Config_Element("<$attributeName/>");
         }
         
+        if (empty($attributeConfig->model)) {
+            $attributeConfig->addChild('model', $this->_getDefaultAttributeModel());
+        }
+
         $attributeInstance = Mage::getModel((string)$attributeConfig->model)
             ->setConfig($attributeConfig)
             ->setName($attributeName)
             ->setEntity($this);
 
         $this->_attributesByName[$attributeName] = $attributeInstance;
-        $this->_attributesById[$attributeId] = $attributeInstance;
         
         if (!$attributeInstance->getBackend()->isStatic()) {
+            $this->_attributesById[$attributeId] = $attributeInstance;
+            
             $attributeTable = $attributeInstance->getBackend()->getTable();
             $this->_attributesByTable[$attributeTable][$attributeName] = $attributeInstance;
         }
@@ -675,21 +684,21 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object->setStoreId($this->getStoreId());
         }
         
-        $this->_beforeSave($object);
-
         $this->_write->beginTransaction();
         
+        $this->_beforeSave($object);
+
         try {
             $this->_processSaveData($this->_collectSaveData($object));
         } catch (Exception $e) {
             $this->_write->rollback();
             throw $e;
         }
-        $this->_write->commit();
-        
+
         $this->_afterSave($object);
 
-        #$this->_write->save($this);
+        $this->_write->commit();
+        
         return $this;
     }
     
@@ -711,9 +720,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $id = (int)$object->getData($this->getEntityIdField());
         }
         
+        $this->_write->beginTransaction();
+
         $this->_beforeDelete($object);
         
-        $this->_write->beginTransaction();
         try {
             $this->_write->delete($this->getEntityTable(), $this->getEntityIdField()."=".$id);
             $this->loadAllAttributes();
@@ -724,11 +734,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->_write->rollback();
             throw $e;
         }
-        $this->_write->commit();
-        
+
         $this->_afterDelete($object);
         
-        #$this->_write->delete($this);
+        $this->_write->commit();
+        
         return $this;
     }
     
@@ -746,14 +756,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->load($origObject, $entityId);
             $origData = $origObject->getData();
             // drop attributes that are unknown in new data
-            /* // not needed after introduction of partial entity loading
+            // not needed after introduction of partial entity loading
             foreach ($origData as $k=>$v) {
                 if (!isset($newData[$k])) {
                     unset($origData[$k]);
                     continue;
                 }
             }
-            */
+            
         }
 
         foreach ($newData as $k=>$v) {
@@ -790,6 +800,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         
         $result = compact('newObject', 'entityRow', 'insert', 'update', 'delete');
+
         return $result;
     }
     
@@ -799,7 +810,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         $entityIdField = $this->getEntityIdField();
         $entityId = $newObject->getData($entityIdField);
-        
+
         if (empty($entityId)) {
             // insert entity table row
             $this->_write->insert($this->getEntityTable(), $entityRow);
@@ -872,5 +883,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected function _afterDelete(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterDelete', array($object));
+    }
+    
+    protected function _getDefaultAttributeModel()
+    {
+        return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL; 
+    }
+    
+    protected function _afterSetConfig()
+    {
+        if (empty($this->_config->attributes->created_at)) {
+            $this->_config->attributes->addChild('created_at', '');
+        }
+        if (empty($this->_config->attributes->updated_at)) {
+            $this->_config->attributes->addChild('updated_at', '');
+        }
     }
 }

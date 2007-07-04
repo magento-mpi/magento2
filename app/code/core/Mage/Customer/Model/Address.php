@@ -73,7 +73,7 @@ class Mage_Customer_Model_Address extends Varien_Object
      */
     public function save($useTransaction=true) 
     {
-        $this->getResource()->save($this, $useTransaction);
+        $this->getResource()->loadAllAttributes()->save($this, $useTransaction);
         return $this;
     }
     

@@ -151,7 +151,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_backend)) {
             $config = $this->getConfig()->backend;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element('<backend/>');
+                $config = $this->getConfig()->addChild('backend', '');
             }
             if (empty($config->model)) {
                 $config->addChild('model', $this->_getDefaultBackendModel());
@@ -173,7 +173,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_frontend)) {
             $config = $this->getConfig()->frontend;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element('<frontend/>');
+                $config = $this->getConfig()->addChild('frontend', '');
             }
             if (empty($config->model)) {
                 $config->addChild('model', $this->_getDefaultFrontendModel());
@@ -195,7 +195,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
         if (empty($this->_source)) {
             $config = $this->getConfig()->source;
             if (empty($config)) {
-                $config = new Mage_Core_Model_Config_Element('<source/>');
+                $config = $this->getConfig()->addChild('source', '');
             }
             if (empty($config->model)) {
                 $config->addChild('model', $this->_getDefaultSourceModel());
