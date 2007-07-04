@@ -40,7 +40,7 @@ class Mage_Customer_Model_Mysql4_Address
     {
         $select = $this->_read->select()
             ->from($this->_addressTable)
-            ->where($this->_read->quoteInto('address_id=?', $addressId));
+            ->where('address_id=?', $addressId);
         
         $arr = $this->_read->fetchRow($select);
         return $arr;

@@ -53,8 +53,8 @@ class Mage_Directory_Model_Mysql4_Currency
             $select = $this->_read->select()
                 ->from($this->_currencyTable)
                 ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
-                ->where($this->_read->quoteInto($this->_currencyTable.'.currency_code=?', $code))
-                ->where($this->_read->quoteInto($this->_currencyNameTable.'.language_code=?', $lang));
+                ->where($this->_currencyTable.'.currency_code=?', $code)
+                ->where($this->_currencyNameTable.'.language_code=?', $lang);
             $result = $this->_read->fetchRow($select);
             return $result;
         }
@@ -88,8 +88,8 @@ class Mage_Directory_Model_Mysql4_Currency
         if (!isset($this->_rateCache[$currencyFrom][$currencyTo])) {
             $select = $this->_read->select()
                 ->from($this->_currencyRateTable, 'rate')
-                ->where($this->_read->quoteInto('currency_from=?', strtoupper($currencyFrom)))
-                ->where($this->_read->quoteInto('currency_to=?', strtoupper($currencyTo)));
+                ->where('currency_from=?', strtoupper($currencyFrom))
+                ->where('currency_to=?', strtoupper($currencyTo));
                 
             $_rateCache[$currencyFrom][$currencyTo] = $this->_read->fetchOne($select);
         }

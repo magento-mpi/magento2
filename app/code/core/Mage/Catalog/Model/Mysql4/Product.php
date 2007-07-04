@@ -71,8 +71,8 @@ class Mage_Catalog_Model_Mysql4_Product
             }
         }
         
-        $select->where($this->_productTable.".product_id=:product_id");
-        $arr = $this->_read->fetchRow($select, array('product_id'=>$productId));
+        $select->where($this->_productTable.".product_id=?", $productId);
+        $arr = $this->_read->fetchRow($select);
 
         // Add multiple attributes to result       
         $multipleAtributes = $attributes->getMultiples();
@@ -80,9 +80,9 @@ class Mage_Catalog_Model_Mysql4_Product
         foreach ($multipleAtributes as $attribute) {
             $select = $this->_read->select();
             $select->from($attribute->getSelectTable(), $attribute->getTableColumns())
-                ->where('product_id='.$productId)
-                ->where('attribute_id='.$attribute->getId())
-                ->where('store_id='.Mage::getSingleton('core/store')->getId());
+                ->where('product_id=?', $productId)
+                ->where('attribute_id=?', $attribute->getId())
+                ->where('store_id=?', Mage::getSingleton('core/store')->getId());
             
             if ($order = $attribute->getMultipleOrder()) {
                 $select->order($order);

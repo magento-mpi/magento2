@@ -50,7 +50,7 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
         $e = $this->getEnv()->getData();
         
         if (!empty($e['coupon_code'])) {
-            $this->_sqlSelect->where($this->_conn->quoteInto("coupon_code in ('', ?)", $e['coupon_code']));
+            $this->_sqlSelect->where("coupon_code in ('', ?)", $e['coupon_code']);
         } else {
             $this->_sqlSelect->where("coupon_code=''");
         }
@@ -59,13 +59,13 @@ class Mage_Sales_Model_Mysql4_Quote_Rule_Collection extends Mage_Rule_Model_Mysq
             || !is_numeric($reg = $e['customer_registered']) && ($reg<0 || $reg>1)) {
             $reg = 2;
         }
-        $this->_sqlSelect->where("customer_registered=".$reg);
+        $this->_sqlSelect->where("customer_registered=?", $reg);
         
         if (!isset($e['customer_new_buyer'])
             || !is_numeric($new = $e['customer_new_buyer']) && ($new<0 || $new>1)) {
             $new = 2;
         }        
-        $this->_sqlSelect->where("customer_new_buyer=".$new);
+        $this->_sqlSelect->where("customer_new_buyer=?", $new);
 
         return $this;
     }

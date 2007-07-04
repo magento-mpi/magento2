@@ -31,7 +31,7 @@ class Mage_Core_Model_Mysql4_Resource
         // if Core module not instaled
         try {
             $select = $this->_read->select()->from($this->_resTable, 'version')
-                ->where($this->_read->quoteInto('code=?', $resName));
+                ->where('code=?', $resName);
             $dbVersion = $this->_read->fetchOne($select);
         }
         catch (Exception $e){

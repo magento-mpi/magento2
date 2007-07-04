@@ -53,13 +53,13 @@ class Mage_Catalog_Model_Mysql4_Product_Rule_Collection extends Mage_Rule_Model_
             || !is_numeric($reg = $e['customer_registered']) && ($reg<0 || $reg>1)) {
             $reg = 2;
         }
-        $this->_sqlSelect->where("customer_registered=".$reg);
+        $this->_sqlSelect->where("customer_registered=?", $reg);
         
         if (!isset($e['customer_new_buyer'])
             || !is_numeric($new = $e['customer_new_buyer']) && ($new<0 || $new>1)) {
             $new = 2;
         }        
-        $this->_sqlSelect->where("customer_new_buyer=".$new);
+        $this->_sqlSelect->where("customer_new_buyer=?", $new);
         
         return $this;
     }

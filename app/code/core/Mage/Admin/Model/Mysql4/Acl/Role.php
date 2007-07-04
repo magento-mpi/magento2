@@ -24,7 +24,7 @@ class Mage_Admin_Model_Mysql4_Acl_Role
     public function load($roleId)
     {
         $select = $this->_read->select()->from($this->_roleTable)
-            ->where($this->_read->quoteInto("role_id=?", $roleId));
+            ->where("role_id=?", $roleId);
         return $this->_read->fetchRow($select);
     }
 

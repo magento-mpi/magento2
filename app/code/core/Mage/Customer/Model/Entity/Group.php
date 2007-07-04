@@ -52,7 +52,7 @@ class Mage_Customer_Model_Entity_Group
     public function load($groupId) 
     {
         $select = $this->_read->select()->from($this->_groupTable)
-            ->where($this->_read->quoteInto('customer_group_id=?',$groupId));
+            ->where('customer_group_id=?',$groupId);
         
         return $this->_read->fetchRow($select);
     }

@@ -53,7 +53,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     {
         $select = $this->_read->select()
             ->from($this->_subscriberTable)
-            ->where($this->_read->quoteInto('subscriber_id=?',$subscriberId));
+            ->where('subscriber_id=?',$subscriberId);
         
         return $this->_read->fetchRow($select);
     }

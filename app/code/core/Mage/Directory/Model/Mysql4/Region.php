@@ -34,7 +34,7 @@ class Mage_Directory_Model_Mysql4_Region extends Mage_Directory_Model_Region
         $lang = Mage::getSingleton('core/store')->getLanguageCode();
         
         $select = $this->_read->select()->from($this->_regionTable)
-            ->where($this->_read->quoteInto($this->_regionTable.".region_id=?", $regionId))
+            ->where($this->_regionTable.".region_id=?", $regionId)
             ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id 
                 AND '.$this->_regionNameTable.".language_code='$lang'");
 

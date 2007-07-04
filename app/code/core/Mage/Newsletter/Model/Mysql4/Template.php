@@ -55,7 +55,7 @@ class Mage_Newsletter_Model_Mysql4_Template {
     {
         $select = $this->_read->select()
             ->from($this->_templateTable)
-            ->where($this->_read->quoteInto('template_id=?', $templateId));
+            ->where('template_id=?', $templateId);
         
         return $this->_read->fetchRow($select);
     }

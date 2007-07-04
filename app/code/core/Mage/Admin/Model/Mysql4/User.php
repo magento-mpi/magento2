@@ -54,14 +54,14 @@ class Mage_Admin_Model_Mysql4_User
     public function load($userId)
     {
         $select = $this->_read->select()->from($this->_userTable)
-            ->where($this->_read->quoteInto("user_id=?", $userId));
+            ->where("user_id=?", $userId);
         return $this->_read->fetchRow($select);
     }
     
     public function loadByUsername($username)
     {
         $select = $this->_read->select()->from($this->_userTable)
-            ->where($this->_read->quoteInto("username=?", $username));
+            ->where("username=?", $username);
         return $this->_read->fetchRow($select);
     }
 

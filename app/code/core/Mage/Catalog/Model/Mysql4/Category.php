@@ -58,7 +58,7 @@ class Mage_Catalog_Model_Mysql4_Category
                 
                 $select->joinLeft($attribute->getSelectTable(), $condition, $attribute->getTableColumns());
             }
-            $select->where($this->_categoryTable . ".category_id=$categoryId");
+            $select->where($this->_categoryTable . ".category_id=?", $categoryId);
             $arr = $this->_read->fetchRow($select);
         }
         return $arr;

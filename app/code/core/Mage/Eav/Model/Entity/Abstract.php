@@ -714,9 +714,48 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     }
     
     
-    public function saveAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value)
+    public function saveAttribute(Varien_Object $object, $attributeName, $value)
     {
+        $attribute = $this->getAttribute($attributeName);
+        $backend = $attribute->getBackend();
+        $table = $backend->getTable();
+        $entity = $attribute->getEntity();
+        $entityIdField = $entity->getEntityIdField();
+        $row = array(
+            'entity_type_id' => $entity->getTypeId(),
+            'attribute_id' => $attribute->getId(),
+            'store_id' => $object->getStoreId(),
+            $entityIdField=> $object->getData($entityIdField),
+            'value' => $value,
+        );
+        $whereArr = array();
+        foreach ($row as $field=>$value) {
+            $whereArr[] = $this->_read->quoteInto("$field=?", $value);
+        }
+        $where = '('.join(') AND (', $whereArr).')';
         
+        $this->_write->beginTransaction();
+        
+        try {
+            $select = $this->_read->select()->from($table, 'value')->where($where);
+            $origValue = $this->_read->fetchOne($select);
+            
+            if (empty($origValue) && !empty($value)) {
+                $this->_write->insert($table, $row);
+                $backend->setValueId($this->_write->lastInsertId());
+            } elseif (!empty($origValue) && !empty($value)) {
+                $this->_write->update($table, array('value'=>$value), $where);
+            } elseif (!empty($origValue) && empty($value)) {
+                $this->_write->delete($table, $where);
+            }
+            
+        } catch (Exception $e) {
+            $this->_write->rollback();
+        }
+        
+        $this->_write->commit();
+        
+        return $this;
     }
 
     /**
