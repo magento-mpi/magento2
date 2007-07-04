@@ -165,6 +165,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         if (is_null($collection)) {
             $collection = Mage::getResourceModel('customer/address_collection')
                 ->setCustomerFilter($this)
+                ->addAttributeToSelect('*')
                 ->load();
             $this->setData('loaded_address_collection', $collection);
         }

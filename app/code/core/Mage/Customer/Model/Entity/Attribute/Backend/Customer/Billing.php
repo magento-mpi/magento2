@@ -12,8 +12,24 @@ class Mage_Customer_Model_Entity_Attribute_Backend_Customer_Billing extends Mage
 {
     public function afterSave($object)
     {
-        echo '<pre>';
-        print_r($object);
-        echo '</pre>';die();
+        if ($defaultBilling = $object->getDefaultBilling()) 
+        {
+            $addressId = false;
+            /**
+             * post_index set in customer save action for address
+             * this is $_POST array index for address
+             */
+            foreach ($object->getAddressCollection() as $address) {
+            	if ($address->getPostIndex() == $defaultBilling) {
+            	    $addressId = $address->getId();
+            	}
+            }
+            
+            if ($addressId) {
+                $object->setDefaultBilling($addressId);
+                $this->getAttribute()->getEntity()
+                    ->saveAttribute($object, $this->getAttribute()->getName());
+            }
+        }
     }
 }

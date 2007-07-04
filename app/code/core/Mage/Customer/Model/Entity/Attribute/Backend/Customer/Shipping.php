@@ -12,8 +12,24 @@ class Mage_Customer_Model_Entity_Attribute_Backend_Customer_Shipping extends Mag
 {
     public function afterSave($object)
     {
-        echo '<pre>';
-        print_r($object);
-        echo '</pre>';die();
+        if ($defaultShipping = $object->getDefaultShipping()) 
+        {
+            $addressId = false;
+            /**
+             * post_index set in customer save action for address
+             * this is $_POST array index for address
+             */
+            foreach ($object->getAddressCollection() as $address) {
+            	if ($address->getPostIndex() == $defaultShipping) {
+            	    $addressId = $address->getId();
+            	}
+            }
+            
+            if ($addressId) {
+                $object->setDefaultShipping($addressId);
+                $this->getAttribute()->getEntity()
+                    ->saveAttribute($object, $this->getAttribute()->getName());
+            }
+        }
     }
 }

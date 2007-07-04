@@ -29,18 +29,24 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         $testCustomer = clone $customer;
         $this->loadByEmail($testCustomer, $customer->getEmail(), true);
-        if ($testCustomer->getId() && $testCustomer->getId()!==$customer->getId()) {
+
+        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
             Mage::throwException('customer email already exist', 'customer/session');
         }
         
         parent::save($customer);
-        $this->_saveAddresses($customer);
         return $customer;
     }
     
+    /**
+     * Save customer addresses and set default addresses in attributes backend
+     *
+     * @param   Varien_Object $customer
+     * @return  Mage_Eav_Model_Entity_Abstract
+     */
     protected function _afterSave(Varien_Object $customer)
     {
-        /*foreach ($customer->getAddressCollection() as $address)
+        foreach ($customer->getAddressCollection() as $address)
         {
             if ($address->getData('_deleted')) {
                 $address->delete();
@@ -49,9 +55,9 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
                 $address->setParentId($customer->getId())
                     ->save();
             }
-        }*/
+        }
         
-        return parent::_afterSave();
+        return parent::_afterSave($customer);
     }
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)

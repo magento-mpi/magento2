@@ -9,8 +9,8 @@
 			<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
 			</address>
             <div class="address-type">
-                <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
-                <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
+                <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
+                <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
             </div>
             <div class="delete-address" <?if($_address->isPrimary()):?>style="display:none"<?endif;?>>
                 <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
@@ -103,14 +103,17 @@ addressesModel.prototype = {
         this.reloadItemList();
         
         for(var i=0,n=this.itemList.length; i<n; i++){
-            this.addItemObservers(this.itemList[i]);
-            this.initItem(this.itemList[i]);
+            if(this.itemList[i].id){
+                this.addItemObservers(this.itemList[i]);
+                this.initItem(this.itemList[i]);
+            }
         }
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
         
         this.setActiveItem(this.itemList[0]);
+        this.setAddressAsDefault();
     },
     reloadItemList : function(){
         this.itemList = $$('#address_list li');
@@ -186,7 +189,7 @@ addressesModel.prototype = {
             this.setActiveItem(element);
         }
     },
-    setAddressAsDefault : function(item){
+    setAddressAsDefault : function(){
         for(var i in this.itemList){
             if(this.itemList[i].id){
                 var inputs = $(this.itemList[i].id).getElementsBySelector('input');

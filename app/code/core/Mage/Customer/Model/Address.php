@@ -84,7 +84,7 @@ class Mage_Customer_Model_Address extends Varien_Object
      */
     public function delete() 
     {
-        $this->getResource()->delete($this->getId());
+        $this->getResource()->delete($this);
         $this->setData(array());
         return $this;
     }

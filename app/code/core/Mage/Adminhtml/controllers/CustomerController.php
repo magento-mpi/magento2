@@ -47,7 +47,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
     {
         $this->loadLayout('baseframe');
         
-        $customerId = $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('id');
+        $customer = Mage::getModel('customer/customer');
+        
+        if ($customerId) {
+            $customer->load($customerId);
+        }
+        
+        Mage::register('customer', $customer);
 
         /**
          * Set active menu item
@@ -137,6 +144,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
                     if ($addressId = (int) $index) {
                         $address->setId($addressId);
                     }
+                    /**
+                     * We need set post_index for detect default addresses
+                     */
                     $address->setPostIndex($index);
                 	$customer->addAddress($address);
                 }
@@ -150,6 +160,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             }
         }
         
-        //$this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
+        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
     }
 }

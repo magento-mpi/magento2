@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
 
     public function getCustomerId()
     {
-        return $this->getRequest()->getParam('id');
+        return Mage::registry('customer')->getId();
     }
     
     public function getDeleteUrl()

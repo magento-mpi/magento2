@@ -15,8 +15,9 @@ class Mage_Customer_Model_Entity_Address_Collection extends Mage_Eav_Model_Entit
         $this->setObject('customer/address');
     }
     
-    public function setCustomerFilter()
+    public function setCustomerFilter($customer)
     {
+        $this->addAttributeToFilter('parent_id', $customer->getId());
         return $this;
     }
 }
