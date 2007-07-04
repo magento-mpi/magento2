@@ -32,57 +32,34 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         
         if ($values = $this->getValues()) {
             foreach ($values as $option) {
-                if (is_array($option)) {
-                    if (is_array($option['value'])) {
-                        $html.='<optgroup label="'.$optionInfo['label'].'">'."\n";
-                        foreach ($optionInfo['value'] as $groupItem) {
-                            $html.= $this->_optionToHtml($groupItem, $value);
-                        }
-                        $html.='</optgroup>'."\n";
+                if (is_array($option['value'])) {
+                    $html.='<optgroup label="'.$optionInfo['label'].'">'."\n";
+                    foreach ($optionInfo['value'] as $groupItem) {
+                        $html.= $this->_optionToHtml($groupItem, $value);
                     }
-                    else {
-                        $html.= $this->_optionToHtml($option, $value);
-                    }
+                    $html.='</optgroup>'."\n";
                 }
-                elseif ($option instanceof Varien_Object) {
-                    if (is_array($option->getValue())) {
-                        $html.='<optgroup '.$option->serialize('label', 'title', 'class', 'style').'>'."\n";
-                        foreach ($option->getValue() as $groupItem) {
-                            $html.= $this->_optionToHtml($groupItem, $value);
-                        }
-                        $html.='</optgroup>'."\n";
-                    }
-                    else {
-                        $html.= $this->_optionToHtml($option, $value);
-                    }
+                else {
+                    $html.= $this->_optionToHtml($option, $value);
                 }
             }
         }
+
         $html.= '</select>'."\n";
         $html.= '</span>'."\n";
+        Varien_Profiler::stop('form/select/toHtml');
         return $html;
     }
     
     protected function _optionToHtml($option, $selected)
     {
-        $html = '<option ';
-        if (is_array($option)) {
-            $html = 'value="'.$option['value'].'"';
-            if (in_array($option['value'], $selected)) {
-                $html.= ' selected="selected"';
-            }
-            $html.= '>';
-            $html.= $option['label'];
+        $html = '<option value="'.$option['value'].'"';
+        $html.= isset($option['title']) ? 'title="'.$option['title'].'"' : '';
+        $html.= isset($option['style']) ? 'style="'.$option['style'].'"' : '';
+        if (in_array($option['value'], $selected)) {
+            $html.= ' selected="selected"';
         }
-        elseif ($option instanceof Varien_Object) {
-        	$html.= $option->serialize(array('label', 'title', 'value', 'class', 'style'));
-        	if (in_array($option->getValue(), $selected)) {
-        	    $html.= ' selected="selected"';
-        	}
-        	$html.= '>';
-            $html.= $option->getLabel();
-        }
-        $html.= '</option>'."\n";
+        $html.= '>'.$option['label']. '</option>'."\n";
         return $html;
     }
 }

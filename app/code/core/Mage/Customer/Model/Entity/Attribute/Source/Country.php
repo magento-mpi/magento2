@@ -14,8 +14,9 @@ class Mage_Customer_Model_Entity_Attribute_Source_Country extends Mage_Eav_Model
     {
         if (!$this->_options) {
             $this->_options = Mage::getResourceModel('directory/country_collection')->load()->toOptionArray();
-            foreach ($this->_options as $option) {
-            	$option->setStyle('background-image:url('.Mage::getBaseUrl().'skins/default/images/icons/flags/'.strtolower($option->getTitle()).'.gif)');
+            $baseUrl = Mage::getBaseUrl();
+            foreach ($this->_options as $index=>$option) {
+            	$this->_options[$index]['style'] = 'background-image:url('.$baseUrl.'skins/default/images/icons/flags/'.strtolower($option['title']).'.gif)';
             }
         }
         return $this->_options;

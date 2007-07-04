@@ -12,6 +12,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     public function __construct($attributes=array()) 
     {
         parent::__construct($attributes);
+        $this->_initElementsCollection();
         $this->setType('fieldset');
     }
     

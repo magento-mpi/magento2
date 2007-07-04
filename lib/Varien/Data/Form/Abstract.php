@@ -19,7 +19,13 @@ class Varien_Data_Form_Abstract extends Varien_Object
     public function __construct($attributes = array()) 
     {
         parent::__construct($attributes);
-        $this->_elements = new Varien_Data_Form_Element_Collection($this);        
+        
+    }
+    
+    protected function _initElementsCollection()
+    {
+        $this->_elements = new Varien_Data_Form_Element_Collection($this);
+        return $this;
     }
 
     /**

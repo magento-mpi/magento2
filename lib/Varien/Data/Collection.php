@@ -416,7 +416,7 @@ class Varien_Data_Collection implements IteratorAggregate
             foreach ($additional as $code => $field) {
                 $data[$code] = $item->getData($field);
             }
-        	$res[] = new Varien_Object($data);
+        	$res[] = $data;
         }
         return $res;
     }
