@@ -758,6 +758,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             
         } catch (Exception $e) {
             $this->_write->rollback();
+            throw $e;
         }
         
         $this->_write->commit();
