@@ -714,7 +714,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     }
     
     
-    public function saveAttribute(Varien_Object $object, $attributeName, $value)
+    public function saveAttribute(Varien_Object $object, $attributeName)
     {
         $attribute = $this->getAttribute($attributeName);
         $backend = $attribute->getBackend();
@@ -726,11 +726,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             'attribute_id' => $attribute->getId(),
             'store_id' => $object->getStoreId(),
             $entityIdField=> $object->getData($entityIdField),
-            'value' => $value,
         );
+        $newValue = $object->getData($attributeName);
         $whereArr = array();
-        foreach ($row as $field=>$value) {
-            $whereArr[] = $this->_read->quoteInto("$field=?", $value);
+        foreach ($row as $f=>$v) {
+            $whereArr[] = $this->_read->quoteInto("$f=?", $v);
         }
         $where = '('.join(') AND (', $whereArr).')';
         
@@ -740,13 +740,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $select = $this->_read->select()->from($table, 'value')->where($where);
             $origValue = $this->_read->fetchOne($select);
             
-            if (empty($origValue) && !empty($value)) {
+            if (empty($origValue) && !empty($newValue)) {
+                
+                $row['value'] = $newValue;
                 $this->_write->insert($table, $row);
                 $backend->setValueId($this->_write->lastInsertId());
-            } elseif (!empty($origValue) && !empty($value)) {
-                $this->_write->update($table, array('value'=>$value), $where);
-            } elseif (!empty($origValue) && empty($value)) {
+                
+            } elseif (!empty($origValue) && !empty($newValue)) {
+                
+                $this->_write->update($table, array('value'=>$newValue), $where);
+                
+            } elseif (!empty($origValue) && empty($newValue)) {
+                
                 $this->_write->delete($table, $where);
+                
             }
             
         } catch (Exception $e) {
