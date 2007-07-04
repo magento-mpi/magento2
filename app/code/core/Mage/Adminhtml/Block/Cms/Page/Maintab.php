@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                     'label'     => __('page enabled'),
                     'title'     => __('page enabled title'),
                     'value'     => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
-                    'class'     => 'required-entry',
+                    'class'     => 'validate-one-required',
                     'name'      => 'page_active',
                     'values'    => array(
                         array(
