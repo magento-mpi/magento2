@@ -71,7 +71,9 @@ class Mage_Customer_Model_Customer extends Varien_Object
      */
     public function save()
     {
-        $this->getResource()->loadAllAttributes()->save($this);
+        $this->getResource()
+            ->loadAllAttributes()
+            ->save($this);
         return $this;
     }
     

@@ -10,33 +10,14 @@
 class Mage_Customer_Model_Address extends Varien_Object 
 {
     /**
-     * address types
-     *
-     * @var array($id=>$code)
-     */
-    protected $_types = array();
-    
-    /**
-     * address primary types
-     *
-     * @var array
-     */
-    protected $_primaryTypes = array();
-    
-    /**
      * Constructor receives $address as array of fields for new address or integer to load existing id
      *
      * @param array|integer $address
      */
-    public function __construct($address=false) 
+    public function __construct() 
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
-        if (is_numeric($address)) {
-            $this->load($address);
-        } elseif (is_array($address)) {
-            $this->setData($address);
-        }
     }
     
     /**
@@ -58,22 +39,19 @@ class Mage_Customer_Model_Address extends Varien_Object
     public function load($addressId) 
     {
         $this->getResource()->load($this, $addressId);
-        $types = $this->getResource()->loadTypes($addressId);
-        foreach ($types as $typeId => $typeInfo) {
-            $this->setType($typeId, $typeInfo['code'], $typeInfo['primary']);
-        }
         return $this;
     }
     
     /**
      * save customer address
      *
-     * @param   bool $useTransaction
      * @return  Mage_Customer_Model_Address
      */
-    public function save($useTransaction=true) 
+    public function save() 
     {
-        $this->getResource()->loadAllAttributes()->save($this, $useTransaction);
+        $this->getResource()
+            ->loadAllAttributes()
+            ->save($this);
         return $this;
     }
     
@@ -86,96 +64,6 @@ class Mage_Customer_Model_Address extends Varien_Object
     {
         $this->getResource()->delete($this);
         $this->setData(array());
-        return $this;
-    }
-    
-    /**
-     * Get address available types
-     *
-     * @param   string $by
-     * @param   string $langCode
-     * @return  array
-     */
-    public function getAvailableTypes($by='code', $langCode='en') 
-    {
-        return $this->getResource()->getAvailableTypes($by, $langCode);
-    }
-    
-    /**
-     * Set address primaty types
-     *
-     * @param Mage_Customer_Model_Address
-     */
-    public function setPrimaryTypes($types)
-    {
-        $this->_primaryTypes = $types;
-        return $this;
-    }
-    
-    /**
-     * get address primary types
-     *
-     * @return array
-     */
-    public function getPrimaryTypes()
-    {
-        return $this->_primaryTypes;
-    }
-    
-    /**
-     * set address types
-     *
-     * @param array $types
-     */
-    public function setTypes($types)
-    {
-        $this->_types = $types;
-        return $this;
-    }
-    
-    /**
-     * get address types
-     *
-     * @return array
-     */
-    public function getTypes()
-    {
-        return $this->_types;
-    }
-    
-    /**
-     * Check address type by primary
-     *
-     * @param   string $type
-     * @return  bool
-     */
-    public function isPrimary($type=null)
-    {
-        if (is_null($type)) {
-            return count($this->getPrimaryTypes());
-        }
-        elseif (is_numeric($type)) {
-            return in_array($type, $this->_primaryTypes);
-        }
-        else {
-            return ($typeId = array_search($type, $this->_types)) ? in_array($typeId, $this->_primaryTypes) : false;
-        }
-    }
-    
-    /**
-     * Set address type
-     *
-     * @param int $typeId
-     * @param string $typeCode
-     * @param bool $isPrimary
-     * @return Mage_Customer_Model_Address
-     */
-    public function setType($typeId, $typeCode,$isPrimary=null)
-    {
-        $this->_types[$typeId] = $typeCode;
-        if ($isPrimary && !in_array($typeId, $this->_primaryTypes)) {
-            $this->_primaryTypes[] = $typeId;
-        }
         return $this;
     }
     
@@ -257,6 +145,11 @@ class Mage_Customer_Model_Address extends Varien_Object
         $this->setStreet($this->getData('street'));
     }
     
+    /**
+     * Retrieve address entity attributes
+     *
+     * @return array
+     */
     public function getAttributes()
     {
         return $this->getResource()

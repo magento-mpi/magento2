@@ -248,7 +248,10 @@
 
                     <region>
                       <id>206</id>
-                      <backend><type>varchar</type></backend>
+                      <backend>
+                        <type>varchar</type>
+                        <model>customer/entity_address_attribute_backend_region</model>
+                      </backend>
                       <frontend>
                         <input>text</input>
                         <label>State/Province</label>
@@ -260,7 +263,6 @@
                       <id>207</id>
                       <backend>
                         <type>int</type>
-                        <!--model></model-->
                       </backend>
                       <!--frontend>
                         <input>select</input>
