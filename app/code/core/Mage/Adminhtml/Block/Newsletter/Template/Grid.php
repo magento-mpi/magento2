@@ -27,6 +27,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
 
         $this->addColumn('id', array('header'=>__('id'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
         $this->addColumn('code', array('header'=>__('template code'),'align'=>'center', 'index'=>'template_code'));
+        $this->addColumn('subject', array('header'=>__('template subject'),'align'=>'center', 'index'=>'template_subject'));
         $this->addColumn('sender', array('header'=>__('template sender'),'align'=>'center', 'index'=>'template_sender_email',
                                          'renderer' => new Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender()));
         $this->addColumn('type', array('header'=>__('template type'),'align'=>'center', 'index'=>'template_type',

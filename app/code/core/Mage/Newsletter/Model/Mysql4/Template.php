@@ -57,7 +57,13 @@ class Mage_Newsletter_Model_Mysql4_Template {
             ->from($this->_templateTable)
             ->where('template_id=?', $templateId);
         
-        return $this->_read->fetchRow($select);
+        $result = $this->_read->fetchRow($select);
+        
+        if (!$result) {
+            return array();
+        }
+        
+        return $result;
     }
     
     /**
@@ -73,7 +79,13 @@ class Mage_Newsletter_Model_Mysql4_Template {
             ->where('template_code=?', $templateCode)
             ->where('template_actual=?','true');
         
-        return $this->_read->fetchRow($select);
+        $result = $this->_read->fetchRow($select);
+        
+        if (!$result) {
+            return array();
+        }
+        
+        return $result;
     }
     
     /**
