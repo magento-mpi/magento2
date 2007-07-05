@@ -10,8 +10,21 @@
  */
 class Mage_Customer_Model_Entity_Address_Attribute_Backend_Region extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    public function beforeSave()
+    public function beforeSave($object)
     {
-        
+        $region = $object->getData('region');
+        if ($regionId = (int) $region) {
+            $regionModel = Mage::getModel('directory/region')->load($regionId);
+            if ($regionModel->getId()) {
+                if ($object->getCountryId()==$regionModel->getCountryId()) {
+                    $object->setRegionId($regionModel->getId())
+                        ->setRegion($regionModel->getName());
+                }
+                else {
+                    Mage::throwException('Wrong region id by selected country');
+                }
+            }
+        }
+        return $this;
     }
 }

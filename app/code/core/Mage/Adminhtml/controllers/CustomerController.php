@@ -151,9 +151,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
                 	$customer->addAddress($address);
                 }
             }
-echo '<pre>';
-print_r($customer->getData());
-echo '</pre>';die();
+
             try {
                 $customer->save();
             }
