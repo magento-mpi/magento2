@@ -11,6 +11,9 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 {
+    
+    protected $_form = null;
+    
     /**
      * Columns array
      *
@@ -57,6 +60,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected $_pagerVisibility = true;
 
+    /**
+     * Filter visibility
+     *
+     * @var boolean
+     */
+    protected $_filterVisibility = true;
+
     public function __construct()
     {
         parent::__construct();
@@ -93,6 +103,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getCollection()
     {
         return $this->_collection;
+    }
+    
+    public function getForm()
+    {
+        if (empty($this->_form)) {
+            $this->_form = new Varien_Data_Form();
+        }
+        return $this->_form;
     }
 
     public function addColumn($columnId, $column)
@@ -147,6 +165,39 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         else {
             $out = $column->getHeader();
         }
+        return $out;
+    }
+    
+    public function setColumnFilter($column, $args=array())
+    {
+        if (is_string($column)) {
+            $column = $this->getColumn($column);
+        }
+        if (!$column instanceof Varien_Object) {
+            throw Mage::exception('Mage_Adminhtml', 'Invalid column specified');
+        }
+        if (empty($args['model'])) {
+            $args['model'] = 'Varien_Data_Form_Element_Text';
+        }
+
+        $model = Mage::getModel($args['model'], $args);
+        $model->setForm($this->getForm())
+            ->setHtmlId('grid_filter_'.$column->getId())
+            ->setName('grid_filter['.$column->getId().']');
+        $column->setFilter($model);
+        
+        return $this;
+    }
+    
+    public function getColumnFilterHtml($column)
+    {
+        $out = '';
+        
+        $filter = $column->getFilter();
+        if ($filter) {
+            $out .= $filter->toHtml();
+        }
+
         return $out;
     }
 
@@ -249,4 +300,25 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_pagerVisibility;
     }
+    
+    /**
+     * Set visibility of filter
+     *
+     * @param boolean $visible
+     */
+    public function setFilterVisibility($visible=true)
+    {
+        $this->_filterVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of filter
+     *
+     * @return boolean
+     */
+    public function getFilterVisibility()
+    {
+        return $this->_filterVisibility;
+    }
+    
 }

@@ -21,11 +21,13 @@ class Varien_Data_Form_Abstract extends Varien_Object
         parent::__construct($attributes);
         
     }
-    
-    protected function _initElementsCollection()
+
+    public function getElements()
     {
-        $this->_elements = new Varien_Data_Form_Element_Collection($this);
-        return $this;
+        if (empty($this->_elements)) {
+            $this->_elements = new Varien_Data_Form_Element_Collection($this);
+        }
+        return $this->_elements;
     }
 
     /**
@@ -36,7 +38,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
      */
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=null)
     {
-        $this->_elements->add($element, $after);
+        $this->getElements()->add($element, $after);
         return $this;
     }
     
@@ -69,13 +71,8 @@ class Varien_Data_Form_Abstract extends Varien_Object
     
     public function removeField($elementId)
     {
-        $this->_elements->remove($elementId);
+        $this->getElements()->remove($elementId);
         return $this;
-    }
-    
-    public function getElements()
-    {
-        return $this->_elements;
     }
 
     public function addFieldset($elementId, $config, $after=false)
@@ -101,7 +98,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
         $res = array();
         $res['config']  = $this->getData();
         $res['formElements']= array();
-        foreach ($this->_elements as $element) {
+        foreach ($this->getElements() as $element) {
             $res['formElements'][] = $element->toArray();
         }
         return $res;

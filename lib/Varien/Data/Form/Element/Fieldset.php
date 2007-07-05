@@ -12,13 +12,13 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     public function __construct($attributes=array()) 
     {
         parent::__construct($attributes);
-        $this->_initElementsCollection();
         $this->setType('fieldset');
     }
     
     public function toHtml()
     {
-        $html = '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
+        $html = '<h3 class="fieldset-legend">'.$this->getLegend().'</h2>'."\n";
+        $html .= '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
         if ($this->getLegend()) {
             $html.= '<legend>'.$this->getLegend().'</legend>'."\n";
         }

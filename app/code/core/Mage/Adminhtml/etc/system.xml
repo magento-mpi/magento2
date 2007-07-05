@@ -14,7 +14,10 @@
                         
                     </fieldset>
                     <fieldset name="wishlist" legend="Wishlist">
-                        <field name="enable" label="Enabled" type="checkbox"/>
+                        <field name="enable" label="Enabled" type="select">
+                            <option value="true" label="Enabled"/>
+                            <option value="false" label="Disabled"/>
+                        </field>
                     </fieldset>
                 </customer>
                 

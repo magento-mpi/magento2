@@ -55,6 +55,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'=>'customer_id', 
             'sortable'=>false)
         );
+        
+        $this->setColumnFilter('email')->setColumnFilter('firstname')->setColumnFilter('lastname');
 
         $this->_initCollection();
         return parent::_beforeToHtml();
