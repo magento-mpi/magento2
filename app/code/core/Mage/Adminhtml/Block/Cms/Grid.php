@@ -28,29 +28,37 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $actionsUrl = Mage::getUrl('adminhtml/cms_page');
 
-        $this->addColumn('page_title', array('header'=>__('title'),
-                                             'align'=>'left',
-                                             'format' => '<a href="' . $baseUrl . '$page_identifier" target="_blank">$page_title</a>',
-                                             'index'=>'page_title'
-                                       )
-                        );
+        $this->addColumn('page_title', 
+            array(
+                'header'=>__('Title'),
+                'align' =>'left',
+                'format'=> '<a href="'.$baseUrl.'$page_identifier" target="_blank">$page_title</a>',
+                'index' =>'page_title'
+            )
+        );
 
-        $this->addColumn('page_identifier', array('header'=>__('identifier'),
-                                                  'align'=>'left',
-                                                  'format' => '<a href="' . $baseUrl . '$page_identifier" target="_blank">$page_identifier</a>',
-                                                  'index'=>'page_identifier'
-                                            )
-                        );
+        $this->addColumn('page_identifier', 
+            array(
+                'header'=>__('Identifier'),
+                'align' =>'left',
+                'format'=> '<a href="' . $baseUrl . '$page_identifier" target="_blank">$page_identifier</a>',
+                'index' =>'page_identifier'
+            )
+        );
 
-        $this->addColumn('page_creation_time', array('header'=>__('creation time'),
-                                                     'index'=>'page_creation_time'
-                                                )
-                        );
+        $this->addColumn('page_creation_time', 
+            array(
+            'header'=>__('Creation time'),
+            'index' =>'page_creation_time'
+            )
+        );
 
-        $this->addColumn('page_update_time', array('header'=>__('update time'),
-                                                   'index'=>'page_update_time'
-                                             )
-                        );
+        $this->addColumn('page_update_time', 
+            array(
+                'header'=>__('Update time'),
+                'index'=>'page_update_time'
+            )
+        );
 
         /*
         $this->addColumn('page_order', array('header'=>__('order'),
@@ -67,12 +75,14 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                         );
         */
 
-        $this->addColumn('page_actions', array('header'=>__('actions'),
-                                             'width'=>10,
-                                             'sortable'=>false,
-                                             'format' => '<a href="' . $actionsUrl .'edit/page/$page_id/">' . __('edit') . '</a> <a href="' . $actionsUrl .'delete/page/$page_id/">' . __('delete') . '</a>'
-                                       )
-                        );
+        $this->addColumn('page_actions', 
+            array(
+                'header'=>__('actions'),
+                'width'=>10,
+                'sortable'=>false,
+                'format' => '<a href="' . $actionsUrl .'edit/page/$page_id/">' . __('edit') . '</a> <a href="' . $actionsUrl .'delete/page/$page_id/">' . __('delete') . '</a>'
+            )
+        );
 
         $this->_initCollection();
         return parent::_beforeToHtml();

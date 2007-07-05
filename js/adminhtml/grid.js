@@ -86,8 +86,9 @@ varienGrid.prototype = {
     },
     
     addVarToUrl : function(varName, varValue){
-        var re = new RegExp('('+varName+'\/[A-Za-z0-9_-]*\/)');
-        this.url = this.url.replace(re, '')
+        var re = new RegExp('\/('+varName+'\/[A-Za-z0-9_-]*\/)');
+        this.url = this.url.replace(re, '/');
+        if(this.url[this.url.length-1]!='/') this.url+= '/';
         this.url+= varName+'/'+varValue+'/';
         return this.url;
     }

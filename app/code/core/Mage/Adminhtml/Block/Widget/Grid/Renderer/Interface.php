@@ -9,7 +9,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-interface Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface extends Zend_Filter_Interface
+interface Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
 {
     /**
      * Renders grid column

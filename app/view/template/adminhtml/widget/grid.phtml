@@ -3,7 +3,7 @@
 <?if($this->getPagerVisibility()):?>
 <div class="pager">
     Page 
-    <select name="<?=$this->getvarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+    <select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
     <?for($i=1; $i<=$collection->getLastPageNumber(); $i++):?>
         <?$_selected = ($i==$collection->getCurPage()) ? ' selected' : ''?>
         <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
@@ -12,7 +12,7 @@
     of &nbsp;<b><?=$collection->getLastPageNumber()?></b>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     View  
-    <select name="<?=$this->getvarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+    <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
         <option value="5"<?if($collection->getPageSize()==5):?> selected<?endif;?>>5</option>
         <option value="20"<?if($collection->getPageSize()==20):?> selected<?endif;?>>20</option>
         <option value="30"<?if($collection->getPageSize()==30):?> selected<?endif;?>>30</option>
