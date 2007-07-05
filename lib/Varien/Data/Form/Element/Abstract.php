@@ -13,6 +13,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     protected $_type;
     protected $_form;
     protected $_elements;
+    protected $_renderer;
     
     public function __construct($attributes = array()) 
     {
@@ -35,7 +36,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         parent::addElement($element, $after);
         return $this;
     }
-
+    
     public function getId()
     {
         return $this->_id;
@@ -113,15 +114,26 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         return $this->_escape($this->getValue());
     }
     
+    public function setRenderer(Varien_Data_Form_Element_Renderer_Interface $renderer)
+    {
+        $this->_renderer = $renderer;
+    }
+    
     public function toHtml()
     {
-        $html = '<span class="field-row">'."\n";
-        if ($this->getLabel()) {
-            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
+        if ($this->_renderer) {
+            $html = $this->_renderer->render($this);
         }
-        $html.= '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
-             .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
-        $html.= '</span>'."\n";
+        else 
+        {
+            $html = '<span class="field-row">'."\n";
+            if ($this->getLabel()) {
+                $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
+            }
+            $html.= '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
+                 .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+            $html.= '</span>'."\n";
+        }
         return $html;
     }
 }

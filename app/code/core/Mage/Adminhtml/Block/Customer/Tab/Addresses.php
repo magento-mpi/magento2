@@ -45,6 +45,10 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
             }
         }
         
+        if ($regionElement = $form->getElement('region')) {
+            $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
+        }
+        
         $addressCollection = Mage::registry('customer')->getLoadedAddressCollection();
         $this->assign('customer', Mage::registry('customer'));
         $this->assign('addressCollection', $addressCollection);

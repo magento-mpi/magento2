@@ -239,7 +239,7 @@
                       <frontend>
                         <input>select</input>
                         <label>Country</label>
-                        <class>required-entry countries</class>
+                        <class>required-entry countries input-text</class>
                       </frontend>
                       <source>
                         <model>customer/entity_address_attribute_source_country</model>
@@ -264,10 +264,9 @@
                       <backend>
                         <type>int</type>
                       </backend>
-                      <!--frontend>
-                        <input>select</input>
-                        <label>State</label>
-                      </frontend-->
+                      <frontend>
+                        <input>hidden</input>
+                      </frontend>
                       <source>
                         <model>customer/entity_address_attribute_source_region</model>
                       </source>
