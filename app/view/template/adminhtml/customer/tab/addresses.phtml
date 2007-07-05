@@ -12,7 +12,7 @@
                 <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
                 <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
             </div>
-            <div class="delete-address" <?if($_address->isPrimary()):?>style="display:none"<?endif;?>>
+            <div class="delete-address">
                 <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
             </div>
 		</li>
