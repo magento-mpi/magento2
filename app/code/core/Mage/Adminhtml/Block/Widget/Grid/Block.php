@@ -11,7 +11,7 @@
 
 class Mage_Adminhtml_Block_Widget_Grid_Block extends Varien_Filter_Object implements Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
 {
-    public function render(Varien_Object $row, $index, $block=null)
+    public function render(Varien_Object $row, Varien_Object $column)
     {
         $block->setPageObject($row);
         echo $block->toHtml();

@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $out = '';
         if ($column->getSortable()!==false) {
-            
+
             $className = 'not-sort';
             $dir = (strtolower($column->getDir())=='asc') ? 'desc' : 'asc';
             if ($column->getDir()) {
@@ -167,7 +167,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
             $this->getCollection()->load();
         }
-        
+
         $this->assign('collection', $this->getCollection());
         $this->assign('columns', $this->_columns);
 
@@ -183,10 +183,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         if (!($column->getRenderer() instanceof Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface)) {
             // If no item rederer specified use default
-            return $this->_gridItemRenderer->render($row, $column->getIndex(), $format);
+            return $this->_gridItemRenderer->render($row, $column);
         } else {
             // If custom item renderer
-            return $column->getRenderer()->render($row, $column->getIndex(), $format);
+            return $column->getRenderer()->render($row, $column);
         }
     }
 
