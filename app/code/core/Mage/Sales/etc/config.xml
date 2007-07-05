@@ -525,9 +525,9 @@
               <store_id>
                 <type>int</type>
               </store_id>
-              <currency_id>
-                <type>int</type>
-              </currency_id>
+              <currency_code>
+                <type>varchar</type>
+              </currency_code>
               <currency_base_id>
                 <type>int</type>
               </currency_base_id>
