@@ -11,7 +11,7 @@
  
 class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Renderer
 {
-    public function render(Varien_Object $row, $index, $format=null)
+    public function render(Varien_Object $row, Varien_Object $column)
     {
         $types = array(
             1=>'text',

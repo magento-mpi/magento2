@@ -11,11 +11,11 @@
  
 class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender extends Mage_Adminhtml_Block_Widget_Grid_Renderer
 {
-    public function render(Varien_Object $row, $index, $format=null)
+    public function render(Varien_Object $row, Varien_Object $column)
     {
         $str = '';
         if($row->getTemplateSenderName()) {
-            $str .= $row->getTemplateSenderName() . ' ';
+            $str .= htmlspecialchars($row->getTemplateSenderName()) . ' ';
         }        
         if($row->getTemplateSenderEmail()) {
             $str .= '[' . $row->getTemplateSenderEmail() . ']';

@@ -11,12 +11,36 @@
  
 class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
 {
-    const CONSTRUCTION_PATTERN = '/{(in[sc][a-z]{3,4})(.*?)}/si';
-        
+    /** 
+     * Cunstruction regular expression
+     */
+    const CONSTRUCTION_PATTERN = '/{([a-z]{0,10})(.*?)}/si';
+    
+    /**
+     * Assigned template variables
+     *
+     * @var array
+     */
     protected $_templateVars = array();
+    
+    /**
+     * Include processor
+     *
+     * @var array|string|null
+     */
     protected $_includeProcessor = null;
+    
+    /**
+     * Allowed template directives
+     * @var array
+     */
     protected $_allowedDirectives = array('insvar', 'include');
     
+    /**
+     * Sets template variables that's can be called througth {insvar ...} statement
+     * 
+     * @param array $variables
+     */
     public function setVariables(array $variables) 
     {
         foreach($variables as $name=>$value) {
@@ -43,7 +67,7 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
      */
     public function getIncludeProcessor() 
     {
-        return $this->_includeProcessor;
+        return is_callable($this->_includeProcessor) ? $this->_includeProcessor : null;
     }
     
     /**
@@ -63,17 +87,18 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
                 }
                 switch($directive) {
                     case "insvar":
-                       
-                        if(isset($this->_templateVars[trim($constructions[2][$index])])) {
-                            $replacedValue = $this->_templateVars[trim($constructions[2][$index])];
-                        }
+                        // Processing of {insvar ...} statement
+                        $replacedValue = $this->_getVariable($constructions[2][$index], $constructions[0][$index]);
                         break;
                     
                     case "include":
+                        // Processing of {include template=... [...]} statement
                         $includeParameters = $this->_getIncludeParameters($constructions[2][$index]);
                         if(!isset($includeParameters['template']) or !$this->getIncludeProcessor()) {
+                            // Not specified template or not seted include processor
                             $replacedValue = '{' . __('error in include processing') . '}';
                         } else { 
+                            // Including of template
                             $templateCode = $includeParameters['template'];
                             unset($includeParameters['template']);
                             $replacedValue = call_user_func_array($this->getIncludeProcessor(), 
@@ -98,9 +123,60 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getIncludeParameters($value) 
     {
-        $tokenizer = new Mage_Newsletter_Filter_Template_ParameterTokenizer();
+        $tokenizer = new Mage_Newsletter_Filter_Template_Tokenizer_Parameter();
         $tokenizer->setString($value);
         
         return $tokenizer->tokenize();
+    }
+    
+     /**
+     * Return variable value for insvar construction
+     *
+     * @param string $value raw parameters
+     * @param string $default default value
+     * @return string
+     */
+    protected function _getVariable($value, $default='{no_value_defined}') 
+    {
+        Varien_Profiler::start("email_template_proccessing_variables");
+        $tokenizer = new Mage_Newsletter_Filter_Template_Tokenizer_Variable();
+        $tokenizer->setString($value);
+        $stackVars = $tokenizer->tokenize();
+        $result = $default;
+        $last = 0;
+        for($i = 0; $i < count($stackVars); $i ++) {
+            if ($i == 0 && isset($this->_templateVars[$stackVars[$i]['name']])) {
+                // Getting of template value
+                $stackVars[$i]['variable'] =& $this->_templateVars[$stackVars[$i]['name']];
+            } else if (isset($stackVars[$i-1]['variable']) 
+                       && $stackVars[$i-1]['variable'] instanceof Varien_Object) {
+                // If object calling methods or getting properties
+                if($stackVars[$i]['type'] == 'property') {
+                    $caller = "get" . uc_words($stackVars[$i]['name'], '');
+                    if(is_callable(array($stackVars[$i-1]['variable'], $caller))) {
+                        // If specified getter for this property
+                        $stackVars[$i]['variable'] = $stackVars[$i-1]['variable']->$caller();
+                    } else {
+                        $stackVars[$i]['variable'] = $stackVars[$i-1]['variable']
+                                                        ->getData($stackVars[$i]['name']);
+                    }
+                } else if ($stackVars[$i]['type'] == 'method') {
+                    // Calling of object method
+                    if (is_callable(array($stackVars[$i-1]['variable'], $stackVars[$i]['name']))) {
+                        $stackVars[$i]['variable'] = call_user_func_array(array($stackVars[$i-1]['variable'],
+                                                                                $stackVars[$i]['name']),
+                                                                          $stackVars[$i]['name']['args']);
+                    }
+                }
+                $last = $i;
+            }
+        }
+        
+        if(isset($stackVars[$last]['variable'])) {
+            // If value for construction exists set it
+            $result = (string) $stackVars[$last]['variable'];
+        }
+        Varien_Profiler::stop("email_template_proccessing_variables");
+        return $result;
     }
 }

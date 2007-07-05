@@ -11,7 +11,7 @@
  
 class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Renderer
 {
-    public function render(Varien_Object $row, $index, $format=null)
+    public function render(Varien_Object $row, Varien_Object $column)
     {
         $str = '<a class="" href="' . Mage::getUrl('adminhtml/*/edit',array('id'=>$row->getId())) . '">' . __('edit') 
              . '</a> ' . ($row->isValidForSend() ?  '| <a href="' . Mage::getUrl('adminhtml/*/toqueue',array('id'=>$row->getId())) . '">' 

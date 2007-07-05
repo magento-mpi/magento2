@@ -100,6 +100,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     public function getProcessedTemplate(array $variables = array())
     {
         $processor = new Mage_Newsletter_Filter_Template();
+        $variables['this'] = $this;
         $processor
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);

@@ -62,7 +62,7 @@
             if (this.typeChange) {
                 $('preview_type').value = 1;
             }
-            if (!tinyMCE.getInstanceById('text')) {
+            if (!tinyMCE || !tinyMCE.getInstanceById('text')) {
                 $('preview_text').value = $('text').value;
             } else { 
                  $('preview_text').value = tinyMCE.getInstanceById('text').getHTML();

@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Renderer extends Varien_Filter_Object imp
 
         if (is_null($format) && !isset($array[$index])) {
             // If no format and it column not filtered specified return data as is.
-            return $row->getData($index);
+            return htmlspecialchars($row->getData($index));
         } else if (is_null($format)) {
             // If no format specified return filtered data.
             return $array[$index];

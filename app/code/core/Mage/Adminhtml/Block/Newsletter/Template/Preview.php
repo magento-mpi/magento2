@@ -17,18 +17,16 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
         } else { 
-            
             $template->setTemplateType($this->getRequest()->getParam('type'));
-            $template->setTemplateText($this->getRequest()->getParam('text'));
-            
-            
+            $template->setTemplateText($this->getRequest()->getParam('text'));    
         }
         
-        
+        Varien_Profiler::start("email_template_proccessing");
         $templateProcessed = $template->getProcessedTemplate();
         if($template->isPlain()) {
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
+        Varien_Profiler::stop("email_template_proccessing");
         
         return $templateProcessed;
     }
