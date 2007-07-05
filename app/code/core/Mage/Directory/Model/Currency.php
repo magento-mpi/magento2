@@ -10,6 +10,8 @@
  */
 class Mage_Directory_Model_Currency extends Varien_Object
 {
+    protected $_filter;
+    
     public function __construct($data=array()) 
     {
         parent::__construct($data);
@@ -105,13 +107,16 @@ class Mage_Directory_Model_Currency extends Varien_Object
      */
     public function getFilter()
     {
-        $filter = new Mage_Directory_Model_Currency_Filter(
-            $this->getFormat(), 
-            $this->getFormatDecimals(), 
-            $this->getFormatDecPoint(), 
-            $this->getFormatThousandsSep()
-        );
-        return $filter;        
+        if (!$this->_filter) {
+            $this->_filter = new Mage_Directory_Model_Currency_Filter(
+                $this->getFormat(), 
+                $this->getFormatDecimals(), 
+                $this->getFormatDecPoint(), 
+                $this->getFormatThousandsSep()
+            );
+        }
+        
+        return $this->_filter;        
     }
     
     /**

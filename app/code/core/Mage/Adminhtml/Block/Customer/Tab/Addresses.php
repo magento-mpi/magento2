@@ -16,6 +16,11 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
         $this->setTemplate('adminhtml/customer/tab/addresses.phtml');
     }
     
+    public function getRegionsUrl()
+    {
+        return Mage::getUrl('directory/json/childRegion');
+    }
+    
     protected function _beforeToHtml()
     {
         $customerId = (int) $this->getRequest()->getParam('id');

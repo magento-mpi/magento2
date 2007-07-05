@@ -32,6 +32,30 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
             'title'     => __('customer addresses title'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_addresses')->toHtml(),
         ));
+        
+        $this->addTab('orders', array(
+            'label'     => __('Customer orders'),
+            'title'     => __('Customer orders title'),
+            'content'   => 'orders',
+        ));
+        
+        $this->addTab('reviews', array(
+            'label'     => __('Customer reviews'),
+            'title'     => __('Customer reviews title'),
+            'content'   => 'reviews',
+        ));
+        
+        $this->addTab('wishlist', array(
+            'label'     => __('customer wishlist'),
+            'title'     => __('customer wishlist title'),
+            'content'   => 'wishlist',
+        ));
+        
+        $this->addTab('newsletter', array(
+            'label'     => __('customer newsletter'),
+            'title'     => __('customer newsletter title'),
+            'content'   => 'newsletter',
+        ));        
         Varien_Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }

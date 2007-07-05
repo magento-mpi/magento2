@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Entity_Attribute_Backend_Customer_Billing extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Billing extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function afterSave($object)
     {

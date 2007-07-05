@@ -100,6 +100,9 @@ addressesModel.prototype = {
         this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
         this.onItemFormFieldChange = this.syncFormData.bindAsEventListener(this);
         
+        this.loader = new varienLoader(true);
+        this.regionsUrl = '<?=$this->getRegionsUrl()?>';
+        
         this.reloadItemList();
         
         for(var i=0,n=this.itemList.length; i<n; i++){
@@ -114,6 +117,7 @@ addressesModel.prototype = {
         
         this.setActiveItem(this.itemList[0]);
         this.setAddressAsDefault();
+        this.bindCountryRegionRelation();
     },
     reloadItemList : function(){
         this.itemList = $$('#address_list li');
@@ -159,6 +163,7 @@ addressesModel.prototype = {
             customerForm.initFormElements();
         }
         this.reloadItemList();
+        this.bindCountryRegionRelation();
         Event.stop(event);
     },
     prepareTemplate : function(template){
@@ -277,7 +282,51 @@ addressesModel.prototype = {
             this.itemContainer.removeChild(item);  
             this.reloadItemList();          
         }
+    },
+    bindCountryRegionRelation : function(){
+        var countryElements = $$('.countries');
+        for(var i in countryElements){
+            Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
+        }
+    },
+    reloadRegionField : function(event){
+        var countryElement = Event.element(event);
+        if(countryElement.id){
+            var regionElement  = $(countryElement.id.replace(/country_id/, 'region'));
+            if(regionElement){
+                this.regionElement = regionElement;
+                var url = this.regionsUrl+'parent/'+countryElement.value;
+                this.loader.load(url, {}, this.refreshRegionField.bind(this));
+            }
+        }
+    },
+    refreshRegionField : function(serverResponce){
+        if(serverResponce){
+            var data = eval('(' + serverResponce + ')');
+            var value = this.regionElement.value;
+            if (data.length) {
+                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="'+this.regionElement.className+'" title="'+this.regionElement.title+'">';
+                for (var i in data){
+                    if(data[i].value) {
+                        html+= '<option value="'+data[i].value+'"';
+                        if(this.regionElement.value && (this.regionElement.value == data[i].value || this.regionElement.value == data[i].label)){
+                            html+= ' selected';
+                        }
+                        html+='>'+data[i].label+'</option>';
+                    }
+                }
+                html+= '</select>';
+                new Insertion.Before(this.regionElement, html);
+                Element.remove(this.regionElement);
+            }
+            else{
+                var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="'+this.regionElement.className+'" title="'+this.regionElement.title+'">';
+                new Insertion.Before(this.regionElement, html);
+                Element.remove(this.regionElement);
+            }
+        }
     }
 }
+
 customerAddresses = new addressesModel();
 </script>
