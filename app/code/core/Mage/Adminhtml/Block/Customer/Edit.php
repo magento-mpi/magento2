@@ -33,11 +33,11 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
     
     public function getHeader()
     {
-        if ($this->getCustomerId()) {
-            return __('edit customer');
+        if (Mage::registry('customer')->getId()) {
+            return Mage::registry('customer')->getName();
         }
         else {
-            return __('new customer');
+            return __('New customer');
         }
     }
 }
