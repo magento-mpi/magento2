@@ -23,6 +23,8 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
 			->addAttributeSelect('self/created_at')
 			->addAttributeSelect('self/grand_total')
 			->addAttributeSelect('self/created_at')
+			->addAttributeSelect('self/status')
+			->addAttributeSelect('self/currency_code')
 //			->addAttributeSelect('address/address_type')
 			// ->addAttributeFilter('address/address_type', 'shipping')
 			// ->addAttributeSelect('address/firstname')
@@ -46,6 +48,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('created_at', array(
             'header' => __('Created At'),
             'index' => 'created_at',
+            'renderer' => $this->getLayout()->createBlock('adminhtml/widget_grid_renderer_date'),
         ));
         $this->addColumn('firstname', array(
             'header' => __('Shipped To'),
@@ -54,6 +57,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('grand_total', array(
             'header' => __('Total'),
             'index' => 'grand_total',
+            'renderer' => $this->getLayout()->createBlock('adminhtml/widget_grid_renderer_currency'),
         ));
         $this->addColumn('status', array(
             'header' => __('Status'),
