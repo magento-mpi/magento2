@@ -53,7 +53,7 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
     
     protected function _optionToHtml($option, $selected)
     {
-        $html = '<option value="'.$option['value'].'"';
+        $html = '<option value="'.$this->_escape($option['value']).'"';
         $html.= isset($option['title']) ? 'title="'.$option['title'].'"' : '';
         $html.= isset($option['style']) ? 'style="'.$option['style'].'"' : '';
         if (in_array($option['value'], $selected)) {

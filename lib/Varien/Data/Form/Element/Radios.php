@@ -46,7 +46,7 @@ class Varien_Data_Form_Element_Radios extends Varien_Data_Form_Element_Abstract
     {
         $html = '<input type="radio"'.$this->serialize(array('name', 'class', 'style'));
         if (is_array($option)) {
-            $html.= 'value="'.$option['value'].'"  id="'.$this->getHtmlId().$option['value'].'"';
+            $html.= 'value="'.$this->_escape($option['value']).'"  id="'.$this->getHtmlId().$option['value'].'"';
             if ($option['value'] == $selected) {
                 $html.= ' checked="true"';
             }
