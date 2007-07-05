@@ -19,18 +19,33 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
     
     protected function _beforeToHtml()
     {
-        Varien_Profiler::start('customer/tabs');
+        Varien_Profiler::start('customer/tabs/account/block');
+        $block = $this->getLayout()->createBlock('adminhtml/customer_tab_account');
+        Varien_Profiler::stop('customer/tabs/account/block');
+        
+        Varien_Profiler::start('customer/tabs/account/html');
+        $html = $block->toHtml();
+        Varien_Profiler::stop('customer/tabs/account/html');
+        
         $this->addTab('account', array(
             'label'     => __('customer account'),
             'title'     => __('customer account title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_account')->toHtml(),
+            'content'   => $html,
             'active'    => true
         ));
 
+        Varien_Profiler::start('customer/tabs/addresses/block');
+        $block = $this->getLayout()->createBlock('adminhtml/customer_tab_addresses');
+        Varien_Profiler::stop('customer/tabs/addresses/block');
+        
+        Varien_Profiler::start('customer/tabs/addresses/html');
+        $html = $block->toHtml();
+        Varien_Profiler::stop('customer/tabs/addresses/html');
+        
         $this->addTab('addresses', array(
             'label'     => __('customer addresses'),
             'title'     => __('customer addresses title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_addresses')->toHtml(),
+            'content'   => $html,
         ));
         
         $this->addTab('orders', array(
