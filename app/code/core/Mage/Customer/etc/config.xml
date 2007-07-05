@@ -169,7 +169,7 @@
                         <class>required-entry</class>
                     </frontend>
                     <source>
-                        <model>customer/entity_attribute_source_group</model>
+                        <model>customer/entity_customer_attribute_source_group</model>
                     </source>
                 </customer_group>
                 
@@ -189,7 +189,7 @@
                     <id>107</id>
                     <backend>
                         <type>int</type>
-                        <model>customer/entity_attribute_backend_customer_billing</model>
+                        <model>customer/entity_customer_attribute_backend_billing</model>
                     </backend>
                 </default_billing>
                 
@@ -197,7 +197,7 @@
                     <id>108</id>
                     <backend>
                         <type>int</type>
-                        <model>customer/entity_attribute_backend_customer_shipping</model>
+                        <model>customer/entity_customer_attribute_backend_shipping</model>
                     </backend>
                 </default_shipping>
                 
@@ -242,7 +242,7 @@
                         <class>required-entry countries</class>
                       </frontend>
                       <source>
-                        <model>customer/entity_attribute_source_country</model>
+                        <model>customer/entity_address_attribute_source_country</model>
                       </source>
                     </country_id>
 
@@ -260,14 +260,14 @@
                       <id>207</id>
                       <backend>
                         <type>int</type>
-                        <model></model>
+                        <!--model></model-->
                       </backend>
                       <!--frontend>
                         <input>select</input>
                         <label>State</label>
                       </frontend-->
                       <source>
-                        <model>customer/entity_attribute_source_region</model>
+                        <model>customer/entity_address_attribute_source_region</model>
                       </source>
                     </region_id>
 
