@@ -81,13 +81,20 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     protected $_pageSize;
     
     protected $_rowCount;
+    
+    /**
+     * Informational joined entities
+     *
+     * @var array
+     */
+    protected $_joinEntities = array();
 
     /**
      * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract $read
      * @param Zend_Db_Adapter_Abstract $write
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setConnection(Zend_Db_Adapter_Abstract $read, Zend_Db_Adapter_Abstract $write=null)
     {
@@ -135,7 +142,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Set template object for the collection
      *
      * @param Varien_Object $object
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setObject($object=null)
     {
@@ -186,7 +193,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Add an object to the collection
      *
      * @param Varien_Object $object
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addItem(Varien_Object $object)
     {
@@ -208,7 +215,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Reset zend db select instance
      *
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function resetSelect()
     {
@@ -242,7 +249,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @see self::_getConditionSql for $condition
      * @param string|array $attribute
      * @param null|string|array $condition
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addAttributeToFilter($attribute, $condition=null)
     {
@@ -267,7 +274,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      *
      * @param string $attribute
      * @param string $dir
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addAttributeToSort($attribute, $dir='asc')
     {
@@ -286,7 +293,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * If $attribute=='*' select all attributes
      * 
      * @param array|string|integer|Mage_Core_Model_Config_Element $attribute
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addAttributeToSelect($attribute)
     {
@@ -310,7 +317,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Remove an attribute from selection list
      *
      * @param string $attribute
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function removeAttributeToSelect($attribute=null)
     {
@@ -321,13 +328,44 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         return $this;
     }
+    
+    /**
+     * Join an entity into collection
+     *
+     * @param string $name
+     * @param Mage_Eav_Model_Entity_Abstract $entity
+     * @param array $bind
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function joinEntity($name, Mage_Eav_Model_Entity_Abstract $entity, array $bindArr, array $attributes)
+    {
+        if (!empty($this->_joinEntities[$name])) {
+            throw Mage::exception('Mage_Eav', 'Joined entity with this name already in the collection');
+        }
+        
+        $condArr = array("$name.entity_type_id=".$entity->getTypeId());
+        
+        foreach ($bindArr as $fk=>$attrName) {
+            $attribute = $this->getEntity()->getAttribute($attrName);
+            if ($attribute->getBackend()->isStatic()) {
+                $condArr[] = '';
+            } else {
+                
+            }
+        }
+        
+        $this->getSelect()->join(array($name=>$entity->getEntityTable()), '('.join(') AND (', $condArr).')', $cols);
+        
+        $this->_joinEntities[$name] = array('entity'=>$entity, 'selectAttributes'=>array());
+        return $this;
+    }
 
     /**
      * Set collection page start and records to show
      *
      * @param integer $pageNum
      * @param integer $pageSize
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setPage($pageNum, $pageSize)
     {
@@ -341,7 +379,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Load collection data into object items
      *
      * @param integer $storeId
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function load()
     {
@@ -391,7 +429,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * If the imported items already exist, update the data for existing objects
      *
      * @param array $arr
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function importFromArray($arr)
     {
@@ -445,7 +483,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Load entities records into items
      *
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function _loadEntities()
     {
@@ -471,7 +509,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Load attributes into loaded entities
      *
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function _loadAttributes()
     {
@@ -523,7 +561,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Add attribute value table to the join if it wasn't added previously
      *
      * @param string $attributeName
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _addAttributeJoin($attributeName)
     {

@@ -966,6 +966,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if ($this->getConfig()->getIsDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }
+        $defaultAttributes[] = $this->getEntityIdField();
         
         $attributes = $this->getAttributesByName();
         foreach ($defaultAttributes as $attr) {
