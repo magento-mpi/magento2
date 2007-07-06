@@ -40,6 +40,11 @@ class Mage_Adminhtml_TagController extends Mage_Core_Controller_Front_Action {
         $this->getResponse()->setBody($productsBlock->toHtml());
     }
     
+    public function tagslistAction() {
+    	$productsBlock = $this->getLayout()->createBlock('tag/adminhtml_tagslist');
+        $this->getResponse()->setBody($productsBlock->toHtml());
+    }
+    
     public function approveAction() {
     	$tags = $this->getRequest()->getParam('tags', false);    	
     	

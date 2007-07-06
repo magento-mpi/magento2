@@ -5,8 +5,26 @@ class Mage_Tag_Block_Adminhtml_Products extends Mage_Core_Block_Template {
     public function __construct() {    	
         parent::__construct();
         $this->setTemplate('tag/adminhtml/products.phtml');
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         $query = Mage::registry('controller')->getRequest()->getParam('q', false);
+        
+        $tag = Mage::registry('controller')->getRequest()->getParam('t', false);       
+        
+        if (!empty($tag)) {
+        	$v = Mage::getResourceModel('catalog/product_collection');
+	        $items = $v	        	
+	            ->addTagFilter($tag)
+	            ->load();
+	        
+	        $ids = array();
+	        foreach ($items->getItems() as $items) {
+	        	$ids[] = $items->getData('product_id');
+	        }
+	        
+	        $v = Mage::getResourceModel('catalog/product_collection');
+	        $this->_collection = $v	        	
+	            ->addIdFilter($ids);
+        }
+        
         if (!empty($query)) {
 	        $v = Mage::getResourceModel('catalog/product_collection');
 	        $this->_collection = $v	        	

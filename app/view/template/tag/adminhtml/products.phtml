@@ -10,7 +10,7 @@
 		<?=$item['name'];?>
 		<div style="font-color:999; font-size:12px">Tags: 
 			<?php foreach ($item['tags'] as $tag) { ?>
-				<A href="#"><?=$tag['tagname'];?></a> 
+				<A href="/adminhtml/tag/tagslist?q=<?=$tag['tagname'];?>"><?=$tag['tagname'];?> (<?=$tag['total'];?>)</a> 
 			<?php } ?>
 		</div>
 	</li>

@@ -111,6 +111,7 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
     function addProductFilter($condition)
     {
         $this->_sqlSelect->where($this->_getConditionSql("$this->_productTable.product_id", $condition));
+        echo $this->_sqlSelect;
         return $this;
     }
 
@@ -143,17 +144,30 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return $this;
     }
     
+    function addIdFilter($ids) {
+    	foreach ($this->_attributes as $attribute) {
+    		if ($attribute->isSearchable()) {
+    			$this->_joinAttributeTable($attribute->getCode());
+    		}
+    	}
+
+    	foreach ($ids as $id) {
+    		$this->_sqlSelect->orWhere($this->_productTable.".product_id = '$id'");
+    	}
+    	return $this;
+    }
+    
     function addSearchFilter($query)
     {
-        $query = trim(strip_tags($query));
-        
-        foreach ($this->_attributes as $attribute) {
-            if ($attribute->isSearchable()) {
-                $this->_joinAttributeTable($attribute->getCode());
-                $this->_sqlSelect->orWhere($attribute->getTableAlias().".attribute_value LIKE '%$query%'");
-            }
-        }
-        return $this;
+    	foreach ($this->_attributes as $attribute) {
+    		if ($attribute->isSearchable()) {
+    			$this->_joinAttributeTable($attribute->getCode());
+    			$query = trim(strip_tags($query));
+    			$this->_sqlSelect->orWhere($attribute->getTableAlias().".attribute_value LIKE '%$query%'");
+    		}
+    	}
+
+    	return $this;
     }
     
 

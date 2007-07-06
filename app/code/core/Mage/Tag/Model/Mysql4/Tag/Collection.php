@@ -71,7 +71,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
      * @return  Varien_Data_Collection_Db
      */
     public function addStatusFilter($status) {
-        Mage::log('Add status filter to tag collection');
+    	Mage::log('Add status filter to tag collection');
         if (is_numeric($status)) {
             $this->addFilter('status', 
                 $this->getConnection()->quoteInto($this->_tagTable.'.status=?', $status), 
@@ -82,6 +82,10 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db {
     }
         
     public function addSearch($q) {
+    	if (empty($q)) return $this;
+    	
+    	$this->_sqlSelect->where("tagname LIKE '%{$q}%'");
+    	
     	return $this;
     }
     
