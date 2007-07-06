@@ -409,14 +409,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         $attribute->setEntity($this);
         $attributeName = $attribute->getName();
-        $attributeId = $attribute->getId();
         
         $this->_attributesByName[$attributeName] = $attribute;
 
         if ($attribute->getBackend()->isStatic()) {
             $this->_staticAttributes[$attributeName] = $attribute;
         } else {
-            $this->_attributesById[$attributeId] = $attribute;
+            $this->_attributesById[$attribute->getId()] = $attribute;
 
             $attributeTable = $attribute->getBackend()->getTable();
             $this->_attributesByTable[$attributeTable][$attributeName] = $attribute;
@@ -844,7 +843,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 continue;
             }
 
-            $attrId = $attribute->getId();
+            $attrId = $attribute->getAttributeId();
             // if attribute is static add to entity row and continue
             if ($this->isAttributeStatic($k)) {
                 $entityRow[$k] = $v;
@@ -964,7 +963,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected function _afterSetConfig()
     {
         $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id');
-        if ($this->getConfig()->getUseDataSharing()) {
+        if ($this->getConfig()->getIsDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }
         

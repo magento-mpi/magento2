@@ -18,13 +18,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     protected $_name;
     
     /**
-     * Attribute id
-     *
-     * @var string
-     */
-    protected $_id;
-    
-    /**
      * Entity instance
      *
      * @var Mage_Eav_Model_Entity_Abstract
@@ -55,7 +48,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     protected function _construct()
     {
         $this->_setResource('eav/entity_attribute'); 
-        $this->setIdFieldName('entity_type_id');
+        $this->setIdFieldName('attribute_id');
         parent::_construct();
     }
     

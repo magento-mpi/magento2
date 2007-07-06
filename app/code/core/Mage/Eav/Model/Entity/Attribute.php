@@ -10,6 +10,9 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 
             case 'updated_at':
                 return 'eav/entity_attribute_backend_time_updated';
+                
+            case 'store_id':
+                return 'eav/entity_attribute_backend_store';
         }
         
         return parent::_getDefaultBackendModel();
