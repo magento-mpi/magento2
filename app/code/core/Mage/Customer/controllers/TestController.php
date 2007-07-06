@@ -61,9 +61,14 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
     
     public function eavAction()
     {
-        $model = Mage::getModel('eav/entity_type');
-        $model->setEntityName('customer')->setEntityTable('customer/entity')->setIsDataSharing(true);
+        $model = Mage::getModel('customer/customer');
+        $model->load(1);
         $model->save();
+        /*
+        $model->setFirstname('moshe')->setLastname('gurvich')->setEmail('moshe@varien.com')->setStoreId(1)->setAttributeSetId(1);
+        $model->save();
+        */
+        
         
         print_r($model->getData());
     }

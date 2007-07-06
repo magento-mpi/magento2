@@ -4,12 +4,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group_Collection extends Mage_Core_
 {
     public function _construct()
     {
-        $this->setModel('eav/attribute_group');
+        $this->setModel('eav/entity_attribute_group');
     }
     
     public function setAttributeSetFilter($setId)
     {
-        $this->getSelect()->where('attribute_set_id=?', $setId);
+        $this->getSelect()->where('main_table.attribute_set_id=?', $setId);
         return $this;
     }
 }

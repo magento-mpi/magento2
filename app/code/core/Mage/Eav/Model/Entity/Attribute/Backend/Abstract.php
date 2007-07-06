@@ -11,13 +11,6 @@
 abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_Eav_Model_Entity_Attribute_Backend_Interface
 {
     /**
-     * Backend configuration
-     *
-     * @var Mage_Core_Model_Config_Element
-     */
-    protected $_config;
-    
-    /**
      * Reference to the attribute instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Abstract
@@ -53,31 +46,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     protected $_defaultValue = null;
     
     /**
-     * Set backend configuration
-     *
-     * @param Mage_Core_Model_Config_Element $config
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
-     */
-    public function setConfig(Mage_Core_Model_Config_Element $config)
-    {
-        $this->_config = $config;
-        return $this;
-    }
-    
-    /**
-     * Retrieve backend configuration
-     *
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getConfig()
-    {
-        if (empty($this->_config)) {
-            throw Mage::exception('Mage_Eav', 'Backend is not initialized');
-        }
-        return $this->_config;
-    }
-    
-    /**
      * Set attribute instance
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -106,7 +74,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
      */
     public function getType()
     {
-        return (string)$this->getConfig()->type;
+        return $this->getAttribute()->getBackendType();
     }
     
     /**
@@ -116,7 +84,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
      */
     public function isStatic()
     {
-        return !$this->getType();
+        return (string)$this->getType()==='' || $this->getType()==='static';
     }
     
     /**
@@ -127,13 +95,16 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function getTable()
     {
         if (empty($this->_table)) {
-            if ($this->getConfig()->table) {
-                $this->_table = (string)$this->getConfig()->table;
+            if ($this->isStatic()) {
+                $this->_table = false;
+            } elseif ($this->getAttribute()->getBackendTable()) {
+                $this->_table = $this->getAttribute()->getBackendTable();
             } else {
                 $this->_table = $this->getAttribute()->getEntity()->getValueTablePrefix()
                     .'_'.$this->getType();
             }
         }
+        
         return $this->_table;
     }
     
@@ -145,8 +116,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function getEntityIdField()
     {
         if (empty($this->_entityIdField)) {
-            if ($this->getConfig()->entity_id_field) {
-                $this->_entityIdField = (string)$this->getConfig()->entity_id_field;
+            if ($this->getAttribute()->getEntityIdField()) {
+                $this->_entityIdField = $this->getAttribute()->getEntityIdField();
             } else {
                 $this->_entityIdField = $this->getAttribute()->getEntity()->getValueEntityIdField();
             }
@@ -168,8 +139,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function getDefaultValue()
     {
         if (is_null($this->_defaultValue)) {
-            if ($this->getConfig()->default_value) {
-                $this->_defaultValue = (string)$this->getConfig()->default_value;
+            if ($this->getAttribute()->getDefaultValue()) {
+                $this->_defaultValue = $this->getAttribute()->getDefaultValue();
             } else {
                 $this->_defaultValue = "";
             }
@@ -180,7 +151,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function validate($object)
     {
         $attrName = $this->getAttribute()->getName();
-        if ($this->getConfig()->is('required') && !$object->getData($attrName)) {
+        if ($this->getAttribute()->is('required') && !$object->getData($attrName)) {
             return false;
         }
         return true;

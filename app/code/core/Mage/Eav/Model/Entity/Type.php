@@ -7,26 +7,22 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     
     protected function _construct()
     {
-        $this->_setResource('eav/entity_type'); 
+        $this->_setResource('eav/entity_type');
+        $this->setIdFieldName('entity_type_id');
         parent::_construct();
     }
-    
-    public function getId()
+
+    public function loadByName($name)
     {
-        return $this->getData('entity_type_id');
-    }
-    
-    public function setId($id)
-    {
-        return $this->setData('entity_type_id', $id);
+        $this->getResource()->loadByName($this, $name);
+        return $this;
     }
     
     public function getAttributeCollection()
     {
         if (empty($this->_attributes)) {
-            $this->_attributes = Mage::getModel('eav/attribute')->getResourceCollection()
-                ->setEntityTypeFilter($this->getId())
-                ->load();
+            $this->_attributes = Mage::getModel('eav/entity_attribute')->getResourceCollection()
+                ->setEntityTypeFilter($this->getId());
         }
         return $this->_attributes;
     }
@@ -34,9 +30,8 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = Mage::getModel('eav/attribute_set')->getResourceCollection()
-                ->setEntityTypeFilter($this->getId())
-                ->load();
+            $this->_sets = Mage::getModel('eav/entity_attribute_set')->getResourceCollection()
+                ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
     }

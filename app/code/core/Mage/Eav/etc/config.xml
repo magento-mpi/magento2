@@ -15,13 +15,15 @@
             <eav_mysql4>
                 <class>Mage_Eav_Model_Mysql4</class>
                 <entities>
+                    <entity><table>eav_entity</table></entity>
+                    <entity_value_prefix><table>eav_entity</table></entity_value_prefix>
+
                     <entity_type><table>eav_entity_type</table></entity_type>
                     <entity_attribute><table>eav_entity_attribute</table></entity_attribute>
                     <attribute><table>eav_attribute</table></attribute>
                     <attribute_set><table>eav_attribute_set</table></attribute_set>
                     <attribute_group><table>eav_attribute_group</table></attribute_group>
-                    <entity><table>eav_entity</table></entity>
-                    <entity_value_prefix><table>eav_entity</table></entity_value_prefix>
+                    <value_option><table>eav_value_option</table></value_option>
                 </entities>
             </eav_mysql4>
         </models>

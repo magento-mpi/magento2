@@ -65,7 +65,7 @@ class Mage_Customer_Model_Mysql4_Customer
     {
         $select = $this->_read->select()
             ->from($this->_customerTable)
-            ->where($"customer_id=?", $customerId);
+            ->where("customer_id=?", $customerId);
         return $this->_read->fetchRow($select);
     }    
 

@@ -11,43 +11,11 @@
 abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage_Eav_Model_Entity_Attribute_Frontend_Interface
 {
     /**
-     * Frontend configuration
-     *
-     * @var Mage_Core_Model_Config_Element
-     */
-    protected $_config;
-    
-    /**
      * Reference to the attribute instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Abstract
      */
     protected $_attribute;
-    
-    /**
-     * Set frontend configuration
-     *
-     * @param Mage_Core_Model_Config_Element $config
-     * @return Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
-     */
-    public function setConfig(Mage_Core_Model_Config_Element $config)
-    {
-        $this->_config = $config;
-        return $this;
-    }
-    
-    /**
-     * Retrieve frontend configuration
-     *
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getConfig()
-    {
-        if (empty($this->_config)) {
-            throw Mage::exception('Mage_Eav', 'Frontend is not initialized');
-        }
-        return $this->_config;
-    }
     
     /**
      * Set attribute instance
@@ -78,12 +46,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
      */
     public function getInputType()
     {
-        return (string)$this->getConfig()->input;
+        return $this->getAttribute()->getFrontendInput();
     }
     
     public function getConfigField($fieldName)
     {
-        return (string)$this->getConfig()->$fieldName;
+        return $this->getAttribute()->getData('frontend_'.$fieldName);
     }
     
     /**

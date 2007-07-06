@@ -10,6 +10,13 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
     protected $_resource;
     
     /**
+     * Store joined tables here
+     *
+     * @var array
+     */
+    protected $_joinedTables = array();
+    
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -22,7 +29,7 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
         
         parent::__construct($this->getResource()->getConnection('read'));        
         
-        $this->getSelect->from($this->getResource()->getMainTable());
+        $this->getSelect()->from(array('main_table'=>$this->getResource()->getMainTable()));
     }
     
     /**
@@ -80,5 +87,19 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
             $this->_resource = Mage::getResourceModel($this->_itemObjectClass);
         }
         return $this->_resource;
+    }
+    
+    public function getTable($table)
+    {
+        return $this->getResource()->getTable($table);
+    }
+    
+    public function join($table, $cond, $cols='*')
+    {
+        if (!isset($this->_joinedTables[$table])) {
+            $this->getSelect()->join(array($table=>$this->getTable($table)), $cond, '*');
+            $this->_joinedTables[$table] = true;
+        }
+        return $this;
     }
 }

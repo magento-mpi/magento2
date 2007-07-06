@@ -9,6 +9,8 @@
  */
 class Mage_Customer_Model_Customer extends Varien_Object
 {
+    protected $_addressCollection;
+    
     public function __construct($customer=false) 
     {
         parent::__construct();
@@ -147,13 +149,10 @@ class Mage_Customer_Model_Customer extends Varien_Object
      */
     public function getAddressCollection()
     {
-        $collection = $this->getData('address_collection');
-        if (is_null($collection)) {
-            $collection = Mage::getResourceModel('customer/address_collection');
-            $this->setData('address_collection', $collection);
+        if (empty($this->_addressCollection)) {
+            $this->_addressCollection = Mage::getResourceModel('customer/address_collection');
         }
-        
-        return $collection;
+        return $this->_addressCollection;
     }
     
     /**

@@ -11,13 +11,6 @@
 abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_Abstract implements Mage_Eav_Model_Entity_Attribute_Interface
 {
     /**
-     * Attribute configuration
-     *
-     * @var Mage_Core_Model_Config_Element
-     */
-    protected $_config;
-    
-    /**
      * Attribute name
      *
      * @var string
@@ -61,35 +54,25 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     
     protected function _construct()
     {
-        $this->_setResource('eav/attribute'); 
+        $this->_setResource('eav/entity_attribute'); 
+        $this->setIdFieldName('entity_type_id');
         parent::_construct();
     }
     
-    /**
-     * Set attribute configuration
-     *
-     * @param Mage_Core_Model_Config_Element $config
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
-     */
-    public function setConfig(Mage_Core_Model_Config_Element $config)
+    public function loadByName($name)
     {
-        $this->_config = $config;
-        $this->_name = $config->getName();
-        $this->_id = (int)$config->id;
+        $this->getResource()->loadByName($this, $name);
         return $this;
     }
-    
+
     /**
-     * Retrieve attribute configuration
+     * Retrieve attribute configuration (deprecated)
      *
-     * @return Mage_Core_Model_Config_Element
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getConfig()
     {
-        if (empty($this->_config)) {
-            throw Mage::exception('Mage_Eav', 'Attribute is not initialized');
-        }
-        return $this->_config;
+        return $this;
     }
     
     /**
@@ -99,7 +82,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->getData('attribute_name');
     }
     
     /**
@@ -110,20 +93,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function setName($name)
     {
-        $this->_name = $name;
-        return $this;
+        return $this->setData('attribute_name', $name);
     }
-    
-    /**
-     * Get attribute id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
-    
+
     /**
      * Set attribute entity instance
      *
@@ -146,6 +118,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         return $this->_entity;
     }
     
+    public function getEntityIdField()
+    {
+        return $this->getEntity()->getValueEntityIdField();
+    }
+    
     /**
      * Retrieve backend instance
      *
@@ -154,15 +131,10 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     public function getBackend()
     {
         if (empty($this->_backend)) {
-            $config = $this->getConfig()->backend;
-            if (empty($config)) {
-                $config = $this->getConfig()->addChild('backend', '');
+            if (!$this->getBackendModel()) {
+                $this->setBackendModel($this->_getDefaultBackendModel());
             }
-            if (empty($config->model)) {
-                $config->addChild('model', $this->_getDefaultBackendModel());
-            }
-            $this->_backend = Mage::getModel((string)$config->model)
-                ->setConfig($config)
+            $this->_backend = Mage::getModel($this->getBackendModel())
                 ->setAttribute($this);
         }
         return $this->_backend;       
@@ -176,15 +148,10 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     public function getFrontend()
     {
         if (empty($this->_frontend)) {
-            $config = $this->getConfig()->frontend;
-            if (empty($config)) {
-                $config = $this->getConfig()->addChild('frontend', '');
+            if (!$this->getFrontendModel()) {
+                $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            if (empty($config->model)) {
-                $config->addChild('model', $this->_getDefaultFrontendModel());
-            }
-            $this->_frontend = Mage::getModel((string)$config->model)
-                ->setConfig($config)
+            $this->_frontend = Mage::getModel($this->getFrontendModel())
                 ->setAttribute($this);
         }
         return $this->_frontend;  
@@ -198,15 +165,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     public function getSource()
     {
         if (empty($this->_source)) {
-            $config = $this->getConfig()->source;
-            if (empty($config)) {
-                $config = $this->getConfig()->addChild('source', '');
+            if (!$this->getSourceModel()) {
+                $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            if (empty($config->model)) {
-                $config->addChild('model', $this->_getDefaultSourceModel());
-            }
-            $this->_source = Mage::getModel((string)$config->model)
-                ->setConfig($config)->setAttribute($this);
+            $this->_source = Mage::getModel($this->getSourceModel())
+                ->setAttribute($this);
         }
         return $this->_source;  
     }

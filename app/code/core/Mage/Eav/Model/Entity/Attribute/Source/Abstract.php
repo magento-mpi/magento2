@@ -11,13 +11,6 @@
 abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_Eav_Model_Entity_Attribute_Source_Interface
 {
     /**
-     * Source configuration
-     *
-     * @var Mage_Core_Model_Config_Element
-     */
-    protected $_config;
-    
-    /**
      * Reference to the attribute instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Abstract
@@ -30,31 +23,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
      * @var array
      */
     protected $_options = array();
-    
-    /**
-     * Set source configuration
-     *
-     * @param Mage_Core_Model_Config_Element $config
-     * @return Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
-     */
-    public function setConfig(Mage_Core_Model_Config_Element $config)
-    {
-        $this->_config = $config;
-        return $this;
-    }
-    
-    /**
-     * Retrieve source configuration
-     *
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getConfig()
-    {
-        if (empty($this->_config)) {
-            throw Mage::exception('Mage_Eav', 'Source is not initialized');
-        }
-        return $this->_config;
-    }
     
     /**
      * Set attribute instance
