@@ -118,6 +118,7 @@ VarienForm.prototype = {
                 Element.remove(child);
             }
         }
+        
         this.bindElements();
         if (this.callback) {
             this.callback();

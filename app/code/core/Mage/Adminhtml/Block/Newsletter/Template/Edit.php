@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getSaveUrl()
     {
-        return Mage::getUrl('adminhtml/*/save');
+        return Mage::getUrl('*/*/save');
     }
     
     /**
@@ -89,13 +89,12 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getPreviewUrl()
     {
-        return Mage::getUrl('adminhtml/*/preview');
+        return Mage::getUrl('*/*/preview');
     }
     
     public function isTextType()
     {
-        return $this->_template->getTemplateType() == constant(Mage::getConfig()->getModelClassName('newsletter/template') 
-                                                        . '::TYPE_TEXT');
+        return $this->_template->isPlain();
     }
     
     /**
@@ -105,20 +104,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getDeleteUrl()
     {
-        return Mage::getUrl('adminhtml/*/delete', array('id' => $this->_request->getParam('id')));
+        return Mage::getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
     }
-    
-    /**
-     * Prepares block for rendering
-     * 
-     * @return Mage_Adminhtml_Block_Newsletter_Template_Edit
-     */
-    protected function _beforeToHtml()
-    {   
-        
-        
-        return $this;
-    }
-    
-    
+       
 }

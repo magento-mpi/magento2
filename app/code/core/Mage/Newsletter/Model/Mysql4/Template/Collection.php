@@ -35,7 +35,7 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
      */
     public function useOnlyActual()
     {
-        $this->_sqlSelect->where('template_actual=?', 'true');
+        $this->_sqlSelect->where('template_actual=?', 1);
         
         return $this;
     }

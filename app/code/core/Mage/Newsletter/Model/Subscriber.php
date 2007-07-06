@@ -133,6 +133,17 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         return $this;
     }
     
+     /**
+     * Load subscriber data from resource model by email
+     *
+     * @param int $subscriberId
+     */
+    public function loadByEmail($subscriberEmail) 
+    {
+        $this->addData($this->getResource()->loadByEmail($subscriberEmail));
+        return $this;
+    }
+    
     /**
      * Save subscriber data to resource model
      *

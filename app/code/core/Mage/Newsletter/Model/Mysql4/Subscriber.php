@@ -59,6 +59,27 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     }
     
     /**
+     * Load subscriber from DB by email
+     *
+     * @param string $subscriberEmail
+     * @return array
+     */
+    public function loadByEmail($subscriberEmail)
+    {
+        $select = $this->_read->select()
+            ->from($this->_subscriberTable)
+            ->where('subscriber_email=?',$subscriberEmail);
+        
+        $result = $this->_read->fetchRow($select);
+        
+        if(!$result) {
+            return array();
+        }
+        
+        return $result;
+    }
+    
+    /**
      * Save subscriber info from it model.
      *
      * @param  Mage_Newsletter_Model_Subscriber $subscriber
@@ -75,8 +96,9 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
             } else {
                 if(!$subscriber->getCustomerId()) {
                     $data['subscriber_confirm_code'] = $this->_generateRandomCode();
-                    $data['status'] = Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE;
+                    $data['subscriber_status'] = Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE;
                     $subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE);
+                    $subscriber->setCode($data['subscriber_confirm_code']);
                 }
                 $this->_write->insert($this->_subscriberTable, $data);
                 $subscriber->setId($this->_write->lastInsertId($this->_subscriberTable));
@@ -85,6 +107,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
+            // Mage::getSingleton('newsletter/session')->addMessage(Mage::getModel('newsletter/message')->error($e->getMessage()));
             Mage::throwException('cannot save you subscription');
         }
         
@@ -118,10 +141,14 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $validators = array('subscriber_email' => 'EmailAddress');
         $filters = array();
         $input = new Zend_Filter_Input($filters, $validators, $data);
+        $session = Mage::getSingleton('newsletter/session');
         if ($input->hasInvalid() || $input->hasMissing()) {
-            $resultInvalidMessage = '';
+            $resultInvalidMessage = 'form not filled correct';
             foreach ($input->getMessages() as $message) {
-                $resultInvalidMessage.= $message . "\n";
+                if(is_array($message)) {
+                    $message = implode('. ',$message);
+                }
+                $session->addMessage(Mage::getModel('newsletter/message')->error($message));
             }
             Mage::throwException($resultInvalidMessage);
         }

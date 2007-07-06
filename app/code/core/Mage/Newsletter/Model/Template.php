@@ -111,9 +111,55 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     public function getInclude($template, array $variables) {
         $thisClass = __CLASS__;
         $includeTemplate = new $thisClass();
+        
         $includeTemplate->loadByCode($template);
+        echo $includeTemplate->getText();
         
         return $includeTemplate->getProcessedTemplate($variables);
+    }
+    
+    /**
+     * Send mail to subscriber
+     *
+     * @param Mage_Newsletter_Model_Subscriber|string
+     **/
+    public function send($subscriber, array $variables = array(), $name='') 
+    {
+        if(!$this->isValidForSend()) {
+            return false;
+        }
+        
+        $email = '';
+        if($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
+            $email = $subscriber->getSubscriberEmail();
+            if( $name == '' && ($subscriber->hasCustomerFirstname() || $subscriber->hasCustomerLastname()) ) {
+                $name = $subscriber->hasCustomerFirstname() . ' ' . $subscriber->hasCustomerLastname();
+            }
+        } else {
+            $email = (string) $subscriber;
+        }
+        
+        $mail = new Zend_Mail('utf-8');
+        $mail->addTo($email, $name);
+        $text = $this->getProcessedTemplate($variables);
+        
+        if($this->isPlain()) {
+            $mail->setBodyText($text);
+        } else {
+            $mail->setBodyHTML($text);
+        }
+        
+        $mail->setSubject($this->getTemplateSubject());
+        $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
+        try {
+            $mail->send();
+        }
+        catch (Exception $e) {
+            // Todo: add send problems to problem model.
+            return false;
+        }
+        
+        return true;
     }
     
     /**

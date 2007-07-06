@@ -77,7 +77,7 @@ class Mage_Newsletter_Model_Mysql4_Template {
         $select = $this->_read->select()
             ->from($this->_templateTable)
             ->where('template_code=?', $templateCode)
-            ->where('template_actual=?','true');
+            ->where('template_actual=?',1);
         
         $result = $this->_read->fetchRow($select);
         
@@ -142,13 +142,13 @@ class Mage_Newsletter_Model_Mysql4_Template {
         $this->_write->beginTransaction();
         try {
             $data = $this->_prepareSave($template);
-            if($template->getId() && ($template->getTemplateActual()=='false' || !$this->checkUsageInQueue($template))) {
+            if($template->getId() && ($template->getTemplateActual()===0 || !$this->checkUsageInQueue($template))) {
                 $this->_write->update($this->_templateTable, $data, 
                                       $this->_write->quoteInto('template_id=?',$template->getId())); 
             } else if ($template->getId()) {
                 // Duplicate entry if template used in queue
                 $updata = array();
-                $updata['template_actual'] = 'false';
+                $updata['template_actual'] = 0;
                 $this->_write->update($this->_templateTable, $updata, 
                                       $this->_write->quoteInto('template_id=?',$template->getId()));
                 
@@ -182,7 +182,7 @@ class Mage_Newsletter_Model_Mysql4_Template {
         $data['template_subject'] = $template->getTemplateSubject();
         $data['template_sender_name'] = $template->getTemplateSenderName();
         $data['template_sender_email'] = $template->getTemplateSenderEmail();
-        $data['template_actual'] = $template->getTemplateActual() === 'false' ? 'false' : 'true';
+        $data['template_actual'] = $template->getTemplateActual() === 0 ? 0 : 1;
         
         if($this->checkCodeUsage($template)) {
             Mage::throwException('duplicate of template code');

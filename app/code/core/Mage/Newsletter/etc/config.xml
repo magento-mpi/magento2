@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Newsletter>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
             <depends>
                 <Mage_Core />
                 <Mage_Customer />
@@ -10,6 +10,9 @@
         </Mage_Newsletter>
     </modules>
     <global>
+        <block>
+            <groups><newsletter><class>Mage_Newsletter_Block</class></newsletter></groups>
+        </block>
         <models>
             <newsletter>
                 <class>Mage_Newsletter_Model</class>
@@ -19,7 +22,7 @@
                 <class>Mage_Newsletter_Model_Mysql4</class>
                 <entities>
                     <subscriber>
-                        <table>newsletter_customer</table>
+                        <table>newsletter_subscriber</table>
                     </subscriber>
                     <queue>
                         <table>newsletter_queue</table>
@@ -57,4 +60,15 @@
             </newsletter_read>
         </resources>
     </global>
+    <front>
+       <routers>
+         <newsletter>
+            <use>standard</use>
+            <args>
+               <module>Mage_Newsletter</module>
+               <frontName>newsletter</frontName>
+            </args>
+         </newsletter>
+      </routers>
+    </front>
 </config>
