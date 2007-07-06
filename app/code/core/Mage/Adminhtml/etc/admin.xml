@@ -157,7 +157,7 @@
                         </modules>
                         <acl>
                             <title>Permissions</title>
-                            <action>adminhtml/acl</action>
+                            <action>adminhtml/permissions</action>
                         </acl>
                         <resources>
                             <title>Resources</title>

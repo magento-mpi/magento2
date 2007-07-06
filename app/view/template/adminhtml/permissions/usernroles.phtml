@@ -1,0 +1,38 @@
+<style type="text/css">
+#roles OL {
+	float:left;
+	width:30%;	
+}
+
+#roles OL .add {
+	list-style:none;
+	margin:20px 0;
+}
+
+#roles {
+	padding-left:100px;
+}
+
+.clear {
+	clear: both;
+}
+</style>
+
+<div id="roles">
+	<ol>
+		<?php foreach ($users as $user) { ?>
+		<li><a href="/adminhtml/permissions/edituser?uid=<?=$user->getUser_id();?>"><?=$user->getFirstname();?></a></li>
+		<?php } ?>
+		
+		<li class="add"><a href="/adminhtml/permissions/edituser">Add New User</a></li>
+	</ol>
+	
+	<ol>
+		<?php foreach ($roles as $role) { ?>
+		<li><a href="/adminhtml/permissions/editroles?rid=<?=$role->getRole_id();?>"><?=$role->getRole_name();?></a></li>
+		<?php } ?>
+		
+		<li class="add"><a href="/adminhtml/permissions/editroles">Add New Role</a></li>
+	</ol>
+</div>
+<div class="clear"></div>

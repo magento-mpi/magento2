@@ -1,0 +1,13 @@
+<ul>
+	<?php foreach ($resources as $resource => $val) { ?>
+	<li>
+		<input type="checkbox" value="delete" <?=isset($val['privileges']) && in_array('delete', $val['privileges']) ? "checked" : "";?> title="delete" name="resource[<?=$resource;?>][]" /> 
+		<input type="checkbox" value="edit" <?=isset($val['privileges']) && in_array('edit', $val['privileges']) ? "checked" : "";?> title="edit" name="resource[<?=$resource;?>][]" /> 
+		<input type="checkbox" value="view" <?=isset($val['privileges']) && in_array('view', $val['privileges']) ? "checked" : "";?> title="view" name="resource[<?=$resource;?>][]" /> 
+		<input type="checkbox" value="list" <?=isset($val['privileges']) && in_array('list', $val['privileges']) ? "checked" : "";?> title="list" name="resource[<?=$resource;?>][]" /> 
+		<input type="checkbox" value="none" <?=isset($val['privileges']) && in_array('none', $val['privileges']) ? "checked" : "";?> title="none" name="resource[<?=$resource;?>][]" /> 		
+
+		<?=$resource;?>
+	</li>
+	<?php } ?>
+</ul>

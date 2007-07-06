@@ -1,0 +1,6 @@
+	User roles:
+	<ul>
+		<?php foreach ($user_roles as $role) { ?>
+		<li><input type="checkbox" value="<?=$role->getRole_id();?>" <?=($role->getIs_checked() ? "checked" : "");?> name="roles[]" /> <?=$role->getRole_name();?></li>
+		<?php } ?>
+	</ul>
