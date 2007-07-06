@@ -49,6 +49,20 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         return $this->getAttribute()->getFrontendInput();
     }
     
+    public function getLabel()
+    {
+        return $this->getAttribute()->getFrontendLabel();
+    }
+    
+    public function getClass()
+    {
+        $out = $this->getAttribute()->getFrontendClass();
+        if ($this->getAttribute()->getIsRequired()) {
+            $out .= ' required-entry';
+        }
+        return $out;
+    }
+    
     public function getConfigField($fieldName)
     {
         return $this->getAttribute()->getData('frontend_'.$fieldName);

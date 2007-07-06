@@ -35,8 +35,8 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
                 $element = $fieldset->addField($attribute->getName(), $inputType,
                     array(
                         'name'  => $attribute->getName(),
-                        'label' => $attribute->getFrontend()->getConfigField('label'),
-                        'class' => $attribute->getFrontend()->getConfigField('class')
+                        'label' => $attribute->getFrontend()->getLabel(),
+                        'class' => $attribute->getFrontend()->getClass()
                     )
                 );
                 if ($inputType == 'select') {

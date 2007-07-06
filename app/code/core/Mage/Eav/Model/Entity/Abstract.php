@@ -383,7 +383,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
 
-        if (empty($attributeInstance) && !($attributeInstance instanceof Mage_Eav_Model_Entity_Attribute_Abstract)) {
+        if (empty($attributeInstance) 
+            || !($attributeInstance instanceof Mage_Eav_Model_Entity_Attribute_Abstract)
+            || !$attributeInstance->getId() ) {
             return false;
         }
 
@@ -398,20 +400,28 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $attributeInstance->setAttributeModel($this->_getDefaultAttributeModel());
         }
 
-        $attributeInstance->setEntity($this);
-
-        $this->_attributesByName[$attributeName] = $attributeInstance;
-
-        if ($attributeInstance->getBackend()->isStatic()) {
-            $this->_staticAttributes[$attributeName] = $attributeInstance;
-        } else {
-            $this->_attributesById[$attributeId] = $attributeInstance;
-
-            $attributeTable = $attributeInstance->getBackend()->getTable();
-            $this->_attributesByTable[$attributeTable][$attributeName] = $attributeInstance;
-        }
+        $this->addAttribute($attributeInstance);
 
         return $attributeInstance;
+    }
+    
+    public function addAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    {
+        $attribute->setEntity($this);
+        $attributeName = $attribute->getName();
+        $attributeId = $attribute->getId();
+        
+        $this->_attributesByName[$attributeName] = $attribute;
+
+        if ($attribute->getBackend()->isStatic()) {
+            $this->_staticAttributes[$attributeName] = $attribute;
+        } else {
+            $this->_attributesById[$attributeId] = $attribute;
+
+            $attributeTable = $attribute->getBackend()->getTable();
+            $this->_attributesByTable[$attributeTable][$attributeName] = $attribute;
+        }
+        return $this;
     }
 
     /**
@@ -824,7 +834,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         foreach ($newData as $k=>$v) {
-            if (is_numeric($k)) {
+            if (is_numeric($k) || is_array($v)) {
                 continue;
                 throw Mage::exception('Mage_Eav', 'Invalid data object key');
             }
@@ -953,16 +963,16 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     protected function _afterSetConfig()
     {
-        $attributes = $this->getAttributesByName();
-        $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at');
+        $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id');
         if ($this->getConfig()->getUseDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }
         
+        $attributes = $this->getAttributesByName();
         foreach ($defaultAttributes as $attr) {
             if (empty($attributes[$attr])) {
-                $attributes[$attr] = Mage::getModel('eav/entity_attribute')
-                    ->setAttributeName($attr)->setBackendType('static');
+                $this->addAttribute(Mage::getModel('eav/entity_attribute')
+                    ->setAttributeName($attr)->setBackendType('static'));
             }
         }
     }
