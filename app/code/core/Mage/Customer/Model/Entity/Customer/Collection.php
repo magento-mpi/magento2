@@ -9,6 +9,7 @@
  */
 class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
+    protected $_addressEntity;
     public function __construct()
     {
         $this->setEntity(Mage::getResourceSingleton('customer/customer'));

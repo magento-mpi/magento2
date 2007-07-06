@@ -7,6 +7,7 @@ varienGrid.prototype = {
         this.sortVar = sortVar || false;
         this.dirVar  = dirVar || false;
         this.tableSufix = '_table';
+        this.useAjax = false;
 
         this.trOnMouseOver  = this.rowMouseOver.bindAsEventListener(this);
         this.trOnMouseOut   = this.rowMouseOut.bindAsEventListener(this);
@@ -16,6 +17,9 @@ varienGrid.prototype = {
         
         this.thLinkOnClick      = this.doSort.bindAsEventListener(this);
         
+        this.initGrid();
+    },
+    initGrid : function(){
         if($(this.containerId+this.tableSufix)){
             var rows = $$('#'+this.containerId+this.tableSufix+' tbody tr');
             for (var row in rows) {
@@ -36,33 +40,26 @@ varienGrid.prototype = {
             }
         }
     },
-    
     getContainerId : function(){
         return this.containerId;
     },
-    
     rowMouseOver : function(event){
         var element = Event.findElement(event, 'tr');
         Element.addClassName(element, 'on-mouse');
     },
-    
     rowMouseOut : function(event){
         var element = Event.findElement(event, 'tr');
         Element.removeClassName(element, 'on-mouse');
     },
-    
     rowMouseClick : function(event){
         varienGlobalEvents.fireEvent('gridRowClick', event);
     },
-    
     rowMouseDblClick : function(event){
         varienGlobalEvents.fireEvent('gridRowDblClick', event);
     },
-    
     keyPress : function(event){
         
     },
-    
     doSort : function(event){
         var element = Event.findElement(event, 'a');
         
@@ -74,22 +71,39 @@ varienGrid.prototype = {
         Event.stop(event);
         return false;
     },
-    
     loadByElement : function(element){
         if(element && element.name){
             this.reload(this.addVarToUrl(element.name, element.value));
         }
     },
-    
     reload : function(url){
-        location.href = url;
+        if(this.useAjax){
+            new Ajax.Updater(
+                this.containerId, 
+                url+'?ajax=true',
+                {onComplete:this.initGrid.bind(this)}
+            );
+        }
+        else{
+            location.href = url;
+        }
     },
-    
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/[A-Za-z0-9_-]*\/)');
         this.url = this.url.replace(re, '/');
         if(this.url[this.url.length-1]!='/') this.url+= '/';
         this.url+= varName+'/'+varValue+'/';
         return this.url;
+    },
+    doExport : function(typeField){
+        if($(typeField)){
+            location.href = $(typeField).value;
+        }
+    },
+    doFilter : function(){
+        
+    },
+    resetFilter : function(){
+        
     }
 };

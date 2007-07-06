@@ -1,60 +1,91 @@
-<?if(!empty($collection)):?>
+<?
+/**
+ *  getId()
+ *  getCollection()
+ *  getColumns()
+ *  getPagerVisibility()
+ *  getVarNamePage()
+ */
+?>
+<?if($this->getCollection()):?>
+<?if($this->canDisplayContainer()):?>
 <div id="<?=$this->getId()?>">
+<?endif;?>
 <?if($this->getPagerVisibility()):?>
 <div class="pager">
     Page 
     <select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-    <?for($i=1; $i<=$collection->getLastPageNumber(); $i++):?>
-        <?$_selected = ($i==$collection->getCurPage()) ? ' selected' : ''?>
+    <?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
+        <?$_selected = ($i==$this->getCollection()->getCurPage()) ? ' selected' : ''?>
         <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
     <?endfor;?>
     </select>
-    of &nbsp;<b><?=$collection->getLastPageNumber()?></b>
+    of &nbsp;<b><?=$this->getCollection()->getLastPageNumber()?></b>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     View  
     <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-        <option value="5"<?if($collection->getPageSize()==5):?> selected<?endif;?>>5</option>
-        <option value="20"<?if($collection->getPageSize()==20):?> selected<?endif;?>>20</option>
-        <option value="30"<?if($collection->getPageSize()==30):?> selected<?endif;?>>30</option>
-        <option value="50"<?if($collection->getPageSize()==50):?> selected<?endif;?>>50</option>
-        <option value="100"<?if($collection->getPageSize()==100):?> selected<?endif;?>>100</option>
-        <option value="200"<?if($collection->getPageSize()==200):?> selected<?endif;?>>200</option>
+        <option value="5"<?if($this->getCollection()->getPageSize()==5):?> selected<?endif;?>>5</option>
+        <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
+        <option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
+        <option value="50"<?if($this->getCollection()->getPageSize()==50):?> selected<?endif;?>>50</option>
+        <option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
+        <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
     </select>
     per page
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Total <b><?=$collection->getSize()?> records</b> found
+    Total <b><?=$this->getCollection()->getSize()?> records</b> found
 </div>
 <?endif?>
+<?if($this->getExportTypes()):?>
+<div class="export">
+    <?=__('Export to')?>:
+    <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
+    <?foreach ($this->getExportTypes() as $_type):?>
+        <option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
+    <?endforeach;?>
+    </select>
+    <input type="button" value="<?=__('Export')?>" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
+</div>
+<?endif;?>
+<?if($this->getFilterVisibility()):?>
+<div class="filter-buttons">
+    <input type="button" value="<?=__('Reset filter')?>">
+    <input type="button" value="<?=__('Search')?>">
+</div>
+<?endif;?>
 <table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
-    <?foreach ($columns as $column):?>
+    <?foreach ($this->getColumns() as $column):?>
     <col <?=$this->getColumnHtmlProperty($column)?>/>
     <?endforeach;?>
     <thead>
         <tr class="header">
-        <?foreach ($columns as $column):?>
+        <?foreach ($this->getColumns() as $column):?>
             <th><?=$this->getColumnHeaderHtml($column)?></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
-            <tr class="filters">
-            <?foreach ($columns as $column):?>
-                <th><?=$this->getColumnFilterHtml($column)?></th>
-            <?endforeach;?>
-            </tr>
+        <tr class="filter">
+        <?foreach ($this->getColumns() as $column):?>
+            <th><?=$this->getColumnFilterHtml($column)?></th>
+        <?endforeach;?>
+        </tr>
         <?endif?>
     </thead>
     <tbody>
-    <?foreach ($collection as $_index=>$_item):?>
+    <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr>
-        <?foreach ($columns as $column):?>
+        <?foreach ($this->getColumns() as $column):?>
             <td><?=$this->getRowField($_item, $column)?></td>
         <?endforeach;?>
         </tr>
     <?endforeach;?>
     </tbody>
 </table>
+<?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
     <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>');
+    <?=$this->getId()?>JsObject.useAjax = '<?=$this->getUseAjax()?>';
 </script>
+<?endif;?>
 <?endif?>

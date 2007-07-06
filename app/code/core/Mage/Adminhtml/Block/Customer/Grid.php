@@ -14,51 +14,59 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         parent::__construct();
         $this->setId('customerGrid');
+        $this->setUseAjax(true);
     }
 
-    protected function _initCollection()
+    protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');
         $this->setCollection($collection);
+        
+        return parent::_prepareCollection();
     }
-
-    protected function _beforeToHtml()
+    
+    protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'=>__('id'), 
-            'width'=>5, 
-            'align'=>'center', 
-            'sortable'=>true, 
-            'index'=>'entity_id'
+            'header'    =>__('id'), 
+            'width'     =>5, 
+            'align'     =>'center', 
+            'sortable'  =>true, 
+            'index'     =>'entity_id'
         ));
         $this->addColumn('email', array(
-            'header'=>__('email'), 
-            'width'=>40, 
-            'align'=>'center', 
-            'index'=>'email'
+            'header'    =>__('email'), 
+            'width'     =>40, 
+            'align'     =>'center', 
+            'index'     =>'email'
         ));
         $this->addColumn('firstname', array(
-            'header'=>__('firstname'), 
-            'index'=>'firstname'
+            'header'    =>__('firstname'), 
+            'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'=>__('lastname'), 
-            'index'=>'lastname'
+            'header'    =>__('lastname'), 
+            'index'     =>'lastname'
         ));
         $this->addColumn('action', array(
-            'header'=>__('action'),
-            'align'=>'center',
-            'format'=>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
-            'index'=>'customer_id', 
-            'sortable'=>false)
-        );
+            'header'    =>__('action'),
+            'align'     =>'center',
+            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
+            'index'     =>'customer_id', 
+            'sortable'  =>false,
+            'is_system' =>true
+        ));
         
-        $this->setColumnFilter('email')->setColumnFilter('firstname')->setColumnFilter('lastname');
-
-        $this->_initCollection();
-        return parent::_beforeToHtml();
+        $this->setColumnFilter('id')
+            ->setColumnFilter('email')
+            ->setColumnFilter('firstname')
+            ->setColumnFilter('lastname');
+        
+        $this->addExportType('*/*/exportCsv', __('CSV'));
+        $this->addExportType('*/*/exportXml', __('XML'));
+        return parent::_prepareColumns();
     }
 }

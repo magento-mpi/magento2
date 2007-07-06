@@ -195,8 +195,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         
         //$entityId = $row[$this->getEntity()->getEntityIdField()];
-        $entityId = $object->getId();
-        $this->_items[$entityId] = $object;
+        if ($entityId = $object->getId()) {
+            $this->_items[$entityId] = $object;
+        }
+        else {
+            $this->_items[] = $object;
+        }        
         
         return $this;
     }

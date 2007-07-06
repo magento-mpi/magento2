@@ -17,6 +17,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
      */
     public function indexAction()
     {
+        if ($this->getRequest()->getQuery('ajax')) {
+            $this->_forward('grid');
+            return;
+        }
         $this->loadLayout('baseframe');
         
         /**
@@ -38,6 +42,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             ->addLink(__('customers'), __('customers title'));
 
         $this->renderLayout();
+    }
+    
+    public function gridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_grid')->toHtml());
     }
     
     /**
@@ -161,5 +170,40 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         }
         
         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
+    }
+    
+    /**
+     * Export customer grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        $fileName   = 'customers.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/customer_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponce($fileName, $content);
+    }
+    
+    /**
+     * Export customer grid to XML format
+     */
+    public function exportXmlAction()
+    {
+        $fileName   = 'customers.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/customer_grid')
+            ->getXml();
+        
+        $this->_sendUploadResponce($fileName, $content);
+    }
+    
+    protected function _sendUploadResponce($fileName, $content)
+    {
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;        
     }
 }

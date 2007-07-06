@@ -66,6 +66,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_filterVisibility = true;
+    
+    /**
+     * Grid export types
+     *
+     * @var array
+     */
+    protected $_exportTypes = array();
 
     public function __construct()
     {
@@ -112,7 +119,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         return $this->_form;
     }
-
+    
+    /**
+     * Add column to grid
+     *
+     * @param   string $columnId
+     * @param   array || Varien_Object $column
+     * @return  Mage_Adminhtml_Block_Widget_Grid
+     */
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
@@ -127,18 +141,38 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_columns[$columnId]->setId($columnId);
         return $this;
     }
-
-    public function getColumn($columnId=null)
+    
+    /**
+     * Retrieve grid column by column id
+     *
+     * @param   string $columnId
+     * @return  Varien_Object || false
+     */
+    public function getColumn($columnId)
     {
-        if (is_null($columnId)) {
-            return $this->_columns;
-        } elseif (!empty($this->_columns[$columnId])) {
+        if (!empty($this->_columns[$columnId])) {
             return $this->_columns[$columnId];
         }
         return false;
     }
-
-    public function getColumnHtmlProperty($column)
+    
+    /**
+     * Retrieve all grid columns
+     *
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->_columns;
+    }
+    
+    /**
+     * Retrieve column HTML properties
+     *
+     * @param   Varien_Object $column
+     * @return  string
+     */
+    public function getColumnHtmlProperty(Varien_Object $column)
     {
         $out = ' ';
         if ($column->getWidth()) {
@@ -149,8 +183,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         return $out;
     }
-
-    public function getColumnHeaderHtml($column)
+    
+    /**
+     * Retrieve column header HTML
+     *
+     * @param   Varien_Object $column
+     * @return  string
+     */
+    public function getColumnHeaderHtml(Varien_Object $column)
     {
         $out = '';
         if ($column->getSortable()!==false) {
@@ -160,7 +200,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             if ($column->getDir()) {
                 $className = 'sort-arrow-' . $dir;
             }
-            $out = '<a href="" name="'.$column->getId().'" target="'.$dir.'" class="' . $className . '">'.$column->getHeader().'</a>';
+            $out = '<a href="" name="'.$column->getId().'" target="'.$dir
+                   .'" class="' . $className . '">'.$column->getHeader().'</a>';
         }
         else {
             $out = $column->getHeader();
@@ -168,6 +209,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $out;
     }
     
+    /**
+     * Set column filter
+     *
+     * @param   string || Varien_Object $column
+     * @param   array $args
+     * @return  Mage_Adminhtml_Block_Widget_Grid
+     */
     public function setColumnFilter($column, $args=array())
     {
         if (is_string($column)) {
@@ -191,7 +239,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
     
-    public function getColumnFilterHtml($column)
+    /**
+     * Retrieve column filter HTML
+     *
+     * @param   Varien_Object $column
+     * @return  string
+     */
+    public function getColumnFilterHtml(Varien_Object $column)
     {
         $out = '';
         
@@ -202,8 +256,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
         return $out;
     }
-
-    protected function _beforeToHtml()
+    
+    /**
+     * Prepare grid collection object
+     *
+     * @return this
+     */
+    protected function _prepareCollection()
     {
         if ($this->getCollection()) {
             $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
@@ -221,15 +280,36 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->getCollection()->load();
         }
 
-        $this->assign('collection', $this->getCollection());
-        $this->assign('columns', $this->_columns);
-
+        return $this;
+    }
+    
+    protected function _prepareColumns()
+    {
+        return $this;
+    }
+    
+    protected function _prepareGrid()
+    {
+        $this->_prepareColumns();
+        $this->_prepareCollection();
         return $this;
     }
 
+    protected function _beforeToHtml()
+    {
+        $this->_prepareGrid();
+        return $this;
+    }
+    
+    /**
+     * Retrieve row column field value for display
+     *
+     * @param   Varien_Object $row
+     * @param   Varien_Object $column
+     * @return  string
+     */
     public function getRowField(Varien_Object $row, Varien_Object $column)
     {
-        //return $row->getData($column->getIndex());
         $format = null;
         if ($column->getFormat() != '') {
             $format = $column->getFormat();
@@ -323,4 +403,97 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_filterVisibility;
     }
     
+    /**
+     * Retrieve grid export types
+     *
+     * @return array
+     */
+    public function getExportTypes()
+    {
+        return empty($this->_exportTypes) ? false : $this->_exportTypes;
+    }
+    
+    /**
+     * Add new export type to grid
+     *
+     * @param   string $url
+     * @param   string $label
+     * @return  Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function addExportType($url, $label)
+    {
+        $this->_exportTypes[] = new Varien_Object(
+            array(
+                'url'   => Mage::getUrl($url, array('_current'=>true)),
+                'label' => $label
+            )
+        );
+        return $this;
+    }
+    
+    /**
+     * Retrieve grid HTML
+     *
+     * @return string
+     */
+    public function getHtml()
+    {
+        return $this->toHtml();
+    }
+    
+    /**
+     * Retrieve grid as CSV
+     *
+     * @return unknown
+     */
+    public function getCsv()
+    {
+        $csv = '';
+        $this->_prepareGrid();
+        
+        $data = array();
+        foreach ($this->_columns as $column) {
+        	if (!$column->getIsSystem()) {
+        	    $data[] = $column->getHeader();
+        	}
+        }
+        $csv.= implode(';', $data)."\n";
+        
+        foreach ($this->getCollection() as $item) {
+            $data = array();
+            foreach ($this->_columns as $column) {
+            	if (!$column->getIsSystem()) {
+            	    $data[] = $this->getRowField($item, $column);
+            	}
+            }
+        	$csv.= implode(';', $data)."\n";
+        }
+        return $csv;
+    }
+    
+    public function getXml()
+    {
+        $this->_prepareGrid();
+        $indexes = array();
+        foreach ($this->_columns as $column) {
+        	if (!$column->getIsSystem()) {
+        	    $indexes[] = $column->getIndex();
+        	}
+        }
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml.= '<items>';
+        foreach ($this->getCollection() as $item) {
+        	$xml.= $item->toXml($indexes);
+        }
+        $xml.= '</items>';
+        return $xml;
+    }
+    
+    public function canDisplayContainer()
+    {
+        if ($this->getRequest()->getQuery('ajax')) {
+            return false;
+        }
+        return true;
+    }
 }
