@@ -52,16 +52,17 @@ class Mage_Permissions_Model_Mysql4_Rules {
         	$roleId = $rule->getRoleId()->getData();
         	$roleId = $roleId['id'];
 	    	$this->_write->delete($this->_ruleTable, "role_id = {$roleId}");
-	    	
-	    	foreach ($rule->getResources() as $key => $val) {	    		
-	    		$this->_write->insert($this->_ruleTable, array(
-		    		'role_type' => 'G',
-		    		'resource_id' => $key,
-		    		'privileges' => implode(",", $val),
-		    		'assert_id' => 0,
-		    		'role_id' => $roleId
-		    		
-		    		));
+	    	if ($rule->getResources()) {
+		    	foreach ($rule->getResources() as $key => $val) {	    		
+		    		$this->_write->insert($this->_ruleTable, array(
+			    		'role_type' => 'G',
+			    		'resource_id' => $key,
+			    		'privileges' => implode(",", $val),
+			    		'assert_id' => 0,
+			    		'role_id' => $roleId
+			    		
+			    		));
+		    	}
 	    	}
 	    	
 	    	$this->_write->commit();
