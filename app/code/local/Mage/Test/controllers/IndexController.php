@@ -47,7 +47,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         $block->settemplate('test/index.phtml');
 
         $this->getResponse()->setBody($block->toHtml());
-        
+
         $aggregator = Mage::getSingleton('log/visitor_aggregator');
         $aggregator->updateOneShot();
         */
@@ -60,6 +60,9 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         print_r($collection->getItems());
         echo "</pre>";
         */
+
+
+        $model = Mage::getSingleton('tax/class_customer')->load(1);
     }
 
     public function pagesAction()

@@ -109,5 +109,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Newsletter>
+        <Mage_Tax>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Tax>
     </modules>
 </config>

@@ -1,4 +1,66 @@
 <?xml version="1.0"?>
 <config>
-
+    <modules>
+    <Mage_Tax>
+        <version>0.1.0</version>
+        <depends>
+            <Mage_Catalog />
+            <Mage_Customer />
+        </depends>
+    </Mage_Tax>
+    </modules>
+    <global>
+        <models>
+            <tax>
+                <class>Mage_Tax_Model</class>
+                <resourceModel>tax_mysql4</resourceModel>
+            </tax>
+            <tax_mysql4>
+                <class>Mage_Tax_Model_Mysql4</class>
+                <entities>
+                    <tax_class_customer>
+                        <table>tax_class_customer</table>
+                    </tax_class_customer>
+                    <tax_class_customer_group>
+                        <table>tax_class_customer_group</table>
+                    </tax_class_customer_group>
+                    <tax_class_product>
+                        <table>tax_class_product</table>
+                    </tax_class_product>
+                    <tax_class_product_group>
+                        <table>tax_class_product_group</table>
+                    </tax_class_product_group>
+                    <tax_rate>
+                        <table>tax_rate</table>
+                    </tax_rate>
+                    <tax_rate_value>
+                        <table>tax_rate_value</table>
+                    </tax_rate_value>
+                    <tax_rule>
+                        <table>tax_rule</table>
+                    </tax_rule>
+                </entities>
+            </tax_mysql4>
+        </models>
+        <resources>
+            <tax_setup>
+                <setup>
+                    <module>Mage_Tax</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </tax_setup>
+            <tax_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </tax_write>
+            <tax_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </tax_read>
+        </resources>
+    </global>
 </config>

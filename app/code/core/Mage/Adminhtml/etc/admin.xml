@@ -32,7 +32,7 @@
          </customer>
          <newsletter>
             <title>Newsletter</title>
-            <action>adminhtml/newsletter/</action> 
+            <action>adminhtml/newsletter/</action>
             <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
             <depends><module>Mage_Newsletter</module></depends>
             <children>
@@ -74,6 +74,24 @@
                     <title>Datafeeds</title>
                     <action>adminhtml/catalog_datafeeds/</action>
                 </datafeed>
+                <tax>
+                    <title>Tax rules</title>
+                    <action>adminhtml/tax</action>
+                    <children>
+                        <tax_rates>
+                            <title>Tax rates</title>
+                            <action>adminhtml/tax_rate</action>
+                        </tax_rates>
+                        <tax_classes_customer>
+                            <title>Customer Classes</title>
+                            <action>adminhtml/tax_class_customer</action>
+                        </tax_classes_customer>
+                        <tax_classes_product>
+                            <title>Product Classes</title>
+                            <action>adminhtml/tax_class_product</action>
+                        </tax_classes_product>
+                    </children>
+                </tax>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/system_config/</action>
