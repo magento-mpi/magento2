@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Model_Entity_Attribute_Interface
+abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_Abstract implements Mage_Eav_Model_Entity_Attribute_Interface
 {
     /**
      * Attribute configuration
@@ -30,7 +30,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
      * @var string
      */
     protected $_id;
-    
     
     /**
      * Entity instance
@@ -59,6 +58,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract implements Mage_Eav_Mode
      * @var Mage_Eav_Model_Entity_Attribute_Source_Abstract
      */
     protected $_source;
+    
+    protected function _construct()
+    {
+        $this->_setResource('eav/attribute'); 
+        parent::_construct();
+    }
     
     /**
      * Set attribute configuration

@@ -104,12 +104,6 @@
               <attributes>
                 <parent_id />
                 <is_active />
-                <store_id>
-                    <frontend>
-                        <input>select</input>
-                        <label>Associated to store</label>
-                    </frontend>
-                </store_id>
                 
                 <firstname>
                     <id>101</id>

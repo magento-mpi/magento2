@@ -54,6 +54,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
         $this->assign('addressCollection', $addressCollection);
         //$addressCollection->loadByCustomerId($customerId);
         $this->setForm($form);
+
         return parent::_beforeToHtml();
     }
 }

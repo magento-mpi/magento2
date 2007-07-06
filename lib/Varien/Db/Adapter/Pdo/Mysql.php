@@ -15,19 +15,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     
     public function commit()
     {
-        $this->_transactionLevel--;
-        if ($this->_transactionLevel===0) {
+        if ($this->_transactionLevel===1) {
             parent::commit();
         }
+        $this->_transactionLevel--;
         return $this;
     }
     
     public function rollback()
     {
-        $this->_transactionLevel--;
-        if ($this->_transactionLevel===0) {
+        if ($this->_transactionLevel===1) {
             return parent::rollback();
         }
+        $this->_transactionLevel--;
         return $this;
     }
 }

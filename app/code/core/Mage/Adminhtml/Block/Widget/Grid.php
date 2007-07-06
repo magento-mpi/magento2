@@ -180,11 +180,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $args['model'] = 'Varien_Data_Form_Element_Text';
         }
 
-        $model = Mage::getModel($args['model'], $args);
-        $model->setForm($this->getForm())
+        $filter = Mage::getModel($args['model'], $args);
+        
+        $filter->setForm($this->getForm())
             ->setHtmlId('grid_filter_'.$column->getId())
             ->setName('grid_filter['.$column->getId().']');
-        $column->setFilter($model);
+            
+        $column->setFilter($filter);
         
         return $this;
     }

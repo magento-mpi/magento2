@@ -701,6 +701,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         try {
             $this->_processSaveData($this->_collectSaveData($object));
+            $this->_write->commit();
         } catch (Exception $e) {
             $this->_write->rollback();
             throw $e;
@@ -708,7 +709,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         $this->_afterSave($object);
 
-        $this->_write->commit();
         
         return $this;
     }
@@ -756,13 +756,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 
             }
             
+            $this->_write->commit();
         } catch (Exception $e) {
             $this->_write->rollback();
             throw $e;
         }
-        
-        $this->_write->commit();
-        
+            
         return $this;
     }
 

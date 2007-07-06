@@ -62,6 +62,13 @@ class Varien_Object
             $args[0] = array();
         }
         $this->_data = $args[0];
+        
+        $this->_construct();
+    }
+    
+    protected function _construct()
+    {
+        
     }
     
     /**

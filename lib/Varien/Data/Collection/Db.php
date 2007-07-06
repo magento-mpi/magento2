@@ -235,7 +235,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      *
      * @return  Varien_Data_Collection_Db
      */
-    public function loadData($printQuery = false, $logQuery = false)
+    public function load($printQuery = false, $logQuery = false)
     {
         $this->_renderFilters()
              ->_renderOrders()
@@ -260,5 +260,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         return $this;
     }
+    
+    public function loadData($printQuery = false, $logQuery = false)
+    {
+        return $this->load($printQuery, $logQuery);
+    }
+
 
 }

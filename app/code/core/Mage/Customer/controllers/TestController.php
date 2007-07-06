@@ -58,4 +58,13 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
 
         echo $this->getLayout()->createBlock('core/profiler')->toHtml();
     }
+    
+    public function eavAction()
+    {
+        $model = Mage::getModel('eav/entity_type');
+        $model->setEntityName('customer')->setEntityTable('customer/entity')->setIsDataSharing(true);
+        $model->save();
+        
+        print_r($model->getData());
+    }
 }

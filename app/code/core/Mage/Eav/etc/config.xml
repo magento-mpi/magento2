@@ -1,10 +1,50 @@
 <?xml version="1.0"?>
 <config>
+    <modules>
+        <Mage_Eav>
+            <version>0.1.0</version>
+        </Mage_Eav>
+    </modules>
     <global>
         <models>
             <eav>
                 <class>Mage_Eav_Model</class>
+                <resourceModel>eav_mysql4</resourceModel>
             </eav>
+            
+            <eav_mysql4>
+                <class>Mage_Eav_Model_Mysql4</class>
+                <entities>
+                    <entity_type><table>eav_entity_type</table></entity_type>
+                    <entity_attribute><table>eav_entity_attribute</table></entity_attribute>
+                    <attribute><table>eav_attribute</table></attribute>
+                    <attribute_set><table>eav_attribute_set</table></attribute_set>
+                    <attribute_group><table>eav_attribute_group</table></attribute_group>
+                    <entity><table>eav_entity</table></entity>
+                    <entity_value_prefix><table>eav_entity</table></entity_value_prefix>
+                </entities>
+            </eav_mysql4>
         </models>
+        
+        <resources>
+            <eav_setup>
+                <setup>
+                    <module>Mage_Eav</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </eav_setup>
+            <eav_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </eav_write>
+            <eav_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </eav_read>
+        </resources>
     </global>
 </config>

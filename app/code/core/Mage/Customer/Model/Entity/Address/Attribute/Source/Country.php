@@ -14,8 +14,8 @@ class Mage_Customer_Model_Entity_Address_Attribute_Source_Country extends Mage_E
     {
         if (!$this->_options) {
             $this->_options = Mage::getResourceModel('directory/country_collection')->load()->toOptionArray();
-            $baseUrl = Mage::getBaseUrl();
-            /*foreach ($this->_options as $index=>$option) {
+            /*$baseUrl = Mage::getBaseUrl();
+            foreach ($this->_options as $index=>$option) {
             	$this->_options[$index]['style'] = 'background-image:url('.$baseUrl.'skins/default/images/icons/flags/'.strtolower($option['title']).'.gif)';
             }*/
         }
