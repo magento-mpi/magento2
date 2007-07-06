@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Eav>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Mage_Eav>
     </modules>
     <global>
@@ -11,7 +11,7 @@
                 <class>Mage_Eav_Model</class>
                 <resourceModel>eav_mysql4</resourceModel>
             </eav>
-            
+
             <eav_mysql4>
                 <class>Mage_Eav_Model_Mysql4</class>
                 <entities>
@@ -27,7 +27,7 @@
                 </entities>
             </eav_mysql4>
         </models>
-        
+
         <resources>
             <eav_setup>
                 <setup>
