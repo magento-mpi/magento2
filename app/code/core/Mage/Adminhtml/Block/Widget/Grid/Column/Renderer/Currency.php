@@ -10,7 +10,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Renderer_Currency extends Mage_Core_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
+class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 	/**
 	 * Currency objects cache
@@ -20,12 +20,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Renderer_Currency extends Mage_Core_Block
     /**
      * Renders grid column
      *
-     * @param Varien_Object $row
-     * @param Varien_Object $column
+     * @param   Varien_Object $row
+     * @return  string
      */
-    public function render(Varien_Object $row, Varien_Object $column)
+    public function render(Varien_Object $row)
     {
-        if ($data = $row->getData($column->getIndex())) {
+        if ($data = $row->getData($this->getColumn()->getIndex())) {
         	$currency_code = $row->getData('currency_code');
         	if (!$currency_code) return $data;
         	if (!isset(self::$_currencies[$currency_code])) {

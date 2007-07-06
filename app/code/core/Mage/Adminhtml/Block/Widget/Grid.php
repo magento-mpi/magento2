@@ -11,9 +11,6 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 {
-    
-    protected $_form = null;
-    
     /**
      * Columns array
      *
@@ -22,7 +19,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      'renderer'  => Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface,
+     *      //'renderer'  => Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface,
      *      'format'    => string
      * )
      * @var array
@@ -35,13 +32,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var Varien_Data_Collection
      */
     protected $_collection = null;
-
-    /**
-     * Default column item renderer
-     *
-     * @var Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
-     */
-    protected $_gridItemRenderer = null;
 
     /**
      * Page and sorting var names
@@ -78,7 +68,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
-        $this->_gridItemRenderer = new Mage_Adminhtml_Block_Widget_Grid_Renderer();
     }
 
     /**
@@ -112,14 +101,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_collection;
     }
     
-    public function getForm()
-    {
-        if (empty($this->_form)) {
-            $this->_form = new Varien_Data_Form();
-        }
-        return $this->_form;
-    }
-    
     /**
      * Add column to grid
      *
@@ -130,14 +111,17 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = new Varien_Object($column);
+            $this->_columns[$columnId] = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+                ->setData($column)
+                ->setGrid($this);
         }
-        elseif ($column instanceof Varien_Object) {
+        /*elseif ($column instanceof Varien_Object) {
         	$this->_columns[$columnId] = $column;
-        }
+        }*/
         else {
             throw new Exception('Wrong column format');
         }
+        
         $this->_columns[$columnId]->setId($columnId);
         return $this;
     }
@@ -164,97 +148,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getColumns()
     {
         return $this->_columns;
-    }
-    
-    /**
-     * Retrieve column HTML properties
-     *
-     * @param   Varien_Object $column
-     * @return  string
-     */
-    public function getColumnHtmlProperty(Varien_Object $column)
-    {
-        $out = ' ';
-        if ($column->getWidth()) {
-            $out='width="'.$column->getWidth().'%" ';
-        }
-        if ($column->getAlign()) {
-            $out='align="'.$column->getAlign().'" ';
-        }
-        return $out;
-    }
-    
-    /**
-     * Retrieve column header HTML
-     *
-     * @param   Varien_Object $column
-     * @return  string
-     */
-    public function getColumnHeaderHtml(Varien_Object $column)
-    {
-        $out = '';
-        if ($column->getSortable()!==false) {
-
-            $className = 'not-sort';
-            $dir = (strtolower($column->getDir())=='asc') ? 'desc' : 'asc';
-            if ($column->getDir()) {
-                $className = 'sort-arrow-' . $dir;
-            }
-            $out = '<a href="" name="'.$column->getId().'" target="'.$dir
-                   .'" class="' . $className . '">'.$column->getHeader().'</a>';
-        }
-        else {
-            $out = $column->getHeader();
-        }
-        return $out;
-    }
-    
-    /**
-     * Set column filter
-     *
-     * @param   string || Varien_Object $column
-     * @param   array $args
-     * @return  Mage_Adminhtml_Block_Widget_Grid
-     */
-    public function setColumnFilter($column, $args=array())
-    {
-        if (is_string($column)) {
-            $column = $this->getColumn($column);
-        }
-        if (!$column instanceof Varien_Object) {
-            throw Mage::exception('Mage_Adminhtml', 'Invalid column specified');
-        }
-        if (empty($args['model'])) {
-            $args['model'] = 'Varien_Data_Form_Element_Text';
-        }
-
-        $filter = Mage::getModel($args['model'], $args);
-        
-        $filter->setForm($this->getForm())
-            ->setHtmlId('grid_filter_'.$column->getId())
-            ->setName('grid_filter['.$column->getId().']');
-            
-        $column->setFilter($filter);
-        
-        return $this;
-    }
-    
-    /**
-     * Retrieve column filter HTML
-     *
-     * @param   Varien_Object $column
-     * @return  string
-     */
-    public function getColumnFilterHtml(Varien_Object $column)
-    {
-        $out = '';
-        
-        $filter = $column->getFilter();
-        if ($filter) {
-            $out .= $filter->toHtml();
-        }
-
-        return $out;
     }
     
     /**
@@ -301,28 +194,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
     
-    /**
-     * Retrieve row column field value for display
-     *
-     * @param   Varien_Object $row
-     * @param   Varien_Object $column
-     * @return  string
-     */
-    public function getRowField(Varien_Object $row, Varien_Object $column)
-    {
-        $format = null;
-        if ($column->getFormat() != '') {
-            $format = $column->getFormat();
-        }
-        if (!($column->getRenderer() instanceof Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface)) {
-            // If no item rederer specified use default
-            return $this->_gridItemRenderer->render($row, $column);
-        } else {
-            // If custom item renderer
-            return $column->getRenderer()->render($row, $column);
-        }
-    }
-
     public function getVarNameLimit()
     {
         return $this->_varNameLimit;

@@ -55,12 +55,12 @@
 <?endif;?>
 <table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $column):?>
-    <col <?=$this->getColumnHtmlProperty($column)?>/>
+    <col <?=$column->getHtmlProperty()?>/>
     <?endforeach;?>
     <thead>
         <tr class="header">
         <?foreach ($this->getColumns() as $column):?>
-            <th><?=$this->getColumnHeaderHtml($column)?></th>
+            <th><?=$column->getHeaderHtml()?></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
@@ -75,7 +75,7 @@
     <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr>
         <?foreach ($this->getColumns() as $column):?>
-            <td><?=$this->getRowField($_item, $column)?></td>
+            <td><?=$column->getRowField($_item)?></td>
         <?endforeach;?>
         </tr>
     <?endforeach;?>

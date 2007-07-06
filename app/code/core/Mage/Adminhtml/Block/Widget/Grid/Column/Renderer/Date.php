@@ -10,22 +10,22 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Renderer_Date extends Mage_Core_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Renderer_Interface
+class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-		/**
-		 * Date format string
-		 */
-		protected static $_format = null;
+	/**
+	 * Date format string
+	 */
+	protected static $_format = null;
 
     /**
      * Renders grid column
      *
-     * @param Varien_Object $row
-     * @param Varien_Object $column
+     * @param   Varien_Object $row
+     * @return  string
      */
-    public function render(Varien_Object $row, Varien_Object $column)
+    public function render(Varien_Object $row)
     {
-        if ($data = $row->getData($column->getIndex())) {
+        if ($data = $row->getData($this->getColumn()->getIndex())) {
 					if (is_null(self::$_format)) {
 						if (!(self::$_format = Mage::getSingleton('core/store')->getConfig('core/date_format'))) self::$_format = '%a, %b %e %Y';
 					}

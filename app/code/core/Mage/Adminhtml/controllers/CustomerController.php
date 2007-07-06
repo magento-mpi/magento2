@@ -7,8 +7,6 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
- * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Action 
 {

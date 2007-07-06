@@ -46,9 +46,9 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         // Order Number, Date, Shipped To, Total, Status
 
         $this->addColumn('created_at', array(
-            'header' => __('Created At'),
-            'index' => 'created_at',
-            'renderer' => $this->getLayout()->createBlock('adminhtml/widget_grid_renderer_date'),
+            'header'    => __('Created At'),
+            'index'     => 'created_at',
+            'type'      => 'date'
         ));
         $this->addColumn('firstname', array(
             'header' => __('Shipped To'),
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('grand_total', array(
             'header' => __('Total'),
             'index' => 'grand_total',
-            'renderer' => $this->getLayout()->createBlock('adminhtml/widget_grid_renderer_currency'),
+            'type'  => 'currency'
         ));
         $this->addColumn('status', array(
             'header' => __('Status'),
