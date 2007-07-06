@@ -186,11 +186,13 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param integer $id
      * @return boolean
      */
-    public function load(Varien_Object $object, $id)
+    public function load(Mage_Core_Model_Abstract $object, $id)
     {
         $read = $this->getConnection('read');
         
-        $select = $read->select()->from($this->getMainTable())->where($this->getIdField().'=?', $id);
+        $select = $read->select()
+            ->from($this->getMainTable())
+            ->where($this->getIdField().'=?', $id);
         $data = $read->fetchRow($select);
         
         if (!$data) {
@@ -209,7 +211,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    public function save(Varien_Object $object)
+    public function save(Mage_Core_Model_Abstract $object)
     {
         $write = $this->getConnection('write');
         $table = $this->getMainTable();
@@ -221,16 +223,14 @@ abstract class Mage_Core_Model_Resource_Abstract
             
             if ($object->getId()) {
                 $condition = $this->_write->quoteInto($this->getIdField().'=?', $object->getId());
-                $write->update($table, $object->getData(), $condition);
+                $write->update($table, $object->getDataForSave(), $condition);
             } else {
-                $write->insert($table, $object->getData());
+                $write->insert($table, $object->getDataForSave());
                 $object->setId($write->lastInsertId($table));
             }
             
-            $write->commit();
-            
             $this->_afterSave($object);
-            
+            $write->commit();
         } catch (Exception $e) {
             
             $write->rollBack();
@@ -247,7 +247,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param Varien_Object $object
      * @return Mage_Core_Model_Resource_Abstract
      */
-    public function delete(Varien_Object $object)
+    public function delete(Mage_Core_Model_Abstract $object)
     {
         $write = $this->getConnection('write');
         $table = $this->getMainTable();
@@ -257,9 +257,10 @@ abstract class Mage_Core_Model_Resource_Abstract
             $this->_beforeDelete($object);
             
             $write->delete($table, $write->quoteInto($this->getIdField().'=?', $object->getId()));
-            $write->commit();
             
             $this->_afterDelete($object);
+            
+            $write->commit();
             
         } catch(Exception $e) {
             $write->rollBack();
@@ -273,9 +274,9 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    protected function _afterLoad(Varien_Object $object)
+    protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        
+        return $this;
     }
     
     /**
@@ -283,9 +284,9 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    protected function _beforeSave(Varien_Object $object)
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        
+        return $this;
     }    
     
     /**
@@ -293,9 +294,9 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    protected function _afterSave(Varien_Object $object)
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        
+        return $this;
     }
     
     /**
@@ -303,9 +304,9 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    protected function _beforeDelete(Varien_Object $object)
+    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
     {
-        
+        return $this;
     }  
       
     /**
@@ -313,8 +314,8 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      */
-    protected function _afterDelete(Varien_Object $object)
+    protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
-        
+        return $this;
     }
 }

@@ -125,5 +125,15 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-
+    
+    /**
+     * Retrieve data for object saving 
+     *
+     * @return array
+     */
+    public function getDataForSave()
+    {
+        $data = $this->getData();
+        return $data;
+    }
 }
