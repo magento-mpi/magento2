@@ -156,7 +156,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         foreach ($this->getColumns() as $columnId => $column) {
             if (!empty($data[$columnId]) && $column->getFilter()) {
                 $column->getFilter()->setValue($data[$columnId]);
+                $this->_addColumnFilterToCollection($column);
             }
+        }
+        return $this;
+    }
+    
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($this->getCollection()) {
+            
         }
         return $this;
     }
@@ -175,6 +184,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);
             $dir      = $this->getRequest()->getParam($this->getVarNameDir(), 'asc');
             $filter   = $this->getRequest()->getParam($this->getVarNameFilter());
+            
             if ($filter) {
                 $data = array();
                 parse_str(urldecode($filter), $data);

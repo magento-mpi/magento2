@@ -28,4 +28,22 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
         </script>';
         return $html;
     }
+    
+    public function getValue($index=null)
+    {
+        if ($index) {
+            return $this->getData('value', $index);
+        }
+        $value = $this->getData('value');
+        if (!empty($value['from']) || !empty($value['to'])) {
+            return $value;
+        }
+        return null;
+    }
+    
+    public function getCondition()
+    {
+        $value = $this->getValue();
+        return $value;
+    }    
 }

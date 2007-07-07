@@ -798,18 +798,32 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     protected function _getConditionSql($fieldName, $condition) {
         $sql = '';
         if (is_array($condition)) {
-            if (!empty($condition['from']) && !empty($condition['to'])) {
+            /*if (!empty($condition['from']) && !empty($condition['to'])) {
                 $sql = $this->_read->quoteInto("$fieldName between ?", $condition['from']);
                 $sql = $this->_read->quoteInto("$sql and ?", $condition['to']);
-            } elseif (!empty($condition['neq'])) {
+            } */
+            if (isset($condition['from']) && isset($condition['to'])) {
+                if (!empty($condition['from'])) {
+                    $sql.= $this->_read->quoteInto("$fieldName >= ?", $condition['from']);
+                }
+                if (!empty($condition['to'])) {
+                    $sql.= empty($sql) ? '' : ' and ';
+                    $sql.= $this->_read->quoteInto("$fieldName <= ?", $condition['to']);
+                }
+            } 
+            elseif (!empty($condition['neq'])) {
                 $sql = $this->_read->quoteInto("$fieldName != ?", $condition['neq']);
-            } elseif (!empty($condition['like'])) {
+            } 
+            elseif (!empty($condition['like'])) {
                 $sql = $this->_read->quoteInto("$fieldName like ?", $condition['like']);
-            } elseif (!empty($condition['in'])) {
+            } 
+            elseif (!empty($condition['in'])) {
                 $sql = $this->_read->quoteInto("$fieldName in (?)", $condition['in']);
-            } elseif (!empty($condition['nin'])) {
+            } 
+            elseif (!empty($condition['nin'])) {
                 $sql = $this->_read->quoteInto("$fieldName not in (?)", $condition['nin']);
-            } else {
+            } 
+            else {
                 $orSql = array();
                 foreach ($condition as $orCondition) {
                     $orSql[] = "(".$this->_getConditionSql($fieldName, $orCondition).")";
