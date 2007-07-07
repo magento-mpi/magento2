@@ -467,7 +467,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             if (is_array($cond)) {
                 $condArr = array();
                 foreach ($cond as $k=>$v) {
-                    $condArr[] = $this->_getConditionSql($k, $v);
+                    $condArr[] = $this->_getConditionSql($tableAlias.'.'.$k, $v);
                 }
                 $cond = '('.join(') AND (', $condArr).')';
             } else {
