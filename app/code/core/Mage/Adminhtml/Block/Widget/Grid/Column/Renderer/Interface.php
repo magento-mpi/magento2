@@ -11,11 +11,14 @@
 
 interface Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface
 {
+    public function setColumn($column);
+    
+    public function getColumn();
+
     /**
      * Renders grid column
      *
      * @param Varien_Object $row
-     * @param Varien_Object $column
      */
     public function render(Varien_Object $row);
 }

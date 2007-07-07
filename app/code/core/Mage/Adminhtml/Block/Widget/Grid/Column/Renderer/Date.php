@@ -16,7 +16,21 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
 	 * Date format string
 	 */
 	protected static $_format = null;
-
+    
+	protected function _getFormat()
+	{
+	    $format = $this->getColumn()->getFormat();
+	    if (!$format) {
+            if (is_null(self::$_format)) {
+				if (!(self::$_format = Mage::getSingleton('core/store')->getConfig('core/date_format'))){
+				    self::$_format = '%a, %b %e %Y';
+				}
+			}
+			$format = self::$_format;
+	    }
+	    return $format;
+	}
+	
     /**
      * Renders grid column
      *
@@ -26,11 +40,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
     public function render(Varien_Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
-					if (is_null(self::$_format)) {
-						if (!(self::$_format = Mage::getSingleton('core/store')->getConfig('core/date_format'))) self::$_format = '%a, %b %e %Y';
-					}
-        	if (false === strstr(self::$_format, '%')) return date(self::$_format, strtotime($data));
-            return strftime(self::$_format, strtotime($data));
+			$format = $this->_getFormat();
+        	if (false === strstr($format, '%')) {
+        	    return date($format, strtotime($data));
+        	}
+            return strftime($format, strtotime($data));
         }
         return null;
     }

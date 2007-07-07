@@ -23,10 +23,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email')
-            ->joinAttribute('shipping_postcode', 'customer_address/postcode', 'default_shipping')
-            ->joinAttribute('shipping_city', 'customer_address/city', 'default_shipping')
-            ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping')
-            ->joinField('shipping_country_name', 'directory/country_name', 'name', 'country_id=shipping_country_id', array('language_code'=>'en'));
+            ->addAttributeToSelect('created_at')
+            ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing')
+            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
+            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
+            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
         
         $this->setCollection($collection);
         
@@ -42,12 +44,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'sortable'  =>true, 
             'index'     =>'entity_id'
         ));
-        $this->addColumn('email', array(
-            'header'    =>__('email'), 
-            'width'     =>40, 
-            'align'     =>'center', 
-            'index'     =>'email'
-        ));
         $this->addColumn('firstname', array(
             'header'    =>__('firstname'), 
             'index'     =>'firstname'
@@ -56,23 +52,36 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'    =>__('lastname'), 
             'index'     =>'lastname'
         ));
-        $this->addColumn('shipping_postcode', array(
-            'header'    =>__('shipping_postcode'),
-            'index'     =>'shipping_postcode',
+        $this->addColumn('email', array(
+            'header'    =>__('email'), 
+            'width'     =>40, 
+            'align'     =>'center', 
+            'index'     =>'email'
         ));
-        $this->addColumn('shipping_city', array(
-            'header'    =>__('shipping_city'),
-            'index'     =>'shipping_city',
+        $this->addColumn('telephone', array(
+            'header'    =>__('telephone'), 
+            'align'     =>'center', 
+            'index'     =>'billing_telephone'
         ));
-        $this->addColumn('shipping_country_name', array(
-            'header'    =>__('shipping_country_name'),
-            'index'     =>'shipping_country_name',
+        $this->addColumn('billing_postcode', array(
+            'header'    =>__('postcode'),
+            'index'     =>'billing_postcode',
+        ));
+        $this->addColumn('billing_country_name', array(
+            'header'    =>__('country'),
+            'index'     =>'billing_country_name',
+        ));
+        $this->addColumn('customer_since', array(
+            'header'    =>__('customer since'),
+            'type'      => 'date',
+            'format'    => 'Y.m.d',
+            'index'     =>'created_at',
         ));
         $this->addColumn('action', array(
             'header'    =>__('action'),
             'align'     =>'center',
             'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
-            'index'     =>'customer_id', 
+            'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
         ));

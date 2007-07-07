@@ -62,41 +62,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         return $out;
     }
     
-    public function setFilter($column, $args=array())
-    {
-        if (is_string($column)) {
-            $column = $this->getColumn($column);
-        }
-        if (!$column instanceof Varien_Object) {
-            throw Mage::exception('Mage_Adminhtml', 'Invalid column specified');
-        }
-        if (empty($args['model'])) {
-            $args['model'] = 'Varien_Data_Form_Element_Text';
-        }
-
-        $filter = Mage::getModel($args['model'], $args);
-        
-        $filter->setForm($this->getForm())
-            ->setHtmlId('grid_filter_'.$column->getId())
-            ->setName('grid_filter['.$column->getId().']');
-            
-        $column->setFilter($filter);
-        
-        return $this;
-    }
-    
-    public function getFilterHtml()
-    {
-        $out = '';
-        
-        $filter = $column->getFilter();
-        if ($filter) {
-            $out .= $filter->toHtml();
-        }
-
-        return $out;
-    }
-    
     /**
      * Retrieve row column field value for display
      *
@@ -141,4 +106,51 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         }
         return $this->_renderer;
     }
+    
+    public function setFilter($column)
+    {
+    }
+    
+    protected function _getFilterByType()
+    {
+        switch (strtolower($this->getType())) {
+            case 'date':
+                $filterClass = 'adminhtml/widget_grid_column_filter_date';
+                break;
+            case 'currency':
+                $filterClass = 'adminhtml/widget_grid_column_filter_range';
+                break;
+            default:
+                $filterClass = 'adminhtml/widget_grid_column_filter_text';
+                break;
+        }
+        return $filterClass;
+    }
+    
+    public function getFilter()
+    {
+        if (!$this->_filter) {
+            $filterClass = $this->getData('filter');
+            if ($filterClass === false) {
+                return false;
+            }
+            if (!$filterClass) {
+                $filterClass = $this->_getFilterByType();
+            }
+            $this->_filter = $this->getLayout()->createBlock($filterClass)
+                ->setColumn($this);
+        }
+        
+        return $this->_filter;
+    }
+    
+    public function getFilterHtml()
+    {
+        if ($this->getFilter()) {
+            return $this->getFilter()->getHtml();
+        }
+        return null;
+    }
+    
+    
 }

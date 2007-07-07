@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareCollection()
     {
         if ($this->getCollection()) {
-            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 5));
+            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 20));
             $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
 
             $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);

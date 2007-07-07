@@ -1,6 +1,6 @@
 <?php
 /**
- * Grid column filter interface
+ * Country customer grid column filter
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,9 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-interface Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Interface 
+class Mage_Adminhtml_Block_Customer_Grid_Column_Filter_Country extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Setect 
 {
-    public function getColumn();
-    public function setColumn($column);
-    public function getHtml();
 }
