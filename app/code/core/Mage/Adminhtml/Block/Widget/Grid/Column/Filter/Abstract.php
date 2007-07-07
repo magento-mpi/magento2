@@ -38,10 +38,10 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Core_
         return htmlspecialchars($this->getValue($index));
     }
     
-    public function setValue()
+    /*public function setValue()
     {
         
-    }
+    }*/
     
     public function getHtml()
     {
