@@ -9,9 +9,9 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Renderer
+class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Varien_Object $row, Varien_Object $column)
+    public function render(Varien_Object $row)
     {
         $types = array(
             1=>'text',

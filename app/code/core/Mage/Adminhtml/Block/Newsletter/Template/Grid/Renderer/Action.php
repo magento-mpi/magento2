@@ -9,9 +9,9 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Renderer
+class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Varien_Object $row, Varien_Object $column)
+    public function render(Varien_Object $row)
     {
         $str = '<a class="" href="' . Mage::getUrl('adminhtml/*/edit',array('id'=>$row->getId())) . '">' . __('edit') 
              . '</a> ' . ($row->isValidForSend() ?  '| <a href="' . Mage::getUrl('adminhtml/*/toqueue',array('id'=>$row->getId())) . '">' 
