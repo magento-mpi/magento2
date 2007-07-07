@@ -70,7 +70,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
-        //$this->getResponse()->setRedirect(Mage::getUrl('customer/account/login', array('_secure'=>true)));
+        //$this->_redirect('customer/account/login', array('_secure'=>true));
     }
     
     public function logoutAction()
@@ -89,7 +89,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         
         // if customer logged in
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+            $this->_redirect('customer/account');
             return;
         }
         
@@ -135,7 +135,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                         ->setCustomer($customer)
                         ->send();
                         
-                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+                $this->_redirect('customer/account');
                 return;
             }
             catch (Exception $e) {
@@ -144,7 +144,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
         
-        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/create', array('_secure'=>true)));
+        $this->_redirect('customer/account/create', array('_secure'=>true));
     }
     
     /**
@@ -189,7 +189,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     Mage::getSingleton('customer/session')
                         ->addMessage(Mage::getModel('customer/message')->success('CSTS006'));
                     
-                    $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+                    $this->_redirect('customer/account');
                     return;
                 }
                 catch (Exception $e){
@@ -199,7 +199,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             else {
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->error('CSTE024'));
-               $this->getResponse()->setRedirect(Mage::getUrl('customer/account/forgotpassword'));
+               $this->_redirect('customer/account/forgotpassword');
             }
         }
     }
@@ -237,7 +237,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS002'));
                 
-                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+                $this->_redirect('customer/account');
                 return;
             }
             catch (Mage_Core_Exception $e) {
@@ -246,7 +246,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->addMessages($e->getMessages());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/edit'));
+        $this->_redirect('customer/account/edit');
     }
     
     /**
@@ -278,14 +278,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS003'));
 
-                $this->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+                $this->_redirect('customer/account');
                 return;
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')->addMessages($e->getMessages());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('customer/account/changePassword', array('_secure'=>true)));
+        $this->_redirect('customer/account/changePassword', array('_secure'=>true));
     }
     
     public function newsletterAction()

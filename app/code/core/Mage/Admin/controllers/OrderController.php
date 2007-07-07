@@ -112,6 +112,6 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
     {
         $id = $this->getRequest()->getParam('id', 0);
         $p = $this->getRequest()->getPost();
-        $this->getResponse()->setRedirect(Mage::getBaseUrl().'admin/order/form/id/'.(int)$id);
+        $this->_redirect('admin/order/form/id/'.(int)$id);
     }
 }

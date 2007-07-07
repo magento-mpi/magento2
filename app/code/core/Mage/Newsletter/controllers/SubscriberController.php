@@ -56,9 +56,9 @@
                 exit();
             }
         } else {
-            $session->addMessage(Mage::getModel('newsletter/message')->success('You successfully subscribed'));
+            $session->addMessage(Mage::getModel('newsletter/message')->success('You successfully subscribed');
         }
         
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+        $this->_redirect('*/*');
     }
  }

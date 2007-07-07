@@ -9,17 +9,16 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Tax_RateController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('catalog');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog'))
-            ->addLink(__('tax'), __('tax title'));
+        $this->_setActiveMenu('catalog');
+        $this->_addBreadcrumb(__('catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog'));
+        $this->_addBreadcrumb(__('tax'), __('tax title'));
 
-        $this->getLayout()->getBlock('content')->append($block = $this->getLayout()->createBlock('adminhtml/tax_rate', 'tax'));
+        $this->_addContent($block = $this->getLayout()->createBlock('adminhtml/tax_rate', 'tax'));
 
         $this->renderLayout();
     }

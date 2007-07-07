@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action 
 {
     /**
      * Customers list action
@@ -24,20 +24,19 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         /**
          * Set active menu item
          */
-        $this->getLayout()->getBlock('menu')->setActive('customer');
+        $this->_setActiveMenu('customer');
         
         /**
          * Append customers block to content
          */
-        $this->getLayout()->getBlock('content')->append(
+        $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/customers', 'customers')
         );
         
         /**
          * Add breadcrumb item
          */
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'));
+        $this->_addBreadcrumb(__('customers'), __('customers title'));
 
         $this->renderLayout();
     }
@@ -66,20 +65,19 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
         /**
          * Set active menu item
          */
-        $this->getLayout()->getBlock('menu')->setActive('customer/new');
+        $this->_setActiveMenu('customer/new');
         
         /**
          * Append customer edit block to content
          */
-        $this->getLayout()->getBlock('content')->append(
+        $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/customer_edit')
         );
         
         /**
          * Add breadcrunb items
          */
-        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml/customer'));
+        $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml/customer'));
         
         if ($customerId) {
             $breadcrumbs->addLink(__('customer').' #'.$customerId, __('customer').' #'.$customerId);
@@ -121,7 +119,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
                 //Mage::getSingleton('adminhtml/session')->addMessage();
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
+        $this->_redirect('adminhtml/customer');
     }
     
     /**
@@ -167,7 +165,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Core_Controller_Front_Actio
             }
         }
         
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer'));
+        $this->_redirect('adminhtml/customer');
     }
     
     /**

@@ -75,20 +75,19 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
 
     public function bindBreadcrumbs($breadcrumbs)
     {
-        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($this->_websiteCode) {
-            $breadcrumbs->addLink(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
+            $this->_addBreadcrumb(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
             if ($this->_storeCode) {
-                $breadcrumbs->addLink(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
-                $breadcrumbs->addLink(($this->_storeCode == 1) ? __('new store') :__($this->_storeCode), '');
+                $this->_addBreadcrumb(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
+                $this->_addBreadcrumb(($this->_storeCode == 1) ? __('new store') :__($this->_storeCode), '');
             }
             else {
-                $breadcrumbs->addLink(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');
+                $this->_addBreadcrumb(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');
             }
         }
         else {
-            $breadcrumbs->addLink(__('config'), __('config title'));
-            $breadcrumbs->addLink(__('global'), __('global title'));
+            $this->_addBreadcrumb(__('config'), __('config title'));
+            $this->_addBreadcrumb(__('global'), __('global title'));
         }
         return $this;
     }

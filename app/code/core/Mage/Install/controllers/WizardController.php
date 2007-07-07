@@ -49,7 +49,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect($step->getNextUrl());
         }
         else {
-            $this->getResponse()->setRedirect(Mage::getUrl('install'));
+            $this->_redirect('install');
         }
     }
     

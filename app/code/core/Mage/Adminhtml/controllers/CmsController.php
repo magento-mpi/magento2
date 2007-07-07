@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_CmsController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_CmsController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {

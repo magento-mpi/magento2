@@ -8,16 +8,15 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_CatalogController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action 
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('catalog');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('catalog'), __('catalog title'));
+        $this->_setActiveMenu('catalog');
+        $this->_addBreadcrumb(__('catalog'), __('catalog title'));
             
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/catalog'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog'));
         $this->renderLayout();
     }
     

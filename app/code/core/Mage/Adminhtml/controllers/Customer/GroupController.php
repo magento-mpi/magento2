@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_Action 
 {
     /**
      * Customer groups list.
@@ -16,12 +16,11 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
     public function indexAction() 
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/group');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
-            ->addLink(__('customers groups'), __('customers groups title'));
+        $this->_setActiveMenu('customer/group');
+        $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('customers groups'), __('customers groups title'));
         
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/customer_group', 'group'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/customer_group', 'group'));
         
         $this->renderLayout();
     }
@@ -32,17 +31,14 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
     public function newAction() 
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/group');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
-            ->addLink(__('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
+        $this->_setActiveMenu('customer/group');
+        $this->_addBreadcrumb('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
+        $this->_addBreadcrumb('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
             
         if ($this->getRequest()->getParam('id')) {
-            $this->getLayout()->getBlock('breadcrumbs')
-                ->addLink(__('edit customer group'), __('edit customer groups title'));
+            $this->_addBreadcrumb(__('edit customer group'), __('edit customer groups title'));
         } else {
-            $this->getLayout()->getBlock('breadcrumbs')
-                ->addLink(__('new customer group'), __('new customer groups title'));
+            $this->_addBreadcrumb(__('new customer group'), __('new customer groups title'));
         }
         
         $this->getLayout()->getBlock('content')
@@ -74,7 +70,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
             $customerGroup->setCode($code);
             $customerGroup->save();
 //            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');        
-            $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer_group'));        
+            $this->_redirect('adminhtml/customer_group');        
         } else {
             $this->_forward('new');
         }
@@ -93,6 +89,6 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Core_Controller_Front
         }
         
 //        $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
-         $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/customer_group'));
+         $this->_redirect('adminhtml/customer_group');
     }
 }

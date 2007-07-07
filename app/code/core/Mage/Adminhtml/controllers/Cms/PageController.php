@@ -8,18 +8,17 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Cms_PageController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('cms');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('CMS'), __('cms title'));
+        $this->_setActiveMenu('cms');
+        $this->_addBreadcrumb(__('CMS'), __('cms title'));
 
 
         $block = $this->getLayout()->createBlock('adminhtml/cms', 'cms');
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->_addContent($block);
 
         $this->renderLayout();
     }
@@ -27,13 +26,12 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Core_Controller_Front_Actio
     public function newpageAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('cms');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('CMS'), __('cms title'), Mage::getUrl('adminhtml/cms_page'))
-            ->addLink(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'new page'),
+        $this->_setActiveMenu('cms');
+        $this->_addBreadcrumb(__('CMS'), __('cms title'), Mage::getUrl('adminhtml/cms_page'));
+        $this->_addBreadcrumb(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'new page'),
                       __(( $this->getRequest()->getParam('breadcrumb_title') ) ? $this->getRequest()->getParam('breadcrumb_title') : 'new page title'));
 
-        $this->getLayout()->getBlock('content')->append(
+        $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/cms_page')
         );
 
@@ -53,21 +51,21 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Core_Controller_Front_Actio
     {
         $pageId = intval( $this->getRequest()->getParam('page') );
         Mage::getModel('cms/page')->delete($pageId);
-        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+        $this->_redirect('adminhtml/cms');
     }
 
     public function enableAction()
     {
         $pageId = intval( $this->getRequest()->getParam('page') );
         Mage::getModel('cms/page')->enablePage($pageId);
-        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+        $this->_redirect('adminhtml/cms');
     }
 
     public function disableAction()
     {
         $pageId = intval( $this->getRequest()->getParam('page') );
         Mage::getModel('cms/page')->disablePage($pageId);
-        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+        $this->_redirect('adminhtml/cms');
     }
 
     public function saveAction()
@@ -87,6 +85,6 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Core_Controller_Front_Actio
         $pageObject->setData($pageData);
         Mage::getModel('cms/page')->save($pageObject);
 
-        $this->getResponse()->setRedirect( Mage::getUrl('adminhtml/cms') );
+        $this->_redirect('adminhtml/cms');
     }
 }

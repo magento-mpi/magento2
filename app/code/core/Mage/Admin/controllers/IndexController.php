@@ -34,6 +34,6 @@ class Mage_Admin_IndexController extends Mage_Core_Controller_Front_Action
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
-        $this->getResponse()->setRedirect(Mage::getUrl('admin'));
+        $this->_redirect('admin');
     }
 }

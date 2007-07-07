@@ -9,16 +9,15 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_DashboardController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Action 
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('dashboard');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('dashboard'), __('dashboard title'));
+        $this->_setActiveMenu('dashboard');
+        $this->_addBreadcrumb(__('dashboard'), __('dashboard title'));
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('core/template', 'dashboard.menu')->setTemplate('adminhtml/dashboard/left.phtml'));
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/dashboard', 'dashboard'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/dashboard', 'dashboard'));
         $this->renderLayout();
     }
     

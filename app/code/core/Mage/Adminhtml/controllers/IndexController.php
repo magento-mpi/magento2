@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 {
     protected function _outTemplate($tplName, $data=array())
     {
@@ -14,11 +14,11 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        #$this->getLayout()->getBlock('menu')->setActive('dashboard');
+        #$this->_setActiveMenu('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
             ->setTemplate('adminhtml/system/info.phtml');
         
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->_addContent($block);
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/system/left.phtml'));
         
@@ -36,7 +36,7 @@ class Mage_Adminhtml_IndexController extends Mage_Core_Controller_Front_Action
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml'));
+        $this->_redirect('adminhtml');
     }
     
     public function globalSearchAction()

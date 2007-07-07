@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {

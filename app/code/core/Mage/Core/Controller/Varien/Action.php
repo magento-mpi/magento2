@@ -249,4 +249,9 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
             $this->_forward($status->getForwardAction(), $status->getForwardController(), $status->getForwardModule(), array('__status__' => $status));
         }
     }
+    
+    protected function _redirect($path, $arguments=array())
+    {
+        $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
+    }
 }

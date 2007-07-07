@@ -9,7 +9,7 @@
  */
 class Mage_Core_Exception extends Zend_Exception 
 {
-    static protected $_messages = array();
+    protected $_messages = array();
 
     public function addMessage(Mage_Core_Model_Message_Abstract $message)
     {

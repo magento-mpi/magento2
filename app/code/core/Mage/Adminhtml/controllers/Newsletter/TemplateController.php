@@ -8,37 +8,33 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_Front_Action 
+class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Controller_Action 
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('newsletter/template');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'))
-            ->addLink(__('newsletter templates'), __('newsletter templates title'));
+        $this->_setActiveMenu('newsletter/template');
+        $this->_addBreadcrumb(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
+        $this->_addBreadcrumb(__('newsletter templates'), __('newsletter templates title'));
         
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
     }
     
     public function newAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('newsletter/template');
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'))
-            ->addLink(__('newsletter templates'), __('newsletter templates title'), Mage::getUrl('adminhtml/*'));
+        $this->_setActiveMenu('newsletter/template');
+        $this->_addBreadcrumb(__('newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
+        $this->_addBreadcrumb(__('newsletter templates'), __('newsletter templates title'), Mage::getUrl('adminhtml/*'));
         
         if ($this->getRequest()->getParam('id')) {
-            $this->getLayout()->getBlock('breadcrumbs')
-                ->addLink(__('edit newsletter template'), __('edit newsletter template title'));
+            $this->_addBreadcrumb(__('edit newsletter template'), __('edit newsletter template title'));
         } else {
-            $this->getLayout()->getBlock('breadcrumbs')
-                ->addLink(__('new newsletter template'), __('new newsletter template title'));
+            $this->_addBreadcrumb(__('new newsletter template'), __('new newsletter template title'));
         }
         
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('adminhtml/newsletter_template_edit', 'template_edit')
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template_edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
@@ -74,7 +70,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
             }
             
             $template->save();
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+            $this->_redirect('*/*');
         }
         catch (Exception $e) {
             $this->_forward('new');
@@ -95,7 +91,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Core_Controller_
                 // Nothing
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('adminhtml/*'));
+        $this->_redirect('*/*');
     }
     
     public function previewAction() 

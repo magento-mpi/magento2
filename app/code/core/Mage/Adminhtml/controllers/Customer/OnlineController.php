@@ -1,16 +1,15 @@
 <?php
 
-class Mage_Adminhtml_Customer_OnlineController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller_Action
 {
 
     public function indexAction()
     {
         $this->loadLayout('baseframe');
         $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customers');
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->_addContent($block);
 
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('online customers title'));
+        $this->_addBreadcrumb(__('customers'), __('online customers title'));
 
         $this->renderLayout();
     }
@@ -18,12 +17,11 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Core_Controller_Fron
     /*public function onlineAction()
     {
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('menu')->setActive('customer/online');
+        $this->_setActiveMenu('customer/online');
         $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customer_online');
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->_addContent($block);
 
-        $this->getLayout()->getBlock('breadcrumbs')
-            ->addLink(__('customers'), __('customers title'));
+        $this->_addBreadcrumb(__('customers'), __('customers title'));
 
         $this->renderLayout();
 

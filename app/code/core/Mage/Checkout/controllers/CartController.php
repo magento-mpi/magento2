@@ -4,7 +4,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
     protected function _backToCart()
     {
-        $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+        $this->_redirect('checkout/cart');
         return $this;
     }
     
