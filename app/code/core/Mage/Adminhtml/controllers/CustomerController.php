@@ -80,10 +80,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml/customer'));
         
         if ($customerId) {
-            $breadcrumbs->addLink(__('customer').' #'.$customerId, __('customer').' #'.$customerId);
+            $this->_addBreadcrumb(__('customer').' #'.$customerId, __('customer').' #'.$customerId);
         }
         else {
-            $breadcrumbs->addLink(__('new customer'), __('new customer title'));
+            $this->_addBreadcrumb(__('new customer'), __('new customer title'));
         }
         
         /**
