@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->joinAttribute('shipping_postcode', 'customer_address/postcode', 'default_shipping')
             ->joinAttribute('shipping_city', 'customer_address/city', 'default_shipping')
             ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping')
-            ->joinField('shipping_country_name', 'directory/country_name', 'name', 'country_id=shipping_country_id', "language_code='en'");
+            ->joinField('shipping_country_name', 'directory/country_name', 'name', 'country_id=shipping_country_id', "{{table}}.language_code='en'");
         
         $this->setCollection($collection);
         
