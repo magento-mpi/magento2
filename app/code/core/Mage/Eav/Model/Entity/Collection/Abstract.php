@@ -428,7 +428,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @param string $table 'directory/country_name'
      * @param string $field 'name'
      * @param string $bind 'PK(country_id)=FK(shipping_country_id)'
-     * @param string $cond "{{table}}.language_code='en'"
+     * @param string|array $cond "{{table}}.language_code='en'" OR array('language_code'=>'en')
      * @param string $joinType 'left'
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
@@ -464,7 +464,15 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         
         // add where condition if needed
         if (!is_null($cond)) {
-            $cond = str_replace('{{table}}', $tableAlias, $cond);
+            if (is_array($cond)) {
+                $condArr = array();
+                foreach ($cond as $k=>$v) {
+                    $condArr[] = $this->_getConditionSql($k, $v);
+                }
+                $cond = '('.join(') AND (', $condArr).')';
+            } else {
+                $cond = str_replace('{{table}}', $tableAlias, $cond);
+            }
             $this->getSelect()->where($cond);
         }
         
