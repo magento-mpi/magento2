@@ -48,8 +48,8 @@
 <?endif;?>
 <?if($this->getFilterVisibility()):?>
 <div class="filter-buttons">
-    <input type="button" value="<?=__('Reset filter')?>">
-    <input type="button" value="<?=__('Search')?>">
+    <input type="button" value="<?=__('Reset filter')?>" onclick="<?=$this->getId()?>JsObject.resetFilter()">
+    <input type="button" value="<?=__('Search')?>" onclick="<?=$this->getId()?>JsObject.doFilter()">
 </div>
 <?endif;?>
 <table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
@@ -83,7 +83,7 @@
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>');
+    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getId()?>JsObject.useAjax = '<?=$this->getUseAjax()?>';
 </script>
 <?endif;?>

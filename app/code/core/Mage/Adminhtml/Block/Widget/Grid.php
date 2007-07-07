@@ -42,6 +42,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_varNamePage     = 'page';
     protected $_varNameSort     = 'sort';
     protected $_varNameDir      = 'dir';
+    protected $_varNameFilter   = 'filter';
 
     /**
      * Pager visibility
@@ -150,6 +151,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_columns;
     }
     
+    protected function _setFilterValues($data)
+    {
+        foreach ($this->getColumns() as $columnId => $column) {
+        	if (!empty($data[$columnId]) && $column->getFilter()) {
+        	    $column->getFilter()->setValue($data[$columnId]);
+        	}
+        }
+        return $this;
+    }
+    
     /**
      * Prepare grid collection object
      *
@@ -163,7 +174,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
             $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);
             $dir      = $this->getRequest()->getParam($this->getVarNameDir(), 'asc');
-
+            $filter   = $this->getRequest()->getParam($this->getVarNameFilter());
+            if ($filter) {
+                $data = array();
+                parse_str(urldecode($filter), $data);
+                $this->_setFilterValues($data);
+            }
+            
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
                 $this->_columns[$columnId]->setDir($dir);
@@ -214,6 +231,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_varNameDir;
     }
 
+    public function getVarNameFilter()
+    {
+        return $this->_varNameFilter;
+    }
+
     public function setVarNameLimit($name)
     {
         return $this->_varNameLimit = $name;
@@ -229,9 +251,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_varNameSort = $name;
     }
 
-    public function setVarNameDir()
+    public function setVarNameDir($name)
     {
         return $this->_varNameDir = $name;
+    }
+
+    public function setVarNameFilter($name)
+    {
+        return $this->_varNameFilter = $name;
     }
 
     /**

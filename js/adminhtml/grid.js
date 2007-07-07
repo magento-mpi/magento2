@@ -1,11 +1,12 @@
 var varienGrid = new Class.create();
 
 varienGrid.prototype = {
-    initialize : function(containerId, url, sortVar, dirVar){
+    initialize : function(containerId, url, sortVar, dirVar, filterVar){
         this.containerId = containerId;
         this.url = url;
         this.sortVar = sortVar || false;
         this.dirVar  = dirVar || false;
+        this.filterVar  = filterVar || false;
         this.tableSufix = '_table';
         this.useAjax = false;
 
@@ -89,10 +90,13 @@ varienGrid.prototype = {
         }
     },
     addVarToUrl : function(varName, varValue){
-        var re = new RegExp('\/('+varName+'\/[A-Za-z0-9_-]*\/)');
+        var re = new RegExp('\/('+varName+'\/.*?\/)');
         this.url = this.url.replace(re, '/');
-        if(this.url[this.url.length-1]!='/') this.url+= '/';
-        this.url+= varName+'/'+varValue+'/';
+        if(varValue){
+            if(this.url[this.url.length-1]!='/') this.url+= '/';
+            this.url+= varName+'/'+varValue+'/';
+        }
+        
         return this.url;
     },
     doExport : function(typeField){
@@ -101,9 +105,10 @@ varienGrid.prototype = {
         }
     },
     doFilter : function(){
-        
+        var filters = $$('#'+this.containerId+' .filter input', '#'+this.containerId+' .filter select');
+        this.reload(this.addVarToUrl(this.filterVar, Form.serializeElements(filters)));
     },
     resetFilter : function(){
-        
+        this.reload(this.addVarToUrl(this.filterVar, ''));
     }
 };

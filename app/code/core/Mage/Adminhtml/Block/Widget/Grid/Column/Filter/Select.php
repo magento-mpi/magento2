@@ -16,9 +16,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select extends Mage_Adminht
     }
     public function getHtml()
     {
-        $html = '<select name="">';
+        $html = '<select name="'.$this->_getHtmlName().'" id="'.$this->_getHtmlId().'">';
+        $value = $this->getValue();
         foreach ($this->_getOptions() as $option){
-            $html.= '<option value="'.$option['value'].'">'.$option['label'].'</option>';
+            $selected = ($option['value'] == $value) ? ' selected="true"' : '';
+            $html.= '<option value="'.$option['value'].'"'.$selected.'>'.$option['label'].'</option>';
         }
         $html.='</select>';
         return $html;
