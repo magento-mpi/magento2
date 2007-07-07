@@ -10,12 +10,12 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     protected $_selectAttributes = array();
     protected $_filterAttributes = array();
     protected $_sqlSelectStr = '';
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
     }
-    
+
     public function setDocType($docType)
     {
         $this->_docType = $docType;
@@ -23,12 +23,12 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $this->_documentTable = Mage::getSingleton('core/resource')->getTableName('sales/'.$docType);
         $this->_idField = $docType.'_id';
         $this->_attributeTable = Mage::getSingleton('core/resource')->getTableName('sales/'.$docType.'_attribute');
-        
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/'.$docType));
-        
+
         $this->_sqlSelect->from($this->_documentTable);
     }
-    
+
     public function addEntitiesSelect(array $entities)
     {
         foreach ($entities as $entityType=>$attributes) {
@@ -38,10 +38,10 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         }
         return $this;
     }
-    
+
     /**
      * Add an entity attribute to select
-     * 
+     *
      * if no $attributeCode is specified will select all attributes for this $entityType
      *
      * @param string $entityType entityType[/attributeCode]
@@ -69,7 +69,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         }
         return $this;
     }
-    
+
     /**
      * Add an entity attribute to collection filter
      *
@@ -84,13 +84,13 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             return $this; //todo: make adding conditions to existing attribute filter
         }
         $selectSql = $this->_getAttributeSelect($entityAttribute, $attributeCondition);
-        $condition = "$this->_idField in ($selectSql)"; 
+        $condition = "$this->_idField in ($selectSql)";
 
         switch ($conditionType) {
             case 'and':
                 $this->_sqlSelect->where($condition);
                 break;
-                
+
             case 'or':
                 $this->_sqlSelect->orWhere($condition);
                 break;
@@ -99,7 +99,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $this->_filterAttrubutes[$entityAttribute] = true;
         return $this;
     }
-    
+
     protected function _getAttributeSelect($entityAttribute, $attributeCondition=null)
     {
         $arr = explode('/', $entityAttribute);
@@ -128,7 +128,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $selectSql = "select $selectField from $attributeTable as $attributeTableAlias where $condition limit 1";
         return $selectSql;
     }
-    
+
     /**
      * Add a document id condition to collection filter
      *
@@ -139,8 +139,8 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     {
         $this->_sqlSelect->where($this->_getConditionSql("$this->_documentTable.$this->_idField", $condition));
         return $this;
-    }    
-    
+    }
+
     /**
      * Set sort order for the collection
      *
@@ -153,20 +153,20 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         $selectSql = $this->_getAttributeSelect($entityAttribute);
         return parent::setOrder("($selectSql)", $direction);
     }
-    
+
     /**
      * Load data
      *
      * @return  Mage_Sales_Model_Mysql4_Document_Collection
      */
-    public function loadData($printQuery = false, $logQuery = false)
+    public function load($printQuery = false, $logQuery = false)
     {
-        parent::loadData($printQuery, $logQuery);
+        parent::load($printQuery, $logQuery);
         $this->_loadAttributes();
 
         return $this;
     }
-    
+
     protected function _getAttributeAlias($entityAttribute)
     {
         $arr = explode('/', $entityAttribute);
@@ -174,17 +174,17 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             throw new Exception("$entityAttribute: Attribute name should be entityType/attributeCode.");
             return $this;
         }
-        list($entityType, $attributeCode) = $arr;   
+        list($entityType, $attributeCode) = $arr;
         #return ($entityType!=='self' ? $entityType.'_' : '').$attributeCode;
         return $entityType.'_'.$attributeCode;
     }
-        
+
     protected function _getAttributeType($entityAttribute)
     {
         list($entity, $attribute) = explode('/', $entityAttribute);
         return (string)$this->_attributeTypes->descend("$entity/attributes/$attribute/type");
     }
-    
+
     /**
      * Build sql to select attributes of filtered documents
      *
@@ -194,11 +194,11 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
     protected function _getAttributesSql($globalWhere)
     {
         $sqlUnionArr = array();
-                
+
         if (empty($this->_selectAttributes)) {
             return false;
         }
-        
+
         foreach ($this->_selectAttributes as $attributeType=>$entities) {
             $attributeTable = $this->_attributeTable.'_'.$attributeType;
             if (empty($sqlUnionArr[$attributeType])) {
@@ -228,16 +228,16 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
             $sqlUnionStrArr[] = $sqlSelect;
         }
         $sql = join(" union ", $sqlUnionStrArr);
-        
+
         return $sql;
     }
-    
+
     protected function _loadAttributes()
     {
         if (!$this->getSize()) {
             return false;
         }
-        
+
         $idsSql = $this->_conn->quoteInto("$this->_idField in (?)", $this->getColumnValues($this->_idField));
         $attributesSql = $this->_getAttributesSql($idsSql);
         if (!$attributesSql) {
@@ -248,7 +248,7 @@ class Mage_Sales_Model_Mysql4_Document_Collection extends Varien_Data_Collection
         if (!is_array($attributes) || empty($attributes)) {
             return false;
         }
-        
+
         $docs = array();
         foreach ($attributes as $attr) {
             $docs[$attr[$this->_idField]][$attr['entity_id']]['type'] = $attr['entity_type'];
