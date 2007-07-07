@@ -22,13 +22,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
-            ->addAttributeToSelect('email');
-            
-        $collection
-            ->joinAttribute('shipping_postcode', 'default_shipping', 'customer_address/postcode')
-            ->joinAttribute('shipping_city', 'default_shipping', 'customer_address/city');
+            ->addAttributeToSelect('email')
+            ->joinAttribute('shipping_postcode', 'customer_address/postcode', 'default_shipping')
+            ->joinAttribute('shipping_city', 'customer_address/city', 'default_shipping')
+            ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping')
+            ->joinField('shipping_country_name', 'directory/country_name', 'name', 'country_id=shipping_country_id', "language_code='en'");
         
-        #$collection->addAttributeToSort('shipping_firstname');
         $this->setCollection($collection);
         
         return parent::_prepareCollection();
@@ -64,6 +63,10 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('shipping_city', array(
             'header'    =>__('shipping_city'),
             'index'     =>'shipping_city',
+        ));
+        $this->addColumn('shipping_country_name', array(
+            'header'    =>__('shipping_country_name'),
+            'index'     =>'shipping_country_name',
         ));
         $this->addColumn('action', array(
             'header'    =>__('action'),

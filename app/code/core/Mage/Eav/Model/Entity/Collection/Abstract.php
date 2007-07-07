@@ -85,6 +85,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     protected $_joinEntities = array();
     
     protected $_joinAttributes = array();
+    
+    protected $_joinFields = array();
 
     /**
      * Set connections for entity operations
@@ -234,6 +236,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $this->_select;
     }
     
+    public function getAttribute($attributeName)
+    {
+        if (isset($this->_joinAttributes[$attributeName])) {
+            return $this->_joinAttributes[$attributeName]['attribute'];
+        } else {
+            return $this->getEntity()->getAttribute($attributeName);
+        }
+        return false;
+    }
+    
     /**
      * Add attribute filter to collection
      *
@@ -275,6 +287,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     public function addAttributeToSort($attribute, $dir='asc')
     {
+        if (isset($this->_joinFields[$attribute])) {
+            $this->getSelect()->order($this->_getAttributeFieldName($attribute));
+            return $this;
+        }
         if (isset($this->_joinAttributes[$attribute])) {
             $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
             $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getName();
@@ -325,35 +341,33 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Add attribute from joined entity to select
      * 
      * Examples:
-     * ('billing_firstname', 'default_billing', 'customer_address/firstname')
-     * ('billing_lastname', 'default_billing', 'customer_address/lastname')
-     * ('shipping_lastname', 'default_billing', 'customer_address/lastname')
-     * ('shipping_postalcode', 'default_shipping', 'customer_address/postalcode')
-     * ('shipping_city', 'default_shipping', $cityAttribute)
-     * ('shipping_country', 'default_shipping', 'country_id', $addressEntity)
+     * ('billing_firstname', 'customer_address/firstname', 'default_billing')
+     * ('billing_lastname', 'customer_address/lastname', 'default_billing')
+     * ('shipping_lastname', 'customer_address/lastname', 'default_billing')
+     * ('shipping_postalcode', 'customer_address/postalcode', 'default_shipping')
+     * ('shipping_city', $cityAttribute, 'default_shipping')
      * 
      * Developer is encouraged to use existing instances of attributes and entities
      * After first use of string entity name it will be cached in the collection
      *
      * @todo connect between joined attributes of same entity
      * @param string $alias alias for the joined attribute
-     * @param string $fk attribute of the main entity to link with joined entity_id
      * @param string|Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param string|Mage_Eav_Model_Entity_Abstract|null $entity
+     * @param string $bind attribute of the main entity to link with joined entity_id
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function joinAttribute($alias, $fk, $attribute, $entity=null)
+    public function joinAttribute($alias, $attribute, $bind)
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
             throw Mage::exception('Mage_Eav', 'Invalid alias, already exists in joined attributes');
         }
 
-        // validate foreign key
-        if (is_string($fk)) {
-            $fk = $this->getEntity()->getAttribute($fk);
+        // validate bind attribute
+        if (is_string($bind)) {
+            $bind = $this->getEntity()->getAttribute($bind);
         }
-        if (!$fk || !$fk->getId()) {
+        if (!$bind || !$bind->getId()) {
             throw Mage::exception('Mage_Eav', 'Invalid foreign key');
         }
         
@@ -395,11 +409,70 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         
         // add joined attribute
         $this->_joinAttributes[$alias] = array(
-            'fk'=>$fk,
+            'bind'=>$bind,
             'attribute'=>$attribute,
         );
         
         $this->_addAttributeJoin($alias);
+        
+        return $this;
+    }
+    
+    /**
+     * Join regular table field and use an attribute as fk
+     *
+     * Examples:
+     * ('country_name', 'directory/country_name', 'name', 'country_id=shipping_country', "{{table}}.language_code='en'", 'left')
+     * 
+     * @param string $alias 'country_name'
+     * @param string $table 'directory/country_name'
+     * @param string $field 'name'
+     * @param string $bind 'PK(country_id)=FK(shipping_country_id)'
+     * @param string $cond "{{table}}.language_code='en'"
+     * @param string $joinType 'left'
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function joinField($alias, $table, $field, $bind, $cond=null, $joinType='inner')
+    {
+        // validate alias
+        if (isset($this->_joinFields[$alias])) {
+            throw Mage::exception('Mage_Eav', 'Joined field with this alias is already declared');
+        }
+        
+        // validate table
+        if (strpos($table, '/')!==false) {
+            $table = Mage::getSingleton('core/resource')->getTableName($table);
+        }
+        $tableAlias = $this->_getAttributeTableAlias($alias);
+        
+        // validate bind
+        list($pk, $fk) = explode('=', $bind);
+        $bindCond = $tableAlias.'.'.$pk.'='.$this->_getAttributeFieldName($fk);
+        
+        // process join type
+        switch ($joinType) {
+            case 'left':
+                $joinMethod = 'leftJoin';
+                break;
+                
+            default:
+                $joinMethod = 'join';
+        }
+        
+        // join table
+        $this->getSelect()->$joinMethod(array($tableAlias=>$table), $bindCond, array($alias=>$field));
+        
+        // add where condition if needed
+        if (!is_null($cond)) {
+            $cond = str_replace('{{table}}', $tableAlias, $cond);
+            $this->getSelect()->where($cond);
+        }
+        
+        // save joined attribute
+        $this->_joinFields[$alias] = array(
+            'table'=>$tableAlias,
+            'field'=>$field,
+        );
         
         return $this;
     }
@@ -617,7 +690,31 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     {
         return '_table_'.$attributeName;
     }
-
+    
+    protected function _getAttributeFieldName($attributeName)
+    {
+        if (isset($this->_joinFields[$attributeName])) {
+            $attr = $this->_joinFields[$attributeName];
+            return $attr['table'].'.'.$attr['field'];
+        }
+        
+        $attribute = $this->getAttribute($attributeName);
+        if (!$attribute) {
+            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeName);
+        }
+        
+        if ($attribute->getBackend()->isStatic()) {
+            if (isset($this->_joinAttributes[$attributeName])) {
+                $fieldName = $this->_getAttributeTableAlias($attributeName).'.'.$attributeName;
+            } else {
+                $fieldName = 'e.'.$attributeName;
+            }
+        } else {
+            $fieldName = $this->_getAttributeTableAlias($attributeName).'.value';
+        }
+        return $fieldName;
+    }
+    
     /**
      * Add attribute value table to the join if it wasn't added previously
      *
@@ -634,7 +731,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $attribute = $this->_joinAttributes[$attributeName]['attribute'];
             $entity = $attribute->getEntity();
             $entityIdField = $entity->getEntityIdField();
-            $fkAttribute = $this->_joinAttributes[$attributeName]['fk'];
+            $fkAttribute = $this->_joinAttributes[$attributeName]['bind'];
             if ($fkAttribute->getBackend()->isStatic()) {
                 $fk = "e.".$fkAttribute->getName();
             } else {
@@ -727,6 +824,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     protected function _getAttributeConditionSql($attribute, $condition)
     {
+        if (isset($this->_joinFields[$attribute])) {
+            return $this->_getConditionSql($this->_getAttributeFieldName($attribute));
+        }
         // process linked attribute
         if (isset($this->_joinAttributes[$attribute])) {
             $entity = $attribute->getEntity();
@@ -815,4 +915,5 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     {
         return new ArrayIterator($this->_items);
     }
+
 }
