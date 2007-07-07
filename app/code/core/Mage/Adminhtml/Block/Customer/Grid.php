@@ -69,6 +69,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
         $this->addColumn('billing_country_name', array(
             'header'    =>__('country'),
+            'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_country_name',
         ));
         $this->addColumn('customer_since', array(

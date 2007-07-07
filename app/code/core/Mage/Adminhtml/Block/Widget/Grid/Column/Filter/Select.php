@@ -10,9 +10,17 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract 
 {
+    protected function _getOptions()
+    {
+        return array();
+    }
     public function getHtml()
     {
-        $html = '<select name=""></select>';
+        $html = '<select name="">';
+        foreach ($this->_getOptions() as $option){
+            $html.= '<option value="'.$option['value'].'">'.$option['label'].'</option>';
+        }
+        $html.='</select>';
         return $html;
     }
 }
