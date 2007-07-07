@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         return $this->_form;
     }
-    
+
     public function getFormObject()
     {
         return $this->getForm();

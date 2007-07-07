@@ -33,7 +33,7 @@ class Mage_Tax_Model_Class_Customer extends Varien_Object
 
     public function saveGroup($groupObject)
     {
-        return $this->getResource()->addGroup($groupObject);
+        return $this->getResource()->saveGroup($groupObject);
     }
 
     public function deleteGroup($groupObject)

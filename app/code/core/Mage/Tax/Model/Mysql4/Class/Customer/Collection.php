@@ -23,22 +23,6 @@ class Mage_Tax_Model_Mysql4_Class_Customer_Collection extends Varien_Data_Collec
         $this->_classCustomerTable = $resource->getTableName('tax/tax_class_customer');
         $this->_classCustomerGroupTable = $resource->getTableName('tax/tax_class_customer_group');
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('tax/tax'));
-    }
-
-    function load()
-    {
         $this->_sqlSelect->from($this->_classCustomerTable);
-
-        parent::load();
-        return $this;
-    }
-
-    function loadGroups()
-    {
-        $this->_sqlSelect->from($this->_classCustomerGroupTable);
-
-        parent::load();
-        return $this;
     }
 }

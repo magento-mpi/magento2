@@ -43,7 +43,20 @@ class Mage_Tax_Model_Mysql4_Class_Customer
 
     public function save($classObject)
     {
-        #
+        if( $classObject->getId() ) {
+            #
+        } else {
+            $classData = array('class_customer_name' => $classObject->getClassName());
+            $this->_write->insert($this->_classCustomerTable, $classData);
+            $classId = $this->_write->lastInsertId();
+
+            $groupData = array(
+                            'class_group_id' => $classObject->getClassGroupId(),
+                            'class_customer_id' => $classId
+                            );
+            $this->_write->insert($this->_classCustomerGroupTable, $groupData);
+            return $classId;
+        }
     }
 
     public function delete($classObject)
@@ -53,7 +66,12 @@ class Mage_Tax_Model_Mysql4_Class_Customer
 
     public function saveGroup($groupObject)
     {
-        #
+        $groupData = array(
+                        'class_group_id' => $groupObject->getClassGroupId(),
+                        'class_customer_id' => $groupObject->getClassCustomerId()
+                        );
+        $this->_write->insert($this->_classCustomerGroupTable, $groupData);
+        return $groupObject->getClassCustomerId();
     }
 
     public function deleteGroup($groupObject)
