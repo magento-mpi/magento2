@@ -4,12 +4,12 @@
             <td style="width:50%;"><h2></h2></td>
             <td class="buttons">
                 <strong class="button"><span><a href="#" onclick="roleForm.submit();return false;"><?=__('save')?></a></span></strong>
-                <strong class="button"><span><a href="/adminhtml/permissions/deleterole?rid=<?=$rid;?>"><?=__('delete')?></a></span></strong>
+                <strong class="button"><span><a href="<?=$this->getUrl("*/*/deleterole/rid/$rid")?>"><?=__('delete')?></a></span></strong>
             </td>
         </tr>
     </table>
 </div>
-<form action="/adminhtml/permissions/saverole" method="POST" id="role_edit_form">
+<form action="<?=$this->getUrl('*/*/saverole')?>" method="POST" id="role_edit_form">
 </form>
 <script type="text/javascript" language="javascript">
     var roleForm = new varienForm('role_edit_form');

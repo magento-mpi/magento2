@@ -4,12 +4,12 @@
             <td style="width:50%;"><h2></h2></td>
             <td class="buttons">
                 <strong class="button"><span><a href="#" onclick="customerForm.submit();return false;"><?=__('save')?></a></span></strong>
-                <strong class="button"><span><a href="/adminhtml/permissions/deleteuser?uid=<?=$uid;?>"><?=__('delete')?></a></span></strong>
+                <strong class="button"><span><a href="<?=$this->getUrl("*/*/deleteuser/uid/$uid")?>"><?=__('delete')?></a></span></strong>
             </td>
         </tr>
     </table>
 </div>
-<form action="/adminhtml/permissions/saveuser" method="POST" id="customer_edit_form">
+<form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="customer_edit_form">
 </form>
 <script type="text/javascript" language="javascript">
     var customerForm = new varienForm('customer_edit_form');

@@ -21,18 +21,18 @@
 <div id="roles">
 	<ol>
 		<?php foreach ($users as $user) { ?>
-		<li><a href="/adminhtml/permissions/edituser?uid=<?=$user->getUser_id();?>"><?=$user->getFirstname();?></a></li>
+		<li><a href="<?=$this->getUrl("*/*/edituser/uid/".$user->getUserId())?>"><?=$user->getFirstname();?></a></li>
 		<?php } ?>
 		
-		<li class="add"><a href="/adminhtml/permissions/edituser">Add New User</a></li>
+		<li class="add"><a href="<?=$this->getUrl('*/*/edituser')?>">Add New User</a></li>
 	</ol>
 	
 	<ol>
 		<?php foreach ($roles as $role) { ?>
-		<li><a href="/adminhtml/permissions/editroles?rid=<?=$role->getRole_id();?>"><?=$role->getRole_name();?></a></li>
+		<li><a href="<?=$this->getUrl('*/*/editroles/rid/'.$role->getRoleId())?>"><?=$role->getRoleName();?></a></li>
 		<?php } ?>
 		
-		<li class="add"><a href="/adminhtml/permissions/editroles">Add New Role</a></li>
+		<li class="add"><a href="<?=$this->getUrl('*/*/editroles')?>">Add New Role</a></li>
 	</ol>
 </div>
 <div class="clear"></div>

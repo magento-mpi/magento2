@@ -28,7 +28,7 @@ var role = function () {
 			var uid = el.id.substr(1);
 			var roleId = el.parentNode.parentNode.parentNode.getElementsByTagName('span')[0].id.substr(1);
 			
-			var req = new Ajax.Request('/permissions/index/deleteuserfromrole', {
+			var req = new Ajax.Request('<?=$this->getUrl('permissions/index/deleteuserfromrole')?>', {
 				method:'post',
 				parameters: {
 					role_id: roleId,
@@ -54,7 +54,7 @@ var role = function () {
 			var uid = $('users').value;
 			var roleId = $('role_pid_value').value;
 			
-			var req = new Ajax.Request('/permissions/index/adduser2role', {
+			var req = new Ajax.Request('<?=$this->getUrl('permissions/index/adduser2role')?>', {
 				method:'post',
 				parameters: {
 					role_id: roleId,
@@ -92,10 +92,10 @@ var role = function () {
 	<ul>
 		<?php foreach ($roles as $role) { ?>
 		<li>
-			<span id="r<?=$role->getRole_id();?>" class="link" onclick="role.fold(this);"><?=$role->getRole_name();?></span>
+			<span id="r<?=$role->getRoleId();?>" class="link" onclick="role.fold(this);"><?=$role->getRoleName();?></span>
 			<ul>
 			<?php foreach ($role->getUsers() as $user) { ?>
-				<li><?=$user->getFirstname();?> <span id="u<?=$user->getUser_id();?>" class="link" onclick="role.deleteFromRole(this)">-</span></li>
+				<li><?=$user->getFirstname();?> <span id="u<?=$user->getUserId();?>" class="link" onclick="role.deleteFromRole(this)">-</span></li>
 			<?php } ?>
 			</ul>
 		</li>
@@ -106,7 +106,7 @@ var role = function () {
 <input type="text" name="role_pid_value" id="role_pid_value" />
 <select id="users">
 	<?php foreach ($users as $user) { ?>
-	<option value="<?=$user->getUser_id();?>"><?=$user->getFirstname();?></option>
+	<option value="<?=$user->getUserId();?>"><?=$user->getFirstname();?></option>
 	<?php } ?>
 </select>
 <input type="button" value="Add" onclick="role.addUser2Role()" />
