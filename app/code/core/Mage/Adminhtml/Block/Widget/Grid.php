@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 ->setGrid($this);
         }
         /*elseif ($column instanceof Varien_Object) {
-        	$this->_columns[$columnId] = $column;
+            $this->_columns[$columnId] = $column;
         }*/
         else {
             throw new Exception('Wrong column format');
@@ -154,9 +154,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _setFilterValues($data)
     {
         foreach ($this->getColumns() as $columnId => $column) {
-        	if (!empty($data[$columnId]) && $column->getFilter()) {
-        	    $column->getFilter()->setValue($data[$columnId]);
-        	}
+            if (!empty($data[$columnId]) && $column->getFilter()) {
+                $column->getFilter()->setValue($data[$columnId]);
+            }
         }
         return $this;
     }
@@ -351,20 +351,20 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         
         $data = array();
         foreach ($this->_columns as $column) {
-        	if (!$column->getIsSystem()) {
-        	    $data[] = $column->getHeader();
-        	}
+            if (!$column->getIsSystem()) {
+                $data[] = $column->getHeader();
+            }
         }
         $csv.= implode(';', $data)."\n";
         
         foreach ($this->getCollection() as $item) {
             $data = array();
             foreach ($this->_columns as $column) {
-            	if (!$column->getIsSystem()) {
-            	    $data[] = $this->getRowField($item, $column);
-            	}
+                if (!$column->getIsSystem()) {
+                    $data[] = $this->getRowField($item, $column);
+                }
             }
-        	$csv.= implode(';', $data)."\n";
+            $csv.= implode(';', $data)."\n";
         }
         return $csv;
     }
@@ -374,14 +374,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_prepareGrid();
         $indexes = array();
         foreach ($this->_columns as $column) {
-        	if (!$column->getIsSystem()) {
-        	    $indexes[] = $column->getIndex();
-        	}
+            if (!$column->getIsSystem()) {
+                $indexes[] = $column->getIndex();
+            }
         }
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml.= '<items>';
         foreach ($this->getCollection() as $item) {
-        	$xml.= $item->toXml($indexes);
+            $xml.= $item->toXml($indexes);
         }
         $xml.= '</items>';
         return $xml;
@@ -393,5 +393,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             return false;
         }
         return true;
+    }
+
+    public function getGridUrl()
+    {
+        return $this->getCurrentUrl();
     }
 }

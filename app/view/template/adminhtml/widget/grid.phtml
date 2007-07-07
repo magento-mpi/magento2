@@ -83,7 +83,7 @@
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getCurrentUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
+    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getId()?>JsObject.useAjax = '<?=$this->getUseAjax()?>';
 </script>
 <?endif;?>
