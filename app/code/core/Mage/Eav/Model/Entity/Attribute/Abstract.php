@@ -52,9 +52,20 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         parent::_construct();
     }
     
-    public function loadByName($name)
+    public function loadByName($entityType, $name)
     {
-        $this->getResource()->loadByName($this, $name);
+        if (is_numeric($entityType)) {
+            $entityTypeId = $entityType;
+        } elseif (is_string($entityType)) {
+            $entityType = Mage::getModel('eav/entity_type')->loadByName($entityType);
+        }
+        if ($entityType instanceof Mage_Eav_Model_Entity_Type) {
+            $entityTypeId = $entityType->getId();
+        }
+        if (empty($entityTypeId)) {
+            throw Mage::exception('Mage_Eav', 'Invalid entity supplied');
+        }
+        $this->getResource()->loadByName($this, $entityTypeId, $name);
         return $this;
     }
 

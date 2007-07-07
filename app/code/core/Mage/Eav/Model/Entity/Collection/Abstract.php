@@ -82,12 +82,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     
     protected $_rowCount;
     
-    /**
-     * Informational joined entities
-     *
-     * @var array
-     */
     protected $_joinEntities = array();
+    
+    protected $_joinAttributes = array();
 
     /**
      * Set connections for entity operations
@@ -278,8 +275,15 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     public function addAttributeToSort($attribute, $dir='asc')
     {
-        if ($this->getEntity()->isAttributeStatic($attribute)) {
-            $this->getSelect()->order('e.'.$attribute.' '.$dir);
+        if (isset($this->_joinAttributes[$attribute])) {
+            $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
+            $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getName();
+        } else {
+            $attrInstance = $this->getEntity()->getAttribute($attribute);
+            $entityField = 'e.'.$attribute;
+        }
+        if ($attrInstance->getBackend()->isStatic()) {
+            $this->getSelect()->order($entityField.' '.$dir);
         } else {
             $this->_addAttributeJoin($attribute);
             $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
@@ -307,9 +311,96 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $this->_selectAttributes[$attrName] = $attr->getId();
             }
         } else {
-            $attrInstance = $this->getEntity()->getAttribute($attribute);
+            if (isset($this->_joinAttributes[$attribute])) {
+                $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
+            } else {
+                $attrInstance = $this->getEntity()->getAttribute($attribute);
+            }
             $this->_selectAttributes[$attrInstance->getName()] = $attrInstance->getId();
         }
+        return $this;
+    }
+    
+    /**
+     * Add attribute from joined entity to select
+     * 
+     * Examples:
+     * ('billing_firstname', 'default_billing', 'customer_address/firstname')
+     * ('billing_lastname', 'default_billing', 'customer_address/lastname')
+     * ('shipping_lastname', 'default_billing', 'customer_address/lastname')
+     * ('shipping_postalcode', 'default_shipping', 'customer_address/postalcode')
+     * ('shipping_city', 'default_shipping', $cityAttribute)
+     * ('shipping_country', 'default_shipping', 'country_id', $addressEntity)
+     * 
+     * Developer is encouraged to use existing instances of attributes and entities
+     * After first use of string entity name it will be cached in the collection
+     *
+     * @todo connect between joined attributes of same entity
+     * @param string $alias alias for the joined attribute
+     * @param string $fk attribute of the main entity to link with joined entity_id
+     * @param string|Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param string|Mage_Eav_Model_Entity_Abstract|null $entity
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function joinAttribute($alias, $fk, $attribute, $entity=null)
+    {
+        // validate alias
+        if (isset($this->_joinAttributes[$alias])) {
+            throw Mage::exception('Mage_Eav', 'Invalid alias, already exists in joined attributes');
+        }
+
+        // validate foreign key
+        if (is_string($fk)) {
+            $fk = $this->getEntity()->getAttribute($fk);
+        }
+        if (!$fk || !$fk->getId()) {
+            throw Mage::exception('Mage_Eav', 'Invalid foreign key');
+        }
+        
+        // try to explode combined entity/attribute if supplied
+        if (is_string($attribute)) {
+            $attrArr = explode('/', $attribute);
+            if (empty($entity) && isset($attrArr[1])) {
+                $entity = $attrArr[0];
+                $attribute = $attrArr[1];
+            }
+        }
+
+        // validate entity
+        if (empty($entity) && $attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            $entity = $attribute->getEntity();
+        } elseif (is_string($entity)) {
+            // retrieve cached entity if possible
+            if (isset($this->_joinEntities[$entity])) {
+                $entity = $this->_joinEntities[$entity];
+            } else {
+                $entity = Mage::getModel('eav/entity')->setType($attrArr[0]);
+            }
+        }
+        if (!$entity || !$entity->getTypeId()) {
+            throw Mage::exception('Mage_Eav', 'Invalid entity type');
+        }
+        // cache entity
+        if (!isset($this->_joinEntities[$entity->getType()])) {
+            $this->_joinEntities[$entity->getType()] = $entity;
+        }
+        
+        // validate attribute
+        if (is_string($attribute)) {
+            $attribute = $entity->getAttribute($attribute);
+        }
+        if (!$attribute) {
+            throw Mage::exception('Mage_Eav', 'Invalid attribute type');
+        }
+        
+        // add joined attribute
+        $this->_joinAttributes[$alias] = array(
+            'fk'=>$fk,
+            'attribute'=>$attribute,
+        );
+        
+        $this->_addAttributeJoin($alias);
+        
         return $this;
     }
     
@@ -329,37 +420,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $this;
     }
     
-    /**
-     * Join an entity into collection
-     *
-     * @param string $name
-     * @param Mage_Eav_Model_Entity_Abstract $entity
-     * @param array $bind
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
-     */
-    public function joinEntity($name, Mage_Eav_Model_Entity_Abstract $entity, array $bindArr, array $attributes)
-    {
-        if (!empty($this->_joinEntities[$name])) {
-            throw Mage::exception('Mage_Eav', 'Joined entity with this name already in the collection');
-        }
-        
-        $condArr = array("$name.entity_type_id=".$entity->getTypeId());
-        
-        foreach ($bindArr as $fk=>$attrName) {
-            $attribute = $this->getEntity()->getAttribute($attrName);
-            if ($attribute->getBackend()->isStatic()) {
-                $condArr[] = '';
-            } else {
-                
-            }
-        }
-        
-        $this->getSelect()->join(array($name=>$entity->getEntityTable()), '('.join(') AND (', $condArr).')', $cols);
-        
-        $this->_joinEntities[$name] = array('entity'=>$entity, 'selectAttributes'=>array());
-        return $this;
-    }
-
     /**
      * Set collection page start and records to show
      *
@@ -526,7 +586,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
-        foreach ($this->getEntity()->getAttributesByTable() as $table=>$attributes) {
+        foreach ($entity->getAttributesByTable() as $table=>$attributes) {
             $sql = "select $entityIdField, attribute_id, value from $table where $condition";
             $values = $this->_read->fetchAll($sql);
             if (empty($values)) {
@@ -543,6 +603,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $this->_items[$v[$entityIdField]]->setData($attrById[$v['attribute_id']], $v['value']);
             }
         }
+        
         return $this;
     }
     
@@ -569,9 +630,24 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             return $this;
         }
         
-        $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
-        $attribute = $entity->getAttribute($attributeName);
+        if (isset($this->_joinAttributes[$attributeName])) {
+            $attribute = $this->_joinAttributes[$attributeName]['attribute'];
+            $entity = $attribute->getEntity();
+            $entityIdField = $entity->getEntityIdField();
+            $fkAttribute = $this->_joinAttributes[$attributeName]['fk'];
+            if ($fkAttribute->getBackend()->isStatic()) {
+                $fk = "e.".$fkAttribute->getName();
+            } else {
+                $this->_addAttributeJoin($fkAttribute->getName());
+                $fk = $this->_getAttributeTableAlias($fkAttribute->getName()).".value";
+            }
+        } else {
+            $entity = $this->getEntity();
+            $entityIdField = $entity->getEntityIdField();
+            $attribute = $entity->getAttribute($attributeName);
+            $fk = "e.$entityIdField";
+        }
+        
         if (!$attribute) {
             throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeName);
         }
@@ -581,10 +657,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $t = $this->_getAttributeTableAlias($attributeName);
         $select->join(
             array($t => $attribute->getBackend()->getTable()),
-            "$t.$entityIdField = e.$entityIdField",
+            "$t.$entityIdField = $fk",
             array($attributeName=>"$t.value")
         );
-        $select->where("$t.entity_type_id=?", $entity->getTypeId());
+        #$select->where("$t.entity_type_id=?", $entity->getTypeId());
         $select->where("$t.store_id in (?)", $entity->getSharedStoreIds());
         $select->where("$t.attribute_id=?", $attribute->getId());
         
@@ -641,9 +717,26 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $sql;
     }
     
+    /**
+     * Get condition sql for the attribute
+     *
+     * @see self::_getConditionSql
+     * @param string $attribute
+     * @param mixed $condition
+     * @return string
+     */
     protected function _getAttributeConditionSql($attribute, $condition)
     {
-        if ($this->getEntity()->isAttributeStatic($attribute)) {
+        // process linked attribute
+        if (isset($this->_joinAttributes[$attribute])) {
+            $entity = $attribute->getEntity();
+            $entityTable = $entity->getEntityTable();
+        } else {
+            $entity = $this->getEntity();
+            $entityTable = 'e';
+        }
+        
+        if ($entity->isAttributeStatic($attribute)) {
             $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
         } else {
             $this->_addAttributeJoin($attribute);

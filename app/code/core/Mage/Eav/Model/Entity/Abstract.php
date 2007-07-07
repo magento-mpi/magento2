@@ -372,7 +372,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             if (isset($this->_attributesByName[$attributeName])) {
                 return $this->_attributesByName[$attributeName];
             }
-            $attributeInstance = Mage::getModel('eav/entity_attribute')->loadByName($attributeName);
+            $attributeInstance = Mage::getModel('eav/entity_attribute')->loadByName($this->getConfig(), $attributeName);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 

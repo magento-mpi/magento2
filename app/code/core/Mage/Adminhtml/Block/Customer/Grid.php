@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         parent::__construct();
         $this->setId('customerGrid');
-        $this->setUseAjax(true);
+        #$this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -23,6 +23,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');
+            
+        $collection
+            ->joinAttribute('shipping_postcode', 'default_shipping', 'customer_address/postcode')
+            ->joinAttribute('shipping_city', 'default_shipping', 'customer_address/city');
+        
+        #$collection->addAttributeToSort('shipping_firstname');
         $this->setCollection($collection);
         
         return parent::_prepareCollection();
@@ -50,6 +56,14 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('lastname', array(
             'header'    =>__('lastname'), 
             'index'     =>'lastname'
+        ));
+        $this->addColumn('shipping_postcode', array(
+            'header'    =>__('shipping_postcode'),
+            'index'     =>'shipping_postcode',
+        ));
+        $this->addColumn('shipping_city', array(
+            'header'    =>__('shipping_city'),
+            'index'     =>'shipping_city',
         ));
         $this->addColumn('action', array(
             'header'    =>__('action'),
