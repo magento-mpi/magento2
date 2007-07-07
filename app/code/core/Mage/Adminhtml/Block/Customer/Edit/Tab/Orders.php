@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml customer grid block
+ * Adminhtml customer orders grid block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,13 +8,13 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customerGrid');
-        #$this->setUseAjax(true);
+        $this->setId('ordersGrid');
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('action', array(
             'header'    =>__('action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
@@ -22,20 +22,20 @@ class Mage_Adminhtml_Block_Customer_Tabs extends Mage_Adminhtml_Block_Widget_Tab
         $this->addTab('account', array(
             'label'     => __('customer account'),
             'title'     => __('customer account title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_account')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('customer addresses'),
             'title'     => __('customer addresses title'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_tab_addresses')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->toHtml(),
         ));
         
         $this->addTab('orders', array(
             'label'     => __('Customer orders'),
             'title'     => __('Customer orders title'),
-            'content'   => 'orders',
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
         ));
         
         $this->addTab('reviews', array(

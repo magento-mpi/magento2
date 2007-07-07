@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct() 
     {
@@ -30,21 +30,8 @@ class Mage_Adminhtml_Block_Customer_Tab_Addresses extends Mage_Adminhtml_Block_W
         
         $addressModel = Mage::getModel('customer/address');
         
-        foreach ($addressModel->getAttributes() as $attribute) {
-            if ($inputType = $attribute->getFrontend()->getInputType()) {
-                $element = $fieldset->addField($attribute->getName(), $inputType,
-                    array(
-                        'name'  => $attribute->getName(),
-                        'label' => $attribute->getFrontend()->getLabel(),
-                        'class' => $attribute->getFrontend()->getClass()
-                    )
-                );
-                if ($inputType == 'select') {
-                    $element->setValues($attribute->getFrontend()->getSelectOptions());
-                }
-            }
-        }
-        
+        $this->_setFieldset($addressModel->getAttributes(), $fieldset);
+
         if ($regionElement = $form->getElement('region')) {
             $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
         }

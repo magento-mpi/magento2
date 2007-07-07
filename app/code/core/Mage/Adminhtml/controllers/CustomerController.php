@@ -89,7 +89,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Append customer edit tabs to left block
          */
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_tabs'));
+        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_edit_tabs'));
         
         $this->renderLayout();
     }

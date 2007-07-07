@@ -51,4 +51,22 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
             ->setFormBlock($this)
             ->toHtml();
     }*/
+    
+    public function _setFieldset($attributes, $fieldset)
+    {
+        foreach ($attributes as $attribute) {
+            if ($inputType = $attribute->getFrontend()->getInputType()) {
+                $element = $fieldset->addField($attribute->getName(), $inputType,
+                    array(
+                        'name'  => $attribute->getName(),
+                        'label' => $attribute->getFrontend()->getLabel(),
+                        'class' => $attribute->getFrontend()->getClass()
+                    )
+                );
+                if ($inputType == 'select') {
+                    $element->setValues($attribute->getFrontend()->getSelectOptions());
+                }
+            }
+        }
+    }
 }

@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct() 
     {
@@ -24,20 +24,7 @@ class Mage_Adminhtml_Block_Customer_Tab_Account extends Mage_Adminhtml_Block_Wid
         $customer = Mage::registry('customer');        
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
         
-        foreach ($customer->getAttributes() as $attribute) {
-            if ($inputType = $attribute->getFrontend()->getInputType()) {
-                $element = $fieldset->addField($attribute->getName(), $inputType,
-                    array(
-                        'name'  => $attribute->getName(),
-                        'label' => $attribute->getFrontend()->getLabel(),
-                        'class' => $attribute->getFrontend()->getClass()
-                    )
-                );
-                if ($inputType == 'select') {
-                    $element->setValues($attribute->getFrontend()->getSelectOptions());
-                }
-            }
-        }
+        $this->_setFieldset($customer->getAttributes(), $fieldset);
         
         $form->setValues($customer->getData());
         
