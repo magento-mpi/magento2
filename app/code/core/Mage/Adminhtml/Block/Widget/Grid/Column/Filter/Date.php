@@ -12,8 +12,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
 {
     public function getHtml()
     {
-        $html = __('From').': <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'"/><br/>';
-        $html.= __('To').' :<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'"/>';
+        $html = __('From').': <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text"/><br/>';
+        $html.= __('To').' :<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text"/>';
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField     :    "'.$this->_getHtmlId().'_from",   
