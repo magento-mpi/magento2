@@ -37,12 +37,9 @@ ul.horizontal {
 	
 /* navbar list-items */
 ul.horizontal li {
-	width:auto;
 	float:left;
 	position:relative;
 	cursor:pointer;
-	cursor:hand;
-	
 	text-align:left;
 	
 	/* navbar items' left position relative to the container
@@ -52,7 +49,7 @@ ul.horizontal li {
 	/*left:10.55em;*/
 	
 	/* shift list-items to collapse borders horizontally */
-	margin:0 0 0 -1px;
+	margin:0 0 0 0;
 	}
 	
 /* we have to use a different positioning trick for ie, so: 
@@ -90,7 +87,7 @@ ul.horizontal ul {
 	
 	/* menu offset, which already includes 1px compensation 
 	   for list-item border collapse */
-	margin:0 0 0 0;
+	margin:-2px 0 0 0;
 	
 	/* 
 	position menus off the screen to hide 
@@ -114,7 +111,7 @@ ul.horizontal ul li {
 	left:auto;
 	
 	/* shift list-items to collapse borders vertically */
-	margin:-1px 0 0 0;
+	margin:0;
 	}
 
 
@@ -217,28 +214,20 @@ ul.horizontal {
     zoom:1;
     }
 
-/* menu popup width */
-ul.horizontal ul, ul.horizontal ul li {
-	width:16em;
-}
 
 /* spacing between top tabs */
 ul.horizontal li { margin:0; }
 
-/* further child-menu offset */
-ul.horizontal ul ul {
-	margin:0.1em 0 0 15.90em;
-}
 
 /* default menu-items style */
-ul.horizontal span, ul.horizontal a.on {
+ul.horizontal span, ul.horizontal a:hover, ul.horizontal a.on {
 	background-image:url(images/nav_list_bg.gif);
 	background-repeat:no-repeat;
 	}
 ul.horizontal a {
 	display:block;
-	color:#fff;
 	padding-left:4px;
+	color:#fff;
 }
 ul.horizontal a span {
 	display:block;
@@ -246,17 +235,12 @@ ul.horizontal a span {
 	background-position:100% 0;
 	}
 
-
-
-/* further menu-child links */
-ul.horizontal ul a {
-    background:#B9DCE5;
-    color:#363636;
-}
+ul.horizontal a.on, ul.horizontal a, ul.horizontal a:hover {
+	margin-left:-2px;
+	}
 
 /* active links */
 ul.horizontal a.on, ul.horizontal a:hover {
-	margin-left:-2px;
 	background-position:0 -27px;
 	background-color:none;
 	color:#fff;
@@ -269,13 +253,52 @@ ul.horizontal a:hover {
 	font-weight:normal;
 	}
 
+
+
 /* hover links */
-ul.horizontal a:hover, ul.horizontal a:focus, ul.horizontal a.rollover {
-    background:none;
-    color:#31212C;
+ul.horizontal a.on:hover {
+	font-weight:bold;
+	}
+
+
+/* menu popup width */
+ul.horizontal ul, ul.horizontal ul li {
+	width:16em;
 }
 
+ul.horizontal ul {
+	border:1px solid #fbb368;
+	border-left-width:3px;
+	_border-left-width:1px;
+	}
+
+/* further child-menu offset */
+ul.horizontal ul ul {
+	margin:1em 0 0 10.90em;
+}
+
+/* further menu-child links */
+
+ul.horizontal ul a, ul.horizontal ul a:hover, ul.horizontal ul li.rollover {
+	color:#2f2f2f;
+	}
+ul.horizontal ul a {
+	padding:.3em 1em;
+	background:#fffaf4;
+	border-bottom:1px solid #fddcbb;
+}
+ul.horizontal ul a:hover {
+	background:#fdeedf;
+	}
+
+ul.horizontal .parent {
+	/*background-image:url(images/nav_parent_arrow.gif) !important;
+	background-repeat:no-repeat !important;
+	background-position:center right !important;*/
+	border-right:7px solid #fbb368;
+	}
 /* further child-menu hover links */
 ul.horizontal ul a:hover, ul.horizontal ul a:focus, ul.horizontal ul a.rollover {
     /*background:#B9DCE5;*/
 }
+

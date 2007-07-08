@@ -1,19 +1,20 @@
 <?/*{
 
 }*/?>
-<style>
+<style type="text/css">
+/*
 ul.horizontal .parent {
     background-image:url(<?=$baseUrl?>skins/admin/ico/fam/bullet_go.png) !important;
     background-repeat:no-repeat !important;
     background-position:center right !important;
 }
+*/
 </style>
 <div class="topnav-container">
     <ul id="topnav" class="horizontal">
     <?foreach ($menu as $_item):?>
         <li>
-           <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>"><span>
-                <?=$_item['label']?></span></a>
+           <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>"><span><?=$_item['label']?></span></a>
         <?if(!empty($_item['children']) && is_array($_item['children'])):?>
             <ul>
             <?foreach ($_item['children'] as $_child):?>

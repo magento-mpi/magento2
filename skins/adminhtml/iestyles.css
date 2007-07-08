@@ -15,3 +15,9 @@ dl.accordion dt,
 	line-height:0;
 	overflow:hidden;
 	}
+
+/* Compensates for margin overlap */
+.form-button {
+	margin-left:5px;
+	}
+

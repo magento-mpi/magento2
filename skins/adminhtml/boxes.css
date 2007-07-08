@@ -25,55 +25,29 @@
     }
 
 
-a.button, a.button span {
-    background-image:url(images/btn_bg.gif);
-    background-repeat:no-repeat;
-    }
-a.button {
-    color:white;
-		font-weight:bold;
-    text-decoration:none;
-}
-a.button-alt, a.button-alt span {
-    background-image:url(images/btn_bg.png);
-    background-repeat:no-repeat;
-    }
-a.button, a.button-alt {
-    background-position:0 0;
-    padding-left:5px;
-		line-height:1em;
-    }
-a.button span, a.button-alt span {
-		height:18px;
-    background-position:100% -23px;
-    padding:7px 14px 5px 9px;
-    color:#fff;
-		line-height:1em;
-    }
-   
-
-/*
-.button {
+.form-button {
 	width:auto;
+	display:inline;
+	margin-left:2px;
 	}
-.button td {
+.form-button-left {
+	width:4px;
 	overflow:hidden;
-	background-image:url(images/btn_bg.gif);
-	background-repeat:no-repeat;
-	background-position:0 0;
-	line-height:1em;
+	font-size:0;
+	background:url(images/btn_bg.gif) no-repeat;
+	}
+.form-button-right a, .form-button-right a:hover {
+	display:block;
+	padding:5px 11px 6px 7px;
 	color:#fff;
+	background:url(images/btn_bg.gif) no-repeat 100% -23px;
 	font-weight:bold;
+	font-size:12px;
+	text-decoration:none;
+	line-height:12px;
 	}
-.button td.button-cap {
-	height:23px;
-	width:5px;
-	}
-.button td.button-text {
-	background-position:100% -23px;
-	padding:5px 14px 0 9px;
-	}
-*/
+
+
 /* autocomplete */
 div.autocomplete {
   z-index:10000;
@@ -89,17 +63,17 @@ div.autocomplete ul {
   margin:0px;
   padding:0px;
 }
-div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li.selected { 
+	background-color: #dcebf0;
+	}
 div.autocomplete ul li {
-  color:black;
-  font:normal 12px Arial;
-  text-align:left;
   list-style-type:none;
-  display:block;
-  margin:0;
-  padding:2px;
+  padding:.5em .7em;
   min-height:32px;
   cursor:pointer;
+  text-align:left;
+	color:#2f2f2f;
+	line-height:1.3em;
 }
 
 
@@ -112,7 +86,7 @@ table.content_table {
     border-style:solid;
     }
 .data th, .data td {
-    padding:4px 7px;
+    padding:2px 7px;
     }
 .data td {
     border-width:0 0 1px 0;
@@ -127,12 +101,14 @@ table.content_table {
 .grid table {
 	width:100%;
     border:none;
+		border-collapse:collapse;
     }
 .grid table th {
     background:#d7d8d9;
+		border:1px solid #d6cebf;
     }
 .grid table td {    
-    border-width:0 1px 1px 0;
+    border-width:1px;
     border-color:#E3E3E3;
     }
 .grid table td.product {
@@ -145,13 +121,19 @@ table.content_table {
     background:#D7E5EF;
     }
 .grid .filter th {
+		padding-top:.5em;
+		padding-bottom:.5em;
 		background:#dbf5ff;
 		border-style:solid;
-		border-color:#d6cebf;
-		border-width:1px 0;
+		border-color:#d6cebf #E3E3E3;
+		border-width:1px;
 		}
+table.actions {
+	width:100%;
+	margin-bottom:.5em;
+	}
 .pager .spacer { 
-	padding:0 .8em;
+	padding:0 .6em;
 	color:#cfcfcf; 
 	}
 /* Accordion */
@@ -309,25 +291,23 @@ dl.accordion dd.open {
 		border-bottom:1px solid #bebebe;
 		font-weight:bold;
 	}
-.head {
+.content-header {
     margin-bottom:.7em;
     border-bottom:3px solid #dfdfdf;
     padding-bottom:.25em;
     }
-.head table {
-	width:100%;
-	}
-.head h3 {
+.content-header h3 {
     margin:0;
 		color:#000; 
 		font-size:1.25em;
 		line-height:1.2em;
     }
-.head .buttons {
+.content-header table.grid-header { width:100%; }
+.content-header .form-buttons {
     text-align:right;
     }
     
-    
+
 /* Customer - Dashboard */
 .customer-personal .box {
     border:1px solid #b0c1d0;
@@ -424,7 +404,7 @@ label.inline{
 .left {float:left; }
 .right {float:right; }
 .v-top { vertical-align:top; }
-.v-mid { vertical-align:middle; }
+.v-middle { vertical-align:middle; }
 .v-bottom { vertical-align:bottom; }
 .a-left { text-align:left; }
 .a-center { text-align:center; }
