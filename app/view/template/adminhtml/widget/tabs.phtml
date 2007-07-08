@@ -1,3 +1,6 @@
+<?if($this->getTitle()):?>
+    <h3><?=$this->getTitle()?></h3>
+<?endif?>
 <?if(!empty($tabs)):?>
 <ul id="<?=$this->getId()?>" class="tabs">
 <?foreach ($tabs as $_tab):?>
