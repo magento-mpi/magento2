@@ -20,54 +20,51 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     
     protected function _beforeToHtml()
     {
+        $this->addTab('view', array(
+            'label'     => __('Customer view'),
+            'content'   => '<h3>Customer view</h3>',
+        ));
+
         $this->addTab('account', array(
-            'label'     => __('customer account'),
-            'title'     => __('customer account title'),
+            'label'     => __('Account information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('addresses', array(
-            'label'     => __('customer addresses'),
-            'title'     => __('customer addresses title'),
+            'label'     => __('Addresses'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->toHtml(),
         ));
         
         $this->addTab('orders', array(
-            'label'     => __('Customer orders'),
-            'title'     => __('Customer orders title'),
-            'content'   => 'orders'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
+            'label'     => __('Orders'),
+            'content'   => '<h3>Orders</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
         ));
         
         $this->addTab('cart', array(
-            'label'     => __('customer cart'),
-            'title'     => __('customer cart title'),
-            'content'   => 'cart'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
+            'label'     => __('Shopping cart'),
+            'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
         ));
         
         $this->addTab('wishlist', array(
-            'label'     => __('customer wishlist'),
-            'title'     => __('customer wishlist title'),
-            'content'   => 'wishlist'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
-        ));
-        
-        $this->addTab('reviews', array(
-            'label'     => __('Customer reviews'),
-            'title'     => __('Customer reviews title'),
-            'content'   => 'reviews'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
-        ));
-        
-        $this->addTab('tags', array(
-            'label'     => __('Customer tags'),
-            'title'     => __('Customer tags title'),
-            'content'   => 'tags'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
+            'label'     => __('Wishlist'),
+            'content'   => '<h3>Wishlist</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
         ));
 
         $this->addTab('newsletter', array(
-            'label'     => __('customer newsletter'),
-            'title'     => __('customer newsletter title'),
-            'content'   => 'newsletter',
+            'label'     => __('Newsletter'),
+            'content'   => '<h3>Newsletter</h3>',
         ));        
+        
+        $this->addTab('tags', array(
+            'label'     => __('Product tags'),
+            'content'   => '<h3>Product tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
+        ));
+
+        $this->addTab('reviews', array(
+            'label'     => __('Product reviews'),
+            'content'   => '<h3>Product reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
+        ));
         Varien_Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }

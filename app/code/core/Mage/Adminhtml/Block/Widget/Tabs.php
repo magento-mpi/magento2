@@ -69,6 +69,10 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             $this->_tabs[$tabId]->setUrl('#');
         }
         
+        if (!$this->_tabs[$tabId]->getTitle()) {
+            $this->_tabs[$tabId]->setTitle($this->_tabs[$tabId]->getLabel());
+        }
+        
         $this->_tabs[$tabId]->setId($tabId);
         return $this;
     }

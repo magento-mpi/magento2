@@ -11,7 +11,7 @@
         <?foreach ($section['children'] as $menuId=>$menuItem):?>
             <li id="li-<?=$id?>-<?=$sectionId?>-<?=$menuId?>">
                 <a href="#" title="<?=$menuItem['title']?>">
-                    <?=$menuItem['label']?>
+                    <span><?=$menuItem['label']?></span>
                 </a>
             </li>
         <?endforeach?>
