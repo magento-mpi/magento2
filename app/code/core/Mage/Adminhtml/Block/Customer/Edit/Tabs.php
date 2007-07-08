@@ -38,18 +38,30 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
         ));
         
-        $this->addTab('reviews', array(
-            'label'     => __('Customer reviews'),
-            'title'     => __('Customer reviews title'),
-            'content'   => 'reviews',
+        $this->addTab('cart', array(
+            'label'     => __('customer cart'),
+            'title'     => __('customer cart title'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
         ));
         
         $this->addTab('wishlist', array(
             'label'     => __('customer wishlist'),
             'title'     => __('customer wishlist title'),
-            'content'   => 'wishlist',
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
         ));
         
+        $this->addTab('reviews', array(
+            'label'     => __('Customer reviews'),
+            'title'     => __('Customer reviews title'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
+        ));
+        
+        $this->addTab('tags', array(
+            'label'     => __('Customer tags'),
+            'title'     => __('Customer tags title'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
+        ));
+
         $this->addTab('newsletter', array(
             'label'     => __('customer newsletter'),
             'title'     => __('customer newsletter title'),
