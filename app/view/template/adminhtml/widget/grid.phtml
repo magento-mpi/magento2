@@ -23,9 +23,7 @@
         <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
     <?endfor;?>
     </select>
-    of &nbsp;<b><?=$this->getCollection()->getLastPageNumber()?></b>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    View  
+    of &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span>View  
     <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
         <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
         <option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
@@ -33,11 +31,8 @@
         <option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
         <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
     </select>
-    per page
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Total <b><?=$this->getCollection()->getSize()?> records</b> found
-</div>
-</td>
+    per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> Records</strong> found
+</div></td>
 <?endif?>
 <?if($this->getExportTypes()):?>
 <td>

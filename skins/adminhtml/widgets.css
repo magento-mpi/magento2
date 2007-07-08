@@ -6,28 +6,27 @@
     cursor:pointer;
 }
 
-.grid thead tr{
-    background:#d7d8d9;
-    border-right:1px solid #C1C1C1;
-    border-bottom:1px solid #F6F6F6;
-}
 .grid thead th a {
 	color:#2f2f2f;
+	}
+.grid thread th a, .grid thread th a:hover {
+	text-decoration:underline;
 	}
 /* sort arrow desc */
 .grid .sort-arrow-desc {
     padding-right: 30px;
-    background-image: url(images/sort-arrow-down.png);
+    background-image: url(images/sort-arrow-down.gif);
     background-position: right;
     background-repeat: no-repeat;
+		color:#425d67;
 }
-
 /* no sort arrow asc */
 .grid .sort-arrow-asc {
     padding-right: 30px;
-    background-image: url(images/sort-arrow-up.png);
+    background-image: url(images/sort-arrow-up.gif);
     background-position: right;
     background-repeat: no-repeat;
+		color:#425d67;
 }
 
 /* no sort arrow */

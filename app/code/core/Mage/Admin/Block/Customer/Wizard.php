@@ -67,7 +67,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                     
                     $cardStruct['tabs'][] = array(
                         'name'  => 'general',
-                        'title' => __('Customer address'),
+                        'title' => __('Customer Address'),
                         'type'  => 'form',
                         'form'  => $form->toArray()
                     );
@@ -93,7 +93,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                         
                     $cardStruct['tabs'][] = array(
                         'name'  => 'preview',
-                        'title' => __('New customer create information'),
+                        'title' => __('Create New Customer Information'),
                         'type'  => 'view',
                         'content' => $previewBlock->toHtml()
                     );

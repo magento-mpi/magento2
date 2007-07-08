@@ -26,7 +26,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
         $fieldset->addField('firstname', 'text', 
             array(
                 'name'  => 'firstname',
-                'label' => __('Firstname'),
+                'label' => __('First Name'),
                 'id'    => 'customer_firstname',
                 'title' => __('Customer Firstname'),
                 'vtype' => 'alphanum',
@@ -37,9 +37,9 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
         $fieldset->addField('lastname', 'text', 
             array(
                 'name'  => 'lastname',
-                'label' => __('Lastname'),
+                'label' => __('Last Name'),
                 'id'    => 'customer_lastname',
-                'title' => __('Customer Lastname'),
+                'title' => __('Customer Last Name'),
                 'vtype' => 'alphanum',
                 'allowBlank' => false
             )

@@ -20,9 +20,9 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
         $fieldset->addField( 'firstname', 'text',
             array(
                 'name'  => 'firstname',
-                'label' => __('Firstname'),
+                'label' => __('First Name'),
                 'id'    => 'address_firstname',
-                'title' => __('Firstname'),
+                'title' => __('First Name'),
                 'vtype' => 'alphanum',
                 'allowBlank' => false
             )
@@ -31,9 +31,9 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
         $fieldset->addField('lastname', 'text',
             array(
                 'name'  => 'lastname',
-                'label' => __('Lastname'),
+                'label' => __('Last Name'),
                 'id'    => 'address_lastname',
-                'title' => __('Lastname'),
+                'title' => __('Last Name'),
                 'vtype' => 'alphanum',
                 'allowBlank' => false
             )
