@@ -236,8 +236,7 @@ dl.accordion dd.open {
     background:url(images/nav_bg.gif) repeat-x #91afba;
     padding:3px 1.8em .33em 1.8em;
     z-index:9;
-}    
-
+}
 
 /* Middle */
 .breadcrumbs {

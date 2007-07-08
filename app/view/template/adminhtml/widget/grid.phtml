@@ -37,13 +37,19 @@
 <?endif?>
 <?if($this->getExportTypes()):?>
 	<td class="export a-right">
+
 		<img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
 		<select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
 		<?foreach ($this->getExportTypes() as $_type):?>
 				<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
 		<?endforeach;?>
 		</select>
-		<input type="button" value="<?=__('Export')?>" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
+		<table cellspacing="0" class="form-button">
+			<tr>
+				<td class="form-button-left"></td>
+				<td class="form-button-right"><a href="#" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')"><?=__('Export')?></a></td>
+			</tr>
+		</table>
 	</td>
 <?endif;?>
 <?if($this->getFilterVisibility()):?>
