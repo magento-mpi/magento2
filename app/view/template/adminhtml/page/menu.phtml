@@ -12,8 +12,8 @@ ul.horizontal .parent {
     <ul id="topnav" class="horizontal">
     <?foreach ($menu as $_item):?>
         <li>
-            <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>">
-                <?=$_item['label']?></a>
+           <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>"><span>
+                <?=$_item['label']?></span></a>
         <?if(!empty($_item['children']) && is_array($_item['children'])):?>
             <ul>
             <?foreach ($_item['children'] as $_child):?>

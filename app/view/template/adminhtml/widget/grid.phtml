@@ -11,7 +11,10 @@
 <?if($this->canDisplayContainer()):?>
 <div id="<?=$this->getId()?>">
 <?endif;?>
+<table cellspacing="0">
+<tr>
 <?if($this->getPagerVisibility()):?>
+<td>
 <div class="pager">
     Page 
     <select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
@@ -34,8 +37,10 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Total <b><?=$this->getCollection()->getSize()?> records</b> found
 </div>
+</td>
 <?endif?>
 <?if($this->getExportTypes()):?>
+<td>
 <div class="export">
     <?=__('Export to')?>:
     <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
@@ -45,13 +50,18 @@
     </select>
     <input type="button" value="<?=__('Export')?>" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
 </div>
+</td>
 <?endif;?>
 <?if($this->getFilterVisibility()):?>
+<td>
 <div class="filter-buttons">
     <input type="button" value="<?=__('Reset filter')?>" onclick="<?=$this->getId()?>JsObject.resetFilter()">
     <input type="button" value="<?=__('Search')?>" onclick="<?=$this->getId()?>JsObject.doFilter()">
 </div>
+</td>
 <?endif;?>
+</tr>
+</table>
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>

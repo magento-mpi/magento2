@@ -7,11 +7,13 @@
 }
 
 .grid thead tr{
-    background:url(images/grid_th_bg.gif) repeat-x #DADBDD;
+    background:#d7d8d9;
     border-right:1px solid #C1C1C1;
     border-bottom:1px solid #F6F6F6;
 }
-
+.grid thead th a {
+	color:#2f2f2f;
+	}
 /* sort arrow desc */
 .grid .sort-arrow-desc {
     padding-right: 30px;
@@ -34,42 +36,44 @@
 }
 
 .grid tr.even {
-    background:#F1F1EF;
+    background:#f3f5f5;
 }
 
 .grid tr.on-mouse{
     background:#D7E5EF;
 }
 
-.pager{padding:5px;background:#F5F3CE}
+.pager{padding:.25em 0; }
 .pager select{width:50px}
 
+/*
 .tabs .active, .tabs a.active:hover{
     background: white;
 }
+*/
+
 .tabs a.subitem{
     padding-left:2.2em;
 }
 
+/*
 ul.tabs {
-    border:1px solid #bcbcbc;
-    border-top:none;
     }
 ul.tabs li {
     list-style-type:none;
     }
 ul.tabs li a {
     display:block;
-    border-top:1px solid #bcbcbc;
-    border-bottom:1px solid #fff;
-    background:#F2F1F1;
+    background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
     padding:.25em 1.5em;
-    color:#2A2424;
+    color:#2f2f2f;
     text-decoration:none;
     }
 ul.tabs li a:hover {
     background:#ddd; 
     }
+*/
+
 
 /* Form Validation */
 .validation-advice {

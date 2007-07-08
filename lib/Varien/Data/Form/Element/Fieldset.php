@@ -17,7 +17,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     
     public function toHtml()
     {
-        $html = '<h3 class="fieldset-legend">'.$this->getLegend().'</h2>'."\n";
+        $html = '<h4 class="fieldset-legend">'.$this->getLegend().'</h4>'."\n";
         $html .= '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
         if ($this->getLegend()) {
             $html.= '<legend>'.$this->getLegend().'</legend>'."\n";

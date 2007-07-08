@@ -7,25 +7,24 @@
 body { 
     min-width:800px;
     background:#E6E6E6;
-    color:#363636;
+    color:#2f2f2f;
     font:.75em/1.5em Arial, Helvetica, sans-serif;
     }
 
-a { color:#DA0074; text-decoration:underline; }
-a:hover { color:#DA0074; text-decoration:none; }
+a { color:#ea7601; text-decoration:underline; }
+a:hover { color:#ea7601; text-decoration:none; }
 a img { border:0;}
 
 /* Heading */
-h1 { font-size:1.7em; }
-h2 { color:#000; font-size:1.25em; }
-h3 { color:#57829E; font-size:1.15em; }
-h4 { font-size:1.05em; }
-h5 { font-size:1em; }
+h1, h2, h3, h4 { margin-bottom:.5em; line-height:1.4em; }
+h2 { font-size:1.7em; }
+h3 { margin-bottom:.2em; color:#000; font-size:1.25em; }
+h4 { color:#494848; font-size:1.05em; }
+h5 { font-size:1.05em; }
+h6 { font-size:1em; }
 h1 a, h1 a:hover, h2 a, h2 a:hover, h3 a, h3 a:hover,h4 a, h4 a:hover { font-weight:normal; }
-h1, h2, h3, h4 { margin-bottom:.7em; line-height:1.4em; }
 
 /* Table */
-table.content_table { width:100%; }
 th, td { padding:0; text-align:left; vertical-align:top; }
 
 /* Paragraph */

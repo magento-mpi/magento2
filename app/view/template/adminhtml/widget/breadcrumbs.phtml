@@ -4,7 +4,7 @@
     <?foreach ($links as $_index=>$_link):?>
     <li>
         <?if(empty($_link['url'])):?>
-            <?=$_link['label']?>
+            <strong><?=$_link['label']?></strong>
         <?else:?>
             <a href="<?=$_link['url']?>" title="<?=$_link['title']?>"><?=$_link['label']?></a> 
         <?endif;?>

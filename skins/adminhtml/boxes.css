@@ -18,33 +18,62 @@
     
 /* Forms */
 .input-text, textarea, select {
-    border:1px solid #C1C1C1;
+    border:1px solid #acacac;
     }
 .input-text, textarea {
-    padding:3px;
+    padding:2px;
     }
-.button, .button span {
-    background-image:url(images/btn_bg.png);
+
+
+a.button, a.button span {
+    background-image:url(images/btn_bg.gif);
     background-repeat:no-repeat;
     }
-.button a {
+a.button {
     color:white;
-    text-decoration:none
+		font-weight:bold;
+    text-decoration:none;
 }
-.button-alt, .button-alt span {
+a.button-alt, a.button-alt span {
     background-image:url(images/btn_bg.png);
     background-repeat:no-repeat;
     }
-.button, .button-alt {
+a.button, a.button-alt {
     background-position:0 0;
-    padding:4px 0 4px 9px;
+    padding-left:5px;
+		line-height:1em;
     }
-.button span, .button-alt span {
-    background-position:100% -44px;
-    padding:4px 20px 4px 11px;
+a.button span, a.button-alt span {
+		height:18px;
+    background-position:100% -23px;
+    padding:7px 14px 5px 9px;
     color:#fff;
+		line-height:1em;
     }
-    
+   
+
+/*
+.button {
+	width:auto;
+	}
+.button td {
+	overflow:hidden;
+	background-image:url(images/btn_bg.gif);
+	background-repeat:no-repeat;
+	background-position:0 0;
+	line-height:1em;
+	color:#fff;
+	font-weight:bold;
+	}
+.button td.button-cap {
+	height:23px;
+	width:5px;
+	}
+.button td.button-text {
+	background-position:100% -23px;
+	padding:5px 14px 0 9px;
+	}
+*/
 /* autocomplete */
 div.autocomplete {
   z-index:10000;
@@ -75,6 +104,9 @@ div.autocomplete ul li {
 
 
 /* Tabular Data */
+table.content_table {
+	width:100%; 
+	}
 .data {
     border-width:1px;
     border-style:solid;
@@ -113,8 +145,12 @@ div.autocomplete ul li {
 .grid table tfoot tr {
     background:#D7E5EF;
     }
-    
-    
+.grid .filter th {
+		background:#dbf5ff;
+		border-style:solid;
+		border-color:#d6cebf;
+		border-width:1px 0;
+		}
 /* Accordion */
 dl.accordion dt {
     border-bottom:1px solid #C6C5C3;
@@ -141,17 +177,18 @@ dl.accordion dd.open {
 
 /* Layout */
 .header { 
-    background:#6D6D6D;
+		background:url(images/header_bg.gif) repeat-x #516f78;
     z-index:9;
     text-align:right;
     }
 .middle {
     background:#fff;
-    padding-bottom:3em;
+    padding:0 1em 3em 1em;
     }
 .container {
     border-left:17.48em solid #fff;
-    padding:1.8em;
+    padding:1.8em 1.2em 1.8em 1em;
+		padding-top:0;
     }
 .simple-container {
     padding:1.8em;
@@ -165,6 +202,7 @@ dl.accordion dd.open {
     position:relative;
     margin-left:-17.08em;
     width:17.08em;
+		background:url(image/section_menu_bg.gif) repeat-y 100% 0;
     }
 .content-container {
     position:relative;
@@ -173,12 +211,12 @@ dl.accordion dd.open {
     margin-left:-1px;
     }
 .content {
-    margin-left:1.4em;
-    border-left:1px solid #BCBCBC;
-    padding-left:1.4em;
+    margin-left:2em;
+		padding-top:1.5em;
     }
 .footer {
-    padding:1.2em 1.6em;
+		background:url(images/footer_bg.gif) repeat-x #e6e6e6;
+    padding:1em 2.8em 1.2em 2.8em;
     text-align:right;
     }
 
@@ -210,18 +248,17 @@ dl.accordion dd.open {
     }
 
 .topnav-container {
-    border-bottom:4px solid #F2F2F2;
-    background:url(images/nav_bg.gif) repeat-x #31212C;
-    padding:.9em 1.8em 0 1.8em;
+    background:url(images/nav_bg.gif) repeat-x #91afba;
+    padding:3px 1.8em .33em 1.8em;
     z-index:9;
 }    
 
 
 /* Middle */
 .breadcrumbs {
-    background:url(images/breadcrumb_bg.gif) repeat-x #E6F5F7;
-    padding:.5em 1.6em;
-    font-size:1.17em;
+	border-bottom:1px solid #bebebe;
+    padding:.5em 1em;
+    font-size:1.08em;
     }
 .breadcrumbs, .breadcrumbs a {
     color:#453F46;
@@ -230,32 +267,58 @@ dl.accordion dd.open {
     list-style-type:none;
     display:inline;
     }
-.section-menu ul    {
-    border:1px solid #bcbcbc;
-    border-top:none;
-    }
+.section-menu {
+	background:url(images/section_menu_bg.gif) repeat-y 100% 0;
+	padding-top:1.3em;
+	}
+.section-menu .bottom {
+	height:217px;
+	background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
+	}
+.section-menu ul {
+	margin-top:.7em;
+	border-top:1px solid #bebebe;
+	background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+	}
 .section-menu li {
     list-style-type:none;
     }
 .section-menu li a {
     display:block;
-    border-top:1px solid #bcbcbc;
-    border-bottom:1px solid #fff;
-    background:#F2F1F1;
-    padding:.25em 1.5em;
-    color:#2A2424;
+		background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
+		padding-bottom:1px;
+    color:#000;
     text-decoration:none;
     }
-.section-menu li a:hover {
-    background:#ddd; 
+.section-menu li a.active {
+	padding:0;
+	background:none;
+	}
+.section-menu li span {
+		display:block;
+    padding:.3em 1.5em .28em 1.5em;
+		}
+.section-menu li a:hover span {
+	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
     }
-.content .head {
+.section-menu li a.active span {
+		background:#fff;
+		border-bottom:1px solid #bebebe;
+		font-weight:bold;
+	}
+.head {
     margin-bottom:.7em;
-    border-bottom:1px solid #bcbcbc;
+    border-bottom:3px solid #dfdfdf;
     padding-bottom:.25em;
     }
-.content .head h2 {
+.head table {
+	width:100%;
+	}
+.head h3 {
     margin:0;
+		color:#000; 
+		font-size:1.25em;
+		line-height:1.2em;
     }
 .head .buttons {
     text-align:right;
@@ -264,8 +327,8 @@ dl.accordion dd.open {
     
 /* Customer - Dashboard */
 .customer-personal .box {
-    border:1px solid #C3C196;
-    background:#F5F3CE;
+    border:1px solid #b0c1d0;
+    background:#e5ecf2;
     padding:10px;
     }
 .sales-tally table {
@@ -303,9 +366,7 @@ dl.accordion dd.open {
 .address-list li {
     list-style:none;
     margin-bottom:.9em;
-    border:3px solid #DCD9D9;
-    background:#F2F2F2;
-    padding:10px;
+    padding:.7em 1em;
     cursor:pointer;
     }
 .address-list li.over {
@@ -313,9 +374,12 @@ dl.accordion dd.open {
     background:#E9F2F5;
     }
 .address-list li.on {
-    border:3px solid #DAD8BA;
-    background:#F5F4E3;
+    border:1px solid #b0c1d0;
+    background:#e5ecf2;
     }
+.delete-address {
+	text-align:right;
+	}
 
 .entry-edit {
     /*float:right;
@@ -325,9 +389,9 @@ dl.accordion dd.open {
     }
 .entry-edit fieldset {
     margin-bottom:.9em;
-    border:1px solid #DAD8BA;
-    background:#F5F3CE;
-    padding:15px;
+    border:1px solid #b0c1d0;
+    background:#e5ecf2;
+    padding:1.2em 1.5em;
     }
 .entry-edit fieldset li {
     list-style:none;
@@ -354,12 +418,14 @@ label.inline{
 
 
 /* Overrides */
-.v-mid {
-    vertical-align:middle;
-    }
-.a-right {
-    text-align:right;
-    }
+.left {float:left; }
+.right {float:right; }
+.v-top { vertical-align:top; }
+.v-mid { vertical-align:middle; }
+.v-bottom { vertical-align:bottom; }
+.a-left { text-align:left; }
+.a-center { text-align:center; }
+.a-right { text-align:right; }
 
 
 /* Clear */

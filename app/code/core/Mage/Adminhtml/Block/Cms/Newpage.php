@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Cms_Newpage extends Mage_Adminhtml_Block_Widget_Form
     protected function _beforeToHtml()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('edit customer address')));
+        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('Edit Customer Address')));
 
       	$fieldset->addField('123', 'text',
                 array(
