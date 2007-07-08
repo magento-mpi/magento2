@@ -7,6 +7,6 @@
 ?>
 <ul class="tabs">
     <?foreach ($this->getLinks() as $_link):?>
-    <li><a href="<?=$_link->getUrl()?>" title="<?=$_link->getTitle()?>" class="<?=$_link->getClass()?>"><?=$_link->getLabel()?></a></li>
+    <li><a href="<?=$_link->getUrl()?>" title="<?=$_link->getTitle()?>" class="<?=$_link->getClass()?>"><span><?=$_link->getLabel()?></span></a></li>
     <?endforeach;?>
 </ul>
