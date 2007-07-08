@@ -32,8 +32,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')))
-        $this->_addBreadcrumb('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
+        $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
             
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(__('edit customer group'), __('edit customer groups title'));

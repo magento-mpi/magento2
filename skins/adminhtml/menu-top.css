@@ -192,8 +192,12 @@ ul.horizontal ul a { float:none !important; }
 		f\loat:left; 
 		/* this cures 'events fall through the menu' bug in ie6 
 		   you can can change the color, but don't remove it or use an image */ 
-		background:#ffffff; 
+		background:#91AFBA;
 		}
+		
+	* html ul.horizontal li li {
+	   background:#fffaf4;
+	   }
 	}
 
 /* use different comparative positioning for ie, 

@@ -233,7 +233,7 @@ dl.accordion dd.open {
     }
 
 .topnav-container {
-    background:url(images/nav_bg.gif) repeat-x #91afba;
+    background:#91afba url(images/nav_bg.gif) repeat-x;
     padding:3px 1.8em .33em 1.8em;
     z-index:9;
 }
