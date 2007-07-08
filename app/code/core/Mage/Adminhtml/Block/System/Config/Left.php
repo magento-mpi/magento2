@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/system/config/left.phtml');
+        $this->setTemplate('adminhtml/widget/tabs.phtml');
         
         $this->_websiteCode = $this->getRequest()->getParam('website');
         $this->_storeCode   = $this->getRequest()->getParam('store');
@@ -54,21 +54,8 @@ class Mage_Adminhtml_Block_System_Config_Left extends Mage_Adminhtml_Block_Widge
                     'class' => ($this->_storeCode == $storeCode) ? 'subitem active' : 'subitem'
                 ));
             }
-            
-            $links[] = new Varien_Object(array(
-                'label' => __('[new store]'),
-                'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>$code, 'store'=>'1')),
-                'class' => ($this->_storeCode == 1) ? 'subitem active' : 'subitem'
-            ));
-            
         }
-        
-        $links[] = new Varien_Object(array(
-            'label' => __('[new website]'),
-            'title' => __('new website title'),
-            'url'   => Mage::getUrl('adminhtml/system_config/edit', array('website'=>1)),
-            'class' => ($this->_websiteCode == 1) ? 'active' : ''
-        ));
+
         
         return $links;
     }
