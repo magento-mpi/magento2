@@ -52,7 +52,8 @@
     <input type="button" value="<?=__('Search')?>" onclick="<?=$this->getId()?>JsObject.doFilter()">
 </div>
 <?endif;?>
-<table cellspacing="0" class="data grid" id="<?=$this->getId()?>_table">
+<div class="grid">
+<table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
     <col <?=$_column->getHtmlProperty()?>/>
     <?endforeach;?>
@@ -80,6 +81,7 @@
     <?endforeach;?>
     </tbody>
 </table>
+</div>
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
