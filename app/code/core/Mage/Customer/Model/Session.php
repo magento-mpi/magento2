@@ -12,34 +12,41 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        $this->_session->customer = $customer;
+        $this->_customer = $customer;
+        $this->_session->customerId = $customer->getId();
         return $this;
     }
 
     public function getCustomer()
     {
-        if (!($this->_session->customer instanceof Mage_Customer_Model_Customer)) {
-            $this->setCustomer(Mage::getModel('customer/customer'));
+        if ($this->_customer instanceof Mage_Customer_Model_Customer) {
+            return $this->_customer;
         }
-        return $this->_session->customer;
+        
+        $customer = Mage::getModel('customer/customer');
+        if ($this->_session->customerId) {
+            $customer->load($this->_session->customerId);
+        }
+        $this->setCustomer($customer);
+        return $this->_customer;
     }
 
     public function getCustomerId()
     {
-        return $this->getCustomer()->getCustomerId();
+        return $this->getCustomer()->getId();
     }
 
     public function isLoggedIn()
     {
         $customer = $this->getCustomer();
 
-        return ($customer instanceof Mage_Customer_Model_Customer) && $customer->getCustomerId();
+        return ($customer instanceof Mage_Customer_Model_Customer) && $customer->getId();
     }
 
     public function login($username, $password)
     {
         $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
-        if ($customer) {
+        if ($customer && $customer->getId()) {
             $this->setCustomer($customer);
             Mage::dispatchEvent('customerLogin');
             return true;
@@ -61,8 +68,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            Mage::dispatchEvent('customerLogout', array('customer' => $this->_session->customer) );
-            unset($this->_session->customer);
+            Mage::dispatchEvent('customerLogout', array('customer' => $this->getCustomer()) );
+            unset($this->_session->customerId);
         }
     }
 

@@ -13,7 +13,7 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Password extends Mag
     public function beforeSave($object)
     {
         if ($password = $object->getPassword()) {
-            $object->setPasswordHach($object->hashPassword($password));
+            $object->setPasswordHash($object->hashPassword($password));
         }
     }
     

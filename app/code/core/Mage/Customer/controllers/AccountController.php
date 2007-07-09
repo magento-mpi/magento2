@@ -7,8 +7,13 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
+class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 {
+    /**
+     * Action predispatch
+     * 
+     * Check customer authentication for some actions
+     */
     public function preDispatch()
     {
         parent::preDispatch();
@@ -22,8 +27,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * Default account page
-     *
+     * Default customer account page
      */
     public function indexAction() 
     {
@@ -38,6 +42,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
     
+    /**
+     * Customer login form
+     */
     public function loginAction()
     {
         $this->loadLayout();
@@ -50,6 +57,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
     
+    /**
+     * Login post action
+     */
     public function loginPostAction()
     {
         $session = Mage::getSingleton('customer/session');
@@ -59,20 +69,18 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if (!empty($login)) {
                 extract($login);
                 if (!empty($username) && !empty($password)) {
-                    if ($session->login($username, $password)) {
-                        //$this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
-                        //return true;
-                    }
-                    else {
+                    if (!$session->login($username, $password)) {
                         $session->addMessage(Mage::getModel('customer/message')->error('CSTE000'));
                     }
                 }
             }
         }
         $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
-        //$this->_redirect('customer/account/login', array('_secure'=>true));
     }
     
+    /**
+     * Customer logout action
+     */
     public function logoutAction()
     {
         Mage::getSingleton('customer/session')->logout();
@@ -80,8 +88,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
     
     /**
-     * Registration form
-     *
+     * Customer register form
      */
     public function createAction()
     {
@@ -93,35 +100,37 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             return;
         }
         
-        $countries = Mage::getResourceModel('directory/country_collection');
+        $country = Mage::getModel('directory/country');
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         $data = new Varien_Object($data);
 
-        $block = $this->getLayout()->createBlock('core/template', 'customer.regform')
+        $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/registration.phtml')
             ->assign('action',      Mage::getUrl('customer/account/createPost', array('_secure'=>true)))
-            ->assign('countries',   $countries->loadByStore())
-            ->assign('regions',     $countries->getDefault($data->getCountryId())->getRegions())
+            ->assign('countries',   $country->getResourceCollection()->load())
+            ->assign('regions',     $country->getRegions())
             ->assign('data',        $data)
             ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
             
         $this->getLayout()->getBlock('content')->append($block);
-        
         $this->renderLayout();
     }
     
     /**
-     * Create account
+     * Create customer account action
      */
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            
-            $address  = Mage::getModel('customer/address')->setData($this->getRequest()->getPost());
-            $address->setPrimaryTypes(array_keys($address->getAvailableTypes('address_type_id')));
-            $customer = Mage::getModel('customer/customer')->setData($this->getRequest()->getPost());
+            $address  = Mage::getModel('customer/address')->setData($this->getRequest()->getPost())
+                ->setPostIndex('new');
+            $customer = Mage::getModel('customer/customer')
+                ->setData($this->getRequest()->getPost())
+                ->setDefaultBilling('new')
+                ->setDefaultShipping('new');
 
             $customer->addAddress($address);
+            
             
             try {
                 $customer->save();
@@ -129,11 +138,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomer($customer)
                     ->addMessage(Mage::getModel('customer/message')->success('CSTS001'));
 
-                $mailer = Mage::getModel('customer/email')
+                /*$mailer = Mage::getModel('customer/email')
                         ->setTemplate('email/welcome.phtml')
                         ->setType('html')
                         ->setCustomer($customer)
-                        ->send();
+                        ->send();*/
                         
                 $this->_redirect('customer/account');
                 return;

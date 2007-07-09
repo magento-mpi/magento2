@@ -63,6 +63,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_filterVisibility = true;
+    
+    protected $_saveParametersInSession = false;
 
     /**
      * Grid export types
@@ -453,13 +455,21 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $sessionParamName = $this->getId().$paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
-            $session->setData($sessionParamName, $param);
+            if ($this->_saveParametersInSession) {
+                $session->setData($sessionParamName, $param);
+            }
             return $param;
         }
-        elseif ($param = $session->getData($sessionParamName))
+        elseif ($this->_saveParametersInSession && ($param = $session->getData($sessionParamName)))
         {
             return $param;
         }
         return $default;
+    }
+    
+    public function setSaveParametersInSession($flag)
+    {
+        $this->_saveParametersInSession = $flag;
+        return $this;
     }
 }

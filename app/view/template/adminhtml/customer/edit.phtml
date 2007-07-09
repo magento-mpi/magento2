@@ -3,24 +3,6 @@
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
             <td class="form-buttons">
-			<?if($this->getCustomerId()):?>
-       <button id="add_address_button" class="scalable" onclick="customerDelete();return false;">
-				<table cellspacing="0" id="add_new_address_button">
-					<tr>
-						<td class="tl"></td>
-						<td class="tr"></td>
-					</tr>
-					<tr>
-						<td class="ml"><?=__('Delete Customer')?></td>
-						<td class="mr"></td>
-					</tr>
-					<tr>
-						<td class="bl"></td>
-						<td class="br"></td>
-					</tr>
-				</table>
-			</button>
-			<?endif;?>
        		<button id="add_address_button" class="scalable" onclick="customerAddresses.addNewAddress()">
 				<table cellspacing="0" id="add_new_address_button">
 					<tr>
@@ -37,7 +19,25 @@
 					</tr>
 				</table>
 			</button>
-       <button id="add_address_button" class="scalable" onclick="customerForm.submit();return false;">
+			<?if($this->getCustomerId()):?>
+            <button class="scalable" onclick="customerDelete();return false;">
+				<table cellspacing="0" id="add_new_address_button">
+					<tr>
+						<td class="tl"></td>
+						<td class="tr"></td>
+					</tr>
+					<tr>
+						<td class="ml"><?=__('Delete Customer')?></td>
+						<td class="mr"></td>
+					</tr>
+					<tr>
+						<td class="bl"></td>
+						<td class="br"></td>
+					</tr>
+				</table>
+			</button>
+			<?endif;?>
+            <button class="scalable" onclick="customerForm.submit();return false;">
 				<table cellspacing="0" id="add_new_address_button">
 					<tr>
 						<td class="tl"></td>

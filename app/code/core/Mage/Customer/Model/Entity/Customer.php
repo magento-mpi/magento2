@@ -64,6 +64,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->setObject($customer)
+            ->addAttributeToSelect('password_hash')
             ->addAttributeToFilter('email', $email)
             ->setPage(1,1);
             
@@ -89,7 +90,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     public function authenticate(Mage_Customer_Model_Customer $customer, $email, $password)
     {
         $this->loadByEmail($customer, $email);
-        
         $success = $customer->getPasswordHash()===$customer->hashPassword($password);
         if (!$success) {
             $customer->setData(array());

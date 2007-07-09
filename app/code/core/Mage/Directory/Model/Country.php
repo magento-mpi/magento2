@@ -7,27 +7,13 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Model_Country extends Varien_Object 
+class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract  
 {
     public function __construct() 
     {
         parent::__construct();
+        $this->_setResource('directory/country');
         $this->setIdFieldName($this->getResource()->getIdFieldName());
-    }
-    
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('directory/country');
-    }
-    
-    public function load($countryId)
-    {
-        
-    }
-    
-    public function save()
-    {
-        
     }
     
     public function getRegions()

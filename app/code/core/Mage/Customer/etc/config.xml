@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.2.3</version>
+            <version>0.2.4</version>
             <depends>
                 <Mage_Eav />
             </depends>
