@@ -44,7 +44,12 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_conn = $conn;
         $this->_sqlSelect = $this->_conn->select();
     }
-
+    
+    /**
+     * Retrieve connection object
+     *
+     * @return Zend_Db_Adapter_Abstract
+     */
     public function getConnection()
     {
         return $this->_conn;
@@ -141,6 +146,26 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_isFiltersRendered = true;
         return $this;
     }
+    
+    /**
+     * Add field filter to collection
+     *
+     * If $attribute is an array will add OR condition with following format:
+     * array(
+     *     array('attribute'=>'firstname', 'like'=>'test%'),
+     *     array('attribute'=>'lastname', 'like'=>'test%'),
+     * )
+     * 
+     * @see self::_getConditionSql for $condition
+     * @param string|array $attribute
+     * @param null|string|array $condition
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function addFieldToFilter($field, $condition)
+    {
+        $this->_sqlSelect->where($this->_getConditionSql($field, $condition));
+        return $this;
+    }
 
     /**
      * Build SQL statement for condition
@@ -164,18 +189,28 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected function _getConditionSql($fieldName, $condition) {
         $sql = '';
         if (is_array($condition)) {
-            if (!empty($condition['from']) && !empty($condition['to'])) {
-                $sql = $this->_conn->quoteInto("$fieldName between ?", $condition['from']);
-                $sql = $this->_conn->quoteInto("$sql and ?", $condition['to']);
-            } elseif (!empty($condition['neq'])) {
-                $sql = $this->_conn->quoteInto("$fieldName != ?", $condition['neq']);
-            } elseif (!empty($condition['like'])) {
-                $sql = $this->_conn->quoteInto("$fieldName like ?", $condition['like']);
-            } elseif (!empty($condition['in'])) {
-                $sql = $this->_conn->quoteInto("$fieldName in (?)", $condition['in']);
-            } elseif (!empty($condition['nin'])) {
-                $sql = $this->_conn->quoteInto("$fieldName not in (?)", $condition['nin']);
-            } else {
+            if (isset($condition['from']) && isset($condition['to'])) {
+                if (!empty($condition['from'])) {
+                    $sql.= $this->getConnection()->quoteInto("$fieldName >= ?", $condition['from']);
+                }
+                if (!empty($condition['to'])) {
+                    $sql.= empty($sql) ? '' : ' and ';
+                    $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $condition['to']);
+                }
+            } 
+            elseif (!empty($condition['neq'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName != ?", $condition['neq']);
+            } 
+            elseif (!empty($condition['like'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName like ?", $condition['like']);
+            } 
+            elseif (!empty($condition['in'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName in (?)", $condition['in']);
+            } 
+            elseif (!empty($condition['nin'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName not in (?)", $condition['nin']);
+            } 
+            else {
                 $orSql = array();
                 foreach ($condition as $orCondition) {
                     $orSql[] = "(".$this->_getConditionSql($fieldName, $orCondition).")";
@@ -183,7 +218,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $sql = "(".join(" or ", $orSql).")";
             }
         } else {
-            $sql = $this->_conn->quoteInto("$fieldName = ?", $condition);
+            $sql = $this->getConnection()->quoteInto("$fieldName = ?", $condition);
         }
         return $sql;
     }

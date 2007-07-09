@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _addColumnFilterToCollection($column)
     {
         if ($this->getCollection()) {
-
+            $this->getCollection()->addFieldToFilter($column->getIndex(), $column->getFilter()->getCondition());
         }
         return $this;
     }
