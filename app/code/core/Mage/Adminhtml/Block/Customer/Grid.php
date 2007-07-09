@@ -39,7 +39,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         $this->addColumn('id', array(
             'header'    =>__('ID'),
-            'width'     =>5,
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'entity_id'
@@ -54,7 +53,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
         $this->addColumn('email', array(
             'header'    =>__('Email'),
-            'width'     =>40,
             'align'     =>'center',
             'index'     =>'email'
         ));
