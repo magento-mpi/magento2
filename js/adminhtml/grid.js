@@ -17,8 +17,8 @@ varienGrid.prototype = {
         this.trOnKeyPress   = this.keyPress.bindAsEventListener(this);
         
         this.thLinkOnClick      = this.doSort.bindAsEventListener(this);
-        
         this.initGrid();
+        this.bindFilterFields();
     },
     initGrid : function(){
         if($(this.containerId+this.tableSufix)){
@@ -102,6 +102,17 @@ varienGrid.prototype = {
     doExport : function(typeField){
         if($(typeField)){
             location.href = $(typeField).value;
+        }
+    },
+    bindFilterFields : function(){
+        var filters = $$('#'+this.containerId+' .filter input', '#'+this.containerId+' .filter select');
+        for (var i in filters){
+            Event.observe(filters[i],'keypress',this.filterKeyPress.bind(this));
+        }
+    },
+    filterKeyPress : function(event){
+        if(event.keyCode==Event.KEY_RETURN){
+            this.doFilter();
         }
     },
     doFilter : function(){
