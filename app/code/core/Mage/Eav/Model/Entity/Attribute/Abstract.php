@@ -16,42 +16,42 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      * @var string
      */
     protected $_name;
-    
+
     /**
      * Entity instance
      *
      * @var Mage_Eav_Model_Entity_Abstract
      */
     protected $_entity;
-    
+
     /**
      * Backend instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     protected $_backend;
-    
+
     /**
      * Frontend instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
      */
     protected $_frontend;
-    
+
     /**
      * Source instance
      *
      * @var Mage_Eav_Model_Entity_Attribute_Source_Abstract
      */
     protected $_source;
-    
+
     protected function _construct()
     {
-        $this->_setResource('eav/entity_attribute'); 
+        $this->_setResource('eav/entity_attribute');
         $this->setIdFieldName('attribute_id');
         parent::_construct();
     }
-    
+
     public function loadByName($entityType, $name)
     {
         if (is_numeric($entityType)) {
@@ -78,7 +78,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         return $this;
     }
-    
+
     /**
      * Get attribute name
      *
@@ -88,7 +88,23 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         return $this->getData('attribute_name');
     }
-    
+
+    /**
+     * Get attribute alias as "entity_type/attribute_name"
+     *
+     * @param Mage_Eav_Model_Entity_Abstract $entity exclude this entity
+     * @return string
+     */
+    public function getAlias($entity=null)
+    {
+        $alias = '';
+        if (is_null($entity) || ($entity->getType() !== $this->getEntity()->getType())) {
+            $alias .= $this->getEntity()->getType() . '/';
+        }
+        $alias .= $this->getName();
+        return  $alias;
+    }
+
     /**
      * Set attribute name
      *
@@ -111,7 +127,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         $this->_entity = $entity;
         return $this;
     }
-    
+
     /**
      * Retrieve entity instance
      *
@@ -121,12 +137,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         return $this->_entity;
     }
-    
+
     public function getEntityIdField()
     {
         return $this->getEntity()->getValueEntityIdField();
     }
-    
+
     /**
      * Retrieve backend instance
      *
@@ -141,9 +157,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             $this->_backend = Mage::getModel($this->getBackendModel())
                 ->setAttribute($this);
         }
-        return $this->_backend;       
+        return $this->_backend;
     }
-    
+
     /**
      * Retrieve frontend instance
      *
@@ -158,7 +174,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             $this->_frontend = Mage::getModel($this->getFrontendModel())
                 ->setAttribute($this);
         }
-        return $this->_frontend;  
+        return $this->_frontend;
     }
 
     /**
@@ -175,14 +191,14 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             $this->_source = Mage::getModel($this->getSourceModel())
                 ->setAttribute($this);
         }
-        return $this->_source;  
+        return $this->_source;
     }
-    
+
     protected function _getDefaultBackendModel()
     {
         return Mage_Eav_Model_Entity::DEFAULT_BACKEND_MODEL;
     }
-    
+
     protected function _getDefaultFrontendModel()
     {
         return Mage_Eav_Model_Entity::DEFAULT_FRONTEND_MODEL;
