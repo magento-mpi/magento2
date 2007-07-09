@@ -847,7 +847,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     protected function _getAttributeConditionSql($attribute, $condition)
     {
         if (isset($this->_joinFields[$attribute])) {
-            return $this->_getConditionSql($this->_getAttributeFieldName($attribute));
+            return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
         }
         // process linked attribute
         if (isset($this->_joinAttributes[$attribute])) {
