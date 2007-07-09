@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'header'=>__('Template Type'),
                 'align'=>'center',
                 'index'=>'template_type',
+                'filter' => false,
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_type'
         ));
         $this->addColumn('action',
@@ -59,6 +60,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'align'=>'center',
                 'index'=>'template_id',
                 'sortable'=>false,
+                'filter' => false,
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
 

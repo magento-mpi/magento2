@@ -35,6 +35,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         $gridUrl = Mage::getUrl('*/*/');
         $this->setPagerVisibility(false);
+        $this->setFilterVisibility(false);
         $this->addColumn('time', array('header'=>__('time'), 'align'=>'center', 'index'=>'time_formated'));
         $this->addColumn('type', array('header'=>__('type'),'align'=>'center', 'index'=>'type'));
         $this->addColumn('download', array('header'=>__('download'),'align'=>'center',
