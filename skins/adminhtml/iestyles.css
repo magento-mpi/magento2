@@ -38,7 +38,7 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 	padding-bottom:3px;
 	}
 .grid tr.filter th input {
-	margin-right: -8px;
+	margin-right: -10px;
 }
 
 .grid tr.filter th .range input {

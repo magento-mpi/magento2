@@ -288,14 +288,14 @@ ul.horizontal ul a, ul.horizontal ul a:hover, ul.horizontal ul a.on, ul.horizont
 	}
 ul.horizontal ul a {
 	padding:.3em 1em;
-	background:url(images/nav_nest_link_bg.gif) repeat #fffaf4;
+	background:#fffaf4;
 	border-bottom:1px solid #fddcbb;
 }
 ul.horizontal ul a.last {
 	border-bottom:0;
 	}
 ul.horizontal ul a:hover {
-	background:url(images/nav_nest_link_over_bg.gif) repeat #fdeedf;
+	background:#fdeedf;
 	}
 ul.horizontal ul a.on {
 	font-weight:bold;
