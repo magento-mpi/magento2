@@ -27,7 +27,7 @@ button.scalable {
 	margin-left:5px;
 	overflow:visible;
 	}
-button.scalable td.mr, button.scalable td.br { width:6px;}
+button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th {
 	padding: 0px 8px 0px 0px;
 }

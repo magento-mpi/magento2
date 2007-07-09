@@ -139,13 +139,13 @@ button.scalable td {
     background-image:url(images/btn_bg.gif);
     }
 button.scalable td.tl {
-    height:4px;
+    height:5px;
     background-position:0 0;
     background-repeat:no-repeat;
     }
 button.scalable td.tr {
-    width:4px; 
-    height:4px;
+    width:5px; 
+    height:5px;
     background-position:100% 0;
     background-repeat:no-repeat;
     }
@@ -159,7 +159,7 @@ button.scalable td.ml {
     line-height:12px;
     }
 button.scalable td.mr {
-    width:4px;
+    width:5px;
     background-position:100% -4px;
     background-repeat:no-repeat;
     }
@@ -169,7 +169,7 @@ button.scalable td.bl {
     background-repeat:no-repeat;
     }
 button.scalable td.br {
-    width:4px;
+    width:5px;
     height:5px;
     background-position:100% 100%;
     background-repeat:no-repeat;
