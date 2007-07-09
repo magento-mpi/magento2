@@ -18,7 +18,7 @@ ul.horizontal .parent {
         <?if(!empty($_item['children']) && is_array($_item['children'])):?>
             <ul>
             <?foreach ($_item['children'] as $_child):?>
-                <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'on':''?> <?=!empty($_child['children'])?'parent':''?>">
+                <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'on':''?> <?=!empty($_child['children'])?'parent':''?> <?=!empty($_child['last'])?'last':''?>">
                     <?=$_child['label']?></a>       
                 <?if(!empty($_child['children'])):?>
                     <ul>
