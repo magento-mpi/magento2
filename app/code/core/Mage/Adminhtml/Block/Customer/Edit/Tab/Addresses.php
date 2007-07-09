@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $customerId = (int) $this->getRequest()->getParam('id');
         
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('edit customer address')));
+        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('Edit Customer Address')));
         
         $addressModel = Mage::getModel('customer/address');
         

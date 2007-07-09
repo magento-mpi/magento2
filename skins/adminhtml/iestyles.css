@@ -9,6 +9,10 @@
 dl.accordion dt,
 .content { height:1%; }
 
+.icon-head {
+	height:18px; 
+	}
+
 .clear {
 	clear:both;
 	height:0;

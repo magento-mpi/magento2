@@ -1,6 +1,8 @@
 <!-- Addresses list -->
-<div class="content-left-nav address-list">
-	<h4>Customer Addresses</h4>
+<table cellspacing="0" class="form-edit">
+<tr>
+<td class="content-left-nav address-list">
+	<h4 class="icon-head head-customer-address-list">Customer Addresses</h4>
 	<ul id="address_list">
 	<?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
@@ -30,53 +32,54 @@
 		</li>
 	<?endif;?>
 	</ul>
-</div>
+</td>
+<td>
 <!-- Addresses forms -->
-<div class="entry-edit" id="address_form_container">
-	<?if($addressCollection->getSize()):?>
-        <?foreach ($addressCollection as $_address):?>
-        <div id="form_address_item_<?=$_address->getId()?>" style="display:none">
-        <?
-            $this->getFormObject()->setValues($_address->getData())
-                ->setHtmlIdPrefix($_address->getId())
-                ->setFieldNamePrefix('address['.$_address->getId().']')
-        ?>
-        <?=$this->getFormObject()->getHtml()?>
-        <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
-        </div>
-        <?endforeach;?>
-    <?else:?>
-    <div id="form_new_item" style="display:none">
-    <?$this->getFormObject()->setFieldNamePrefix('address[new]')?>
-    <?=$this->getFormObject()->getHtml()?>
-    </div>
-    <?endif;?>
-</div>
+	<div class="entry-edit" id="address_form_container">
+		<?if($addressCollection->getSize()):?>
+					<?foreach ($addressCollection as $_address):?>
+					<div id="form_address_item_<?=$_address->getId()?>" style="display:none">
+					<?
+							$this->getFormObject()->setValues($_address->getData())
+									->setHtmlIdPrefix($_address->getId())
+									->setFieldNamePrefix('address['.$_address->getId().']')
+					?>
+					<?=$this->getFormObject()->getHtml()?>
+					<input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
+					</div>
+					<?endforeach;?>
+			<?else:?>
+			<div id="form_new_item" style="display:none">
+			<?$this->getFormObject()->setFieldNamePrefix('address[new]')?>
+			<?=$this->getFormObject()->getHtml()?>
+			</div>
+			<?endif;?>
+	</div>
 
 
-<!-- Template for adding address item to list -->
-<?$_templatePrefix = '_template_'?>
-<div id="address_item_template" class="no-display template">
-	<address>New address</address>
-    <div class="address-type">
-        <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default billing')?></label>
-        <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default shipping')?></label>
-    </div>
-    <div class="delete-address">
-        <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
-    </div>
-</div>
+	<!-- Template for adding address item to list -->
+	<?$_templatePrefix = '_template_'?>
+	<div id="address_item_template" class="no-display template">
+		<address>New address</address>
+			<div class="address-type">
+					<input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default billing')?></label>
+					<input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default shipping')?></label>
+			</div>
+			<div class="delete-address">
+					<a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
+			</div>
+	</div>
 
-<!-- Address form template -->
-<div id="address_form_template" class="no-display template">
-<?
-    // Set form template elements prefix
-    $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
-        ->setValues(array())
-        ->setFieldNamePrefix('address['.$_templatePrefix.']');
-?>
-<?=$this->getFormObject()->getHtml()?>
-</div>
+	<!-- Address form template -->
+	<div id="address_form_template" class="no-display template">
+	<?
+			// Set form template elements prefix
+			$this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
+					->setValues(array())
+					->setFieldNamePrefix('address['.$_templatePrefix.']');
+	?>
+	<?=$this->getFormObject()->getHtml()?>
+	</div>
 
 
 <!-- -->
@@ -328,3 +331,5 @@ addressesModel.prototype = {
 
 customerAddresses = new addressesModel();
 </script>
+</td>
+</tr></table>

@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
             return Mage::registry('customer')->getName();
         }
         else {
-            return __('New customer');
+            return __('New Customer');
         }
     }
 }
