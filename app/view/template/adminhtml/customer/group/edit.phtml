@@ -3,26 +3,55 @@
         <tr>
             <td style="width:30%;"><h3><?=$header?></h3></td>
             <td class="form-buttons">
-							<table cellspacing="0" class="form-button">
-								<tr>
-									<td class="form-button-left"></td>
-									<td class="form-button-right"><a href="#" onclick="customerGroupForm.submit();return false;"><?=__('Save Customer Group')?></a></td>
-								</tr>
-							</table>
-							<table cellspacing="0" class="form-button">
-								<tr>
-									<td class="form-button-left"></td>
-									<td class="form-button-right"><a href="#" onclick="history.back();return false;"><?=__('Back')?></a></td>
-								</tr>
-							</table>
-							<?if($this->getEditMode()):?>
-							<table cellspacing="0" class="form-button">
-								<tr>
-									<td class="form-button-left"></td>
-									<td class="form-button-right"><a href="<?=$this->getDeleteUrl()?>"><?=__('Delete Customer Group')?></a></td>
-								</tr>
-							</table>
+							<button class="scalable" onclick="history.back();return false;">
+								<table cellspacing="0">
+									<tr>
+										<td class="tl"></td>
+										<td class="tr"></td>
+									</tr>
+									<tr>
+										<td class="ml"><?=__('Back')?></td>
+										<td class="mr"></td>
+									</tr>
+									<tr>
+										<td class="bl"></td>
+										<td class="br"></td>
+									</tr>
+								</table>
+							</button>							<?if($this->getEditMode()):?>
+							<button class="scalable" onclick="window.location='<?=$this->getDeleteUrl()?>'">
+								<table cellspacing="0">
+									<tr>
+										<td class="tl"></td>
+										<td class="tr"></td>
+									</tr>
+									<tr>
+										<td class="ml"><?=__('Delete Customer Group')?></td>
+										<td class="mr"></td>
+									</tr>
+									<tr>
+										<td class="bl"></td>
+										<td class="br"></td>
+									</tr>
+								</table>
+							</button>
 							<?endif?>
+							<button class="scalable" onclick="customerGroupForm.submit();return false;">
+								<table cellspacing="0">
+									<tr>
+										<td class="tl"></td>
+										<td class="tr"></td>
+									</tr>
+									<tr>
+										<td class="ml"><?=__('Save Customer Group')?></td>
+										<td class="mr"></td>
+									</tr>
+									<tr>
+										<td class="bl"></td>
+										<td class="br"></td>
+									</tr>
+								</table>
+							</button>
             </td>
         </tr>
     </table>
