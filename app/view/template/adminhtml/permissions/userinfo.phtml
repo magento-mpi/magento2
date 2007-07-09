@@ -1,12 +1,20 @@
-<div class="head">
-    <table cellspacing="0"> 
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
         <tr>
-            <td style="width:50%;"><h2></h2></td>
-            <td class="buttons">
-                <strong class="button"><span><a href="#" onclick="customerForm.submit();return false;"><?=__('save')?></a></span></strong>
-                <strong class="button"><span><a href="<?=$this->getUrl("*/*/deleteuser/uid/$uid")?>"><?=__('delete')?></a></span></strong>
-            </td>
-        </tr>
+            <td style="width:50%;"><h3></h3></td>
+            <td class="form-buttons">
+			<table cellspacing="0" class="form-button">
+				<tr>
+					<td class="form-button-left"></td>
+					<td class="form-button-right"><a href="#" onclick="customerForm.submit();return false;"><?=__('Save')?></a></td>
+				</tr>
+			</table>
+			<table cellspacing="0" class="form-button">
+				<tr>
+					<td class="form-button-left"></td>
+					<td class="form-button-right"><a href="<?=$this->getUrl("*/*/deleteuser/uid/$uid")?>"><?=__('Delete')?></a></td>
+				</tr>
+			</table>
     </table>
 </div>
 <form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="customer_edit_form">

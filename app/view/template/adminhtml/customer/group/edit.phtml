@@ -1,13 +1,28 @@
-<div class="head">
-    <table cellspacing="0"> 
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
         <tr>
             <td style="width:30%;"><h3><?=$header?></h3></td>
-            <td class="buttons">
-                <strong class="button"><span><a href="#" onclick="history.back();return false;"><?=__('back')?></a></span></strong>
-                <strong class="button"><span><a href="#" onclick="customerGroupForm.submit();return false;"><?=__('save customer group')?></a></span></strong>
-                <?if($this->getEditMode()):?>
-                <strong class="button"><span><a href="<?=$this->getDeleteUrl()?>"><?=__('delete customer group')?></a></span></strong>
-                <?endif?>
+            <td class="form-buttons">
+							<table cellspacing="0" class="form-button">
+								<tr>
+									<td class="form-button-left"></td>
+									<td class="form-button-right"><a href="#" onclick="customerGroupForm.submit();return false;"><?=__('Save Customer Group')?></a></td>
+								</tr>
+							</table>
+							<table cellspacing="0" class="form-button">
+								<tr>
+									<td class="form-button-left"></td>
+									<td class="form-button-right"><a href="#" onclick="history.back();return false;"><?=__('Back')?></a></td>
+								</tr>
+							</table>
+							<?if($this->getEditMode()):?>
+							<table cellspacing="0" class="form-button">
+								<tr>
+									<td class="form-button-left"></td>
+									<td class="form-button-right"><a href="<?=$this->getDeleteUrl()?>"><?=__('Delete Customer Group')?></a></td>
+								</tr>
+							</table>
+							<?endif?>
             </td>
         </tr>
     </table>

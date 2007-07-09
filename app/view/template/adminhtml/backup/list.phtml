@@ -1,8 +1,15 @@
-<div class="head">
-<table cellspacing="0">	
+<div class="content-header">
+<table cellspacing="0" class="grid-header">	
 	<tr>
-		<td style="width:50%;"><h2><?=__('backup title')?></h2></td>
-		<td class="buttons"><strong class="button"><span><a href="<?=$this->getUrl('adminhtml/*/',array('action'=>'create'))?>"><?=__('create backup');?></a></span></strong></td>
+		<td style="width:50%;"><h3><?=__('Backup Title')?></h3></td>
+		<td class="form-buttons">
+		
+		<table cellspacing="0" class="form-button">
+				<tr>
+					<td class="form-button-left"></td>
+					<td class="form-button-right"><a href="<?=$this->getUrl('adminhtml/*/',array('action'=>'create'))?>"><?=__('Create Backup');?></a></td>
+				</tr>
+			</table></td>
 	</tr>
 </table>
 </div>

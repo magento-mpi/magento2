@@ -10,10 +10,7 @@
 
 /* tame the lists */
 ul.horizontal, ul.horizontal li {
-	margin:0;
-	padding:0;
 	list-style-type:none;
-	font-size:100%; /* fix for win/ie's "non-linear text scaling" bug */
 	}
 
 
@@ -24,8 +21,6 @@ ul.horizontal {
     left:0;
     width:100%;
     */    
-	cursor:default;
-	
 	z-index:2000;
 	
 	/* navbar top position 
@@ -48,8 +43,6 @@ ul.horizontal li {
 	   (1px defaults to around 0.05em) */
 	/*left:10.55em;*/
 	
-	/* shift list-items to collapse borders horizontally */
-	margin:0 0 0 0;
 	}
 	
 /* we have to use a different positioning trick for ie, so: 
@@ -70,15 +63,12 @@ ul.horizontal li {
    we can't do that for everybody, because it breaks in opera */
 ul[class^="horizontal"] li {
 	/*margin:0 -10.55em 0 10.45em;*/
-	left:0.05em;
 	}
 
 
 /* menu lists */
 ul.horizontal ul {
 	z-index:2020;
-	padding:0;
-	cursor:default;
 	position:absolute;
 	top:auto;
 	
@@ -107,11 +97,11 @@ ul.horizontal ul li {
 	/* duplicate menu width */
 	/*width:8.2em;*/
 	
-	/* compensate for navbar positioning */
+	/* compensate for navbar positioning 
 	left:auto;
 	
-	/* shift list-items to collapse borders vertically */
-	margin:0;
+	/* shift list-items to collapse borders vertically 
+	margin:0;*/
 	}
 
 
@@ -146,7 +136,6 @@ ul.horizontal ul ul {
 ul.horizontal a {
 	display:block;
 	cursor:pointer;
-	cursor:hand;
 	text-decoration:none;
 	
     /*
@@ -185,19 +174,19 @@ ul.horizontal ul a { float:none !important; }
 
 /* hacks for win/ie to cure 'excess hidden margins' and 'double margin float' bugs */
 @media screen, projection {
-	* html ul.horizontal li {
-		/* for ie5.0 */
-		display:inline; 
-		/* for ie5.5+ */
-		f\loat:left; 
-		/* this cures 'events fall through the menu' bug in ie6 
-		   you can can change the color, but don't remove it or use an image */ 
-		background:#91AFBA;
-		}
-		
-	* html ul.horizontal li li {
-	   background:#fffaf4;
-	   }
+	* html ul.horizontal li { 
+		 /* for ie5.0
+		 display:inline;  */ 
+		 /* for ie5.5+ */ 
+		 f\loat:left;  
+		 /* this cures 'events fall through the menu' bug in ie6  
+				you can can change the color, but don't remove it or use an image */  
+		 background:#91AFBA; 
+		 } 
+	} 
+	* html ul.horizontal li li { 
+		 background:#fffaf4; 
+		 } 
 	}
 
 /* use different comparative positioning for ie, 
@@ -296,6 +285,7 @@ ul.horizontal ul a:hover {
 	}
 ul.horizontal ul a.on {
 	font-weight:bold;
+	background-image:none;
 	}
 ul.horizontal .parent {
 	background-image:url(images/nav_parent_arrow.gif) !important;

@@ -16,8 +16,9 @@ dl.accordion dt,
 	overflow:hidden;
 	}
 
-/* Compensates for margin overlap */
-.form-button {
+/* widgets.css override */
+button.scalable {
+	width:auto;
 	margin-left:5px;
+	overflow:visible;
 	}
-

@@ -1,8 +1,8 @@
-<div class="head">
-    <table cellspacing="0"> 
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
         <tr>
             <td style="width:30%;"><h2><?=$this->getHeaderText()?></h2></td>
-            <td class="buttons">
+            <td class="form-buttons">
                 <strong class="button"><span><a href="#" onclick="history.back();return false;"><?=__('back')?></a></span></strong>
                 <?if(!$this->isTextType()):?>
                 <strong class="button" id="convert_button"><span><a href="#" onclick="return templateControl.stripTags();"><?=__('convert to plain text')?></a></span></strong>

@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 <?
 /**
  *  getId()
@@ -11,9 +21,10 @@
 <?if($this->canDisplayContainer()):?>
 <div id="<?=$this->getId()?>">
 <?endif;?>
-<div class="actions">
+<table cellspacing="0" class="actions">
+<tr>
 <?if($this->getPagerVisibility()):?>
-	<div class="pager">
+	<td class="pager">
 		Page
 		<select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
 		<?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
@@ -30,33 +41,72 @@
 				<option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
 		</select>
 		per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> Records</strong> found
-	</div>
+	</td>
 <?endif?>
-<?if($this->getFilterVisibility()):?>
-	<div class="filter-actions">
-		<div class="form-button">
-			<span><a href="#" onclick="<?=$this->getId()?>JsObject.resetFilter()"><?=__('Reset filter')?></a></span>
-		</div>
-		<div class="form-button">
-			<span><a href="#" onclick="<?=$this->getId()?>JsObject.doFilter()"><?=__('Search')?></a></span>
-		</div>
-	</div>
-<?endif;?>
 <?if($this->getExportTypes()):?>
-	<div class="export a-right">
-		<span class="form-button right">
-			<span><a href="#" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')"><?=__('Export')?></a></span>
-		</span>
+	<td class="export a-right">
 		<img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
 		<select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
 		<?foreach ($this->getExportTypes() as $_type):?>
 			<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
 		<?endforeach;?>
 		</select>
-	</div>
+		<button class="scalable" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
+			<table cellspacing="0">
+				<tr>
+					<td class="tl"></td>
+					<td class="tr"></td>
+				</tr>
+				<tr>
+					<td class="ml"><?=__('Export')?></td>
+					<td class="mr"></td>
+				</tr>
+				<tr>
+					<td class="bl"></td>
+					<td class="br"></td>
+				</tr>
+			</table>
+		</button>
+	</td>
 <?endif;?>
-</div>
-<div class="clear"></div>
+<?if($this->getFilterVisibility()):?>
+	<td class="filter-actions a-right">
+	<button class="scalable" onclick="<?=$this->getId()?>JsObject.resetFilter()">
+		<table cellspacing="0">
+			<tr>
+				<td class="tl"></td>
+				<td class="tr"></td>
+			</tr>
+			<tr>
+				<td class="ml"><?=__('Reset Filter')?></td>
+				<td class="mr"></td>
+			</tr>
+			<tr>
+				<td class="bl"></td>
+				<td class="br"></td>
+			</tr>
+		</table>
+	</button>
+		<button class="scalable" onclick="<?=$this->getId()?>JsObject.doFilter()">
+		<table cellspacing="0">
+			<tr>
+				<td class="tl"></td>
+				<td class="tr"></td>
+			</tr>
+			<tr>
+				<td class="ml"><?=__('Search')?></td>
+				<td class="mr"></td>
+			</tr>
+			<tr>
+				<td class="bl"></td>
+				<td class="br"></td>
+			</tr>
+		</table>
+	</button>
+	</td>
+<?endif;?>
+</tr>
+</table>
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>

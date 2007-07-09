@@ -13,6 +13,9 @@
 	text-decoration:underline;
 	}
 /* sort arrow desc */
+.grid th a {
+	display:block;
+	}
 .grid .sort-arrow-desc {
     padding-right: 30px;
     background-image: url(images/sort-arrow-down.gif);
@@ -143,3 +146,55 @@ select.countries option{
     padding-left:20px;
     background-repeat:no-repeat;
 }
+
+
+/* Form Button */
+button.scalable {
+	margin:0;
+	border:none;
+	padding:0;
+	background:none;
+	cursor:pointer;
+	vertical-align:middle;
+	}
+button.scalable td {
+	background-image:url(images/btn_bg.gif);
+	}
+button.scalable td.tl {
+	height:4px;
+	background-position:0 0;
+	background-repeat:no-repeat;
+	}
+button.scalable td.tr {
+	width:4px; 
+	height:4px;
+	background-position:100% 0;
+	background-repeat:no-repeat;
+	}
+button.scalable td.ml {
+	height:14px;
+	background-position:0 -4px;
+	background-repeat:no-repeat;
+	padding:0 7px 0 11px;
+	color:white;
+	font-weight:bold;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:12px;
+	}
+button.scalable td.mr {
+	width:4px;
+	background-position:100% -4px;
+	background-repeat:no-repeat;
+	}
+button.scalable td.bl {
+	height:5px;
+	background-position:0 100%;
+	background-repeat:no-repeat;
+	}
+button.scalable td.br {
+	width:4px; 
+	height:5px;
+	background-position:100% 100%;
+	background-repeat:no-repeat;
+	}
