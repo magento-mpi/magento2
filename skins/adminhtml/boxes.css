@@ -396,6 +396,14 @@ label.inline{
 	background-image:url(images/fam_status_online.gif);
 	padding-left:18px;
 	}
+
+
+.footer .powered-by {
+	float:left;
+	min-height:19px;
+	background:url(images/varien_logo.gif) no-repeat 0 50%;
+	padding-left:22px;
+	}
 /* Overrides */
 .left {float:left; }
 .right {float:right; }
@@ -415,6 +423,7 @@ dl.accordion dt:after,
 #topnav:after,
 .main:after,
 .container:after,
+.footer:after,
 .header:after,
 .clear:after {
     clear:both;
