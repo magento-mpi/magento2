@@ -229,7 +229,7 @@ addressesModel.prototype = {
             $('form_'+item.id).addressItem = item;
             Element.show($('form_'+item.id));
             //new Effect.Appear($('form_'+item.id), {duration : 0.3 });
-            $('form_'+item.id).focus();
+            //$('form_'+item.id).focus();
             this.addFieldChangeObserver($('form_'+item.id));
         }
         this.activeItem = item;

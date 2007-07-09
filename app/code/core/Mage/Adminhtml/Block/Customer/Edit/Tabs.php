@@ -20,15 +20,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     
     protected function _beforeToHtml()
     {
-        $this->addTab('view', array(
-            'label'     => __('Customer view'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
-            'active'    => true
-        ));
+        if (Mage::registry('customer')->getId()) {
+            $this->addTab('view', array(
+                'label'     => __('Customer view'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
+                'active'    => true
+            ));
+        }
 
         $this->addTab('account', array(
             'label'     => __('Account information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
+            'active'    => Mage::registry('customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(

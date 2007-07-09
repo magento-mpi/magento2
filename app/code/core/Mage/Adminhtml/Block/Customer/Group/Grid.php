@@ -50,6 +50,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
             'format' => '<a href="' . $gridUrl .'edit/id/$customer_group_id/" class="edit-url">' . __('edit') . '</a> | '
                 .  '<a href="' . $gridUrl .'delete/id/$customer_group_id/">' . __('delete') . '</a>',
             'index' => 'type',
+            'filter'=> false,
             'sortable' => false,
         ));
         $this->_initCollection();
