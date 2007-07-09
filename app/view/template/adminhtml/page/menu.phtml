@@ -23,7 +23,7 @@ ul.horizontal .parent {
                 <?if(!empty($_child['children'])):?>
                     <ul>
                     <?foreach ($_child['children'] as $_grandchild):?>
-                        <li><a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'on':''?> <?=!empty($_child['last'])?'last':''?>">
+                        <li><a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'on':''?> <?=!empty($_grandchild['last'])?'last':''?>">
                             <?=$_grandchild['label']?></a></li>
                     <?endforeach;?>
                     </ul>
