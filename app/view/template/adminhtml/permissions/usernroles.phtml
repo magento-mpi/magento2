@@ -1,38 +1,5 @@
-<style type="text/css">
-#roles OL {
-	float:left;
-	width:30%;	
-}
-
-#roles OL .add {
-	list-style:none;
-	margin:20px 0;
-}
-
-#roles {
-	padding-left:100px;
-}
-
-.clear {
-	clear: both;
-}
-</style>
-
 <div id="roles">
-	<ol>
-		<?php foreach ($users as $user) { ?>
-		<li><a href="<?=$this->getUrl("*/*/edituser/uid/".$user->getUserId())?>"><?=$user->getFirstname();?></a></li>
-		<?php } ?>
-		
-		<li class="add"><a href="<?=$this->getUrl('*/*/edituser')?>">Add New User</a></li>
-	</ol>
-	
-	<ol>
-		<?php foreach ($roles as $role) { ?>
-		<li><a href="<?=$this->getUrl('*/*/editroles/rid/'.$role->getRoleId())?>"><?=$role->getRoleName();?></a></li>
-		<?php } ?>
-		
-		<li class="add"><a href="<?=$this->getUrl('*/*/editroles')?>">Add New Role</a></li>
-	</ol>
+	<li class="add"><a href="<?=$this->getUrl('*/*/edituser')?>">Add New User</a></li>
+	<li class="add"><a href="<?=$this->getUrl('*/*/editroles')?>">Add New Role</a></li>
 </div>
 <div class="clear"></div>

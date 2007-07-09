@@ -9,7 +9,7 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
     
     protected function _beforeToHtml()
     {
-    	$user = Mage::getModel("permissions/users")->load($this->_request->getParam('uid', false));
+    	$user = Mage::getModel("permissions/users")->load($this->_request->getParam('id', false));
     	
         $this->addTab('account', array(
             'label'     => __('User Info'),

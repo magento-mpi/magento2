@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customerGrid');
+        $this->setId('customerGroupGrid');
     }
 
     /**

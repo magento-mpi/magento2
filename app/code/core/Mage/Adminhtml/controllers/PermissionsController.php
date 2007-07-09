@@ -3,15 +3,17 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 {
     public function indexAction() {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(__('Catalog'), __('catalog title'));
+        $this->_setActiveMenu('system/acl');
+        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission title'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_usernroles'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_users'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_roles', 'group'));
 
         $this->renderLayout();
     }
 
-    public function edituserAction() {
+    public function editUserAction() {
         $this->loadLayout('baseframe');
 
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/permissions_edituser'));
@@ -24,7 +26,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->renderLayout();
     }
 
-    public function editrolesAction() {
+    public function editroleAction() {
         $this->loadLayout('baseframe');
 
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/permissions_editroles'));

@@ -165,6 +165,10 @@
                         </backup>
                     </children>
                 </tools>
+                <acl>
+                    <title>Permissions</title>
+                    <action>adminhtml/permissions</action>
+                </acl>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/system_config</action>
@@ -173,10 +177,6 @@
                             <title>Modules</title>
                             <action>adminhtml/moduleConfig</action>
                         </modules>
-                        <acl>
-                            <title>Permissions</title>
-                            <action>adminhtml/permissions</action>
-                        </acl>
                         <resources>
                             <title>Resources</title>
                             <action>adminhtml/resources</action>
