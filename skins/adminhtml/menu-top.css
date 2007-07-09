@@ -244,9 +244,12 @@ ul.horizontal a.on, ul.horizontal a:hover {
 	/* margin-top: -1px;
 	m\argin-top: 0; */
 }
+ul.horizontal a, ul.horizontal a.on,  ul.horizontal a:hover {
+	margin-top: -1px;
+}
+
 * html ul.horizontal a.on, * html ul.horizontal a:hover {
 	background-position:1px -26px;
-	margin-top: -1px;
 	border-top: 0.05em solid #ff9C10;
 }
 
@@ -315,3 +318,6 @@ ul.horizontal a:hover, ul.horizontal ul a:hover {
 	text-decoration: none;
 }
 
+ul.horizontal ul a, ul.horizontal ul a.on,  ul.horizontal ul a:hover {
+	margin-top:0;
+}

@@ -13,13 +13,10 @@
     color:#2f2f2f;
     }
 .grid thead th a, .grid thead th a:hover {
-	border-width:1px;
-	border-style:dashed;
-	border-color:#D7D8D9;
 	text-decoration:none;
     }
 .grid thead th a:hover {
-	border-color:#2d444f;
+text-decoration:underline;
 	}
 /* Sort arrows */
 .grid .sort-arrow-desc {
