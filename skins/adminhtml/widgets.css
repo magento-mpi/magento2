@@ -116,7 +116,7 @@ input.validation-failed, textarea.validation-failed { border: 1px solid #d40707;
 
 .left-col-field{ margin:5px 0px;padding:2px;width:205px; }
 .changed {
-	color:red !important;
+	color:#e26f03 !important;
 	font-style:italic !important;
 	}
 select.countries option{
