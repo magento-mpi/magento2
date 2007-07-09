@@ -17,14 +17,14 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         #$this->_setActiveMenu('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
             ->setTemplate('adminhtml/system/info.phtml');
-        
+
         $this->_addContent($block);
-        $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/system/left.phtml'));
-        
+//        $this->getLayout()->getBlock('left')
+//            ->append($this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/system/left.phtml'));
+
         $this->renderLayout();
     }
-    
+
     public function loginAction()
     {
         $data = array(
@@ -32,13 +32,13 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         );
         $this->_outTemplate('login', $data);
     }
-    
+
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
         $this->_redirect('adminhtml');
     }
-    
+
     public function globalSearchAction()
     {
         $searchModules = Mage::getSingleton('admin/config')->getNode("admin/search/global/collections");
@@ -65,7 +65,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('adminhtml/system/autocomplete.phtml')
             ->assign('items', $items);
-        
+
         $this->getResponse()->setBody($block->toHtml());
     }
 }
