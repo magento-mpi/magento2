@@ -4,11 +4,10 @@
 .middle,
 .clear,
 .container,
-.section-menu a,
-dl.accordion dt,
-.section-menu li,
 .section-menu li a,
-.content { zoom:1; }
+.section-menu li a span,
+dl.accordion dt,
+.content { height:1%; }
 
 .clear {
 	clear:both;

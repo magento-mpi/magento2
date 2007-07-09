@@ -246,31 +246,37 @@ dl.accordion dd.open {
 	background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
 	}
 .section-menu li {
-    list-style-type:none;
-    }
+	list-style-type:none;
+	}
 .section-menu li a {
-    display:block;
-		background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
-		padding-bottom:1px;
-    color:#000;
-    text-decoration:none;
-    }
+	display:block;
+	background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
+	padding-bottom:1px;
+	}
+.section-menu li a, .section-menu li a:hover {
+	color:#000;
+	text-decoration:none;
+	}
 .section-menu li a.active {
 	padding:0;
+	border-bottom:1px solid #bebebe;
 	background:none;
 	}
+.section-menu li a:hover.active {
+	padding:0;
+	}
 .section-menu li span {
-		display:block;
-    padding:.3em 1.5em .28em 1.5em;
-		}
-.section-menu li a.active span {
-		background:#fff;
-		border-bottom:1px solid #bebebe;
-		font-weight:bold;
+	display:block;
+	padding:.3em 1.5em .28em 1.5em;
+	cursor:pointer;
 	}
 .section-menu li a:hover span {
 	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
-    }
+	}
+.section-menu li a.active span, .section-menu li a:hover.active span {
+	background:#fff;
+	font-weight:bold;
+	}
 .content-header {
     margin-bottom:.7em;
     border-bottom:3px solid #dfdfdf;
@@ -331,6 +337,7 @@ dl.accordion dd.open {
 	margin-bottom:.7em;
 	padding:.7em 1em;
 	cursor:pointer;
+	border:1px solid #fff;
 	background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
 	}
 .address-list li.over {
