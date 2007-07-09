@@ -74,7 +74,7 @@ class Mage_Permissions_Model_Mysql4_Roles {
         try {
 	    	$this->_write->delete($this->_roleTable, "role_id={$role->getId()}");
 	    	$this->_write->delete($this->_ruleTable, "role_id={$role->getId()}");
-	    	$this->_write->delete($this->_usersRelTable, "role_id={$role->getId()}");
+	    	//$this->_write->delete($this->_usersRelTable, "role_id={$role->getId()}");
 	    	
 	    	$this->_write->commit();
         } catch (Mage_Core_Exception $e) {

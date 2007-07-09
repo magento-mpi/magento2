@@ -105,10 +105,28 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     	Mage::getModel("permissions/users")
     		->setIds($this->getRequest()->getParam('roles', false))
     		->setUid($this->getRequest()->getParam('user_id', false))
+    		->setFirstname($this->getRequest()->getParam('firstname', false))
     		->saveRel();
 
     	$uid = explode(",", $uid);
     	$uid = $uid[0];
     	$this->_redirect("adminhtml/permissions/edituser/uid/$uid");
+    }
+    
+    public function deleteuserfromroleAction() {
+    	Mage::getModel("permissions/users")
+    		->setRoleId($this->getRequest()->getParam('role_id', false))
+    		->setUserId($this->getRequest()->getParam('user_id', false))
+    		->deleteFromRole();
+    	echo json_encode(array('error' => 0, 'error_message' => 'test message'));
+    }
+    
+    public function adduser2roleAction() {
+    	Mage::getModel("permissions/users")
+    		->setRoleId($this->getRequest()->getParam('role_id', false))
+    		->setUserId($this->getRequest()->getParam('user_id', false))
+    		->setFirstname($this->getRequest()->getParam('firstname', false))
+    		->add();
+   		echo json_encode(array('error' => 0, 'error_message' => 'test message'));
     }
 }

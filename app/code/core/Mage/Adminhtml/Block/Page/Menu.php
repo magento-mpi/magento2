@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
     
     protected function _checkAcl(Varien_Simplexml_Element $acl)
     {
-        #return true;
+        return true;
         $resource = (string)$acl->resource;
         $privilege = (string)$acl->privilege;        
         return Mage::getSingleton('admin/session')->isAllowed($resource, $privilege);

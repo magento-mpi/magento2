@@ -64,14 +64,30 @@ class Mage_Permissions_Model_Mysql4_Users {
     	return $user->getId();
     }
     
-    public function add(Mage_Permissions_Model_Users $users) {
-    	$this->_write->insert($this->_usersRelTable, array('role_id' => $users->getRoleId(), 'user_id' => $users->getUserId()));
+    public function add(Mage_Permissions_Model_Users $user) {
+    	//$this->_write->insert($this->_usersRelTable, array('role_id' => $user->getRoleId(), 'user_id' => $user->getUserId()));
+    	if ($user->getPid() > 0) {
+    		$row = $this->load($user->getPid());
+    	} else {
+    		$row = array('tree_level' => 0);
+    	}
+
+
+    	$this->_write->insert($this->_roleTable, array(
+	    	'parent_id' => $user->getRoleId(),
+	    	'tree_level' => $row['tree_level'] + 1,
+	    	'sort_order' => 0,
+	    	'role_type' => 'U',
+	    	'user_id' => $user->getUserId(),
+	    	'role_name' => $user->getFirstname()
+    	));
     	
     	return $this;
     }
     
     public function deleteFromRole(Mage_Permissions_Model_Users $users) {
-    	$this->_write->delete($this->_usersRelTable, "role_id = {$users->getRoleId()} AND user_id = {$users->getUserId()}");
+    	//$this->_write->delete($this->_usersRelTable, "role_id = {$users->getRoleId()} AND user_id = {$users->getUserId()}");
+    	$this->_write->delete($this->_roleTable, "parent_id = {$users->getRoleId()} AND user_id = {$users->getUserId()}");
     	
     	return $this;
     }    
@@ -83,10 +99,26 @@ class Mage_Permissions_Model_Mysql4_Users {
     	$this->_write->beginTransaction();
 
         try {           	    
-	    	$this->_write->delete($this->_usersRelTable, "user_id = {$user->getUid()}");
+	    	//$this->_write->delete($this->_usersRelTable, "user_id = {$user->getUid()}");
+	    	$this->_write->delete($this->_roleTable, "user_id = {$user->getUid()}");
 	    	
 	    	foreach ($ids as $id) {
-	    		$this->_write->insert($this->_usersRelTable, array('role_id' => $id, 'user_id' => $user->getUid()));
+	    		//$this->_write->insert($this->_usersRelTable, array('role_id' => $id, 'user_id' => $user->getUid()));
+	    		if ($id > 0 && 0) {
+		    		$row = $this->load($id);
+		    	} else {
+		    		$row = array('tree_level' => 0);
+		    	}
+		
+		
+		    	$this->_write->insert($this->_roleTable, array(
+			    	'parent_id' => $id,
+			    	'tree_level' => $row['tree_level'] + 1,
+			    	'sort_order' => 0,
+			    	'role_type' => 'U',
+			    	'user_id' => $user->getUid(),
+			    	'role_name' => $user->getFirstname()
+		    	));
 	    	}
 	    	
 	    	$this->_write->commit();
@@ -101,8 +133,9 @@ class Mage_Permissions_Model_Mysql4_Users {
     	$this->_write->beginTransaction();
 
         try {
-	    	$this->_write->delete($this->_usersTable, "role_id={$user->getId()}");
-	    	$this->_write->delete($this->_usersRelTable, "role_id={$user->getId()}");
+	    	$this->_write->delete($this->_usersTable, "user_id={$user->getId()}");
+	    	//$this->_write->delete($this->_usersRelTable, "user_id={$user->getId()}");
+	    	$this->_write->delete($this->_roleTable, "user_id={$user->getId()}");
 	    	
 	    	$this->_write->commit();
         } catch (Mage_Core_Exception $e) {

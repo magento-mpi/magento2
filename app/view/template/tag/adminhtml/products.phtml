@@ -1,7 +1,5 @@
 <h1>Tagged Products</h1>
-<form action="">
-	<input type="text" name="q" value="<?=@$query;?>" /> <input type="submit" value="Search" />
-</form>
+<input type="text" name="taggedproducts" value="<?=@$query;?>" /> <input type="submit" value="Search" />
 
 <?php if (!empty($collection)) {?>
 <ol>
@@ -10,7 +8,7 @@
 		<?=$item['name'];?>
 		<div style="font-color:999; font-size:12px">Tags: 
 			<?php foreach ($item['tags'] as $tag) { ?>
-				<A href="/adminhtml/tag/tagslist?q=<?=$tag['tagname'];?>"><?=$tag['tagname'];?> (<?=$tag['total'];?>)</a> 
+				<A href="<?=$this->getUrl("*/*/", array('t' => $tag['tagname']))?>"><?=$tag['tagname'];?> (<?=$tag['total'];?>)</a> 
 			<?php } ?>
 		</div>
 	</li>

@@ -20,7 +20,7 @@ var role = function () {
 				display = (display == "block") ? "none" : "block";
 			}
 			
-			var id = el.parentNode.getElementsByTagName('span')[0].id.substr(1); //temporary RoleId = DOM.id
+			var id = el.parentNode.getElementsByTagName('span')[0].id.substr(1);
 			$('role_pid_value').value = id;
 		},
 		
@@ -28,7 +28,7 @@ var role = function () {
 			var uid = el.id.substr(1);
 			var roleId = el.parentNode.parentNode.parentNode.getElementsByTagName('span')[0].id.substr(1);
 			
-			var req = new Ajax.Request('<?=$this->getUrl('permissions/index/deleteuserfromrole')?>', {
+			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permissions/deleteuserfromrole')?>', {
 				method:'post',
 				parameters: {
 					role_id: roleId,
@@ -54,11 +54,12 @@ var role = function () {
 			var uid = $('users').value;
 			var roleId = $('role_pid_value').value;
 			
-			var req = new Ajax.Request('<?=$this->getUrl('permissions/index/adduser2role')?>', {
+			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permissions/adduser2role')?>', {
 				method:'post',
 				parameters: {
 					role_id: roleId,
-					user_id: uid
+					user_id: uid,
+					firstname: $('users').options[$('users').selectedIndex].text
 				},
 				onSuccess: function(transport){
 					eval('var json = ' + transport.responseText);
@@ -71,7 +72,7 @@ var role = function () {
 					newU.innerHTML = $('users').options[$('users').selectedIndex].text + " ";
 					var newCb = document.createElement('span');
 					newCb.className = 'link';
-					newCb.id = uid;
+					newCb.id = 'u' + uid;
 					newCb.onclick = function () {
 						role.deleteFromRole(newCb);
 					}
@@ -88,6 +89,7 @@ var role = function () {
 	}
 }();
 </script>
+<h4 class="icon-head head-edit-form fieldset-legend">Users roles</h4>
 <div id="roles-list">
 	<ul>
 		<?php foreach ($roles as $role) { ?>
@@ -109,4 +111,21 @@ var role = function () {
 	<option value="<?=$user->getUserId();?>"><?=$user->getFirstname();?></option>
 	<?php } ?>
 </select>
-<input type="button" value="Add" onclick="role.addUser2Role()" />
+<button class="scalable" onclick="role.addUser2Role(); return false;">
+	<table cellspacing="0">
+		<tbody>
+			<tr>
+				<td class="tl"></td>
+				<td class="tr"></td>				
+			</tr>
+			<tr>
+				<td class="ml">Add</td>
+				<td class="mr"></td>
+			</tr>
+			<tr>
+				<td class="bl"></td>
+				<td class="br"></td>				
+			</tr>
+		</tbody>
+	</table>
+</button>

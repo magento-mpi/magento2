@@ -5,7 +5,7 @@ class Mage_Tag_Block_Adminhtml_Products extends Mage_Core_Block_Template {
     public function __construct() {    	
         parent::__construct();
         $this->setTemplate('tag/adminhtml/products.phtml');
-        $query = Mage::registry('controller')->getRequest()->getParam('q', false);
+        $query = Mage::registry('controller')->getRequest()->getParam('taggedproducts', false);
         
         $tag = Mage::registry('controller')->getRequest()->getParam('t', false);       
         
@@ -61,7 +61,13 @@ class Mage_Tag_Block_Adminhtml_Products extends Mage_Core_Block_Template {
         	}
         	$this->assign('collection', $coll);
     	}
-		$this->assign('query', Mage::registry('controller')->getRequest()->getParam('q', false));
+    	$query = Mage::registry('controller')->getRequest()->getParam('taggedproducts', false);
+        
+        $tag = Mage::registry('controller')->getRequest()->getParam('t', false);  
+    	if (!$query) {
+    		$query = $tag;
+    	}
+		$this->assign('query', $query);
         return parent::toHtml();
     }
 }

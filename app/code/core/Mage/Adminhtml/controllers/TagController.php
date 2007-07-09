@@ -1,23 +1,26 @@
 <?php
 class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     public function indexAction() {
+    	/*
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog');
         $this->_addBreadcrumb(__('Catalog'), __('catalog title'));
 
         $this->_addContent($this->getLayout()->createBlock('tag/adminhtml'));
         $this->renderLayout();
-    }
+        */
+        
+        $this->loadLayout('baseframe');
 
-    public function framesetAction() {
-        $frameset = $this->getLayout()->createBlock('core/template')->setTemplate('tag/adminhtml/frameset.phtml');
-        $this->getResponse()->setBody($frameset->toHtml());
-    }
+        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('tag/adminhtml'));
 
-    public function menuAction() {
-        $treeBlock = $this->getLayout()->createBlock('core/template')->setTemplate('tag/adminhtml/menu.phtml');
-        $this->getResponse()->setBody($treeBlock->toHtml());
-    }
+        $block = $this->getLayout()->createBlock('core/template')->setTemplate('tag/adminhtml/tags.phtml');
+        $this->_addContent($block);
+
+        $this->_addBreadcrumb(__('Customers'), __('customers title'));
+
+        $this->renderLayout();
+    }    
 
     public function mainAction() {
         $treeBlock = $this->getLayout()->createBlock('core/template')->setTemplate('tag/adminhtml/menu.phtml');

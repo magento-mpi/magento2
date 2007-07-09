@@ -1,4 +1,4 @@
-	User roles:
+	<h4 class="icon-head head-edit-form fieldset-legend">User roles</h4>
 	<ul>
 		<?php foreach ($user_roles as $role) { ?>
 		<li><input type="checkbox" value="<?=$role->getRoleId();?>" <?=($role->getIsChecked() ? "checked" : "");?> name="roles[]" /> <?=$role->getRoleName();?></li>

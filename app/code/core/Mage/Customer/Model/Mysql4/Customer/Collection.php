@@ -18,6 +18,8 @@ class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collect
         $this->_sqlSelect->from($this->_customerTable);
         
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('customer/customer'));
+        
+        return $this;
     }
     
     public function setNameFilter($q) {

@@ -23,7 +23,7 @@ class Mage_Permissions_Model_Mysql4_Roles_Collection extends Varien_Data_Collect
         */
         
         $this->_sqlSelect->from($this->_roleTable, '*');
-        //do not uncomment $this->_sqlSelect->where("{$this->_roleTable}.role_type='G'");
+        $this->_sqlSelect->where("{$this->_roleTable}.role_type='G'");
     }
     
     public function addUserRel($uid) {

@@ -22,12 +22,17 @@ class Mage_Permissions_Model_Mysql4_Users_Collection extends Varien_Data_Collect
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('tag/tag'));
         */
         
-        $this->_sqlSelect->from($this->_usersTable, '*');
+        $this->_sqlSelect->distinct()->from($this->_roleTable, array('user_id' => 'user_id'));
+        $this->_sqlSelect->join($this->_usersTable, "{$this->_usersTable}.user_id={$this->_roleTable}.user_id");
+        $this->_sqlSelect->where($this->_roleTable.".role_type = 'U'");
     }
     
-    public function addRoleFilter($roleId) {   	
+    public function addRoleFilter($roleId) {   
+    	/*	
     	$this->_sqlSelect->join($this->_usersRelTable, "{$this->_usersRelTable}.user_id={$this->_usersTable}.user_id");
     	$this->_sqlSelect->where("{$this->_usersRelTable}.role_id=".intval($roleId));
+    	*/    	
+    	$this->_sqlSelect->where("{$this->_roleTable}.parent_id={$roleId}");
     	
     	return $this;
     }
