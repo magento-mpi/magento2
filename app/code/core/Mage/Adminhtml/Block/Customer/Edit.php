@@ -14,6 +14,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('adminhtml/customer/edit.phtml');
+        $this->setId('customerEdit');
     }
 
     public function getSaveUrl()

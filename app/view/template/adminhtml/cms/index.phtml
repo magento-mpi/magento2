@@ -3,13 +3,26 @@
 	<tr>
 		<td style="width:50%;"><h3><?=__('CMS control')?></h3></td>
 		<td class="a-right">
-			<span class="form-button right">
-				<span><a href="<?=$createUrl?>"><?=__('New Page')?></a></span>
-			</span>
+			<button class="scalable" onclick="window.location='<?=$createUrl?>'">
+			<table cellspacing="0">
+				<tr>
+					<td class="tl"></td>
+					<td class="tr"></td>
+				</tr>
+				<tr>
+					<td class="ml"><?=__('Add new page')?></td>
+					<td class="mr"></td>
+				</tr>
+				<tr>
+					<td class="bl"></td>
+					<td class="br"></td>
+				</tr>
+			</table>
+		    </button>
 		</td>
 	</tr>
 </table>
 </div>
 <div>
-	<?=$this->getChildHtml('grid')?>
+	<?=$this->getGridHtml()?>
 </div>

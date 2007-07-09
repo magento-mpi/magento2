@@ -26,6 +26,32 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         
         $this->_setFieldset($customer->getAttributes(), $fieldset);
         
+        if ($customer->getId()) {
+            $fieldset->addField('reset_password', 'checkbox',
+                array(
+                    'label' => __('Reset password'),
+                    'name'  => 'reset_password',
+                    'value' => '1'
+                )
+            );
+        }
+        else {
+            $fieldset->addField('password', 'password',
+                array(
+                    'label' => __('Password'),
+                    'class' => 'input-text required-entry validate-password',
+                    'name'  => 'password'
+                )
+            );
+            $fieldset->addField('password_confirm', 'password',
+                array(
+                    'label' => __('Password confirm'),
+                    'class' => 'input-text required-entry validate-cpassword',
+                    'name'  => 'password_confirm'
+                )
+            );
+        }
+        
         $form->setValues($customer->getData());
         
         $this->setForm($form);

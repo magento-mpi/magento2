@@ -18,7 +18,6 @@ varienGrid.prototype = {
         
         this.thLinkOnClick      = this.doSort.bindAsEventListener(this);
         this.initGrid();
-        this.bindFilterFields();
     },
     initGrid : function(){
         if($(this.containerId+this.tableSufix)){
@@ -40,6 +39,7 @@ varienGrid.prototype = {
                 Event.observe(columns[col],'click',this.thLinkOnClick);
             }
         }
+        this.bindFilterFields();
     },
     getContainerId : function(){
         return this.containerId;

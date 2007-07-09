@@ -14,7 +14,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         parent::__construct();
         $this->setId('customerGrid');
-        #$this->setUseAjax(true);
+        $this->setDefaultSort('id');
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()

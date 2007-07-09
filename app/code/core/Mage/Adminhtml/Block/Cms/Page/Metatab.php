@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Cms_Page_Metatab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_title', 'editor',
             array(
                 'name' => 'page_meta_keywords',
-                'label' => __('meta keywords'),
+                'label' => __('Keywords'),
                 'title' => __('meta keywords title'),
                 'value' => $this->getPageObject()->getPageMetaKeywords()
             )
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Cms_Page_Metatab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_meta_description', 'editor',
             array(
                 'name' => 'page_meta_description',
-                'label' => __('meta description'),
+                'label' => __('Description'),
                 'title' => __('meta description title'),
                 'value' => $this->getPageObject()->getPageMetaDescription()
             )

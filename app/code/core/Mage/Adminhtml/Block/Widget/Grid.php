@@ -43,7 +43,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_varNameSort     = 'sort';
     protected $_varNameDir      = 'dir';
     protected $_varNameFilter   = 'filter';
-
+    
+    protected $_defaultLimit    = 20;
+    protected $_defaultPage     = 1;
+    protected $_defaultSort     = false;
+    protected $_defaultDir      = 'desc';
+    protected $_defaultFilter   = array();
+    
     /**
      * Pager visibility
      *
@@ -178,11 +184,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareCollection()
     {
         if ($this->getCollection()) {
-            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), 20));
-            $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), 1));
+            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+            $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), $this->_defaultPage));
 
-            $columnId = $this->getRequest()->getParam($this->getVarNameSort(), false);
-            $dir      = $this->getRequest()->getParam($this->getVarNameDir(), 'asc');
+            $columnId = $this->getRequest()->getParam($this->getVarNameSort(), $this->_defaultSort);
+            $dir      = $this->getRequest()->getParam($this->getVarNameDir(), $this->_defaultDir);
             $filter   = $this->getRequest()->getParam($this->getVarNameFilter());
 
             if ($filter) {
@@ -310,6 +316,36 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getFilterVisibility()
     {
         return $this->_filterVisibility;
+    }
+
+    public function setDefaultLimit($limit)
+    {
+        $this->_defaultLimit = $limit;
+        return $this;
+    }
+    
+    public function setDefaultPage($page)
+    {
+        $this->_defaultPage = $page;
+        return $this;
+    }
+    
+    public function setDefaultSort($sort)
+    {
+        $this->_defaultSort = $sort;
+        return $this;
+    }
+    
+    public function setDefaultDir($dir)
+    {
+        $this->_defaultDir = $dir;
+        return $this;
+    }
+    
+    public function setDefaultFilter($filter)
+    {
+        $this->_defaultFilter = $filter;
+        return $this;
     }
 
     /**

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         );
 
         $this->getLayout()->getBlock('left')
-            ->append($this->getLayout()->createBlock('adminhtml/store_switcher'))
+            //->append($this->getLayout()->createBlock('adminhtml/store_switcher'))
             ->append($this->getLayout()->createBlock('adminhtml/cms_page_tabs'));
 
         $this->renderLayout();

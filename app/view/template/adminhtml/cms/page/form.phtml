@@ -1,9 +1,24 @@
-<div class="head">
-    <table cellspacing="0" class="content_table">
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
         <tr>
             <td style="width:30%;"><h2><?=$header?></h2></td>
-            <td class="buttons">
-                <strong class="button"><span><a href="#" onclick="tinyMCE.triggerSave();customerForm.submit();return false;"><?=__('save page')?></a></span></strong>
+            <td class="a-right">
+			<button class="scalable" onclick="tinyMCE.triggerSave();pageForm.submit();">
+			<table cellspacing="0">
+				<tr>
+					<td class="tl"></td>
+					<td class="tr"></td>
+				</tr>
+				<tr>
+					<td class="ml"><?=__('Save page')?></td>
+					<td class="mr"></td>
+				</tr>
+				<tr>
+					<td class="bl"></td>
+					<td class="br"></td>
+				</tr>
+			</table>
+		    </button>
             </td>
         </tr>
     </table>
@@ -11,5 +26,5 @@
 <form action="<?=$this->getSaveUrl()?>" method="POST" id="page_form">
 </form>
 <script type="text/javascript" language="javascript">
-    var customerForm = new varienForm('page_form');
+    var pageForm = new varienForm('page_form');
 </script>
