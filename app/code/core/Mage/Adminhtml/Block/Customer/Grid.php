@@ -73,6 +73,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('customer_since', array(
             'header'    =>__('Customer Since'),
             'type'      => 'date',
+            'align'     => 'center',
             #'format'    => 'Y.m.d',
             'index'     =>'created_at',
         ));

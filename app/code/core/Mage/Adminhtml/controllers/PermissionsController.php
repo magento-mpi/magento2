@@ -5,19 +5,19 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
         $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
-        $this->_addBreadcrumb(__('Permission'), __('Permission title'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_users'));
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_roles', 'group'));
 
         $this->renderLayout();
     }
-    
+
     public function userGridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_user')->toHtml());
     }
-    
+
     public function roleGridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_role')->toHtml());
@@ -28,7 +28,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
         $this->_addBreadcrumb(__('Users'), __('Users title'));
-        
+
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_edituser')
         );
@@ -45,7 +45,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
         $this->_addBreadcrumb(__('Roles'), __('Roles title'));
-        
+
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_editroles')
         );
