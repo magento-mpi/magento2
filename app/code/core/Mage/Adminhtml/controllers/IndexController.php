@@ -68,4 +68,9 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
         $this->getResponse()->setBody($block->toHtml());
     }
+    
+    public function exampleAction()
+    {
+        $this->_outTemplate('example');
+    }
 }
