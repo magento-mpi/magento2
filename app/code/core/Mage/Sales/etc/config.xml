@@ -10,11 +10,25 @@
     </Mage_Sales>
   </modules>
   <global>
+    <entity>
+      <types>
+        <order extends="//global/entity/types/default"/>
+        <order_status extends="//global/entity/types/default"/>
+      </types>
+    </entity>
     <models>
       <sales>
         <class>Mage_Sales_Model</class>
-        <resourceModel>sales_mysql4</resourceModel>
+        <resourceModel>sales_entity</resourceModel>
       </sales>
+      <sales_entity>
+        <class>Mage_Sales_Model_Entity</class>
+        <entities>
+          <order>
+            <table>sales_order_entity</table>
+          </order>
+        </entities>
+      </sales_entity>
       <sales_mysql4>
         <class>Mage_Sales_Model_Mysql4</class>
         <entities>
@@ -78,7 +92,7 @@
       </sales_read>
     </resources>
     <block>
-	  <groups><sales><class>Mage_Sales_Block</class></sales></groups>
+    <groups><sales><class>Mage_Sales_Block</class></sales></groups>
     </block>
     <sales>
       <shipping>
