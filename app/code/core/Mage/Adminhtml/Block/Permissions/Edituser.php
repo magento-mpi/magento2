@@ -4,7 +4,7 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('customer_info_tabs');
-        $this->setDestElementId('customer_edit_form');
+        $this->setDestElementId('user_edit_form');
     }
     
     protected function _beforeToHtml()

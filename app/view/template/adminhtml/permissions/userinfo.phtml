@@ -3,22 +3,44 @@
         <tr>
             <td style="width:50%;"><h3></h3></td>
             <td class="form-buttons">
-			<table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="#" onclick="customerForm.submit();return false;"><?=__('Save')?></a></td>
-				</tr>
-			</table>
-			<table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="<?=$this->getUrl("*/*/deleteuser/uid/$uid")?>"><?=__('Delete')?></a></td>
-				</tr>
-			</table>
-    </table>
+            <button class="scalable" onclick="userForm.submit();">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Save')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?if($this->getUserId()):?>
+            <button class="scalable" onclick="location.href='<?=$this->getUrl('*/*/deleteUser', array('id'=>$this->getUserId()))?>'">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Delete')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?endif;?>
+   </table>
 </div>
-<form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="customer_edit_form">
+<form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="user_edit_form">
 </form>
 <script type="text/javascript" language="javascript">
-    var customerForm = new varienForm('customer_edit_form');
+    var userForm = new varienForm('user_edit_form');
 </script>

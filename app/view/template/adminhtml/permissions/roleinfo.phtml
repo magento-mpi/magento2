@@ -3,18 +3,40 @@
         <tr>
             <td style="width:50%;"><h3><?=__('Permission')?></h3></td>
             <td class="form-buttons">
-               <table cellspacing="0" class="form-button">
-								<tr>
-									<td class="form-button-left"></td>
-									<td class="form-button-right"><a href="#" onclick="roleForm.submit();return false;"><?=__('Save')?></a><td>
-								</tr>
-							</table>
-               <table cellspacing="0" class="form-button">
-								<tr>
-									<td class="form-button-left"></td>
-									<td class="form-button-right"><a href="<?=$this->getUrl("*/*/deleterole/rid/$rid")?>"><?=__('Delete')?></a></td>
-								</tr>
-							</table>
+            <button class="scalable" onclick="roleForm.submit();">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Save')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?if($this->getRoleId()):?>
+            <button class="scalable" onclick="location.href='<?=$this->getUrl('*/*/deleteRole', array('id'=>$this->getRoleId()))?>'">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Delete')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?endif;?>
             </td>
         </tr>
     </table>
