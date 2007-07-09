@@ -8,13 +8,11 @@
     border:0px;
     cursor:pointer;
     }
-.grid thead th a {
-    display:block;
-    color:#2f2f2f;
-    }
 .grid thead th a, .grid thead th a:hover {
 	text-decoration:none;
-    }
+	display:block;
+	color:#2f2f2f;
+	}
 .grid thead th a:hover {
 text-decoration:underline;
 	}
