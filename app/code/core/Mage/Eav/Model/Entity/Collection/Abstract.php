@@ -365,11 +365,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
         // validate bind attribute
         if (is_string($bind)) {
-            if (isset($this->_joinAttributes[$bind])) {
-                $bind = $this->_joinAttributes[$bind]['attribute'];
-            } else {
-                $bind = $this->getEntity()->getAttribute($bind);
-            }
+            $bind = $this->getAttribute($bind);
         }
         if (!$bind || !$bind->getId()) {
             throw Mage::exception('Mage_Eav', 'Invalid foreign key');
