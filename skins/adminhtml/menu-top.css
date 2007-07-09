@@ -239,13 +239,15 @@ ul.horizontal a.on, ul.horizontal a, ul.horizontal a:hover {
 ul.horizontal a.on, ul.horizontal a:hover {
 	background-position:0 -27px;
 	background-color:none;
-	border-top: 0.05em solid #ff9E10;
+	/*border-top: 0.05em solid #ff9E10;*/
 	font-weight:bold;
-	margin-top: -1px;
-	m\argin-top: 0;
+	/* margin-top: -1px;
+	m\argin-top: 0; */
 }
 * html ul.horizontal a.on, * html ul.horizontal a:hover {
 	background-position:1px -26px;
+	margin-top: -1px;
+	border-top: 0.05em solid #ff9C10;
 }
 
 ul.horizontal a.on span, ul.horizontal a:hover span {
@@ -304,5 +306,9 @@ ul.horizontal .parent {
 /* further child-menu hover links */
 ul.horizontal ul a:hover, ul.horizontal ul a:focus, ul.horizontal ul a.rollover {
     /*background:#B9DCE5;*/
+}
+
+ul.horizontal a:hover, ul.horizontal ul a:hover {
+	text-decoration: none;
 }
 

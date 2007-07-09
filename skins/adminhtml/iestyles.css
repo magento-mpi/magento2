@@ -10,7 +10,7 @@ dl.accordion dt,
 .content { height:1%; }
 
 .icon-head {
-	height:18px; 
+	height:18px;
 	}
 
 .clear {
@@ -29,9 +29,13 @@ button.scalable {
 	}
 button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th {
-	padding: 0px 8px 0px 0px;
+	padding-right: 8px;
 }
 
 .grid tr.filter th input {
-	margin: 2px -8px 2px 2px;
+	margin-right: -8px;
+}
+
+.grid tr.filter th .range input {
+	margin-right: 2px;
 }
