@@ -36,10 +36,19 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
     public function getValue($index=null)
     {
         if ($index) {
-            return $this->getData('value', $index);
+            if ($data = $this->getData('value', $index)) {
+                return date('Y-m-d', strtotime($data));
+            }
+            return $data;
         }
         $value = $this->getData('value');
         if (!empty($value['from']) || !empty($value['to'])) {
+            if (! empty($value['from'])) {
+                $value['from'] = date('Y-m-d', strtotime($value['from']));
+            }
+            if (! empty($value['to'])) {
+                $value['to'] = date('Y-m-d', strtotime($value['to']));
+            }
             return $value;
         }
         return null;
