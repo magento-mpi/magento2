@@ -23,3 +23,11 @@ button.scalable {
 	margin-left:5px;
 	overflow:visible;
 	}
+
+.grid tr.filter th {
+	padding: 0px 8px 0px 0px;
+}
+
+.grid tr.filter th input {
+	margin: 2px -8px 2px 2px;
+}
