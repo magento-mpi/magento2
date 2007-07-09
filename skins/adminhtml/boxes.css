@@ -110,6 +110,9 @@ table.actions {
 	width:100%;
 	margin-bottom:.5em;
 }
+table.actions td {
+	vertical-align:top;
+	}
 .pager .spacer {
 	padding:0 .6em;
 	color:#cfcfcf;
@@ -319,25 +322,29 @@ dl.accordion dd.open {
 
 /* Customer - Addresses */
 .content-left-nav {
-    float:left;
-    width:30%;
-    margin-right:1.5em;
-    }
+	float:left;
+	width:30%;
+	margin-right:1.5em;
+	}
 .address-list li {
-    list-style:none;
-    margin-bottom:.9em;
-    padding:.7em 1em;
-    cursor:pointer;
-    }
+	list-style:none;
+	margin-bottom:.7em;
+	padding:.7em 1em;
+	cursor:pointer;
+	background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
+	}
 .address-list li.over {
-    border:3px solid #C4DBE1;
-    background:#E9F2F5;
-    }
+	background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff;
+	}
 .address-list li.on {
-    border:1px solid #b0c1d0;
-    background:#e5ecf2;
-    }
+	border:1px solid #b0c1d0;
+	background:#e5ecf2;
+	}
+.address-list li table {
+	width:100%;
+	}
 .delete-address {
+	width:8.33em;
 	text-align:right;
 	}
 
@@ -370,11 +377,10 @@ label.inline{
     width:auto !important;
 }
 .entry-edit fieldset .input-text,
-.entry-edit fieldset .select,
 .entry-edit fieldset .textarea {
-    width:18em;
+    width:216px;
     }
-
+.entry-edit fieldset .select { width:220px; }
 
 
 /* Overrides */

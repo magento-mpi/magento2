@@ -3,26 +3,56 @@
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
             <td class="form-buttons">
-       <table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="#" id="add_address_button"><span id="add_new_address_button"><?=__('Add New Customer Address')?></span></a></td>
-				</tr>
-			</table>
-			<table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="#" onclick="customerForm.submit();return false;"><?=__('Save Customer')?></a></td>
-				</tr>
-			</table>
+       		<button id="add_address_button" class="scalable" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
+				<table cellspacing="0" id="add_new_address_button">
+					<tr>
+						<td class="tl"></td>
+						<td class="tr"></td>
+					</tr>
+					<tr>
+						<td class="ml"><?=__('Add New Customer Address')?></td>
+						<td class="mr"></td>
+					</tr>
+					<tr>
+						<td class="bl"></td>
+						<td class="br"></td>
+					</tr>
+				</table>
+			</button>
+       <button id="add_address_button" class="scalable" onclick="customerForm.submit();return false;">
+				<table cellspacing="0" id="add_new_address_button">
+					<tr>
+						<td class="tl"></td>
+						<td class="tr"></td>
+					</tr>
+					<tr>
+						<td class="ml"><?=__('Save Customer')?></td>
+						<td class="mr"></td>
+					</tr>
+					<tr>
+						<td class="bl"></td>
+						<td class="br"></td>
+					</tr>
+				</table>
+			</button>
 			<?if($this->getCustomerId()):?>
-			<table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="#" onclick="customerDelete();return false;"><span><?=__('Delete Customer')?></a></td>
-				</tr>
-			</table>
-                <?endif;?>
+       <button id="add_address_button" class="scalable" onclick="customerDelete();return false;">
+				<table cellspacing="0" id="add_new_address_button">
+					<tr>
+						<td class="tl"></td>
+						<td class="tr"></td>
+					</tr>
+					<tr>
+						<td class="ml"><?=__('Delete Customer')?></td>
+						<td class="mr"></td>
+					</tr>
+					<tr>
+						<td class="bl"></td>
+						<td class="br"></td>
+					</tr>
+				</table>
+			</button>
+			<?endif;?>
             </td>
         </tr>
     </table>
