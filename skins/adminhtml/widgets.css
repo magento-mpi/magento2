@@ -159,7 +159,7 @@ button.scalable td.ml {
     line-height:12px;
     }
 button.scalable td.mr {
-    width:6px;
+    width:4px;
     background-position:100% -4px;
     background-repeat:no-repeat;
     }
@@ -169,7 +169,7 @@ button.scalable td.bl {
     background-repeat:no-repeat;
     }
 button.scalable td.br {
-    width:6px;
+    width:4px;
     height:5px;
     background-position:100% 100%;
     background-repeat:no-repeat;
