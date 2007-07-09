@@ -16,23 +16,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->setId('productGrid');
     }
 
-    public function getCollection()
+    protected function _prepareCollection()
     {
-        if (empty($this->_collection)) {
-            $this->_collection = Mage::getResourceModel('catalog/product_collection');
-            if ($this->getCategoryId()) {
-                $this->_collection->addCategoryFilter($this->getCategoryId());
-            }
+        $collection = Mage::getResourceModel('catalog/product_collection')
+//            ->addAttributeToSelect('product_id')
+            ->addAttributeToSelect('sku')
+            ->addAttributeToSelect('name')
+        ;
+
+        if ($this->getCategoryId()) {
+            $collection->addCategoryFilter($this->getCategoryId());
         }
-        return $this->_collection;
+
+        $this->setCollection($collection);
+
+        return parent::_prepareCollection();
     }
 
-    protected function _beforeToHtml()
+    protected function _prepareColumns()
     {
-        $this->addColumn('id', array('header'=>__('id'), 'width'=>5, 'align'=>'center', 'sortable'=>false, 'index'=>'product_id'));
-        $this->addColumn('sku', array('header'=>__('sku'), 'width'=>40, 'align'=>'center', 'index'=>'sku'));
+        $this->addColumn('id', array('header'=>__('id'), 'align'=>'center', 'sortable'=>false, 'index'=>'product_id'));
+        $this->addColumn('sku', array('header'=>__('sku'), 'align'=>'center', 'index'=>'sku'));
         $this->addColumn('name', array('header'=>__('name'), 'index'=>'name'));
+        $this->addColumn('action', array('header'=>__('Action'), 'index' => 'product_id', 'sortable' => false, 'filter' => false));
 
-        return parent::_beforeToHtml();
+        return parent::_prepareColumns();
     }
 }
