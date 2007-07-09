@@ -45,7 +45,7 @@
 /* Filters */
 .
 .grid tr.filter { cursor: default; }
-.grid tr.filter th { padding: 1px 7px 1px 2px; }
+.grid tr.filter th { }
 .grid tr.filter input {
     width: 100%;
     }
@@ -108,13 +108,15 @@ ul.tabs li a:hover {
 
 /********* Form Validation ********/
 .validation-advice {
-    margin-left:10em;
+    margin:2px 0 0 10em;
     color:#d40707;
-    font-weight:bold;
+    font-style:italic;
     margin-right:20px;
     }
 
-input.validation-failed, textarea.validation-failed { border: 1px solid #d40707; }
+input.validation-failed, textarea.validation-failed { 
+	background:#fbf2f4;
+	border: 1px dashed #d40707;}
 
 .left-col-field{ margin:5px 0px;padding:2px;width:205px; }
 .changed {

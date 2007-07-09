@@ -1,3 +1,4 @@
+dl.accordion dt,
 .entry-edit fieldset li,
 #nav,
 .main,
@@ -32,6 +33,10 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 	padding-right: 8px;
 }
 
+.grid tr.filter th { 
+	padding-top:3px;
+	padding-bottom:3px;
+	}
 .grid tr.filter th input {
 	margin-right: -8px;
 }

@@ -1,7 +1,9 @@
 /******************************************/
 /************** UBIQUITOUS ****************/
 /******************************************/
-
+.emph {
+	color:#e66f20;
+	}
 .separator {
     padding:0 .6em;
     }
@@ -64,14 +66,11 @@ table.content_table {
     border-style:solid;
     }
 .data th, .data td {
-    padding:2px 7px;
+    padding:.25em 10px;
     }
 .data td {
     border-width:0 0 1px 0;
     border-style:solid;
-    }
-.data tfoot td {
-    border:none;
     }
 .grid {
     position:relative;
@@ -83,11 +82,12 @@ table.content_table {
     }
 .grid table th {
     background:#d7d8d9;
-		border:1px solid #d6cebf;
+	/*	border:1px solid #d6cebf; */
     }
 .grid table td {
-    border-width:1px;
+    border-width:1px 0 1px 0;
     border-color:#E3E3E3;
+    border-style:solid;
     }
 .grid table td.product {
     text-align:right;
@@ -99,16 +99,21 @@ table.content_table {
     background:#D7E5EF;
     }
 .grid .filter th {
-		padding-top:.5em;
-		padding-bottom:.5em;
+		padding-top:5px;
+		padding-bottom:5px;
 		background:#dbf5ff;
-		border-style:solid;
+	/*	border-style:solid;
 		border-color:#d6cebf #E3E3E3;
-		border-width:1px;
+		border-width:1px; */
 		}
+.grid tfoot td {
+    border-top:1px solid #9babb9;
+		background:#e5ecf2;
+		line-height:1.7em;
+    }
 table.actions {
 	width:100%;
-	margin-bottom:.5em;
+	margin:.5em 0;
 }
 table.actions td {
 	vertical-align:top;
@@ -117,25 +122,28 @@ table.actions td {
 	padding:0 .6em;
 	color:#cfcfcf;
 	}
+.pager select {
+	margin:0 4px;
+	}
 /* Accordion */
 dl.accordion dt {
+    border-left:1px solid #C6C5C3;
     border-bottom:1px solid #C6C5C3;
-    background:#A1A09C;
-    padding:3px 10px;
+    background:#797674;
+    padding:3px 5px 3px 10px;
     color:#fff;
-    }
-dl.accordion dt img {
-    margin-right:5px;
     }
 dl.accordion dd {
     display:none;
-    border:1px solid #E3E3E3;
     border-top:0;
     }
 dl.accordion dd.open {
     display:block;
     }
-
+img.accordion-btn {
+	float:right;
+	margin-top:1px;
+	}
 
 /******************************************/
 /***************** BOXES ******************/
@@ -278,7 +286,7 @@ dl.accordion dd.open {
 	font-weight:bold;
 	}
 .content-header {
-    margin-bottom:.7em;
+    margin-bottom:1em;
     border-bottom:3px solid #dfdfdf;
     padding-bottom:.25em;
     }
@@ -294,35 +302,11 @@ dl.accordion dd.open {
     }
 
 
-/* Customer - Dashboard */
-.customer-personal .box {
+/* Customer View */
+.box {
     border:1px solid #b0c1d0;
     background:#e5ecf2;
     padding:10px;
-    }
-.sales-tally table {
-    border:1px solid #B9C9CB;
-    }
-.sales-tally tr.even {
-    background:#F1F9F9;
-    }
-.sales-tally table td {
-    border-color:#CFD8D9;
-    }
-.sales-tally table td, .sales-tally table th {
-    text-align:center;
-    }
-.sales-tally table th, .sales-tally td.label {
-    color:#636363;
-    }
-.sales-tally table th, .sales-tally td.label, .sales-tally table tfoot td {
-    font-weight:bold;
-    }
-.sales-tally table th, .sales-tally table tfoot td {
-    background:#D8EEF0;
-    }
-.sales-tally td.label {
-    text-align:right;
     }
 
 
@@ -408,6 +392,10 @@ label.inline{
 	background-image:url(images/fam_page_white_edit.gif);
 	padding-left:22px;
 	}
+.head-customer-view {
+	background-image:url(images/fam_status_online.gif);
+	padding-left:18px;
+	}
 /* Overrides */
 .left {float:left; }
 .right {float:right; }
@@ -420,6 +408,7 @@ label.inline{
 
 
 /* Clear */
+dl.accordion dt:after,
 .entry-edit fieldset li:after,
 .entry-edit fieldset span:after,
 .content:after,
