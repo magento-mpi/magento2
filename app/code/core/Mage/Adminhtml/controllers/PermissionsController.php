@@ -12,48 +12,64 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
         $this->renderLayout();
     }
+    
+    public function userGridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_user')->toHtml());
+    }
+    
+    public function roleGridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_role')->toHtml());
+    }
 
     public function editUserAction() {
         $this->loadLayout('baseframe');
-
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/permissions_edituser'));
-
-        $block = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/permissions/userinfo.phtml')->assign('uid', $this->getRequest()->getParam('uid', false));
-        $this->_addContent($block);
-
-        $this->_addBreadcrumb(__('Customers'), __('customers title'));
-
+        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
+        $this->_addBreadcrumb(__('Users'), __('Users title'));
+        
+        $this->_addLeft(
+            $this->getLayout()->createBlock('adminhtml/permissions_edituser')
+        );
+        $this->_addContent(
+            $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/permissions/userinfo.phtml')
+        );
         $this->renderLayout();
     }
 
-    public function editroleAction() {
+    public function editRoleAction() {
         $this->loadLayout('baseframe');
+        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles title'));
+        
+        $this->_addLeft(
+            $this->getLayout()->createBlock('adminhtml/permissions_editroles')
+        );
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/permissions_editroles'));
-
-        $block = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/permissions/roleinfo.phtml')->assign('rid', $this->getRequest()->getParam('rid', false));
-        $this->_addContent($block);
-
-        $this->_addBreadcrumb(__('Customers'), __('customers title'));
+        $this->_addContent(
+            $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/permissions/roleinfo.phtml')
+        );
 
         $this->renderLayout();
     }
 
-    public function deleteroleAction() {
+    public function deleteRoleAction() {
     	$rid = $this->getRequest()->getParam('rid', false);
     	Mage::getModel("permissions/roles")->setId($rid)->delete();
 
     	$this->_redirect("adminhtml/permissions");
     }
 
-    public function deleteuserAction() {
+    public function deleteUserAction() {
     	$uid = $this->getRequest()->getParam('uid', false);
     	Mage::getModel("permissions/users")->setId($uid)->delete();
 
     	$this->_redirect("adminhtml/permissions");
     }
 
-    public function saveroleAction() {
+    public function saveRoleAction() {
     	$rid = $this->getRequest()->getParam('role_id', false);
 
     	$rid = Mage::getModel("permissions/roles")
@@ -73,7 +89,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     	$this->_redirect("adminhtml/permissions/editroles/rid/$rid");
     }
 
-    public function saveuserAction() {
+    public function saveUserAction() {
     	$uid = $this->getRequest()->getParam('user_id', false);
     	$uid = Mage::getModel("permissions/users")
 	    		->setId($uid)

@@ -14,6 +14,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
         $this->setId('customerGrid');
+        $this->setUseAjax(true);
     }
     
     protected function _prepareCollection()
@@ -63,5 +64,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
         //$this->addExportType('*/*/exportCsv', __('CSV'));
         //$this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
+    }
+    
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/userGrid', array('_current'=>true));
     }
 }

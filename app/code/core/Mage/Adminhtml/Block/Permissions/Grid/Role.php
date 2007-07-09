@@ -13,9 +13,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     public function __construct() 
     {
         parent::__construct();
+        $this->setId('roleGrid');
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        //$this->setUseAjax(true);
+        $this->setUseAjax(true);
     }
     
     protected function _prepareCollection()
@@ -51,5 +52,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
         //$this->addExportType('*/*/exportCsv', __('CSV'));
         //$this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
+    }
+    
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/roleGrid', array('_current'=>true));
     }
 }

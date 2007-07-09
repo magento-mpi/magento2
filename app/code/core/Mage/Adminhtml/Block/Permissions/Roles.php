@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Core_Block_Template
     
     public function getAddNewUrl()
     {
-        return $this->getUrl('*/*/editroles');
+        return $this->getUrl('*/*/editrole');
     }
     
     public function getGridHtml()

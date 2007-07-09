@@ -3,9 +3,22 @@
     <tr>
         <td style="width:50%;"><h3><?=__('Users')?></h3></td>
         <td class="a-right">
-            <span class="form-button right">
-                <span><a href="<?=$this->getAddNewUrl()?>"><?=__('Add new user')?></a></span>
-            </span>
+        <button class="scalable" onclick="window.location='<?=$this->getAddNewUrl()?>'">
+            <table cellspacing="0">
+                <tr>
+                    <td class="tl"></td>
+                    <td class="tr"></td>
+                </tr>
+                <tr>
+                    <td class="ml"><?=__('Add new user')?></td>
+                    <td class="mr"></td>
+                </tr>
+                <tr>
+                    <td class="bl"></td>
+                    <td class="br"></td>
+                </tr>
+            </table>
+        </button>
         </td>
     </tr>
 </table>
