@@ -35,10 +35,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     {
         $out = ' ';
         if ($this->getWidth()) {
-            $out='width="'.$this->getWidth().'%" ';
+            $out .='width="'.$this->getWidth(). (is_numeric($this->getWidth()) ? '%' : '') . '" ';
+        } elseif ($this->getType() && in_array(strtolower($this->getType()), array('date', 'currency'))) {
+            $out .='width="10.3em" ';
         }
         if ($this->getAlign()) {
-            $out='align="'.$this->getAlign().'" ';
+            $out .='align="'.$this->getAlign().'" ';
         }
         return $out;
     }
@@ -152,7 +154,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         if ($this->getFilter()) {
             return $this->getFilter()->getHtml();
         } else {
-            return '&nbsp;';
+            return '<div style="width: 100%;">&nbsp;</div>';
         }
         return null;
     }
