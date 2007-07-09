@@ -59,7 +59,7 @@
                     <div class="input-left">
                         <label for="billing:zone_id">State / Province <span class="required">*</span></label><br/>
                         <?if($regions->getSize()):?>
-                            <select title="State/Province" id="billing:region" name="billing[region]" class="input-text required-entry">
+                            <select title="State/Province" id="billing:region" name="billing[region]" class="required-entry">
                                 <option value="">Select State/Province...</option>
                                 <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>

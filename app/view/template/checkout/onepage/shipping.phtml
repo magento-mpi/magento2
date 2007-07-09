@@ -67,7 +67,7 @@
                     <div class="input-left">
                         <label for="shipping:zone_id">State / Province <span class="required">*</span></label><br/>
                         <?if($regions->getSize()):?>
-                            <select title="State/Province" id="shipping:region" name="shipping[region]" class="input-text required-entry" onchange="shipping.setSameAsBilling(false);">
+                            <select title="State/Province" id="shipping:region" name="shipping[region]" class="required-entry" onchange="shipping.setSameAsBilling(false);">
                                 <option value="">Select State/Province...</option>
                                 <?=$regions->toHtmlOptions($address->getRegion())?>
                             </select>

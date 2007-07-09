@@ -22,7 +22,7 @@
             <li>
                 <div class="input-left">
                     <label for="categories">Categories:</label><br/>
-                    <select name="search[category][]" multiple size="5" class="input-text" id="categories">
+                    <select name="search[category][]" multiple size="5" id="categories">
                         <option value=''>All categories</option>
                         <?foreach ($categories as $_node):?>
                             <option value="<?=$_node->getId()?>"><?=$_node->getName()?></option>

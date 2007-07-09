@@ -5,7 +5,7 @@
     <?if(!empty($languages)):?>
     <div class="float-right">
         <label for="language">Language:</label>
-        <select name="language" id="language" class="input-text">
+        <select name="language" id="language">
         <?foreach ($languages as $code=>$info):?>
             <option value="<?=$code?>"><?=$info['name']?></option>
         <?endforeach;?>
