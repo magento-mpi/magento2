@@ -184,12 +184,12 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareCollection()
     {
         if ($this->getCollection()) {
-            $this->getCollection()->setPageSize($this->_request->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-            $this->getCollection()->setCurPage($this->_request->getParam($this->getVarNamePage(), $this->_defaultPage));
+            $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+            $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
 
-            $columnId = $this->getRequest()->getParam($this->getVarNameSort(), $this->_defaultSort);
-            $dir      = $this->getRequest()->getParam($this->getVarNameDir(), $this->_defaultDir);
-            $filter   = $this->getRequest()->getParam($this->getVarNameFilter());
+            $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
+            $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
+            $filter   = $this->getParam($this->getVarNameFilter());
 
             if ($filter) {
                 $data = array();
@@ -445,5 +445,21 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getGridUrl()
     {
         return $this->getCurrentUrl();
+    }
+    
+    public function getParam($paramName, $default=null)
+    {
+        $session = Mage::getSingleton('adminhtml/session');
+        $sessionParamName = $this->getId().$paramName;
+        if ($this->getRequest()->has($paramName)) {
+            $param = $this->getRequest()->getParam($paramName);
+            $session->setData($sessionParamName, $param);
+            return $param;
+        }
+        elseif ($param = $session->getData($sessionParamName))
+        {
+            return $param;
+        }
+        return $default;
     }
 }

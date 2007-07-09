@@ -92,10 +92,8 @@ varienGrid.prototype = {
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/.*?\/)');
         this.url = this.url.replace(re, '/');
-        if(varValue){
-            if(this.url[this.url.length-1]!='/') this.url+= '/';
-            this.url+= varName+'/'+varValue+'/';
-        }
+        if(this.url[this.url.length-1]!='/') this.url+= '/';
+        this.url+= varName+'/'+varValue+'/';
         
         return this.url;
     },
@@ -117,7 +115,11 @@ varienGrid.prototype = {
     },
     doFilter : function(){
         var filters = $$('#'+this.containerId+' .filter input', '#'+this.containerId+' .filter select');
-        this.reload(this.addVarToUrl(this.filterVar, encode_base64(Form.serializeElements(filters))));
+        var elements = [];
+        for(var i in filters){
+            if(filters[i].value && filters[i].value.length) elements.push(filters[i]);
+        }
+        this.reload(this.addVarToUrl(this.filterVar, encode_base64(Form.serializeElements(elements))));
     },
     resetFilter : function(){
         this.reload(this.addVarToUrl(this.filterVar, ''));
