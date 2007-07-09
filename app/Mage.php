@@ -183,19 +183,19 @@ final class Mage {
         }
         return Mage::registry($registryKey);
     }
-    
+
     /**
      * Get resource model class
      *
      * @param string $modelClass
      * @param array $arguments
      * @return Object
-     */  
+     */
     public static function getResourceModel($modelClass, $arguments=array())
     {
         return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
-    
+
     public static function getResourceSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_resource_singleton/'.$modelClass;
@@ -218,7 +218,7 @@ final class Mage {
         return new $className($message, $code);
         //throw new $className($message, $code);
     }
-    
+
     public static function throwException($message, $mesageStorage='core/session')
     {
         if ($mesageStorage && ($storage = Mage::getSingleton($mesageStorage))) {
@@ -260,7 +260,7 @@ final class Mage {
                 unlink($checkFile);
             }
         }
-        
+
         if ($conn = Mage::getSingleton('core/resource')->getConnection('core_write')) {
             $conn->getProfiler()->setEnabled(true);
         }
@@ -280,7 +280,7 @@ final class Mage {
             Mage::init();
             Mage::log('===================== START ==========================');
             Mage::getConfig()->loadEventObservers('front');
-            
+
             $store = Mage::getSingleton('core/store')->setCode($storeCode);
             Mage::getSingleton('core/website')->setCode($store->getWebsiteCode());
 
@@ -308,7 +308,7 @@ final class Mage {
             }
             catch (Exception $ne){
                 echo "<pre>$e</pre>";
-                echo "<pre>$e</pre>";
+                echo "<pre>$ne</pre>";
             }
         }
         Mage::log('===================== FINISH ==========================');
@@ -333,18 +333,18 @@ final class Mage {
             if (empty($loggers[$file])) {
                 $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
                 $logDir = Mage::getBaseDir('var').DS.'log';
-                
+
                 if (!is_dir(Mage::getBaseDir('var').DS.'log')) {
                     mkdir(Mage::getBaseDir('var').DS.'log', 0777);
                 }
-                
+
                 if (!file_exists($logFile)) {
                     file_put_contents($logFile,'');
                     chmod($logFile, 0777);
                 }
-                
+
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
-                $formatter = new Zend_Log_Formatter_Simple($format);            
+                $formatter = new Zend_Log_Formatter_Simple($format);
                 $writer = new Zend_Log_Writer_Stream($logFile);
                 $writer->setFormatter($formatter);
                 $loggers[$file] = new Zend_Log($writer);
