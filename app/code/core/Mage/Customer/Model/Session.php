@@ -68,7 +68,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         if (!$this->isLoggedIn()) {
             Mage::getSingleton('customer/session')->setUrlBeforeAuthentication($action->getRequest()->getRequestUri());
-            $action->_redirect('customer/account/login', array('_secure'=>true));
+            $action->getResponse()->setRedirect(Mage::getUrl('customer/account/login', array('_secure'=>true)));
             return false;
         }
         return true;
