@@ -55,30 +55,18 @@
                     <session>
                         <table>core_session</table>
                     </session>
-                    <entity_type>
-                        <table>core_entity_type</table>
-                    </entity_type>
-                    <entity>
-                        <table>core_entity</table>
-                    </entity>
-                    <entity_attribute>
-                        <table>core_attribute</table>
-                    </entity_attribute>
-                    <entity_attribute_int>
-                        <table>core_attribute_int</table>
-                    </entity_attribute_int>
-                    <entity_attribute_datetime>
-                        <table>core_attribute_datetime</table>
-                    </entity_attribute_datetime>
-                    <entity_attribute_text>
-                        <table>core_attribute_text</table>
-                    </entity_attribute_text>
-                    <entity_attribute_decimal>
-                        <table>core_attribute_decimal</table>
-                    </entity_attribute_decimal>
-                    <entity_attribute_varchar>
-                        <table>core_attribute_varchar</table>
-                    </entity_attribute_varchar>
+                    <config_section>
+                        <table>core_config_section</table>
+                    </config_section>
+                    <config_group>
+                        <table>core_config_group</table>
+                    </config_group>
+                    <config_attribute>
+                        <table>core_config_attribute</table>
+                    </config_attribute>
+                    <config_value>
+                        <table>core_config_value</table>
+                    </config_value>
                 </entities>
             </core_mysql4>
         </models>

@@ -22,13 +22,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     {
         $this->addTab('view', array(
             'label'     => __('Customer view'),
-            'content'   => '<h3>Customer view</h3>',
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
+            'active'    => true
         ));
 
         $this->addTab('account', array(
             'label'     => __('Account information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
-            'active'    => true
         ));
 
         $this->addTab('addresses', array(
