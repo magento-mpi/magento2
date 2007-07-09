@@ -12,7 +12,7 @@ body {
     }
 
 a { color:#ea7601; text-decoration:underline; }
-a:hover { color:#ea7601; text-decoration:none; }
+a:hover { color:#ea7601; text-decoration:underline; }
 a img { border:0;}
 
 /* Heading */

@@ -263,14 +263,14 @@ dl.accordion dd.open {
 		display:block;
     padding:.3em 1.5em .28em 1.5em;
 		}
-.section-menu li a:hover span {
-	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
-    }
 .section-menu li a.active span {
 		background:#fff;
 		border-bottom:1px solid #bebebe;
 		font-weight:bold;
 	}
+.section-menu li a:hover span {
+	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
+    }
 .content-header {
     margin-bottom:.7em;
     border-bottom:3px solid #dfdfdf;
@@ -344,8 +344,8 @@ dl.accordion dd.open {
 	width:100%;
 	}
 .delete-address {
-	width:8.33em;
-	text-align:right;
+	float:right;
+	margin: 0 0 10px 10px;
 	}
 
 .entry-edit {

@@ -6,6 +6,8 @@
 .container,
 .section-menu a,
 dl.accordion dt,
+.section-menu li,
+.section-menu li a,
 .content { zoom:1; }
 
 .clear {

@@ -5,20 +5,14 @@
 	<?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
 		<li id="address_item_<?=$_address->getId()?>">
-			<table cellspacing="0">
-				<tr>
-					<td>
-					<address>
-					<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
-					</address>
-					<div class="address-type">
-							<input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
-							<input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
-					</div>
-					</td>
-					<td class="delete-address"><a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a></td>
-				</tr>
-			</table>
+				<address>
+					<a href="#" name="delete_address" class="delete-address" id="delete_new_item"><?=__('Delete address')?></a>
+				<?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+				</address>
+				<div class="address-type">
+						<input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
+						<input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
+				</div>
 		</li>
 		<?endforeach;?>
 	<?else:?>
