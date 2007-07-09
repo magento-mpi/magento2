@@ -187,6 +187,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
             if ($filter) {
                 $data = array();
+                $filter = base64_decode($filter);
                 parse_str(urldecode($filter), $data);
                 $this->_setFilterValues($data);
             }

@@ -117,7 +117,7 @@ varienGrid.prototype = {
     },
     doFilter : function(){
         var filters = $$('#'+this.containerId+' .filter input', '#'+this.containerId+' .filter select');
-        this.reload(this.addVarToUrl(this.filterVar, Form.serializeElements(filters)));
+        this.reload(this.addVarToUrl(this.filterVar, encode_base64(Form.serializeElements(filters))));
     },
     resetFilter : function(){
         this.reload(this.addVarToUrl(this.filterVar, ''));

@@ -19,6 +19,7 @@
     <script type="text/javascript" src="<?=$baseJsUrl?>prototype/prototype.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>prototype/validation.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/hash.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/events.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/grid.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tabs.js"></script>
@@ -55,7 +56,12 @@
     </td></tr>
 		<tr>
 		<td class="middle">
-        <?=$this->getChildHtml('breadcrumbs')?>
+		<table cellspacing="0" width="100%">
+		  <tr>
+		      <td><?=$this->getChildHtml('breadcrumbs')?></td>
+		      <td style="width:16px;padding-top:5px"><img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader-tr.gif" alt="Loading..." align="absmiddle" height="16" id="loading-process"/ style="display:none"></td>
+		  </tr>
+        </table>
         <?if($this->getChildHtml('left')):?>
         <div class="container">
             <div class="main">
