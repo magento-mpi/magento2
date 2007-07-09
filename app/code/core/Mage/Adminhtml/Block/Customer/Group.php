@@ -11,16 +11,16 @@
 
 class Mage_Adminhtml_Block_Customer_Group extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/customer/group/list.phtml');
     }
-    
+
     public function _beforeToHtml()
     {
-        $this->assign('grid', $this->getLayout()->createBlock('adminhtml/customer_group_grid', 'customer.group.grid')->toHtml());
+        $this->assign('createUrl', Mage::getUrl('adminhtml/customer/new'));
+        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_group_grid', 'customer.group.grid'));
         return $this;
     }
-   
 }

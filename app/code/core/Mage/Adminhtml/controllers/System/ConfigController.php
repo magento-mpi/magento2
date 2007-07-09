@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action 
+class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
 {
     protected function _construct()
     {
@@ -20,16 +20,16 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/config');
-        
-        $this->_addBreadcrumb(__('system'), __('system title'), Mage::getUrl('adminhtml/system'));
+
+        $this->_addBreadcrumb(__('System'), __('system title'), Mage::getUrl('adminhtml/system'));
 
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
-        
+
         $this->getLayout()->getBlock('left')
             ->append(
                 $this->getLayout()->createBlock('adminhtml/system_config_left')
@@ -39,12 +39,12 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->getLayout()->createBlock('adminhtml/system_config_edit')
                     ->bindBreadcrumbs($breadcrumbs)
         );
-            
+
         $this->renderLayout();
     }
-    
+
     public function saveAction()
     {
-        
+
     }
 }

@@ -12,18 +12,18 @@
 abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends Mage_Core_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface
 {
     protected $_column;
-    
+
     public function setColumn($column)
     {
         $this->_column = $column;
         return $this;
     }
-    
+
     public function getColumn()
     {
         return $this->_column;
     }
-    
+
     /**
      * Renders grid column
      *

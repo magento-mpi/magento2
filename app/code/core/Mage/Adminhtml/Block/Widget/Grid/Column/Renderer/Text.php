@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
      * @var string
      */
     protected $_variablePattern = '/\\$([a-z0-9_]+)/i';
-    
+
     /**
      * Renders grid column
      *
@@ -29,11 +29,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
     {
         $index  = $this->getColumn()->getIndex();
         $format = $this->getColumn()->getFormat();
-        
+
         if (is_null($format)) {
             // If no format and it column not filtered specified return data as is.
             return htmlspecialchars($row->getData($index));
-        } 
+        }
         elseif (preg_match_all($this->_variablePattern, $format, $matches)) {
             // Parsing of format string
             $formatedString = $format;

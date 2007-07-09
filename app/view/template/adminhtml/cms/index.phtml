@@ -1,11 +1,15 @@
-<div class="head">
-<table cellspacing="0">	
+<div class="content-header">
+<table cellspacing="0" class="grid-header">
 	<tr>
-		<td style="width:50%;"><h2>CMS control</h2></td>
-		<td class="buttons"><strong class="button"><span><a href="<?=$createUrl?>"><?=__('new page')?></a></span></strong></td>
+		<td style="width:50%;"><h3><?=__('CMS control')?></h3></td>
+		<td class="a-right">
+			<span class="form-button right">
+				<span><a href="<?=$createUrl?>"><?=__('New Page')?></a></span>
+			</span>
+		</td>
 	</tr>
 </table>
 </div>
 <div>
-    <?=$grid?>
+	<?=$this->getChildHtml('grid')?>
 </div>

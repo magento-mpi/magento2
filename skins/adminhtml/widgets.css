@@ -31,7 +31,7 @@
 
 /* no sort arrow */
 .grid .no-sort {
-   
+
 }
 
 .grid tr.even {
@@ -42,9 +42,52 @@
     background:#dff0f5;
 }
 
-.pager{padding:.25em 0; }
+.pager{
+	padding:.25em 0;
+	float: left;
+}
 .pager select{width:50px}
 
+/* filters */
+
+.grid tr.filter {
+	cursor: default;
+}
+.grid tr.filter th {
+	padding: 1px 7px 1px 2px;
+}
+.grid tr.filter input {
+	width: 99%;
+	margin: 1px;
+}
+.grid tr.filter .range {
+	width: 8.2em;
+}
+.grid tr.filter .range input {
+	width: 4em;
+}
+.grid tr.filter .range .label {
+	display: block;
+	width: 3em;
+	float: left;
+}
+.grid tr.filter .date {
+	width: 10em;
+}
+.grid tr.filter .date img {
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.actions .filter-actions {
+	float: right;
+	margin-left: 30px;
+}
+.actions .filter-actions .form-button {
+	float: left;
+}
 
 /*
 .tabs .active, .tabs a.active:hover{
@@ -70,14 +113,14 @@ ul.tabs li a {
     text-decoration:none;
     }
 ul.tabs li a:hover {
-    background:#ddd; 
+    background:#ddd;
     }
 */
 
 
 /* Form Validation */
 .validation-advice {
-    margin-left:10em; 
+    margin-left:10em;
     color:#d40707;
     font-weight:bold;
     margin-right:20px;

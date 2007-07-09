@@ -29,7 +29,7 @@
         var BASE_URL = '<?=$baseUrl?>adminhtml/';
         var SKIN_URL = '<?=$baseUrl?>skins/adminhtml/';
     </script>
- 
+
 	<style type="text/css" media="all">
 		/*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
 	</style>
@@ -38,7 +38,7 @@
 
     <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$baseUrl?>skins/adminhtml/menu-top.css" />
 	<script type="text/javascript" src="<?=$baseJsUrl?>listmenu/menu.js"></script>
-	
+
 	<link rel="stylesheet" type="text/css" media="all" href="<?=$baseJsUrl?>calendar/calendar-win2k-1.css" title="win2k-1" />
     <script type="text/javascript" src="<?=$baseJsUrl?>calendar/calendar.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>calendar/lang/calendar-en.js"></script>
@@ -66,7 +66,7 @@
 									<div class="bottom">
 									</div>
                 </div>
-<!--[ends] .section-menu -->                    
+<!--[ends] .section-menu -->
             </div>
         </div>
         <?else:?>
@@ -79,6 +79,6 @@
     <div class="footer">
         <?=$this->getChildHtml('footer')?>
     </div>
-    <?=$this->getChildHtml('profiler')?>
+    <?//=$this->getChildHtml('profiler')?>
 </body>
 </html>

@@ -8,30 +8,30 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action 
+class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(__('catalog'), __('catalog title'));
-            
+        $this->_addBreadcrumb(__('Catalog'), __('catalog title'));
+
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog'));
         $this->renderLayout();
     }
-    
+
     public function framesetAction()
     {
         $frameset = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/frameset.phtml');
         $this->getResponse()->setBody($frameset->toHtml());
     }
-    
+
     public function categoryTreeAction()
     {
         $treeBlock = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/category/tree.phtml');
         $this->getResponse()->setBody($treeBlock->toHtml());
     }
-    
+
     public function categoryTreeDataAction()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
@@ -53,14 +53,14 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
             $item['allowDrop'] = true;
             $item['allowDrag'] = true;
             if (!$node->hasChildren()) {
-                $item['leaf'] = 'true';    
+                $item['leaf'] = 'true';
             }
             $items[] = $item;
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($items));
     }
-    
+
     public function productGridAction()
     {
         $grid = $this->getLayout()->createBlock('adminhtml/catalog_product_grid');
@@ -68,7 +68,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
 
         $page = $this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/catalog/page.phtml');
         $page->setChild('content', $grid);
-        
+
         $this->getResponse()->setBody($page->toHtml());
     }
 }

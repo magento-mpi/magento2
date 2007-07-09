@@ -15,8 +15,8 @@ class Mage_Adminhtml_TaxController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(__('catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog'));
-        $this->_addBreadcrumb(__('tax'), __('tax title'));
+        $this->_addBreadcrumb(__('Catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog'));
+        $this->_addBreadcrumb(__('Tax'), __('tax title'));
 
         $this->renderLayout();
     }

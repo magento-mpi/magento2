@@ -1,26 +1,32 @@
-<div class="head">
-<table cellspacing="0">	
+<div class="content-header">
+<table cellspacing="0" class="grid-header">
 	<tr>
-		<td style="width:50%;"><h3><?=__('customer groups title')?></h3></td>
-		<td class="buttons"><strong class="button"><span><a href="<?=$baseUrl?>adminhtml/customer_group/new"><?=__('create customer group');?></a></span></strong></td>
+		<td style="width:50%;"><h3><?=__('Customer Groups')?></h3></td>
+		<td class="a-right">
+			<span class="form-button right">
+				<span><a href="<?=$createUrl?>"><?=__('New Customer Group')?></a></span>
+			</span>
+		</td>
 	</tr>
 </table>
 </div>
-<?=$grid;?>
+<div>
+	<?=$this->getChildHtml('grid')?>
+</div>
 <script type="text/javascript">
 <!--
 var gridController = {
     onRowClick : function(e) {
-              
-        if( (e.srcElement && e.srcElement.tagName != 'A') 
+
+        if( (e.srcElement && e.srcElement.tagName != 'A')
             ||
-            (e.target && e.target.tagName != 'A') 
+            (e.target && e.target.tagName != 'A')
            ) {
             var editHrefObjects = $(Event.findElement(e,'tr')).getElementsByClassName('edit-url');
             if(editHrefObjects.length > 0) {
                 location.href = editHrefObjects[0].href;
             }
-            //location.href = 
+            //location.href =
         }
     }
 };

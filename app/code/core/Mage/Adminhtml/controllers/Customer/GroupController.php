@@ -8,46 +8,46 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_Action 
+class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Customer groups list.
      */
-    public function indexAction() 
+    public function indexAction()
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
-        $this->_addBreadcrumb(__('customers groups'), __('customers groups title'));
-        
+        $this->_addBreadcrumb(__('Customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('Customers Groups'), __('customers groups title'));
+
         $this->_addContent($this->getLayout()->createBlock('adminhtml/customer_group', 'group'));
-        
+
         $this->renderLayout();
     }
-    
+
     /**
      * Edit or create customer group.
      */
-    public function newAction() 
+    public function newAction()
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(__('customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
-        $this->_addBreadcrumb(__('customer groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
-            
+        $this->_addBreadcrumb(__('Customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('Customer Groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
+
         if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb(__('edit customer group'), __('edit customer groups title'));
+            $this->_addBreadcrumb(__('Edit Group'), __('edit customer groups title'));
         } else {
-            $this->_addBreadcrumb(__('new customer group'), __('new customer groups title'));
+            $this->_addBreadcrumb(__('New Customer Group'), __('new customer groups title'));
         }
-        
+
         $this->getLayout()->getBlock('content')
             ->append($this->getLayout()->createBlock('adminhtml/customer_group_edit', 'group')
                         ->setEditMode((bool)$this->getRequest()->getParam('id')));
-        
+
         $this->renderLayout();
     }
-    
+
     /**
      * Edit customer group action. Forward to new action.
      */
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $this->_forward('new');
     }
-    
+
     /**
      * Create or save customer group.
      */
@@ -65,18 +65,18 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
         if ($id = (int)$this->getRequest()->getParam('id')) {
             $customerGroup->load($id);
         }
-        
+
         if ($code = $this->getRequest()->getParam('code')) {
             $customerGroup->setCode($code);
             $customerGroup->save();
-//            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');        
-            $this->_redirect('adminhtml/customer_group');        
+//            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
+            $this->_redirect('adminhtml/customer_group');
         } else {
             $this->_forward('new');
         }
-                
+
     }
-    
+
     /**
      * Delete customer group action
      */
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
             $customerGroup->load($id);
             $customerGroup->delete();
         }
-        
+
 //        $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
          $this->_redirect('adminhtml/customer_group');
     }

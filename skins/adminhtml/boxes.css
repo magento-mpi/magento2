@@ -14,8 +14,8 @@
 .box-right {
     float:right;
     }
-    
-    
+
+
 /* Forms */
 .input-text, textarea, select {
     border:1px solid #acacac;
@@ -26,17 +26,14 @@
 
 
 .form-button {
-	width:auto;
-	display:inline;
-	margin-left:2px;
-	}
-.form-button-left {
-	width:4px;
+	width: auto;
+	margin:2px;
+	padding: 0 0 0 4px;
 	overflow:hidden;
 	font-size:0;
-	background:url(images/btn_bg.gif) no-repeat;
-	}
-.form-button-right a, .form-button-right a:hover {
+	background:url(images/btn_bg.gif) no-repeat top left;
+}
+.form-button span a, .form-button span a:hover {
 	display:block;
 	padding:5px 11px 6px 7px;
 	color:#fff;
@@ -45,8 +42,7 @@
 	font-size:12px;
 	text-decoration:none;
 	line-height:12px;
-	}
-
+}
 
 /* autocomplete */
 div.autocomplete {
@@ -63,7 +59,7 @@ div.autocomplete ul {
   margin:0px;
   padding:0px;
 }
-div.autocomplete ul li.selected { 
+div.autocomplete ul li.selected {
 	background-color: #dcebf0;
 	}
 div.autocomplete ul li {
@@ -79,7 +75,7 @@ div.autocomplete ul li {
 
 /* Tabular Data */
 table.content_table {
-	width:100%; 
+	width:100%;
 	}
 .data {
     border-width:1px;
@@ -107,7 +103,7 @@ table.content_table {
     background:#d7d8d9;
 		border:1px solid #d6cebf;
     }
-.grid table td {    
+.grid table td {
     border-width:1px;
     border-color:#E3E3E3;
     }
@@ -128,13 +124,13 @@ table.content_table {
 		border-color:#d6cebf #E3E3E3;
 		border-width:1px;
 		}
-table.actions {
+.grid .actions {
 	width:100%;
 	margin-bottom:.5em;
-	}
-.pager .spacer { 
+}
+.pager .spacer {
 	padding:0 .6em;
-	color:#cfcfcf; 
+	color:#cfcfcf;
 	}
 /* Accordion */
 dl.accordion dt {
@@ -154,14 +150,14 @@ dl.accordion dd {
 dl.accordion dd.open {
     display:block;
     }
-    
-    
+
+
 /******************************************/
 /***************** BOXES ******************/
 /******************************************/
 
 /* Layout */
-.header { 
+.header {
 		background:url(images/header_bg.gif) repeat-x #516f78;
     z-index:9;
     text-align:right;
@@ -207,9 +203,9 @@ dl.accordion dd.open {
 
 
 /* Header */
-.logo { 
-    float:left; 
-    margin:5px 15px; 
+.logo {
+    float:left;
+    margin:5px 15px;
     }
 .header-right {
     padding:10px 15px;
@@ -219,7 +215,7 @@ dl.accordion dd.open {
 .header-right a, .header-right a:hover {
     color:#F5FCFF;
     }
-.header-right fieldset { 
+.header-right fieldset {
     display:inline;
     }
 .header-right fieldset .input-text {
@@ -229,7 +225,7 @@ dl.accordion dd.open {
 .header-right .super {
     float:right;
     margin-left:1.3em;
-    line-height:2.2em; 
+    line-height:2.2em;
     }
 
 .topnav-container {
@@ -297,7 +293,7 @@ dl.accordion dd.open {
     }
 .content-header h3 {
     margin:0;
-		color:#000; 
+		color:#000;
 		font-size:1.25em;
 		line-height:1.2em;
     }
@@ -305,7 +301,7 @@ dl.accordion dd.open {
 .content-header .form-buttons {
     text-align:right;
     }
-    
+
 
 /* Customer - Dashboard */
 .customer-personal .box {
@@ -384,15 +380,15 @@ dl.accordion dd.open {
     margin:.7em 0;
 }
 .entry-edit fieldset label {
-    float:left; 
+    float:left;
     width:10em;
     }
 label.inline{
     float:none !important;
     width:auto !important;
 }
-.entry-edit fieldset .input-text, 
-.entry-edit fieldset .select, 
+.entry-edit fieldset .input-text,
+.entry-edit fieldset .select,
 .entry-edit fieldset .textarea {
     width:18em;
     }

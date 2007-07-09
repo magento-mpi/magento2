@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $actionsUrl = Mage::getUrl('adminhtml/cms_page');
 
-        $this->addColumn('page_title', 
+        $this->addColumn('page_title',
             array(
                 'header'=>__('Title'),
                 'align' =>'left',
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
             )
         );
 
-        $this->addColumn('page_identifier', 
+        $this->addColumn('page_identifier',
             array(
                 'header'=>__('Identifier'),
                 'align' =>'left',
@@ -46,14 +46,14 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
             )
         );
 
-        $this->addColumn('page_creation_time', 
+        $this->addColumn('page_creation_time',
             array(
             'header'=>__('Creation time'),
             'index' =>'page_creation_time'
             )
         );
 
-        $this->addColumn('page_update_time', 
+        $this->addColumn('page_update_time',
             array(
                 'header'=>__('Update time'),
                 'index'=>'page_update_time'
@@ -75,9 +75,9 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                         );
         */
 
-        $this->addColumn('page_actions', 
+        $this->addColumn('page_actions',
             array(
-                'header'=>__('actions'),
+                'header'=>__('Action'),
                 'width'=>10,
                 'sortable'=>false,
                 'format' => '<a href="' . $actionsUrl .'edit/page/$page_id/">' . __('edit') . '</a> <a href="' . $actionsUrl .'delete/page/$page_id/">' . __('delete') . '</a>'

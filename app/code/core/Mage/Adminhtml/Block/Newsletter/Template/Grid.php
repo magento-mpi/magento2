@@ -14,10 +14,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
     {
         $collection = Mage::getResourceSingleton('newsletter/template_collection')
             ->useOnlyActual();
-        
+
         $this->setCollection($collection);
     }
-    
+
     /**
      * Configuration of grid
      */
@@ -25,43 +25,43 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
     {
         $gridUrl = Mage::getUrl('adminhtml',array('controller'=>'backup'));
 
-        $this->addColumn('id', 
+        $this->addColumn('id',
             array('header'=>__('id'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
-        $this->addColumn('code', 
+        $this->addColumn('code',
             array(
-                'header'=>__('template code'),
-                'align'=>'center', 
+                'header'=>__('Template Code'),
+                'align'=>'center',
                 'index'=>'template_code'
         ));
-        $this->addColumn('subject', 
+        $this->addColumn('subject',
             array(
-                'header'=>__('template subject'),
-                'align'=>'center', 
+                'header'=>__('Subject'),
+                'align'=>'center',
                 'index'=>'template_subject'
         ));
-        $this->addColumn('sender', 
+        $this->addColumn('sender',
             array(
-                'header'=>__('template sender'),
-                'align'=>'center', 
+                'header'=>__('Sender'),
+                'align'=>'center',
                 'index'=>'template_sender_email',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_sender'
         ));
-        $this->addColumn('type', 
+        $this->addColumn('type',
             array(
-                'header'=>__('template type'),
-                'align'=>'center', 
+                'header'=>__('Template Type'),
+                'align'=>'center',
                 'index'=>'template_type',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_type'
         ));
-        $this->addColumn('action', 
+        $this->addColumn('action',
             array(
-                'header'=>__('template type'),
-                'align'=>'center', 
+                'header'=>__('Action'),
+                'align'=>'center',
                 'index'=>'template_id',
                 'sortable'=>false,
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
-       
+
         $this->_initCollection();
         return parent::_beforeToHtml();
     }

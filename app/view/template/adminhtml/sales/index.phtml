@@ -1,13 +1,14 @@
-<div class="head">
-<table cellspacing="0">
+<div class="content-header">
+<table cellspacing="0" class="grid-header">
 	<tr>
-		<td style="width:50%;"><h2><?=__('Orders control')?></h2></td>
-		<td class="buttons"><strong class="button"><span><a href="<?=$createUrl?>"><?=__('new order')?></a></span></strong></td>
+		<td style="width:50%;"><h3><?=__('Orders')?></h3></td>
+		<td class="a-right">
+			<span class="form-button right">
+				<span><a href="<?=$createUrl?>"><?=__('New Order')?></a></span>
+			</span>
+		</td>
 	</tr>
 </table>
-</div>
-<div class="box">
-    <h3><?=__('Advanced search')?></h3>
 </div>
 <div>
     <?=$this->getChildHtml('grid')?>
