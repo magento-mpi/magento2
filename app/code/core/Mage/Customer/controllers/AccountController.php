@@ -42,10 +42,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $this->loadLayout();
         $this->_initMessages();
         
-        $block = $this->getLayout()->createBlock('customer/dashboard')
-            ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'));
-            
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('customer/dashboard')
+        );
         
         $this->renderLayout();
     }

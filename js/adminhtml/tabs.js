@@ -28,13 +28,21 @@ varienTabs.prototype = {
     },
     
     getTabContentElementId : function(tab){
-        return tab.id+'_content';
+        if(tab.id){
+            return tab.id+'_content';
+        }
+        return false;
     },
     
     tabMouseClick : function(event){
         var tab = Event.findElement(event, 'a');
         if(tab.href.indexOf('#') != tab.href.length-1){
-            alert(tab.href);
+            if(Element.hasClassName(tab, 'ajax')){
+                
+            }
+            else{
+                location.href = tab.href;
+            }
         }
         else {
             this.showTabContent(tab);

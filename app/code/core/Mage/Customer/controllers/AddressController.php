@@ -28,15 +28,18 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('customer/session')->getMessages(true)
         );
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.address')
-            ->setTemplate('customer/address.phtml')
-            ->assign('customer',  Mage::getSingleton('customer/session')->getCustomer());
-        
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('customer/address_book')
+        );
         $this->renderLayout();
     }
     
     public function editAction()
+    {
+        $this->_forward('form');
+    }
+    
+    public function newAction()
     {
         $this->_forward('form');
     }
