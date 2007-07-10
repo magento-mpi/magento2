@@ -58,14 +58,13 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             
             $menuArr['level'] = $level;
             
-            if ($child->children) {
-                $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
-            }
-            
             if (--$i==0) {
                 $menuArr['last'] = true;
             }
 
+            if ($child->children) {
+                $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
+            }
             $parentArr[$childName] = $menuArr;
         }
         

@@ -9,7 +9,8 @@
 
 
 /* tame the lists */
-ul.horizontal, ul.horizontal li {
+ul.horizontal, 
+ul.horizontal li {
 	list-style-type:none;
 	}
 
@@ -106,7 +107,8 @@ ul.horizontal ul li {
 
 
 /* you can use <ul> classes to specify different menu widths */
-ul.horizontal ul.wider, ul.horizontal ul.wider li {
+ul.horizontal ul.wider, 
+ul.horizontal ul.wider li {
 	width:12.2em;
 	}
 
@@ -149,7 +151,9 @@ ul.horizontal a {
 	}
 
 /* rollover pseudo-classes, and scriptable persistence class */
-ul.horizontal a:hover, ul.horizontal a:focus, ul.horizontal a.rollover {
+ul.horizontal a:hover, 
+ul.horizontal a:focus, 
+ul.horizontal a.rollover {
 /*
 	background:#ffefcf;
 	color:#806020;
@@ -213,12 +217,16 @@ ul.horizontal li { margin:0; }
 
 
 /* default menu-items style */
-ul.horizontal span, ul.horizontal a:hover, ul.horizontal a.on {
+ul.horizontal span, 
+ul.horizontal a:hover, 
+ul.horizontal a.on {
 	background-image:url(images/nav_list_bg.gif);
 	background-repeat:no-repeat;
 	background-position: top 12px;
 	}
-ul.horizontal a, ul.horizontal a.on, ul.horizontal a:hover {
+ul.horizontal a, 
+ul.horizontal a.on, 
+ul.horizontal a:hover {
 	color:#fff;
 	}
 ul.horizontal a {
@@ -230,7 +238,9 @@ ul.horizontal a span {
 	padding:4px 15px 4px 11px;
 	background-position:100% 1px;
 	}
-ul.horizontal a.on, ul.horizontal a, ul.horizontal a:hover {
+ul.horizontal a.on, 
+ul.horizontal a, 
+ul.horizontal a:hover {
 	margin-left:-2px;
 	margin-top: 0;
 	}
@@ -244,16 +254,20 @@ ul.horizontal a.on, ul.horizontal a:hover {
 	/* margin-top: -1px;
 	m\argin-top: 0; */
 }
-ul.horizontal a, ul.horizontal a.on,  ul.horizontal a:hover {
+ul.horizontal a, 
+ul.horizontal a.on,  
+ul.horizontal a:hover {
 	margin-top: -1px;
 }
 
-* html ul.horizontal a.on, * html ul.horizontal a:hover {
+* html ul.horizontal a.on, 
+* html ul.horizontal a:hover {
 	background-position:1px -26px;
 	border-top: 0.05em solid #ff9C10;
 }
 
-ul.horizontal a.on span, ul.horizontal a:hover span {
+ul.horizontal a.on span, 
+ul.horizontal a:hover span {
 	background-position:100% -54px;
 	}
 ul.horizontal a:hover {
@@ -269,7 +283,8 @@ ul.horizontal a.on:hover {
 
 
 /* menu popup width */
-ul.horizontal ul, ul.horizontal ul li {
+ul.horizontal ul, 
+ul.horizontal ul li {
 	width:16em;
 }
 
@@ -286,14 +301,17 @@ ul.horizontal ul ul {
 
 /* further menu-child links */
 
-ul.horizontal ul a, ul.horizontal ul a:hover, ul.horizontal ul a.on, ul.horizontal ul li.rollover {
+ul.horizontal ul a, 
+ul.horizontal ul a:hover, 
+ul.horizontal ul a.on, 
+ul.horizontal ul li.rollover {
 	color:#2f2f2f;
 	}
 ul.horizontal ul a {
 	padding:.3em 1em;
 	background:#fffaf4;
 	border-bottom:1px solid #fddcbb;
-}
+    }
 ul.horizontal ul a.last {
 	border-bottom:0;
 	}
@@ -310,14 +328,27 @@ ul.horizontal .parent {
 	background-position:bottom right  !important;*/
 	}
 /* further child-menu hover links */
-ul.horizontal ul a:hover, ul.horizontal ul a:focus, ul.horizontal ul a.rollover {
+ul.horizontal ul a:hover, 
+ul.horizontal ul a:focus, 
+ul.horizontal ul a.rollover {
     /*background:#B9DCE5;*/
-}
+    }
 
-ul.horizontal a:hover, ul.horizontal ul a:hover {
+ul.horizontal a:hover, 
+ul.horizontal ul a:hover {
 	text-decoration: none;
-}
+    }
 
-ul.horizontal ul a, ul.horizontal ul a.on,  ul.horizontal ul a:hover {
+ul.horizontal ul a, 
+ul.horizontal ul a.on,
+ul.horizontal ul a:hover {
 	margin-top:0;
-}
+    }
+
+* html ul.horizontal ul a:hover {
+    margin-top:-1px;
+    }
+
+* html ul.horizontal ul a.on:hover {
+    margin-top:0;
+    }

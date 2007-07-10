@@ -17,7 +17,6 @@ Event.observe(window, 'load', function(){
 	//create a new menu ('menu-id', 'orientation')
 	//var verticals = new simpleMenu('menu-v', 'vertical');
 	var horizontals = new simpleMenu('topnav', 'horizontal');
-
 });
 
 

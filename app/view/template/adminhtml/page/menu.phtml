@@ -1,38 +1,71 @@
 <?/*{
 
 }*/?>
-<style type="text/css">
-/*
-ul.horizontal .parent {
-    background-image:url(<?=$baseUrl?>skins/admin/ico/fam/bullet_go.png) !important;
-    background-repeat:no-repeat !important;
-    background-position:center right !important;
+<script type="text/javascript">
+var isIE = false;//window.navigator.userAgent.indexOf("MSIE") > 0;
+
+function toggleMenu(el, over) {
+    if (isIE && !over) {
+        uls = el.getElementsByTagName('ul');
+        if (uls.length>0) toggleIntersectingSelects(uls[0], over);
+    }
+	if (over) {
+	    el.className = (el.className + ' over').replace(/^ +| +$/, '');
+	} else {
+	    //window.setTimeout(function() {
+	       el.className = el.className.replace(/\bover\b/, '');
+	    //}, 30);
+	}
+	if (isIE && over) {
+	   uls = el.getElementsByTagName('ul');
+	   if (uls.length>0) toggleIntersectingSelects(uls[0], over);
+	}
 }
-*/
-</style>
-<div class="topnav-container">
-    <ul id="topnav" class="horizontal">
-    <?foreach ($menu as $_item):?>
-        <li>
-           <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'on':''?>"><span><?=$_item['label']?></span></a>
-        <?if(!empty($_item['children']) && is_array($_item['children'])):?>
-            <ul>
-            <?foreach ($_item['children'] as $_child):?>
-                <li><a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'on':''?> <?=!empty($_child['children'])?'parent':''?> <?=!empty($_child['last'])?'last':''?>">
-                    <?=$_child['label']?></a>       
-                <?if(!empty($_child['children'])):?>
-                    <ul>
-                    <?foreach ($_child['children'] as $_grandchild):?>
-                        <li><a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'on':''?> <?=!empty($_grandchild['last'])?'last':''?>">
-                            <?=$_grandchild['label']?></a></li>
-                    <?endforeach;?>
-                    </ul>
-                <?endif;?>
-                </li>
-            <?endforeach;?>
-            </ul>
-        <?endif;?>
-        </li>
-    <?endforeach;?>
-    </ul>
-</div>
+
+function getElementInfo(el) {
+	var l = 0, t = 0, o = el;
+	if (o.offsetParent) { 
+		l = o.offsetLeft; t = o.offsetTop;
+		while (o = o.offsetParent) { l += o.offsetLeft; t += o.offsetTop }
+	}
+	return {x1:l, y1:t, x2:l+el.offsetWidth, y2:t+el.offsetHeight};
+}
+
+function toggleIntersectingSelects(el, hide) {
+    var e1 = getElementInfo(el);    
+    var selects = document.getElementsByTagName('select');
+    for (var i=0, l=selects.length; i<l; i++) {
+        var e2 = getElementInfo(selects[i]);
+        var intersect = !(
+            (e1.x1 <= e2.x1 && e1.x2 < e2.x1) || (e1.x1 > e2.x1 && e2.x2 < e1.x1) || 
+            (e1.y2 >= e2.y2 && e1.y1 > e2.y2) || (e1.y2 < e2.y2 && e2.y1 > e1.y2)
+        );       
+        if (intersect) selects[i].style.visibility = hide ? "hidden" : "visible";
+    };
+}
+</script>
+<ul class="h">
+<?foreach ($menu as $_item):?>
+    <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)" class="<?=!empty($_item['active'])?'active':''?>">
+       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?>"><?=$_item['label']?><em></em></a>
+    <?if(!empty($_item['children']) && is_array($_item['children'])):?>
+        <ul>
+        <?foreach ($_item['children'] as $_child):?>
+            <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)" class="<?=!empty($_item['active'])?'active':''?>">
+                <a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'active':''?> <?=!empty($_child['children'])?'parent':''?> <?=!empty($_child['last'])?'last':''?>"><?=$_child['label']?></a>       
+            <?if(!empty($_child['children'])):?>
+                <ul>
+                <?foreach ($_child['children'] as $_grandchild):?>
+                    <li class="<?=!empty($_grandchild['active'])?'active':''?>">
+                        <a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'active':''?> <?=!empty($_grandchild['last'])?'last':''?>"><?=$_grandchild['label']?></a>
+                    </li>
+                <?endforeach;?>
+                </ul>
+            <?endif;?>
+            </li>
+        <?endforeach;?>
+        </ul>
+    <?endif;?>
+    </li>
+<?endforeach;?>
+</ul>
