@@ -32,11 +32,16 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
         if (empty($addresses)) {
             return false;
         }
-        return 
+        return $addresses;
     }
     
     public function getAdditionalAddresses()
     {
         
+    }
+    
+    public function getAddressEditUrl($address)
+    {
+        return Mage::getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
     }
 }

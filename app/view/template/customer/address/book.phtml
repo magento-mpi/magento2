@@ -4,15 +4,15 @@
     <tr>
         <td style="width:50%;"><h3>Primary</h3>
             <table width="100%" cellspacing="0"> 
-            <?if(!empty($primaryAddresses)):?>    
-                <?foreach($primaryAddresses as $_address):?>
+            <?if($_pAddsses = $this->getPrimaryAddresses()):?>    
+                <?foreach($_pAddsses as $_address):?>
                 <tr>
                     <td>
                     <address>
-                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                        <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
