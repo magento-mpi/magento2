@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin customer tax class add form
+ * Admin product tax class add form
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
@@ -32,22 +32,39 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                 $indexes[] = $item->getClassGroupId();
             }
 
-            $customerGroups = Mage::getResourceModel('customer/group_collection')
+            $productGroups = Mage::getResourceModel('customer/group_collection')
                 ->setIgnoreIdFilter($indexes)
                 ->load()
                 ->toOptionArray();
+                #->joinAttribute('name')
+                #->load(1)
+                #->getNodes();
 
-            if( count($customerGroups) == 0 ) {
+            if( count($productGroups) == 0 ) {
                 $this->setForm($form);
                 return parent::_prepareForm();
             }
         } else {
-            $customerGroups = Mage::getResourceModel('customer/group_collection')
+            $productGroups = Mage::getResourceModel('customer/group_collection')
                 ->load()
                 ->toOptionArray();
+                #->joinAttribute('name')
+                #->load(1)
+                #->getNodes();
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('New customer tax class information')));
+        /*
+        $tmpArr = array();
+        foreach ($productGroups as $group) {
+            $tmpArr[] = array(
+                'value' => $group->getId(),
+                'label' => $group->getName()
+            );
+        }
+        $productGroups = $tmpArr;
+        */
+
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('New product tax class information')));
 
         if( intval($classId) <= 0 ) {
             $fieldset->addField('class_name', 'text',
@@ -62,7 +79,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             $fieldset->addField('class_type', 'hidden',
                                 array(
                                     'name' => 'class_type',
-                                    'value' => 'CUSTOMER'
+                                    'value' => 'PRODUCT'
                                 )
                         );
         }
@@ -70,10 +87,10 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
         $fieldset->addField('class_group', 'select',
                             array(
                                 'name' => 'class_group',
-                                'label' => __('Customer group'),
-                                'title' => __('Customer group title'),
+                                'label' => __('Product group'),
+                                'title' => __('Product group title'),
                                 'class' => 'required-entry',
-                                'values' => $customerGroups
+                                'values' => $productGroups
                             )
         );
 
