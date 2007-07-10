@@ -204,7 +204,7 @@ class Varien_Data_Collection implements IteratorAggregate
     
     public function clear()
     {
-        $this->_items[] = array();
+        $this->_items = array();
     }
         
     public function walk($method, $args=array())

@@ -107,8 +107,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            // Mage::getSingleton('newsletter/session')->addMessage(Mage::getModel('newsletter/message')->error($e->getMessage()));
-            Mage::throwException('cannot save you subscription');
+            Mage::throwException('cannot save you subscription' .  $e->getMessage() );
         }
         
         return $subscriber;
@@ -146,9 +145,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
             $resultInvalidMessage = 'form not filled correct';
             foreach ($input->getMessages() as $message) {
                 if(is_array($message)) {
-                    $message = implode('. ',$message);
+                    foreach( $message as $error ) {
+                    	$session->addError($error);
+                    }
+                } else {
+                	$session->addError($message);
                 }
-                $session->addMessage(Mage::getModel('newsletter/message')->error($message));
+               	
             }
             Mage::throwException($resultInvalidMessage);
         }

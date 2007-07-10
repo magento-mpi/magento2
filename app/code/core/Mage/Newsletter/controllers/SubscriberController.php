@@ -15,6 +15,9 @@
         echo Mage::getSingleton('customer/session')->getWebsiteId();
         $this->loadLayout();
         $block = $this->getLayout()->createBlock('newsletter/subscribe','subscribe.content');
+        $this->getLayout()->getMessagesBlock()->setMessages(
+        	Mage::getSingleton('newsletter/session')->getMessages(true)
+        );
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
         
@@ -48,15 +51,13 @@
                     $template->send($subscriber, array('subscriber'=>$subscriber));
                     
                 }
-                $session->addMessage(Mage::getModel('newsletter/message')->success('You successfully subscribed'));
+                $session->addSuccess('You successfully subscribed');
             }
             catch(Exception $e) {
-                
-                echo $e->getMessage();
-                exit();
+                $session->addError($e->getMessage());
             }
         } else {
-            $session->addMessage(Mage::getModel('newsletter/message')->success('You successfully subscribed');
+            $session->addSuccess('You successfully subscribed');
         }
         
         $this->_redirect('*/*');

@@ -121,9 +121,13 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     /**
      * Send mail to subscriber
      *
-     * @param Mage_Newsletter_Model_Subscriber|string
+     * @param   Mage_Newsletter_Model_Subscriber|string   $subscriber   subscriber Model or E-mail
+     * @param   array                                     $variables    template variables
+     * @param   string|null                               $name         receiver name (if subscriber model not specified)
+     * @param   Mage_Newsletter_Model_Queue|null          $queue        queue model, used for problems reporting.
+     * @return boolean 
      **/
-    public function send($subscriber, array $variables = array(), $name='') 
+    public function send($subscriber, array $variables = array(), $name=null, Mage_Newsletter_Model_Queue $queue=null) 
     {
         if(!$this->isValidForSend()) {
             return false;
@@ -132,11 +136,15 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $email = '';
         if($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
             $email = $subscriber->getSubscriberEmail();
-            if( $name == '' && ($subscriber->hasCustomerFirstname() || $subscriber->hasCustomerLastname()) ) {
-                $name = $subscriber->hasCustomerFirstname() . ' ' . $subscriber->hasCustomerLastname();
+            if (is_null($name) && ($subscriber->hasCustomerFirstname() || $subscriber->hasCustomerLastname()) ) {
+                $name = $subscriber->getCustomerFirstname() . ' ' . $subscriber->getCustomerLastname();
             }
         } else {
             $email = (string) $subscriber;
+        }
+        
+        if (is_null($name)) {
+            $name = $email;
         }
         
         $mail = new Zend_Mail('utf-8');
@@ -155,7 +163,15 @@ class Mage_Newsletter_Model_Template extends Varien_Object
             $mail->send();
         }
         catch (Exception $e) {
-            // Todo: add send problems to problem model.
+            if($subscriber instanceof Mage_Newsletter_Model_Subscriber) { 
+                $problem = Mage::getModel('newsletter/problem');
+                $problem->addData(array(
+                    "subscriber_id" => $subscriber->getId(),
+                    
+                ));
+            } else {
+                throw $e;
+            }
             return false;
         }
         

@@ -33,6 +33,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     protected $_queueLinkTable;
     
     /**
+     * Queue joined flag
+     *
+     * @var boolean
+     */
+    protected $_queueJoinedFlag = false;
+    
+    /**
      * Constructor
      *
      * Configures collection
@@ -56,19 +63,32 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     {
         $this->_sqlSelect->join($this->_queueLinkTable, array(), "{$this->_queueLinkTable}.subscriber_id = {$this->_subscriberTable}.subscriber_id")
             ->where("{$this->_queueLinkTable}.queue_id = ? ", $queue->getId());
-            
+        $this->_queueJoinedFlag = true;
+        return $this;
+    }    
+    
+    
+    /**
+     * Set loading mode subscribers by website
+     * 
+     * @param   int $websiteId
+     */
+    public function useOnlyWebsite($websiteId)
+    {
+        // $this->_sqlSelect->where("{$this->_subscriberTable}.website_id = ?", $websiteId);
+        // Todo: realize loading by store from website id.
         return $this;
     }
     
     /**
-     * Set loading mode subscribers by queue
-     * 
-     * @param   int $websiteId
-     */
-    public function useWebsite($websiteId)
+     * Set using of links to only unsendet letter subscribers.
+     */ 
+    public function useOnlyUnsent( )
     {
-        $this->_sqlSelect->where("{$this->_subscriberTable}.website_id = ?", $websiteId);
-   
+        if($this->_queueJoinedFlag) {
+            $this->_sqlSelect->where("{$this->_queueLinkTable}.letter_sent_at IS NULL");
+        }
+        
         return $this;
     }
     
