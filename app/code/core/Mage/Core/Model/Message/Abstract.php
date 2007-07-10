@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Abstract message model
+ *
+ * @package     Mage
+ * @subpackage  Core
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
 abstract class Mage_Core_Model_Message_Abstract
 {
     protected $_type;
@@ -18,6 +26,11 @@ abstract class Mage_Core_Model_Message_Abstract
         return $this->_code;
     }
     
+    public function getText()
+    {
+        return __($this->getCode());
+    }
+    
     public function getType()
     {
         return $this->_type;
@@ -33,15 +46,9 @@ abstract class Mage_Core_Model_Message_Abstract
         $this->_method = $method;
     }
 
-    public function toHtml()
-    {
-        $out = '<div class="'.$this->getType().'">'.__($this->getCode()).'</div>';
-        return $out;
-    }
-    
     public function toString()
     {
-        $out = $this->getType().': '.__($this->getCode()).'';
+        $out = $this->getType().': '.$this->getText();
         return $out;
     }
 }

@@ -14,14 +14,9 @@ class Mage_Core_Model_Message
     const NOTICE    = 'notice';
     const SUCCESS   = 'success';
     
-    public function __construct()
-    {
-        
-    }
-    
     protected function _factory($code, $type, $class='', $method='')
     {
-        switch ($type) {
+        switch (strtolower($type)) {
             case self::ERROR :
                 $message = new Mage_Core_Model_Message_Error($code);
                 break;

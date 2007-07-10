@@ -442,5 +442,18 @@ echo "TEST:".$i;
             }
         }
         return $out;
-    }    
+    }
+    
+    /**
+     * Retrieve messages block
+     *
+     * @return Mage_Core_Block_Messages
+     */
+    public function getMessagesBlock()
+    {
+        if ($block = $this->getBlock('messages')) {
+            return $block;
+        }
+        return $this->createBlock('core/messages', 'messages');
+    }
 }

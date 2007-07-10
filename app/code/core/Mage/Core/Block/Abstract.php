@@ -33,6 +33,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_childrenHtmlCache = array();
     
     protected $_request;
+    
+    /**
+     * Messages block instance
+     *
+     * @var Mage_Core_Block_Messages
+     */
+    protected $_messagesBlock = null;
 
     /**
      * Constructor
@@ -319,6 +326,31 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             return false;
         }
         $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
+        return $this;
+    }
+    
+    /**
+     * Retrieve messages block
+     *
+     * @return Mage_Core_Block_Messages
+     */
+    public function getMessagesBlock()
+    {
+        if (is_null($this->_messagesBlock)) {
+            return $this->getLayout()->getMessagesBlock();
+        }
+        return $this->_messagesBlock;
+    }
+    
+    /**
+     * Set messages block
+     *
+     * @param   Mage_Core_Block_Messages $block
+     * @return  Mage_Core_Block_Abstract
+     */
+    public function setMessagesBlock(Mage_Core_Block_Messages $block)
+    {
+        $this->_messagesBlock = $block;
         return $this;
     }
 }// Class Mage_Home_ContentBlock END

@@ -1,15 +1,36 @@
 <?php
-
-class Mage_Core_Model_Session_Abstract extends Varien_Object
+/**
+ * Session abstaract class
+ *
+ * @package     Mage
+ * @subpackage  Core
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+abstract class Mage_Core_Model_Session_Abstract extends Varien_Object
 {
     protected $_session;
     
+    /**
+     * Initialization session namespace
+     *
+     * @param string $namespace
+     */
     public function init($namespace)
     {
         $this->_session = new Zend_Session_Namespace($namespace, Zend_Session_Namespace::SINGLE_INSTANCE);
+        return $this;
     }
     
-    public function setData($key, $value='', $isChanged=true)
+    /**
+     * Redeclaration object setter
+     *
+     * @param   string $key
+     * @param   mixed $value
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function setData($key, $value='', $isChanged = false)
     {
         if (!$this->_session->data) {
             $this->_session->data = new Varien_Object();
@@ -17,7 +38,14 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         $this->_session->data->setData($key, $value, $isChanged);
         return $this;
     }
-
+    
+    /**
+     * Redeclaration object getter
+     *
+     * @param   string $var
+     * @param   bool $clear
+     * @return  mixed
+     */
     public function getData($var=null, $clear=false)
     {
         if (!$this->_session->data) {
@@ -32,27 +60,24 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
 
         return $data;
     }
-
+    
+    /**
+     * Cleare session data
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
     public function unsetAll()
     {
         $this->_session->unsetAll();
-    }
-    
-    public function addMessage(Mage_Core_Model_Message_Abstract $message)
-    {
-        $this->getMessages()->add($message);
-    }
-    
-    public function addMessages($messages)
-    {
-        if (is_array($messages)) {
-            foreach ($messages as $message) {
-                $this->addMessage($message);
-            }
-        }
         return $this;
     }
-
+    
+    /**
+     * Retrieve messages from session
+     *
+     * @param   bool $clear
+     * @return  Mage_Core_Model_Message_Collection
+     */
     public function getMessages($clear=false)
     {
         if (!$this->_session->messages) {
@@ -66,7 +91,88 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         }
         return $this->_session->messages;
     }
-
+    
+    /**
+     * Adding new message to message collection
+     *
+     * @param   Mage_Core_Model_Message_Abstract $message
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addMessage(Mage_Core_Model_Message_Abstract $message)
+    {
+        $this->getMessages()->add($message);
+        return $this;
+    }
+    
+    /**
+     * Adding new error message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addError($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        return $this;
+    }
+    
+    /**
+     * Adding new warning message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addWarning($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        return $this;
+    }
+    
+    /**
+     * Adding new nitice message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addNotice($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        return $this;
+    }
+    
+    /**
+     * Adding new success message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addSuccess($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        return $this;
+    }
+    
+    /**
+     * Adding messages array to message collection
+     *
+     * @param   array $messages
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addMessages($messages)
+    {
+        if (is_array($messages)) {
+            foreach ($messages as $message) {
+                $this->addMessage($message);
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * Retrieve current session identifier
+     *
+     * @return string
+     */
     public function getSessionId()
     {
         return Zend_Session::getId();

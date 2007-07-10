@@ -19,6 +19,8 @@
         <block type="core/store" name="store" as="store"/>
         
         <block type="core/text_list" name="left" as="left"/>
+
+        <block type="core/messages" name="messages" as="messages"/>
         
         <block type="core/text_list" name="content" as="content"/>
         
