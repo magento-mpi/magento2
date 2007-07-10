@@ -55,7 +55,7 @@ text-decoration:underline;
     font:normal 12px Arial;
     }
 .grid tr.filter .range div {
-    width: 8.7em;
+    width: 10em;
 	float: left;
 	}
 .grid tr.filter .range div.date {
