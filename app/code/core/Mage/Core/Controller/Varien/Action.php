@@ -69,12 +69,22 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
                 ->setDispatched(false);
 
     }
+    
+    /**
+     * Retrieve request object
+     *
+     * @return Zend_Controller_Request_Abstract
+     */
+    function getRequest()
+    {
+        return $this->_request;
+    }
      
-     function getRequest()
-     {
-         return $this->_request;
-     }
-     
+     /**
+      * Retrieve response object
+      *
+      * @return Zend_Controller_Response_Abstract
+      */
      function getResponse()
      {
          return $this->_response;

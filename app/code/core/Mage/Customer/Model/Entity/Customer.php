@@ -114,19 +114,19 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         if ($checkCurrent) {
             if (empty($data['current_password'])) {
-                Mage::throwException('current customer password is empty');
+                Mage::throwException('current customer password is empty', 'customer/session');
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
             }
             $testCustomer = clone $customer;
             $this->load($testCustomer, $customer->getId(), array('password_hash'));
             if ($testCustomer->getPasswordHash()!==$testCustomer->hashPassword($data['current_password'])) {
-                Mage::throwException('invalid current password');
+                Mage::throwException('invalid current password', 'customer/session');
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
             }
         }
         
         if ($data['password'] != $data['confirmation']) {
-            Mage::throwException('new passwords do not match');
+            Mage::throwException('new passwords do not match', 'customer/session');
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }
         

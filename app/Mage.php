@@ -219,10 +219,10 @@ final class Mage {
         //throw new $className($message, $code);
     }
 
-    public static function throwException($message, $mesageStorage='core/session')
+    public static function throwException($message, $mesageStorage=null)
     {
         if ($mesageStorage && ($storage = Mage::getSingleton($mesageStorage))) {
-            $storage->addMessage(Mage::getModel('customer/message')->error($message));
+            $storage->addError($message);
         }
         throw new Exception($message);
     }

@@ -55,7 +55,7 @@ abstract class Mage_Core_Model_Session_Abstract extends Varien_Object
         $data = $this->_session->data->getData($var);
         
         if ($clear) {
-            unset($this->_session->data->$var);
+            $this->_session->data->unsetData($var);
         }
 
         return $data;

@@ -1,6 +1,6 @@
 
 <h1 class="page-heading"><?if($data->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h1>
-<?=$messages->toHtml()?>
+<?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
 <input type="hidden" name="customer_id" id="address_id" value="<?=$data->getCustomerId()?>">

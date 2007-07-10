@@ -26,16 +26,24 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         }
     }
     
+    protected function _initMessages()
+    {
+        $this->getLayout()->getMessagesBlock()->setMessages(
+            Mage::getSingleton('customer/session')->getMessages(true)
+        );
+        return $this;
+    }
+    
     /**
      * Default customer account page
      */
     public function indexAction() 
     {
         $this->loadLayout();
+        $this->_initMessages();
         
-        $block = $this->getLayout()->createBlock('customer/account', 'customer.account')
-            ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
-            ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true));
+        $block = $this->getLayout()->createBlock('customer/dashboard')
+            ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'));
             
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -48,10 +56,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function loginAction()
     {
         $this->loadLayout();
-        $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('customer/session')->getMessages(false)
-        );
-        $block = $this->getLayout()->createBlock('customer/login', 'customer.login')
+        $this->_initMessages();
+        
+        $block = $this->getLayout()->createBlock('customer/login')
             ->assign('postAction', Mage::getUrl('customer/account/loginPost', array('_secure'=>true)));
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -94,23 +101,21 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
     public function createAction()
     {
-        $this->loadLayout();
-        
         // if customer logged in
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_redirect('customer/account');
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
             return;
         }
         
-        $country = Mage::getModel('directory/country');
+        $this->loadLayout();        
+        $this->_initMessages();
+
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         $data = new Varien_Object($data);
-
+        
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/registration.phtml')
-            ->assign('action',      Mage::getUrl('customer/account/createPost', array('_secure'=>true)))
-            ->assign('countries',   $country->getResourceCollection()->load())
-            ->assign('regions',     $country->getRegions())
+            ->assign('action',      Mage::getUrl('*/*/createPost', array('_secure'=>true)))
             ->assign('data',        $data);
             
         $this->getLayout()->getBlock('content')->append($block);
@@ -124,17 +129,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     {
         if ($this->getRequest()->isPost()) {
             
-            $address  = Mage::getModel('customer/address')->setData($this->getRequest()->getPost())
-                ->setPostIndex('new');
-            
             $customer = Mage::getModel('customer/customer')
-                ->setData($this->getRequest()->getPost())
-                ->setDefaultBilling('new')
-                ->setDefaultShipping('new');
+                ->setData($this->getRequest()->getPost());
 
-            $customer->addAddress($address);
-            
-            
             try {
                 $customer->save();
                 Mage::getSingleton('customer/session')
@@ -167,11 +164,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function forgotPasswordAction()
     {
         $this->loadLayout();
+        $this->_initMessages();
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.forgotpassword')
+        $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/forgotpassword.phtml')
-            ->assign('action',      Mage::getUrl('customer/account/forgotpasswordpost'))
-            ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
+            ->assign('action',      Mage::getUrl('*/*/forgotpasswordpost'));
             
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -200,9 +197,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                         ->send();
                     
                     Mage::getSingleton('customer/session')
-                        ->addMessage(Mage::getModel('customer/message')->success('CSTS006'));
+                        ->addError('New password was sended');
                     
-                    $this->_redirect('customer/account');
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                     return;
                 }
                 catch (Exception $e){
@@ -211,8 +208,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             }
             else {
                 Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->error('CSTE024'));
-               $this->_redirect('customer/account/forgotpassword');
+                    ->addWarning('email address was not found in our records');
+               $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
             }
         }
     }
@@ -221,20 +218,19 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function editAction()
     {
         $this->loadLayout();
+        $this->_initMessages();
         
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         if (!$data || $data->isEmpty()) {
             $data = Mage::getSingleton('customer/session')->getCustomer();
         }
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.edit')
+        $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/edit.phtml')
             ->assign('action',      Mage::getUrl('customer/account/editPost'))
-            ->assign('data',        $data)
-            ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
-            
+            ->assign('data',        $data);
+           
         $this->getLayout()->getBlock('content')->append($block);
-        
         $this->renderLayout();
     }
     
@@ -242,13 +238,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     {
         if ($this->getRequest()->isPost()) {
             $customer = Mage::getModel('customer/customer')->setData($this->getRequest()->getPost());
-            $customer->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            $customer->setId(Mage::getSingleton('customer/session')->getCustomerId());
             
             try {
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomer($customer)
-                    ->addMessage(Mage::getModel('customer/message')->success('CSTS002'));
+                    ->addSuccess('customer information is saved');
                 
                 $this->_redirect('customer/account');
                 return;
@@ -259,7 +255,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     ->addMessages($e->getMessages());
             }
         }
-        $this->_redirect('customer/account/edit');
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit'));
     }
     
     /**
@@ -269,11 +265,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function changePasswordAction()
     {
         $this->loadLayout();
+        $this->_initMessages();
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.changepassword')
+        $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/changepassword.phtml')
-            ->assign('action',      Mage::getUrl('customer/account/changePasswordPost', array('_secure'=>true)))
-            ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true));
+            ->assign('action', Mage::getUrl('*/*/changePasswordPost', array('_secure'=>true)));
             
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -289,23 +285,24 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->changePassword($this->getRequest()->getPost());
                 
                 Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->success('CSTS003'));
+                    ->addSuccess('password has been successfully updated');
 
                 $this->_redirect('customer/account');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                 return;
             }
             catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('customer/session')->addMessages($e->getMessages());
+                Mage::getSingleton('customer/session')->addError('an error updating the password');
             }
         }
-        $this->_redirect('customer/account/changePassword', array('_secure'=>true));
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));
     }
     
     public function newsletterAction()
     {
         $this->loadLayout();
         
-        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')        	
+        $block = $this->getLayout()->createBlock('core/template')        	
             ->setTemplate('customer/form/newsletter.phtml');
         $this->getLayout()->getBlock('content')->append($block);
         

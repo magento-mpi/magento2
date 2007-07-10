@@ -19,27 +19,26 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Default account page
-     *
+     * Customer addresses list
      */
     public function indexAction() 
     {
         $this->loadLayout();
-        
-        // Load addresses
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $addressCollection = Mage::getResourceModel('customer/address_collection');
-        $addressCollection->loadByCustomerId($customerId);
+        $this->getLayout()->getMessagesBlock()->setMessages(
+            Mage::getSingleton('customer/session')->getMessages(true)
+        );
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.address')
             ->setTemplate('customer/address.phtml')
-            ->assign('primaryAddresses', $addressCollection->getPrimaryAddresses())
-            ->assign('alternativeAddresses', $addressCollection->getPrimaryAddresses(false))
-            ->assign('messages', Mage::getSingleton('customer/session')->getMessages(true));
+            ->assign('customer',  Mage::getSingleton('customer/session')->getCustomer());
         
         $this->getLayout()->getBlock('content')->append($block);
-        
         $this->renderLayout();
+    }
+    
+    public function editAction()
+    {
+        $this->_forward('form');
     }
     
     /**

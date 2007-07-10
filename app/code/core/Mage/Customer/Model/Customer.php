@@ -205,8 +205,81 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return $this->_wishlist;
     }
     
+    /**
+     * Hach customer password
+     *
+     * @param   string $password
+     * @return  string
+     */
     public function hashPassword($password)
     {
         return md5($password);
+    }
+    
+    /**
+     * Retrieve primary address by type(attribute)
+     *
+     * @param   string $attributeName
+     * @return  Mage_Customer_Mode_Address
+     */
+    public function getPrimaryAddress($attributeName)
+    {
+        $addressId = $this->getData($attributeName);
+        $primaryAddress = null;
+        if ($addressId) {
+            foreach ($this->getLoadedAddressCollection() as $address) {
+            	if ($addressId == $address->getId()) {
+            	    return $address;
+            	}
+            }
+        }
+        return $primaryAddress;
+    }
+    
+    /**
+     * Retrieve customer primary billing address
+     *
+     * @return Mage_Customer_Mode_Address
+     */
+    public function getPrimaryBillingAddress()
+    {
+        return $this->getPrimaryAddress('default_billing');
+    }
+    
+    /**
+     * Retrieve primary customer shipping address
+     *
+     * @return Mage_Customer_Mode_Address
+     */
+    public function getPrimaryShippingAddress()
+    {
+        return $this->getPrimaryAddress('default_shipping');
+    }
+    
+    /**
+     * Retrieve all customer primary addresses
+     *
+     * @return array
+     */
+    public function getPrimaryAddresses()
+    {
+        $addresses = array();
+        $primaryBilling = $this->getPrimaryBillingAddress();
+        if ($primaryBilling) {
+            $addresses[] = $primaryBilling;
+            $primaryBilling->setIsPrimaryBilling(true);
+        }
+        
+        $primaryShipping = $this->getPrimaryShippingAddress();
+        if ($primaryShipping) {
+            if ($primaryBilling->getId() == $primaryShipping->getId()) {
+                $primaryBilling->setIsPrimaryShipping(true);
+            }
+            else {
+                $primaryShipping->setIsPrimaryShipping(true);
+                $addresses[] = $primaryShipping;
+            }
+        }
+        return $addresses;
     }
 }
