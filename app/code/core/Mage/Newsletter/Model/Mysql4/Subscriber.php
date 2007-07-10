@@ -79,6 +79,29 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         return $result;
     }
     
+    
+    
+    /**
+     * Load subscriber by customer
+     *
+     * @param 	Mage_Customer_Model_Customer $customer
+     * @return 	array
+     */
+    public function loadByCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        $select = $this->_read->select()
+            ->from($this->_subscriberTable)
+            ->where('customer_id=?',$customer->getId());
+        
+        $result = $this->_read->fetchRow($select);
+        
+        if(!$result) {
+            return array();
+        }
+        
+        return $result;
+    }
+    
     /**
      * Save subscriber info from it model.
      *
@@ -107,7 +130,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException('cannot save you subscription' .  $e->getMessage() );
+            Mage::throwException('cannot save you subscription' . $e->getMessage());
         }
         
         return $subscriber;
@@ -133,6 +156,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     {
         $data = array();
         $data['customer_id'] = $subscriber->getCustomerId();
+        $data['store_id'] 	 = $subscriber->getStoreId() ? $subscriber->getStoreId() : 0;
         $data['subscriber_status'] = $subscriber->getStatus();
         $data['subscriber_email']  = $subscriber->getEmail();
         $data['subscriber_confirm_code'] = $subscriber->getCode();
@@ -142,7 +166,6 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $input = new Zend_Filter_Input($filters, $validators, $data);
         $session = Mage::getSingleton('newsletter/session');
         if ($input->hasInvalid() || $input->hasMissing()) {
-            $resultInvalidMessage = 'form not filled correct';
             foreach ($input->getMessages() as $message) {
                 if(is_array($message)) {
                     foreach( $message as $error ) {
@@ -150,10 +173,9 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
                     }
                 } else {
                 	$session->addError($message);
-                }
-               	
+                }               	
             }
-            Mage::throwException($resultInvalidMessage);
+            Mage::throwException('form not filled correct');
         }
         
         return $data;

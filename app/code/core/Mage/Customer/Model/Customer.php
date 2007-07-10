@@ -11,6 +11,13 @@ class Mage_Customer_Model_Customer extends Varien_Object
 {
     protected $_addressCollection;
     
+    /**
+     * Customer subscription model
+     *
+     * @var Mage_Newsletter_Subscriber
+     */
+    protected $_subscriber = null;
+    
     public function __construct($customer=false) 
     {
         parent::__construct();

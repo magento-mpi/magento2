@@ -112,6 +112,15 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         return $this->setSubscriberEmail($value);
     }
     
+    public function isSubscribed() 
+    {
+    	if($this->getId() && $this->getStatus()==self::STATUS_SUBSCRIBED) {
+    		return true;
+    	}
+    	
+    	return false;	
+    }
+    
     /**
      * Return resource model
      *
@@ -145,6 +154,18 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     }
     
     /**
+     * Load subscriber info by customer
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return Mage_Newsletter_Model_Subscriber
+     */
+    public function loadByCustomer(Mage_Customer_Model_Customer $customer) 
+    {
+        $this->addData($this->getResource()->loadByCustomer($customer));
+        return $this;
+    }
+    
+    /**
      * Save subscriber data to resource model
      *
      */
@@ -159,6 +180,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function delete()
     {
         $this->getResource()->delete($this->getId);
-        $this->setId('');
+        $this->setId(null);
     }
 }

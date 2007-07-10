@@ -32,9 +32,9 @@
         $session = Mage::getSingleton('newsletter/session');
         
         if(!$subscriber->getId()) {
-            // TODO: BIND TO STORE ID!
+           
             if($customerSession->isLoggedIn()) {
-                
+                $subscriber->setStoreId(Mage::getSingleton('core/store')->getId());
                 $subscriber->setCustomerId($customerSession->getCustomerId());
                 $subscriber->setSubscriberEmail($customerSession->getCustomer()->getEmail());
             } else {

@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 {
@@ -57,8 +58,46 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             }
         }
         
+		$this->_saveSubscription($customer);
+		
         return parent::_afterSave($customer);
     }
+    
+    /**
+     * Saves customers subscription
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return boolean
+     */
+    protected function _saveSubscription(Mage_Customer_Model_Customer $customer) {
+    	
+    	$subscriber = Mage::getModel('newsletter/subscriber')
+    		->loadByCustomer($customer);
+    	
+    	if (!$customer->getIsSubscribed() && !$subscriber->getId()) {
+    		// If subscription flag not seted or customer not subscriber
+    		// and no subscribe bellow
+    		return false;
+    	}
+    
+    	$status = ( $customer->getIsSubscribed() 
+    			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED 
+    			    : Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
+    	
+		$subscriber->setStatus($status);
+		
+    	if(!$subscriber->getId()) {
+    		$subscriber
+    			->setStoreId($customer->getStoreId())
+    			->setCustomerId($customer->getId())
+    			->setEmail($customer->getEmail());
+    	}
+    	
+    	$subscriber->save();
+    	
+    	return true;
+    }
+    
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {
@@ -71,6 +110,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         if ($testOnly) {
             $collection->addAttributeToSelect('email');
         }
+        
         $collection->load();
         $customer->setData(array());
         foreach ($collection->getItems() as $item) {

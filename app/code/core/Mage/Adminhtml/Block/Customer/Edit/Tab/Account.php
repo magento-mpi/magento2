@@ -22,10 +22,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $form->setHtmlIdPrefix('_account');
         
         $customer = Mage::registry('customer');        
+        $isSubscribed = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer)->isSubscribed(true);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
         
         $this->_setFieldset($customer->getAttributes(), $fieldset);
-        
         if ($customer->getId()) {
             $fieldset->addField('reset_password', 'checkbox',
                 array(
@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                     'name'  => 'reset_password',
                     'value' => '1'
                 )
-            );
+            );            
         }
         else {
             $fieldset->addField('password', 'password',
@@ -51,6 +51,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 )
             );
         }
+        
+        $fieldset->addField('subscription', 'checkbox',
+             array(
+                    'label' => __('Subscribe to newsletter?'),
+                    'name'  => 'subscription'                    
+             )
+        );
+        
+        $form->getElement('subscription')->setIsChecked($isSubscribed);
         
         $form->setValues($customer->getData());
         
