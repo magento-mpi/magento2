@@ -15,10 +15,10 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(__('catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog'));
-        $this->_addBreadcrumb(__('tax'), __('tax title'));
+        $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
+        $this->_addBreadcrumb(__('Tax rates'), __('Tax rates title'));
 
-        $this->_addContent($block = $this->getLayout()->createBlock('adminhtml/tax_rate', 'tax'));
+        $this->_addContent($block = $this->getLayout()->createBlock('adminhtml/tax_rate', 'tax_rate'));
 
         $this->renderLayout();
     }

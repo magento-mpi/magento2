@@ -36,6 +36,17 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    protected function _prepareForm()
+    {
+        return $this;
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_prepareForm();
+        return $this;
+    }
+
     /*protected function _getElementBlock()
     {
         if (!$this->_elementBlock) {
@@ -51,7 +62,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
             ->setFormBlock($this)
             ->toHtml();
     }*/
-    
+
     public function _setFieldset($attributes, $fieldset)
     {
         foreach ($attributes as $attribute) {

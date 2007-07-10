@@ -2,7 +2,7 @@
 <config>
     <modules>
     <Mage_Tax>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
         <depends>
             <Mage_Catalog />
             <Mage_Customer />
@@ -18,24 +18,18 @@
             <tax_mysql4>
                 <class>Mage_Tax_Model_Mysql4</class>
                 <entities>
-                    <tax_class_customer>
-                        <table>tax_class_customer</table>
-                    </tax_class_customer>
-                    <tax_class_customer_group>
-                        <table>tax_class_customer_group</table>
-                    </tax_class_customer_group>
-                    <tax_class_product>
-                        <table>tax_class_product</table>
-                    </tax_class_product>
-                    <tax_class_product_group>
-                        <table>tax_class_product_group</table>
-                    </tax_class_product_group>
+                    <tax_class>
+                        <table>tax_class</table>
+                    </tax_class>
+                    <tax_class_group>
+                        <table>tax_class_group</table>
+                    </tax_class_group>
                     <tax_rate>
                         <table>tax_rate</table>
                     </tax_rate>
-                    <tax_rate_value>
-                        <table>tax_rate_value</table>
-                    </tax_rate_value>
+                    <tax_rate_data>
+                        <table>tax_rate_data</table>
+                    </tax_rate_data>
                     <tax_rule>
                         <table>tax_rule</table>
                     </tax_rule>
