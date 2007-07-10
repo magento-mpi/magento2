@@ -28,7 +28,7 @@ varienTabs.prototype = {
     },
     
     getTabContentElementId : function(tab){
-        if(tab.id){
+        if(tab){
             return tab.id+'_content';
         }
         return false;
