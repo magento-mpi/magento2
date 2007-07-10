@@ -32,6 +32,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     protected $_subscriberTable;
     
     /**
+     * Name of scope for error messages
+     * 
+     * @var string
+     */
+    protected $_messagesScope = 'newsletter/session';
+    
+    /**
      * Constructor
      *
      * Set read and write connection, get tablename from config
@@ -56,6 +63,16 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
             ->where('subscriber_id=?',$subscriberId);
         
         return $this->_read->fetchRow($select);
+    }
+    
+    /**
+     * Set error messages scope
+     *
+     * @param string $scope
+     */
+    public function setMessagesScope($scope) 
+    {
+    	$this->_messagesScope = $scope;
     }
     
     /**
@@ -164,7 +181,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $validators = array('subscriber_email' => 'EmailAddress');
         $filters = array();
         $input = new Zend_Filter_Input($filters, $validators, $data);
-        $session = Mage::getSingleton('newsletter/session');
+        $session = Mage::getSingleton($this->_messagesScope);
         if ($input->hasInvalid() || $input->hasMissing()) {
             foreach ($input->getMessages() as $message) {
                 if(is_array($message)) {

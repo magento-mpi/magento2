@@ -72,7 +72,8 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _saveSubscription(Mage_Customer_Model_Customer $customer) {
     	
     	$subscriber = Mage::getModel('newsletter/subscriber')
-    		->loadByCustomer($customer);
+    		->loadByCustomer($customer)
+    		->setMessagesScope('adminhtml/session');
     	
     	if (!$customer->getIsSubscribed() && !$subscriber->getId()) {
     		// If subscription flag not seted or customer not subscriber
@@ -154,19 +155,19 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         if ($checkCurrent) {
             if (empty($data['current_password'])) {
-                Mage::throwException('current customer password is empty', 'customer/session');
+                Mage::throwException('current customer password is empty');
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
             }
             $testCustomer = clone $customer;
             $this->load($testCustomer, $customer->getId(), array('password_hash'));
             if ($testCustomer->getPasswordHash()!==$testCustomer->hashPassword($data['current_password'])) {
-                Mage::throwException('invalid current password', 'customer/session');
+                Mage::throwException('invalid current password');
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
             }
         }
         
         if ($data['password'] != $data['confirmation']) {
-            Mage::throwException('new passwords do not match', 'customer/session');
+            Mage::throwException('new passwords do not match');
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }
         

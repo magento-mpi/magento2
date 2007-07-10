@@ -93,6 +93,19 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     }
     
     /**
+     * Set the error messages scope for subscription
+     *
+     * @param boolean $scope
+     * @return unknown
+     */
+    
+    public function setMessagesScope($scope)
+    {
+        $this->getResource()->setMessagesScope($scope);
+        return $this;
+    }
+    
+    /**
      * Alias for getSubscriberEmail()
      *
      * @return string
