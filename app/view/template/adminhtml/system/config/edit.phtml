@@ -34,11 +34,9 @@
 		</div>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
 <div class="content-left-nav">
-    <h3><?=__('sections')?></h23
+    <h3><?=__('sections')?></h3>
     <ul class="tabs">
-    <?foreach ($this->getSections() as $_section):?>
-        <li><a href="<?=$_section->getUrl()?>" class="<?=$_section->getClass()?>"><?=$_section->getLabel()?></a></li>
-    <?endforeach;?>
+
     </ul>
 </div>
 <div class="entry-edit">

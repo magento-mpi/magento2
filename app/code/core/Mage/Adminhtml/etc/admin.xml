@@ -9,10 +9,13 @@
          </dashboard>
          <customer>
             <title>Customers</title>
-            <action>adminhtml/customer/</action>
-            <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
             <depends><module>Mage_Customer</module></depends>
             <children>
+                <grid>
+                    <title>Manage customers</title>
+                    <action>adminhtml/customer/</action>
+                    <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
+                </grid>
                 <group>
                     <title>Customer groups</title>
                     <action>adminhtml/customer_group/</action>

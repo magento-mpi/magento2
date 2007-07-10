@@ -2,108 +2,106 @@
 <config>
     <admin>
         <configuration>
-            <global>
-                <sections>
-                    <general>
-                        <label>General</label>
-                        <groups>
-                            <general>
-                                <label>General options</label>
-                                <fields>
-                                    <base_currency>
-                                        <frontend>
-                                            <type>select</type>
-                                            <label>Base currency</label>
-                                        </frontend>
-                                        <source>
-                                            <model>adminhtml/system_config_source_currency</model>
-                                        </source>
-                                    </base_currency>
-                                </fields>
-                            </general>
-                        </groups>
-                    </general>
-                    
-                    <customer>
-                        <label>Customer</label>
-                        <groups>
-                            <customer>
-                                <label>Customer</label>
-                            </customer>
-                            <wishlist>
-                                <label>Wishlist</label>
-                                <fields>
-                                    <enable>
-                                        <frontend>
-                                            <type>select</type>
-                                            <label>Enabled</label>                                        
-                                        </frontend>
-                                        <source>
-                                            <model>adminhtml/system_config_source_yesno</model>
-                                        </source>
-                                    </enable>
-                                </fields>
-                            </wishlist>
-                        </groups>
-                    </customer>
-                    
-                    <catalog>
-                        <label>Catalog</label>
-                        <groups>
-                            <reviews>
-                                <label>Product reviews/ratings</label>
-                            </reviews>
-                            <tags>
-                                <label>Product tags</label>
-                            </tags>
-                            <filters>
-                                <label>Intelligent browsing</label>
-                            </filters>
-                        </groups>
-                    </catalog>
-                    
-                    <gift_messages>
-                        <label>Gift messages</label>
-                        <groups>
-                            <general>
-                                <label>General</label>
-                                <fields>
-                                    <enable_per_item>
-                                        <frontend>
-                                            <type>select</type>
-                                            <label>Enable per item</label>                                        
-                                        </frontend>
-                                        <source>
-                                            <model>adminhtml/system_config_source_yesno</model>
-                                        </source>
-                                    </enable_per_item>
-                                    <enable_per_address>
-                                        <frontend>
-                                            <type>select</type>
-                                            <label>Enable per address</label>                                        
-                                        </frontend>
-                                        <source>
-                                            <model>adminhtml/system_config_source_yesno</model>
-                                        </source>
-                                    </enable_per_address>
-                                </fields>
-                            </general>
-                        </groups>
-                    </gift_messages>
-    
-                    <cms>
-                        <label>CMS</label>
-                        <groups>
-                            <templates>
-                                <label>Templates</label>
-                                <fields>
-                                    
-                                </fields>
-                            </templates>
-                        </groups>
-                    </cms>
-                </sections>
-            </global>
+            <sections>
+                <general>
+                    <label>General</label>
+                    <groups>
+                        <general>
+                            <label>General options</label>
+                            <fields>
+                                <base_currency>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Base currency</label>
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_currency</model>
+                                    </source>
+                                </base_currency>
+                            </fields>
+                        </general>
+                    </groups>
+                </general>
+                
+                <customer>
+                    <label>Customer</label>
+                    <groups>
+                        <customer>
+                            <label>Customer</label>
+                        </customer>
+                        <wishlist>
+                            <label>Wishlist</label>
+                            <fields>
+                                <enable>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enabled</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable>
+                            </fields>
+                        </wishlist>
+                    </groups>
+                </customer>
+                
+                <catalog>
+                    <label>Catalog</label>
+                    <groups>
+                        <reviews>
+                            <label>Product reviews/ratings</label>
+                        </reviews>
+                        <tags>
+                            <label>Product tags</label>
+                        </tags>
+                        <filters>
+                            <label>Intelligent browsing</label>
+                        </filters>
+                    </groups>
+                </catalog>
+                
+                <gift_messages>
+                    <label>Gift messages</label>
+                    <groups>
+                        <general>
+                            <label>General</label>
+                            <fields>
+                                <enable_per_item>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enable per item</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable_per_item>
+                                <enable_per_address>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enable per address</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable_per_address>
+                            </fields>
+                        </general>
+                    </groups>
+                </gift_messages>
+
+                <cms>
+                    <label>CMS</label>
+                    <groups>
+                        <templates>
+                            <label>Templates</label>
+                            <fields>
+                                
+                            </fields>
+                        </templates>
+                    </groups>
+                </cms>
+            </sections>
         </configuration>
     </admin>
 </config>

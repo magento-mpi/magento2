@@ -15,20 +15,24 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         parent::__construct();
         $this->setId('system_config_tabs');
         $this->setDestElementId('system_config_form');
-        $this->setTitle(__('Customer Information'));
+        $this->setTitle(__('Configuration'));
     }
     
     protected function _beforeToHtml()
     {
-
-        $this->addTab('addresses', array(
-            'label'     => __('Addresses'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/system_config_tab_general')->toHtml(),
-        ));
+        $config = Mage::getSingleton('adminhtml/system_config');
+        $current = $this->getRequest()->getParam('section');
+        foreach ($config->getNode('admin/configuration/sections')->children() as $code=>$section) {
+            $this->addTab($code, array(
+                'label'     => __((string)$section->label),
+                'url'       => Mage::getUrl('*/*/*', array('section'=>$code)),
+                'class'     => ($code == $current) ? 'active' : '',
+            ));
+        }
 
         return parent::_beforeToHtml();
     }
-    
+/*
     public function bindBreadcrumbs($breadcrumbs)
     {
         if ($this->_websiteCode) {
@@ -47,4 +51,5 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
         return $this;
     }
+*/
 }

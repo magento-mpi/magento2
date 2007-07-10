@@ -24,29 +24,20 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->setTemplate('adminhtml/system/config/edit.phtml');
-
-        $this->_websiteCode = $this->getRequest()->getParam('website');
-        $this->_storeCode   = $this->getRequest()->getParam('store');
+        
         $this->_sectionCode = $this->getRequest()->getParam('section');
         
         $config = Mage::getSingleton('adminhtml/system_config');
-        if (!$this->_websiteCode) {
-            $this->_config = (array) $config->getNode('configuration/global/sections');
-        }
-        elseif (!$this->_storeCode){
-            $this->_config = (array) $config->getNode('configuration/website/sections');
-        }
-        else {
-            $this->_config = (array) $config->getNode('configuration/store/sections');
-        }
-        
-        if (isset($this->_config[$this->_sectionCode])) {
-            $this->_activeSection = $this->_config[$this->_sectionCode];
-        }
-        else {
-            $keys = array_keys($this->_config);
-            $this->_activeSection = $this->_config[$keys[0]];
-            $this->_sectionCode = $keys[0];
+        $this->_config = $config->getNode('admin/configuration/sections');
+
+        if (isset($this->_config->{$this->_sectionCode})) {
+            $this->_activeSection = $this->_config->{$this->_sectionCode};
+        } else {
+            foreach ($this->_config->children() as $key=>$child) {                
+                $this->_activeSection = $child;
+                $this->_sectionCode = $key;
+                break;
+            }
         }
     }
     

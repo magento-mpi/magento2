@@ -33,11 +33,12 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('left')
             ->append(
                 $this->getLayout()->createBlock('adminhtml/system_config_tabs')
-                    ->bindBreadcrumbs($breadcrumbs)
+                    #->bindBreadcrumbs($breadcrumbs)
             );
+            
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/system_config_edit')
-                    ->bindBreadcrumbs($breadcrumbs)
+                    #->bindBreadcrumbs($breadcrumbs)
         );
 
         $this->renderLayout();
