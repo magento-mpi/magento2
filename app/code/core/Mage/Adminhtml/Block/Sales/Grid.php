@@ -46,12 +46,12 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width' => 5,
             'align' => 'center',
             'sortable' => true,
-            'index' => 'entity_id'
+            'index' => 'real_order_id',
         ));
         $this->addColumn('created_at', array(
             'header'    => __('Created At'),
             'index'     => 'created_at',
-            'type'      => 'date'
+            'type'      => 'date',
         ));
         $this->addColumn('shipped_to', array(
             'header' => __('Shipped To'),
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('grand_total', array(
             'header' => __('Total'),
             'index' => 'grand_total',
-            'type'  => 'currency'
+            'type'  => 'currency',
         ));
         $this->addColumn('status', array(
             'header' => __('Status'),
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header' => __('action'),
             'align' => 'center',
             'format' => '<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
-            'index' => 'order_id',
+            'index' => 'entity_id',
             'sortable' => false,
             'filter' => false,
         ));
@@ -90,4 +90,13 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         return parent::_prepareColumns();
     }
+
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($this->getCollection() && $column->getFilter()->getValue()) {
+            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+        }
+        return $this;
+    }
+
 }
