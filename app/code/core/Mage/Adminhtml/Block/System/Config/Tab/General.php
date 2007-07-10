@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Config_Tab_General extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_System_Config_Tab_General extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {

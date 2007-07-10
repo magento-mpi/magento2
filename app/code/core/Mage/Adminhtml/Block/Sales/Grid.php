@@ -26,12 +26,12 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('currency_code')
             ->addAttributeToSelect('status')
-            ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'parent_id')
+            ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'entity_id', 'parent_id')
             ->joinAttribute('shipping_address_type', 'order_address/address_type', 'shipping_entity_id')
             ->addAttributeToFilter('shipping_address_type', 'shipping')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_entity_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_entity_id')
-            ->joinAttribute('payment_entity_id', 'order_payment/entity_id', 'parent_id')
+            ->joinAttribute('payment_entity_id', 'order_payment/entity_id', 'entity_id', 'parent_id')
             ->joinAttribute('payment_method', 'order_payment/method','payment_entity_id')
         ;
         $this->setCollection($collection);

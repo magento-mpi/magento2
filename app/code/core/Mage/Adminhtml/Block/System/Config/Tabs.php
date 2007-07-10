@@ -20,52 +20,31 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     
     protected function _beforeToHtml()
     {
-        $this->addTab('view', array(
-            'label'     => __('Customer view'),
-            'content'   => '<h3>Customer view</h3>',
-        ));
-
-        $this->addTab('account', array(
-            'label'     => __('Account information'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
-            'active'    => true
-        ));
 
         $this->addTab('addresses', array(
             'label'     => __('Addresses'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->toHtml(),
-        ));
-        
-        $this->addTab('orders', array(
-            'label'     => __('Orders'),
-            'content'   => '<h3>Orders</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
-        ));
-        
-        $this->addTab('cart', array(
-            'label'     => __('Shopping cart'),
-            'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
-        ));
-        
-        $this->addTab('wishlist', array(
-            'label'     => __('Wishlist'),
-            'content'   => '<h3>Wishlist</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/system_config_tab_general')->toHtml(),
         ));
 
-        $this->addTab('newsletter', array(
-            'label'     => __('Newsletter'),
-            'content'   => '<h3>Newsletter</h3>',
-        ));        
-        
-        $this->addTab('tags', array(
-            'label'     => __('Product tags'),
-            'content'   => '<h3>Product tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
-        ));
-
-        $this->addTab('reviews', array(
-            'label'     => __('Product reviews'),
-            'content'   => '<h3>Product reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
-        ));
-        Varien_Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
+    }
+    
+    public function bindBreadcrumbs($breadcrumbs)
+    {
+        if ($this->_websiteCode) {
+            $this->_addBreadcrumb(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
+            if ($this->_storeCode) {
+                $this->_addBreadcrumb(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
+                $this->_addBreadcrumb(($this->_storeCode == 1) ? __('new store') :__($this->_storeCode), '');
+            }
+            else {
+                $this->_addBreadcrumb(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');
+            }
+        }
+        else {
+            $this->_addBreadcrumb(__('config'), __('config title'));
+            $this->_addBreadcrumb(__('global'), __('global title'));
+        }
+        return $this;
     }
 }

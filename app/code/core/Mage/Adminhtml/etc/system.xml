@@ -1,86 +1,109 @@
-<?xml version="1.0"?>
+<?xml version="1.0"?>   
 <config>
-    <configuration>
-        <global>
-            <sections>
-                <general>
-                    <fieldset name="general" legend="General options">
-                        <field name="base_currency" label="Base currency" title="" path="" type="select"/>
-                    </fieldset>
-                </general>
-                
-                <customer>
-                    <fieldset name="customer" legend="Customer options">
-                        
-                    </fieldset>
-                    <fieldset name="wishlist" legend="Wishlist">
-                        <field name="enable" label="Enabled" type="select">
-                            <option value="true" label="Enabled"/>
-                            <option value="false" label="Disabled"/>
-                        </field>
-                    </fieldset>
-                </customer>
-                
-                <catalog>
-                    <fieldset name="reviews" legend="Product reviews/ratings">
-                        
-                    </fieldset>
-                    <fieldset name="tags" legend="Product tags">
-                    </fieldset>
-                    <fieldset name="filters" legend="Intelligent browsing">
-                    </fieldset>
-                </catalog>
-                
-                <gift_messages>
-                    <fieldset name="gift_messages" legend="Gift messages">
-                        <field name="enable_per_item" label="Enable per item" type="select"/>
-                        <field name="enable_per_address" label="Enable per address" type="select"/>
-                    </fieldset>
-                </gift_messages>
-                
-                <filesystem>
-                    <fieldset name="filesystem" legend="Filesystem">
-                        <field name="upload" label="Upload path" title="" path="global/default/filesystem/upload" type="text" class="required-entry"/>
-                        <field name="var" label="Var path" title="" path="global/default/filesystem/var" type="text" class="required-entry"/>
-                    </fieldset>
-                </filesystem>
-                
-                <database>
-                    <fieldset name="default" legend="Database settings">
-                        <field name="host" label="DB host" title="" path="global/resources/dev_setup/connection/host" type="text" class="required-entry"/>
-                        <field name="username" label="DB user" title="" path="global/resources/dev_setup/connection/username" type="text" class="required-entry"/>
-                        <field name="password" label="DB pass" title="" path="global/resources/dev_setup/connection/password" type="password" class="required-entry"/>
-                        <field name="dbname" label="DB name" title="" path="global/resources/dev_setup/connection/dbname" type="text" class="required-entry"/>
-                    </fieldset>
-                </database>
-                
-                <templates>
-                    <fieldset name="templates" legend="Templates">
-                        <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fieldset>
-                </templates>
-            </sections>
-        </global>
-        <website>
-            <sections>
-                <general>
-                    <fieldset legend="General options">
-                         <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fieldset>
-                </general>
-            </sections>
-        </website>
-        <store>
-            <sections>
-                <general>
-                    <fieldset legend="General options">
-                        <field name="skin" label="Default skin" title="" path="" type="text" class="required-entry"/>
-                    </fieldset>
-                </general>
-                <sharing>
-
-               </sharing>
-            </sections>
-        </store>
-    </configuration>
+    <admin>
+        <configuration>
+            <global>
+                <sections>
+                    <general>
+                        <label>General</label>
+                        <groups>
+                            <general>
+                                <label>General options</label>
+                                <fields>
+                                    <base_currency>
+                                        <frontend>
+                                            <type>select</type>
+                                            <label>Base currency</label>
+                                        </frontend>
+                                        <source>
+                                            <model>adminhtml/system_config_source_currency</model>
+                                        </source>
+                                    </base_currency>
+                                </fields>
+                            </general>
+                        </groups>
+                    </general>
+                    
+                    <customer>
+                        <label>Customer</label>
+                        <groups>
+                            <customer>
+                                <label>Customer</label>
+                            </customer>
+                            <wishlist>
+                                <label>Wishlist</label>
+                                <fields>
+                                    <enable>
+                                        <frontend>
+                                            <type>select</type>
+                                            <label>Enabled</label>                                        
+                                        </frontend>
+                                        <source>
+                                            <model>adminhtml/system_config_source_yesno</model>
+                                        </source>
+                                    </enable>
+                                </fields>
+                            </wishlist>
+                        </groups>
+                    </customer>
+                    
+                    <catalog>
+                        <label>Catalog</label>
+                        <groups>
+                            <reviews>
+                                <label>Product reviews/ratings</label>
+                            </reviews>
+                            <tags>
+                                <label>Product tags</label>
+                            </tags>
+                            <filters>
+                                <label>Intelligent browsing</label>
+                            </filters>
+                        </groups>
+                    </catalog>
+                    
+                    <gift_messages>
+                        <label>Gift messages</label>
+                        <groups>
+                            <general>
+                                <label>General</label>
+                                <fields>
+                                    <enable_per_item>
+                                        <frontend>
+                                            <type>select</type>
+                                            <label>Enable per item</label>                                        
+                                        </frontend>
+                                        <source>
+                                            <model>adminhtml/system_config_source_yesno</model>
+                                        </source>
+                                    </enable_per_item>
+                                    <enable_per_address>
+                                        <frontend>
+                                            <type>select</type>
+                                            <label>Enable per address</label>                                        
+                                        </frontend>
+                                        <source>
+                                            <model>adminhtml/system_config_source_yesno</model>
+                                        </source>
+                                    </enable_per_address>
+                                </fields>
+                            </general>
+                        </groups>
+                    </gift_messages>
+    
+                    <cms>
+                        <label>CMS</label>
+                        <groups>
+                            <templates>
+                                <label>Templates</label>
+                                <fields>
+                                    
+                                </fields>
+                            </templates>
+                        </groups>
+                    </cms>
+                </sections>
+            </global>
+        </configuration>
+    </admin>
 </config>

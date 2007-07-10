@@ -10,12 +10,6 @@
     </Mage_Sales>
   </modules>
   <global>
-    <entity>
-      <types>
-        <order extends="//global/entity/types/default"/>
-        <order_status extends="//global/entity/types/default"/>
-      </types>
-    </entity>
     <models>
       <sales>
         <class>Mage_Sales_Model</class>

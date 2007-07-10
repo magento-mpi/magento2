@@ -40,7 +40,7 @@ text-decoration:underline;
 .grid table tr.on-mouse{ background:#dff0f5; }
 
 /* Pager */
-.pager select{width:50px}
+.pager select{ width:4em; }
 
 /* Filters */
 .
@@ -48,16 +48,23 @@ text-decoration:underline;
 .grid tr.filter th { }
 .grid tr.filter input {
     width: 100%;
+    font:normal 12px Arial;
+    }
+.grid tr.filter select {
+    width:100%;
+    font:normal 12px Arial;
     }
 .grid tr.filter .range div {
     width: 8.7em;
 	float: left;
 	}
 .grid tr.filter .range div.date {
-    width: 10.2em;
+    width: 12em;
 	}
 .grid tr.filter .range input {
-    width: 4em;
+    width: 5.5em;
+    margin-bottom:-1px;
+    margin-top:0;
     }
 .grid tr.filter .range .label {
     display: block;
