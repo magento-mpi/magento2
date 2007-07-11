@@ -12,33 +12,19 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
 {
     const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
     
-    protected $_websiteCode;
-    protected $_storeCode;
-    protected $_sectionCode;
-    
     protected $_config;
-    protected $_activeSection;
-    protected $_activeSectionCode;
+    protected $_form;
     
     public function __construct() 
     {
         parent::__construct();
         $this->setTemplate('adminhtml/system/config/edit.phtml');
         
-        $this->_sectionCode = $this->getRequest()->getParam('section');
-        
         $config = Mage::getSingleton('adminhtml/system_config');
-        $this->_config = $config->getNode('admin/configuration/sections');
-
-        if (isset($this->_config->{$this->_sectionCode})) {
-            $this->_activeSection = $this->_config->{$this->_sectionCode};
-        } else {
-            foreach ($this->_config->children() as $key=>$child) {                
-                $this->_activeSection = $child;
-                $this->_sectionCode = $key;
-                break;
-            }
-        }
+        $section = $this->getRequest()->getParam('section');
+        $this->_config = $config->getNode('admin/configuration/sections/'.$section);
+        
+        $this->setTitle((string)$this->_config->label);
     }
     
     public function getSaveUrl()
@@ -46,44 +32,22 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         return Mage::getUrl('*/*/save', array('_current'=>true));
     }
     
-    public function getTitle()
+    public function initForm()
     {
-        //return __('edit config');
-        return '';
-    }
-    
-    public function getForm()
-    {
-        $blockName = (string)$this->_activeSection->block;
+        $this->setChild('gwstree', 
+            $this->getLayout()->createBlock('adminhtml/system_config_gwstree')
+                ->initTabs()
+        );
+        
+        $blockName = (string)$this->_config->block;
         if (empty($blockName)) {
             $blockName = self::DEFAULT_SECTION_BLOCK;
         }
-        return $this->getLayout()->createBlock($blockName)
-            ->setSection($this->_activeSection)
-            ->toHtml();
-    }
-    
-    public function getSections()
-    {
-        $sections = array();
-        foreach ($this->_config as $code => $section) {
-            $sections[] = new Varien_Object(array(
-                'label' => __($code),
-                'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
-                'class' => ($code == $this->_sectionCode) ? 'active' : ''
-            ));
-        }
-        return $sections;
-    }
- 
-    protected function _beforeToHtml()
-    {
-        return $this;
-    }
-    
-    public function bindBreadcrumbs($breadcrumbs)
-    {
-        $breadcrumbs->addLink(__($this->_sectionCode), '');
+        $this->setChild('form', 
+            $this->getLayout()->createBlock($blockName)
+                ->setSection($this->_config)
+                ->initForm()
+        );
         return $this;
     }
 }

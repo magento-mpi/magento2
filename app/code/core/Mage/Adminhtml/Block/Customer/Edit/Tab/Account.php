@@ -13,10 +13,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     public function __construct() 
     {
         parent::__construct();
-        $this->_initForm();
     }
     
-    protected function _initForm()
+    public function initForm()
     {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_account');
@@ -64,5 +63,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $form->setValues($customer->getData());
         
         $this->setForm($form);
+        
+        return $this;
     }
 }

@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
 	    $format = $this->getColumn()->getFormat();
 	    if (!$format) {
             if (is_null(self::$_format)) {
-				if (!(self::$_format = Mage::getSingleton('core/store')->getConfig('core/date_format'))){
+				if (!(self::$_format = Mage::getStoreConfig('general/local/date_format'))) {
 				    self::$_format = '%a, %b %e %Y';
 				}
 			}

@@ -23,8 +23,11 @@ class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template
         $this->addLink(__('home'), __('home title'), Mage::getUrl('adminhtml'));
     }
     
-    public function addLink($label, $title, $url='')
+    public function addLink($label, $title=null, $url=null)
     {
+        if (empty($title)) {
+            $title = $label;
+        }
         $this->_links[] = array(
             'label' => $label,
             'title' => $title,

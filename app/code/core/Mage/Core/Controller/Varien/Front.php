@@ -68,8 +68,12 @@ class Mage_Core_Controller_Varien_Front
         Varien_Profiler::start('ctrl/init');
         
         // set defaults
-        $defaultModule = (string)Mage::getSingleton('core/store')->getConfig('core/defaultFrontName');
-        $this->setDefault(array('module'=>$defaultModule, 'controller'=>'index', 'action'=>'index'));
+        $d = explode('/', Mage::getStoreConfig('general/default/front'));
+        $this->setDefault(array(
+            'module'     => isset($d[0]) ? $d[0] : 'core', 
+            'controller' => isset($d[1]) ? $d[1] : 'index', 
+            'action'     => isset($d[2]) ? $d[2] : 'index'
+        ));
 
         // init standard modules router
         $standard = new Mage_Core_Controller_Varien_Router_Standard();

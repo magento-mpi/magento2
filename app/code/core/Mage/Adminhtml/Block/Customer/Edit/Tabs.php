@@ -30,13 +30,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
 
         $this->addTab('account', array(
             'label'     => __('Account information'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->initForm()->toHtml(),
             'active'    => Mage::registry('customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('Addresses'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->initForm()->toHtml(),
         ));
 
         $this->addTab('orders', array(

@@ -106,6 +106,28 @@ final class Mage {
     {
         return Mage::getConfig()->getModuleDir($type, $moduleName);
     }
+    
+    public static function getStoreConfig($path, $id=null)
+    {
+        if (empty($id)) {
+            $store = Mage::getSingleton('core/store');
+        } elseif (is_numeric($id)) {
+            $store = Mage::getModel('core/store')->findById($id);
+            if (!$store->getCode()) {
+                throw Mage::exception('Invalid store id requested');
+            }
+        } elseif (is_string($id)) {
+            $storeConfig = Mage::getConfig()->getNode('global/stores/'.$id);
+            if (!$store->getCode()) {
+                throw Mage::exception('Invalid store code requested');
+            }
+            $store = Mage::getModel('core/store')->setCode($id);
+        } else {
+            throw Mage::exception('Invalid store id requested');
+        }
+        
+        return $store->getConfig($path);
+    }
 
     /**
      * Get base URL path by type

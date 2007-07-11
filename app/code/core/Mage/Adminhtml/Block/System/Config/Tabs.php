@@ -18,38 +18,28 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $this->setTitle(__('Configuration'));
     }
     
-    protected function _beforeToHtml()
+    public function initTabs()
     {
+        $this->_addBreadcrumb(__('Config'), null, Mage::getUrl('*/*'));
         $config = Mage::getSingleton('adminhtml/system_config');
         $current = $this->getRequest()->getParam('section');
-        foreach ($config->getNode('admin/configuration/sections')->children() as $code=>$section) {
+        $sections = $config->getNode('admin/configuration/sections')->children();
+        foreach ($sections as $code=>$section) {
+            if (empty($current)) {
+                $current = $code;
+                $this->getRequest()->setParam('section', $current);
+            }
+            $label = __((string)$section->label);
+            if ($code == $current) {
+                $this->_addBreadcrumb($label);
+            }
+
             $this->addTab($code, array(
-                'label'     => __((string)$section->label),
+                'label'     => $label,
                 'url'       => Mage::getUrl('*/*/*', array('section'=>$code)),
                 'class'     => ($code == $current) ? 'active' : '',
             ));
         }
-
-        return parent::_beforeToHtml();
-    }
-/*
-    public function bindBreadcrumbs($breadcrumbs)
-    {
-        if ($this->_websiteCode) {
-            $this->_addBreadcrumb(__('config'), __('config title'), Mage::getUrl('adminhtml/system_config'));
-            if ($this->_storeCode) {
-                $this->_addBreadcrumb(__($this->_websiteCode), '', Mage::getUrl('adminhtml/system_config',array('website'=>$this->_websiteCode)));
-                $this->_addBreadcrumb(($this->_storeCode == 1) ? __('new store') :__($this->_storeCode), '');
-            }
-            else {
-                $this->_addBreadcrumb(($this->_websiteCode == 1) ? __('new website') :__($this->_websiteCode), '');
-            }
-        }
-        else {
-            $this->_addBreadcrumb(__('config'), __('config title'));
-            $this->_addBreadcrumb(__('global'), __('global title'));
-        }
         return $this;
     }
-*/
 }

@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         return Mage::getUrl('directory/json/childRegion');
     }
     
-    protected function _beforeToHtml()
+    public function initForm()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
         
@@ -42,6 +42,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         //$addressCollection->loadByCustomerId($customerId);
         $this->setForm($form);
 
-        return parent::_beforeToHtml();
+        return $this;
     }
 }

@@ -138,17 +138,6 @@
                     </log>
                 </observers>
             </destroyQuote>
-	    <!--
-            <setStoreCode>
-                <observers>
-                    <log>
-                        <type>singleton</type>
-                        <class>log/visitor</class>
-                        <method>bindStore</method>
-                    </log>
-                </observers>
-            </setStoreCode>
-	    -->
             <action_postDispatch>
                 <observers>
                     <log>

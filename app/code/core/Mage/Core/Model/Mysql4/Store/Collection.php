@@ -7,18 +7,25 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Mysql4_Store_Collection extends Varien_Data_Collection_Db
+class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Resource_Collection_Abstract 
 {
-    protected $_storeTable;
-    
-    public function __construct() 
+
+    protected function _construct() 
     {
-        $resource = Mage::getSingleton('core/resource');
-        parent::__construct($resource->getConnection('core_read'));
-        
-        $this->_storeTable = $resource->getTableName('core/store');
-        $this->_sqlSelect->from($this->_storeTable);
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/store'));
+        $this->_init('core/store');
+    }
+    
+    public function addWebsiteFilter($website)
+    {
+        if (is_array($website)) {
+            $condition = $this->getConnection()->quoteInto("website_id IN (?)", $website);
+        }
+        else {
+            $condition = $this->getConnection()->quoteInto("website_id=?",$website);
+        }
+
+        $this->addFilter('website_id', $condition, 'string');
+        return $this;
     }
 
     public function addCategoryFilter($category)

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Mysql4_Config
+class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Resource_Abstract
 {
     protected $_read = null;
     protected $_write = null;
@@ -8,9 +8,7 @@ class Mage_Core_Model_Mysql4_Config
     
     function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $this->_configTable = Mage::getSingleton('core/resource')->getTableName('core/config');
+        $this->_init('core/config');
     }
     
     function getValueByKey($key)

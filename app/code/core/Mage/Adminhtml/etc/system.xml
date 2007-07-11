@@ -9,7 +9,7 @@
                         <general>
                             <label>General options</label>
                             <fields>
-                                <base_currency>
+                                <currency_base>
                                     <frontend>
                                         <type>select</type>
                                         <label>Base currency</label>
@@ -17,7 +17,7 @@
                                     <source>
                                         <model>adminhtml/system_config_source_currency</model>
                                     </source>
-                                </base_currency>
+                                </currency_base>
                             </fields>
                         </general>
                     </groups>
@@ -51,13 +51,55 @@
                     <groups>
                         <reviews>
                             <label>Product reviews/ratings</label>
+                            <fields>
+                                <enable>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enabled</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable>
+                            </fields>
                         </reviews>
                         <tags>
                             <label>Product tags</label>
+                            <fields>
+                                <enable>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enabled</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable>
+                            </fields>
                         </tags>
-                        <filters>
-                            <label>Intelligent browsing</label>
-                        </filters>
+                        <layered_navigation>
+                            <label>Layered navigation</label>
+                            <fields>
+                                <enable>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Enabled</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </enable>
+                                <session_remember>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Remember in session</label>                                        
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_yesno</model>
+                                    </source>
+                                </session_remember>
+                            </fields>
+                        </layered_navigation>
                     </groups>
                 </catalog>
                 

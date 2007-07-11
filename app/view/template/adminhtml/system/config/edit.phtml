@@ -34,13 +34,10 @@
         </div>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
 <div class="content-left-nav">
-    <h3><?=__('sections')?></h3>
-    <ul class="tabs">
-
-    </ul>
+    <?=$this->getChildHtml('gwstree')?>
 </div>
 <div class="entry-edit">
-    <?=$this->getForm()?>
+    <?=$this->getChildHtml('form')?>
 </div>
 
 </form>

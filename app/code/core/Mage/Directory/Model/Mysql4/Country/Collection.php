@@ -29,7 +29,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function loadByStore($defaultCountryId=false)
     {
-        $allowCountries = (string)Mage::getSingleton('core/store')->getConfig('core/allowCountries');
+        $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
             $this->addFilter('countries', "$this->_countryTable.country_id IN ($allowCountries)", 'string');
         }
@@ -37,7 +37,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         $this->load();
         
         if (empty($defaultCountryId)) {
-            $defaultCountryId = (string)Mage::getSingleton('core/store')->getConfig('core/defaultCountry');
+            $defaultCountryId = (string)Mage::getStoreConfig('general/country/default');
         }
         $this->_defaultCountry = $this->getItemById($defaultCountryId);
 

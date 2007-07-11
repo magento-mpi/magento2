@@ -31,15 +31,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
 
         $this->getLayout()->getBlock('left')
-            ->append(
-                $this->getLayout()->createBlock('adminhtml/system_config_tabs')
-                    #->bindBreadcrumbs($breadcrumbs)
-            );
+            ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
             
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_config_edit')
-                    #->bindBreadcrumbs($breadcrumbs)
-        );
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
 
         $this->renderLayout();
     }

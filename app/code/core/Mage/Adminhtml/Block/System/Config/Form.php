@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         parent::__construct();
     }
     
-    protected function _beforeToHtml()
+    public function initForm()
     {
         /**
          * @see  Varien_Object::__call()
@@ -23,26 +23,25 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $section = $this->getSection();
         
         $form = new Varien_Data_Form();
-        if (!empty($section->fieldset)) {
-            foreach ($section->fieldset as $fieldsetConfig) {
-                if (!empty($fieldsetConfig['name'])) {
-                    $fieldsetName = (string)$fieldsetConfig['name'];
-                } else {
-                    $fieldsetName = $section->getName();
-                }
-                $legend = (string) $fieldsetConfig['legend'];
-                $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__($legend)));
-                
-                foreach ($fieldsetConfig->field as $fieldConfig) {
-                    $fieldset->addField((string) $fieldConfig['name'], (string) $fieldConfig['type'], array(
-                        'label' => (string) $fieldConfig['label'],
-                        'value' => (string) Mage::getConfig()->getNode((string) $fieldConfig['path']),
-                        'class' => (string) $fieldConfig['class']
-                    ));
-                }
+        
+        foreach ($section->groups->children() as $fieldsetName=>$fieldsetConfig) {
+            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)));
+            
+            if (empty($fieldsetConfig->fields)) {
+                continue;
+            }
+            foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
+                $frontend = $fieldConfig->frontend;
+                $fieldType = isset($frontend->type) ? (string) $frontend->type : 'text';
+                $fieldset->addField($fieldName, $fieldType, array(
+                    'label' => (string) $frontend->label,
+                    #'value' => (string) Mage::getConfig()->getNode((string) $fieldConfig['path']),
+                    'class' => (string) $frontend->class,
+                ));
             }
         }
+
         $this->setForm($form);
-        return parent::_beforeToHtml();
+        return $this;
     }
 }

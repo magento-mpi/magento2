@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Store extends Varien_Object
+class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
     protected $_priceFilter;
     
@@ -19,113 +19,63 @@ class Mage_Core_Model_Store extends Varien_Object
 
     protected $_urlCache = array();
     
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
+        $this->_init('core/store');
     }
     
-    /**
-     * Set store code
-     *
-     * @param   string $code
-     * @return  Mage_Core_Model_Store
-     */
-    public function setCode($code)
+    public function load($id, $field=null)
     {
-        $this->setData('code', $code);
-        $config = $this->getConfig('core/id');
-        $this->setId((int)$this->getConfig('core/id'));
-        $this->setLanguageCode((string)$this->getConfig('core/language'));
-        $this->setWebsiteCode((string)$this->getConfig('core/website'));
-        Mage::dispatchEvent('setStoreCode', array('store'=>$this));
-        
-        return $this;
+        if (!is_numeric($id) && is_null($field)) {
+            return $this->getResource()->load($this, $id, 'code');
+        }
+        return parent::load($id, $field);
     }
     
-    public function findById($id)
+    public function getId()
     {
-        $stores = Mage::getConfig()->getNode('global/stores');
-        foreach ($stores->children() as $code=>$store) {
-            if ((int)$store->core->id===$id) {
+        if (!parent::getId()) {
+            $this->setId($this->getConfig('system/store/id'));
+        }
+        return parent::getId();
+    }
+    
+    public function findByid($id)
+    {
+        $storesConfig = Mage::getConfig()->getNode('global/stores');
+        foreach ($storesConfig->children() as $code=>$store) {
+            if ((int)$store->descend('system/store/id')===$id) {
                 $this->setCode($code);
                 break;
             }
         }
         return $this;
     }
-    
-    /**
-     * Get store id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        if ($id = parent::getId()) {
-            return $id;
-        }
-        return (int) $this->getConfig('core/id');
-    }
-    
-    /**
-     * Get store resource model
-     *
-     * @return mixed
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('core/store');
-    }
-    
-    /**
-     * Load store data
-     *
-     * @param   int $storeId
-     * @return  Mage_Core_Model_Store
-     */
-    public function load($storeId)
-    {
-        $this->setData($this->getResource()->load($storeId));
-        return $this;
-    }
-    
-    /**
-     * Get store config data
-     *
-     * @param string $section
-     * @return mixed
-     */
-    public function getConfig($sectionVar='')
-    {
-        if (isset($this->_configCache[$sectionVar])) {
-            return $this->_configCache[$sectionVar];
-        }
-        
-        $sectionArr = explode('/', $sectionVar);
-        
-        if (empty($sectionArr[0])) {
-            $result = Mage::getConfig()->getNode('global/stores/'.$this->getCode());
-            if (!$result || $result->is('default')) {
-                $result = $this->getWebsite()->getConfig();
+
+    public function getConfig($path) {
+        if (!isset($this->_configCache[$path])) {
+
+            $config = Mage::getConfig()->getNode('stores/'.$this->getCode().'/'.$path);
+            if (!$config) {
+                throw Mage::exception('Mage_Core', 'Invalid store configuration path: '.$path);
             }
-        } else {
-            $result = Mage::getConfig()->getNode('global/stores/'.$this->getCode().'/'.$sectionArr[0]);
-            if (!$result || $result->is('default') || (isset($sectionArr[1]) && !$result->{$sectionArr[1]})) {
-                $result = $this->getWebsite()->getConfig($sectionVar);
-            } elseif (isset($sectionArr[1])) {
-                $result = $result->{$sectionArr[1]};
+            if (!$config->children()) {
+                $value = (string)$config;
+            } else {
+                $value = array();
+                foreach ($config->children() as $k=>$v) {
+                    $value[$k] = $v;
+                }
             }
+            $this->_configCache[$path] = $value;
         }
-        
-        $this->_configCache[$sectionVar] = $result;
-        return $result;
+        return $this->_configCache[$path];
     }
     
     public function getWebsite()
     {
         if (empty($this->_website)) {
-            $this->_website = Mage::getModel('core/website')->setCode($this->getWebsiteCode());
+            $this->_website = Mage::getModel('core/website')->load($this->getConfig('system/website/id'));
         }
         return $this->_website;
     }
@@ -141,7 +91,7 @@ class Mage_Core_Model_Store extends Varien_Object
         if (isset($this->_dirCache[$type])) {
             return $this->_dirCache[$type];
         }
-        $dir = (string)$this->getConfig("filesystem/$type");
+        $dir = $this->getConfig("system/filesystem/$type");
         if (!$dir) {
             $dir = $this->getDefaultDir($type);
         }
@@ -225,14 +175,15 @@ class Mage_Core_Model_Store extends Varien_Object
             }
         }
         
-        $section = empty($params['_secure']) ? 'unsecure' : 'secure';
-        $config = $this->getConfig($section);
-        $protocol = (string)$config->protocol;
-        $host = (string)$config->host;
-        $port = (int)$config->port;
-        $basePath = (string)$config->base_path;
-        if (!empty($params['_type'])) {
-            $basePath = (string)$this->getConfig('url/'.$params['_type']);
+        $config = $this->getConfig('webserver/'.(empty($params['_secure']) ? 'unsecure' : 'secure'));
+        $protocol = $config['protocol'];
+        $host = $config['host'];
+        $port = $config['port'];
+        
+        if (empty($params['_type'])) {
+            $basePath = $config['base_path'];
+        } else {
+            $basePath = $this->getConfig('webserver/url/'.$params['_type']);
         }
         
         $url = $protocol.'://'.$host;
@@ -251,8 +202,7 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getDefaultCurrencyCode()
     {
-        $currencyConfig = $this->getConfig('core/currency');
-        return (string) $currencyConfig->default;
+        return $this->getConfig('general/currency/default');
     }
     
     /**
@@ -291,11 +241,7 @@ class Mage_Core_Model_Store extends Varien_Object
      */
     public function getAvailableCurrencyCodes()
     {
-        $availableCurrency = $this->getConfig('core/currency')->available;
-        if (!empty($availableCurrency)) {
-            return array_keys($this->getConfig('core/currency')->available->asArray());
-        }
-        return array();
+        return explode(',', $this->getConfig('general/currency/allow'));
     }
     
     /**
@@ -349,21 +295,11 @@ class Mage_Core_Model_Store extends Varien_Object
     
     public function getDatashareStores($feature)
     {
-        $config = $this->getConfig('datashare/'.$feature);
-        $shared = array();
-        if (!empty($config)) {
-            foreach ($config->children() as $storeCode=>$isShared) {
-                if ($isShared) {
-                    $store = Mage::getModel('core/store')->setCode($storeCode);
-                    $shared[$storeCode] = $store->getId();
-                }
-            }
-        }
-        return $shared;
+        return explode(',', $this->getConfig('advanced/datashare/'.$feature));
     }
     
-    public function getEmptyCollection()
+    public function getLanguageCode()
     {
-        return Mage::getResourceModel('core/store_collection');
+        return $this->getConfig('general/local/language');
     }
 }

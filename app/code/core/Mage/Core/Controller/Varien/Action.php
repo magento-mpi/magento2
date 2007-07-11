@@ -48,28 +48,6 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
 
      }
      
-    protected function _forward($action, $controller = null, $module = null, array $params = null)
-    {
-        $request = $this->getRequest();
-    
-        if (!is_null($params)) {
-            $request->setParams($params);
-        }
-    
-        if (!is_null($controller)) {
-            $request->setControllerName($controller);
-    
-            // Module should only be reset if controller has been specified
-            if (!is_null($module)) {
-                $request->setModuleName($module);
-            }
-        }
-    
-        $request->setActionName($action)
-                ->setDispatched(false);
-
-    }
-    
     /**
      * Retrieve request object
      *
@@ -260,6 +238,28 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
         }
     }
     
+    protected function _forward($action, $controller = null, $module = null, array $params = null)
+    {
+        $request = $this->getRequest();
+    
+        if (!is_null($params)) {
+            $request->setParams($params);
+        }
+    
+        if (!is_null($controller)) {
+            $request->setControllerName($controller);
+    
+            // Module should only be reset if controller has been specified
+            if (!is_null($module)) {
+                $request->setModuleName($module);
+            }
+        }
+    
+        $request->setActionName($action)
+                ->setDispatched(false);
+
+    }
+
     protected function _redirect($path, $arguments=array())
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
