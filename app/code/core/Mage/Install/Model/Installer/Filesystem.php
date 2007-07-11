@@ -74,8 +74,8 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
             }
             
             if ($setError) {
-                Mage::getSingleton('install/session')->addMessage(
-                    Mage::getModel('core/message')->error(__('Path "%s" must be writable', $fullPath))
+                Mage::getSingleton('install/session')->addError(
+                    __('Path "%s" must be writable', $fullPath)
                 );
                 $res = false;
             }

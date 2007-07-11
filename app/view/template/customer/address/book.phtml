@@ -1,3 +1,9 @@
+<?
+/**
+ * Temlate for Mage_Customer_Block_Address_Book block
+ * @var $test Mage_Customer_Block_Address_Book
+ */
+?>
 <h2>Address Book</h2>
 <?=$this->getMessagesBlock()->getHtml()?>
 <table cellspacing="0" width="100%">
@@ -9,7 +15,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+                        <?=$this->getAddressHtml($_address)?>
                     </address>
                     <p>
                         <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong>
@@ -28,16 +34,17 @@
         </td>
         <td style="width:50%;"><h3>Additional Entries</h3>
             <table width="100%" cellspacing="0"> 
-            <?if(!empty($alternativeAddresses)):?>    
-                <?foreach($alternativeAddresses as $_address):?>
+            <?if($_additionalAddresses = $this->getAdditionalAddresses()):?>    
+                <?foreach($_additionalAddresses as $_address):?>
                 <tr>
                     <td>
                     <address>
-                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                        <?=$this->getAddressHtml($_address)?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
-                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong>
+                        &nbsp;|&nbsp;
+                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -60,7 +67,7 @@
 <script type="text/javascript">
     function deleteAddress(addressId) {
         if(confirm('Do you whant delete address?')) {
-            window.location='<?=$baseUrl?>customer/address/delete/address/'+addressId;
+            window.location='<?=$this->getDeleteUrl()?>id/'+addressId;
         }
         return false;
     }

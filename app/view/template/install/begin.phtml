@@ -1,6 +1,8 @@
 <h1 class="page-heading"><?=__('welcome')?>!</h1>
-<?=$messages->toHtml()?>
-<?if($messages->count()==0):?>
+<?=$this->getMessagesBlock()->getHtml()?>
+<?
+?>
+<?if(count($this->getMessagesBlock()->getMessages())==0):?>
 <form action="<?=$postAction?>" method="post">
     <?if(!empty($languages)):?>
     <div class="float-right">

@@ -40,8 +40,8 @@ class Mage_Install_Model_Installer_Db
             $connection->query('SELECT 1');
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addMessage(
-                Mage::getModel('core/message')->error($e->getMessage())
+            Mage::getSingleton('install/session')->addError(
+                $e->getMessage()
             );
             throw new Exception('Database connection error');
         }

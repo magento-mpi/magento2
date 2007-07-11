@@ -1,5 +1,5 @@
 <h1 class="page-heading">Check PHP config</h1>
-<?=$messages->toHtml()?>
+<?=$this->getMessagesBlock()->getHtml()?>
 <?$_errors=$messages->getErrors()?>
 <?if(empty($_errors)):?>
 <div class="buttons-container">

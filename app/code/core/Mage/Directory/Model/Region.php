@@ -7,22 +7,12 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Directory_Model_Region extends Varien_Object 
+class Mage_Directory_Model_Region extends Mage_Core_Model_Abstract 
 {
     public function __construct($data=array()) 
     {
         parent::__construct($data);
+        $this->_setResource('directory/region');
         $this->setIdFieldName($this->getResource()->getIdFieldName());
-    }
-    
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('directory/region');
-    }
-    
-    public function load($regionId)
-    {
-        $this->getResource()->load($this, $regionId);
-        return $this;
     }
 }

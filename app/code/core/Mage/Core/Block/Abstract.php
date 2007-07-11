@@ -68,6 +68,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         
     }
     
+    /**
+     * Retrieve request object
+     *
+     * @return Zend_Controller_Request_Abstract
+     */
     public function getRequest()
     {
         return $this->_request;

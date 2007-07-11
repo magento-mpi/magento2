@@ -20,6 +20,17 @@ class Mage_Customer_Model_Address extends Varien_Object
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
     
+    public function getCustomerId()
+    {
+        return $this->getResource()->getCustomerId($this);
+    }
+    
+    public function setCustomerId($id)
+    {
+        $this->getResource()->setCustomerId($this, $id);
+        return $this;
+    }
+    
     /**
      * Get customer address resource model
      *
@@ -79,7 +90,7 @@ class Mage_Customer_Model_Address extends Varien_Object
         if (-1===$line) {
             return $street;
         } else {
-            $arr = explode("\n", $street);
+            $arr = is_array($street) ? $street : explode("\n", $street);
             if (0===$line) {
                 return $arr;
             } elseif (isset($arr[$line-1])) {

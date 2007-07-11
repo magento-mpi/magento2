@@ -44,19 +44,19 @@ class Mage_Install_Model_Installer_Env
             }
             
             if (!$oneLoaded) {
-                Mage::getSingleton('install/session')->addMessage(
-                    Mage::getModel('core/message')->error(__('One from PHP Extensions "%s" must be loaded', implode(',', $extension)))
+                Mage::getSingleton('install/session')->addError(
+                    __('One from PHP Extensions "%s" must be loaded', implode(',', $extension))
                 );
             }
         }
         elseif(!extension_loaded($extension)) {
-                Mage::getSingleton('install/session')->addMessage(
-                    Mage::getModel('core/message')->error(__('PHP Extension "%s" must be loaded', $extension))
+                Mage::getSingleton('install/session')->addError(
+                    __('PHP Extension "%s" must be loaded', $extension)
                 );
         }
         else {
-            /*Mage::getSingleton('install/session')->addMessage(
-                Mage::getModel('core/message')->success(__('PHP Extension "%s" loaded', $extension))
+            /*Mage::getSingleton('install/session')->addError(
+                __('PHP Extension "%s" loaded', $extension)
             );*/
         }
         return $this;

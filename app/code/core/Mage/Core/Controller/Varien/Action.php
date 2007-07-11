@@ -264,4 +264,17 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
     }
+    
+    protected function _initLayoutMessages($messagesStorage)
+    {
+        if ($storage = Mage::getSingleton($messagesStorage)) {
+            $this->getLayout()->getMessagesBlock()->setMessages(
+                $storage->getMessages(true)
+            );    
+        }
+        else {
+            Mage::throwException('Invalid messages storage');
+        }
+        return $this;
+    }
 }

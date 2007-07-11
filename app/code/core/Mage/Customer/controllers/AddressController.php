@@ -24,9 +24,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     public function indexAction() 
     {
         $this->loadLayout();
-        $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('customer/session')->getMessages(true)
-        );
+        $this->_initLayoutMessages('customer/session');
         
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('customer/address_book')
@@ -46,50 +44,15 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     
     /**
      * Address book form
-     *
      */
     public function formAction()
     {
         $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
         
-        $addressId = $this->getRequest()->getParam('address', false);
-        $address = Mage::getModel('customer/address');
-        $data = Mage::getSingleton('customer/session')->getAddressFormData(true);
-        
-        if ($addressId) {
-            $address->load($addressId);
-            
-            // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!=Mage::getSingleton('customer/session')->getCustomerId()) {
-                Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->error('CSTE020'));
-                $this->_redirect('customer/address');
-                return;
-            }
-            
-            $primary = $address->getPrimaryTypes();
-        } else {
-            $address->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-            $primary = array();
-        }
-
-        if(empty($data)){
-            $data = $address;
-        }
-
-        $countries = Mage::getResourceModel('directory/country_collection');       
-        // Form block
-        $block = $this->getLayout()->createBlock('core/template', 'customer.address.form')
-            ->setTemplate('customer/form/address.phtml')
-            ->assign('action',      Mage::getUrl('customer/address/formPost'))
-            ->assign('countries',   $countries->loadByStore())
-            ->assign('regions',     $countries->getDefault($address->getCountryId())->getRegions())
-            ->assign('address',     $address)
-            ->assign('data',        $data)
-            ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true))
-            ->assign('primaryTypes',$address->getAvailableTypes());
-            
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('customer/address_edit')
+        );
         
         $this->renderLayout();
     }
@@ -98,28 +61,23 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         // Save data
         if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer/address')->setData($this->getRequest()->getPost());
+            $address = Mage::getModel('customer/address')
+                ->setData($this->getRequest()->getPost())
+                ->setId($this->getRequest()->getParam('id'))
+                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
             
-            $url = Mage::getUrl('customer/address/form/address/'.$address->getAddressId());
+            $url = Mage::getUrl('*/*/edit', array('id'=>$address->getId()));
 
-            // Validate address_id <=> customer_id
-            if ($address->getCustomerId()!==Mage::getSingleton('customer/session')->getCustomerId()) {
-                Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->error('CSTE020'));
-                $this->getResponse()->setRedirect($url);
-                return;
-            }
-            
             try {
                 $address->save();
                 Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->success('CSTS004'));
-                $this->_redirect('customer/address');
+                    ->addSuccess('The address has been successfully saved');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'), array('_secure'=>true));
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Exception $e) {
                 Mage::getSingleton('customer/session')
                     ->setAddressFormData($this->getRequest()->getPost())
-                    ->addMessages($e->getMessages());
+                    ->addError($e->getMessage());
             }
             $this->getResponse()->setRedirect($url);
         }
@@ -127,7 +85,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     
     public function deleteAction()
     {
-        $addressId = $this->getRequest()->getParam('address', false);
+        $addressId = $this->getRequest()->getParam('id', false);
         
         if ($addressId) {
             $address = Mage::getModel('customer/address')->load($addressId);
@@ -135,24 +93,21 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
                 Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->error('CSTE020'));
-                $this->_redirect('customer/address');
+                    ->addError('The address does not belong to this customer');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                 return;
             }
             
             try {
                 $address->delete();
                 Mage::getSingleton('customer/session')
-                    ->addMessage(Mage::getModel('customer/message')->success('CSTS005'));
-            }
-            catch (Mage_Core_Exception $e){
-                Mage::getSingleton('customer/session')
-                    ->addMessages($e->getMessages());
+                    ->addSuccess('The address has been successfully deleted');
             }
             catch (Exception $e){
-                
+                Mage::getSingleton('customer/session')
+                    ->addError('There has been an error deleting the address');
             }
         }
-        $this->_redirect('customer/address');
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
     }
 }// Class Mage_Customer_AccountController END

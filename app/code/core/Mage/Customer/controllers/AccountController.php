@@ -26,21 +26,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         }
     }
     
-    protected function _initMessages()
-    {
-        $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('customer/session')->getMessages(true)
-        );
-        return $this;
-    }
-    
     /**
      * Default customer account page
      */
     public function indexAction() 
     {
         $this->loadLayout();
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/session');
         
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('customer/dashboard')
@@ -55,7 +47,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function loginAction()
     {
         $this->loadLayout();
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/session');
         
         $block = $this->getLayout()->createBlock('customer/login')
             ->assign('postAction', Mage::getUrl('customer/account/loginPost', array('_secure'=>true)));
@@ -107,7 +99,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         }
         
         $this->loadLayout();        
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/messages');
 
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         $data = new Varien_Object($data);
@@ -163,7 +155,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function forgotPasswordAction()
     {
         $this->loadLayout();
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/session');
         
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/forgotpassword.phtml')
@@ -217,7 +209,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function editAction()
     {
         $this->loadLayout();
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/session');
         
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         if (!$data || $data->isEmpty()) {
@@ -264,7 +256,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function changePasswordAction()
     {
         $this->loadLayout();
-        $this->_initMessages();
+        $this->_initLayoutMessages('customer/session');
         
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/changepassword.phtml')

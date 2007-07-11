@@ -26,22 +26,33 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
         return Mage::getUrl('customer/account/index', array('_secure'=>true));
     }
     
-    public function getPrimaryAddresses()
+    public function getDeleteUrl()
     {
-        $addresses = Mage::getSingleton('customer/session')->getCustomer()->getPrimaryAddresses();
-        if (empty($addresses)) {
-            return false;
-        }
-        return $addresses;
-    }
-    
-    public function getAdditionalAddresses()
-    {
-        
+        return Mage::getUrl('customer/address/delete');
     }
     
     public function getAddressEditUrl($address)
     {
         return Mage::getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
+    }
+    
+    public function getPrimaryAddresses()
+    {
+        $addresses = Mage::getSingleton('customer/session')->getCustomer()->getPrimaryAddresses();
+        return empty($addresses) ? false : $addresses;
+    }
+    
+    public function getAdditionalAddresses()
+    {
+        $addresses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses();
+        return empty($addresses) ? false : $addresses;
+    }
+    
+    public function getAddressHtml($address)
+    {
+        return $address->toString("<b>{{firstname}} {{lastname}}</b><br/>
+            {{street}}<br/>
+            {{city}}, {{regionName}} {{postcode}}<br/>
+            T: {{telephone}}");
     }
 }

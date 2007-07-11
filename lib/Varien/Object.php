@@ -21,20 +21,6 @@ class Varien_Object
     protected $_data = array();
 
     /**
-     * Data has been changed flag
-     *
-     * @var boolean
-     */
-    protected $_isChanged = false;
-
-    /**
-     * Deleting flag
-     *
-     * @var boolean
-     */
-    protected $_isDeleted = false;
-    
-    /**
      * Name of object id field
      *
      * @var string
@@ -125,54 +111,6 @@ class Varien_Object
     }
 
     /**
-     * Update changed flag.
-     *
-     * For savers to know if the object needs to be saved.
-     *
-     * @param boolean $changed
-     * @return Varien_Object
-     */
-    public function setIsChanged($changed=false)
-    {
-        $this->_isChanged = $changed;
-        return $this;
-    }
-
-    /**
-     * Returns changed flag.
-     *
-     * @return boolean
-     */
-    public function isChanged()
-    {
-        return $this->_isChanged;
-    }
-
-    /**
-     * Update deleted flag.
-     *
-     * For savers to know if the row defined by the object needs to be deleted.
-     *
-     * @param unknown_type $deleted
-     * @return unknown
-     */
-    public function setIsDeleted($deleted=false)
-    {
-        $this->_isDeleted = $deleted;
-        return $this;
-    }
-
-    /**
-     * Returns deleted flag.
-     *
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->_isDeleted;
-    }
-
-    /**
      * Add data to the object.
      *
      * Retains previous data in the object.
@@ -203,12 +141,8 @@ class Varien_Object
      * @param boolean $isChanged
      * @return Varien_Object
      */
-    public function setData($key, $value='', $isChanged=true)
+    public function setData($key, $value='')
     {
-        if ($isChanged) {
-            $this->setIsChanged(true);
-        }
-
         if(is_array($key)) {
             $this->_data = $key;
         } else {
@@ -228,17 +162,9 @@ class Varien_Object
      * @param boolean $isChanged
      * @return Varien_Object
      */
-    public function unsetData($key, $isChanged=true)
+    public function unsetData($key)
     {
-        if ($isChanged) {
-            $this->setIsChanged(true);
-        }
-
-        if(is_array($key)) {
-            return $this;
-        } else {
-            unset($this->_data[$key]);
-        }
+        unset($this->_data[$key]);
         return $this;
     }
 
@@ -259,20 +185,22 @@ class Varien_Object
     {
         if (''===$key) {
             return $this->_data;
-        } elseif (isset($this->_data[$key])) {
-            if (!is_null($index)) {
-                $value = $this->_data[$key];
-                if (is_array($value)) {
-                    return (!empty($value[$index])) ? $value[$index] : false;
-                } elseif (is_string($value)) {
-                    $arr = explode("\n", $value);
-                    return (!empty($arr[$index])) ? $arr[$index] : false;
-                } elseif ($value instanceof Varien_Object) {
-                    return $value->getData($index);
-                }
-                return null;
+        } 
+        elseif (isset($this->_data[$key])) {
+            if (is_null($index)) {
+                return $this->_data[$key];                
             }
-            return $this->_data[$key];
+            
+            $value = $this->_data[$key];
+            if (is_array($value)) {
+                return (!empty($value[$index])) ? $value[$index] : false;
+            } elseif (is_string($value)) {
+                $arr = explode("\n", $value);
+                return (!empty($arr[$index])) ? $arr[$index] : false;
+            } elseif ($value instanceof Varien_Object) {
+                return $value->getData($index);
+            }
+            return null;
         }
         return null;
     }
@@ -457,14 +385,12 @@ class Varien_Object
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 return call_user_func_array(array($this, 'setData'), $args);
-                return $this;
                 break;
 
             case 'uns' :
                 $key = $this->_underscore(substr($method,5));
                 array_unshift($args, $key);
                 return call_user_func_array(array($this, 'unsetData'), $args);
-                return $this;
                 break;
 
             case 'has' :
@@ -557,24 +483,5 @@ class Varien_Object
         }
         $res = implode($fieldSeparator, $data);
         return $res;
-    }
-
-    /**
-     * Serialization before saving to session
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-       return array_keys( (array)$this );
-    }
-
-    /**
-     * Unserialization restoring from session
-     *
-     */
-    public function __wakeup()
-    {
-        $this->_isChanged = false;
     }
 }

@@ -23,13 +23,13 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function beginAction()
     {
         $this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
         
         Mage::getModel('install/installer_filesystem')->install();
         Mage::getModel('install/installer_env')->install();
         
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.begin')
             ->setTemplate('install/begin.phtml')
-            ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('languages', Mage::getSingleton('install/config')->getLanguages())
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()))
             ->assign('postAction', Mage::getUrl('install/wizard/beginPost'));
@@ -56,6 +56,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function configAction()
     {
         $this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
         $data = Mage::getSingleton('install/session')->getConfigData();
         if (empty($data)) {
             $data = Mage::getModel('install/installer_config')->getFormData();
@@ -67,7 +68,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
             ->setTemplate('install/config.phtml')
             ->assign('postAction', Mage::getUrl('install/wizard/configPost'))
-            ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('data', $data)
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
 
@@ -103,11 +103,11 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function administratorAction()
     {
         $this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');        
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
             ->assign('postAction', Mage::getUrl('install/wizard/administratorPost'))
-            ->assign('messages', Mage::getSingleton('install/session')->getMessages(true))
             ->assign('data', new Varien_Object())
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
         
@@ -138,7 +138,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function modulesAction()
     {
         $this->_prepareLayout();
-        
+        $this->_initLayoutMessages('install/session');        
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.modules')
             ->setTemplate('install/modules.phtml')
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
@@ -153,6 +153,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         Mage::getSingleton('install/session')->getConfigData(true);
         $this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
         
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.end')
             ->setTemplate('install/end.phtml')

@@ -264,6 +264,23 @@ class Mage_Customer_Model_Customer extends Varien_Object
     }
     
     /**
+     * Retrieve ids of primary addresses
+     *
+     * @return unknown
+     */
+    public function getPrimaryAddressIds()
+    {
+        $ids = array();
+        if ($this->getDefaultBilling()) {
+            $ids[] = $this->getDefaultBilling();
+        }
+        if ($this->getDefaultShipping()) {
+            $ids[] = $this->getDefaultShipping();
+        }
+        return $ids;
+    }
+    
+    /**
      * Retrieve all customer primary addresses
      *
      * @return array
@@ -288,5 +305,30 @@ class Mage_Customer_Model_Customer extends Varien_Object
             }
         }
         return $addresses;
+    }
+    
+    /**
+     * Retrieve not primary addresses
+     *
+     * @return array
+     */
+    public function getAdditionalAddresses()
+    {
+        $addresses = array();
+        $primatyIds = $this->getPrimaryAddressIds();
+        foreach ($this->getLoadedAddressCollection() as $address) {
+        	if (!in_array($address->getId(), $primatyIds)) {
+        	    $addresses[] = $address;
+        	}
+        }
+        return $addresses;
+    }
+    
+    public function isAddressPrimary(Mage_Customer_Model_Address $address)
+    {
+        if (!$address->getId()) {
+            return false;
+        }
+        return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
     }
 }
