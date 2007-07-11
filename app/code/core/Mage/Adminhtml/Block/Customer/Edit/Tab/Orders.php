@@ -16,11 +16,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
         parent::__construct();
         $this->setId('ordersGrid');
         $this->setDefaultSort('created_at', 'desc');
-
-        // the following line works, it is commented just to show orders for each customers
-        // because we haven't enough orders to show for each customer
-//        $this->setDefaultFilter('customer_id');
-
         $this->setUseAjax(true);
     }
 
@@ -37,7 +32,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             ->addAttributeToFilter('shipping_address_type', 'shipping')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_entity_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_entity_id')
-            ->addAttributeToFilter('customer_id', $this->getRequest()->id)
+
+        // the following line works, it is commented just to show some orders for any customers
+        // because we haven't enough orders to show for each customer now
+        // uncomment it to show only selected customer's orders
+
+        // ->addAttributeToFilter('customer_id', $this->getRequest()->id)
+
             ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', array('language_code'=>'en'));
         ;
         $this->setCollection($collection);
