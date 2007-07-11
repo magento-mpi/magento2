@@ -47,7 +47,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
 
     protected function _construct()
     {
-        $this->_setResource('eav/entity_attribute');
+        $this->setResourceModel('eav/entity_attribute');
         $this->setIdFieldName('attribute_id');
         parent::_construct();
     }

@@ -2,9 +2,9 @@
 
 class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Resource_Abstract 
 {
-    public function __construct()
+    protected function _construct()
     {
-        $this->_setResource('eav');
-        $this->_setMainTable('attribute_group');
+        $this->setResourceModel('eav');
+        $this->setMainTable('attribute_group');
     }
 }
