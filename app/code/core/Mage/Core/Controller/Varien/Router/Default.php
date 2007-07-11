@@ -9,7 +9,7 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
         //default route (404)
         $d = explode('/', Mage::getStoreConfig('general/default/no_route'));
         
-        $this->setModuleName(isset($d[0]) ? $d[0] : 'core')
+        $request->setModuleName(isset($d[0]) ? $d[0] : 'core')
             ->setControllerName(isset($d[1]) ? $d[1] : 'index')
             ->setActionName(isset($d[2]) ? $d[2] : 'index');
         
