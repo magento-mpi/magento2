@@ -42,9 +42,20 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
     }
     
     /**
+     * Standard resource collection initalization
+     *
+     * @param string $model
+     * @return Mage_Core_Model_Resource_Collection_Abstract
+     */
+    protected function _init($model)
+    {
+        return $this->setModel($model);
+    }
+    
+    /**
      * Get Zend_Db_Select instance
      *
-     * @return unknown
+     * @return Zend_Db_Select
      */
     public function getSelect()
     {

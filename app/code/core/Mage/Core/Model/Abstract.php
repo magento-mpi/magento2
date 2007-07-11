@@ -41,6 +41,26 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_resourceCollection;
     
     /**
+     * Standard model initialization
+     *
+     * @param string $resourceModel
+     * @param string $idFieldName
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _init($resourceModel)
+    {
+        $this->setResourceModel($resourceModel);
+    }
+    
+    public function getIdFieldName()
+    {
+        if (!parent::getIdFieldName()) {
+            $this->setIdFieldName($this->getResource()->getIdFieldName());
+        }
+        return parent::getIdFieldName();
+    }
+    
+    /**
      * Set resource names
      *
      * If collection name is ommited, resource name will be used with _collection appended
@@ -48,7 +68,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @param string $resourceName
      * @param string|null $resourceCollectionName
      */
-    protected function _setResource($resourceName, $resourceCollectionName=null)
+    public function setResourceModel($resourceName, $resourceCollectionName=null)
     {
         $this->_resourceName = $resourceName;
         if (is_null($resourceCollectionName)) {
@@ -98,9 +118,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @param integer $id
      * @return Mage_Core_Model_Abstract
      */
-    public function load($id)
+    public function load($id, $field=null)
     {
-        $this->getResource()->load($this, $id);
+        $this->getResource()->load($this, $id, $field);
         return $this;
     }
     

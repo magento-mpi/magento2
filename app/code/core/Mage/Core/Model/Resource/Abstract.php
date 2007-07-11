@@ -61,6 +61,28 @@ abstract class Mage_Core_Model_Resource_Abstract
      */
     protected $_idFieldName;
     
+    public function __construct()
+    {
+        $this->_construct();
+    }
+    
+    protected function _construct()
+    {
+        
+    }
+        
+    /**
+     * Standard resource model initialization
+     *
+     * @param string $mainTable
+     * @param string $idFieldName
+     * @return Mage_Core_Model_Resource_Abstract
+     */
+    protected function _init($mainTable, $idFieldName)
+    {
+        $this->setMainTable($mainTable, $idFieldName);
+    }
+    
     /**
      * Initialize connections and tables for this resource model
      * 
@@ -71,7 +93,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param string|array|null $tables
      * @return Mage_Core_Model_Resource_Abstract
      */
-    protected function _setResource($connections, $tables=null)
+    protected function setResource($connections, $tables=null)
     {
         $this->_resources = Mage::getSingleton('core/resource');
         
@@ -104,13 +126,23 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param string|null $idFieldName
      * @return Mage_Core_Model_Resource_Abstract
      */
-    protected function _setMainTable($mainTable, $idFieldName=null)
+    public function setMainTable($mainTable, $idFieldName=null)
     {
-        $this->_mainTable = $mainTable;
-        if (is_null($idFieldName)) {
-            $idFieldName = $mainTable.'_id';
+        $mainTableArr = explode('/', $mainTable);
+        
+        if (!empty($mainTableArr[1])) {
+            if (empty($this->_resourceModel)) {
+                $this->setResource($mainTableArr[0]);
+            }
+            $this->setMainTable($mainTableArr[1], $idFieldName);
+        } else {
+            $this->_mainTable = $mainTable;
+            if (is_null($idFieldName)) {
+                $idFieldName = $mainTable.'_id';
+            }
+            $this->_idFieldName = $idFieldName;
         }
-        $this->_idFieldName = $idFieldName;
+            
         return $this;
     }
     
@@ -119,7 +151,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @return string
      */
-    public function getIdField()
+    public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
             throw Mage::exception('Mage_Core', 'Empty field id name');
@@ -134,7 +166,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      */
     public function getMainTable()
     {
-        if (empty($this->_idFieldName)) {
+        if (empty($this->_mainTable)) {
             throw Mage::exception('Mage_Core', 'Empty main table name');
         }
         return $this->getTable($this->_mainTable);
@@ -184,15 +216,19 @@ abstract class Mage_Core_Model_Resource_Abstract
      *
      * @param Varien_Object $object
      * @param integer $id
+     * @param string $field field to load by (defaults to model id)
      * @return boolean
      */
-    public function load(Mage_Core_Model_Abstract $object, $id)
+    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
     {
+        if (is_null($field)) {
+            $field = $this->getIdFieldName();
+        }
+        
         $read = $this->getConnection('read');
         
-        $select = $read->select()
-            ->from($this->getMainTable())
-            ->where($this->getIdField().'=?', $id);
+        $select = $read->select()->from($this->getMainTable())
+            ->where($field.'=?', $name);
         $data = $read->fetchRow($select);
         
         if (!$data) {
@@ -222,7 +258,7 @@ abstract class Mage_Core_Model_Resource_Abstract
             $this->_beforeSave($object);
             
             if ($object->getId()) {
-                $condition = $this->_write->quoteInto($this->getIdField().'=?', $object->getId());
+                $condition = $this->_write->quoteInto($this->getIdFieldName().'=?', $object->getId());
                 $write->update($table, $object->getDataForSave(), $condition);
             } else {
                 $write->insert($table, $object->getDataForSave());
@@ -256,7 +292,7 @@ abstract class Mage_Core_Model_Resource_Abstract
         try {
             $this->_beforeDelete($object);
             
-            $write->delete($table, $write->quoteInto($this->getIdField().'=?', $object->getId()));
+            $write->delete($table, $write->quoteInto($this->getIdFieldName().'=?', $object->getId()));
             
             $this->_afterDelete($object);
             
