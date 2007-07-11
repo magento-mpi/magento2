@@ -36,8 +36,14 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         $out = ' ';
         if ($this->getWidth()) {
             $out .='width="'.$this->getWidth(). (is_numeric($this->getWidth()) ? '%' : '') . '" ';
-        } elseif ($this->getType() && in_array(strtolower($this->getType()), array('date', 'currency'))) {
-            $out .='width="10.3em" ';
+        } elseif ($this->getType()) {
+            // TODO
+            $type = strtolower($this->getType());
+            if ('date' == $type) {
+                $out .= 'width="160px" ';
+            } elseif ('currency' == $type) {
+                $out .= 'width="140px" ';
+            }
         }
         if ($this->getAlign()) {
             $out .='align="'.$this->getAlign().'" ';

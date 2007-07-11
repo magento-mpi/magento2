@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         parent::__construct();
         $this->setId('ordersGrid');
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('created_at', 'desc');
     }
 
     protected function _prepareCollection()
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index' => 'status',
         ));
         $this->addColumn('action', array(
-            'header' => __('action'),
+            'header' => __('Action'),
             'align' => 'center',
             'format' => '<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
             'index' => 'entity_id',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->setColumnFilter('id')
             ->setColumnFilter('created_at')
-            ->setColumnFilter('firstname')
+            ->setColumnFilter('shipping_firstname')
             ->setColumnFilter('grand_total')
             ->setColumnFilter('status')
         ;

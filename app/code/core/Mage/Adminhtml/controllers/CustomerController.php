@@ -135,9 +135,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             if ($customerId = (int) $this->getRequest()->getParam('id')) {
                 $customer->setId($customerId);
             }
-			
-            
-			
+
+
+
             if (isset($data['address'])) {
                 // unset template data
                 if (isset($data['address']['_template_'])) {
@@ -158,15 +158,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 	$customer->addAddress($address);
                 }
             }
-            
+
             if(isset($data['subscription'])) {
 				$customer->setIsSubscribed(true);
             } else {
 				$customer->setIsSubscribed(false);
-			}				
+			}
 
             try {
-                $customer->save();           
+                $customer->save();
             }
             catch (Exception $e){
                 echo $e;
@@ -209,5 +209,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         header("Content-Length: ".sizeof($content));
         header("Content-type: application/octet-stream");
         echo $content;
+    }
+
+    /**
+     * Customer orders grid
+     *
+     */
+    public function ordersAction() {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml());
     }
 }

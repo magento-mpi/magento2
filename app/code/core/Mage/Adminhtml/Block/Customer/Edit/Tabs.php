@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         $this->setDestElementId('customer_edit_form');
         $this->setTitle(__('Customer Information'));
     }
-    
+
     protected function _beforeToHtml()
     {
         if (Mage::registry('customer')->getId()) {
@@ -38,17 +38,17 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             'label'     => __('Addresses'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->toHtml(),
         ));
-        
+
         $this->addTab('orders', array(
             'label'     => __('Orders'),
-            'content'   => '<h3>Orders</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
         ));
-        
+
         $this->addTab('cart', array(
             'label'     => __('Shopping cart'),
             'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
         ));
-        
+
         $this->addTab('wishlist', array(
             'label'     => __('Wishlist'),
             'content'   => '<h3>Wishlist</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
@@ -57,8 +57,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         $this->addTab('newsletter', array(
             'label'     => __('Newsletter'),
             'content'   => '<h3>Newsletter</h3>',
-        ));        
-        
+        ));
+
         $this->addTab('tags', array(
             'label'     => __('Product tags'),
             'content'   => '<h3>Product tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),

@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Michael Bessolov <michael@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -14,92 +15,91 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
     {
         parent::__construct();
         $this->setId('ordersGrid');
+        $this->setDefaultSort('created_at', 'desc');
+
+        // the following line works, it is commented just to show orders for each customers
+        // because we haven't enough orders to show for each customer
+//        $this->setDefaultFilter('customer_id');
+
         $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname')
-            ->addAttributeToSelect('email')
+        $collection = Mage::getResourceModel('sales/order_collection')
+            ->addAttributeToSelect('real_order_id')
             ->addAttributeToSelect('created_at')
-            ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing')
-            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
-            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
-            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
-        
+            ->addAttributeToSelect('grand_total')
+            ->addAttributeToSelect('currency_code')
+            ->addAttributeToSelect('store_id')
+            ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'entity_id', 'parent_id')
+            ->joinAttribute('shipping_address_type', 'order_address/address_type', 'shipping_entity_id')
+            ->addAttributeToFilter('shipping_address_type', 'shipping')
+            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_entity_id')
+            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_entity_id')
+            ->addAttributeToFilter('customer_id', $this->getRequest()->id)
+            ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', array('language_code'=>'en'));
+        ;
         $this->setCollection($collection);
-        
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
+        // Order Number, Date, Shipped To, Total, Status
         $this->addColumn('id', array(
-            'header'    =>__('id'), 
-            'width'     =>5, 
-            'align'     =>'center', 
-            'sortable'  =>true, 
-            'index'     =>'entity_id'
+            'header' => __('Order #'),
+//            'width' => 5,
+            'align' => 'center',
+            'sortable' => true,
+            'index' => 'real_order_id',
         ));
-        $this->addColumn('firstname', array(
-            'header'    =>__('firstname'), 
-            'index'     =>'firstname'
-        ));
-        $this->addColumn('lastname', array(
-            'header'    =>__('lastname'), 
-            'index'     =>'lastname'
-        ));
-        $this->addColumn('email', array(
-            'header'    =>__('email'), 
-            'width'     =>40, 
-            'align'     =>'center', 
-            'index'     =>'email'
-        ));
-        $this->addColumn('telephone', array(
-            'header'    =>__('telephone'), 
-            'align'     =>'center', 
-            'index'     =>'billing_telephone'
-        ));
-        $this->addColumn('billing_postcode', array(
-            'header'    =>__('postcode'),
-            'index'     =>'billing_postcode',
-        ));
-        $this->addColumn('billing_country_name', array(
-            'header'    =>__('country'),
-            #'filter'    => 'adminhtml/customer_grid_filter_country',
-            'index'     =>'billing_country_name',
-        ));
-        $this->addColumn('customer_since', array(
-            'header'    =>__('customer since'),
+        $this->addColumn('created_at', array(
+            'header'    => __('Date'),
+//            'width'     => 20,
+            'index'     => 'created_at',
             'type'      => 'date',
-            'format'    => 'Y.m.d',
-            'index'     =>'created_at',
+        ));
+        $this->addColumn('shipped_to', array(
+            'header' => __('Ship To'),
+            'index' => array('shipping_firstname','shipping_lastname'),
+            'type' => 'concat',
+            'separator' => ' ',
+        ));
+        $this->addColumn('grand_total', array(
+            'header' => __('Order Total'),
+            'index' => 'grand_total',
+            'type'  => 'currency',
+        ));
+        $this->addColumn('store', array(
+            'header' => __('Bought From'),
+            'index' => 'store_name',
         ));
         $this->addColumn('action', array(
-            'header'    =>__('action'),
-            'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('edit').'</a>',
-            'filter'    =>false,
-            'sortable'  =>false,
-            'is_system' =>true
+            'header' => '&nbsp;',
+            'align' => 'center',
+            'format' => '<a href="'.Mage::getUrl('*/sales_order/view/id/$entity_id').'">'.__('View').'</a>',
+            'index' => 'entity_id',
+            'sortable' => false,
+            'filter' => false,
         ));
-        
+
         $this->setColumnFilter('id')
-            ->setColumnFilter('email')
-            ->setColumnFilter('firstname')
-            ->setColumnFilter('lastname');
-        
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
+            ->setColumnFilter('created_at')
+            ->setColumnFilter('shipping_firstname')
+            ->setColumnFilter('grand_total')
+            ->setColumnFilter('status')
+        ;
+
+//        $this->addExportType('*/*/exportCsv', __('CSV'));
+//        $this->addExportType('*/*/exportXml', __('XML'));
+
         return parent::_prepareColumns();
     }
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/index', array('_current'=>true));
+        return Mage::getUrl('*/*/orders', array('_current'=>true));
     }
 
 }
