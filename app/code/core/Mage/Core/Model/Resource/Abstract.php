@@ -228,7 +228,7 @@ abstract class Mage_Core_Model_Resource_Abstract
         $read = $this->getConnection('read');
         
         $select = $read->select()->from($this->getMainTable())
-            ->where($field.'=?', $name);
+            ->where($field.'=?', $value);
         $data = $read->fetchRow($select);
         
         if (!$data) {
