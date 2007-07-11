@@ -10,6 +10,9 @@
  */ 
  class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Action 
  {
+ 	/**
+ 	 * Subscribe form 
+ 	 */
     public function indexAction() 
     {
         echo Mage::getSingleton('customer/session')->getWebsiteId();
@@ -24,6 +27,9 @@
         
     }
     
+    /**
+ 	 * New subscription action
+ 	 */
     public function newAction() 
     {
         $subscriber = Mage::getModel('newsletter/subscriber');
@@ -34,12 +40,13 @@
         if(!$subscriber->getId()) {
            
             if($customerSession->isLoggedIn()) {
-                $subscriber->setStoreId(Mage::getSingleton('core/store')->getId());
+                $subscriber->setStoreId($customerSession->getCustomer()->getStoreId());
                 $subscriber->setCustomerId($customerSession->getCustomerId());
                 $subscriber->setSubscriberEmail($customerSession->getCustomer()->getEmail());
             } else {
                 $subscriber->setSubscriberEmail($this->getRequest()->getParam('email'));
                 $subscriber->setCustomerId(0);
+                $subscriber->setStoreId(Mage::getSingleton('core/store')->getId());
             }
             
             try {
@@ -54,12 +61,33 @@
                 $session->addSuccess('You successfully subscribed');
             }
             catch(Exception $e) {
-                $session->addError($e->getMessage());
+                // Nothing
             }
         } else {
             $session->addSuccess('You successfully subscribed');
         }
         
         $this->_redirect('*/*');
+    }
+    
+    /**
+     * Subscrioption confirm action
+     */
+    public function confirmAction() {
+    	$id = (int) $this->getRequest()->getParam('id');
+    	$subscriber = Mage::getModel('newsletter/subscriber')
+    		->load($id);
+    	
+    	if($subscriber->getId() && $subscriber->getCode()) {
+    		 if($subscriber->confirm($this->getRequest()->getParam('code'))) {
+    		 	Mage::getSingleton('newsletter/session')->addSuccess('Your subscription successfully confirmed');	
+    		 } else {
+    		 	Mage::getSingleton('newsletter/session')->addError('Invalid subscription confirmation code');
+    		 }
+    	} else {
+    		 Mage::getSingleton('newsletter/session')->addError('Invalid subscription id');
+    	}
+    	
+    	$this->_redirect('*/*');
     }
  }

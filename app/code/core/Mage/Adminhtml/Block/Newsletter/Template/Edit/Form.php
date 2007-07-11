@@ -84,6 +84,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'title' => __('template content title'),
             'cols' => 20,
             'rows' => 15,
+            'theme' => 'advanced',
             'value' => $template->getTemplateText()
         ));
         

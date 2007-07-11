@@ -59,6 +59,17 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     }
     
     /**
+     * Return link for confirmation of subscription
+     *
+     * @return string
+     */
+    public function getConfirmationLink() {
+    	return Mage::getUrl('newsletter/subscriber/confirm',
+    						array('id'=>$this->getId(),
+    							  'code'=>$this->getCode()));
+    }
+    
+    /**
      * Alias for setSubscriberConfirmCode()
      *
      * @param string $value
@@ -194,5 +205,23 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         $this->getResource()->delete($this->getId);
         $this->setId(null);
+    }
+    
+    /**
+     * Confirms subscriber newsletter
+     *
+     * @param string $code
+     * @return boolean
+     */
+    public function confirm($code) 
+    {
+    	if($this->getCode()==$code) {
+    		$this->setStatus(self::STATUS_SUBSCRIBED)
+    			->setCode(null)
+    			->save();
+    		return true;
+    	}
+    	    	
+    	return false;
     }
 }

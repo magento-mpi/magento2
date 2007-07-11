@@ -19,12 +19,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     protected $_subscriberTable;
     
-    /**
-     * Customers table name
-     *
-     * @var string
-     */
-    protected $_customersTable;
+   
     
     /**
      * Queue link table name
@@ -41,6 +36,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     protected $_queueJoinedFlag = false;
     
     /**
+     * Flag that indicates apply of customers info on load
+     *
+     * @var boolean
+     */
+    protected $_showCustomersInfo = false;
+    
+    /**
      * Constructor
      *
      * Configures collection
@@ -50,7 +52,6 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
         $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('customer/customer');
         $this->_sqlSelect->from($this->_subscriberTable);
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
     }
@@ -94,15 +95,49 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     }
     
     /**
-     * Show customer info too
+     * Loads customers info to collection
+     *
      */
-    public function showCustomersInfo( )
+    protected function _addCustomersData( )
     {
-        $this->_sqlSelect->joinLeft($this->_customerTable, 
-                                    "{$this->_customerTable}.customer_id = {$this->_subscriberTable}.customer_id",
-                                    array('firstname','lastname'));
+        $customersIds = array();
         
-        return $this;
+        foreach ($this->getItems() as $item) {
+        	if($item->getCustomerId()) {
+        		$customersIds[] = $item->getCustomerId();
+        	}
+        }
+        
+        if(count($customersIds) == 0) {
+        	return;
+        }
+                
+        $customers = Mage::getResourceModel('customer/customer_collection')
+            ->addAttributeToSelect('firstname')
+            ->addAttributeToSelect('lastname')
+			->addAttributeToFilter('entity_id', array("in"=>$customersIds));
+        
+        $customers->load();
+		
+        foreach($customers->getItems() as $customer) {
+        	$subscriber = $this->getItemByColumnValue('customer_id', $customer->getId());
+        	$subscriber->setCustomerName($customer->getName())
+        		->setCustomerFirstName($customer->getFirstName())
+        		->setCustomerLastName($customer->getLastName());        	
+        }
+                
+    }
+    
+    /**
+     * Sets flag for customer info loading on load
+     *
+     * @param   boolean $show
+     * @return  Mage_Newsletter_Model_Mysql4_Subscriber_Collection
+     */
+    public function showCustomerInfo($show=true) 
+    {
+    	$this->_showCustomersInfo = (boolean) $show;
+    	return $this;
     }
     
     /**
@@ -123,5 +158,21 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         $this->_sqlSelect->where("{$this->_subscriberTable}.status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
         
         return $this;
+    }
+    
+    /**
+     * Load subscribes to collection
+     *
+     * @param boolean $printQuery
+     * @param boolean $logQuery
+     * @return Varien_Data_Collection_Db
+     */
+    public function load($printQuery=false, $logQuery=false) 
+    {
+    	parent::load($printQuery, $logQuery);
+    	if($this->_showCustomersInfo) {
+    		$this->_addCustomersData();
+    	}
+    	return $this;
     }
 }

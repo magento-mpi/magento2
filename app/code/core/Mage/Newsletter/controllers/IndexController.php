@@ -11,6 +11,9 @@
  class Mage_Newsletter_IndexController extends Mage_Core_Controller_Front_Action 
  {
     public function indexAction() {
-        ////
+        $queue = Mage::getModel('newsletter/queue');
+        $queue->setTemplateId(1);
+        $queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
+        $queue->save();
     }
  }

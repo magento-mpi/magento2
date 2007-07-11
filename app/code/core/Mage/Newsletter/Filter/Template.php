@@ -162,11 +162,11 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
                     }
                 } else if ($stackVars[$i]['type'] == 'method') {
                     // Calling of object method
-                    if (is_callable(array($stackVars[$i-1]['variable'], $stackVars[$i]['name']))) {
+                    if (is_callable(array($stackVars[$i-1]['variable'], $stackVars[$i]['name'])) or substr($stackVars[$i]['name'],0,3) == 'get') {
                         $stackVars[$i]['variable'] = call_user_func_array(array($stackVars[$i-1]['variable'],
                                                                                 $stackVars[$i]['name']),
                                                                           $stackVars[$i]['name']['args']);
-                    }
+                    } 
                 }
                 $last = $i;
             }

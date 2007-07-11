@@ -14,11 +14,15 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
      * Subscribers collection
      * @var Varien_Data_Collection_Db
      */
-    
     protected $_subscribersCollection = null;
     
+    const STATUS_NEVER = 0;
+    const STATUS_SENDIND = 1;
+    const STATUS_CANCEL = 2;
+    const STATUS_SENT = 3;
+    
         
-    protected function _construct() 
+    protected function _construct()
     {
         $this->_init('newsletter/queue');
     }
@@ -41,15 +45,23 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function addTemplateData( $data ) 
     {
         if ($data->getTemplateId()) {
-            $this->setTemplate(Mage::getModel('newsletter/template')
+        	$this->setTemplate(Mage::getModel('newsletter/template')
                                     ->load($data->getTemplateId()));
         }
-
+        
         return $this;
     }
     
-    public function sendPerSubscriber($count=20) 
+    public function sendPerSubscriber($count=20, array $additionalVariables=array()) 
     {
+    	if($this->getStatus()!=self::STATUS_SENDIND)
+    	if($this->getTemplate()) {
+    		$this->addTemplateData($this);
+    		if($this->getTemplate()->isPreprocessed()) {
+    			$this->getTemplate()->preproccess();
+    		}
+    	}
+    	
         $collection = $this->getSubscribersCollection()
             ->useOnlyUnsent()
             ->setPageSize($count)
@@ -59,5 +71,14 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
         foreach($collection->getItems() as $item) {
             print_r($item);
         }
+    }
+    
+    public function getDataForSave() {
+    	$data = array();
+    	$data['template_id'] = $this->getTemplateId();
+    	$data['queue_status'] = $this->getQueueStatus();
+    	$data['queue_start_at'] = $this->getQueueStartAt();
+    	$data['queue_finish_at'] = $this->getQueueFinishAt();
+    	return $data;
     }
 }

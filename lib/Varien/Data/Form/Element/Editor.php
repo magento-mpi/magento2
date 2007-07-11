@@ -35,7 +35,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         		<script language="javascript" type="text/javascript">
                 tinyMCE.init({
                     mode : "exact",
-                    theme : "simple",
+                    theme : "'.$this->getTheme().'",
                     elements : "'.$this->getName().'",
                     theme_advanced_toolbar_location : "top",
                     theme_advanced_toolbar_align : "left",
@@ -64,4 +64,14 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             return parent::toHtml();
         }
     }
+    
+    public function getTheme() 
+    {
+        if(!$this->hasData('theme')) {
+            return 'simple';
+        }
+        
+        return $this->getData('theme');
+    }
+    
 }
