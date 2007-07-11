@@ -10,10 +10,8 @@
  */ 
 class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Resource_Abstract
 {
-    public function __construct( ) {
-        parent::__construct();
-        $this->_setResource('newsletter');
-        $this->_setMainTable($this->getTableName('queue'));
+    protected function _construct() {
+        $this->_init('newsletter/queue', 'queue_id');
     }
     
     

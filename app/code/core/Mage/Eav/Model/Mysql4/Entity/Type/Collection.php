@@ -4,6 +4,6 @@ class Mage_Eav_Model_Mysql4_Entity_Type_Collection extends Mage_Core_Model_Resou
 {
     public function _construct()
     {
-        $this->setModel('eav/entity_type');
+        $this->_init('eav/entity_type');
     }
 }

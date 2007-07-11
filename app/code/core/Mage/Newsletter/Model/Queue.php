@@ -18,11 +18,9 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     protected $_subscribersCollection = null;
     
         
-    public function __construct() 
+    protected function _construct() 
     {
-        parent::__construct();
-        $this->_setResource('newsletter');
-        $this->setIdFieldName('queue_id');
+        $this->_init('newsletter/queue');
     }
     
     /**

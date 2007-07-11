@@ -9,11 +9,9 @@
  */
 class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract  
 {
-    public function __construct() 
+    protected function _construct() 
     {
-        parent::__construct();
-        $this->_setResource('directory/country');
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
+        $this->_init('directory/country');
     }
     
     public function getRegions()

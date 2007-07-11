@@ -7,9 +7,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     
     protected function _construct()
     {
-        $this->setResourceModel('eav/entity_type');
-        $this->setIdFieldName('entity_type_id');
-        parent::_construct();
+        $this->_init('eav/entity_type');
     }
 
     public function loadByName($name)

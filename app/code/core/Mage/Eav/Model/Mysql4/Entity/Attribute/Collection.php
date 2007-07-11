@@ -4,7 +4,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 {
     public function _construct()
     {
-        $this->setModel('eav/entity_attribute');
+        $this->_init('eav/entity_attribute');
     }
     
     public function setEntityTypeFilter($typeId)

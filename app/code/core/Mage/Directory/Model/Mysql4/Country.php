@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Directory_Model_Mysql4_Country
+class Mage_Directory_Model_Mysql4_Country extends Mage_Core_Model_Resource_Abstract
 {
-    public function getIdFieldName()
+    protected function _construct()
     {
-        return 'country_id';
+        $this->_init('directory/country', 'country_id');
     }
 }
