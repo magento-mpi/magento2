@@ -101,8 +101,8 @@ class Varien_Object
      */
     public function getId()
     {
-        if ($this->_idFieldName) {
-            return $this->getData($this->_idFieldName);
+        if ($this->getIdFieldName()) {
+            return $this->getData($this->getIdFieldName());
         }
         return $this->getData('id');
     }
@@ -115,8 +115,8 @@ class Varien_Object
      */
     public function setId($value)
     {
-        if ($this->_idFieldName) {
-            $this->setData($this->_idFieldName, $value);
+        if ($this->getIdFieldName()) {
+            $this->setData($this->getIdFieldName(), $value);
         }
         else {
             $this->setData('id', $value);
