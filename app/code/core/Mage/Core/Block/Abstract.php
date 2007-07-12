@@ -81,6 +81,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function setLayout(Mage_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
+        $this->_afterSetLayout();
+        return $this;
+    }
+    
+    protected function _afterSetLayout()
+    {
         return $this;
     }
     

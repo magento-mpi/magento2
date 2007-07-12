@@ -88,11 +88,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'is_system' =>true
         ));
 
-        $this->setColumnFilter('id')
-            ->setColumnFilter('email')
-            ->setColumnFilter('firstname')
-            ->setColumnFilter('lastname');
-
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
