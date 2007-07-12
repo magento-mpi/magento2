@@ -64,9 +64,10 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $address = Mage::getModel('customer/address')
                 ->setData($this->getRequest()->getPost())
                 ->setId($this->getRequest()->getParam('id'))
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-            $url = Mage::getUrl('*/*/edit', array('id'=>$address->getId()));
-
+                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+            
             try {
                 $address->save();
                 Mage::getSingleton('customer/session')
@@ -80,8 +81,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     ->setAddressFormData($this->getRequest()->getPost())
                     ->addError($e->getMessage());
             }
-            $this->getResponse()->setRedirect($url);
         }
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
     }
     
     public function deleteAction()

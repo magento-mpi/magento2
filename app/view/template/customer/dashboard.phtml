@@ -11,16 +11,16 @@
     <p><a href="">Edit</a></p>
 </div>
 <div class="input-right">
+<h3>Addresses</h3>
 <?if($_addresses = $this->getPrimaryAddresses()):?>
-    <h3>Addresses</h3>
     <?foreach ($_addresses as $_address):?>
     <address>
         <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
         <br/><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
     </address>
     <?endforeach;?>
-    <a href="<?=$this->getAddressesUrl()?>">Show all</a>
 <?endif;?>
+<a href="<?=$this->getAddressesUrl()?>">Go to address book</a>
 </div>
 <div class="clearfix"></div>
 

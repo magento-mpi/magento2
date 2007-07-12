@@ -58,7 +58,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function loadCustomerQuote()
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        // coment until quote fix
+        /*$customerId = Mage::getSingleton('customer/session')->getCustomerId();
         $customerQuote = Mage::getModel('sales/quote');
         if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {
@@ -73,7 +74,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $this->_quote->delete();
             }
             $this->_quote = $customerQuote;
-        }
+        }*/
         return $this;
     }
 

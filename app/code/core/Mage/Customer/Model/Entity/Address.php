@@ -19,6 +19,23 @@ class Mage_Customer_Model_Entity_Address extends Mage_Eav_Model_Entity_Abstract
         );
     }
     
+    protected function _afterSave(Varien_Object $address)
+    {
+        if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
+            $customer = Mage::getModel('customer/customer')
+                ->load($address->getCustomerId());
+                
+            if ($address->getIsDefaultBilling()) {
+                $customer->setDefaultBilling($address->getId());
+            }
+            if ($address->getIsDefaultShipping()) {
+                $customer->setDefaultShipping($address->getId());
+            }
+            $customer->save();
+        }
+        return $this;
+    }
+    
     public function getCustomerId($object)
     {
         return $object->getData('customer_id') ? $object->getData('customer_id') :$object->getParentId();

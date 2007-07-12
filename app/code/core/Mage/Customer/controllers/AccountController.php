@@ -99,7 +99,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         }
         
         $this->loadLayout();        
-        $this->_initLayoutMessages('customer/messages');
+        $this->_initLayoutMessages('customer/session');
 
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
         $data = new Varien_Object($data);
@@ -243,7 +243,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')
                     ->setCustomerFormData($this->getRequest()->getPost())
-                    ->addMessages($e->getMessages());
+                    ->addError($e->getMessage());
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit'));
@@ -328,7 +328,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         
         $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
             ->setTemplate('customer/balance.phtml')
-            ->assign('messages',    Mage::getSingleton('customer/session')->getMessages(true))
             ->assign('customer', Mage::getSingleton('customer/session')->getCustomer());
         $this->getLayout()->getBlock('content')->append($block);
         
