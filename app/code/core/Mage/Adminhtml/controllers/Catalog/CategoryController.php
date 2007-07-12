@@ -23,6 +23,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
         );
         
+        $this->_addContent(
+            $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
+        );
+        
         $this->renderLayout();
     }
     

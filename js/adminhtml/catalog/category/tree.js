@@ -24,8 +24,8 @@ Ext.onReady(function(){
 });
 
 categoryClick = function(node, e){
-    //console.log(e, node);
-    parent.document.getElementById('catalogMain').src = productGridUrl+'categoryId/'+node.id+'/';
+    console.log(e, node);
+    //parent.document.getElementById('catalogMain').src = productGridUrl+'categoryId/'+node.id+'/';
 };
 
 /*
