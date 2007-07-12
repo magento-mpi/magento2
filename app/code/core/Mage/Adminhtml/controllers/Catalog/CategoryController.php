@@ -12,7 +12,18 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 {
     public function indexAction()
     {
+        $this->loadLayout('baseframe');
+        $this->_setActiveMenu('catalog/categories');
+        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Manage Categories'), __('Manage Categories title'));
+        
+        $this->_addLeft(
+            $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+        );
+        
+        $this->renderLayout();
     }
     
     public function testAction()

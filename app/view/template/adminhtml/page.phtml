@@ -49,7 +49,12 @@
 <?if($this->getCanLoadExtJs()):?>
     <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-tree.js" ></script>
     <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ytheme-gray.css"/>
+	<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ytheme-magento.css"/>
+    <script type="text/javascript" language="Javascript">
+        Ext.BLANK_IMAGE_URL = '<?=$baseJsUrl?>extjs/resources/images/default/s.gif';
+        Ext.UpdateManager.defaults.loadScripts = false;
+        Ext.UpdateManager.defaults.disableCaching = true;
+    </script>
 <?endif;?>
 </head>
 <body>

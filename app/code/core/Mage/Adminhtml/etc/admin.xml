@@ -72,11 +72,11 @@
                 </categories>
                 <attributes>
                     <title>Product attributes</title>
-                    <action>adminhtml/catalog_product_attributes/</action>
+                    <action>adminhtml/catalog_product_attribute/</action>
                 </attributes>
                 <reviews>
                     <title>Reviews</title>
-                    <action>adminhtml/catalog_product_reviews/</action>
+                    <action>adminhtml/catalog_product_review/</action>
                 </reviews>
                 <tags>
                     <title>Tags</title>
@@ -84,7 +84,7 @@
                 </tags>
                 <datafeed>
                     <title>Datafeeds</title>
-                    <action>adminhtml/catalog_datafeeds/</action>
+                    <action>adminhtml/catalog_datafeed/</action>
                 </datafeed>
                 <config>
                     <title>Configuration</title>

@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: magento
 -- ------------------------------------------------------
--- Server version	5.0.42-debug-log
+-- Server version   5.0.42-debug-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -54,7 +54,7 @@ CREATE TABLE `tax_class_group` (
   `class_parent_id` smallint(6) NOT NULL,
   `class_group_id` tinyint(3) NOT NULL,
   PRIMARY KEY  (`group_id`),
-  KEY `class_parent_id` (`class_parent_id`),
+  KEY `class_parent_id` (`class_parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `tax_rate_data` (
   `rate_type_id` tinyint(4) NOT NULL,
   PRIMARY KEY  (`tax_rate_data_id`),
   KEY `rate_id` (`tax_rate_id`),
-  KEY `rate_type_id` (`rate_type_id`),
+  KEY `rate_type_id` (`rate_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
