@@ -228,12 +228,14 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
      *
      * If $moduleName is specified retrieves specific value for the module.
      *
+     * @todo get global dir config
      * @param string $type
      * @return string
      */
     public function getBaseDir($type)
     {
-        $dir = (string)$this->getNode('global/default/filesystem/'.$type);
+        $dir = (string)$this->getNode('stores/base/system/filesystem/'.$type);
+
         if (!$dir) {
             $dir = $this->getDefaultBaseDir($type);
         }

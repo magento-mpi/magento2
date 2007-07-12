@@ -1,6 +1,8 @@
 <?/*{
 
 }*/?>
+<?if (empty($_level)):?>
+<!-- menu start -->
 <script type="text/javascript">
 var isIE = false;//window.navigator.userAgent.indexOf("MSIE") > 0;
 
@@ -45,27 +47,33 @@ function toggleIntersectingSelects(el, hide) {
 }
 </script>
 <ul class="h">
+<?  $_level = 0; ?>
+<?endif?>
+
 <?foreach ($menu as $_item):?>
-    <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)" class="<?=!empty($_item['active'])?'active':''?>">
-       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?>"><?=$_item['label']?><em></em></a>
-    <?if(!empty($_item['children']) && is_array($_item['children'])):?>
+    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> 
+        class="<?=!empty($_item['active'])?'active':''?>">
+       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" 
+            class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?>">
+            <?=$_item['label']?>
+            <?if(empty($_level)):?><em></em><?endif?>
+       </a>
+       <?if(!empty($_item['children'])):?>
         <ul>
-        <?foreach ($_item['children'] as $_child):?>
-            <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)" class="<?=!empty($_item['active'])?'active':''?>">
-                <a href="<?=$_child['url']?>" title="<?=$_child['title']?>" class="<?=!empty($_child['active'])?'active':''?> <?=!empty($_child['children'])?'parent':''?> <?=!empty($_child['last'])?'last':''?>"><?=$_child['label']?></a>       
-            <?if(!empty($_child['children'])):?>
-                <ul>
-                <?foreach ($_child['children'] as $_grandchild):?>
-                    <li class="<?=!empty($_grandchild['active'])?'active':''?>">
-                        <a href="<?=$_grandchild['url']?>" title="<?=$_grandchild['title']?>" class="<?=!empty($_grandchild['active'])?'active':''?> <?=!empty($_grandchild['last'])?'last':''?>"><?=$_grandchild['label']?></a>
-                    </li>
-                <?endforeach;?>
-                </ul>
-            <?endif;?>
-            </li>
-        <?endforeach;?>
+        <?
+            $_menuData[$_level] = array('menu'=>$menu);
+            $menu = $_item['children'];
+            $_level++; 
+            include __FILE__; 
+            $_level--; 
+            extract($_menuData[$_level]);
+        ?>
         </ul>
     <?endif;?>
     </li>
 <?endforeach;?>
+
+<?if (empty($_level)):?>
 </ul>
+<!-- menu end -->
+<?endif?>

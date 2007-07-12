@@ -84,7 +84,7 @@ ul.h ul a:hover {
 	background:#FDEEDF;
 	}
 /* A.parent */
-ul.h a.parent {
+ul.h ul a.parent {
 	background-image:url(images/nav_parent_arrow.gif) !important;
 	background-repeat:no-repeat !important;
 	background-position:right bottom !important;

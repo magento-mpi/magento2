@@ -15,12 +15,12 @@ class Mage_Customer_Model_Admin_Search extends Varien_Object
                 array('attribute'=>'firstname', 'like'=>$this->getQuery().'%'),
                 array('attribute'=>'lastname', 'like'=>$this->getQuery().'%')
             ))
-            ->setPage($this->getStart(), $this->getLimit())
+            ->setPage(1, 10)
             ->load();
         
         foreach ($collection->getItems() as $customer) {
             $arr[] = array(
-                'id'            => 'customer/1/'.$customer->getCustomerId(),
+                'id'            => 'customer/1/'.$customer->getId(),
                 'type'          => 'Customer',
                 'name'          => $customer->getFirstname().' '.$customer->getLastname(),
                 'description'   => 'No description',

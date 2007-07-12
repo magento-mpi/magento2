@@ -9,13 +9,14 @@
          </dashboard>
          <customer>
             <title>Customers</title>
+            <action>adminhtml/customer/</action>
             <depends><module>Mage_Customer</module></depends>
             <children>
-                <grid>
+                <manage>
                     <title>Manage customers</title>
                     <action>adminhtml/customer/</action>
                     <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
-                </grid>
+                </manage>
                 <group>
                     <title>Customer groups</title>
                     <action>adminhtml/customer_group/</action>
@@ -88,6 +89,14 @@
             <action>adminhtml/sales</action>
             <depends><module>Mage_Sales</module></depends>
             <children>
+                <orders>
+                    <title>Orders</title>
+                    <action>adminhtml/sales</action>
+                </orders>
+                <invoices>
+                    <title>Invoices</title>
+                    <action>adminhtml/sales_invoice</action>
+                </invoices>
                 <tax>
                     <title>Tax</title>
                     <children>

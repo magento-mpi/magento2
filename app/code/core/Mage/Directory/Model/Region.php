@@ -9,10 +9,8 @@
  */
 class Mage_Directory_Model_Region extends Mage_Core_Model_Abstract 
 {
-    public function __construct($data=array()) 
+    protected function _construct() 
     {
-        parent::__construct($data);
         $this->_init('directory/region');
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
     }
 }

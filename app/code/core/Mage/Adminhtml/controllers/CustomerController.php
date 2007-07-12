@@ -24,7 +24,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('customer');
+        $this->_setActiveMenu('customer/manage');
 
         /**
          * Append customers block to content
