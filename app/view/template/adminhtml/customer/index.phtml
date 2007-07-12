@@ -26,3 +26,16 @@
 <div>
     <?=$this->getChildHtml('grid')?>
 </div>
+<script type="text/javascript">
+function editCustomer(event){
+    var element = Event.element(event);
+    if(element.tagName != 'A')
+    {
+        var links = $(Event.findElement(event,'tr')).getElementsByClassName('edit-url');
+        if(links.length > 0) {
+            location.href = links[0].href;
+        }
+    }
+}
+varienGlobalEvents.attachEventHandler('gridRowClick', editCustomer);
+</script>

@@ -2,7 +2,23 @@
 <table cellspacing="0" class="form-edit">
 <tr>
 <td class="content-left-nav address-list">
-	<h4 class="icon-head head-customer-address-list">Customer Addresses</h4>
+	<h4 class="icon-head head-customer-address-list" style="float:left">Customer Addresses</h4>
+    <button id="add_address_button" type="button" class="scalable" onclick="customerAddresses.addNewAddress()">
+        <table cellspacing="0">
+            <tr>
+                <td class="tl"></td>
+                <td class="tr"></td>
+            </tr>
+            <tr>
+                <td class="ml"><?=__('Add new')?></td>
+                <td class="mr"></td>
+            </tr>
+            <tr>
+                <td class="bl"></td>
+                <td class="br"></td>
+            </tr>
+        </table>
+    </button>	
 	<ul id="address_list">
 	<?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
