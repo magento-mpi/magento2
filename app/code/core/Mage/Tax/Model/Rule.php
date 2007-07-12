@@ -1,6 +1,12 @@
 <?php
 class Mage_Tax_Model_Rule extends Varien_Object
 {
+    public function __construct($rule=false)
+    {
+        parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
+    }
+
     public function getResource()
     {
         return Mage::getResourceModel('tax/rule');
@@ -8,7 +14,8 @@ class Mage_Tax_Model_Rule extends Varien_Object
 
     public function load($ruleId)
     {
-        return $this->getResource()->load($ruleId);
+        $this->getResource()->load($this, $ruleId);
+        return $this;
     }
 
     public function save($ruleObject)

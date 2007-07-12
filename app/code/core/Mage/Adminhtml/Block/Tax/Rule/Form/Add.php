@@ -19,8 +19,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
     protected function _prepareForm()
     {
         $ruleId = $this->getRequest()->getParam('rule');
-        $ruleObject = new Varien_Object();
-        $ruleObject->setData(Mage::getSingleton('tax/rule')->load($ruleId));
+        $ruleObject = Mage::getSingleton('tax/rule')->load($ruleId);
 
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax rule information')));
@@ -35,8 +34,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                         ->load()
                         ->toOptionArray();
 
-        $rateTypeCollection = Mage::getResourceModel('tax/rate_collection')
-                        ->loadRateTypes()
+        $rateTypeCollection = Mage::getResourceModel('tax/rate_type_collection')
+                        ->load()
                         ->toOptionArray();
 
         $fieldset->addField('customer_tax_class', 'select',

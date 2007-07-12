@@ -36,9 +36,14 @@ class Mage_Tax_Model_Mysql4_Rate
         $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
     }
 
-    public function load($rateId)
+    public function getIdFieldName()
     {
-        #
+        return 'tax_rate_id';
+    }
+
+    public function load($model, $rateId)
+    {
+        $model->setData(array());
     }
 
     public function loadWithAttributes($rateId)
@@ -51,7 +56,7 @@ class Mage_Tax_Model_Mysql4_Rate
         $select->from($this->_rateTable);
         $select->where("{$this->_rateTable}.tax_rate_id = ?", $rateId);
 
-        $rateTypes = Mage::getResourceModel('tax/rate_collection')->loadRateTypes()->getItems();
+        $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
 
         $index = 0;
         foreach( $rateTypes as $type ) {

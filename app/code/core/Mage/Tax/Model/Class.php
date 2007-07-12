@@ -11,6 +11,12 @@
 
 class Mage_Tax_Model_Class extends Varien_Object
 {
+    public function __construct($class=false)
+    {
+        parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
+    }
+
     public function getResource()
     {
         return Mage::getResourceModel('tax/class');
@@ -18,7 +24,8 @@ class Mage_Tax_Model_Class extends Varien_Object
 
     public function load($classId)
     {
-        return $this->getResource()->load($classId);
+        $this->getResource()->load($this, $classId);
+        return $this;
     }
 
     public function save($classObject)

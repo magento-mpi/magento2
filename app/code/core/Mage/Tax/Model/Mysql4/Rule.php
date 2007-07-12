@@ -33,7 +33,12 @@ class Mage_Tax_Model_Mysql4_Rule
         $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
     }
 
-    public function load($ruleId)
+    public function getIdFieldName()
+    {
+        return 'tax_rule_id';
+    }
+
+    public function load($model, $ruleId)
     {
         if( intval($ruleId) <= 0 ) {
             return;
@@ -43,7 +48,7 @@ class Mage_Tax_Model_Mysql4_Rule
         $select->where("{$this->_ruleTable}.tax_rule_id = ?", $ruleId);
 
         $ruleData = $this->_read->fetchRow($select);
-        return $ruleData;
+        $model->setData($ruleData);
     }
 
     public function save($ruleObject)

@@ -14,7 +14,10 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
     public function __construct()
     {
         parent::__construct();
+    }
 
+    protected function _prepareCollection()
+    {
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
@@ -32,6 +35,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
         }
         $collection->setTaxGroupFilter($classId);
         $this->setCollection($collection);
+        return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
@@ -45,11 +49,13 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
             switch( $classType ) {
                 case "CUSTOMER":
                     $index = 'customer_group_code';
+                    $this->setGridHeader('Included customer groups');
                     break;
 
                 /* FIXME!!! */
                 case "PRODUCT":
                     $index = 'customer_group_code';
+                    $this->setGridHeader('Included product categories');
                     break;
             }
         }
@@ -72,7 +78,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                 'format' => '<a href="' . $actionsUrl .'groupId/$group_id/">' . __('Delete') . '</a>'
             )
         );
-
+        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 }

@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
                              <a href="' . $actionsUrl .'delete/classId/$class_id/classType/' . $classType . '">' . __('Delete') . '</a>'
             )
         );
-
+        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 }

@@ -15,7 +15,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
     {
         parent::__construct();
         $this->setDestElementId('class_form');
-        #$this->_initForm();
     }
 
     protected function _prepareForm()
@@ -24,7 +23,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
-        $gridCollection = $this->getGridCollection();
+        $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
 
         if( $gridCollection ) {
             $indexes = array();
@@ -74,7 +73,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 'label' => __('Customer group'),
                                 'title' => __('Customer group title'),
                                 'class' => 'required-entry',
-                                'values' => $customerGroups
+                                'values' => $customerGroups,
                             )
         );
 

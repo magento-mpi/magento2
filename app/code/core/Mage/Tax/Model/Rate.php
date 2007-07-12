@@ -1,6 +1,12 @@
 <?php
 class Mage_Tax_Model_Rate extends Varien_Object
 {
+    public function __construct($rate=false)
+    {
+        parent::__construct();
+        $this->setIdFieldName($this->getResource()->getIdFieldName());
+    }
+
     public function getResource()
     {
         return Mage::getResourceModel('tax/rate');
@@ -8,7 +14,8 @@ class Mage_Tax_Model_Rate extends Varien_Object
 
     public function load($rateId)
     {
-        return $this->getResource()->load($rateId);
+        $this->getResource()->load($this, $rateId);
+        return $this;
     }
 
     public function loadWithAttributes($rateId)

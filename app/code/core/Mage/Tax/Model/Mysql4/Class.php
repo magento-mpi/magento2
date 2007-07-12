@@ -36,9 +36,14 @@ class Mage_Tax_Model_Mysql4_Class
         $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
     }
 
-    public function load($classId)
+    public function getIdFieldName()
     {
-        #
+        return 'class_id';
+    }
+
+    public function load($model, $classId)
+    {
+        $model->setData(array());
     }
 
     public function save($classObject)

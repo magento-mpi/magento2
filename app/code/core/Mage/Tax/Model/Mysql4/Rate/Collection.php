@@ -35,20 +35,12 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
         $this->_rateDataTable = $resource->getTableName('tax/tax_rate_data');
         $this->_regionTable   = $resource->getTableName('directory/country_region_name');
         $this->_postcodeTable = $resource->getTableName('usa/postcode');
-    }
-
-    public function loadRateTypes()
-    {
-        $this->_sqlSelect->from($this->_rateTypeTable);
-        return parent::load();
-    }
-
-    public function loadRatesWithAttributes()
-    {
         $this->_sqlSelect->from($this->_rateTable);
+    }
 
-        $rateTypes = Mage::getResourceModel('tax/rate_collection')->loadRateTypes()->getItems();
-
+    public function addAttributes()
+    {
+        $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
         $index = 0;
         foreach( $rateTypes as $type ) {
             $tableAlias = "trd_{$index}";
@@ -66,10 +58,5 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
     {
         $this->_sqlSelect->from($this->_rateDataTable);
         return parent::load();
-    }
-
-    public function toOptionArray()
-    {
-        return parent::_toOptionArray('type_id', 'type_name');
     }
 }

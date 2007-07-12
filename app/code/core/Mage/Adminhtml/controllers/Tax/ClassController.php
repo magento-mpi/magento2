@@ -29,14 +29,15 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $this->_addBreadcrumb(__("{$classTypePhrase} tax classes"), __("{$classTypePhrase} tax classes title"), Mage::getUrl('adminhtml/tax_class_'.$classType));
         $this->_addBreadcrumb(__("Edit {$classTypePhrase} tax class"), __("Edit {$classTypePhrase} tax class title"));
 
-        $content = $this->getLayout()->getBlock('content');
+        $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
+            ->setActiveTab('tax_class_' . strtolower($this->getRequest()->getParam('classType')));
 
-        $grid = $this->getLayout()->createBlock('adminhtml/tax_class_grid_group');
+        $grid = $this->getLayout()->createBlock('adminhtml/tax_class_grid_group', 'taxClassGrid');
         $form = $this->getLayout()->createBlock("adminhtml/tax_class_{$classType}_form_add");
-        $form->setGridCollection($grid->getCollection());
 
-        $content->append($grid);
-        $content->append($form);
+        $this->_addLeft($tabs);
+        $this->_addContent($grid);
+        $this->_addContent($form);
 
         $this->renderLayout();
     }

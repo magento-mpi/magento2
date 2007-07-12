@@ -12,6 +12,12 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->setCollection($collection);
 
+        return parent::_prepareCollection();
+    }
+
+
+    protected function _prepareColumns()
+    {
         $this->addColumn('customer_tax_class',
             array(
                 'header'=>__('Customer Tax Class'),
@@ -51,7 +57,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                              <a href="' . $actionsUrl .'delete/rule/$tax_rule_id">' . __('Delete') . '</a>'
             )
         );
-
-        return parent::_prepareCollection();
+        $this->setFilterVisibility(false);
+        return parent::_prepareColumns();
     }
 }

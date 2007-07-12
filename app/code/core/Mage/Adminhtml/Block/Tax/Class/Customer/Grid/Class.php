@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
                 'format' => '<a href="' . $actionsUrl .'editItem/classId/$class_customer_id/">' . __('Edit') . '</a> <a href="' . $actionsUrl .'deleteItem/classId/$class_customer_id/">' . __('Delete') . '</a>'
             )
         );
-
+        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 }
