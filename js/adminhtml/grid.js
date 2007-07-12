@@ -82,7 +82,7 @@ varienGrid.prototype = {
             new Ajax.Updater(
                 this.containerId, 
                 url+'?ajax=true',
-                {onComplete:this.initGrid.bind(this)}
+                {onComplete:this.initGrid.bind(this), evalScripts:true}
             );
             return;
         }
