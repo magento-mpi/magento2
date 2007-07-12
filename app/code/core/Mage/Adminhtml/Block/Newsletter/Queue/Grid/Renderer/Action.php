@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
         if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
         	$str .= ' | <a href="' . Mage::getUrl('*/*/edit', array('id'=>$row->getId())) . '">' . __('edit') . '</a>';
         	if(!$row->getQueueStartAt()) {
-        		$str .= ' | <a href="' . Mage::getUrl('*/*/edit', array('id'=>$row->getId())) . '">' . __('Start') . '</a>';
+        		$str .= ' | <a href="' . Mage::getUrl('*/*/start', array('id'=>$row->getId())) . '">' . __('Start') . '</a>';
         	}
         } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDIND) {
         	// TOdo: do)

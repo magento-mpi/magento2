@@ -110,4 +110,15 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->loadLayout('preview');
         $this->renderLayout();
     }
+    
+    public function toqueueAction()
+    {
+    	$queue = Mage::getModel('newsletter/queue')
+    		->setTemplateId($this->getRequest()->getParam('id'))
+        	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
+        	
+        $queue->save();
+        print_r($queue);
+        //$this->_redirect('*/newsletter_queue');
+    }
 }

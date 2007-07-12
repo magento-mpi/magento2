@@ -10,6 +10,11 @@
 </div>
 
 <div class="form-buttons">
+	<select id="queueList" name="queue">
+	<?foreach ($this->getQueueAsOptions() as $_queue):?>
+		<option value="<?=$_queue['value']?>"><?=$_queue['label']?> #<?=$_queue['value']?></option>
+	<?endforeach;?>
+	</select>
 	<button class="scalable" onclick="subscriberController.addToQueue();">
 		<table cellspacing="0">
 			<tr>
@@ -47,7 +52,16 @@
 			}
 		},
 		addToQueue: function () {
+			var elements = $('subscriberGrid').getElementsByClassName('subscriberCheckbox');
+			elements.push($('queueList'));
+			var serializedElements = Form.serializeElements(elements, true);
+			serializedElements.add = 'subscribers';
+			var url = subscriberGridJsObject.url;
 			
+			new Ajax.Updater('subscriberGrid', url + '?ajax=1',
+							 {parameters:  serializedElements,
+							  evalScripts: true,
+							  onComplete:subscriberGridJsObject.initGrid.bind(subscriberGridJsObject)});
 		}
 	}
 	

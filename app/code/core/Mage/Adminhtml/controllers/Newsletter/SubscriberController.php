@@ -18,6 +18,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
             return;
         }
         
+        $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
 		$this->loadLayout('baseframe');
 		
 		$this->_setActiveMenu('newsletter/subscriber');
@@ -34,6 +35,20 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 	
 	public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')->toHtml());
+    	if($this->getRequest()->getParam('add') == 'subscribers') {
+    		try {
+	    		Mage::getModel('newsletter/queue')
+	    			->load($this->getRequest()->getParam('queue'))
+	    			->addSubscribersToQueue($this->getRequest()->getParam('subscriber', array()));
+	    		Mage::getSingleton('adminhtml/session')->addSuccess('Selected subscribers successfully added to selected queue');
+    		} 
+    		catch (Exception $e) {
+    			Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+    		}
+    	}
+    	
+    	$this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+    	$grid = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid');
+    	$this->getResponse()->setBody($grid->toHtml());
     }
 }// Class Mage_Adminhtml_Newsletter_SubscriberController END

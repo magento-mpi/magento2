@@ -14,7 +14,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
         $this->setId('queueGrid');
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('start_at');
+        $this->setDefaultDir('desc');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
     }
@@ -62,9 +63,15 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('subscribers_total', array(
-            'header'    =>	__('Subscribers'),
+            'header'    =>	__('Total subscribers'),
             'align'     =>	'center',
             'index'     =>	'subscribers_total'
+        ));
+        
+        $this->addColumn('subscribers_sent', array(
+            'header'    =>	__('Sent'),
+            'align'     =>	'center',
+            'index'     =>	'subscribers_sent'
         ));
         
         $this->addColumn('action', array(

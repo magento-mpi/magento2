@@ -41,5 +41,17 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_queue_grid')->toHtml());
     }
-
+	
+    public function startAction() 
+    {
+    	$queue = Mage::getModel('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	if ($queue->getId()) {
+    		$queue->setQueueStartAt(now())
+    			->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER)
+    			->save();
+    	}
+    	
+    	$this->_redirect('*/*');
+    }
 }

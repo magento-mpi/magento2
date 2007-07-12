@@ -81,4 +81,9 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     	$data['queue_finish_at'] = $this->getQueueFinishAt();
     	return $data;
     }
+    
+    public function addSubscribersToQueue(array $subscriberIds) 
+    {
+    	$this->getResource()->addSubscribersToQueue($this, $subscriberIds);
+    }
 }

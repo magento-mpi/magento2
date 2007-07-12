@@ -258,7 +258,7 @@ abstract class Mage_Core_Model_Resource_Abstract
             $this->_beforeSave($object);
             
             if ($object->getId()) {
-                $condition = $this->_write->quoteInto($this->getIdFieldName().'=?', $object->getId());
+                $condition = $write->quoteInto($this->getIdFieldName().'=?', $object->getId());
                 $write->update($table, $object->getDataForSave(), $condition);
             } else {
                 $write->insert($table, $object->getDataForSave());

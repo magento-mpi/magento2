@@ -72,11 +72,12 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'default'	=>	'----'
     	));
     	
+    	/* 
     	$this->addColumn('website', array(
     		'align'		=> 'center',
     		'sortable' 	=> false,
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_website',
-    	));
+    	)); */
     	
     	return parent::_prepareColumns();
     }
