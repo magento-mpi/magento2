@@ -7,7 +7,6 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         $this->_setActiveMenu('catalog');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'));
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_add', 'tax_rule_toolbar')
             ->assign('createUrl', Mage::getUrl('adminhtml/tax_rule/add'))
@@ -25,7 +24,6 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('New tax rule'), __('New tax rule title'));
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $content = $this->getLayout()->getBlock('content');
         $content->append(
             $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
@@ -55,7 +53,6 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('Edit tax rule'), __('Edit tax rate rule'));
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $content = $this->getLayout()->getBlock('content');
         $content->append(
             $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')

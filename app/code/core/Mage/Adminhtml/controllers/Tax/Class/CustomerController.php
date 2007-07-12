@@ -18,7 +18,6 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'));
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $this->getLayout()->getBlock('content')->append(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
         		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_customer/add'))
@@ -37,7 +36,6 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
         $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'), Mage::getUrl('adminhtml/tax_class_customer'));
         $this->_addBreadcrumb(__('New customer tax class'), __('New customer tax class title'));
 
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $content = $this->getLayout()->getBlock('content');
         $content->append(
             $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
