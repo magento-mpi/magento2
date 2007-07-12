@@ -14,7 +14,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'));
 
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function addAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'), Mage::getUrl('adminhtml/tax_class_customer'));
         $this->_addBreadcrumb(__('New customer tax class'), __('New customer tax class title'));

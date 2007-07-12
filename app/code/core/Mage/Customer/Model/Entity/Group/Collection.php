@@ -38,6 +38,9 @@ class Mage_Customer_Model_Entity_Group_Collection extends Varien_Data_Collection
 
     public function setIgnoreIdFilter($indexes)
     {
+        if( !count($indexes) > 0 ) {
+            return $this;
+        }
         $this->_sqlSelect->where('customer_group_id NOT IN(?)', $indexes);
         return $this;
     }

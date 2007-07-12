@@ -14,7 +14,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('Tax rates'), __('Tax rates title'));
 
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function addAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('Tax rates'), __('Tax rates title'), Mage::getUrl('adminhtml/tax_rate'));
         $this->_addBreadcrumb(__('New tax rate'), __('New tax rate title'));
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('Tax rates'), __('Tax rates title'), Mage::getUrl('adminhtml/tax_rate'));
         $this->_addBreadcrumb(__('Edit tax rate'), __('Edit tax rate title'));

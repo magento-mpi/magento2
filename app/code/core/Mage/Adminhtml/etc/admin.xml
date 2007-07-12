@@ -91,6 +91,10 @@
                 <tax>
                     <title>Tax</title>
                     <children>
+                        <tax_rules>
+                            <title>Tax rules</title>
+                            <action>adminhtml/tax_rule</action>
+                        </tax_rules>
                         <tax_rates>
                             <title>Tax rates</title>
                             <action>adminhtml/tax_rate</action>

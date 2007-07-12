@@ -24,7 +24,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $classType = strtolower($this->getRequest()->getParam('classType'));
         $classTypePhrase = ucfirst($classType);
 
-        $this->_setActiveMenu('catalog');
+        $this->_setActiveMenu('sales');
         $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__("{$classTypePhrase} tax classes"), __("{$classTypePhrase} tax classes title"), Mage::getUrl('adminhtml/tax_class_'.$classType));
         $this->_addBreadcrumb(__("Edit {$classTypePhrase} tax class"), __("Edit {$classTypePhrase} tax class title"));

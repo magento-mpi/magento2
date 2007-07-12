@@ -24,6 +24,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                     $collection = Mage::getResourceModel('customer/group_collection');
                     break;
 
+                /* FIXME!!! */
                 case "PRODUCT":
                     $collection = Mage::getResourceModel('customer/group_collection');
                     break;
