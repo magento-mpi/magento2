@@ -2,7 +2,7 @@
 <config>
     <modules>
     <Mage_Tax>
-        <version>0.1.1</version>
+        <version>0.1.2</version>
         <depends>
             <Mage_Catalog />
             <Mage_Customer />
@@ -27,6 +27,9 @@
                     <tax_rate>
                         <table>tax_rate</table>
                     </tax_rate>
+                    <tax_rate_type>
+                        <table>tax_rate_type</table>
+                    </tax_rate_type>
                     <tax_rate_data>
                         <table>tax_rate_data</table>
                     </tax_rate_data>

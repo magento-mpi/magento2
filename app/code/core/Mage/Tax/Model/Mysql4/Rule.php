@@ -15,18 +15,6 @@ class Mage_Tax_Model_Mysql4_Rule
     /**
      * resource tables
      */
-    protected $_classCustomerTable;
-
-    protected $_classCustomerGroupTable;
-
-    protected $_classProductTable;
-
-    protected $_classProductGroupTable;
-
-    protected $_rateTable;
-
-    protected $_rateValueTable;
-
     protected $_ruleTable;
 
     /**
@@ -39,30 +27,45 @@ class Mage_Tax_Model_Mysql4_Rule
 
     public function __construct()
     {
-        $this->_classCustomerTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_customer');
-        $this->_classCustomerGroupTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_customer_group');
-        $this->_classProductTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_product');
-        $this->_classProductGroupTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_product_group');
-        $this->_rateTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate');
-        $this->_rateValueTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate_value');
         $this->_ruleTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rule');
 
         $this->_read = Mage::getSingleton('core/resource')->getConnection('tax_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
     }
 
-    public function load($classId)
+    public function load($ruleId)
     {
-        #
+        if( intval($ruleId) <= 0 ) {
+            return;
+        }
+        $select = $this->_read->select();
+        $select->from($this->_ruleTable);
+        $select->where("{$this->_ruleTable}.tax_rule_id = ?", $ruleId);
+
+        $ruleData = $this->_read->fetchRow($select);
+        return $ruleData;
     }
 
-    public function save($classObject)
+    public function save($ruleObject)
     {
-        #
+        $ruleArray = array(
+            'tax_customer_class_id' => $ruleObject->getTaxCustomerClassId(),
+            'tax_product_class_id' => $ruleObject->getTaxProductClassId(),
+            'tax_rate_id' => $ruleObject->getTaxRateId()
+        );
+
+        if( $ruleObject->getTaxRuleId() > 0 ) {
+            $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id = ?", $ruleObject->getTaxRuleId());
+            $this->_write->update($this->_ruleTable, $ruleArray, $condition);
+        } else {
+            $this->_write->insert($this->_ruleTable, $ruleArray);
+        }
+
     }
 
-    public function delete($classObject)
+    public function delete($ruleObject)
     {
-        #
+        $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id=?", $ruleObject->getTaxRuleId());
+        $this->_write->delete($this->_ruleTable, $condition);
     }
 }

@@ -47,9 +47,8 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                 ->toOptionArray();
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('New customer tax class information')));
-
         if( intval($classId) <= 0 ) {
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer tax class information')));
             $fieldset->addField('class_name', 'text',
                                 array(
                                     'name' => 'class_name',
@@ -65,6 +64,8 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                     'value' => 'CUSTOMER'
                                 )
                         );
+        } else {
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add customer group')));
         }
 
         $fieldset->addField('class_group', 'select',

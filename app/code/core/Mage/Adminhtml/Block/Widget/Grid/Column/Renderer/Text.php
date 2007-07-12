@@ -29,10 +29,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
     {
         $index  = $this->getColumn()->getIndex();
         $format = $this->getColumn()->getFormat();
+        $defaultValue = $this->getColumn()->getDefault();
 
         if (is_null($format)) {
             // If no format and it column not filtered specified return data as is.
-            return htmlspecialchars($row->getData($index));
+            $string = ($row->getData($index)) ? $row->getData($index) : $defaultValue;
+            return htmlspecialchars($string);
         }
         elseif (preg_match_all($this->_variablePattern, $format, $matches)) {
             // Parsing of format string

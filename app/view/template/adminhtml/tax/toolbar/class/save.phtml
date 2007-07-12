@@ -1,8 +1,25 @@
-<div class="head">
-<table cellspacing="0">
-	<tr>
-		<td style="width:50%;"><h2><?=__('New customer tax class')?></h2></td>
-		<td class="buttons"><strong class="button"><span><a href="#" onclick="document.getElementById('class_form').submit();return false;"><?=__('Save')?></a></span></strong></td>
-	</tr>
-</table>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+    	<tr>
+    		<td style="width:50%;"><h2><?=$header?></h2></td>
+        	<td class="form-buttons">
+            	<button class="scalable" onclick="document.getElementById('class_form').submit();return false;">
+            		<table cellspacing="0">
+            			<tr>
+            				<td class="tl"></td>
+            				<td class="tr"></td>
+            			</tr>
+            			<tr>
+            				<td class="ml"><?=__('Save')?></td>
+            				<td class="mr"></td>
+            			</tr>
+            			<tr>
+            				<td class="bl"></td>
+            				<td class="br"></td>
+            			</tr>
+            		</table>
+            	</button>
+        	</td>
+    	</tr>
+    </table>
 </div>

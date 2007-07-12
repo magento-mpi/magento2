@@ -64,9 +64,8 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
         $productGroups = $tmpArr;
         */
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('New product tax class information')));
-
         if( intval($classId) <= 0 ) {
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Product tax class information')));
             $fieldset->addField('class_name', 'text',
                                 array(
                                     'name' => 'class_name',
@@ -82,13 +81,15 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
                                     'value' => 'PRODUCT'
                                 )
                         );
+        } else {
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add category')));
         }
 
         $fieldset->addField('class_group', 'select',
                             array(
                                 'name' => 'class_group',
-                                'label' => __('Product group'),
-                                'title' => __('Product group title'),
+                                'label' => __('Product category'),
+                                'title' => __('Product category title'),
                                 'class' => 'required-entry',
                                 'values' => $productGroups
                             )

@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax cluss customer grid
+ * Tax class customer grid
  *
  * @package     Mage
  * @subpackage  Adminhtml

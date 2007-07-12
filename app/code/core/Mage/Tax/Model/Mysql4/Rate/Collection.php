@@ -13,7 +13,13 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
 {
     protected $_rateTable;
 
-    protected $_rateValueTable;
+    protected $_rateTypeTable;
+
+    protected $_rateDataTable;
+
+    protected $_regionTable;
+
+    protected $_postcodeTable;
 
     /**
      * Construct
@@ -24,10 +30,46 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tax_read'));
 
-        $this->_rateTable = $resource->getTableName('tax/tax_rate');
-        $this->_rateValueTable = $resource->getTableName('tax/tax_rate_value');
+        $this->_rateTable     = $resource->getTableName('tax/tax_rate');
+        $this->_rateTypeTable = $resource->getTableName('tax/tax_rate_type');
+        $this->_rateDataTable = $resource->getTableName('tax/tax_rate_data');
+        $this->_regionTable   = $resource->getTableName('directory/country_region_name');
+        $this->_postcodeTable = $resource->getTableName('usa/postcode');
+    }
 
+    public function loadRateTypes()
+    {
+        $this->_sqlSelect->from($this->_rateTypeTable);
+        return parent::load();
+    }
+
+    public function loadRatesWithAttributes()
+    {
         $this->_sqlSelect->from($this->_rateTable);
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('tax/tax'));
+
+        $rateTypes = Mage::getResourceModel('tax/rate_collection')->loadRateTypes()->getItems();
+
+        $index = 0;
+        foreach( $rateTypes as $type ) {
+            $tableAlias = "trd_{$index}";
+            $this->_sqlSelect->joinLeft(array($tableAlias => $this->_rateDataTable), "{$this->_rateTable}.tax_rate_id = {$tableAlias}.tax_rate_id AND {$tableAlias}.rate_type_id = '{$type->getTypeId()}'", array("rate_value{$index}" => 'rate_value'));
+            $index++;
+        }
+
+        $this->_sqlSelect->joinLeft($this->_regionTable, "{$this->_rateTable}.tax_region_id = {$this->_regionTable}.region_id", array('region_name' => 'name'));
+        $this->_sqlSelect->joinLeft($this->_postcodeTable, "{$this->_postcodeTable}.county = {$this->_rateTable}.tax_county_id", array('county_name' => 'county')); /* FIXME!!! */
+
+        return $this;
+    }
+
+    public function loadRatesData()
+    {
+        $this->_sqlSelect->from($this->_rateDataTable);
+        return parent::load();
+    }
+
+    public function toOptionArray()
+    {
+        return parent::_toOptionArray('type_id', 'type_name');
     }
 }

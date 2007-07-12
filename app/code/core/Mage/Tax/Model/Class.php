@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax customers class model
+ * Tax class model
  *
  * @package     Mage
  * @subpackage  Tax

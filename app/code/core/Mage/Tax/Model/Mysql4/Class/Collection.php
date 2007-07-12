@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax class customer collection
+ * Tax class collection
  *
  * @package     Mage
  * @subpackage  Tax
@@ -21,6 +21,11 @@ class Mage_Tax_Model_Mysql4_Class_Collection extends Varien_Data_Collection_Db
         $this->_classTable = $resource->getTableName('tax/tax_class');
 
         $this->_sqlSelect->from($this->_classTable);
+    }
+
+    public function toOptionArray()
+    {
+        return parent::_toOptionArray('class_id', 'class_name');
     }
 
     public function setClassTypeFilter($classType)

@@ -42,7 +42,10 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 
         $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/store_switcher'));
         $content = $this->getLayout()->getBlock('content');
-        $content->append($this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save'));
+        $content->append(
+            $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
+            ->assign('header', __('New product tax class'))
+        );
         $content->append($this->getLayout()->createBlock('adminhtml/tax_class_product_form_add'));
 
         $this->renderLayout();

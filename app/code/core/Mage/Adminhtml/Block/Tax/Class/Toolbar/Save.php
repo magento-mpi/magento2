@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin tax class customer save toolbar
+ * Admin tax class save toolbar
  *
  * @package     Mage
  * @subpackage  Adminhtml

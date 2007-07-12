@@ -79,7 +79,7 @@
                 </datafeed>
                 <tax>
                     <title>Tax rules</title>
-                    <action>adminhtml/tax</action>
+                    <action>adminhtml/tax_rule</action>
                     <children>
                         <tax_rates>
                             <title>Tax rates</title>

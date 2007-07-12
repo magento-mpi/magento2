@@ -8,7 +8,6 @@
          </depends>
       </Mage_Usa>
    </modules>
-
    <global>
       <resources>
          <usa_setup>
@@ -19,14 +18,26 @@
                <use>directory_setup</use>
             </connection>
          </usa_setup>
+         <usa_read>
+            <connection>
+                <use>core_read</use>
+            </connection>
+         </usa_read>
       </resources>
-
-      <models>
-         <usa>
+    <models>
+        <usa>
+            <class>Mage_Usa_Model</class>
+            <resourceModel>usa_mysql4</resourceModel>
+        </usa>
+        <usa_mysql4>
             <class>Mage_Usa_Model_Mysql4</class>
-         </usa>
-      </models>
-
+            <entities>
+                <postcode>
+                    <table>usa_postcode</table>
+                </postcode>
+            </entities>
+        </usa_mysql4>
+    </models>
       <sales>
          <shipping>
             <vendors>

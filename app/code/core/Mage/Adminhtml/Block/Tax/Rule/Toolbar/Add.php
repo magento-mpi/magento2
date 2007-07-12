@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax rules block
+ * Admin tax rule add toolbar
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,7 +9,11 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rules extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Add extends Mage_Core_Block_Template
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('adminhtml/tax/toolbar/rule/add.phtml');
+    }
 }

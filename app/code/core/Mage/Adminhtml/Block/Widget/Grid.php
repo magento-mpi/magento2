@@ -43,13 +43,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_varNameSort     = 'sort';
     protected $_varNameDir      = 'dir';
     protected $_varNameFilter   = 'filter';
-    
+
     protected $_defaultLimit    = 20;
     protected $_defaultPage     = 1;
     protected $_defaultSort     = false;
     protected $_defaultDir      = 'desc';
     protected $_defaultFilter   = array();
-    
+
     /**
      * Pager visibility
      *
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_filterVisibility = true;
-    
+
     protected $_saveParametersInSession = false;
 
     /**
@@ -325,25 +325,25 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_defaultLimit = $limit;
         return $this;
     }
-    
+
     public function setDefaultPage($page)
     {
         $this->_defaultPage = $page;
         return $this;
     }
-    
+
     public function setDefaultSort($sort)
     {
         $this->_defaultSort = $sort;
         return $this;
     }
-    
+
     public function setDefaultDir($dir)
     {
         $this->_defaultDir = $dir;
         return $this;
     }
-    
+
     public function setDefaultFilter($filter)
     {
         $this->_defaultFilter = $filter;
@@ -448,7 +448,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->getCurrentUrl();
     }
-    
+
     public function getParam($paramName, $default=null)
     {
         $session = Mage::getSingleton('adminhtml/session');
@@ -466,7 +466,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
         return $default;
     }
-    
+
     public function setSaveParametersInSession($flag)
     {
         $this->_saveParametersInSession = $flag;

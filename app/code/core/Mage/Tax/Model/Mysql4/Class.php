@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax class customer resource
+ * Tax class resource
  *
  * @package     Mage
  * @subpackage  Tax
@@ -67,7 +67,8 @@ class Mage_Tax_Model_Mysql4_Class
 
     public function delete($classObject)
     {
-        #
+        $condition = $this->_write->quoteInto("{$this->_classTable}.class_id = ?", $classObject->getClassId());
+        $this->_write->delete($this->_classTable, $condition);
     }
 
     public function saveGroup($groupObject)

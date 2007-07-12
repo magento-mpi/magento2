@@ -3,14 +3,14 @@
     	<tr>
     		<td style="width:50%;"><h2><?=$header?></h2></td>
         	<td class="form-buttons">
-            	<button class="scalable" onclick="window.location.href='<?=$createUrl?>'">
+            	<button class="scalable" onclick="document.getElementById('rule_form').submit();return false;">
             		<table cellspacing="0">
             			<tr>
             				<td class="tl"></td>
             				<td class="tr"></td>
             			</tr>
             			<tr>
-            				<td class="ml"><?=__('New class')?></td>
+            				<td class="ml"><?=__('Save')?></td>
             				<td class="mr"></td>
             			</tr>
             			<tr>

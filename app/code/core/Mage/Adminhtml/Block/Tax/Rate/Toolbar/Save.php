@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin tax class product toolbar
+ * Admin tax rate save toolbar
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,11 +9,12 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Class_Toolbar_Add extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Save extends Mage_Core_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/tax/toolbar/class/add.phtml');
+        $this->assign('createUrl', Mage::getUrl('adminhtml/tax_rate/save'));
+        $this->setTemplate('adminhtml/tax/toolbar/rate/save.phtml');
     }
 }
