@@ -8,7 +8,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Resource_Abstract
     
     function __construct()
     {
-        $this->_init('core/config');
+        $this->_init('core/config', 'config_id');
     }
     
     function getValueByKey($key)

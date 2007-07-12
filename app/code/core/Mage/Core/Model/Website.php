@@ -13,8 +13,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     
     public function _construct()
     {
-        $this->_init('core/website', 'website_id');
-        parent::_construct();
+        $this->_init('core/website');
     }
     
     /**
