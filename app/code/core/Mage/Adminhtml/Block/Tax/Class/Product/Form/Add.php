@@ -24,7 +24,11 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
-        $gridCollection = $this->getGridCollection();
+        if( $this->getLayout()->getBlock('taxClassGrid') ) {
+            $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
+        } else {
+            $gridCollection = false;
+        }
 
         if( $gridCollection ) {
             $indexes = array();

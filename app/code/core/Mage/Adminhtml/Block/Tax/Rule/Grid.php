@@ -49,12 +49,23 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('grid_actions',
             array(
-                'header'=>__('Actions'),
-                'width'=>10,
-                'sortable'=>false,
-                'filter'    =>false,
-                'format' => '<a href="' . $actionsUrl .'edit/rule/$tax_rule_id">' . __('Edit') . '</a>&nbsp;
-                             <a href="' . $actionsUrl .'delete/rule/$tax_rule_id">' . __('Delete') . '</a>'
+                'header'    =>__('Actions'),
+                'width'     =>10,
+                'type'      => 'action',
+                'filter'    => false,
+                'sortable'  => false,
+                'actions'   => array(
+                                    array(
+                                        'url' => $actionsUrl .'edit/rule/$tax_rule_id',
+                                        'caption' => __('Edit')
+                                    ),
+
+                                    array(
+                                        'url' => $actionsUrl .'delete/rule/$tax_rule_id',
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                )
             )
         );
         $this->setFilterVisibility(false);

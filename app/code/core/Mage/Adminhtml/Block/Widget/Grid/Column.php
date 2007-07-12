@@ -100,6 +100,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'concat':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_concat';
                 break;
+            case 'action':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_action';
+                break;
             default:
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
                 break;
@@ -166,6 +169,4 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         }
         return null;
     }
-
-
 }

@@ -23,7 +23,11 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
-        $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
+        if( $this->getLayout()->getBlock('taxClassGrid') ) {
+            $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
+        } else {
+            $gridCollection = false;
+        }
 
         if( $gridCollection ) {
             $indexes = array();

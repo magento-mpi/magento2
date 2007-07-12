@@ -21,6 +21,8 @@ DROP TABLE IF EXISTS `tax_class_customer_group`;
 DROP TABLE IF EXISTS `tax_class_customer`;
 DROP TABLE IF EXISTS `tax_class_product_group`;
 DROP TABLE IF EXISTS `tax_class_product`;
+DROP TABLE IF EXISTS `tax_class`;
+DROP TABLE IF EXISTS `tax_class_group`;
 DROP TABLE IF EXISTS `tax_rate_value`;
 
 --
