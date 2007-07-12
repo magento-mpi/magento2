@@ -15,6 +15,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 SET FOREIGN_KEY_CHECKS = 0;
+
+
+DROP TABLE IF EXISTS `tax_class_customer_group`;
+DROP TABLE IF EXISTS `tax_class_customer`;
+DROP TABLE IF EXISTS `tax_class_product_group`;
+DROP TABLE IF EXISTS `tax_class_product`;
+DROP TABLE IF EXISTS `tax_rate_value`;
+
 --
 -- Table structure for table `tax_class`
 --
@@ -47,7 +55,6 @@ CREATE TABLE `tax_class_group` (
   `class_group_id` tinyint(3) NOT NULL,
   PRIMARY KEY  (`group_id`),
   KEY `class_parent_id` (`class_parent_id`),
-  CONSTRAINT `tax_class_group_fk` FOREIGN KEY (`class_parent_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
@@ -94,8 +101,6 @@ CREATE TABLE `tax_rate_data` (
   PRIMARY KEY  (`tax_rate_data_id`),
   KEY `rate_id` (`tax_rate_id`),
   KEY `rate_type_id` (`rate_type_id`),
-  CONSTRAINT `tax_rate_data_fk1` FOREIGN KEY (`rate_type_id`) REFERENCES `tax_rate_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tax_rate_data_fk` FOREIGN KEY (`tax_rate_id`) REFERENCES `tax_rate` (`tax_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
