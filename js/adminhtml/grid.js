@@ -84,6 +84,7 @@ varienGrid.prototype = {
                 url+'?ajax=true',
                 {onComplete:this.initGrid.bind(this)}
             );
+            return;
         }
         else{
             location.href = url;

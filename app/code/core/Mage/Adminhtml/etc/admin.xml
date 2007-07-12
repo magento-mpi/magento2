@@ -59,9 +59,17 @@
          </newsletter>
          <catalog>
             <title>Catalog</title>
-            <action>adminhtml/catalog</action>
+            <!--action>adminhtml/catalog</action-->
             <depends><module>Mage_Catalog</module></depends>
             <children>
+                <products>
+                    <title>Manage Products</title>
+                    <action>adminhtml/catalog_product/</action>
+                </products>
+                <categories>
+                    <title>Manage Categories</title>
+                    <action>adminhtml/catalog_category/</action>
+                </categories>
                 <attributes>
                     <title>Product attributes</title>
                     <action>adminhtml/catalog_product_attributes/</action>

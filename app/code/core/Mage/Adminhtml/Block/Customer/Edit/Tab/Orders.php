@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
     public function __construct()
     {
         parent::__construct();
-        $this->setId('ordersGrid');
+        $this->setId('customerOrdersGrid');
         $this->setDefaultSort('created_at', 'desc');
         $this->setUseAjax(true);
     }
@@ -85,13 +85,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             'filter' => false,
         ));
 
-        $this->setColumnFilter('id')
-            ->setColumnFilter('created_at')
-            ->setColumnFilter('shipping_firstname')
-            ->setColumnFilter('grand_total')
-            ->setColumnFilter('status')
-        ;
-
 //        $this->addExportType('*/*/exportCsv', __('CSV'));
 //        $this->addExportType('*/*/exportXml', __('XML'));
 
@@ -103,4 +96,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
         return Mage::getUrl('*/*/orders', array('_current'=>true));
     }
 
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($this->getCollection() && $column->getFilter()->getValue()) {
+            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+        }
+        return $this;
+    }
+    
 }

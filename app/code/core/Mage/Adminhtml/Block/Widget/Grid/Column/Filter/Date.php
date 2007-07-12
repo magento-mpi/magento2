@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @todo        date format
  */
 class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
 {
@@ -25,14 +26,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$this->_getHtmlId().'_from",
-                ifFormat : "%m/%e/%Y",
+                //ifFormat : "%m/%e/%Y",
+                ifFormat : "%Y-%m-%d",
                 button : "'.$this->_getHtmlId().'_from_trig",
                 align : "Bl",
                 singleClick : true
             });
             Calendar.setup({
                 inputField : "'.$this->_getHtmlId().'_to",
-                ifFormat : "%m/%e/%Y",
+                //ifFormat : "%m/%e/%Y",
+                ifFormat : "%Y-%m-%d",
                 button : "'.$this->_getHtmlId().'_to_trig",
                 align : "Bl",
                 singleClick : true

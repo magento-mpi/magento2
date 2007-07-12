@@ -2,7 +2,7 @@
 /**
  * Catalog category controller
  *
- * @package     MAge
+ * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
@@ -10,6 +10,11 @@
  */
 class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controller_Action
 {
+    public function indexAction()
+    {
+        
+    }
+    
     public function testAction()
     {
         $this->loadLayout('baseframe');

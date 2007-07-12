@@ -70,7 +70,7 @@
 <?endif;?>
 <?if($this->getFilterVisibility()):?>
 	<td class="filter-actions a-right">
-	<button class="scalable" onclick="<?=$this->getId()?>JsObject.resetFilter()">
+	<button class="scalable" type="button" onclick="<?=$this->getId()?>JsObject.resetFilter()">
 		<table cellspacing="0">
 			<tr>
 				<td class="tl"></td>
@@ -86,7 +86,7 @@
 			</tr>
 		</table>
 	</button>
-		<button class="scalable" onclick="<?=$this->getId()?>JsObject.doFilter()">
+		<button class="scalable" type="button" onclick="<?=$this->getId()?>JsObject.doFilter()">
 		<table cellspacing="0">
 			<tr>
 				<td class="tl"></td>

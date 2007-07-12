@@ -825,7 +825,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $sql = $this->_read->quoteInto("$fieldName between ?", $condition['from']);
                 $sql = $this->_read->quoteInto("$sql and ?", $condition['to']);
             } */
-            if (isset($condition['from']) && isset($condition['to'])) {
+            if (isset($condition['from']) || isset($condition['to'])) {
                 if (!empty($condition['from'])) {
                     $sql.= $this->_read->quoteInto("$fieldName >= ?", $condition['from']);
                 }

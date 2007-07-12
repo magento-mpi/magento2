@@ -136,8 +136,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->setId($customerId);
             }
 
-
-
             if (isset($data['address'])) {
                 // unset template data
                 if (isset($data['address']['_template_'])) {
