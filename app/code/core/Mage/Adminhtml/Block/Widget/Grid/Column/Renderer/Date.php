@@ -46,6 +46,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
         	}
             return strftime($format, strtotime($data));
         }
-        return null;
+        return $this->getColumn()->getDefault();
     }
 }

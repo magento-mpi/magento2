@@ -1,0 +1,56 @@
+<div class="content-header">
+	<table cellspacing="0" class="grid-header">
+		<tr>
+			<td style="width:50%;"><h3><?=__('Subscribers Title')?></h3></td>
+		</tr>
+	</table>
+</div>
+<div>
+    <?=$this->getChildHtml('grid')?>
+</div>
+
+<div class="form-buttons">
+	<button class="scalable" onclick="subscriberController.addToQueue();">
+		<table cellspacing="0">
+			<tr>
+				<td class="tl"></td>
+				<td class="tr"></td>
+			</tr>
+			<tr>
+				<td class="ml"><?=__('Add to queue');?></td>
+				<td class="mr"></td>
+			</tr>
+			<tr>
+				<td class="bl"></td>
+				<td class="br"></td>
+			</tr>
+		</table>
+	</button>
+</div>
+
+<script type="text/javascript">
+<!--
+	var subscriberController = {
+		checkCheckboxes: function(controlCheckbox) {
+			var elements = $('subscriberGrid').getElementsByClassName('subscriberCheckbox');
+			elements.each(function(obj){
+				obj.checked = controlCheckbox.checked;
+			});
+		},
+		rowClick: function (e) {
+			if(!Event.element(e).hasClassName('subscriberCheckbox')) {
+				var elements = Event.findElement(e, 'tr').getElementsByClassName('subscriberCheckbox');
+				if(elements.length != 1) {
+					return;
+				}
+				elements[0].checked = !elements[0].checked;
+			}
+		},
+		addToQueue: function () {
+			
+		}
+	}
+	
+	varienGlobalEvents.attachEventHandler('gridRowClick', subscriberController.rowClick.bind(subscriberController));
+//-->
+</script>

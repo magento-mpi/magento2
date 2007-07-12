@@ -15,4 +15,6 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Resource_Abstra
         $this->_init('newsletter/queue', 'queue_id');
     }
     
+    
+    
 }

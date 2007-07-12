@@ -21,8 +21,10 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('newsletter/queue_collection');
-
+        $collection = Mage::getResourceModel('newsletter/queue_collection')
+			->addTemplateInfo()
+			->addSubscribersInfo();
+			
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -31,25 +33,48 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
-            'align'     =>'center',
-            'sortable'  =>true,
-            'index'     =>'queue_id'
+            'header'    =>	__('ID'),
+            'align'     =>	'left',
+            'index'     =>	'queue_id',
+            'width'		=>	10
         ));
         
         $this->addColumn('start_at', array(
-            'header'    =>__('Queue start'),
-            'type'      => 'date',
-            'align'     => 'center',
-            'index'     =>'queue_start_at',
+            'header'    =>	__('Queue start'),
+            'type'      =>	'date',
+            'align'     =>	'center',
+            'index'     =>	'queue_start_at',
+            'default'	=> 	'----'
         ));
         
         $this->addColumn('finish_at', array(
-            'header'    =>__('Queue finish'),
-            'type'      => 'date',
-            'align'     => 'center',
-            'index'     =>'queue_finish_at',
+            'header'    =>	__('Queue finish'),
+            'type'      => 	'date',
+            'align'     => 	'center',
+            'index'     =>	'queue_finish_at',
+            'default'	=> 	'----'
         ));
+        
+        $this->addColumn('template_subject', array(
+            'header'    =>	__('Subject'),
+            'align'     =>	'center',
+            'index'     =>	'template_subject'
+        ));
+        
+        $this->addColumn('subscribers_total', array(
+            'header'    =>	__('Subscribers'),
+            'align'     =>	'center',
+            'index'     =>	'subscribers_total'
+        ));
+        
+        $this->addColumn('action', array(
+            'header'    =>	__('Action'),
+            'align'     =>	'center',
+            'filter'	=>	false,
+            'sortable'	=>	false,
+            'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'
+        ));
+                
         
         return parent::_prepareColumns();
     }

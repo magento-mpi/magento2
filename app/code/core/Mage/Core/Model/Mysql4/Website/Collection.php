@@ -13,4 +13,9 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Resource
     {
         $this->_init('core/website');
     }
+    
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('website_id', 'name');
+    }
 }
