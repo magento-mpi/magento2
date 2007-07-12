@@ -77,9 +77,19 @@
                     <title>Datafeeds</title>
                     <action>adminhtml/catalog_datafeeds/</action>
                 </datafeed>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/system_config/</action>
+                </config>
+            </children>
+         </catalog>
+         <sales>
+            <title>Sales</title>
+            <action>adminhtml/sales</action>
+            <depends><module>Mage_Sales</module></depends>
+            <children>
                 <tax>
-                    <title>Tax rules</title>
-                    <action>adminhtml/tax_rule</action>
+                    <title>Tax</title>
                     <children>
                         <tax_rates>
                             <title>Tax rates</title>
@@ -95,17 +105,6 @@
                         </tax_classes_product>
                     </children>
                 </tax>
-                <config>
-                    <title>Configuration</title>
-                    <action>adminhtml/system_config/</action>
-                </config>
-            </children>
-         </catalog>
-         <sales>
-            <title>Sales</title>
-            <action>adminhtml/sales</action>
-            <depends><module>Mage_Sales</module></depends>
-            <children>
                 <config>
                     <title>Configuration</title>
                     <action>adminhtml/sales_config/</action>
