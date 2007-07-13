@@ -4,26 +4,7 @@
 		<div class="clear"></div>
 </p>
 <?if($this->getShowProfiler()):?>
-<?$_sum=0?>
-<table border="1" cellpadding="2" cellspacing="0">
-    <tr>
-        <th>Code</th>
-        <th>Count</th>
-        <th>Time</th>
-    </tr>
-<?foreach ($this->getProfilerTimers() as $_code => $_info):?>
-    <?if($_info['sum']):?>
-    <?$_sum+=$_info['sum']?>
-    <tr>
-        <td><?=$_code?></td>
-        <td><?=$_info['count']?></td>
-        <td><?=$this->formatTime($_info['sum'])?></td>
-    </tr>
-    <?endif;?>
-<?endforeach;?>
-    <tr>
-        <td align="right" colspan="2">Total:</td>
-        <td><?=$this->formatTime($_sum)?></td>
-    </tr>
-</table>
+<div style="text-align:left">
+    <?=$this->getProfiler()?>
+</div>
 <?endif;?>

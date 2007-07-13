@@ -130,9 +130,19 @@ dl.accordion dt {
     border-left:1px solid #C6C5C3;
     border-bottom:1px solid #C6C5C3;
     background:#797674;
+    cursor:pointer;
     padding:3px 5px 3px 10px;
     color:#fff;
     }
+dl.accordion dt div {
+    background: url(images/accordion_open.gif) 100% 0% no-repeat;
+    font-weight:bold;
+}
+
+dl.accordion dt.open div {
+    background: url(images/accordion_close.gif) 100% 0% no-repeat;
+}
+
 dl.accordion dd {
     display:none;
     border-top:0;

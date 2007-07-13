@@ -16,6 +16,11 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
         $this->setShowProfiler(true);
     }
     
+    public function getProfiler()
+    {
+        return $this->getLayout()->createBlock('core/profiler')->toHtml();
+    }
+    
     public function getProfilerTimers()
     {
         return Varien_Profiler::getTimers();

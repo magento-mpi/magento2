@@ -82,6 +82,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         $this->_layout = $layout;
         $this->_afterSetLayout();
+        $this->_initChildren();
+        return $this;
+    }
+    
+    /**
+     * Initialization of childen blocks
+     * 
+     * You can redefine this method in child classes
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _initChildren()
+    {
         return $this;
     }
     

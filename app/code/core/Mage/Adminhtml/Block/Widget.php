@@ -13,9 +13,14 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
     public function getId()
     {
         if ($this->getData('id')===null) {
-            $this->setData('id', '_'.md5(time()));
+            $this->setData('id', 'id_'.md5(time()));
         }
         return $this->getData('id');
+    }
+    
+    public function getHtmlId()
+    {
+        return $this->getId();
     }
     
     public function getCurrentUrl($params=array())

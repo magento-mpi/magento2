@@ -1,13 +1,13 @@
-<dl id="dl-<?=$id?>" class="accordion">
-<?foreach ($sections as $section):?>
-    <dt id="dt-<?=$id?>-<?=$section['id']?>">
-        <a href="javascript:void(0)" onclick="$('dd-<?=$id?>-<?=$section['id']?>')?>">
-            <img src="<?=$baseUrl?>skins/adminhtml/images/accordion_<?=!empty($section['active'])?'open':'closed'?>.png" alt="" class="v-mid"/>
-        </a>
-        <strong><?=$section['title']?></strong>
-    </dt>
-    <dd id="dd-<?=$id?>-<?=$section['id']?>" class="<?=!empty($section['active'])?'open':''?>">
-        <?=$section['data']?>
-    </dd>
+<?
+/**
+ * Template for Mage_Adminhtml_Block_Widget_Accordion
+ */
+?>
+<dl id="<?=$this->getHtmlId()?>" class="accordion">
+<?foreach ($this->getItems() as $_item):?>
+    <?=$this->getChildHtml($_item->getId())?>
 <?endforeach?>
 </dl>
+<script type="text/javascript">
+    <?=$this->getHtmlId()?>AccordionJs = new varienAccordion('<?=$this->getHtmlId()?>');
+</script>
