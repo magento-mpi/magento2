@@ -23,6 +23,20 @@ class Mage_Adminhtml_Block_Widget_Accordion_Item extends Mage_Adminhtml_Block_Wi
         return $this;
     }
     
+    public function getTarget()
+    {
+        return ($this->getAjax()) ? 'ajax' : '';
+    }
+    
+    public function getTitle()
+    {
+        $title  = $this->getData('title');
+        $url    = $this->getContentUrl() ? $this->getContentUrl() : '#';
+        $title  = '<a href="'.$url.'" target="'.$this->getTarget().'">'.$title.'</a>';
+
+        return $title;
+    }
+    
     public function getContent()
     {
         $content = $this->getData('content');
@@ -47,7 +61,7 @@ class Mage_Adminhtml_Block_Widget_Accordion_Item extends Mage_Adminhtml_Block_Wi
     public function toHtml()
     {
         $html = '<dt id="dt-'.$this->getHtmlId().'" class="'.$this->getClass().'">';
-        $html.= '<div>'.$this->getTitle().'</div>';
+        $html.= $this->getTitle();
         $html.= '</dt>';
         $html.= '<dd id="dd-'.$this->getHtmlId().'" class="'.$this->getClass().'">';
         $html.= $this->getContent();
