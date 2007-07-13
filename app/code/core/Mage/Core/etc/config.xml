@@ -30,7 +30,7 @@
                 </setup>
             </core_setup>
         </resources>
-        
+
         <models>
             <core>
                 <class>Mage_Core_Model</class>
@@ -55,18 +55,9 @@
                     <session>
                         <table>core_session</table>
                     </session>
-                    <config_section>
-                        <table>core_config_section</table>
-                    </config_section>
-                    <config_group>
-                        <table>core_config_group</table>
-                    </config_group>
-                    <config_attribute>
-                        <table>core_config_attribute</table>
-                    </config_attribute>
-                    <config_value>
-                        <table>core_config_value</table>
-                    </config_value>
+                    <config>
+                        <table>core_config</table>
+                    </config>
                 </entities>
             </core_mysql4>
         </models>

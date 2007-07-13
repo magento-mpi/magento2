@@ -23,6 +23,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
+        $xml = Mage::getModel('core/config')->setXml(Mage::getModel('core/config_element', '<config/>'));
+        Mage::getResourceModel('core/config')->loadToXml($xml);
+        die;
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/config');
 
@@ -32,7 +35,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
-            
+
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
 
         $this->renderLayout();
