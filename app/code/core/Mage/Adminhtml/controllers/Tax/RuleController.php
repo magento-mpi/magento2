@@ -28,11 +28,13 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_rule_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
             ->assign('header', __('New tax rule'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_form_add'));
 
         $this->renderLayout();
     }
@@ -58,11 +60,13 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_rule_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
             ->assign('header', __('Edit tax rule'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_form_add'));
 
         $this->renderLayout();
     }

@@ -22,7 +22,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 
         $this->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
-        		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_product/add'))
+        		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_product/add/class_type/PRODUCT'))
         		->assign('header', __('Product tax classes'))
         	);
 
@@ -43,11 +43,13 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_class_product_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
             ->assign('header', __('New product tax class'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_product_form_add'));
 
         $this->renderLayout();
     }

@@ -10,25 +10,25 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 
         foreach($actions as $action){
         	if( is_array($action) ) {
-                $this->_toHtml($action);
+                $this->_toHtml($action, $row);
         	}
         }
     }
 
-    protected function _toHtml($action)
+    protected function _toHtml($action, $row)
     {
         $actionAttributes = new Varien_Object();
 
         foreach( $action as $attibute => $value ) {
             switch ($attibute) {
             	case 'confirm':
-            	    $action['onclick'] = 'confirm("' . $action['confirm'] . '");';
+            	    $action['onclick'] = 'return confirm(\'' . addslashes($action['confirm']) . '\');';
             	    unset($action['confirm']);
             		break;
 
             	case 'url':
-            	    $urlObject->setFormat($action['url']);
-            	    $action['href'] = parent::render($urlObject);
+            	    $row->setFormat($action['url']);
+            	    $action['href'] = parent::render($row);
             	    unset($action['url']);
             		break;
 

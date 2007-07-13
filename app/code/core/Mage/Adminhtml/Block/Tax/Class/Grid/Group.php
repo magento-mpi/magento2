@@ -75,7 +75,14 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
-                'format' => '<a href="' . $actionsUrl .'groupId/$group_id/">' . __('Delete') . '</a>'
+                'type' => 'action',
+                'actions'   => array(
+                                    array(
+                                        'url' => $actionsUrl .'groupId/$group_id/' . $classType,
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                )
             )
         );
         $this->setFilterVisibility(false);

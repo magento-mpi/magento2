@@ -3,7 +3,7 @@
     	<tr>
     		<td style="width:50%;"><h2><?=$header?></h2></td>
         	<td class="form-buttons">
-            	<button class="scalable" onclick="document.getElementById('rule_form').submit();return false;">
+            	<button class="scalable" onclick="wigetForm.submit();return false;">
             		<table cellspacing="0">
             			<tr>
             				<td class="tl"></td>
@@ -23,3 +23,9 @@
     	</tr>
     </table>
 </div>
+<?if( $form ):?>
+<?=$form->toHtml();?>
+<script type="text/javascript" language="javascript">
+    var wigetForm = new varienForm('<?=$form->getForm()->getId()?>');
+</script>
+<?endif;?>

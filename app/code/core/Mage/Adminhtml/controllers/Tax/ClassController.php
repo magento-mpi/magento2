@@ -32,12 +32,18 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
             ->setActiveTab('tax_class_' . strtolower($this->getRequest()->getParam('classType')));
 
+        $classPageEdit = $this->getLayout()->createBlock('adminhtml/tax_class_page_edit');
+
         $grid = $this->getLayout()->createBlock('adminhtml/tax_class_grid_group', 'taxClassGrid');
         $form = $this->getLayout()->createBlock("adminhtml/tax_class_{$classType}_form_add");
+        $renameForm = $this->getLayout()->createBlock("adminhtml/tax_class_form_rename");
 
         $this->_addLeft($tabs);
-        $this->_addContent($grid);
-        $this->_addContent($form);
+        $classPageEdit->assign('grid', $grid);
+        $classPageEdit->assign('renameForm', $renameForm);
+        $classPageEdit->assign('addForm', $form);
+
+        $this->_addContent($classPageEdit);
 
         $this->renderLayout();
     }

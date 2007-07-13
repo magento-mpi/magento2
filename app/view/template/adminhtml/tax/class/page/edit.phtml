@@ -1,0 +1,13 @@
+<table style="width:100%;">
+    <tr>
+        <td style="width:80%;padding-right:5px;"><?=$grid->toHtml()?></td>
+        <td style="border-left:1px solid #dfdfdf;padding-left:8px;">
+            <?=$renameForm->toHtml()?>
+            <?=$addForm->toHtml()?>
+            <script type="text/javascript" language="javascript">
+                var renameForm = new varienForm('<?=$renameForm->getForm()->getId()?>');
+                var addForm = new varienForm('<?=$addForm->getForm()->getId()?>');
+            </script>
+        </td>
+    </tr>
+</table>

@@ -9,27 +9,28 @@
  */
 class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
 {
-    public function __construct($attributes=array()) 
+    public function __construct($attributes=array())
     {
         parent::__construct($attributes);
         $this->setType('select');
         $this->setExtType('combobox');
     }
-    
+
     public function toHtml()
     {
+        $html = null;
         $this->addClass('select');
-        $html = '<span class="field-row">'."\n";
+        $html.= ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
         if ($this->getLabel()) {
             $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
         }
         $html.= '<select id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
-        
+
         $value = $this->getValue();
         if (!is_array($value)) {
             $value = array($value);
         }
-        
+
         if ($values = $this->getValues()) {
             foreach ($values as $option) {
                 if (is_array($option['value'])) {
@@ -46,11 +47,11 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         }
 
         $html.= '</select>'."\n";
-        $html.= '</span>'."\n";
+        $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
         Varien_Profiler::stop('form/select/toHtml');
         return $html;
     }
-    
+
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';

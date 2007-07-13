@@ -42,9 +42,21 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
             array(
                 'header'=>__('actions'),
                 'width'=>10,
-                'sortable'=>false,
-                'filter'    =>false,
-                'format' => '<a href="' . $actionsUrl .'editItem/classId/$class_customer_id/">' . __('Edit') . '</a> <a href="' . $actionsUrl .'deleteItem/classId/$class_customer_id/">' . __('Delete') . '</a>'
+                'filter'    => false,
+                'sortable'  => false,
+                'type'      => 'action',
+                'actions'   => array(
+                                    array(
+                                        'url' => $actionsUrl .'editItem/classId/$class_customer_id/',
+                                        'caption' => __('Edit')
+                                    ),
+
+                                    array(
+                                        'url' => $actionsUrl .'deleteItem/classId/$class_customer_id/',
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                )
             )
         );
         $this->setFilterVisibility(false);

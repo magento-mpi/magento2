@@ -51,9 +51,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'    =>__('Actions'),
                 'width'     =>10,
-                'type'      => 'action',
                 'filter'    => false,
                 'sortable'  => false,
+                'type'      => 'action',
                 'actions'   => array(
                                     array(
                                         'url' => $actionsUrl .'edit/rule/$tax_rule_id',

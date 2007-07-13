@@ -40,11 +40,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_rate_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
             ->assign('header', __('Add new tax rate'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_form_add'));
 
         $this->renderLayout();
     }
@@ -71,11 +73,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_rate_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
             ->assign('header', __('Edit tax rate'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_form_add'));
 
         $this->renderLayout();
     }

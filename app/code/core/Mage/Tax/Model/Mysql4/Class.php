@@ -43,13 +43,24 @@ class Mage_Tax_Model_Mysql4_Class
 
     public function load($model, $classId)
     {
-        $model->setData(array());
+        $select = $this->_write->select();
+        $select->from($this->_classTable);
+        $select->where("{$this->_classTable}.class_id = ?", $classId);
+        $data = $this->_write->fetchRow($select);
+
+        $model->setData($data);
     }
 
     public function save($classObject)
     {
         if( !is_null($classObject->getClassId()) ) {
-            #
+			$classArray = array(
+				'class_name' => $classObject->getClassName(),
+				'class_type' => $classObject->getClassType()
+			);
+			$condition = $this->_write->quoteInto("{$this->_classTable}.class_id = ?", $classObject->getClassId());
+            $this->_write->update($this->_classTable, $classArray, $condition);
+            return $classObject->getClassId();
         } else {
 			$classArray = array(
 				'class_name' => $classObject->getClassName(),

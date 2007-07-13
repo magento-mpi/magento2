@@ -63,8 +63,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('rate_type', 'select',
                             array(
                                 'name' => 'rate_type',
-                                'label' => __('Product Tax Class'),
-                                'title' => __('Please, select Product Tax Class'),
+                                'label' => __('Rate'),
+                                'title' => __('Please, select Rate'),
                                 'class' => 'required-entry',
                                 'values' => $rateTypeCollection,
                                 'value' => $ruleObject->getTaxRateId()

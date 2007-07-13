@@ -14,12 +14,16 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
     public function __construct()
     {
         parent::__construct();
-        $this->setDestElementId('class_form');
     }
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
+
+        $form->setUseContainer(true);
+        $form->setId('class_form');
+        $form->setMethod('POST');
+
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
@@ -57,14 +61,15 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                     'name' => 'class_name',
                                     'label' => __('Class name'),
                                     'title' => __('Class name title'),
-                                    'class' => 'required-entry'
+                                    'class' => 'required-entry',
                                 )
                         );
 
             $fieldset->addField('class_type', 'hidden',
                                 array(
                                     'name' => 'class_type',
-                                    'value' => 'CUSTOMER'
+                                    'value' => 'CUSTOMER',
+                                    'no_span' => true
                                 )
                         );
         } else {
@@ -78,6 +83,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 'title' => __('Customer group title'),
                                 'class' => 'required-entry',
                                 'values' => $customerGroups,
+                                'no_span' => (intval($classId) > 0) ? true : false
                             )
         );
 
@@ -85,7 +91,8 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             $fieldset->addField('submit', 'submit',
                                 array(
                                     'name' => 'submit',
-                                    'value' => __('Add')
+                                    'value' => __('Add'),
+                                    'no_span' => true
                                 )
             );
 
@@ -94,11 +101,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             $form->setAction(Mage::getUrl('adminhtml/tax_class/save'));
         }
 
-        $form->setUseContainer(true);
-        $form->setId('class_form');
-        $form->setMethod('POST');
-
-        $this->setForm($form);
+       $this->setForm($form);
 
         return parent::_prepareForm();
     }

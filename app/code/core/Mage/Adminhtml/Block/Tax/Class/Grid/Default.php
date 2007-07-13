@@ -47,8 +47,19 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
                 'width'=>10,
                 'sortable'=>false,
                 'filter'    =>false,
-                'format' => '<a href="' . $actionsUrl .'edit/classId/$class_id/classType/' . $classType . '">' . __('Edit') . '</a>&nbsp;
-                             <a href="' . $actionsUrl .'delete/classId/$class_id/classType/' . $classType . '">' . __('Delete') . '</a>'
+                'type' => 'action',
+                'actions'   => array(
+                                    array(
+                                        'url' => $actionsUrl .'edit/classId/$class_id/classType/' . $classType,
+                                        'caption' => __('Edit')
+                                    ),
+
+                                    array(
+                                        'url' => $actionsUrl .'delete/classId/$class_id/classType/' . $classType,
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                )
             )
         );
         $this->setFilterVisibility(false);

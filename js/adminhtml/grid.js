@@ -15,7 +15,7 @@ varienGrid.prototype = {
         this.trOnClick      = this.rowMouseClick.bindAsEventListener(this);
         this.trOnDblClick   = this.rowMouseDblClick.bindAsEventListener(this);
         this.trOnKeyPress   = this.keyPress.bindAsEventListener(this);
-        
+
         this.thLinkOnClick      = this.doSort.bindAsEventListener(this);
         this.initGrid();
     },
@@ -30,11 +30,11 @@ varienGrid.prototype = {
                 Event.observe(rows[row],'mouseout',this.trOnMouseOut);
                 Event.observe(rows[row],'click',this.trOnClick);
                 Event.observe(rows[row],'dblclick',this.trOnDblClick);
-            } 
+            }
         }
         if(this.sortVar && this.dirVar){
             var columns = $$('#'+this.containerId+this.tableSufix+' thead a');
-            
+
             for(var col in columns){
                 Event.observe(columns[col],'click',this.thLinkOnClick);
             }
@@ -59,11 +59,11 @@ varienGrid.prototype = {
         varienGlobalEvents.fireEvent('gridRowDblClick', event);
     },
     keyPress : function(event){
-        
+
     },
     doSort : function(event){
         var element = Event.findElement(event, 'a');
-        
+
         if(element.name && element.target){
             this.addVarToUrl(this.sortVar, element.name);
             this.addVarToUrl(this.dirVar, element.target);
@@ -80,7 +80,7 @@ varienGrid.prototype = {
     reload : function(url){
         if(this.useAjax){
             new Ajax.Updater(
-                this.containerId, 
+                this.containerId,
                 url+'?ajax=true',
                 {onComplete:this.initGrid.bind(this), evalScripts:true}
             );
@@ -95,7 +95,7 @@ varienGrid.prototype = {
         this.url = this.url.replace(re, '/');
         if(this.url[this.url.length-1]!='/') this.url+= '/';
         this.url+= varName+'/'+varValue+'/';
-        
+
         return this.url;
     },
     doExport : function(typeField){

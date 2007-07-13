@@ -40,11 +40,13 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         $this->_addTabs();
 
+        $form = $this->getLayout()->createBlock('adminhtml/tax_class_customer_form_add');
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
             ->assign('header', __('New customer tax class'))
+            ->assign('form', $form)
         );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_customer_form_add'));
 
         $this->renderLayout();
     }

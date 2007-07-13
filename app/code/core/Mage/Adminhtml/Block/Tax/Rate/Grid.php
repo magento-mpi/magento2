@@ -67,8 +67,19 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'width'=>10,
                 'sortable'=>false,
                 'filter'    =>false,
-                'format' => '<a href="' . $actionsUrl .'edit/rate/$tax_rate_id">' . __('Edit') . '</a>&nbsp;
-                             <a href="' . $actionsUrl .'delete/rate/$tax_rate_id">' . __('Delete') . '</a>'
+                'type' => 'action',
+                'actions'   => array(
+                                    array(
+                                        'url' => $actionsUrl .'edit/rate/$tax_rate_id',
+                                        'caption' => __('Edit')
+                                    ),
+
+                                    array(
+                                        'url' => $actionsUrl .'delete/rate/$tax_rate_id',
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                )
             )
         );
 
