@@ -1,42 +1,17 @@
+<?
+/**
+ * Template for Mage_Adminhtml_Block_Customer_Edit
+ */
+?>
 <div class="content-header">
     <table cellspacing="0" class="grid-header"> 
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
             <td class="a-right">
             <?if($this->getCustomerId()):?>
-            <button class="scalable" onclick="customerDelete();return false;">
-                <table cellspacing="0">
-                    <tr>
-                        <td class="tl"></td>
-                        <td class="tr"></td>
-                    </tr>
-                    <tr>
-                        <td class="ml"><?=__('Delete Customer')?></td>
-                        <td class="mr"></td>
-                    </tr>
-                    <tr>
-                        <td class="bl"></td>
-                        <td class="br"></td>
-                    </tr>
-                </table>
-            </button>
+                <?=$this->getDeleteButtonHtml()?>
             <?endif;?>
-            <button class="scalable" onclick="customerForm.submit();return false;">
-                <table cellspacing="0">
-                    <tr>
-                        <td class="tl"></td>
-                        <td class="tr"></td>
-                    </tr>
-                    <tr>
-                        <td class="ml"><?=__('Save Customer')?></td>
-                        <td class="mr"></td>
-                    </tr>
-                    <tr>
-                        <td class="bl"></td>
-                        <td class="br"></td>
-                    </tr>
-                </table>
-            </button>
+                <?=$this->getSaveButtonHtml()?>
             </td>
         </tr>
     </table>
@@ -45,26 +20,9 @@
 </form>
 <script type="text/javascript" language="javascript">
     var customerForm = new varienForm('customer_edit_form');
-    
-    /*function customerEditShowButtons(data){
-        customerForm.initFormElements();
-        if(data.tab.id && data.tab.id=='customer_info_tabs_addresses'){
-            Element.show($('add_address_button'));
-        }
-    }
-    
-    function customerEditHideButtons(data){
-        if(data.tab && data.tab.id=='customer_info_tabs_addresses'){
-            Element.hide($('add_address_button'));
-        }
-    }
-    */
     function customerDelete(){
         if(confirm('<?=__('are you sure?')?>')){
             location.href = '<?=$this->getDeleteUrl()?>'
         }
     }
-    
-    //varienGlobalEvents.attachEventHandler('showTab', customerEditShowButtons);
-    //varienGlobalEvents.attachEventHandler('hideTab', customerEditHideButtons);
 </script>

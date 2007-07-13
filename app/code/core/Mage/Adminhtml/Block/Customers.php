@@ -16,10 +16,25 @@ class Mage_Adminhtml_Block_Customers extends Mage_Core_Block_Template
         $this->setTemplate('adminhtml/customer/index.phtml');
     }
     
-    public function _beforeToHtml()
+    protected function _initChildren()
     {
-        $this->assign('createUrl', Mage::getUrl('adminhtml/customer/new'));
+        $this->setChild('addNewButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Add customer'),
+                    'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/customer/new').'\''
+                ))
+        );
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_grid', 'customer.grid'));
-        return $this;
+    }
+    
+    public function getAddNewButtonHtml()
+    {
+        return $this->getChildHtml('addNewButton');
+    }
+    
+    public function getGridHtml()
+    {
+        return $this->getChildHtml('grid');
     }
 }

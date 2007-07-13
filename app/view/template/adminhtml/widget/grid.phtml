@@ -1,5 +1,7 @@
 <?
 /**
+ * Template for Mage_Block_Adminhtml_Widget_Grid
+ * 
  *  getId()
  *  getCollection()
  *  getColumns()
@@ -8,19 +10,19 @@
  */
 ?>
 <?if($this->getCollection()):?>
-<?if($this->canDisplayContainer()):?>
-<?if($this->getGridHeader()):?>
-<div class="content-header">
-    <table cellspacing="0" class="grid-header">
-    	<tr>
-    		<td style="width:50%;"><h2><?=$this->getGridHeader();?></h2></td>
-    	</tr>
-    </table>
-</div>
-<?endif?>
-<div id="<?=$this->getId()?>">
-<?endif;?>
-<?=$this->getMessagesBlock()->getHtml();?>
+    <?if($this->canDisplayContainer()):?>
+        <?if($this->getGridHeader()):?>
+        <div class="content-header">
+            <table cellspacing="0" class="grid-header">
+            	<tr>
+            		<td style="width:50%;"><h2><?=$this->getGridHeader();?></h2></td>
+            	</tr>
+            </table>
+        </div>
+        <?endif?>
+    <div id="<?=$this->getId()?>">
+    <?endif;?>
+<?//=$this->getMessagesBlock()->getHtml();?>
 <table cellspacing="0" class="actions">
 <tr>
 <?if($this->getPagerVisibility()):?>
@@ -51,58 +53,13 @@
 			<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
 		<?endforeach;?>
 		</select>
-		<button class="scalable" onclick="<?=$this->getId()?>JsObject.doExport('<?=$this->getId()?>_export')">
-			<table cellspacing="0">
-				<tr>
-					<td class="tl"></td>
-					<td class="tr"></td>
-				</tr>
-				<tr>
-					<td class="ml"><?=__('Export')?></td>
-					<td class="mr"></td>
-				</tr>
-				<tr>
-					<td class="bl"></td>
-					<td class="br"></td>
-				</tr>
-			</table>
-		</button>
+		<?=$this->getExportButtonHtml()?>
 	</td>
 <?endif;?>
 <?if($this->getFilterVisibility()):?>
 	<td class="filter-actions a-right">
-	<button class="scalable" type="button" onclick="<?=$this->getId()?>JsObject.resetFilter()">
-		<table cellspacing="0">
-			<tr>
-				<td class="tl"></td>
-				<td class="tr"></td>
-			</tr>
-			<tr>
-				<td class="ml"><?=__('Reset Filter')?></td>
-				<td class="mr"></td>
-			</tr>
-			<tr>
-				<td class="bl"></td>
-				<td class="br"></td>
-			</tr>
-		</table>
-	</button>
-		<button class="scalable" type="button" onclick="<?=$this->getId()?>JsObject.doFilter()">
-		<table cellspacing="0">
-			<tr>
-				<td class="tl"></td>
-				<td class="tr"></td>
-			</tr>
-			<tr>
-				<td class="ml"><?=__('Search')?></td>
-				<td class="mr"></td>
-			</tr>
-			<tr>
-				<td class="bl"></td>
-				<td class="br"></td>
-			</tr>
-		</table>
-	</button>
+	<?=$this->getResetFilterButtonHtml()?>
+	<?=$this->getSearchButtonHtml()?>
 	</td>
 <?endif;?>
 </tr>
@@ -140,8 +97,8 @@
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsObject = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
-    <?=$this->getId()?>JsObject.useAjax = '<?=$this->getUseAjax()?>';
+    <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
+    <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
 </script>
 <?endif;?>
 <?endif?>

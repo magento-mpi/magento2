@@ -32,8 +32,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         
         $accordion->addItem('shopingCart', array(
             'title'         => __('Shopping Cart'),
-            'content_url'   => Mage::getBaseUrl(),
-            'ajax'          => true,
+            //'content_url'   => Mage::getBaseUrl(),
+            //'ajax'          => true,
             'content'       => 'cart'
         ));
         

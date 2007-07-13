@@ -16,7 +16,35 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
         $this->setTemplate('adminhtml/customer/edit.phtml');
         $this->setId('customerEdit');
     }
-
+    
+    protected function _initChildren()
+    {
+        $this->setChild('saveButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save customer'),
+                    'onclick'   => 'customerForm.submit()'
+                ))
+        );
+        $this->setChild('deleteButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Delete customer'),
+                    'onclick'   => 'customerDelete()'
+                ))
+        );
+    }
+    
+    public function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('saveButton');
+    }
+    
+    public function getDeleteButtonHtml()
+    {
+        return $this->getChildHtml('deleteButton');
+    }
+    
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current'=>true));

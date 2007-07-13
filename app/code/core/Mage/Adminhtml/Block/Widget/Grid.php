@@ -78,17 +78,47 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
     }
-
-    /**
-     * Get request object
-     *
-     * @return Mage_Core_Controller_Zend_Request
-     */
-    public function getRequest()
+    
+    protected function _initChildren()
     {
-        return $this->_request;
+        $this->setChild('exportButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Export'),
+                    'onclick'   => $this->getJsObjectName().'.doExport()'
+                ))
+        );
+        $this->setChild('resetFilterButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Reset filter'),
+                    'onclick'   => $this->getJsObjectName().'.resetFilter()'
+                ))
+        );
+        $this->setChild('searchButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Search'),
+                    'onclick'   => $this->getJsObjectName().'.doFilter()'
+                ))
+        );
     }
-
+    
+    public function getExportButtonHtml()
+    {
+        return $this->getChildHtml('exportButton');
+    }
+    
+    public function getResetFilterButtonHtml()
+    {
+        return $this->getChildHtml('resetFilterButton');
+    }
+    
+    public function getSearchButtonHtml()
+    {
+        return $this->getChildHtml('searchButton');
+    }
+    
     /**
      * set collection object
      *
@@ -471,5 +501,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $this->_saveParametersInSession = $flag;
         return $this;
+    }
+    
+    public function getJsObjectName()
+    {
+        return $this->getId().'JsObject';
     }
 }

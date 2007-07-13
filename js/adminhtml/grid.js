@@ -98,9 +98,9 @@ varienGrid.prototype = {
 
         return this.url;
     },
-    doExport : function(typeField){
-        if($(typeField)){
-            location.href = $(typeField).value;
+    doExport : function(){
+        if($(this.containerId+'_export')){
+            location.href = $(this.containerId+'_export').value;
         }
     },
     bindFilterFields : function(){
