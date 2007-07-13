@@ -41,14 +41,16 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
     public function saveAction()
     {
-        $ruleObject = new Varien_Object();
-        $ruleObject->setTaxRuleId($this->getRequest()->getParam('rule_id', null));
-        $ruleObject->setTaxCustomerClassId($this->getRequest()->getParam('customer_tax_class'));
-        $ruleObject->setTaxProductClassId($this->getRequest()->getParam('product_tax_class'));
-        $ruleObject->setTaxRateId($this->getRequest()->getParam('rate_type'));
-
-        Mage::getSingleton('tax/rule')->save($ruleObject);
-        $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+        if( $postData = $this->getRequest()->getPost() ) {
+            try {
+                $ruleModel = Mage::getSingleton('tax/rule');
+                $ruleModel->setData($postData);
+                $ruleModel->save();
+                $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+            } catch (Exception $e) {
+                # FIXME !!!!
+            }
+        }
     }
 
     public function editAction()
@@ -73,10 +75,14 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
     public function deleteAction()
     {
-        $ruleObject = new Varien_Object();
-        $ruleObject->setTaxRuleId($this->getRequest()->getParam('rule'));
-        Mage::getSingleton('tax/rule')->delete($ruleObject);
-        $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+        try {
+            $ruleModel = Mage::getSingleton('tax/rule');
+            $ruleModel->setRuleId($this->getRequest()->getParam('rule'));
+            $ruleModel->delete();
+            $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+        } catch (Exception $e) {
+            # FIXME
+        }
     }
 
     protected function _addTabs($tabId='tax_rule')

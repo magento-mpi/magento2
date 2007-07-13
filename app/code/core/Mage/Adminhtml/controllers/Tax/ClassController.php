@@ -3,18 +3,23 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
 
     public function saveAction()
     {
-        $classObject = new Varien_Object();
+        if( $postData = $this->getRequest()->getPost() ) {
+            $class = Mage::getModel('tax/class');
+            $class->setData($postData);
 
-        $classObject->setClassGroupId($this->getRequest()->getParam('class_group'));
+            try {
+                $class->save();
+                $classId = $class->getClassId();
+                $classType = $class->getClassType();
 
-        $classObject->setClassId($this->getRequest()->getParam('class_id', null));
-        $classObject->setClassName($this->getRequest()->getParam('class_name'));
-        $classObject->setClassType($this->getRequest()->getParam('class_type'));
-
-        $classId = Mage::getSingleton('tax/class')->save($classObject);
-        $classType = $classObject->getClassType();
-
-        $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+                $this->_redirect("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}");
+            } catch (Exception $e) {
+                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                    $this->getResponse()->setRedirect($referer);
+                }
+                # FIXME !!!!
+            }
+        }
     }
 
     public function editAction()
@@ -29,50 +34,53 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $this->_addBreadcrumb(__("{$classTypePhrase} tax classes"), __("{$classTypePhrase} tax classes title"), Mage::getUrl('adminhtml/tax_class_'.$classType));
         $this->_addBreadcrumb(__("Edit {$classTypePhrase} tax class"), __("Edit {$classTypePhrase} tax class title"));
 
+        $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages());
+
         $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
             ->setActiveTab('tax_class_' . strtolower($this->getRequest()->getParam('classType')));
 
-        $classPageEdit = $this->getLayout()->createBlock('adminhtml/tax_class_page_edit');
-
-        $grid = $this->getLayout()->createBlock('adminhtml/tax_class_grid_group', 'taxClassGrid');
-        $form = $this->getLayout()->createBlock("adminhtml/tax_class_{$classType}_form_add");
-        $renameForm = $this->getLayout()->createBlock("adminhtml/tax_class_form_rename");
-
         $this->_addLeft($tabs);
-        $classPageEdit->assign('grid', $grid);
-        $classPageEdit->assign('renameForm', $renameForm);
-        $classPageEdit->assign('addForm', $form);
-
-        $this->_addContent($classPageEdit);
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_page_edit'));
 
         $this->renderLayout();
     }
 
     public function deleteAction()
     {
-        $classId = $this->getRequest()->getParam('classId');
-        $classType = strtolower($this->getRequest()->getParam('classType'));
+        try {
+            $classId = $this->getRequest()->getParam('classId');
+            $classType = strtolower($this->getRequest()->getParam('classType'));
 
-        $classObject = new Varien_Object();
-        $classObject->setClassId($classId);
-        Mage::getSingleton('tax/class')->delete($classObject);
+            $class = Mage::getSingleton('tax/class');
+            $class->setClassId($classId);
+            $class->delete();
 
-        $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classType}"));
+            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classType}"));
+        } catch (Exception $e) {
+            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                $this->getResponse()->setRedirect($referer);
+            }
+            # FIXME !!!!
+        }
     }
 
     public function saveGroupAction()
     {
-        $groupObject = new Varien_Object();
-
-        $groupObject->setClassGroupId($this->getRequest()->getParam('class_group'));
-        $groupObject->setClassParentId($this->getRequest()->getParam('classId'));
-
-        Mage::getSingleton('tax/class')->saveGroup($groupObject);
-
-        $classId = $this->getRequest()->getParam('classId');
-        $classType = $this->getRequest()->getParam('classType');
-
-        $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+        if( $postData = $this->getRequest()->getPost() ) {
+            $group = Mage::getModel('tax/class_group');
+            $group->setData($postData);
+            try {
+                $group->save();
+                $classId = $this->getRequest()->getParam('classId');
+                $classType = $this->getRequest()->getParam('classType');
+                $this->_redirect("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}");
+            } catch ( Exception $e ) {
+                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                    $this->getResponse()->setRedirect($referer);
+                }
+                # FIXME !!!!
+            }
+        }
     }
 
     public function deleteGroupAction()
@@ -81,8 +89,16 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $classId = $this->getRequest()->getParam('classId');
         $classType = $this->getRequest()->getParam('classType');
 
-        Mage::getSingleton('tax/class')->deleteGroup($groupId);
-
-        $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+        try {
+            $group = Mage::getModel('tax/class_group');
+            $group->setGroupId($groupId);
+            $group->delete();
+            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+        } catch (Exception $e) {
+            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                $this->getResponse()->setRedirect($referer);
+            }
+            # FIXME !!!!
+        }
     }
 }

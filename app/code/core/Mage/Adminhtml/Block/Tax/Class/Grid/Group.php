@@ -24,15 +24,16 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
         if( isset($classId) ) {
             switch( $classType ) {
                 case "CUSTOMER":
-                    $collection = Mage::getResourceModel('customer/group_collection');
+                    $collection = Mage::getModel('tax/class')->getCustomerGroupCollection();
                     break;
 
                 /* FIXME!!! */
                 case "PRODUCT":
-                    $collection = Mage::getResourceModel('customer/group_collection');
+                    $collection = Mage::getModel('tax/class')->getCustomerGroupCollection();
                     break;
             }
         }
+
         $collection->setTaxGroupFilter($classId);
         $this->setCollection($collection);
         return parent::_prepareCollection();

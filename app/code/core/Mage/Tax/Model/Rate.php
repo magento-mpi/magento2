@@ -18,18 +18,20 @@ class Mage_Tax_Model_Rate extends Varien_Object
         return $this;
     }
 
+    public function save()
+    {
+        $this->getResource()->save($this);
+        return $this;
+    }
+
+    public function delete()
+    {
+        $this->getResource()->delete($this);
+        return $this;
+    }
+
     public function loadWithAttributes($rateId)
     {
         return $this->getResource()->loadWithAttributes($rateId);
-    }
-
-    public function save($rateObject)
-    {
-        return $this->getResource()->save($rateObject);
-    }
-
-    public function delete($rateObject)
-    {
-        return $this->getResource()->delete($rateObject);
     }
 }

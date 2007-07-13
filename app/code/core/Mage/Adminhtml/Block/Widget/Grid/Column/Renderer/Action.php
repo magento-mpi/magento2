@@ -8,11 +8,13 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 		    return;
 		}
 
+		echo '<span class="nowrap">';
         foreach($actions as $action){
         	if( is_array($action) ) {
                 $this->_toHtml($action, $row);
         	}
         }
+		echo '</span>';
     }
 
     protected function _toHtml($action, $row)

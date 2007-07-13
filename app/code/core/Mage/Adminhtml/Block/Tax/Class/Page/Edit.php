@@ -16,4 +16,37 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('adminhtml/tax/class/page/edit.phtml');
     }
+
+    protected function _initChildren()
+    {
+        $classType = strtolower($this->getRequest()->getParam('classType'));
+        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/tax_class_grid_group', 'taxClassGrid'));
+        $this->setChild('addForm', $this->getLayout()->createBlock("adminhtml/tax_class_{$classType}_form_add"));
+        $this->setChild('renameForm', $this->getLayout()->createBlock("adminhtml/tax_class_form_rename"));
+    }
+
+    protected function _getGridHtml()
+    {
+        return $this->getChildHtml('grid');
+    }
+
+    protected function _getAddFormHtml()
+    {
+        return $this->getChildHtml('addForm');
+    }
+
+    protected function _getRenameFormHtml()
+    {
+        return $this->getChildHtml('renameForm');
+    }
+
+    protected function _getAddFormId()
+    {
+        return $this->getChild('addForm')->getForm()->getId();
+    }
+
+    protected function _getRenameFormId()
+    {
+        return $this->getChild('renameForm')->getForm()->getId();
+    }
 }

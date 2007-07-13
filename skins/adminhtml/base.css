@@ -4,7 +4,7 @@
 
 * { margin:0; padding:0; }
 
-body { 
+body {
     min-width:800px;
     background:#E6E6E6;
     color:#2f2f2f;
@@ -48,3 +48,5 @@ big { font-size:1.25em; }
 
 /* Divider */
 hr { border:0; height:1px; overflow:hidden; background:#d3d3d3; }
+
+.nowrap { white-space:nowrap; }

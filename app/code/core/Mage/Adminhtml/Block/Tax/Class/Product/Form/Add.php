@@ -107,6 +107,14 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
                                 )
             );
 
+            $fieldset->addField('class_parent_id', 'hidden',
+                                array(
+                                    'name' => 'class_parent_id',
+                                    'value' => $classId,
+                                    'no_span' => true
+                                )
+                        );
+
             $form->setAction(Mage::getUrl("adminhtml/tax_class/saveGroup/classId/{$classId}/classType/PRODUCT"));
         } else {
             $form->setAction(Mage::getUrl('adminhtml/tax_class/save/classType/PRODUCT'));

@@ -38,7 +38,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             foreach($gridCollection->getItems() as $item) {
                 $indexes[] = $item->getClassGroupId();
             }
-
             $customerGroups = Mage::getResourceModel('customer/group_collection')
                 ->setIgnoreIdFilter($indexes)
                 ->load()
@@ -95,6 +94,14 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                     'no_span' => true
                                 )
             );
+
+            $fieldset->addField('class_parent_id', 'hidden',
+                                array(
+                                    'name' => 'class_parent_id',
+                                    'value' => $classId,
+                                    'no_span' => true
+                                )
+                        );
 
             $form->setAction(Mage::getUrl("adminhtml/tax_class/saveGroup/classId/{$classId}/classType/{$classType}"));
         } else {

@@ -71,6 +71,16 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                             )
         );
 
+        if( $ruleId > 0 ) {
+            $fieldset->addField('rule_id', 'hidden',
+                                array(
+                                    'name' => 'rule_id',
+                                    'value' => $ruleId,
+                                    'no_span' => true
+                                )
+            );
+        }
+
         $form->setAction(Mage::getUrl('adminhtml/tax_rule/save'));
         $form->setUseContainer(true);
         $form->setId('rule_form');

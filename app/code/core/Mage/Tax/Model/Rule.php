@@ -18,13 +18,15 @@ class Mage_Tax_Model_Rule extends Varien_Object
         return $this;
     }
 
-    public function save($ruleObject)
+    public function save()
     {
-        return $this->getResource()->save($ruleObject);
+        $this->getResource()->save($this);
+        return $this;
     }
 
-    public function delete($ruleObject)
+    public function delete()
     {
-        return $this->getResource()->delete($ruleObject);
+        $this->getResource()->delete($this);
+        return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Tax class model
+ * Tax class group model
  *
  * @package     Mage
  * @subpackage  Tax
@@ -9,7 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Tax_Model_Class extends Varien_Object
+class Mage_Tax_Model_Class_Group extends Varien_Object
 {
     public function __construct($class=false)
     {
@@ -19,13 +19,7 @@ class Mage_Tax_Model_Class extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getResourceModel('tax/class');
-    }
-
-    public function load($classId)
-    {
-        $this->getResource()->load($this, $classId);
-        return $this;
+        return Mage::getResourceModel('tax/class_group');
     }
 
     public function save()
@@ -38,10 +32,5 @@ class Mage_Tax_Model_Class extends Varien_Object
     {
         $this->getResource()->delete($this);
         return $this;
-    }
-
-    public function getCustomerGroupCollection()
-    {
-        return Mage::getResourceModel('customer/group_collection');
     }
 }

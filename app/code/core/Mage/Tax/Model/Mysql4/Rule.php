@@ -54,13 +54,13 @@ class Mage_Tax_Model_Mysql4_Rule
     public function save($ruleObject)
     {
         $ruleArray = array(
-            'tax_customer_class_id' => $ruleObject->getTaxCustomerClassId(),
-            'tax_product_class_id' => $ruleObject->getTaxProductClassId(),
-            'tax_rate_id' => $ruleObject->getTaxRateId()
+            'tax_customer_class_id' => $ruleObject->getCustomerTaxClass(),
+            'tax_product_class_id' => $ruleObject->getProductTaxClass(),
+            'tax_rate_id' => $ruleObject->getRateType()
         );
 
-        if( $ruleObject->getTaxRuleId() > 0 ) {
-            $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id = ?", $ruleObject->getTaxRuleId());
+        if( $ruleObject->getRuleId() > 0 ) {
+            $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id = ?", $ruleObject->getRuleId());
             $this->_write->update($this->_ruleTable, $ruleArray, $condition);
         } else {
             $this->_write->insert($this->_ruleTable, $ruleArray);
@@ -70,7 +70,7 @@ class Mage_Tax_Model_Mysql4_Rule
 
     public function delete($ruleObject)
     {
-        $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id=?", $ruleObject->getTaxRuleId());
+        $condition = $this->_write->quoteInto("{$this->_ruleTable}.tax_rule_id=?", $ruleObject->getRuleId());
         $this->_write->delete($this->_ruleTable, $condition);
     }
 }

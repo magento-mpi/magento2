@@ -53,14 +53,19 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     public function saveAction()
     {
-        $rateObject = new Varien_Object();
-        $rateObject->setTaxRateId($this->getRequest()->getParam('rate_id', null));
-        $rateObject->setRegionId($this->getRequest()->getParam('region', null));
-        $rateObject->setZipCode($this->getRequest()->getParam('zip_code', null));
-        $rateObject->setRateData($this->getRequest()->getParam('rate_data', null));
-
-        Mage::getSingleton('tax/rate')->save($rateObject);
-        $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+        if( $postData = $this->getRequest()->getPost() ) {
+            try {
+                $rateModel = Mage::getSingleton('tax/rate');
+                $rateModel->setData($postData);
+                $rateModel->save();
+                $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+            } catch (Exception $e) {
+                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                    $this->getResponse()->setRedirect($referer);
+                }
+                # FIXME !!!!
+            }
+        }
     }
 
     public function editAction()
@@ -86,10 +91,19 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     public function deleteAction()
     {
-        $rateObject = new Varien_Object();
-        $rateObject->setTaxRateId($this->getRequest()->getParam('rate'));
-        Mage::getSingleton('tax/rate')->delete($rateObject);
-        $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+        if( $rateId = $this->getRequest()->getParam('rate') ) {
+            try {
+                $rateModel = Mage::getSingleton('tax/rate');
+                $rateModel->setRateId($rateId);
+                $rateModel->delete();
+                $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+            } catch (Exception $e) {
+                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                    $this->getResponse()->setRedirect($referer);
+                }
+                # FIXME !!!!
+            }
+        }
     }
 
     protected function _addTabs($tabId='tax_rate')
