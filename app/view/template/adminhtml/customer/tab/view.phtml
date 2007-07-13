@@ -1,54 +1,54 @@
-
-		<div class="box-left">
-			<h4 class="icon-head head-customer-view">Personal Information</h4>
-			<div class="box">
-				<p><strong>Last Logged in:</strong> June, 16, 2007 ( Currently <strong>OFFLINE</strong> )<br/>
-				<strong>Account Created on:</strong> April 01, 2001<br/>
-				<strong>Account Created in:</strong> Magento Store</p>
-				<address>
-				<strong>Primary Billing Address</strong><br/>
-				Yoav Kutner<br/>
-				3402  Motor Ave Suite B<br/>
-				Los Angeles, CA 90034<br/>
-				United States<br/>
-				<small><strong>T</strong> |</small> (310) 123-1234</address>
-			</div>
-		</div>
-		<div class="box-right">
-			<dl class="grid accordion">
-				<dt><a href="#"><img src="<?=$baseUrl?>skins/adminhtml/images/accordion_close.gif" alt="" class="accordion-btn"/></a><strong>Sales Statistics</strong></dt>
-				<dd class="open grid">
-					<table cellspacing="0" class="data">
-						<thead>
-							<tr>
-								<th>Store</th>
-								<th>Lifetime Sale</th>
-								<th>Average Sale</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td class="label"><strong><big>Total</big></strong></td>
-								<td class="emph"><strong><big>$2076.97</big></strong></td>
-								<td class="emph"><strong><big>$116.74</big></strong></td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<tr>
-								<td class="label">Magento Store (EN)</td>
-								<td>$1875.99</td>
-								<td>$89.99</td>
-							</tr>
-							<tr class="even">
-								<td class="label">Varien Store (EN)</td>
-								<td>$200.98</td>
-								<td>$26.75</td>
-							</tr>
-						</tbody>
-					</table>
-				</dd>
-			</dl>
-		</div>
+<?
+/**
+ * Template for block Mage_Adminhtml_Block_Customer_Edit_Tab_View
+ */
+?>
+<div class="box-left">
+	<h4 class="icon-head head-customer-view">Personal Information</h4>
+	<div class="box">
+		<p><strong>Last Logged in:</strong> <?=$this->getLastLoginData()?> ( Currently <strong><?=$this->getCurrentStatus()?></strong> )<br/>
+		<strong>Account Created on:</strong> <?=$this->getCreateDate()?><br/>
+		<strong>Account Created in:</strong> <?=$this->getCreatedInStore()?></p>
+		<address>
+		<strong>Primary Billing Address</strong><br/>
+		<?=$this->getBillingAddressHtml()?>
+	</div>
+</div>
+<div class="box-right">
+	<dl class="grid accordion">
+		<dt><a href="#"><img src="<?=$baseUrl?>skins/adminhtml/images/accordion_close.gif" alt="" class="accordion-btn"/></a><strong>Sales Statistics</strong></dt>
+		<dd class="open grid">
+			<table cellspacing="0" class="data">
+				<thead>
+					<tr>
+						<th>Store</th>
+						<th>Lifetime Sale</th>
+						<th>Average Sale</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td class="label"><strong><big>Total</big></strong></td>
+						<td class="emph"><strong><big>$2076.97</big></strong></td>
+						<td class="emph"><strong><big>$116.74</big></strong></td>
+					</tr>
+				</tfoot>
+				<tbody>
+					<tr>
+						<td class="label">Magento Store (EN)</td>
+						<td>$1875.99</td>
+						<td>$89.99</td>
+					</tr>
+					<tr class="even">
+						<td class="label">Varien Store (EN)</td>
+						<td>$200.98</td>
+						<td>$26.75</td>
+					</tr>
+				</tbody>
+			</table>
+		</dd>
+	</dl>
+</div>
 		<div class="clear"></div>
 		<br/>
 		<dl class="accordion">

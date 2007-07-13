@@ -167,4 +167,12 @@ class Mage_Customer_Model_Address extends Varien_Object
             ->loadAllAttributes()
             ->getAttributesByName();
     }
+    
+    public function getHtmlFormat()
+    {
+        return "<b>{{firstname}} {{lastname}}</b><br/>
+            {{street}}<br/>
+            {{city}}, {{regionName}} {{postcode}}<br/>
+            T: {{telephone}}";
+    }
 }

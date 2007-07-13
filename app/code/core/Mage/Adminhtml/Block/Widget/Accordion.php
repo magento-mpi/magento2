@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Adminhtml_Block_Widget 
 {
     public function __construct() 
     {

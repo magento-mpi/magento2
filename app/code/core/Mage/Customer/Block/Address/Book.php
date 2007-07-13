@@ -50,9 +50,6 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     
     public function getAddressHtml($address)
     {
-        return $address->toString("<b>{{firstname}} {{lastname}}</b><br/>
-            {{street}}<br/>
-            {{city}}, {{regionName}} {{postcode}}<br/>
-            T: {{telephone}}");
+        return $address->toString($address->getHtmlFormat());
     }
 }
