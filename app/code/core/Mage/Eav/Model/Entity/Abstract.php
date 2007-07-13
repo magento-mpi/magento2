@@ -725,10 +725,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $entity = $attribute->getEntity();
         $entityIdField = $entity->getEntityIdField();
         $row = array(
-        'entity_type_id' => $entity->getTypeId(),
-        'attribute_id' => $attribute->getId(),
-        'store_id' => $object->getStoreId(),
-        $entityIdField=> $object->getData($entityIdField),
+	        'entity_type_id' => $entity->getTypeId(),
+	        'attribute_id' => $attribute->getId(),
+	        'store_id' => $object->getStoreId(),
+	        $entityIdField=> $object->getData($entityIdField),
         );
         $newValue = $object->getData($attributeName);
         $whereArr = array();
