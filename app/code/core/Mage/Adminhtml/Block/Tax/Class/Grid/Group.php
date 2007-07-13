@@ -14,6 +14,8 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
     public function __construct()
     {
         parent::__construct();
+        $this->setDefaultSort('class_name');
+        $this->setDefaultDir('asc');
     }
 
     protected function _prepareCollection()
@@ -87,6 +89,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
             )
         );
         $this->setFilterVisibility(false);
+
         return parent::_prepareColumns();
     }
 }

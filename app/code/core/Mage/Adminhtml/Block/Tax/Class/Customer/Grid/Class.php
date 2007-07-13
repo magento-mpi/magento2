@@ -59,6 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
                                 )
             )
         );
+
         $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
