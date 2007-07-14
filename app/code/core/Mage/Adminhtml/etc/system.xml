@@ -2,6 +2,13 @@
 <config>
     <admin>
         <configuration>
+            <default>
+                <field>
+                    <frontend>
+                        <block>adminhtml/system_config_form_field_default</block>
+                    </frontend>
+                </field>
+            </default>
             <sections>
                 <general>
                     <label>General</label>

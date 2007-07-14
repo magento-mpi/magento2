@@ -23,9 +23,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $xml = Mage::getModel('core/config')->setXml(Mage::getModel('core/config_element', '<config/>'));
-        Mage::getResourceModel('core/config')->loadToXml($xml);
-        die;
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/config');
 

@@ -12,6 +12,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
 {
     const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
     
+    protected $_default;
     protected $_config;
     protected $_form;
     
@@ -22,6 +23,8 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         
         $config = Mage::getSingleton('adminhtml/system_config');
         $section = $this->getRequest()->getParam('section');
+        
+        $this->_default = $config->getNode('admin/configuration/default');
         $this->_config = $config->getNode('admin/configuration/sections/'.$section);
         
         $this->setTitle((string)$this->_config->label);
@@ -46,6 +49,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('form', 
             $this->getLayout()->createBlock($blockName)
                 ->setSection($this->_config)
+                ->setDefaultFrontend($this->_default->descend('field/frontend'))
                 ->initForm()
         );
         return $this;

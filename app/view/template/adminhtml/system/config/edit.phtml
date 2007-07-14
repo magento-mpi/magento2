@@ -32,15 +32,16 @@
                  </tr>
             </table>
         </div>
-<form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
 <div class="content-left-nav">
     <?=$this->getChildHtml('gwstree')?>
 </div>
 <div class="entry-edit">
+    <form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
     <?=$this->getChildHtml('form')?>
+    </form>
 </div>
 
-</form>
+
 <script type="text/javascript" language="javascript">
     var configForm = new varienForm('config_edit_form');
 </script>

@@ -299,6 +299,43 @@ img.accordion-btn {
     background:#fff;
     font-weight:bold;
     }
+
+.content-left-nav ul.tabs {
+    float:left;
+    width:200px;
+    margin-top:.7em;
+    margin-right:1em;
+    border-top:1px solid #bebebe;
+    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+    }
+.content-left-nav ul.tabs li {
+    list-style-type:none;
+    }
+.content-left-nav ul.tabs li a {
+    text-decoration:none;
+    display:block;
+    background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
+    padding-bottom:1px;
+    color:#000;
+    }
+.content-left-nav ul.tabs li a:hover span {
+    background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
+    }
+.content-left-nav ul.tabs li a.active {
+    padding:0;
+    border-bottom:1px solid #bebebe;
+    background:none;
+    }
+.content-left-nav ul.tabs li span {
+    display:block;
+    padding:.3em 1.5em .28em 1.5em;
+    cursor:pointer;
+    }
+.content-left-nav ul.tabs li a.active span, .content-left-nav ul.tabs li a:hover.active span {
+    background:#fff;
+    font-weight:bold;
+    }
+    
 .content-header {
     margin-bottom:1em;
     border-bottom:3px solid #dfdfdf;
