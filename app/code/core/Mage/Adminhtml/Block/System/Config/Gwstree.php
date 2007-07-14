@@ -24,21 +24,24 @@ class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Wi
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
         
+        $websitesConfig = Mage::getConfig()->getNode('websites');
+        $storesConfig = Mage::getConfig()->getNode('stores');
+
         $this->addTab('global', array(
             'label'  => 'Global',
             'url'    => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>null)),
             'class' => 'global'.(!$curWebsite && !$curStore ? ' active' : ''),
         ));
         
-        foreach (Mage::getConfig()->getNode('websites')->children() as $wCode=>$wConfig) {
+        foreach ($websitesConfig->children() as $wCode=>$wConfig) {
             $this->addTab('website_'.$wCode, array(
-                'label' => $wCode,
+                'label' => (string)$websitesConfig->descend($wCode.'/system/website/name'),
                 'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>$wCode, 'store'=>null)),
                 'class' => 'website'.($curWebsite===$wCode ? ' active' : ''),
             ));
             foreach ($wConfig->descend('system/stores')->children() as $sCode=>$sId) {
                 $this->addTab('store_'.$sCode, array(
-                    'label' => $sCode,
+                    'label' => (string)$storesConfig->descend($sCode.'/system/store/name'),
                     'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>$sCode)),
                     'class' => 'store'.($curStore===$sCode ? ' active' : ''),
                 ));
