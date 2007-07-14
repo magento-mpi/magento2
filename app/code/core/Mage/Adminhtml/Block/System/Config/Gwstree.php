@@ -27,20 +27,20 @@ class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Wi
         $this->addTab('global', array(
             'label'  => 'Global',
             'url'    => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>null)),
-            'class' => (!$curWebsite && !$curStore ? 'active' : ''),
+            'class' => 'global'.(!$curWebsite && !$curStore ? ' active' : ''),
         ));
         
         foreach (Mage::getConfig()->getNode('websites')->children() as $wCode=>$wConfig) {
             $this->addTab('website_'.$wCode, array(
                 'label' => $wCode,
                 'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>$wCode, 'store'=>null)),
-                'class' => ($curWebsite===$wCode ? 'active' : ''),
+                'class' => 'website'.($curWebsite===$wCode ? ' active' : ''),
             ));
             foreach ($wConfig->descend('system/stores')->children() as $sCode=>$sId) {
                 $this->addTab('store_'.$sCode, array(
                     'label' => $sCode,
                     'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>$sCode)),
-                    'class' => ($curStore===$sCode ? 'active' : ''),
+                    'class' => 'store'.($curStore===$sCode ? ' active' : ''),
                 ));
             }
         }
