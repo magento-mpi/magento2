@@ -1,7 +1,7 @@
 <?
 /**
  * Template for Mage_Block_Adminhtml_Widget_Grid
- * 
+ *
  *  getId()
  *  getCollection()
  *  getColumns()
@@ -23,47 +23,49 @@
     <div id="<?=$this->getId()?>">
     <?endif;?>
 <?//=$this->getMessagesBlock()->getHtml();?>
-<table cellspacing="0" class="actions">
-<tr>
-<?if($this->getPagerVisibility()):?>
-	<td class="pager">
-		Page
-		<select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-		<?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
+<?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
+    <table cellspacing="0" class="actions">
+    <tr>
+    <?if($this->getPagerVisibility()):?>
+    	<td class="pager">
+    		Page
+    		<select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+    		<?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
 				<?$_selected = ($i==$this->getCollection()->getCurPage()) ? ' selected' : ''?>
 				<option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
-		<?endfor;?>
-		</select>
-		of &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span>View
-		<select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+    		<?endfor;?>
+    		</select>
+    		of &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span>View
+    		<select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
 				<option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
 				<option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
 				<option value="50"<?if($this->getCollection()->getPageSize()==50):?> selected<?endif;?>>50</option>
 				<option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
 				<option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
-		</select>
-		per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> Records</strong> found
-	</td>
-<?endif?>
-<?if($this->getExportTypes()):?>
-	<td class="export a-right">
-		<img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
-		<select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
-		<?foreach ($this->getExportTypes() as $_type):?>
-			<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
-		<?endforeach;?>
-		</select>
-		<?=$this->getExportButtonHtml()?>
-	</td>
+    		</select>
+    		per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> Records</strong> found
+    	</td>
+    <?endif?>
+    <?if($this->getExportTypes()):?>
+    	<td class="export a-right">
+    		<img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
+    		<select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
+    		<?foreach ($this->getExportTypes() as $_type):?>
+    			<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
+    		<?endforeach;?>
+    		</select>
+    		<?=$this->getExportButtonHtml()?>
+    	</td>
+    <?endif;?>
+    <?if($this->getFilterVisibility()):?>
+    	<td class="filter-actions a-right">
+    	<?=$this->getResetFilterButtonHtml()?>
+    	<?=$this->getSearchButtonHtml()?>
+    	</td>
+    <?endif;?>
+    </tr>
+    </table>
 <?endif;?>
-<?if($this->getFilterVisibility()):?>
-	<td class="filter-actions a-right">
-	<?=$this->getResetFilterButtonHtml()?>
-	<?=$this->getSearchButtonHtml()?>
-	</td>
-<?endif;?>
-</tr>
-</table>
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>

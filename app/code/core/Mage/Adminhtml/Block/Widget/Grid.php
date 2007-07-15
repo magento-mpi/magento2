@@ -78,24 +78,24 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('adminhtml/widget/grid.phtml');
     }
-    
+
     protected function _initChildren()
     {
-        $this->setChild('exportButton', 
+        $this->setChild('exportButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()'
                 ))
         );
-        $this->setChild('resetFilterButton', 
+        $this->setChild('resetFilterButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()'
                 ))
         );
-        $this->setChild('searchButton', 
+        $this->setChild('searchButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Search'),
@@ -103,22 +103,22 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 ))
         );
     }
-    
+
     public function getExportButtonHtml()
     {
         return $this->getChildHtml('exportButton');
     }
-    
+
     public function getResetFilterButtonHtml()
     {
         return $this->getChildHtml('resetFilterButton');
     }
-    
+
     public function getSearchButtonHtml()
     {
         return $this->getChildHtml('searchButton');
     }
-    
+
     /**
      * set collection object
      *
@@ -216,8 +216,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareCollection()
     {
         if ($this->getCollection()) {
-            $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-            $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
+
+            $this->_preparePage();
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
             $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
@@ -240,6 +240,12 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
 
         return $this;
+    }
+
+    protected function _preparePage()
+    {
+        $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+        $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     protected function _prepareColumns()
@@ -502,7 +508,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_saveParametersInSession = $flag;
         return $this;
     }
-    
+
     public function getJsObjectName()
     {
         return $this->getId().'JsObject';
