@@ -269,20 +269,6 @@ final class Mage {
 
         Varien_Profiler::stop('init');
 
-        // check modules db
-        /**
-         * @todo abstract updates check algorithm
-         */
-        $checkFile = Mage::getBaseDir('etc').DS.'update'.DS.'db';
-        if (file_exists($checkFile)) {
-            Varien_Profiler::start('dbUpdates');
-            Mage_Core_Model_Resource_Setup::applyAllUpdates();
-            Varien_Profiler::stop('dbUpdates');
-            if (is_writable($checkFile)) {
-                unlink($checkFile);
-            }
-        }
-
         if ($conn = Mage::getSingleton('core/resource')->getConnection('core_write')) {
             $conn->getProfiler()->setEnabled(true);
         }

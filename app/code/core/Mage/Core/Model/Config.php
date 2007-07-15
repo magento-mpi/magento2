@@ -37,11 +37,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function init()
     {
         #return $this->initLive();
-        Varien_Profiler::start('load-base');
         
-        $this->setCacheChecksum(null);
-        
-        // load modules
+        // load base config
+        Varien_Profiler::start('load-base');        
         $configFile = Mage::getBaseDir('etc').DS.'config.xml';        
         $this->setCacheChecksum(filemtime($configFile));
         $this->loadFile($configFile);
@@ -61,7 +59,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
-                $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
+                $configFile = $this->getModuleDir('etc', $modName).DS.'config.xml';
                 $this->updateCacheChecksum(filemtime($configFile));
             }
         }
@@ -83,7 +81,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::start('load-modules');
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
-                $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
+                $configFile = $this->getModuleDir('etc', $modName).DS.'config.xml';
                 if ($mergeConfig->loadFile($configFile)) {
                     $this->extend($mergeConfig, true);
                 }
@@ -104,6 +102,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->saveCache();
             Varien_Profiler::stop('save-cache');
         }
+        
+        Varien_Profiler::start('dbUpdates');
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
+        Varien_Profiler::stop('dbUpdates');
         
         return $this;
     }

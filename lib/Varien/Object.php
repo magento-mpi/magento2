@@ -453,8 +453,9 @@ class Varien_Object
         if (isset(self::$_underscoreCache[$name])) {
             return self::$_underscoreCache[$name];
         }
-        
+        #Varien_Profiler::start('underscore');
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        #Varien_Profiler::stop('underscore');
         self::$_underscoreCache[$name] = $result;
         return $result;
     }
