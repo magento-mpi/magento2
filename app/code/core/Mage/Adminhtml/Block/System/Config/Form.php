@@ -30,8 +30,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             if (empty($fieldsetConfig->fields)) {
                 continue;
             }
+            
+            #$element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_start')->setId($fieldsetName.'_start');
+            #$fieldset->addElement($element);
+            /*
             foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
                 $frontend = $fieldConfig->frontend;
+                
                 $fieldType = isset($frontend->type) ? (string) $frontend->type : 'text';
                 $fieldset->addField($fieldName, $fieldType, array(
                     'label' => (string) $frontend->label,
@@ -39,6 +44,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'class' => (string) $frontend->class,
                 ));
             }
+            */
+            #$element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_end')->setId($fieldsetName.'_end');
+            #$fieldset->addElement($element);
         }
 
         $this->setForm($form);

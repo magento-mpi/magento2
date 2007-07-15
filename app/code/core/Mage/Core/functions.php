@@ -3,6 +3,7 @@
 /**
  * Class autoload
  *
+ * @todo change to spl_autoload_register
  * @param string $class
  */
 function __autoload($class)

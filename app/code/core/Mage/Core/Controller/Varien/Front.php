@@ -68,7 +68,7 @@ class Mage_Core_Controller_Varien_Front
         Varien_Profiler::start('ctrl/init');
         
         // set defaults
-        $d = explode('/', Mage::getStoreConfig('general/default/front'));
+        $d = explode('/', Mage::getStoreConfig('web/default/front'));
         $this->setDefault(array(
             'module'     => isset($d[0]) ? $d[0] : 'core', 
             'controller' => isset($d[1]) ? $d[1] : 'index', 

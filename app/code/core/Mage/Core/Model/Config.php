@@ -13,130 +13,139 @@
  * @author      Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Core_Model_Config extends Varien_Simplexml_Config
+class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base 
 {
     protected $_classNameCache = array();
 
     protected $_blockClassNameCache = array();
+    
+    
     /**
      * Constructor
      *
      */
     function __construct()
     {
+        $this->setCacheId('config_global');
         parent::__construct();
-        $this->_elementClass = 'Mage_Core_Model_Config_Element';
     }
 
     /**
      * Initialization of core config
      *
      */
-    function init()
+    public function init()
     {
-        $this->getCache()->setDir($this->getBaseDir('etc'))->setKey('config-compiled');
+        #return $this->initLive();
+        Varien_Profiler::start('load-base');
         
-        $this->loadGlobal();
-    }
-
-    /**
-     * Config load sequence. Executed only in case of missing cache
-     *
-     * @return boolean
-     */
-    function loadGlobal()
-    {
-        if ($this->getCache()->load()) {
-            return true;
+        $this->setCacheChecksum(null);
+        
+        // load modules
+        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';        
+        $this->setCacheChecksum(filemtime($configFile));
+        $this->loadFile($configFile);
+        Varien_Profiler::stop('load-base');
+        
+        Varien_Profiler::start('load-distro');
+        $saveCache = true;
+        if (!$this->getNode('global/install/date')) {
+            $this->loadDistroConfig();
+            $saveCache = false;
         }
+        Varien_Profiler::stop('load-distro');
         
-        $this->loadCore();
-        $this->loadModules();
-        $this->loadLocal();
-        $this->applyExtends();
+        $mergeConfig = new Mage_Core_Model_Config_Base();
 
-        $this->getCache()->save();
-
-        return true;
-    }
-
-    /**
-     * Load core config from /app/etc/core.xml
-     *
-     * @return boolean
-     */
-    function loadCore()
-    {
-        $configFile = Mage::getBaseDir('etc').DS.'core.xml';
-        $this->getCache()->addComponent($configFile);
-        $this->setXml($this->loadFile($configFile));
-
-        return true;
-    }
-
-    /**
-     * Load modules config for active modules from /app/code/<pool>/<module>/etc/config.xml
-     *
-     * Overwrites core config
-     *
-     * @return boolean
-     */
-    function loadModules()
-    {
+        Varien_Profiler::start('load-modules-checksum');
         $modules = $this->getNode('modules')->children();
-        if (!$modules) {
-            return false;
-        }
-        foreach ($modules as $module) {
-            if (!$module->is('active')) {
-                continue;
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
+                $this->updateCacheChecksum(filemtime($configFile));
             }
-            $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
-            $this->getCache()->addComponent($configFile);
-            $moduleConfig = $this->loadFile($configFile);
-            $this->_xml->extend($moduleConfig, true);
         }
-        return true;
-    }
-
-    /**
-     * Load local config from /app/etc/local.xml
-     *
-     * Usually contains db connections configurations.
-     * Overwrites core and modules configs.
-     *
-     * @return boolean
-     */
-    public function loadLocal()
-    {
-        $configFile = Mage::getBaseDir('etc').DS.'local.xml';
+        Varien_Profiler::stop('load-modules-checksum');
         
-        try {
-            $this->getCache()->addComponent($configFile);
-            $localConfig = $this->loadFile($configFile);
-            $this->_xml->extend($localConfig, true);
-        }
-        catch (Exception $e){
-            $string = $this->getLocalDist($this->getLocalServerVars());
-            $localConfig = $this->loadString($string);
-            $this->_xml->extend($localConfig, true);
-            $this->getCache()->setIsAllowedToSave(false);
-        }
-        if (is_file($configFile)) {
-            //die('File ' . $configFile . ' not found. Copy it from ' . $configFile . '.dev');
+        Varien_Profiler::start('load-db-checksum');
+        $dbConf = Mage::getResourceModel('core/config');
+        $this->updateCacheChecksum($dbConf->getChecksum());
+        Varien_Profiler::stop('load-db-checksum');
+        
+        Varien_Profiler::start('load-cache');
+        if ($this->loadCache()) {
+            Varien_Profiler::stop('load-cache');
+            return true;
         } else {
+            Varien_Profiler::stop('load-cache');
         }
+        
+        Varien_Profiler::start('load-modules');
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                $configFile = $this->getModuleDir('etc', $module->getName()).DS.'config.xml';
+                if ($mergeConfig->loadFile($configFile)) {
+                    $this->extend($mergeConfig, true);
+                }
+            }
+        }
+        Varien_Profiler::stop('load-modules');
+        
+        Varien_Profiler::start('apply-extends');
+        $this->applyExtends();
+        Varien_Profiler::stop('apply-extends');
+        
+        Varien_Profiler::start('load-db');
+        $dbConf->loadToXml($this);
+        Varien_Profiler::stop('load-db');
+        
+        if ($saveCache) {
+            Varien_Profiler::start('save-cache');
+            $this->saveCache();
+            Varien_Profiler::stop('save-cache');
+        }
+        
         return $this;
+    }
+    
+    public function initLive()
+    {
+        $this->setCacheChecksum(null);
+
+        Varien_Profiler::start('load-cache');
+        if ($this->loadCache()) {
+            Varien_Profiler::stop('load-cache');
+            return true;
+        } else {
+            Varien_Profiler::stop('load-cache');
+        }
+        
+        return $this;
+    }
+    
+    public function getCache()
+    {
+        if (!$this->_cache) {
+            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
+                'cache_dir'=>Mage::getBaseDir('cache_config')
+            ));
+        }
+        return $this->_cache;
     }
     
     public function getTempVarDir()
     {
-        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
+        $dir = dirname(Mage::getRoot()).DS.'var';
+        if (!is_writable($dir)) {
+            $dir = (!empty($_ENV['TMP']) ? $_ENV['TMP'] : DS.'tmp').DS.'magento'.DS.'var';
+        }
+        return $dir;
     }
         
-    public function getLocalDist($data)
+    public function loadDistroConfig()
     {
-        $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
+        $data = $this->getLocalServerVars();
+        $template = file_get_contents($this->getBaseDir('etc').DS.'distro.xml');
         foreach ($data as $index=>$value) {
             $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
         }
@@ -164,22 +173,6 @@ class Mage_Core_Model_Config extends Varien_Simplexml_Config
             'base_path' => $basePath,
         );
         return $arr;
-    }
-    
-    /**
-     * Load configuration values from database.
-     *
-     * Overwrites all other configs
-     *
-     */
-    function loadFromDb()
-    {
-        try{
-            Mage::getResourceModel('core/config')->updateXmlFromDb($this->_xml);
-        }
-        catch (Exception $e) {
-
-        }
     }
 
     /**

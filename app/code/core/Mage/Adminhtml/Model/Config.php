@@ -14,6 +14,6 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     public function __construct()
     {
         parent::__construct();
-        $this->setXml($this->loadFile(Mage::getModuleDir('etc', 'Mage_Adminhtml').DS.'admin.xml'));
+        $this->loadFile(Mage::getModuleDir('etc', 'Mage_Adminhtml').DS.'admin.xml');
     }
 }

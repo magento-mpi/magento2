@@ -129,11 +129,11 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
 
         $layout = $this->getLayout()->init($key);
 
-        if (!$layout->getCache()->getIsLoaded()) {
+        if (!$layout->getNode()) {
             foreach ($ids as $id) {
                 $layout->loadUpdatesFromConfig($area, $id);
             }
-            $layout->getCache()->save();
+            $layout->saveCache();
         }
         Varien_Profiler::stop("$_profilerKey/load");
 

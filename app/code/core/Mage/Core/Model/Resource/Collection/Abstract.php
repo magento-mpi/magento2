@@ -2,7 +2,19 @@
 
 class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collection_Db 
 {
+    /**
+     * Model name
+     *
+     * @var string
+     */
     protected $_model;
+    
+    /**
+     * Resource model name
+     *
+     * @var string
+     */
+    protected $_resourceModel;
 
     /**
      * Resource instance
@@ -49,9 +61,14 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
      * @param string $model
      * @return Mage_Core_Model_Resource_Collection_Abstract
      */
-    protected function _init($model)
+    protected function _init($model, $resourceModel=null)
     {
-        return $this->setModel($model);
+        $this->setModel($model);
+        if (empty($resourceModel)) {
+            $resourceModel = $model;
+        }
+        $this->setResourceModel($resourceModel);
+        return $this;
     }
     
     /**
@@ -67,14 +84,14 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
     /**
      * Set model name for collection items
      *
-     * @param string $object
+     * @param string $model
      * @return Mage_Core_Model_Resource_Collection_Abstract
      */
-    public function setModel($object)
+    public function setModel($model)
     {
-        if (is_string($object)) {
-            $this->_model = $object;
-            $this->setItemObjectClass(Mage::getConfig()->getModelClassName($object));
+        if (is_string($model)) {
+            $this->_model = $model;
+            $this->setItemObjectClass(Mage::getConfig()->getModelClassName($model));
         }
         return $this;
     }
@@ -89,6 +106,16 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
     {
         return $this->_model;
     }
+    
+    public function setResourceModel($model)
+    {
+        $this->_resourceModel = $model;
+    }
+    
+    public function getResourceModelName()
+    {
+        return $this->_resourceModel;
+    }
         
     /**
      * Get resource instance
@@ -98,7 +125,7 @@ class Mage_Core_Model_Resource_Collection_Abstract extends Varien_Data_Collectio
     public function getResource()
     {
         if (empty($this->_resource)) {
-            $this->_resource = Mage::getResourceModel($this->getModelName());
+            $this->_resource = Mage::getResourceModel($this->getResourceModelName());
         }
         return $this->_resource;
     }

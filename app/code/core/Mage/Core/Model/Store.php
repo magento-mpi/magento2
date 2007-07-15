@@ -175,7 +175,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
         }
         
-        $config = $this->getConfig('webserver/'.(empty($params['_secure']) ? 'unsecure' : 'secure'));
+        $config = $this->getConfig('web/'.(empty($params['_secure']) ? 'unsecure' : 'secure'));
         $protocol = $config['protocol'];
         $host = $config['host'];
         $port = $config['port'];
@@ -183,7 +183,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (empty($params['_type'])) {
             $basePath = $config['base_path'];
         } else {
-            $basePath = $this->getConfig('webserver/url/'.$params['_type']);
+            $basePath = $this->getConfig('web/url/'.$params['_type']);
         }
         
         $url = $protocol.'://'.$host;

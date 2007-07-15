@@ -36,8 +36,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     
     public function __construct($data=array())
     {
-        parent::__construct($data);
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+        parent::__construct($data);
+    }
+    
+    public function getCache()
+    {
+        if (!$this->_cache) {
+            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
+                'cache_dir'=>Mage::getBaseDir('cache_layout')
+            ));
+        }
+        return $this->_cache;
     }
     
     public function setBlockCache($frontend='Core', $backend='File', array $frontendOptions=array(), array $backendOptions=array())
@@ -70,9 +80,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (Mage::getSingleton('core/store')->getCode()) {
             $id = Mage::getSingleton('core/store')->getCode() . '_' . $id;
         }
-        $this->getCache()->setDir(Mage::getBaseDir('cache_layout'))->setKey($id);
-        if (!$xml = $this->getCache()->load()) {
-            $this->setXml($this->loadString('<layout/>'));
+        $this->setCacheId($id);
+        if (!$this->loadCache()) {
+            $this->loadString('<layout/>');
+            $this->setCacheChecksum('');
         }
         return $this;
     }
@@ -93,9 +104,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdateFile($fileName)
     {
-        $this->getCache()->addComponent($fileName);
-        $update = $this->loadFile($fileName);
-        $this->mergeUpdate($update);
+        $this->updateCacheChecksum(filemtime($fileName));
+        $mergeLayout = Mage::getModel('core/layout');
+        $mergeLayout->loadFile($fileName);
+        $this->mergeUpdate($mergeLayout->getNode());
 
         return $this;
     }

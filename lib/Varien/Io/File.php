@@ -309,7 +309,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @access protected
      * @return string
      */
-    protected function _parsePermitions($mode)
+    protected function _parsePermissions($mode)
     {
         if( $mode & 0x1000 )
             $type='p'; /* FIFO pipe */

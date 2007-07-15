@@ -15,7 +15,9 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      * Would keep reference to parent node
      * 
      * If SimpleXMLElement would support complicated attributes
-     *
+     * 
+     * @todo make use of spl_object_hash to keep global array of simplexml elements 
+     *       to emulate complicated attributes
      * @var Varien_Simplexml_Element
      */
     protected $_parent = null;
@@ -58,6 +60,9 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      */
     public function descend($path)
     {
+        #$node = $this->xpath($path);
+        #return $node[0];
+        
         $pathArr = explode('/', $path);
         $desc = $this;
         foreach ($pathArr as $nodeName) {
@@ -119,10 +124,11 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	/**
 	 * Makes nicely formatted XML from the node
 	 *
+	 * @param string $filename
 	 * @param int $level
 	 * @return string
 	 */
-	public function asNiceXml($level=0)
+	public function asNiceXml($filename='', $level=0)
 	{
 	    $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
 	    $out = $pad."<".$this->getName();
@@ -136,7 +142,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	    if ($children = $this->children()) {
 	        $out .= ">\n";
 	        foreach ($children as $child) {
-	            $out .= $child->asNiceXml($level+1);
+	            $out .= $child->asNiceXml('', $level+1);
 	        }
 	        $out .= $pad."</".$this->getName().">\n";    
 	    } else {
@@ -148,11 +154,15 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	        }
 	    }
 	    
+	    if (0===$level && !empty($filename)) {
+	        file_put_contents($filename, $out);
+	    }
+	    
 	    return $out;
 	}
 	
 	/**
-	 * Converts meaningfull xml characters to xml entities
+	 * Converts meaningful xml characters to xml entities
 	 *
 	 * @param  string
 	 * @return string
@@ -208,9 +218,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             return $this;
         }
         
-        $sourceChildren = $source->children();
-        
-        foreach ($sourceChildren as $child) {
+        foreach ($source->children() as $child) {
             $this->extendChild($child, $overwrite);
         }
         

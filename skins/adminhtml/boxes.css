@@ -335,6 +335,14 @@ img.accordion-btn {
     background:#fff;
     font-weight:bold;
     }
+.content-left-nav a.global {
+    }
+.content-left-nav a.website {
+    padding-left:16px;
+    }
+.content-left-nav a.store {
+    padding-left:32px;
+    }
     
 .content-header {
     margin-bottom:1em;
