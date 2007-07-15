@@ -42,7 +42,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->setCacheChecksum(null);
         
         // load modules
-        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';        
+        $configFile = Mage::getBaseDir('etc').DS.'config.xml';        
         $this->setCacheChecksum(filemtime($configFile));
         $this->loadFile($configFile);
         Varien_Profiler::stop('load-base');
