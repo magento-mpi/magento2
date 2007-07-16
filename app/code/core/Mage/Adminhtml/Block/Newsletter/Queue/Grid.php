@@ -45,7 +45,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'type'      =>	'date',
             'align'     =>	'center',
             'index'     =>	'queue_start_at',
-            'default'	=> 	'----'
+            'format'	=>	'%D %T',
+            'default'	=> 	' ---- '
         ));
         
         $this->addColumn('finish_at', array(
@@ -53,7 +54,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'type'      => 	'date',
             'align'     => 	'center',
             'index'     =>	'queue_finish_at',
-            'default'	=> 	'----'
+            'format'	=>	'%D %T',
+            'default'	=> 	' ---- '
         ));
         
         $this->addColumn('template_subject', array(

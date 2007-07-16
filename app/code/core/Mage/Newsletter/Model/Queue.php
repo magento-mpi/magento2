@@ -42,6 +42,12 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
         return $this->_subscribersCollection;
     }
     
+    /**
+     * Add template data to queue.
+     *
+     * @param Varien_Object $data
+     * @return Mage_Newsletter_Model_Queue
+     */
     public function addTemplateData( $data ) 
     {
         if ($data->getTemplateId()) {
@@ -52,6 +58,12 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
         return $this;
     }
     
+    /**
+     * Send messages to subscribers for this queue
+     *
+     * @param 	int	 	$count
+     * @param 	array	$additionalVariables
+     */
     public function sendPerSubscriber($count=20, array $additionalVariables=array()) 
     {
     	if($this->getStatus()!=self::STATUS_SENDIND)
@@ -85,5 +97,6 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function addSubscribersToQueue(array $subscriberIds) 
     {
     	$this->getResource()->addSubscribersToQueue($this, $subscriberIds);
+    	return $this;
     }
 }

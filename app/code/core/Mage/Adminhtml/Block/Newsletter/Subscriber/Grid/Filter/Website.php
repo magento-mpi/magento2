@@ -27,4 +27,13 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends Mag
 		
 		return $this->_websiteCollection;
 	}
+	
+	public function getCondition()
+	{
+		$id = $this->getValue();
+		$website = Mage::getSingleton('core/website')
+			->load($id);
+		
+		return array('in'=>$website->getStoresIds(true));
+	}
 }// Class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website END

@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     
             $this->addTab('newsletter', array(
                 'label'     => __('Newsletter'),
-                'content'   => '<h3>Newsletter</h3>',
+                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter')->initForm()->toHtml()
             ));
     
             $this->addTab('tags', array(

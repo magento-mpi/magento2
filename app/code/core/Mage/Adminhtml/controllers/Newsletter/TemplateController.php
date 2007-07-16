@@ -118,7 +118,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
         	
         $queue->save();
-        print_r($queue);
-        //$this->_redirect('*/newsletter_queue');
+        
+        $this->_redirect('*/newsletter_queue/edit', array('id'=>$queue->getId()));
     }
 }

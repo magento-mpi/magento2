@@ -1,0 +1,26 @@
+<?php
+/**
+ * Adminhtml newsletter queue edit block
+ *
+ * @package    Mage
+ * @subpackage Adminhtml
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @license    http://www.opensource.org/licenses/osl-3.0.php
+ * @author	   Ivan Chepurnyi <mitch@varien.com>
+ */
+
+class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Template 
+{
+	protected  function _beforeToHtml() {
+		
+		$this->setTemplate('adminhtml/newsletter/queue/edit.phtml');
+		
+		$this->setChild('form',
+			$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form','form')
+		);
+		
+		return parent::_beforeToHtml();
+	}
+	
+	
+}// Class Mage_Adminhtml_Block_Newsletter_Queue_Edit END

@@ -22,9 +22,10 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         
         $this->setId('subscriberGrid');
         $this->setDefaultSort('id');
+        $this->setDefaultFilter(array('website'=>2));
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
-        
+        $this->_setFilterValues(array('website'=>1));
     }
 
     /**
@@ -37,7 +38,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         $collection = Mage::getResourceModel('newsletter/subscriber_collection')
 			->showCustomerInfo(true);
         $this->setCollection($collection);
-
+		
         return parent::_prepareCollection();
     }
     
@@ -72,12 +73,17 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'default'	=>	'----'
     	));
     	
-    	/* 
+    	
     	$this->addColumn('website', array(
     		'align'		=> 'center',
     		'sortable' 	=> false,
+    		'header'	=> __('Website'),
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_website',
-    	)); */
+    		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_website',
+    		'index'		=> 'store_id'
+    	)); 
+    	
+    	
     	
     	return parent::_prepareColumns();
     }

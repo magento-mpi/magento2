@@ -221,13 +221,15 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
             $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
-            $filter   = $this->getParam($this->getVarNameFilter());
+            $filter   = $this->getParam($this->getVarNameFilter(), $this->_defaultFilter);
 
-            if ($filter) {
+            if ($filter && is_string($filter)) {
                 $data = array();
                 $filter = base64_decode($filter);
                 parse_str(urldecode($filter), $data);
                 $this->_setFilterValues($data);
+            } else if ($filter && is_array($filter)) {
+            	$this->_setFilterValues($filter);
             }
 
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {

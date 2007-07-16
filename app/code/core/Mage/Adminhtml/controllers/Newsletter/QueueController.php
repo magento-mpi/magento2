@@ -29,7 +29,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         );
 
         $this->_addBreadcrumb(__('Newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
-        $this->_addBreadcrumb(__('Newsletter queue'), __('Newsletter queue title'));
+        $this->_addBreadcrumb(__('Queue'), __('Queue title'));
 
         $this->renderLayout();
     }
@@ -48,10 +48,27 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     		->load($this->getRequest()->getParam('id'));
     	if ($queue->getId()) {
     		$queue->setQueueStartAt(now())
-    			->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER)
+    			->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDIND)
     			->save();
     	}
     	
     	$this->_redirect('*/*');
+    }
+    
+    public function editAction() 
+    {
+    	$this->loadLayout('baseframe');
+    	
+    	$this->_setActiveMenu('newsletter/queue');
+    	
+    	$this->_addBreadcrumb(__('Newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
+        $this->_addBreadcrumb(__('Queue'), __('Queue title'), Mage::getUrl('adminhtml/newsletter_queue'));
+        $this->_addBreadcrumb(__('Edit queue'), __('Edit queue title'));
+        
+        $this->_addContent(
+        	$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit', 'queue.edit')
+        );
+    	
+    	$this->renderLayout();
     }
 }
