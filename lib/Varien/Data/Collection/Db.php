@@ -44,7 +44,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_conn = $conn;
         $this->_sqlSelect = $this->_conn->select();
     }
-    
+
     /**
      * Retrieve connection object
      *
@@ -146,7 +146,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_isFiltersRendered = true;
         return $this;
     }
-    
+
     /**
      * Add field filter to collection
      *
@@ -155,7 +155,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      *     array('attribute'=>'firstname', 'like'=>'test%'),
      *     array('attribute'=>'lastname', 'like'=>'test%'),
      * )
-     * 
+     *
      * @see self::_getConditionSql for $condition
      * @param string|array $attribute
      * @param null|string|array $condition
@@ -197,19 +197,19 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                     $sql.= empty($sql) ? '' : ' and ';
                     $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $condition['to']);
                 }
-            } 
+            }
             elseif (!empty($condition['neq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName != ?", $condition['neq']);
-            } 
+            }
             elseif (!empty($condition['like'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName like ?", $condition['like']);
-            } 
+            }
             elseif (!empty($condition['in'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName in (?)", $condition['in']);
-            } 
+            }
             elseif (!empty($condition['nin'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName not in (?)", $condition['nin']);
-            } 
+            }
             else {
                 $orSql = array();
                 foreach ($condition as $orCondition) {
@@ -276,13 +276,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
              ->_renderOrders()
              ->_renderLimit();
 
-        if($printQuery) {
-            echo $this->_sqlSelect->__toString();
-        }
-
-        if($logQuery){
-            Mage::log($this->_sqlSelect->__toString());
-        }
+        $this->printLogQuery($printQuery, $logQuery);
 
         $data = $this->_conn->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
@@ -295,10 +289,28 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         return $this;
     }
-    
+
     public function loadData($printQuery = false, $logQuery = false)
     {
         return $this->load($printQuery, $logQuery);
+    }
+
+    /**
+     * Print and/or log query
+     *
+     * @param boolean $printQuery
+     * @param boolean $logQuery
+     * @return  Varien_Data_Collection_Db
+     */
+    public function printLogQuery($printQuery = false, $logQuery = false) {
+        if ($printQuery) {
+            echo $this->_sqlSelect->__toString();
+        }
+
+        if ($logQuery){
+            Mage::log($this->_sqlSelect->__toString());
+        }
+        return $this;
     }
 
 
