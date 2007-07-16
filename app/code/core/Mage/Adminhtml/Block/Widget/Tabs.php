@@ -16,20 +16,27 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * @var array
      */
     protected $_tabs = array();
-    
+
+    /**
+     * Active tab key
+     *
+     * @var string
+     */
+    protected $_activeTab = null;
+
     /**
      * Destination HTML element id
      *
      * @var string
      */
     protected $_destElementId = 'content';
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/widget/tabs.phtml');
     }
-    
+
     /**
      * retrieve destination html element id
      *
@@ -39,13 +46,13 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
     {
         return $this->_destElementId;
     }
-    
+
     public function setDestElementId($elementId)
     {
         $this->_destElementId = $elementId;
         return $this;
     }
-    
+
     /**
      * Add new tab
      *
@@ -64,33 +71,52 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
         else {
             throw new Exception('Wrong tab configuration');
         }
-        
+
         if (is_null($this->_tabs[$tabId]->getUrl())) {
             $this->_tabs[$tabId]->setUrl('#');
         }
-        
+
         if (!$this->_tabs[$tabId]->getTitle()) {
             $this->_tabs[$tabId]->setTitle($this->_tabs[$tabId]->getLabel());
         }
-        
+
         $this->_tabs[$tabId]->setId($tabId);
+
+        if (is_null($this->_activeTab)) $this->_activeTab = $tabId;
+        if (true === $this->_tabs[$tabId]->getActive()) $this->setActiveTab($tabId);
+
         return $this;
     }
-    
+
     public function getTabId(Varien_Object $tab)
     {
         return $this->getId().'_'.$tab->getId();
     }
-    
-    public function getActiveTabId(){
-        foreach ($this->_tabs as $tab) {
-        	if ($tab->getActive()===true) {
-        	    return $this->getTabId($tab);
-        	}
-        }
-        return null;
+
+    public function getActiveTabId()
+    {
+        return $this->getTabId($this->_tabs[$this->_activeTab]);
     }
-    
+
+    /**
+     * Set Active Tab
+     *
+     * @param string $tabId
+     * @return Mage_Adminhtml_Block_Widget_Tabs
+     */
+    public function setActiveTab($tabId)
+    {
+        if (isset($this->_tabs[$tabId])) {
+            $this->_activeTab = $tabId;
+            if (!(is_null($this->_activeTab)) && ($tabId !== $this->_activeTab)) {
+                foreach ($this->_tabs as $id => $tab) {
+                    $tab->setActive($id === $tabId);
+                }
+            }
+        }
+        return $this;
+    }
+
     protected function _beforeToHtml()
     {
         $this->assign('tabs', $this->_tabs);
