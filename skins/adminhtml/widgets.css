@@ -9,13 +9,13 @@
     cursor:pointer;
     }
 .grid thead th a, .grid thead th a:hover {
-	text-decoration:none;
-	display:block;
-	color:#2f2f2f;
-	}
+    text-decoration:none;
+    display:block;
+    color:#2f2f2f;
+    }
 .grid thead th a:hover {
 text-decoration:underline;
-	}
+    }
 /* Sort arrows */
 .grid .sort-arrow-desc {
     padding-right: 30px;
@@ -56,11 +56,11 @@ text-decoration:underline;
     }
 .grid tr.filter .range div {
     width: 10em;
-	float: left;
-	}
+    float: left;
+    }
 .grid tr.filter .range div.date {
     width: 12em;
-	}
+    }
 .grid tr.filter .range input {
     width: 5.5em;
     margin-bottom:-1px;
@@ -70,7 +70,7 @@ text-decoration:underline;
     display: block;
     width: 3em;
     float: left;
-	padding-left: 2px;
+    padding-left: 2px;
     }
 
 .grid tr.filter .date img {
@@ -122,8 +122,8 @@ ul.tabs li a:hover {
     }
 
 input.validation-failed, textarea.validation-failed { 
-	background:#fbf2f4;
-	border: 1px dashed #d40707;}
+    background:#fbf2f4;
+    border: 1px dashed #d40707;}
 
 .left-col-field{ margin:5px 0px;padding:2px;width:205px; }
 .changed {
@@ -165,7 +165,7 @@ button.scalable td.ml {
     height:14px;
     background-position:0 -4px;
     background-repeat:no-repeat;
-    padding:2px 7px 0 11px;
+    padding:0px 7px 1px 11px;
     color:white;
     vertical-align:middle;
     line-height:12px;
