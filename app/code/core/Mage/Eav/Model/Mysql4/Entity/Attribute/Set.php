@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Resource_Abstract 
+class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_Abstract 
 {
     protected function _construct()
     {

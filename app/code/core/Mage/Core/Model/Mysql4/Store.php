@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Resource_Abstract
+class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {

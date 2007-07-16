@@ -76,7 +76,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      *
      * @param string $mainTable
      * @param string $idFieldName
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function _init($mainTable, $idFieldName)
     {
@@ -91,7 +91,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      *
      * @param string|array $connections
      * @param string|array|null $tables
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function setResource($connections, $tables=null)
     {
@@ -124,7 +124,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      *
      * @param string $mainTable
      * @param string|null $idFieldName
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     public function setMainTable($mainTable, $idFieldName=null)
     {
@@ -281,7 +281,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * Delete the object
      *
      * @param Varien_Object $object
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     public function delete(Mage_Core_Model_Abstract $object)
     {

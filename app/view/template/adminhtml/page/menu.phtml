@@ -54,7 +54,7 @@ function toggleIntersectingSelects(el, hide) {
     <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> 
         class="<?=!empty($_item['active'])?'active':''?>">
        <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" 
-            class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?>">
+            class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?> level<?=$_level?>">
             <?=$_item['label']?>
             <?if(empty($_level)):?><em></em><?endif?>
        </a>

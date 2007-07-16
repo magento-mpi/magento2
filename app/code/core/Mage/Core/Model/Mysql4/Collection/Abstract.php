@@ -19,7 +19,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     /**
      * Resource instance
      *
-     * @var Mage_Core_Model_Resource_Abstract
+     * @var Mage_Core_Model_Mysql4_Abstract
      */
     protected $_resource;
     
@@ -33,7 +33,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     /**
      * Collection constructor
      *
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
      */
     public function __construct($resource=null)
     {
@@ -59,7 +59,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
      * Standard resource collection initalization
      *
      * @param string $model
-     * @return Mage_Core_Model_Resource_Collection_Abstract
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
     protected function _init($model, $resourceModel=null)
     {
@@ -85,7 +85,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
      * Set model name for collection items
      *
      * @param string $model
-     * @return Mage_Core_Model_Resource_Collection_Abstract
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
     public function setModel($model)
     {
@@ -120,7 +120,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     public function getResource()
     {

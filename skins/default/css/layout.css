@@ -10,11 +10,11 @@
 			#logo a { float:left; width:195px; height:65px; }
 				#logo span { display:none; }
 		.header p { display:inline; color:#eae1c5; }
-		.header ul {  display:inline;}
-			.header ul li { display:inline; padding-left:10px; font-weight:bold;}
-				.header ul li a, .header ul li a:hover { color:#ecf5f7; }
-				.header ul li a { text-decoration:none; }
-				.header ul li a:hover { text-decoration:underline; }
+		.header ul.links {  display:inline;}
+			.header ul.links li { display:inline; padding-left:10px; font-weight:bold;}
+				.header ul.links li a, .header ul li a:hover { color:#ecf5f7; }
+				.header ul.links li a { text-decoration:none; }
+				.header ul.links li a:hover { text-decoration:underline; }
 		fieldset.search { float:right; width:280px; margin:5px 0; padding-left:68px; background:url(../images/title_search.gif) no-repeat 0 50%; text-align:right;}
 			fieldset.search legend span { display:none; }
 		fieldset.search .input-text { width:200px; font-size:11px; }

@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Mysql4_Config_Data_Collection extends Mage_Core_Model_Resource_Collection_Abstract 
+class Mage_Core_Model_Mysql4_Config_Data_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
 {
     protected function _construct() 
     {

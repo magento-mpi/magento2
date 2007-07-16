@@ -52,6 +52,11 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             ->setCurPage($page)
             ->setPageSize(9)
             ->loadData();
+            
+        $numResults = sizeof($prodCollection->getItems());
+        if ($numResults>0) {
+            Mage::getModel('catalog/search')->updateSearch($query, $numResults);
+        }
 
         $this->assign('query', $queryEscaped);
         $this->assign('productCollection', $prodCollection);

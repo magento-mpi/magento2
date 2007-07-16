@@ -99,5 +99,10 @@ class Mage_Catalog_SearchController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
-   }
+    }
+    
+    public function ajaxSuggestAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('catalog/product_search_autocomplete')->toHtml());
+    }
 }

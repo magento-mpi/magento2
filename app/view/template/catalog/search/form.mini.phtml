@@ -1,8 +1,32 @@
-<form action="<?=$baseUrl?>searchlucene/index/search/" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return
+<form id="search_mini_form" action="<?=$this->getUrl('catalog/search/result')?>" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return
 false;">
     <fieldset class="search">
     <legend><span>Search Site</span></legend>
-    <input name="q" type="text" id="search" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Enter your search term')?><?endif?>" class="input-text" onfocus="if(this.value=='<?=__('Enter your search term')?>')this.value=''; " onblur="if(this.value=='')this.value='<?=__('Enter your search term')?>';"/>
+    <input name="q" type="text" id="search" 
+        value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Enter your search term')?><?endif?>" 
+        class="input-text" 
+        onfocus="if(this.value=='<?=__('Enter your search term')?>')this.value=''; " 
+        onblur="if(this.value=='')this.value='<?=__('Enter your search term')?>';"
+    />
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+        new Ajax.Autocompleter(
+            'search', 
+            'search_autocomplete', 
+            '<?=$baseUrl?>catalog/search/ajaxSuggest/', 
+            {
+                paramName:"query", 
+                minChars:2,
+                //indicator:"search_indicator", 
+                updateElement:getSelectionId
+            }
+        );
+        
+        function getSelectionId(li) {
+            $('search').value = li.title;
+            $('search_mini_form').submit();
+        }
+    </script>
     <input type="submit" value="<?=__('Search')?>" alt="Search" class="input-button"/>
     </fieldset>
 </form>

@@ -9,7 +9,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */ 
 
-class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Resource_Collection_Abstract 
+class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
 {
 	/**
 	 * Initializes collection

@@ -95,6 +95,9 @@
                <product_rule>
                   <table>catalog_product_rule</table>
                </product_rule>
+               <search>
+                  <table>catalog_search</table>
+               </search>
             </entities>
          </catalog_mysql4>
       </models>
