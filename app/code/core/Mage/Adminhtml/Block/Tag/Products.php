@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Tag_Products extends Mage_Core_Block_Template
             $header = __('Products Tagged By ') . $customer->getName();
         } elseif ($tagId = $this->getRequest()->getParam('tag_id')) {
             $tag = Mage::getModel('tag/tag')->load($tagId);
-            $header = __('Products Tagged With ') . '"' . $tag->getTagname() . '"';
+            $header = __('Products Tagged With ') . '"' . $tag->getName() . '"';
         } else {
             $header = __('Products');
         }

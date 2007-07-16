@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Core_Block_Template
     public function getHeader()
     {
         if (Mage::registry('tag')->getId()) {
-            return __('Edit Tag ') . Mage::registry('tag')->getTagname();
+            return __('Edit Tag ') . Mage::registry('tag')->getName();
         }
         else {
             return __('New Tag');

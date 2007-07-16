@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Tag_Customers extends Mage_Core_Block_Template
             $header = __('Customers Who Tagged ') . $product->getName();
         } elseif ($tagId = $this->getRequest()->getParam('tag_id')) {
             $tag = Mage::getModel('tag/tag')->load($tagId);
-            $header = __('Customers Who Tagged With ') . '"' . $tag->getTagname() . '"';
+            $header = __('Customers Who Tagged With ') . '"' . $tag->getName() . '"';
         } else {
             $header = __('Customers');
         }

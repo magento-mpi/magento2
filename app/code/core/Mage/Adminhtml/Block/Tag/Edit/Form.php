@@ -25,12 +25,12 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Tag Information')));
 
-        $fieldset->addField('tagname', 'text', array(
-            'name'  => 'tagname',
+        $fieldset->addField('name', 'text', array(
+            'name'  => 'name',
             'label' => __('Tag Name'),
             'title' => __('Tag Name Title'),
             'class' => 'required-entry',
-            'value' => $tag->getTagname(),
+            'value' => $tag->getName(),
         ));
         $fieldset->addField('status', 'checkbox', array(
             'name'  => 'status',
