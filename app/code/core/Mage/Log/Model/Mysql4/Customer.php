@@ -67,70 +67,32 @@ class Mage_Log_Model_Mysql4_Customer
      */
     protected $_write;
 
-    protected $_visitorId;
-
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
 
-        $this->_visitorTable = $resource->getTableName('log/visitor');
-        $this->_visitorInfoTable = $resource->getTableName('log/visitor_info');
-        $this->_urlTable = $resource->getTableName('log/url_table');
-        $this->_urlInfoTable = $resource->getTableName('log/url_info_table');
-        $this->_customerTable = $resource->getTableName('log/customer');
-        $this->_quoteTable = $resource->getTableName('log/quote_table');
+        $this->_visitorTable    = $resource->getTableName('log/visitor');
+        $this->_visitorInfoTable= $resource->getTableName('log/visitor_info');
+        $this->_urlTable        = $resource->getTableName('log/url_table');
+        $this->_urlInfoTable    = $resource->getTableName('log/url_info_table');
+        $this->_customerTable   = $resource->getTableName('log/customer');
+        $this->_quoteTable      = $resource->getTableName('log/quote_table');
 
         $this->_read = $resource->getConnection('log_read');
         $this->_write = $resource->getConnection('log_write');
     }
-
-    public function getLastActivity($model)
+    
+    public function load($object, $customerId)
     {
         $select = $this->_read->select();
-        $select->from($this->_urlTable);
-        $select->joinLeft($this->_urlInfoTable, "{$this->_urlTable}.url_id = {$this->_urlInfoTable}.url_id");
-        $select->joinLeft($this->_customerTable, "{$this->_urlTable}.visitor_id = {$this->_customerTable}.visitor_id");
-        $select->where("{$this->_customerTable}.customer_id = {$model->getId()}");
-        $select->order("{$this->_urlTable}.url_id DESC");
-
-        $lastActivity = $this->_write->fetchRow($select);
-        $model->setLastActivity($lastActivity);
-    }
-
-    public function getLogTime($model)
-    {
-        $select = $this->_read->select();
-        $select->from($this->_customerTable);
-        $select->where("{$this->_customerTable}.customer_id = {$model->getId()}");
-        $select->order("{$this->_customerTable}.log_id DESC");
-
-        $lastLog = $this->_write->fetchRow($select);
-        $model->setLastLog($lastLog);
-    }
-
-    public function getOnlineStatus($model, $timeout=15)
-    {
-        $timeExpr = new Zend_Db_Expr("NOW() - INTERVAL {$timeout} MINUTE < {$this->_urlTable}.visit_time");
-
-        $select = $this->_read->select();
-        $select->from($this->_urlTable, array('url_id'));
-        $select->joinLeft($this->_customerTable, "{$this->_urlTable}.visitor_id = {$this->_customerTable}.visitor_id", array());
-        $select->where("{$this->_customerTable}.customer_id = {$model->getId()} AND {$timeExpr}");
-        $select->order("{$this->_urlTable}.url_id DESC");
-
-        $onlineStatus = $this->_write->fetchRow($select);
-        $model->setIsOnline( (intval($onlineStatus['url_id']) > 0) ? true : false );
-    }
-
-    public function getLastQuote($model)
-    {
-        $select = $this->_read->select();
-        $select->from($this->_quoteTable);
-        $select->joinLeft($this->_customerTable, "{$this->_quoteTable}.visitor_id = {$this->_customerTable}.visitor_id");
-        $select->where("{$this->_customerTable}.customer_id = {$model->getId()}");
-        $select->order("{$this->_quoteTable}.quote_id DESC");
-
-        $lastQuote = $this->_write->fetchRow($select);
-        $model->setLastQuote($lastQuote);
+        $select->from($this->_customerTable, array('login_at', 'logout_at'))
+            ->joinInner($this->_visitorTable, $this->_visitorTable.'.visitor_id='.$this->_customerTable.'.visitor_id', array('last_visit_at'))
+            ->joinInner($this->_visitorInfoTable, $this->_visitorTable.'.visitor_id='.$this->_visitorInfoTable.'.visitor_id', array('http_referer', 'remote_addr'))
+            ->joinInner($this->_urlInfoTable, $this->_urlInfoTable.'.url_id='.$this->_visitorTable.'.last_url_id', array('url'))
+            ->where($this->_read->quoteInto($this->_customerTable.'.customer_id=?', $customerId))
+            ->order($this->_customerTable.'.login_at desc')
+            ->limit(1);
+        $object->setData($this->_read->fetchRow($select));
+        return $object;
     }
 }

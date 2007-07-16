@@ -10,7 +10,10 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Template
 {
+    const ONLINE_INTERVAL = 900; // 15 min
     protected $_customer;
+    protected $_customerLog;
+    
     public function __construct()
     {
         parent::__construct();
@@ -50,6 +53,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         }
         return $this->_customer;
     }
+    
+    public function getCustomerLog()
+    {
+        if (!$this->_customerLog) {
+            $this->_customerLog = Mage::getModel('log/customer')
+                ->load($this->getCustomer()->getId());
+        }
+        return $this->_customerLog;
+    }
 
     public function getCreateDate()
     {
@@ -58,12 +70,21 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
     public function getLastLoginDate()
     {
-
+        return $this->getCustomerLog()->getLoginAt();
     }
 
     public function getCurrentStatus()
     {
-
+        $log = $this->getCustomerLog();
+        if ($log->getLogoutAt() || strtotime(now())-strtotime($log->getLastVisitAt())>self::ONLINE_INTERVAL) {
+            return __('Offline');
+        }
+        return __('Online');
+    }
+    
+    public function getCreatedInStore()
+    {
+        return Mage::getModel('core/store')->load($this->getCustomer()->getStoreId())->getName();
     }
 
     public function getBillingAddressHtml()
