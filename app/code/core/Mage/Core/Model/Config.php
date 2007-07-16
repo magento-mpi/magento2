@@ -146,7 +146,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         
     public function loadDistroConfig()
     {
-        $data = $this->getLocalServerVars();
+        $data = $this->getDistroServerVars();
         $template = file_get_contents($this->getBaseDir('etc').DS.'distro.xml');
         foreach ($data as $index=>$value) {
             $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
@@ -154,7 +154,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $template;
     }
     
-    public function getLocalServerVars()
+    public function getDistroServerVars()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         if ("\\"==$basePath || "/"==$basePath) {

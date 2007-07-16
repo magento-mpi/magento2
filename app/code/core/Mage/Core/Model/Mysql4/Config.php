@@ -52,8 +52,15 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Resource_Abstract
         // load all configuration records from database
         $rows = $read->fetchAll("select * from ".$this->getMainTable().($cond ? " where ".$cond : ''));
 
+        // get default distribution config vars
+        $vars = Mage::getModel('core/config')->getDistroServerVars();
+        foreach ($vars as $k=>$v) {
+            $subst_from[] = '{{'.$k.'}}';
+            $subst_to[] = $v;
+        }
         // organize configuration records in $config array and associate stores to websites
         foreach ($rows as $r) {
+            $r['data'] = str_replace($subst_from, $subst_to, $r['data']);
             $config[$r['scope']][$r['scope_id']][$r['path']] = array('value'=>$r['data'], 'inherit'=>$r['inherit']);
         }
 

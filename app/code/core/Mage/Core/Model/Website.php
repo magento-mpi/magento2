@@ -68,7 +68,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         $stores = Mage::getConfig()->getNode('stores')->children();
         $storeCodes = array();
         foreach ($stores as $storeCode=>$storeConfig) {
-            if ($this->getCode()===(string)$storeConfig->system->website->id) {
+            if ($this->getCode()===$storeCode) {
                 $storeCodes[] = $storeCode;
             }
         }
