@@ -38,23 +38,30 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         #return $this->initLive();
         
+        $mergeConfig = new Mage_Core_Model_Config_Base();
+
         // load base config
         Varien_Profiler::start('load-base');        
-        $configFile = Mage::getBaseDir('etc').DS.'config.xml';        
+        $configFile = Mage::getBaseDir('etc').DS.'config.xml';
         $this->setCacheChecksum(filemtime($configFile));
         $this->loadFile($configFile);
         Varien_Profiler::stop('load-base');
         
-        Varien_Profiler::start('load-distro');
+        Varien_Profiler::start('load-local');
+        $configFile = Mage::getBaseDir('etc').DS.'local.xml';
+        $this->updateCacheChecksum(filemtime($configFile));
+        $mergeConfig->loadFile($configFile);
+        $this->extend($mergeConfig);
+        Varien_Profiler::stop('load-local');
+        
         $saveCache = true;
         if (!$this->getNode('global/install/date')) {
+            Varien_Profiler::start('load-distro');
             $this->loadDistroConfig();
+            Varien_Profiler::stop('load-distro');
             $saveCache = false;
         }
-        Varien_Profiler::stop('load-distro');
         
-        $mergeConfig = new Mage_Core_Model_Config_Base();
-
         Varien_Profiler::start('load-modules-checksum');
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {

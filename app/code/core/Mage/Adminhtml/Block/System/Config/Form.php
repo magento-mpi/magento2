@@ -31,8 +31,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 continue;
             }
             
-            #$element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_start')->setId($fieldsetName.'_start');
-            #$fieldset->addElement($element);
+            $element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_start')->setId($fieldsetName.'_start');
+            $fieldset->addElement($element);
             /*
             foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
                 $frontend = $fieldConfig->frontend;
@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 ));
             }
             */
-            #$element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_end')->setId($fieldsetName.'_end');
-            #$fieldset->addElement($element);
+            $element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_end')->setId($fieldsetName.'_end');
+            $fieldset->addElement($element);
         }
 
         $this->setForm($form);

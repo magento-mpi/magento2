@@ -20,7 +20,8 @@ class Mage_Directory_Model_Observer
         Mage::log('Directory observer: action predispatch event');
         $code = Mage::getSingleton('core/store')->getDefaultCurrencyCode();
         if ($code) {
-            Mage::getSingleton('core/store')->setDefaultCurrency(Mage::getModel('directory/currency')->load($code));
+            $currency = Mage::getModel('directory/currency')->load($code);
+            Mage::getSingleton('core/store')->setDefaultCurrency($currency);
         }
         
         if ($observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
@@ -31,8 +32,10 @@ class Mage_Directory_Model_Observer
         
         $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
         if ($code) {
-            Mage::getSingleton('core/store')->setCurrentCurrency(Mage::getModel('directory/currency')->load($code));
+            $currency = Mage::getModel('directory/currency')->load($code);
+            Mage::getSingleton('core/store')->setCurrentCurrency($currency);
         }
+        
     }
     
     /**

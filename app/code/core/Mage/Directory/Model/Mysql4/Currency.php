@@ -49,15 +49,19 @@ class Mage_Directory_Model_Mysql4_Currency
             $lang = Mage::getSingleton('core/store')->getLanguageCode();
         }
         
-        if ($this->_read) {
+            
+        if ($this->_read) {            
+            Varien_Profiler::start(__METHOD__);
             $select = $this->_read->select()
                 ->from($this->_currencyTable)
                 ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
                 ->where($this->_currencyTable.'.currency_code=?', $code)
                 ->where($this->_currencyNameTable.'.language_code=?', $lang);
             $result = $this->_read->fetchRow($select);
+            Varien_Profiler::stop(__METHOD__);
             return $result;
         }
+            
         return array();
     }
     

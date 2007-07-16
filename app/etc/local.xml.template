@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <resources>
+            <default_setup>
+                <connection>
+                    <host>localhost</host>
+                    <username>root</username>
+                    <password/>
+                    <dbname>magento_moshe</dbname>
+                </connection>
+            </default_setup>
+            <default_write>
+                <connection>
+                    <host>localhost</host>
+                    <username>root</username>
+                    <password/>
+                    <dbname>magento_moshe</dbname>
+                </connection>
+            </default_write>
+         </resources>
+     </global>
+</config>

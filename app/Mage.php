@@ -266,6 +266,10 @@ final class Mage {
         Varien_Profiler::start('init/config');
         Mage::getConfig()->init();
         Varien_Profiler::stop('init/config');
+        
+        Varien_Profiler::start('init/session');
+        Mage::getSingleton('core/session');
+        Varien_Profiler::stop('init/session');
 
         Varien_Profiler::stop('init');
 

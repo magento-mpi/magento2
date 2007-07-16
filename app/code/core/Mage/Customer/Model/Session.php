@@ -27,7 +27,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
-        $this->_session->customerId = $customer->getId();
+        $this->getId($customer->getId());
         return $this;
     }
     
@@ -43,8 +43,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         
         $customer = Mage::getModel('customer/customer');
-        if ($this->_session->customerId) {
-            $customer->load($this->_session->customerId);
+        if ($this->getId()) {
+            $customer->load($this->getId());
         }
         $this->setCustomer($customer);
         return $this->_customer;
