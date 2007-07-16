@@ -11,19 +11,19 @@
 class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     private $_gzInstalled = false;
-    
+
     public function __construct()
     {
         $this->_gzInstalled = extension_loaded('zlib');
         parent::__construct();
     }
-    
+
     /**
      * Init backups collection
      * @return void
      */
     protected function _initCollection()
-    {       
+    {
         $collection = Mage::getSingleton('backup/fs_collection');
         $this->setCollection($collection);
     }
@@ -36,16 +36,16 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $gridUrl = Mage::getUrl('*/*/');
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->addColumn('time', array('header'=>__('time'), 'align'=>'center', 'index'=>'time_formated'));
-        $this->addColumn('type', array('header'=>__('type'),'align'=>'center', 'index'=>'type'));
-        $this->addColumn('download', array('header'=>__('download'),'align'=>'center',
+        $this->addColumn('time', array('header'=>__('Time'), 'align'=>'center', 'index'=>'time_formated'));
+        $this->addColumn('type', array('header'=>__('Type'),'align'=>'center', 'index'=>'type'));
+        $this->addColumn('download', array('header'=>__('Download'),'align'=>'center',
                                            'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a> | <a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false));
-        $this->addColumn('action', array('header'=>__('action'),'align'=>'center',
+        $this->addColumn('action', array('header'=>__('Action'),'align'=>'center',
                                          'format'=>'<a href="' . $gridUrl .'delete/time/$time/type/$type/">' . __('delete') . '</a>',
                                          'index'=>'type', 'sortable'=>false));
         $this->_initCollection();
         return parent::_beforeToHtml();
     }
-    
+
 }

@@ -11,16 +11,34 @@
 
 class Mage_Adminhtml_Block_Backup extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('adminhtml/backup/list.phtml');
     }
-    
-    public function _beforeToHtml()
+
+    protected function _initChildren()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/backup_grid', 'backup.grid'));
-        return $this;
+        parent::_initChildren();
+        $this->setChild('createButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label' => __('Create Backup'),
+                    'onclick' => "window.location.href='" . Mage::getUrl('*/*/create') . "'",
+                ))
+        );
+        $this->setChild('backupsGrid',
+            $this->getLayout()->createBlock('adminhtml/backup_grid')
+        );
     }
-   
+
+    public function getCreateButtonHtml()
+    {
+        return $this->getChildHtml('createButton');
+    }
+
+    public function getGridHtml()
+    {
+        return $this->getChildHtml('backupsGrid');
+    }
 }

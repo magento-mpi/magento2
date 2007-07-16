@@ -1,16 +1,9 @@
 <div class="content-header">
-<table cellspacing="0" class="grid-header">	
+<table cellspacing="0" class="grid-header">
 	<tr>
-		<td style="width:50%;"><h3><?=__('Backup Title')?></h3></td>
-		<td class="form-buttons">
-		
-		<table cellspacing="0" class="form-button">
-				<tr>
-					<td class="form-button-left"></td>
-					<td class="form-button-right"><a href="<?=$this->getUrl('adminhtml/*/',array('action'=>'create'))?>"><?=__('Create Backup');?></a></td>
-				</tr>
-			</table></td>
+		<td style="width:50%;"><h3><?=__('Backups Control')?></h3></td>
+		<td class="a-right"><?=$this->getCreateButtonHtml();?></td>
 	</tr>
 </table>
 </div>
-<?=$this->getChildHtml('grid');?>
+<?=$this->getGridHtml()?>
