@@ -133,6 +133,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'date':
                 $filterClass = 'adminhtml/widget_grid_column_filter_date';
                 break;
+            case 'number':
             case 'currency':
                 $filterClass = 'adminhtml/widget_grid_column_filter_range';
                 break;
