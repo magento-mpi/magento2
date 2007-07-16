@@ -22,10 +22,10 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         
         $this->setId('subscriberGrid');
         $this->setDefaultSort('id');
-        $this->setDefaultFilter(array('website'=>2));
+        $this->setDefaultFilter(array('website'=>1));
         $this->setSaveParametersInSession(true);
+        $this->setMessageBlockVisibility(true);
         $this->setUseAjax(true);
-        $this->_setFilterValues(array('website'=>1));
     }
 
     /**

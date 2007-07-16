@@ -13,18 +13,76 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 {
     public function render(Varien_Object $row)
     {
-        $str = '<a href="' . Mage::getUrl('*/newsletter_template/preview',array('id'=>$row->getTemplateId())) . '" target="_blank">' 
-             . __('Preview') . '</a>';
+    	$actions = array();
+    	
+    	$actions[] = array(
+    		'@'	=>	array(
+    				'href'		=>	Mage::getUrl('*/newsletter_template/preview',
+    											 array('id'=>$row->getTemplateId())	
+    								),
+    				'target'	=>	'_blank'
+    		),
+    		'#'	=>	__('Preview')
+    	);
+    	
         
         if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
-        	$str .= ' | <a href="' . Mage::getUrl('*/*/edit', array('id'=>$row->getId())) . '">' . __('edit') . '</a>';
+        	$actions[] = array(
+	    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
+	    		'#'	=>	__('edit')
+	    	);
+        	        	
         	if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
-        		$str .= ' | <a href="' . Mage::getUrl('*/*/start', array('id'=>$row->getId())) . '">' . __('Start') . '</a>';
+        		$actions[] = array(
+		    		'@'	=>	array('href' => Mage::getUrl('*/*/start', array('id'=>$row->getId()))),
+		    		'#'	=>	__('Start')
+		    	);
         	}
-        } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDIND) {
-        	// TOdo: do)
+        } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDING) {
+        	$actions[] = array(
+		    		'@'	=>	array('href' => Mage::getUrl('*/*/pause', array('id'=>$row->getId()))),
+		    		'#'	=>	__('Pause')
+		    );
+		    $actions[] = array(
+		    		'@'	=>	array(
+		    			'href'		=>	Mage::getUrl('*/*/cancel', array('id'=>$row->getId())),
+		    			'onclick'	=>	'return confirm(\'' . $this->_getEscapedValue(__('Are you realy wont cancel queue?')) . '\')'
+		    		),
+		    		'#'	=>	__('Cancel')
+		    );
+		    
+        	
+        } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_PAUSE) {
+			$actions[] = array(
+		    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
+		    		'#'	=>	__('edit')
+		    );
+		    
+		    $actions[] = array(
+		    		'@'	=>	array('href' => Mage::getUrl('*/*/resume', array('id'=>$row->getId()))),
+		    		'#'	=>	__('Resume')
+		    );
+		    
         }
         
-        return $str;
+        
+        
+        return $this->_actionsToHtml($actions);
+    }
+    
+    protected function _getEscapedValue($value) 
+    {
+    	return addcslashes(htmlspecialchars($value),'\\\'');
+    }
+    
+    protected function _actionsToHtml(array $actions) 
+    {
+    	$html = array();
+    	$attributesObject = new Varien_Object();
+    	foreach ($actions as $action) {
+    		$attributesObject->setData($action['@']);
+    		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
+    	}    	
+    	return implode(' | ', $html);
     }
 }

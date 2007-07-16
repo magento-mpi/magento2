@@ -47,19 +47,104 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     	$queue = Mage::getModel('newsletter/queue')
     		->load($this->getRequest()->getParam('id'));
     	if ($queue->getId()) {
+    		if(!in_array($queue->getQueueStatus(),
+	    		 		 array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
+	    		 		 	   Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+	   			$this->_redirect('*/*');
+	    		return;
+	    	}
+	    	
     		$queue->setQueueStartAt(now())
-    			->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDIND)
+    			->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING)
     			->save();
     	}
     	
     	$this->_redirect('*/*');
     }
     
+    public function pauseAction()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	
+    	if(!in_array($queue->getQueueStatus(),
+    		 		 array(Mage_Newsletter_Model_Queue::STATUS_SENDING))) {
+   			$this->_redirect('*/*');
+    		return;
+    	}
+    	
+    	$queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_PAUSE);
+    	$queue->save();
+    	
+    	$this->_redirect('*/*');
+    }
+    
+    public function resumeAction()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	
+    	if(!in_array($queue->getQueueStatus(),
+    		 		 array(Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+   			$this->_redirect('*/*');
+    		return;
+    	}
+    	
+    	$queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING);
+    	$queue->save();
+    	
+    	$this->_redirect('*/*');
+    }
+    
+    public function cancelAction()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	
+    	if(!in_array($queue->getQueueStatus(),
+    		 		 array(Mage_Newsletter_Model_Queue::STATUS_SENDING))) {
+   			$this->_redirect('*/*');
+    		return;
+    	}
+    	
+    	$queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_CANCEL);
+    	$queue->save();
+    	
+    	$this->_redirect('*/*');
+    }
+    
+    public function sendingAction()
+    {
+    	// Todo: put it somewhere in config!
+    	$countOfQueue  = 3;
+    	$countOfSubscritions = 20;
+    	
+    	$collection = Mage::getResourceModel('newsletter/queue_collection')
+    		->setPageSize($countOfQueue)
+    		->setCurPage(1)
+    		->addOnlyForSendingFilter()
+    		->load();
+    		
+    	$collection->walk('sendPerSubscriber', array($countOfSubscritions));
+    }
+    
+    
     public function editAction() 
     {
+    	$queue = Mage::getSingleton('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	
+    	if(!in_array($queue->getQueueStatus(),
+    		 		 array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
+    		 		 	   Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+   			$this->_redirect('*/*');
+    		return;
+    	}
+    	
     	$this->loadLayout('baseframe');
     	
     	$this->_setActiveMenu('newsletter/queue');
+    	
     	
     	$this->_addBreadcrumb(__('Newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
         $this->_addBreadcrumb(__('Queue'), __('Queue title'), Mage::getUrl('adminhtml/newsletter_queue'));
@@ -70,5 +155,33 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         );
     	
     	$this->renderLayout();
+    }
+    
+    public function saveAction()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue')
+    		->load($this->getRequest()->getParam('id'));
+    	
+    	if(!in_array($queue->getQueueStatus(),
+    		 		 array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
+    		 		 	   Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+   			$this->_redirect('*/*');
+    		return;
+    	}
+    	
+    	if(!$queue->getQueueStartAt() && $this->getRequest()->getParam('start_at')) {
+    		$queue->setQueueStartAt($this->getRequest()->getParam('start_at'));
+    	} 
+    	
+    	$queue->addTemplateData($queue);
+    	$queue->getTemplate()
+    		->setTemplateSubject($this->getRequest()->getParam('subject'))
+    		->setTemplateSenderName($this->getRequest()->getParam('sender_name'))
+    		->setTemplateSenderEmail($this->getRequest()->getParam('sender_email'))
+    		->setTemplateTextPreprocessed($this->getRequest()->getParam('text'));
+    	$queue->setSaveTemplateFlag(true);
+    	$queue->save();
+    	
+    	$this->_redirect('*/*');
     }
 }

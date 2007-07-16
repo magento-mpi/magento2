@@ -113,11 +113,16 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     
     public function toqueueAction()
     {
+    	$template = Mage::getModel('newsletter/template')
+        	->load($this->getRequest()->getParam('id'))
+        	->preprocess();
+    	
     	$queue = Mage::getModel('newsletter/queue')
     		->setTemplateId($this->getRequest()->getParam('id'))
         	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
-        	
+        
         $queue->save();
+        $template->save();
         
         $this->_redirect('*/newsletter_queue/edit', array('id'=>$queue->getId()));
     }

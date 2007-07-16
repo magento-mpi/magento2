@@ -52,7 +52,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
         $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
-        $this->_sqlSelect->from($this->_subscriberTable);
+        $this->_sqlSelect->from(array('main_table'=>$this->_subscriberTable));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
     }
     
@@ -63,32 +63,21 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useQueue(Mage_Newsletter_Model_Queue $queue)
     {
-        $this->_sqlSelect->join($this->_queueLinkTable, array(), "{$this->_queueLinkTable}.subscriber_id = {$this->_subscriberTable}.subscriber_id")
-            ->where("{$this->_queueLinkTable}.queue_id = ? ", $queue->getId());
+        $this->_sqlSelect->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
+            ->where("link.queue_id = ? ", $queue->getId());
         $this->_queueJoinedFlag = true;
         return $this;
     }    
     
     
-    /**
-     * Set loading mode subscribers by website
-     * 
-     * @param   int $websiteId
-     */
-    public function useOnlyWebsite($websiteId)
-    {
-        // $this->_sqlSelect->where("{$this->_subscriberTable}.website_id = ?", $websiteId);
-        // Todo: realize loading by store from website id.
-        return $this;
-    }
-    
+        
     /**
      * Set using of links to only unsendet letter subscribers.
      */ 
     public function useOnlyUnsent( )
     {
         if($this->_queueJoinedFlag) {
-            $this->_sqlSelect->where("{$this->_queueLinkTable}.letter_sent_at IS NULL");
+            $this->_sqlSelect->where("link.letter_sent_at IS NULL");
         }
         
         return $this;
@@ -145,7 +134,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useOnlyCustomers()
     {
-        $this->_sqlSelect->where("{$this->_subscriberTable}.customer_id > 0");
+        $this->_sqlSelect->where("main_table.customer_id > 0");
         
         return $this;
     }
@@ -155,7 +144,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useOnlySubscribed() 
     {
-        $this->_sqlSelect->where("{$this->_subscriberTable}.status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        $this->_sqlSelect->where("main_table.status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
         
         return $this;
     }

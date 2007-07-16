@@ -56,12 +56,31 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     }
     
     /**
-     * Add filter by only unsent items
+     * Add filter by only ready fot sending item
      *
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
-    public function addOnlyUnsentFilter() {
-    	$this->addFilter('queue_status', Mage_Newsletter_Model_Queue::STATUS_NEVER);
+    public function addOnlyForSendingFilter() 
+    {
+    	$this->getSelect()
+    		->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING, 
+    														Mage_Newsletter_Model_Queue::STATUS_NEVER))
+    		->where('main_table.queue_start_at < ?', now())
+    		->where('main_table.queue_start_at IS NOT NULL');
+    	
+    	return $this;
+    }
+    
+    /**
+     * Add filter by only not sent items
+     *
+     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
+     */
+    public function addOnlyUnsentFilter() 
+    {
+    	$this->getSelect()
+    		->where('main_table.queue_status = ?',	Mage_Newsletter_Model_Queue::STATUS_NEVER);
+    	
    		return $this;
     }
     
@@ -69,4 +88,5 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     {
         return $this->_toOptionArray('queue_id', 'template_subject');
     }
+    
 }

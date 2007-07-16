@@ -13,6 +13,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Website extends M
 {
 	public function render(Varien_Object $row) 
 	{
-		return Mage::getSingleton('core/website')->getCode();
+		return Mage::getSingleton('core/website')->getName();
 	}
 }// Class  Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Website END

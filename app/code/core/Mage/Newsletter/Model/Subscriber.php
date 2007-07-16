@@ -224,4 +224,16 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     	    	
     	return false;
     }
+    
+    /**
+     * Mark receiving subscriber of queue newsletter
+     *
+     * @param  Mage_Newsletter_Model_Queue $queue
+     * @return boolean
+     */
+    public function received(Mage_Newsletter_Model_Queue $queue) 
+    {
+    	$this->getResource()->received($this,$queue);
+    	return $this;
+    }
 }

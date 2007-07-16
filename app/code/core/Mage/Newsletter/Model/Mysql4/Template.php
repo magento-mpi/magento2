@@ -118,12 +118,13 @@ class Mage_Newsletter_Model_Mysql4_Template
      */
     public function checkCodeUsage(Mage_Newsletter_Model_Template $template)
     {
-        if($template->getTemplateActual()!=='false') {
+        if($template->getTemplateActual()!=0 || is_null($template->getTemplateActual())) {
+        	
             $select = $this->_read->select()
                 ->from($this->_templateTable, new Zend_Db_Expr('COUNT(template_id)'))
                 ->where('template_id!=?',$template->getId())
                 ->where('template_code=?',$template->getTemplateCode())
-                ->where('template_actual=?','true');
+                ->where('template_actual=?',1);
             
             $countOfCodes = $this->_read->fetchOne($select);
             
@@ -143,7 +144,7 @@ class Mage_Newsletter_Model_Mysql4_Template
         $this->_write->beginTransaction();
         try {
             $data = $this->_prepareSave($template);
-            if($template->getId() && ($template->getTemplateActual()===0 || !$this->checkUsageInQueue($template))) {
+            if($template->getId() && (($template->getTemplateActual()==0 && !is_null($template->getTemplateActual())) || !$this->checkUsageInQueue($template))) {
                 $this->_write->update($this->_templateTable, $data, 
                                       $this->_write->quoteInto('template_id=?',$template->getId())); 
             } else if ($template->getId()) {
@@ -153,6 +154,7 @@ class Mage_Newsletter_Model_Mysql4_Template
                 $this->_write->update($this->_templateTable, $updata, 
                                       $this->_write->quoteInto('template_id=?',$template->getId()));
                 
+                $data['template_text_preprocessed'] = null;
                 $this->_write->insert($this->_templateTable, $data);
                 $template->setId($this->_write->lastInsertId($this->_templateTable));
             } else {
@@ -164,6 +166,7 @@ class Mage_Newsletter_Model_Mysql4_Template
         }
         catch (Exception $e) {
             $this->_write->rollBack();
+            echo $e->getMessage();
             Mage::throwException('cannot save newsletter template');
         }
     }
@@ -179,15 +182,17 @@ class Mage_Newsletter_Model_Mysql4_Template
         $data = array();
         $data['template_code'] = $template->getTemplateCode();
         $data['template_text'] = $template->getTemplateText();
+        $data['template_text_preprocessed'] = $template->getTemplateTextPreprocessed();
         $data['template_type'] = (int) $template->getTemplateType();
         $data['template_subject'] = $template->getTemplateSubject();
         $data['template_sender_name'] = $template->getTemplateSenderName();
         $data['template_sender_email'] = $template->getTemplateSenderEmail();
-        $data['template_actual'] = $template->getTemplateActual() === 0 ? 0 : 1;
+        $data['template_actual'] = ( !is_null($template->getTemplateActual()) && $template->getTemplateActual() == 0  ? 0 : 1 ); 
         
         if($this->checkCodeUsage($template)) {
             Mage::throwException('duplicate of template code');
         }
+        
         $templateCodeValidator = new Zend_Validate_Regex('/^[a-z][a-z0-9\\-_]*$/i');
         $templateCodeValidator->setMessage('invalid template code', Zend_Validate_Regex::NOT_MATCH);
         $validators = array( 

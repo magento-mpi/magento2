@@ -22,10 +22,19 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
         }
         
         Varien_Profiler::start("email_template_proccessing");
-        $templateProcessed = $template->getProcessedTemplate();
+        $vars = array();
+        
+        if($this->getRequest()->getParam('subscriber')) {
+        	$vars['subscriber'] = Mage::getModel('newsletter/subscriber')
+        		->load($this->getRequest()->getParam('subscriber'));
+        }
+        
+        $templateProcessed = $template->getProcessedTemplate($vars, true);
+        
         if($template->isPlain()) {
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
+        
         Varien_Profiler::stop("email_template_proccessing");
         
         return $templateProcessed;

@@ -13,14 +13,54 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
 {
     public function render(Varien_Object $row)
     {
-        $str = '<a class="" href="' . Mage::getUrl('adminhtml/*/edit',array('id'=>$row->getId())) . '">' . __('edit') 
-             . '</a> ' . ($row->isValidForSend() ?  '| <a href="' . Mage::getUrl('adminhtml/*/toqueue',array('id'=>$row->getId())) . '">' 
-             . __('create queue') . '</a>' : '' )  
-             . '| <a href="' . Mage::getUrl('adminhtml/*/preview',array('id'=>$row->getId())) . '" target="_blank">' 
-             . __('preview') . '</a>'
-             . '| <a href="' . Mage::getUrl('adminhtml/*/delete',array('id'=>$row->getId())) . '">' 
-             . __('delete') . '</a>';
         
-        return $str;
+    	$actions = array();
+    	
+    	$actions[] = array(
+    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
+    		'#'	=>	__('edit')
+    	);
+    	
+    	if($row->isValidForSend()) {
+    		$actions[] = array(
+	    		'@'	=>	array('href' => Mage::getUrl('*/*/toqueue', array('id'=>$row->getId()))),
+	    		'#'	=>	__('Create queue')
+	    	);
+    	}
+    	
+    	$actions[] = array(
+    		
+    		'@'	=>	array(
+	    				'href'		=>	Mage::getUrl('*/*/preview', array('id'=>$row->getId())),
+	    				'target'	=>	'_blank'
+	    	),
+    		'#'	=>	__('Preview')
+    	);
+    	
+    	$actions[] = array(
+    		'@'	=>	array(
+    					  'href' => Mage::getUrl('*/*/delete', array('id'=>$row->getId())),
+    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Are you realy wont delete template?')) . '\')'
+    		),
+    		'#'	=>	__('delete')
+    	);
+    	
+    	return $this->_actionsToHtml($actions);
+    }
+    
+    protected function _getEscapedValue($value) 
+    {
+    	return addcslashes(htmlspecialchars($value),'\\\'');
+    }
+    
+    protected function _actionsToHtml(array $actions) 
+    {
+    	$html = array();
+    	$attributesObject = new Varien_Object();
+    	foreach ($actions as $action) {
+    		$attributesObject->setData($action['@']);
+    		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
+    	}    	
+    	return implode(' | ', $html);
     }
 }

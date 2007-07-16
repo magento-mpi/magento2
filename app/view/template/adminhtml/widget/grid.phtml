@@ -22,7 +22,9 @@
         <?endif?>
     <div id="<?=$this->getId()?>">
     <?endif;?>
-<?//=$this->getMessagesBlock()->getHtml();?>
+<?if($this->getMessageBlockVisibility()):?>
+<?=$this->getMessagesBlock()->getHtml();?>
+<?endif?>
 <?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
     <table cellspacing="0" class="actions">
     <tr>

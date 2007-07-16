@@ -3,22 +3,7 @@
         <tr>
             <td style="width:30%;"><h2><?=$this->getHeaderText()?></h2></td>
             <td class="form-buttons">
-                  <button class="scalable" onclick="subscriberController.addToQueue();">
-					<table cellspacing="0">
-						<tr>
-							<td class="tl"></td>
-							<td class="tr"></td>
-						</tr>
-						<tr>
-							<td class="ml"><?=__('Save queue');?></td>
-							<td class="mr"></td>
-						</tr>
-						<tr>
-							<td class="bl"></td>
-							<td class="br"></td>
-						</tr>
-					</table>
-				</button>              
+                  <?=$this->getSaveButtonHtml()?>
             </td>
         </tr>
     </table>

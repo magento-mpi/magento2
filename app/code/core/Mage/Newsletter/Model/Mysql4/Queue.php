@@ -10,11 +10,18 @@
  */ 
 class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
 {
+	
     protected function _construct() 
     {
         $this->_init('newsletter/queue', 'queue_id');
     }
-    
+       
+    /**
+     * Add subscribers to queue
+     *
+     * @param Mage_Newsletter_Model_Queue $queue
+     * @param array $subscriberIds
+     */
     public function addSubscribersToQueue(Mage_Newsletter_Model_Queue $queue, array $subscriberIds) 
     {
     	if (count($subscriberIds)==0) {
@@ -48,6 +55,15 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     		$this->getConnection('write')->rollBack();
     	}
     	
+    }
+    
+    protected function _afterSave(Mage_Core_Model_Abstract $queue) 
+    {
+    	if($queue->getSaveTemplateFlag()) {
+    		$queue->getTemplate()->save();
+    	}
+    	
+    	return $this;
     }
     
 }

@@ -32,6 +32,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     protected $_subscriberTable;
     
     /**
+     * Name of subscriber link DB table
+     * 
+     * @var string
+     */
+    protected $_subscriberLinkTable;
+    
+    /**
      * Name of scope for error messages
      * 
      * @var string
@@ -46,6 +53,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     public function __construct() 
     {
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName("newsletter/subscriber");
+        $this->_subscriberLinkTable = Mage::getSingleton('core/resource')->getTableName("newsletter/queue_link");
         $this->_read = Mage::getSingleton('core/resource')->getConnection('newsletter_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('newsletter_write');
     }
@@ -219,5 +227,23 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
             $this->_write->rollBack();
             Mage::throwException('Cannot delete subscriber');
         }
+    }
+    
+    public function received(Mage_Newsletter_Model_Subscriber $subscriber, Mage_Newsletter_Model_Queue $queue) 
+    {
+    	$this->_write->beginTransaction();
+    	 try {
+    	 	$data['letter_sent_at'] = now();
+            $this->_write->update($this->_subscriberLinkTable, 
+            					  $data,
+                                  array($this->_write->quoteInto('subscriber_id=?', $subscriber->getId()),
+                                  		$this->_write->quoteInto('queue_id=?', $queue->getId())));
+            $this->_write->commit();
+        }
+        catch (Exception $e) {
+            $this->_write->rollBack();
+            Mage::throwException('Cannot mark as received subscriber');
+        }
+    	return $this;
     }
 }

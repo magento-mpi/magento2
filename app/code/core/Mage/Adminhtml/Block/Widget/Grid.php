@@ -63,6 +63,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_filterVisibility = true;
+    
+    /**
+     * Massage block visibility
+     *
+     * @var boolean
+     */
+    protected $_messageBlockVisibility = false;
 
     protected $_saveParametersInSession = false;
 
@@ -230,6 +237,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
             	$this->_setFilterValues($filter);
+            } else if(0 !== sizeof($this->_defaultFilter)) {
+            	$this->_setFilterValues($this->_defaultFilter);
             }
 
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
@@ -356,6 +365,26 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getFilterVisibility()
     {
         return $this->_filterVisibility;
+    }
+    
+    /**
+     * Set visibility of filter
+     *
+     * @param boolean $visible
+     */
+    public function setMessageBlockVisibility($visible=true)
+    {
+        $this->_messageBlockVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of filter
+     *
+     * @return boolean
+     */
+    public function getMessageBlockVisibility()
+    {
+        return $this->_messageBlockVisibility;
     }
 
     public function setDefaultLimit($limit)

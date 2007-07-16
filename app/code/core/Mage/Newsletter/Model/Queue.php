@@ -16,12 +16,15 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
      */
     protected $_subscribersCollection = null;
     
+    protected $_saveTemplateFlag = false;
+    
     const STATUS_NEVER = 0;
-    const STATUS_SENDIND = 1;
+    const STATUS_SENDING = 1;
     const STATUS_CANCEL = 2;
     const STATUS_SENT = 3;
+    const STATUS_PAUSE = 4;
     
-        
+            
     protected function _construct()
     {
         $this->_init('newsletter/queue');
@@ -66,10 +69,13 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
      */
     public function sendPerSubscriber($count=20, array $additionalVariables=array()) 
     {
-    	if($this->getStatus()!=self::STATUS_SENDIND)
-    	if($this->getTemplate()) {
+    	if($this->getQueueStatus()!=self::STATUS_SENDING && ($this->getQueueStatus()!=self::STATUS_NEVER && $this->getQueueStartAt()) ) { 
+    		return false;
+    	}
+    	
+    	if(!$this->getTemplate()) {
     		$this->addTemplateData($this);
-    		if($this->getTemplate()->isPreprocessed()) {
+    		if(!$this->getTemplate()->isPreprocessed()) {
     			$this->getTemplate()->preproccess();
     		}
     	}
@@ -80,9 +86,19 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
             ->setCurPage(1)
             ->load();
             
+        
         foreach($collection->getItems() as $item) {
-            print_r($item);
+            
+        	$this->getTemplate()->send($item, array('subscriber'=>$item), null, $this);
+            
         }
+        
+        if(count($collection->getItems()) < $count-1 || count($collection->getItems()) == 0) {
+        	$this->setQueueFinishAt(now());
+        	$this->setQueueStatus(self::STATUS_SENT);
+        	$this->save();
+        }
+                
     }
     
     public function getDataForSave() {
@@ -98,5 +114,16 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     {
     	$this->getResource()->addSubscribersToQueue($this, $subscriberIds);
     	return $this;
+    }
+    
+    public function setSaveTemplateFlag($value) 
+    {
+    	$this->_saveTemplateFlag = (boolean)$value;
+    	return $this;
+    }
+    
+    public function getSaveTemplateFlag() 
+    {
+    	return $this->_saveTemplateFlag;
     }
 }

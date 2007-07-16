@@ -22,5 +22,25 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
 		return parent::_beforeToHtml();
 	}
 	
+	public function getSaveUrl() 
+	{
+		return $this->getUrl('*/*/save',array('id'=>$this->_request->getParam('id')));
+	}
+	
+	protected function _initChildren()
+    {
+        $this->setChild('saveButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save queue'),
+                    'onclick'   => 'queueForm.submit()'
+                ))
+        );
+    }
+    public function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('saveButton');
+    }
+
 	
 }// Class Mage_Adminhtml_Block_Newsletter_Queue_Edit END

@@ -71,7 +71,7 @@
     }
     
     /**
-     * Subscrioption confirm action
+     * Subscription confirm action
      */
     public function confirmAction() {
     	$id = (int) $this->getRequest()->getParam('id');

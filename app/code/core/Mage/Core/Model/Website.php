@@ -90,9 +90,11 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getStoresIds($notEmpty=false) 
     {
     	$ids = array();
+    	
     	foreach ($this->getStoreCollection()->getItems() as $item) {
     		$ids[] = $item->getId();
     	}
+    	
     	if(count($ids)== 0 && $notEmpty) {
     		$ids[] = 0;
     	}

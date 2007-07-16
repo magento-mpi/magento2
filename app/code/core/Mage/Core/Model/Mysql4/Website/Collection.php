@@ -16,6 +16,6 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_C
     
     public function toOptionArray()
     {
-        return $this->_toOptionArray('website_id', 'code');
+        return $this->_toOptionArray('website_id', 'name');
     }
 }

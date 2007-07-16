@@ -16,6 +16,9 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     const TYPE_TEXT = 1;
     const TYPE_HTML = 2;
 
+    
+    protected $_preprocessFlag = false;
+    
     /** 
      * Return resource of template model.
      *
@@ -97,7 +100,21 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         return $this;
     }
     
-    public function getProcessedTemplate(array $variables = array())
+    public function isPreprocessed() 
+    {
+    	return strlen($this->getTemplateTextPreprocessed()) > 0;
+    }
+    
+    public function getTemplateTextPreprocessed() 
+    {
+    	if($this->_preprocessFlag) {
+    		$this->setTemplateTextPreprocessed($this->getProcessedTemplate());
+    	}
+    	    	
+    	return $this->getData('template_text_preprocessed');
+    }
+    
+    public function getProcessedTemplate(array $variables = array(), $usePreprocess=false)
     {
         $processor = new Mage_Newsletter_Filter_Template();
         $variables['this'] = $this;
@@ -105,16 +122,21 @@ class Mage_Newsletter_Model_Template extends Varien_Object
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
         
+        if($usePreprocess && $this->isPreprocessed()) {
+        	return $processor->filter($this->getTemplateTextPreprocessed());
+        }
+        
         return $processor->filter($this->getTemplateText());
     }
+    
+    
     
     public function getInclude($template, array $variables) {
         $thisClass = __CLASS__;
         $includeTemplate = new $thisClass();
         
         $includeTemplate->loadByCode($template);
-        echo $includeTemplate->getText();
-        
+               
         return $includeTemplate->getProcessedTemplate($variables);
     }
     
@@ -149,7 +171,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         
         $mail = new Zend_Mail('utf-8');
         $mail->addTo($email, $name);
-        $text = $this->getProcessedTemplate($variables);
+        $text = $this->getProcessedTemplate($variables, true);
         
         if($this->isPlain()) {
             $mail->setBodyText($text);
@@ -161,14 +183,23 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
         try {
             $mail->send();
+         	if(!is_null($queue)) { 
+            	$subscriber->received($queue);
+            }
         }
         catch (Exception $e) {
             if($subscriber instanceof Mage_Newsletter_Model_Subscriber) { 
                 $problem = Mage::getModel('newsletter/problem');
-                $problem->addData(array(
-                    "subscriber_id" => $subscriber->getId(),
-                    
-                ));
+                $problem->addSubscriberData($subscriber);
+                if(!is_null($queue)) { 
+                	$problem->addQueueData($queue);
+                }
+                $problem->addErrorData($e);
+                $problem->save();
+                
+                if(!is_null($queue)) { 
+                  // 	$subscriber->received($queue);
+                }
             } else {
                 throw $e;
             }
@@ -186,6 +217,14 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $this->getResource()->delete($this->getId());
         $this->setId(null);
         return $this;
+    }
+    
+    public function preprocess() 
+    {
+    	$this->_preprocessFlag = true;
+    	$this->save();
+    	$this->_preprocessFlag = false;
+    	return $this;
     }
     
 }
