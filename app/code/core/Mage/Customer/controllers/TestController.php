@@ -94,6 +94,7 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
                 $addressData = array(
                     'firstname'     => 'AFN #'.$j.'_'.$i,
                     'lastname'      => 'ALN #'.$j.'_'.$i,
+                    'company'       => 'COMPANY #'.$j.'_'.$i,
                     'country_id'    => 223,
                     'region'        => 'California',
                     'region_id'     => 12,

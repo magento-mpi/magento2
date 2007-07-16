@@ -80,7 +80,7 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
     protected function _logAction()
     {
         $model = Mage::getModel('log/customer');
-        $result = $model->setId(37)
+        $result = $model->setId(3305)
               ->getLastActivity()
               ->getLogTime()
               ->getLastQuote()
