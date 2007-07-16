@@ -109,7 +109,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     protected function _addTabs($tabId='tax_rate')
     {
         $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActive($tabId);
+            ->setActiveTab($tabId);
         $this->_addLeft($tabs);
     }
 }
