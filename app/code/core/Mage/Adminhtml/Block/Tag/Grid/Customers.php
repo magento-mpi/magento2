@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 {
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = Mage::getResourceModel('tag_customer/collection')
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
 //            ->addAttributeToSelect('email')
@@ -33,6 +33,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
     {
         $this->addColumn('id', array(
             'header'    =>__('ID'),
+            'width'     => '40px',
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'entity_id'
@@ -71,10 +72,18 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 //            #'format'    => 'Y.m.d',
 //            'index'     =>'created_at',
 //        ));
+        $this->addColumn('tags', array(
+            'header'    => __('Tags'),
+            'index'     => 'tags',
+            'sortable'  => false,
+            'filter'    => false,
+            'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
+        ));
         $this->addColumn('action', array(
             'header'    =>__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
+            'width'     => '120px',
+            'format'    =>'<a href="'.Mage::getUrl('*/*/products/customer_id/$entity_id').'">'.__('View Products').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -85,8 +94,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
             ->setColumnFilter('firstname')
             ->setColumnFilter('lastname');
 
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
+//        $this->addExportType('*/*/exportCsv', __('CSV'));
+//        $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
     }
 

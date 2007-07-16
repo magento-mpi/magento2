@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Column_Renderer_Tags extends Mage_Adminhtml_
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             $out = array();
             foreach ($data as $t) {
-                $out[] = $t['tagname'] . '&nbsp;(' . $t['total_used'] . ')';
+                $out[] = '<span class="nowrap">' . $t['tagname'] . '&nbsp;(' . $t['total_used'] . ')</span>';
         	}
             return implode(', ', $out);
         }

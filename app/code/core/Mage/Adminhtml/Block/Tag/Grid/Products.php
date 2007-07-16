@@ -16,6 +16,9 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
         ;
+        if ($tagId = $this->getRequest()->getParam('tag_id')) {
+            $collection->addTagFilter($tagId);
+        }
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -26,6 +29,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
         $this->addColumn('id', array(
             'header'    => __('id'),
             'align'     => 'center',
+            'width'     => '60px',
             'sortable'  => false,
             'index'     => 'product_id'
         ));
@@ -48,7 +52,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
         $this->addColumn('action', array(
             'header'    => __('Action'),
             'align'     => 'center',
-            'format'    => '<a href="'.Mage::getUrl('*/*/customers/id/$product_id').'">'.__('View Customers').'</a>',
+            'width'     => '120px',
+            'format'    => '<a href="'.Mage::getUrl('*/*/customers/product_id/$product_id').'">'.__('View Customers').'</a>',
             'filter'    => false,
             'sortable'  => false,
             'is_system' => true
@@ -56,5 +61,4 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
 
         return parent::_prepareColumns();
     }
-
 }

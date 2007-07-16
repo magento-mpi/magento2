@@ -103,6 +103,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'action':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_action';
                 break;
+            case 'yesno':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_yesno';
+                break;
             default:
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
                 break;
@@ -136,6 +139,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'number':
             case 'currency':
                 $filterClass = 'adminhtml/widget_grid_column_filter_range';
+                break;
+            case 'yesno':
+                $filterClass = 'adminhtml/widget_grid_column_filter_yesno';
                 break;
             default:
                 $filterClass = 'adminhtml/widget_grid_column_filter_text';

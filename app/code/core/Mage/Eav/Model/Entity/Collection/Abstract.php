@@ -528,14 +528,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @param integer $storeId
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function load()
+    public function load($printQuery = false, $logQuery = false)
     {
         if (!$this->_read) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
 
-        $this->_loadEntities();
-        $this->_loadAttributes();
+        $this->_loadEntities($printQuery, $logQuery);
+        $this->_loadAttributes($printQuery, $logQuery);
 
         return $this;
     }
@@ -632,7 +632,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      *
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function _loadEntities()
+    public function _loadEntities($printQuery = false, $logQuery = false)
     {
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
@@ -640,7 +640,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if ($this->_pageStart && $this->_pageSize) {
             $this->getSelect()->limitPage($this->_pageStart, $this->_pageSize);
         }
-#echo "<pre>"; print_r($this->getSelect()->__toString()); echo "</pre>";
+
+        $this->printLogQuery($printQuery, $logQuery);
+
         $rows = $this->_read->fetchAll($this->getSelect());
         if (!$rows) {
             return $this;
@@ -658,7 +660,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      *
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function _loadAttributes()
+    public function _loadAttributes($printQuery = false, $logQuery = false)
     {
         if (empty($this->_items) || empty($this->_selectAttributes)) {
             return $this;
@@ -675,6 +677,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $attrById = array();
         foreach ($entity->getAttributesByTable() as $table=>$attributes) {
             $sql = "select $entityIdField, attribute_id, value from $table where $condition";
+            $this->printLogQuery($printQuery, $logQuery, $sql);
             $values = $this->_read->fetchAll($sql);
             if (empty($values)) {
                 continue;
@@ -975,6 +978,24 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->_items);
+    }
+
+    /**
+     * Print and/or log query
+     *
+     * @param boolean $printQuery
+     * @param boolean $logQuery
+     * @return  Varien_Data_Collection_Db
+     */
+    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null) {
+        if ($printQuery) {
+            echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
+        }
+
+        if ($logQuery){
+            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+        }
+        return $this;
     }
 
 }

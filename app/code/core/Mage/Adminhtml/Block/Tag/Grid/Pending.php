@@ -27,16 +27,19 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
         $this->addColumn('total_used', array(
             'header'    => __('# of Uses'),
+            'align'     => 'center',
+            'width'     => '140px',
             'index'     => 'total_used',
-            'type'    => 'number',
+            'type'      => 'number',
         ));
         $this->addColumn('action', array(
-            'header' => __('Action'),
-            'align' => 'center',
-            'format' => '<a href="'.Mage::getUrl('*/*/edit/id/$tag_id').'">'.__('View Tagged Products').'</a>',
-            'index' => 'tag_id',
-            'sortable' => false,
-            'filter' => false,
+            'header'    => __('Action'),
+            'align'     => 'center',
+            'width'     => '170px',
+            'format'    => '<a href="'.Mage::getUrl('*/*/products/tag_id/$tag_id').'">'.__('View Products').'</a>',
+            'index'     => 'tag_id',
+            'sortable'  => false,
+            'filter'    => false,
         ));
 
         $this->setColumnFilter('id')

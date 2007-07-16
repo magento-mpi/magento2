@@ -14,6 +14,13 @@
             <class>Mage_Tag_Model</class>
             <resourceModel>tag_mysql4</resourceModel>
          </tag>
+				 <tag_customer>
+            <class>Mage_Tag_Model_Customer</class>
+            <resourceModel>tag_entity_customer</resourceModel>
+				 </tag_customer>
+				 <tag_entity_customer>
+            <class>Mage_Tag_Model_Entity_Customer</class>
+				 </tag_entity_customer>
          <tag_mysql4>
             <class>Mage_Tag_Model_Mysql4</class>
             <entities>
@@ -28,7 +35,7 @@
                </tag_relations>
             </entities>
          </tag_mysql4>
-      </models>      
+      </models>
       <resources>
          <tag_setup>
             <setup>
@@ -53,7 +60,7 @@
 		 <groups><tag><class>Mage_Tag_Block</class></tag></groups>
       </block>
    </global>
-   <front>      
+   <front>
       <routers>
          <tag>
             <default>true</default>
@@ -62,7 +69,7 @@
                <module>Mage_Tag</module>
                <frontName>catalog</frontName>
             </args>
-         </tag>         
+         </tag>
       </routers>
    </front>
 </config>

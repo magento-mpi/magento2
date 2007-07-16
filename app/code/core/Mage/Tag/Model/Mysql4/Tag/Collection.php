@@ -1,5 +1,5 @@
 <?php
-class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Resource_Collection_Abstract
+class Mage_Tag_Model_Mysql4_Tag_Collection extends Varien_Data_Collection_Db
 {
 	protected $_tagTable;
     protected $_tagRelTable;
@@ -16,7 +16,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Resource_Coll
 
         $this->_sqlSelect->from($this->_tagTable, array('*', 'total_used' => 'COUNT(tag_relations_id)'))
             ->joinLeft($this->_tagRelTable, $this->_tagTable.'.tag_id='.$this->_tagRelTable.'.tag_id', 'tag_relations_id')
-            ->group($this->_tagRelTable.'.tag_id');
+            ->group($this->_tagTable.'.tag_id');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('tag/tag'));
     }
@@ -105,6 +105,11 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Resource_Coll
     			return ($item->getTotal() / $max * 21)."px";
     		}
     	}
+    }
+
+    public function addAttributeToFilter()
+    {
+        // TODO
     }
 }
 ?>

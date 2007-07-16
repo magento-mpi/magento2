@@ -302,13 +302,13 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @param boolean $logQuery
      * @return  Varien_Data_Collection_Db
      */
-    public function printLogQuery($printQuery = false, $logQuery = false) {
+    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null) {
         if ($printQuery) {
-            echo $this->_sqlSelect->__toString();
+            echo is_null($sql) ? $this->_sqlSelect->__toString() : $sql;
         }
 
         if ($logQuery){
-            Mage::log($this->_sqlSelect->__toString());
+            Mage::log(is_null($sql) ? $this->_sqlSelect->__toString() : $sql);
         }
         return $this;
     }

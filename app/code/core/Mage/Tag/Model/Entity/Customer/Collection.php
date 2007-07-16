@@ -1,15 +1,13 @@
 <?php
 /**
- * Tagged products collection.
+ * Customers collection
  *
- * @package     Mage
- * @subpackage  Tag
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Michael Bessolov <michael@varien.com>
+ * @package    Mage
+ * @subpackage Customer
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-
-class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4_Product_Collection //Varien_Data_Collection_Db
+class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
 {
 	protected $_tagTable;
     protected $_tagRelTable;
@@ -18,19 +16,20 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        parent::__construct($resource->getConnection('tag_read'));
+        parent::__construct();
         $this->_tagTable = $resource->getTableName('tag/tag');
         $this->_tagRelTable = $resource->getTableName('tag/tag_relations');
         $this->_tagEntityTable = $resource->getTableName('tag/tag_entity');
+
+        $this->joinField('tag_id', $this->_tagRelTable, 'tag_id', 'entity_val_id=entity_id', array('entity_id' => '2'));
+        $this->joinField('tag_total_used', $this->_tagRelTable, 'count(_table_tag_total_used.tag_relations_id)', 'entity_val_id=entity_id', array('entity_id' => '2'));
+        $this->getSelect()->group('tag_id');
 //        $this->_productTable = $resource->getTableName('catalog/product');
 //        $this->_sqlSelect->from(array('p' => $this->_productTable))
 //            ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
 //            ->group('p.product_id', 'tr.tag_id')
 //        ;
-        $this->_sqlSelect->join($this->_tagRelTable, "{$this->_productTable}.product_id={$this->_tagRelTable}.entity_val_id AND {$this->_tagRelTable}.entity_id = 1");
-    	$this->_sqlSelect->group("{$this->_productTable}.product_id");
     }
-
 
     public function load($printQuery = false, $logQuery = false)
     {
@@ -41,24 +40,21 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4
 
     protected function _loadTags($printQuery = false, $logQuery = false)
     {
-        if (empty($this->_items)) {
-            return $this;
-        }
-        $productIds = array();
+        $customerIds = array();
         foreach ($this->getItems() as $item) {
-            $productIds[] = $item->getId();
+            $customerIds[] = $item->getId();
         }
-        $this->_sqlSelect->reset()
+        $this->getSelect()->reset()
             ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relations_id)'))
             ->joinLeft(array('t' => $this->_tagTable),'t.tag_id=tr.tag_id')
             ->group(array('tr.entity_val_id', 't.tag_id'))
-            ->where('tr.entity_id=1')
-            ->where('tr.entity_val_id in (?)',$productIds)
+            ->where('tr.entity_id=2')
+            ->where('tr.entity_val_id in (?)',$customerIds)
         ;
         $this->printLogQuery($printQuery, $logQuery);
 
         $tags = array();
-        $data = $this->getConnection()->fetchAll($this->_sqlSelect);
+        $data = $this->_read->fetchAll($this->getSelect());
         foreach ($data as $row) {
             if (!isset($tags[ $row['entity_val_id'] ])) {
                 $tags[ $row['entity_val_id'] ] = array();
@@ -70,19 +66,6 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4
                 $item->setData('tags', $tags[$item->getId()]);
             }
         }
-        return $this;
-    }
-
-    public function addTagFilter($tagId)
-    {
-        if ($tagId) $this->_sqlSelect->where($this->_tagRelTable . '.tag_id=?', $tagId);
-        return $this;
-    }
-
-    public function addCustomerFilter($customerId)
-    {
-        // TODO
-        return $this;
     }
 
 }

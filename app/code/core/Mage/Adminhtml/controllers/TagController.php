@@ -70,8 +70,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
                 $tag->setId($tagId);
             }
 
-            // TODO
-            $tag->setStoreId(1);
+            $tag->setStoreId(Mage::getSingleton('core/store')->getId());
 
             try {
                 $tag->save();
@@ -94,8 +93,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
             $tag = Mage::getModel('tag/tag');
             $tag->setId($tagId);
 
-            // TODO
-            $tag->setStoreId(1);
+            // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
 
             try {
                 $tag->delete();
