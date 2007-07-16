@@ -49,9 +49,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         
         Varien_Profiler::start('load-local');
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
-        $this->updateCacheChecksum(filemtime($configFile));
-        $mergeConfig->loadFile($configFile);
-        $this->extend($mergeConfig);
+        if (is_readable($configFile)) {
+            $this->updateCacheChecksum(filemtime($configFile));
+            $mergeConfig->loadFile($configFile);
+            $this->extend($mergeConfig);
+        }
         Varien_Profiler::stop('load-local');
         
         $saveCache = true;

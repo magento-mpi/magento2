@@ -246,6 +246,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         if (!$sourceChildren) {
             // handle string node
             if (isset($this->$sourceName)) {
+                // if target already has children return without regard
+                if ($this->$sourceName->children()) {
+                    return $this;
+                }
                 if ($overwrite) {
                     unset($this->$sourceName);
                 } else {
@@ -275,7 +279,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         
         // finally add our source node children to resulting new target node
         foreach ($sourceChildren as $childKey=>$childNode) {
-            $targetChild->extendChild($childNode);
+            $targetChild->extendChild($childNode, $overwrite);
         }        
         
         return $this;
