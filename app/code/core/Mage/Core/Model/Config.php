@@ -93,6 +93,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->applyExtends();
         Varien_Profiler::stop('apply-extends');
         
+        Varien_Profiler::start('dbUpdates');
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
+        Varien_Profiler::stop('dbUpdates');
+        
         Varien_Profiler::start('load-db');
         $dbConf->loadToXml($this);
         Varien_Profiler::stop('load-db');
@@ -102,10 +106,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->saveCache();
             Varien_Profiler::stop('save-cache');
         }
-        
-        Varien_Profiler::start('dbUpdates');
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Varien_Profiler::stop('dbUpdates');
         
         return $this;
     }
