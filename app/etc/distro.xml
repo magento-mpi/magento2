@@ -29,7 +29,7 @@
                 </filesystem>
             </system>
 
-            <webserver>
+            <web>
                 <unsecure>
                     <protocol>{{protocol}}</protocol>
                     <host>{{host}}</host>
@@ -49,7 +49,12 @@
                     <skin>{{base_path}}skins/default/</skin>
                     <js>{{base_path}}js/</js>
                 </url>
-            </webserver>
+                
+                <default>
+                    <front>catalog</front>
+                    <no_route>core/index/noRoute</no_route>
+                </default>
+            </web>
         </base>
     </stores>
 </config>
