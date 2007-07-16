@@ -6,7 +6,7 @@
             <file></file>
         </english>
         <russian>
-            <name>Русский</name>
+            <name>Russian</name>
             <file></file>
         </russian>
     </languages>
@@ -38,7 +38,7 @@
         <filesystem>
             <writeable>
                 <items>
-                    <path>/app/etc</path>
+                    <path>/app/etc/config.xml</path>
                     <existence>1</existence>
                     <recursive>0</recursive>
                 </items>
@@ -46,11 +46,6 @@
                     <path>/var</path>
                     <existence>1</existence>
                     <recursive>1</recursive>
-                </items>
-                <items>
-                    <path>/app/etc/local.xml</path>
-                    <existence>0</existence>
-                    <recursive>0</recursive>
                 </items>
             </writeable>
         </filesystem>

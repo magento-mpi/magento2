@@ -1,79 +1,79 @@
 <?xml version="1.0"?>
 <config>
-   <global>
-      <install>
-        <date><![CDATA[Mon, 25 Jun 2007 22:45:44 -0700]]></date>
-      </install>
-      
-      <resources>
-         <default_setup>
-            <connection>
-               <host>localhost</host>
-               <username>root</username>
-               <password></password>
-               <dbname>magento_moshe</dbname>
+    <global>
+        <install>
+            <date><![CDATA[Mon, 25 Jun 2007 22:45:44 -0700]]></date>
+        </install>
 
-               <model>mysql4</model>
-               <initStatements>SET NAMES utf8</initStatements>
-               <type>mysqli_setup</type>
-               <active>1</active>
-            </connection>
-         </default_setup>
-         <default_write>
-            <connection>
-               <host>localhost</host>
-               <username>root</username>
-               <password></password>
-               <dbname>magento_moshe</dbname>
+        <resources>
+            <default_setup>
+                <connection>
+                    <host>localhost</host>
+                    <username>root</username>
+                    <password/>
+                    <dbname>magento_moshe</dbname>
 
-               <model>mysql4</model>
-               <initStatements>SET NAMES utf8</initStatements>
-               <type>pdo_mysql</type>
-               <active>1</active>
-            </connection>
-         </default_write>
-         <default_read>
+                    <model>mysql4</model>
+                    <initStatements>SET NAMES utf8</initStatements>
+                    <type>mysqli_setup</type>
+                    <active>1</active>
+                </connection>
+            </default_setup>
+            <default_write>
+                <connection>
+                    <host>localhost</host>
+                    <username>root</username>
+                    <password/>
+                    <dbname>magento_moshe</dbname>
+
+                    <model>mysql4</model>
+                    <initStatements>SET NAMES utf8</initStatements>
+                    <type>pdo_mysql</type>
+                    <active>1</active>
+                </connection>
+            </default_write>
+            <default_read>
+                <connection>
+                    <use>default_write</use>
+                </connection>
+            </default_read>
+
+            <core_setup>
+                <setup>
+                    <module>Mage_Core</module>
+                </setup>
+                <connection>
+                    <use>default_setup</use>
+                </connection>
+            </core_setup>
+            <core_write>
+                <connection>
+                    <use>default_write</use>
+                </connection>
+            </core_write>
+            <core_read>
+                <connection>
+                    <use>default_read</use>
+                </connection>
+            </core_read>
+        </resources>
+
+        <resource>
+
             <connection>
-               <use>default_write</use>
+                <types>
+                    <pdo_mysql>
+                        <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
+                    </pdo_mysql>
+                    <mysqli>
+                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
+                    </mysqli>
+                    <mysqli_setup>
+                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
+                    </mysqli_setup>
+                </types>
             </connection>
-         </default_read>
-         
-         <core_setup>
-            <setup>
-                <module>Mage_Core</module>
-            </setup>
-            <connection>
-               <use>default_setup</use>
-            </connection>
-         </core_setup>
-         <core_write>
-            <connection>
-               <use>default_write</use>
-            </connection>
-         </core_write>
-         <core_read>
-            <connection>
-               <use>default_read</use>
-            </connection>
-         </core_read>
-      </resources>
-      
-      <resource>
-         
-        <connection>
-            <types>
-                <pdo_mysql>
-                    <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
-                </pdo_mysql>
-                <mysqli>
-                    <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
-                </mysqli>
-                <mysqli_setup>
-                    <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
-                </mysqli_setup>
-            </types>
-        </connection>
-      </resource>
+        </resource>
         <models>
             <core>
                 <class>Mage_Core_Model</class>
@@ -89,7 +89,7 @@
                 </entities>
             </core_mysql4>
         </models>
-   </global>
+    </global>
 
     <modules>
         <Mage_Core>
@@ -205,4 +205,4 @@
             <codePool>core</codePool>
         </Mage_Tax>
     </modules>
-</config> 
+</config>

@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
-<config>   
+<config>
     <stores>
         <base>
             <system>
                 <store>
                     <id>1</id>
                 </store>
-                
+
                 <website>
                     <id>1</id>
                 </website>
-                
+
                 <filesystem>
                     <etc>{{root_dir}}/app/etc</etc>
                     <code>{{root_dir}}/app/code</code>
@@ -19,7 +19,7 @@
                     <session>{{var_dir}}/session</session>
                     <cache_config>{{var_dir}}/cache/config</cache_config>
                     <cache_layout>{{var_dir}}/cache/layout</cache_layout>
-            
+
                     <layout>{{root_dir}}/app/view/layout</layout>
                     <template>{{root_dir}}/app/view/template</template>
                     <translate>{{root_dir}}/app/view/translate</translate>
@@ -28,22 +28,22 @@
                     <skin>{{root_dir}}/skins/default</skin>
                 </filesystem>
             </system>
-            
+
             <webserver>
                 <unsecure>
-                   <protocol>{{protocol}}</protocol>
-                   <host>{{host}}</host>
-                   <port>{{port}}</port>
-                   <base_path>{{base_path}}</base_path>
+                    <protocol>{{protocol}}</protocol>
+                    <host>{{host}}</host>
+                    <port>{{port}}</port>
+                    <base_path>{{base_path}}</base_path>
                 </unsecure>
-                
+
                 <secure>
-                   <protocol>{{secure_protocol}}</protocol>
-                   <host>{{secure_host}}</host>
-                   <port>{{secure_port}}</port>
-                   <base_path>{{secure_base_path}}</base_path>
+                    <protocol>{{secure_protocol}}</protocol>
+                    <host>{{secure_host}}</host>
+                    <port>{{secure_port}}</port>
+                    <base_path>{{secure_base_path}}</base_path>
                 </secure>
-                
+
                 <url>
                     <media>{{base_path}}media/</media>
                     <skin>{{base_path}}skins/default/</skin>
@@ -53,4 +53,3 @@
         </base>
     </stores>
 </config>
-
