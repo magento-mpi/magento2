@@ -26,7 +26,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
      * @param   Varien_Data_Form_Element_Abstract $element
      * @return  Varien_Data_Form
      */
-    public function addElement(Varien_Data_Form_Element_Abstract $element, $after=null)
+    public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());
