@@ -24,6 +24,13 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 //            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'))
         ;
 
+        if ($productId = $this->getRequest()->getParam('product_id')) {
+            $collection->addProductFilter($productId);
+        }
+        if ($tagId = $this->getRequest()->getParam('tag_id')) {
+            $collection->addTagFilter($tagId);
+        }
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

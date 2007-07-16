@@ -11,17 +11,14 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
 {
 	protected $_tagTable;
     protected $_tagRelTable;
-    protected $_tagEntityTable;
 
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct();
         $this->_tagTable = $resource->getTableName('tag/tag');
-        $this->_tagRelTable = $resource->getTableName('tag/tag_relations');
-        $this->_tagEntityTable = $resource->getTableName('tag/tag_entity');
+        $this->_tagRelTable = $resource->getTableName('tag/tag_relation');
 
-//        $this->joinField('tag_tag_id', $this->_tagRelTable, 'tag_id', 'entity_val_id=entity_id', array('entity_id' => '2'));
 //        $this->joinField('tag_total_used', $this->_tagRelTable, 'count(_table_tag_total_used.tag_relations_id)', 'entity_val_id=entity_id', array('entity_id' => '2'));
 //        $this->getSelect()->group('tag_tag_id');
 //        echo $this->getSelect();
@@ -30,6 +27,21 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
 //            ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
 //            ->group('p.product_id', 'tr.tag_id')
 //        ;
+
+    }
+
+    public function addTagFilter($tagId)
+    {
+        $this->joinField('tag_tag_id', $this->_tagRelTable, 'tag_id', 'customer_id=entity_id');
+        $this->getSelect()->where($this->_getAttributeTableAlias('tag_tag_id') . '.tag_id=?', $tagId);
+        return $this;
+    }
+
+    public function addProductFilter($productId)
+    {
+        $this->joinField('tag_product_id', $this->_tagRelTable, 'product_id', 'customer_id=entity_id');
+        $this->getSelect()->where($this->_getAttributeTableAlias('tag_product_id') . '.product_id=?', $productId);
+        return $this;
     }
 
     public function load($printQuery = false, $logQuery = false)
@@ -49,21 +61,20 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
             $customerIds[] = $item->getId();
         }
         $this->getSelect()->reset()
-            ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relations_id)'))
+            ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relation_id)'))
             ->joinLeft(array('t' => $this->_tagTable),'t.tag_id=tr.tag_id')
-            ->group(array('tr.entity_val_id', 't.tag_id'))
-            ->where('tr.entity_id=2')
-            ->where('tr.entity_val_id in (?)',$customerIds)
+            ->group(array('tr.customer_id', 't.tag_id'))
+            ->where('tr.customer_id in (?)',$customerIds)
         ;
         $this->printLogQuery($printQuery, $logQuery);
 
         $tags = array();
         $data = $this->_read->fetchAll($this->getSelect());
         foreach ($data as $row) {
-            if (!isset($tags[ $row['entity_val_id'] ])) {
-                $tags[ $row['entity_val_id'] ] = array();
+            if (!isset($tags[ $row['customer_id'] ])) {
+                $tags[ $row['customer_id'] ] = array();
             }
-            $tags[ $row['entity_val_id'] ][] = $row;
+            $tags[ $row['customer_id'] ][] = $row;
         }
         foreach ($this->getItems() as $item) {
             if (isset($tags[$item->getId()])) {

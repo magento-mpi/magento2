@@ -41,4 +41,9 @@ class Mage_Adminhtml_Block_Tag_All extends Mage_Core_Block_Template
         return $this->getChildHtml('tagsGrid');
     }
 
+    public function getHeaderHtml()
+    {
+        return __('All Tags');
+    }
+
 }

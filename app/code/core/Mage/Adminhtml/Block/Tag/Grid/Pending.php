@@ -21,9 +21,9 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareColumns()
     {
-        $this->addColumn('tagname', array(
+        $this->addColumn('name', array(
             'header'    => __('Tag'),
-            'index'     => 'tagname',
+            'index'     => 'name',
         ));
         $this->addColumn('total_used', array(
             'header'    => __('# of Uses'),
@@ -35,15 +35,18 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $this->addColumn('action', array(
             'header'    => __('Action'),
             'align'     => 'center',
-            'width'     => '170px',
-            'format'    => '<a href="'.Mage::getUrl('*/*/products/tag_id/$tag_id').'">'.__('View Products').'</a>',
+            'width'     => '240px',
+            'format'    => '<a href="'.Mage::getUrl('*/*/edit/id/$tag_id').'">'.__('Edit').'</a>'
+                . ' | <a href="'.Mage::getUrl('*/*/products/tag_id/$tag_id').'">'.__('View Products').'</a>'
+                . ' | <a href="'.Mage::getUrl('*/*/customers/tag_id/$tag_id').'">'.__('View Customers').'</a>'
+            ,
             'index'     => 'tag_id',
             'sortable'  => false,
             'filter'    => false,
         ));
 
         $this->setColumnFilter('id')
-            ->setColumnFilter('tagname')
+            ->setColumnFilter('name')
             ->setColumnFilter('total_used')
         ;
 

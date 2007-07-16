@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Tag>
-         <version>0.0.3</version>
+         <version>0.0.4</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -27,12 +27,9 @@
                <tag>
                   <table>tag</table>
                </tag>
-               <tag_entity>
-                  <table>tag_entity</table>
-               </tag_entity>
-               <tag_relations>
-                  <table>tag_relations</table>
-               </tag_relations>
+               <tag_relation>
+                  <table>tag_relation</table>
+               </tag_relation>
             </entities>
          </tag_mysql4>
       </models>

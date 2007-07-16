@@ -114,6 +114,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_all')->assign('header', __('Tags List')))
+            ->_addBreadcrumb(__('All Tags'), __('products tags title'))
             ->renderLayout();
     }
 
@@ -136,8 +137,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     public function productsAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_products')->assign('header', __('Tagged Products')))
-            ->_addBreadcrumb(__('Tagged Products'), __('products tags title'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_products'))
+            ->_addBreadcrumb(__('Products'), __('products tags title'))
             ->renderLayout();
     }
 
@@ -161,9 +162,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     protected function _initAction()
     {
         $this->loadLayout('baseframe')
-            ->_setActiveMenu('catalog_tags')
-            ->_addBreadcrumb(__('Catalog'), __('catalog title'))
-            ->_addBreadcrumb(__('Product Tags'), __('products tags title'))
+            ->_setActiveMenu('catalog')
+            ->_setActiveMenu('catalog/tags')
+            ->_addBreadcrumb(__('Catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog_category'))
+            ->_addBreadcrumb(__('Tags'), __('products tags title'), Mage::getUrl('adminhtml/tags'))
             ->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab(
                     $this->getRequest()->getActionName()

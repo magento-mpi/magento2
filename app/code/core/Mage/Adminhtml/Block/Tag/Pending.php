@@ -38,4 +38,9 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
         return $this->getChildHtml('tagsGrid');
     }
 
+    public function getHeaderHtml()
+    {
+        return __('Pending Tags');
+    }
+
 }

@@ -9,28 +9,25 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4_Product_Collection //Varien_Data_Collection_Db
+class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4_Product_Collection
 {
 	protected $_tagTable;
     protected $_tagRelTable;
-    protected $_tagEntityTable;
 
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tag_read'));
         $this->_tagTable = $resource->getTableName('tag/tag');
-        $this->_tagRelTable = $resource->getTableName('tag/tag_relations');
-        $this->_tagEntityTable = $resource->getTableName('tag/tag_entity');
-//        $this->_productTable = $resource->getTableName('catalog/product');
-//        $this->_sqlSelect->from(array('p' => $this->_productTable))
-//            ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
-//            ->group('p.product_id', 'tr.tag_id')
-//        ;
-        $this->_sqlSelect->join($this->_tagRelTable, "{$this->_productTable}.product_id={$this->_tagRelTable}.entity_val_id AND {$this->_tagRelTable}.entity_id = 1");
+        $this->_tagRelTable = $resource->getTableName('tag/tag_relation');
+        // $this->_productTable = $resource->getTableName('catalog/product');
+        // $this->_sqlSelect->from(array('p' => $this->_productTable))
+        // ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
+        // ->group('p.product_id', 'tr.tag_id')
+        // ;
+        $this->_sqlSelect->join(array('tr' => $this->_tagRelTable), "{$this->_productTable}.product_id=tr.product_id");
     	$this->_sqlSelect->group("{$this->_productTable}.product_id");
     }
-
 
     public function load($printQuery = false, $logQuery = false)
     {
@@ -49,21 +46,20 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4
             $productIds[] = $item->getId();
         }
         $this->_sqlSelect->reset()
-            ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relations_id)'))
+            ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relation_id)'))
             ->joinLeft(array('t' => $this->_tagTable),'t.tag_id=tr.tag_id')
-            ->group(array('tr.entity_val_id', 't.tag_id'))
-            ->where('tr.entity_id=1')
-            ->where('tr.entity_val_id in (?)',$productIds)
+            ->group(array('tr.product_id', 'tr.tag_id'))
+            ->where('tr.product_id in (?)',$productIds)
         ;
         $this->printLogQuery($printQuery, $logQuery);
 
         $tags = array();
         $data = $this->getConnection()->fetchAll($this->_sqlSelect);
         foreach ($data as $row) {
-            if (!isset($tags[ $row['entity_val_id'] ])) {
-                $tags[ $row['entity_val_id'] ] = array();
+            if (!isset($tags[ $row['product_id'] ])) {
+                $tags[ $row['product_id'] ] = array();
             }
-            $tags[ $row['entity_val_id'] ][] = $row;
+            $tags[ $row['product_id'] ][] = $row;
         }
         foreach ($this->getItems() as $item) {
             if (isset($tags[$item->getId()])) {
@@ -75,13 +71,13 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4
 
     public function addTagFilter($tagId)
     {
-        if ($tagId) $this->_sqlSelect->where($this->_tagRelTable . '.tag_id=?', $tagId);
+        if ($tagId) $this->_sqlSelect->where('tr.tag_id=?', $tagId);
         return $this;
     }
 
     public function addCustomerFilter($customerId)
     {
-        // TODO
+        if ($customerId) $this->_sqlSelect->where('tr.customer_id=?', $customerId);
         return $this;
     }
 

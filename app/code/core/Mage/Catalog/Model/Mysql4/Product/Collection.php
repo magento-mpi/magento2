@@ -12,8 +12,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 {
     protected $_productTable;
     protected $_categoryProductTable;
-    protected $_tagRelTable;
-    protected $_tagTable;
 
     protected $_storeId;
     protected $_isCategoryJoined=false;
@@ -35,8 +33,6 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
 
         $this->_productTable        = Mage::getSingleton('core/resource')->getTableName('catalog/product');
         $this->_categoryProductTable= Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
-		$this->_tagRelTable			= Mage::getSingleton('core/resource')->getTableName('tag/tag_relations');
-		$this->_tagTable			= Mage::getSingleton('core/resource')->getTableName('tag/tag');
 
         $this->_sqlSelect->from($this->_productTable, new Zend_Db_Expr("SQL_CALC_FOUND_ROWS $this->_productTable.*"));
 
@@ -315,12 +311,4 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
         return $this->_conn->fetchRow($select);
     }
 
-    public function addTagFilter($q) {
-    	$this->_sqlSelect->join($this->_tagRelTable, "{$this->_productTable}.product_id={$this->_tagRelTable}.entity_val_id AND {$this->_tagRelTable}.entity_id = 1");
-    	$this->_sqlSelect->join($this->_tagTable, "{$this->_tagTable}.tag_id={$this->_tagRelTable}.tag_id");
-    	$this->_sqlSelect->where("{$this->_tagTable}.tagname = ?", $q);
-    	$this->_sqlSelect->group("{$this->_productTable}.product_id");
-
-    	return $this;
-    }
 }

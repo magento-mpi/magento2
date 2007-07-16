@@ -38,4 +38,18 @@ class Mage_Adminhtml_Block_Tag_Products extends Mage_Core_Block_Template
         return $this->getChildHtml('tagsGrid');
     }
 
+    public function getHeaderHtml()
+    {
+        if ($customerId = $this->getRequest()->getParam('customer_id')) {
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            $header = __('Products Tagged By ') . $customer->getName();
+        } elseif ($tagId = $this->getRequest()->getParam('tag_id')) {
+            $tag = Mage::getModel('tag/tag')->load($tagId);
+            $header = __('Products Tagged With ') . '"' . $tag->getTagname() . '"';
+        } else {
+            $header = __('Products');
+        }
+        return $header;
+    }
+
 }
