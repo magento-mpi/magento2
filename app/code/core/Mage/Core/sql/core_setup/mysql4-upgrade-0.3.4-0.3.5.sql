@@ -1,4 +1,4 @@
-﻿/*
+/*
 SQLyog Enterprise - MySQL GUI v6.03
 Host - 4.1.20 : Database - magento_moshe
 *********************************************************************

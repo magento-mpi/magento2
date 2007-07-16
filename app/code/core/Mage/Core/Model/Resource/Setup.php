@@ -76,10 +76,10 @@ class Mage_Core_Model_Resource_Setup
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _installResourceDb($toVersion)
+    protected function _installResourceDb($newVersion)
     {
-        $fromVersion = $this->_modifyResourceDb('install', '', $toVersion);
-        $this->_modifyResourceDb('upgrade', $fromVersion, $toVersion);
+        $oldVersion = $this->_modifyResourceDb('install', '', $newVersion);
+        $this->_modifyResourceDb('upgrade', $oldVersion, $newVersion);
     }
 
     /**
