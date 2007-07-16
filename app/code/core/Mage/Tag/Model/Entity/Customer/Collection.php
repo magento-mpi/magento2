@@ -21,9 +21,10 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
         $this->_tagRelTable = $resource->getTableName('tag/tag_relations');
         $this->_tagEntityTable = $resource->getTableName('tag/tag_entity');
 
-        $this->joinField('tag_id', $this->_tagRelTable, 'tag_id', 'entity_val_id=entity_id', array('entity_id' => '2'));
-        $this->joinField('tag_total_used', $this->_tagRelTable, 'count(_table_tag_total_used.tag_relations_id)', 'entity_val_id=entity_id', array('entity_id' => '2'));
-        $this->getSelect()->group('tag_id');
+//        $this->joinField('tag_tag_id', $this->_tagRelTable, 'tag_id', 'entity_val_id=entity_id', array('entity_id' => '2'));
+//        $this->joinField('tag_total_used', $this->_tagRelTable, 'count(_table_tag_total_used.tag_relations_id)', 'entity_val_id=entity_id', array('entity_id' => '2'));
+//        $this->getSelect()->group('tag_tag_id');
+//        echo $this->getSelect();
 //        $this->_productTable = $resource->getTableName('catalog/product');
 //        $this->_sqlSelect->from(array('p' => $this->_productTable))
 //            ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
@@ -40,6 +41,9 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
 
     protected function _loadTags($printQuery = false, $logQuery = false)
     {
+        if (empty($this->_items)) {
+            return $this;
+        }
         $customerIds = array();
         foreach ($this->getItems() as $item) {
             $customerIds[] = $item->getId();
@@ -66,6 +70,7 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
                 $item->setData('tags', $tags[$item->getId()]);
             }
         }
+        return $this;
     }
 
 }
