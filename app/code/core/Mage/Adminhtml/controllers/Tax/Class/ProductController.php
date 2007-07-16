@@ -57,7 +57,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     protected function _addTabs($tabId='tax_class_product')
     {
         $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActiveTab($tabId);
+            ->setActive($tabId);
         $this->_addLeft($tabs);
     }
 }

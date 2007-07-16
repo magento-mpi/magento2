@@ -54,7 +54,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     protected function _addTabs($tabId='tax_class_customer')
     {
         $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActiveTab($tabId);
+            ->setActive($tabId);
         $this->_addLeft($tabs);
     }
 }

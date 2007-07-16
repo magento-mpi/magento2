@@ -14,23 +14,27 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         parent::__construct();
         $this->setId('cmsGrid');
+        $this->setDefaultSort('page_identifier');
+        $this->setDefaultDir('ASC');
     }
-    
+
     protected function _prepareCollection()
     {
         $pageCollection = Mage::getResourceModel('cms/page_collection');
         $this->setCollection($pageCollection);
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
+        $baseUrl = Mage::getUrl();
+
         $this->addColumn('page_title',
             array(
                 'header'=>__('Title'),
                 'align' =>'left',
-                //'format'=> '<a href="'.$baseUrl.'$page_identifier" target="_blank">$page_title</a>',
-                'index' =>'page_title'
+                'format'=> '<a href="'.$baseUrl.'$page_identifier" target="_blank">$page_title</a>',
+                'index' =>'page_title',
             )
         );
 
@@ -38,7 +42,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
             array(
                 'header'=>__('Identifier'),
                 'align' =>'left',
-                //'format'=> '<a href="' . $baseUrl . '$page_identifier" target="_blank">$page_identifier</a>',
+                'format'=> '<a href="' . $baseUrl . '$page_identifier" target="_blank">$page_identifier</a>',
                 'index' =>'page_identifier'
             )
         );
@@ -63,10 +67,12 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'width'     =>10,
                 'sortable'  =>false,
                 'filter'    => false,
-                'format'    => '<a href="' . Mage::getUrl('*/*/edit') .'page/$page_id/">' . __('edit') . '</a> 
+                'format'    => '<a href="' . Mage::getUrl('*/*/edit') .'page/$page_id/">' . __('edit') . '</a>
                              <a href="' . Mage::getUrl('*/*/delete') .'page/$page_id/">' . __('delete') . '</a>'
             )
         );
+        $this->setFilterVisibility(false);
+
         return parent::_prepareColumns();
     }
 }

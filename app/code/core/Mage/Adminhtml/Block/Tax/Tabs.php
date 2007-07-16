@@ -39,4 +39,12 @@ class Mage_Adminhtml_Block_Tax_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
             'url'      => Mage::getUrl('adminhtml/tax_class_product')
         ));
     }
+<<<<<<< .mine
+
+    protected function _checkActiveTab($tabId)
+    {
+        return ( $this->getActive() == $tabId ) ? true : false;
+    }
+=======
+>>>>>>> .r8405
 }
