@@ -62,7 +62,10 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
         */
 
 
-        $model = Mage::getSingleton('tax/class_customer')->load(1);
+        #$model = Mage::getSingleton('tax/class_customer')->load(1);
+
+
+        $this->_logAction();
     }
 
     public function pagesAction()
@@ -71,6 +74,20 @@ class Mage_Test_IndexController extends Mage_Core_Controller_Front_Action
             ->load(true);
         echo "<pre>";
         print_r($collection);
+        echo "</pre>";
+    }
+
+    protected function _logAction()
+    {
+        $model = Mage::getModel('log/customer');
+        $result = $model->setId(37)
+              ->getLastActivity()
+              ->getLogTime()
+              ->getLastQuote()
+              ->getOnlineStatus();
+
+        echo "<pre>";
+        print_r($result);
         echo "</pre>";
     }
 
