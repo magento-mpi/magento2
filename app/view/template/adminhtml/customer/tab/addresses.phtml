@@ -146,7 +146,7 @@ addressesModel.prototype = {
         if($('form_'+item.id)){
             item.formBlock = $('form_'+item.id);
             Element.hide($('form_'+item.id));
-            $('form_'+item.id).changeRelation = item;
+            $('form_'+item.id).statusBar = item;
             $('form_'+item.id).addressItem = item;
         }
     },
@@ -175,11 +175,11 @@ addressesModel.prototype = {
             newItem.formBlock = newForm;
             this.itemContainer.appendChild(newItem);
 
-            newForm.changeRelation = newItem;
+            newForm.statusBar = newItem;
             newForm.addressItem = newItem;
             this.addItemObservers(newItem);
             this.setActiveItem(newItem);
-            customerForm.initFormElements();
+            //customerForm.initFormElements();
             this.bindCountryRegionRelation(newForm.id);
         }
         this.reloadItemList();

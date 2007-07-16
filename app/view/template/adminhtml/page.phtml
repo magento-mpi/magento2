@@ -59,52 +59,49 @@
 <?endif;?>
 </head>
 <body>
-    <table cellspacing="0" width="100%">
-        <tr>
-            <td class="header">
+<table cellspacing="0" width="100%">
+    <tr>
+        <td class="header">
         <?=$this->getChildHtml('header')?>
         <div class="clear"></div>
         <?=$this->getChildHtml('menu')?>
-    </td></tr>
-        <tr>
-        <td class="middle">
-        <table cellspacing="0" width="100%">
-          <tr>
-              <td><?=$this->getChildHtml('breadcrumbs')?></td>
-              <td style="width:16px;padding-top:5px"><img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader-tr.gif" alt="Loading..." align="absmiddle" height="16" id="loading-process"/ style="display:none"></td>
-          </tr>
-        </table>
-        <?if($this->getChildHtml('left')):?>
-        <div class="container">
-            <div class="main">
-                <div class="content-container">
-                    <div class="content" id="content">
-                    <?=$this->getChildHtml('content')?>
-                    </div>
-<!--[ends] .content -->
-                </div>
-                <div class="section-menu">
-                <?=$this->getChildHtml('left')?>
-                                    <div class="bottom">
-                                    </div>
-                </div>
-<!--[ends] .section-menu -->
-            </div>
-        </div>
-        <?else:?>
-        <div class="simple-container">
-            <?=$this->getChildHtml('content')?>
-        </div>
-        <?endif;?>
-    </td>
-        </tr>
-<!--[ends] .middle -->
+        </td>
+    </tr>
     <tr>
-            <td class="footer">
-        <?=$this->getChildHtml('footer')?>
-    </td>
-        </tr>
-    <table>
-    <?//=$this->getChildHtml('profiler')?>
+        <td class="middle">
+            <table cellspacing="0" width="100%">
+                <tr>
+                    <td><?=$this->getChildHtml('breadcrumbs')?></td>
+                    <td style="width:16px;padding-top:5px"><img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader-tr.gif" alt="Loading..." align="absmiddle" height="16" id="loading-process"/ style="display:none"></td>
+                </tr>
+                </table>
+                <?if($this->getChildHtml('left')):?>
+                <div class="container">
+                    <div class="main">
+                        <div class="content-container">
+                            <div class="content" id="content">
+                                <?=$this->getChildHtml('content')?>
+                            </div>
+                        </div>
+                        <div class="section-menu">
+                            <?=$this->getChildHtml('left')?>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                </div>
+                <?else:?>
+                <div class="simple-container">
+                    <?=$this->getChildHtml('content')?>
+                </div>
+                <?endif;?>
+        </td>
+    </tr>
+    <tr>
+        <td class="footer">
+            <?=$this->getChildHtml('footer')?>
+        </td>
+    </tr>
+<table>
+<?//=$this->getChildHtml('profiler')?>
 </body>
 </html>

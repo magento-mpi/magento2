@@ -128,8 +128,13 @@ input.validation-failed, textarea.validation-failed {
 .left-col-field{ margin:5px 0px;padding:2px;width:205px; }
 .changed {
     color:#e26f03 !important;
-    font-style:italic !important;
+    /*font-style:italic !important;*/
     }
+.error {
+    color:red !important;
+    font-style:bold !important;
+    }
+
 select.countries option{
     padding-left:20px;
     background-repeat:no-repeat;

@@ -63,7 +63,7 @@ class Varien_Data_Form_Element_Collection implements ArrayAccess, IteratorAggreg
     * 
     * @todo get it straight with $after
     * @param $element Varien_Data_Form_Element_Abstract
-    * @param $after boolean|null|string
+    * @param $after boolean|'^'|string
     * @return Varien_Data_Form_Element_Abstract
     */
     public function add(Varien_Data_Form_Element_Abstract $element, $after=false)
@@ -77,21 +77,21 @@ class Varien_Data_Form_Element_Collection implements ArrayAccess, IteratorAggreg
         if ($after === false) {
             $this->_elements[] = $element;
         }
-        elseif ($after === null) {
-        	array_unshift($this->_elements, $element);
+        elseif ($after === '^') {
+            array_unshift($this->_elements, $element);
         }
         elseif (is_string($after)) {
             $newOrderElements = array();
-        	foreach ($this->_elements as $index => $currElement) {
-        	    if ($currElement->getId() == $after) {
-        	        $newOrderElements[] = $currElement;
-        	        $newOrderElements[] = $element;
-        	        $this->_elements = array_merge($newOrderElements, array_slice($this->_elements, $index+1));
-        	        return $element;
-        	    }
-        	    $newOrderElements[] = $currElement;
-        	}
-        	$this->_elements[] = $element;
+            foreach ($this->_elements as $index => $currElement) {
+                if ($currElement->getId() == $after) {
+                    $newOrderElements[] = $currElement;
+                    $newOrderElements[] = $element;
+                    $this->_elements = array_merge($newOrderElements, array_slice($this->_elements, $index+1));
+                    return $element;
+                }
+                $newOrderElements[] = $currElement;
+            }
+            $this->_elements[] = $element;
         }
 
         return $element;
@@ -100,9 +100,9 @@ class Varien_Data_Form_Element_Collection implements ArrayAccess, IteratorAggreg
     public function remove($elementId)
     {
         foreach ($this->_elements as $index => $element) {
-        	if ($elementId == $element->getId()) {
-        	    unset($this->_elements[$index]);
-        	}
+            if ($elementId == $element->getId()) {
+                unset($this->_elements[$index]);
+            }
         }
     }
     

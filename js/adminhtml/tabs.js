@@ -18,9 +18,9 @@ varienTabs.prototype = {
                 var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
                 if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
                     $(this.destElementId).appendChild(tabContentElement);
-                    tabContentElement.tabsObject = this;
+                    tabContentElement.container = this;
+                    tabContentElement.statusBar = this.tabs[tab];
                     tabContentElement.tabObject  = this.tabs[tab];
-                    tabContentElement.changeRelation = this.tabs[tab];
                 }
             }
         }
