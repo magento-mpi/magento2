@@ -14,6 +14,11 @@ Server version : 4.1.20
 
 /*Table structure for table `core_config_attribute` */
 
+
+ALTER TABLE `core_store` ADD COLUMN `code` VARCHAR(64) NOT NULL;
+ALTER TABLE `core_website` ADD COLUMN `name` VARCHAR(64) NOT NULL;
+
+DROP TABLE IF EXISTS `core_config_data`;
 CREATE TABLE `core_config_data` (
   `config_id` int(10) unsigned NOT NULL auto_increment,
   `scope` enum('default','website','store','config') NOT NULL default 'default',
