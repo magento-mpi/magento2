@@ -53,7 +53,7 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
             ->setPageSize(9)
             ->loadData();
             
-        $numResults = sizeof($prodCollection->getItems());
+        $numResults = $prodCollection->getSize();
         if ($numResults>0) {
             Mage::getModel('catalog/search')->updateSearch($query, $numResults);
         }

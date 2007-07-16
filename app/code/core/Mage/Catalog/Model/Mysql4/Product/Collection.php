@@ -214,11 +214,11 @@ class Mage_Catalog_Model_Mysql4_Product_Collection extends Varien_Data_Collectio
      * Get sql for get record count
      *
      * @return  string
-     */
+     *
     public function getSelectCountSql()
     {
         return 'SELECT FOUND_ROWS()';
-    }
+    }*/
 
     public function addAdminFilters($filters)
     {
