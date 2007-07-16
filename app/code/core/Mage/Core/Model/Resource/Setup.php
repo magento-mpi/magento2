@@ -76,10 +76,10 @@ class Mage_Core_Model_Resource_Setup
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
 
-    protected function _installResourceDb($version)
+    protected function _installResourceDb($toVersion)
     {
-        $this->_modifyResourceDb('install', '', $version);
-        $this->_modifyResourceDb('upgrade', '', $version);
+        $fromVersion = $this->_modifyResourceDb('install', '', $toVersion);
+        $this->_modifyResourceDb('upgrade', $fromVersion, $toVersion);
     }
 
     /**
@@ -135,7 +135,7 @@ class Mage_Core_Model_Resource_Setup
         $modName = (string)$this->_moduleConfig[0]->getName();
         
         $sqlFilesDir = Mage::getModuleDir('sql', $modName).DS.$this->_resourceName;
-        if (!file_exists($sqlFilesDir)) {
+        if (!is_dir($sqlFilesDir) || !is_readable($sqlFilesDir)) {
             return false;
         }
         // Read resource files
@@ -172,8 +172,10 @@ class Mage_Core_Model_Resource_Setup
                 catch (Exception $e){
                     throw new Exception('SQL error in file:"'.$sqlFile.'" - '.$e->getMessage());
                 }
-            }            
+            }
+            $toVersion = $resourceFile['toVersion'];
         }
+        return $toVersion;
     }
     
     /**
