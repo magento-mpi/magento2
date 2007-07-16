@@ -15,8 +15,40 @@ Server version : 4.1.20
 /*Table structure for table `core_config_attribute` */
 
 
-ALTER TABLE `core_store` ADD COLUMN `code` VARCHAR(64) NOT NULL;
-ALTER TABLE `core_website` ADD COLUMN `name` VARCHAR(64) NOT NULL;
+DROP TABLE IF EXISTS `core_store`;
+
+CREATE TABLE `core_store` (
+  `store_id` smallint(5) unsigned NOT NULL auto_increment,
+  `code` varchar(32) NOT NULL default '',
+  `language_code` varchar(2) default NULL,
+  `website_id` smallint(5) unsigned default '0',
+  `name` varchar(32) NOT NULL default '',
+  PRIMARY KEY  (`store_id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `FK_STORE_LANGUAGE` (`language_code`),
+  KEY `FK_STORE_WEBSITE` (`website_id`),
+  CONSTRAINT `FK_STORE_LANGUAGE` FOREIGN KEY (`language_code`) REFERENCES `core_language` (`language_code`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Stores';
+
+/*Data for the table `core_store` */
+
+insert  into `core_store`(`store_id`,`code`,`language_code`,`website_id`,`name`) values (1,'base','en',1,'English'),(2,'russian','ru',1,'Russian');
+
+/*Table structure for table `core_website` */
+
+DROP TABLE IF EXISTS `core_website`;
+
+CREATE TABLE `core_website` (
+  `website_id` smallint(5) unsigned NOT NULL auto_increment,
+  `code` varchar(32) NOT NULL default '',
+  `name` varchar(64) NOT NULL default '',
+  PRIMARY KEY  (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Websites';
+
+/*Data for the table `core_website` */
+
+insert  into `core_website`(`website_id`,`code`,`name`) values (1,'base','Default');
 
 DROP TABLE IF EXISTS `core_config_data`;
 CREATE TABLE `core_config_data` (

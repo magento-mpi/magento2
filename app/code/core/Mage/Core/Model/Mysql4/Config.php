@@ -10,7 +10,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Resource_Abstract
 
     public function getChecksum()
     {
-        $this->getConnection('checksum table '.$this->getMainTable());
+        $this->getConnection('checksum table '.$this->getMainTable().', '.$this->getTable('website').', '.$this->getTable('store'));
     }
 
     /**
@@ -23,6 +23,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Resource_Abstract
     public function loadToXml(Mage_Core_Model_Config $xmlConfig, $cond=null)
     {
         $read = $this->getConnection('read');
+        
+        #$tables = $read->fetchAll("show tables like 'core_%'");
+        #print_r($tables);
+        
         $config = array();
 
         // load websites and stores from db

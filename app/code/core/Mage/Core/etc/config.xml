@@ -16,12 +16,6 @@
                     <language>
                         <table>core_language</table>
                     </language>
-                    <website>
-                        <table>core_website</table>
-                    </website>
-                    <store>
-                        <table>core_store</table>
-                    </store>
                     <session>
                         <table>core_session</table>
                     </session>

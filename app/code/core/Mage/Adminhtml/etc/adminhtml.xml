@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <stores>
+        <base>
+            <system>
+                <filesystem>
+                    
+                </filesystem>
+            </system>
+        </base>
+    </stores>
+</config>

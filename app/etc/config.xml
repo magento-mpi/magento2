@@ -86,6 +86,12 @@
                     <config_data>
                         <table>core_config_data</table>
                     </config_data>
+                    <website>
+                        <table>core_website</table>
+                    </website>
+                    <store>
+                        <table>core_store</table>
+                    </store>
                 </entities>
             </core_mysql4>
         </models>
