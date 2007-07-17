@@ -17,6 +17,13 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      * @var string
      */
     protected $_visitorTable;
+    
+    /**
+     * Visitor data info table name
+     *
+     * @var string
+     */
+    protected $_visitorInfoTable;
 
     /**
      * Customer data table
@@ -69,6 +76,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('log_read'));
 
         $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
+        $this->_visitorInfoTable = Mage::getSingleton('core/resource')->getTableName('log/visitor_info');
         $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
         $this->_urlInfoTable = Mage::getSingleton('core/resource')->getTableName('log/url_info_table');
         $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
@@ -89,10 +97,11 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     {
         $this->_sqlSelect->from($this->_urlTable);
         $this->_sqlSelect->joinLeft( $this->_visitorTable, "{$this->_visitorTable}.visitor_id = {$this->_urlTable}.visitor_id" );
+        $this->_sqlSelect->joinLeft( $this->_visitorInfoTable, "{$this->_visitorInfoTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" );
         $this->_sqlSelect->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" );
         $this->_sqlSelect->joinLeft( $this->_quoteTable, "{$this->_quoteTable}.visitor_id = {$this->_urlTable}.visitor_id" );
-        $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_urlTable}.visit_time >= (".now()." - INTERVAL {$minutes} MINUTE)") );
+        $this->_sqlSelect->where( new Zend_Db_Expr("{$this->_urlTable}.visit_time >= ('".now()."' - INTERVAL {$minutes} MINUTE)") );
         $this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
         return $this;
     }
@@ -100,7 +109,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     public function getAggregatedData($period=720, $type_id=null)
     {
     	$this->_sqlSelect->from($this->_summaryTable);
-    	$this->_sqlSelect->where( new Zend_Db_Expr("{$this->_summaryTable}.add_date >= ".now()." - INTERVAL {$period} MINUTE") );
+    	$this->_sqlSelect->where( new Zend_Db_Expr("{$this->_summaryTable}.add_date >= '".now()."' - INTERVAL {$period} MINUTE") );
     	if( is_null($type_id) ) {
     		$this->_sqlSelect->where("{$this->_summaryTable}.type_id IS NULL");
     	} else {
