@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_Wishlist>
+            <version>0.1.0</version>
+            <depends>
+                <Mage_Core />
+                <Mage_Customer />
+                <Mage_Eav />
+            </depends>
+        </Mage_Wishlist>
+    </modules>
+    <global>
+        <block>
+            <groups><newsletter><class>Mage_Wishlist_Block</class></newsletter></groups>
+        </block>
+        <models>
+            <wishlist>
+                <class>Mage_Wishlist_Model</class>
+                <resourceModel>wishlist_mysql4</resourceModel>
+            </wishlist>
+            <wishlist_mysql4>
+                <class>Mage_Wishlist_Model_Mysql4</class>
+                <entities>
+                </entities>
+            </wishlist_mysql4>
+        </models>
+        <resources>
+            <wishlist_setup>
+                <setup>
+                    <module>Mage_Wishlist</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </wishlist_setup>
+            <wishlist_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </wishlist_write>
+            <wishlist_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </wishlist_read>
+        </resources>
+    </global>
+    <front>
+       <routers>
+         <wishlist>
+            <use>standard</use>
+            <args>
+               <module>Mage_Wishlist</module>
+               <frontName>wishlist</frontName>
+            </args>
+         </wishlist>
+      </routers>
+    </front>
+</config>
