@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
             }
             return $formatedString;
         } else {
-            return '(wrong_format)';
+            return htmlspecialchars($format);
         }
     }
 }

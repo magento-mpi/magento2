@@ -22,26 +22,17 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
         $actionAttributes = new Varien_Object();
 
         foreach( $action as $attibute => $value ) {
+    	    $row->setFormat($action[$attibute]);
+    	    $action[$attibute] = parent::render($row);
             switch ($attibute) {
             	case 'confirm':
             	    $action['onclick'] = 'return confirm(\'' . addslashes($action['confirm']) . '\');';
             	    unset($action['confirm']);
-            		break;
-
-            	case 'url':
-            	    $row->setFormat($action['url']);
-            	    $action['href'] = parent::render($row);
-            	    unset($action['url']);
-            		break;
-
-            	case 'caption':
-            	    $actionCaption = $action['caption'];
-            	    unset($action['caption']);
-            	    break;
+               		break;
             }
         }
 
         $actionAttributes->setData($action);
-        echo '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a> ';
+        echo '<a ' . $actionAttributes->serialize() . '>' . $action['caption'] . '</a> ';
     }
 }

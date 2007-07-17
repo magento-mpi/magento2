@@ -5,23 +5,23 @@
  */
 class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct() 
+    public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
-    
+
     public function _beforeToHtml() {
     	$this->_initForm();
-    	
+
     	return parent::_beforeToHtml();
     }
-    
+
     protected function _initForm() {
-        $form = new Varien_Data_Form();        
-        
+        $form = new Varien_Data_Form();
+
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role information')));
-        
-        $fieldset->addField('role_name', 'text', 
+
+        $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'role_name',
                 'label' => __('Role Title'),
@@ -29,19 +29,19 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'title' => __('Role Title'),
                 'class' => 'required-entry',
             )
-        );  
-               
-        $fieldset->addField('role_id', 'hidden', 
+        );
+
+        $fieldset->addField('role_id', 'hidden',
             array(
                 'name'  => 'role_id',
                 'id'    => 'role_id',
             )
-        );    
-        
+        );
+
         $roles = Mage::getResourceModel('permissions/roles_collection')->load()->toOptionArray();
-        $roles[] = array('value' => 0, 'label' => '--- ROOT ---');
-        
-        $fieldset->addField('parent_id', 'select', 
+        $roles[] = array('value' => 0, 'label' => __('Make as root'));
+
+        $fieldset->addField('parent_id', 'select',
             array(
                 'name'  => 'parent_id',
                 'label' => __('Role Parent'),
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'class' => 'required-entry',
                 'values'=> $roles,
             )
-        );         
+        );
 
         $form->setValues($this->getRole()->getData());
         $this->setForm($form);
