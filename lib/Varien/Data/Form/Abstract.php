@@ -58,14 +58,9 @@ class Varien_Data_Form_Abstract extends Varien_Object
     public function addField($elementId, $type, $config, $after=false)
     {
         $className = 'Varien_Data_Form_Element_'.ucfirst(strtolower($type));
-        try {
-            $element = new $className($config);
-            $element->setId($elementId);
-            $this->addElement($element, $after);
-        }
-        catch (Exception $e){
-            throw new Exception('Form not support element type "'.$type.'"');
-        }
+        $element = new $className($config);
+        $element->setId($elementId);
+        $this->addElement($element, $after);
         return $element;
     }
     
