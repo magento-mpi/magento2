@@ -5,6 +5,11 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
 
     public function indexAction()
     {
+    	if($this->getRequest()->getParam('ajax')) {
+    		$this->_forward('grid');
+    		return;
+    	}
+    	
         $this->loadLayout('baseframe');
         $block = $this->getLayout()->createBlock('adminhtml/customer_online', 'customers');
         $this->_addContent($block);
@@ -12,6 +17,12 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
         $this->_addBreadcrumb(__('Customers'), __('online customers title'));
 
         $this->renderLayout();
+    }
+    
+    public function gridAction()
+    {
+        $block = $this->getLayout()->createBlock('adminhtml/customer_online_grid');
+        $this->getResponse()->setBody($block->toHtml());
     }
 
     /*public function onlineAction()
