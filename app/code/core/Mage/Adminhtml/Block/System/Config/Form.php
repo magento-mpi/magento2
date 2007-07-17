@@ -24,22 +24,22 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         
         $form = new Varien_Data_Form();
         
+        $fieldsetRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset');
+        $fieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
+        
         foreach ($section->groups->children() as $fieldsetName=>$fieldsetConfig) {
-            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)));
-            $fieldset->setRenderer(
-                $this->getLayout()->createBlock('adminhtml/system_config_form_element_renderer_fieldset')
-            );
+            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)))
+                ->setRenderer($fieldsetRenderer);
             
             if (empty($fieldsetConfig->fields)) {
                 continue;
             }
             
-            $field = $fieldset->addField('test', 'text',array(
-                'label' => 'Test field',
-            ));
-            $field->setRenderer(
-                $this->getLayout()->createBlock('adminhtml/system_config_form_element_renderer_input')
-            );
+            $field = $fieldset->addField('test_input', 'text', array('label'=>'Input field'))
+                ->setRenderer($fieldRenderer);
+
+            $field = $fieldset->addField('test_select', 'select', array('label'=>'Select field'))
+                ->setRenderer($fieldRenderer);
             
             /*
             foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
