@@ -16,15 +16,10 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         $this->setExtType('combobox');
     }
 
-    public function toHtml()
+    public function getElementHtml()
     {
-        $html = null;
         $this->addClass('select');
-        $html.= ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
-        if ($this->getLabel()) {
-            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
-        }
-        $html.= '<select id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
+        $html = '<select id="'.$this->getHtmlId().'" name="'.$this->getName().'" '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
 
         $value = $this->getValue();
         if (!is_array($value)) {
@@ -47,11 +42,9 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         }
 
         $html.= '</select>'."\n";
-        $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
-        Varien_Profiler::stop('form/select/toHtml');
         return $html;
     }
-
+    
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';

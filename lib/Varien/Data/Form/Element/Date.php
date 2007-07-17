@@ -18,40 +18,26 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         $this->setExtType('textfield');
     }
     
-    public function toHtml()
+    public function getElementHtml()
     {      
     	$html = null;
 
-        if ($this->_renderer) {
-            $html = $this->_renderer->render($this);
-        }
-        else
-        {
-        	$html.= ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
-            if ($this->getLabel()) {
-                $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
-            }
-
-            $html.= '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" class="input-text"/> <img src="' . Mage::getBaseUrl() . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />';
-	        $html.= '<script type="text/javascript">
-	            Calendar.setup({
-	                inputField : "'.$this->getHtmlId().'",
-	                ';
-			if($this->getTime()) {
-				$html.='showsTime:true,' . "\n";
-				$html.='ifFormat : "%Y-%m-%d %H:%M",' . "\n";
-			} else {
-				$html.='ifFormat : "%Y-%m-%d",' . "\n";
-			}
-	        $html.='button : "'.$this->getHtmlId().'_trig",
-	                align : "Bl",
-	                singleClick : true
-	            });
-	        </script>';
-            
-            $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
-             
-	    }
+        $html = '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" class="input-text"/> <img src="' . Mage::getBaseUrl() . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />';
+        $html.= '<script type="text/javascript">
+            Calendar.setup({
+                inputField : "'.$this->getHtmlId().'",
+                ';
+		if($this->getTime()) {
+			$html.='showsTime:true,' . "\n";
+			$html.='ifFormat : "%Y-%m-%d %H:%M",' . "\n";
+		} else {
+			$html.='ifFormat : "%Y-%m-%d",' . "\n";
+		}
+        $html.='button : "'.$this->getHtmlId().'_trig",
+                align : "Bl",
+                singleClick : true
+            });
+        </script>';
         
         return $html;
     }

@@ -16,9 +16,9 @@ class Varien_Data_Form_Element_Submit extends Varien_Data_Form_Element_Abstract
         $this->setType('submit');
     }
 
-    public function toHtml()
+    public function getHtml()
     {
         $this->addClass('submit');
-        return parent::toHtml();
+        return parent::getHtml();
     }
 }

@@ -25,12 +25,11 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
     }
     
-    public function toHtml()
+    public function getElementHtml()
     {
         if( $this->getWysiwyg() === true ) 
         {
-            $html = '<span class="field-row">
-        	  <label for="'.$this->getHtmlId().'">'.$this->getLabel().':</label>
+            $html = '
         		<script language="javascript" type="text/javascript" src="'.$this->getForm()->getBaseUrl().'js/tiny_mce/tiny_mce.js"></script>
         		<script language="javascript" type="text/javascript">
                 tinyMCE.init({
@@ -49,8 +48,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                     doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\'
                 });
                 </script>
-                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" style="width:80%;height:200px">'.$this->getEscapedValue().'</textarea>
-            </span>';
+                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" style="width:80%;height:200px">'.$this->getEscapedValue().'</textarea>';
             //plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
             //theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
             //theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
@@ -61,7 +59,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
         else 
         {
-            return parent::toHtml();
+            return parent::getElementHtml();
         }
     }
     

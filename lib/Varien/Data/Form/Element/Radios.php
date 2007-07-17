@@ -25,20 +25,15 @@ class Varien_Data_Form_Element_Radios extends Varien_Data_Form_Element_Abstract
         return $separator;
     }
     
-    public function toHtml()
+    public function getElementHtml()
     {
-        $html = '<span class="field-row">'."\n";
-        if ($this->getLabel()) {
-            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
-        }
-        
+        $html = '';
         $value = $this->getValue();
         if ($values = $this->getValues()) {
             foreach ($values as $option) {
                 $html.= $this->_optionToHtml($option, $value);
             }
         }
-        $html.= '</span>'."\n";
         return $html;
     }
     

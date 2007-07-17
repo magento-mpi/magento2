@@ -118,24 +118,40 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     {
         $this->_renderer = $renderer;
     }
-
-    public function toHtml()
+    
+    public function getElementHtml()
     {
-        $html = null;
+        $html = '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
+             .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+        return $html;
+    }
+    
+    public function getDefaultHtml()
+    {
+        $html = ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
+        if ($this->getLabel()) {
+            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
+        }
+        $html.= $this->getElementHtml();
+        $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
+        return $html;
+    }
+    
+    public function getHtml()
+    {
+        $html = '';
 
         if ($this->_renderer) {
             $html = $this->_renderer->render($this);
         }
-        else
-        {
-            $html.= ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
-            if ($this->getLabel()) {
-                $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
-            }
-            $html.= '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
-                 .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
-            $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
+        else {
+            $html = $this->getDefaultHtml();
         }
         return $html;
+    }
+    
+    public function toHtml()
+    {
+        return $this->getHtml();
     }
 }

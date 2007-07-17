@@ -15,10 +15,9 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         $this->setType('fieldset');
     }
     
-    public function toHtml()
+    public function getElementHtml()
     {
-        $html = '<h4 class="icon-head head-edit-form fieldset-legend">'.$this->getLegend().'</h4>'."\n";
-        $html .= '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
+        $html = '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
         if ($this->getLegend()) {
             $html.= '<legend>'.$this->getLegend().'</legend>'."\n";
         }
@@ -26,6 +25,13 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         	$html.= $element->toHtml();
         }
         $html.= '</fieldset>'."\n";
+        return $html;
+    }
+    
+    public function getDefaultHtml()
+    {
+        $html = '<h4 class="icon-head head-edit-form fieldset-legend">'.$this->getLegend().'</h4>'."\n";
+        $html.= $this->getElementHtml();            
         return $html;
     }
 }

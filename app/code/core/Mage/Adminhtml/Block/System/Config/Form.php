@@ -26,13 +26,21 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         
         foreach ($section->groups->children() as $fieldsetName=>$fieldsetConfig) {
             $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)));
+            $fieldset->setRenderer(
+                $this->getLayout()->createBlock('adminhtml/system_config_form_element_renderer_fieldset')
+            );
             
             if (empty($fieldsetConfig->fields)) {
                 continue;
             }
             
-            $element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_start')->setId($fieldsetName.'_start');
-            $fieldset->addElement($element);
+            $field = $fieldset->addField('test', 'text',array(
+                'label' => 'Test field',
+            ));
+            $field->setRenderer(
+                $this->getLayout()->createBlock('adminhtml/system_config_form_element_renderer_input')
+            );
+            
             /*
             foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
                 $frontend = $fieldConfig->frontend;
@@ -45,8 +53,6 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 ));
             }
             */
-            $element = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset_end')->setId($fieldsetName.'_end');
-            $fieldset->addElement($element);
         }
 
         $this->setForm($form);
