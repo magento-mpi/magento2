@@ -11,6 +11,8 @@
 
 class Mage_Newsletter_Model_Problem extends Mage_Core_Model_Abstract
 {
+	protected  $_subscriber = null;
+	
 	protected function _construct() 
 	{
 		$this->_init('newsletter/problem');
@@ -30,5 +32,28 @@ class Mage_Newsletter_Model_Problem extends Mage_Core_Model_Abstract
 	{
 		$this->setProblemErrorCode($e->getCode());
 		$this->setProblemErrorText($e->getMessage());
+	}
+	
+	public function getSubscriber() 
+	{
+		if(!$this->getSubscriberId()) {
+			return null;
+		}
+		
+		
+		if(is_null($this->_subscriber)) {
+			$this->_subscriber = Mage::getModel('newsletter/subscriber')
+				->load($this->getSubscriberId());
+		}
+		
+		return $this->_subscriber;
+	}
+	
+	public function unsubscribe() 
+	{
+		if($this->getSubscriber()) {
+			$this->getSubscriber()->setSubscriberStatus(Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
+			$this->getSubscriber()->save();
+		}
 	}
 }// Class Mage_Newsletter_Model_Problem END

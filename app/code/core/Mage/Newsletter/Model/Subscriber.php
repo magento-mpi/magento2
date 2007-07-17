@@ -14,7 +14,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      * Status unsubscribed
      * @var int
      */
-    const STATUS_UNSUBSCRIBED = 0;
+    const STATUS_UNSUBSCRIBED = 3;
     
     /**
      * Status subscribed

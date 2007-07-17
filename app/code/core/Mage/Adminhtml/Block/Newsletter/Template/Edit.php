@@ -23,6 +23,102 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         }
     }
     
+    protected function _initChildren() 
+    {
+    	$this->setChild('backButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('back'),
+    					'onclick' => 'history.back()'
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('toPlainButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('convert to plain text'),
+    					'onclick' => 'templateControl.stripTags();',
+    					'id'	  => 'convert_button'
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('toHtmlButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('return html version'),
+    					'onclick' => 'templateControl.unStripTags();',
+    					'id'	  => 'convert_button_back',
+    					'style'	  => 'display:none'
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('saveButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('save template'),
+    					'onclick' => 'templateControl.save();'    					
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('previewButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('preview template'),
+    					'onclick' => 'templateControl.preview();'    					
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('deleteButton', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('delete template'),
+    					'onclick' => 'templateControl.deleteTemplate();'    					
+    				)
+    			)
+    	);
+    }
+    
+    public function getBackButtonHtml()
+    {
+    	return $this->getChildHtml('backButton');
+    }
+    
+    public function getToPlainButtonHtml()
+    {
+    	return $this->getChildHtml('toPlainButton');
+    }
+    
+    public function getToHtmlButtonHtml()
+    {
+    	return $this->getChildHtml('toHtmlButton');
+    }
+    
+    public function getSaveButtonHtml()
+    {
+    	return $this->getChildHtml('saveButton');
+    }
+    
+    public function getPreviewButtonHtml()
+    {
+    	return $this->getChildHtml('previewButton');
+    }
+    
+    public function getDeleteButtonHtml()
+    {
+    	return $this->getChildHtml('deleteButton');
+    }
+    
     /**
      * Set edit flag for block
      * 
@@ -107,4 +203,5 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         return Mage::getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
     }
        
+   
 }

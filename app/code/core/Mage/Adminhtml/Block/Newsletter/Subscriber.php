@@ -56,6 +56,11 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber extends Mage_Core_Block_Templat
 		return $this->_queueCollection;
 	}
 	
+	public function getShowQueueAdd() 
+    {
+    	return $this->getChild('grid')->getShowQueueAdd();
+    }
+	
 	/**
 	 * Return list of neversent queues for select
 	 *

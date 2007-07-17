@@ -17,10 +17,41 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Core_Block_Template
 		$this->setTemplate('adminhtml/newsletter/problem/list.phtml');
 	}
 	
-	public function _initChildren()
+	protected function _initChildren()
 	{
 		$this->setChild('grid', 
 			$this->getLayout()->createBlock('adminhtml/newsletter_problem_grid','newsletter.problem.grid')
 		);
+		
+		$this->setChild('deleteButton', 
+			$this->getLayout()->createBlock('adminhtml/widget_button','del.button')
+				->setData(
+					array(
+						'label' => __('Delete selected problems'),
+						'onclick' => 'problemController.deleteSelected();'
+					)
+				)
+		);
+		
+		$this->setChild('unsubscribeButton', 
+			$this->getLayout()->createBlock('adminhtml/widget_button','unsubscribe.button')
+				->setData(
+					array(
+						'label' => __('Unsubscibe selected'),
+						'onclick' => 'problemController.unsubscribe();'
+					)
+				)
+		);
 	}
+	
+	public function getUnsubscribeButtonHtml() 
+	{
+		return $this->getChildHtml('unsubscribeButton');
+	}
+	
+	public function getDeleteButtonHtml() 
+	{
+		return $this->getChildHtml('deleteButton');
+	}
+	
 }// Class Mage_Adminhtml_Block_Newsletter_Problem END

@@ -19,9 +19,9 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         }
         
         $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
-		$this->loadLayout('baseframe');
+        $this->loadLayout('baseframe');
 		
-		$this->_setActiveMenu('newsletter/subscriber');
+		$this->_setActiveMenu('newsletter/problem');
 		
 		$this->_addBreadcrumb(__('Newsletter'), __('newsletter title'), Mage::getUrl('adminhtml/newsletter'));
 		$this->_addBreadcrumb(__('Problem'), __('Problem title'));		
@@ -35,8 +35,40 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 	 
 	public function gridAction()
     {
-    	$this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
-    	$grid = $this->getLayout()->createBlock('adminhtml/newsletter_problem');
+    	if($this->getRequest()->getParam('_unsubscribe')) {
+    		$problems = (array) $this->getRequest()->getParam('problem', array());
+    		if (count($problems)>0) {
+    			$collection = Mage::getResourceModel('newsletter/problem_collection');
+    			$collection
+    				->addSubscriberInfo()
+    				->addFieldToFilter($collection->getResource()->getIdFieldName(), 
+    								   array('in'=>$problems))
+    				->load();
+    			
+    			$collection->walk('unsubscribe');
+    		}
+    		
+    		Mage::getSingleton('adminhtml/session')
+    			->addSuccess('Selected problem subscribers successfully unsubscribed');
+    	} 
+    	
+    	if($this->getRequest()->getParam('_delete')) {
+    		$problems = (array) $this->getRequest()->getParam('problem', array());
+    		if (count($problems)>0) {
+    			$collection = Mage::getResourceModel('newsletter/problem_collection');
+    			$collection
+    				->addFieldToFilter($collection->getResource()->getIdFieldName(), 
+    								   array('in'=>$problems))
+    				->load();
+    			$collection->walk('delete');
+    		}
+    		
+    		Mage::getSingleton('adminhtml/session')
+    			->addSuccess('Selected problems successfully deleted');
+    	} 
+    	    	$this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+    	
+    	$grid = $this->getLayout()->createBlock('adminhtml/newsletter_problem_grid');
     	$this->getResponse()->setBody($grid->toHtml());
     }
 }// Class Mage_Adminhtml_Newsletter_ProblemController END

@@ -117,7 +117,11 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     public function getProcessedTemplate(array $variables = array(), $usePreprocess=false)
     {
         $processor = new Mage_Newsletter_Filter_Template();
-        $variables['this'] = $this;
+        
+        if(!$this->_preprocessFlag) {
+        	$variables['this'] = $this;
+        }
+        
         $processor
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
@@ -198,7 +202,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
                 $problem->save();
                 
                 if(!is_null($queue)) { 
-                  // 	$subscriber->received($queue);
+                  $subscriber->received($queue);
                 }
             } else {
                 throw $e;

@@ -55,6 +55,12 @@
                     <action>adminhtml/newsletter_queue/</action>
                     <resource>admin/newsletter/queue</resource>
                 </queue>
+                <problem>
+                    <title>Problems reports</title>
+                    <action>adminhtml/newsletter_problem/</action>
+                    <resource>admin/newsletter/problem</resource>
+                </problem>
+                
             </children>
          </newsletter>
          <catalog>

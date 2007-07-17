@@ -3,15 +3,15 @@
         <tr>
             <td style="width:30%;"><h2><?=$this->getHeaderText()?></h2></td>
             <td class="form-buttons">
-                <strong class="button"><span><a href="#" onclick="history.back();return false;"><?=__('back')?></a></span></strong>
+                <?=$this->getBackButtonHtml();?>
                 <?if(!$this->isTextType()):?>
-                <strong class="button" id="convert_button"><span><a href="#" onclick="return templateControl.stripTags();"><?=__('convert to plain text')?></a></span></strong>
-                <strong class="button" id="convert_button_back" style="display:none;"><span><a href="#" onclick="return templateControl.unStripTags();"><?=__('return html version')?></a></span></strong>
+                <?=$this->getToPlainButtonHtml();?>
+                <?=$this->getToHtmlButtonHtml();?>
                 <?endif?>
-                <strong class="button"><span><a href="#" onclick="return templateControl.save();"><?=__('save template')?></a></span></strong>
-                <strong class="button"><span><a href="#" onclick="return templateControl.preview();"><?=__('preview template')?></a></span></strong>
+                <?=$this->getSaveButtonHtml();?>
+                <?=$this->getPreviewButtonHtml();?>
                 <?if($this->getEditMode()):?>
-                <strong class="button"><span><a href="<?=$this->getDeleteUrl()?>"><?=__('delete template')?></a></span></strong>
+                <?=$this->getDeleteButtonHtml();?>
                 <?endif?>
             </td>
         </tr>
@@ -31,6 +31,11 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
+        init: function () {
+        	if ($('convert_button_back')) { 
+        		$('convert_button_back').hide();
+        	}
+        },
         stripTags: function () {
             if(!window.confirm("<?=__('convert to plain text?')?>")) { 
                 return false;
@@ -69,6 +74,14 @@
             }
             templatePreviewForm.submit();
             return false;
+        },
+        
+        deleteTemplate: function() {
+            if(window.confirm("<?=__('Delete this template?')?>")) { 
+               	window.location.href = '<?=$this->getDeleteUrl()?>';
+            }
         }
     };
+    
+    templateControl.init();
 </script>
