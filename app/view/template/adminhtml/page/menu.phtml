@@ -4,7 +4,7 @@
 <?if (empty($_level)):?>
 <!-- menu start -->
 <script type="text/javascript">
-var isIE = false;//window.navigator.userAgent.indexOf("MSIE") > 0;
+var isIE = window.navigator.userAgent.indexOf("MSIE") > 0;
 
 function toggleMenu(el, over) {
     if (isIE && !over) {

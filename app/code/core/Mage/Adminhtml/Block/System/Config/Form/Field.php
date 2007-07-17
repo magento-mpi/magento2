@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<tr><td>'.$element->getLabel().'</td>';
-        $html .= '<td><input type="radio">Default</td>';
+        $html .= '<td><input type="radio">'.$element->getDefaultValue().'</td>';
         $html .= '<td><input type="radio">'.$element->getElementHtml().'</td></tr>';
         return $html;
     }

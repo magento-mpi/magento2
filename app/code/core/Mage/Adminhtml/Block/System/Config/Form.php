@@ -28,20 +28,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $fieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
         
         foreach ($section->groups->children() as $fieldsetName=>$fieldsetConfig) {
-            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)))
-                ->setRenderer($fieldsetRenderer);
-            
             if (empty($fieldsetConfig->fields)) {
                 continue;
             }
             
-            $field = $fieldset->addField('test_input', 'text', array('label'=>'Input field'))
-                ->setRenderer($fieldRenderer);
-
-            $field = $fieldset->addField('test_select', 'select', array('label'=>'Select field'))
-                ->setRenderer($fieldRenderer);
+            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)))
+                ->setRenderer($fieldsetRenderer);
             
-            /*
             foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
                 $frontend = $fieldConfig->frontend;
                 
@@ -50,9 +43,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'label' => (string) $frontend->label,
                     #'value' => (string) Mage::getConfig()->getNode((string) $fieldConfig['path']),
                     'class' => (string) $frontend->class,
-                ));
+                ))->setRenderer($fieldRenderer);
             }
-            */
         }
 
         $this->setForm($form);

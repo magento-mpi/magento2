@@ -117,6 +117,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function setRenderer(Varien_Data_Form_Element_Renderer_Interface $renderer)
     {
         $this->_renderer = $renderer;
+        return $this;
     }
     
     public function getElementHtml()
