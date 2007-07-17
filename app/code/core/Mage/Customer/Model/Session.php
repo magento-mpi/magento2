@@ -27,7 +27,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
-        $this->getId($customer->getId());
+        $this->setId($customer->getId());
         return $this;
     }
     
