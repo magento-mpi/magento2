@@ -20,6 +20,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             return;
         }
         $this->loadLayout('baseframe');
+        $this->_initLayoutMessages('adminhtml/session');
 
         /**
          * Set active menu item
@@ -52,12 +53,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->loadLayout('baseframe');
-
+        $this->_initLayoutMessages('adminhtml/session');
+        
         $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');
-
+        
         if ($customerId) {
             $customer->load($customerId);
+        }
+        
+        if ($data = Mage::getSingleton('adminhtml/session')->getCustomerData(true)) {
+            $customer->addData($data);
         }
 
         Mage::register('customer', $customer);
@@ -113,10 +119,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer = Mage::getModel('customer/customer')
                     ->setId($customerId)
                     ->delete();
-                //Mage::getSingleton('adminhtml/session')->addMessage();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Customer was deleted');
             }
             catch (Exception $e){
-                //Mage::getSingleton('adminhtml/session')->addMessage();
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
         $this->_redirect('adminhtml/customer');
@@ -165,13 +171,16 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             try {
                 $customer->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');
             }
             catch (Exception $e){
-                echo $e;
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setCustomerData($data);
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit'));
+                return;
             }
         }
-
-        $this->_redirect('adminhtml/customer');
+        $this->getResponse()->setRedirect(Mage::getUrl('*/customer'));
     }
 
     /**
