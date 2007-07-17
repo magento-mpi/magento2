@@ -3,7 +3,7 @@
 <?php foreach ($resources as $resource => $val):?>
   <? $margin = $val['level'] * 20;?>
     <div style="margin-left:<?=$margin?>px;">
-	<input type="checkbox" value="<?=$resource?>" title="<?=$val['name']?>" name="resource[]" />
+	<input type="checkbox" value="<?=$resource?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> />
 	<?=$val['name'];?>
 	</div>
 <?php endforeach; ?>

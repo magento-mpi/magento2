@@ -1,37 +1,15 @@
-<style type="text/css">
-#roles-list LI {
-	margin-left:40px;
-}
-
-SPAN.link {
-	cursor:pointer;
-}
-
-#roles-list UL UL {
-	display:none;
-}
-</style>
 <script type="text/javascript">
+var roleId = '<?=$roleId?>';
+
 var role = function () {
 	return {
-		fold: function (el) {
-			var el = el.parentNode.getElementsByTagName('ul')[0];
-			with (el.style) {
-				display = (display == "block") ? "none" : "block";
-			}
-			
-			var id = el.parentNode.getElementsByTagName('span')[0].id.substr(1);
-			$('role_pid_value').value = id;
-		},
-		
-		deleteFromRole: function (el) {
-			var uid = el.id.substr(1);
-			var roleId = el.parentNode.parentNode.parentNode.getElementsByTagName('span')[0].id.substr(1);
-			
+		deleteFromRole: function (uid) {
+		    if( !confirm('<?=__('Are you sure you want to do this?')?>') ) {
+		        return false;
+		    }
 			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permissions/deleteuserfromrole')?>', {
 				method:'post',
 				parameters: {
-					role_id: roleId,
 					user_id: uid
 				},
 				onSuccess: function(transport){
@@ -40,20 +18,16 @@ var role = function () {
 						alert(json.error_message);
 						return false;
 					}
-					
-					el.parentNode.parentNode.removeChild(el.parentNode);
 				},
-				onFailure: function() { 
+				onFailure: function() {
 					alert('Something went wrong...');
 				}
 			});
-			
 		},
-		
+
 		addUser2Role: function () {
 			var uid = $('users').value;
-			var roleId = $('role_pid_value').value;
-			
+            $('addButton').disabled = true;
 			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permissions/adduser2role')?>', {
 				method:'post',
 				parameters: {
@@ -62,61 +36,30 @@ var role = function () {
 					firstname: $('users').options[$('users').selectedIndex].text
 				},
 				onSuccess: function(transport){
-					eval('var json = ' + transport.responseText);
-					if (json.error) {
-						alert(json.error_message);
-						return false;
-					}
-					
-					var newU = document.createElement('li');
-					newU.innerHTML = $('users').options[$('users').selectedIndex].text + " ";
-					var newCb = document.createElement('span');
-					newCb.className = 'link';
-					newCb.id = 'u' + uid;
-					newCb.onclick = function () {
-						role.deleteFromRole(newCb);
-					}
-					newCb.innerHTML = "-";
-					newU.appendChild(newCb);
-					
-					$('r'+roleId).parentNode.getElementsByTagName('ul')[0].appendChild(newU);
+                    $('addButton').disabled = false;
+                    console.log(req.evalResponce());
 				},
-				onFailure: function() { 
+				onFailure: function() {
 					alert('Something went wrong...');
 				}
-			});	
+			});
 		}
 	}
 }();
 </script>
-<h4 class="icon-head head-edit-form fieldset-legend">Users roles</h4>
-<div id="roles-list">
-	<ul>
-		<?php foreach ($roles as $role) { ?>
-		<li>
-			<span id="r<?=$role->getRoleId();?>" class="link" onclick="role.fold(this);"><?=$role->getRoleName();?></span>
-			<ul>
-			<?php foreach ($role->getUsers() as $user) { ?>
-				<li><?=$user->getFirstname();?> <span id="u<?=$user->getUserId();?>" class="link" onclick="role.deleteFromRole(this)">-</span></li>
-			<?php } ?>
-			</ul>
-		</li>
-		<?php } ?>
-	</ul>
-</div>
-
-<input type="text" name="role_pid_value" id="role_pid_value" />
+<h4 class="icon-head head-edit-form fieldset-legend">Role users</h4>
+<?=$this->_getGridHtml()?>
 <select id="users">
 	<?php foreach ($users as $user) { ?>
 	<option value="<?=$user->getUserId();?>"><?=$user->getFirstname();?></option>
 	<?php } ?>
 </select>
-<button class="scalable" onclick="role.addUser2Role(); return false;">
+<button class="scalable" id="addButton" onclick="role.addUser2Role();<?=$this->_getJsObjectName()?>.reload();return false;">
 	<table cellspacing="0">
 		<tbody>
 			<tr>
 				<td class="tl"></td>
-				<td class="tr"></td>				
+				<td class="tr"></td>
 			</tr>
 			<tr>
 				<td class="ml">Add</td>
@@ -124,7 +67,7 @@ var role = function () {
 			</tr>
 			<tr>
 				<td class="bl"></td>
-				<td class="br"></td>				
+				<td class="br"></td>
 			</tr>
 		</tbody>
 	</table>

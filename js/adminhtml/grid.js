@@ -78,6 +78,7 @@ varienGrid.prototype = {
         }
     },
     reload : function(url){
+        url = url || this.url;
         if(this.useAjax){
             new Ajax.Updater(
                 this.containerId,
