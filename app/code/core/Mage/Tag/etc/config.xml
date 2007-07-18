@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Tag>
-         <version>0.0.4</version>
+         <version>0.0.5</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -14,13 +14,13 @@
             <class>Mage_Tag_Model</class>
             <resourceModel>tag_mysql4</resourceModel>
          </tag>
-				 <tag_customer>
+                 <tag_customer>
             <class>Mage_Tag_Model_Customer</class>
             <resourceModel>tag_entity_customer</resourceModel>
-				 </tag_customer>
-				 <tag_entity_customer>
+                 </tag_customer>
+                 <tag_entity_customer>
             <class>Mage_Tag_Model_Entity_Customer</class>
-				 </tag_entity_customer>
+                 </tag_entity_customer>
          <tag_mysql4>
             <class>Mage_Tag_Model_Mysql4</class>
             <entities>
@@ -54,7 +54,7 @@
          </tag_read>
       </resources>
       <block>
-		 <groups><tag><class>Mage_Tag_Block</class></tag></groups>
+         <groups><tag><class>Mage_Tag_Block</class></tag></groups>
       </block>
    </global>
    <front>
