@@ -127,12 +127,18 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         return $html;
     }
     
+    public function getLabelHtml()
+    {
+        if ($this->getLabel()) {
+            $html = '<label for="'.$this->getHtmlId().'">'.$this->getLabel().($this->getRequired()?' <span class="required">*</span>':'').'</label>'."\n";
+        }
+        return $html;
+    }
+    
     public function getDefaultHtml()
     {
         $html = ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
-        if ($this->getLabel()) {
-            $html.= '<label for="'.$this->getHtmlId().'">'.$this->getLabel().'</label>'."\n";
-        }
+        $html.= $this->getLabelHtml();
         $html.= $this->getElementHtml();
         $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
         return $html;

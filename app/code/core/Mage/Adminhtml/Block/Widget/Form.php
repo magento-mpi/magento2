@@ -71,7 +71,8 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                     array(
                         'name'  => $attribute->getName(),
                         'label' => $attribute->getFrontend()->getLabel(),
-                        'class' => $attribute->getFrontend()->getClass()
+                        'class' => $attribute->getFrontend()->getClass(),
+                        'required' => $attribute->getIsRequired(),
                     )
                 );
                 if ($inputType == 'select') {
