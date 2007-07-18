@@ -30,4 +30,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_transactionLevel--;
         return $this;
     }
+    
+    public function convertDate($date)
+    {
+        return strftime('%Y-%m-%d', strtotime($date));
+    }
+    
+    public function convertDateTime($datetime)
+    {
+        return strftime('%Y-%m-%d %H:%M:%S', strtotime($date));
+    }
 }

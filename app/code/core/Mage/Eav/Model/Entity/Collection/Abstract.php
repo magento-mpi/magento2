@@ -830,11 +830,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             } */
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (!empty($condition['from'])) {
-                    $sql.= $this->_read->quoteInto("$fieldName >= ?", $condition['from']);
+                    $from = empty($condition['date']) ? $condition['from'] : $this->_read->convertDate($condition['from']);
+                    $sql.= $this->_read->quoteInto("$fieldName >= ?", $from);
                 }
                 if (!empty($condition['to'])) {
                     $sql.= empty($sql) ? '' : ' and ';
-                    $sql.= $this->_read->quoteInto("$fieldName <= ?", $condition['to']);
+                    $to = empty($condition['date']) ? $condition['to'] : $this->_read->convertDate($condition['to']);
+                    $sql.= $this->_read->quoteInto("$fieldName <= ?", $to);
                 }
             }
             elseif (!empty($condition['neq'])) {

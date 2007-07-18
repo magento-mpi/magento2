@@ -55,6 +55,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
             return null;
         }
         $value = $this->getData('value');
+        if (is_array($value)) {
+            $value['date'] = true;
+        }
         return $value;
     }
 
