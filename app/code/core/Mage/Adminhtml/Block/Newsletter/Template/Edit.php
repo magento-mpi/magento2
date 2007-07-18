@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('back'),
+    					'label'   => __('Back'),
     					'onclick' => 'history.back()'
     				)
     			)
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('convert to plain text'),
+    					'label'   => __('Convert to Plain Text'),
     					'onclick' => 'templateControl.stripTags();',
     					'id'	  => 'convert_button'
     				)
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('return html version'),
+    					'label'   => __('Return Html Version'),
     					'onclick' => 'templateControl.unStripTags();',
     					'id'	  => 'convert_button_back',
     					'style'	  => 'display:none'
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('save template'),
+    					'label'   => __('Save Template'),
     					'onclick' => 'templateControl.save();'    					
     				)
     			)
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('preview template'),
+    					'label'   => __('Preview Template'),
     					'onclick' => 'templateControl.preview();'    					
     				)
     			)
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('delete template'),
+    					'label'   => __('Delete Template'),
     					'onclick' => 'templateControl.deleteTemplate();'    					
     				)
     			)
@@ -149,10 +149,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getHeaderText() 
     {
         if($this->getEditMode()) {
-          return __('edit template');
+          return __('Edit Template');
         }
         
-        return  __('new template');
+        return  __('New Template');
     }
     
        

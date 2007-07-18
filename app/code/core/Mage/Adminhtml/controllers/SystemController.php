@@ -14,7 +14,7 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(__('System'), __('system title'));
+        $this->_addBreadcrumb(__('System'), __('System Title'));
         $this->renderLayout();
     }
 

@@ -144,7 +144,7 @@ class Mage_Admin_CategoryController extends Mage_Core_Controller_Front_Action
             }
             
             $item = array(
-                'text'  => __('Catalog categories'),
+                'text'  => __('Catalog Categories'),
                 'id'    => $store->getRootCategoryId(),
                 'cls'   => 'folder',
                 'isRoot'=> 'true',

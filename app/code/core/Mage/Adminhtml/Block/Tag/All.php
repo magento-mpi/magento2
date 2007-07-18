@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Tag_All extends Mage_Core_Block_Template
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => __('Create Tag'),
+                    'label' => __('Add New Tag'),
                     'onclick' => "window.location.href='" . Mage::getUrl('*/*/edit') . "'",
                 ))
         );

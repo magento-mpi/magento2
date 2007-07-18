@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Wi
         $storesConfig = Mage::getConfig()->getNode('stores');
 
         $this->addTab('default', array(
-            'label'  => __('Default config'),
+            'label'  => __('Default Config'),
             'url'    => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>null)),
             'class' => 'default',
         )); 

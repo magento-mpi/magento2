@@ -28,12 +28,12 @@ class Mage_Adminhtml_Block_Cms_Page_Actions extends Mage_Adminhtml_Block_Widget_
                 'values' => array(
                     array(
                         'value' => $actionsUrl . 'edit/page/' . $row->getPageId(),
-                        'label' => __('edit page'),
+                        'label' => __('Edit Page'),
                     ),
 
                     array(
                         'value' => $actionsUrl . 'delete/page/' . $row->getPageId(),
-                        'label' => __('delete page'),
+                        'label' => __('Delete Page'),
                     ),
 
                     array(
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Cms_Page_Actions extends Mage_Adminhtml_Block_Widget_
 
         $form->addField(null, 'button',
             array(
-                'value' => __(' go '),
+                'value' => __(' Go '),
                 'on_click' => "window.location.href=document.getElementById('action_{$row->getPageId()}').value"
             )
         );

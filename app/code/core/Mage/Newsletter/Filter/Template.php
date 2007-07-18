@@ -96,7 +96,7 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
                         $includeParameters = $this->_getIncludeParameters($constructions[2][$index]);
                         if(!isset($includeParameters['template']) or !$this->getIncludeProcessor()) {
                             // Not specified template or not seted include processor
-                            $replacedValue = '{' . __('error in include processing') . '}';
+                            $replacedValue = '{' . __('Error in include processing') . '}';
                         } else { 
                             // Including of template
                             $templateCode = $includeParameters['template'];

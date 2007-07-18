@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
-            'title'     => __('Last %s orders', 5),
+            'title'     => __('Last %s Orders', 5),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders')->setId('last5orders'),
             'open'      => true
         ));
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             $html = $address->toString($address->getHtmlFormat());
         }
         else {
-            $html = __('Customer do not have primary billing address');
+            $html = __('Customer doesn\'t have primary billing address');
         }
         return $html;
     }

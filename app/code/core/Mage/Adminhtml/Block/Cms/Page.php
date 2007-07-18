@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
 
     protected function _beforeToHtml()
     {
-        $this->assign('header', __('manage page'));
+        $this->assign('header', __('Manage Page'));
         return $this;
     }
 }

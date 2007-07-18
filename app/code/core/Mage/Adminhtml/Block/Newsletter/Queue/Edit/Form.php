@@ -18,36 +18,36 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 		$queue->addTemplateData($queue);
 		$form = new Varien_Data_Form();
 		
-		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue general')));
+		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue General')));
 		
 		
 		$fieldset->addField('date','date',array(
 			'name'	=>	'start_at',
 			'time'	=>	true,
-			'label'	=>	__('Start this queue at '),
-			'title'	=>	__('Queue start date')
+			'label'	=>	__('Start This Queue At '),
+			'title'	=>	__('Queue Start Date')
 		));
 		
 		$fieldset->addField('subject', 'text', array(
             'name'=>'subject',
             'label' => __('Subject'),
-            'title' => __('Subject title'),
+            'title' => __('Subject'),
             'class'	=> 'required-entry',
             'value' => $queue->getTemplate()->getTemplateSubject()            
         ));
 		
 		$fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
-            'label' => __('sender name'),
-            'title' => __('sender name title'),
+            'label' => __('Sender Name'),
+            'title' => __('Sender Name'),
             'class'	=> 'required-entry',
             'value' => $queue->getTemplate()->getTemplateSenderName()
         ));
         
         $fieldset->addField('sender_email', 'text', array(
             'name'=>'sender_email',
-            'label' => __('sender email'),
-            'title' => __('sender email title'),
+            'label' => __('Sender Email'),
+            'title' => __('Sender Email'),
             'class' => 'validate-email required-entry',
             'value' => $queue->getTemplate()->getTemplateSenderEmail()   
         )); 
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 			'name'	  =>	'text',
 			'wysiwyg' =>    !$queue->getTemplate()->isPlain(),
 			'label'	  =>	__('Message'),
-			'title'	  =>	__('Message title'),
+			'title'	  =>	__('Message'),
 			'theme'	  => 	'advanced',
 			'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
 		));

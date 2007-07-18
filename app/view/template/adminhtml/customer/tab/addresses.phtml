@@ -10,7 +10,7 @@
                 <td class="tr"></td>
             </tr>
             <tr>
-                <td class="ml"><?=__('Add new')?></td>
+                <td class="ml"><?=__('Add New Address')?></td>
                 <td class="mr"></td>
             </tr>
             <tr>
@@ -24,28 +24,28 @@
         <?foreach ($addressCollection as $_address):?>
 		<li id="address_item_<?=$_address->getId()?>">
     		<div class="delete-address">
-    		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
+    		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
     		</div>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
             <div class="address-type">
-        		<input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default billing')?></label>
-        		<input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default shipping')?></label>
+        		<input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="default_billing" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default Billing')?></label>
+        		<input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default Shipping')?></label>
             </div>
 		</li>
 		<?endforeach;?>
 	<?else:?>
 		<li id="new_item">
             <div class="delete-address" style="display:none">
-                <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
+                <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
             </div>
             <address>
                 New customer address
             </address>
             <div class="address-type">
-                <input type="radio" id="new_item_billing" name="default_billing" value="new" title="<?=__('Set as default billing address')?>" checked="true"/>&nbsp;<label for="new_item_billing"><?=__('Default billing')?></label>
-                <input type="radio" id="new_item_shipping" name="default_shipping" value="new" title="<?=__('Set as default shipping address')?>" checked="true"/>&nbsp;<label for="new_item_shipping"><?=__('Default shipping')?></label>
+                <input type="radio" id="new_item_billing" name="default_billing" value="new" title="<?=__('Set as default billing address')?>" checked="true"/>&nbsp;<label for="new_item_billing"><?=__('Default Billing')?></label>
+                <input type="radio" id="new_item_shipping" name="default_shipping" value="new" title="<?=__('Set as default shipping address')?>" checked="true"/>&nbsp;<label for="new_item_shipping"><?=__('Default Shipping')?></label>
             </div>
 		</li>
 	<?endif;?>
@@ -79,12 +79,12 @@
 	<?$_templatePrefix = '_template_'?>
 	<div id="address_item_template" class="no-display template">
 		<div class="delete-address">
-		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete address')?></a>
+		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
 		</div>
 		<address>New address</address>
 		<div class="address-type">
-            <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default billing')?></label>
-            <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default shipping')?></label>
+            <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing')?></label>
+            <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping')?></label>
 		</div>
 	</div>
 
@@ -289,7 +289,7 @@ addressesModel.prototype = {
         }
     },
     deleteAddress : function(item){
-        if(confirm('<?=__('Do you want delete this address?')?>')){
+        if(confirm('<?=__('Do you want to delete this address?')?>')){
             if( item.isNewAddress){
                 if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
             } else {

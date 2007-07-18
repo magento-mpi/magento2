@@ -49,14 +49,14 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('page_creation_time',
             array(
-            'header'=>__('Creation time'),
+            'header'=>__('Creation Time'),
             'index' =>'page_creation_time'
             )
         );
 
         $this->addColumn('page_update_time',
             array(
-                'header'=>__('Update time'),
+                'header'=>__('Update Time'),
                 'index'=>'page_update_time'
             )
         );
@@ -67,8 +67,8 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'width'     =>10,
                 'sortable'  =>false,
                 'filter'    => false,
-                'format'    => '<a href="' . Mage::getUrl('*/*/edit') .'page/$page_id/">' . __('edit') . '</a>
-                             <a href="' . Mage::getUrl('*/*/delete') .'page/$page_id/">' . __('delete') . '</a>'
+                'format'    => '<a href="' . Mage::getUrl('*/*/edit') .'page/$page_id/">' . __('Edit') . '</a>
+                             <a href="' . Mage::getUrl('*/*/delete') .'page/$page_id/">' . __('Delete') . '</a>'
             )
         );
         $this->setFilterVisibility(false);

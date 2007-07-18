@@ -54,16 +54,16 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _beforeToHtml()
     {
-        $this->addColumn('id', array('header'=>__('id'), 'width'=>'40px', 'align'=>'center', 'index'=>'customer_id'));
-        $this->addColumn('firstname', array('header'=>__('firstname'),  'index'=>'customer_firstname'));
-        $this->addColumn('lastname', array('header'=>__('lastname'), 'index'=>'customer_lastname'));
-        $this->addColumn('email', array('header'=>__('email'), 'align'=>'center', 'index'=>'customer_email'));
-        $this->addColumn('ip_address', array('header'=>__('ip_address'), 'align'=>'center', 'index'=>'remote_addr', 
+        $this->addColumn('id', array('header'=>__('ID'), 'width'=>'40px', 'align'=>'center', 'index'=>'customer_id'));
+        $this->addColumn('firstname', array('header'=>__('First Name'),  'index'=>'customer_firstname'));
+        $this->addColumn('lastname', array('header'=>__('Last Name'), 'index'=>'customer_lastname'));
+        $this->addColumn('email', array('header'=>__('Email'), 'align'=>'center', 'index'=>'customer_email'));
+        $this->addColumn('ip_address', array('header'=>__('IP Address'), 'align'=>'center', 'index'=>'remote_addr', 
         									'renderer'=>'adminhtml/customer_online_grid_renderer_ip'));
-        $this->addColumn('session_start_time', array('header'=>__('session_start_time'), 'align'=>'center', 'index'=>'first_visit_at'));
-        $this->addColumn('last_activity', array('header'=>__('last_activity'), 'align'=>'center', 'index'=>'last_visit_at'));
-        $this->addColumn('last_url', array('header'=>__('last_url'), 'align'=>'center', 'index'=>'url'));
-        $this->addColumn('cart_items', array('header'=>__('cart_items'), 'align'=>'center', 'index'=>'quote_data'));
+        $this->addColumn('session_start_time', array('header'=>__('Session Start Time'), 'align'=>'center', 'index'=>'first_visit_at'));
+        $this->addColumn('last_activity', array('header'=>__('Last Activity'), 'align'=>'center', 'index'=>'last_visit_at'));
+        $this->addColumn('last_url', array('header'=>__('Last Url'), 'align'=>'center', 'index'=>'url'));
+        $this->addColumn('cart_items', array('header'=>__('Cart Items'), 'align'=>'center', 'index'=>'quote_data'));
         $this->_initCollection();
         return parent::_beforeToHtml();
     }

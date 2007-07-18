@@ -21,11 +21,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         $form->setHtmlIdPrefix('_newsletter');
         $customer = Mage::registry('customer');        
         $isSubscribed = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer)->isSubscribed(true);
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
                         
         $fieldset->addField('subscription', 'checkbox',
              array(
-                    'label' => __('Subscribe to newsletter?'),
+                    'label' => __('Subscribe to Newsletter?'),
                     'name'  => 'subscription'                    
              )
         );

@@ -32,20 +32,20 @@ class Mage_Admin_TestController extends Mage_Core_Controller_Zend_Action
 
                 $tab = array(
                     'name'  => 'general',
-                    'title' => __('Customer address'),
+                    'title' => __('Customer Address'),
                     'type'  => 'form',
                     'form'  => $form->toArray()
                 );
                 break;
             default:
-                $tab['title'] = __('New Customer');
+                $tab['title'] = __('Add New Customer');
                 $tab['name']  = 'default';
                 $tab['type']  = 'view';
                 $tab['url']   = Mage::getBaseUrl();
                 break;
         }
         
-        $cardStruct['title'] = __('New Customer');
+        $cardStruct['title'] = __('Add New Customer');
         $cardStruct['error'] = 0;
         $cardStruct['tabs'][] = $tab;
         $this->getResponse()->setBody(Zend_Json::encode($cardStruct));

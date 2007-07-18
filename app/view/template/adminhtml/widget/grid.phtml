@@ -45,7 +45,7 @@
 				<option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
 				<option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
     		</select>
-    		per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> Records</strong> found
+    		per page<span class="spacer">|</span>Total <strong><?=$this->getCollection()->getSize()?> records</strong> found
     	</td>
     <?endif?>
     <?if($this->getExportTypes()):?>

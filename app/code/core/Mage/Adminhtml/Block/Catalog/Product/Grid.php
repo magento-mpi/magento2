@@ -35,9 +35,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array('header'=>__('id'), 'align'=>'center', 'sortable'=>false, 'index'=>'product_id'));
-        $this->addColumn('sku', array('header'=>__('sku'), 'align'=>'center', 'index'=>'sku'));
-        $this->addColumn('name', array('header'=>__('name'), 'index'=>'name'));
+        $this->addColumn('id', array('header'=>__('ID'), 'align'=>'center', 'sortable'=>false, 'index'=>'product_id'));
+        $this->addColumn('sku', array('header'=>__('SKU'), 'align'=>'center', 'index'=>'sku'));
+        $this->addColumn('name', array('header'=>__('Name'), 'index'=>'name'));
         $this->addColumn('action', array('header'=>__('Action'), 'index' => 'product_id', 'sortable' => false, 'filter' => false));
 
         return parent::_prepareColumns();

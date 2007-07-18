@@ -22,13 +22,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         
         $customer = Mage::registry('customer');        
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
         
         $this->_setFieldset($customer->getAttributes(), $fieldset);
         if ($customer->getId()) {
             $fieldset->addField('reset_password', 'checkbox',
                 array(
-                    'label' => __('Reset password'),
+                    'label' => __('Reset Password'),
                     'name'  => 'reset_password',
                     'value' => '1'
                 )
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             );
             $fieldset->addField('password_confirm', 'password',
                 array(
-                    'label' => __('Password confirm'),
+                    'label' => __('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
                     'name'  => 'password_confirm'
                 )

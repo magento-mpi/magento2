@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
     protected function _initForm() {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role Information')));
 
         $fieldset->addField('role_name', 'text',
             array(
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
         );
 
         $roles = Mage::getResourceModel('permissions/roles_collection')->load()->toOptionArray();
-        $roles[] = array('value' => 0, 'label' => __('Make as root'));
+        $roles[] = array('value' => 0, 'label' => __('Make as Root'));
 
         $fieldset->addField('parent_id', 'select',
             array(

@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	/*}*/
     	
     	$this->addColumn('id', array(
-    		'header'	=> __('id'),
+    		'header'	=> __('ID'),
     		'align'		=> 'center',
     		'index'		=> 'subscriber_id'
     	));

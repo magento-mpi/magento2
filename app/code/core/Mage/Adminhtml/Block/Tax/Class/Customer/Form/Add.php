@@ -54,12 +54,12 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
         }
 
         if( intval($classId) <= 0 ) {
-            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer tax class information')));
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer Tax Class Information')));
             $fieldset->addField('class_name', 'text',
                                 array(
                                     'name' => 'class_name',
-                                    'label' => __('Class name'),
-                                    'title' => __('Class name title'),
+                                    'label' => __('Class Name'),
+                                    'title' => __('Class Name Title'),
                                     'class' => 'required-entry',
                                 )
                         );
@@ -72,14 +72,14 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 )
                         );
         } else {
-            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add customer group')));
+            $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add New Customer Group')));
         }
 
         $fieldset->addField('class_group', 'select',
                             array(
                                 'name' => 'class_group',
-                                'label' => __('Customer group'),
-                                'title' => __('Customer group title'),
+                                'label' => __('Customer Group'),
+                                'title' => __('Customer Group Title'),
                                 'class' => 'required-entry',
                                 'values' => $customerGroups,
                                 'no_span' => (intval($classId) > 0) ? true : false

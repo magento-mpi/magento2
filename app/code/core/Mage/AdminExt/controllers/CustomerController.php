@@ -103,7 +103,7 @@ class Mage_Admin_CustomerController extends Mage_Core_Controller_Front_Action
         else {
             $customerId = false;
             $customer   = false;
-            $cardStruct['title'] = __('New Customer');
+            $cardStruct['title'] = __('Add New Customer');
         }
         
         

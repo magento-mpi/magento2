@@ -22,14 +22,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     {
         if (Mage::registry('customer')->getId()) {
             $this->addTab('view', array(
-                'label'     => __('Customer view'),
+                'label'     => __('Customer View'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
                 'active'    => true
             ));
         }
 
         $this->addTab('account', array(
-            'label'     => __('Account information'),
+            'label'     => __('Account Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->initForm()->toHtml(),
             'active'    => Mage::registry('customer')->getId() ? false : true
         ));
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             ));
     
             $this->addTab('cart', array(
-                'label'     => __('Shopping cart'),
+                'label'     => __('Shopping Cart'),
                 'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
             ));
     
@@ -61,12 +61,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             ));
     
             $this->addTab('tags', array(
-                'label'     => __('Product tags'),
+                'label'     => __('Product Tags'),
                 'content'   => '<h3>Product tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
             ));
     
             $this->addTab('reviews', array(
-                'label'     => __('Product reviews'),
+                'label'     => __('Product Reviews'),
                 'content'   => '<h3>Product reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
             ));
         }

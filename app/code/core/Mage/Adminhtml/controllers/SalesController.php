@@ -19,7 +19,7 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
         $block = $this->getLayout()->createBlock('adminhtml/sales', 'sales');
         $this->_addContent($block);
 
-        $this->_addBreadcrumb(__('Sales'), __('sales title'));
+        $this->_addBreadcrumb(__('Sales'), __('Sales Title'));
         $this->renderLayout();
     }
 }

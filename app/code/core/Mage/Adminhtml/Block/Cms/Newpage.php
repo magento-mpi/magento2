@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Cms_Newpage extends Mage_Adminhtml_Block_Widget_Form
 
         $this->setForm($form);
 
-        $this->assign('header', __('add page'));
+        $this->assign('header', __('Add New Page'));
         return parent::_beforeToHtml();
     }
 }

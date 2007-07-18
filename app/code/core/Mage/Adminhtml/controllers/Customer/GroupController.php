@@ -17,8 +17,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(__('Customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
-        $this->_addBreadcrumb(__('Customers Groups'), __('customers groups title'));
+        $this->_addBreadcrumb(__('Customers'), __('Customers Title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customers Groups Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/customer_group', 'group'));
 
@@ -32,8 +32,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
-        $this->_addBreadcrumb(__('Customers'), __('customers title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
-        $this->_addBreadcrumb(__('Customer Groups'), __('customer groups title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
+        $this->_addBreadcrumb(__('Customers'), __('Customers Title'), Mage::getUrl('adminhtml',array('controller'=>'customer')));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups Title'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups Title'));

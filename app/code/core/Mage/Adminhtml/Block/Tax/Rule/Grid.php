@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                                     array(
                                         'url' => $actionsUrl .'delete/rule/$tax_rule_id',
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'confirm' => __('Are you sure you want to do it?')
                                     )
                                 )
             )

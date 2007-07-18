@@ -24,13 +24,13 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
 
         $classObject = Mage::getSingleton('tax/class')->load($classId);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Rename class')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Rename Class')));
 
         $fieldset->addField('class_name', 'text',
                             array(
                                 'name' => 'class_name',
-                                'label' => __('Class name'),
-                                'title' => __('Class name title'),
+                                'label' => __('Class Name'),
+                                'title' => __('Class Name Title'),
                                 'class' => 'required-entry',
                                 'value' => $classObject->getClassName(),
                                 'no_span' => true

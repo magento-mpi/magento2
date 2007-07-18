@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
         if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
         	$actions[] = array(
 	    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-	    		'#'	=>	__('edit')
+	    		'#'	=>	__('Edit')
 	    	);
         	        	
         	if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 		    $actions[] = array(
 		    		'@'	=>	array(
 		    			'href'		=>	Mage::getUrl('*/*/cancel', array('id'=>$row->getId())),
-		    			'onclick'	=>	'return confirm(\'' . $this->_getEscapedValue(__('Are you realy wont cancel queue?')) . '\')'
+		    			'onclick'	=>	'return confirm(\'' . $this->_getEscapedValue(__('Do you really want to cancel the queue?')) . '\')'
 		    		),
 		    		'#'	=>	__('Cancel')
 		    );
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
         } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_PAUSE) {
 			$actions[] = array(
 		    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-		    		'#'	=>	__('edit')
+		    		'#'	=>	__('Edit')
 		    );
 		    
 		    $actions[] = array(

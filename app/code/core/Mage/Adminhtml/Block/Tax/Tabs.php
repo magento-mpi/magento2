@@ -16,26 +16,26 @@ class Mage_Adminhtml_Block_Tax_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
         parent::__construct();
 
         $this->addTab('tax_rule', array(
-            'label'     => __('Tax rules'),
-            'title'     => __('Tax rules title'),
+            'label'     => __('Tax Rules'),
+            'title'     => __('Tax Rules Title'),
             'url'      => Mage::getUrl('adminhtml/tax_rule')
         ));
 
         $this->addTab('tax_rate', array(
-            'label'     => __('Tax rates'),
-            'title'     => __('Tax rates title'),
+            'label'     => __('Tax Rates'),
+            'title'     => __('Tax Rates Title'),
             'url'      => Mage::getUrl('adminhtml/tax_rate')
         ));
 
         $this->addTab('tax_class_customer', array(
-            'label'     => __('Customer tax classes'),
-            'title'     => __('Customer tax classes title'),
+            'label'     => __('Customer Tax Classes'),
+            'title'     => __('Customer Tax Classes Title'),
             'url'      => Mage::getUrl('adminhtml/tax_class_customer')
         ));
 
         $this->addTab('tax_class_product', array(
-            'label'     => __('Product tax classes'),
-            'title'     => __('Product tax classes title'),
+            'label'     => __('Product Tax Classes'),
+            'title'     => __('Product Tax Classes Title'),
             'url'      => Mage::getUrl('adminhtml/tax_class_product')
         ));
     }

@@ -13,7 +13,7 @@
         <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
             <img src="<?=$baseUrl?>skins/adminhtml/images/ajax-loader.gif" alt="Working..." align="absmiddle"/>
         </span>
-        <?$defSearch = __('Global record search')?>
+        <?$defSearch = __('Global Record Search')?>
         <input id="global_search" name="query" type="text" class="input-text" 
             value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" 
             onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " 

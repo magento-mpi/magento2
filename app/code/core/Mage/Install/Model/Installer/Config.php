@@ -63,7 +63,7 @@ class Mage_Install_Model_Installer_Config
         $checkRes = file_get_contents($url);
         if (!$checkRes) {
             Mage::getSingleton('install/session')->addError(
-                __('Url "%s" is not access', $url)
+                __('Url "%s" is not accessible', $url)
             );
             throw new Exception('Check url error');
         }
@@ -71,7 +71,7 @@ class Mage_Install_Model_Installer_Config
         $checkRes = file_get_contents($surl);
         if (!$checkRes) {
             Mage::getSingleton('install/session')->addError(
-                __('Url "%s" is not access', $surl)
+                __('Url "%s" is not accessible', $surl)
             );
             throw new Exception('Check url error');
         }

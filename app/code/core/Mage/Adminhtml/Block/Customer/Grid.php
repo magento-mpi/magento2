@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('Postal Code'),
+            'header'    =>__('ZIP/Post Code'),
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_name', array(
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('action', array(
             'header'    =>__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'" class="edit-url">'.__('edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'" class="edit-url">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

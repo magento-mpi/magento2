@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
 
         $this->addColumn('class_name',
             array(
-                'header'=>__('Class name'),
+                'header'=>__('Class Name'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' => 'class_name'
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
                                     array(
                                         'url' => $actionsUrl .'delete/classId/$class_id/classType/' . $classType,
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'confirm' => __('Are you sure you want to do it?')
                                     )
                                 )
             )

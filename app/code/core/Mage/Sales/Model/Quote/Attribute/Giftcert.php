@@ -22,7 +22,7 @@ class Mage_Sales_Model_Quote_Attribute_Giftcert extends Mage_Sales_Model_Quote_A
         
         $amount = $quote->getGiftcertAmount();
         if ($amount) {
-            $arr['giftcert'] = array('code'=>'giftcert', 'title'=>__('Gift certificate').' ('.$quote->getGiftcertCode().')', 'value'=>-$amount, 'output'=>true);
+            $arr['giftcert'] = array('code'=>'giftcert', 'title'=>__('Gift Certificate').' ('.$quote->getGiftcertCode().')', 'value'=>-$amount, 'output'=>true);
         }
 
         return $arr;

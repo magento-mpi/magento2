@@ -16,7 +16,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
         $this->setId('customer_address_form');
         $this->setAction(Mage::getUrl('admin/customer/addressSave'));
         
-        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Customer address')));
+        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Customer Address')));
         $fieldset->addField( 'firstname', 'text',
             array(
                 'name'  => 'firstname',
@@ -57,7 +57,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'title' => __('Country'),
                 'values'=> Mage::getResourceModel('directory/country_collection')->load()->toOptionArray(),
                 'allowBlank'=> false,
-                'emptyText' => __('Select a country ...')
+                'emptyText' => __('Select a Country ...')
             )
         );
         
@@ -99,7 +99,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                 'name'  => 'postcode',
                 'label' => __('Zip/Post Code'),
                 'id'    => 'address_postcode',
-                'title' => __('Zip/Post code'),
+                'title' => __('Zip/Post Code'),
                 'vtype' => 'numeric',
                 'allowBlank' => false
             )

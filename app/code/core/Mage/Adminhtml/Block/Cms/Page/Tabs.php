@@ -24,8 +24,8 @@ class Mage_Adminhtml_Block_Cms_Page_Tabs extends Mage_Adminhtml_Block_Widget_Tab
 
         Varien_Profiler::start('pageForm');
         $this->addTab('main_section', array(
-            'label'     => __('Page data'),
-            'title'     => __('Page data title'),
+            'label'     => __('Page Data'),
+            'title'     => __('Page Data'),
             'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_maintab')
                             ->setPageObject($pageObject)
                             ->toHtml(),
@@ -33,8 +33,8 @@ class Mage_Adminhtml_Block_Cms_Page_Tabs extends Mage_Adminhtml_Block_Widget_Tab
         ));
 
         $this->addTab('meta_section', array(
-            'label'     => __('Page meta data'),
-            'title'     => __('Page meta data title'),
+            'label'     => __('Page Meta Data'),
+            'title'     => __('Page Meta Data'),
             'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_metatab')
                             ->setPageObject($pageObject)
                             ->toHtml(),

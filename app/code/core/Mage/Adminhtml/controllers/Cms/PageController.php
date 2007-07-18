@@ -14,7 +14,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('cms');
-        $this->_addBreadcrumb(__('CMS'), __('cms title'));
+        $this->_addBreadcrumb(__('CMS'), __('CMS Title'));
 
 
         $block = $this->getLayout()->createBlock('adminhtml/cms', 'cms');
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('cms');
-        $this->_addBreadcrumb(__('CMS'), __('cms title'), Mage::getUrl('adminhtml/cms_page'));
+        $this->_addBreadcrumb(__('CMS'), __('CMS Title'), Mage::getUrl('adminhtml/cms_page'));
         $this->_addBreadcrumb(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'new page'),
                       __(( $this->getRequest()->getParam('breadcrumb_title') ) ? $this->getRequest()->getParam('breadcrumb_title') : 'new page title'));
 

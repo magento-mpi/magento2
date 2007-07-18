@@ -10,7 +10,7 @@ class Mage_Admin_OrderController extends Mage_Core_Controller_Front_Action
         if ($parent==='wsroot') {
             $data = array(array(
                 'id' => 'all',
-                'text'  => __('All stores'),
+                'text'  => __('All Stores'),
             ));
             $arrSites = Mage::getResourceModel('core/store_collection')->load();
             foreach ($arrSites as $store) {

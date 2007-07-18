@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
         $this->setChild('saveButton', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save queue'),
+                    'label'     => __('Save Queue'),
                     'onclick'   => 'queueForm.submit()'
                 ))
         );

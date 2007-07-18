@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 //            'index'     =>'billing_telephone'
 //        ));
 //        $this->addColumn('billing_postcode', array(
-//            'header'    =>__('Postal Code'),
+//            'header'    =>__('ZIP/Post Code'),
 //            'index'     =>'billing_postcode',
 //        ));
 //        $this->addColumn('billing_country_name', array(

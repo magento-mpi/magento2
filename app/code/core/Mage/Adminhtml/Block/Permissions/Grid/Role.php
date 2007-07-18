@@ -30,13 +30,13 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('rolename', array(
-            'header'    =>__('Role name'),
+            'header'    =>__('Role Name'),
             'index'     =>'role_name'
         ));
         $this->addColumn('action', array(
-            'header'    =>__('action'),
+            'header'    =>__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/editrole/rid/$role_id').'">'.__('edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/*/editrole/rid/$role_id').'">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

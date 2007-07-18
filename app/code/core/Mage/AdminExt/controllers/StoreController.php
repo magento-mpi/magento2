@@ -7,7 +7,7 @@ class Mage_Admin_StoreController extends Mage_Core_Controller_Admin_Action
         //TODO: move node to JS
         $data[] = array(
             'value' => 0,
-            'text'  => __('All stores')
+            'text'  => __('All Stores')
         );
         $arrSites = Mage::getResourceModel('core/store_collection')->load();
         

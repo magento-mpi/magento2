@@ -38,50 +38,50 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('id'), 
+            'header'    =>__('ID'), 
             'width'     =>5, 
             'align'     =>'center', 
             'sortable'  =>true, 
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('firstname'), 
+            'header'    =>__('First Name'), 
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('lastname'), 
+            'header'    =>__('Last Name'), 
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('email'), 
+            'header'    =>__('Email'), 
             'width'     =>40, 
             'align'     =>'center', 
             'index'     =>'email'
         ));
         $this->addColumn('telephone', array(
-            'header'    =>__('telephone'), 
+            'header'    =>__('Telephone'), 
             'align'     =>'center', 
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('postcode'),
+            'header'    =>__('ZIP/Post Code'),
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_name', array(
-            'header'    =>__('country'),
+            'header'    =>__('Country'),
             #'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_country_name',
         ));
         $this->addColumn('customer_since', array(
-            'header'    =>__('customer since'),
+            'header'    =>__('Customer Since'),
             'type'      => 'date',
             'format'    => 'Y.m.d',
             'index'     =>'created_at',
         ));
         $this->addColumn('action', array(
-            'header'    =>__('action'),
+            'header'    =>__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

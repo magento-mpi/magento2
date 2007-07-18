@@ -14,7 +14,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('report');
-        $this->_addBreadcrumb(__('Reports'), __('report title'));
+        $this->_addBreadcrumb(__('Reports'), __('Report Title'));
         $this->renderLayout();
     }
 }

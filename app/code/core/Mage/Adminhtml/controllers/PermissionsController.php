@@ -5,8 +5,8 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
-        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
-        $this->_addBreadcrumb(__('Permissions'), __('Permissions title'));
+        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_users'));
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_roles', 'group'));
@@ -27,9 +27,9 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     public function editUserAction()
     {
         $this->loadLayout('baseframe');
-        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
-        $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
-        $this->_addBreadcrumb(__('Users'), __('Users title'));
+        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
+        $this->_addBreadcrumb(__('Users'), __('Users Title'));
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_edituser')
@@ -45,9 +45,9 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     public function editRoleAction()
     {
         $this->loadLayout('baseframe');
-        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
-        $this->_addBreadcrumb(__('Permission'), __('Permission title'), Mage::getUrl('*/*/index'));
-        $this->_addBreadcrumb(__('Roles'), __('Roles title'));
+        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles Title'));
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_editroles')
@@ -138,7 +138,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         		->setRoleId($this->getRequest()->getParam('role_id', false))
         		->setUserId($this->getRequest()->getParam('user_id', false))
                 ->roleUserExists() === true ) {
-            echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
+            echo json_encode(array('error' => 1, 'error_message' => __('This user have been already added to the role.')));
         } else {
         	Mage::getModel("permissions/users")
         		->setRoleId($this->getRequest()->getParam('role_id', false))

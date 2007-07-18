@@ -43,34 +43,34 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             $template->addData($post);
         }
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Template general')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Template General')));
         
         $fieldset->addField('code', 'text', array(
             'name'=>'code',
-            'label' => __('template code'),
-            'title' => __('template code title'),
+            'label' => __('Template Code'),
+            'title' => __('Template Code'),
             'class' => 'required-entry validate-alphanum',
              'value' => $template->getTemplateCode()   
         ));
         
         $fieldset->addField('subject', 'text', array(
             'name'=>'subject',
-            'label' => __('template subject'),
-            'title' => __('template subject title'),
+            'label' => __('Template Subject'),
+            'title' => __('Template Subject'),
             'value' => $template->getTemplateSubject()            
         ));
         
         $fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
-            'label' => __('sender name'),
-            'title' => __('sender name title'),
+            'label' => __('Sender Name'),
+            'title' => __('Sender Name'),
             'value' => $template->getTemplateSenderName()
         ));
         
         $fieldset->addField('sender_email', 'text', array(
             'name'=>'sender_email',
-            'label' => __('sender email'),
-            'title' => __('sender email title'),
+            'label' => __('Sender Email'),
+            'title' => __('Sender Email'),
             'class' => 'validate-email',
             'value' => $template->getTemplateSenderEmail()   
         ));       
@@ -80,8 +80,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
         $fieldset->addField('text', 'editor', array(
             'name'=>'text',
             'wysiwyg' => ($template->getTemplateType() != $txtType),
-            'label' => __('template content'),
-            'title' => __('template content title'),
+            'label' => __('Template Content'),
+            'title' => __('Template Content'),
             'cols' => 20,
             'rows' => 15,
             'theme' => 'advanced',

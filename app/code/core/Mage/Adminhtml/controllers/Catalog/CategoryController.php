@@ -16,8 +16,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_addBreadcrumb(__('Manage Categories'), __('Manage Categories title'));
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
+        $this->_addBreadcrumb(__('Manage Categories'), __('Manage Categories Title'));
         
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree')

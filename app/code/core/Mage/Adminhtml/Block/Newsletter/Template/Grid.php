@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
         $gridUrl = Mage::getUrl('adminhtml',array('controller'=>'backup'));
 
         $this->addColumn('id',
-            array('header'=>__('id'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
+            array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
         $this->addColumn('code',
             array(
                 'header'=>__('Template Code'),

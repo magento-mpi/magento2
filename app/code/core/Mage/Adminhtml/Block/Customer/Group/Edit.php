@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
         if($this->getEditMode()) {
             $this->assign('header', __('Edit Customer Group'));
         } else {
-            $this->assign('header', __('New Customer Group'));
+            $this->assign('header', __('Add New Customer Group'));
         }
         
         $this->assign('form', $this->getLayout()->createBlock('adminhtml/customer_group_edit_form')->toHtml());

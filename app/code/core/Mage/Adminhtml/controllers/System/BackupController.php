@@ -17,9 +17,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(__('System'), __('system title'), Mage::getUrl('adminhtml',array('controller'=>'system')));
-        $this->_addBreadcrumb(__('Tools'), __('tools title'));
-        $this->_addBreadcrumb(__('Backups'), __('backup title'));
+        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml',array('controller'=>'system')));
+        $this->_addBreadcrumb(__('Tools'), __('Tools Title'));
+        $this->_addBreadcrumb(__('Backups'), __('Backup Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/backup', 'backup'));
 

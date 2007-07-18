@@ -41,34 +41,34 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
     	));
 		
 		$this->addColumn('id', array(
-			'header' => __('id'),
+			'header' => __('ID'),
 			'index'  => 'problem_id',
 			'width'	 => '50px'
 		));
 		
 		$this->addColumn('subscriber', array(
-			'header' => __('subscriber'),
+			'header' => __('Subscriber'),
 			'index'  => 'subscriber_id',
 			'format' => '#$subscriber_id $customer_name ($subscriber_email)'
 		));
 		
 		$this->addColumn('queue_id', array(
-			'header' => __('queue id'),
+			'header' => __('Queue ID'),
 			'index'  => 'queue_id'
 		));
 		
 		$this->addColumn('queue', array(
-			'header' => __('queue subject'),
+			'header' => __('Queue Subject'),
 			'index'  => 'template_subject'
 		));
 		
 		$this->addColumn('problem_code', array(
-			'header' => __('error code'),
+			'header' => __('Error Code'),
 			'index'  => 'problem_error_code'
 		));
 		
 		$this->addColumn('problem_text', array(
-			'header' => __('error text'),
+			'header' => __('Error Text'),
 			'index'  => 'problem_error_text'
 		));
 		return parent::_prepareColumns();

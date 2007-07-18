@@ -28,34 +28,34 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('id'), 
+            'header'    =>__('ID'), 
             'width'     =>5, 
             'align'     =>'center', 
             'sortable'  =>true, 
             'index'     =>'user_id'
         ));
         $this->addColumn('username', array(
-            'header'    =>__('Username'), 
+            'header'    =>__('User Name'), 
             'index'     =>'username'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('firstname'), 
+            'header'    =>__('First Name'), 
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('lastname'), 
+            'header'    =>__('Last Name'), 
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('email'), 
+            'header'    =>__('Email'), 
             'width'     =>40, 
             'align'     =>'center', 
             'index'     =>'email'
         ));
         $this->addColumn('action', array(
-            'header'    =>__('action'),
+            'header'    =>__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edituser/id/$user_id').'">'.__('edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/*/edituser/id/$user_id').'">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

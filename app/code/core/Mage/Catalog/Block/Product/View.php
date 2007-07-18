@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $breadcrumbs = $this->getLayout()
             ->createBlock('catalog/breadcrumbs', 'catalog.breadcrumbs');
         $breadcrumbs->addCrumb('home', 
-            array('label'=>__('Home'), 'title'=>__('Go to home page'), 'link'=>Mage::getBaseUrl())
+            array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
         );
         $breadcrumbs->addCrumb('category', 
             array('label'=>$product->getCategoryName(), 'title'=>'', 'link'=>$product->getCategoryUrl())

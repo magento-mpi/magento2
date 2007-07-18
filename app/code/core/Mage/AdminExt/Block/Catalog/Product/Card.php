@@ -56,7 +56,7 @@ class Mage_Admin_Block_Catalog_Product_Card extends Mage_Core_Block_Abstract
             $cardStructure['title'] = $product->getName() . ' #' . $product->getId(); 
         }
         else {
-            $cardStructure['title'] = __('New Product'); 
+            $cardStructure['title'] = __('Add New Product'); 
         }
         
         $cardStructure['tabs']  = array();

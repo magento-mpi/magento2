@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setChild('resetFilterButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset filter'),
+                    'label'     => __('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()'
                 ))
         );

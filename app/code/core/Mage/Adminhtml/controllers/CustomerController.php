@@ -37,7 +37,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Customers'), __('customers title'));
+        $this->_addBreadcrumb(__('Customers'), __('Customers Title'));
 
         $this->renderLayout();
     }
@@ -83,13 +83,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrunb items
          */
-        $this->_addBreadcrumb(__('Customers'), __('customers title'), Mage::getUrl('adminhtml/customer'));
+        $this->_addBreadcrumb(__('Customers'), __('Customers Title'), Mage::getUrl('adminhtml/customer'));
 
         if ($customerId) {
-            $this->_addBreadcrumb(__('Customer').' #'.$customerId, __('customer').' #'.$customerId);
+            $this->_addBreadcrumb(__('Customer').' #'.$customerId, __('Customer').' #'.$customerId);
         }
         else {
-            $this->_addBreadcrumb(__('New Customer'), __('new customer title'));
+            $this->_addBreadcrumb(__('New Customer'), __('New Customer Title'));
         }
 
         /**

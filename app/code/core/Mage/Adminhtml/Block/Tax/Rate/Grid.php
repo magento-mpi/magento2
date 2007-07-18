@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('zip_code',
             array(
-                'header'=>__('Zip code'),
+                'header'=>__('Zip/Post Code'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' => 'tax_zip_code',
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                                     array(
                                         'url' => $actionsUrl .'delete/rate/$tax_rate_id',
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'confirm' => __('Are you sure you want to do it?')
                                     )
                                 )
             )

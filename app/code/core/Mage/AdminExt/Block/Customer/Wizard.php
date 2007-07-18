@@ -93,7 +93,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                         
                     $cardStruct['tabs'][] = array(
                         'name'  => 'preview',
-                        'title' => __('Create New Customer Information'),
+                        'title' => __('Add New Customer Information'),
                         'type'  => 'view',
                         'content' => $previewBlock->toHtml()
                     );
@@ -103,7 +103,7 @@ class Mage_Admin_Block_Customer_Wizard extends Varien_Object
                 break;
         }
         
-        $cardStruct['title'] = __('New Customer');
+        $cardStruct['title'] = __('Add New Customer');
         return Zend_Json::encode($cardStruct);
     }
     

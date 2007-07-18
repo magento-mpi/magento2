@@ -14,7 +14,7 @@ class Mage_Adminhtml_PromoController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('promo');
-        $this->_addBreadcrumb(__('Promotions'), __('promo title'));
+        $this->_addBreadcrumb(__('Promotions'), __('Promo Title'));
         $this->renderLayout();
     }
 }

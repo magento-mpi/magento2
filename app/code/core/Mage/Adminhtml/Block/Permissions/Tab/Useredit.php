@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             $userId = $user->getId();
         }
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
         
         $fieldset->addField('firstname', 'text', 
             array(
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             $fieldset->addField('confirmation', 'password', 
                 array(
                     'name'  => 'password_confirmation',
-                    'label' => __('Password Confirm'),
+                    'label' => __('Password Confirmation'),
                     'id'    => 'confirmation',
                     'title' => __('Password Confirmation'),
                     'class' => 'required-entry validate-confirmation',
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
            $fieldset->addField('confirmation', 'password', 
                 array(
                     'name'  => 'password_confirmation',
-                    'label' => __('Password Confirm'),
+                    'label' => __('Password Confirmation'),
                     'id'    => 'confirmation',
                     'title' => __('Password Confirmation'),
                     'class' => 'validate-confirmation',

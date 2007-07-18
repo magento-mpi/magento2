@@ -4,7 +4,7 @@ var roleId = '<?=$roleId?>';
 var role = function () {
 	return {
 		deleteFromRole: function (uid) {
-		    if( !confirm('<?=__('Are you sure you want to do this?')?>') ) {
+		    if( !confirm('<?=__('Are you sure you want to do it?')?>') ) {
 		        return false;
 		    }
 			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permissions/deleteuserfromrole')?>', {

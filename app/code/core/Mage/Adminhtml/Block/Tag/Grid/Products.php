@@ -30,19 +30,19 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => __('id'),
+            'header'    => __('ID'),
             'align'     => 'center',
             'width'     => '60px',
             'sortable'  => false,
             'index'     => 'product_id'
         ));
         $this->addColumn('sku', array(
-            'header'    => __('sku'),
+            'header'    => __('SKU'),
             'align'     => 'center',
             'index'     => 'sku'
         ));
         $this->addColumn('name', array(
-            'header'    => __('name'),
+            'header'    => __('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('tags', array(

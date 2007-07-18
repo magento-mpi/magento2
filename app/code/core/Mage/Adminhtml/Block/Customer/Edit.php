@@ -22,14 +22,14 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
         $this->setChild('saveButton', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save customer'),
+                    'label'     => __('Save Customer'),
                     'onclick'   => 'customerForm.submit()'
                 ))
         );
         $this->setChild('deleteButton', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete customer'),
+                    'label'     => __('Delete Customer'),
                     'onclick'   => 'customerDelete()'
                 ))
         );

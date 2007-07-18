@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
                                            'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a> | <a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false));
         $this->addColumn('action', array('header'=>__('Action'),'align'=>'center',
-                                         'format'=>'<a href="' . $gridUrl .'delete/time/$time/type/$type/">' . __('delete') . '</a>',
+                                         'format'=>'<a href="' . $gridUrl .'delete/time/$time/type/$type/">' . __('Delete') . '</a>',
                                          'index'=>'type', 'sortable'=>false));
         $this->_initCollection();
         return parent::_beforeToHtml();

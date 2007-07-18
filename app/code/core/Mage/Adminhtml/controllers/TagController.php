@@ -38,10 +38,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_edit'));
 
         if ($tagId) {
-            $this->_addBreadcrumb(__('Tag').' '.$tag->getTagname(), __('tag').' '.$tag->getTagname());
+            $this->_addBreadcrumb(__('Tag').' '.$tag->getTagname(), __('Tag').' '.$tag->getTagname());
         }
         else {
-            $this->_addBreadcrumb(__('New Tag'), __('new tag title'));
+            $this->_addBreadcrumb(__('New Tag'), __('New Tag Title'));
         }
 
         $this->renderLayout();
@@ -114,7 +114,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_all')->assign('header', __('Tags List')))
-            ->_addBreadcrumb(__('All Tags'), __('products tags title'))
+            ->_addBreadcrumb(__('All Tags'), __('Products Tags Title'))
             ->renderLayout();
     }
 
@@ -126,7 +126,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending')->assign('header', __('Pending Tags')))
-            ->_addBreadcrumb(__('Pending Tags'), __('products tags title'))
+            ->_addBreadcrumb(__('Pending Tags'), __('Products Tags Title'))
             ->renderLayout();
     }
 
@@ -138,7 +138,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_products'))
-            ->_addBreadcrumb(__('Products'), __('products tags title'))
+            ->_addBreadcrumb(__('Products'), __('Products Tags Title'))
             ->renderLayout();
     }
 
@@ -150,7 +150,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_customers')->assign('header', __('Customers')))
-            ->_addBreadcrumb(__('Customers'), __('products tags title'))
+            ->_addBreadcrumb(__('Customers'), __('Products Tags Title'))
             ->renderLayout();
     }
 
@@ -164,8 +164,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
         $this->loadLayout('baseframe')
             ->_setActiveMenu('catalog')
             ->_setActiveMenu('catalog/tags')
-            ->_addBreadcrumb(__('Catalog'), __('catalog title'), Mage::getUrl('adminhtml/catalog_category'))
-            ->_addBreadcrumb(__('Tags'), __('products tags title'), Mage::getUrl('adminhtml/tags'))
+            ->_addBreadcrumb(__('Catalog'), __('Catalog Title'), Mage::getUrl('adminhtml/catalog_category'))
+            ->_addBreadcrumb(__('Tags'), __('Products Tags Title'), Mage::getUrl('adminhtml/tags'))
             ->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab(
                     $this->getRequest()->getActionName()

@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     {
         $this->addColumn('role_name',
             array(
-                'header'=>__('Role user'),
+                'header'=>__('Role User'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' => 'role_name'

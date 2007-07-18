@@ -32,13 +32,13 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
             $customerGroup->load($groupId);
         }
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
         
         $fieldset->addField('code', 'text', 
             array(
                 'name'  => 'code',
-                'label' => __('group name'),
-                'title' => __('group name title'),
+                'label' => __('Group Name'),
+                'title' => __('Group Name'),
                 'class' => 'required-entry',
                 'value' => $customerGroup->getCode()
             )

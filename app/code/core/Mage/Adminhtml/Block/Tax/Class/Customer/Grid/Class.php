@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
 
         $this->addColumn('class_customer_name',
             array(
-                'header'=>__('Class name'),
+                'header'=>__('Class Name'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' =>'class_customer_name'
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
 
        $this->addColumn('customer_actions',
             array(
-                'header'=>__('actions'),
+                'header'=>__('Actions'),
                 'width'=>10,
                 'filter'    => false,
                 'sortable'  => false,
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
                                     array(
                                         'url' => $actionsUrl .'deleteItem/classId/$class_customer_id/',
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'confirm' => __('Are you sure you want to do it?')
                                     )
                                 )
             )

@@ -21,14 +21,14 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
             $customerId = $customer->getId();
         }
         
-        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Account information')));
+        $fieldset = $this->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
         
         $fieldset->addField('firstname', 'text', 
             array(
                 'name'  => 'firstname',
                 'label' => __('First Name'),
                 'id'    => 'customer_firstname',
-                'title' => __('Customer Firstname'),
+                'title' => __('Customer First Name'),
                 'vtype' => 'alphanum',
                 'allowBlank' => false
             )
@@ -88,7 +88,7 @@ class Mage_Admin_Block_Customer_Form extends Varien_Data_Form
            $fieldset->addField('password_confirmation', 'password', 
                 array(
                     'name'  => 'password_confirmation',
-                    'label' => __('Password Confirm'),
+                    'label' => __('Password Confirmation'),
                     'id'    => 'customer_pass',
                     'title' => __('Password Confirmation'),
                     'vtype' => 'alphanum',

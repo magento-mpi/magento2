@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('class_name',
             array(
-                'header'=>__('Group name'),
+                'header'=>__('Group Name'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' => $index
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                                     array(
                                         'url' => $actionsUrl .'groupId/$group_id/' . $classType,
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'confirm' => __('Are you sure you want to do it?')
                                     )
                                 )
             )

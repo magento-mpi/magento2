@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $ruleObject = Mage::getSingleton('tax/rule')->load($ruleId);
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax rule information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax Rule Information')));
 
         $classCustomer = Mage::getResourceModel('tax/class_collection')
                         ->setClassTypeFilter('CUSTOMER')

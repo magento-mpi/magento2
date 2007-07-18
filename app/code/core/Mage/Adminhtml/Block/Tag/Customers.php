@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Tag_Customers extends Mage_Core_Block_Template
         parent::_initChildren();
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array('label' => __('Create Tag')))
+                ->setData(array('label' => __('Add New Tag')))
         );
         $this->setChild('tagsGrid',
             $this->getLayout()->createBlock('adminhtml/tag_grid_customers')
@@ -42,10 +42,10 @@ class Mage_Adminhtml_Block_Tag_Customers extends Mage_Core_Block_Template
     {
         if ($productId = $this->getRequest()->getParam('product_id')) {
             $product = Mage::getModel('catalog/product')->load($productId);
-            $header = __('Customers Who Tagged ') . $product->getName();
+            $header = __('Customers who Tagged ') . $product->getName();
         } elseif ($tagId = $this->getRequest()->getParam('tag_id')) {
             $tag = Mage::getModel('tag/tag')->load($tagId);
-            $header = __('Customers Who Tagged With ') . '"' . $tag->getName() . '"';
+            $header = __('Customers who Tagged with ') . '"' . $tag->getName() . '"';
         } else {
             $header = __('Customers');
         }

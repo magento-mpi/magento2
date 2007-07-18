@@ -20,13 +20,13 @@ class Mage_Adminhtml_Block_Cms_Page_Metatab extends Mage_Adminhtml_Block_Widget_
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_main');
 
-        $fieldset = $form->addFieldset('meta_fieldset', array('legend'=>__('meta data')));
+        $fieldset = $form->addFieldset('meta_fieldset', array('legend'=>__('Meta Data')));
 
     	$fieldset->addField('page_title', 'editor',
             array(
                 'name' => 'page_meta_keywords',
                 'label' => __('Keywords'),
-                'title' => __('meta keywords title'),
+                'title' => __('Meta Keywords'),
                 'value' => $this->getPageObject()->getPageMetaKeywords()
             )
         );
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Cms_Page_Metatab extends Mage_Adminhtml_Block_Widget_
             array(
                 'name' => 'page_meta_description',
                 'label' => __('Description'),
-                'title' => __('meta description title'),
+                'title' => __('Meta Description'),
                 'value' => $this->getPageObject()->getPageMetaDescription()
             )
         );

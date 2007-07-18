@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_main');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Page data')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Page Data')));
 
         if( intval($this->getPageObject()->getPageId()) > 0 ) {
         	$fieldset->addField('page_id', 'hidden',
@@ -34,8 +34,8 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_title', 'text',
             array(
                 'name' => 'page_title',
-                'label' => __('Page title'),
-                'title' => __('Page title'),
+                'label' => __('Page Title'),
+                'title' => __('Page Title'),
                 'class' => 'required-entry',
                 'value' => $this->getPageObject()->getPageTitle()
             )
@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_identifier', 'text',
             array(
                 'name' => 'page_identifier',
-                'label' => __('Page code'),
-                'title' => __('Page code title'),
+                'label' => __('Page Code'),
+                'title' => __('Page Code'),
                 'class' => 'required-entry',
                 'value' => $this->getPageObject()->getPageIdentifier()
             )
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_active', 'radios',
             array(
                     'label'     => __('Status'),
-                    'title'     => __('page enabled title'),
+                    'title'     => __('Page Status'),
                     'value'     => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
                     'class'     => 'validate-one-required',
                     'name'      => 'page_active',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
             array(
                 'name' => 'page_content',
                 'label' => __('Content'),
-                'title' => __('Content title'),
+                'title' => __('Content'),
                 'class' => 'required-entry',
                 'wysiwyg' => true,
                 'value' => $this->getPageObject()->getPageContent()

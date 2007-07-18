@@ -14,7 +14,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog');
-        //$this->_addBreadcrumb(__('Catalog'), __('catalog title'));
+        //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         
         $this->renderLayout();
     }

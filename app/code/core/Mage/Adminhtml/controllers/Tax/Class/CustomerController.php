@@ -15,15 +15,15 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
-        $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'));
+        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rule'));
+        $this->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes Title'));
 
         $this->_addTabs();
 
         $this->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
         		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_customer/add'))
-        		->assign('header', __('Customer tax classes'))
+        		->assign('header', __('Customer Tax Classes'))
         	);
         $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default'));
 
@@ -34,9 +34,9 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax rules'), __('Tax rules title'), Mage::getUrl('adminhtml/tax_rule'));
-        $this->_addBreadcrumb(__('Customer tax classes'), __('Customer tax classes title'), Mage::getUrl('adminhtml/tax_class_customer'));
-        $this->_addBreadcrumb(__('New customer tax class'), __('New customer tax class title'));
+        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rule'));
+        $this->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes Title'), Mage::getUrl('adminhtml/tax_class_customer'));
+        $this->_addBreadcrumb(__('New Customer Tax Class'), __('New Customer Tax Class Title'));
 
         $this->_addTabs();
 
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
-            ->assign('header', __('New customer tax class'))
+            ->assign('header', __('New Customer Tax Class'))
             ->assign('form', $form)
         );
 

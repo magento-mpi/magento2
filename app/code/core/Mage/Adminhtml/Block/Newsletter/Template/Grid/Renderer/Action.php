@@ -18,13 +18,13 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
     	
     	$actions[] = array(
     		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-    		'#'	=>	__('edit')
+    		'#'	=>	__('Edit')
     	);
     	
     	if($row->isValidForSend()) {
     		$actions[] = array(
 	    		'@'	=>	array('href' => Mage::getUrl('*/*/toqueue', array('id'=>$row->getId()))),
-	    		'#'	=>	__('Create queue')
+	    		'#'	=>	__('Create Queue')
 	    	);
     	}
     	
@@ -40,9 +40,9 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
     	$actions[] = array(
     		'@'	=>	array(
     					  'href' => Mage::getUrl('*/*/delete', array('id'=>$row->getId())),
-    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Are you realy wont delete template?')) . '\')'
+    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Do you really want to delete this template?')) . '\')'
     		),
-    		'#'	=>	__('delete')
+    		'#'	=>	__('Delete')
     	);
     	
     	return $this->_actionsToHtml($actions);

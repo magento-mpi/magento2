@@ -20,18 +20,18 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
     protected function _beforeToHtml()
     {
         $this->addTab('general', array(
-            'label'     => __('General information'),
+            'label'     => __('General Information'),
             'content'   => 'general',
             'active'    => true
         ));
 
         $this->addTab('products', array(
-            'label'     => __('Category products'),
+            'label'     => __('Category Products'),
             'content'   => 'products'
         ));
 
         $this->addTab('features', array(
-            'label'     => __('Feature products'),
+            'label'     => __('Feature Products'),
             'content'   => 'Feature products'
         ));        
         return parent::_beforeToHtml();

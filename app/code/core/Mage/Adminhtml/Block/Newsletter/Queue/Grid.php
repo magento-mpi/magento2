@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('start_at', array(
-            'header'    =>	__('Queue start'),
+            'header'    =>	__('Queue Start'),
             'type'      =>	'date',
             'align'     =>	'center',
             'index'     =>	'queue_start_at',
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('finish_at', array(
-            'header'    =>	__('Queue finish'),
+            'header'    =>	__('Queue Finish'),
             'type'      => 	'date',
             'align'     => 	'center',
             'index'     =>	'queue_finish_at',

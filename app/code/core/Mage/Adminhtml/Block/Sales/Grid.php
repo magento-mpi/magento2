@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         // Order Number, Date, Shipped To, Total, Status
         $this->addColumn('id', array(
-            'header' => __('id'),
+            'header' => __('ID'),
             'width' => 5,
             'align' => 'center',
             'sortable' => true,
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('action', array(
             'header' => __('Action'),
             'align' => 'center',
-            'format' => '<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('edit').'</a>',
+            'format' => '<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'">'.__('Edit').'</a>',
             'index' => 'entity_id',
             'sortable' => false,
             'filter' => false,
