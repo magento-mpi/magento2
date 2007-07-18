@@ -105,4 +105,17 @@ class Mage_Catalog_Model_Category extends Varien_Object
             ->load();
         return $collection;
     }
+
+    /**
+     * Retrieve all customer attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->getResource()
+            ->loadAllAttributes()
+            ->getAttributesByName();
+    }
+
 }

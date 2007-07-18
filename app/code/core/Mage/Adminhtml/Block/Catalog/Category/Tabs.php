@@ -20,11 +20,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
         //$this->setDestElementId('category_tab_content');
     }
     
-    protected function _beforeToHtml()
+    protected function _initChildren()
     {
         $this->addTab('general', array(
             'label'     => __('General Information'),
-            'content'   => 'general',
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_general')->toHtml(),
             'active'    => true
         ));
 
@@ -37,6 +37,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
             'label'     => __('Feature Products'),
             'content'   => 'Feature products'
         ));        
-        return parent::_beforeToHtml();
+        return $this;
     }
 }
