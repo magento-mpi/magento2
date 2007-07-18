@@ -6,7 +6,7 @@
     <div class="catalog-spacer">&nbsp;</div>
     <div class="catalog">
         <div class="catalog-filters">
-         <?foreach($filters as $_filter):?>
+         <?/*foreach($filters as $_filter):?>
             <?$_arrLinks = $_filter->getLinks()?>
             <?if(!empty($_arrLinks)):?>
                 <h3><?=$_filter->getLabel()?></h3>
@@ -16,7 +16,7 @@
                 <?endforeach?>
                 </ul>
             <?endif?>
-         <?endforeach;?>&nbsp;
+         <?endforeach;*/?>&nbsp;
         </div>
         <table cellspacing="0" class="catalog-collection"><tr>
 					<?$i=0; foreach ($productCollection as $product):?>

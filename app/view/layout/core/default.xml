@@ -6,6 +6,37 @@
                 <action method="setTitle"><title>Magento Commerce</title></action>
             </block>
         </block>
+        <block type="core/text_list" name="top.links" as="topLinks"/>
+        
+        <block type="core/text_list" name="top.menu" as="topMenu"/>
+        
+        <block type="core/text_list" name="top.forms" as="topForms"/>
+        
+        <block type="core/store" name="store" as="store"/>
+        
+        <block type="core/text_list" name="left" as="left"/>
+
+        <block type="core/messages" name="messages" as="messages"/>
+        
+        <block type="core/text_list" name="content" as="content"/>
+        
+        <block type="core/text_list" name="botom.links" as="bottomLinks">
+            <block type="core/text_list_link" name="bottom.links.about">
+                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>About Us</label></action>
+            </block>
+            <block type="core/text_list_link" name="bottom.links.contact">
+                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>Contact Us</label></action>
+            </block>
+            <block type="core/text_list_link" name="bottom.links.exchange">
+                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>Returns and Exchanges</label></action>
+            </block>
+            <block type="core/text_list_link" name="bottom.links.sitemap">
+                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}/sitemap/"</a><label>Site Map</label></action>
+            </block>
+            <block type="core/text_list_link" name="bottom.links.advancedsearch">
+                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}catalog/search/advanced/"</a><label>Advanced Search</label></action>
+            </block>
+        </block>
     </block>
     <block type="core/profiler" output="toHtml"/>
 </layoutUpdate>

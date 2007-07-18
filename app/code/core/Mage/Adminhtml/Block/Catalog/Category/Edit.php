@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setTemplate('adminhtml/catalog/category/edit.phtml');
     }
     
-    protected function _afterSetLayout()
+    protected function _initChildren()
     {
         $this->append(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tabs', 'tabs')

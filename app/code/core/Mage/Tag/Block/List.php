@@ -8,10 +8,10 @@ class Mage_Tag_Block_List extends Mage_Core_Block_Template {
         $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         
         $this->_collection = Mage::getModel('tag/tag')->getCollection();
-        $this->_collection
+        /*$this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addStatusFilter(2)
-            ->addEntityFilter('product', $productId);
+            ->addEntityFilter('product', $productId);*/
     }
     
     public function count() {
@@ -19,7 +19,7 @@ class Mage_Tag_Block_List extends Mage_Core_Block_Template {
     }
     
     public function toHtml() {
-        $this->_collection->load();        
+        //$this->_collection->load();        
         $this->assign('collection', $this->_collection);
 		$this->assign('productId', Mage::registry('controller')->getRequest()->getParam('id', false));
         return parent::toHtml();

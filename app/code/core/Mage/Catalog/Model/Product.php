@@ -9,26 +9,9 @@
  */
 class Mage_Catalog_Model_Product extends Varien_Object 
 {
-    public function __construct($product=false) 
+    public function __construct() 
     {
         parent::__construct();
-        
-        if (is_numeric($product)) {
-            $this->load($product);
-        }
-        elseif (is_array($product)) {
-            $this->setData($product);
-        }
-    }
-    
-    /**
-     * Get product id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->getProductId();
     }
     
     /**
@@ -60,7 +43,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function load($productId)
     {
-        $this->setData($this->getResource()->load($productId));
+        $this->getResource()->load($this, $productId);
         return $this;
     }
     
@@ -122,7 +105,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getCategoryName()
     {
-        return Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
+        return 'node';//Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
     
     /**
@@ -187,7 +170,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getLinkedProducts($linkType)
     {
-        $linkedProducts = Mage::getResourceModel('catalog/product_link_collection');
+        /*$linkedProducts = Mage::getResourceModel('catalog/product_link_collection');
         $linkedProducts->getProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
@@ -198,7 +181,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
             ->addTypeFilter($linkType)
             ->loadData();
             
-        return $linkedProducts;
+        return $linkedProducts;*/
+        return array();
     }
     
     public function getRelatedProducts()

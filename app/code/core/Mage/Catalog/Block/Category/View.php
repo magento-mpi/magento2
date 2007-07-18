@@ -28,11 +28,11 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->setChild('breadcrumbs', $breadcrumbs);
         
         // get category filters
-        $filters = $category->getFilters();
+        //$filters = $category->getFilters();
         // get filter values from request
-        $filterValues = $request->getQuery('filter', array());
+        //$filterValues = $request->getQuery('filter', array());
         // set values current values to all items
-        $filters->walk('setCurrentValues', array($filterValues));
+        //$filters->walk('setCurrentValues', array($filterValues));
         // clear request param
         $request->setParam('filter', false);
         
@@ -43,15 +43,15 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             // add filters
-            ->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
+            //->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
             ->setPageSize(9);
         
         // get avilable filter values from collection
-        foreach ($filters as $filter) {
+        /*foreach ($filters as $filter) {
             $filter->setAvailableValues($prodCollection->getAttributeValues($filter->getAttributeId()));
-        }
+        }*/
         // assign
-        $this->assign('filters', $filters);
+        //$this->assign('filters', $filters);
         
         Mage::registry('action')->getLayout()->getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
@@ -59,18 +59,18 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
         $prodCollection->setCurPage($page);
         $prodCollection->load();
-        $prodCollection->walk('setCategoryId', $category->getId());
+        //$prodCollection->walk('setCategoryId', $category->getId());
 
         $this->assign('category', $category);
         $this->assign('productCollection', $prodCollection);
         
         $pageUrl = clone $request;
         // set filter values
-        $pageUrl->setParam('array', array('filter'=>$filterValues));
+        //$pageUrl->setParam('array', array('filter'=>$filterValues));
         $this->assign('pageUrl', $pageUrl);
         
         $sortUrl = clone $request;
-        $sortUrl->setParam('array', array('filter'=>$filterValues));
+        //$sortUrl->setParam('array', array('filter'=>$filterValues));
         $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
         
         $this->assign('sortUrl', $sortUrl);

@@ -66,8 +66,8 @@ class Mage_Catalog_Model_Category extends Varien_Object
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
-            ->addCategoryFilter($this->getId());
+        $collection = Mage::getResourceModel('catalog/product_collection');
+            //->addCategoryFilter($this->getId());
         return $collection;
     }
     
