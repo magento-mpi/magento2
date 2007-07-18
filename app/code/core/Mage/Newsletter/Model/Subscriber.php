@@ -28,6 +28,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      */
     const STATUS_NOT_ACTIVE = 2;
     
+    protected $_isStatusChanged = false;
+    
     /**
      * Alias for getSubscriberId()
      *
@@ -136,6 +138,27 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         return $this->setSubscriberEmail($value);
     }
     
+    /**
+     * Set for status change flag
+     *
+     * @param boolean $value
+     */
+    public function setIsStatusChanged($value) 
+    {
+    	$this->_isStatusChanged = (boolean) $value;
+   		return $this;
+    }
+
+    /**
+     * Return status change flag value
+     *
+     * @return boolean
+     */
+    public function getIsStatusChanged()
+    {
+    	return $this->_isStatusChanged;
+    }
+    
     public function isSubscribed() 
     {
     	if($this->getId() && $this->getStatus()==self::STATUS_SUBSCRIBED) {
@@ -218,6 +241,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     	if($this->getCode()==$code) {
     		$this->setStatus(self::STATUS_SUBSCRIBED)
     			->setCode(null)
+    			->setIsStatusChanged(true)
     			->save();
     		return true;
     	}

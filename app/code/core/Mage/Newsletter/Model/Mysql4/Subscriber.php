@@ -186,6 +186,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $data['subscriber_email']  = $subscriber->getEmail();
         $data['subscriber_confirm_code'] = $subscriber->getCode();
         
+        if($subscriber->getIsStatusChanged()) {
+        	$data['change_status_at'] = now();
+        }
+        
         $validators = array('subscriber_email' => 'EmailAddress');
         $filters = array();
         $input = new Zend_Filter_Input($filters, $validators, $data);

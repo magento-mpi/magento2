@@ -56,6 +56,24 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     }
     
     /**
+     * Set filter for queue by subscriber.
+     *
+     * @param 	int		$subscriberId
+     * @return 	Mage_Newsletter_Model_Mysql4_Queue_Collection
+     */
+    public function addSubscriberFilter($subscriberId) 
+    {
+    	$this->getSelect()
+    		->join(array('link'=>$this->getTable('queue_link')),
+    								 'main_table.queue_id=link.queue_id',
+    								 array('letter_sent_at')
+    								 )
+ 			->where('link.subscriber_id = ?', $subscriberId);
+    	
+    	return $this;
+    }
+    
+    /**
      * Add filter by only ready fot sending item
      *
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection

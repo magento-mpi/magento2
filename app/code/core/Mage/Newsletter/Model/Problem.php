@@ -52,8 +52,9 @@ class Mage_Newsletter_Model_Problem extends Mage_Core_Model_Abstract
 	public function unsubscribe() 
 	{
 		if($this->getSubscriber()) {
-			$this->getSubscriber()->setSubscriberStatus(Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
-			$this->getSubscriber()->save();
+			$this->getSubscriber()->setSubscriberStatus(Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED)
+				->setIsStatusChanged(true)
+				->save();
 		}
 	}
 }// Class Mage_Newsletter_Model_Problem END

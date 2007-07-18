@@ -85,6 +85,10 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED 
     			    : Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
     	
+    	if($status != $subscriber->getStatus()) {
+    		$subscriber->setIsStatusChanged(true);
+    	}
+    	
 		$subscriber->setStatus($status);
 		
     	if(!$subscriber->getId()) {

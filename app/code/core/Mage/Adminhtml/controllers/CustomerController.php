@@ -225,4 +225,20 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function ordersAction() {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml());
     }
+    
+    /**
+     * Customer newsletter grid
+     *
+     */
+    public function newsletterAction() 
+    {
+    	$customerId = (int) $this->getRequest()->getParam('id');
+        $customer = Mage::getModel('customer/customer');
+        if ($customerId) {
+            $customer->load($customerId);
+        }  
+        $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
+        Mage::register('subscriber', $subscriber);
+    	$this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
+    }
 }

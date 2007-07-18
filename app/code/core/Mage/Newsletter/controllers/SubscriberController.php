@@ -43,6 +43,7 @@
                 $subscriber->setStoreId($customerSession->getCustomer()->getStoreId());
                 $subscriber->setCustomerId($customerSession->getCustomerId());
                 $subscriber->setSubscriberEmail($customerSession->getCustomer()->getEmail());
+                $subscriber->setIsStatusChanged(true);
             } else {
                 $subscriber->setSubscriberEmail($this->getRequest()->getParam('email'));
                 $subscriber->setCustomerId(0);

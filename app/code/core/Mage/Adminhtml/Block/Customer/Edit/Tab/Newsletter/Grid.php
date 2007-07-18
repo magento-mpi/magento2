@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -16,15 +16,22 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         $this->setId('queueGrid');
         $this->setDefaultSort('start_at');
         $this->setDefaultDir('desc');
+        
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
+        
+    }
+    
+    public function getGridUrl()
+    {
+        return Mage::getUrl('*/*/newsletter', array('_current'=>true));
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('newsletter/queue_collection')
 			->addTemplateInfo()
-			->addSubscribersInfo();
+			->addSubscriberFilter(Mage::registry('subscriber')->getId());
 			
         $this->setCollection($collection);
 
@@ -41,7 +48,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('start_at', array(
-            'header'    =>	__('Queue Start'),
+            'header'    =>	__('Newsletter Start'),
             'type'      =>	'date',
             'align'     =>	'center',
             'index'     =>	'queue_start_at',
@@ -50,10 +57,19 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('finish_at', array(
-            'header'    =>	__('Queue Finish'),
+            'header'    =>	__('Newsletter Finish'),
             'type'      => 	'date',
             'align'     => 	'center',
             'index'     =>	'queue_finish_at',
+            'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
+            'default'	=> 	' ---- '
+        ));
+        
+        $this->addColumn('letter_sent_at', array(
+            'header'    =>	__('Newsletter received'),
+            'type'      => 	'date',
+            'align'     => 	'center',
+            'index'     =>	'letter_sent_at',
             'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
             'default'	=> 	' ---- '
         ));
@@ -67,18 +83,10 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
          $this->addColumn('status', array(
             'header'    =>	__('Status'),
             'align'     =>	'center',
-            'filter'	=>	'adminhtml/newsletter_queue_grid_filter_status',
+            'filter'	=>	'adminhtml/customer_edit_tab_newsletter_grid_renderer_status',
             'index'		=> 'queue_status',
             'sortable'	=>	false,
-            'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_status'
-        ));
-        
-        $this->addColumn('subscribers_sent', array(
-            'header'    =>	__('Sent'),
-            'align'     =>	'center',
-            'filter'	=> false,
-            'index'		=> 'subscribers_sent',
-            'format'	=> '$subscribers_sent / $subscribers_total'
+            'renderer'	=>	'adminhtml/customer_edit_tab_newsletter_grid_renderer_status'
         ));
         
         $this->addColumn('action', array(
@@ -86,7 +94,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'align'     =>	'center',
             'filter'	=>	false,
             'sortable'	=>	false,
-            'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'
+            'renderer'	=>	'adminhtml/customer_edit_tab_newsletter_grid_renderer_action'
         ));
                 
         
