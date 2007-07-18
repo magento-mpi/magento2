@@ -14,6 +14,14 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
 /*Table structure for table `eav_attribute` */
 
+DROP TABLE IF EXISTS `core_attribute`;
+DROP TABLE IF EXISTS `core_attribute_datetime`;
+DROP TABLE IF EXISTS `core_attribute_decimal`;
+DROP TABLE IF EXISTS `core_attribute_int`;
+DROP TABLE IF EXISTS `core_attribute_text`;
+DROP TABLE IF EXISTS `core_attribute_varchar`;
+DROP TABLE IF EXISTS `core_entity`;
+DROP TABLE IF EXISTS `core_entity_type`;
 DROP TABLE IF EXISTS `eav_attribute`;
 
 CREATE TABLE `eav_attribute` (
@@ -98,7 +106,9 @@ CREATE TABLE `eav_entity` (
   `is_active` tinyint(1) unsigned NOT NULL default '1',
   PRIMARY KEY  (`entity_id`),
   KEY `FK_ENTITY_ENTITY_TYPE` (`entity_type_id`),
-  KEY `FK_ENTITY_STORE` (`store_id`)
+  KEY `FK_ENTITY_STORE` (`store_id`),
+  CONSTRAINT `FK_ENTITY_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`),
+  CONSTRAINT `FK_ENTITY_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Entityies';
 
 /*Data for the table `eav_entity` */
