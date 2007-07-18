@@ -306,7 +306,7 @@ img.accordion-btn {
     margin-top:.7em;
     margin-right:1em;
     border-top:1px solid #bebebe;
-    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+    background:#DEF;
     }
 .content-left-nav ul.tabs li {
     list-style-type:none;
@@ -319,7 +319,7 @@ img.accordion-btn {
     color:#000;
     }
 .content-left-nav ul.tabs li a:hover span {
-    background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
+    background:#69F;
     }
 .content-left-nav ul.tabs li a.active {
     padding:0;
@@ -332,10 +332,10 @@ img.accordion-btn {
     cursor:pointer;
     }
 .content-left-nav ul.tabs li a.active span, .content-left-nav ul.tabs li a:hover.active span {
-    background:#fff;
+    background:#8BF;
     font-weight:bold;
     }
-.content-left-nav a.global {
+.content-left-nav a.default {
     }
 .content-left-nav a.website {
     padding-left:16px;
@@ -455,7 +455,27 @@ label.inline{
     background-image:url(images/fam_status_online.gif);
     padding-left:18px;
     }
-
+    
+/********************* CONFIG ************************/
+fieldset.config table {
+    }
+fieldset.config th {
+    border-bottom:dotted 1px #888;
+    }
+fieldset.config th, fieldset.config td {
+    border-right:dotted 1px #888;
+    padding:2px 5px;
+    }
+fieldset.config th.label, fieldset.config td.label {
+    width:200px;
+    }
+fieldset.config label {
+    float:none;
+    padding-left:5px;
+    }
+fieldset.config input.input-radio {
+    padding-right:5px;
+    }
 
 .footer .powered-by {
     float:left;

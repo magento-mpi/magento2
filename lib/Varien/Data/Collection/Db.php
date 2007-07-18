@@ -204,6 +204,9 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             elseif (!empty($condition['like'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName like ?", $condition['like']);
             }
+            elseif (!empty($condition['nlike'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName not like ?", $condition['nlike']);
+            }
             elseif (!empty($condition['in'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName in (?)", $condition['in']);
             }

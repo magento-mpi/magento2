@@ -12,22 +12,19 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
 {
     const DEFAULT_SECTION_BLOCK = 'adminhtml/system_config_form';
     
-    protected $_default;
-    protected $_config;
-    protected $_form;
+    protected $_section;
     
     public function __construct() 
     {
         parent::__construct();
         $this->setTemplate('adminhtml/system/config/edit.phtml');
         
-        $config = Mage::getSingleton('adminhtml/system_config');
-        $section = $this->getRequest()->getParam('section');
+        $sectionCode = $this->getRequest()->getParam('section');
         
-        $this->_default = $config->getNode('admin/configuration/default');
-        $this->_config = $config->getNode('admin/configuration/sections/'.$section);
+        $this->_section = Mage::getModel('core/config_field')
+            ->load($sectionCode, 'path');
         
-        $this->setTitle((string)$this->_config->label);
+        $this->setTitle($this->_section->getFrontendLabel());
     }
     
     public function getSaveUrl()
@@ -42,14 +39,12 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
                 ->initTabs()
         );
         
-        $blockName = (string)$this->_config->block;
+        $blockName = (string)$this->_section->getFrontendModel();
         if (empty($blockName)) {
             $blockName = self::DEFAULT_SECTION_BLOCK;
         }
         $this->setChild('form', 
             $this->getLayout()->createBlock($blockName)
-                ->setSection($this->_config)
-                ->setDefaultFrontend($this->_default->descend('field/frontend'))
                 ->initForm()
         );
         return $this;

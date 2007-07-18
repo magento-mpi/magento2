@@ -92,4 +92,79 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 #echo "<xmp>".$xmlConfig->getNode()->asNiceXml()."</xmp>";
         return $this;
     }
+    
+    public function loadWithDefaults($section, $websiteCode, $storeCode)
+    {
+        $read = $this->getConnection('read');
+        $table = $this->getMainTable();
+        
+        $config = array();
+        
+        /**
+         * read default config into 
+         * path=>array(
+         *   default_value
+         * )
+         */
+        $defaultConfig = $read->fetchAssoc(
+            $read->select()->from($table, array('path', 'data'))
+                ->where("scope='default'")
+                ->where("path like ?", $section.'/%')
+        );
+        foreach ($defaultConfig as $path=>$data) {
+            $config[$path] = array(
+                'value'=>$data['data'], 
+                'default_value'=>$data['data'],
+                'inherit'=>1,
+            );
+        }
+        
+        /**
+         * read website config into 
+         * path=>array(
+         *   value, 
+         *   inherit, - if website config requested
+         *   default_value - if store config requested
+         * )
+         */
+        if ($websiteCode) {
+            $websiteId = (int)Mage::getConfig()->getNode("websites/$websiteCode/system/website/id");
+            $websiteConfig = $read->fetchAssoc(
+                $read->select()->from($table, array('path', 'data', 'inherit'))
+                    ->where("scope='website' and scope_id=?", $websiteId)
+                    ->where("path like ?", $section.'/%')
+            );
+            foreach ($websiteConfig as $path=>$data) {
+                $config[$path]['value'] = $data['data'];
+                if ($storeCode) {
+                    $config[$path]['default_value'] = $data['data'];
+                } else {
+                    $config[$path]['inherit'] = $data['inherit'];
+                }
+            }
+        }
+        
+        /**
+         * read store config into
+         * path=>array(
+         *   value,
+         *   inherit
+         * )
+         */
+        if ($storeCode) {
+            $storeId = (int)Mage::getConfig()->getNode("stores/$storeCode/system/store/id");
+            $storeConfig = $read->fetchAssoc(
+                $read->select()->from($table, array('path', 'data', 'inherit'))
+                    ->where("scope='store' and scope_id=?", $storeId)
+                    ->where("path like ?", $section.'/%')
+            );
+            foreach ($storeConfig as $path=>$data) {
+                $config[$path]['value'] = $data['data'];
+                $config[$path]['inherit'] = $data['inherit'];
+            }
+        }
+        
+        return $config;
+    }
+
 }

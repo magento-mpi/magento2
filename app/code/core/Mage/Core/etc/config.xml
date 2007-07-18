@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.3.6</version>
+             <version>0.3.7</version>
         </Mage_Core>
     </modules>
 
@@ -10,6 +10,9 @@
         <models>
             <core_mysql4>
                 <entities>
+                    <config_field>
+                        <table>core_config_field</table>
+                    </config_field>
                     <resource>
                         <table>core_resource</table>
                     </resource>

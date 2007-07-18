@@ -1,10 +1,10 @@
 <?php
 /**
- * Websites collection
+ * Config data collection
  *
  * @package    Mage
  * @subpackage Core
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
 class Mage_Core_Model_Mysql4_Config_Data_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 

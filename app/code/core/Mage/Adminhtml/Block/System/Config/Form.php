@@ -20,30 +20,68 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         /**
          * @see  Varien_Object::__call()
          */
-        $section = $this->getSection();
+        // get section fields from config xml
         
+        $sectionCode = $this->getRequest()->getParam('section');
+        $websiteCode = $this->getRequest()->getParam('website');
+        $storeCode = $this->getRequest()->getParam('store');
+        
+        $isDefault = !$websiteCode && !$storeCode;
+        
+        // get config section data from database
+        $configData = Mage::getResourceModel('core/config')
+            ->loadWithDefaults($sectionCode, $websiteCode, $storeCode);
+            
+        $configFields = Mage::getResourceModel('core/config_field_collection')
+            ->loadRecursive($sectionCode);
+
         $form = new Varien_Data_Form();
         
         $fieldsetRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset');
         $fieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
+        $fieldset = array();
         
-        foreach ($section->groups->children() as $fieldsetName=>$fieldsetConfig) {
-            if (empty($fieldsetConfig->fields)) {
-                continue;
-            }
+        foreach ($configFields->getItems() as $e) {
+            $path = $e->getPath();
+            $pathArr = explode('/', $path);
+            $id = join('_', $pathArr);
             
-            $fieldset = $form->addFieldset($fieldsetName, array('legend'=>__((string)$fieldsetConfig->label)))
-                ->setRenderer($fieldsetRenderer);
-            
-            foreach ($fieldsetConfig->fields->children() as $fieldName=>$fieldConfig) {
-                $frontend = $fieldConfig->frontend;
-                
-                $fieldType = isset($frontend->type) ? (string) $frontend->type : 'text';
-                $fieldset->addField($fieldName, $fieldType, array(
-                    'label' => (string) $frontend->label,
-                    #'value' => (string) Mage::getConfig()->getNode((string) $fieldConfig['path']),
-                    'class' => (string) $frontend->class,
-                ))->setRenderer($fieldRenderer);
+            switch (sizeof($pathArr)) {
+                case 1: // section
+                    break;
+                    
+                case 2: // group
+                    $fieldset[$id] = $form->addFieldset($id, array(
+                        'legend'=>__($e->getFrontendLabel())
+                    ));
+                    if (!$isDefault) {
+                        $fieldset[$id]->setRenderer($fieldsetRenderer);
+                    }
+                    break;
+                    
+                case 3: // field
+                    $fieldsetName = $pathArr[0].'_'.$pathArr[1];
+                    
+                    if (isset($configData[$path])) {
+                        $data = $configData[$path];
+                    } else {
+                        $data = array('value'=>'', 'default_value'=>'', 'inherit'=>'');
+                    }
+                    
+                    $fieldType = $e->getFrontendType();
+                    
+                    $field = $fieldset[$fieldsetName]->addField($id, $fieldType ? $fieldType : 'text', array(
+                        'name' => $fieldsetName.'[fields]['.$pathArr[2].'][value]',
+                        'label' => __($e->getFrontendLabel()),
+                        'value' => $data['value'],
+                        'defult_value' => $data['default_value'],
+                        'inherit' => $data['inherit'],
+                        'class' => $e->getFrontendClass(),
+                    ));
+                    if (!$isDefault) {
+                        $field->setRenderer($fieldRenderer);
+                    }
+                    break;
             }
         }
 

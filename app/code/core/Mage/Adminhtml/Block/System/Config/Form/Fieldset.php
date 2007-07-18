@@ -14,21 +14,30 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $cId = $element->getContainer()->getHtmlId();
-        $idPrefix = $cId.'_'.$element->getHtmlId();
-        $html = '<h3>'.$element->getLegend().'</h3>';
-        $html.= '<fieldset id="'.$element->getHtmlId().'"><legend>'.$element->getLegend().'</legend>';
-        $html.= '<table cellspacing=0 border=1 cellpadding=2><thead><tr>';
-        $html.= '<th>&nbsp;</th>'; // field label column
-        $html.= '<th><input id="'.$idPrefix.'_inherit" name="'.$cId.'" type="radio">'; // default column
-        $html.= '<label for="'.$idPrefix.'_inherit">'.__('Default').'</label></th>';
-        $html.= '<th><input id="'.$idPrefix.'_custom" name="'.$cId.'" type="radio">'; // custom column
-        $html.= '<label for="'.$idPrefix.'_custom">'.__('Custom').'</label></th>';
-        $html.= '</tr></thead><tbody>';
-        //$html.= $element->getElementHtml();
+        $id = $element->getHtmlId();
+
+        $html = '<h4>'.$element->getLegend().'</h4>';
+        $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
+        $html.= '<legend>'.$element->getLegend().'</legend>';
+        
+        // field label column
+        $html.= '<table cellspacing=0><thead><tr><th class="label">&nbsp;</th><th>'; 
+        
+        // default column
+        $html.= '<input id="'.$id.'_inherit" name="'.$id.'[inherit]" type="radio" value="1" class="input-radio">'; 
+        $html.= '<label for="'.$id.'_inherit">'.__('Default').'</label>';
+        $html.= '</th><th>';
+        
+        // custom column
+        $html.= '<input id="'.$id.'_custom" name="'.$id.'[inherit]" type="radio" value="0" class="input-radio">'; 
+        $html.= '<label for="'.$id.'_custom">'.__('Specific').'</label>';
+        
+        $html.= '</th></tr></thead><tbody>';
+        
         foreach ($element->getElements() as $field) {
         	$html.= $field->toHtml();
         }
+        
         $html.= '</tbody></table></fieldset>';
         return $html;
     }

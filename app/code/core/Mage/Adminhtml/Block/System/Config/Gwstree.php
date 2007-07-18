@@ -28,24 +28,44 @@ class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Wi
         $storesConfig = Mage::getConfig()->getNode('stores');
 
         $this->addTab('default', array(
-            'label'  => 'Default',
+            'label'  => __('Default config'),
             'url'    => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>null)),
-            'class' => 'default'.(!$curWebsite && !$curStore ? ' active' : ''),
-        ));
+            'class' => 'default',
+        )); 
         
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
+            $wName = (string)$wConfig->descend('system/website/name');
+            $wUrl = Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>$wCode, 'store'=>null));
             $this->addTab('website_'.$wCode, array(
-                'label' => (string)$wConfig->descend('system/website/name'),
-                'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>$wCode, 'store'=>null)),
-                'class' => 'website'.($curWebsite===$wCode ? ' active' : ''),
+                'label' => $wName,
+                'url'   => $wUrl,
+                'class' => 'website',
             ));
-            foreach ($wConfig->descend('system/stores')->children() as $sCode=>$sId) {
-                $this->addTab('store_'.$sCode, array(
-                    'label' => (string)$storesConfig->descend($sCode.'/system/store/name'),
-                    'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>$sCode)),
-                    'class' => 'store'.($curStore===$sCode ? ' active' : ''),
-                ));
+            if ($curWebsite===$wCode) {
+                if ($curStore) {
+                    $this->_addBreadcrumb($wName, '', $wUrl);
+                } else {
+                    $this->_addBreadcrumb($wName);
+                }
             }
+            foreach ($wConfig->descend('system/stores')->children() as $sCode=>$sId) {
+                $sName = (string)$storesConfig->descend($sCode.'/system/store/name');
+                $this->addTab('store_'.$sCode, array(
+                    'label' => $sName,
+                    'url'   => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>$wCode, 'store'=>$sCode)),
+                    'class' => 'store',
+                ));
+                if ($curStore===$sCode) {
+                    $this->_addBreadcrumb($sName);
+                }
+            }
+        }
+        if ($curStore) {
+            $this->setActiveTab('store_'.$curStore);
+        } elseif ($curWebsite) {
+            $this->setActiveTab('website_'.$curWebsite);
+        } else {
+            $this->setActiveTab('default');
         }
 
         return $this;

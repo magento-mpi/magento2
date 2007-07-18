@@ -27,7 +27,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
-            return $this->getResource()->load($this, $id, 'code');
+            $this->getResource()->load($this, $id, 'code');
+            return $this;
         }
         return parent::load($id, $field);
     }

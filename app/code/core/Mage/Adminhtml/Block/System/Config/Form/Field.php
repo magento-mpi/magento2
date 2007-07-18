@@ -14,9 +14,27 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = '<tr><td>'.$element->getLabel().'</td>';
-        $html .= '<td><input type="radio">'.$element->getDefaultValue().'</td>';
-        $html .= '<td><input type="radio">'.$element->getElementHtml().'</td></tr>';
+        $id = $element->getHtmlId();
+        
+        // replace [value] with [inherit]
+        $radioName = substr($element->getName(), 0, strlen($element->getName())-7).'[inherit]';
+        
+        $inherit = $element->getInherit() ? 'checked' : '';
+        $custom = !$element->getInherit() ? 'checked' : '';
+        
+        $html = '<tr><td class="label">'.$element->getLabel().'</td><td>';
+        
+        // default value
+        $html.= '<input id="'.$id.'_inherit" name="'.$radioName.'" type="radio" value="1" class="input-radio" '.$inherit.'>';
+        $html.= $element->getDefaultValue();
+        
+        $html.= '</td><td>';
+        
+        // custom value
+        $html.= '<input id="'.$id.'_custom" name="'.$radioName.'" type="radio" value="0" class="input-radio" '.$custom.'>';
+        $html.= $element->getElementHtml();
+        
+        $html.= '</td></tr>';
         return $html;
     }
 }

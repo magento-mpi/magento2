@@ -13,10 +13,15 @@
                 <general>
                     <label>General</label>
                     <groups>
-                        <general>
-                            <label>General options</label>
+                        <country>
+                            <label>Country options</label>
                             <fields>
-                                <currency_base>
+                                <allow>
+                                    <frontend>
+                                        <label>Allow countries</label>
+                                    </frontend>
+                                </allow>
+                                <default>
                                     <frontend>
                                         <type>select</type>
                                         <label>Base currency</label>
@@ -24,9 +29,23 @@
                                     <source>
                                         <model>adminhtml/system_config_source_currency</model>
                                     </source>
-                                </currency_base>
+                                </default>
                             </fields>
-                        </general>
+                        </country>
+                        <currency>
+                            <label>Currency options</label>
+                            <fields>
+                                <base>
+                                    <frontend>
+                                        <type>select</type>
+                                        <label>Base currency</label>
+                                    </frontend>
+                                    <source>
+                                        <model>adminhtml/system_config_source_currency</model>
+                                    </source>
+                                </base>
+                            </fields>
+                        </currency>
                     </groups>
                 </general>
                 

@@ -843,6 +843,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             elseif (!empty($condition['like'])) {
                 $sql = $this->_read->quoteInto("$fieldName like ?", $condition['like']);
             }
+            elseif (!empty($condition['nlike'])) {
+                $sql = $this->_read->quoteInto("$fieldName not like ?", $condition['nlike']);
+            }
             elseif (!empty($condition['in'])) {
                 $sql = $this->_read->quoteInto("$fieldName in (?)", $condition['in']);
             }

@@ -196,6 +196,13 @@ class Varien_Simplexml_Config
         $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
         return $this;
     }
+    
+    public function removeCache()
+    {
+        $this->getCache()->remove($this->getCacheId());
+        $this->getCache()->remove($this->getCacheChecksumId());
+        return $this;
+    }
 
     /**
      * Imports XML file

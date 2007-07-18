@@ -17,51 +17,39 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         $this->_init('core/website');
     }
     
+    public function load($id, $field=null)
+    {
+        if (!is_numeric($id) && is_null($field)) {
+            $this->getResource()->load($this, $id, 'code');
+            return $this;
+        }
+        return parent::load($id, $field);
+    }
+    
     /**
      * Get website config data
      *
-     * @param string $section
+     * @param string $path
      * @return mixed
      */
-    public function getConfig($sectionVar='')
-    {
-        if (isset($this->_configCache[$sectionVar])) {
-            return $this->_configCache[$sectionVar];
-        }
-        
-        $sectionArr = explode('/', $sectionVar);
-        
-        if (empty($sectionArr[0])) {
-            $result = Mage::getConfig()->getNode('global/websites/'.$this->getCode());
-        } else {
-        
-            $result = Mage::getConfig()->getNode('global/websites/'.$this->getCode().'/'.$sectionArr[0]);
-            $defaultConfig = Mage::getConfig()->getNode('global/default/'.$sectionArr[0]);
-            
-            if (!$result || $result->is('default')) {
-                if (isset($sectionArr[1])) {
-                    if (!empty($defaultConfig)) {
-                        return $defaultConfig->{$sectionArr[1]};
-                    }
-                    $result = false;
-                } else {
-                    $result = $defaultConfig;
-                }
-            } elseif (isset($sectionArr[1])) {
-                if (!$config->{$sectionArr[1]}) {
-                    if (!empty($defaultConfig)) {
-                        $result = $defaultConfig->{$sectionArr[1]};
-                    } else {
-                        $result = false;
-                    }
-                } else {
-                    $result = $config->$sectionArr[1];
+    public function getConfig($path) {
+        if (!isset($this->_configCache[$path])) {
+
+            $config = Mage::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
+            if (!$config) {
+                throw Mage::exception('Mage_Core', 'Invalid websites configuration path: '.$path);
+            }
+            if (!$config->children()) {
+                $value = (string)$config;
+            } else {
+                $value = array();
+                foreach ($config->children() as $k=>$v) {
+                    $value[$k] = $v;
                 }
             }
+            $this->_configCache[$path] = $value;
         }
-        
-        $this->_configCache[$sectionVar] = $result;
-        return $result;
+        return $this->_configCache[$path];
     }
     
     public function getStoreCodes()
