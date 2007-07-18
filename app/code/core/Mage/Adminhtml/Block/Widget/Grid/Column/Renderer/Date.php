@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
 	    if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = Mage::getStoreConfig('general/local/date_format_short');
+                    self::$_format = Mage::getStoreConfig('general/local/date_format_medium');
                 }
                 catch (Exception $e) {
                 }
