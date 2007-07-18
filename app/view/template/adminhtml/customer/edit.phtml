@@ -4,10 +4,12 @@
  */
 ?>
 <div class="content-header">
-    <table cellspacing="0" class="grid-header"> 
+    <table cellspacing="0" class="grid-header">
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
             <td class="a-right">
+            <?=$this->getBackButtonHtml()?>
+            <?=$this->getCancelButtonHtml()?>
             <?if($this->getCustomerId()):?>
                 <?=$this->getDeleteButtonHtml()?>
             <?endif;?>
