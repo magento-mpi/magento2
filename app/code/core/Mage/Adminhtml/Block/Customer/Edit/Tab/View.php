@@ -110,13 +110,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
     public function getCreateDate()
     {
-        return date(Mage::getStoreConfig('general/local/date_format_long'), strtotime($this->getCustomer()->getCreatedAt()));
+        return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($this->getCustomer()->getCreatedAt()));
     }
 
     public function getLastLoginDate()
     {
         if ($date = $this->getCustomerLog()->getLoginAt()) {
-            return date(Mage::getStoreConfig('general/local/date_format_long'), strtotime($date));
+            return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($date));
         }
         return __('Never');
     }
