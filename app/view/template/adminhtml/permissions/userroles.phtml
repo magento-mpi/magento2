@@ -9,5 +9,5 @@
         }
     }
 ?>
-    <input type="checkbox" value="<?=$role->getRoleId();?>" <?=($checked ? "checked" : "");?> name="roles[]" /> <?=$role->getRoleName();?><br />
+    <input type="checkbox" value="<?=$role->getRoleId();?>" <?=($checked ? "checked" : "");?> name="roles[]" id="_<?=$role->getRoleId();?>" /> <label for="_<?=$role->getRoleId();?>"><?=$role->getRoleName();?></label><br />
 <?php endforeach;?>

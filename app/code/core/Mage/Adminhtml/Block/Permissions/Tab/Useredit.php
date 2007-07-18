@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'label' => __('New Password'),
                     'id'    => 'new_pass',
                     'title' => __('New Password'),
-                    'class' => 'validate-password',
+                    'class' => 'input-text validate-password',
                 )
             );
 
@@ -91,8 +91,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'name'  => 'password_confirmation',
                     'label' => __('Password Confirmation'),
                     'id'    => 'confirmation',
-                    'title' => __('Password Confirmation'),
-                    'class' => 'validate-confirmation',
+                    'class' => 'input-text validate-cpassword',
                 )
             );
         }

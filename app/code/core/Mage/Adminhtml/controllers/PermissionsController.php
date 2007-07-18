@@ -49,7 +49,6 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     public function editRoleAction()
     {
         $this->loadLayout('baseframe');
-        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
         $this->_addBreadcrumb(__('Roles'), __('Roles Title'));

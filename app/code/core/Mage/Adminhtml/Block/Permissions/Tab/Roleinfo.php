@@ -38,8 +38,19 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
             )
         );
 
-        $roles = Mage::getResourceModel('permissions/roles_collection')->load()->toOptionArray();
-        $roles[] = array('value' => 0, 'label' => __('Make as Root'));
+        $roles = Mage::getResourceModel('permissions/roles_collection')
+            ->addTreeOrder()
+            ->load();
+
+        $tmpArr = array();
+        foreach( $roles as $role ) {
+            $tmpArr['value'] = $role->getRoleId();
+            $tmpArr['label'] = '|' . str_repeat('-', $role->getTreeLevel()) . $role->getRoleName();
+            $rolesArray[] = $tmpArr;
+        }
+
+        $root = array('value' => 0, 'label' => __('Root'));
+        array_unshift($rolesArray, $root);
 
         $fieldset->addField('parent_id', 'select',
             array(
@@ -48,7 +59,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'id'    => 'parent_id',
                 'title' => __('Role Parent'),
                 'class' => 'required-entry',
-                'values'=> $roles,
+                'values'=> $rolesArray,
             )
         );
 

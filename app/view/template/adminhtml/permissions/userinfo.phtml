@@ -4,7 +4,7 @@
             <td style="width:50%;">
                 <h3>
                   <?if($this->getUserId()):?>
-                  <?=__('Edit user &laquo;' . $userData->getFirstname()) . '&raquo;'?>
+                  <?=__('Edit user &laquo;' . $userData->getFirstname() . ' ' . $userData->getLastname()) . '&raquo;'?>
                   <?else:?>
                   <?=__('Add new user')?>
                   <?endif;?>

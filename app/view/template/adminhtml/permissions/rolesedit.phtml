@@ -4,7 +4,7 @@
   <? $margin = $val['level'] * 20;?>
     <div style="margin-left:<?=$margin?>px;" id="_<?=$resource?>">
 	<input type="checkbox" value="<?=$resource?>" id="<?=str_replace('/', '_', rtrim($resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
-	<?=$val['name'];?>
+	<label for="<?=str_replace('/', '_', rtrim($resource, '/'))?>"><?=$val['name'];?></label>
 	</div>
 <?php endforeach; ?>
 

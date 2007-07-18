@@ -5,7 +5,8 @@ class Mage_Permissions_Model_Mysql4_Roles_Collection extends Varien_Data_Collect
 	protected $_roleTable;
 	protected $_ruleTable;
 
-    public function __construct() {
+    public function __construct()
+    {
         $resources = Mage::getSingleton('core/resource');
 
         parent::__construct($resources->getConnection('tag_read'));
@@ -18,8 +19,15 @@ class Mage_Permissions_Model_Mysql4_Roles_Collection extends Varien_Data_Collect
         $this->_sqlSelect->where("{$this->_roleTable}.role_type='G'");
     }
 
-    public function toOptionArray() {
-	        return $this->_toOptionArray('role_id', 'role_name');
+    public function toOptionArray()
+    {
+	   return $this->_toOptionArray('role_id', 'role_name');
+    }
+
+    public function addTreeOrder()
+    {
+        $this->_sqlSelect->order(array("parent_id", "role_id"));
+        return $this;
     }
 }
 ?>
