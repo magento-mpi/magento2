@@ -30,17 +30,30 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->renderLayout();
     }
     
-    public function testAction()
+    public function jsonTreeAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(__('Catalog'), __('catalog title'));
+        $tree = Mage::getResourceModel('catalog/category_tree');
+        $parentNodeId = (int) $this->getRequest()->getPost('node',1);
+        $storeId = (int) $this->getRequest()->getPost('store',1);
         
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
-        $this->_addContent(
-            $this->getLayout()->createBlock('core/template')
-                ->setTemplate('adminhtml/catalog/test.phtml')
-        );
-        $this->renderLayout();
+        $tree->getCategoryCollection()->addAttributeToSelect('name');
+        $nodes = $tree->load($parentNodeId)
+                    ->getNodes();
+
+        $items = array();
+        foreach ($nodes as $node) {
+            $item = array();
+            $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+            $item['id']  = $node->getId();
+            $item['cls'] = 'folder';
+            $item['allowDrop'] = true;
+            $item['allowDrag'] = true;
+            if (!$node->hasChildren()) {
+                $item['leaf'] = 'true';
+            }
+            $items[] = $item;
+        }
+
+        $this->getResponse()->setBody(Zend_Json::encode($items));
     }
 }

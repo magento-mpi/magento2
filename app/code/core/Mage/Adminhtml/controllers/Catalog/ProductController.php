@@ -38,4 +38,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         
     }
+    
+    public function testAction()
+    {
+        $collection = Mage::getResourceModel('catalog/product_collection')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('description')
+            ->addAttributeToSelect('price')
+            ->load();
+        
+    }
 }

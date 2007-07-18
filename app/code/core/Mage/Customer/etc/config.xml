@@ -13,13 +13,6 @@
         </Mage_Customer>
     </modules>
     <global>
-        <entity>
-            <types>
-                <customer extends="//global/entity/types/default"/>
-                <address extends="//global/entity/types/default"/>
-            </types>
-        </entity>
-        
         <block>
             <groups><customer><class>Mage_Customer_Block</class></customer></groups>
         </block>
@@ -43,10 +36,6 @@
                         <table>customer_group</table>
                     </customer_group>
                 </entities>
-                <classes>
-                    <wishlist><class>Mage_Customer_Model_Mysql4_Wishlist</class></wishlist>
-                    <wishlist_collection><class>Mage_Customer_Model_Mysql4_Wishlist_Collection</class></wishlist_collection>
-                </classes>
             </customer_entity>
             
             <customer_mysql4>

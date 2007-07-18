@@ -11,9 +11,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
     protected function _loadCategories($parent)
     {
-        $nodes = Mage::getResourceModel('catalog/category_tree')
-            ->joinAttribute('name')
-            ->load($parent)
+        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree->getCategoryCollection()
+            ->addAttributeToSelect('name');
+        $nodes = $tree->load($parent)
             ->getNodes();
 
         $this->assign('categories', $nodes);
@@ -21,20 +22,20 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     
     protected function _loadProductManufacturers()
     {
-        $manufacturers = Mage::getModel('catalog/product_attribute')
+        $manufacturers = array();/*Mage::getModel('catalog/product_attribute')
             ->loadByCode('manufacturer')
             ->getSource()
-                ->getArrOptions();
+                ->getArrOptions();*/
 
         $this->assign('manufacturers', $manufacturers);
     }
     
     protected function _loadProductTypes()
     {
-        $types = Mage::getModel('catalog/product_attribute')
+        $types = array();/*Mage::getModel('catalog/product_attribute')
             ->loadByCode('shoe_type')
             ->getSource()
-                ->getArrOptions();
+                ->getArrOptions();*/
 
         $this->assign('types', $types);
     }

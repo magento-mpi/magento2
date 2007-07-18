@@ -106,6 +106,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Eav>
+        <Mage_Page>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Page>
         <Mage_Install>
             <active>true</active>
             <codePool>core</codePool>

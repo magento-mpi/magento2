@@ -297,7 +297,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     
     public function getDatashareStores($feature)
     {
-        return explode(',', $this->getConfig('advanced/datashare/'.$feature));
+        if ($stores = $this->getConfig('advanced/datashare/'.$feature)) {
+            return explode(',', $stores);
+        }
+        return array();
     }
     
     public function getLanguageCode()

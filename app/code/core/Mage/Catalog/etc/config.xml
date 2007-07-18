@@ -12,8 +12,23 @@
       <models>
          <catalog>
             <class>Mage_Catalog_Model</class>
-            <resourceModel>catalog_mysql4</resourceModel>
+            <!--resourceModel>catalog_mysql4</resourceModel-->
+            <resourceModel>catalog_entity</resourceModel>
          </catalog>
+         <catalog_entity>
+            <class>Mage_Catalog_Model_Entity</class>
+            <entities>
+              <product>
+                <table>catalog_product_entity</table>
+              </product>
+              <category>
+                <table>catalog_category_entity</table>
+              </category>
+              <category_tree>
+                <table>catalog_category_tree</table>
+              </category_tree>
+            </entities>
+         </catalog_entity>
          <catalog_mysql4>
             <class>Mage_Catalog_Model_Mysql4</class>
             <entities>
@@ -224,7 +239,7 @@
          </catalog_read>
       </resources>
       <block>
-		 <groups><catalog><class>Mage_Catalog_Block</class></catalog></groups>
+         <groups><catalog><class>Mage_Catalog_Block</class></catalog></groups>
       </block>
    </global>
    <front>

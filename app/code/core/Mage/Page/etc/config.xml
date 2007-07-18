@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Page>
+         <version>0.1.0</version>
+         <depends>
+            <Mage_Core />
+         </depends>
+      </Mage_Page>
+   </modules>
+   <global>
+        <models>
+            <page>
+                <class>Mage_Page_Model</class>
+            </page>
+        </models>
+        <block>
+            <groups>
+                <page>
+                    <class>Mage_Page_Block</class>
+                </page>
+            </groups>
+        </block>
+   </global>
+</config>

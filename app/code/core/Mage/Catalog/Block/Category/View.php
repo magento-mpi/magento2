@@ -13,7 +13,6 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('catalog/category/view.phtml');
-        #$this->loadData(Mage::registry('controller')->getRequest());
     }
 
     public function loadData()

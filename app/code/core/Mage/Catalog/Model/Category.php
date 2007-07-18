@@ -9,28 +9,17 @@
  */
 class Mage_Catalog_Model_Category extends Varien_Object
 {
-    public function __construct($category=false) 
+    public function __construct() 
     {
         parent::__construct();
-        
-        if (is_numeric($category)) {
-            $this->load($category);
-        }
-        elseif (is_array($category)) {
-            $this->setData($category);
-        }
-    }
-
-    /**
-     * Get category id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->getCategoryId();
+        $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
     
+    /**
+     * Retrieve category resource model
+     *
+     * @return Mage_Eav_Model_Entity_Abstract
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('catalog/category');
@@ -44,19 +33,29 @@ class Mage_Catalog_Model_Category extends Varien_Object
      */
     public function load($categoryId)
     {
-        $this->setData($this->getResource()->load($categoryId));
+        $this->getResource()->load($this, $categoryId);
         return $this;
     }
     
+    /**
+     * Save category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function save()
     {
-        $this->setData($this->getResource()->save($this));
+        $this->getResource()->save($this);
         return $this;
     }
     
+    /**
+     * Delete category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function delete()
     {
-        $this->setData($this->getResource()->delete($this->getId()));
+        $this->getResource()->delete($this->getId());
         return $this;
     }
     

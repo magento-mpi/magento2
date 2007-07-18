@@ -1,0 +1,1 @@
+alter table `tag_relation` drop foreign key `tag_relation_ibfk_3`
