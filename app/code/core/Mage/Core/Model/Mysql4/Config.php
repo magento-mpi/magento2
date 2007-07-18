@@ -19,9 +19,9 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $tablesArr = explode(',', $tables);
             $tables = array();
             foreach ($tablesArr as $table) {
-                $table = trim($table);
+                $table = $this->getTable(trim($table));
                 if (!empty($table)) {
-                    $tables[] = $this->getTable($table);
+                    $tables[] = $table;
                 }
             }
         }
