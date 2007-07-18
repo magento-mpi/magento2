@@ -24,11 +24,10 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     public function editAction()
     {
         $this->loadLayout('baseframe');
+
         $this->_setActiveMenu('system/config');
 
         $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
-
-        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
@@ -40,6 +39,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function saveAction()
     {
-
+echo "<pre>"; print_r($this->getRequest()->getPost()); echo "</pre>";
     }
 }

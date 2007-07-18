@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     break;
                     
                 case 3: // field
-                    $fieldsetName = $pathArr[0].'_'.$pathArr[1];
+                    $fieldsetId = $pathArr[0].'_'.$pathArr[1];
                     
                     if (isset($configData[$path])) {
                         $data = $configData[$path];
@@ -70,14 +70,17 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     
                     $fieldType = $e->getFrontendType();
                     
-                    $field = $fieldset[$fieldsetName]->addField($id, $fieldType ? $fieldType : 'text', array(
-                        'name' => $fieldsetName.'[fields]['.$pathArr[2].'][value]',
+                    $field = $fieldset[$fieldsetId]->addField($id, $fieldType ? $fieldType : 'text', array(
+                        'name' => $fieldsetId.'[fields]['.$pathArr[2].'][value]',
                         'label' => __($e->getFrontendLabel()),
                         'value' => $data['value'],
                         'defult_value' => $data['default_value'],
                         'inherit' => $data['inherit'],
                         'class' => $e->getFrontendClass(),
                     ));
+                    if ($e->getSourceModel()) {
+                        $field->setValues(Mage::getModel($e->getSourceModel())->toOptionArray());
+                    }
                     if (!$isDefault) {
                         $field->setRenderer($fieldRenderer);
                     }

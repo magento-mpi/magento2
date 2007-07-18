@@ -27,6 +27,22 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setTitle($this->_section->getFrontendLabel());
     }
     
+    protected function _initChildren()
+    {
+        $this->setChild('saveButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save config'),
+                    'onclick'   => 'configForm.submit()'
+                ))
+        );
+    }
+    
+    public function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('saveButton');
+    }
+    
     public function getSaveUrl()
     {
         return Mage::getUrl('*/*/save', array('_current'=>true));
@@ -34,8 +50,8 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function initForm()
     {
-        $this->setChild('gwstree', 
-            $this->getLayout()->createBlock('adminhtml/system_config_gwstree')
+        $this->setChild('dwstree', 
+            $this->getLayout()->createBlock('adminhtml/system_config_dwstree')
                 ->initTabs()
         );
         

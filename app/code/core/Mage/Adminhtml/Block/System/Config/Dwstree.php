@@ -8,15 +8,15 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
         parent::__construct();
         #$this->setTemplate('adminhtml/widget/tabs.phtml');
-        $this->setId('system_config_gwstree');
+        $this->setId('system_config_dwstree');
         $this->setDestElementId('system_config_form');
-        #$this->setTitle(__('-={ gWs }=-'));
+        #$this->setTitle(__('-={ dWs }=-'));
     }
     
     public function initTabs()
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_System_Config_Gwstree extends Mage_Adminhtml_Block_Wi
         $storesConfig = Mage::getConfig()->getNode('stores');
 
         $this->addTab('default', array(
-            'label'  => __('Default Config'),
+            'label'  => __('Default config'),
             'url'    => Mage::getUrl('*/*/*', array('_current'=>true, 'website'=>null, 'store'=>null)),
             'class' => 'default',
         )); 

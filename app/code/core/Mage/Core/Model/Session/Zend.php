@@ -30,12 +30,14 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
         Varien_Profiler::start(__METHOD__.'/setOptions');
         Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('session'), 'use_only_cookies'=>'off'));
         Varien_Profiler::stop(__METHOD__.'/setOptions');
-/*
+
+        Varien_Profiler::start(__METHOD__.'/setHandler');
         $sessionResource = Mage::getResourceSingleton('core/session');
         if ($sessionResource->hasConnection()) {
         	Zend_Session::setSaveHandler($sessionResource);
         }
-*/        
+        Varien_Profiler::stop(__METHOD__.'/setHandler');
+       
         Varien_Profiler::start(__METHOD__.'/start');
         Zend_Session::start();
         Varien_Profiler::stop(__METHOD__.'/start');
