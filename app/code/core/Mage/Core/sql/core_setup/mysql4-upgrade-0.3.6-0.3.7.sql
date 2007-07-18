@@ -31,7 +31,7 @@ CREATE TABLE `core_config_field` (
   `show_in_store` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`field_id`),
   KEY `path` (`path`,`sort_order`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDb DEFAULT CHARSET=utf8;
 
 /*Data for the table `core_config_field` */
 
