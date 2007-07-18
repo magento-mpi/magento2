@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
                 $menuArr['url'] = $baseUrl.(string)$child->action;
             } else {
                 $menuArr['url'] = '#';
+                $menuArr['click'] = 'return false';
             }
 #print_r($this->getActive().','.$path.$childName."<hr>");
             $menuArr['active'] = ($this->getActive()==$path.$childName)
