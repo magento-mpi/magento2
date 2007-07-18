@@ -7,20 +7,33 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('core/config_data', 'config_id');
     }
     
-
-    public function getChecksum()
+    /**
+     * Get checksum for one or more tables
+     *
+     * @param string|array $tables string is separated by comma
+     * @return integer|boolean
+     */
+    public function getChecksum($tables)
     {
-        $checksumArr = $this->getConnection('read')->fetchAll(
-            'checksum table '.$this->getMainTable()
-            .', '.$this->getTable('website')
-            .', '.$this->getTable('store')
-        );
-        
+        if (is_string($tables)) {
+            $tablesArr = explode(',', $tables);
+            $tables = array();
+            foreach ($tablesArr as $table) {
+                $table = trim($table);
+                if (!empty($table)) {
+                    $tables[] = $this->getTable($table);
+                }
+            }
+        }
+        if (empty($tables)) {
+            return false;
+        }
+        $checksumArr = $this->getConnection('read')
+            ->fetchAll('checksum table '.join(',', $tables));
         $checksum = 0;
         foreach ($checksumArr as $r) {
             $checksum += $r['Checksum'];
         }
-        
         return $checksum;
     }
 

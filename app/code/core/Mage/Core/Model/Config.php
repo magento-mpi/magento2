@@ -76,7 +76,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         
         Varien_Profiler::start('load-db-checksum');
         $dbConf = Mage::getResourceModel('core/config');
-        $this->updateCacheChecksum($dbConf->getChecksum());
+        $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store'));
         Varien_Profiler::stop('load-db-checksum');
         
         Varien_Profiler::start('load-cache');
