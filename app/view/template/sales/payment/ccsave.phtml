@@ -1,5 +1,5 @@
 <input type="radio" title="<?=__("Credit Card")?>" id="payment_method_<?=$method?>" name="payment[method]" value="<?=$method?>" <?if($payment->getMethod()==$method):?>checked<?endif?> onclick="payment.switchMethod('<?=$method?>')" />
-<label for="payment_method_<?=$method?>">Pay by credit card (<?=$method?>)</label><br/>
+<label for="payment_method_<?=$method?>">Pay by Credit Card (<?=$method?>)</label><br/>
 <fieldset>
     <div id="payment_form_<?=$method?>" style="display:none">
         <ul>

@@ -76,10 +76,10 @@
             <?foreach ($primaryTypes as $code=>$type):?>
                 <li>
                 <?if ($address->isPrimary($type['address_type_id'])):?>
-                    <?=__("This is my primary <strong>%s</strong> address", $type['name'])?>
+                    <?=__("This is My Primary <strong>%s</strong> Address", $type['name'])?>
                 <?else:?>
                     <input type="checkbox" id="primary_<?=$code?>" name="primary_types[]" value="<?=$type['address_type_id']?>"/>&nbsp;
-                    <label for="primary_<?=$code?>"><?=__("Use as my primary <strong>%s</strong> address", $type['name'])?></label>
+                    <label for="primary_<?=$code?>"><?=__("Use as My Primary <strong>%s</strong> Address", $type['name'])?></label>
                 <?endif?>
                 </li>
             <?endforeach?>

@@ -84,7 +84,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
         // really don't want to create different classes for languages
         // maybe named substitutions would help
         // looks like english is the simplest choice (for now)
-        $str = __("Update item # %d %s %s %s for %d %s",
+        $str = __("Update Item # %d %s %s %s for %d %s",
             $this->getItemNumber(),
             $this->getAttributeName(),
             $this->getOperatorName(),

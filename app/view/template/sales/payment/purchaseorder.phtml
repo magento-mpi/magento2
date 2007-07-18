@@ -1,5 +1,5 @@
 <input type="radio" title="<?=__("Purchase Order")?>" id="payment_method_purchaseorder" name="payment[method]" value="purchaseorder" <?if($payment->getMethod()=='purchaseorder'):?>checked<?endif?> onclick="payment.switchMethod('purchaseorder')" />
-<label for="payment_method_purchaseorder"><?=__("Use purchase order")?></label><br/>
+<label for="payment_method_purchaseorder"><?=__("Use Purchase Order")?></label><br/>
 <fieldset>
 
     <div id="payment_form_purchaseorder" style="<?if($payment->getMethod()!=='purchaseorder'):?>display:none<?endif?>">

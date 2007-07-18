@@ -138,7 +138,7 @@ class Mage_Admin_Block_Customer_Address_Form extends Varien_Data_Form
                         'name'  => 'primary_types['.$typeId.']',
                         'label' => __("Use for <strong>%s</strong>", $info['name']),
                         'id'    => 'primary_types_'.$typeId,
-                        'title' => __("Use as my primary <strong>%s</strong> address", $info['name']),
+                        'title' => __("Use as My Primary <strong>%s</strong> Address", $info['name']),
                         'value' => $typeId,
                         'validation'=> '',
                         'ext_type'  => 'Checkbox'
