@@ -18,6 +18,7 @@ var role = function () {
 						alert(json.error_message);
 						return false;
 					}
+                    <?=$this->_getJsObjectName()?>.reload();
 				},
 				onFailure: function() {
 					alert('Something went wrong...');
@@ -37,7 +38,12 @@ var role = function () {
 				},
 				onSuccess: function(transport){
                     $('addButton').disabled = false;
-                    console.log(req.evalResponce());
+					eval('var json = ' + transport.responseText);
+					if (json.error) {
+						alert(json.error_message);
+						return false;
+					}
+                    <?=$this->_getJsObjectName()?>.reload();
 				},
 				onFailure: function() {
 					alert('Something went wrong...');
@@ -54,7 +60,7 @@ var role = function () {
 	<option value="<?=$user->getUserId();?>"><?=$user->getFirstname();?></option>
 	<?php } ?>
 </select>
-<button class="scalable" id="addButton" onclick="role.addUser2Role();<?=$this->_getJsObjectName()?>.reload();return false;">
+<button class="scalable" id="addButton" onclick="role.addUser2Role();return false;">
 	<table cellspacing="0">
 		<tbody>
 			<tr>

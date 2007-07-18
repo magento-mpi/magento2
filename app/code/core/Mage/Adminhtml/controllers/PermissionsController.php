@@ -101,8 +101,12 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function saveUserAction()
     {
+        echo "DEBUG: <pre>";
+        print_r($_REQUEST);
+        echo "</pre>";
+        die();
     	$uid = $this->getRequest()->getParam('user_id', false);
-    	$uid = Mage::getModel("permissions/users")
+    	$user = Mage::getModel("permissions/users")
 	    		->setId($uid)
 	    		->setFirstname($this->getRequest()->getParam('firstname', false))
 	    		->setEmail($this->getRequest()->getParam('email', false))

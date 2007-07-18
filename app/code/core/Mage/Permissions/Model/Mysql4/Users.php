@@ -60,12 +60,9 @@ class Mage_Permissions_Model_Mysql4_Users {
     		$this->_write->insert($this->_usersTable, $data);
 	       	$user->setId($this->_write->lastInsertId());
     	}
-
-    	return $user->getId();
     }
 
     public function add(Mage_Permissions_Model_Users $user) {
-    	//$this->_write->insert($this->_usersRelTable, array('role_id' => $user->getRoleId(), 'user_id' => $user->getUserId()));
     	if ($user->getPid() > 0) {
     		$row = $this->load($user->getPid());
     	} else {

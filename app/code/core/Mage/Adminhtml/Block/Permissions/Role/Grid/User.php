@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
                 'actions'   => array(
                                     array(
                                         'caption' => __('Delete'),
-                                        'onClick' => 'role.deleteFromRole($role_id);' . $this->getJsObjectName() . '.reload();'
+                                        'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )
             )
