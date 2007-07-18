@@ -25,6 +25,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
         
         $this->_setFieldset($customer->getAttributes(), $fieldset);
+        
+        if ($balanceElement = $form->getElement('store_balance')) {
+            $balanceElement->setValueFilter(new Varien_Filter_Sprintf('%s', 2, '.', ''));
+        }
+        
         if ($customer->getId()) {
             $fieldset->addField('reset_password', 'checkbox',
                 array(

@@ -10,7 +10,7 @@
                 <td class="tr"></td>
             </tr>
             <tr>
-                <td class="ml"><?=__('Add New Address')?></td>
+                <td class="ml"><?=__('Add new address')?></td>
                 <td class="mr"></td>
             </tr>
             <tr>
@@ -24,7 +24,7 @@
         <?foreach ($addressCollection as $_address):?>
 		<li id="address_item_<?=$_address->getId()?>">
     		<div class="delete-address">
-    		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
+    		     <a href="#" name="delete_address"><?=__('Delete Address')?></a>
     		</div>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
@@ -38,7 +38,7 @@
 	<?else:?>
 		<li id="new_item">
             <div class="delete-address" style="display:none">
-                <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
+                <a href="#" name="delete_address"><?=__('Delete Address')?></a>
             </div>
             <address>
                 New customer address
@@ -97,6 +97,22 @@
 					->setFieldNamePrefix('address['.$_templatePrefix.']');
 	?>
 	<?=$this->getFormObject()->getHtml()?>
+	<button id="cancel_add_address<?=$_templatePrefix?>" type="button" class="scalable delete-address" onclick="customerAddresses.cencelAdd(this)">
+	<table cellspacing="0">
+        <tr>
+            <td class="tl"></td>
+            <td class="tr"></td>
+        </tr>
+        <tr>
+            <td class="ml"><?=__('Cencel')?></td>
+            <td class="mr"></td>
+        </tr>
+        <tr>
+            <td class="bl"></td>
+            <td class="br"></td>
+        </tr>
+    </table>
+    </button>
 	</div>
 
 
@@ -230,8 +246,10 @@ addressesModel.prototype = {
     toggleDeleteButton : function(item, flag){
         if(flag){
             $(item).getElementsBySelector('.delete-address').each(Element.show);
+            $(item.formBlock).getElementsBySelector('.delete-address').each(Element.show);
         } else {
             $(item).getElementsBySelector('.delete-address').each(Element.hide);
+            $(item.formBlock).getElementsBySelector('.delete-address').each(Element.hide);
         }
     },
     setActiveItem : function(item){
@@ -301,6 +319,17 @@ addressesModel.prototype = {
             this.itemContainer.removeChild(item);  
             this.reloadItemList();          
         }
+    },
+    cencelAdd : function(button){
+        if(confirm('<?=__('Do you want to cancel add this address?')?>')){
+            item = $(this.baseItemId+button.id.replace(/[a-z_]*/, ''));
+            if( item.isNewAddress){
+                if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
+            } 
+            if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
+            this.itemContainer.removeChild(item);  
+            this.reloadItemList();          
+        }        
     },
     bindCountryRegionRelation : function(paerntId){
         if(paerntId){

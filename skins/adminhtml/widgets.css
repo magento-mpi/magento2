@@ -6,8 +6,10 @@
 
 .grid{
     border:0px;
-    cursor:pointer;
     }
+.pointer{
+    cursor:pointer;
+}
 .grid thead th a, .grid thead th a:hover {
     text-decoration:none;
     display:block;

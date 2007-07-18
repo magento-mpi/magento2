@@ -18,9 +18,41 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     
     protected function _initChildren()
     {
-        $this->append(
+        $this->setChild('tabs',
             $this->getLayout()->createBlock('adminhtml/catalog_category_tabs', 'tabs')
         );
+        
+        $this->setChild('saveButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save customer'),
+                    'onclick'   => 'categoryForm.submit()'
+                ))
+        );
+        
+        $this->setChild('deleteButton', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Delete customer'),
+                    'onclick'   => 'categoryDelete()'
+                ))
+        );
+
+    }
+    
+    public function getDeleteButtonHtml()
+    {
+        return $this->getChildHtml('deleteButton');
+    }
+    
+    public function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('saveButton');
+    }
+    
+    public function getTabsHtml()
+    {
+        return $this->getChildHtml('tabs');
     }
     
     public function getHeader()

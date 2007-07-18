@@ -26,6 +26,10 @@ varienGrid.prototype = {
                 if(row%2==0){
                     Element.addClassName(rows[row], 'even');
                 }
+                if(rows[row].tagName) {
+                    Element.addClassName(rows[row], 'pointer');
+                }
+                
                 Event.observe(rows[row],'mouseover',this.trOnMouseOver);
                 Event.observe(rows[row],'mouseout',this.trOnMouseOut);
                 Event.observe(rows[row],'click',this.trOnClick);

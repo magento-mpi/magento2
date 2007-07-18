@@ -12,6 +12,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function __construct() 
     {
         parent::__construct();
+        $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
     
     /**

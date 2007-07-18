@@ -14,6 +14,22 @@ varienTabs.prototype = {
         for(var tab in this.tabs){
             Event.observe(this.tabs[tab],'click',this.tabOnClick);
             // move tab contents to destination element
+            /*if($(this.destElementId)){
+                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
+                if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
+                    $(this.destElementId).appendChild(tabContentElement);
+                    tabContentElement.container = this;
+                    tabContentElement.statusBar = this.tabs[tab];
+                    tabContentElement.tabObject  = this.tabs[tab];
+                }
+            }*/
+        }
+        this.showTabContent($(activeTabId));
+        Event.observe(window,'load',this.moveTabContentInDest.bind(this));
+    },
+    
+    moveTabContentInDest : function(){
+        for(var tab in this.tabs){
             if($(this.destElementId)){
                 var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
                 if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
@@ -24,7 +40,6 @@ varienTabs.prototype = {
                 }
             }
         }
-        this.showTabContent($(activeTabId));
     },
     
     getTabContentElementId : function(tab){

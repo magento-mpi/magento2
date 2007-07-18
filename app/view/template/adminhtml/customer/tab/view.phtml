@@ -15,39 +15,7 @@
 	</div>
 </div>
 <div class="box-right">
-	<dl class="grid accordion">
-		<dt class="open"><a href="#">Sales Statistics</a></dt>
-		<dd class="open">
-			<table cellspacing="0" class="data">
-				<thead>
-					<tr>
-						<th>Store</th>
-						<th>Lifetime Sale</th>
-						<th>Average Sale</th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<td class="label"><strong><big>Total</big></strong></td>
-						<td class="emph"><strong><big>$2076.97</big></strong></td>
-						<td class="emph"><strong><big>$116.74</big></strong></td>
-					</tr>
-				</tfoot>
-				<tbody>
-					<tr>
-						<td class="label">Magento Store (EN)</td>
-						<td>$1875.99</td>
-						<td>$89.99</td>
-					</tr>
-					<tr class="even">
-						<td class="label">Varien Store (EN)</td>
-						<td>$200.98</td>
-						<td>$26.75</td>
-					</tr>
-				</tbody>
-			</table>
-		</dd>
-	</dl>
+    <?=$this->getSalesAccordionHtml()?>
 </div>
 <div class="clear"></div>
 <br/>

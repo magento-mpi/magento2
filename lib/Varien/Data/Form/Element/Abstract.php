@@ -111,7 +111,12 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 
     public function getEscapedValue()
     {
-        return $this->_escape($this->getValue());
+        $value = $this->getValue();
+        
+        if ($filter = $this->getValueFilter()) {
+            $value = $filter->filter($value);
+        }
+        return $this->_escape($value);
     }
 
     public function setRenderer(Varien_Data_Form_Element_Renderer_Interface $renderer)

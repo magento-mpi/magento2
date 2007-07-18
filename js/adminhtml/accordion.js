@@ -1,7 +1,8 @@
 var varienAccordion = new Class.create();
 varienAccordion.prototype = {
-    initialize : function(containerId){
+    initialize : function(containerId, activeOnlyOne){
         this.containerId = containerId;
+        this.activeOnlyOne = activeOnlyOne || false;
         this.container   = $(this.containerId);
         this.items       = $$('#'+this.containerId+' dt');
         this.loader      = new varienLoader(true);
@@ -9,36 +10,56 @@ varienAccordion.prototype = {
         var links = $$('#'+this.containerId+' dt a');
         for(var i in links){
             if(links[i].href){
-                Event.observe(links[i],'click',this.showItem.bind(this));
+                Event.observe(links[i],'click',this.clickItem.bind(this));
                 this.items[i].dd = this.items[i].next('dd');
             }
         }
     },    
-    showItem : function(event){
-        var element = Event.findElement(event, 'dt');
-        var link    = Event.findElement(event, 'a');
-        
-        if(element && link){
-            if(link.href){
-                this.loadContent(element, link);
-            }
-            
+    clickItem : function(event){
+        var item = Event.findElement(event, 'dt');
+        item.link= Event.findElement(event, 'a');
+
+        if(this.activeOnlyOne){
             this.hideAllItems();
-            Element.addClassName(element, 'open');
-            Element.addClassName(element.dd, 'open');
+            this.showItem(item);
+        }
+        else{
+            if(this.isItemVisible(item)){
+                this.hideItem(item);
+            }
+            else {
+                this.showItem(item);
+            }
         }
         Event.stop(event);
     },
-    loadContent : function(item, link){
-        if(link.href.indexOf('#') == link.href.length-1){
+    showItem : function(item){
+        if(item && item.link){
+            if(item.link.href){
+                this.loadContent(item);
+            }
+            
+            Element.addClassName(item, 'open');
+            Element.addClassName(item.dd, 'open');
+        }
+    },
+    hideItem : function(item){
+        Element.removeClassName(item, 'open');
+        Element.removeClassName(item.dd, 'open');
+    },
+    isItemVisible : function(item){
+        return Element.hasClassName(item, 'open');
+    },
+    loadContent : function(item){
+        if(item.link.href.indexOf('#') == item.link.href.length-1){
             return;
         }
-        if(link.target=='ajax'){
+        if(item.link.target=='ajax'){
             this.loadingItem = item;
-            this.loader.load(link.href, {}, this.setItemContent.bind(this));
+            this.loader.load(item.link.href, {}, this.setItemContent.bind(this));
             return;
         }
-        location.href = link.href;
+        location.href = item.link.href;
     },
     setItemContent : function(content){
         this.loadingItem.dd.innerHTML = content;
