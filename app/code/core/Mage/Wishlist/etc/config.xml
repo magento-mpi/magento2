@@ -4,9 +4,10 @@
         <Mage_Wishlist>
             <version>0.1.0</version>
             <depends>
-                <Mage_Core />
                 <Mage_Customer />
-                <Mage_Eav />
+                
+                
+                <Mage_Catalog />
             </depends>
         </Mage_Wishlist>
     </modules>
@@ -22,6 +23,12 @@
             <wishlist_mysql4>
                 <class>Mage_Wishlist_Model_Mysql4</class>
                 <entities>
+                	<wishlist>
+                		<table>wishlist</table>
+                	</wishlist>
+                	<item>
+                		<table>wishlist_list</table>
+                	</item>
                 </entities>
             </wishlist_mysql4>
         </models>
