@@ -10,7 +10,18 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
     public function getChecksum()
     {
-        return $this->getConnection('read')->fetchOne('checksum table '.$this->getMainTable().', '.$this->getTable('website').', '.$this->getTable('store'));
+        $checksumArr = $this->getConnection('read')->fetchAll(
+            'checksum table '.$this->getMainTable()
+            .', '.$this->getTable('website')
+            .', '.$this->getTable('store')
+        );
+        
+        $checksum = 0;
+        foreach ($checksumArr as $r) {
+            $checksum += $r['Checksum'];
+        }
+        
+        return $checksum;
     }
 
     /**
