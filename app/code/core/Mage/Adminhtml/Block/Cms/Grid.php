@@ -49,15 +49,17 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('page_creation_time',
             array(
-            'header'=>__('Creation Time'),
-            'index' =>'page_creation_time'
+                'header'=>__('Creation Time'),
+                'index' =>'page_creation_time',
+                'type' => 'datetime',
             )
         );
 
         $this->addColumn('page_update_time',
             array(
                 'header'=>__('Update Time'),
-                'index'=>'page_update_time'
+                'index'=>'page_update_time',
+                'type' => 'datetime',
             )
         );
 

@@ -94,6 +94,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'date':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_date';
                 break;
+            case 'datetime':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_datetime';
+                break;
             case 'currency':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_currency';
                 break;
@@ -133,6 +136,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     protected function _getFilterByType()
     {
         switch (strtolower($this->getType())) {
+            case 'datetime': // TODO
             case 'date':
                 $filterClass = 'adminhtml/widget_grid_column_filter_date';
                 break;

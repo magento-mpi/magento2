@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml grid item renderer date
+ * Adminhtml grid item renderer datetime
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -10,7 +10,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 	/**
 	 * Date format string
@@ -23,12 +23,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
 	    if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = Mage::getStoreConfig('general/local/date_format_php');
+                    self::$_format = Mage::getStoreConfig('general/local/datetime_format_php');
                 }
                 catch (Exception $e) {
                 }
 				if (!(self::$_format)) {
-				    self::$_format = '%a, %b %e %Y';
+				    self::$_format = '%a, %b %e %Y [%I:%M %p]';
 				}
 			}
 			$format = self::$_format;
