@@ -270,7 +270,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         } catch (Exception $e) {
             
             $write->rollBack();
-            Mage::throwException('Exception while saving the object');
+            Mage::throwException('Exception while saving the object' . $e->getMessage());
             
         }
         

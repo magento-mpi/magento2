@@ -23,7 +23,7 @@ class Mage_Customer_Model_Observer
             return false;
         }
         $topLinks->append($layout->createBlock('core/text_list_link', 'top.links.wishlist')
-            ->setLink('', 'href="'.Mage::getUrl('customer/wishlist').'"', __('Wishlist'), ''));
+            ->setLink('', 'href="'.Mage::getUrl('wishlist').'"', __('Wishlist'), ''));
 
         // Add logout link
         $custSession = Mage::getSingleton('customer/session');

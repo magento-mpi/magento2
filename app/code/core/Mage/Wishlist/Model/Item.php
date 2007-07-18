@@ -15,4 +15,5 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 	{
 		$this->_init('wishlist/item');
 	}
+		
 }// Class Mage_Wishlist_Model_Item END

@@ -27,7 +27,7 @@
                 		<table>wishlist</table>
                 	</wishlist>
                 	<item>
-                		<table>wishlist_list</table>
+                		<table>wishlist_item</table>
                 	</item>
                 </entities>
             </wishlist_mysql4>

@@ -45,6 +45,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         
         $this->assign('reviewCount', $this->getLayout()->createBlock('review/list')->count());
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
+        $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
         $this->setChild('rating', $this->getLayout()->createBlock('rating/product'));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
         
