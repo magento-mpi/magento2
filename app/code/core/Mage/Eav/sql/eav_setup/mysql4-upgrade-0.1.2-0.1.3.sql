@@ -98,9 +98,7 @@ CREATE TABLE `eav_entity` (
   `is_active` tinyint(1) unsigned NOT NULL default '1',
   PRIMARY KEY  (`entity_id`),
   KEY `FK_ENTITY_ENTITY_TYPE` (`entity_type_id`),
-  KEY `FK_ENTITY_STORE` (`store_id`),
-  CONSTRAINT `FK_ENTITY_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`),
-  CONSTRAINT `FK_ENTITY_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`)
+  KEY `FK_ENTITY_STORE` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Entityies';
 
 /*Data for the table `eav_entity` */
