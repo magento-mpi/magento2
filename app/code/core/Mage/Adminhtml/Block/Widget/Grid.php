@@ -477,7 +477,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $data = array();
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = $this->getRowField($item, $column);
+                    $data[] = $column->getRowField($item);
 
                 }
             }
