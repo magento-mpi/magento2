@@ -29,10 +29,20 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
             	    $action['onclick'] = 'return confirm(\'' . addslashes($action['confirm']) . '\');';
             	    unset($action['confirm']);
                		break;
+
+            	case 'caption':
+            	    $actionCaption = $action['caption'];
+            	    unset($action['caption']);
+               		break;
+
+            	case 'url':
+            	    $action['href'] = $action['url'];
+            	    unset($action['url']);
+               		break;
             }
         }
 
         $actionAttributes->setData($action);
-        echo '<a ' . $actionAttributes->serialize() . '>' . $action['caption'] . '</a> ';
+        echo '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a> ';
     }
 }

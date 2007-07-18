@@ -1,7 +1,15 @@
 <div class="content-header">
-    <table cellspacing="0" class="grid-header"> 
+    <table cellspacing="0" class="grid-header">
         <tr>
-            <td style="width:50%;"><h3></h3></td>
+            <td style="width:50%;">
+                <h3>
+                  <?if($this->getUserId()):?>
+                  <?=__('Edit user &laquo;' . $userData->getFirstname()) . '&raquo;'?>
+                  <?else:?>
+                  <?=__('Add new user')?>
+                  <?endif;?>
+                </h3>
+            </td>
             <td class="form-buttons">
             <button class="scalable" onclick="userForm.submit();">
                 <table cellspacing="0">
@@ -39,6 +47,7 @@
             <?endif;?>
    </table>
 </div>
+<?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="user_edit_form">
 </form>
 <script type="text/javascript" language="javascript">

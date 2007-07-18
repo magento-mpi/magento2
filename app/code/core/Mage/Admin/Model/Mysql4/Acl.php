@@ -111,6 +111,7 @@ class Mage_Admin_Model_Mysql4_Acl
                 $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
+            /*
             switch ($rule['permission']) {
                 case Mage_Admin_Model_Acl::RULE_PERM_ALLOW:
                     $acl->allow($role, $resource, $privileges, $assert);
@@ -120,6 +121,7 @@ class Mage_Admin_Model_Mysql4_Acl
                     $acl->deny($role, $resource, $privileges, $assert);
                     break;
             }
+            */
         }
         return $this;
     }

@@ -2,8 +2,33 @@
 <?$level = 0;?>
 <?php foreach ($resources as $resource => $val):?>
   <? $margin = $val['level'] * 20;?>
-    <div style="margin-left:<?=$margin?>px;">
-	<input type="checkbox" value="<?=$resource?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> />
+    <div style="margin-left:<?=$margin?>px;" id="_<?=$resource?>">
+	<input type="checkbox" value="<?=$resource?>" id="<?=str_replace('/', '_', rtrim($resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
 	<?=$val['name'];?>
 	</div>
 <?php endforeach; ?>
+
+<script type="text/javascript">
+    var resource = function () {
+    	return {
+    		_getCheckboxes: function (obj) {
+                checkboxes = document.getElementsByTagName('input');
+                children = new Array();
+                for( i in checkboxes ) {
+                    if( checkboxes[i].type == 'checkbox' && checkboxes[i].id.match(obj.id+'_') ) {
+                        children.unshift(checkboxes[i])
+                    }
+                }
+                return children;
+       		},
+
+       		_toggle: function(obj) {
+       		    objState = obj.checked;
+       		    checkboxes = this._getCheckboxes(obj);
+       		    for( i in checkboxes ) {
+       		        checkboxes[i].checked = objState;
+       		    }
+       		}
+    	}
+    }();
+</script>

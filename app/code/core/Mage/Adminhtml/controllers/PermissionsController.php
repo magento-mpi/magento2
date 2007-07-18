@@ -26,7 +26,10 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function editUserAction()
     {
+        $userId = $this->getRequest()->getParam('id');
         $this->loadLayout('baseframe');
+        $this->_initLayoutMessages('adminhtml/session');
+
         $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
         $this->_addBreadcrumb(__('Users'), __('Users Title'));
@@ -37,7 +40,8 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->_addContent(
             $this->getLayout()->createBlock('core/template')
                 ->setTemplate('adminhtml/permissions/userinfo.phtml')
-                ->setUserId($this->getRequest()->getParam('id'))
+                ->setUserId($userId)
+                ->assign('userData', Mage::getModel('permissions/users')->load($userId))
         );
         $this->renderLayout();
     }
@@ -45,6 +49,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     public function editRoleAction()
     {
         $this->loadLayout('baseframe');
+        $this->_addBreadcrumb(__('System'), __('System title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
         $this->_addBreadcrumb(__('Roles'), __('Roles Title'));
@@ -72,7 +77,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function deleteUserAction()
     {
-    	$uid = $this->getRequest()->getParam('uid', false);
+    	$uid = $this->getRequest()->getParam('id', false);
     	Mage::getModel("permissions/users")->setId($uid)->delete();
 
     	$this->_redirect("adminhtml/permissions");
@@ -101,27 +106,28 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function saveUserAction()
     {
-        echo "DEBUG: <pre>";
-        print_r($_REQUEST);
-        echo "</pre>";
-        die();
     	$uid = $this->getRequest()->getParam('user_id', false);
     	$user = Mage::getModel("permissions/users")
 	    		->setId($uid)
+	    		->setUsername($this->getRequest()->getParam('username', false))
 	    		->setFirstname($this->getRequest()->getParam('firstname', false))
+	    		->setLastname($this->getRequest()->getParam('lastname', false))
 	    		->setEmail($this->getRequest()->getParam('email', false))
-	    		->setPassword($this->getRequest()->getParam('password', false))
-	    		->save();
+	    		->setPassword($this->getRequest()->getParam('password', false));
 
-    	Mage::getModel("permissions/users")
-    		->setIds($this->getRequest()->getParam('roles', false))
-    		->setUid($this->getRequest()->getParam('user_id', false))
-    		->setFirstname($this->getRequest()->getParam('firstname', false))
-    		->saveRel();
+	    if( !$user->userExists() ) {
+	        $user->save();
+        	Mage::getModel("permissions/users")
+        		->setIds($this->getRequest()->getParam('roles', false))
+        		->setUid($this->getRequest()->getParam('user_id', false))
+        		->setFirstname($this->getRequest()->getParam('firstname', false))
+        		->saveRel();
 
-    	$uid = explode(",", $uid);
-    	$uid = $uid[0];
-    	$this->_redirect("adminhtml/permissions/edituser/uid/$uid");
+            $uid = $user->getId();
+	    } else {
+            Mage::getSingleton('adminhtml/session')->addError('User with this login aleady exists.');
+	    }
+        $this->_redirect("adminhtml/permissions/edituser/id/$uid");
     }
 
     public function deleteuserfromroleAction()
@@ -138,7 +144,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         		->setRoleId($this->getRequest()->getParam('role_id', false))
         		->setUserId($this->getRequest()->getParam('user_id', false))
                 ->roleUserExists() === true ) {
-            echo json_encode(array('error' => 1, 'error_message' => __('This user have been already added to the role.')));
+            echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
         } else {
         	Mage::getModel("permissions/users")
         		->setRoleId($this->getRequest()->getParam('role_id', false))

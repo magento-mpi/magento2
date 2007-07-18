@@ -52,5 +52,11 @@ class Mage_Permissions_Model_Users extends Varien_Object {
         $result = $this->getResource()->roleUserExists($this);
         return ( is_array($result) && count($result) > 0 ) ? true : false;
     }
+
+    public function userExists()
+    {
+        $result = $this->getResource()->userExists($this);
+        return ( is_array($result) && count($result) > 0 ) ? true : false;
+    }
 }
 ?>

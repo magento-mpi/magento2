@@ -1,7 +1,6 @@
 <?php
 class Mage_Permissions_Model_Mysql4_Roles_User_Collection extends Varien_Data_Collection_Db
 {
-
 	protected $_roleTable;
 
     public function __construct()
@@ -16,6 +15,13 @@ class Mage_Permissions_Model_Mysql4_Roles_User_Collection extends Varien_Data_Co
     public function setRoleFilter($roleId)
     {
         $this->_sqlSelect->where("{$this->_roleTable}.parent_id = ?", $roleId);
+        return $this;
+    }
+
+    public function setUserFilter($userId)
+    {
+        $this->_sqlSelect->where("{$this->_roleTable}.user_id = ?", $userId);
+        return $this;
     }
 }
 ?>

@@ -8,20 +8,20 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setId('customerGrid');
         $this->setUseAjax(true);
     }
-    
+
     protected function _prepareCollection()
     {
         $collection =  Mage::getModel("permissions/users")->getCollection();
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
 
@@ -29,9 +29,9 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('id', array(
             'header'    =>__('ID'), 
-            'width'     =>5, 
-            'align'     =>'center', 
-            'sortable'  =>true, 
+            'width'     =>5,
+            'align'     =>'center',
+            'sortable'  =>true,
             'index'     =>'user_id'
         ));
         $this->addColumn('username', array(
@@ -48,24 +48,33 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
         ));
         $this->addColumn('email', array(
             'header'    =>__('Email'), 
-            'width'     =>40, 
-            'align'     =>'center', 
+            'width'     =>40,
+            'align'     =>'center',
             'index'     =>'email'
         ));
         $this->addColumn('action', array(
-            'header'    =>__('Action'),
-            'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edituser/id/$user_id').'">'.__('Edit').'</a>',
+            'header'    =>__('Actions'),
             'filter'    =>false,
             'sortable'  =>false,
-            'is_system' =>true
+            'is_system' =>true,
+            'type'      => 'action',
+            'actions'   => array(
+                array(
+                    'caption' => __('Edit'),
+                    'url' => Mage::getUrl('*/*/edituser/id/$user_id')
+                ),
+
+                array(
+                    'url' => Mage::getUrl('*/*/deleteuser/id/$user_id'),
+                    'caption' => __('Delete'),
+                    'confirm' => __('Are you sure you want to do this?')
+                )
+            )
         ));
-        
-        //$this->addExportType('*/*/exportCsv', __('CSV'));
-        //$this->addExportType('*/*/exportXml', __('XML'));
+
         return parent::_prepareColumns();
     }
-    
+
     public function getGridUrl()
     {
         return $this->getUrl('*/*/userGrid', array('_current'=>true));

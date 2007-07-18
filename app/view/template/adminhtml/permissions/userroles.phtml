@@ -1,6 +1,13 @@
-	<h4 class="icon-head head-edit-form fieldset-legend">User roles</h4>
-	<ul>
-		<?php foreach ($user_roles as $role) { ?>
-		<li><input type="checkbox" value="<?=$role->getRoleId();?>" <?=($role->getIsChecked() ? "checked" : "");?> name="roles[]" /> <?=$role->getRoleName();?></li>
-		<?php } ?>
-	</ul>
+<h4 class="icon-head head-edit-form fieldset-legend">User roles</h4>
+<?php foreach ($roles as $role):?>
+<?
+    $checked = false;
+    foreach( $user_roles->getItems() as $user_role )
+    {
+        if( $user_role->getParentId() == $role->getRoleId() ) {
+            $checked = true;
+        }
+    }
+?>
+    <input type="checkbox" value="<?=$role->getRoleId();?>" <?=($checked ? "checked" : "");?> name="roles[]" /> <?=$role->getRoleName();?><br />
+<?php endforeach;?>

@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Permissions>
-         <version>0.0.2</version>
+         <version>0.0.3</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -19,19 +19,19 @@
             <entities>
                <admin_user>
                   <table>admin_user</table>
-               </admin_user>   
+               </admin_user>
                <admin_rule>
                   <table>admin_rule</table>
                </admin_rule>
                <admin_role>
                   <table>admin_role</table>
-               </admin_role>  
+               </admin_role>
                <admin_users_in_roles>
                	  <table>admin_users_in_roles</table>
-               </admin_users_in_roles>          
+               </admin_users_in_roles>
             </entities>
          </permissions_mysql4>
-      </models>      
+      </models>
       <resources>
          <permissions_setup>
             <setup>
@@ -56,7 +56,7 @@
 		 <groups><permissions><class>Mage_Permissions_Block</class></permissions></groups>
       </block>
    </global>
-   <front>      
+   <front>
       <routers>
          <permissions>
             <default>true</default>
@@ -65,7 +65,7 @@
                <module>Mage_Permissions</module>
                <frontName>permissions</frontName>
             </args>
-         </permissions>         
+         </permissions>
       </routers>
    </front>
 </config>

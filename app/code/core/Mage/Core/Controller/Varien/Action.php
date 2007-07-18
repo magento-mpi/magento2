@@ -11,7 +11,7 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
 {
     protected $_request;
     protected $_response;
-    
+
      /**
       * Action flags
       *
@@ -47,7 +47,7 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
      {
 
      }
-     
+
     /**
      * Retrieve request object
      *
@@ -57,7 +57,7 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
     {
         return $this->_request;
     }
-     
+
      /**
       * Retrieve response object
       *
@@ -175,9 +175,9 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
         Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
         Mage::log('Request Params:');
         Mage::log($this->getRequest()->getParams());
-        
+
         $this->preDispatch();
-        
+
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
             if (!$this->getFlag('', 'no-dispatch')) {
@@ -186,9 +186,9 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
                 $this->$action();
                 Varien_Profiler::stop($_profilerKey);
             }
-            
+
             $this->postDispatch();
-            
+
         }
     }
 
@@ -223,7 +223,7 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
         Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
         Varien_Profiler::stop($_profilerKey);
     }
-    
+
     function norouteAction($coreRoute = null)
     {
         $status = ( $this->getRequest()->getParam('__status__') ) ? $this->getRequest()->getParam('__status__') : new Varien_Object();
@@ -237,24 +237,24 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
             $this->_forward($status->getForwardAction(), $status->getForwardController(), $status->getForwardModule(), array('__status__' => $status));
         }
     }
-    
+
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $request = $this->getRequest();
-    
+
         if (!is_null($params)) {
             $request->setParams($params);
         }
-    
+
         if (!is_null($controller)) {
             $request->setControllerName($controller);
-    
+
             // Module should only be reset if controller has been specified
             if (!is_null($module)) {
                 $request->setModuleName($module);
             }
         }
-    
+
         $request->setActionName($action)
                 ->setDispatched(false);
 
@@ -264,13 +264,13 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
     }
-    
+
     protected function _initLayoutMessages($messagesStorage)
     {
         if ($storage = Mage::getSingleton($messagesStorage)) {
             $this->getLayout()->getMessagesBlock()->setMessages(
                 $storage->getMessages(true)
-            );    
+            );
         }
         else {
             Mage::throwException('Invalid messages storage');

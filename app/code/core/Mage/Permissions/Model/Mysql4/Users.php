@@ -3,7 +3,6 @@ class Mage_Permissions_Model_Mysql4_Users {
 	protected $_usersTable;
 	protected $_roleTable;
 	protected $_ruleTable;
-	protected $_usersRelTable;
 
     /**
      * Read connection
@@ -25,7 +24,6 @@ class Mage_Permissions_Model_Mysql4_Users {
         $this->_usersTable        = $resources->getTableName('permissions/admin_user');
         $this->_roleTable         = $resources->getTableName('permissions/admin_role');
         $this->_ruleTable         = $resources->getTableName('permissions/admin_rule');
-        $this->_usersRelTable	  = $resources->getTableName('permissions/admin_users_in_roles');
 
         $this->_read    = $resources->getConnection('permissions_read');
         $this->_write   = $resources->getConnection('permissions_write');
@@ -43,17 +41,30 @@ class Mage_Permissions_Model_Mysql4_Users {
     	if ($user->getId()) {
     		$data = array(
 	       		'firstname' => $user->getFirstname(),
+	       		'lastname' => $user->getLastname(),
 	       		'email' => $user->getEmail(),
 	       );
+
+	       if( $user->getUsername() ) {
+	           $data['username'] = $user->getUsername();
+	       }
+
 	       if ($user->getPassword()) {
 	       		$data['password'] = Mage::getModel("permissions/users")->encodePwd($user->getPassword());
 	       }
+
 	       $this->_write->update($this->_usersTable, $data, "user_id = {$user->getId()}");
     	} else {
     		$data = array(
 	       		'firstname' => $user->getFirstname(),
+	       		'lastname' => $user->getLastname(),
 	       		'email' => $user->getEmail(),
 	       		);
+
+            if( $user->getUsername() ) {
+                $data['username'] = $user->getUsername();
+            }
+
 	       	if ($user->getPassword()) {
 	       		$data['password'] = Mage::getModel("permissions/users")->encodePwd($user->getPassword());
 	        }
@@ -92,6 +103,10 @@ class Mage_Permissions_Model_Mysql4_Users {
     public function saveRel(Mage_Permissions_Model_Users $user) {
     	$data = array();
     	$ids = $user->getIds();
+
+    	if( !is_array($ids) || count($ids) == 0 ) {
+    	    return $user;
+    	}
 
     	$this->_write->beginTransaction();
 
@@ -143,6 +158,14 @@ class Mage_Permissions_Model_Mysql4_Users {
         $select = $this->_read->select();
         $select->from($this->_roleTable);
         $select->where("{$this->_roleTable}.parent_id = {$model->getRoleId()} AND {$this->_roleTable}.user_id = {$model->getUserId()}");
+        return $this->_read->fetchRow($select);
+    }
+
+    public function userExists($model)
+    {
+        $select = $this->_read->select();
+        $select->from($this->_usersTable);
+        $select->where("{$this->_usersTable}.username = '{$model->getUsername()}' AND {$this->_usersTable}.user_id != '{$model->getId()}'");
         return $this->_read->fetchRow($select);
     }
 }

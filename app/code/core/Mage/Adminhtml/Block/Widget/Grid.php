@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_filterVisibility = true;
-    
+
     /**
      * Massage block visibility
      *
@@ -366,7 +366,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_filterVisibility;
     }
-    
+
     /**
      * Set visibility of filter
      *
@@ -478,6 +478,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
                     $data[] = $this->getRowField($item, $column);
+
                 }
             }
             $csv.= implode(';', $data)."\n";
