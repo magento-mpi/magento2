@@ -14,6 +14,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     protected $_customer;
     protected $_customerLog;
     
+    protected $_dateTimeFormat = '%A, %B %e %Y, %r';
+    
     public function __construct()
     {
         parent::__construct();
@@ -59,18 +61,37 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         if (!$this->_customerLog) {
             $this->_customerLog = Mage::getModel('log/customer')
                 ->load($this->getCustomer()->getId());
+            
         }
         return $this->_customerLog;
+    }
+    
+    public function getFormatedDate($date)
+    {
+    	if(empty($date)) {
+    		return '';
+    	}
+    	
+        if(false === strpos($this->getFormat(),'%')) {
+        	return date($this->getFormat(), strtotime($date));
+        } 
+        
+        return strftime($this->getFormat(), strtotime($date));       
+    }
+    
+    public function getFormat()
+    {
+    	return $this->_dateTimeFormat;
     }
 
     public function getCreateDate()
     {
-        return $this->getCustomer()->getCreatedAt();
+        return $this->getFormatedDate($this->getCustomer()->getCreatedAt());
     }
 
     public function getLastLoginDate()
     {
-        return $this->getCustomerLog()->getLoginAt();
+        return $this->getFormatedDate($this->getCustomerLog()->getLoginAt());
     }
 
     public function getCurrentStatus()
