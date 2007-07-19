@@ -106,6 +106,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'action':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_action';
                 break;
+            case 'boolean':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_boolean';
+                break;
             case 'yesno':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_yesno';
                 break;
