@@ -69,8 +69,19 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'width'     =>10,
                 'sortable'  =>false,
                 'filter'    => false,
-                'format'    => '<a href="' . Mage::getUrl('*/*/edit') .'page/$page_id/">' . __('Edit') . '</a>
-                             <a href="' . Mage::getUrl('*/*/delete') .'page/$page_id/">' . __('Delete') . '</a>'
+                'type' => 'action',
+                'actions' => array(
+                    array(
+                        'url' => Mage::getUrl('*/*/edit') .'page/$page_id/',
+                        'caption' => __('Edit')
+                    ),
+
+                    array(
+                        'url' => Mage::getUrl('*/*/delete') .'page/$page_id/',
+                        'caption' => __('Delete'),
+                        'confirm' => __('Are you sure you want to do this?')
+                    ),
+                )
             )
         );
         $this->setFilterVisibility(false);

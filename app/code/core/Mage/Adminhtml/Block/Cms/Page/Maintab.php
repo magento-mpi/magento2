@@ -80,6 +80,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                 'title' => __('Content'),
                 'class' => 'required-entry',
                 'wysiwyg' => true,
+                'theme' => 'advanced',
                 'value' => $this->getPageObject()->getPageContent()
             )
         );
