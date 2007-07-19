@@ -6,7 +6,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('core/config_data', 'config_id');
     }
-    
+
     /**
      * Get checksum for one or more tables
      *
@@ -47,10 +47,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
     public function loadToXml(Mage_Core_Model_Config $xmlConfig, $cond=null)
     {
         $read = $this->getConnection('read');
-        
+
         #$tables = $read->fetchAll("show tables like 'core_%'");
         #print_r($tables);
-        
+
         $config = array();
 
         // load websites and stores from db
@@ -62,7 +62,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $config['website'][$wId]['system/website/id']['value'] = $wId;
             $config['website'][$wId]['system/website/name']['value'] = $wData['name'];
         }
-        
+
         //initialize stores config
         foreach ($stores as $sId=>$sData) {
             $wId = $sData['website_id'];
@@ -72,14 +72,14 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $config['store'][$sId]['system/store/name']['value'] = $sData['name'];
             $config['store'][$sId]['system/website/id']['value'] = $sData['website_id'];
         }
-        
+
         // get default distribution config vars
         $vars = Mage::getModel('core/config')->getDistroServerVars();
         foreach ($vars as $k=>$v) {
             $subst_from[] = '{{'.$k.'}}';
             $subst_to[] = $v;
         }
-        
+
         // load all configuration records from database
         $rows = $read->fetchAll("select * from ".$this->getMainTable().($cond ? " where ".$cond : ''));
 
@@ -103,7 +103,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
-        
+
         // save into config object
         foreach ($config as $scope=>$scopeConfig) {
             foreach ($scopeConfig as $sId=>$sConfig) {
@@ -114,18 +114,18 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
-        
+
 #echo "<xmp>".$xmlConfig->getNode()->asNiceXml()."</xmp>";
         return $this;
     }
-    
+
     public function loadSectionData($section, $website, $store)
     {
         $read = $this->getConnection('read');
         $table = $this->getMainTable();
-        
+
         $config = array();
-        
+
         $defaultConfig = $read->fetchAssoc(
             $read->select()->from($table, array('path', 'value', 'old_value'))
                 ->where("scope='default'")
@@ -133,7 +133,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         );
         foreach ($defaultConfig as $path=>$data) {
             $config[$path] = array(
-                'value'=>$data['value'], 
+                'value'=>$data['value'],
                 'default_value'=>'',
                 'old_value'=>'',
             );
@@ -163,7 +163,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
-        
+
         if ($store) {
             $storeId = (int)Mage::getConfig()->getNode("stores/$store/system/store/id");
             $storeConfig = $read->fetchAssoc(
@@ -180,7 +180,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
         return $config;
     }
-    
+
     public function saveSectionPost($section, $website, $store, $groups)
     {
         if (empty($groups)) {
@@ -197,14 +197,14 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $scope = 'default';
             $scopeId = 0;
         }
-        
+
         $select = $this->getConnection('read')->select()
             ->from($this->getMainTable(), array('path', 'value', 'config_id', 'inherit'))
             ->where('scope=?', $scope)->where('scope_id=?', $scopeId)
             ->where('path like ?', $section.'/%');
-            
+
         $old = $this->getConnection('read')->fetchAssoc($select);
-        
+
         $dataModel = Mage::getModel('core/config_data');
         $rows = array();
         foreach ($groups as $group=>$groupData) {
@@ -223,10 +223,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                             break;
                     }
                 }
-                if (!isset($old[$path]) 
+                if (!isset($old[$path])
                     || $fieldData['value']!=$old[$path]['value']
                     || isset($fieldData['inherit']) && $fieldData['inherit']!=$old[$path]['inherit']) {
-                        
+
                     if (isset($old[$path]) && $fieldData['value']!=$old[$path]['value']) {
                         $fieldData['old_value'] = $old[$path]['value'];
                     } else {
