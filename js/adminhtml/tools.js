@@ -1,6 +1,10 @@
+function setLocation(url){
+    window.location.href = url;
+}
+
 function deleteConfirm(message, url) {
     if( confirm(message) ) {
-        window.location.href = url;
+        setLocation(url);
     }
     return false;
 }
