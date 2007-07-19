@@ -261,7 +261,8 @@ Validation.addAllThese([
                 return Validation.get('IsEmpty').test(v) || !isNaN(test);
             }],
     ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com .', function (v) {
-                return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
+                //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
+                return Validation.get('IsEmpty').test(v) || /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/.test(v)
             }],
     ['validate-password', 'Please enter 6 or more characters.', function(v) {
                 return !(v.length>0 && v.length < 6);
