@@ -45,7 +45,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     protected function _initAction()
     {
         $this->loadLayout('baseframe')
-            ->_setActiveMenu('sales/tax/tax_rule')
+            ->_setActiveMenu('sales/tax/tax_classes_product')
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
