@@ -462,32 +462,23 @@ label.inline{
 
 /********************* CONFIG ************************/
 fieldset.config table {
-    border-top:solid 1px #888;
-    border-left:solid 1px #888;
     }
 fieldset.config th {
-
+    border-bottom:dotted 1px #888;
     }
 fieldset.config th, fieldset.config td {
-    border-bottom:solid 1px #888;
     border-right:dotted 1px #888;
-    padding:3px 5px;
-    overflow:show;
+    padding:2px 5px;
     }
-fieldset.config col.label {
-    /*width:150px;*/
-    }
-fieldset.config col.inherit, fieldset.config col.old {
-    /*width:150px;*/
+fieldset.config th.label, fieldset.config td.label {
+    width:200px;
     }
 fieldset.config label {
     float:none;
+    padding-left:5px;
     }
 fieldset.config input.input-radio {
-    margin-right:5px;
-    }
-fieldset.config input.input-text, fieldset.config select {
-    width:150px;
+    padding-right:5px;
     }
 
 .footer .powered-by {
@@ -526,3 +517,23 @@ dl.accordion dt:after,
     line-height:0;
     visibility:hidden;
     }
+
+div.tree_item, div.tree_item_last{
+	background-position: left;
+	background-repeat: no-repeat;
+	padding-left:20px;
+}
+
+div.tree_item {
+	background-image:url(images/tree_icons/join.gif);
+}
+
+div.tree_item_last {
+	background-image:url(images/tree_icons/joinbottom.gif);
+}
+
+div.tree_line {
+	position:absolute;
+	left:0;
+	background-image:url(images/tree_icons/line.gif);
+}

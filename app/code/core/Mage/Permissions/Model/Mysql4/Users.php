@@ -74,16 +74,15 @@ class Mage_Permissions_Model_Mysql4_Users {
     }
 
     public function add(Mage_Permissions_Model_Users $user) {
-    	if ($user->getPid() > 0) {
-    		$row = $this->load($user->getPid());
+    	if ($user->getRoleId() > 0) {
+    		$row = Mage::getModel('permissions/roles')->load($user->getRoleId());
     	} else {
     		$row = array('tree_level' => 0);
     	}
 
-
     	$this->_write->insert($this->_roleTable, array(
 	    	'parent_id' => $user->getRoleId(),
-	    	'tree_level' => $row['tree_level'] + 1,
+	    	'tree_level' => ($row->getTreeLevel() + 1),
 	    	'sort_order' => 0,
 	    	'role_type' => 'U',
 	    	'user_id' => $user->getUserId(),

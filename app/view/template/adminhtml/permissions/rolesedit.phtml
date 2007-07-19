@@ -1,12 +1,24 @@
 <div class="entry-edit">
 	<h4 class="icon-head head-edit-form fieldset-legend">Roles resources</h4>
 	<fieldset id="role_resources">
-		<?$level = 0;?>
-		<?php foreach ($resources as $resource => $val):?>
-		<? $margin = $val['level'] * 25;?>
-			<div style="margin-left:<?=$margin?>px;" id="_<?=$resource?>">
-			<input type="checkbox" value="<?=$resource?>" id="<?=str_replace('/', '_', rtrim($resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
-			<label for="<?=str_replace('/', '_', rtrim($resource, '/'))?>" class="normal"><?=$val['name'];?></label>
+		<?$_level = 0;?>
+		<?foreach ($resources as $_resource => $val):?>
+		<?
+		  	$_next = next($resources);
+		  	if( $_next['level'] < $val['level'] ) {
+				$_class = 'tree_item_last';
+			} else {
+				$_class = 'tree_item';
+			}
+			$_margin = $val['level'] * 20;
+			$_lineWidht = ( $_margin == 0 ) ? 25 : $_margin ;
+		?>
+			<div id="_<?=$_resource?>" style="position:relative;">
+				<div style="width:<?=$_lineWidht?>px;" class="tree_line">&nbsp;</div>
+				<div class="<?=$_class?>" style="margin-left:<?=$_margin?>px;">
+					<input type="checkbox" value="<?=$_resource?>" id="<?=str_replace('/', '_', rtrim($_resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
+					<label for="<?=str_replace('/', '_', rtrim($_resource, '/'))?>" class="normal"><?=$val['name'];?></label>
+				</div>
 			</div>
 		<?php endforeach; ?>
 	</fieldset>

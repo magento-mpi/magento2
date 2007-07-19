@@ -56,7 +56,7 @@ class Mage_Permissions_Model_Mysql4_Rules {
 		    	foreach ($rule->getResources() as $key => $val) {
 		    		$this->_write->insert($this->_ruleTable, array(
 			    		'role_type' => 'G',
-			    		'resource_id' => $val,
+			    		'resource_id' => trim($val, '/'),
 			    		'privileges' => '', # FIXME !!!
 			    		'assert_id' => 0,
 			    		'role_id' => $roleId
