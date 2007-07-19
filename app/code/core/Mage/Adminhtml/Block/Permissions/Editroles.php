@@ -21,15 +21,15 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addTab('account', array(
-            'label'     => __('Roles Resources'),
-            'title'     => __('Roles Resources'),
+            'label'     => __('Role Resources'),
+            'title'     => __('Role Resources'),
             'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
             $this->addTab('roles', array(
-                'label'     => __('Users Roles'),
-                'title'     => __('Users Roles'),
+                'label'     => __('Role Users'),
+                'title'     => __('Role Users'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesusers')->toHtml(),
             ));
         }

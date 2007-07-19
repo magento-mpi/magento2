@@ -343,7 +343,7 @@ img.accordion-btn {
 .content-left-nav a.store {
     padding-left:32px;
     }
-    
+
 .content-header {
     margin-bottom:1em;
     border-bottom:3px solid #dfdfdf;
@@ -424,6 +424,10 @@ table.form-edit {
     float:left;
     width:10em;
     }
+.entry-edit fieldset label.normal {
+    float:none;
+    width:10em;
+    }
 label.inline{
     float:none !important;
     width:auto !important;
@@ -455,7 +459,7 @@ label.inline{
     background-image:url(images/fam_status_online.gif);
     padding-left:18px;
     }
-    
+
 /********************* CONFIG ************************/
 fieldset.config table {
     border-top:solid 1px #888;

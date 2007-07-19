@@ -23,11 +23,5 @@ class Mage_Permissions_Model_Mysql4_Roles_Collection extends Varien_Data_Collect
     {
 	   return $this->_toOptionArray('role_id', 'role_name');
     }
-
-    public function addTreeOrder()
-    {
-        $this->_sqlSelect->order(array("parent_id", "role_id"));
-        return $this;
-    }
 }
 ?>

@@ -1,13 +1,16 @@
-<h4 class="icon-head head-edit-form fieldset-legend">Roles resources</h4>
-<?$level = 0;?>
-<?php foreach ($resources as $resource => $val):?>
-  <? $margin = $val['level'] * 20;?>
-    <div style="margin-left:<?=$margin?>px;" id="_<?=$resource?>">
-	<input type="checkbox" value="<?=$resource?>" id="<?=str_replace('/', '_', rtrim($resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
-	<label for="<?=str_replace('/', '_', rtrim($resource, '/'))?>"><?=$val['name'];?></label>
-	</div>
-<?php endforeach; ?>
-
+<div class="entry-edit">
+	<h4 class="icon-head head-edit-form fieldset-legend">Roles resources</h4>
+	<fieldset id="role_resources">
+		<?$level = 0;?>
+		<?php foreach ($resources as $resource => $val):?>
+		<? $margin = $val['level'] * 25;?>
+			<div style="margin-left:<?=$margin?>px;" id="_<?=$resource?>">
+			<input type="checkbox" value="<?=$resource?>" id="<?=str_replace('/', '_', rtrim($resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
+			<label for="<?=str_replace('/', '_', rtrim($resource, '/'))?>" class="normal"><?=$val['name'];?></label>
+			</div>
+		<?php endforeach; ?>
+	</fieldset>
+</div>
 <script type="text/javascript">
     var resource = function () {
     	return {

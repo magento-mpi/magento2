@@ -48,10 +48,19 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function editRoleAction()
     {
+        $roleId = $this->getRequest()->getParam('rid');
+        if( intval($roleId) > 0 ) {
+            $breadCrumb = __('Edit Role');
+            $breadCrumbTitle = __('Edit Role');
+        } else {
+            $breadCrumb = __('Add new Role');
+            $breadCrumbTitle = __('Add new Role');
+        }
+
         $this->loadLayout('baseframe');
         $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'), Mage::getUrl('*/*/index'));
-        $this->_addBreadcrumb(__('Roles'), __('Roles Title'));
+        $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_editroles')
@@ -60,7 +69,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->_addContent(
             $this->getLayout()->createBlock('core/template')
                 ->setTemplate('adminhtml/permissions/roleinfo.phtml')
-                ->setRoleId($this->getRequest()->getParam('id'))
+                ->setRoleId($roleId)
         );
 
         $this->renderLayout();
@@ -68,7 +77,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
     public function deleteRoleAction()
     {
-    	$rid = $this->getRequest()->getParam('rid', false);
+    	$rid = $this->getRequest()->getParam('id', false);
     	Mage::getModel("permissions/roles")->setId($rid)->delete();
 
     	$this->_redirect("adminhtml/permissions");
