@@ -16,9 +16,9 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
         $this->setTemplate('adminhtml/store/switcher.phtml');
     }
     
-    public function getStoreCollection()
+    public function getWebsiteCollection()
     {
-        return Mage::getSingleton('core/store')->getResourceCollection()
+        return Mage::getSingleton('core/website')->getResourceCollection()
             ->load();
     }
     

@@ -8,14 +8,16 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Db
+class Mage_Catalog_Model_Entity_Category_Tree
 {
     protected $_categoryCollection;
+    protected $_categoryTree;
+    protected $_root;
     
     public function __construct() 
     {
         $resource = Mage::getSingleton('core/resource');
-        parent::__construct(
+        $this->_categoryTree = new Varien_Data_Tree_Db(
             $resource->getConnection('catalog_read'),
             $resource->getTableName('catalog/category_tree'),
             array(
@@ -47,11 +49,22 @@ class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Db
      * @param int $recursionLevel
      * @return Mage_Catalog_Model_Entity_Category_Tree
      */
-    public function load($parentNode=null, $recursionLevel=0)
+    public function load($parentNode, $recursionLevel=0)
     {
-        parent::load($parentNode, $recursionLevel);
+        $this->_root = $this->getTree()->loadNode($parentNode)
+            ->loadChildren($recursionLevel);
         $this->_loadCollection();
         return $this;
+    }
+    
+    public function getTree()
+    {
+        return $this->_categoryTree;
+    }
+    
+    public function getRoot()
+    {
+        return $this->_root;
     }
     
     /**
@@ -62,7 +75,7 @@ class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Db
     protected function _loadCollection()
     {
         $nodeIds = array();
-        foreach ($this->getNodes() as $node) {
+        foreach ($this->getTree()->getNodes() as $node) {
         	$nodeIds[] = $node->getId();
         }
         if (!empty($nodeIds)) {
@@ -70,7 +83,7 @@ class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Db
                 ->addAttributeToFilter('entity_id', array('in'=>$nodeIds))
                 ->load();
             foreach ($collection as $item) {
-            	$this->getNodeById($item->getId())->addData($item->getData());
+            	$this->getTree()->getNodeById($item->getId())->addData($item->getData());
             }
         }
         return $this;

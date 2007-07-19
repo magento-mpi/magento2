@@ -45,30 +45,63 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->renderLayout();
     }
     
-    public function jsonTreeAction()
+    public function moveAction()
+    {
+        $nodeId         = $this->getRequest()->getPost('id', false);
+        $parentNodeId   = $this->getRequest()->getPost('pid', false);
+        $prevNodeId     = $this->getRequest()->getPost('aid', false);
+        
+        try {
+            $tree = Mage::getResourceModel('catalog/category_tree')->getTree();
+            $node = $tree->loadNode($nodeId);
+            $parentNode = $tree->loadNode($parentNodeId)->loadChildren();
+            $prevNode = $tree->loadNode($prevNodeId);
+            if ($prevNode->isEmpty()) {
+                $prevNode = $parentNode->getLastChild();
+            }
+            
+            $tree->moveNodeTo($node, $parentNode, $prevNode);
+        }
+        catch (Exception $e){
+            
+        }
+    }
+    
+    /*public function jsonTreeAction()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $storeId = (int) $this->getRequest()->getPost('store',1);
+        $storeId      = (int) $this->getRequest()->getPost('store',1);
         
         $tree->getCategoryCollection()->addAttributeToSelect('name');
-        $nodes = $tree->load($parentNodeId)
-                    ->getNodes();
-
-        $items = array();
-        foreach ($nodes as $node) {
-            $item = array();
-            $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
-            $item['id']  = $node->getId();
-            $item['cls'] = 'folder';
-            $item['allowDrop'] = true;
-            $item['allowDrag'] = true;
-            if (!$node->hasChildren()) {
-                $item['leaf'] = 'true';
-            }
-            $items[] = $item;
-        }
-
+        $root = $tree->load($parentNodeId, 5)
+                    ->getRoot();
+                        
+        $items = $this->nodeToJson($root);
+        echo '<pre>';
+        print_r($items);
+        echo '</pre>';
         $this->getResponse()->setBody(Zend_Json::encode($items));
     }
+    
+    public function nodeToJson($node)
+    {
+        $item = array();
+        $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+        $item['id']  = $node->getId();
+        $item['cls'] = 'folder';
+        $item['allowDrop'] = true;
+        $item['allowDrag'] = true;
+        if ($node->hasChildren()) {
+            $item['children'] = array();
+            foreach ($node->getChildren() as $child) {
+            	$item['children'][] = $this->nodeToJson($child);
+            }
+        }
+        else {
+            $item['leaf'] = 'true';
+        }
+        $items[] = $item;
+        return $item;
+    }*/
 }

@@ -39,6 +39,8 @@ legend {display:none;}
 label { color:#333; }
 input, select { vertical-align:middle; }
 
+select optgroup{font-style:normal}
+select optgroup option{padding-left:10px}
 /* Lists */
 dt { display:block; }
 

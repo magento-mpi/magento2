@@ -146,8 +146,9 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         $select = clone $this->_select;
         $condition = $this->_conn->quoteInto("$this->_table.$this->_idField=?", $nodeId);
         $select->where($condition);
-        
-        return new Varien_Data_Tree_Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $node = new Varien_Data_Tree_Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $this->addNode($node);
+        return $node;
     }
     
     public function appendChild($data=array(), $parentNode, $prevNode=null)

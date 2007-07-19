@@ -58,31 +58,45 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         return $this->getUrl('*/catalog_category/edit', array('_current'=>true, 'id'=>null, 'parent'=>null));
     }
     
+    public function getMoveUrl()
+    {
+        return $this->getUrl('*/catalog_category/move');
+    }
+    
     public function getTreeJson()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $storeId = (int) $this->getRequest()->getPost('store',1);
+        $storeId      = (int) $this->getRequest()->getPost('store',1);
         
         $tree->getCategoryCollection()->addAttributeToSelect('name');
-        $nodes = $tree->load($parentNodeId)
-                    ->getNodes();
+        $root = $tree->load($parentNodeId, 5)
+                    ->getRoot();
+                        
+        $items = $this->_getNodeJson($root);
 
-        $items = array();
-        foreach ($nodes as $node) {
-            $item = array();
-            $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
-            $item['id']  = $node->getId();
-            $item['cls'] = 'folder';
-            $item['allowDrop'] = true;
-            $item['allowDrag'] = true;
-            if (!$node->hasChildren()) {
-                $item['leaf'] = 'true';
-            }
-            $items[] = $item;
-        }
-
-        $json = Zend_Json::encode($items);
+        $json = Zend_Json::encode(array($items));
         return $json;
+    }
+    
+    protected function _getNodeJson($node, $level=1)
+    {
+        $item = array();
+        $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+        $item['id']  = $node->getId();
+        $item['cls'] = 'folder';
+        $item['allowDrop'] = ($level<3) ? true : false;
+        $item['allowDrag'] = true;
+        if ($node->hasChildren()) {
+            $item['children'] = array();
+            foreach ($node->getChildren() as $child) {
+            	$item['children'][] = $this->_getNodeJson($child, $level+1);
+            }
+        }
+        else {
+            $item['leaf'] = 'true';
+        }
+        $items[] = $item;
+        return $item;
     }
 }

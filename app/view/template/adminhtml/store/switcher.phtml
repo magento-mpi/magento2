@@ -1,8 +1,12 @@
 <label for="store_switcher"><?=__('Choose Store')?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
-        <option value="">All stores</option>
-    <?foreach ($this->getStoreCollection() as $_store):?>
-        <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+    <option value=""><?=__('All sores')?></option>
+    <?foreach ($this->getWebsiteCollection() as $_website):?>
+        <optgroup label="<?=$_website->getName()?>">
+        <?foreach ($_website->getStoreCollection() as $_store):?>
+            <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+        <?endforeach;?>
+        </optgroup>
     <?endforeach;?>
 </select>
 <script type="text/javascript">
