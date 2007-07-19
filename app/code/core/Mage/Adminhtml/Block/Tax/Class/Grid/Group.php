@@ -52,13 +52,13 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
             switch( $classType ) {
                 case "CUSTOMER":
                     $index = 'customer_group_code';
-                    $this->setGridHeader('Included customer groups');
+                    $this->setGridHeader(__('Included Customer Groups'));
                     break;
 
                 /* FIXME!!! */
                 case "PRODUCT":
                     $index = 'customer_group_code';
-                    $this->setGridHeader('Included product categories');
+                    $this->setGridHeader(__('Included Product Categories'));
                     break;
             }
         }

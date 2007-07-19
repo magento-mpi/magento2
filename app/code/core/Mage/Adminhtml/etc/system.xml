@@ -14,17 +14,17 @@
                     <label>General</label>
                     <groups>
                         <country>
-                            <label>Country options</label>
+                            <label>Country Options</label>
                             <fields>
                                 <allow>
                                     <frontend>
-                                        <label>Allow countries</label>
+                                        <label>Allow Countries</label>
                                     </frontend>
                                 </allow>
                                 <default>
                                     <frontend>
                                         <type>select</type>
-                                        <label>Base currency</label>
+                                        <label>Base Currency</label>
                                     </frontend>
                                     <source>
                                         <model>adminhtml/system_config_source_currency</model>
@@ -33,12 +33,12 @@
                             </fields>
                         </country>
                         <currency>
-                            <label>Currency options</label>
+                            <label>Currency Options</label>
                             <fields>
                                 <base>
                                     <frontend>
                                         <type>select</type>
-                                        <label>Base currency</label>
+                                        <label>Base Currency</label>
                                     </frontend>
                                     <source>
                                         <model>adminhtml/system_config_source_currency</model>
@@ -76,7 +76,7 @@
                     <label>Catalog</label>
                     <groups>
                         <reviews>
-                            <label>Product reviews/ratings</label>
+                            <label>Product Reviews/Ratings</label>
                             <fields>
                                 <enable>
                                     <frontend>
@@ -90,7 +90,7 @@
                             </fields>
                         </reviews>
                         <tags>
-                            <label>Product tags</label>
+                            <label>Product Tags</label>
                             <fields>
                                 <enable>
                                     <frontend>
@@ -104,7 +104,7 @@
                             </fields>
                         </tags>
                         <layered_navigation>
-                            <label>Layered navigation</label>
+                            <label>Layered Navigation</label>
                             <fields>
                                 <enable>
                                     <frontend>
@@ -118,7 +118,7 @@
                                 <session_remember>
                                     <frontend>
                                         <type>select</type>
-                                        <label>Remember in session</label>                                        
+                                        <label>Remember in Session</label>                                        
                                     </frontend>
                                     <source>
                                         <model>adminhtml/system_config_source_yesno</model>
@@ -130,7 +130,7 @@
                 </catalog>
                 
                 <gift_messages>
-                    <label>Gift messages</label>
+                    <label>Gift Messages</label>
                     <groups>
                         <general>
                             <label>General</label>
@@ -138,7 +138,7 @@
                                 <enable_per_item>
                                     <frontend>
                                         <type>select</type>
-                                        <label>Enable per item</label>                                        
+                                        <label>Enable per Item</label>                                        
                                     </frontend>
                                     <source>
                                         <model>adminhtml/system_config_source_yesno</model>
@@ -147,7 +147,7 @@
                                 <enable_per_address>
                                     <frontend>
                                         <type>select</type>
-                                        <label>Enable per address</label>                                        
+                                        <label>Enable per Address</label>                                        
                                     </frontend>
                                     <source>
                                         <model>adminhtml/system_config_source_yesno</model>

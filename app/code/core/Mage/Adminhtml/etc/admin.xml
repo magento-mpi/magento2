@@ -123,11 +123,11 @@
                             <action>adminhtml/tax_rate</action>
                         </tax_rates>
                         <tax_classes_customer>
-                            <title>Customer Classes</title>
+                            <title>Customer Tax Classes</title>
                             <action>adminhtml/tax_class_customer</action>
                         </tax_classes_customer>
                         <tax_classes_product>
-                            <title>Product Classes</title>
+                            <title>Product Tax Classes</title>
                             <action>adminhtml/tax_class_product</action>
                         </tax_classes_product>
                     </children>
@@ -194,7 +194,7 @@
                     <title>Tools</title>
                     <children>
                         <backup>
-                            <title>Backup</title>
+                            <title>Backups</title>
                             <action>adminhtml/system_backup</action>
                         </backup>
                     </children>

@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
         parent::_initChildren();
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array('label' => __('Create New Tag')))
+                ->setData(array('label' => __('Add New Tag')))
         );
         $this->setChild('tagsGrid',
             $this->getLayout()->createBlock('adminhtml/tag_grid_pending')

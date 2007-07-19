@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setChild('saveButton', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save customer'),
+                    'label'     => __('Save Customer'),
                     'onclick'   => 'categoryForm.submit()'
                 ))
         );
@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setChild('deleteButton', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete customer'),
+                    'label'     => __('Delete Customer'),
                     'onclick'   => 'categoryDelete()'
                 ))
         );

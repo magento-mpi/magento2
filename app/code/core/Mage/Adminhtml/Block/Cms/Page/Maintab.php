@@ -61,13 +61,13 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                     'values'    => array(
                         array(
                             'value' => 1,
-                            'label' => 'enabled',
-                            'title' => 'enabled title'
+                            'label' => ' Enabled',
+                            'title' => 'Enabled Title'
                         ),
                         array(
                             'value' => 0,
-                            'label' => 'disabled',
-                            'title' => 'disabled title'
+                            'label' => ' Disabled',
+                            'title' => 'Disabled Title'
                         )
                     )
             )

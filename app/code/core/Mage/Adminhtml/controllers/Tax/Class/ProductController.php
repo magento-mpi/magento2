@@ -15,7 +15,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rule'));
+        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'));
 
         $this->_addTabs();
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax'));
+        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax'));
         $this->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'), Mage::getUrl('adminhtml/tax_class_product'));
         $this->_addBreadcrumb(__('New Product Tax Class'), __('New Product Tax Class Title'));
 

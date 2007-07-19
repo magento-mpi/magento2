@@ -20,7 +20,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     	$this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'), Mage::getUrl('adminhtml/newsletter'));
-        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'));
+        $this->_addBreadcrumb(__('Templates'), __('Newsletter Templates Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
@@ -37,12 +37,12 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'), Mage::getUrl('adminhtml/newsletter'));
-        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'), Mage::getUrl('adminhtml/*'));
+        $this->_addBreadcrumb(__('Templates'), __('Newsletter Templates Title'), Mage::getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb(__('Edit Newsletter Template'), __('Edit Newsletter Template Title'));
+            $this->_addBreadcrumb(__('Edit Template'), __('Edit Newsletter Template Title'));
         } else {
-            $this->_addBreadcrumb(__('New Newsletter Template'), __('New Newsletter Template Title'));
+            $this->_addBreadcrumb(__('Create Template'), __('Create Newsletter Template Title'));
         }
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template_edit', 'template_edit')

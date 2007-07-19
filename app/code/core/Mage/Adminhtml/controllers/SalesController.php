@@ -20,6 +20,7 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
         $this->_addContent($block);
 
         $this->_addBreadcrumb(__('Sales'), __('Sales Title'));
+        $this->_addBreadcrumb(__('Orders'), __('Orders Title'));
         $this->renderLayout();
     }
 }

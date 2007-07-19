@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_general');
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
         $category = Mage::getModel('catalog/category')
             ->load(1);
         

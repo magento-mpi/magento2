@@ -28,8 +28,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('cms/control');
         $this->_addBreadcrumb(__('CMS'), __('CMS Title'), Mage::getUrl('adminhtml/cms_page'));
-        $this->_addBreadcrumb(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'new page'),
-                      __(( $this->getRequest()->getParam('breadcrumb_title') ) ? $this->getRequest()->getParam('breadcrumb_title') : 'new page title'));
+        $this->_addBreadcrumb(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'New Page'),
+                      __(( $this->getRequest()->getParam('breadcrumb_title') ) ? $this->getRequest()->getParam('breadcrumb_title') : 'New Page Title'));
 
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/cms_page')
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->_forward('newpage', null, null, array('breadcrumb' => 'edit page', 'breadcrumb_title' => 'edit page title'));
+        $this->_forward('newpage', null, null, array('breadcrumb' => __('Edit Page'), 'breadcrumb_title' => __('Edit Page Title')));
     }
 
     public function deleteAction()

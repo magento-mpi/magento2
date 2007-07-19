@@ -62,12 +62,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     
             $this->addTab('tags', array(
                 'label'     => __('Product Tags'),
-                'content'   => '<h3>Product tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
+                'content'   => '<h3>Product Tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
             ));
     
             $this->addTab('reviews', array(
                 'label'     => __('Product Reviews'),
-                'content'   => '<h3>Product reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
+                'content'   => '<h3>Product Reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
             ));
         }
         Varien_Profiler::stop('customer/tabs');

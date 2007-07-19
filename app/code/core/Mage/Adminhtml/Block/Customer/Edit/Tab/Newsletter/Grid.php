@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
         
         $this->addColumn('letter_sent_at', array(
-            'header'    =>	__('Newsletter received'),
+            'header'    =>	__('Newsletter Received'),
             'type'      => 	'date',
             'align'     => 	'center',
             'index'     =>	'letter_sent_at',

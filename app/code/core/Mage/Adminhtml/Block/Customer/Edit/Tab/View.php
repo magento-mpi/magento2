@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         $salesAccordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('salesAccordion');
         $salesAccordion->addItem('salesStat', array(
-            'title'     => __('Sales statistics'),
+            'title'     => __('Sales Statistics'),
             // @todo create block after sales realization
             'content'   => '<div class="grid"><table cellspacing="0" class="data">
 				<thead>

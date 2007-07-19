@@ -5,6 +5,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('sales');
+        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax_rule'));
         $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'));
 
         $this->_addTabs();
