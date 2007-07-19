@@ -37,7 +37,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Customers'), __('Customers Title'));
+        //$this->_addBreadcrumb(__('Customers'), __('Customers Title'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers Title'));
 
         $this->renderLayout();
@@ -84,7 +84,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrunb items
          */
-        $this->_addBreadcrumb(__('Customers'), __('Customers Title'));
+        //$this->_addBreadcrumb(__('Customers'), __('Customers Title'), Mage::getUrl('adminhtml/customer'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers Title'), Mage::getUrl('adminhtml/customer'));
 
         if ($customerId) {
@@ -161,15 +161,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                      * We need set post_index for detect default addresses
                      */
                     $address->setPostIndex($index);
-                	$customer->addAddress($address);
+                    $customer->addAddress($address);
                 }
             }
 
             if(isset($data['subscription'])) {
-				$customer->setIsSubscribed(true);
+                $customer->setIsSubscribed(true);
             } else {
-				$customer->setIsSubscribed(false);
-			}
+                $customer->setIsSubscribed(false);
+            }
 
             try {
                 $customer->save();
@@ -234,13 +234,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function newsletterAction() 
     {
-    	$customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);
         }  
         $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
         Mage::register('subscriber', $subscriber);
-    	$this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
     }
 }

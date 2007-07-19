@@ -21,8 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $form->setHtmlIdPrefix('_general');
         
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
-        $category = Mage::getModel('catalog/category')
-            ->load(1);
+        $category = Mage::registry('category');
         
         $this->_setFieldset($category->getAttributes(), $fieldset);
         
@@ -57,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         }*/
         
         
-        //$form->setValues($customer->getData());
+        $form->setValues($category->getData());
         
         $this->setForm($form);
         

@@ -22,42 +22,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
     protected function _initChildren()
     {
-        $salesAccordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
+        /*$salesAccordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('salesAccordion');
         $salesAccordion->addItem('salesStat', array(
             'title'     => __('Sales Statistics'),
             // @todo create block after sales realization
-            'content'   => '<div class="grid"><table cellspacing="0" class="data">
-				<thead>
-					<tr>
-						<th>Store</th>
-						<th>Lifetime Sale</th>
-						<th>Average Sale</th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<td class="label"><strong><big>Total</big></strong></td>
-						<td class="emph"><strong><big>$2076.97</big></strong></td>
-						<td class="emph"><strong><big>$116.74</big></strong></td>
-					</tr>
-				</tfoot>
-				<tbody>
-					<tr>
-						<td class="label">Magento Store (EN)</td>
-						<td>$1875.99</td>
-						<td>$89.99</td>
-					</tr>
-					<tr class="even">
-						<td class="label">Varien Store (EN)</td>
-						<td>$200.98</td>
-						<td>$26.75</td>
-					</tr>
-				</tbody>
-			</table></div>',
+            'content'   => '',
             'open'      => true
         ));
-        $this->setChild('salesAccordion', $salesAccordion);
+        $this->setChild('salesAccordion', $salesAccordion);*/
         
         $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('customerViewAccordion')

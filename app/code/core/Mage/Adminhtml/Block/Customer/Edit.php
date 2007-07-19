@@ -30,8 +30,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
         $this->setChild('cancelButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Cancel'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'label'     => __('Reset'),
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\''
                 ))
         );
 

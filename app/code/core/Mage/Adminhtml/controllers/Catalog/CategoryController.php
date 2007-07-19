@@ -12,9 +12,19 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 {
     public function indexAction()
     {
+        $this->_forward('edit');
+    }
+    
+    public function editAction()
+    {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        
+        Mage::register('category', Mage::getModel('catalog/category'));
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            Mage::registry('category')->load($id);
+        }
         
         $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Categories'), __('Manage Categories Title'));
