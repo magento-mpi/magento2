@@ -767,7 +767,7 @@
             <title>Partially Backordered</title>
           </part_back>
           <cancelled>
-            <title>Cencelled</title>
+            <title>Cancelled</title>
           </cancelled>
           <void>
             <title>Void</title>

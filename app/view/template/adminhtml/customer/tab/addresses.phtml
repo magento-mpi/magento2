@@ -97,17 +97,17 @@
 					->setFieldNamePrefix('address['.$_templatePrefix.']');
 	?>
 	<?=$this->getFormObject()->getHtml()?>
-	<button id="cancel_add_address<?=$_templatePrefix?>" type="button" class="scalable delete-address" onclick="customerAddresses.cencelAdd(this)">
+	<button id="cancel_add_address<?=$_templatePrefix?>" type="button" class="scalable delete-address" onclick="customerAddresses.cancelAdd(this)">
 	<table cellspacing="0">
         <tr>
             <td class="tl"></td>
             <td class="tr"></td>
         </tr>
         <tr>
-            <td class="ml"><?=__('Cencel')?></td>
+            <td class="ml"><?=__('Cancel')?></td>
             <td class="mr"></td>
         </tr>
-        <tr>
+        <tr>                       
             <td class="bl"></td>
             <td class="br"></td>
         </tr>
@@ -320,7 +320,7 @@ addressesModel.prototype = {
             this.reloadItemList();          
         }
     },
-    cencelAdd : function(button){
+    cancelAdd : function(button){
         if(confirm('<?=__('Do you want to cancel add this address?')?>')){
             item = $(this.baseItemId+button.id.replace(/[a-z_]*/, ''));
             if( item.isNewAddress){
