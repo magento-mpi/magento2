@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml tax class product controller
+ * Adminhtml product tax class controller
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
@@ -50,6 +49,11 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
         ;
+
+        $this->getLayout()->getMessagesBlock()->setMessages(
+            Mage::getSingleton('adminhtml/session')->getMessages(true)
+        );
+
         return $this;
     }
 

@@ -43,10 +43,10 @@ class Mage_Tax_Model_Mysql4_Class
 
     public function load($model, $classId)
     {
-        $select = $this->_write->select();
+        $select = $this->_read->select();
         $select->from($this->_classTable);
         $select->where("{$this->_classTable}.class_id = ?", $classId);
-        $data = $this->_write->fetchRow($select);
+        $data = $this->_read->fetchRow($select);
 
         $model->setData($data);
     }
@@ -101,5 +101,14 @@ class Mage_Tax_Model_Mysql4_Class
     {
         $condition = $this->_write->quoteInto("{$this->_classGroupTable}.group_id = ?", $groupId);
         $this->_write->delete($this->_classGroupTable, $condition);
+    }
+
+    public function itemExists($classObject)
+    {
+        $select = $this->_read->select();
+        $select->from($this->_classTable);
+        $select->where("{$this->_classTable}.class_name = '{$classObject->getClassName()}' AND {$this->_classTable}.class_type = '{$classObject->getClassType()}' AND {$this->_classTable}.class_id != '{$classObject->getClassId()}'");
+        $data = $this->_read->fetchRow($select);
+        return ( intval($data['class_id']) > 0 ) ? true : false;
     }
 }

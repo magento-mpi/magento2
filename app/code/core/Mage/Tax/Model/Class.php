@@ -44,4 +44,9 @@ class Mage_Tax_Model_Class extends Varien_Object
     {
         return Mage::getResourceModel('customer/group_collection');
     }
+
+    public function itemExists()
+    {
+        return $this->getResource()->itemExists($this);
+    }
 }

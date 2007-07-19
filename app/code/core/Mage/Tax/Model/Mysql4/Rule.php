@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Tax_Model_Mysql4_Rule
 {
 

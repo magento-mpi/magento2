@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml tax class customer controller
+ * Adminhtml customer tax class controller
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()

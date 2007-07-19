@@ -1,4 +1,13 @@
 <?php
+/**
+ * Tax rule controller
+ *
+ * @package     Mage
+ * @subpackage  Tax
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Alexander Stadnitski <alexander@varien.com>
+ */
 class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
@@ -30,13 +39,14 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if( $postData = $this->getRequest()->getPost() ) {
+            $ruleModel = Mage::getSingleton('tax/rule');
+            $ruleModel->setData($postData);
             try {
-                $ruleModel = Mage::getSingleton('tax/rule');
-                $ruleModel->setData($postData);
                 $ruleModel->save();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
             } catch (Exception $e) {
-                # FIXME !!!!
+                Mage::getSingleton('adminhtml/session')->addError('Error wile saving this tax rule. Please, try again later.');
+                $this->_returnLocation();
             }
         }
     }
@@ -62,7 +72,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
             $ruleModel->delete();
             $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
         } catch (Exception $e) {
-            # FIXME
+            Mage::getSingleton('adminhtml/session')->addError('Error wile deleting this tax rule. Please, try again later.');
+            $this->_returnLocation();
         }
     }
 
@@ -82,4 +93,10 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
+    protected function _returnLocation()
+    {
+        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+            $this->getResponse()->setRedirect($referer);
+        }
+    }
 }
