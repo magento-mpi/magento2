@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
      */
     public function delete()
     {
-        $this->getResource()->delete($this->getId());
+        $this->getResource()->delete($this);
         return $this;
     }
     

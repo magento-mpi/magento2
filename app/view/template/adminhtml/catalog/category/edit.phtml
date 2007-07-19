@@ -3,6 +3,7 @@
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
             <td class="a-right">
+            <?=$this->getResetButtonHtml()?>
             <?if($this->getCategoryId()):?>
                 <?=$this->getDeleteButtonHtml()?>
             <?endif;?>

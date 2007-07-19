@@ -15,7 +15,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $tree->getCategoryCollection()
             ->addAttributeToSelect('name');
         $nodes = $tree->load($parent)
-            ->getNodes();
+            ->getRoot()
+                ->getChildren();
 
         $this->assign('categories', $nodes);
     }

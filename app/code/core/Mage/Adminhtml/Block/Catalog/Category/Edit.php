@@ -22,34 +22,56 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/catalog_category_tabs', 'tabs')
         );
         
-        $this->setChild('saveButton', 
+        $this->setChild('save_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Customer'),
+                    'label'     => __('Save Category'),
                     'onclick'   => 'categoryForm.submit()'
                 ))
         );
         
-        $this->setChild('deleteButton', 
+        $this->setChild('delete_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Customer'),
+                    'label'     => __('Delete Category'),
                     'onclick'   => 'categoryDelete()'
                 ))
         );
 
+        $this->setChild('reset_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Reset'),
+                    'onclick'   => "setLocation('".Mage::getUrl('*/*/*', array('_current'=>true))."')"
+                ))
+        );
+    }
+    
+    public function getCategoryId()
+    {
+        return Mage::registry('category')->getId();
+    }
+    
+    public function getCategoryName()
+    {
+        return Mage::registry('category')->getName();
     }
     
     public function getDeleteButtonHtml()
     {
-        return $this->getChildHtml('deleteButton');
+        return $this->getChildHtml('delete_button');
     }
     
     public function getSaveButtonHtml()
     {
-        return $this->getChildHtml('saveButton');
+        return $this->getChildHtml('save_button');
     }
     
+    public function getResetButtonHtml()
+    {
+        return $this->getChildHtml('reset_button');
+    }
+
     public function getTabsHtml()
     {
         return $this->getChildHtml('tabs');
@@ -57,6 +79,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     
     public function getHeader()
     {
-        return __('New Category');
+        return $this->getCategoryId() ? $this->getCategoryName() : __('New Category');
+    }
+    
+    public function getDeleteUrl()
+    {
+        return Mage::getUrl('*/*/delete', array('_current'=>true));
     }
 }

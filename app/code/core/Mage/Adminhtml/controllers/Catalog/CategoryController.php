@@ -67,6 +67,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
     }
     
+    public function deleteAction()
+    {
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            Mage::getModel('catalog/category')->load($id)
+                ->delete();
+        }
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+    }
+    
     /*public function jsonTreeAction()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
