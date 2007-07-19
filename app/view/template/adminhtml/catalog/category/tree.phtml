@@ -1,31 +1,59 @@
+<div class="content-header left-col-block">
+    <table cellspacing="0" class="grid-header"> 
+        <tr>
+            <td><h3><?=__('Categories')?></h3></td>
+            <td class="a-right"><?=$this->getAddButtonHtml()?></td>
+        </tr>
+    </table>
+</div>
+<?=$this->getStoreSwitcherHtml()?>
 <div id="tree-div"></div>
 <script type="text/javascript">
-var rootNodeText = '<?=__("Application Root")?>';
 Ext.onReady(function(){
     var tree = new Ext.tree.TreePanel('tree-div', {
-        animate:true, 
-        loader: new Ext.tree.TreeLoader({dataUrl:'<?=$this->getNodesUrl()?>'}),
+        animate:false, 
+        loader: false, //new Ext.tree.TreeLoader({dataUrl:'<?=$this->getNodesUrl()?>'}),
         enableDD:true,
+        //rootVisible:false,
         containerScroll: true
     });
 
     // set the root node
-    var root = new Ext.tree.AsyncTreeNode({
-        text: rootNodeText,
+    var root = new Ext.tree.TreeNode({
+        text: '<?=__('Root')?>',
         draggable:false,
         id:'1'
     });
     tree.setRootNode(root);
-    
+    bildCategoryTree(root, <?=$this->getTreeJson()?>);
     // set handlers
     tree.addListener('click', categoryClick.createDelegate(this));
     
     // render the tree
     tree.render();
     root.expand();
+    
+    var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
+    if(selectedNode){
+        tree.getSelectionModel().select(selectedNode);
+    }
 });
 
+function bildCategoryTree(parent, config){
+    if (!config) return null;
+	
+	if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                buildTree(node, config[i].children);
+            }
+        }
+    }	    
+}
+
 categoryClick = function(node, e){
-    location.href = '<?=$this->getEditUrl()?>'+'id/'+node.id+'/';
+    setLocation('<?=$this->getEditUrl()?>'+'id/'+node.id+'/');
 };
 </script>

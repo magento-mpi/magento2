@@ -15,6 +15,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_forward('edit');
     }
     
+    public function addAction()
+    {
+        $this->_forward('edit');
+    }
+    
     public function editAction()
     {
         $this->loadLayout('baseframe');
@@ -26,8 +31,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             Mage::registry('category')->load($id);
         }
         
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Categories'), __('Manage Categories Title'));
+        //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
+        $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories Title'));
         
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree')

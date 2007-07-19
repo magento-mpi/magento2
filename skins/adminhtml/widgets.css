@@ -127,7 +127,7 @@ input.validation-failed, textarea.validation-failed {
     background:#fbf2f4;
     border: 1px dashed #d40707;}
 
-.left-col-field{ margin:5px 0px;padding:2px;width:205px; }
+.left-col-block{width:190px}
 .changed {
     color:#e26f03 !important;
     /*font-style:italic !important;*/

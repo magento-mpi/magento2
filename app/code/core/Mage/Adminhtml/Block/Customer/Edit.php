@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
 
     protected function _initChildren()
     {
-        $this->setChild('backButton',
+        $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
                 ))
         );
 
-        $this->setChild('cancelButton',
+        $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset'),
@@ -35,14 +35,14 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
                 ))
         );
 
-        $this->setChild('saveButton',
+        $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Customer'),
                     'onclick'   => 'customerForm.submit()'
                 ))
         );
-        $this->setChild('deleteButton',
+        $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Customer'),
@@ -53,22 +53,22 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
 
     public function getBackButtonHtml()
     {
-        return $this->getChildHtml('backButton');
+        return $this->getChildHtml('back_button');
     }
 
     public function getCancelButtonHtml()
     {
-        return $this->getChildHtml('cancelButton');
+        return $this->getChildHtml('cancel_button');
     }
 
     public function getSaveButtonHtml()
     {
-        return $this->getChildHtml('saveButton');
+        return $this->getChildHtml('save_button');
     }
 
     public function getDeleteButtonHtml()
     {
-        return $this->getChildHtml('deleteButton');
+        return $this->getChildHtml('delete_button');
     }
 
     public function getSaveUrl()
