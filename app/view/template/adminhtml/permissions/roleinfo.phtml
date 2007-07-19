@@ -3,6 +3,8 @@
         <tr>
             <td style="width:50%;"><h3><?=($this->getRoleId() > 0 ) ? __('Edit Role') : __('Add new Role')?></h3></td>
             <td class="form-buttons">
+			<?=$this->getBackButtonHtml()?>
+			<?=$this->getResetButtonHtml()?>
             <button class="scalable" onclick="roleForm.submit();">
                 <table cellspacing="0">
                     <tr>

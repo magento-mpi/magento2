@@ -36,4 +36,33 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
 
         return parent::_beforeToHtml();
     }
+
+    protected function _initChildren()
+    {
+        $this->setChild('backButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Back'),
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                ))
+        );
+
+        $this->setChild('resetButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Reset'),
+                    'onclick'   => 'window.location.reload()'
+                ))
+        );
+    }
+
+    public function getBackButtonHtml()
+    {
+        return $this->getChildHtml('backButton');
+    }
+
+    public function getResetButtonHtml()
+    {
+        return $this->getChildHtml('resetButton');
+    }
 }
