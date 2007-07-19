@@ -16,7 +16,10 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
     	return parent::_beforeToHtml();
     }
 
-    protected function _initForm() {
+    protected function _initForm()
+    {
+        $roleId = $this->getRequest()->getParam('rid');
+
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role Information')));
@@ -44,6 +47,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
         $opt = array(array('role_id'=>0, 'tree_level'=>0, 'role_name'=>'Root', 'value' => '0', 'label' => 'Root'));
         $tmpArr = array();
         foreach( $roles as $role ) {
+            if( $role->getRoleId() == $roleId ) {
+                continue;
+            }
             $tmpArr['value'] = $role->getRoleId();
             $tmpArr['role_id'] = $role->getRoleId();
             $tmpArr['parent_id'] = $role->getParentId();
