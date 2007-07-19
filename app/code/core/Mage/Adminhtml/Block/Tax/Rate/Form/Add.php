@@ -58,7 +58,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                                 'name' => 'county',
                                 'label' => __('County'),
                                 'title' => __('Please, select County'),
-                                'values' => array(),
+                                'values' => array(
+                                    array(
+                                        'label' => '*',
+                                        'value' => ''
+                                    )
+                                ),
                                 'value' => $rateObject->getTaxCountyId()
                             )
         );
