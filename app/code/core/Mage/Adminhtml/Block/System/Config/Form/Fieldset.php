@@ -23,14 +23,23 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         // field label column
         $html.= '<table cellspacing=0><thead><tr><th class="label">&nbsp;</th><th>'; 
         
-        // default column
-        $html.= '<input id="'.$id.'_inherit" name="'.$id.'[inherit]" type="radio" value="1" class="input-radio">'; 
-        $html.= '<label for="'.$id.'_inherit">'.__('Default').'</label>';
+        // custom column
+        $html.= '<input id="'.$id.'_custom" name="groups['.$id.'][inherit]" type="radio" value="0" class="input-radio">'; 
+        $html.= '<label for="'.$id.'_custom">'.__('Specific').'</label>';
+        
+        if ($this->getRequest()->getParam('website') || $this->getRequest()->getParam('store')) {
+            $html.= '</th><th>';
+
+            // default column
+            $html.= '<input id="'.$id.'_inherit" name="groups['.$id.'][inherit]" type="radio" value="1" class="input-radio">'; 
+            $html.= '<label for="'.$id.'_inherit">'.__('Default').'</label>';
+        }
+
         $html.= '</th><th>';
         
-        // custom column
-        $html.= '<input id="'.$id.'_custom" name="'.$id.'[inherit]" type="radio" value="0" class="input-radio">'; 
-        $html.= '<label for="'.$id.'_custom">'.__('Specific').'</label>';
+        // old column
+        $html.= '<input id="'.$id.'_old" name="groups['.$id.'][inherit]" type="radio" value="-1" class="input-radio">'; 
+        $html.= '<label for="'.$id.'_old">'.__('Previous').'</label>';
         
         $html.= '</th></tr></thead><tbody>';
         

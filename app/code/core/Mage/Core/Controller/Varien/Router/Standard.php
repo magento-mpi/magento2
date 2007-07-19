@@ -125,7 +125,13 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         
         if (!empty($params)) {
             if (!empty($params['_current'])) {
-                $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
+                if ($params['_current']===true) {
+                    $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
+                } elseif (is_array($params['_current'])) {
+                    foreach ($params['_current'] as $param) {
+                        $params[$param] = $this->getFront()->getRequest()->getParam($param);
+                    }
+                }
             }
             $paramsStr = '';
             foreach ($params as $key=>$value) {

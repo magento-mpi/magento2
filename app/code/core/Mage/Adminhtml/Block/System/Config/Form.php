@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         
         // get config section data from database
         $configData = Mage::getResourceModel('core/config')
-            ->loadWithDefaults($sectionCode, $websiteCode, $storeCode);
+            ->loadSectionData($sectionCode, $websiteCode, $storeCode);
             
         $configFields = Mage::getResourceModel('core/config_field_collection')
             ->loadRecursive($sectionCode);
@@ -51,38 +51,31 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     break;
                     
                 case 2: // group
-                    $fieldset[$id] = $form->addFieldset($id, array(
+                    $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
                         'legend'=>__($e->getFrontendLabel())
-                    ));
-                    if (!$isDefault) {
-                        $fieldset[$id]->setRenderer($fieldsetRenderer);
-                    }
+                    ))->setRenderer($fieldsetRenderer);
                     break;
                     
                 case 3: // field
-                    $fieldsetId = $pathArr[0].'_'.$pathArr[1];
-                    
                     if (isset($configData[$path])) {
                         $data = $configData[$path];
                     } else {
-                        $data = array('value'=>'', 'default_value'=>'', 'inherit'=>'');
+                        $data = array('value'=>'', 'default_value'=>'', 'old_value'=>'', 'inherit'=>'');
                     }
                     
                     $fieldType = $e->getFrontendType();
                     
-                    $field = $fieldset[$fieldsetId]->addField($id, $fieldType ? $fieldType : 'text', array(
-                        'name' => $fieldsetId.'[fields]['.$pathArr[2].'][value]',
-                        'label' => __($e->getFrontendLabel()),
-                        'value' => $data['value'],
-                        'defult_value' => $data['default_value'],
-                        'inherit' => $data['inherit'],
-                        'class' => $e->getFrontendClass(),
-                    ));
+                    $field = $fieldset[$pathArr[1]]->addField($id, $fieldType ? $fieldType : 'text', array(
+                        'name'          => 'groups['.$pathArr[1].'][fields]['.$pathArr[2].'][value]',
+                        'label'         => __($e->getFrontendLabel()),
+                        'value'         => isset($data['value']) ? $data['value'] : '',
+                        'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
+                        'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',
+                        'inherit'       => isset($data['inherit']) ? $data['inherit'] : '',
+                        'class'         => $e->getFrontendClass(),
+                    ))->setRenderer($fieldRenderer);
                     if ($e->getSourceModel()) {
                         $field->setValues(Mage::getModel($e->getSourceModel())->toOptionArray());
-                    }
-                    if (!$isDefault) {
-                        $field->setRenderer($fieldRenderer);
                     }
                     break;
             }

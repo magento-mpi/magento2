@@ -114,16 +114,16 @@ final class Mage {
         } elseif (is_numeric($id)) {
             $store = Mage::getModel('core/store')->findById($id);
             if (!$store->getCode()) {
-                throw Mage::exception('Invalid store id requested');
+                throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
             }
         } elseif (is_string($id)) {
-            $storeConfig = Mage::getConfig()->getNode('global/stores/'.$id);
-            if (!$store->getCode()) {
-                throw Mage::exception('Invalid store code requested');
+            $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
+            if (!$storeConfig) {
+                throw Mage::exception('Mage_Core', 'Invalid store code requested: '.$id);
             }
             $store = Mage::getModel('core/store')->setCode($id);
         } else {
-            throw Mage::exception('Invalid store id requested');
+            throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
         }
         
         return $store->getConfig($path);

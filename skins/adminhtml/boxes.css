@@ -458,23 +458,37 @@ label.inline{
     
 /********************* CONFIG ************************/
 fieldset.config table {
+    border-top:solid 1px #888;
+    border-left:solid 1px #888;
     }
 fieldset.config th {
-    border-bottom:dotted 1px #888;
+
     }
 fieldset.config th, fieldset.config td {
+    border-bottom:solid 1px #888;
     border-right:dotted 1px #888;
-    padding:2px 5px;
+    padding:3px 5px;
+    overflow:show;
+    white-space:nowrap;
     }
 fieldset.config th.label, fieldset.config td.label {
-    width:200px;
+    width:150px;
     }
 fieldset.config label {
     float:none;
-    padding-left:5px;
     }
 fieldset.config input.input-radio {
-    padding-right:5px;
+    margin-top:4px;
+    margin-right:5px;
+    float:left;
+    }
+fieldset.config label.inherit, fieldset.config label.old {
+    display:block;
+    width:150px;
+    }
+
+fieldset.config input.input-text, fieldset.config select {
+    width:150px;
     }
 
 .footer .powered-by {
