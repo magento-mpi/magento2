@@ -15,19 +15,26 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $id = $element->getHtmlId();
+        $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
         $html = '<h4>'.$element->getLegend().'</h4>';
         $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
         
         // field label column
-        $html.= '<table cellspacing=0><thead><tr><th class="label">&nbsp;</th><th>'; 
+        $html.= '<table cellspacing=0>';
+        $html.= '<col class="label"/><col class="custom"/>';
+        if (!$default) {
+            $html .= '<col class="inherit"/>';
+        }
+        $html.= '<col class="old"/>';
+        $html.= '<thead><tr><th>&nbsp;</th><th>';
         
         // custom column
         $html.= '<input id="'.$id.'_custom" name="groups['.$id.'][inherit]" type="radio" value="0" class="input-radio">'; 
         $html.= '<label for="'.$id.'_custom">'.__('Specific').'</label>';
         
-        if ($this->getRequest()->getParam('website') || $this->getRequest()->getParam('store')) {
+        if (!$default) {
             $html.= '</th><th>';
 
             // default column

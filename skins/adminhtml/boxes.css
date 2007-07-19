@@ -469,24 +469,19 @@ fieldset.config th, fieldset.config td {
     border-right:dotted 1px #888;
     padding:3px 5px;
     overflow:show;
-    white-space:nowrap;
     }
-fieldset.config th.label, fieldset.config td.label {
-    width:150px;
+fieldset.config col.label {
+    /*width:150px;*/
+    }
+fieldset.config col.inherit, fieldset.config col.old {
+    /*width:150px;*/
     }
 fieldset.config label {
     float:none;
     }
 fieldset.config input.input-radio {
-    margin-top:4px;
     margin-right:5px;
-    float:left;
     }
-fieldset.config label.inherit, fieldset.config label.old {
-    display:block;
-    width:150px;
-    }
-
 fieldset.config input.input-text, fieldset.config select {
     width:150px;
     }
