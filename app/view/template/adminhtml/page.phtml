@@ -26,12 +26,13 @@
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tabs.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/form.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/accordion.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tools.js"></script>
 
     <script type="text/javascript">
         var BASE_URL = '<?=$baseUrl?>adminhtml/';
         var SKIN_URL = '<?=$baseUrl?>skins/adminhtml/';
     </script>
-    
+
     <style type="text/css" media="all">
         /*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
     </style>
@@ -46,7 +47,7 @@
     <script type="text/javascript" src="<?=$baseJsUrl?>calendar/lang/calendar-en.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>calendar/calendar-setup.js"></script>
 <?//endif;?>
-    
+
 <?if($this->getCanLoadExtJs()):?>
     <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-tree.js" ></script>
     <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css" />

@@ -28,26 +28,26 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'), 
+            'header'    =>__('ID'),
             'width'     =>5,
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'user_id'
         ));
         $this->addColumn('username', array(
-            'header'    =>__('User Name'), 
+            'header'    =>__('User Name'),
             'index'     =>'username'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'), 
+            'header'    =>__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'), 
+            'header'    =>__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'), 
+            'header'    =>__('Email'),
             'width'     =>40,
             'align'     =>'center',
             'index'     =>'email'
@@ -63,12 +63,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
                     'caption' => __('Edit'),
                     'url' => Mage::getUrl('*/*/edituser/id/$user_id')
                 ),
-
-                array(
-                    'url' => Mage::getUrl('*/*/deleteuser/id/$user_id'),
-                    'caption' => __('Delete'),
-                    'confirm' => __('Are you sure you want to do this?')
-                )
             )
         ));
 

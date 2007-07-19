@@ -11,6 +11,8 @@
                 </h3>
             </td>
             <td class="form-buttons">
+			<?=$this->getBackButtonHtml()?>
+			<?=$this->getResetButtonHtml()?>
             <button class="scalable" onclick="userForm.submit();">
                 <table cellspacing="0">
                     <tr>
@@ -28,7 +30,7 @@
                 </table>
             </button>
             <?if($this->getUserId()):?>
-            <button class="scalable" onclick="location.href='<?=$this->getUrl('*/*/deleteUser', array('id'=>$this->getUserId()))?>'">
+            <button class="scalable" onclick="deleteConfirm('<?=__('Are you sure you want to do this?')?>' ,'<?=$this->getUrl('*/*/deleteUser', array('id'=>$this->getUserId()))?>')">
                 <table cellspacing="0">
                     <tr>
                         <td class="tl"></td>

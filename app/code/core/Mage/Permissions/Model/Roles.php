@@ -53,8 +53,9 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
         }
 
         foreach ($parent->children() as $childName=>$child) {
-            $result[$path.$childName.'/']['name'] = __((string)$child->title);
-            $result[$path.$childName.'/']['level'] = $level;
+            $key = trim($path.$childName.'/', '/');
+            $result[$key]['name'] = __((string)$child->title);
+            $result[$key]['level'] = $level;
             if ($child->children) {
                 $this->_buildResourceArray($child->children, $path.$childName.'/', $level+1);
             }

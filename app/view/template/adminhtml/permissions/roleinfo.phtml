@@ -22,7 +22,7 @@
                 </table>
             </button>
             <?if($this->getRoleId()):?>
-            <button class="scalable" onclick="location.href='<?=$this->getUrl('*/*/deleteRole', array('id'=>$this->getRoleId()))?>'">
+            <button class="scalable" onclick="deleteConfirm('<?=__('Are you sure you want to do this?')?>', '<?=$this->getUrl('*/*/deleteRole', array('id'=>$this->getRoleId()))?>')">
                 <table cellspacing="0">
                     <tr>
                         <td class="tl"></td>

@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'label' => __('Password'),
                     'id'    => 'customer_pass',
                     'title' => __('Password'),
-                    'class' => '',
+                    'class' => 'input-text required-entry validate-password',
                 )
             );
            $fieldset->addField('confirmation', 'password',
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'label' => __('Password Confirmation'),
                     'id'    => 'confirmation',
                     'title' => __('Password Confirmation'),
-                    'class' => 'validate-confirmation',
+                    'class' => 'input-text required-entry validate-cpassword',
                 )
             );
         }
