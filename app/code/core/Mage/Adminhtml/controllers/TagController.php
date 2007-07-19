@@ -164,8 +164,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
         $this->loadLayout('baseframe')
             ->_setActiveMenu('catalog')
             ->_setActiveMenu('catalog/tags')
-            ->_addBreadcrumb(__('Catalog'), __('Catalog Title'), Mage::getUrl('adminhtml/catalog_category'))
-            ->_addBreadcrumb(__('Tags'), __('Products Tags Title'), Mage::getUrl('adminhtml/tags'))
+            ->_addBreadcrumb(__('Catalog'), __('Catalog Title'))
+            ->_addBreadcrumb(__('Tags'), __('Products Tags Title'))
             ->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab(
                     $this->getRequest()->getActionName()

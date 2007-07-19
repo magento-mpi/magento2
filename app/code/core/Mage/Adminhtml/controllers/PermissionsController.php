@@ -5,7 +5,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
-        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('System'), __('System Title'));
         $this->_addBreadcrumb(__('Permissions'), __('Permissions Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_users'));
