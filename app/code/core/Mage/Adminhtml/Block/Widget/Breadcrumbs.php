@@ -8,21 +8,21 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template
 {
     /**
      * breadcrumbs links
      *
      * @var array
      */
-    protected $_links;
-    
-    public function __construct() 
+    protected $_links = array();
+
+    public function __construct()
     {
         $this->setTemplate('adminhtml/widget/breadcrumbs.phtml');
         $this->addLink(__('Home'), __('Home Title'), Mage::getUrl('adminhtml'));
     }
-    
+
     public function addLink($label, $title=null, $url=null)
     {
         if (empty($title)) {
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template
         );
         return $this;
     }
-    
+
     protected function _beforeToHtml()
     {
         $this->assign('links', $this->_links);

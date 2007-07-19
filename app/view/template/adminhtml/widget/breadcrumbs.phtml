@@ -1,12 +1,16 @@
 <?if(!empty($links)):?>
-<ul class="breadcrumbs"> 
+<ul class="breadcrumbs">
     <?$_size=count($links);?>
     <?foreach ($links as $_index=>$_link):?>
     <li>
         <?if(empty($_link['url'])):?>
-            <strong><?=$_link['label']?></strong>
+            <?if($_index!=$_size-1):?>
+                <span><?=$_link['label']?></span>
+            <?else:?>
+                <strong><?=$_link['label']?></strong>
+            <?endif;?>
         <?else:?>
-            <a href="<?=$_link['url']?>" title="<?=$_link['title']?>"><?=$_link['label']?></a> 
+            <a href="<?=$_link['url']?>" title="<?=$_link['title']?>"><?=$_link['label']?></a>
         <?endif;?>
         <?if($_index!=$_size-1):?>
             &raquo;
