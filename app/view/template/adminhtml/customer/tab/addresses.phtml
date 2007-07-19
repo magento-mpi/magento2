@@ -2,7 +2,7 @@
 <table cellspacing="0" class="form-edit">
 <tr>
 <td class="content-left-nav address-list">
-	<h4 class="icon-head head-customer-address-list" style="float:left">Customer Addresses</h4>
+	<h4 class="icon-head head-customer-address-list" style="float:left"><?=__('Customer Addresses')?></h4>
     <button id="add_address_button" type="button" class="scalable" onclick="customerAddresses.addNewAddress()">
         <table cellspacing="0">
             <tr>
@@ -41,7 +41,7 @@
                 <a href="#" name="delete_address"><?=__('Delete Address')?></a>
             </div>
             <address>
-                New customer address
+                <?=__('New Customer Address')?>
             </address>
             <div class="address-type">
                 <input type="radio" id="new_item_billing" name="default_billing" value="new" title="<?=__('Set as default billing address')?>" checked="true"/>&nbsp;<label for="new_item_billing"><?=__('Default Billing')?></label>
@@ -81,7 +81,7 @@
 		<div class="delete-address">
 		     <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
 		</div>
-		<address>New address</address>
+		<address><?=__('New Address')?></address>
 		<div class="address-type">
             <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="default_billing" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing')?></label>
             <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="default_shipping" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping')?></label>

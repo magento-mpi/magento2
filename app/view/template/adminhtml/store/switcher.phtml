@@ -7,7 +7,7 @@
 </select>
 <script type="text/javascript">
     function switchStore(obj){
-        if(confirm('<?=__('Confirm site switch')?>')){
+        if(confirm('<?=__('Please, confirm site switching...')?>')){
             location.href='<?=$switchUrl?>'+'store/'+obj.value
             return true;
         }

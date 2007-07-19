@@ -278,8 +278,8 @@ if ( hasProductInstall && !hasRequestedVersion ) {
     );
   } else { 
     var alternateContent = ''
-    + 'This content requires the Adobe Flash Player. '
-    + '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+    + '<?=__('This content requires the Adobe Flash Player.')?> '
+    + '<a href=http://www.adobe.com/go/getflash/><?=__('Get Flash')?></a>';
     document.write(alternateContent);  // insert non-flash content
   }
 </script>

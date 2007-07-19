@@ -1,8 +1,8 @@
-<h1>Customer create preview</h1>
+<h1><?=__('Customer Create Preview')?></h1>
 <ul>
-    <li>Firstname: <?=$customer->getFirstname()?></li>
-    <li>Lastname: <?=$customer->getLastname()?></li>
+    <li><?=__('Firstname:')?> <?=$customer->getFirstname()?></li>
+    <li><?=__('Lastname:')?> <?=$customer->getLastname()?></li>
     <li><?=$customer->getEmail()?></li>
 </ul>
-<h2>Customer address</h2>
+<h2><?=__('Customer Address')?></h2>
 <?=$address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>

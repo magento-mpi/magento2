@@ -21,7 +21,7 @@ var role = function () {
                     <?=$this->_getJsObjectName()?>.reload();
 				},
 				onFailure: function() {
-					alert('Something went wrong...');
+					alert('<?=__('Something went wrong...')?>');
 				}
 			});
 		},
@@ -53,7 +53,7 @@ var role = function () {
 	}
 }();
 </script>
-<h4 class="icon-head head-edit-form fieldset-legend">Role users</h4>
+<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Role Users')?></h4>
 <?=$this->_getGridHtml()?>
 <select id="users">
 	<?php foreach ($users as $user) { ?>
@@ -68,7 +68,7 @@ var role = function () {
 				<td class="tr"></td>
 			</tr>
 			<tr>
-				<td class="ml">Add</td>
+				<td class="ml"><?=__('Add')?></td>
 				<td class="mr"></td>
 			</tr>
 			<tr>

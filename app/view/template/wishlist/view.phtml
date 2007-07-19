@@ -1,10 +1,10 @@
 <div class="content">
-    <h1 class="page-heading">Wishlist</h1>
+    <h1 class="page-heading"><?=__('Wishlist')?></h1>
     <?//=$messages->toHtml()?>
-    You account balance is: <strong><?//=$customer->getBalance()?></strong>
+    <?=__('Your Account Balance is:')?> <strong><?//=$customer->getBalance()?></strong>
     <div class="dotted-separator"></div>
     <div class="buttons-container">
-        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="Back" class="input-button float-left"/>
+        <input type="button" onclick="window.location='<?=$baseUrl?>customer/account/';" value="<?=__('Back')?>" class="input-button float-left"/>
         <div class="clearfix"></div>
     </div>
 </div>

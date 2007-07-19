@@ -1,12 +1,12 @@
 <h1>Tags by Users</h1>
-<input type="text" name="tagbyuser" value="<?=@$query;?>" /> <input type="submit" value="Search" />
+<input type="text" name="tagbyuser" value="<?=@$query;?>" /> <input type="submit" value="<?=__('Search')?>" />
 
 <?php if (!empty($collection)) {?>
 <ol>
 <?php foreach ($collection as $item) { ?>
 	<li>
 		<?=$item['firstname'];?> <?=$item['lastname'];?>
-		<div style="font-color:999; font-size:12px">Tags: 
+		<div style="font-color:999; font-size:12px"><?=__('Tags:')?>
 			<?php foreach ($item['tags'] as $tag) { ?>
 				<a href="/adminhtml/tag/tagslist?q=<?=$tag['tagname'];?>"><?=$tag['tagname'];?> (<?=$tag['total'];?>)</a> 
 			<?php } ?>

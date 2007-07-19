@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<?=$baseJsUrl?>lib/flex.js"></script>
 
-<h2>Dashboard</h2>
+<h2><?=__('Dashboard')?></h2>
 
 <div id="dashboardHolder"></div>
 <script type="text/javascript">
@@ -28,10 +28,10 @@ dashboard.addEventListener( 'afterfullscreen', function ( evt ) {
 dashboard.addEventListener( 'load', function ( evt ) { 
     this.getApi().setConfig( {
         customersMenu: [
-            {name:"Top 10", slice:10},
-            {name:"Top 20", slice:20},
-            {name:"Top 50", slice:50},
-            {name:"Top 100", slice:100}
+            {name:"<?=__('Top 10')?>", slice:10},
+            {name:"<?=__('Top 20')?>", slice:20},
+            {name:"<?=__('Top 50')?>", slice:50},
+            {name:"<?=__('Top 100')?>", slice:100}
         ],
         productSlider: {
             labels: [5,10,'',20,'','','',40,'',50],
@@ -40,11 +40,11 @@ dashboard.addEventListener( 'load', function ( evt ) {
             maximum: 50
         },
         allowedDatesViews: [
-            {name:"Hours",unit:"hours",maximum:2},
-            {name:"Days",unit:"days",maximum:90, minimum:2},
-            {name:"Weeks",unit:"weeks", minimum:8},
-            {name:"Months",unit:"months", minimum: 32},
-            {name:"Years",unit:"years", minimum:366}
+            {name:"<?=__('Hours')?>",unit:"hours",maximum:2},
+            {name:"<?=__('Days')?>",unit:"days",maximum:90, minimum:2},
+            {name:"<?=__('Weeks')?>",unit:"weeks", minimum:8},
+            {name:"<?=__('Months')?>",unit:"months", minimum: 32},
+            {name:"<?=__('Years')?>",unit:"years", minimum:366}
 		],
         hideTabs: true
     } );

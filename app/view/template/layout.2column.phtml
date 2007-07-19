@@ -26,12 +26,12 @@ bottomLinks Links on the bottom
 </head>
 <body>
 	<div class="loading-process" id="loading-process" style="display:none">
-			<img src="<?=$baseSkinUrl?>images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
+			<img src="<?=$baseSkinUrl?>images/loading.gif" alt="<?=__('Loading...')?>" width="32" height="32" border="0"/>
 	</div>
         <!-- [start] header -->
 		<div class="container">
 			<div class="header">
-				<h1 id="logo"><a href="<?=$baseUrl?>"><span>Magento Commerce</span></a></h1>
+				<h1 id="logo"><a href="<?=$baseUrl?>"><span><?=__('Magento Commerce')?></span></a></h1>
 				<p><?=$this->getChildHtml('topMenu')?></p>
 				<ul class="links">
 						<?=$this->getChildHtml('topLinks')?>

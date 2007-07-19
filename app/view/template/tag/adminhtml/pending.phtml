@@ -13,9 +13,9 @@ function mark(index) {
 	<? foreach ($collection->getItems() as $tag) { $tag = $tag->getData();?>
 		<li>		
 			<select name="tags['<?=$tag['tag_id'];?>']">
-				<option value="1">pending
-				<option value="2">approved
-				<option value="4">unapproved
+				<option value="1"><?=__('Pending')?></option>
+				<option value="2"><?=__('Approved')?></option>
+				<option value="4"><?=__('Unapproved')?></option>
 			</select> 
 			<?=$tag['tagname'];?>
 		</li>	
@@ -23,13 +23,13 @@ function mark(index) {
 	</ol>
 	
 	<ul>
-		<li><a href="#" onclick="mark(1)">mark all as pending</a></li>
-		<li><a href="#" onclick="mark(2)">mark all as approved</a></li>
-		<li><a href="#" onclick="mark(3)">mark all as unapproved</a></li>
+		<li><a href="#" onclick="mark(1)"><?=__('Mark All as Pending')?></a></li>
+		<li><a href="#" onclick="mark(2)"><?=__('Mark All as Approved')?></a></li>
+		<li><a href="#" onclick="mark(3)"><?=__('Mark All as Unapproved')?></a></li>
 	</ul>
 	
-	<input type="submit" value="Update Tags Statuses" />
+	<input type="submit" value="<?=__('Update Tags Statuses')?>" />
 </form>
 <? } else { ?>
-	There are no pending tags.
+	<?=__('There are no pending tags.')?>
 <? } ?>

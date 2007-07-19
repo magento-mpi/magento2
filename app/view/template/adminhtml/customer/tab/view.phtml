@@ -4,13 +4,13 @@
  */
 ?>
 <div class="box-left">
-	<h4 class="icon-head head-customer-view">Personal Information</h4>
+	<h4 class="icon-head head-customer-view"><?=__('Personal Information')?></h4>
 	<div class="box">
-		<p><strong>Last Logged in:</strong> <?=$this->getLastLoginDate()?> ( Currently <strong><?=$this->getCurrentStatus()?></strong> )<br/>
-		<strong>Account Created on:</strong> <?=$this->getCreateDate()?><br/>
-		<strong>Account Created in:</strong> <?=$this->getCreatedInStore()?></p>
+		<p><strong><?=__('Last Logged in:')?></strong> <?=$this->getLastLoginDate()?> ( <?=__('Currently')?> <strong><?=$this->getCurrentStatus()?></strong> )<br/>
+		<strong><?=__('Account Created on:')?></strong> <?=$this->getCreateDate()?><br/>
+		<strong><?=__('Account Created in:')?></strong> <?=$this->getCreatedInStore()?></p>
 		<address>
-		<strong>Primary Billing Address</strong><br/>
+		<strong><?=__('Primary Billing Address')?></strong><br/>
 		<?=$this->getBillingAddressHtml()?>
 	</div>
 </div>

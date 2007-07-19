@@ -1,5 +1,5 @@
-<h1>Tags List</h1>
-<input type="text" name="t" value="<?=@$query;?>" /> <input type="submit" value="Search" />
+<h1><?=__('Tags List')?></h1>
+<input type="text" name="t" value="<?=@$query;?>" /> <input type="submit" value="<?=__('Search')?>" />
 
 <ul>
 <?php foreach ($tags->getItems() as $tag) { ?>
