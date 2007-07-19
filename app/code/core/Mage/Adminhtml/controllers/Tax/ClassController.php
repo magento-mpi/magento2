@@ -24,23 +24,17 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
 
         $classType = strtolower($this->getRequest()->getParam('classType'));
         $classTypePhrase = ucfirst($classType);
 
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax_rule'));
-        $this->_addBreadcrumb(__("{$classTypePhrase} Tax Classes"), __("{$classTypePhrase} Tax Classes Title"), Mage::getUrl('adminhtml/tax_class_'.$classType));
-        $this->_addBreadcrumb(__("Edit {$classTypePhrase} Tax Class"), __("Edit {$classTypePhrase} Tax Class Title"));
+        $this->_initAction()
+            ->_addBreadcrumb(__("{$classTypePhrase} Tax Classes"), __("{$classTypePhrase} Tax Classes Title"), Mage::getUrl('adminhtml/tax_class_'.$classType))
+            ->_addBreadcrumb(__("Edit {$classTypePhrase} Tax Class"), __("Edit {$classTypePhrase} Tax Class Title"))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_page_edit'))
+        ;
 
         $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages());
-
-        $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActiveTab('tax_class_' . strtolower($this->getRequest()->getParam('classType')));
-
-        $this->_addLeft($tabs);
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_page_edit'));
 
         $this->renderLayout();
     }
@@ -101,4 +95,24 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             # FIXME !!!!
         }
     }
+
+    /**
+     * Initialize action
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    protected function _initAction()
+    {
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('sales/tax/tax_rule')
+            ->_addBreadcrumb(__('Sales'), __('Sales Title'))
+            ->_addBreadcrumb(__('Tax'), __('Tax Title'))
+            ->_addLeft(
+                $this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')
+                    ->setActiveTab('tax_class_' . strtolower($this->getRequest()->getParam('classType')))
+            )
+        ;
+        return $this;
+    }
+
 }

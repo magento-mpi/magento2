@@ -13,51 +13,44 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax_rule'));
-        $this->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'));
-
-        $this->_addTabs();
-
-        $this->_addContent(
+        $this->_initAction()
+            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'))
+            ->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
-        		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_product/add/class_type/PRODUCT'))
-        		->assign('header', __('Product Tax Classes'))
-        	);
-
-        $grid = $this->getLayout()->createBlock('adminhtml/tax_class_grid_default');
-        $grid->setClassType('PRODUCT');
-        $this->_addContent($grid);
-
-        $this->renderLayout();
+            		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_product/add/class_type/PRODUCT'))
+            		->assign('header', __('Product Tax Classes'))
+        	)
+        	->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default')->setClassType('PRODUCT'))
+            ->renderLayout();
     }
 
     public function addAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax'));
-        $this->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'), Mage::getUrl('adminhtml/tax_class_product'));
-        $this->_addBreadcrumb(__('New Product Tax Class'), __('New Product Tax Class Title'));
-
-        $this->_addTabs();
-
-        $form = $this->getLayout()->createBlock('adminhtml/tax_class_product_form_add');
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
-            ->assign('header', __('New Product Tax Class'))
-            ->assign('form', $form)
-        );
-
-        $this->renderLayout();
+        $this->_initAction()
+            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes Title'), Mage::getUrl('adminhtml/tax_class_product'))
+            ->_addBreadcrumb(__('New Product Tax Class'), __('New Product Tax Class Title'))
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
+                    ->assign('header', __('New Product Tax Class'))
+                    ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_class_product_form_add'))
+            )
+            ->renderLayout();
     }
 
-    protected function _addTabs($tabId='tax_class_product')
+    /**
+     * Initialize action
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    protected function _initAction()
     {
-        $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActiveTab($tabId);
-        $this->_addLeft($tabs);
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('sales/tax/tax_rule')
+            ->_addBreadcrumb(__('Sales'), __('Sales Title'))
+            ->_addBreadcrumb(__('Tax'), __('Tax Title'))
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
+        ;
+        return $this;
     }
+
 }

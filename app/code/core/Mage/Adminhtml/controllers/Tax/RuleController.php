@@ -3,41 +3,28 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax'), __('Tax Title'), Mage::getUrl('adminhtml/tax_rule'));
-        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'));
-
-        $this->_addTabs();
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_add', 'tax_rule_toolbar')
-            ->assign('createUrl', Mage::getUrl('adminhtml/tax_rule/add'))
-            ->assign('header', __('Tax Rules'))
-        );
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_grid', 'tax_rule_grid'));
-
-        $this->renderLayout();
+        $this->_initAction()
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'))
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_add', 'tax_rule_toolbar')
+                ->assign('createUrl', Mage::getUrl('adminhtml/tax_rule/add'))
+                ->assign('header', __('Tax Rules'))
+            )
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_grid', 'tax_rule_grid'))
+            ->renderLayout();
     }
 
     public function addAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax'));
-        $this->_addBreadcrumb(__('New Tax Rule'), __('New Tax Rule Title'));
-
-        $this->_addTabs();
-
-        $form = $this->getLayout()->createBlock('adminhtml/tax_rule_form_add');
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
-            ->assign('header', __('New Tax Rule'))
-            ->assign('form', $form)
-        );
-
-        $this->renderLayout();
+        $this->_initAction()
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rules'))
+            ->_addBreadcrumb(__('New Tax Rule'), __('New Tax Rule Title'))
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
+                ->assign('header', __('New Tax Rule'))
+                ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_rule_form_add'))
+            )
+            ->renderLayout();
     }
 
     public function saveAction()
@@ -56,22 +43,15 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('sales');
-        $this->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax'));
-        $this->_addBreadcrumb(__('Edit Tax Rule'), __('Edit Tax Rule Title'));
-
-        $this->_addTabs();
-
-        $form = $this->getLayout()->createBlock('adminhtml/tax_rule_form_add');
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
-            ->assign('header', __('Edit Tax Rule'))
-            ->assign('form', $form)
-        );
-
-        $this->renderLayout();
+        $this->_initAction()
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rule'))
+            ->_addBreadcrumb(__('Edit Tax Rule'), __('Edit Tax Rule Title'))
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
+                    ->assign('header', __('Edit Tax Rule'))
+                    ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_rule_form_add'))
+            )
+            ->renderLayout();
     }
 
     public function deleteAction()
@@ -86,10 +66,20 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         }
     }
 
-    protected function _addTabs($tabId='tax_rule')
+    /**
+     * Initialize action
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    protected function _initAction()
     {
-        $tabs = $this->getLayout()->createBlock('adminhtml/tax_tabs')
-            ->setActiveTab($tabId);
-        $this->_addLeft($tabs);
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('sales/tax/tax_rule')
+            ->_addBreadcrumb(__('Sales'), __('Sales Title'))
+            ->_addBreadcrumb(__('Tax'), __('Tax Title'))
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rule'))
+        ;
+        return $this;
     }
+
 }
