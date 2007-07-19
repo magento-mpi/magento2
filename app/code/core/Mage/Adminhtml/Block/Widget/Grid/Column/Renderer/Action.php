@@ -9,9 +9,14 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 		}
 
 		echo '<span class="nowrap">';
+		$i = 0;
         foreach($actions as $action){
+            $i++;
         	if( is_array($action) ) {
                 $this->_toHtml($action, $row);
+        	}
+        	if( $i < count($actions) ) {
+        	    $this->_showDelimiter();
         	}
         }
 		echo '</span>';
@@ -43,6 +48,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
         }
 
         $actionAttributes->setData($action);
-        echo '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a> ';
+        echo '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a>';
+    }
+
+    protected function _showDelimiter()
+    {
+        echo '&nbsp;|&nbsp;';
     }
 }
