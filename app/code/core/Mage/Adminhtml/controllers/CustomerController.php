@@ -20,7 +20,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             return;
         }
         $this->loadLayout('baseframe');
-        $this->_initLayoutMessages('adminhtml/session');
 
         /**
          * Set active menu item
@@ -54,7 +53,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->loadLayout('baseframe');
-        $this->_initLayoutMessages('adminhtml/session');
         
         $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');

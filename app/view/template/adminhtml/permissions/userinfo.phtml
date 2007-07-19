@@ -11,8 +11,8 @@
                 </h3>
             </td>
             <td class="form-buttons">
-			<?=$this->getBackButtonHtml()?>
-			<?=$this->getResetButtonHtml()?>
+            <?=$this->getBackButtonHtml()?>
+            <?=$this->getResetButtonHtml()?>
             <button class="scalable" onclick="userForm.submit();">
                 <table cellspacing="0">
                     <tr>
@@ -49,7 +49,6 @@
             <?endif;?>
    </table>
 </div>
-<?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="user_edit_form">
 </form>
 <script type="text/javascript" language="javascript">

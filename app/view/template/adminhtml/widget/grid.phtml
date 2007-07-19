@@ -14,56 +14,55 @@
         <?if($this->getGridHeader()):?>
         <div class="content-header">
             <table cellspacing="0" class="grid-header">
-            	<tr>
-            		<td style="width:50%;"><h2><?=$this->getGridHeader();?></h2></td>
-            	</tr>
+                <tr>
+                    <td style="width:50%;"><h2><?=$this->getGridHeader();?></h2></td>
+                </tr>
             </table>
         </div>
         <?endif?>
     <div id="<?=$this->getId()?>">
+    <?else:?>
+    <?=$this->getMessagesBlock()->getHtml();?>
     <?endif;?>
-<?if($this->getMessageBlockVisibility()):?>
-<?=$this->getMessagesBlock()->getHtml();?>
-<?endif?>
 <?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
     <table cellspacing="0" class="actions">
     <tr>
     <?if($this->getPagerVisibility()):?>
-    	<td class="pager">
-    		<?=__('Page')?>
-    		<select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-    		<?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
-				<?$_selected = ($i==$this->getCollection()->getCurPage()) ? ' selected' : ''?>
-				<option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
-    		<?endfor;?>
-    		</select>
-    		<?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
-    		<select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-				<option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
-				<option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
-				<option value="50"<?if($this->getCollection()->getPageSize()==50):?> selected<?endif;?>>50</option>
-				<option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
-				<option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
-    		</select>
-    		<?=__('per page')?><span class="spacer">|</span><?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> <?=__('records found')?>
-    	</td>
+        <td class="pager">
+            <?=__('Page')?>
+            <select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+            <?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
+                <?$_selected = ($i==$this->getCollection()->getCurPage()) ? ' selected' : ''?>
+                <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
+            <?endfor;?>
+            </select>
+            <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
+            <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+                <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
+                <option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
+                <option value="50"<?if($this->getCollection()->getPageSize()==50):?> selected<?endif;?>>50</option>
+                <option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
+                <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
+            </select>
+            <?=__('per page')?><span class="spacer">|</span><?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> <?=__('records found')?>
+        </td>
     <?endif?>
     <?if($this->getExportTypes()):?>
-    	<td class="export a-right">
-    		<img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
-    		<select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
-    		<?foreach ($this->getExportTypes() as $_type):?>
-    			<option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
-    		<?endforeach;?>
-    		</select>
-    		<?=$this->getExportButtonHtml()?>
-    	</td>
+        <td class="export a-right">
+            <img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
+            <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
+            <?foreach ($this->getExportTypes() as $_type):?>
+                <option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
+            <?endforeach;?>
+            </select>
+            <?=$this->getExportButtonHtml()?>
+        </td>
     <?endif;?>
     <?if($this->getFilterVisibility()):?>
-    	<td class="filter-actions a-right">
-    	<?=$this->getResetFilterButtonHtml()?>
-    	<?=$this->getSearchButtonHtml()?>
-    	</td>
+        <td class="filter-actions a-right">
+        <?=$this->getResetFilterButtonHtml()?>
+        <?=$this->getSearchButtonHtml()?>
+        </td>
     <?endif;?>
     </tr>
     </table>
