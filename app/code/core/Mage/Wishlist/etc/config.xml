@@ -13,7 +13,7 @@
     </modules>
     <global>
         <block>
-            <groups><newsletter><class>Mage_Wishlist_Block</class></newsletter></groups>
+            <groups><wishlist><class>Mage_Wishlist_Block</class></wishlist></groups>
         </block>
         <models>
             <wishlist>

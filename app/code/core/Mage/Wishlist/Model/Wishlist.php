@@ -11,7 +11,7 @@
 
 class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract 
 {
-	protected $_itemsCollection = null;
+	protected $_itemCollection = null;
 	
 	protected function _construct()
 	{
@@ -30,29 +30,41 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 		return $this;
 	}
 	
-	public function getItemsCollection() 
+	public function getItemCollection() 
 	{
-		if(is_null($this->_itemsCollection)) {
-			$this->_itemsCollection =  Mage::getResourceModel('wishlist/item_collection')
+		if(is_null($this->_itemCollection)) {
+			$this->_itemCollection =  Mage::getResourceModel('wishlist/item_collection')
 				->addWishlistFilter($this);
 		}
+		
+		return $this->_itemCollection;
 	}
 	
 	public function addNewItem($productId) 
 	{
-		$item = Mage::getModel('wishlist/item')
-			->setProductId($productId)
+		$item = Mage::getModel('wishlist/item');
+		$item->loadByProductWishlist($this->getId(), $productId);
+		
+		if($item->getId()) {
+			Mage::throwException('Product already added to wishlist');
+		}
+		
+		$item->setProductId($productId)
 			->setWishlistId($this->getId())
+			->setAddedAt(now())
+			->setStoreId(Mage::getSingleton('core/store')->getId())
 			->save();
 		
 		return $item;
 	}
 	
-	public function setCustomerId($customerId) {
+	public function setCustomerId($customerId) 
+	{
 		return $this->setData($this->getResource()->getCustomerIdFieldName(), $customerId);
 	}
 	
-	public function getCustomerId() {
+	public function getCustomerId() 
+	{
 		return $this->getData($this->getResource()->getCustomerIdFieldName());
 	}
 	

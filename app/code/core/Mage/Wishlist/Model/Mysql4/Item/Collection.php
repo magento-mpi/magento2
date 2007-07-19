@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Model_Mysql_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection 
+class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection 
 {
 	protected $_resource = null;
 	
@@ -22,9 +22,12 @@ class Mage_Wishlist_Model_Mysql_Item_Collection extends Mage_Catalog_Model_Entit
 	public function addWishlistFilter(Mage_Wishlist_Model_Wishlist	$wishlist)
 	{
 		$this->getSelect()
-			->join(array('wishlist_item'=>$this->getTable('item')), 'e.entity_id = wishlist_item.product_id')
+			->join(array('wishlist_item'=>$this->getTable('item')), 'e.entity_id = wishlist_item.product_id', array('*',new Zend_Db_Expr("(TO_DAYS('" . now() . "') - TO_DAYS(wishlist_item.added_at)) as days_in_wishlist")))
 			->where('wishlist_item.wishlist_id = ?', $wishlist->getId());
+		
+		return $this;
 	}
+	
 	
 	/**
      * Get resource instance

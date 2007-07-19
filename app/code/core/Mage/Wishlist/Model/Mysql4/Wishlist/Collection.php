@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist session model
+ * Wislist model collection
  *
  * @package    Mage
  * @subpackage Wishlist
@@ -9,10 +9,10 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Model_Session extends Mage_Core_Model_Session_Abstract 
+class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Abstract
 {
-	public function __construct()
-    {
-        $this->init('wishlist');
-    }
-}// Class Mage_Wishlist_Model_Session END
+	protected function _construct()
+	{
+		$this->_init('wishlist/wishlist');
+	}
+}// Class Mage_Wishlist_Model_Mysql4_Wishlist END
