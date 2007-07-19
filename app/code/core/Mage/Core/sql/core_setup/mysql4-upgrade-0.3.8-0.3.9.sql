@@ -53,7 +53,7 @@ CREATE TABLE `core_config_field` (
   `module_name` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`field_id`),
   KEY `path` (`path`,`sort_order`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDb DEFAULT CHARSET=utf8;
 
 /*Data for the table `core_config_field` */
 
