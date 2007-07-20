@@ -1,50 +1,43 @@
-/* default styles and positioning */
-ul.h * { margin:0; padding:0; text-align:left; }
-ul.h, ul.h ul { list-style-type:none; }
-ul.h li { float:left; position:relative; z-index:2000; }
-ul.h li.over { z-index:2010; }
-ul.h ul { display:none; position:absolute; }
-ul.h ul li { float:none; }
-ul.h li.over ul { display:block; }
-ul.h ul ul { display:none !important; }
-ul.h ul li.over ul { display:block !important; }
-
-/* IE bugs workarounds */
-* html ul.h ul a, * html ul.h ul a:hover { zoom:1; }
-* html ul.h ul { background:#FFFAF4; }
-* html ul.h ul li { border-bottom:1px solid #fffaf4; }
-
-/****************** 1st LEVEL (HORIZONTAL) MENUS *********************/
-/* UL */
-ul.h {
+#nav {
 	height:34px;
 	background:url(images/nav1_bg.gif) repeat-x;
 	padding-left:20px;
 	}
-/* LI */
-ul.h li {
-	background:url(images/nav1_sep.gif) no-repeat 100% 50%;
-	}
-/* A */
-ul.h a {
+#nav, #nav ul { /* all lists */
+	list-style: none;
+	text-align:left;
+}
+
+/* All lists and links */
+#nav li {	
+	position:relative;
+}
+#nav a, #nav a:hover {
 	display:block;
 	text-decoration:none;
-	padding:0 15px;
-	font:normal 13px sans-serif;
-	color:#fff;
-	line-height:34px;
+	font:normal 13px Arial, sans-serif;
+}
+#nav a.active, #nav a.active:hover {
+	font-weight:bold;
+}
+
+/* 1st level lists and links */
+#nav li {
+	float:left;
+	background:url(images/nav1_sep.gif) no-repeat 100% 50%;
 	}
-/* A.active */
-ul.h a.active {
-    font-weight:bold;
-    }
-/* A:hover */
-ul.h a:hover, ul.h a.active, ul.h li.over a.level0 {
+#nav li.sfhover, #nav li:hover {
+	z-index:2050;
+	}
+#nav a {
+	padding:9px 15px;
+	color:#fff;
+	}
+#nav li:hover a, #nav li.sfhover a, #nav a:hover, #nav a.active  {
 	background:url(images/nav1_on.gif) no-repeat;
-	text-decoration:none;
 	color:#fff;
 	}
-ul.h a:hover em, ul.h a.active em, ul.h li.over a.level0 em {
+#nav li:hover a em, #nav li.sfhover a em, #nav a em, #nav a:hover em, #nav a.active em {
 	display:block;
 	position:absolute;
 	top:0;
@@ -53,51 +46,72 @@ ul.h a:hover em, ul.h a.active em, ul.h li.over a.level0 em {
 	width:5px;
 	background:url(images/nav1_on.gif) no-repeat 100% 0;
 	}
-	
-/****************** 2nd LEVEL (VERTICAL) MENUS *********************/
-/* UL */
-ul.h ul {
-	margin-top:-6px;
-	width:200px;
-	border:1px solid #fbb368;
+#nav a em {
+	background:none;
 	}
-/* LI */
-ul.h ul li {
-	background:#FFFAF4;
+/* Reset all lists and links for 2nd+ levels */
+#nav ul li {
+	float:none;
+	background:none;
 	}
-/* A */
-ul.h ul a {
-    color:#2f2f2f;
-	background:#FFFAF4;
-	line-height:26px;
-	border-bottom:1px solid #fddcbb;
+#nav li:hover li a, #nav li.sfhover li a, #nav ul a, #nav ul a:hover, #nav ul a.active {
+	padding:0;
+	background:none;
+	color:#2f2f2f;
 	}
-/* A.active */
-ul.h ul a.active {
-    background:#FFFAF4;
-    color:#2f2f2f;
-    font-weight:bold;
-    }
-/* A:hover */
-ul.h ul a:hover {
-    color:#2f2f2f;
-	background:#FDEEDF;
-	}
-/* A.parent */
-ul.h ul a.parent {
-	background-image:url(images/nav_parent_arrow.gif) !important;
-	background-repeat:no-repeat !important;
-	background-position:right bottom !important;
-	}
-/* A.last */
-ul.h ul a.last {
-    border-bottom-width:0;
-    }
 
-/****************** 3rd LEVEL MENUS *********************/
-/* UL */
-ul.h ul ul {
-	margin-top:0;
-	left:70%;
-	top:15px;
+
+/* 2nd+ level lists and links */
+#nav ul {
+	position: absolute;
+	width:200px;
+	margin-top:-7px;
+	margin-left: -1000em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+	border:1px solid #FBB368;
+	background:#FFFAF4;
+}
+#nav li:hover li a, #nav li.sfhover li a, #nav ul a, #nav ul a.active, #nav ul a:hover {
+	width:auto;
+	border-bottom:1px solid #FDDCBB;
+	padding:4px 15px;
+	color:#2F2F2F;
 	}
+#nav li:hover li a:hover, #nav li.sfhover li a:hover {
+	background:#fdeedf;
+	}
+
+#nav li ul ul { /* third-and-above-level lists */
+	margin:-1em 0 0 -1000em;
+}
+
+#nav li:hover ul ul, #nav li.sfhover ul ul {
+	margin-left: -1000em;
+}
+
+#nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered list items */
+	margin-left:2px;
+}
+#nav li li:hover ul, #nav li li.sfhover ul {
+	margin-left: 10em;
+}
+
+/* extra positioning rules for limited noscript keyboard accessibility */
+#nav li a:focus + ul { margin-left: 0; }
+#nav li li a:focus + ul { margin-left: 1010em; }
+#nav li li a:focus { margin-left:1000em; width:auto; }
+#nav li li li a:focus {margin-left: 2010em; width:auto; }
+#nav li:hover a:focus, #nav li.sfhover a.sffocus { margin-left: 0; }
+#nav li li:hover a:focus + ul, #nav li li.sfhover a.sffocus + ul { margin-left: 10em; }
+
+
+#nav:after {
+	content:".";
+	display:block;
+	clear:both;
+	height:0;
+	line-height:0;
+	font-size:0;
+	}
+
+
+* html #nav ul li, * html #nav ul li a { zoom:1; }

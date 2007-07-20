@@ -3,70 +3,83 @@
 }*/?>
 <?if (empty($_level)):?>
 <!-- menu start -->
-<script type="text/javascript">
-var isIE = window.navigator.userAgent.indexOf("MSIE") > 0;
+<script type="text/javascript"><!--//--><![CDATA[//><!--
 
-function toggleMenu(el, over) {
-    if (isIE && !over) {
-        uls = el.getElementsByTagName('ul');
-        if (uls.length>0) toggleIntersectingSelects(uls[0], over);
-    }
-	if (over) {
-	    Element.addClassName(el, 'over');
+sfHover = function() {
+	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=(this.className.length>0? " ": "") + "sfhover";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
+		}
+	}
+}
+mcAccessible = function() {
+	var mcEls = document.getElementById("nav").getElementsByTagName("A");
+	for (var i=0; i<mcEls.length; i++) {
+		mcEls[i].onfocus=function() {
+			this.className+=(this.className.length>0? " ": "") + "sffocus"; //a:focus
+			this.parentNode.className+=(this.parentNode.className.length>0? " ": "") + "sfhover"; //li < a:focus
+			if(this.parentNode.parentNode.parentNode.nodeName == "LI") {
+				this.parentNode.parentNode.parentNode.className+=(this.parentNode.parentNode.parentNode.className.length>0? " ": "") + "sfhover"; //li < ul < li < a:focus
+				if(this.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "LI") {
+					this.parentNode.parentNode.parentNode.parentNode.parentNode.className+=(this.parentNode.parentNode.parentNode.parentNode.parentNode.className.length>0? " ": "") + "sfhover"; //li < ul < li < ul < li < a:focus
+				}
+			}
+		}
+		mcEls[i].onblur=function() {
+			this.className=this.className.replace(new RegExp("( ?|^)sffocus\\b"), "");
+			this.parentNode.className=this.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
+			if(this.parentNode.parentNode.parentNode.nodeName == "LI") {
+				this.parentNode.parentNode.parentNode.className=this.parentNode.parentNode.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
+				if(this.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "LI") {
+					this.parentNode.parentNode.parentNode.parentNode.parentNode.className=this.parentNode.parentNode.parentNode.parentNode.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
+				}
+			}
+		}
+	}
+}
+
+// only ie needs the sfHover script. all need the accessibility script...
+// thanks http://www.brothercake.com/site/resources/scripts/onload/
+if(window.addEventListener) window.addEventListener('load', mcAccessible, false); // gecko, safari, konqueror and standard
+else if(document.addEventListener) document.addEventListener('load', mcAccessible, false); // opera 7
+else if(window.attachEvent) { // win/ie
+	window.attachEvent('onload', sfHover);
+	window.attachEvent('onload', mcAccessible);
+} else { // mac/ie5
+	if(typeof window.onload == 'function') {
+		var existing = onload;
+		window.onload = function() {
+			existing();
+			sfHover();
+			mcAccessible();
+		}
 	} else {
-	    Element.removeClassName(el, 'over');
-	}
-	if (isIE && over) {
-	   uls = el.getElementsByTagName('ul');
-	   if (uls.length>0) toggleIntersectingSelects(uls[0], over);
+		window.onload = function() {
+			sfHover();
+			mcAccessible();
+		}
 	}
 }
 
-function getElementInfo(el) {
-	var l = 0, t = 0, o = el;
-	if (o.offsetParent) { 
-		l = o.offsetLeft; t = o.offsetTop;
-		while (o = o.offsetParent) { l += o.offsetLeft; t += o.offsetTop }
-	}
-	return {x1:l, y1:t, x2:l+el.offsetWidth, y2:t+el.offsetHeight};
-}
-
-function toggleIntersectingSelects(el, hide) {
-    var e1 = getElementInfo(el);    
-    var selects = document.getElementsByTagName('select');
-    for (var i=0, l=selects.length; i<l; i++) {
-        var e2 = getElementInfo(selects[i]);
-        var intersect = !(
-            (e1.x1 <= e2.x1 && e1.x2 < e2.x1) || (e1.x1 > e2.x1 && e2.x2 < e1.x1) || 
-            (e1.y2 >= e2.y2 && e1.y1 > e2.y2) || (e1.y2 < e2.y2 && e2.y1 > e1.y2)
-        );       
-        if (intersect) selects[i].style.visibility = hide ? "hidden" : "visible";
-    };
-}
-</script>
-<ul class="h">
+//--><!]]></script>
+<ul id="nav">
 <?  $_level = 0; ?>
 <?endif?>
 
 <?foreach ($menu as $_item):?>
-    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=!empty($_item['active'])?'active':''?>">
-       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?> level<?=$_level?>">
-            <?=$_item['label']?>
-            <?if(empty($_level)):?><em></em><?endif?>
-       </a>
-       <?if(!empty($_item['children'])):?>
-        <ul>
-        <?
+    <li class="<?=!empty($_item['active'])?'active':''?>"><a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?>"><?=$_item['label']?><?if(empty($_level)):?><em>&nbsp;</em><?endif?></a><?if(!empty($_item['children'])):?>
+			 <ul><?
             $_menuData[$_level] = array('menu'=>$menu);
             $menu = $_item['children'];
             $_level++; 
             include __FILE__; 
             $_level--; 
             extract($_menuData[$_level]);
-        ?>
-        </ul>
-    <?endif;?>
-    </li>
+        ?></ul> <?endif;?></li>
 <?endforeach;?>
 
 <?if (empty($_level)):?>
