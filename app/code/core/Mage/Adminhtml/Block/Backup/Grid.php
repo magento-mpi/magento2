@@ -36,14 +36,24 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $gridUrl = Mage::getUrl('*/*/');
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->addColumn('time', array('header'=>__('Time'), 'align'=>'center', 'index'=>'time_formated'));
+        $this->addColumn('time', array('header'=>__('Time'), 'align'=>'center', 'index'=>'time_formated', 'type' => 'datetime',));
         $this->addColumn('type', array('header'=>__('Type'),'align'=>'center', 'index'=>'type'));
         $this->addColumn('download', array('header'=>__('Download'),'align'=>'center',
                                            'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a> | <a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false));
-        $this->addColumn('action', array('header'=>__('Action'),'align'=>'center',
-                                         'format'=>'<a href="' . $gridUrl .'delete/time/$time/type/$type/">' . __('Delete') . '</a>',
-                                         'index'=>'type', 'sortable'=>false));
+        $this->addColumn('action', array(
+                                'header'=>__('Action'),
+                                'align'=>'center',
+                                'type' => 'action',
+                                'width' => '80px',
+                                'actions' => array(
+                                    array(
+                                        'url' => $gridUrl .'delete/time/$time/type/$type/',
+                                        'caption' => __('Delete'),
+                                        'confirm' => __('Are you sure you want to do this?')
+                                    )
+                                ),
+                                'index'=>'type', 'sortable'=>false));
         $this->_initCollection();
         return parent::_beforeToHtml();
     }

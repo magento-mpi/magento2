@@ -58,18 +58,21 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                             'header'=>__('ID'),
                             'width'=>'40px',
                             'align'=>'center',
+                            'filter' => false,
                             'sortable' => false,
                             'index'=>'customer_id')
                         );
 
         $this->addColumn('firstname', array(
                             'header'=>__('First Name'),
+                            'filter' => false,
                             'sortable' => false,
                             'index'=>'customer_firstname')
                         );
 
         $this->addColumn('lastname', array(
                             'header'=>__('Last Name'),
+                            'filter' => false,
                             'sortable' => false,
                             'index'=>'customer_lastname')
                         );
@@ -77,6 +80,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('email', array(
                             'header'=>__('Email'),
                             'align'=>'center',
+                            'filter' => false,
                             'sortable' => false,
                             'index'=>'customer_email')
                         );
@@ -91,12 +95,14 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('session_start_time', array(
                             'header'=>__('Session Start Time'),
                             'align'=>'center',
+                            'type' => 'datetime',
                             'index'=>'first_visit_at')
                         );
 
         $this->addColumn('last_activity', array(
                             'header'=>__('Last Activity'),
                             'align'=>'center',
+                            'type' => 'datetime',
                             'index'=>'last_visit_at')
                         );
 
@@ -119,6 +125,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                          'align' => 'center',
                          'type' => 'action',
                          'sortable' => false,
+                         'filter' => false,
                          'actions' => array(
                             array(
                                 'url' => Mage::getUrl('*/customer/edit/id/$customer_id'),
