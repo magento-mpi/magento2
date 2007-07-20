@@ -12,11 +12,11 @@
 class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Status extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 	protected static $_statuses = array(
-		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> 'status sent',
-		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> 'status cancel',
-		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> 'status not sending',
-		Mage_Newsletter_Model_Queue::STATUS_SENDING => 'status sending',
-		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> 'status pause'
+		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> 'Sent',
+		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> 'Cancel',
+		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> 'Never send',
+		Mage_Newsletter_Model_Queue::STATUS_SENDING => 'Sending',
+		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> 'Paused'
 	);
 	
     public function render(Varien_Object $row)
@@ -30,6 +30,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Status extends Mage_Ad
     		return self::$_statuses[$status];
     	}
     	
-    	return 'status unknown';
+    	return 'Unknown';
     }
 }

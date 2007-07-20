@@ -26,7 +26,7 @@ class Mage_Newsletter_Model_Mysql4_Problem_Collection extends Mage_Core_Model_My
 			->joinLeft(array('subscriber'=>$this->getTable('subscriber')),'main_table.subscriber_id = subscriber.subscriber_id',
 					   array('subscriber_email','customer_id','subscriber_status'));
 		$this->_subscribersInfoJoinedFlag = true;
-		$this->_groupByProblem();
+		//$this->_groupByProblem();
 		return $this;
 	}
 	
@@ -37,7 +37,7 @@ class Mage_Newsletter_Model_Mysql4_Problem_Collection extends Mage_Core_Model_My
 					   array('queue_start_at', 'queue_finish_at'))
 			->joinLeft(array('template'=>$this->getTable('template')),'main_table.queue_id = queue.queue_id',
 					   array('template_subject','template_sender_name','template_sender_email'));
-		$this->_groupByProblem();
+		//$this->_groupByProblem();
 		return $this;
 	}
 	

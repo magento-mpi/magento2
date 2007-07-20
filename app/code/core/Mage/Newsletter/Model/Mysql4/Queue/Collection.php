@@ -11,6 +11,8 @@
 
 class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
 {
+	protected $_addSubscribersFlag = false;
+	
 	/**
 	 * Initializes collection
 	 */
@@ -18,6 +20,7 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     {
         $this->_init('newsletter/queue');        
     }
+    
     
     /**
      * Joines templates information
@@ -32,13 +35,9 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
    		return $this;
     }
     
-    /**
-     * Joines subscribers information
-     *
-     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
-     */
-    public function addSubscribersInfo() 
+    protected  function _addSubscriberInfoToSelect() 
     {
+    	$this->getSize(); // Executing of count query!
     	$this->getSelect()
     		->joinLeft(array('link_total'=>$this->getTable('queue_link')),
     								 'main_table.queue_id=link_total.queue_id', 
@@ -51,8 +50,54 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     								 	new Zend_Db_Expr('COUNT(link_sent.queue_link_id) AS subscribers_sent')
     								 ))
     		->group('main_table.queue_id');
+    }
+    
+    public function load($printQuery=false, $logQuery=false) {
+    	if($this->_addSubscribersFlag) {
+    		$this->_addSubscriberInfoToSelect();
+    	}
     	
+    	return parent::load($printQuery, $logQuery);
+    }
+    
+    /**
+     * Joines subscribers information
+     *
+     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
+     */
+    public function addSubscribersInfo() 
+    {
+    	$this->_addSubscribersFlag = true;
     	return $this;
+    }
+    
+    public function addFieldToFilter($field, $condition)
+    {
+    	if(in_array($field, array('subscribers_total', 'subscribers_sent'))) {
+    		$this->addFieldToFilter('main_table.queue_id', array('in'=>$this->_getIdsFromLink($field, $condition)));
+    		return $this;
+    	} else {
+    		return parent::addFieldToFilter($field, $condition);
+    	}
+    }
+    
+    protected function _getIdsFromLink($field, $condition) {
+    	$select = $this->getConnection()->select()
+    		->from($this->getTable('queue_link'), array('queue_id', 'COUNT(queue_link_id) as total'))
+    		->group('queue_id')
+    		->having($this->_getConditionSql('total', $condition));
+    	
+    	if($field == 'subscribers_sent') {
+    		$select->where('letter_sent_at IS NOT NULL');
+    	}
+    	
+    	$idList = $this->getConnection()->fetchCol($select);
+    	
+    	if(count($idList)) {
+    		return $idList;
+    	}
+    	
+    	return array(0);
     }
     
     /**

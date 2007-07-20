@@ -21,8 +21,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         parent::__construct();
         
         $this->setId('subscriberGrid');
-        $this->setDefaultSort('id');
-        $this->setDefaultFilter(array('website'=>1));
+        $this->setDefaultSort('id', 'desc');
         $this->setSaveParametersInSession(true);
         $this->setMessageBlockVisibility(true);
         $this->setUseAjax(true);
@@ -36,7 +35,8 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('newsletter/subscriber_collection')
-			->showCustomerInfo(true);
+			->showCustomerInfo(true)
+			->showStoreInfo();
 			
 		if(!$this->getShowQueueAdd()) {
 			$collection->useQueue(Mage::getModel('newsletter/queue')

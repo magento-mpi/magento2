@@ -12,9 +12,9 @@
 class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Status extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 	protected static $_statuses = array(
-		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => 'not activated',
-		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => 'subcribed',
-		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => 'unsubcribed'
+		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => 'Not activated',
+		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => 'Subcribed',
+		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => 'Unsubcribed'
 	);
 		
     public function render(Varien_Object $row)
@@ -28,6 +28,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Status extends Ma
     		return self::$_statuses[$status];
     	}
     	
-    	return 'status unknown';
+    	return 'Unknown';
     }
 }

@@ -31,11 +31,8 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _beforeToHtml()
     {
-        $gridUrl = Mage::getUrl('adminhtml',array('controller'=>'customer_group'));
-
         $this->addColumn('time', array(
             'header' => __('ID'),
-            'sortable' => false,
             'align' => 'center',
             'index' => 'customer_group_id',
         ));
@@ -46,13 +43,25 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
         ));
         $this->addColumn('action', array(
             'header' => __('Action'),
-            'align' => 'center',
-            'format' => '<a href="' . $gridUrl .'edit/id/$customer_group_id/" class="edit-url">' . __('Edit') . '</a> | '
-                .  '<a href="' . $gridUrl .'delete/id/$customer_group_id/">' . __('Delete') . '</a>',
+            'align'  => 'center',
+            'type'	 => 'action',
+            'actions' => array(
+            				array(
+            					'url' 	  => Mage::getUrl('adminhtml/customer_group/edit/id/$customer_group_id'),
+            					'caption' => __('Edit'),
+  								'class'	  => 'edit-url'
+            				),
+            				array(
+            					'url' 	  => Mage::getUrl('adminhtml/customer_group/delete/id/$customer_group_id'),
+            					'caption' => __('Delete'),
+            					'confirm' => __('Are you sure you want to do this?')
+            				)
+            			),        
             'index' => 'type',
             'filter'=> false,
-            'sortable' => false,
+            'sortable' => false
         ));
+        
         $this->_initCollection();
         return parent::_beforeToHtml();
     }

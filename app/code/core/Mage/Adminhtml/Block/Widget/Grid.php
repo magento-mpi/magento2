@@ -198,8 +198,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _setFilterValues($data)
     {
-        foreach ($this->getColumns() as $columnId => $column) {
-            if (!empty($data[$columnId]) && $column->getFilter()) {
+    	foreach ($this->getColumns() as $columnId => $column) {
+            if (isset($data[$columnId]) && (!empty($data[$columnId]) || strlen($data[$columnId]) > 0) && $column->getFilter()) {
                 $column->getFilter()->setValue($data[$columnId]);
                 $this->_addColumnFilterToCollection($column);
             }

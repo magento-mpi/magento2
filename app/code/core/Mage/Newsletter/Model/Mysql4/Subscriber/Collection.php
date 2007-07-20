@@ -29,6 +29,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     protected $_queueLinkTable;
     
     /**
+     * Store table name
+     *
+     * @var string
+     */    
+    protected $_storeTable;
+    
+    /**
      * Queue joined flag
      *
      * @var boolean
@@ -43,6 +50,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     protected $_showCustomersInfo = false;
     
     /**
+     * Filter for count
+     *
+     * @var unknown_type
+     */
+    protected $_countFilterPart = array();
+    
+    /**
      * Constructor
      *
      * Configures collection
@@ -52,6 +66,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
         $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
+        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
         $this->_sqlSelect->from(array('main_table'=>$this->_subscriberTable));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
     }
@@ -128,6 +143,52 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     	$this->_showCustomersInfo = (boolean) $show;
     	return $this;
     }
+    
+     /**
+     * Sets flag for customer info loading on load
+     *
+     * @param   boolean $show
+     * @return  Mage_Newsletter_Model_Mysql4_Subscriber_Collection
+     */
+    public function showStoreInfo() 
+    {
+    	$this->_sqlSelect->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
+    	
+    	return $this;
+    }
+    
+    public function addFieldToFilter($field, $condition)
+    {
+    	if(!is_null($condition)) {
+    		$this->_sqlSelect->having($this->_getConditionSql($field, $condition));
+    		$this->_countFilterPart[] = $this->_getConditionSql('main_table.' . $field, $condition);
+    	}    	 
+        return $this;
+    }
+    
+     public function getSelectCountSql()
+    {
+        $this->_renderFilters();
+
+        $countSelect = clone $this->_sqlSelect;
+        
+        $countSelect->reset(Zend_Db_Select::HAVING);
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+		
+        foreach ($this->_countFilterPart as $where) {
+        	$countSelect->where($where);
+        }
+       
+        
+        // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
+        $sql = $countSelect->__toString();
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
+        
+        return $sql;
+    }
+            
     
     /**
      * Load only subscribed customers

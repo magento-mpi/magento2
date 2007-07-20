@@ -9,13 +9,12 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Status extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select 
+class Mage_Adminhtml_Block_Newsletter_Template_Grid_Filter_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select 
 {
 	protected static $_statuses = array(
-		null												  => null,
-		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => 'Not activated',
-		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => 'Subcribed',
-		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => 'Unsubcribed'
+		null										=>	null,
+		Mage_Newsletter_Model_Template::TYPE_HTML   => 'html',
+		Mage_Newsletter_Model_Template::TYPE_TEXT 	=> 'text'
 	);
 	
 	protected function _getOptions() 

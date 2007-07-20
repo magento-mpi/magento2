@@ -74,12 +74,20 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
         
         $this->addColumn('subscribers_sent', array(
-            'header'    =>	__('Sent'),
+            'header'    =>	__('Received'),
             'align'     =>	'center',
-            'filter'	=> false,
-            'index'		=> 'subscribers_sent',
-            'format'	=> '$subscribers_sent / $subscribers_total'
+           	'type'		=> 'number',
+            'index'		=> 'subscribers_sent'
         ));
+        
+        $this->addColumn('subscribers_total', array(
+            'header'    =>	__('Subscribed'),
+            'align'     =>	'center',
+            'type'		=> 'number',
+            'index'		=> 'subscribers_total'
+        ));
+        
+        
         
         $this->addColumn('action', array(
             'header'    =>	__('Action'),

@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'header'=>__('Template Type'),
                 'align'=>'center',
                 'index'=>'template_type',
-                'filter' => false,
+                'filter' => 'adminhtml/newsletter_template_grid_filter_type',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_type'
         ));
         $this->addColumn('action',

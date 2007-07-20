@@ -193,10 +193,10 @@ class Varien_Object
             
             $value = $this->_data[$key];
             if (is_array($value)) {
-                return (!empty($value[$index])) ? $value[$index] : false;
+                return (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) ? $value[$index] : false;
             } elseif (is_string($value)) {
                 $arr = explode("\n", $value);
-                return (!empty($arr[$index])) ? $arr[$index] : false;
+                return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0)) ? $arr[$index] : false;
             } elseif ($value instanceof Varien_Object) {
                 return $value->getData($index);
             }
