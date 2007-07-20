@@ -29,7 +29,7 @@ class Mage_Core_Model_Resource_Setup
     static public function applyAllUpdates()
     {
         $resources = Mage::getConfig()->getNode('global/resources')->children();
-        foreach ($resources as $resource) {
+        foreach ($resources as $resName=>$resource) {
             if (!$resource->setup) {
                 continue;
             }
@@ -37,7 +37,7 @@ class Mage_Core_Model_Resource_Setup
             if (isset($resource->setup->class)) {
                 $className = $resource->setup->getClassName();
             }
-            $setupClass = new $className($resource->getName());
+            $setupClass = new $className($resName);
             $setupClass->applyUpdates();
         }
         return true;

@@ -470,7 +470,7 @@ fieldset.config th, fieldset.config td {
     border-right:dotted 1px #888;
     padding:2px 5px;
     }
-fieldset.config col {
+fieldset.config col.default, fieldset.config col.old {
     width:150px;
     }
 fieldset.config col.custom {
@@ -480,7 +480,7 @@ fieldset.config label {
     float:none;
     }
 fieldset.config input.input-radio {
-    padding-right:5px;
+    margin-right:5px;
     }
 fieldset.config input.input-text, fieldset.config select.select {
     width:150px;

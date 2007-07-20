@@ -8,24 +8,24 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collection_Db 
+class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collection_Db
 {
     protected $_currencyTable;
     protected $_currencyNameTable;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
         $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory/currency');
         $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_name');
-        
+
         $this->_sqlSelect->from($this->_currencyTable);
-        $this->_sqlSelect->join($this->_currencyNameTable, 
+        $this->_sqlSelect->join($this->_currencyNameTable,
             "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code");
-        
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/currency'));
     }
-    
+
     /**
      * Set language condition by name table
      *
@@ -40,7 +40,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
         $this->addFilter('language', "$this->_currencyNameTable.language_code='$lang'", 'string');
         return $this;
     }
-    
+
     /**
      * Add currency code condition
      *
@@ -50,8 +50,8 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
     public function addCodeFilter($code)
     {
         if (is_array($code)) {
-            $this->addFilter("codes", 
-                $this->getConnection()->quoteInto("$this->_currencyTable.currency_code IN (?)", $code), 
+            $this->addFilter("codes",
+                $this->getConnection()->quoteInto("$this->_currencyTable.currency_code IN (?)", $code),
                 'string'
             );
         }
@@ -59,5 +59,10 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
             $this->addFilter("code_$code", "$this->_currencyTable.currency_code='$code'", 'string');
         }
         return $this;
+    }
+
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('currency_code', 'currency_name');
     }
 }
