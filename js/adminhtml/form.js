@@ -89,3 +89,14 @@ function varienWindowOnload(){
     }
 }
 Event.observe(window, 'load', varienWindowOnload);
+
+Event.pointerX = function(event){
+    /*if((typeof event == 'object') && (document.documentElement || document.body)){
+        return event.pageX || event.clientX;//|| (event.clientX +(document.documentElement.scrollLeft || document.body.scrollLeft));    
+    }*/
+}
+Event.pointerY = function(event){
+    if((typeof event == 'object') && (document.documentElement || document.body)){
+        //return event.pageY || (event.clientY +(document.documentElement.scrollTop || document.body.scrollTop));
+    }
+}

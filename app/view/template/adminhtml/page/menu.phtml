@@ -12,11 +12,9 @@ function toggleMenu(el, over) {
         if (uls.length>0) toggleIntersectingSelects(uls[0], over);
     }
 	if (over) {
-	    el.className = (el.className + ' over').replace(/^ +| +$/, '');
+	    Element.addClassName(el, 'over');
 	} else {
-	    //window.setTimeout(function() {
-	       el.className = el.className.replace(/\bover\b/, '');
-	    //}, 30);
+	    Element.removeClassName(el, 'over');
 	}
 	if (isIE && over) {
 	   uls = el.getElementsByTagName('ul');
@@ -51,10 +49,8 @@ function toggleIntersectingSelects(el, hide) {
 <?endif?>
 
 <?foreach ($menu as $_item):?>
-    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> 
-        class="<?=!empty($_item['active'])?'active':''?>">
-       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?>            
-            class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?> level<?=$_level?>">
+    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=!empty($_item['active'])?'active':''?>">
+       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?> level<?=$_level?>">
             <?=$_item['label']?>
             <?if(empty($_level)):?><em></em><?endif?>
        </a>

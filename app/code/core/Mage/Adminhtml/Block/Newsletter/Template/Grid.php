@@ -10,21 +10,18 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    protected function _initCollection()
+    protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/template_collection')
             ->useOnlyActual();
 
         $this->setCollection($collection);
+        
+        return parent::_prepareCollection();
     }
-
-    /**
-     * Configuration of grid
-     */
-    protected function _beforeToHtml()
+    
+    protected function _prepareColumns()
     {
-        $gridUrl = Mage::getUrl('adminhtml',array('controller'=>'backup'));
-
         $this->addColumn('id',
             array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
         $this->addColumn('code',
@@ -63,8 +60,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'filter' => false,
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
-
-        $this->_initCollection();
-        return parent::_beforeToHtml();
+        return $this;
     }
 }

@@ -243,12 +243,13 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function setCurPage($page)
     {
-        if ($page <= $this->getLastPageNumber()) {
+        $this->_curPage = $page;
+        /*if ($page <= $this->getLastPageNumber()) {
             $this->_curPage = $page;
         }
         else {
             $this->_curPage = 1;
-        }
+        }*/
         
         return $this;
     }
