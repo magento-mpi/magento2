@@ -81,10 +81,20 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 'page_store_id' => $this->getRequest()->getParam('page_store_id', 0) /* FIXME!!! */
             );
 
-        $pageObject = new Varien_Object();
-        $pageObject->setData($pageData);
-        Mage::getModel('cms/page')->save($pageObject);
+        $model = Mage::getModel('cms/page')->setData($pageData);
+        if( $model->itemExists() === false ) {
+            $model->save();
+            $this->_redirect('adminhtml/cms');
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError('Error wile saving this page. Page with the same identifier already exists.');
+            $this->_returnLocation();
+        }
+    }
 
-        $this->_redirect('adminhtml/cms');
+    protected function _returnLocation()
+    {
+        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+            $this->getResponse()->setRedirect($referer);
+        }
     }
 }

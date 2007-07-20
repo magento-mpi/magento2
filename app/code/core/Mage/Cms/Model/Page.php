@@ -49,9 +49,9 @@ class Mage_Cms_Model_Page extends Varien_Object
         return Mage::getResourceModel('cms/page');
     }
 
-    public function save($page)
+    public function save()
     {
-        $this->getResource()->save($page);
+        $this->getResource()->save($this);
         return $this;
     }
 
@@ -71,5 +71,10 @@ class Mage_Cms_Model_Page extends Varien_Object
     {
         $this->getResource()->delete($pageId);
         return $this;
+    }
+
+    public function itemExists()
+    {
+        return $this->getResource()->itemExists($this);
     }
 }

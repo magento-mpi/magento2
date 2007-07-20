@@ -84,4 +84,13 @@ class Mage_Cms_Model_Mysql4_Page
         $this->_write->delete($this->_pageTable, $condition);
         return $this;
     }
+
+    public function itemExists($page)
+    {
+        $select = $this->_read->select();
+        $select->from($this->_pageTable);
+        $select->where("{$this->_pageTable}.page_identifier = '{$page->getPageIdentifier()}' AND {$this->_pageTable}.page_id != '{$page->getPageId()}'");
+        $data = $this->_read->fetchRow($select);
+        return ( intval($data['page_id']) > 0 ) ? true : false;
+    }
 }
