@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('page_is_active',
             array(
-                'header'=>__('Enabled'),
+                'header'=>__('Status'),
                 'index'=>'page_active',
                 'type' => 'boolean',
                 'values' => array(__('Disabled'), __('Enabled'))

@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                 'label' => __('Page Title'),
                 'title' => __('Page Title'),
                 'class' => 'required-entry',
+                'required' => true,
                 'value' => $this->getPageObject()->getPageTitle()
             )
         );
@@ -44,9 +45,10 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
     	$fieldset->addField('page_identifier', 'text',
             array(
                 'name' => 'page_identifier',
-                'label' => __('Page Code'),
-                'title' => __('Page Code'),
+                'label' => __('Identifier'),
+                'title' => __('Identifier'),
                 'class' => 'required-entry',
+                'required' => true,
                 'value' => $this->getPageObject()->getPageIdentifier()
             )
         );
@@ -58,6 +60,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                     'value'     => ( !is_null($this->getPageObject()->getPageActive()) ) ? $this->getPageObject()->getPageActive() : 1,
                     'class'     => 'validate-one-required',
                     'name'      => 'page_active',
+                    'required' => true,
                     'values'    => array(
                         array(
                             'value' => 1,
@@ -80,6 +83,7 @@ class Mage_Adminhtml_Block_Cms_Page_Maintab extends Mage_Adminhtml_Block_Widget_
                 'title' => __('Content'),
                 'class' => 'required-entry',
                 'wysiwyg' => true,
+                'required' => true,
                 'theme' => 'advanced',
                 'value' => $this->getPageObject()->getPageContent()
             )
