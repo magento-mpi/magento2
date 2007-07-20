@@ -96,14 +96,21 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      */
     public function useOnlineFilter($minutes=15)
     {
-        $this->_sqlSelect->from($this->_urlTable);
-        $this->_sqlSelect->joinLeft( $this->_visitorTable, "{$this->_visitorTable}.visitor_id = {$this->_urlTable}.visitor_id" );
+        $this->_sqlSelect->from($this->_visitorTable);
+        $this->_sqlSelect->joinLeft( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
         $this->_sqlSelect->joinLeft( $this->_visitorInfoTable, "{$this->_visitorInfoTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" );
         $this->_sqlSelect->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" );
         $this->_sqlSelect->joinLeft( $this->_quoteTable, "{$this->_quoteTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->where( "{$this->_urlTable}.visit_time >= ( ? - INTERVAL {$minutes} MINUTE)", now() );
         $this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
+        return $this;
+    }
+
+    public function showCustomersOnly()
+    {
+        $this->_sqlSelect->where("{$this->_customerTable}.customer_id > 0");
+        $this->_sqlSelect->group("{$this->_customerTable}.customer_id");
         return $this;
     }
 

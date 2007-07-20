@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
     protected function _initCollection()
     {
         $filterOnlineOnly = $this->getRequest()->getParam('filterOnline', false);
-        $filterCustomersOnly = $this->getRequest()->getParam('filterCustomers', false);
+        $filterCustomersOnly = $this->getRequest()->getParam('filterCustomers', true);
         $filterGuestsOnly = $this->getRequest()->getParam('filterGuests', false);
 
         $collection = Mage::getResourceSingleton('log/visitor_collection');
@@ -54,16 +54,81 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _beforeToHtml()
     {
-        $this->addColumn('id', array('header'=>__('ID'), 'width'=>'40px', 'align'=>'center', 'index'=>'customer_id'));
-        $this->addColumn('firstname', array('header'=>__('First Name'),  'index'=>'customer_firstname'));
-        $this->addColumn('lastname', array('header'=>__('Last Name'), 'index'=>'customer_lastname'));
-        $this->addColumn('email', array('header'=>__('Email'), 'align'=>'center', 'index'=>'customer_email'));
-        $this->addColumn('ip_address', array('header'=>__('IP Address'), 'align'=>'center', 'index'=>'remote_addr',
-        									'renderer'=>'adminhtml/customer_online_grid_renderer_ip'));
-        $this->addColumn('session_start_time', array('header'=>__('Session Start Time'), 'align'=>'center', 'index'=>'first_visit_at'));
-        $this->addColumn('last_activity', array('header'=>__('Last Activity'), 'align'=>'center', 'index'=>'last_visit_at'));
-        $this->addColumn('last_url', array('header'=>__('Last Url'), 'align'=>'center', 'index'=>'url'));
-        $this->addColumn('cart_items', array('header'=>__('Cart Items'), 'align'=>'center', 'index'=>'quote_data'));
+        $this->addColumn('id', array(
+                            'header'=>__('ID'),
+                            'width'=>'40px',
+                            'align'=>'center',
+                            'sortable' => false,
+                            'index'=>'customer_id')
+                        );
+
+        $this->addColumn('firstname', array(
+                            'header'=>__('First Name'),
+                            'sortable' => false,
+                            'index'=>'customer_firstname')
+                        );
+
+        $this->addColumn('lastname', array(
+                            'header'=>__('Last Name'),
+                            'sortable' => false,
+                            'index'=>'customer_lastname')
+                        );
+
+        $this->addColumn('email', array(
+                            'header'=>__('Email'),
+                            'align'=>'center',
+                            'sortable' => false,
+                            'index'=>'customer_email')
+                        );
+
+        $this->addColumn('ip_address', array(
+                            'header'=>__('IP Address'),
+                            'align'=>'center',
+                            'index'=>'remote_addr',
+        	                'renderer'=>'adminhtml/customer_online_grid_renderer_ip')
+        	            );
+
+        $this->addColumn('session_start_time', array(
+                            'header'=>__('Session Start Time'),
+                            'align'=>'center',
+                            'index'=>'first_visit_at')
+                        );
+
+        $this->addColumn('last_activity', array(
+                            'header'=>__('Last Activity'),
+                            'align'=>'center',
+                            'index'=>'last_visit_at')
+                        );
+
+        $this->addColumn('last_url', array(
+                            'header'=>__('Last Url'),
+                            'align'=>'center',
+                            'index'=>'url')
+                        );
+        /*
+        $this->addColumn('cart_items', array(
+                            'header'=>__('Cart Items'),
+                            'align'=>'center',
+                            'sortable' => false,
+                            'default' => __('Empty'),
+                            'index'=>'quote_data')
+                        );
+        */
+        $this->addColumn('actions', array(
+                         'header' => __('Actions'),
+                         'align' => 'center',
+                         'type' => 'action',
+                         'sortable' => false,
+                         'actions' => array(
+                            array(
+                                'url' => Mage::getUrl('*/customer/edit/id/$customer_id'),
+                                'caption' => 'View / Edit',
+                                'title' => __('Click Here to View or Edit this Customer')
+                            )
+                         ))
+
+                        );
+
         $this->_initCollection();
         return parent::_beforeToHtml();
     }

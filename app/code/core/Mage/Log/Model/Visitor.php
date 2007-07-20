@@ -155,7 +155,13 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if( intval($customerId) <= 0 ) {
             return $this;
         }
-        $data->setCustomerData(Mage::getModel('customer/customer')->load($customerId));
+        $customerData = Mage::getModel('customer/customer')->load($customerId);
+        $newCustomerData = array();
+        foreach( $customerData->getData() as $propName => $propValue ) {
+            $newCustomerData['customer_' . $propName] = $propValue;
+        }
+
+        $data->addData($newCustomerData);
         return $this;
     }
 
