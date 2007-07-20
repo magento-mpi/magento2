@@ -45,6 +45,10 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
 
     public function toOptionArray()
     {
-        return parent::_toOptionArray('region_id', 'name');
+        $options = $this->_toOptionArray('region_id', 'name', array('title'=>'iso2_code'));
+        if (count($options)>0) {
+            array_unshift($options, array('value'=>'', 'label'=>__('Choose region...')));
+        }
+        return $options;
     }
 }

@@ -62,7 +62,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
         
         if ($data = Mage::getSingleton('adminhtml/session')->getCustomerData(true)) {
-            $customer->addData($data);
+            $customer->addData($data['account']);
         }
 
         Mage::register('customer', $customer);
@@ -134,9 +134,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-
-            $customer = Mage::getModel('customer/customer')
-                ->addData($data);
+            
+            if (isset($data['account'])) {
+                $customer = Mage::getModel('customer/customer')
+                    ->addData($data['account']);
+            }
+            
 
             if ($customerId = (int) $this->getRequest()->getParam('id')) {
                 $customer->setId($customerId);
@@ -168,7 +171,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             } else {
                 $customer->setIsSubscribed(false);
             }
-
+            
             try {
                 $customer->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');
@@ -176,7 +179,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
-                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit'));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit', array('_current'=>true)));
                 return;
             }
         }

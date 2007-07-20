@@ -67,8 +67,8 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function getName()
     {
         $name = $this->getData('name');
-        if ($prefix = $this->getForm()->getFieldNamePrefix()) {
-            $name = $this->getForm()->addPrefixToName($name, $prefix);
+        if ($suffix = $this->getForm()->getFieldNameSuffix()) {
+            $name = $this->getForm()->addSuffixToName($name, $suffix);
         }
         return $name;
     }

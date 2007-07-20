@@ -82,6 +82,10 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function toOptionArray()
     {
-        return $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
+        $options = $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
+        if (count($options)>0) {
+            array_unshift($options, array('value'=>'', 'label'=>__('Choose country...')));
+        }
+        return $options;
     }
 }

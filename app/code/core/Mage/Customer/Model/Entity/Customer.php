@@ -63,6 +63,13 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         return parent::_afterSave($customer);
     }
     
+    protected function _beforeSave(Varien_Object $object)
+    {
+        parent::_beforeSave($object);
+        $object->setParentId(null);
+        return $this;
+    }
+    
     /**
      * Saves customers subscription
      *

@@ -743,20 +743,15 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $select = $this->_read->select()->from($table, 'value')->where($where);
             $origValue = $this->_read->fetchOne($select);
 
-            if (empty($origValue) && !empty($newValue)) {
-
+            if ($origValue === false && !is_null($newValue)) {
                 $row['value'] = $newValue;
                 $this->_write->insert($table, $row);
                 $backend->setValueId($this->_write->lastInsertId());
 
-            } elseif (!empty($origValue) && !empty($newValue)) {
-
+            } elseif ($origValue !== false && !is_null($newValue)) {
                 $this->_write->update($table, array('value'=>$newValue), $where);
-
-            } elseif (!empty($origValue) && empty($newValue)) {
-
+            } elseif ($origValue !== false && is_null($newValue)) {
                 $this->_write->delete($table, $where);
-
             }
 
             $this->_write->commit();

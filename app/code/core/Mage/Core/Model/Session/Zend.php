@@ -10,6 +10,11 @@
  */
 abstract class Mage_Core_Model_Session_Zend extends Varien_Object
 {
+    /**
+     * Session namespace object
+     *
+     * @var Zend_Session_Namespace
+     */
     protected $_session;
     
     /**

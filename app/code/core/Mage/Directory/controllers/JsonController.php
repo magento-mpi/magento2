@@ -17,15 +17,11 @@ class Mage_Directory_JsonController extends Mage_Core_Controller_Front_Action
         $arrRegions = Mage::getResourceModel('directory/region_collection')
             ->addCountryFilter($countryId)
             ->load()
-            ->getItems();
+            ->toOptionArray();
         
         if (!empty($arrRegions)) {
             foreach ($arrRegions as $region) {
-                $arrRes[] = array(
-                    'value' => $region->getRegionId(),
-                    'label' => $region->getName(),
-                    'index' => $region->getCode()
-                );
+                $arrRes[] = $region;
             }
         }
         

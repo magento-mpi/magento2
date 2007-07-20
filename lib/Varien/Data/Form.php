@@ -85,12 +85,12 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     public function setValues($values)
     {
         foreach ($this->_allElements as $element) {
-        	if (isset($values[$element->getId()])) {
-        	    $element->setValue($values[$element->getId()]);
-        	}
-        	else {
-        	    $element->setValue(null);
-        	}
+            if (isset($values[$element->getId()])) {
+                $element->setValue($values[$element->getId()]);
+            }
+            else {
+                $element->setValue(null);
+            }
         }
         return $this;
     }
@@ -105,26 +105,26 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         return $this;
     }
     
-    public function addFieldNamePrefix($prefix)
+    public function addFieldNameSuffix($suffix)
     {
         foreach ($this->_allElements as $element) {
-        	$name = $element->getName();
-        	if ($name) {
-        	    $element->setName($this->addPrefixToName($name, $prefix));
-        	}
+            $name = $element->getName();
+            if ($name) {
+                $element->setName($this->addSuffixToName($name, $suffix));
+            }
         }
     }
     
-    public function addPrefixToName($name, $prefix)
+    public function addSuffixToName($name, $suffix)
     {
-	    $vars = explode('[', $name);
-	    $newName = $prefix;
-	    foreach ($vars as $index=>$value) {
-	    	$newName.= '['.$value;
-	    	if ($index==0) {
-	    	    $newName.= ']';
-	    	}
-	    }
+        $vars = explode('[', $name);
+        $newName = $suffix;
+        foreach ($vars as $index=>$value) {
+            $newName.= '['.$value;
+            if ($index==0) {
+                $newName.= ']';
+            }
+        }
         return $newName;
     }
 
@@ -145,7 +145,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         
         foreach ($this->getElements() as $element) {
-        	$html.= $element->toHtml();
+            $html.= $element->toHtml();
         }
         
         if ($useContainer) {

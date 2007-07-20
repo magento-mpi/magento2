@@ -138,9 +138,8 @@ input.validation-failed, textarea.validation-failed {
     }
 
 select.countries option{
-    padding-left:20px;
     background-repeat:no-repeat;
-    }
+}
 
 
 /* Form Button */

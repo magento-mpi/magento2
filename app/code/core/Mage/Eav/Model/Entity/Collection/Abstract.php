@@ -912,7 +912,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
     public function getLastPageNumber()
     {
-        $collectionSize = $this->getSize();
+        $collectionSize = (int) $this->getSize();
         if (0 === $collectionSize) {
             return 1;
         }
