@@ -24,7 +24,7 @@
         <?foreach ($addressCollection as $_address):?>
         <li id="address_item_<?=$_address->getId()?>">
             <div class="delete-address">
-                 <a href="#" name="delete_address"><?=__('Delete Address')?></a>
+                 <?=$this->getDeleteButtonHtml()?>
             </div>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
@@ -38,7 +38,7 @@
     <?else:?>
         <li id="new_item">
             <div class="delete-address" style="display:none">
-                <a href="#" name="delete_address"><?=__('Delete Address')?></a>
+                <?=$this->getDeleteButtonHtml()?>
             </div>
             <address>
                 <?=__('New Customer Address')?>
@@ -79,9 +79,9 @@
     <?$_templatePrefix = '_template_'?>
     <div id="address_item_template" class="no-display template">
         <div class="delete-address">
-             <a href="#" name="delete_address" id="delete_new_item"><?=__('Delete Address')?></a>
+             <?=$this->getDeleteButtonHtml()?>
         </div>
-        <address><?=__('New Address')?></address>
+        <address><?=__('New Customer Address')?></address>
         <div class="address-type">
             <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="account[default_billing]" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing')?></label>
             <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="account[default_shipping]" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping')?></label>
@@ -218,7 +218,7 @@ addressesModel.prototype = {
     itemMouseClick : function(event){
         var element = Event.findElement(event, 'li'); // find top item
         var elem = Event.element(event); // exact element clicked
-        if ( (elem.tagName == 'A') && ( elem.name == 'delete_address') ) {
+        if ( (elem.tagName == 'BUTTON') && ( elem.name == 'delete_address') ) {
             this.deleteAddress(element);
             Event.stop(event);
         } 

@@ -524,21 +524,24 @@ dl.accordion dt:after,
     }
 
 div.tree_item, div.tree_item_last{
-	background-position: left;
-	background-repeat: no-repeat;
-	padding-left:20px;
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left:20px;
 }
 
 div.tree_item {
-	background-image:url(images/tree_icons/join.gif);
+    background-image:url(images/tree_icons/join.gif);
 }
 
 div.tree_item_last {
-	background-image:url(images/tree_icons/joinbottom.gif);
+    background-image:url(images/tree_icons/joinbottom.gif);
 }
 
 div.tree_line {
-	position:absolute;
-	left:0;
-	background-image:url(images/tree_icons/line.gif);
+    position:absolute;
+    left:0;
+    background-image:url(images/tree_icons/line.gif);
+}
+.address-type{
+    clear:both
 }

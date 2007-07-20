@@ -29,8 +29,10 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing')
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
+            ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
-            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
+            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'))
+            ->joinField('store_name', 'core/store', 'name', 'store_id=store_id');
 
         $this->setCollection($collection);
 
@@ -72,12 +74,23 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             #'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_country_name',
         ));
+        $this->addColumn('billing_regione', array(
+            'header'    =>__('Regione'),
+            #'filter'    => 'adminhtml/customer_grid_filter_country',
+            'index'     =>'billing_regione',
+        ));
         $this->addColumn('customer_since', array(
             'header'    =>__('Customer Since'),
             'type'      => 'date',
             'align'     => 'center',
             #'format'    => 'Y.m.d',
             'index'     =>'created_at',
+        ));
+        $this->addColumn('store_name', array(
+            'header'    =>__('Signed Up From'),
+            'align'     => 'center',
+            #'format'    => 'Y.m.d',
+            'index'     =>'store_name',
         ));
         $this->addColumn('action', array(
             'header'    =>__('Action'),

@@ -10,6 +10,14 @@
  */
 class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Shipping extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    public function beforeSave($object)
+    {
+        $defaultShipping = $object->getDefaultShipping();
+        if (is_null($defaultShipping)) {
+            $object->unsetDefaultShipping();
+        }
+    }
+    
     public function afterSave($object)
     {
         if ($defaultShipping = $object->getDefaultShipping()) 

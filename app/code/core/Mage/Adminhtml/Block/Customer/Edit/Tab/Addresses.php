@@ -21,6 +21,23 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         return Mage::getUrl('directory/json/childRegion');
     }
     
+    protected function _initChildren()
+    {
+        $this->setChild('delete_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'  => __('Delete Address'),
+                    'name'   => 'delete_address'
+                ))
+        );
+        return $this;
+    }    
+    
+    public function getDeleteButtonHtml()
+    {
+        return $this->getChildHtml('delete_button');
+    }
+    
     public function initForm()
     {
         $customerId = (int) $this->getRequest()->getParam('id');

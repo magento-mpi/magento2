@@ -141,6 +141,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             }
             catch (Exception $e) {
                 Mage::getSingleton('customer/session')
+                    ->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             }
         }
@@ -212,14 +213,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $this->_initLayoutMessages('customer/session');
         
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
-        if (!$data || $data->isEmpty()) {
-            $data = Mage::getSingleton('customer/session')->getCustomer();
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        if (!empty($data)) {
+            $customer->addData($data);
         }
         
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/edit.phtml')
             ->assign('action',      Mage::getUrl('customer/account/editPost'))
-            ->assign('data',        $data);
+            ->assign('customer',    $customer);
            
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
@@ -240,7 +242,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $this->_redirect('customer/account');
                 return;
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Exception $e) {
                 Mage::getSingleton('customer/session')
                     ->setCustomerFormData($this->getRequest()->getPost())
                     ->addError($e->getMessage());

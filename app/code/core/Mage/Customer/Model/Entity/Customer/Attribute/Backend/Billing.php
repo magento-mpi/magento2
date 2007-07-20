@@ -10,6 +10,14 @@
  */
 class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Billing extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    public function beforeSave($object)
+    {
+        $defaultBilling = $object->getDefaultBilling();
+        if (is_null($defaultBilling)) {
+            $object->unsetDefaultBilling();
+        }
+    }
+    
     public function afterSave($object)
     {
         if ($defaultBilling = $object->getDefaultBilling()) 
@@ -24,7 +32,6 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Billing extends Mage
             	    $addressId = $address->getId();
             	}
             }
-            
             if ($addressId) {
                 $object->setDefaultBilling($addressId);
                 $this->getAttribute()->getEntity()

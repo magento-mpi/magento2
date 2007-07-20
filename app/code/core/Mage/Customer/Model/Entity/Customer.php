@@ -32,7 +32,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         $this->loadByEmail($testCustomer, $customer->getEmail(), true);
 
         if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
-            Mage::throwException('customer email already exist', 'customer/session');
+            Mage::throwException('customer email already exist');
         }
         
         parent::save($customer);
@@ -79,8 +79,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _saveSubscription(Mage_Customer_Model_Customer $customer) {
     	
     	$subscriber = Mage::getModel('newsletter/subscriber')
-    		->loadByCustomer($customer)
-    		->setMessagesScope('adminhtml/session');
+    		->loadByCustomer($customer);
     	
     	if (!$customer->getIsSubscribed() && !$subscriber->getId()) {
     		// If subscription flag not seted or customer not subscriber
