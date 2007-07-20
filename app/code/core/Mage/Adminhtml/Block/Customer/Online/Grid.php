@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->setUseAjax(true);
     }
 
-    protected function _prepareCollection() 
+    protected function _prepareCollection()
     {
     	parent::_prepareCollection();
     	foreach ($this->getCollection()->getItems() as $item) {
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         }
         return $this;
     }
-    
+
     protected function _initCollection()
     {
         $filterOnlineOnly = $this->getRequest()->getParam('filterOnline', false);
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('firstname', array('header'=>__('First Name'),  'index'=>'customer_firstname'));
         $this->addColumn('lastname', array('header'=>__('Last Name'), 'index'=>'customer_lastname'));
         $this->addColumn('email', array('header'=>__('Email'), 'align'=>'center', 'index'=>'customer_email'));
-        $this->addColumn('ip_address', array('header'=>__('IP Address'), 'align'=>'center', 'index'=>'remote_addr', 
+        $this->addColumn('ip_address', array('header'=>__('IP Address'), 'align'=>'center', 'index'=>'remote_addr',
         									'renderer'=>'adminhtml/customer_online_grid_renderer_ip'));
         $this->addColumn('session_start_time', array('header'=>__('Session Start Time'), 'align'=>'center', 'index'=>'first_visit_at'));
         $this->addColumn('last_activity', array('header'=>__('Last Activity'), 'align'=>'center', 'index'=>'last_visit_at'));

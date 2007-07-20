@@ -17,7 +17,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      * @var string
      */
     protected $_visitorTable;
-    
+
     /**
      * Visitor data info table name
      *
@@ -73,16 +73,17 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      */
     function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('log_read'));
+        $resource = Mage::getSingleton('core/resource');
+        parent::__construct($resource->getConnection('log_read'));
 
-        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
-        $this->_visitorInfoTable = Mage::getSingleton('core/resource')->getTableName('log/visitor_info');
-        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
-        $this->_urlInfoTable = Mage::getSingleton('core/resource')->getTableName('log/url_info_table');
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
-        $this->_summaryTable = Mage::getSingleton('core/resource')->getTableName('log/summary_table');
-        $this->_summaryTypeTable = Mage::getSingleton('core/resource')->getTableName('log/summary_type_table');
-        $this->_quoteTable = Mage::getSingleton('core/resource')->getTableName('log/quote_table');
+        $this->_visitorTable = $resource->getTableName('log/visitor');
+        $this->_visitorInfoTable = $resource->getTableName('log/visitor_info');
+        $this->_urlTable = $resource->getTableName('log/url_table');
+        $this->_urlInfoTable = $resource->getTableName('log/url_info_table');
+        $this->_customerTable = $resource->getTableName('log/customer');
+        $this->_summaryTable = $resource->getTableName('log/summary_table');
+        $this->_summaryTypeTable = $resource->getTableName('log/summary_type_table');
+        $this->_quoteTable = $resource->getTableName('log/quote_table');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
     }
@@ -115,8 +116,6 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     	} else {
 			$this->_sqlSelect->where("{$this->_summaryTable}.type_id = ? ", $type_id);
     	}
-
     	return $this;
     }
-    
 }

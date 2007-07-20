@@ -59,7 +59,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
         return $this;
     }
-    
+
     public function isModuleIgnored($observer)
     {
         $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
@@ -78,11 +78,11 @@ class Mage_Log_Model_Visitor extends Varien_Object
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
-        
+
         $this->load(Mage::getSingleton('core/session')->getSessionId());
         return $this;
     }
-    
+
 
     public function save($observer = null)
     {
