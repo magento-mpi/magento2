@@ -8,6 +8,7 @@
 <div>
     <?=$this->getChildHtml('grid')?>
 </div>
+<?if(count($this->getQueueAsOptions())>0 && $this->getShowQueueAdd()):?>
 <div class="form-buttons">
 	<select id="queueList" name="queue">
 	<?foreach ($this->getQueueAsOptions() as $_queue):?>
@@ -31,6 +32,7 @@
 		</table>
 	</button>
 </div>
+<?endif?>
 <script type="text/javascript">
 <!--
 	var subscriberController = {

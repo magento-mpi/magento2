@@ -34,14 +34,15 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('newsletter/subscriber_collection')
+        $collection = Mage::getResourceSingleton('newsletter/subscriber_collection')
 			->showCustomerInfo(true)
 			->showStoreInfo();
 			
-		if(!$this->getShowQueueAdd()) {
+		if($this->getRequest()->getParam('queue', false)) {
 			$collection->useQueue(Mage::getModel('newsletter/queue')
 				->load($this->getRequest()->getParam('queue')));
 		}
+		
         $this->setCollection($collection);
 		
         return parent::_prepareCollection();
@@ -49,7 +50,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     
     public function getShowQueueAdd() 
     {
-    	return  is_null($this->getRequest()->getParam('queue', null));
+    	return $this->getCollection()->getSize() > 0;
     }
     
     
