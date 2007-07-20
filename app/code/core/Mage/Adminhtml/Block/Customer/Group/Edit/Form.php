@@ -40,6 +40,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'class' => 'required-entry',
+                'required' => true,
                 'value' => $customerGroup->getCode()
             )
         );

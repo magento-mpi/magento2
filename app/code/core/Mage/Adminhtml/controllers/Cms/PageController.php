@@ -86,7 +86,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $model->save();
             $this->_redirect('adminhtml/cms');
         } else {
-            Mage::getSingleton('adminhtml/session')->addError('Error wile saving this page. Page with the same identifier already exists.');
+            Mage::getSingleton('adminhtml/session')->addError('Error while saving this page. Page with the same identifier already exists.');
             $this->_returnLocation();
         }
     }

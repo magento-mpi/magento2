@@ -33,6 +33,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'label' => __('Subject'),
             'title' => __('Subject'),
             'class'	=> 'required-entry',
+            'required' => true,
             'value' => $queue->getTemplate()->getTemplateSubject()            
         ));
 		
@@ -41,6 +42,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'label' => __('Sender Name'),
             'title' => __('Sender Name'),
             'class'	=> 'required-entry',
+            'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderName()
         ));
         
@@ -49,6 +51,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'label' => __('Sender Email'),
             'title' => __('Sender Email'),
             'class' => 'validate-email required-entry',
+            'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderEmail()   
         )); 
 		

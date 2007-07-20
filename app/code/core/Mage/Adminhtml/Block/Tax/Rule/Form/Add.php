@@ -44,6 +44,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                                 'label' => __('Customer Tax Class'),
                                 'title' => __('Please, select Customer Tax Class'),
                                 'class' => 'required-entry',
+                                'required' => true,
                                 'values' => $classCustomer,
                                 'value' => $ruleObject->getTaxCustomerClassId()
                             )
@@ -55,6 +56,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                                 'label' => __('Product Tax Class'),
                                 'title' => __('Please, select Product Tax Class'),
                                 'class' => 'required-entry',
+                                'required' => true,
                                 'values' => $classProduct,
                                 'value' => $ruleObject->getTaxProductClassId()
                             )

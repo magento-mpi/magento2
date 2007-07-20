@@ -61,6 +61,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                     'label' => __('Class Name'),
                                     'title' => __('Class Name Title'),
                                     'class' => 'required-entry',
+                                    'required' => true,
                                 )
                         );
 
@@ -81,6 +82,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 'label' => __('Customer Group'),
                                 'title' => __('Customer Group Title'),
                                 'class' => 'required-entry',
+                                'required' => true,
                                 'values' => $customerGroups,
                                 'no_span' => (intval($classId) > 0) ? true : false
                             )

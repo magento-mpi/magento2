@@ -31,6 +31,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                 'id'    => 'username',
                 'title' => __('User Name'),
                 'class' => 'required-entry',
+                'required' => true,
             )
         );
 
@@ -41,6 +42,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                 'id'    => 'firstname',
                 'title' => __('First Name'),
                 'class' => 'required-entry',
+                'required' => true,
             )
         );
 
@@ -51,6 +53,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                 'id'    => 'lastname',
                 'title' => __('Last Name'),
                 'class' => 'required-entry',
+                'required' => true,
             )
         );
 
@@ -68,6 +71,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                 'id'    => 'customer_email',
                 'title' => __('User Email'),
                 'class' => 'required-entry validate-email',
+                'required' => true,
             )
         );
 
@@ -103,6 +107,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'id'    => 'customer_pass',
                     'title' => __('Password'),
                     'class' => 'input-text required-entry validate-password',
+                    'required' => true,
                 )
             );
            $fieldset->addField('confirmation', 'password',
@@ -112,6 +117,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
                     'id'    => 'confirmation',
                     'title' => __('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
+                    'required' => true,
                 )
             );
         }

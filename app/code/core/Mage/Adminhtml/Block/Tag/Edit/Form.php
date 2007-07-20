@@ -30,6 +30,7 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
             'label' => __('Tag Name'),
             'title' => __('Tag Name Title'),
             'class' => 'required-entry',
+            'required' => true,
             'value' => $tag->getName(),
         ));
         $fieldset->addField('status', 'checkbox', array(

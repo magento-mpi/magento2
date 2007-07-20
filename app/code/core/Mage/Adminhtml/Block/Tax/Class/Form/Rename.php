@@ -32,6 +32,7 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
                                 'label' => __('Class Name'),
                                 'title' => __('Class Name Title'),
                                 'class' => 'required-entry',
+                                'required' => true,
                                 'value' => $classObject->getClassName(),
                                 'no_span' => true
                             )

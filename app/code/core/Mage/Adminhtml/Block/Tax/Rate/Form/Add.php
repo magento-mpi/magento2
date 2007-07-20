@@ -47,6 +47,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                                 'label' => __('State'),
                                 'title' => __('Please, select State'),
                                 'class' => 'required-entry',
+                                'required' => true,
                                 'values' => $regions,
                                 'value' => $rateObject->getTaxRegionId()
                             )

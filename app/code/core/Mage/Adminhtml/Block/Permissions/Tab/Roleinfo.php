@@ -31,6 +31,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'id'    => 'role_name',
                 'title' => __('Role Title'),
                 'class' => 'required-entry',
+                'required' => true,
             )
         );
 
@@ -74,6 +75,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'id'    => 'parent_id',
                 'title' => __('Role Parent'),
                 'class' => 'required-entry',
+                'required' => true,
                 'values'=> $opt,
             )
         );
