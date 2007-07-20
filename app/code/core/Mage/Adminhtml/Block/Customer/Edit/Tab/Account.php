@@ -45,14 +45,16 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 array(
                     'label' => __('Password'),
                     'class' => 'input-text required-entry validate-password',
-                    'name'  => 'password'
+                    'name'  => 'password',
+                    'required' => true
                 )
             );
             $fieldset->addField('password_confirm', 'password',
                 array(
                     'label' => __('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
-                    'name'  => 'password_confirm'
+                    'name'  => 'password_confirm',
+                    'required' => true
                 )
             );
         }
