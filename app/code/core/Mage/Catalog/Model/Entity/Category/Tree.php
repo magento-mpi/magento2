@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Entity_Category_Tree
             $resource->getConnection('catalog_read'),
             $resource->getTableName('catalog/category_tree'),
             array(
-                Varien_Data_Tree_Db::ID_FIELD       => 'category_id',
+                Varien_Data_Tree_Db::ID_FIELD       => 'entity_id',
                 Varien_Data_Tree_Db::PARENT_FIELD   => 'pid',
                 Varien_Data_Tree_Db::LEVEL_FIELD    => 'level',
                 Varien_Data_Tree_Db::ORDER_FIELD    => 'order'

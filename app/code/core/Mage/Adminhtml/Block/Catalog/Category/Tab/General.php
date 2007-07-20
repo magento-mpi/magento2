@@ -25,41 +25,40 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         
         $this->_setFieldset($category->getAttributes(), $fieldset);
         
-        /*if ($balanceElement = $form->getElement('store_balance')) {
-            $balanceElement->setValueFilter(new Varien_Filter_Sprintf('%s', 2, '.', ''));
-        }
-        
-        if ($customer->getId()) {
-            $fieldset->addField('reset_password', 'checkbox',
-                array(
-                    'label' => __('Reset Password'),
-                    'name'  => 'reset_password',
-                    'value' => '1'
-                )
-            );            
-        }
-        else {
-            $fieldset->addField('password', 'password',
-                array(
-                    'label' => __('Password'),
-                    'class' => 'input-text required-entry validate-password',
-                    'name'  => 'password'
-                )
-            );
-            $fieldset->addField('password_confirm', 'password',
-                array(
-                    'label' => __('Password Confirmation'),
-                    'class' => 'input-text required-entry validate-cpassword',
-                    'name'  => 'password_confirm'
-                )
-            );
-        }*/
-        
-        
-        $form->setValues($category->getData());
+        $fieldset->addField('parent_id', 'select', array(
+            'name'  => 'parent_id',
+            'label' => __('Parent Category'),
+            'value' => $this->getRequest()->getParam('parent'),
+            'values'=> $this->_getParentCategoryOptions(),
+            'required' => true,
+            'class' => 'required-entry'
+            ), 
+            'name'
+        );
+
+        $form->addValues($category->getData());
         
         $this->setForm($form);
         
         return $this;
+    }
+    
+    protected function _getParentCategoryOptions()
+    {
+        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree->getCategoryCollection()->addAttributeToSelect('name');
+        $nodes = $tree->load(1, 5)
+            ->getTree()
+                ->getNodes();
+
+        $options = array();
+        foreach ($nodes as $node) {
+        	$options[] = array(
+        	   'value' => $node->getId(),
+        	   'label' => $node->getName(),
+        	   'style' => 'padding-left:'.(10*$node->getLevel()).'px',
+        	);
+        }
+        return $options;
     }
 }

@@ -19,4 +19,27 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
                 $resource->getConnection('catalog_write')
             );        
     }
+    
+    protected function _afterDelete(Varien_Object $object){
+        parent::_afterDelete($object);
+        $tree = Mage::getResourceModel('catalog/category_tree')->getTree();
+        $node = $tree->loadNode($object->getId());
+        $tree->removeNode($node);
+        return $this;
+    }
+    
+    protected function _beforeSave(Varien_Object $object)
+    {
+        parent::_beforeSave($object);
+        $tree = Mage::getResourceModel('catalog/category_tree')->getTree();
+        $parentNode = $tree->loadNode($object->getParentId());
+        if ($object->getId()) {
+            
+        }
+        else {
+            $node = $tree->appendChild(array(), $parentNode);
+            $object->setId($node->getId());
+        }
+        return $this;
+    }
 }

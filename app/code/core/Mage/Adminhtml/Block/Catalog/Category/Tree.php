@@ -73,9 +73,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $root = $tree->load($parentNodeId, 5)
                     ->getRoot();
                         
-        $items = $this->_getNodeJson($root);
+        $rootArray = $this->_getNodeJson($root);
 
-        $json = Zend_Json::encode(array($items));
+        $json = Zend_Json::encode($rootArray['children']);
         return $json;
     }
     
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $item = array();
         $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
         $item['id']  = $node->getId();
-        $item['cls'] = 'folder';
+        $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
         $item['allowDrop'] = ($level<3) ? true : false;
         $item['allowDrag'] = true;
         if ($node->hasChildren()) {

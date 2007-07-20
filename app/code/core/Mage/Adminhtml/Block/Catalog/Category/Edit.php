@@ -47,6 +47,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         );
     }
     
+    public function getSaveUrl()
+    {
+        return $this->getUrl('*/*/save', array('_current'=>true));
+    }
+    
     public function getCategoryId()
     {
         return Mage::registry('category')->getId();

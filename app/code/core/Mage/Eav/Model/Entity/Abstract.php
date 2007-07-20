@@ -872,18 +872,28 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected function _processSaveData($saveData)
     {
         extract($saveData);
-
+        
+        $insertEntity = true;
         $entityIdField = $this->getEntityIdField();
         $entityId = $newObject->getData($entityIdField);
-
-        if (empty($entityId)) {
+        $condition = $this->_write->quoteInto("$entityIdField=?", $entityId);
+        
+        if (!empty($entityId)) {
+            $select = $this->_write->select()
+                ->from($this->getEntityTable(), $entityIdField)
+                ->where($condition);
+            if ($this->_write->fetchOne($select)) {
+                $insertEntity = false;
+            }
+        }
+        
+        if ($insertEntity) {
             // insert entity table row
             $this->_write->insert($this->getEntityTable(), $entityRow);
             $entityId = $this->_write->lastInsertId();
             $newObject->setData($entityIdField, $entityId);
         } else {
             // update entity table row
-            $condition = $this->_write->quoteInto("$entityIdField=?", $entityId);
             $this->_write->update($this->getEntityTable(), $entityRow, $condition);
         }
 

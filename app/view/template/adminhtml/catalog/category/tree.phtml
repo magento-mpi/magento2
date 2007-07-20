@@ -20,9 +20,9 @@ Ext.onReady(function(){
 
     // set the root node
     var root = new Ext.tree.TreeNode({
-        text: '',
+        text: 'ROOT',
         draggable:false,
-        id:'0'
+        id:'1'
     });
     tree.setRootNode(root);
     bildCategoryTree(root, <?=$this->getTreeJson()?>);
@@ -33,12 +33,12 @@ Ext.onReady(function(){
     // render the tree
     tree.render();
     root.expand();
+    tree.expandAll();
     
     var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
     if(selectedNode){
         tree.getSelectionModel().select(selectedNode);
     }
-    tree.expandAll();
 });
 
 function bildCategoryTree(parent, config){
@@ -90,7 +90,14 @@ categoryMove = function(obj){
     }
 
     var success = function(o) {
-        try { eval(o.responseText); } catch(e) { Ext.dump(e); }
+        try { 
+            if(o.responseText){
+                alert(o.responseText);
+            }
+        } 
+        catch(e) { 
+            
+        }
     };
     var failure = function(o) {
         Ext.dump(o.statusText);

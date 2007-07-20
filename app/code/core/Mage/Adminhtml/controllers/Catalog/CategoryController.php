@@ -10,16 +10,25 @@
  */
 class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Catalog categories index action
+     */
     public function indexAction()
     {
         $this->_forward('edit');
     }
     
+    /**
+     * Add new category form
+     */
     public function addAction()
     {
         $this->_forward('edit');
     }
     
+    /**
+     * Edit category page
+     */
     public function editAction()
     {
         $this->loadLayout('baseframe');
@@ -45,6 +54,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->renderLayout();
     }
     
+    /**
+     * Move category tree node action
+     */
     public function moveAction()
     {
         $nodeId         = $this->getRequest()->getPost('id', false);
@@ -63,54 +75,52 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $tree->moveNodeTo($node, $parentNode, $prevNode);
         }
         catch (Exception $e){
-            
+            $this->getResponse()->setBody(__('Category move error'));
         }
     }
     
+    /**
+     * Delete category action
+     */
     public function deleteAction()
     {
         if ($id = (int) $this->getRequest()->getParam('id')) {
-            Mage::getModel('catalog/category')->load($id)
-                ->delete();
-        }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
-    }
-    
-    /*public function jsonTreeAction()
-    {
-        $tree = Mage::getResourceModel('catalog/category_tree');
-        $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $storeId      = (int) $this->getRequest()->getPost('store',1);
-        
-        $tree->getCategoryCollection()->addAttributeToSelect('name');
-        $root = $tree->load($parentNodeId, 5)
-                    ->getRoot();
-                        
-        $items = $this->nodeToJson($root);
-        echo '<pre>';
-        print_r($items);
-        echo '</pre>';
-        $this->getResponse()->setBody(Zend_Json::encode($items));
-    }
-    
-    public function nodeToJson($node)
-    {
-        $item = array();
-        $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
-        $item['id']  = $node->getId();
-        $item['cls'] = 'folder';
-        $item['allowDrop'] = true;
-        $item['allowDrag'] = true;
-        if ($node->hasChildren()) {
-            $item['children'] = array();
-            foreach ($node->getChildren() as $child) {
-            	$item['children'][] = $this->nodeToJson($child);
+            try {
+                Mage::getModel('catalog/category')->load($id)
+                    ->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Category deleted');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')->addError('Category delete error');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
+                return;
             }
         }
-        else {
-            $item['leaf'] = 'true';
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('_current'=>true, 'id'=>null)));
+    }
+    
+    /**
+     * Category save
+     */
+    public function saveAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
+            $category = Mage::getModel('catalog/category')
+                ->setData($data)
+                ->setId($this->getRequest()->getParam('id'))
+                ->setStoreId(1)
+                ->setAttributeSetId(12);
+            try {
+                $category->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
+                return;
+            }
         }
-        $items[] = $item;
-        return $item;
-    }*/
+
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId())));
+    }
 }

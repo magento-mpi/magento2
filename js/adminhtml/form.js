@@ -90,13 +90,22 @@ function varienWindowOnload(){
 }
 Event.observe(window, 'load', varienWindowOnload);
 
+/**
+ * Fix errorrs in IE
+ */
 Event.pointerX = function(event){
-    /*if((typeof event == 'object') && (document.documentElement || document.body)){
-        return event.pageX || event.clientX;//|| (event.clientX +(document.documentElement.scrollLeft || document.body.scrollLeft));    
-    }*/
+    try{
+        return event.pageX || (event.clientX +(document.documentElement.scrollLeft || document.body.scrollLeft));
+    }
+    catch(e){
+        
+    }
 }
 Event.pointerY = function(event){
-    if((typeof event == 'object') && (document.documentElement || document.body)){
-        //return event.pageY || (event.clientY +(document.documentElement.scrollTop || document.body.scrollTop));
+    try{
+        return event.pageY || (event.clientY +(document.documentElement.scrollTop || document.body.scrollTop));
+    }
+    catch(e){
+        
     }
 }

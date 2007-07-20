@@ -33,10 +33,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
             'content'   => 'Products'
         ));
 
-        $this->addTab('features', array(
+        /*$this->addTab('features', array(
             'label'     => __('Feature Products'),
             'content'   => 'Feature Products'
-        ));        
+        ));        */
         return $this;
     }
 }
