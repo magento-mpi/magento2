@@ -30,7 +30,7 @@ varienForm.prototype = {
  * use for not visible elements validation
  */
 Validation.isVisible = function(elm){
-    while(elm.tagName != 'BODY') {
+    while(elm && elm.tagName != 'BODY') {
         if(Element.hasClassName(elm, 'template') && Element.hasClassName(elm, 'no-display')){
             return false;
         }
@@ -45,7 +45,7 @@ Validation.isVisible = function(elm){
 var varienElementMethods = {
     setHasChanges : function(element, event){
         var elm = element;
-        while(elm.tagName != 'BODY') {
+        while(elm && elm.tagName != 'BODY') {
             if(elm.statusBar)
                 Element.addClassName($(elm.statusBar), 'changed')
             elm = elm.parentNode;
@@ -53,7 +53,7 @@ var varienElementMethods = {
     },
     setHasError : function(element, flag, form){
         var elm = element;
-        while(elm.tagName != 'BODY') {
+        while(elm && elm.tagName != 'BODY') {
             if(elm.statusBar){
                 if(form.errorSections.keys().indexOf(elm.statusBar.id)<0) 
                     form.errorSections[elm.statusBar.id] = flag;
@@ -84,7 +84,7 @@ function varienWindowOnload(){
     var dataElements = $$('input', 'select', 'textarea');
     for(var i in dataElements){
         if(dataElements[i] && dataElements[i].id){
-            Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges);
+            Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
         }
     }
 }

@@ -21,16 +21,17 @@ varienTabs.prototype = {
                     tabContentElement.container = this;
                     tabContentElement.statusBar = this.tabs[tab];
                     tabContentElement.tabObject  = this.tabs[tab];
+                    this.tabs[tab].contentMoved = true;
                 }
             }
         }
         this.showTabContent($(activeTabId));
-        //Event.observe(window,'load',this.moveTabContentInDest.bind(this));
+        Event.observe(window,'load',this.moveTabContentInDest.bind(this));
     },
     
     moveTabContentInDest : function(){
         for(var tab in this.tabs){
-            if($(this.destElementId)){
+            if($(this.destElementId) &&  !this.tabs[tab].contentMoved){
                 var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
                 if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
                     $(this.destElementId).appendChild(tabContentElement);
