@@ -64,17 +64,17 @@ div.autocomplete ul li {
 
 /* Layout */
 .header {
-        background:url(images/header_bg.gif) repeat-x #516f78;
+    background:url(images/header_bg.gif) repeat-x #516f78;
     z-index:9;
     text-align:right;
     }
 .middle {
     background:#fff;
-    padding:0 1em 3em 1em;
+    padding:0 0 3em 0;
     }
 .container {
     border-left:17.48em solid #fff;
-    padding:1.8em 1.2em 1.8em 1em;
+    padding:1.8em 2.2em 1.8em 2em;
         padding-top:0;
     }
 .simple-container {
@@ -142,9 +142,10 @@ div.autocomplete ul li {
 
 /* Middle */
 .breadcrumbs {
-    border-bottom:1px solid #bebebe;
-    padding:.5em 1em;
+    padding:.6em 2em .5em 2em;
     font-size:1.08em;
+		background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
+		border-bottom:1px solid #e6e6e6;
     }
 .breadcrumbs, .breadcrumbs a {
     color:#453F46;

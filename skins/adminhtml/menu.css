@@ -20,6 +20,7 @@
 #nav a.active, #nav a.active:hover {
 	font-weight:bold;
 }
+#nav li.active { margin-left:-3px; }
 
 /* 1st level lists and links */
 #nav li {
@@ -76,7 +77,7 @@
 #nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a.active, #nav ul a:hover {
 	width:auto;
 	border-bottom:1px solid #FDDCBB;
-	padding:4px 15px;
+	padding:4px 12px;
 	color:#2F2F2F;
 	}
 #nav li:hover li a:hover, #nav li.over li a:hover {

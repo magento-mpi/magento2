@@ -324,3 +324,12 @@ button.scalable td.br {
 .required {
     color:#ff0000;
 }
+
+#loading-process {
+	position:absolute;
+	top:10px;
+	right:10px;
+	background:#eee;
+	padding:15px;
+	border:1px solid #bbb;
+	}
