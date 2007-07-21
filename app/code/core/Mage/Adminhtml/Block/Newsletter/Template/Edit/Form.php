@@ -99,7 +99,9 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             );
         }
         
-        $form->setValues(Mage::getSingleton('adminhtml/session')->getData('newsletter_template_form_data', true));
+        if($values = Mage::getSingleton('adminhtml/session')->getData('newsletter_template_form_data', true)) {
+        	$form->setValues($values);
+        }
         
         $this->setForm($form);
         
