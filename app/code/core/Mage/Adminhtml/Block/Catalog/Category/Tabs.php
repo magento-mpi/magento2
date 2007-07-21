@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
 
         $this->addTab('products', array(
             'label'     => __('Category Products'),
-            'content'   => 'Products'
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product')->toHtml(),
         ));
 
         /*$this->addTab('features', array(

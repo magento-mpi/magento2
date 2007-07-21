@@ -123,4 +123,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId())));
     }
+    
+    public function gridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product')->toHtml()
+        );
+    }
 }

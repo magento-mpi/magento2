@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Admin>
-         <version>0.2.3</version>
+         <version>0.5.0</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -43,7 +43,7 @@
          </admin_read>
       </resources>
         <block>
-			<groups><admin><class>Mage_Admin_Block</class></admin></groups>
+            <groups><admin><class>Mage_Admin_Block</class></admin></groups>
         </block>
    </global>
    <front>

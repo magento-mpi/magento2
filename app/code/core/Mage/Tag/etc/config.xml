@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Tag>
-         <version>0.0.5</version>
+         <version>0.5.0</version>
          <depends>
             <Mage_Core />
          </depends>

@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Directory>
-         <version>0.2.2</version>
+         <version>0.5.0</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -11,7 +11,7 @@
 
     <global>
         <block>
-			<groups><directory><class>Mage_Directory_Block</class></directory></groups>
+            <groups><directory><class>Mage_Directory_Block</class></directory></groups>
         </block>
         <models>
             <directory>

@@ -85,7 +85,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
         $item['id']  = $node->getId();
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
-        $item['allowDrop'] = ($level<3) ? true : false;
+        //$item['allowDrop'] = ($level<3) ? true : false;
+        $item['allowDrop'] = true;
         $item['allowDrag'] = true;
         if ($node->hasChildren()) {
             $item['children'] = array();
