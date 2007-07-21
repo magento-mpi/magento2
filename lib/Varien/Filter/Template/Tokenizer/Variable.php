@@ -2,14 +2,14 @@
 /**
  * Template constructions variables tokenizer
  *
- * @package     Mage
- * @subpackage  Newsletter
+ * @package     Varien
+ * @subpackage  Filter
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Newsletter_Filter_Template_Tokenizer_Variable extends Mage_Newsletter_Filter_Template_Tokenizer_Abstract
+class Varien_Filter_Template_Tokenizer_Variable extends Varien_Filter_Template_Tokenizer_Abstract
 {
        
     /**

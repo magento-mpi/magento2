@@ -2,14 +2,14 @@
 /**
  * Template constructions filter
  *
- * @package     Mage
- * @subpackage  Newsletter
+ * @package     Varien
+ * @subpackage  Template
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
+class Varien_Filter_Template implements Zend_Filter_Interface
 {
     /** 
      * Cunstruction regular expression
@@ -123,7 +123,7 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getIncludeParameters($value) 
     {
-        $tokenizer = new Mage_Newsletter_Filter_Template_Tokenizer_Parameter();
+        $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
         $tokenizer->setString($value);
         
         return $tokenizer->tokenize();
@@ -139,7 +139,7 @@ class Mage_Newsletter_Filter_Template implements Zend_Filter_Interface
     protected function _getVariable($value, $default='{no_value_defined}') 
     {
         Varien_Profiler::start("email_template_proccessing_variables");
-        $tokenizer = new Mage_Newsletter_Filter_Template_Tokenizer_Variable();
+        $tokenizer = new Varien_Filter_Template_Tokenizer_Variable();
         $tokenizer->setString($value);
         $stackVars = $tokenizer->tokenize();
         $result = $default;
