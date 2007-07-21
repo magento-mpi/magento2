@@ -26,16 +26,18 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
             array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
         $this->addColumn('code',
             array(
-                'header'=>__('Template Code'),
+                'header'=>__('Template Name'),
                 'align'=>'center',
                 'index'=>'template_code'
         ));
+        
         $this->addColumn('subject',
             array(
                 'header'=>__('Subject'),
                 'align'=>'center',
                 'index'=>'template_subject'
         ));
+        
         $this->addColumn('sender',
             array(
                 'header'=>__('Sender'),
@@ -43,6 +45,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'index'=>'template_sender_email',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_sender'
         ));
+        
         $this->addColumn('type',
             array(
                 'header'=>__('Template Type'),
@@ -51,6 +54,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'filter' => 'adminhtml/newsletter_template_grid_filter_type',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_type'
         ));
+        
         $this->addColumn('action',
             array(
                 'header'=>__('Action'),
@@ -60,6 +64,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'filter' => false,
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
+        
         return $this;
     }
 }

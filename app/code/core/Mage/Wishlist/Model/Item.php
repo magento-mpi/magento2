@@ -23,6 +23,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 		$data['wishlist_id'] = $this->getWishlistId();
 		$data['added_at'] 	 = $this->getAddedAt() ? $this->getAddedAt() : now();
 		$data['description'] = $this->getDescription();
+		$data['store_id']	 = $this->getStoreId() ? $this->getStoreId() : Mage::getSingleton('core/store')->getId();
 		
 		return $data;
 	}

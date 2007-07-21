@@ -25,16 +25,22 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Enti
 			->join(array('wishlist_item'=>$this->getTable('wishlist/item')), 'e.entity_id = wishlist_item.product_id', array('*',new Zend_Db_Expr("(TO_DAYS('" . now() . "') - TO_DAYS(wishlist_item.added_at)) as days_in_wishlist")))
 			->where('wishlist_item.wishlist_id = ?', $wishlist->getId());
 		
+		/*$this->_joinFields['e_id'] = array('table'=>'e','field'=>'entity_id');
+		
+		$this->joinField('description', 'wishlist/item' , 'description',  'product_id=e_id', array('wishlist_id'=>$wishlist->getId()))
+			->joinField('store_id', 'wishlist/item', 'store_id',  'product_id=e_id');
+		*/
+				
 		return $this;
 	}
 	
 	
 	public function addWebsiteData()
 	{
-		$this->getSelect()
-			->join(array('store'=>$this->getTable('core/store')), 'store.store_id = wishlist_item.store_id', array())
-			->join(array('website'=>$this->getTable('core/website')), 'website.website_id = store.website_id', 'website_id');
-		
+		/*$this->joinField('store_name', 'core/store', 'name', 'store_id=store_id')
+			->joinField('store_website_id', 'core/store', 'website_id', 'store_id=store_id')
+			->joinField('website_name', 'core/website', 'name', 'website_id=store_website_id');
+		*/
 		return $this;
 	}
 	

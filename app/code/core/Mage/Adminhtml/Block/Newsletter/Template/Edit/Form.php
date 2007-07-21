@@ -47,8 +47,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
         
         $fieldset->addField('code', 'text', array(
             'name'=>'code',
-            'label' => __('Template Code'),
-            'title' => __('Template Code'),
+            'label' => __('Template Name'),
+            'title' => __('Template Name'),
             'class' => 'required-entry validate-alphanum',
             'required' => true,
              'value' => $template->getTemplateCode()   
@@ -58,6 +58,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'name'=>'subject',
             'label' => __('Template Subject'),
             'title' => __('Template Subject'),
+            'class' => 'required-entry',
+            'required' => true,
             'value' => $template->getTemplateSubject()            
         ));
         
@@ -65,6 +67,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'name'=>'sender_name',
             'label' => __('Sender Name'),
             'title' => __('Sender Name'),
+            'class' => 'required-entry',
+            'required' => true,
             'value' => $template->getTemplateSenderName()
         ));
         
@@ -72,7 +76,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'name'=>'sender_email',
             'label' => __('Sender Email'),
             'title' => __('Sender Email'),
-            'class' => 'validate-email',
+            'class' => 'required-entry validate-email',
+            'required' => true,
             'value' => $template->getTemplateSenderEmail()   
         ));       
         
