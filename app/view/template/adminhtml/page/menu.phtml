@@ -69,17 +69,21 @@ else if(window.attachEvent) { // win/ie
 <ul id="nav">
 <?  $_level = 0; ?>
 <?endif?>
-
 <?foreach ($menu as $_item):?>
-    <li class="<?=!empty($_item['active'])?'active':''?>"><a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?>"><?=$_item['label']?><?if(empty($_level)):?><em>&nbsp;</em><?endif?></a><?if(!empty($_item['children'])):?>
-			 <ul><?
+	<li class="<?=!empty($_item['active'])?'active':''?><?=!empty($_item['children'])?' parent':''?>">
+		<a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?>"><?=$_item['label']?><?if(empty($_level)):?><em></em><?endif?></a>
+		<?if(!empty($_item['children'])):?>
+		<ul><?
             $_menuData[$_level] = array('menu'=>$menu);
             $menu = $_item['children'];
             $_level++; 
             include __FILE__; 
             $_level--; 
             extract($_menuData[$_level]);
-        ?></ul> <?endif;?></li>
+        ?>
+		</ul>
+		<?endif;?>
+	</li>
 <?endforeach;?>
 
 <?if (empty($_level)):?>

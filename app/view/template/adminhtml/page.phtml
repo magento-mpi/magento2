@@ -15,7 +15,7 @@
 <html lang="en">
 <head>
     <title><?=__('Magento Admin')?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
     <script type="text/javascript" src="<?=$baseJsUrl?>prototype/prototype.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>prototype/validation.js"></script>
@@ -27,6 +27,7 @@
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/form.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/accordion.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tools.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/iehover-fix.js"></script>
 
     <script type="text/javascript">
         var BASE_URL = '<?=$baseUrl?>adminhtml/';
@@ -40,7 +41,7 @@
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$baseUrl?>skins/adminhtml/ie7.css" type="text/css" media="all" /> <![endif]-->
     <!--[if lt IE 7]><script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script><![endif]-->
 
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$baseUrl?>skins/adminhtml/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$baseUrl?>skins/adminhtml/menu.css"/>
 <?//if($this->getCanLoadCalendarJs()):?>
     <link rel="stylesheet" type="text/css" media="all" href="<?=$baseJsUrl?>calendar/calendar-win2k-1.css" title="win2k-1" />
     <script type="text/javascript" src="<?=$baseJsUrl?>calendar/calendar.js"></script>
@@ -50,9 +51,9 @@
 
 <?if($this->getCanLoadExtJs()):?>
     <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-tree.js" ></script>
-    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css"/>
     <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ytheme-magento.css"/>
-    <script type="text/javascript" language="Javascript">
+    <script type="text/javascript">
         Ext.BLANK_IMAGE_URL = '<?=$baseJsUrl?>extjs/resources/images/default/s.gif';
         Ext.UpdateManager.defaults.loadScripts = false;
         Ext.UpdateManager.defaults.disableCaching = true;

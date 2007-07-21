@@ -137,9 +137,8 @@ dl.accordion dt a {
     color:#fff;
     text-decoration:none;
     display:block;
-    padding:3px 5px 3px 10px;
+    padding:3px 0 3px 10px;
     font-weight:bold;
-    background: url(images/accordion_open.gif) 99% 60% no-repeat;
 }
 
 dl.accordion dt.open a {
@@ -157,6 +156,7 @@ dl.accordion dd.open {
 img.accordion-btn {
     float:right;
     margin-top:1px;
+	margin-right:5px;
     }
 
 /******************************************/

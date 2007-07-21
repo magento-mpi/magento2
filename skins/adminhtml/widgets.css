@@ -152,6 +152,8 @@ button.scalable {
     font:bold 12px Arial, sans-serif;
     vertical-align:middle;
     font-size:12px;
+		width:auto;
+		overflow:visible;
     }
 button.scalable td {
     background-image:url(images/btn_bg.gif);
