@@ -30,12 +30,10 @@
     <?if($this->getPagerVisibility()):?>
         <td class="pager">
             <?=__('Page')?>
-            <select name="<?=$this->getVarNamePage()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
-            <?for($i=1; $i<=$this->getCollection()->getLastPageNumber(); $i++):?>
-                <?$_selected = ($i==$this->getCollection()->getCurPage()) ? ' selected' : ''?>
-                <option value="<?=$i?>"<?=$_selected?>><?=$i?></option>
-            <?endfor;?>
-            </select>
+            <form name="pageForm" onsubmit="<?=$this->getId()?>JsObject.loadByElement($('pageNumberInput'))">
+                <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$this->getCollection()->getCurPage()?>" id="pageNumberInput" />
+                <input type="submit" style="display:none;" />
+            </form>
             <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
             <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
                 <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
