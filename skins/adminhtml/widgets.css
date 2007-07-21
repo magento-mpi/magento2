@@ -56,6 +56,10 @@ table.content_table {
         background:#e5ecf2;
         line-height:1.7em;
     }
+.grid .spacer {
+	padding:0 5px;
+	color:#b9b9b9;
+	}
 table.actions {
     width:100%;
     margin:.5em 0;

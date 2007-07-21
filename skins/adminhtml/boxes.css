@@ -78,7 +78,7 @@ div.autocomplete ul li {
         padding-top:0;
     }
 .simple-container {
-    padding:1.8em;
+    padding:1.8em 2.3em;
     }
 .main {
     float:left;
@@ -276,7 +276,7 @@ div.autocomplete ul li {
     }
 .address-list li {
     list-style:none;
-    margin-bottom:.7em;
+    margin-bottom:.4em;
     padding:.7em 1em;
     cursor:pointer;
     border:1px solid #fff;
@@ -452,9 +452,13 @@ div.tree_line {
     left:0;
     background-image:url(images/tree_icons/line.gif);
 }
-.address-type{
-    clear:both
-}
+.address-type .address-type-line {
+	display:block;
+	margin:2px 0;
+	}
+.address-type .address-type-line input {
+	margin-right:3px; 
+	}
 .no-active-category a span{
-    color:#AAA !important; 
+    color:#aaa !important; 
 }
