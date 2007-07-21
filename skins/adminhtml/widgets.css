@@ -186,6 +186,7 @@ img.accordion-btn {
     }
 .grid tr.filter .range div.date {
     width: 12em;
+		margin:2px 0;
     }
 .grid tr.filter .range input {
     width: 5.5em;

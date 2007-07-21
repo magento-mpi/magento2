@@ -1,5 +1,5 @@
 #nav {
-	height:34px;
+	height:31px;
 	background:url(images/nav1_bg.gif) repeat-x;
 	padding-left:20px;
 	}
@@ -25,13 +25,14 @@
 /* 1st level lists and links */
 #nav li {
 	float:left;
+	height:31px;
 	background:url(images/nav1_sep.gif) no-repeat 100% 0;
 	}
 #nav li.over, #nav li:hover {
 	z-index:2050;
 	}
 #nav a {
-	padding:9px 15px;
+	padding:7px 15px;
 	color:#fff;
 	}
 #nav li:hover a, #nav li.over a, #nav a:hover, #nav a.active  {
@@ -43,7 +44,7 @@
 	position:absolute;
 	top:0;
 	right:-1px;
-	height:34px;
+	height:31px;
 	width:5px;
 	background:url(images/nav1_on.gif) no-repeat 100% 0;
 	}
@@ -53,6 +54,7 @@
 /* Reset all lists and links for 2nd+ levels */
 #nav ul li {
 	float:none;
+	height:auto;
 	background:none;
 	}
 #nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a:hover, #nav ul a.active {
@@ -66,6 +68,7 @@
 #nav ul {
 	position: absolute;
 	width:200px;
+	top:35px;
 	margin-top:-7px;
 	margin-left: -1000em; /* for usability no display:none */
 	border:1px solid #FBB368;
@@ -92,7 +95,8 @@
 
 /* 3rd+ level lists */
 #nav ul ul {
-	margin:-1em 0 0 -1000em;
+	margin:0 0 0 -1000em;
+	top:13px;
 }
 #nav li:hover ul ul, #nav li.over ul ul {
 	margin-left: -1000em;
