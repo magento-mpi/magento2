@@ -75,7 +75,7 @@
     <thead>
         <tr class="headings">
         <?foreach ($this->getColumns() as $_column):?>
-            <th><?=$_column->getHeaderHtml()?></th>
+            <th <?=$_column->getSortable()?'':' class="no-link"'?>><?=$_column->getHeaderHtml()?></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
