@@ -3,78 +3,30 @@
 }*/?>
 <?if (empty($_level)):?>
 <!-- menu start -->
-<script type="text/javascript"><!--//--><![CDATA[//><!--
+<script type="text/javascript">
 
-sfHover = function() {
-	var sfEls = $("nav").getElementsByTagName("LI");
-	for (var i=0; i<sfEls.length; i++) {
-		sfEls[i].onmouseover=function() {
-			this.className+=(this.className.length>0? " ": "") + "sfhover";
-		}
-		sfEls[i].onmouseout=function() {
-			this.className=this.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
-		}
-	}
-}
-mcAccessible = function() {
-	var mcEls = document.getElementById("nav").getElementsByTagName("A");
-	for (var i=0; i<mcEls.length; i++) {
-		mcEls[i].onfocus=function() {
-			this.className+=(this.className.length>0? " ": "") + "sffocus"; //a:focus
-			this.parentNode.className+=(this.parentNode.className.length>0? " ": "") + "sfhover"; //li < a:focus
-			if(this.parentNode.parentNode.parentNode.nodeName == "LI") {
-				this.parentNode.parentNode.parentNode.className+=(this.parentNode.parentNode.parentNode.className.length>0? " ": "") + "sfhover"; //li < ul < li < a:focus
-				if(this.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "LI") {
-					this.parentNode.parentNode.parentNode.parentNode.parentNode.className+=(this.parentNode.parentNode.parentNode.parentNode.parentNode.className.length>0? " ": "") + "sfhover"; //li < ul < li < ul < li < a:focus
-				}
-			}
-		}
-		mcEls[i].onblur=function() {
-			this.className=this.className.replace(new RegExp("( ?|^)sffocus\\b"), "");
-			this.parentNode.className=this.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
-			if(this.parentNode.parentNode.parentNode.nodeName == "LI") {
-				this.parentNode.parentNode.parentNode.className=this.parentNode.parentNode.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
-				if(this.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "LI") {
-					this.parentNode.parentNode.parentNode.parentNode.parentNode.className=this.parentNode.parentNode.parentNode.parentNode.parentNode.className.replace(new RegExp("( ?|^)sfhover\\b"), "");
-				}
-			}
-		}
-	}
-}
-
-// only ie needs the sfHover script. all need the accessibility script...
-// thanks http://www.brothercake.com/site/resources/scripts/onload/
-if(window.addEventListener) window.addEventListener('load', mcAccessible, false); // gecko, safari, konqueror and standard
-else if(document.addEventListener) document.addEventListener('load', mcAccessible, false); // opera 7
-else if(window.attachEvent) { // win/ie
-	window.attachEvent('onload', sfHover);
-	window.attachEvent('onload', mcAccessible);
-} else { // mac/ie5
-	if(typeof window.onload == 'function') {
-		var existing = onload;
-		window.onload = function() {
-			existing();
-			sfHover();
-			mcAccessible();
-		}
+function toggleMenu(el, over) {
+	if (over) {
+	    Element.addClassName(el, 'over');
 	} else {
-		window.onload = function() {
-			sfHover();
-			mcAccessible();
-		}
+	    Element.removeClassName(el, 'over');
 	}
 }
 
-//--><!]]></script>
+</script>
 <ul id="nav">
 <?  $_level = 0; ?>
 <?endif?>
 
 <?foreach ($menu as $_item):?>
-	<li class="<?=!empty($_item['active'])?'active':''?><?=!empty($_item['children'])?' parent':''?>">
-		<a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?>"><?=$_item['label']?><?if(empty($_level)):?><em></em><?endif?></a>
-		<?if(!empty($_item['children'])):?>
-		<ul><?
+    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=!empty($_item['active'])?'active':''?> <?=!empty($_item['children'])?'parent':''?>">
+       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=!empty($_item['active'])?'active':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>">
+            <?=$_item['label']?>
+            <?if(empty($_level)):?><em></em><?endif?>
+       </a>
+       <?if(!empty($_item['children'])):?>
+        <ul>
+        <?
             $_menuData[$_level] = array('menu'=>$menu);
             $menu = $_item['children'];
             $_level++; 
@@ -82,9 +34,9 @@ else if(window.attachEvent) { // win/ie
             $_level--; 
             extract($_menuData[$_level]);
         ?>
-		</ul>
-		<?endif;?>
-	</li>
+        </ul>
+    <?endif;?>
+    </li>
 <?endforeach;?>
 
 <?if (empty($_level)):?>

@@ -9,7 +9,8 @@ dl.accordion dt,
 .section-menu li a span,
 dl.accordion dt,
 .grid thead th a,
-.content { height:1%; }
+.content,
+.box-head { height:1%; }
 
 .icon-head {
 	height:18px;

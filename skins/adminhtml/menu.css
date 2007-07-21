@@ -26,18 +26,18 @@
 	float:left;
 	background:url(images/nav1_sep.gif) no-repeat 100% 0;
 	}
-#nav li.sfhover, #nav li:hover {
+#nav li.over, #nav li:hover {
 	z-index:2050;
 	}
 #nav a {
 	padding:9px 15px;
 	color:#fff;
 	}
-#nav li:hover a, #nav li.sfhover a, #nav a:hover, #nav a.active  {
+#nav li:hover a, #nav li.over a, #nav a:hover, #nav a.active  {
 	background:url(images/nav1_on.gif) no-repeat;
 	color:#fff;
 	}
-#nav li:hover a em, #nav li.sfhover a em, #nav a em, #nav a:hover em, #nav a.active em {
+#nav li:hover a em, #nav li.over a em, #nav a em, #nav a:hover em, #nav a.active em {
 	display:block;
 	position:absolute;
 	top:0;
@@ -54,7 +54,7 @@
 	float:none;
 	background:none;
 	}
-#nav li:hover li a, #nav li.sfhover li a, #nav ul a, #nav ul a:hover, #nav ul a.active {
+#nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a:hover, #nav ul a.active {
 	padding:0;
 	background:none;
 	color:#2f2f2f;
@@ -70,16 +70,16 @@
 	border:1px solid #FBB368;
 	background:#FFFAF4;
 }
-#nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered list items */
+#nav li:hover ul, #nav li.over ul { /* lists nested under hovered list items */
 	margin-left:2px;
 }
-#nav li:hover li a, #nav li.sfhover li a, #nav ul a, #nav ul a.active, #nav ul a:hover {
+#nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a.active, #nav ul a:hover {
 	width:auto;
 	border-bottom:1px solid #FDDCBB;
 	padding:4px 15px;
 	color:#2F2F2F;
 	}
-#nav li:hover li a:hover, #nav li.sfhover li a:hover {
+#nav li:hover li a:hover, #nav li.over li a:hover {
 	background:#fdeedf;
 	}
 #nav ul .parent {
@@ -93,22 +93,14 @@
 #nav ul ul {
 	margin:-1em 0 0 -1000em;
 }
-#nav li:hover ul ul, #nav li.sfhover ul ul {
+#nav li:hover ul ul, #nav li.over ul ul {
 	margin-left: -1000em;
 }
-#nav li li:hover ul, #nav li li.sfhover ul {
+#nav li li:hover ul, #nav li li.over ul {
 	margin-left:100px;
 }
-#nav .sfhover { background:red !important;}
 
 
-/* extra positioning rules for limited noscript keyboard accessibility */
-#nav li a:focus + ul { margin-left: 0; }
-#nav li li a:focus + ul { margin-left: 1010em; }
-#nav li li a:focus { margin-left:1000em; width:auto; }
-#nav li li li a:focus {margin-left: 2010em; width:auto; }
-#nav li:hover a:focus, #nav li.sfhover a.sffocus { margin-left: 0; }
-#nav li li:hover a:focus + ul, #nav li li.sfhover a.sffocus + ul { margin-left: 10em; }
 #nav ul li a.last, #nav ul li a.last:hover { border-bottom:0; }
 
 #nav:after {
@@ -124,7 +116,7 @@
 /******* Let's fix some ie ********/
 
 * html #nav ul li, * html #nav ul li a { zoom:1; }
-* html #nav ul .parent { margin-bottom:-3px; }
+* html #nav ul .parent { margin-bottom:-3px; } 
 
 /* fix of ie select box z-index bug */
 #nav iframe {

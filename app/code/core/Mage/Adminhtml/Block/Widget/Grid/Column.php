@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
                 $className = 'sort-arrow-' . $dir;
             }
             $out = '<a href="" name="'.$this->getId().'" target="'.$dir
-                   .'" class="' . $className . '">'.$this->getHeader().'</a>';
+                   .'" class="' . $className . '"><span class="filter-title">'.$this->getHeader().'</span></a>';
         }
         else {
             $out = $this->getHeader();

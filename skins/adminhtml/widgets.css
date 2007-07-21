@@ -3,6 +3,109 @@
     }
 
 /********* Grid *********/
+table.content_table {
+    width:100%;
+    }
+.data {
+    border-width:1px;
+    border-style:solid;
+    }
+.data th, .data td {
+    padding:2px 5px;
+    }
+.data td {
+    border-width:0 0 1px 0;
+    border-style:solid;
+    }
+.grid {
+    position:relative;
+    }
+.grid table {
+    width:100%;
+    border:none;
+        border-collapse:collapse;
+    }
+.grid table th {
+    background:#d7d8d9;
+    /*  border:1px solid #d6cebf; */
+    }
+.grid table td {
+    border-width:1px 0 1px 0;
+    border-color:#E3E3E3;
+    border-style:solid;
+    }
+.grid table td.product {
+    text-align:right;
+    }
+.grid table tr.even {
+    background:#f7f7f7;
+    }
+.grid table tfoot tr {
+    background:#D7E5EF;
+    }
+.grid .filter th {
+        padding-top:5px;
+        padding-bottom:5px;
+        background:#dbf5ff;
+    /*  border-style:solid;
+        border-color:#d6cebf #E3E3E3;
+        border-width:1px; */
+        }
+.grid tfoot td {
+    border-top:1px solid #9babb9;
+        background:#e5ecf2;
+        line-height:1.7em;
+    }
+table.actions {
+    width:100%;
+    margin:.5em 0;
+}
+table.actions td {
+    vertical-align:top;
+    }
+.pager .spacer {
+    padding:0 .6em;
+    color:#cfcfcf;
+    }
+.pager select {
+    margin:0 4px;
+    }
+/* Accordion */
+dl.accordion dt {
+    border-left:1px solid #C6C5C3;
+    border-bottom:1px solid #C6C5C3;
+    background:#797674;
+    color:#fff;
+    }
+
+dl.accordion dt a {
+    color:#fff;
+    text-decoration:none;
+    display:block;
+    padding:3px 0 3px 10px;
+    font-weight:bold;
+}
+
+dl.accordion dt.open a {
+    background: url(images/accordion_close.gif) 99% 60% no-repeat;
+}
+
+dl.accordion dd {
+    display:none;
+    border-top:0;
+    }
+
+dl.accordion dd.open {
+    display:block;
+    }
+img.accordion-btn {
+    float:right;
+    margin-top:1px;
+	margin-right:5px;
+    }
+
+
+
 
 .grid{
     border:0px;
@@ -11,28 +114,49 @@
     cursor:pointer;
 }
 .grid thead th a, .grid thead th a:hover {
-    text-decoration:underline;
-    display:block;
-    color:#2f2f2f;
-    }
+	display:block;
+	color:#2f2f2f;
+	text-decoration:underline;
+	padding:3px 4px 2px 0;
+	}
+.grid thead th span.filter-title {
+	display:block;
+	padding:3px 12px 4px 0;
+	line-height:1em;
+	}
 .grid thead th a:hover {
-text-decoration:underline;
-    }
+	text-decoration:underline;
+	}
+.grid .sort-arrow-desc, .grid .sort-arrow-asc {
+	background:url(images/grid_th_onclick_bg.gif) no-repeat;
+	border-bottom:1px solid #fff;
+	border-right:1px solid #fff;
+	padding-bottom:2px;
+	text-decoration:none;
+	}
+.grid .sort-arrow-desc:hover, .grid .sort-arrow-asc:hover {
+	text-decoration:none;
+	}
+.grid tr.headings th {
+	padding-top:1px;
+	padding-bottom:1px;
+	}
+
+/* No sort */
+
+.grid tr.headings th.no-link {
+	padding-top:4px;
+	padding-bottom:4px;
+	}
+
 /* Sort arrows */
-.grid .sort-arrow-desc {
-    padding-right: 30px;
-    background-image: url(images/sort-arrow-down.gif);
-    background-position: right;
-    background-repeat: no-repeat;
-    color:#425d67;
-    }
-.grid .sort-arrow-asc {
-    padding-right: 30px;
-    background-image: url(images/sort-arrow-up.gif);
-    background-position: right;
-    background-repeat: no-repeat;
-    color:#425d67;
-    }
+.grid th .sort-arrow-desc span.filter-title, .grid th .sort-arrow-asc span.filter-title {
+	background-position: right 50%;
+	background-repeat: no-repeat;
+	padding:3px 26px 2px 8px;
+	}
+.grid .sort-arrow-desc span.filter-title { background-image: url(images/grid_sort_desc.gif); }
+.grid .sort-arrow-asc span.filter-title { background-image: url(images/grid_sort_asc.gif); }
 
 /* No sort arrow */
 .grid .no-sort { }
@@ -47,9 +171,9 @@ text-decoration:underline;
 /* Filters */
 .
 .grid tr.filter { cursor: default; }
-.grid tr.filter th { }
+.grid tr.filter th { white-space:nowrap; }
 .grid tr.filter input {
-    width: 100%;
+    width: 98%;
     font:normal 12px Arial;
     }
 .grid tr.filter select {
