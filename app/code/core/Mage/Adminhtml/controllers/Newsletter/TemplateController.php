@@ -84,7 +84,9 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
             $this->_redirect('*/*');
         }
         catch (Exception $e) {
-            $this->_forward('new');
+        	Mage::getSingleton('adminhtml/session')->setData('newsletter_template_form_data', $this->getRequest()->getParams());
+        	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        	$this->_forward('new');
         }
 
     }

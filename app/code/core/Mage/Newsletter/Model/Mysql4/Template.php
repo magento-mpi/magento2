@@ -166,8 +166,8 @@ class Mage_Newsletter_Model_Mysql4_Template
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            echo $e->getMessage();
-            Mage::throwException('cannot save newsletter template');
+            //echo $e->getMessage();
+            throw $e;
         }
     }
     
@@ -193,7 +193,7 @@ class Mage_Newsletter_Model_Mysql4_Template
             Mage::throwException('duplicate of template code');
         }
         
-        $templateCodeValidator = new Zend_Validate_Regex('/^[a-z][a-z0-9\\-_]*$/i');
+        $templateCodeValidator = new Zend_Validate_Regex('/^[a-z0-9\\-_]*$/i');
         $templateCodeValidator->setMessage('invalid template code', Zend_Validate_Regex::NOT_MATCH);
         $validators = array( 
             'template_code' => array(
@@ -209,8 +209,16 @@ class Mage_Newsletter_Model_Mysql4_Template
         $validateInput = new Zend_Filter_Input(array(), $validators, $data);
         if(!$validateInput->isValid()) {
             $errorString = '';
+            
             foreach($validateInput->getMessages() as $message) {
-                $errorString.= $message . "\n";
+            	if(is_array($message)) {
+                	foreach($message as $str) {
+                		$errorString.= $str . "\n";
+                	}
+            	} else {
+            		$errorString.= $message . "\n";
+            	}
+
             }            
             Mage::throwException($errorString);
         }
