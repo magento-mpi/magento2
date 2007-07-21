@@ -9,7 +9,7 @@
 }
 
 /* All lists and links */
-#nav li {	
+#nav li {
 	position:relative;
 }
 #nav a, #nav a:hover {
@@ -99,6 +99,8 @@
 #nav li li:hover ul, #nav li li.sfhover ul {
 	margin-left:100px;
 }
+#nav .sfhover { background:red !important;}
+
 
 /* extra positioning rules for limited noscript keyboard accessibility */
 #nav li a:focus + ul { margin-left: 0; }

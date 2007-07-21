@@ -6,7 +6,7 @@
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 
 sfHover = function() {
-	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	var sfEls = $("nav").getElementsByTagName("LI");
 	for (var i=0; i<sfEls.length; i++) {
 		sfEls[i].onmouseover=function() {
 			this.className+=(this.className.length>0? " ": "") + "sfhover";
@@ -69,6 +69,7 @@ else if(window.attachEvent) { // win/ie
 <ul id="nav">
 <?  $_level = 0; ?>
 <?endif?>
+
 <?foreach ($menu as $_item):?>
 	<li class="<?=!empty($_item['active'])?'active':''?><?=!empty($_item['children'])?' parent':''?>">
 		<a href="<?=$_item['url']?>" title="<?=$_item['title']?>" class="<?=!empty($_item['active'])?'active':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?>"><?=$_item['label']?><?if(empty($_level)):?><em></em><?endif?></a>

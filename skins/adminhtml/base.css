@@ -50,7 +50,6 @@ big { font-size:1.25em; }
 
 /* Divider */
 hr { border:0; height:1px; overflow:hidden; background:#d3d3d3; }
-
 .nowrap { white-space:nowrap; }
-
+:focus { outline: 0; }
 .bold { font-weight:bold; }
