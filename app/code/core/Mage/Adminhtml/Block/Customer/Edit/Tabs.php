@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     
             $this->addTab('wishlist', array(
                 'label'     => __('Wishlist'),
-                'content'   => '<h3>Wishlist</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
             ));
     
             $this->addTab('newsletter', array(

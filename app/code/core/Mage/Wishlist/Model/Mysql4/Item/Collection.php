@@ -22,29 +22,25 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Enti
 	public function addWishlistFilter(Mage_Wishlist_Model_Wishlist	$wishlist)
 	{
 		$this->getSelect()
-			->join(array('wishlist_item'=>$this->getTable('item')), 'e.entity_id = wishlist_item.product_id', array('*',new Zend_Db_Expr("(TO_DAYS('" . now() . "') - TO_DAYS(wishlist_item.added_at)) as days_in_wishlist")))
+			->join(array('wishlist_item'=>$this->getTable('wishlist/item')), 'e.entity_id = wishlist_item.product_id', array('*',new Zend_Db_Expr("(TO_DAYS('" . now() . "') - TO_DAYS(wishlist_item.added_at)) as days_in_wishlist")))
 			->where('wishlist_item.wishlist_id = ?', $wishlist->getId());
 		
 		return $this;
 	}
 	
 	
-	/**
-     * Get resource instance
-     *
-     * @return Mage_Core_Model_Mysql4_Abstract
-     */
-    public function getResource()
-    {
-        if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('wishlist/item');
-        }
-        
-        return $this->_resource;
-    }
-    
+	public function addWebsiteData()
+	{
+		$this->getSelect()
+			->join(array('store'=>$this->getTable('core/store')), 'store.store_id = wishlist_item.store_id', array())
+			->join(array('website'=>$this->getTable('core/website')), 'website.website_id = store.website_id', 'website_id');
+		
+		return $this;
+	}
+	
+	    
     public function getTable($table)
     {
-        return $this->getResource()->getTable($table);
+        return Mage::getSingleton('core/resource')->getTableName($table);
     }
 }// Class Mage_Wishlist_Model_Mysql_Item_Collection END
