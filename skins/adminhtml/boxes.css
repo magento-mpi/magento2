@@ -78,6 +78,7 @@ div.autocomplete ul li {
         padding-top:0;
     }
 .simple-container {
+		min-height:500px;
     padding:1.8em 2.3em;
     }
 .main {

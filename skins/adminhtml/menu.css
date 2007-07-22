@@ -54,7 +54,7 @@
 /* Reset all lists and links for 2nd+ levels */
 #nav ul li {
 	float:none;
-	height:auto;
+	height:auto !important;
 	background:none;
 	}
 #nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a:hover, #nav ul a.active {

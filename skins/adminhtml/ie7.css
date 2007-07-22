@@ -1,3 +1,6 @@
 .icon-head, .footer .powered-by {
 	height:auto;
  }
+.simple-container {
+	height:auto !important;
+	}
