@@ -36,8 +36,7 @@
                         <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>&nbsp;|&nbsp;
-                        <strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="spacer">&bull;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
