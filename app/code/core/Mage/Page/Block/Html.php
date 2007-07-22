@@ -48,12 +48,12 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     {
         return $this->_urls['baseSecure'];
     }
-
+/*
     public function getSkinUrl()
     {
         return $this->_urls['skin'];
     }
-
+*/
     public function getJsUrl()
     {
         return $this->_urls['js'];

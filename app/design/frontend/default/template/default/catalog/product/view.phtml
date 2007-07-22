@@ -8,13 +8,13 @@
     <div style="margin-top:10px;">
         <table border=0 cellspacing=2>
             <tr>
-                <td><img src="<?=$baseSkinUrl?>images/magnifier_zoom_out.gif" width="16" alt="Zoom in to product image"></td>
+                <td><img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" width="16" alt="Zoom in to product image"></td>
                 <td style="padding:0 4px;">
                     <div id="track1" style="width: 200px; height:18px; background:#CCC;">
                         <div id="handle1"" style="width: 8px; height: 18px; background:#557;"></div>
                     </div>
                 </td>
-                <td><img src="<?=$baseSkinUrl?>images/magnifier_zoom_in.gif" width="16" alt="Zoom in to product image"></td>
+                <td><img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" width="16" alt="Zoom in to product image"></td>
             </tr>
         </table>
         <script type="text/javascript">
@@ -101,11 +101,11 @@
                 <?endforeach?>
             </tbody>
         </table>
-        <input type="image" src="<?=$baseSkinUrl?>images/btn_add_to_cart.gif" alt="Add to Cart" class="float-right" />
+        <input type="image" src="<?=$this->getSkinUrl('images/btn_add_to_cart.gif')?>" alt="Add to Cart" class="float-right" />
         <ul class="product-options">
         <!--
             <li>
-                <a href="#" title="Tell-a-Friend"><img src="<?=$baseSkinUrl?>catalog/images/icon_tell_friend.gif" alt="Request a Sample" /></a> 
+                <a href="#" title="Tell-a-Friend"><img src="<?=$this->getSkinUrl('catalog/images/icon_tell_friend.gif')?>" alt="Request a Sample" /></a> 
                 <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a>
             </li>
         -->
@@ -117,7 +117,7 @@
         
         <h3>Satisfaction Guaranteed</h3>
         <p>If you are not completely satisfied with your order return it for a full refund!</p>
-        <img src="<?=$baseSkinUrl?>images/icon_made_in_america.gif" alt="Made in USA" />
+        <img src="<?=$this->getSkinUrl('images/icon_made_in_america.gif')?>" alt="Made in USA" />
     </div>
 </form>
 
@@ -130,7 +130,7 @@
             <?foreach ($_relatedProducts as $_link):?>
             <div class="item">
                 <div class="item-image">
-                    <a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$baseSkinUrl?>images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+                    <a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$this->getSkinUrl('images/placeholder_product_small.jpg')?>" alt="product name" width="115"/></a>
                 </div>
                 <div class="item-info">
                     <div class="product-name">

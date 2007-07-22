@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <?=$this->getChildHtml('head')?>
-    <!--[if IE]> <link rel="stylesheet" href="<?=$baseSkinUrl?>css/iestyles.css" type="text/css" media="all" /> <![endif]-->
+    <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
 </head>
 <body>
     <div class="loading-process" id="loading-process" style="display:none">
-            <img src="<?=$baseSkinUrl?>page/images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
+            <img src="<?=$this->getSkinUrl('page/images/loading.gif')?>" alt="loading..." width="32" height="32" border="0"/>
     </div>
         <!-- [start] header -->
         <div class="container">

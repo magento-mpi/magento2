@@ -15,14 +15,14 @@
     <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>varien/js.js" ></script>
     
     <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>varien/form.js" ></script>
-    <link rel="stylesheet" type="text/css" media="all" href="<?=$baseSkinUrl?>css/styles.css" ></link>
+    <link rel="stylesheet" type="text/css" media="all" href="<?=$this->getSkinUrl('css/styles.css')?>" ></link>
     <?=$this->getChildHtml('head')?>
 
-    <!--[if IE]> <link rel="stylesheet" href="<?=$baseSkinUrl?>css/iestyles.css" type="text/css" media="all" /> <![endif]-->
+    <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
 </head>
 <body>
     <div class="loading-process" id="loading-process" style="display:none">
-            <img src="<?=$baseSkinUrl?>images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
+            <img src="<?=$this->getSkinUrl('images/loading.gif')?>" alt="loading..." width="32" height="32" border="0"/>
     </div>
         <!-- [start] header -->
         <div class="container">
