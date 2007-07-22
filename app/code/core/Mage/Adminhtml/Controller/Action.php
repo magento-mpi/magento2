@@ -2,7 +2,7 @@
 
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
-	public function _construct()
+	protected function _construct()
 	{
 		parent::_construct();
 		
