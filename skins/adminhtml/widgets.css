@@ -19,6 +19,7 @@ table.content_table {
     }
 .grid {
     position:relative;
+		margin-bottom:.5em;
     }
 .grid table {
     width:100%;
@@ -57,7 +58,7 @@ table.content_table {
         line-height:1.7em;
     }
 .grid .spacer {
-	padding:0 5px;
+	padding:0 8px;
 	color:#b9b9b9;
 	}
 table.actions {
@@ -74,6 +75,9 @@ table.actions td {
 .pager select {
     margin:0 4px;
     }
+.pager .page {
+	width:2em;
+	}
 /* Accordion */
 dl.accordion dt {
     border-left:1px solid #C6C5C3;
@@ -110,10 +114,6 @@ img.accordion-btn {
 
 
 
-
-.grid{
-    border:0px;
-    }
 .pointer{
     cursor:pointer;
 }
@@ -217,6 +217,10 @@ img.accordion-btn {
 .actions .filter-actions .form-button { float: left; }
 
 
+
+.section-menu .x-tree {
+	margin:10px 0;
+	}
 /********* Tabs ********/
 /*
 .tabs .active, .tabs a.active:hover{

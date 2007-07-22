@@ -31,7 +31,7 @@
         <td class="pager">
             <?=__('Page')?>
             <form name="pageForm" onsubmit="<?=$this->getId()?>JsObject.loadByElement($('pageNumberInput'))">
-                <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$this->getCollection()->getCurPage()?>" id="pageNumberInput" />
+                <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$this->getCollection()->getCurPage()?>" id="pageNumberInput" class="input-text page"/>&nbsp;
                 <input type="submit" style="display:none;" />
             </form>
             <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
