@@ -26,80 +26,6 @@
 	}
 
 
-
-/************* DATA MANIPULATION ************/
-
-select optgroup {font-style:normal}
-select optgroup option {padding-left:10px}
-
-/* Entry Edit */
-table.form-edit {
-	width:100%;
-	}
-.entry-edit fieldset {
-	margin-bottom:.9em;
-	padding:1.2em 1.5em;
-	}
-.entry-edit fieldset li {
-	list-style:none;
-	margin:.7em 0;
-	}
-.entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
-	display:block;
-	margin:.7em 0;
-	}
-.entry-edit fieldset label {
-	float:left;
-	width:10em;
-	}
-.entry-edit fieldset label.normal {
-	float:none;
-	width:10em;
-	}
-label.inline{
-	float:none !important;
-	width:auto !important;
-	}
-.entry-edit fieldset .input-text,
-.entry-edit fieldset .textarea {
-	width:216px;
-	}
-.entry-edit fieldset .textarea { height:6em; }
-.entry-edit fieldset .select { width:220px; }
-
-
-/* Autocomplete */
-div.autocomplete {
-	z-index:10000;
-	position:absolute;
-	width:250px;
-	background-color:white;
-	border:1px solid #888;
-	margin:0px;
-	padding:0px;
-	}
-div.autocomplete ul {
-	list-style-type:none;
-	margin:0px;
-	padding:0px;
-	}
-div.autocomplete ul li.selected {
-	background-color: #dcebf0;
-	}
-div.autocomplete ul li {
-	list-style-type:none;
-	padding:.5em .7em;
-	min-height:32px;
-	cursor:pointer;
-	text-align:left;
-	color:#2f2f2f;
-	line-height:1.3em;
-}
-
-
-
-
-
 /******************************************/
 /***************** BOXES ******************/
 /******************************************/
@@ -141,14 +67,13 @@ div.autocomplete ul li {
 	}
 .content { /* Created to accomodate spacing specification for items nested in content-container */
 	margin-left:2em;
-	padding-top:1.5em;
+	padding-top:1.3em;
 	}
 .footer {
 	background:url(images/footer_bg.gif) repeat-x #e6e6e6;
 	padding:1em 2.8em 1.2em 2.8em;
 	text-align:right;
 	}
-
 
 
 
@@ -225,7 +150,7 @@ div.autocomplete ul li {
 	background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
 	}
 .section-menu ul.tabs {
-	margin-top:.7em;
+	/* margin-top:.7em; */
 	background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
 	}
 .section-menu ul.tabs li a:hover span {
@@ -238,15 +163,16 @@ div.autocomplete ul li {
 
 /* Content-left Nav */
 .content-left-nav {
-	float:left;
 	width:17.08em;
-	margin-left:-17.08em;
-	position:relative;
+	padding-right:2em;
 	}
-.content-left-nav ul.tabs li a:hover span { background:#69F; }
-.content-left-nav a.website { padding-left:16px;}
-.content-left-nav a.store { padding-left:32px; }
-
+.content-left-nav ul.tabs {
+	background:#f6fdff;
+	}
+.content-left-nav a.default span {  }
+.content-left-nav a.website span { padding-left:32px;}
+.content-left-nav a.store span { padding-left:47px;}
+.content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
 
 
@@ -261,14 +187,14 @@ div.autocomplete ul li {
 	}
 .content-header h3 {
 	margin:0;
+	margin-top:.3em;
 	color:#000;
 	font-size:1.25em;
 	line-height:1.2em;
 	}
 .content-header table.grid-header { width:100%; }
 .content-header .form-buttons {  text-align:right; }
-
-
+.nested-content .content-header { margin-top:-2.4em; }
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head { 
 	margin-bottom:.6em;
@@ -302,18 +228,88 @@ div.autocomplete ul li {
 
 
 
+/************* DATA MANIPULATION ************/
 
-/************ PAGE SPECIFIC **************/ /* Sometimes things are painfully specific - cause these guys are just cool like that */
+select optgroup {font-style:normal}
+select optgroup option {padding-left:10px}
+
+/* Entry Edit */
+table.form-edit {
+	width:100%;
+	}
+.entry-edit fieldset {
+	margin-bottom:.9em;
+	padding:1.2em 1.5em;
+	}
+.entry-edit fieldset li {
+	list-style:none;
+	margin:.7em 0;
+	}
+.entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
+	display:block;
+	margin:.7em 0;
+	}
+.entry-edit fieldset label {
+	float:left;
+	width:10em;
+	}
+.entry-edit fieldset label.normal {
+	float:none;
+	width:10em;
+	}
+label.inline{
+	float:none !important;
+	width:auto !important;
+	}
+.entry-edit fieldset .input-text,
+.entry-edit fieldset .textarea {
+	width:216px;
+	}
+.entry-edit fieldset .textarea { height:6em; }
+.entry-edit fieldset .select { width:220px; }
+.nested-content .entry-edit { margin-left:2em;}
+.nested-content .entry-edit .entry-edit { margin-left:0; }
+
+/* Autocomplete */
+div.autocomplete {
+	z-index:10000;
+	position:absolute;
+	width:250px;
+	background-color:white;
+	border:1px solid #888;
+	margin:0px;
+	padding:0px;
+	}
+div.autocomplete ul {
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	}
+div.autocomplete ul li.selected {
+	background-color: #dcebf0;
+	}
+div.autocomplete ul li {
+	list-style-type:none;
+	padding:.5em .7em;
+	min-height:32px;
+	cursor:pointer;
+	text-align:left;
+	color:#2f2f2f;
+	line-height:1.3em;
+}
+
+
+
+
+
+/************ PAGE SPECIFIC **************/ /* Style for elements used in strategic places */
 
 /* Customer -  Customer view */
 .customer-personal-brief { padding:10px 15px;}
 
 
 /* Customer - Addresses */
-.address-list {
-	width:30%;
-	padding-right:1.75em;
-	}
+.address-list { width:30%; padding-right:1.75em; }
 .address-list li {
 	list-style:none;
 	margin-bottom:.4em;
@@ -322,44 +318,52 @@ div.autocomplete ul li {
 	border:1px solid #fff;
 	background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
 	}
-.address-list li.over {
-	background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff;
-	}
-.address-list li table {
-	width:100%;
-	}
-.delete-address {
-	float:right;
-	margin: 0 0 10px 10px;
-	}
+.address-list li.over { background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff; }
+.address-list li table { width:100%;}
+.delete-address { float:right; margin: 0 0 10px 10px; }
 
+.address-type .address-type-line { display:block; margin:2px 0;}
+.address-type .address-type-line input { margin-right:3px; }
 
 /* Config */
-fieldset.config table {
-    }
 fieldset.config th {
-    border-bottom:dotted 1px #888;
-    }
+	border-bottom:dotted 1px #888;
+	}
 fieldset.config th, fieldset.config td {
-    border-right:dotted 1px #888;
-    padding:2px 5px;
-    }
+	border-right:dotted 1px #888;
+	padding:2px 5px;
+	}
 fieldset.config col.default, fieldset.config col.old {
-    width:150px;
-    }
+	width:150px;
+	}
 fieldset.config col.custom {
-    white-space:nowrap;
-    }
+	white-space:nowrap;
+	}
 fieldset.config label {
-    float:none;
-    }
+	float:none;
+	}
 fieldset.config input.input-radio {
-    margin-right:5px;
-    }
+	margin-right:5px;
+	}
 fieldset.config input.input-text, fieldset.config select.select {
-    width:150px;
-    }
-
+	width:150px;
+	}
+div.tree_item, div.tree_item_last{
+	background-position: left;
+	background-repeat: no-repeat;
+	padding-left:20px;
+}
+div.tree_item {
+	background-image:url(images/tree_icons/join.gif);
+}
+div.tree_item_last {
+	background-image:url(images/tree_icons/joinbottom.gif);
+}
+div.tree_line {
+	position:absolute;
+	left:0;
+	background-image:url(images/tree_icons/line.gif);
+}
 
 
 
@@ -397,6 +401,7 @@ dl.accordion dt:after,
 .footer:after,
 .header:after,
 .box-head:after,
+div.actions:after,
 .clear:after {
 	clear:both;
 	content:".";

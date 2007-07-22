@@ -46,6 +46,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action ext
     		$attributesObject->setData($action['@']);
     		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
     	}    	
-    	return implode('<span class="separator">&bull;</span>', $html);
+    	return implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
     }
 }

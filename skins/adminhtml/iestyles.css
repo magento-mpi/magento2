@@ -10,14 +10,14 @@ dl.accordion dt,
 .middle,
 .clear,
 .container,
-.section-menu li a,
-.section-menu li a span,
 dl.accordion dt,
 .grid thead th a,
 .content,
 .box-head,
-.tabs li a,
-.tabs li { zoom:1; } /* IE version of clearing */
+ul.tabs,
+ul.tabs li span,
+ul.tabs li a,
+ul.tabs li { height:1%; } /* IE version of clearing */
 
 .clear {
 	clear:both;
@@ -26,7 +26,6 @@ dl.accordion dt,
 	line-height:0;
 	overflow:hidden;
 	}
-
 
 /* Set min-height */
 .icon-head { height:18px;}
@@ -54,3 +53,7 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th .range input { margin-right: 2px; }
 
 
+.nested-content .content-header { 
+	position:relative; 
+	zoom:1; 
+	}

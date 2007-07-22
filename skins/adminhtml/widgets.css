@@ -89,7 +89,7 @@ table.content_table { width:100%; }
 	border:none;
 	border-collapse:collapse;
 	}
-.grid .separator { padding:0 8px; color:#b9b9b9;}
+.grid .separator { padding:0 4px; color:#b9b9b9;}
 
 
 /* Actions */
@@ -130,7 +130,10 @@ table.actions td {
 	border-right:1px solid #fff;
 	padding-bottom:2px;
 	}
-.grid th a.sort-arrow-desc, .grid th a.sort-arrow-desc {
+.grid tr.headings th a.sort-arrow-asc, 
+.grid tr.headings th a.sort-arrow-asc:hover,
+.grid tr.headings th a.sort-arrow-desc, 
+.grid tr.headings  th a.sort-arrow-desc:hover { /* Due to IE :hover has to be styled */
 	text-decoration:none;
 	}
 .grid th .sort-arrow-desc span.sort-title, .grid th .sort-arrow-asc span.sort-title {

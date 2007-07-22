@@ -62,6 +62,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 
     protected function _showDelimiter()
     {
-        echo '<span class="separator">&bull;</span>';
+        echo '<span class="separator">&nbsp;|&nbsp;</span>';
     }
 }

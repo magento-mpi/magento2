@@ -6,7 +6,6 @@
  * http://www.extjs.com/license
  */
 
-body { font-family:verdana, sans-serif; }
 
 #loading{
     position:absolute;
@@ -15,7 +14,8 @@ body { font-family:verdana, sans-serif; }
     border:3px solid #dfd7ba;
     background:url(../images/magento/loading_bg.gif) no-repeat #eae2ca;
     padding:85px 15px 15px 15px;
-    font:bold 14px verdana,tahoma,helvetica;
+    font-size:14px;
+		font-weight:bold;;
     color:#611B06;
     width:206px;
     text-align:center;
@@ -34,7 +34,7 @@ body { font-family:verdana, sans-serif; }
 /* 
  Tree 
  */
- .x-tree-node { font:normal 11px verdana, helvetica, sans-serif; }
+ .x-tree-node { font-weight:normal; font-size:12px; list-style-type:none;}
 .x-tree-node-collapsed .x-tree-node-icon{
 	background:transparent url(../images/magento/tree/folder.gif) no-repeat 0 50%;
 }
@@ -131,7 +131,7 @@ body { font-family:verdana, sans-serif; }
 
 /* grid */
 .x-grid { background:#fbfaf7; }
-.x-grid-viewport { font:11px verdana, helvetica, sans-serif; }
+.x-grid-viewport { /*font:11px verdana, helvetica, sans-serif;*/ }
 .x-grid-header{
 	background:none;
 	background:#e4ddc5; 
@@ -165,7 +165,7 @@ body { font-family:verdana, sans-serif; }
 	border-right: 1px solid #d7d7d7;
 	border-bottom: 1px solid #d7d7d7;
 }
-.x-grid-hd-row td, .x-grid-row td { outline:none; font:11px verdana, helvetica, sans-serif; }
+.x-grid-hd-row td, .x-grid-row td { outline:none; ./* font:11px verdana, helvetica, sans-serif; */ }
 .x-grid-hd-row td { font-weight:bold; }
 .x-grid-row { background:#f4f1e7; }
 .x-grid-row-alt { background:#fbfaf7; }
@@ -187,7 +187,7 @@ body { font-family:verdana, sans-serif; }
 .x-grid-locked .x-grid-body table{
     border-right:1px solid #c6c2b2;
 }
-.x-grid-topbar, .x-grid-bottombar { font:normal 11px verdana, helvetica, sans-serif; }
+.x-grid-topbar, .x-grid-bottombar { /* font:normal 11px verdana, helvetica, sans-serif; */ }
 .x-grid-bottombar .x-toolbar{
 	border-right:0 none;
 	border-bottom:0 none;
@@ -311,7 +311,7 @@ body { font-family:verdana, sans-serif; }
 .x-tabs-strip .x-tabs-inner { padding:5px 15px 6px 15px;}
 .x-tabs-strip .x-tabs-text { 
 	color:#4a8d94;
-	font:bold 11px verdana, helvetica, sans-serif; 
+	/* font:bold 11px verdana, helvetica, sans-serif;  */
 	}
 .x-tabs-strip .on .x-tabs-text {
 	cursor:default;
@@ -427,7 +427,7 @@ body { font-family:verdana, sans-serif; }
 		line-height:1em; 
 }
 .x-layout-panel-hd-text, .x-layout-panel-hd-text strong { 
-	font:bold 12px verdana, helvetica, sans-serif; }
+	/* font:bold 12px verdana, helvetica, sans-serif; */ }
 
 /* section specific header icons */
 .categories-tree-region .x-layout-panel-hd { background-image:url(../images/magento/layout/icon-catalog.gif); }
@@ -577,7 +577,7 @@ body { font-family:verdana, sans-serif; }
 .left-menu-toolbar .x-btn { border-bottom:5px solid #2E4D53;}
 .left-menu-toolbar .x-btn-over { border-bottom:5px solid #dc4509;}
 .left-menu-toolbar .x-btn-menu-active { border-bottom:5px solid #dc4509;}
-.left-menu-toolbar .x-btn button, .right-menu-toolbar .x-btn button { color:#fbfaf7; font:bold 11px verdana, helvetica, sans-serif;}
+.left-menu-toolbar .x-btn button, .right-menu-toolbar .x-btn button { color:#fbfaf7; /* font:bold 11px verdana, helvetica, sans-serif; */}
 .left-menu-toolbar .x-btn-text-icon .x-btn-center .x-btn-text, .right-menu-toolbar .x-btn-text-icon .x-btn-center .x-btn-text {padding-left:3px; }
 
 .right-menu-toolbar { width:420px;}
@@ -612,9 +612,9 @@ body { font-family:verdana, sans-serif; }
 .x-box-mc fieldset { margin:2px; border:0; }
 .x-box-mc fieldset legend { display:none; margin:0; padding:0; }
 .x-box-mc fieldset label { text-transform:capitalize;}
-.x-form-item { font:normal 12px verdana, helvetica, sans-serif; }
+.x-form-item { /*font:normal 12px verdana, helvetica, sans-serif; */ }
 .x-form-text { padding:1px 2px; border:1px solid #999; background:none; background:#fff; }
-.x-form-field { font:normal 12px verdana, helvetica, sans-serif; }
+.x-form-field { /* font:normal 12px verdana, helvetica, sans-serif; */}
 .data-form { background:#fbfaf7; }
 
 
