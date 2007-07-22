@@ -145,7 +145,7 @@ div.autocomplete ul li {
     padding:.6em 2em .5em 2em;
     font-size:1.08em;
 		background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
-		border-bottom:1px solid #e6e6e6;
+		border-bottom:1px solid #d0d0d0;
     }
 .breadcrumbs, .breadcrumbs a {
     color:#453F46;

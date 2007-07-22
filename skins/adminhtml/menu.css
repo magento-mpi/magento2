@@ -32,7 +32,7 @@
 	z-index:2050;
 	}
 #nav a {
-	padding:7px 15px;
+	padding:8px 15px 7px 15px;
 	color:#fff;
 	}
 #nav li:hover a, #nav li.over a, #nav a:hover, #nav a.active  {

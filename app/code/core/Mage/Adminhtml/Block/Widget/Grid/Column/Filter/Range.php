@@ -13,8 +13,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range extends Mage_Adminhtm
 {
     public function getHtml()
     {
-        $html = '<div class="range"><div><span class="label">' . __('From').':</span> <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text"/></div>';
-        $html .= '<div><span class="label">' . __('To').' : </span><input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text"/></div></div>';
+        $html = '<div class="range"><div class="range-line"><span class="label">' . __('From').':</span> <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text"/></div>';
+        $html .= '<div class="range-line"><span class="label">' . __('To').' : </span><input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text"/></div></div>';
         return $html;
     }
 

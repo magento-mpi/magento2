@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
                                 'index'=>'type')
                                 );
         $this->addColumn('download', array('header'=>__('Download'),'align'=>'center',
-                                           'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a> | <a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
+                                           'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a><span class="spacer">&bull;</span><a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false, 'filter' => false));
         $this->addColumn('action', array(
                                 'header'=>__('Action'),

@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'align'     => 'center',
             'width'     => '240px',
             'format'    => '<a href="'.Mage::getUrl('*/*/edit/id/$tag_id').'">'.__('Edit').'</a>'
-                . ' | <a href="'.Mage::getUrl('*/*/products/tag_id/$tag_id').'">'.__('View Products').'</a>'
-                . ' | <a href="'.Mage::getUrl('*/*/customers/tag_id/$tag_id').'">'.__('View Customers').'</a>'
+                . '<span class="spacer">&bull;</span><a href="'.Mage::getUrl('*/*/products/tag_id/$tag_id').'">'.__('View Products').'</a>'
+                . '<span class="spacer">&bull;</span><a href="'.Mage::getUrl('*/*/customers/tag_id/$tag_id').'">'.__('View Customers').'</a>'
             ,
             'index'     => 'tag_id',
             'sortable'  => false,
