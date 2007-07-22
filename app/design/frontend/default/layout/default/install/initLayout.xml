@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<layoutUpdate> 
+    <block type="core/template" name="root" output="toHtml">
+        <action method="setTemplate"><template>layout.install.phtml</template></action>
+        <action method="assign"><var>imagesUrl</var><value>{{baseSkinUrl}}default/images</value></action>
+        <block type="core/text_list" name="head" as="head">
+            <block type="core/text_tag" name="head.content_type">
+                <action method="setTagName"><tagName>meta</tagName></action>
+                <action method="setTagParam"><name>http-equiv</name><value>Content-Type</value></action>
+                <action method="setTagParam"><name>content</name><value>text/html; charset=utf8</value></action>
+            </block>
+            <block type="core/text_tag" name="head.title">
+                <action method="setTagName"><tagName>title</tagName></action>
+                <action method="setContents"><contents>Magento Commerce Installation Wizard</contents></action>
+            </block>
+            <block type="core/text_tag" name="head.icon">
+                <action method="setTagName"><tagName>link</tagName></action>
+                <action method="setTagParam"><name>rel</name><value>icon</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
+                <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+            </block>            
+            <block type="core/text_tag" name="head.shortcut_icon">
+                <action method="setTagName"><tagName>link</tagName></action>
+                <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
+                <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
+                <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+            </block>            
+            <block type="core/text_tag_js" name="head.js.prototype">
+                <action method="setSrc"><src>prototype/prototype.js</src></action>
+            </block>
+            <block type="core/text_tag_js" name="head.js.prototype.validation">
+                <action method="setSrc"><src>prototype/validation.js</src></action>
+            </block>
+            <block type="core/text_tag_js" name="head.js.prototype.effects">
+                <action method="setSrc"><src>scriptaculous/effects.js</src></action>
+            </block>
+            <block type="core/text_tag_js" name="head.js.varien">
+                <action method="setSrc"><src>varien/js.js</src></action>
+            </block>
+            <block type="core/text_tag_js" name="head.js.varien.form">
+                <action method="setSrc"><src>varien/form.js</src></action>
+            </block>
+            <block type="core/text_tag_css" name="head.css.main">
+                <action method="setHref"><href>css/styles.css</href></action>
+            </block>
+        </block>
+        
+        <block type="core/text_list" name="left" as="left"/>
+        <block type="core/text_list" name="content" as="content"/>
+    </block>
+</layoutUpdate>
