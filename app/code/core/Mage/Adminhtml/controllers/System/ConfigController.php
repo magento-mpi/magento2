@@ -39,7 +39,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function saveAction()
     {
-        Mage::getResourceModel('core/config')->saveSectionPost(
+        Mage::getResourceModel('adminhtml/config')->saveSectionPost(
             $this->getRequest()->getParam('section'),
             $this->getRequest()->getParam('website'),
             $this->getRequest()->getParam('store'),

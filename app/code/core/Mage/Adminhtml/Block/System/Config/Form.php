@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $isDefault = !$websiteCode && !$storeCode;
         
         // get config section data from database
-        $configData = Mage::getResourceModel('core/config')
+        $configData = Mage::getResourceModel('adminhtml/config')
             ->loadSectionData($sectionCode, $websiteCode, $storeCode);
             
         $configFields = Mage::getResourceModel('core/config_field_collection')

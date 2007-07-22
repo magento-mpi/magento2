@@ -6,7 +6,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 	{
 		parent::_construct();
 		
-		$appDir = Mage::getbaseDir('app');
+		$appDir = Mage::getBaseDir('app');
 		
 		Mage::getConfig()->setNode(
 			'stores/base/system/filesystem/layout', 

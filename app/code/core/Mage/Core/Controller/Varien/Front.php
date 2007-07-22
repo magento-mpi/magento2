@@ -180,18 +180,22 @@ class Mage_Core_Controller_Varien_Front
             $url = Mage::getBaseUrl();
         } elseif ($this->getRouter('standard')->getRealModuleName($routeName)) {
             // try standard router url assembly
-            $url = $this->getRouter('standard')->getUrl($routeName, $paramsArr);
+            $router = $this->getRouter('standard');
         } elseif ($router = $this->getRouter($routeName)) {
             // try custom router url assembly
-            $url = $router->getUrl($routeName, $paramsArr);
         } else {
             // get default router url
-            $default = $this->getRouter('default');
-            $url = $default->getUrl($routeName, $paramsArr);
+            $router = $this->getRouter('default');
         }
+        $url = $router->getUrl($routeName, $paramsArr);
         if (isset($cacheKey)) {
             $this->_urlCache[$cacheKey] = $url;
         }
         return $url;
+    }
+    
+    public function getFileUrl($type, $path, $options=array())
+    {
+    	#$path = Mage::getbaseUrl()
     }
 }

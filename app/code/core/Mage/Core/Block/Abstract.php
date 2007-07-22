@@ -312,6 +312,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return Mage::registry('controller')->getUrl($params, $params2);
     }
     
+    public function getFileUrl($type, $path, $options=array())
+    {
+    	return Mage::registry('controller')->getFileUrl($type, $path, $options);
+    }
+    
     public function getCacheKey()
     {
         if (!$this->hasData('cache_key')) {

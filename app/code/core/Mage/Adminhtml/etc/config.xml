@@ -11,7 +11,13 @@
 
    <global>
         <models>
-            <adminhtml><class>Mage_Adminhtml_Model</class></adminhtml>
+            <adminhtml>
+            	<class>Mage_Adminhtml_Model</class>
+            	<resourceModel>adminhtml_mysql4</resourceModel>
+           	</adminhtml>
+            <adminhtml_mysql4>
+            	<class>Mage_Adminhtml_Model_Mysql4</class>
+            </adminhtml_mysql4>
         </models>
         <block>
             <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
