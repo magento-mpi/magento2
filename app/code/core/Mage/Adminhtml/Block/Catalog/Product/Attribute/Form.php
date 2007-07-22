@@ -228,10 +228,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
     protected function _initChildren()
     {
-        $this->setChild('toolbar',
-            $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_toolbar_save')
-        );
-
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(

@@ -18,6 +18,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         $this->setTypeId(10);
 
         $this->setUseAjax(true);
+
+        $this->setTemplate('catalog/product/attribute/grid.phtml');
     }
 
     protected function _prepareCollection()
@@ -213,5 +215,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
     public function getGridUrl()
     {
         return $this->getUrl('*/*/attributeGrid', array('_current'=>true));
+    }
+
+    protected function _getHeader()
+    {
+        return __("Product Attributes");
+    }
+
+    protected function _initChildren()
+    {
+        $this->setChild('new_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Add New Attribute'),
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/edit').'\''
+                ))
+        );
+
+    }
+
+    public function getNewButtonHtml()
+    {
+        return $this->getChildHtml('back_button');
     }
 }
