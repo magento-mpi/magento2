@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'name'=>'code',
             'label' => __('Template Name'),
             'title' => __('Template Name'),
-            'class' => 'required-entry validate-alphanum',
+            'class' => 'required-entry',
             'required' => true,
              'value' => $template->getTemplateCode()   
         ));

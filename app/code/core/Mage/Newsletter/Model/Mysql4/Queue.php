@@ -57,6 +57,12 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     	
     }
     
+    /**
+     * Saving template after saving queue action
+     *
+     * @param Mage_Core_Model_Abstract $queue
+     * @return Mage_Core_Model_Mysql4_Abstract
+     */
     protected function _afterSave(Mage_Core_Model_Abstract $queue) 
     {
     	if($queue->getSaveTemplateFlag()) {

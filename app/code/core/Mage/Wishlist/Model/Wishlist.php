@@ -25,9 +25,15 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 								   $this->getResource()->getCustomerIdFieldName());
 		if(!$this->getId() && $create) {
 			$this->setCustomerId($customer->getId());
+			$this->setSharingCode($this->_getSharingRandomCode());
 			$this->save();
 		}
 		return $this;
+	}
+	
+	protected function _getSharingRandomCode() 
+	{
+		return md5(microtime() . rand());
 	}
 	
 	public function getItemCollection() 
@@ -43,7 +49,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 	public function addNewItem($productId) 
 	{
 		$item = Mage::getModel('wishlist/item');
-		$item->loadByProductWishlist($this->getId(), $productId);
+		$item->loadByProductWishlist($this->getId(), $productId, Mage::getSingleton('core/store')->getDatashareStores('wishlist'));
 		
 		if($item->getId()) {
 			Mage::throwException('Product already added to wishlist');
@@ -73,6 +79,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 		$data = array();
 		$data[$this->getResource()->getCustomerIdFieldName()] = $this->getCustomerId();
 		$data['shared']		 = (int) $this->getShared();
+		$data['sharing_code']= $this->getSharingCode();
 		return $data;
 	}
 	

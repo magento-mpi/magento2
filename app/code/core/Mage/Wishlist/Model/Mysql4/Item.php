@@ -18,12 +18,13 @@ class Mage_Wishlist_Model_Mysql4_Item extends Mage_Core_Model_Mysql4_Abstract
 		$this->_init('wishlist/item', 'wishlist_item_id');
 	}
 			
-	public function loadByProductWishlist(Mage_Wishlist_Model_Item $item, $wishlistId, $productId)
+	public function loadByProductWishlist(Mage_Wishlist_Model_Item $item, $wishlistId, $productId, array $sharedStores)
 	{
 		$select = $this->getConnection('read')->select()
 			->from(array('main_table'=>$this->getTable('item')))
 			->where('main_table.wishlist_id = ?',  $wishlistId)
-			->where('main_table.product_id = ?',  $productId);
+			->where('main_table.product_id = ?',  $productId)
+			->where('main_table.store_id in (?)',  $sharedStores);
 			
 		if($_data = $this->getConnection('read')->fetchRow($select)) {
 			$item->setData($_data);

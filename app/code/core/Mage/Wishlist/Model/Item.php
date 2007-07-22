@@ -28,9 +28,9 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 		return $data;
 	}
 	
-	public function loadByProductWishlist($wishlistId, $productId) 
+	public function loadByProductWishlist($wishlistId, $productId, $sharedStores) 
 	{
-		$this->getResource()->loadByProductWishlist($this, $wishlistId, $productId);
+		$this->getResource()->loadByProductWishlist($this, $wishlistId, $productId, $sharedStores);
 		return $this;
 	}
 	

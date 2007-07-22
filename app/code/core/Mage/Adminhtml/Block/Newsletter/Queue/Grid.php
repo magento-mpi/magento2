@@ -69,7 +69,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'align'     =>	'center',
             'filter'	=>	'adminhtml/newsletter_queue_grid_filter_status',
             'index'		=> 'queue_status',
-            'sortable'	=>	false,
             'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_status'
         ));
         

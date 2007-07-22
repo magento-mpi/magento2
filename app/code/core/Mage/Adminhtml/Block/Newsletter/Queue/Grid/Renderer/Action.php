@@ -64,13 +64,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 		    );
 		    
         }
-        
-         $actions[] = array(
-		    	'@'	=>	array('href' => Mage::getUrl('*/newsletter_subscriber/', array('queue'=>$row->getId()))),
-		    	'#'	=>	__('View subscribers')
-		 );
-        
-        
+                         
         return $this->_actionsToHtml($actions);
     }
     

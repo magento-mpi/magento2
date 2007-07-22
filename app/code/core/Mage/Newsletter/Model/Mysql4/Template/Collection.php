@@ -39,4 +39,22 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
         
         return $this;
     }
+    
+    /**
+     * Load only system templates
+     *
+     * @return  Mage_Newsletter_Model_Mysql4_Template_Collection
+     */
+    public function useSystemTemplates($flag=false)
+    {
+        $this->_sqlSelect->where('is_system=?', $flag ? 1 : 0);
+        
+        return $this;
+    }
+    
+    public function toOptionArray()
+    {
+    	return $this->_toOptionArray('template_id', 'template_code');
+    }
+    
 }

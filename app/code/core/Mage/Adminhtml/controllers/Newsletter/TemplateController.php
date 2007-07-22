@@ -20,7 +20,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     	$this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('Templates'), __('Newsletter Templates Title'));
+        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('Templates'), __('Newsletter Templates Title'), Mage::getUrl('adminhtml/*'));
+        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'), Mage::getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(__('Edit Template'), __('Edit Newsletter Template Title'));
@@ -91,7 +91,8 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
 
     }
 
-    public function deleteAction() {
+    public function deleteAction() 
+    {
 
         $template = Mage::getModel('newsletter/template');
         $id = (int)$this->getRequest()->getParam('id');
@@ -116,16 +117,19 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     public function toqueueAction()
     {
     	$template = Mage::getModel('newsletter/template')
-        	->load($this->getRequest()->getParam('id'))
-        	->preprocess();
-    	
-    	$queue = Mage::getModel('newsletter/queue')
-    		->setTemplateId($this->getRequest()->getParam('id'))
-        	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
+        	->load($this->getRequest()->getParam('id'));
         
-        $queue->save();
-        $template->save();
-        
-        $this->_redirect('*/newsletter_queue/edit', array('id'=>$queue->getId()));
+        if(!$template->isSystem()) {
+            $template->preprocess();
+			
+			$queue = Mage::getModel('newsletter/queue')
+				->setTemplateId($this->getRequest()->getParam('id'))
+		    	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
+		    
+		    $queue->save();
+		    $template->save();
+		    
+		    $this->_redirect('*/newsletter_queue/edit', array('id'=>$queue->getId()));
+        }
     }
 }

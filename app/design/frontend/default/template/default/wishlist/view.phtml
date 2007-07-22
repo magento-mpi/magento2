@@ -1,12 +1,13 @@
-<h2><?=__('My Wishlist')?></h2>
 <?=$this->getMessagesBlock()->getHtml()?>
+<h2><?=__('My Wishlist')?></h2>
 <?if($this->getWishlist()->getSize()):?>
-<form action="<?=$this->getUrl('wishlist/index/update')?>" method="post">
+<form action="<?=$this->getUrl('*/*/update')?>" method="post">
     <table cellspacing="0" width="100%" class="data-table">
         <tr>
             <th class="align-left"><?=__('Product')?></th>
             
             <th class="align-center"><?=__('Comment')?></th>
+            <th class="align-center"><?=__('Added At')?></th>
             <th class="align-center">&nbsp;</th>
             
         </tr>
@@ -17,7 +18,8 @@
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             	<div><?=$item->getFormatedPrice()?></div>
             </td>            
-            <td class="align-center"><input type="text" class="input-text" name="description[<?=$item->getId()?>]" value="<?=$this->getEscapedDescription($item)?>"/></td>
+            <td class="align-center"><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
+            <td class="align-center"><?=$this->getFormatedDate($item->getAddedAt())?></td>
             <td class="align-center">
             	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="input-button" /><br/><br/>
             	<input type="button" value="<?=__('Remove')?>" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>')" class="input-button" />
@@ -26,7 +28,9 @@
         <?endforeach?>
     </table>
     <div class="buttons-container">
-        <input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" value="<?=__('Add all to cart')?>" class="input-button" />
+        
+    	<input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" value="<?=__('Add all to cart')?>" class="input-button" />
+    	<input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/share')?>')" value="<?=__('Share wishlist')?>" class="input-button" />
         <input type="submit" value="<?=__('Update')?>" class="input-button" name="do"/>
     </div>
 </form>

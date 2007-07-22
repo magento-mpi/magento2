@@ -39,4 +39,9 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 	{
 		return htmlspecialchars($item->getDescription());
 	}
+	
+	public function getFormatedDate($date) 
+	{
+		return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($date));
+	}
 }// Class Mage_Wishlist_Block_Customer_Wishlist END

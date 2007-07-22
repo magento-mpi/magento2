@@ -17,10 +17,15 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
         $this->setTemplate('newsletter/template/list.phtml');
     }
 
-    protected function _beforeToHtml()
-    {
-        $this->assign('createUrl', Mage::getUrl('adminhtml/newsletter_template/new'));
+       
+    protected function _initChildren()
+    {    	
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_grid', 'newsletter.template.grid'));
         return $this;
+    }
+	
+    public function getCreateUrl()
+    {
+    	return $this->getUrl('*/*/new');
     }
 }

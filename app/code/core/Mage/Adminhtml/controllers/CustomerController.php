@@ -244,4 +244,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         Mage::register('subscriber', $subscriber);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
     }
+    
+    public function wishlistAction() 
+    {
+        $customerId = (int) $this->getRequest()->getParam('id');
+        $customer = Mage::getModel('customer/customer');
+        if ($customerId) {
+            $customer->load($customerId);
+        }  
+        Mage::register('customer', $customer);
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
+    }
 }

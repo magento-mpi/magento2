@@ -143,4 +143,56 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		
 		$this->_redirect('checkout/cart');
 	}
+	
+	public function shareAction() 
+	{
+		$this->loadLayout();
+		$this->_initLayoutMessages('wishlist/session');
+		$this->getLayout()->getBlock('content')
+			->append($this->getLayout()->createBlock('wishlist/customer_sharing','wishlist.sharing'));
+		$this->renderLayout();
+	}
+	
+	public function sendAction() 
+	{
+		try{
+			if(!$this->getRequest()->getParam('email')) {
+				Mage::throwException('E-mail Addresses required', 'wishlist/session');
+			}
+			
+			if(!$this->getRequest()->getParam('message')) {
+				Mage::throwException('Message required', 'wishlist/session');
+			}
+			
+			$emails = explode(',', $this->getRequest()->getParam('email'));
+			
+			$template = Mage::getModel('newsletter/template')
+				->load(Mage::getStoreConfig('email/templates/wishlist_share_message'));
+			$wishlist = Mage::getModel('wishlist/wishlist')
+				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
+			Mage::register('wishlist', $wishlist);
+			
+			$message = nl2br(htmlspecialchars($this->getRequest()->getParam('message')));
+			
+			$wishlistBlock = $this->getLayout()->createBlock('wishlist/share_email_items')->toHtml();
+			
+			foreach($emails as $email) {
+				$template->send($email, 
+					array(
+						'items'		 		=> &$wishlistBlock,
+						'addAllLink' 		=> Mage::getUrl('*/shared/tocart',array('code'=>$wishlist->getSharingCode())),
+						'viewOnSiteLink'	=> Mage::getUrl('*/shared/index',array('code'=>$wishlist->getSharingCode())),
+						'message'			=> $message
+					)
+				);
+			}
+			
+			Mage::getSingleton('wishlist/session')->addSuccess('Your Wishlist successfully shared');
+			$this->_redirect('*/*');
+		} 
+		catch (Exception $e) {
+			Mage::getSingleton('wishlist/session')->setData('sharing_form', $this->getRequest()->getParams());
+			$this->_redirect('*/*/share');
+		}
+	}
 }// Class Mage_Wishlist_IndexController END

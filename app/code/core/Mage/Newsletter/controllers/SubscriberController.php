@@ -54,10 +54,8 @@
                 $subscriber->save();
                 
                 if($subscriber->getCode()) {
-                    
-                    $template = Mage::getModel('newsletter/template')->loadByCode('subscriberCodeConfirm');
+                    $template = Mage::getModel('newsletter/template')->load(Mage::getStoreConfig('email/subscription_confirm'));
                     $template->send($subscriber, array('subscriber'=>$subscriber));
-                    
                 }
                 $session->addSuccess('You successfully subscribed');
             }

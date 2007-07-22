@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Newsletter>
-            <version>0.5.0</version>
+            <version>0.5.1</version>
             <depends>
                 <Mage_Core />
                 <Mage_Customer />

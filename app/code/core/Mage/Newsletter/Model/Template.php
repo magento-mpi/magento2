@@ -193,6 +193,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         }
         catch (Exception $e) {
             if($subscriber instanceof Mage_Newsletter_Model_Subscriber) { 
+                // If letter sent for subscriber, we create a problem report entry
                 $problem = Mage::getModel('newsletter/problem');
                 $problem->addSubscriberData($subscriber);
                 if(!is_null($queue)) { 
@@ -205,6 +206,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
                   $subscriber->received($queue);
                 }
             } else {
+                // Otherwise throw error to upper level
                 throw $e;
             }
             return false;

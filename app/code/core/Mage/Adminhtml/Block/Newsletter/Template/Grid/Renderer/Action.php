@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
     	$actions[] = array(
     		'@'	=>	array(
     					  'href' => Mage::getUrl('*/*/delete', array('id'=>$row->getId())),
-    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Do you really want to delete this template?')) . '\')'
+    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Are you sure?')) . '\')'
     		),
     		'#'	=>	__('Delete')
     	);

@@ -68,17 +68,21 @@ class Mage_Newsletter_Model_Mysql4_Template
     }
     
     /**
-     * Load by template code from DB
+     * Load by template code from DB. 
+     * 
+     * If $useSystem eq true, loading of system template
      *
      * @param  int $templateId 
+     * @param  boolean $useSystem
      * @return array
      */
-    public function loadByCode($templateCode)
+    public function loadByCode($templateCode, $useSystem=false)
     {
         $select = $this->_read->select()
             ->from($this->_templateTable)
             ->where('template_code=?', $templateCode)
-            ->where('template_actual=?',1);
+            ->where('template_actual=?',1)
+            ->where('is_system=?', $useSystem ? 1 : 0);
         
         $result = $this->_read->fetchRow($select);
         
@@ -97,7 +101,7 @@ class Mage_Newsletter_Model_Mysql4_Template
      */
     public function checkUsageInQueue(Mage_Newsletter_Model_Template $template)
     {
-        if($template->getTemplateActual()!=='false') {
+        if ($template->getTemplateActual()!==0 && !$template->getIsSystem()) {
             $select = $this->_read->select()
                 ->from($this->_queueTable, new Zend_Db_Expr('COUNT(queue_id)'))
                 ->where('template_id=?',$template->getId());
@@ -105,7 +109,9 @@ class Mage_Newsletter_Model_Mysql4_Template
             $countOfQueue = $this->_read->fetchOne($select);
             
             return $countOfQueue > 0;
-        } else {       
+        } else if ($template->getIsSystem()) {
+        	return false;
+        } else {
             return true;
         }
     }
@@ -124,7 +130,8 @@ class Mage_Newsletter_Model_Mysql4_Template
                 ->from($this->_templateTable, new Zend_Db_Expr('COUNT(template_id)'))
                 ->where('template_id!=?',$template->getId())
                 ->where('template_code=?',$template->getTemplateCode())
-                ->where('template_actual=?',1);
+                ->where('template_actual=?',1)
+                ->where('is_system=?',$template->getIsSystem());
             
             $countOfCodes = $this->_read->fetchOne($select);
             
@@ -188,22 +195,17 @@ class Mage_Newsletter_Model_Mysql4_Template
         $data['template_sender_name'] = $template->getTemplateSenderName();
         $data['template_sender_email'] = $template->getTemplateSenderEmail();
         $data['template_actual'] = ( !is_null($template->getTemplateActual()) && $template->getTemplateActual() == 0  ? 0 : 1 ); 
+        $data['is_system']		 = $template->getIsSystem() ? 1 : 0;
         
         if($this->checkCodeUsage($template)) {
             Mage::throwException('duplicate of template code');
         }
         
-        $templateCodeValidator = new Zend_Validate_Regex('/^[a-z0-9\\-_]*$/i');
-        $templateCodeValidator->setMessage('invalid template code', Zend_Validate_Regex::NOT_MATCH);
         $validators = array( 
-            'template_code' => array(
-                $templateCodeValidator                                
-            ),
+            'template_code' => array(Zend_Filter_Input::ALLOW_EMPTY => false),
             'template_type' => 'Alnum',
-            'template_sender_email' => array(
-                new Zend_Validate_EmailAddress(),
-                Zend_Filter_Input::ALLOW_EMPTY => true
-            )
+            'template_sender_email' => 'EmailAddress',
+            'template_sender_name'	=> array(Zend_Filter_Input::ALLOW_EMPTY => false)
         );
         
         $validateInput = new Zend_Filter_Input(array(), $validators, $data);
@@ -219,7 +221,7 @@ class Mage_Newsletter_Model_Mysql4_Template
             		$errorString.= $message . "\n";
             	}
 
-            }            
+            }
             Mage::throwException($errorString);
         }
         

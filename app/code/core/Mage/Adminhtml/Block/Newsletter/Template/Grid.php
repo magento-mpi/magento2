@@ -13,7 +13,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/template_collection')
-            ->useOnlyActual();
+            ->useOnlyActual()
+            ->useSystemTemplates(false);
 
         $this->setCollection($collection);
         
@@ -23,7 +24,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('id',
-            array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id',  'sortable'=>false));
+            array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id'));
         $this->addColumn('code',
             array(
                 'header'=>__('Template Name'),

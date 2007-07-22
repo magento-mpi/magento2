@@ -1,0 +1,23 @@
+    <table cellspacing="0" width="100%">
+        <tr>
+            <th class="align-left"><?=__('Product')?></th>
+            <th class="align-center"><?=__('Comment')?></th>
+            <th class="align-center">&nbsp;</th> 
+        </tr>
+        <?foreach($this->getWishlist() as $item):?>
+        <tr>
+            <td>
+                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="product name" width="113"/></a></div>
+            	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
+            	<div><?=$item->getFormatedPrice()?></div>
+            </td>
+            <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
+          
+            <td class="align-center">
+            	<a href="<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>" ><?=__('Add to cart')?></a><br/><br/>
+            	<a href="<?=$item->getProductUrl()?>" ><?=__('See info')?></a><br/><br/>
+            	<a href="<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>"><?=__('Remove')?></a>
+            </td>
+        </tr>
+        <?endforeach?>
+    </table>
