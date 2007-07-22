@@ -66,18 +66,21 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function renderView()
     {
         Varien_Profiler::start(__METHOD__);
-        $templatesDir = Mage::getSingleton('core/store')->getDir('template');
-
+        #$templatesDir = Mage::getSingleton('core/store')->getDir('template');
+		#$this->setScriptPath($templatesDir.DS);
+		
         $this->assign('baseUrl', Mage::getBaseUrl());
         $this->assign('baseSecureUrl', Mage::getBaseUrl(array('_secure'=>true)));
         $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
         $this->assign('baseJsUrl', Mage::getBaseUrl(array('_type'=>'js')));
-        $this->assign('templatesDir', $templatesDir);
+        #$this->assign('templatesDir', $templatesDir);
         $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
         $this->assign('currentBlock', $this);
         
-        $this->setScriptPath($templatesDir.DS);
-        $html = $this->fetchView($this->getTemplateName());
+
+        $this->setScriptPath(Mage::getBaseDir('design'));
+        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), array('_relative'=>true));       
+        $html = $this->fetchView($templateName);
         Varien_Profiler::stop(__METHOD__);
         
         return $html;

@@ -144,6 +144,16 @@ final class Mage {
     {
         return Mage::registry('controller')->getUrl($route, $params);
     }
+    
+    /**
+     * Get design package singleton
+     *
+     * @return Mage_Core_Model_Design_Package
+     */
+    public static function getDesign()
+    {
+    	return Mage::getSingleton('core/design_package');
+    }
 
     /**
      * Get a config object

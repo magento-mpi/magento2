@@ -193,9 +193,4 @@ class Mage_Core_Controller_Varien_Front
         }
         return $url;
     }
-    
-    public function getFileUrl($type, $path, $options=array())
-    {
-    	#$path = Mage::getbaseUrl()
-    }
 }

@@ -18,6 +18,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 			'stores/base/system/filesystem/translate', 
 			$appDir.'/design/adminhtml/default/translate');
 			
+		Mage::getDesign()->setArea('adminhtml');			
 	}
 	
     protected function _setActiveMenu($menuPath)

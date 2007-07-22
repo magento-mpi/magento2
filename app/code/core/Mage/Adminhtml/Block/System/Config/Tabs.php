@@ -20,8 +20,6 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     
     public function initTabs()
     {
-        $this->_addBreadcrumb(__('Config'), null, Mage::getUrl('*/*'));
-        $config = Mage::getSingleton('adminhtml/system_config');
         $current = $this->getRequest()->getParam('section');
 
         $sections = Mage::getResourceModel('core/config_field_collection')

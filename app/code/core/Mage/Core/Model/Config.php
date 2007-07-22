@@ -240,7 +240,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getBaseDir($type)
     {
         $dir = (string)$this->getNode('stores/base/system/filesystem/'.$type);
-
         if (!$dir) {
             $dir = $this->getDefaultBaseDir($type);
         }
@@ -276,6 +275,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $dir = Mage::getRoot().DS.'code';
                 break;
                 
+        	case 'design':
+        		$dir = Mage::getRoot().DS.'design';
+        		break;
+        		
             case 'var':
                 $dir = $this->getTempVarDir();
                 break;
