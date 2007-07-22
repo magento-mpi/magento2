@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Tag_All extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/tag/index.phtml');
+        $this->setTemplate('tag/index.phtml');
     }
 
     protected function _initChildren()

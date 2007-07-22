@@ -15,6 +15,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Toolbar_Add extends Mage_Core_Bloc
     {
         parent::__construct();
         $this->assign('createUrl', Mage::getUrl('adminhtml/tax_class_customer/add'));
-        $this->setTemplate('adminhtml/tax/toolbar/class/add.phtml');
+        $this->setTemplate('tax/toolbar/class/add.phtml');
     }
 }

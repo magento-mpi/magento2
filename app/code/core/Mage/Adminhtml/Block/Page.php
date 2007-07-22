@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Page extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/page.phtml');
+        $this->setTemplate('page.phtml');
     }
     
     public function _beforeToHtml()

@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/tag/edit.phtml');
+        $this->setTemplate('tag/edit.phtml');
     }
 
     protected function _initChildren()

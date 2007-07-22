@@ -5,7 +5,7 @@ class Mage_Adminhtml_Block_Permissions_UsernRoles extends Mage_Core_Block_Templa
 		$userCollection = Mage::getModel("permissions/users")->getCollection()->load();
 		$rolesCollection = Mage::getModel("permissions/roles")->getCollection()->load();
 		
-        $this->setTemplate('adminhtml/permissions/usernroles.phtml')
+        $this->setTemplate('permissions/usernroles.phtml')
         	->assign('users', $userCollection)
         	->assign('roles', $rolesCollection);
     }

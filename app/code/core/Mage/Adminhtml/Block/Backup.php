@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/backup/list.phtml');
+        $this->setTemplate('backup/list.phtml');
     }
 
     protected function _initChildren()

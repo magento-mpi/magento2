@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/group/edit.phtml');
+        $this->setTemplate('customer/group/edit.phtml');
     }
     
     /**

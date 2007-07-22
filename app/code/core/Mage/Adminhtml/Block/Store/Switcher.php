@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/store/switcher.phtml');
+        $this->setTemplate('store/switcher.phtml');
     }
     
     public function getWebsiteCollection()

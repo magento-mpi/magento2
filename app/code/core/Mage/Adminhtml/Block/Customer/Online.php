@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Online extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/online.phtml');
+        $this->setTemplate('customer/online.phtml');
     }
     
     public function _beforeToHtml()

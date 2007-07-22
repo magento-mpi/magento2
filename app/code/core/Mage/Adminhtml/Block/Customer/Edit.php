@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/edit.phtml');
+        $this->setTemplate('customer/edit.phtml');
         $this->setId('customerEdit');
     }
 

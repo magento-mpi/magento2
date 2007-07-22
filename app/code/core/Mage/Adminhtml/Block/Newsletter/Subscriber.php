@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber extends Mage_Core_Block_Templat
 	 */
 	public function __construct() 
 	{
-		$this->setTemplate('adminhtml/newsletter/subscriber/list.phtml');
+		$this->setTemplate('newsletter/subscriber/list.phtml');
 	}
 	
 	/**

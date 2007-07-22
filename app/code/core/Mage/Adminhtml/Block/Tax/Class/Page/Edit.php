@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/tax/class/page/edit.phtml');
+        $this->setTemplate('tax/class/page/edit.phtml');
     }
 
     protected function _initChildren()

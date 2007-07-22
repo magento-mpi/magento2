@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/tab/addresses.phtml');
+        $this->setTemplate('customer/tab/addresses.phtml');
     }
     
     public function getRegionsUrl()

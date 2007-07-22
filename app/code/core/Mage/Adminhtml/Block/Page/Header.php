@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
-        $this->setTemplate('adminhtml/page/header.phtml');
+        $this->setTemplate('page/header.phtml');
     }
     
     public function toHtml()

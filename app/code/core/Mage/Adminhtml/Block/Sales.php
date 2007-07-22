@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Sales extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/sales/index.phtml');
+        $this->setTemplate('sales/index.phtml');
     }
 
     public function _beforeToHtml()

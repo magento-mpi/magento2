@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue extends Mage_Core_Block_Template
 {
 	public function __construct() 
 	{
-		$this->setTemplate('adminhtml/newsletter/queue/list.phtml');
+		$this->setTemplate('newsletter/queue/list.phtml');
 	}
 	
 	protected function _beforeToHtml()

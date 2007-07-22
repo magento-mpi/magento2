@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
-        $this->setTemplate('adminhtml/page/footer.phtml');
+        $this->setTemplate('page/footer.phtml');
         $this->setShowProfiler(true);
     }
     

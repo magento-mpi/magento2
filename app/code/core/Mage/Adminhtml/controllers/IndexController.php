@@ -4,7 +4,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 {
     protected function _outTemplate($tplName, $data=array())
     {
-        $block = $this->getLayout()->createBlock('core/template')->setTemplate("adminhtml/$tplName.phtml");
+        $block = $this->getLayout()->createBlock('core/template')->setTemplate("$tplName.phtml");
         foreach ($data as $index=>$value) {
         	$block->assign($index, $value);
         }
@@ -16,11 +16,11 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout('baseframe');
         #$this->_setActiveMenu('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
-            ->setTemplate('adminhtml/system/info.phtml');
+            ->setTemplate('system/info.phtml');
 
         $this->_addContent($block);
 //        $this->getLayout()->getBlock('left')
-//            ->append($this->getLayout()->createBlock('core/template')->setTemplate('adminhtml/system/left.phtml'));
+//            ->append($this->getLayout()->createBlock('core/template')->setTemplate('system/left.phtml'));
 
         $this->renderLayout();
     }
@@ -63,7 +63,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         }
 
         $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate('adminhtml/system/autocomplete.phtml')
+            ->setTemplate('system/autocomplete.phtml')
             ->assign('items', $items);
 
         $this->getResponse()->setBody($block->toHtml());

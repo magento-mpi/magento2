@@ -177,6 +177,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         
         $arr = array(
             'root_dir'  => dirname(Mage::getRoot()),
+            'app_dir'   => dirname(Mage::getRoot()).DS.'app',
             'var_dir'   => $this->getTempVarDir(),
             'protocol'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
             'host'      => $serverName,
@@ -263,6 +264,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $dir = Mage::getRoot();
         switch ($type) {
+        	case 'app':
+        		$dir = Mage::getRoot();
+        		break;
+        		
             case 'etc':
                 $dir = Mage::getRoot().DS.'etc';
                 break;

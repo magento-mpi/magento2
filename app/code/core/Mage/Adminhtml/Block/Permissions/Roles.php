@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/permissions/roles.phtml');
+        $this->setTemplate('permissions/roles.phtml');
     }
     
     public function getAddNewUrl()

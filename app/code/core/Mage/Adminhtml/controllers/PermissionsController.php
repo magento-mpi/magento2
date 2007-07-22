@@ -40,7 +40,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/permissions_buttons')
-                ->setTemplate('adminhtml/permissions/userinfo.phtml')
+                ->setTemplate('permissions/userinfo.phtml')
                 ->setUserId($userId)
                 ->assign('userData', Mage::getModel('permissions/users')->load($userId))
         );
@@ -71,7 +71,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/permissions_buttons')
                 ->setRoleId($roleId)
-                ->setTemplate('adminhtml/permissions/roleinfo.phtml')
+                ->setTemplate('permissions/roleinfo.phtml')
         );
 
         $this->renderLayout();

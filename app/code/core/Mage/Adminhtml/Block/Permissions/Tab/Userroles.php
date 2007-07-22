@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Userroles extends Mage_Adminhtml_Bloc
         	->load();
 
 
-        $this->setTemplate('adminhtml/permissions/userroles.phtml')
+        $this->setTemplate('permissions/userroles.phtml')
         	->assign('roles', $roles)
         	->assign('user_roles', $user_roles);
     }

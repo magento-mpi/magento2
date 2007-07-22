@@ -14,6 +14,6 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Add extends Mage_Core_Block_Templat
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/tax/toolbar/class/add.phtml');
+        $this->setTemplate('tax/toolbar/class/add.phtml');
     }
 }

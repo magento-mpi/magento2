@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/widget/grid.phtml');
+        $this->setTemplate('widget/grid.phtml');
     }
 
     protected function _initChildren()

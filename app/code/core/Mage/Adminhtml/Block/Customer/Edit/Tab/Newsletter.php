@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/tab/newsletter.phtml');
+        $this->setTemplate('customer/tab/newsletter.phtml');
     }
     
     public function initForm()

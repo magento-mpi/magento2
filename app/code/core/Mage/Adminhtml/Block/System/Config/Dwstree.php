@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         parent::__construct();
-        #$this->setTemplate('adminhtml/widget/tabs.phtml');
+        #$this->setTemplate('widget/tabs.phtml');
         $this->setId('system_config_dwstree');
         $this->setDestElementId('system_config_form');
         #$this->setTitle(__('-={ dWs }=-'));

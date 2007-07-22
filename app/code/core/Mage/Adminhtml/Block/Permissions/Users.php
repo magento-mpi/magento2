@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Permissions_Users extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/permissions/users.phtml');
+        $this->setTemplate('permissions/users.phtml');
     }
     
     public function getAddNewUrl()

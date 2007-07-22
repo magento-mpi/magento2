@@ -13,6 +13,6 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/dashboard/index.phtml');
+        $this->setTemplate('dashboard/index.phtml');
     }
 }

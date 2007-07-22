@@ -2,6 +2,24 @@
 
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
+	public function _construct()
+	{
+		parent::_construct();
+		
+		$appDir = Mage::getbaseDir('app');
+		
+		Mage::getConfig()->setNode(
+			'stores/base/system/filesystem/layout', 
+			$appDir.'/design/adminhtml/default/layout/default');
+		Mage::getConfig()->setNode(
+			'stores/base/system/filesystem/template', 
+			$appDir.'/design/adminhtml/default/template/default');
+		Mage::getConfig()->setNode(
+			'stores/base/system/filesystem/translate', 
+			$appDir.'/design/adminhtml/default/translate');
+			
+	}
+	
     protected function _setActiveMenu($menuPath)
     {
         $this->getLayout()->getBlock('menu')->setActive($menuPath);

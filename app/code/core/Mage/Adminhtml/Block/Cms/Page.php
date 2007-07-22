@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/cms/page/form.phtml');
+        $this->setTemplate('cms/page/form.phtml');
     }
 
     public function getSaveUrl()

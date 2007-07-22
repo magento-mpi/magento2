@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/catalog/category/tree.phtml');
+        $this->setTemplate('catalog/category/tree.phtml');
     }
     
     protected function _initChildren()

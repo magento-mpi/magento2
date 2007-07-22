@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/newsletter/template/edit.phtml');
+        $this->setTemplate('newsletter/template/edit.phtml');
         $this->_template = Mage::getModel('newsletter/template');
         if ($templateId = (int) $this->_request->getParam('id')) {
             $this->_template->load($templateId);

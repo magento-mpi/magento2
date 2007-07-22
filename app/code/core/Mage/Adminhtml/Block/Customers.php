@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Customers extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/index.phtml');
+        $this->setTemplate('customer/index.phtml');
     }
     
     protected function _initChildren()

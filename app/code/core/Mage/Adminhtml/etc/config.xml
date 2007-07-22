@@ -22,21 +22,21 @@
          <adminhtml>
             <updates>
                <adminhtml>
-                  <file>adminhtml/init.xml</file>
+                  <file>init.xml</file>
                </adminhtml>
             </updates>
          </adminhtml>
          <baseframe>
             <updates>
                <baseframe>
-                  <file>adminhtml/baseframe.xml</file>
+                  <file>baseframe.xml</file>
                </baseframe>
             </updates>
          </baseframe>
          <preview>
             <updates>
                <baseframe>
-                  <file>adminhtml/preview.xml</file>
+                  <file>preview.xml</file>
                </baseframe>
             </updates>
          </preview>

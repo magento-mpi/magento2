@@ -141,7 +141,4 @@
             <currency>1</currency>
         </base>
     </domains>
-    <translate>
-        <customer>customer/messages.csv</customer>
-    </translate>
 </config>

@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
 {
 	protected  function _beforeToHtml() {
 		
-		$this->setTemplate('adminhtml/newsletter/queue/edit.phtml');
+		$this->setTemplate('newsletter/queue/edit.phtml');
 		
 		$this->setChild('form',
 			$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form','form')

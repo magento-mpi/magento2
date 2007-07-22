@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/customer/tab/view.phtml');
+        $this->setTemplate('customer/tab/view.phtml');
     }
 
     protected function _initChildren()

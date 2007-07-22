@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/catalog/category/edit.phtml');
+        $this->setTemplate('catalog/category/edit.phtml');
     }
     
     protected function _initChildren()

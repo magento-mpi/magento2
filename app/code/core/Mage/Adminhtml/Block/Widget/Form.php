@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/widget/form.phtml');
+        $this->setTemplate('widget/form.phtml');
     }
 
     public function getForm()

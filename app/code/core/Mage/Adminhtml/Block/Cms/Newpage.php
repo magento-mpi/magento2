@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Cms_Newpage extends Mage_Adminhtml_Block_Widget_Form
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/cms/addeditForm.phtml');
+        $this->setTemplate('cms/addeditForm.phtml');
         $this->setDestElementId('page_form');
     }
 

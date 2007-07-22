@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
-        $this->setTemplate('adminhtml/page/menu.phtml');
+        $this->setTemplate('page/menu.phtml');
     }
     
     protected function _beforeToHtml()

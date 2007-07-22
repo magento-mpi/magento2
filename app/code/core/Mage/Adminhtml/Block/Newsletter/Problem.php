@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Core_Block_Template
 	public function __construct() 
 	{
 		parent::__construct();
-		$this->setTemplate('adminhtml/newsletter/problem/list.phtml');
+		$this->setTemplate('newsletter/problem/list.phtml');
 	}
 	
 	protected function _initChildren()

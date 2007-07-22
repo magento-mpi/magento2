@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Cms extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('adminhtml/cms/index.phtml');
+        $this->setTemplate('cms/index.phtml');
     }
     
     public function getGridHtml()
