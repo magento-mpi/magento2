@@ -67,7 +67,7 @@
     }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
     margin-left:2em;
-    padding-top:1.3em;
+    padding-top:1.6em;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -143,7 +143,7 @@
 /* Section Menu */
 .section-menu {
     background:url(images/section_menu_bg.gif) repeat-y 100% 0;
-    padding-top:1.3em;
+    padding-top:1.6em;
     }
 .section-menu .bottom { /* Creates the gradient facade below the menu */
     height:217px;

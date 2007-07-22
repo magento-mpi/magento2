@@ -110,10 +110,18 @@ table.actions td {
 
 /* Headings aka Sort By */
 .grid tr.headings th {
+<<<<<<< .mine
+	padding-top:1px;
+	padding-bottom:1px;
+	background:#d7d8d9;
+	white-space:nowrap;
+	}
+=======
     padding-top:1px;
     padding-bottom:1px;
     background:#d7d8d9;
     }
+>>>>>>> .r9013
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */
     padding-top:4px;
     padding-bottom:4px;
