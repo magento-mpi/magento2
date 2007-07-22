@@ -47,7 +47,7 @@
     <?endif?>
     <?if($this->getExportTypes()):?>
         <td class="export a-right">
-            <img src="<?=$baseUrl?>skins/adminhtml/images/icon_export.gif" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
+            <img src="<?=$this->getSkinUrl('images/icon_export.gif')?>" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
             <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
             <?foreach ($this->getExportTypes() as $_type):?>
                 <option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>

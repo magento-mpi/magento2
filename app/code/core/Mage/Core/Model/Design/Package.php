@@ -141,7 +141,7 @@ class Mage_Core_Model_Design_Package
     	$fileName.= DS.$file;
 
 		$testFile = (empty($params['_relative']) ? '' : Mage::getBaseDir('design').DS) . $fileName;
-    	if (!is_readable($testFile)) {
+    	if ('default'!==$params['_theme'] && !file_exists($testFile)) {
     		return false;
     	}
     	return $fileName;
@@ -158,6 +158,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getFilename($file, array $params)
     {
+    	Varien_Profiler::start(__METHOD__);
     	$this->updateParamDefaults($params);
     	if (empty($params['_default'])) {
     		$params['_default'] = false;
@@ -173,7 +174,7 @@ class Mage_Core_Model_Design_Package
 				return $params['_default'];
 			}
 		}
-		
+		Varien_Profiler::stop(__METHOD__);
 		return $filename;
     }
     
@@ -202,29 +203,32 @@ class Mage_Core_Model_Design_Package
      * @param array $params
      * @return string
      */
-    public function getFileUrl($file, array $params=array())
+    public function getSkinUrl($file=null, array $params=array())
     {
-    	$this->updateParamDefaults();
+    	Varien_Profiler::start(__METHOD__);
+    	$this->updateParamDefaults($params);
     	if (empty($params['_type'])) {
     		$params['_type'] = 'skin';
     	}
     	if (empty($params['_default'])) {
     		$params['_default'] = false;
     	}
-		$filename = $this->validateFile($file, $params);
-		
-		if (false===$filename) {
-			if ('default'===$params['_theme']) {
-				return $params['_default'];
-			}
-			$params['_theme'] = 'default';
+    	if (!empty($file)) {
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {
-				return $params['_default'];
+				if ('default'===$params['_theme']) {
+					return $params['_default'];
+				}
+				$params['_theme'] = 'default';
+				$filename = $this->validateFile($file, $params);
+				if (false===$filename) {
+					return $params['_default'];
+				}
 			}
-		}
+    	}
 		
-    	$url = $this->getSkinBaseUrl($params).$file;
+    	$url = $this->getSkinBaseUrl($params).(!empty($file) ? $file : '');
+    	Varien_Profiler::stop(__METHOD__);
     	return $url;
     }
 }

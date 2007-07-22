@@ -1,0 +1,134 @@
+#nav {
+	height:31px;
+	background:url(images/nav1_bg.gif) repeat-x;
+	padding-left:20px;
+	}
+#nav, #nav ul { /* all lists */
+	list-style: none;
+	text-align:left;
+}
+
+/* All lists and links */
+#nav li {
+	position:relative;
+}
+#nav a, #nav a:hover {
+	display:block;
+	text-decoration:none;
+	font:normal 13px Arial, sans-serif;
+}
+#nav a.active, #nav a.active:hover {
+	font-weight:bold;
+}
+#nav li.active { margin-left:-3px; }
+
+/* 1st level lists and links */
+#nav li {
+	float:left;
+	height:31px;
+	background:url(images/nav1_sep.gif) no-repeat 100% 0;
+	}
+#nav li.over, #nav li:hover {
+	z-index:2050;
+	}
+#nav a {
+	padding:8px 15px 7px 15px;
+	color:#fff;
+	}
+#nav li:hover a, #nav li.over a, #nav a:hover, #nav a.active  {
+	background:url(images/nav1_on.gif) no-repeat;
+	color:#fff;
+	}
+#nav li:hover a em, #nav li.over a em, #nav a em, #nav a:hover em, #nav a.active em {
+	display:block;
+	position:absolute;
+	top:0;
+	right:-1px;
+	height:31px;
+	width:5px;
+	background:url(images/nav1_on.gif) no-repeat 100% 0;
+	}
+#nav a em {
+	background:none;
+	}
+/* Reset all lists and links for 2nd+ levels */
+#nav ul li {
+	float:none;
+	height:auto !important;
+	background:none;
+	}
+#nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a:hover, #nav ul a.active {
+	padding:0;
+	background:none;
+	color:#2f2f2f;
+	}
+
+
+/* 2nd+ level lists and links */
+#nav ul {
+	position: absolute;
+	width:200px;
+	top:35px;
+	margin-top:-7px;
+	margin-left: -1000em; /* for usability no display:none */
+	border:1px solid #FBB368;
+	background:#FFFAF4;
+}
+#nav li:hover ul, #nav li.over ul { /* lists nested under hovered list items */
+	margin-left:2px;
+}
+#nav li:hover li a, #nav li.over li a, #nav ul a, #nav ul a.active, #nav ul a:hover {
+	width:auto;
+	border-bottom:1px solid #FDDCBB;
+	padding:4px 12px;
+	color:#2F2F2F;
+	}
+#nav li:hover li a:hover, #nav li.over li a:hover {
+	background:#fdeedf;
+	}
+#nav ul .parent {
+	background-image:url(images/nav_parent_arrow.gif) !important;
+	background-position:right bottom !important;
+	background-repeat:no-repeat !important;
+	}
+
+
+/* 3rd+ level lists */
+#nav ul ul {
+	margin:0 0 0 -1000em;
+	top:13px;
+}
+#nav li:hover ul ul, #nav li.over ul ul {
+	margin-left: -1000em;
+}
+#nav li li:hover ul, #nav li li.over ul {
+	margin-left:100px;
+}
+
+
+#nav ul li a.last, #nav ul li a.last:hover { border-bottom:0; }
+
+#nav:after {
+	content:".";
+	display:block;
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0em;
+	overflow:hidden;
+	}
+
+/******* Let's fix some ie ********/
+
+* html #nav ul li, * html #nav ul li a { zoom:1; }
+* html #nav ul .parent { margin-bottom:-3px; } 
+
+
+/* Fix for the IE fix bug */
+#nav iframe {
+position: absolute;
+left: -1px;
+top: 0;
+z-index: -1;
+filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
+}
