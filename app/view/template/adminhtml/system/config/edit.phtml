@@ -6,24 +6,29 @@
  *  getSections() - array
  *  getForm() - html
  */
-?>
-<div class="content-header">
+?><h3><?=$this->getTitle()?></h3>
+<div style="border-left:17.2em solid #fff; margin-top:.65em; zoom:1;">
+	<div class="entry-edit-container" style="float:right; position:relative; width:100%; zoom:1;">
+	<div class="entry-edit" style="margin-left:2em;">
+	
+<div class="content-header" style="margin-top:-2.4em;" style="position:relative; zoom:1;">
     <table cellspacing="0" class="grid-header"> 
         <tr>
-            <td style="width:50%;"><h3><?=$this->getTitle()?></h3></td>
+            <td></td>
             <td class="form-buttons"><?=$this->getSaveButtonHtml()?></td>
          </tr>
     </table>
 </div>
-<div class="content-left-nav">
-    <?=$this->getChildHtml('dwstree')?>
-</div>
-<div class="entry-edit">
     <form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
     <?=$this->getChildHtml('form')?>
     </form>
 </div>
+</div>
 
+<div class="content-left-nav">
+    <?=$this->getChildHtml('dwstree')?>
+</div>
+</div>
 
 <script type="text/javascript" language="javascript">
     var configForm = new varienForm('config_edit_form');

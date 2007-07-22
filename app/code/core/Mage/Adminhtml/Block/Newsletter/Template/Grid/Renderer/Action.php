@@ -61,6 +61,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
     		$attributesObject->setData($action['@']);
     		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
     	}    	
-    	return implode(' <span class="spacer">&bull;</span> ', $html);
+    	return implode(' <span class="separator">&bull;</span> ', $html);
     }
 }

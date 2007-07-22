@@ -1,3 +1,8 @@
+
+/* body { width:expression(document.body.clientWidth < 800 ? "800px" : "100%" ); }  Sets the minimum width */
+
+
+/* Clearing */
 dl.accordion dt,
 .entry-edit fieldset li,
 #nav,
@@ -10,11 +15,9 @@ dl.accordion dt,
 dl.accordion dt,
 .grid thead th a,
 .content,
-.box-head { height:1%; }
-
-.icon-head {
-	height:18px;
-	}
+.box-head,
+.tabs li a,
+.tabs li { zoom:1; } /* IE version of clearing */
 
 .clear {
 	clear:both;
@@ -24,7 +27,14 @@ dl.accordion dt,
 	overflow:hidden;
 	}
 
-/* widgets.css override */
+
+/* Set min-height */
+.icon-head { height:18px;}
+.footer .powered-by { height:19px;}
+.simple-container { height:500px; }
+
+
+/* Scalable Button Override */
 button.scalable {
 	width:auto;
 	margin-left:5px;
@@ -35,19 +45,12 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 	padding-right: 8px;
 }
 
+/* Grid Filter Override */
 .grid tr.filter th { 
 	padding-top:3px;
 	padding-bottom:3px;
 	}
-.grid tr.filter th input {
-	margin-right: -10px;
-}
+.grid tr.filter th input { margin-right: -10px; }
+.grid tr.filter th .range input { margin-right: 2px; }
 
-.grid tr.filter th .range input {
-	margin-right: 2px;
-}
-.footer .powered-by {
-	height:19px;}
-.simple-container {
-	height:500px;
-	}
+

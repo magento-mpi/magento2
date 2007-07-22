@@ -1,6 +1,7 @@
-.icon-head, .footer .powered-by {
-	height:auto;
- }
-.simple-container {
-	height:auto !important;
+
+
+.icon-head,
+.footer .powered-by,
+.simple-container { 
+	height:auto !important; /* Override the way (less than)IE7 browsers set min-height */
 	}

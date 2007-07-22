@@ -123,7 +123,8 @@
 * html #nav ul li, * html #nav ul li a { zoom:1; }
 * html #nav ul .parent { margin-bottom:-3px; } 
 
-/* fix of ie select box z-index bug */
+
+/* Fix for the IE fix bug */
 #nav iframe {
 position: absolute;
 left: -1px;

@@ -1,60 +1,99 @@
 /******************************************/
-/************** UBIQUITOUS ****************/
+/**************** GLOBAL ******************/
 /******************************************/
-.emph {
-    color:#e66f20;
-    }
-.separator {
-    padding:0 .6em;
-    }
-.box-left, .box-right {
-    width:49.25%;
-    }
-.box-left {
-    float:left;
-    }
-.box-right {
-    float:right;
-    }
+
+/************* Messages ***********/
+.error { color:red !important; font-style:bold !important; }
+.required { color:#ff0000; }
+.changed { color:#e26f03 !important; }
 
 
-/* Forms */
-.input-text, textarea, select {
-    border:1px solid #acacac;
-    }
-.input-text, textarea {
-    padding:2px;
-    }
+.separator { padding:0 .6em; }
+.box-left, .box-right { width:49.25%; }
+.box-left { float:left; }
+.box-right { float:right; }
+
+/* Basic form elements */
+.input-text, textarea, select { border:1px solid #acacac; }
+.input-text, textarea { padding:2px; }
+
+/* Box */ /* Sets the color for prominent box-elements */
+.box, .address-list li.on, .entry-edit fieldset {
+	border:1px solid #b0c1d0 !important;
+	background:#e5ecf2 !important;
+	}
 
 
+/************* DATA MANIPULATION ************/
 
-/* autocomplete */
+select optgroup {font-style:normal}
+select optgroup option {padding-left:10px}
+
+/* Entry Edit */
+table.form-edit {
+	width:100%;
+	}
+.entry-edit fieldset {
+	margin-bottom:.9em;
+	padding:1.2em 1.5em;
+	}
+.entry-edit fieldset li {
+	list-style:none;
+	margin:.7em 0;
+	}
+.entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
+	display:block;
+	margin:.7em 0;
+	}
+.entry-edit fieldset label {
+	float:left;
+	width:10em;
+	}
+.entry-edit fieldset label.normal {
+	float:none;
+	width:10em;
+	}
+label.inline{
+	float:none !important;
+	width:auto !important;
+	}
+.entry-edit fieldset .input-text,
+.entry-edit fieldset .textarea {
+	width:216px;
+	}
+.entry-edit fieldset .textarea { height:6em; }
+.entry-edit fieldset .select { width:220px; }
+
+
+/* Autocomplete */
 div.autocomplete {
-  z-index:10000;
-  position:absolute;
-  width:250px;
-  background-color:white;
-  border:1px solid #888;
-  margin:0px;
-  padding:0px;
-}
+	z-index:10000;
+	position:absolute;
+	width:250px;
+	background-color:white;
+	border:1px solid #888;
+	margin:0px;
+	padding:0px;
+	}
 div.autocomplete ul {
-  list-style-type:none;
-  margin:0px;
-  padding:0px;
-}
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	}
 div.autocomplete ul li.selected {
-    background-color: #dcebf0;
-    }
+	background-color: #dcebf0;
+	}
 div.autocomplete ul li {
-  list-style-type:none;
-  padding:.5em .7em;
-  min-height:32px;
-  cursor:pointer;
-  text-align:left;
-    color:#2f2f2f;
-    line-height:1.3em;
+	list-style-type:none;
+	padding:.5em .7em;
+	min-height:32px;
+	cursor:pointer;
+	text-align:left;
+	color:#2f2f2f;
+	line-height:1.3em;
 }
+
+
 
 
 
@@ -62,315 +101,237 @@ div.autocomplete ul li {
 /***************** BOXES ******************/
 /******************************************/
 
-/* Layout */
+/* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
 .header {
-    background:url(images/header_bg.gif) repeat-x #516f78;
-    z-index:9;
-    text-align:right;
-    }
+	background:url(images/header_bg.gif) repeat-x #516f78;
+	text-align:right;
+	}
 .middle {
-    background:#fff;
-    padding:0 0 3em 0;
-    }
-.container {
-    border-left:17.48em solid #fff;
-    padding:1.8em 2.2em 1.8em 2em;
-        padding-top:0;
-    }
-.simple-container {
-		min-height:500px;
-    padding:1.8em 2.3em;
-    }
-.main {
-    float:left;
-    width:100%;
-    }
+	background:#fff;
+	padding:0 0 3em 0;
+	}
+.container { /* created to browser-compatible liquid-layout */
+	border-left:17.48em solid #fff;
+	padding:1.8em 2.2em 1.8em 2em;
+	padding-top:0;
+	}
+.simple-container { /* Main area below the breadcrumb and above the footer */
+	min-height:500px;
+	padding:1.8em 2.3em;
+	}
+/*.main {
+	float:left;
+	width:100%;
+	} */
 .section-menu {
-    float:left;
-    position:relative;
-    margin-left:-17.08em;
-    width:17.08em;
-        background:url(image/section_menu_bg.gif) repeat-y 100% 0;
-    }
+	float:left;
+	position:relative;
+	margin-left:-17.08em;
+	width:17.08em;
+	background:url(image/section_menu_bg.gif) repeat-y 100% 0;
+	}
 .content-container {
-    position:relative;
-    width:100%;
-    float:right;
-    margin-left:-1px;
-    }
-.content {
-    margin-left:2em;
-        padding-top:1.5em;
-    }
+	position:relative;
+	width:100%;
+	float:right;
+	margin-left:-1px;
+	}
+.content { /* Created to accomodate spacing specification for items nested in content-container */
+	margin-left:2em;
+	padding-top:1.5em;
+	}
 .footer {
-        background:url(images/footer_bg.gif) repeat-x #e6e6e6;
-    padding:1em 2.8em 1.2em 2.8em;
-    text-align:right;
-    }
+	background:url(images/footer_bg.gif) repeat-x #e6e6e6;
+	padding:1em 2.8em 1.2em 2.8em;
+	text-align:right;
+	}
 
 
-/* Header */
+
+
+
+/************ HEADER & FOOTER **************/ /* Everything about header & footer goes here - #nav has its own stylesheet 'menu.css' *
+
+/* Logo */
 .logo {
-    float:left;
-    margin:5px 15px;
-    }
+	float:left;
+	margin:5px 15px;
+	}
 .header-right {
-    padding:10px 15px;
-    color:#fff;
-    font-size:.95em;
-    }
+	padding:10px 15px;
+	color:#fff;
+	font-size:.95em;
+	}
 .header-right a, .header-right a:hover {
-    color:#F5FCFF;
-    }
+	color:#F5FCFF;
+	}
 .header-right fieldset {
-    display:inline;
-    }
+	display:inline;
+	}
 .header-right fieldset .input-text {
-    width:18em;
-    text-align:left;
-    }
+	width:18em;
+	text-align:left;
+	}
 .header-right .super {
-    float:right;
-    margin-left:1.3em;
-    line-height:2.2em;
-    }
+	float:right;
+	margin-left:1.3em;
+	line-height:2.2em;
+	}
+.topnav-container { /* container for horizontal site navigation */
+	background:#91afba url(images/nav_bg.gif) repeat-x;
+	padding:3px 1.8em .33em 1.8em;
+	z-index:9;
+	}
 
-.topnav-container {
-    background:#91afba url(images/nav_bg.gif) repeat-x;
-    padding:3px 1.8em .33em 1.8em;
-    z-index:9;
-}
-
-/* Middle */
+/* Breadcrumbs  */
 .breadcrumbs {
-    padding:.6em 2em .5em 2em;
-    font-size:1.08em;
-		background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
-		border-bottom:1px solid #d0d0d0;
-    }
+	padding:.6em 2em .5em 2em;
+	font-size:1.08em;
+	background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
+	border-bottom:1px solid #d0d0d0;
+	}
 .breadcrumbs, .breadcrumbs a {
-    color:#453F46;
-    }
+	color:#453F46;
+	}
 .breadcrumbs li {
-    list-style-type:none;
-    display:inline;
-    }
+	list-style-type:none;
+	display:inline;
+	}
+
+/* Footer */
+.footer .powered-by {
+	float:left;
+	min-height:19px;
+	background:url(images/varien_logo.gif) no-repeat 0 50%;
+	padding-left:22px;
+	}
+
+
+
+
+
+/*********** SECTIONAL MENUS ***********/ /* This is the category-basis navigational menu - further customization of ul.tabs */
+
+/* Section Menu */
 .section-menu {
-    background:url(images/section_menu_bg.gif) repeat-y 100% 0;
-    padding-top:1.3em;
-    }
-.section-menu .bottom {
-    height:217px;
-    background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
-    }
+	background:url(images/section_menu_bg.gif) repeat-y 100% 0;
+	padding-top:1.3em;
+	}
+.section-menu .bottom { /* Creates the gradient facade below the menu */
+	height:217px;
+	background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
+	}
 .section-menu ul.tabs {
-    margin-top:.7em;
-    border-top:1px solid #bebebe;
-    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
-    }
-.section-menu ul.tabs li {
-    list-style-type:none;
-    }
-.section-menu ul.tabs li a {
-    display:block;
-    background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
-    padding-bottom:1px;
-    }
-.section-menu ul.tabs li a, .section-menu ul.tabs li a:hover {
-    color:#000;
-    text-decoration:none;
-    }
-.section-menu ul.tabs li a.active {
-    padding:0;
-    border-bottom:1px solid #bebebe;
-    background:none;
-    }
-.section-menu ul.tabs li a:hover.active {
-    padding:0;
-    }
-.section-menu ul.tabs li span {
-    display:block;
-    padding:.3em 1.5em .28em 1.5em;
-    cursor:pointer;
-    }
+	margin-top:.7em;
+	background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+	}
 .section-menu ul.tabs li a:hover span {
-    background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
-    }
-.section-menu ul.tabs li a.active span, .section-menu ul.tabs li a:hover.active span {
-    background:#fff;
-    font-weight:bold;
-    }
-
-.content-left-nav ul.tabs {
-    float:left;
-    width:200px;
-    margin-top:.7em;
-    margin-right:1em;
-    border-top:1px solid #bebebe;
-    background:#DEF;
-    }
-.content-left-nav ul.tabs li {
-    list-style-type:none;
-    }
-.content-left-nav ul.tabs li a {
-    text-decoration:none;
-    display:block;
-    background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
-    padding-bottom:1px;
-    color:#000;
-    }
-.content-left-nav ul.tabs li a:hover span {
-    background:#69F;
-    }
-.content-left-nav ul.tabs li a.active {
-    padding:0;
-    border-bottom:1px solid #bebebe;
-    background:none;
-    }
-.content-left-nav ul.tabs li span {
-    display:block;
-    padding:.3em 1.5em .28em 1.5em;
-    cursor:pointer;
-    }
-.content-left-nav ul.tabs li a.active span, .content-left-nav ul.tabs li a:hover.active span {
-    background:#8BF;
-    font-weight:bold;
-    }
-.content-left-nav a.default {
-    }
-.content-left-nav a.website {
-    padding-left:16px;
-    }
-.content-left-nav a.store {
-    padding-left:32px;
-    }
-
-.content-header {
-    margin-bottom:1em;
-    border-bottom:3px solid #dfdfdf;
-    padding-bottom:.25em;
-    }
-.content-header h3 {
-    margin:0;
-        color:#000;
-        font-size:1.25em;
-        line-height:1.2em;
-    }
-.content-header table.grid-header { width:100%; }
-.content-header .form-buttons {
-    text-align:right;
-    }
+	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
+	}
+.section-menu .x-tree {
+	margin:10px 0;
+	}
 
 
-/* Customer View */
-.box {
-    border:1px solid #b0c1d0;
-    background:#e5ecf2;
-    padding:10px;
-    }
-
-
-/* Customer - Addresses */
+/* Content-left Nav */
 .content-left-nav {
-    width:30%;
-    padding-right:1.75em;
-    }
-.address-list li {
-    list-style:none;
-    margin-bottom:.4em;
-    padding:.7em 1em;
-    cursor:pointer;
-    border:1px solid #fff;
-    background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
-    }
-.address-list li.over {
-    background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff;
-    }
-.address-list li.on {
-    border:1px solid #b0c1d0;
-    background:#e5ecf2;
-    }
-.address-list li table {
-    width:100%;
-    }
-.delete-address {
-    float:right;
-    margin: 0 0 10px 10px;
-    }
+	float:left;
+	width:17.08em;
+	margin-left:-17.08em;
+	position:relative;
+	}
+.content-left-nav ul.tabs li a:hover span { background:#69F; }
+.content-left-nav a.website { padding-left:16px;}
+.content-left-nav a.store { padding-left:32px; }
 
-table.form-edit {
-    width:100%;
-    }
-.entry-edit {
-    /*float:right;
-    width:65.25%;
-    border-left:1px solid #BCBCBC;
-    padding-left:2.25%;*/
-    }
-.entry-edit fieldset {
-    margin-bottom:.9em;
-    border:1px solid #b0c1d0;
-    background:#e5ecf2;
-    padding:1.2em 1.5em;
-    }
-.entry-edit fieldset li {
-    list-style:none;
-    margin:.7em 0;
-    }
-.entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
-    display:block;
-    margin:.7em 0;
-}
-.entry-edit fieldset label {
-    float:left;
-    width:10em;
-    }
-.entry-edit fieldset label.normal {
-    float:none;
-    width:10em;
-    }
-label.inline{
-    float:none !important;
-    width:auto !important;
-}
-.entry-edit fieldset .input-text,
-.entry-edit fieldset .textarea {
-    width:216px;
-    }
-.entry-edit fieldset .textarea {
-    height:6em;
-    }
-.entry-edit fieldset .select { width:220px; }
 
-/* Headings */
-.box-head {
+
+
+
+/*************** All about headings **************/
+
+/* Content Header */
+.content-header {
+	margin-bottom:1em;
+	border-bottom:3px solid #dfdfdf;
+	padding-bottom:.25em;
+	}
+.content-header h3 {
+	margin:0;
+	color:#000;
+	font-size:1.25em;
+	line-height:1.2em;
+	}
+.content-header table.grid-header { width:100%; }
+.content-header .form-buttons {  text-align:right; }
+
+
+/* Box Head */ /* Used when the section heading contains more than just text heading */
+.box-head { 
 	margin-bottom:.6em;
 	text-align:right;
 	}
 .box-head h4 {
 	float:left;
-	margin-top:3px;
+	margin-top:.4em;
 	margin-bottom:0;
 	}
-.icon-head {
-    min-height:18px;
-    background-repeat:no-repeat;
-    background-position:0 50%;
-    }
-.head-customer-address-list {
-    background-image:url(images/fam_house.gif);
-    padding-left:22px;
-    }
-.head-edit-form {
-    background-image:url(images/fam_page_white_edit.gif);
-    padding-left:22px;
-    }
-.head-customer-view {
-    background-image:url(images/fam_status_online.gif);
-    padding-left:18px;
-    }
 
-/********************* CONFIG ************************/
+/* Icon Head */ /* Headings with icon preceding text*/
+.icon-head {
+	min-height:18px;
+	background-repeat:no-repeat;
+	background-position:0 50%;
+	}
+.head-customer-address-list {
+	background-image:url(images/fam_house.gif);
+	padding-left:22px;
+	}
+.head-edit-form {
+	background-image:url(images/fam_page_white_edit.gif);
+	padding-left:22px;
+	}
+.head-customer-view {
+	background-image:url(images/fam_status_online.gif);
+	padding-left:18px;
+	}
+
+
+
+
+
+/************ PAGE SPECIFIC **************/ /* Sometimes things are painfully specific - cause these guys are just cool like that */
+
+/* Customer -  Customer view */
+.customer-personal-brief { padding:10px 15px;}
+
+
+/* Customer - Addresses */
+.address-list {
+	width:30%;
+	padding-right:1.75em;
+	}
+.address-list li {
+	list-style:none;
+	margin-bottom:.4em;
+	padding:.7em 1em;
+	cursor:pointer;
+	border:1px solid #fff;
+	background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
+	}
+.address-list li.over {
+	background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff;
+	}
+.address-list li table {
+	width:100%;
+	}
+.delete-address {
+	float:right;
+	margin: 0 0 10px 10px;
+	}
+
+
+/* Config */
 fieldset.config table {
     }
 fieldset.config th {
@@ -396,13 +357,13 @@ fieldset.config input.input-text, fieldset.config select.select {
     width:150px;
     }
 
-.footer .powered-by {
-    float:left;
-    min-height:19px;
-    background:url(images/varien_logo.gif) no-repeat 0 50%;
-    padding-left:22px;
-    }
-/* Overrides */
+
+
+
+
+/******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
+
+/* Directional and spacial */
 .left {float:left; }
 .right {float:right; }
 .v-top { vertical-align:top; }
@@ -413,7 +374,16 @@ fieldset.config input.input-text, fieldset.config select.select {
 .a-right { text-align:right; }
 
 
-/* Clear */
+/* Color */
+.emph { color:#e66f20; } /* This just gives an element a little BAM! */
+
+
+/* Other cute things */
+.no-display{ display:none; }
+.pointer { cursor:pointer; }
+
+
+/* Clear */ /* This keeps our HTML free of buncha clearing elements */
 dl.accordion dt:after,
 .entry-edit fieldset li:after,
 .entry-edit fieldset span:after,
@@ -425,41 +395,14 @@ dl.accordion dt:after,
 .header:after,
 .box-head:after,
 .clear:after {
-    clear:both;
-    content:".";
-    display:block;
-    height:0;
-    font-size:0;
-    line-height:0;
-    visibility:hidden;
-    }
-
-div.tree_item, div.tree_item_last{
-    background-position: left;
-    background-repeat: no-repeat;
-    padding-left:20px;
-}
-
-div.tree_item {
-    background-image:url(images/tree_icons/join.gif);
-}
-
-div.tree_item_last {
-    background-image:url(images/tree_icons/joinbottom.gif);
-}
-
-div.tree_line {
-    position:absolute;
-    left:0;
-    background-image:url(images/tree_icons/line.gif);
-}
-.address-type .address-type-line {
+	clear:both;
+	content:".";
 	display:block;
-	margin:2px 0;
+	height:0;
+	font-size:0;
+	line-height:0;
+	visibility:hidden;
 	}
-.address-type .address-type-line input {
-	margin-right:3px; 
-	}
-.no-active-category a span{
-    color:#aaa !important; 
-}
+
+
+.no-active-category a span { color:#aaa !important; }
