@@ -9,6 +9,11 @@
  */
 class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->getSelect()->where($this->getConnection()->quoteInto('store_id>?', 0));
+    }
 
     protected function _construct() 
     {

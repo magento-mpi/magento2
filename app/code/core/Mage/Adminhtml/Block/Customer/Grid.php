@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->setId('customerGrid');
         $this->setDefaultSort('id');
         $this->setSaveParametersInSession(true);
-        $this->setUseAjax(true);
+        //$this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -43,8 +43,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         $this->addColumn('id', array(
             'header'    =>__('ID'),
-            'align'     =>'center',
-            'sortable'  =>true,
+            'width'     =>'50px',
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
@@ -57,25 +56,28 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
         $this->addColumn('email', array(
             'header'    =>__('Email'),
-            'align'     =>'center',
+            'width'     =>'150px',
             'index'     =>'email'
         ));
         $this->addColumn('Telephone', array(
             'header'    =>__('Telephone'),
-            'align'     =>'center',
+            'width'     =>'100px',
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
             'header'    =>__('ZIP/Post Code'),
+            'width'     =>'120px',
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_name', array(
             'header'    =>__('Country'),
+            'width'     =>'100px',
             #'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_country_name',
         ));
         $this->addColumn('billing_regione', array(
             'header'    =>__('Regione'),
+            'width'     =>'100px',
             #'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_regione',
         ));
@@ -95,6 +97,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('action', array(
             'header'    =>__('Action'),
             'align'     =>'center',
+            'width'     => '60px',
             'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'" class="edit-url">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,

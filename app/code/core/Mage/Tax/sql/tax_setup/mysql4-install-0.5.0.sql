@@ -12,6 +12,33 @@ SET SQL_MODE='';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
+/*Table structure for table `tax_class` */
+
+DROP TABLE IF EXISTS `tax_class`;
+
+CREATE TABLE `tax_class` (
+  `class_id` smallint(6) NOT NULL auto_increment,
+  `class_name` varchar(255) NOT NULL default '',
+  `class_type` enum('CUSTOMER','PRODUCT') NOT NULL default 'CUSTOMER',
+  PRIMARY KEY  (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tax_class` */
+
+/*Table structure for table `tax_class_group` */
+
+DROP TABLE IF EXISTS `tax_class_group`;
+
+CREATE TABLE `tax_class_group` (
+  `group_id` smallint(6) NOT NULL auto_increment,
+  `class_parent_id` smallint(6) NOT NULL default '0',
+  `class_group_id` tinyint(3) NOT NULL default '0',
+  PRIMARY KEY  (`group_id`),
+  KEY `class_parent_id` (`class_parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tax_class_group` */
+
 /*Table structure for table `tax_rate` */
 
 DROP TABLE IF EXISTS `tax_rate`;
@@ -41,8 +68,6 @@ CREATE TABLE `tax_rate_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tax_rate_data` */
-
-insert into `tax_rate_data` (`tax_rate_data_id`,`tax_rate_id`,`rate_value`,`rate_type_id`) values (3,2,0.0000,1),(4,2,0.0000,2),(5,2,0.0000,3),(6,2,0.0000,4),(7,2,0.0000,5);
 
 /*Table structure for table `tax_rate_type` */
 
@@ -75,8 +100,6 @@ CREATE TABLE `tax_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tax_rule` */
-
-insert into `tax_rule` (`tax_rule_id`,`tax_customer_class_id`,`tax_product_class_id`,`tax_rate_id`) values (3,2,1,3),(4,2,1,2);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

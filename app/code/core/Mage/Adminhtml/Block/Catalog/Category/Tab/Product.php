@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'type'      =>'checkbox',
             'name'      =>'products',
             'align'     =>'center',
+            'values'    =>array(),
             'index'     =>'entity_id'
         ));
         $this->addColumn('id', array(

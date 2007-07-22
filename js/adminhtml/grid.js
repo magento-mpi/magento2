@@ -98,9 +98,8 @@ varienGrid.prototype = {
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/.*?\/)');
         this.url = this.url.replace(re, '/');
-        if(this.url[this.url.length-1]!='/') this.url+= '/';
-        this.url+= varName+'/'+varValue+'/';
-
+        this.url+= '/'+varName+'/'+varValue+'/';
+        this.url = this.url.replace(/([^:])\/{2,}/g, '$1/');
         return this.url;
     },
     doExport : function(){
@@ -129,5 +128,11 @@ varienGrid.prototype = {
     },
     resetFilter : function(){
         this.reload(this.addVarToUrl(this.filterVar, ''));
+    },
+    checkCheckboxes : function(element){
+        elements = Element.getElementsBySelector($(this.containerId), 'input[name="'+element.name+'"]');
+        for(var i in elements){
+            elements[i].checked = element.checked;
+        }
     }
 };
