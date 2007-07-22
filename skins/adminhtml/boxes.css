@@ -13,15 +13,18 @@
 .box-left { float:left; }
 .box-right { float:right; }
 
+
 /* Basic form elements */
 .input-text, textarea, select { border:1px solid #acacac; }
 .input-text, textarea { padding:2px; }
+
 
 /* Box */ /* Sets the color for prominent box-elements */
 .box, .address-list li.on, .entry-edit fieldset {
 	border:1px solid #b0c1d0 !important;
 	background:#e5ecf2 !important;
 	}
+
 
 
 /************* DATA MANIPULATION ************/
