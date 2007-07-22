@@ -17,7 +17,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $this->_forward('edit');
     }
-    
+
     /**
      * Add new category form
      */
@@ -25,7 +25,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $this->_forward('edit');
     }
-    
+
     /**
      * Edit category page
      */
@@ -34,26 +34,26 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
-        
+
         Mage::register('category', Mage::getModel('catalog/category'));
         if ($id = (int) $this->getRequest()->getParam('id')) {
             Mage::registry('category')->load($id);
         }
-        
+
         //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories Title'));
-        
+
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
         );
-        
+
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
         );
-        
+
         $this->renderLayout();
     }
-    
+
     /**
      * Move category tree node action
      */
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $nodeId         = $this->getRequest()->getPost('id', false);
         $parentNodeId   = $this->getRequest()->getPost('pid', false);
         $prevNodeId     = $this->getRequest()->getPost('aid', false);
-        
+
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')->getTree();
             $node = $tree->loadNode($nodeId);
@@ -71,14 +71,14 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             if ($prevNode->isEmpty()) {
                 $prevNode = $parentNode->getLastChild();
             }
-            
+
             $tree->moveNodeTo($node, $parentNode, $prevNode);
         }
         catch (Exception $e){
             $this->getResponse()->setBody(__('Category move error'));
         }
     }
-    
+
     /**
      * Delete category action
      */
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('_current'=>true, 'id'=>null)));
     }
-    
+
     /**
      * Category save
      */
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId())));
     }
-    
+
     public function gridAction()
     {
         $this->getResponse()->setBody(

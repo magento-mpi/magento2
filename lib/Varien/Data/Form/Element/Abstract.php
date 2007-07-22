@@ -94,7 +94,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 
     public function getHtmlAttributes()
     {
-        return array('type', 'title', 'class', 'style', 'onclick', 'onchange');
+        return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled');
     }
 
     public function addClass($class)
@@ -112,7 +112,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function getEscapedValue()
     {
         $value = $this->getValue();
-        
+
         if ($filter = $this->getValueFilter()) {
             $value = $filter->filter($value);
         }
@@ -124,14 +124,14 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         $this->_renderer = $renderer;
         return $this;
     }
-    
+
     public function getElementHtml()
     {
         $html = '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
              .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
         return $html;
     }
-    
+
     public function getLabelHtml()
     {
         $html = '';
@@ -143,7 +143,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         }
         return $html;
     }
-    
+
     public function getDefaultHtml()
     {
         $html = ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
@@ -152,7 +152,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
         return $html;
     }
-    
+
     public function getHtml()
     {
         $html = '';
@@ -165,7 +165,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         }
         return $html;
     }
-    
+
     public function toHtml()
     {
         return $this->getHtml();

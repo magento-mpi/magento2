@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_Db 
+class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_Db
 {
     /**
      * Model name
@@ -8,7 +8,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
      * @var string
      */
     protected $_model;
-    
+
     /**
      * Resource model name
      *
@@ -22,14 +22,14 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
      * @var Mage_Core_Model_Mysql4_Abstract
      */
     protected $_resource;
-    
+
     /**
      * Store joined tables here
      *
      * @var array
      */
     protected $_joinedTables = array();
-    
+
     /**
      * Collection constructor
      *
@@ -38,23 +38,23 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     public function __construct($resource=null)
     {
         $this->_construct();
-        
+
         $this->_resource = $resource;
 
-        parent::__construct($this->getResource()->getConnection('read'));        
-        
+        parent::__construct($this->getResource()->getConnection('read'));
+
         $this->getSelect()->from(array('main_table'=>$this->getResource()->getMainTable()));
     }
-    
+
     /**
      * Initialization here
      *
      */
     protected function _construct()
     {
-        
+
     }
-    
+
     /**
      * Standard resource collection initalization
      *
@@ -70,7 +70,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         $this->setResourceModel($resourceModel);
         return $this;
     }
-    
+
     /**
      * Get Zend_Db_Select instance
      *
@@ -80,7 +80,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     {
         return $this->_sqlSelect;
     }
-    
+
     /**
      * Set model name for collection items
      *
@@ -95,7 +95,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         }
         return $this;
     }
-    
+
     /**
      * Get model instance
      *
@@ -106,17 +106,17 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     {
         return $this->_model;
     }
-    
+
     public function setResourceModel($model)
     {
         $this->_resourceModel = $model;
     }
-    
+
     public function getResourceModelName()
     {
         return $this->_resourceModel;
     }
-        
+
     /**
      * Get resource instance
      *
@@ -129,12 +129,12 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         }
         return $this->_resource;
     }
-    
+
     public function getTable($table)
     {
         return $this->getResource()->getTable($table);
     }
-    
+
     public function join($table, $cond, $cols='*')
     {
         if (!isset($this->_joinedTables[$table])) {
