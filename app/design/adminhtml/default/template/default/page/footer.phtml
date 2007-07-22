@@ -1,0 +1,10 @@
+<p>
+    <span class="powered-by"><?=__('Magento powered by')?> <a href="http://www.varien.com" target="varien_external"><?=__('Varien')?></a></span>
+		<?=__('Copyright &copy; 2007')?> <a href="http://www.magentocommerce.com" target="http://www.magentocommerce.com"><?=__('Magento')?></a>. <?=__('All Rights Reserved.')?><br/>
+		<div class="clear"></div>
+</p>
+<?if($this->getShowProfiler()):?>
+<div style="text-align:left">
+    <?=$this->getProfiler()?>
+</div>
+<?endif;?>

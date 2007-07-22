@@ -1,0 +1,18 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
+        <tr>
+            <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
+            <td class="form-buttons">
+                  <?=$this->getSaveButtonHtml()?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="POST" id="queue_edit_form">
+<?=$this->getChildHtml('form')?>
+</form>
+<script type="text/javascript">
+<!--
+var queueForm = new varienForm('queue_edit_form');
+//-->
+</script>

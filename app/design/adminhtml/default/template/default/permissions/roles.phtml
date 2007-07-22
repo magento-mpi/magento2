@@ -1,0 +1,28 @@
+<div class="content-header" style="margin-right:13px;">
+<table cellspacing="0">
+    <tr>
+        <td style="width:50%;"><h3><?=__('Roles')?></h3></td>
+        <td class="a-right" style="padding-right:6px">
+        <button class="scalable" onclick="window.location='<?=$this->getAddNewUrl()?>'">
+            <table cellspacing="0">
+                <tr>
+                    <td class="tl"></td>
+                    <td class="tr"></td>
+                </tr>
+                <tr>
+                    <td class="ml"><?=__('Add New Role')?></td>
+                    <td class="mr"></td>
+                </tr>
+                <tr>
+                    <td class="bl"></td>
+                    <td class="br"></td>
+                </tr>
+            </table>
+        </button>
+        </td>
+    </tr>
+</table>
+</div>
+<div style="padding-right:15px">
+<?=$this->getGridHtml()?>
+</div>

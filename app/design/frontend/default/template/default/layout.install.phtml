@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <?=$this->getChildHtml('head')?>
+    <!--[if IE]> <link rel="stylesheet" href="<?=$baseSkinUrl?>css/iestyles.css" type="text/css" media="all" /> <![endif]-->
+</head>
+<body>
+    <div class="loading-process" id="loading-process" style="display:none">
+            <img src="<?=$baseSkinUrl?>page/images/loading.gif" alt="loading..." width="32" height="32" border="0"/>
+    </div>
+        <!-- [start] header -->
+        <div class="container">
+            <div class="header">
+                <h1 id="logo"><a href="<?=$baseUrl?>"><span><?=__('Magento Commerce')?></span></a></h1>
+            </div>
+            <!-- [end] header -->
+            <!-- [start] content -->
+            <div class="middle">
+                <!-- [start] column-left -->
+                <div class="column-left" id="column-left">
+                    <?=$this->getChildHtml('left')?>
+                </div>
+                <!-- [end] column-left -->
+                <!-- [start] column-right -->
+                <div class="column-right">
+                    <?=$this->getChildHtml('content')?>
+                </div>
+                <!-- [end] column-right -->
+            </div>
+            <!-- [end] content -->
+            <!-- [start] footer -->
+            <div class="footer">
+            <!-- [end] footer -->
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<h1 class="page-heading">Add your review</h1>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$action?>" method="post" id="review-form">
+<fieldset class="group-select">
+    <legend>Add your review</legend>
+    <ul>
+        <li>
+            <label for="nickname">Nick Name <span class="required">*</span></label><br/>
+            <input type="text" name="nickname" id="nickname" value="<?=$data->getNickname()?>" title="Nick Name"  class="required-entry input-text"/>
+        </li>
+        <li>
+            <label for="title">Title <span class="required">*</span></label><br/>
+            <input type="text" name="title" id="title" value="<?=$data->getTitle()?>" title="Review title" class="required-entry input-text"/>
+        </li>
+        <li>
+            <label for="detail">Review Detail <span class="required">*</span></label><br/>
+            <textarea name="detail" id="detail" title="Review detail" class="required-entry" rows="6"><?=$data->getDetail()?></textarea>
+        </li>
+    </ul>
+</fieldset>
+
+<?// review ratings?>
+<?if(!empty($ratings) && $ratings->getSize()):?>
+<fieldset class="group-select">
+    <ul>
+    <?foreach ($ratings as $_rating):?>
+        <li>
+            <h2><?=__($_rating->getRatingCode())?></h2>
+            <?foreach ($_rating->getOptions() as $_option):?>
+                <input type="radio" name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/>
+                <label for="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>"><?=$_option->getValue()?></label>
+            <?endforeach;?>
+        </li>
+    <?endforeach;?>
+    </ul>
+</fieldset>
+<?endif;?>
+<div class="clearfix"></div>
+<div class="buttons-container">
+    <p class="required">* Required Fields</p>
+    <input type="submit" class="input-button float-right" value="Submit"/>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('review-form');
+</script>

@@ -1,0 +1,72 @@
+<?
+/**
+ * Temlate for Mage_Customer_Block_Address_Book block
+ * @var $test Mage_Customer_Block_Address_Book
+ */
+?>
+<h2>Address Book</h2>
+<?=$this->getMessagesBlock()->getHtml()?>
+<table cellspacing="0" width="100%">
+    <tr>
+        <td style="width:50%;"><h3>Primary</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if($_pAddsses = $this->getPrimaryAddresses()):?>    
+                <?foreach($_pAddsses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_address)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no primary entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+        <td style="width:50%;"><h3>Additional Entries</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if($_additionalAddresses = $this->getAdditionalAddresses()):?>    
+                <?foreach($_additionalAddresses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_address)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="red-link">Delete</a></strong>
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no additional entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+    </tr>
+</table>
+<div class="buttons-container">
+    <a href="<?=$this->getBackUrl()?>" class="float-left">&laquo; Back</a>
+    <input type="button" onclick="window.location='<?=$this->getAddAddressUrl()?>';" value="New Address" class="input-button">
+</div>
+<script type="text/javascript">
+    function deleteAddress(addressId) {
+        if(confirm('Do you whant delete address?')) {
+            window.location='<?=$this->getDeleteUrl()?>id/'+addressId;
+        }
+        return false;
+    }
+</script>

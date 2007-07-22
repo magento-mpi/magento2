@@ -1,0 +1,15 @@
+    <h1 class="page-heading"><?=__('Newsletter')?></h1>
+    <?=$this->getMessagesBlock()->getHtml()?>
+        <form action="<?=$baseUrl?>newsletter/subscriber/new" method="post" id="newsletter-validate-detail">
+				<fieldset>
+						<legend><?=__('Newsletter')?></legend>
+						<label for="newsletter">Sign up for our newsletter:</label>
+						<input name="email" type="text" class="required-entry validate-email input-text"/>
+						<input type="submit" value="Submit" alt="Subscribe" class="input-button"/>
+				</fieldset>
+		</form>
+        <script type="text/javascript">
+        <!--
+            var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+        //-->
+        </script>

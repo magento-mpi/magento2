@@ -1,0 +1,17 @@
+<div class="step-body">
+    <div class="default-box" style="padding:10px 15px;">
+        <form id="co-payment-form">
+            <?=$this->getChildHtml('paymentMethods')?>
+        </form>
+    </div>
+    <div class="note-box buttons">
+				<p class="required">* <?=__("Required Fields")?></p>
+        <a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
+        <a href="javascript:payment.save();" class="float-right"><img src="<?=$baseSkinUrl?>images/btn_continue.gif" alt="Continue"/></a>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var payment = new Payment('co-payment-form', '<?=$baseSecureUrl?>checkout/onepage/savePayment/');
+    payment.currentMethod = "<?=$payment->getMethod()?>";
+</script>

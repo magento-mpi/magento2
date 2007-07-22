@@ -1,0 +1,25 @@
+
+    <h1 class="page-heading">Shop By: <?=$option->getValue()?></h1>
+<?if($productCollection->getSize()):?>
+    <div class="catalog-spacer">&nbsp;</div>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+    <table cellspacing="0" class="catalog-collection"><tr>
+        <?foreach ($productCollection as $product):?>
+				<?if (++$i%3==0):?></tr><tr><?endif?>
+        <td class="item">
+            <div class="item-image">
+                <a href="<?=$product->getProductUrl()?>"><img src="<?=$baseSkinUrl?>catalog/images/placeholder_product_small.jpg" alt="product name" width="115"/></a>
+            </div>
+            <div class="item-info">
+                <div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
+                <div class="product-price"><?=$product->getFormatedPrice()?></div>
+            </div>
+        </td>
+        <?endforeach?>
+		</tr></table>
+    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <div class="catalog-spacer">&nbsp;</div>
+<?else:?>
+    <p>There are no products under "<?=$option->getValue()?>"</p>
+<?endif;?>

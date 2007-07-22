@@ -1,0 +1,61 @@
+<script type="text/javascript" src="<?=$baseJsUrl?>lib/flex.js"></script>
+
+<h3><?=__('Dashboard')?></h3>
+
+<div id="dashboardHolder"></div>
+<script type="text/javascript">
+<!--
+var dashboard = new Flex.Object( {
+    src: BASE_URL + '../media/flex/dashboard.swf',
+    flashVars: 'baseUrl='+ BASE_URL + '&languageUrl=flex/language&cssUrl=' + SKIN_URL + 'flex.swf',
+    width: '100%',
+    wmode: "transparent",//"window",
+    height: '700'
+} );
+
+dashboard.addEventListener( 'complete', function ( evt ) { 
+    $('dashboardControl').show();
+} );
+
+dashboard.addEventListener( 'beforefullscreen', function ( evt ) { 
+    this.setForFullScreen( true );
+}, dashboard);
+
+dashboard.addEventListener( 'afterfullscreen', function ( evt ) { 
+    this.setForFullScreen( false );
+}, dashboard);
+
+dashboard.addEventListener( 'load', function ( evt ) { 
+    this.getApi().setConfig( {
+        customersMenu: [
+            {name:"<?=__('Top 10')?>", slice:10},
+            {name:"<?=__('Top 20')?>", slice:20},
+            {name:"<?=__('Top 50')?>", slice:50},
+            {name:"<?=__('Top 100')?>", slice:100}
+        ],
+        productSlider: {
+            labels: [5,10,'',20,'','','',40,'',50],
+            step:   5,
+            minimum: 5,
+            maximum: 50
+        },
+        allowedDatesViews: [
+            {name:"<?=__('Hours')?>",unit:"hours",maximum:2},
+            {name:"<?=__('Days')?>",unit:"days",maximum:90, minimum:2},
+            {name:"<?=__('Weeks')?>",unit:"weeks", minimum:8},
+            {name:"<?=__('Months')?>",unit:"months", minimum: 32},
+            {name:"<?=__('Years')?>",unit:"years", minimum:366}
+		],
+        hideTabs: true
+    } );
+}, dashboard );
+
+
+
+Event.observe(window, 'load', function() {
+    $('dashboardControl').hide();
+} );
+
+dashboard.apply( 'dashboardHolder' );
+//-->
+</script>

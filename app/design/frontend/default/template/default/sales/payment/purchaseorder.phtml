@@ -1,0 +1,15 @@
+<input type="radio" title="<?=__("Purchase Order")?>" id="payment_method_purchaseorder" name="payment[method]" value="purchaseorder" <?if($payment->getMethod()=='purchaseorder'):?>checked<?endif?> onclick="payment.switchMethod('purchaseorder')" />
+<label for="payment_method_purchaseorder"><?=__("Use Purchase Order")?></label><br/>
+<fieldset>
+
+    <div id="payment_form_purchaseorder" style="<?if($payment->getMethod()!=='purchaseorder'):?>display:none<?endif?>">
+        <ul>
+            <li>
+                <div class="left">
+                    <label for="po_number"><?=__("PO Number")?> <span class="required">*</span></label><br/>
+                    <input type="text" id="po_number" name="payment[po_number]" title="<?=__("PO Number")?>" class="required-entry input-text" value="<?=$payment->getPoNumber()?>"/>
+                </div>
+            </li>
+        </ul>
+    </div>
+</fieldset>

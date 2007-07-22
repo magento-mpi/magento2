@@ -1,0 +1,56 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="width:50%;">
+                <h3>
+                  <?if($this->getUserId()):?>
+                  <?=__('Edit User &laquo;' . $userData->getFirstname() . ' ' . $userData->getLastname()) . '&raquo;'?>
+                  <?else:?>
+                  <?=__('Add New User')?>
+                  <?endif;?>
+                </h3>
+            </td>
+            <td class="form-buttons">
+            <?=$this->getBackButtonHtml()?>
+            <?=$this->getResetButtonHtml()?>
+            <button class="scalable" onclick="userForm.submit();">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Save')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?if($this->getUserId()):?>
+            <button class="scalable" onclick="deleteConfirm('<?=__('Are you sure you want to do this?')?>' ,'<?=$this->getUrl('*/*/deleteUser', array('id'=>$this->getUserId()))?>')">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Delete')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?endif;?>
+   </table>
+</div>
+<form action="<?=$this->getUrl('*/*/saveuser')?>" method="POST" id="user_edit_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var userForm = new varienForm('user_edit_form');
+</script>

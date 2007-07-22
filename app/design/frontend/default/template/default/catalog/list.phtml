@@ -1,0 +1,6 @@
+<ul class="<?=$cssClassName?>">
+    <?foreach ($data as $item):?>
+        <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$item['id']?>/" <?if (!empty($currentCategoryId) && $item['id']==$currentCategoryId):?> 
+				class="active"<?endif?>><?=$item['title']?></a></li>
+    <?endforeach?>
+</ul>

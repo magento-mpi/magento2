@@ -1,0 +1,33 @@
+
+<h2>My Orders</h2>
+<?if($orders->getSize()):?>
+    <table cellspacing="0" width="100%" class="data-table">
+        <thead>
+            <tr>
+                <th class="align-center" style="width:60px;">Order #</th>
+                <th class="align-center" style="width:;">Date</th>
+                <!--<th class="align-center">Shipped To</th>-->
+                <th class="align-center" style="width:95px;">Total</th>
+                <th class="align-center" style="width:85px;">Status</th>
+                <th class="align-center" style="width:85px;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?foreach ($orders as $order):?>
+            <tr>
+                <td class="align-center"><?=$order->getRealOrderId()?></td>
+                <td class="align-center"><?=date("D, j M, Y", strtotime($order->getCreatedAt()))?></td>
+                <!--<td class="align-center">{$page.orders[io].customer}</td>-->
+                <td class="align-center"><?=sprintf('$%.2f', $order->getGrandTotal())?></td>
+                <td class="align-center"><?=$order->getStatus()?></td>
+                <td class="align-center"><a href="<?=$baseUrl?>customer/order/view/order/<?=$order->getOrderId()?>">View</a></td>
+            </tr>
+        <?endforeach?>
+        </tbody>
+    </table>
+<?else:?>
+    <p>You have not placed any orders yet.</p>
+<?endif?>
+    <div class="buttons-container">
+        <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+    </div>
