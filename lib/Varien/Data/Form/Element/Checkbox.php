@@ -22,6 +22,17 @@ class Varien_Data_Form_Element_Checkbox extends Varien_Data_Form_Element_Abstrac
         return array('type', 'title', 'class', 'style', 'checked', 'onclick', 'onchange');
     }
     
+    public function getElementHtml()
+    {
+        if ($checked = $this->getChecked()) {
+            $this->setData('checked', true);
+        }
+        else {
+            $this->unsetData('checked');
+        }
+        return parent::getElementHtml();
+    }
+    
     /**
      * Set check status of checkbox
      *
@@ -30,12 +41,7 @@ class Varien_Data_Form_Element_Checkbox extends Varien_Data_Form_Element_Abstrac
      */
     public function setIsChecked($value=false) 
     {
-        if($value) {
-            $this->setData('checked', 'checked');
-        } else {
-            $this->unsetData('checked');
-        }
-        
+        $this->setData('checked', $value);
         return $this;
     }
     
@@ -45,6 +51,6 @@ class Varien_Data_Form_Element_Checkbox extends Varien_Data_Form_Element_Abstrac
      * @return boolean
      */
     public function getIsChecked() {
-        return $this->hasData('checked');
+        return $this->getData('checked');
     }
 }                               

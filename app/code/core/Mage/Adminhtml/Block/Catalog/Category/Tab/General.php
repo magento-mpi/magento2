@@ -38,6 +38,14 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
 
         $form->addValues($category->getData());
         
+        $fieldset->addField('is_active', 'checkbox', array(
+            'name'      => 'is_active',
+            'label'     => __('Is Active'),
+            'value'     => 1,
+            'checked'   => $category->getIsActive()
+            )
+        );
+        
         $this->setForm($form);
         
         return $this;
