@@ -2,67 +2,67 @@
 
 /* Loading Indicator */ /* Let's you know things are happening while you wait */
 #loading-process {
-	position:absolute;
-	top:10px;
-	right:10px;
-	background:#eee;
-	padding:15px;
-	border:1px solid #bbb;
-	}
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#eee;
+    padding:15px;
+    border:1px solid #bbb;
+    }
 
 
 /* Widget Buttons - Scalable!! */
 button.scalable {
-	margin:0;
-	border:none;
-	padding:0;
-	background:none;
-	cursor:pointer;
-	font:bold 12px Arial, sans-serif;
-	vertical-align:middle;
-	font-size:12px;
-	width:auto;
-	overflow:visible;
-	}
+    margin:0;
+    border:none;
+    padding:0;
+    background:none;
+    cursor:pointer;
+    font:bold 12px Arial, sans-serif;
+    vertical-align:middle;
+    font-size:12px;
+    width:auto;
+    overflow:visible;
+    }
 button.scalable td {
-	background-image:url(images/btn_bg.gif);
-	}
+    background-image:url(images/btn_bg.gif);
+    }
 button.scalable td.tl {
-	height:5px;
-	background-position:0 0;
-	background-repeat:no-repeat;
-	}
+    height:5px;
+    background-position:0 0;
+    background-repeat:no-repeat;
+    }
 button.scalable td.tr {
-	width:5px; 
-	height:5px;
-	background-position:100% 0;
-	background-repeat:no-repeat;
-	}
+    width:5px; 
+    height:5px;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    }
 button.scalable td.ml {
-	height:14px;
-	background-position:0 -4px;
-	background-repeat:no-repeat;
-	padding:1px 7px 1px 11px;
-	color:white;
-	vertical-align:middle;
-	line-height:12px;
-	}
+    height:14px;
+    background-position:0 -4px;
+    background-repeat:no-repeat;
+    padding:1px 7px 1px 11px;
+    color:white;
+    vertical-align:middle;
+    line-height:12px;
+    }
 button.scalable td.mr {
-	width:5px;
-	background-position:100% -4px;
-	background-repeat:no-repeat;
-	}
+    width:5px;
+    background-position:100% -4px;
+    background-repeat:no-repeat;
+    }
 button.scalable td.bl {
-	height:5px;
-	background-position:0 100%;
-	background-repeat:no-repeat;
-	}
+    height:5px;
+    background-position:0 100%;
+    background-repeat:no-repeat;
+    }
 button.scalable td.br {
-	width:5px;
-	height:5px;
-	background-position:100% 100%;
-	background-repeat:no-repeat;
-	}
+    width:5px;
+    height:5px;
+    background-position:100% 100%;
+    background-repeat:no-repeat;
+    }
 
 
 /*************** TABLES *****************/ /* This just lays the ground for tabular data */
@@ -81,25 +81,25 @@ table.content_table { width:100%; }
 /******************************************/
 
 .grid { /* Accomodates resizable grid table */
-	position:relative; 
-	margin-bottom:.5em;
-	}
+    position:relative; 
+    margin-bottom:.5em;
+    }
 .grid table {
-	width:100%;
-	border:none;
-	border-collapse:collapse;
-	}
+    width:100%;
+    border:none;
+    border-collapse:collapse;
+    }
 .grid .separator { padding:0 4px; color:#b9b9b9;}
 
 
 /* Actions */
 table.actions {
-	width:100%;
-	margin:.5em 0;
-	}
+    width:100%;
+    margin:.5em 0;
+    }
 table.actions td {
-	vertical-align:top;
-	}
+    vertical-align:top;
+    }
 
 
 /* Pager */
@@ -110,37 +110,37 @@ table.actions td {
 
 /* Headings aka Sort By */
 .grid tr.headings th {
-	padding-top:1px;
-	padding-bottom:1px;
-	background:#d7d8d9;
-	}
+    padding-top:1px;
+    padding-bottom:1px;
+    background:#d7d8d9;
+    }
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */
-	padding-top:4px;
-	padding-bottom:4px;
-	}
+    padding-top:4px;
+    padding-bottom:4px;
+    }
 .grid tr.headings th a, .grid tr.headings th a:hover {
-	display:block;
-	color:#2f2f2f;
-	text-decoration:underline;
-	padding:3px 4px 2px 0;
-	}
+    display:block;
+    color:#2f2f2f;
+    text-decoration:underline;
+    padding:3px 4px 2px 0;
+    }
 .grid th a.sort-arrow-desc, .grid th a.sort-arrow-asc {
-	background:url(images/grid_th_onclick_bg.gif) no-repeat;
-	border-bottom:1px solid #fff;
-	border-right:1px solid #fff;
-	padding-bottom:2px;
-	}
+    background:url(images/grid_th_onclick_bg.gif) no-repeat;
+    border-bottom:1px solid #fff;
+    border-right:1px solid #fff;
+    padding-bottom:2px;
+    }
 .grid tr.headings th a.sort-arrow-asc, 
 .grid tr.headings th a.sort-arrow-asc:hover,
 .grid tr.headings th a.sort-arrow-desc, 
 .grid tr.headings  th a.sort-arrow-desc:hover { /* Due to IE :hover has to be styled */
-	text-decoration:none;
-	}
+    text-decoration:none;
+    }
 .grid th .sort-arrow-desc span.sort-title, .grid th .sort-arrow-asc span.sort-title {
-	background-position: right 50%;
-	background-repeat: no-repeat;
-	padding:3px 26px 2px 8px;
-	}
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    padding:3px 26px 2px 8px;
+    }
 .grid .sort-arrow-desc span.sort-title { background-image: url(images/grid_sort_desc.gif); }
 .grid .sort-arrow-asc span.sort-title { background-image: url(images/grid_sort_asc.gif); }
 
@@ -148,63 +148,63 @@ table.actions td {
 /* Filter */
 .grid tr.filter { cursor: default; }
 .grid .filter th {
-	padding-top:5px;
-	padding-bottom:5px;
-	background:#dbf5ff;
-	white-space:nowrap;
-	}
+    padding-top:5px;
+    padding-bottom:5px;
+    background:#dbf5ff;
+    white-space:nowrap;
+    }
 .grid tr.filter input { width: 98%; font:normal 12px Arial; }
 .grid tr.filter select { width:100%; font:normal 12px Arial; }
 .grid tr.filter .range div { width: 10em; float: left; }
 .grid tr.filter .range div.date { width: 12em; }
 .grid tr.filter .range div.range-line { margin-bottom:2px; }
 .grid tr.filter .range input {
-	width: 5.5em;
-	margin-bottom:-1px;
-	margin-top:0;
-	}
+    width: 5.5em;
+    margin-bottom:-1px;
+    margin-top:0;
+    }
 .grid tr.filter .range .label {
-	display: block;
-	width: 3em;
-	float: left;
-	padding-left: 2px;
-	}
+    display: block;
+    width: 3em;
+    float: left;
+    padding-left: 2px;
+    }
 .grid tr.filter .date img {
-	width: 15px;
-	height: 15px;
-	cursor: pointer;
-	vertical-align: middle;
-	}
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    vertical-align: middle;
+    }
 .grid th span.sort-title {
-	display:block;
-	padding:3px 12px 4px 0;
-	line-height:1em;
-	}
+    display:block;
+    padding:3px 12px 4px 0;
+    line-height:1em;
+    }
 
 
 /* The REAL MEAT of Grid */
 .grid table td {
-	border-width:1px 0 1px 0;
-	border-color:#E3E3E3;
-	border-style:solid;
-	}
+    border-width:1px 0 1px 0;
+    border-color:#E3E3E3;
+    border-style:solid;
+    }
 .grid table tr.even { /* Zebra rows */
-	background:#f7f7f7;
-	}
+    background:#f7f7f7;
+    }
 .grid table tr.on-mouse { /* Row mouse-over */ 
-	background:#fefad0; 
-	}
+    background:#fefad0; 
+    }
 .grid table td.product {
-	text-align:right;
-	}
+    text-align:right;
+    }
 
 /* Grid Footer */
 .grid table tfoot tr { background:#D7E5EF; }
 .grid tfoot td {
-	border-top:1px solid #9babb9;
-	background:#e5ecf2;
-	line-height:1.7em;
-	}
+    border-top:1px solid #9babb9;
+    background:#e5ecf2;
+    line-height:1.7em;
+    }
 
 /******************************************/
 /*********//* GRID ENDS HERE*//************/
@@ -215,37 +215,37 @@ table.actions td {
 
 /*************** Accordion ***************/
 dl.accordion dt {
-	border-left:1px solid #C6C5C3;
-	border-bottom:1px solid #C6C5C3;
-	background:#797674;
-	color:#fff;
-	}
+    border-left:1px solid #C6C5C3;
+    border-bottom:1px solid #C6C5C3;
+    background:#797674;
+    color:#fff;
+    }
 
 dl.accordion dt a {
-	color:#fff;
-	text-decoration:none;
-	display:block;
-	padding:3px 0 3px 10px;
-	font-weight:bold;
+    color:#fff;
+    text-decoration:none;
+    display:block;
+    padding:3px 0 3px 10px;
+    font-weight:bold;
 }
 
 dl.accordion dt.open a {
-	background: url(images/accordion_close.gif) 99% 60% no-repeat;
+    background: url(images/accordion_close.gif) 99% 60% no-repeat;
 }
 
 dl.accordion dd {
-	display:none;
-	border-top:0;
-	}
+    display:none;
+    border-top:0;
+    }
 
 dl.accordion dd.open {
-	display:block;
-	}
+    display:block;
+    }
 img.accordion-btn {
-	float:right;
-	margin-top:1px;
+    float:right;
+    margin-top:1px;
 margin-right:5px;
-	}
+    }
 
 
 
@@ -255,38 +255,38 @@ margin-right:5px;
 /* Tabs are the category level navigational menus - vertical, not horizontal */
 
 ul.tabs {
-	border-top:1px solid #bebebe;
-	background-color:#e8f8fe;
-	}
+    border-top:1px solid #bebebe;
+    background-color:#e8f8fe;
+    }
 ul.tabs li {
-	list-style-type:none;
-	}
+    list-style-type:none;
+    }
 ul.tabs li a.active {
-	padding:0;
-	border-bottom:1px solid #bebebe;
-	background:none;
-	}
+    padding:0;
+    border-bottom:1px solid #bebebe;
+    background:none;
+    }
 ul.tabs li a {
-	display:block;
-	background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
-	padding-bottom:1px;
-	}
+    display:block;
+    background:url(images/section_menu_link_bg.gif) repeat-x 0 100%;
+    padding-bottom:1px;
+    }
 ul.tabs li a, ul.tabs li a:hover {
-	color:#000;
-	text-decoration:none;
-	}
+    color:#000;
+    text-decoration:none;
+    }
 ul.tabs li a:hover.active {
-	padding:0;
-	}
+    padding:0;
+    }
 ul.tabs li span {
-	display:block;
-	padding:.3em 1.5em .28em 1.5em;
-	cursor:pointer;
-	}
+    display:block;
+    padding:.3em 1.5em .28em 1.5em;
+    cursor:pointer;
+    }
 ul.tabs li a.active span, ul.tabs li a:hover.active span {
-	background:#fff;
-	font-weight:bold;
-	}
+    background:#fff;
+    font-weight:bold;
+    }
 ul.tabs a.subitem{ padding-left:2.2em; }
 
 
@@ -294,15 +294,15 @@ ul.tabs a.subitem{ padding-left:2.2em; }
 
 /************* FORMS ***************/
 .validation-advice {
-	margin:2px 0 0 10em;
-	color:#d40707;
-	font-style:italic;
-	margin-right:20px;
-	}
+    margin:2px 0 0 10em;
+    color:#d40707;
+    font-style:italic;
+    margin-right:20px;
+    }
 input.validation-failed, textarea.validation-failed { 
-	background:#fbf2f4;
-	border: 1px dashed #d40707;
-	}
+    background:#fbf2f4;
+    border: 1px dashed #d40707;
+    }
 .left-col-block { width:190px; }
 select.countries optio { background-repeat:no-repeat; }
 

@@ -38,4 +38,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
         }
         return null;
     }
+    
+    public function renderProperty()
+    {
+        $out = parent::renderProperty();
+        $out.= ' width="140px" ';
+        return $out;
+    }
 }

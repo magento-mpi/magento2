@@ -14,6 +14,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     protected $_renderer;
     protected $_filter;
     protected $_type;
+    protected $_cssClass;
 
     public function __construct($data=array())
     {
@@ -35,41 +36,31 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
     public function getHtmlProperty()
     {
-        $out = ' ';
-        if ($this->getWidth()) {
-            $out .='width="'.$this->getWidth(). (is_numeric($this->getWidth()) ? '%' : '') . '" ';
-        } elseif ($this->getType()) {
-            // TODO
-            $type = strtolower($this->getType());
-            if ('date' == $type) {
-                $out .= 'width="160px" ';
-            } elseif ('currency' == $type) {
-                $out .= 'width="140px" ';
-            }
-        }
-        if ($this->getAlign()) {
-            $out .='align="'.$this->getAlign().'" ';
-        }
-        return $out;
+        return $this->getRenderer()->renderProperty();
     }
 
     public function getHeaderHtml()
     {
-        $out = '';
-        if ($this->getSortable()!==false) {
-
-            $className = 'not-sort';
-            $dir = (strtolower($this->getDir())=='asc') ? 'desc' : 'asc';
-            if ($this->getDir()) {
-                $className = 'sort-arrow-' . $dir;
+        return $this->getRenderer()->renderHeader();
+    }
+    
+    public function getCssClass()
+    {
+        if (!$this->_cssClass) {
+            if ($this->getAlign()) {
+                $this->_cssClass = 'a-'.$this->getAlign();
             }
-            $out = '<a href="" name="'.$this->getId().'" target="'.$dir
-                   .'" class="' . $className . '"><span class="sort-title">'.$this->getHeader().'</span></a>';
         }
-        else {
-            $out = $this->getHeader();
+        return $this->_cssClass;
+    }
+    
+    public function getHeaderCssClass()
+    {
+        $class = '';//$this->getCssClass();
+        if ($this->getSortable()!==false) {
+            $class.= ' no-link';
         }
-        return $out;
+        return $class;
     }
 
     /**
@@ -112,6 +103,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'yesno':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_yesno';
                 break;
+            case 'checkbox':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_checkbox';
+                break;
             default:
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
                 break;
@@ -149,6 +143,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
                 break;
             case 'yesno':
                 $filterClass = 'adminhtml/widget_grid_column_filter_yesno';
+                break;
+            case 'checkbox':
+                $filterClass = 'adminhtml/widget_grid_column_filter_checkbox';
                 break;
             default:
                 $filterClass = 'adminhtml/widget_grid_column_filter_text';

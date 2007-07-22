@@ -73,7 +73,7 @@
     <thead>
         <tr class="headings">
         <?foreach ($this->getColumns() as $_column):?>
-		<th <?=($_column->getSortable()!==false)?'':' class="no-link"'?>><?=$_column->getHeaderHtml()?></th>
+		<th class="<?=$_column->getHeaderCssClass()?>"><?=$_column->getHeaderHtml()?></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
@@ -87,8 +87,8 @@
     <tbody>
     <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr>
-        <?foreach ($this->getColumns() as $column):?>
-            <td><?=$column->getRowField($_item)?></td>
+        <?foreach ($this->getColumns() as $_column):?>
+            <td class="<?=$_column->getCssClass()?>"><?=$_column->getRowField($_item)?></td>
         <?endforeach;?>
         </tr>
     <?endforeach;?>

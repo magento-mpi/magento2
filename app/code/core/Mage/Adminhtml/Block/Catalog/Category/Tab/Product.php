@@ -33,15 +33,15 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('checkbox', array(
-            'header'    =>__('ID'),
+            'type'      =>'checkbox',
+            'name'      =>'products',
             'align'     =>'center',
-            'sortable'  =>true,
             'index'     =>'entity_id'
         ));
         $this->addColumn('id', array(
             'header'    =>__('ID'),
-            'align'     =>'center',
             'sortable'  =>true,
+            'width'     =>'60px',
             'index'     =>'entity_id'
         ));
         $this->addColumn('name', array(
@@ -50,11 +50,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         ));
         $this->addColumn('sku', array(
             'header'    =>__('SKU'),
+            'width'     =>'80px',
             'index'     =>'sku'
         ));
         $this->addColumn('price', array(
             'header'    =>__('Price'),
             'align'     =>'center',
+            'type'      =>'currency',
             'index'     =>'price'
         ));
         

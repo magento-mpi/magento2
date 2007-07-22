@@ -34,4 +34,32 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     {
         return $row->getData($this->getColumn()->getIndex());
     }
+    
+    public function renderHeader()
+    {
+        $out = '';
+        if ($this->getColumn()->getSortable()!==false) {
+
+            $className = 'not-sort';
+            $dir = (strtolower($this->getColumn()->getDir())=='asc') ? 'desc' : 'asc';
+            if ($this->getColumn()->getDir()) {
+                $className = 'sort-arrow-' . $dir;
+            }
+            $out = '<a href="" name="'.$this->getColumn()->getId().'" target="'.$dir
+                   .'" class="' . $className . '"><span class="sort-title">'.$this->getColumn()->getHeader().'</span></a>';
+        }
+        else {
+            $out = $this->getColumn()->getHeader();
+        }
+        return $out;        
+    }
+    
+    public function renderProperty()
+    {
+        $out = ' ';
+        if ($this->getColumn()->getWidth()) {
+            $out .='width="'.$this->getColumn()->getWidth(). (is_numeric($this->getColumn()->getWidth()) ? '%' : '') . '" ';
+        } 
+        return $out;
+    }
 }

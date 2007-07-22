@@ -53,4 +53,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
         }
         return $this->getColumn()->getDefault();
     }
+    
+    public function renderProperty()
+    {
+        $out = parent::renderProperty();
+        $out.= ' width="160px" ';
+        return $out;
+    }
 }

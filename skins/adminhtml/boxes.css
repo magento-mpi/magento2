@@ -21,9 +21,9 @@
 
 /* Box */ /* Sets the color for prominent box-elements */
 .box, .address-list li.on, .entry-edit fieldset {
-	border:1px solid #b0c1d0 !important;
-	background:#e5ecf2 !important;
-	}
+    border:1px solid #b0c1d0 !important;
+    background:#e5ecf2 !important;
+    }
 
 
 /******************************************/
@@ -32,48 +32,48 @@
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
 .header {
-	background:url(images/header_bg.gif) repeat-x #516f78;
-	text-align:right;
-	}
+    background:url(images/header_bg.gif) repeat-x #516f78;
+    text-align:right;
+    }
 .middle {
-	background:#fff;
-	padding:0 0 3em 0;
-	}
+    background:#fff;
+    padding:0 0 3em 0;
+    }
 .container { /* created to browser-compatible liquid-layout */
-	border-left:17.48em solid #fff;
-	padding:1.8em 2.2em 1.8em 2em;
-	padding-top:0;
-	}
+    border-left:17.48em solid #fff;
+    padding:1.8em 2.2em 1.8em 2em;
+    padding-top:0;
+    }
 .simple-container { /* Main area below the breadcrumb and above the footer */
-	min-height:500px;
-	padding:1.8em 2.3em;
-	}
+    min-height:500px;
+    padding:1.8em 2.3em;
+    }
 /*.main {
-	float:left;
-	width:100%;
-	} */
+    float:left;
+    width:100%;
+    } */
 .section-menu {
-	float:left;
-	position:relative;
-	margin-left:-17.08em;
-	width:17.08em;
-	background:url(image/section_menu_bg.gif) repeat-y 100% 0;
-	}
+    float:left;
+    position:relative;
+    margin-left:-17.08em;
+    width:17.08em;
+    background:url(image/section_menu_bg.gif) repeat-y 100% 0;
+    }
 .content-container {
-	position:relative;
-	width:100%;
-	float:right;
-	margin-left:-1px;
-	}
+    position:relative;
+    width:100%;
+    float:right;
+    margin-left:-1px;
+    }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
-	margin-left:2em;
-	padding-top:1.3em;
-	}
+    margin-left:2em;
+    padding-top:1.3em;
+    }
 .footer {
-	background:url(images/footer_bg.gif) repeat-x #e6e6e6;
-	padding:1em 2.8em 1.2em 2.8em;
-	text-align:right;
-	}
+    background:url(images/footer_bg.gif) repeat-x #e6e6e6;
+    padding:1em 2.8em 1.2em 2.8em;
+    text-align:right;
+    }
 
 
 
@@ -82,57 +82,57 @@
 
 /* Logo */
 .logo {
-	float:left;
-	margin:5px 15px;
-	}
+    float:left;
+    margin:5px 15px;
+    }
 .header-right {
-	padding:10px 15px;
-	color:#fff;
-	font-size:.95em;
-	}
+    padding:10px 15px;
+    color:#fff;
+    font-size:.95em;
+    }
 .header-right a, .header-right a:hover {
-	color:#F5FCFF;
-	}
+    color:#F5FCFF;
+    }
 .header-right fieldset {
-	display:inline;
-	}
+    display:inline;
+    }
 .header-right fieldset .input-text {
-	width:18em;
-	text-align:left;
-	}
+    width:18em;
+    text-align:left;
+    }
 .header-right .super {
-	float:right;
-	margin-left:1.3em;
-	line-height:2.2em;
-	}
+    float:right;
+    margin-left:1.3em;
+    line-height:2.2em;
+    }
 .topnav-container { /* container for horizontal site navigation */
-	background:#91afba url(images/nav_bg.gif) repeat-x;
-	padding:3px 1.8em .33em 1.8em;
-	z-index:9;
-	}
+    background:#91afba url(images/nav_bg.gif) repeat-x;
+    padding:3px 1.8em .33em 1.8em;
+    z-index:9;
+    }
 
 /* Breadcrumbs  */
 .breadcrumbs {
-	padding:.6em 2em .5em 2em;
-	font-size:1.08em;
-	background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
-	border-bottom:1px solid #d0d0d0;
-	}
+    padding:.6em 2em .5em 2em;
+    font-size:1.08em;
+    background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
+    border-bottom:1px solid #d0d0d0;
+    }
 .breadcrumbs, .breadcrumbs a {
-	color:#453F46;
-	}
+    color:#453F46;
+    }
 .breadcrumbs li {
-	list-style-type:none;
-	display:inline;
-	}
+    list-style-type:none;
+    display:inline;
+    }
 
 /* Footer */
 .footer .powered-by {
-	float:left;
-	min-height:19px;
-	background:url(images/varien_logo.gif) no-repeat 0 50%;
-	padding-left:22px;
-	}
+    float:left;
+    min-height:19px;
+    background:url(images/varien_logo.gif) no-repeat 0 50%;
+    padding-left:22px;
+    }
 
 
 
@@ -142,33 +142,33 @@
 
 /* Section Menu */
 .section-menu {
-	background:url(images/section_menu_bg.gif) repeat-y 100% 0;
-	padding-top:1.3em;
-	}
+    background:url(images/section_menu_bg.gif) repeat-y 100% 0;
+    padding-top:1.3em;
+    }
 .section-menu .bottom { /* Creates the gradient facade below the menu */
-	height:217px;
-	background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
-	}
+    height:217px;
+    background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
+    }
 .section-menu ul.tabs {
-	/* margin-top:.7em; */
-	background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
-	}
+    /* margin-top:.7em; */
+    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+    }
 .section-menu ul.tabs li a:hover span {
-	background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
-	}
+    background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
+    }
 .section-menu .x-tree {
-	margin:10px 0;
-	}
+    margin:10px 0;
+    }
 
 
 /* Content-left Nav */
 .content-left-nav {
-	width:17.08em;
-	padding-right:2em;
-	}
+    width:15.08em;
+    padding-right:2em;
+    }
 .content-left-nav ul.tabs {
-	background:#f6fdff;
-	}
+    background:#f6fdff;
+    }
 .content-left-nav a.default span {  }
 .content-left-nav a.website span { padding-left:32px;}
 .content-left-nav a.store span { padding-left:47px;}
@@ -181,49 +181,49 @@
 
 /* Content Header */
 .content-header {
-	margin-bottom:1em;
-	border-bottom:3px solid #dfdfdf;
-	padding-bottom:.25em;
-	}
+    margin-bottom:1em;
+    border-bottom:3px solid #dfdfdf;
+    padding-bottom:.25em;
+    }
 .content-header h3 {
-	margin:0;
-	margin-top:.3em;
-	color:#000;
-	font-size:1.25em;
-	line-height:1.2em;
-	}
+    margin:0;
+    margin-top:.3em;
+    color:#000;
+    font-size:1.25em;
+    line-height:1.2em;
+    }
 .content-header table.grid-header { width:100%; }
 .content-header .form-buttons {  text-align:right; }
 .nested-content .content-header { margin-top:-2.4em; }
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head { 
-	margin-bottom:.6em;
-	text-align:right;
-	}
+    margin-bottom:.6em;
+    text-align:right;
+    }
 .box-head h4 {
-	float:left;
-	margin-top:.4em;
-	margin-bottom:0;
-	}
+    float:left;
+    margin-top:.4em;
+    margin-bottom:0;
+    }
 
 /* Icon Head */ /* Headings with icon preceding text*/
 .icon-head {
-	min-height:18px;
-	background-repeat:no-repeat;
-	background-position:0 50%;
-	}
+    min-height:18px;
+    background-repeat:no-repeat;
+    background-position:0 50%;
+    }
 .head-customer-address-list {
-	background-image:url(images/fam_house.gif);
-	padding-left:22px;
-	}
+    background-image:url(images/fam_house.gif);
+    padding-left:22px;
+    }
 .head-edit-form {
-	background-image:url(images/fam_page_white_edit.gif);
-	padding-left:22px;
-	}
+    background-image:url(images/fam_page_white_edit.gif);
+    padding-left:22px;
+    }
 .head-customer-view {
-	background-image:url(images/fam_status_online.gif);
-	padding-left:18px;
-	}
+    background-image:url(images/fam_status_online.gif);
+    padding-left:18px;
+    }
 
 
 
@@ -235,36 +235,36 @@ select optgroup option {padding-left:10px}
 
 /* Entry Edit */
 table.form-edit {
-	width:100%;
-	}
+    width:100%;
+    }
 .entry-edit fieldset {
-	margin-bottom:.9em;
-	padding:1.2em 1.5em;
-	}
+    margin-bottom:.9em;
+    padding:1.2em 1.5em;
+    }
 .entry-edit fieldset li {
-	list-style:none;
-	margin:.7em 0;
-	}
+    list-style:none;
+    margin:.7em 0;
+    }
 .entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
-	display:block;
-	margin:.7em 0;
-	}
+    display:block;
+    margin:.7em 0;
+    }
 .entry-edit fieldset label {
-	float:left;
-	width:10em;
-	}
+    float:left;
+    width:10em;
+    }
 .entry-edit fieldset label.normal {
-	float:none;
-	width:10em;
-	}
+    float:none;
+    width:10em;
+    }
 label.inline{
-	float:none !important;
-	width:auto !important;
-	}
+    float:none !important;
+    width:auto !important;
+    }
 .entry-edit fieldset .input-text,
 .entry-edit fieldset .textarea {
-	width:216px;
-	}
+    width:216px;
+    }
 .entry-edit fieldset .textarea { height:6em; }
 .entry-edit fieldset .select { width:220px; }
 .nested-content .entry-edit { margin-left:2em;}
@@ -272,30 +272,30 @@ label.inline{
 
 /* Autocomplete */
 div.autocomplete {
-	z-index:10000;
-	position:absolute;
-	width:250px;
-	background-color:white;
-	border:1px solid #888;
-	margin:0px;
-	padding:0px;
-	}
+    z-index:10000;
+    position:absolute;
+    width:250px;
+    background-color:white;
+    border:1px solid #888;
+    margin:0px;
+    padding:0px;
+    }
 div.autocomplete ul {
-	list-style-type:none;
-	margin:0px;
-	padding:0px;
-	}
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+    }
 div.autocomplete ul li.selected {
-	background-color: #dcebf0;
-	}
+    background-color: #dcebf0;
+    }
 div.autocomplete ul li {
-	list-style-type:none;
-	padding:.5em .7em;
-	min-height:32px;
-	cursor:pointer;
-	text-align:left;
-	color:#2f2f2f;
-	line-height:1.3em;
+    list-style-type:none;
+    padding:.5em .7em;
+    min-height:32px;
+    cursor:pointer;
+    text-align:left;
+    color:#2f2f2f;
+    line-height:1.3em;
 }
 
 
@@ -311,13 +311,13 @@ div.autocomplete ul li {
 /* Customer - Addresses */
 .address-list { width:30%; padding-right:1.75em; }
 .address-list li {
-	list-style:none;
-	margin-bottom:.4em;
-	padding:.7em 1em;
-	cursor:pointer;
-	border:1px solid #fff;
-	background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
-	}
+    list-style:none;
+    margin-bottom:.4em;
+    padding:.7em 1em;
+    cursor:pointer;
+    border:1px solid #fff;
+    background:url(images/dotted_divider_dark.gif) repeat-x 0 100%;
+    }
 .address-list li.over { background:url(images/address_list_over_bg.gif) repeat-x 0 100% #fff; }
 .address-list li table { width:100%;}
 .delete-address { float:right; margin: 0 0 10px 10px; }
@@ -327,42 +327,42 @@ div.autocomplete ul li {
 
 /* Config */
 fieldset.config th {
-	border-bottom:dotted 1px #888;
-	}
+    border-bottom:dotted 1px #888;
+    }
 fieldset.config th, fieldset.config td {
-	border-right:dotted 1px #888;
-	padding:2px 5px;
-	}
+    border-right:dotted 1px #888;
+    padding:2px 5px;
+    }
 fieldset.config col.default, fieldset.config col.old {
-	width:150px;
-	}
+    width:150px;
+    }
 fieldset.config col.custom {
-	white-space:nowrap;
-	}
+    white-space:nowrap;
+    }
 fieldset.config label {
-	float:none;
-	}
+    float:none;
+    }
 fieldset.config input.input-radio {
-	margin-right:5px;
-	}
+    margin-right:5px;
+    }
 fieldset.config input.input-text, fieldset.config select.select {
-	width:150px;
-	}
+    width:150px;
+    }
 div.tree_item, div.tree_item_last{
-	background-position: left;
-	background-repeat: no-repeat;
-	padding-left:20px;
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left:20px;
 }
 div.tree_item {
-	background-image:url(images/tree_icons/join.gif);
+    background-image:url(images/tree_icons/join.gif);
 }
 div.tree_item_last {
-	background-image:url(images/tree_icons/joinbottom.gif);
+    background-image:url(images/tree_icons/joinbottom.gif);
 }
 div.tree_line {
-	position:absolute;
-	left:0;
-	background-image:url(images/tree_icons/line.gif);
+    position:absolute;
+    left:0;
+    background-image:url(images/tree_icons/line.gif);
 }
 
 
@@ -403,14 +403,14 @@ dl.accordion dt:after,
 .box-head:after,
 div.actions:after,
 .clear:after {
-	clear:both;
-	content:".";
-	display:block;
-	height:0;
-	font-size:0;
-	line-height:0;
-	visibility:hidden;
-	}
+    clear:both;
+    content:".";
+    display:block;
+    height:0;
+    font-size:0;
+    line-height:0;
+    visibility:hidden;
+    }
 
 
 .no-active-category a span { color:#aaa !important; }
