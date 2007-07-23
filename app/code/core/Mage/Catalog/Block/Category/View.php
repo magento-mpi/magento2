@@ -22,10 +22,14 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             ->load($request->getParam('id', false));
         
         // Breadcrumbs
-        $breadcrumbs = $this->getLayout()->createBlock('catalog/breadcrumbs', 'catalog.breadcrumbs');
-        $breadcrumbs->addCrumb('home', array('label'=>__('Home'),'title'=>__('Go to Home Page'),'link'=>Mage::getBaseUrl()));
-        $breadcrumbs->addCrumb('category', array('label'=>$category->getName()));
-        $this->setChild('breadcrumbs', $breadcrumbs);
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+        $breadcrumbs->addCrumb('home',
+            array('label'=>__('Home'),'title'=>__('Go to Home Page'),'link'=>Mage::getBaseUrl())
+        );
+        $breadcrumbs->addCrumb('category',
+            array('label'=>$category->getName())
+        );
+        //$this->setChild('breadcrumbs', $breadcrumbs);
         
         // get category filters
         //$filters = $category->getFilters();

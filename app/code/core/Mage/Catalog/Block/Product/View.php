@@ -24,8 +24,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
             ->load($productId)
             ->setCategoryId($categoryId);
         
-        $breadcrumbs = $this->getLayout()
-            ->createBlock('catalog/breadcrumbs', 'catalog.breadcrumbs');
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home', 
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
         );
@@ -36,7 +35,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
             array('label'=>$product->getName())
         );
         
-        $this->setChild('breadcrumbs', $breadcrumbs);
+        //$this->setChild('breadcrumbs', $breadcrumbs);
         
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());

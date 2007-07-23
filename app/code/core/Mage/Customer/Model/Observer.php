@@ -33,6 +33,7 @@ class Mage_Customer_Model_Observer
                     ->setLink('', 'href="'.Mage::getUrl('customer/account/logout').'"', __('Logout'), ''));
             }
             
+/*
             $topMenu = $layout->getBlock('top.menu');
             if ($topMenu) {
                 $topMenu->insert($layout->createBlock('core/text_tag', 'top.menu.welcome.separator')
@@ -43,6 +44,7 @@ class Mage_Customer_Model_Observer
                     ->setTagName('strong')
                     ->setContents(__('Welcome').', ' . $custSession->getCustomer()->getName()));
             }
+*/
         }
     }
 }

@@ -1,42 +1,39 @@
 <?xml version="1.0"?>
 <layoutUpdate> 
     <block type="page/html" name="root" output="toHtml">
-        <block type="core/text_list" name="head" as="head">
-            <block type="core/text_tag_meta" name="head.meta">
-                <action method="setTitle"><title>Magento Commerce</title></action>
-            </block>
-        </block>
-        <block type="core/text_list" name="top.links" as="topLinks"/>
-        
-        <block type="core/text_list" name="top.menu" as="topMenu"/>
-        
-        <block type="core/text_list" name="top.forms" as="topForms"/>
-        
+
         <block type="core/store" name="store" as="store"/>
-        
+
+        <block type="page/html_head" name="head" as="head"/>
+
+        <block type="page/html_header" name="header" as="header">
+            <block type="core/text_list" name="top.links" as="topLinks"/>
+            <block type="core/text_list" name="top.forms" as="topForms">
+                <block type="core/template" name="search.form.mini">
+                    <action method="setTemplate"><template>catalog/search/form.mini.phtml</template></action>
+                </block>
+            </block>
+            <block type="core/text_list" name="top.menu" as="topMenu"/>
+        </block>
+
         <block type="core/text_list" name="left" as="left"/>
 
+        <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+
         <block type="core/messages" name="messages" as="messages"/>
-        
+
         <block type="core/text_list" name="content" as="content"/>
-        
-        <block type="core/text_list" name="botom.links" as="bottomLinks">
-            <block type="core/text_list_link" name="bottom.links.about">
-                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>About Us</label></action>
-            </block>
-            <block type="core/text_list_link" name="bottom.links.contact">
-                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>Contact Us</label></action>
-            </block>
-            <block type="core/text_list_link" name="bottom.links.exchange">
-                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}"</a><label>Returns and Exchanges</label></action>
-            </block>
-            <block type="core/text_list_link" name="bottom.links.sitemap">
-                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}/sitemap/"</a><label>Site Map</label></action>
-            </block>
-            <block type="core/text_list_link" name="bottom.links.advancedsearch">
-                <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}catalog/search/advanced/"</a><label>Advanced Search</label></action>
+
+        <block type="core/text_list" name="right" as="right"/>
+
+        <block type="page/html_footer" name="footer" as="footer">
+            <block type="core/template" name="bottom.links" as="bottomLinks">
+                <action method="setTemplate"><template>page/html/bottom.links.phtml</template></action>
             </block>
         </block>
+
     </block>
+
     <block type="core/profiler" output="toHtml"/>
+
 </layoutUpdate>

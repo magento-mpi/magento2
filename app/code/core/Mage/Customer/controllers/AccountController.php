@@ -37,7 +37,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('customer/dashboard')
         );
-        
+
         $this->renderLayout();
     }
     

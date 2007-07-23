@@ -1,11 +1,3 @@
-/* Breadcrumbs */
-.breadcrumbs { margin-bottom:10px; padding:3px 3px 3px 0; border-bottom:1px solid #deebeb; }
-.breadcrumbs ul, .breadcrumbs ul li { display:inline; }
-.breadcrumbs ul li { margin-right:4px; padding-left: 10px; background: url(../images/arrow_breadcrumbs.gif) no-repeat 0 60%; }
-.breadcrumbs ul li.home { padding:0; background: none; }
-.breadcrumbs a { color:#611b06; text-decoration:underline; }
-.breadcrumbs a:hover { text-decoration:none; }
-
 .catalog-spacer { margin:0; border-top:1px dotted #a7cbd7; height:1px; font-size:1px; line-height:1em; overflow:hidden;}
 /*Category intro*/
 .category-intro {padding:10px;}
@@ -97,4 +89,3 @@ div.search-autocomplete ul li {
 div.search-autocomplete ul li.selected {
     background-color: #dcebf0;
     }
-
