@@ -43,42 +43,48 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     public function saveAction()
     {
-        try {
-            $model = Mage::getModel('eav/entity_attribute');
-            $model->setAttributeName($this->getRequest()->getParam('attribute_name'))
-                ->setDefaultValue($this->getRequest()->getParam('default_value'))
-                ->setAttributeModel($this->getRequest()->getParam('attribute_model'))
-                ->setBackendModel($this->getRequest()->getParam('backend_model'))
-                ->setBackendType($this->getRequest()->getParam('backend_type'))
-                ->setBackendTable($this->getRequest()->getParam('backend_table'))
-                ->setFrontendModel($this->getRequest()->getParam('frontend_model'))
-                ->setFrontendInput($this->getRequest()->getParam('frontend_input'))
-                ->setFrontendLabel($this->getRequest()->getParam('frontend_label'))
-                ->setFrontendClass($this->getRequest()->getParam('frontend_class'))
-                ->setSourceModel($this->getRequest()->getParam('source_model'))
-                ->setIsGlobal($this->getRequest()->getParam('is_global'))
-                ->setIsVisible($this->getRequest()->getParam('is_visible'))
-                ->setIsRequired($this->getRequest()->getParam('is_required'))
-                ->setIsSearchable($this->getRequest()->getParam('is_searchable'))
-                ->setIsFilterable($this->getRequest()->getParam('is_filterable'))
-                ->setIsComparable($this->getRequest()->getParam('is_comparable'))
-                ->setIsUserDefined($this->getRequest()->getParam('is_user_defined'))
-                ->setEntityTypeId(10);
+        $model = Mage::getModel('eav/entity_attribute');
+        $model->setAttributeName($this->getRequest()->getParam('attribute_name'))
+            ->setDefaultValue($this->getRequest()->getParam('default_value'))
+            ->setAttributeModel($this->getRequest()->getParam('attribute_model'))
+            ->setBackendModel($this->getRequest()->getParam('backend_model'))
+            ->setBackendType($this->getRequest()->getParam('backend_type'))
+            ->setBackendTable($this->getRequest()->getParam('backend_table'))
+            ->setFrontendModel($this->getRequest()->getParam('frontend_model'))
+            ->setFrontendInput($this->getRequest()->getParam('frontend_input'))
+            ->setFrontendLabel($this->getRequest()->getParam('frontend_label'))
+            ->setFrontendClass($this->getRequest()->getParam('frontend_class'))
+            ->setSourceModel($this->getRequest()->getParam('source_model'))
+            ->setIsGlobal($this->getRequest()->getParam('is_global'))
+            ->setIsVisible($this->getRequest()->getParam('is_visible'))
+            ->setIsRequired($this->getRequest()->getParam('is_required'))
+            ->setIsSearchable($this->getRequest()->getParam('is_searchable'))
+            ->setIsFilterable($this->getRequest()->getParam('is_filterable'))
+            ->setIsComparable($this->getRequest()->getParam('is_comparable'))
+            ->setIsUserDefined($this->getRequest()->getParam('is_user_defined'))
+            ->setEntityTypeId(10);
 
-            if( $this->getRequest()->getParam('attribute_id') > 0 ) {
-                $model->setId($this->getRequest()->getParam('attribute_id') );
-            }
+        if( $this->getRequest()->getParam('attribute_id') > 0 ) {
+            $model->setId($this->getRequest()->getParam('attribute_id') );
+        }
 
-            if( $this->getRequest()->getParam('attribute_code', false) ) {
-                $model->setAttributeCode($this->getRequest()->getParam('attribute_code') );
+        if( $this->getRequest()->getParam('attribute_code', false) ) {
+            $model->setAttributeCode($this->getRequest()->getParam('attribute_code') );
+        }
+
+        if( $model->itemExists() === false ) {
+            try {
+                $model->save();
+                $this->_redirect('*/*/');
+            } catch (Exception $e) {
+                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                    $this->getResponse()->setRedirect($referer);
+                }
+                Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Please, try again later.');
+                $this->_returnLocation();
             }
-            $model->save();
-            $this->_redirect('*/*/');
-        } catch (Exception $e) {
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            }
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Please, try again later.');
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Attribute with the same Code or Name already exists.');
             $this->_returnLocation();
         }
     }

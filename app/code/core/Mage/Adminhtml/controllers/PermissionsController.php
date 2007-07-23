@@ -121,7 +121,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
                 ->setId($uid)
                 ->setUsername($this->getRequest()->getParam('username', false))
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
-                ->setLastname($this->getRequest()->getParam('lastname', false))
+                ->setLastname(strtok($this->getRequest()->getParam('lastname', false)))
                 ->setEmail($this->getRequest()->getParam('email', false))
                 ->setPassword($this->getRequest()->getParam('password', false));
 
@@ -135,7 +135,7 @@ class Mage_Adminhtml_PermissionsController extends Mage_Adminhtml_Controller_Act
 
             $uid = $user->getId();
         } else {
-            Mage::getSingleton('adminhtml/session')->addError('User with this login aleady exists.');
+            Mage::getSingleton('adminhtml/session')->addError('User with the same login or email aleady exists.');
         }
         $this->_redirect("adminhtml/permissions/edituser/id/$uid");
     }
