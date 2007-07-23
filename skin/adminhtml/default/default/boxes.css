@@ -132,7 +132,7 @@
 
 /* Footer */
 .footer .powered-by {
-    float:left;
+    float:right;
     min-height:19px;
     background:url(images/varien_logo.gif) no-repeat 0 50%;
     padding-left:22px;
