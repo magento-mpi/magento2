@@ -21,14 +21,26 @@ class Mage_Core_Model_Design_Package
 	{
 		if (is_null($this->_config)) {
 			$filename = $this->getEtcFilename('config.xml');
-			$this->_config = Mage::getModel('core/config_base');
-			$this->_config->loadFile($filename);
+			$config = Mage::getModel('core/config_base');
+			$config->loadFile($filename);
+			
+			if (empty($config)) {
+				$filename = $this->getEtcFilename('config.xml', array('_theme'=>$this->getDefaultTheme()));
+				$config = Mage::getModel('core/config_base');
+				$config->loadFile($filename);	
+			}
+			
+			if (empty($config)) {
+				$this->_config = false;
+			} else {
+				$this->_config = $config;
+			}
 		}
-		$path1 = $this->getTheme().'/'.$path;
-		if (!$this->_config->getNode($path1)) {
-			$path1 = $this->getDefaultTheme().'/'.$path;
+		if ($config===false) {
+			return false;
+		} else {
+			return (string)$this->_config->getNode($path);
 		}
-		return (string)$this->_config->getNode($path1);
 	}
 	
 	public function setArea($area)
