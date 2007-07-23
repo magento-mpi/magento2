@@ -27,7 +27,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Ab
         return parent::loadArray($arr);
     }
     
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $arr = array(
             'type'=>'quote', 
@@ -38,7 +38,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Ab
         return $arr;
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Update cart ".$this->getAttributeName()
             ." ".$this->getOperatorName()." ".$this->getValueName();

@@ -12,9 +12,9 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Rule_Model_Con
         return $this;
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
-        return 'Customer '.parent::toString();
+        return 'Customer '.parent::asString();
     }
     
     /**

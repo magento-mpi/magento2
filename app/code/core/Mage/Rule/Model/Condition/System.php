@@ -13,9 +13,9 @@ class Mage_Rule_Model_Condition_System extends Mage_Rule_Model_Condition_Abstrac
         return $this;
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
-        return 'System '.parent::toString();
+        return 'System '.parent::asString();
     }
     
     public function validate()

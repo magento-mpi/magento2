@@ -10,20 +10,17 @@ class Mage_Adminhtml_Promo_Rules_CatalogController extends Mage_Adminhtml_Contro
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('customer/manage');
+        $this->_setActiveMenu('promo/catalog');
+        
+        $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
 
         /**
          * Append customers block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/customers', 'customers')
+            $this->getLayout()->createBlock('adminhtml/rule_test', 'rule_test')
         );
-
-        /**
-         * Add breadcrumb item
-         */
-        $this->_addBreadcrumb(__('Catalog price rules'));
-
+        
         $this->renderLayout();
     }
 }

@@ -31,7 +31,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Rule_Model_A
      * @param string $format
      * @return string
      */
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Update address # ".$this->getAddressNumber()." ".$this->getAttributeName()
             ." ".$this->getOperatorName()." ".$this->getValueName();

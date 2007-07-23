@@ -52,7 +52,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
      * @param array $arrAttributes
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $arr = array(
             'type'=>'quote_item', 
@@ -71,7 +71,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
      * @param string $format
      * @return string
      */
-    public function toString($format='')
+    public function asString($format='')
     {
         /*
         $str = "Update item # ".$this->getItemNumber()." ".$this->getAttributeName()

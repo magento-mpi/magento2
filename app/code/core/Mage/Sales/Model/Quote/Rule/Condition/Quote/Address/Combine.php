@@ -23,7 +23,7 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Address_Combine extends Mage_R
         return parent::addCondition($condition);
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "If ".$this->getAttributeName()." of these conditions are ".$this->getValueName()." for shipping address (# ".$this->getAddressNumber().")";
         return $str;

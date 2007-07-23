@@ -2,23 +2,29 @@
 
 class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setActions(array());
+    }
+    
     /**
      * Returns array containing actions in the collection
      * 
      * Output example:
      * array(
-     *   {action::toArray},
-     *   {action::toArray}
+     *   {action::asArray},
+     *   {action::asArray}
      * )
      * 
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $out = array();
         
         foreach ($this->getActions() as $item) {
-            $out[] = $item->toArray();
+            $out[] = $item->asArray();
         }
         
         return $out;
@@ -51,17 +57,17 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
         return $this;
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Perform following actions";
         return $str;
     }
     
-    public function toStringRecursive($level=0)
+    public function asStringRecursive($level=0)
     {
-        $str = $this->toString();
+        $str = $this->asString();
         foreach ($this->getActions() as $action) {
-            $str .= "\n".$action->toStringRecursive($level+1);
+            $str .= "\n".$action->asStringRecursive($level+1);
         }
         return $str;
     }

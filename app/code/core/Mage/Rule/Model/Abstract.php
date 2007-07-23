@@ -8,6 +8,7 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
         $this->setStopProcessingRules(false);
         $this->resetConditions();
         $this->resetActions();
+        $this->setForm(new Varien_Data_Form());
     }
     
     abstract public function getResource();
@@ -15,11 +16,11 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
     public function resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
         if (is_null($conditions)) {
-            $conditions = Mage::getModel('core/rule_condition_combine');
+            $conditions = Mage::getModel('rule/condition_combine');
         }
         $conditions->setRule($this)->setId('1');
         $this->setConditions($conditions);
-        
+
         return $this;
     }
     
@@ -28,7 +29,7 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
     public function resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
         if (is_null($actions)) {
-            $actions = Mage::getModel('core/rule_action_collection');
+            $actions = Mage::getModel('rule/action_collection');
         }
         $actions->setRule($this);
         $this->setActions($actions);
@@ -38,14 +39,25 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
 
     abstract public function getActionInstance($type);
     
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Name: ".$this->getName()."\n"
             ."Start at: ".$this->getStartAt()."\n"
             ."Expire at: ".$this->getExpireAt()."\n"
             ."Description: ".$this->getDescription()."\n\n"
-            .$this->getConditions()->toStringRecursive()."\n\n"
-            .$this->getActions()->toStringRecursive()."\n\n";
+            .$this->getConditions()->asStringRecursive()."\n\n"
+            .$this->getActions()->asStringRecursive()."\n\n";
+        return $str;
+    }    
+    
+    public function asHtml($format='')
+    {
+        $str = "Name: ".$this->getName()."<br>"
+            ."Start at: ".$this->getStartAt()."<br>"
+            ."Expire at: ".$this->getExpireAt()."<br>"
+            ."Description: ".$this->getDescription()."<br><br>"
+            .$this->getConditions()->asHtmlRecursive()."<br><br>"
+            .$this->getActions()->asHtmlRecursive()."<br><br>";
         return $str;
     }
     
@@ -55,21 +67,21 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
      * Output example:
      * array(
      *   'name'=>'Example rule',
-     *   'conditions'=>{condition_combine::toArray}
-     *   'actions'=>{action_collection::toArray}
+     *   'conditions'=>{condition_combine::asArray}
+     *   'actions'=>{action_collection::asArray}
      * )
      * 
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $out = array(
             'name'=>$this->getName(),
             'start_at'=>$this->getStartAt(),
             'expire_at'=>$this->getExpireAt(),
             'description'=>$this->getDescription(),
-            'conditions'=>$this->getConditions()->toArray(),
-            'actions'=>$this->getActions()->toArray(),
+            'conditions'=>$this->getConditions()->asArray(),
+            'actions'=>$this->getActions()->asArray(),
         );
         
         return $out;
@@ -107,10 +119,10 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
     
     public function save()
     {
-        $conditions = serialize($this->getConditions()->toArray());
+        $conditions = serialize($this->getConditions()->asArray());
         $this->setConditionsSerialized($conditions);
 
-        $actions = serialize($this->getActions()->toArray());
+        $actions = serialize($this->getActions()->asArray());
         $this->setActionsSerialized($actions);
         
         $this->getResource()->save($this);

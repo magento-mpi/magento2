@@ -4,7 +4,9 @@
  * Abstract class for quote rule condition
  *
  */
-abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implements Mage_Rule_Model_Condition_Interface 
+abstract class Mage_Rule_Model_Condition_Abstract 
+	extends Varien_Object 
+	implements Mage_Rule_Model_Condition_Interface 
 {
     public function __construct()
     {
@@ -12,7 +14,7 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
     }
     
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $out = array(
             'type'=>$this->getType(),
@@ -23,7 +25,7 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         return $out;
     }
     
-    public function toXml()
+    public function asXml()
     {
         extract($this->toArray());
         $xml = "<type>".$this->getType()."</type>"
@@ -63,6 +65,15 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         return $this;
     }
     
+    public function getAttributeSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getAttributeOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
+    }
+    
     public function getAttributeName()
     {
         return $this->getAttributeOption($this->getAttribute());
@@ -85,6 +96,15 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         return $this;
     }
     
+    public function getOperatorSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getOperatorOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
+    }
+    
     public function getOperatorName()
     {
         return $this->getOperatorOption($this->getOperator());
@@ -99,6 +119,15 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         return $this;
     }
     
+    public function getValueSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getValueOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
+    }
+    
     public function getValueName()
     {
         $value = $this->getValue();
@@ -111,15 +140,47 @@ abstract class Mage_Rule_Model_Condition_Abstract extends Varien_Object implemen
         return $value;
     }
     
-    public function toString($format='')
+    public function asHtml()
+    {
+    	$form = $this->getRule()->getForm();
+    	$renderer = new Mage_Rule_Block_Editable();
+    	
+    	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
+    		'values'=>$this->getAttributeSelectOptions(),
+    		'value'=>$this->getAttribute(),
+    		'value_name'=>$this->getAttributeName(),
+    	))->setRenderer($renderer);
+    	
+    	$operEl = $form->addField('cond:'.$this->getId().':operator', 'select', array(
+    		'values'=>$this->getOperatorSelectOptions(),
+    		'value'=>$this->getOperator(),
+    		'value_name'=>$this->getOperatorName(),
+    	))->setRenderer($renderer);
+    	
+    	$valueEl = $form->addField('cond:'.$this->getId().':value', 'text', array(
+    		'value'=>$this->getValue(),
+    		'value_name'=>$this->getValueName(),
+    	))->setRenderer($renderer);
+    	
+    	$html = $attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
+    	return $html;
+    }
+    
+    public function asHtmlRecursive($level=0)
+    {
+        $str = str_pad('', $level*3*6, '&nbsp;', STR_PAD_LEFT).$this->asHtml();
+        return $str;
+    }
+    
+    public function asString($format='')
     {
         $str = $this->getAttributeName().' '.$this->getOperatorName().' '.$this->getValueName();
         return $str;
     }
     
-    public function toStringRecursive($level=0)
+    public function asStringRecursive($level=0)
     {
-        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
+        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->asString();
         return $str;
     }
     

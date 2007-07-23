@@ -16,7 +16,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
     }
     
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         return array();
     }
@@ -61,14 +61,24 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return $this->getValue();
     }
     
-    public function toString($format='')
+    public function asHtml($format='')
     {
         return "";
     }
     
-    public function toStringRecursive($level=0)
+    public function asHtmlRecursive($level=0)
     {
-        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->toString();
+        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->asHtml();
+        return $str;
+    }    
+    public function asString($format='')
+    {
+        return "";
+    }
+    
+    public function asStringRecursive($level=0)
+    {
+        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->asString();
         return $str;
     }
     

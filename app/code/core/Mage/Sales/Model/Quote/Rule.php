@@ -15,20 +15,20 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
     public function getEnv()
     {
         if (!$this->getData('env')) {
-            $this->setData('env', Mage::getModel('sales/quote_rule_environment'));
+            $this->setData('env', Mage::getModel('rule/environment'));
         }
         return $this->getData('env');
     }
     
-    public function resetConditions()
+    public function resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
-        parent::resetConditions(Mage::getModel('sales/quote_rule_condition_combine'));
+        parent::resetConditions(Mage::getModel('rule/condition_combine'));
 
         $this->setFoundQuoteItemNumber(1);
         $this->setFoundQuoteItems(array());
         
         $this->setFoundQuoteAddressNumber(1);
-        $this->setFoundQuoteAddresses(aray());
+        $this->setFoundQuoteAddresses(array());
         
         return $this;
     }
@@ -38,9 +38,9 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
         return Mage::getSingleton('sales/config')->getQuoteRuleConditionInstance($type);
     }
     
-    public function resetActions()
+    public function resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
-        parent::resetActions(Mage::getModel('sales/quote_rule_action_collection'));
+        parent::resetActions(Mage::getModel('rule/action_collection'));
         
         return $this;
     }

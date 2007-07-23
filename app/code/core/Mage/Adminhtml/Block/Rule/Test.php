@@ -1,23 +1,9 @@
 <?php
-/**
- * Install index controller
- *
- * @package     Mage
- * @subpackage  Install
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- */
 
-class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_Block_Rule_Test extends Mage_Core_Block_Abstract
 {
-    function indexAction() 
-    {
-        $this->_forward('begin', 'wizard', 'install');
-    }
-    
-    function testAction()
-    {
+	public function toHtml()
+	{
         $rule = Mage::getModel('sales/quote_rule');
         #$rule->load(1);
         if (!$rule->getId()) {
@@ -49,12 +35,6 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
             #$rule->save(); echo "SAVING...<hr>";
         }
 
-        print_r($rule->asHtml());
-    }
-    
-    function xmlAction()
-    {
-        $xml = Mage::getConfig()->getNode('global/stores/base')->asArray();
-        echo "<pre>"; print_r($xml); echo "</pre>";
-    }
-}// Class IndexController END
+        return $rule->asHtml();
+	}
+}

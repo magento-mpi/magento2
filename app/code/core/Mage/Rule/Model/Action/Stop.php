@@ -2,12 +2,12 @@
 
 class Mage_Rule_Model_Action_Stop extends Mage_Rule_Model_Action_Abstract
 {
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         return array('type'=>'stop');
     }
     
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Stop rule processing";
         return $str;

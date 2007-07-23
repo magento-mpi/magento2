@@ -66,7 +66,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Rule_Model_
      * @param array $arrAttributes
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
         $arr = array(
             'type'=>'quote_item_add', 
@@ -83,7 +83,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item_Add extends Mage_Rule_Model_
      * @param string $format
      * @return string
      */
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Add ".$this->getItemQty()." product".($this->getItemQty()>1 ? 's' : '')." ".$this->getValueName()
             ." to the cart (# ".$this->getItemNumber().")";
