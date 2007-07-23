@@ -63,8 +63,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     {
         if ($data = $this->getRequest()->getPost()) {
 
+//            print_r($data);
+
             $tag = Mage::getModel('tag/tag')
-                ->addData($data);
+                ->setData($data);
 
             if ($tagId = (int) $this->getRequest()->getParam('id')) {
                 $tag->setId($tagId);
@@ -162,15 +164,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
     protected function _initAction()
     {
         $this->loadLayout('baseframe')
-            ->_setActiveMenu('catalog')
             ->_setActiveMenu('catalog/tags')
             ->_addBreadcrumb(__('Catalog'), __('Catalog Title'))
             ->_addBreadcrumb(__('Tags'), __('Products Tags Title'))
-            ->_addLeft(
-                $this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab(
-                    $this->getRequest()->getActionName()
-                )
-            )
+//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab($this->getRequest()->getActionName()))
         ;
         return $this;
     }

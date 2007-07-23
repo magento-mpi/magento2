@@ -60,7 +60,7 @@
                     <action>adminhtml/newsletter_problem/</action>
                     <resource>admin/newsletter/problem</resource>
                 </problem>
-                
+
             </children>
          </newsletter>
          <catalog>
@@ -90,10 +90,27 @@
                     <title>Reviews</title>
                     <action>adminhtml/catalog_product_review/</action>
                 </reviews>
-                <tags>
+                <tag>
                     <title>Tags</title>
-                    <action>adminhtml/tag/</action>
-                </tags>
+                    <children>
+                        <tag_all>
+                            <title>All Tags</title>
+                            <action>adminhtml/tag/all</action>
+                        </tag_all>
+                        <tag_pending>
+                            <title>Pending Tags</title>
+                            <action>adminhtml/tag/pending</action>
+                        </tag_pending>
+                        <tag_customers>
+                            <title>Customers' Tags</title>
+                            <action>adminhtml/tag/customers</action>
+                        </tag_customers>
+                        <tag_products>
+                            <title>Products' Tags</title>
+                            <action>adminhtml/tag/products</action>
+                        </tag_products>
+                    </children>
+                </tag>
                 <datafeed>
                     <title>Datafeeds</title>
                     <action>adminhtml/catalog_datafeed/</action>
@@ -150,13 +167,13 @@
             <children>
                 <catalog>
                     <title>Catalog Price Rules</title>
-                    <action>adminhtml/promo_rules_catalog/</action>
+                    <action>adminhtml/promo_catalogPriceRules/</action>
                     <resource>promo/catalog</resource>
                     <depends><module>Mage_Catalog</module></depends>
                 </catalog>
                 <quote>
                     <title>Shopping Cart Price Rules</title>
-                    <action>adminhtml/promo_rules_quote/</action>
+                    <action>adminhtml/promo_quotePriceRules/</action>
                     <resource>promo/quote</resource>
                     <depends><module>Mage_Sales</module></depends>
                 </quote>
@@ -180,7 +197,7 @@
                     <title>Configuration</title>
                     <action>adminhtml/cms_config/</action>
                     <resource>cms/config</resource>
-                </config>                
+                </config>
             </children>
          </cms>
          <report>
