@@ -176,6 +176,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
+        $fieldset->addField('is_user_defined', 'hidden',
+                            array(
+                                'name' => 'is_user_defined',
+                                'no-span' => true,
+                            )
+        );
+
         $attributeId = $this->getRequest()->getParam('attributeId', false);
 
         if( $attributeId ) {
@@ -198,6 +205,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
             $this->assign('header', __('Edit Attribute'));
         } else {
+            $form->getElement('is_user_defined')->setValue(1);
             $this->assign('header', __('Add new Attribute'));
             $this->setAttributeData(new Varien_Object());
         }
@@ -248,7 +256,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/delete/attribute/'. $this->getAttributeId() .'').'\''
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/attributeId/'. $this->getRequest()->getParam('attributeId') .'').'\')'
                 ))
         );
     }
@@ -273,7 +281,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
     protected function _getHeader()
     {
-        return __("Edit Attribute '{$this->getAttributeData()->getAttributeName()}'");
+        return ( $this->getAttributeId() > 0 ) ? __("Edit Attribute '{$this->getAttributeData()->getAttributeName()}'") : __('Add new Attribute') ;
     }
 
 }

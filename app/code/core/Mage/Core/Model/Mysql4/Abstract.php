@@ -18,59 +18,59 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * @var Mage_Core_Model_Resource
      */
     protected $_resources;
-    
+
     /**
      * Prefix for resources that will be used in this resource model
      *
      * @var string
      */
     protected $_resourcePrefix;
-    
+
     /**
      * Connections cache for this resource model
      *
      * @var array
      */
     protected $_connections = array();
-    
+
     /**
      * Resource model name that contains entities (names of tables)
      *
      * @var string
      */
     protected $_resourceModel;
-    
+
     /**
      * Tables used in this resource model
      *
      * @var array
      */
     protected $_tables = array();
-    
+
     /**
      * Main table name
      *
      * @var string
      */
     protected $_mainTable;
-    
+
     /**
      * Main table primary key field name
      *
      * @var string
      */
     protected $_idFieldName;
-    
+
     public function __construct()
     {
         $this->_construct();
     }
-    
+
     protected function _construct()
     {
-        
+
     }
-        
+
     /**
      * Standard resource model initialization
      *
@@ -82,10 +82,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         $this->setMainTable($mainTable, $idFieldName);
     }
-    
+
     /**
      * Initialize connections and tables for this resource model
-     * 
+     *
      * If one or both arguments are string, will be used as prefix
      * If $tables is null and $connections is string, $tables will be the same
      *
@@ -96,7 +96,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     protected function setResource($connections, $tables=null)
     {
         $this->_resources = Mage::getSingleton('core/resource');
-        
+
         if (is_array($connections)) {
             foreach ($connections as $k=>$v) {
                 $this->_connections[$k] = $this->_resources->getConnection($v);
@@ -104,7 +104,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         } elseif (is_string($connections)) {
             $this->_resourcePrefix = $connections;
         }
-        
+
         if (is_null($tables) && is_string($connections)) {
             $this->_resourceModel = $this->_resourcePrefix;
         } elseif (is_array($tables)) {
@@ -116,10 +116,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return $this;
     }
-    
+
     /**
      * Set main entity table name and primary key field name
-     * 
+     *
      * If field name is ommited {table_name}_id will be used
      *
      * @param string $mainTable
@@ -129,7 +129,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     public function setMainTable($mainTable, $idFieldName=null)
     {
         $mainTableArr = explode('/', $mainTable);
-        
+
         if (!empty($mainTableArr[1])) {
             if (empty($this->_resourceModel)) {
                 $this->setResource($mainTableArr[0]);
@@ -142,12 +142,12 @@ abstract class Mage_Core_Model_Mysql4_Abstract
             }
             $this->_idFieldName = $idFieldName;
         }
-            
+
         return $this;
     }
-    
+
     /**
-     * Get primary key field name 
+     * Get primary key field name
      *
      * @return string
      */
@@ -158,7 +158,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return $this->_idFieldName;
     }
-    
+
     /**
      * Get main table name
      *
@@ -171,7 +171,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return $this->getTable($this->_mainTable);
     }
-    
+
     /**
      * Get table name for the entity
      *
@@ -191,7 +191,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return $this->_tables[$entityName];
     }
-    
+
     /**
      * Get connection by name or type
      *
@@ -210,7 +210,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return $this->_connections[$connectionName];
     }
-    
+
     /**
      * Load an object
      *
@@ -224,24 +224,24 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         if (is_null($field)) {
             $field = $this->getIdFieldName();
         }
-        
+
         $read = $this->getConnection('read');
-        
+
         $select = $read->select()->from($this->getMainTable())
             ->where($field.'=?', $value);
         $data = $read->fetchRow($select);
-        
+
         if (!$data) {
             return false;
         }
-        
+
         $object->setData($data);
 
         $this->_afterLoad($object);
-        
+
         return true;
     }
-    
+
     /**
      * Save an object
      *
@@ -251,12 +251,12 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         $write = $this->getConnection('write');
         $table = $this->getMainTable();
-        
+
         $write->beginTransaction();
-        
+
         try {
             $this->_beforeSave($object);
-            
+
             if ($object->getId()) {
                 $condition = $write->quoteInto($this->getIdFieldName().'=?', $object->getId());
                 $write->update($table, $object->getDataForSave(), $condition);
@@ -264,19 +264,19 @@ abstract class Mage_Core_Model_Mysql4_Abstract
                 $write->insert($table, $object->getDataForSave());
                 $object->setId($write->lastInsertId($table));
             }
-            
+
             $this->_afterSave($object);
             $write->commit();
         } catch (Exception $e) {
-            
+
             $write->rollBack();
             Mage::throwException('Exception while saving the object');
-            
+
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Delete the object
      *
@@ -287,24 +287,24 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         $write = $this->getConnection('write');
         $table = $this->getMainTable();
-        
+
         $write->beginTransaction();
         try {
             $this->_beforeDelete($object);
-            
+
             $write->delete($table, $write->quoteInto($this->getIdFieldName().'=?', $object->getId()));
-            
+
             $this->_afterDelete($object);
-            
+
             $write->commit();
-            
+
         } catch(Exception $e) {
             $write->rollBack();
             Mage::throwException('Exception while deleting the object');
         }
         return $this;
     }
-    
+
     /**
      * Perform actions after object load
      *
@@ -314,7 +314,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         return $this;
     }
-    
+
     /**
      * Perform actions before object save
      *
@@ -323,8 +323,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         return $this;
-    }    
-    
+    }
+
     /**
      * Perform actions after object save
      *
@@ -334,7 +334,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         return $this;
     }
-    
+
     /**
      * Perform actions before object delete
      *
@@ -343,8 +343,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     protected function _beforeDelete(Mage_Core_Model_Abstract $object)
     {
         return $this;
-    }  
-      
+    }
+
     /**
      * Perform actions after object delete
      *

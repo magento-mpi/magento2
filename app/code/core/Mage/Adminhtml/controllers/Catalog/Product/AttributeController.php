@@ -20,9 +20,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes Title'));
 
-        $this->_addContent(
-                $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_grid')
-            );
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_toolbar_add'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_grid'));
 
         $this->renderLayout();
     }
@@ -45,9 +44,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function saveAction()
     {
         try {
-            Mage::getModel('eav/entity_attribute')
-                ->setId($this->getRequest()->getParam('attribute_id'))
-                ->setAttributeName($this->getRequest()->getParam('attribute_name'))
+            $model = Mage::getModel('eav/entity_attribute');
+            $model->setAttributeName($this->getRequest()->getParam('attribute_name'))
                 ->setDefaultValue($this->getRequest()->getParam('default_value'))
                 ->setAttributeModel($this->getRequest()->getParam('attribute_model'))
                 ->setBackendModel($this->getRequest()->getParam('backend_model'))
@@ -64,7 +62,17 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 ->setIsSearchable($this->getRequest()->getParam('is_searchable'))
                 ->setIsFilterable($this->getRequest()->getParam('is_filterable'))
                 ->setIsComparable($this->getRequest()->getParam('is_comparable'))
-                ->save();
+                ->setIsUserDefined($this->getRequest()->getParam('is_user_defined'))
+                ->setEntityTypeId(10);
+
+            if( $this->getRequest()->getParam('attribute_id') > 0 ) {
+                $model->setId($this->getRequest()->getParam('attribute_id') );
+            }
+
+            if( $this->getRequest()->getParam('attribute_code', false) ) {
+                $model->setAttributeCode($this->getRequest()->getParam('attribute_code') );
+            }
+            $model->save();
             $this->_redirect('*/*/');
         } catch (Exception $e) {
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
@@ -77,7 +85,19 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     public function deleteAction()
     {
-
+        $attributeId = $this->getRequest()->getParam('attributeId');
+        try {
+            Mage::getModel('eav/entity_attribute')
+                ->setId($attributeId)
+                ->delete();
+            $this->_redirect('*/*/');
+        } catch (Exception $e) {
+            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                $this->getResponse()->setRedirect($referer);
+            }
+            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this attribute. Please, try again later.');
+            $this->_returnLocation();
+        }
     }
 
     public function attributeGridAction()
