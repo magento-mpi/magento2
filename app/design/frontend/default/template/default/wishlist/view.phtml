@@ -14,7 +14,7 @@
         <?foreach($this->getWishlist() as $item):?>
         <tr>
             <td>
-                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="product name" width="113"/></a></div>
+                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             	<div><?=$item->getFormatedPrice()?></div>
             </td>            

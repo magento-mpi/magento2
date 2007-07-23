@@ -24,7 +24,10 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
         $this->_sqlSelect->from($this->_templateTable, array('template_id','template_code',
                                                              'template_type',
                                                              'template_subject','template_sender_name',
-                                                             'template_sender_email'));
+                                                             'template_sender_email',
+                                                             'added_at',
+                                                             'modified_at'
+                                                             ));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/template'));
     }
     

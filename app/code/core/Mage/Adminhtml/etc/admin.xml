@@ -45,12 +45,7 @@
                     <action>adminhtml/newsletter_template/</action>
                     <resource>admin/newsletter/template</resource>
                 </template>
-                <template_system>
-                    <title>System Templates</title>
-                    <action>adminhtml/newsletter_template_system/</action>
-                    <resource>admin/newsletter/template</resource>
-                </template_system>
-               <!-- <subscriber>
+                <!-- <subscriber>
                     <title>Subscribers</title>
                     <action>adminhtml/newsletter_subscriber/</action>
                     <resource>admin/newsletter/subscriber</resource>
@@ -204,6 +199,10 @@
                         </backup>
                     </children>
                 </tools>
+                <template>
+                    <title>Transactional Emails</title>
+                    <action>adminhtml/system_template</action>
+                </template>
                 <acl>
                     <title>Permissions</title>
                     <action>adminhtml/permissions</action>

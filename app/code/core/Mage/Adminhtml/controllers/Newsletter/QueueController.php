@@ -27,9 +27,8 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/newsletter_queue', 'queue')
         );
-
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('Queue'), __('Queue Title'));
+       
+        $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'));
 
         $this->renderLayout();
     }
@@ -144,10 +143,8 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     	$this->loadLayout('baseframe');
     	
     	$this->_setActiveMenu('newsletter/queue');
-    	
-    	
-    	$this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('Queue'), __('Queue Title'), Mage::getUrl('adminhtml/newsletter_queue'));
+    	    	
+        $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'), Mage::getUrl('adminhtml/newsletter_queue'));
         $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue Title'));
         
         $this->_addContent(
@@ -169,8 +166,10 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     		return;
     	}
     	
-    	if(!$queue->getQueueStartAt() && $this->getRequest()->getParam('start_at')) {
-    		$queue->setQueueStartAt($this->getRequest()->getParam('start_at'));
+    	if($this->getRequest()->getParam('start_at') && $queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
+    		$queue->setQueueStartAt(
+    			date('Y-m-d H:i:s', strtotime($this->getRequest()->getParam('start_at')))
+    		);
     	} 
     	
     	$queue->addTemplateData($queue);

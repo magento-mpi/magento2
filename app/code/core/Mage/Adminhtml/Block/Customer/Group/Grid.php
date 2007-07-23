@@ -33,17 +33,14 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
     {
         $this->addColumn('time', array(
             'header' => __('ID'),
-            'align' => 'center',
             'index' => 'customer_group_id',
         ));
         $this->addColumn('type', array(
             'header' => __('Group Name'),
-            'align' => 'center',
             'index' => 'customer_group_code',
         ));
         $this->addColumn('action', array(
             'header' => __('Action'),
-            'align'  => 'center',
             'type'	 => 'action',
             'actions' => array(
             				array(

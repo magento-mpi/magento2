@@ -11,10 +11,12 @@
 <div>
     <?=$this->getChildHtml('grid')?>
 </div>
+<?if($this->getShowButtons()):?> 
 <div class="form-buttons">
 	<?=$this->getUnsubscribeButtonHtml();?>
 	<?=$this->getDeleteButtonHtml();?>
 </div>
+<?endif?>
 <script type="text/javascript">
 <!--
 	var problemController = {

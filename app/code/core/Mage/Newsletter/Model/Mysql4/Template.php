@@ -197,6 +197,14 @@ class Mage_Newsletter_Model_Mysql4_Template
         $data['template_actual'] = ( !is_null($template->getTemplateActual()) && $template->getTemplateActual() == 0  ? 0 : 1 ); 
         $data['is_system']		 = $template->getIsSystem() ? 1 : 0;
         
+        if(!$template->getAddedAt()) {
+        	$template->setAddedAt(now());
+        	$template->setModifiedAt(now());
+        }
+        
+        $data['modified_at']	 = $template->getModifiedAt();
+        $data['added_at']	 = $template->getAddedAt();
+        
         if($this->checkCodeUsage($template)) {
             Mage::throwException('duplicate of template code');
         }

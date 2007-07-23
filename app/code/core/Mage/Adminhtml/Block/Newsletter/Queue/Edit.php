@@ -41,6 +41,11 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
     {
         return $this->getChildHtml('saveButton');
     }
+    
+    public function getHeaderText() 
+    {
+    	return __('Edit Newsletter Queue');
+    }
 
 	
 }// Class Mage_Adminhtml_Block_Newsletter_Queue_Edit END

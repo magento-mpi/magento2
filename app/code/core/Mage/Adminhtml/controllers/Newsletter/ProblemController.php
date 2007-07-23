@@ -23,8 +23,8 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 		
 		$this->_setActiveMenu('newsletter/problem');
 		
-		$this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-		$this->_addBreadcrumb(__('Problem Reports'), __('Problem Reports Title'));		
+		
+		$this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));		
 		
 		$this->_addContent(
 			$this->getLayout()->createBlock('adminhtml/newsletter_problem','problem')

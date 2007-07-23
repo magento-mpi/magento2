@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml newsletter subscribers grid website filter
+ * Adminhtml newsletter template grid type filter
  *
  * @package    Mage
  * @subpackage Adminhtml

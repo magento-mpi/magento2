@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml newsletter system templates grid block
+ * Adminhtml  system templates grid block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Newsletter_Template_System_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     protected function _prepareCollection()
     {
@@ -24,46 +24,61 @@ class Mage_Adminhtml_Block_Newsletter_Template_System_Grid extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('id',
-            array('header'=>__('ID'), 'align'=>'center', 'index'=>'template_id'));
+            array(
+            	  'header'=>__('ID'), 
+            	  'index'=>'template_id'
+            )
+        );
+        
         $this->addColumn('code',
             array(
                 'header'=>__('Template Name'),
-                'align'=>'center',
                 'index'=>'template_code'
+        ));
+        
+        $this->addColumn('added_at',
+            array(
+                'header'=>__('Added At'),
+                'index'=>'added_at',
+                'type'=>'datetime'
+        ));
+        
+        $this->addColumn('modified_at',
+            array(
+                'header'=>__('Modified At'),
+                'index'=>'modified_at',
+                'type'=>'datetime'
         ));
         
         $this->addColumn('subject',
             array(
                 'header'=>__('Subject'),
-                'align'=>'center',
                 'index'=>'template_subject'
         ));
         
         $this->addColumn('sender',
             array(
                 'header'=>__('Sender'),
-                'align'=>'center',
                 'index'=>'template_sender_email',
-                'renderer' => 'adminhtml/newsletter_template_system_grid_renderer_sender'
+                'renderer' => 'adminhtml/system_template_grid_renderer_sender'
         ));
         
         $this->addColumn('type',
             array(
                 'header'=>__('Template Type'),
-                'align'=>'center',
                 'index'=>'template_type',
-                'filter' => 'adminhtml/newsletter_template_system_grid_filter_type',
-                'renderer' => 'adminhtml/newsletter_template_system_grid_renderer_type'
+                'filter' => 'adminhtml/system_template_grid_filter_type',
+                'renderer' => 'adminhtml/system_template_grid_renderer_type'
         ));
         
         $this->addColumn('action',
             array(
-                'header'=>__('Action'),
-                'align'=>'center',
-                'index'=>'template_id',
-                'sortable'=>false,
-                'filter' => false,
-                'renderer' => 'adminhtml/newsletter_template_system_grid_renderer_action'
+                'header'	=> __('Action'),
+                'index'		=> 'template_id',
+                'sortable'  => false,
+                'filter' 	=> false,
+                'width'		=> '100px',
+                'renderer'  => 'adminhtml/system_template_grid_renderer_action'
         ));
         
         return $this;

@@ -21,5 +21,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue extends Mage_Core_Block_Template
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_queue_grid', 'newsletter.queue.grid'));
         return $this;
     }
-	
+	    
+    
 }

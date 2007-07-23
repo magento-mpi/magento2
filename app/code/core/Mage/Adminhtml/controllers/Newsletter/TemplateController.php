@@ -19,8 +19,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         
     	$this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'));
+       $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
@@ -36,7 +35,6 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates Title'), Mage::getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
@@ -68,7 +66,8 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 ->setTemplateCode($request->getParam('code'))
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
-                ->setTemplateText($request->getParam('text'));
+                ->setTemplateText($request->getParam('text'))
+                ->setModifiedAt(now());
 
             if (!$template->getId()) {
                 $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_HTML");
@@ -119,7 +118,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     	$template = Mage::getModel('newsletter/template')
         	->load($this->getRequest()->getParam('id'));
         
-        if(!$template->isSystem()) {
+        if(!$template->getIsSystem()) {
             $template->preprocess();
 			
 			$queue = Mage::getModel('newsletter/queue')

@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml newsletter template edit block
+ * Adminhtml system template edit block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,14 +9,14 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Template_System_Edit extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
     protected $_template;
     
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('newsletter/template/edit.phtml');
+        $this->setTemplate('system/template/edit.phtml');
         $this->_template = Mage::getModel('newsletter/template');
         if ($templateId = (int) $this->_request->getParam('id')) {
             $this->_template->load($templateId);
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_System_Edit extends Mage_Adminhtm
      */
     public function getForm() 
     {
-        return $this->getLayout()->createBlock('adminhtml/newsletter_template_edit_form')
+        return $this->getLayout()->createBlock('adminhtml/system_template_edit_form')
             ->renderPrepare($this->_template)
             ->toHtml();
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Newsletter admin controller
+ * System Template admin controller
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Newsletter_Template_SystemController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
@@ -18,34 +18,32 @@ class Mage_Adminhtml_Newsletter_Template_SystemController extends Mage_Adminhtml
         }
         
     	$this->loadLayout('baseframe');
-        $this->_setActiveMenu('newsletter/template_system');
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('System Templates'), __('System Templates Title'));
+        $this->_setActiveMenu('system/template');
+        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template_system', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_template', 'template'));
         $this->renderLayout();
     }
     
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_template_system_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_template_grid')->toHtml());
     }
     
 
     public function newAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('newsletter/template_system');
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter Title'));
-        $this->_addBreadcrumb(__('System Templates'), __('System Templates Title'), Mage::getUrl('adminhtml/*'));
+        $this->_setActiveMenu('system/template');
+        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), Mage::getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb(__('Edit Template'), __('Edit System Template Title'));
+            $this->_addBreadcrumb(__('Edit Template'), __('Edit System Template'));
         } else {
-            $this->_addBreadcrumb(__('New Template'), __('New System Template Title'));
+            $this->_addBreadcrumb(__('New Template'), __('New System Template'));
         }
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template_system_edit', 'template_edit')
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_template_edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
@@ -69,7 +67,8 @@ class Mage_Adminhtml_Newsletter_Template_SystemController extends Mage_Adminhtml
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
-				->setIsSystem(1);
+				->setIsSystem(1)
+				->setModifiedAt(now());
 				
             if (!$template->getId()) {
                 $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_HTML");
@@ -110,7 +109,7 @@ class Mage_Adminhtml_Newsletter_Template_SystemController extends Mage_Adminhtml
 
     public function previewAction()
     {
-        $this->loadLayout('preview');
+        $this->loadLayout('systemPreview');
         $this->renderLayout();
     }
     

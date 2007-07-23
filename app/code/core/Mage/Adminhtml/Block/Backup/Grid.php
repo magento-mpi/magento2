@@ -38,22 +38,19 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setFilterVisibility(true);
         $this->addColumn('time', array(
                                 'header'=>__('Time'),
-                                'align'=>'center',
                                 'index'=>'time_formated',
                                 'type' => 'datetime')
                                 );
         $this->addColumn('type', array(
                                 'header'=>__('Type'),
-                                'align'=>'center',
                                 'filter'    => 'adminhtml/backup_grid_filter_type',
                                 'index'=>'type')
                                 );
-        $this->addColumn('download', array('header'=>__('Download'),'align'=>'center',
+        $this->addColumn('download', array('header'=>__('Download'),
                                            'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a><span class="separator">&nbsp;|&nbsp;</span><a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false, 'filter' => false));
         $this->addColumn('action', array(
                                 'header'=>__('Action'),
-                                'align'=>'center',
                                 'type' => 'action',
                                 'width' => '80px',
                                 'filter' => false,

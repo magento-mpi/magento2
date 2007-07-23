@@ -22,16 +22,28 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
     {      
     	$html = null;
 
-        $html = '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" class="input-text"/> <img src="' . Mage::getBaseUrl() . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />';
+    	if (!($datetimeFormat = $this->getFormat())){
+            if($this->getTime()) {
+        		$datetimeFormat = '%m/%d/%y %I:%M %p';
+            } else {
+            	$datetimeFormat = '%m/%d/%y'; 
+            }
+            $this->setFormat($datetimeFormat);
+            
+        } 
+        
+        $html = '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" class="input-text"/> <img src="' . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />';
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$this->getHtmlId().'",
                 ';
+              
+        
 		if($this->getTime()) {
 			$html.='showsTime:true,' . "\n";
-			$html.='ifFormat : "%Y-%m-%d %H:%M",' . "\n";
+			$html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
 		} else {
-			$html.='ifFormat : "%Y-%m-%d",' . "\n";
+			$html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
 		}
         $html.='button : "'.$this->getHtmlId().'_trig",
                 align : "Bl",
@@ -42,12 +54,13 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         return $html;
     }
     
-    public function getImage()
-    {
-    	if($this->hasData('image')) {
-    		return $this->getData('image');
+    public function getEscapedValue() {
+    	
+    	if($this->getFormat()) {
+    		return strftime($this->getFormat(), strtotime($this->getValue()));
     	}
     	
-    	return Mage::getDesign()->getSkinUrl('images/grid-cal.gif');
+    	return htmlspecialchars($this->getValue());
     }
+    
 }// Class Varien_Data_Form_Element_Date END

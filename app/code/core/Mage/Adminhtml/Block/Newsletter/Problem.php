@@ -15,6 +15,11 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Core_Block_Template
 	{
 		parent::__construct();
 		$this->setTemplate('newsletter/problem/list.phtml');
+		$collection = Mage::getResourceSingleton('newsletter/problem_collection')
+			->addSubscriberInfo()
+			->addQueueInfo();
+			
+		
 	}
 	
 	protected function _initChildren()
@@ -52,6 +57,11 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Core_Block_Template
 	public function getDeleteButtonHtml() 
 	{
 		return $this->getChildHtml('deleteButton');
+	}
+	
+	public function getShowButtons() 
+	{
+		return  Mage::getResourceSingleton('newsletter/problem_collection')->getSize() > 0;
 	}
 	
 }// Class Mage_Adminhtml_Block_Newsletter_Problem END

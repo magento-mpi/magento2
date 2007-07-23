@@ -1,6 +1,6 @@
 <?
 /**
- * Adminhtml newsletter templates page content block
+ * Adminhtml system templates page content block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,17 +9,17 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Template_System extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Template extends Mage_Core_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('newsletter/template/list.phtml');
+        $this->setTemplate('system/template/list.phtml');
     }
 
     protected function _initChildren()
     {
-    	$this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_system_grid', 'newsletter.template.grid'));
+    	$this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_template_grid', 'newsletter.template.grid'));
         return $this;
     }
     
@@ -28,4 +28,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_System extends Mage_Core_Block_Te
     	return $this->getUrl('*/*/new');
     }
     
+    public function getHeaderText()
+    {
+    	return __('Transactional Emails');
+    }
 }

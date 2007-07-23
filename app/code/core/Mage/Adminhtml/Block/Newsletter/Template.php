@@ -28,4 +28,9 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
     {
     	return $this->getUrl('*/*/new');
     }
+    
+    public function getHeaderText()
+    {
+    	return __('Newsletter Templates');
+    }
 }

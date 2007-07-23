@@ -35,7 +35,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('id', array(
             'header'    =>	__('ID'),
-            'align'     =>	'left',
             'index'     =>	'queue_id',
             'width'		=>	10
         ));
@@ -43,7 +42,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         $this->addColumn('start_at', array(
             'header'    =>	__('Queue Start'),
             'type'      =>	'date',
-            'align'     =>	'center',
             'index'     =>	'queue_start_at',
             'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
             'default'	=> 	' ---- '
@@ -52,7 +50,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         $this->addColumn('finish_at', array(
             'header'    =>	__('Queue Finish'),
             'type'      => 	'date',
-            'align'     => 	'center',
             'index'     =>	'queue_finish_at',
             'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
             'default'	=> 	' ---- '
@@ -60,13 +57,11 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         
         $this->addColumn('template_subject', array(
             'header'    =>	__('Subject'),
-            'align'     =>	'center',
             'index'     =>	'template_subject'
         ));
         
          $this->addColumn('status', array(
             'header'    =>	__('Status'),
-            'align'     =>	'center',
             'filter'	=>	'adminhtml/newsletter_queue_grid_filter_status',
             'index'		=> 'queue_status',
             'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_status'
@@ -74,14 +69,12 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         
         $this->addColumn('subscribers_sent', array(
             'header'    =>	__('Received'),
-            'align'     =>	'center',
            	'type'		=> 'number',
             'index'		=> 'subscribers_sent'
         ));
         
         $this->addColumn('subscribers_total', array(
             'header'    =>	__('Subscribed'),
-            'align'     =>	'center',
             'type'		=> 'number',
             'index'		=> 'subscribers_total'
         ));
@@ -90,7 +83,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         
         $this->addColumn('action', array(
             'header'    =>	__('Action'),
-            'align'     =>	'center',
             'filter'	=>	false,
             'sortable'	=>	false,
             'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'

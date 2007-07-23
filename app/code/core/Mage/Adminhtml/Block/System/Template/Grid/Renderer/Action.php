@@ -9,7 +9,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_Newsletter_Template_System_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_System_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     public function render(Varien_Object $row)
     {
@@ -30,13 +30,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_System_Grid_Renderer_Action exten
     		'#'	=>	__('Preview')
     	);
     	
-    	$actions[] = array(
-    		'@'	=>	array(
-    					  'href' => Mage::getUrl('*/*/delete', array('id'=>$row->getId())),
-    					  'onclick' => 'return confirm(\'' . $this->_getEscapedValue(__('Are you sure?')) . '\')'
-    		),
-    		'#'	=>	__('Delete')
-    	);
     	
     	return $this->_actionsToHtml($actions);
     }

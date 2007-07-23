@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml newsletter template preview block
+ * Adminhtml system template preview block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,7 +9,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Block_Widget 
+class Mage_Adminhtml_Block_System_Template_Preview extends Mage_Adminhtml_Block_Widget 
 {
     public function toHtml() 
     {

@@ -24,7 +24,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      *
      * @return Mage_Newsletter_Model_Mysql4_Template
      */
-    public function getResource() 
+    public function getResource()
     {
         return Mage::getResourceSingleton('newsletter/template');
     }
@@ -57,7 +57,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      * Return template id
      * return int|null
      */
-    public function getId() 
+    public function getId()
     {
         return $this->getTemplateId();
     }
@@ -100,12 +100,12 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         return $this;
     }
     
-    public function isPreprocessed() 
+    public function isPreprocessed()
     {
     	return strlen($this->getTemplateTextPreprocessed()) > 0;
     }
     
-    public function getTemplateTextPreprocessed() 
+    public function getTemplateTextPreprocessed()
     {
     	if($this->_preprocessFlag) {
     		$this->setTemplateTextPreprocessed($this->getProcessedTemplate());
@@ -135,7 +135,8 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     
     
     
-    public function getInclude($template, array $variables) {
+    public function getInclude($template, array $variables)
+    {
         $thisClass = __CLASS__;
         $includeTemplate = new $thisClass();
         
@@ -153,7 +154,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      * @param   Mage_Newsletter_Model_Queue|null          $queue        queue model, used for problems reporting.
      * @return boolean 
      **/
-    public function send($subscriber, array $variables = array(), $name=null, Mage_Newsletter_Model_Queue $queue=null) 
+    public function send($subscriber, array $variables = array(), $name=null, Mage_Newsletter_Model_Queue $queue=null)
     {
         if(!$this->isValidForSend()) {
             return false;
@@ -225,7 +226,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         return $this;
     }
     
-    public function preprocess() 
+    public function preprocess()
     {
     	$this->_preprocessFlag = true;
     	$this->save();

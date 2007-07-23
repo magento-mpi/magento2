@@ -20,13 +20,16 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 		
 		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue General')));
 		
-		
-		$fieldset->addField('date','date',array(
-			'name'	=>	'start_at',
-			'time'	=>	true,
-			'label'	=>	__('Start This Queue At '),
-			'title'	=>	__('Queue Start Date')
-		));
+		if($queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
+			$fieldset->addField('date','date',array(
+				'name'	  =>	'start_at',
+				'time'	  =>	true,
+				'label'	  =>	__('Start This Queue At'),
+				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
+				'value'	  => 	$queue->getQueueStartAt(),
+				'title'	  =>	__('Queue Start Date')
+			));			
+		}
 		
 		$fieldset->addField('subject', 'text', array(
             'name'=>'subject',
@@ -34,7 +37,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'title' => __('Subject'),
             'class'	=> 'required-entry',
             'required' => true,
-            'value' => $queue->getTemplate()->getTemplateSubject()            
+            'value' => $queue->getTemplate()->getTemplateSubject() 
         ));
 		
 		$fieldset->addField('sender_name', 'text', array(

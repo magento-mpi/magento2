@@ -69,19 +69,16 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	
     	$this->addColumn('id', array(
     		'header'	=> __('ID'),
-    		'align'		=> 'center',
-    		'index'		=> 'subscriber_id'
+	   		'index'		=> 'subscriber_id'
     	));
     	
     	$this->addColumn('email', array(
     		'header'	=> __('Email'),
-    		'align'		=> 'center',
     		'index'		=> 'subscriber_email'
     	));
     	
     	$this->addColumn('name', array(
     		'header'	=> __('Name'),
-    		'align'		=> 'center',
     		'index'		=> 'customer_name',
     		'sortable' 	=> false,
     		'filter'	=> false,
@@ -89,7 +86,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	));
     	
     	$this->addColumn('status', array(
-    		'align'		=> 'center',
     		'header'	=> __('Status'),
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_status',
     		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_status',
@@ -97,7 +93,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	));     	
     	
     	$this->addColumn('website', array(
-    		'align'		=> 'center',
     		'sortable' 	=> false,
     		'header'	=> __('Website'),
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_website',

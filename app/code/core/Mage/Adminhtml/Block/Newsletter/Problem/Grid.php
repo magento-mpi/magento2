@@ -22,19 +22,18 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
 	
 	protected function _prepareCollection() 
 	{
-		$collection = Mage::getResourceModel('newsletter/problem_collection')
-			->addSubscriberInfo()
-			->addQueueInfo();
+		$collection = Mage::getResourceSingleton('newsletter/problem_collection');
 		
 		$this->setCollection($collection);
 		return parent::_prepareCollection();
 	}
 	
+	
+	
 	protected function _prepareColumns()
 	{
 		$this->addColumn('checkbox', array(
-    		'align'		=> 'center',
-    		'sortable' 	=> false,
+     		'sortable' 	=> false,
     		'filter'	=> 'adminhtml/newsletter_problem_grid_filter_checkbox',
     		'renderer'	=> 'adminhtml/newsletter_problem_grid_renderer_checkbox',
     		'width'		=> '20px'

@@ -46,6 +46,13 @@
                </baseframe>
             </updates>
          </preview>
+         <systemPreview>
+            <updates>
+               <baseframe>
+                  <file>system/preview.xml</file>
+               </baseframe>
+            </updates>
+         </systemPreview>
       </layouts>
       <events>
          <action_preDispatch_adminhtml>
