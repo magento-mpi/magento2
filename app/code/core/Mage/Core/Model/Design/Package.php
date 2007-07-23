@@ -26,7 +26,7 @@ class Mage_Core_Model_Design_Package
 		}
 		$path1 = $this->getTheme().'/'.$path;
 		if (!$this->_config->getNode($path1)) {
-			$path1 = 'default/'.$path;
+			$path1 = $this->getDefaultTheme().'/'.$path;
 		}
 		return (string)$this->_config->getNode($path1);
 	}
@@ -56,7 +56,7 @@ class Mage_Core_Model_Design_Package
 	public function getPackageName()
 	{
 		if (empty($this->_name)) {
-			$this->_name = 'default';
+			$this->_name = $this->getDefaultPackage();
 		}
 		return $this->_name;
 	}
@@ -70,9 +70,19 @@ class Mage_Core_Model_Design_Package
 	public function getTheme()
 	{
 		if (empty($this->_theme)) {
-			$this->_theme = 'default';
+			$this->_theme = $this->getDefaultTheme();
 		}
 		return $this->_theme;
+	}
+	
+	public function getDefaultPackage()
+	{
+		return 'default';
+	}
+	
+	public function getDefaultTheme()
+	{
+		return 'default';
 	}
 	
 	public function updateParamDefaults(array &$params)
@@ -161,7 +171,7 @@ class Mage_Core_Model_Design_Package
     	$fileName.= DS.$file;
 
 		$testFile = (empty($params['_relative']) ? '' : Mage::getBaseDir('design').DS) . $fileName;
-    	if ('default'!==$params['_theme'] && !file_exists($testFile)) {
+    	if ($this->getDefaultTheme()!==$params['_theme'] && !file_exists($testFile)) {
     		return false;
     	}
     	return $fileName;
@@ -185,10 +195,10 @@ class Mage_Core_Model_Design_Package
     	}
 		$filename = $this->validateFile($file, $params);
 		if (false===$filename) {
-			if ('default'===$params['_theme']) {
+			if ($this->getDefaultTheme()===$params['_theme']) {
 				return $params['_default'];
 			}
-			$params['_theme'] = 'default';
+			$params['_theme'] = $this->getDefaultTheme();
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {
 				return $params['_default'];
@@ -241,10 +251,10 @@ class Mage_Core_Model_Design_Package
     	if (!empty($file)) {
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {
-				if ('default'===$params['_theme']) {
+				if ($this->getDefaultTheme()===$params['_theme']) {
 					return $params['_default'];
 				}
-				$params['_theme'] = 'default';
+				$params['_theme'] = $this->getDefaultTheme();
 				$filename = $this->validateFile($file, $params);
 				if (false===$filename) {
 					return $params['_default'];

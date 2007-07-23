@@ -7,7 +7,8 @@
  *
  * @author Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Action
+abstract class Mage_Core_Controller_Varien_Action
+	# extends Zend_Controller_Action
 {
     protected $_request;
     protected $_response;
@@ -29,7 +30,10 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
       * @param array $invokeArgs
       * @todo  remove Mage::register('action', $this);
       */
-     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+     public function __construct(
+     	Zend_Controller_Request_Abstract $request, 
+     	Zend_Controller_Response_Abstract $response, 
+     	array $invokeArgs = array())
      {
          $this->_request = $request;
          $this->_response = $response;
@@ -203,8 +207,10 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
         Varien_Profiler::start($_profilerKey);
         Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(), 
+        	array('controller_action'=>$this));
+        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(), 
+        	array('controller_action'=>$this));
         Varien_Profiler::stop($_profilerKey);
     }
 
@@ -218,23 +224,35 @@ abstract class Mage_Core_Controller_Varien_Action# extends Zend_Controller_Actio
         }
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';
         Varien_Profiler::start($_profilerKey);
-        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), 
+        	array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), 
+        	array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch', 
+        	array('controller_action'=>$this));
         Varien_Profiler::stop($_profilerKey);
     }
 
     function norouteAction($coreRoute = null)
     {
-        $status = ( $this->getRequest()->getParam('__status__') ) ? $this->getRequest()->getParam('__status__') : new Varien_Object();
+        $status = ( $this->getRequest()->getParam('__status__') ) 
+        	? $this->getRequest()->getParam('__status__') 
+        	: new Varien_Object();
+        	
         Mage::dispatchEvent('action_noRoute', array('action'=>$this, 'status'=>$status));
-        if( $status->getLoaded() !== true || $status->getForwarded() === true || !is_null($coreRoute) ) {
+        if ($status->getLoaded() !== true 
+        	|| $status->getForwarded() === true 
+        	|| !is_null($coreRoute) ) {
             $this->loadLayout(array('default', 'noRoute'), 'noRoute');
             $this->renderLayout();
         } else {
             $status->setForwarded(true);
             #$this->_forward('cmsNoRoute', 'index', 'cms');
-            $this->_forward($status->getForwardAction(), $status->getForwardController(), $status->getForwardModule(), array('__status__' => $status));
+            $this->_forward(
+            	$status->getForwardAction(), 
+            	$status->getForwardController(), 
+            	$status->getForwardModule(),
+            	array('__status__' => $status));
         }
     }
 
