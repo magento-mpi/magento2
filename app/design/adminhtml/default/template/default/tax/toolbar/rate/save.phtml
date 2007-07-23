@@ -3,22 +3,10 @@
     	<tr>
     		<td style="width:50%;"><h2><?=$header?></h2></td>
         	<td class="form-buttons">
-            	<button class="scalable" onclick="wigetForm.submit();return false;">
-            		<table cellspacing="0">
-            			<tr>
-            				<td class="tl"></td>
-            				<td class="tr"></td>
-            			</tr>
-            			<tr>
-            				<td class="ml"><?=__('Save')?></td>
-            				<td class="mr"></td>
-            			</tr>
-            			<tr>
-            				<td class="bl"></td>
-            				<td class="br"></td>
-            			</tr>
-            		</table>
-            	</button>
+                <?=$this->getBackButtonHtml();?>
+                <?=$this->getResetButtonHtml();?>
+                <?=$this->getSaveButtonHtml();?>
+                <?=$this->getDeleteButtonHtml();?>
         	</td>
     	</tr>
     </table>

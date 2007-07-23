@@ -30,9 +30,8 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
 
     protected function _prepareColumns()
     {
-        $classType = ( $this->getClassType() ) ? $this->getClassType() : 'CUSTOMER' ;
-
-        $actionsUrl = Mage::getUrl('adminhtml/tax_class');
+        $classType = ( $this->getClassType() ) ? $this->getClassType() : 'CUSTOMER';
+        $this->setClassType($classType);
 
         $this->addColumn('class_name',
             array(
@@ -43,28 +42,12 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
             )
         );
 
-       $this->addColumn('grid_actions',
-            array(
-                'header'=>__('Actions'),
-                'width'=>10,
-                'sortable'=>false,
-                'filter'    =>false,
-                'type' => 'action',
-                'actions'   => array(
-                                    array(
-                                        'url' => $actionsUrl .'edit/classId/$class_id/classType/' . $classType,
-                                        'caption' => __('Edit')
-                                    ),
-
-                                    array(
-                                        'url' => $actionsUrl .'delete/classId/$class_id/classType/' . $classType,
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do it?')
-                                    )
-                                )
-            )
-        );
         $this->setFilterVisibility(false);
         return parent::_prepareColumns();
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/tax_class/edit', array('classId' => $row->getClassId(), 'classType' => $this->getClassType()));
     }
 }

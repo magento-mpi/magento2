@@ -52,19 +52,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
             'align'     =>'left',
             'index'     =>'email'
         ));
-        $this->addColumn('action', array(
-            'header'    =>__('Actions'),
-            'filter'    =>false,
-            'sortable'  =>false,
-            'is_system' =>true,
-            'type'      => 'action',
-            'actions'   => array(
-                array(
-                    'caption' => __('Edit'),
-                    'url' => Mage::getUrl('*/*/edituser/id/$user_id')
-                ),
-            )
-        ));
 
         return parent::_prepareColumns();
     }
@@ -72,5 +59,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     public function getGridUrl()
     {
         return $this->getUrl('*/*/userGrid', array('_current'=>true));
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edituser', array('id' => $row->getUserId()));
     }
 }

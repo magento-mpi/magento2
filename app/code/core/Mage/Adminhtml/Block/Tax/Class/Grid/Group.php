@@ -88,6 +88,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                                 )
             )
         );
+
         $this->setFilterVisibility(false);
 
         return parent::_prepareColumns();

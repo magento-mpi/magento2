@@ -62,30 +62,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             $index++;
         }
 
-       $actionsUrl = Mage::getUrl('*/*/');
-       $this->addColumn('grid_actions',
-            array(
-                'header'=>__('Actions'),
-                'width'=>10,
-                'sortable'=>false,
-                'filter'    =>false,
-                'type' => 'action',
-                'actions'   => array(
-                                    array(
-                                        'url' => $actionsUrl .'edit/rate/$tax_rate_id',
-                                        'caption' => __('Edit')
-                                    ),
-
-                                    array(
-                                        'url' => $actionsUrl .'delete/rate/$tax_rate_id',
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do it?')
-                                    )
-                                )
-            )
-        );
-
         $this->setFilterVisibility(false);
         return parent::_prepareColumns();
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('rate' => $row->getTaxRateId()));
     }
 }

@@ -47,28 +47,12 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $actionsUrl = Mage::getUrl('*/*/');
 
-        $this->addColumn('grid_actions',
-            array(
-                'header'    =>__('Actions'),
-                'width'     =>10,
-                'filter'    => false,
-                'sortable'  => false,
-                'type'      => 'action',
-                'actions'   => array(
-                                    array(
-                                        'url' => $actionsUrl .'edit/rule/$tax_rule_id',
-                                        'caption' => __('Edit')
-                                    ),
-
-                                    array(
-                                        'url' => $actionsUrl .'delete/rule/$tax_rule_id',
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do it?')
-                                    )
-                                )
-            )
-        );
         $this->setFilterVisibility(false);
         return parent::_prepareColumns();
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('rule' => $row->getTaxRuleId()));
     }
 }

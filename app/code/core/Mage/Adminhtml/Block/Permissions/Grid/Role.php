@@ -33,15 +33,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
             'header'    =>__('Role Name'),
             'index'     =>'role_name'
         ));
-        $this->addColumn('action', array(
-            'header'    =>__('Action'),
-            'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/editrole/rid/$role_id').'">'.__('Edit').'</a>',
-            'filter'    =>false,
-            'sortable'  =>false,
-            'width'     =>'50px',
-            'is_system' =>true
-        ));
 
         return parent::_prepareColumns();
     }
@@ -49,5 +40,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     public function getGridUrl()
     {
         return $this->getUrl('*/*/roleGrid', array('_current'=>true));
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/editrole', array('rid' => $row->getRoleId()));
     }
 }

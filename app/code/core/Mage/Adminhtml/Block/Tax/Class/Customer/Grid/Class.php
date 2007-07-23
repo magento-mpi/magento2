@@ -25,10 +25,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::getUrl();
-
-        $actionsUrl = Mage::getUrl('adminhtml/tax_class_customer');
-
         $this->addColumn('class_customer_name',
             array(
                 'header'=>__('Class Name'),
@@ -38,29 +34,12 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
             )
         );
 
-       $this->addColumn('customer_actions',
-            array(
-                'header'=>__('Actions'),
-                'width'=>10,
-                'filter'    => false,
-                'sortable'  => false,
-                'type'      => 'action',
-                'actions'   => array(
-                                    array(
-                                        'url' => $actionsUrl .'editItem/classId/$class_customer_id/',
-                                        'caption' => __('Edit')
-                                    ),
-
-                                    array(
-                                        'url' => $actionsUrl .'deleteItem/classId/$class_customer_id/',
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do it?')
-                                    )
-                                )
-            )
-        );
-
         $this->setFilterVisibility(false);
         return parent::_prepareColumns();
+    }
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/customer/editItem', array('classId' => $row->getClassId()));
     }
 }
