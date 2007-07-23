@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
 
         $classObject = Mage::getSingleton('tax/class')->load($classId);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Rename Class')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Class Details')));
 
         $fieldset->addField('class_name', 'text',
                             array(
@@ -34,14 +34,6 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'value' => $classObject->getClassName(),
-                                'no_span' => true
-                            )
-        );
-
-        $fieldset->addField('submit', 'submit',
-                            array(
-                                'name' => 'submit',
-                                'value' => __('Rename'),
                                 'no_span' => true
                             )
         );
@@ -67,6 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
         $form->setId('class_rename_form');
         $form->setMethod('POST');
         $this->setForm($form);
+
         return parent::_prepareForm();
     }
 }

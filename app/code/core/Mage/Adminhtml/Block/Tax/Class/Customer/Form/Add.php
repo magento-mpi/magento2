@@ -27,32 +27,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
-        if( $this->getLayout()->getBlock('taxClassGrid') ) {
-            $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
-        } else {
-            $gridCollection = false;
-        }
-
-        if( $gridCollection ) {
-            $indexes = array();
-            foreach($gridCollection->getItems() as $item) {
-                $indexes[] = $item->getClassGroupId();
-            }
-            $customerGroups = Mage::getResourceModel('customer/group_collection')
-                ->setIgnoreIdFilter($indexes)
-                ->load()
-                ->toOptionArray();
-
-            if( count($customerGroups) == 0 ) {
-                $this->setForm($form);
-                return parent::_prepareForm();
-            }
-        } else {
-            $customerGroups = Mage::getResourceModel('customer/group_collection')
-                ->load()
-                ->toOptionArray();
-        }
-
         if( intval($classId) <= 0 ) {
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer Tax Class Information')));
             $fieldset->addField('class_name', 'text',
@@ -76,18 +50,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add New Customer Group')));
         }
 
-        $fieldset->addField('class_group', 'select',
-                            array(
-                                'name' => 'class_group',
-                                'label' => __('Customer Group'),
-                                'title' => __('Customer Group Title'),
-                                'class' => 'required-entry',
-                                'required' => true,
-                                'values' => $customerGroups,
-                                'no_span' => (intval($classId) > 0) ? true : false
-                            )
-        );
-
         if( intval($classId) > 0 ) {
             $fieldset->addField('submit', 'submit',
                                 array(
@@ -110,7 +72,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
             $form->setAction(Mage::getUrl('adminhtml/tax_class/save'));
         }
 
-       $this->setForm($form);
+        $this->setForm($form);
 
         return parent::_prepareForm();
     }

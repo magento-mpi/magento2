@@ -70,13 +70,6 @@ class Mage_Tax_Model_Mysql4_Class
 			$this->_write->insert($this->_classTable, $classArray);
 			$classId = $this->_write->lastInsertId();
 
-			$classItemArray = array(
-			     'class_parent_id' => $classId,
-			     'class_group_id' => $classObject->getClassGroup()
-			);
-
-			$this->_write->insert($this->_classGroupTable, $classItemArray);
-
 			$classObject->setClassId($classId);
         }
     }
