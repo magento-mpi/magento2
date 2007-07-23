@@ -20,15 +20,15 @@
             </table>
         </div>
         <?endif?>
-    <div id="<?=$this->getId()?>">
+        <div id="<?=$this->getId()?>">
     <?else:?>
-    <?=$this->getMessagesBlock()->getHtml();?>
+        <?=$this->getMessagesBlock()->getHtml();?>
     <?endif;?>
 <?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
     <table cellspacing="0" class="actions">
-    <tr>
-    <?if($this->getPagerVisibility()):?>
-        <td class="pager">
+        <tr>
+        <?if($this->getPagerVisibility()):?>
+            <td class="pager">
             <?=__('Page')?>
             <?$_curPage  = $this->getCollection()->getCurPage()?>
             <?$_lastPage = $this->getCollection()->getLastPageNumber()?>
@@ -37,13 +37,18 @@
             <?else:?>
                 &laquo;
             <?endif;?>
+            
             <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$_curPage?>" class="input-text page" onkeypress="<?=$this->getId()?>JsObject.inputPage(event, '<?=$_lastPage?>')"/>&nbsp;
+            
             <?if($_curPage < $_lastPage):?>
                 <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>');return false;">&raquo;</a>
             <?else:?>
                 &raquo;
             <?endif;?>
-            <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
+            
+            <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong>
+            <span class="spacer">|</span>
+            <?=__('View')?>
             <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
                 <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
                 <option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
@@ -51,7 +56,9 @@
                 <option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
                 <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
             </select>
-            <?=__('per page')?><span class="spacer">|</span><?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> <?=__('records found')?>
+            <?=__('per page')?><span class="spacer">|</span>
+            <?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> 
+            <?=__('records found')?>
         </td>
     <?endif?>
     <?if($this->getExportTypes()):?>
@@ -67,22 +74,22 @@
     <?endif;?>
     <?if($this->getFilterVisibility()):?>
         <td class="filter-actions a-right">
-        <?=$this->getResetFilterButtonHtml()?>
-        <?=$this->getSearchButtonHtml()?>
+            <?=$this->getResetFilterButtonHtml()?>
+            <?=$this->getSearchButtonHtml()?>
         </td>
     <?endif;?>
-    </tr>
+        </tr>
     </table>
 <?endif;?>
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
-    <col <?=$_column->getHtmlProperty()?>/>
+    <col <?=$_column->getHtmlProperty()?>></col>
     <?endforeach;?>
     <thead>
         <tr class="headings">
         <?foreach ($this->getColumns() as $_column):?>
-        <th class="<?=$_column->getHeaderCssClass()?>"><?=$_column->getHeaderHtml()?></th>
+            <th class="<?=$_column->getHeaderCssClass()?>"><?=$_column->getHeaderHtml()?></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>

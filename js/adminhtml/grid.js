@@ -142,12 +142,12 @@ varienGrid.prototype = {
         if(keyCode==Event.KEY_RETURN){
             this.setPage(element.value);
         }
-        if(keyCode>47 && keyCode<58){
+        /*if(keyCode>47 && keyCode<58){
             
         }
         else{
              Event.stop(event);
-        }
+        }*/
     },
     setPage : function(pageNumber){
         this.reload(this.addVarToUrl(this.pageVar, pageNumber));
