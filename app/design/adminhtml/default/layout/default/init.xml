@@ -3,6 +3,5 @@
     <block type="core/template" name="root" output="toHtml">
         <action method="setTemplate"><template>layout.phtml</template></action>
         <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
-        <action method="assign"><var>baseSkinUrl</var><value>{{baseUrl}}skins/admin</value></action>
     </block>
 </layoutUpdate>

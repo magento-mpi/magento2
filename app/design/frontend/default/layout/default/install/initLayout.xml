@@ -2,7 +2,6 @@
 <layoutUpdate> 
     <block type="core/template" name="root" output="toHtml">
         <action method="setTemplate"><template>layout.install.phtml</template></action>
-        <action method="assign"><var>imagesUrl</var><value>{{baseSkinUrl}}default/images</value></action>
         <block type="core/text_list" name="head" as="head">
             <block type="core/text_tag" name="head.content_type">
                 <action method="setTagName"><tagName>meta</tagName></action>

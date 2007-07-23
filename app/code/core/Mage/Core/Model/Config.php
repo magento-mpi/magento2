@@ -413,8 +413,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $path = array();
 
         $path['baseUrl'] = Mage::getBaseUrl();
-        $path['baseSkinUrl'] = Mage::getBaseUrl(array('_type'=>'skin'));
-        $path['baseJsUrl'] = Mage::getBaseUrl(array('_type'=>'js'));
         $path['baseSecureUrl'] = Mage::getBaseUrl(array('_secure'=>true));
 
         return $path;

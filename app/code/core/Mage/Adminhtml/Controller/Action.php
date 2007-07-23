@@ -5,20 +5,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 	protected function _construct()
 	{
 		parent::_construct();
-		
-		$appDir = Mage::getBaseDir('app');
-		
-		Mage::getConfig()->setNode(
-			'stores/base/system/filesystem/layout', 
-			$appDir.'/design/adminhtml/default/layout/default');
-		Mage::getConfig()->setNode(
-			'stores/base/system/filesystem/template', 
-			$appDir.'/design/adminhtml/default/template/default');
-		Mage::getConfig()->setNode(
-			'stores/base/system/filesystem/translate', 
-			$appDir.'/design/adminhtml/default/translate');
-			
-		Mage::getDesign()->setArea('adminhtml');			
+
+		Mage::getDesign()->setArea('adminhtml')
+			->setPackageName('default')
+			->setTheme('default');			
 	}
 	
     protected function _setActiveMenu($menuPath)
