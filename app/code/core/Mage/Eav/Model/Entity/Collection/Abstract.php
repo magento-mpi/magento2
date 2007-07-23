@@ -353,10 +353,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @todo connect between joined attributes of same entity
      * @param string $alias alias for the joined attribute
      * @param string|Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param string $bind attribute of the main entity to link with joined entity_id
+     * @param string $bind attribute of the main entity to link with joined $filter
+     * @param string $filter primary key for the joined entity (entity_id default)
+     * @param string $joinType inner|left
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function joinAttribute($alias, $attribute, $bind, $filter=null)
+    public function joinAttribute($alias, $attribute, $bind, $filter=null, $joinType='inner')
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
@@ -419,7 +421,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             'filter'=>$filter,
         );
 
-        $this->_addAttributeJoin($alias);
+        $this->_addAttributeJoin($alias, $joinType);
 
         return $this;
     }
@@ -737,9 +739,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      *
      * @todo REFACTOR!!!
      * @param string $attributeName
+     * @param string $joinType inner|left
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _addAttributeJoin($attributeName)
+    protected function _addAttributeJoin($attributeName, $joinType='inner')
     {
         if (!empty($this->_filterAttributes[$attributeName])) {
             return $this;
@@ -782,18 +785,30 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $attrFieldName = "$attrTable.value";
         }
 
+        $read = $this->getEntity()->getReadConnection();
         $select = $this->getSelect();
 
-        $select->join(
+        $condArr = array("$pk = $fk");
+        $condArr[] = $read->quoteInto("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
+        if (!$attribute->getBackend()->isStatic()) {
+            $condArr[] = $read->quoteInto("$attrTable.attribute_id=?", $attribute->getId());
+        }
+        
+        // process join type
+        switch ($joinType) {
+            case 'left':
+                $joinMethod = 'leftJoin';
+                break;
+
+            default:
+                $joinMethod = 'join';
+        }
+        
+        $select->$joinMethod(
             array($attrTable => $attribute->getBackend()->getTable()),
-            "$pk = $fk",
+            '('.join(') AND (', $condArr).')',
             array($attributeName=>$attrFieldName)
         );
-        #$select->where("$t.entity_type_id=?", $entity->getTypeId());
-        $select->where("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
-        if (!$attribute->getBackend()->isStatic()) {
-            $select->where("$attrTable.attribute_id=?", $attribute->getId());
-        }
 
         $this->removeAttributeToSelect($attributeName);
 
