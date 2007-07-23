@@ -470,29 +470,28 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         // process join type
         switch ($joinType) {
             case 'left':
-                $joinMethod = 'leftJoin';
+                $joinMethod = 'joinLeft';
                 break;
 
             default:
                 $joinMethod = 'join';
         }
-
-        // join table
-        $this->getSelect()->$joinMethod(array($tableAlias=>$table), $bindCond, array($alias=>$field));
+        $condArr = array($bindCond);
 
         // add where condition if needed
         if (!is_null($cond)) {
             if (is_array($cond)) {
-                $condArr = array();
                 foreach ($cond as $k=>$v) {
                     $condArr[] = $this->_getConditionSql($tableAlias.'.'.$k, $v);
                 }
-                $cond = '('.join(') AND (', $condArr).')';
             } else {
-                $cond = str_replace('{{table}}', $tableAlias, $cond);
+                $condArr[] = str_replace('{{table}}', $tableAlias, $cond);
             }
-            $this->getSelect()->where($cond);
         }
+        $cond = '('.join(') AND (', $condArr).')';
+
+        // join table
+        $this->getSelect()->$joinMethod(array($tableAlias=>$table), $cond, array($alias=>$field));
 
         // save joined attribute
         $this->_joinFields[$alias] = array(
@@ -773,7 +772,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                     $fk = "e.".$fkAttribute->getName();
                 }
             } else {
-                $this->_addAttributeJoin($fkAttribute->getName());
+                $this->_addAttributeJoin($fkAttribute->getName(), $joinType);
                 $fk = "$fkTable.value";
             }
             $pk = $attrTable.'.'.$this->_joinAttributes[$attributeName]['filter'];
@@ -807,7 +806,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         // process join type
         switch ($joinType) {
             case 'left':
-                $joinMethod = 'leftJoin';
+                $joinMethod = 'joinLeft';
                 break;
 
             default:

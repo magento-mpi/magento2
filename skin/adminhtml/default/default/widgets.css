@@ -210,7 +210,15 @@ table.actions td {
 /*********//* GRID ENDS HERE*//************/
 /******************************************/
 
-
+/* Data defination div */
+.data-defination{
+    border-left:1px solid #C6C5C3;
+    border-bottom:1px solid #C6C5C3;
+    background:#797674;
+    color:#fff;
+    padding:3px 0 3px 10px;
+    font-weight:bold;
+}
 
 
 /*************** Accordion ***************/
@@ -227,6 +235,12 @@ dl.accordion dt a {
     display:block;
     padding:3px 0 3px 10px;
     font-weight:bold;
+    background: url(images/accordion_open.gif) 99% 60% no-repeat;
+}
+
+dl.accordion dt a:hover{
+    color:#fff;
+    text-decoration:none
 }
 
 dl.accordion dt.open a {

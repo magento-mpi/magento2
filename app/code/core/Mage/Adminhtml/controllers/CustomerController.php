@@ -61,8 +61,21 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer->load($customerId);
         }
         
-        if ($data = Mage::getSingleton('adminhtml/session')->getCustomerData(true)) {
+        // set entered data if was error when we do save
+        $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
+        //$data = Mage::getSingleton('adminhtml/session')->getCustomerData(false);
+        
+        if (isset($data['account'])) {
             $customer->addData($data['account']);
+        }
+        if (isset($data['address']) && is_array($data['address'])) {
+            $collection = $customer->getAddressCollection();
+            foreach ($data['address'] as $addressId => $address) {
+                $addressModel = Mage::getModel('customer/address')->setData($address)
+                    ->setId($addressId);
+            	$collection->addItem($addressModel);
+            }
+            $customer->setLoadedAddressCollection($collection);
         }
 
         Mage::register('customer', $customer);
@@ -134,7 +147,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            
             if (isset($data['account'])) {
                 $customer = Mage::getModel('customer/customer')
                     ->addData($data['account']);

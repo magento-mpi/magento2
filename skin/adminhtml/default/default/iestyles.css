@@ -20,12 +20,12 @@ ul.tabs li a,
 ul.tabs li { height:1%; } /* IE version of clearing */
 
 .clear {
-	clear:both;
-	height:0;
-	font-size:0;
-	line-height:0;
-	overflow:hidden;
-	}
+    clear:both;
+    height:0;
+    font-size:0;
+    line-height:0;
+    overflow:hidden;
+    }
 
 /* Set min-height */
 .icon-head { height:18px;}
@@ -35,25 +35,29 @@ ul.tabs li { height:1%; } /* IE version of clearing */
 
 /* Scalable Button Override */
 button.scalable {
-	width:auto;
-	margin-left:5px;
-	overflow:visible;
-	}
+    width:auto;
+    margin-left:5px;
+    overflow:visible;
+    }
 button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th {
-	padding-right: 8px;
+    padding-right: 8px;
 }
 
 /* Grid Filter Override */
 .grid tr.filter th { 
-	padding-top:3px;
-	padding-bottom:3px;
-	}
+    padding-top:3px;
+    padding-bottom:3px;
+    }
 .grid tr.filter th input { margin-right: -10px; }
 .grid tr.filter th .range input { margin-right: 2px; }
 
 
 .nested-content .content-header { 
-	position:relative; 
-	zoom:1; 
-	}
+    position:relative; 
+    zoom:1; 
+    }
+
+dl.accordion dt a {
+    width:99%;
+}
