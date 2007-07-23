@@ -19,7 +19,6 @@ class Mage_Adminhtml_Block_Page extends Mage_Core_Block_Template
     public function _beforeToHtml()
     {
         $this->assign('baseUrl', Mage::getBaseUrl());
-        $this->assign('baseSkinUrl', Mage::getBaseUrl().'skins/admin');
         return parent::_beforeToHtml();
     }
 }

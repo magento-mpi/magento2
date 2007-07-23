@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<layoutUpdate>
-    <reference name="left">
-        <block type="poll/activePoll" name="left.poll" />
-    </reference>
-</layoutUpdate>

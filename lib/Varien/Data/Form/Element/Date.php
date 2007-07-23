@@ -48,6 +48,6 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
     		return $this->getData('image');
     	}
     	
-    	return '/skins/adminhtml/images/grid-cal.gif';
+    	return Mage::getDesign()->getSkinUrl('images/grid-cal.gif');
     }
 }// Class Varien_Data_Form_Element_Date END

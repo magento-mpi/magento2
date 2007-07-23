@@ -1,8 +1,0 @@
-<h1 class="page-heading">Check PHP config</h1>
-<?=$this->getMessagesBlock()->getHtml()?>
-<?$_errors=$messages->getErrors()?>
-<?if(empty($_errors)):?>
-<div class="buttons-container">
-    <input type="button" onclick="window.location='<?=$step->getNextUrl()?>';" value="Continue" class="input-button">
-</div>
-<?endif?>

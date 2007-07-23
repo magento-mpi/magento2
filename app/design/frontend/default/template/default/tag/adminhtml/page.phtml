@@ -11,16 +11,16 @@
 
     <script type="text/javascript">
         var BASE_URL = '<?=$baseUrl?>adminhtml/';
-        var SKIN_URL = '<?=$baseUrl?>skins/admin/';
+        var SKIN_URL = '<?=$this->getSkinUrl()?>';
     </script>
  
 	<style type="text/css" media="all">
-		/*<![CDATA[*/ @import "<?=$baseUrl?>skins/adminhtml/styles.css"; /*]]>*/
+		/*<![CDATA[*/ @import "<?=$this->getSkinUrl('styles.css')?>"; /*]]>*/
 	</style>
-	<!--[if IE]> <link rel="stylesheet" href="<?=$baseUrl?>skins/adminhtml/iestyles.css" type="text/css" media="all" /> <![endif]-->
+	<!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
 	<!--[if lt IE 7]><script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script><![endif]-->
 
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$baseUrl?>skins/adminhtml/menu-top.css" />
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>" />
 	<script type="text/javascript" src="<?=$baseJsUrl?>listmenu/menu.js"></script>
 </head>
 <body>
