@@ -125,6 +125,10 @@
     list-style-type:none;
     display:inline;
     }
+.no-breadcrumbs { /* breadcrumbs replacement */
+    height: .3em;
+    background:url(images/breadcrumb_bg.gif) repeat-x #f9f8f8;
+    }
 
 /* Footer */
 .footer .powered-by {
@@ -195,7 +199,7 @@
 .content-header .form-buttons {  text-align:right; }
 .nested-content .content-header { margin-top:-2.4em; }
 /* Box Head */ /* Used when the section heading contains more than just text heading */
-.box-head { 
+.box-head {
     margin-bottom:.6em;
     text-align:right;
     }

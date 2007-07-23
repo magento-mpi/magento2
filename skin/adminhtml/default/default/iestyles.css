@@ -45,7 +45,7 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 }
 
 /* Grid Filter Override */
-.grid tr.filter th { 
+.grid tr.filter th {
     padding-top:3px;
     padding-bottom:3px;
     }
@@ -53,11 +53,16 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th .range input { margin-right: 2px; }
 
 
-.nested-content .content-header { 
-    position:relative; 
-    zoom:1; 
+.nested-content .content-header {
+    position:relative;
+    zoom:1;
     }
 
 dl.accordion dt a {
     width:99%;
 }
+
+.no-breadcrumbs {
+    font-size: 3px;
+    line-height: 3px;
+    }
