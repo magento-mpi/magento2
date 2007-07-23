@@ -33,13 +33,13 @@
             <?$_curPage  = $this->getCollection()->getCurPage()?>
             <?$_lastPage = $this->getCollection()->getLastPageNumber()?>
             <?if($_curPage>1):?>
-                <a href="#" title="<?=__('Previus page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>')">&laquo;</a>
+                <a href="#" title="<?=__('Previus page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>');return false;">&laquo;</a>
             <?else:?>
                 &laquo;
             <?endif;?>
             <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$_curPage?>" class="input-text page" onkeypress="<?=$this->getId()?>JsObject.inputPage(event, '<?=$_lastPage?>')"/>&nbsp;
             <?if($_curPage < $_lastPage):?>
-                <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>')">&raquo;</a>
+                <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>');return false;">&raquo;</a>
             <?else:?>
                 &raquo;
             <?endif;?>
