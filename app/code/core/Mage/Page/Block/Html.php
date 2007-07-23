@@ -15,7 +15,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('page/2columns/left.phtml');
+        $this->setTemplate('page/3columns.phtml');
         $this->_urls = array(
             'base'      => Mage::getBaseUrl(),
             'baseSecure'=> Mage::getBaseUrl(array('_secure'=>true)),
@@ -23,20 +23,6 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
             'js'        => Mage::getBaseUrl(array('_type'=>'js')),
             'current'   => $this->getRequest()->getRequestUri()
         );
-    }
-    
-    protected function _initChildren()
-    {
-        $this->append($this->getLayout()->createBlock('core/text_list', 'head'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'top.links'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'top.menu'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'top.forms'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'left'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'content'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'right'));
-        $this->append($this->getLayout()->createBlock('core/text_list', 'botom.links'));
-        
-        $this->append($this->getLayout()->createBlock('core/messages', 'messages'));
     }
     
     public function getBaseUrl()

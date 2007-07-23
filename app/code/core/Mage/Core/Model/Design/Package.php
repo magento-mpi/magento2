@@ -36,7 +36,7 @@ class Mage_Core_Model_Design_Package
 				$this->_config = $config;
 			}
 		}
-		if ($config===false) {
+		if ($this->_config===false) {
 			return false;
 		} else {
 			return (string)$this->_config->getNode($path);
@@ -221,8 +221,9 @@ class Mage_Core_Model_Design_Package
     }
     
     public function getEtcFilename($file, array $params=array())
-    {
-    	return $this->getBaseDir($params).DS.'etc'.DS.$file;
+    {   
+        $params['_type'] = 'etc'; 
+    	return $this->getFilename($file, $params); 
     }
     
     public function getLayoutFilename($file, array $params=array())

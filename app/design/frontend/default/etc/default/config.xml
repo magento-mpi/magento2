@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+	<page>
+        <head>
+            <title>Magento Commerce</title>
+        </head>
+		<header>
+			<logo_src></logo_src>
+			<logo_alt>Magento Commerce</logo_alt>
+		</header>
+	</page>
+</config>
