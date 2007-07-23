@@ -24,7 +24,11 @@ class Mage_Core_Model_Design_Package
 			$this->_config = Mage::getModel('core/config_base');
 			$this->_config->loadFile($filename);
 		}
-		return (string)$this->_config->getNode($path);
+		$path1 = $this->getTheme().'/'.$path;
+		if (!$this->_config->getNode($path1)) {
+			$path1 = 'default/'.$path;
+		}
+		return (string)$this->_config->getNode($path1);
 	}
 	
 	public function setArea($area)

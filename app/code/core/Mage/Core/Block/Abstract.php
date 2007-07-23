@@ -112,6 +112,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->_layout;
     }
+    
+    public function getDesignConfig($path) {
+    	return Mage::getDesign()->getConfig($path);
+    }
 
     /**
      * Set child block
