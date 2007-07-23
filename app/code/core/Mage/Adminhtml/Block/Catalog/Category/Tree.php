@@ -10,6 +10,8 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Template 
 {
+    protected $_rootNode;
+    
     public function __construct() 
     {
         parent::__construct();
@@ -63,17 +65,33 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         return $this->getUrl('*/catalog_category/move');
     }
     
+    public function getRootNode()
+    {
+        if (!$this->_rootNode) {
+            $tree = Mage::getResourceModel('catalog/category_tree');
+            $storeId      = (int) $this->getRequest()->getParam('store');
+            
+            if ($storeId) {
+                $store = Mage::getModel('core/store')->load($storeId);
+                $parentNodeId = (int) $store->getConfig('catalog/category/root_id');
+            }
+            else {
+                $parentNodeId = 1;
+            }
+            
+            
+            
+            $tree->getCategoryCollection()->addAttributeToSelect('name');
+            $this->_rootNode = $tree->load($parentNodeId, 5)
+                        ->getRoot();
+        }
+        return $this->_rootNode;
+    }
+    
     public function getTreeJson()
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
-        $parentNodeId = (int) $this->getRequest()->getPost('node',1);
-        $storeId      = (int) $this->getRequest()->getPost('store',1);
-        
-        $tree->getCategoryCollection()->addAttributeToSelect('name');
-        $root = $tree->load($parentNodeId, 5)
-                    ->getRoot();
                         
-        $rootArray = $this->_getNodeJson($root);
+        $rootArray = $this->_getNodeJson($this->getRootNode());
 
         $json = Zend_Json::encode($rootArray['children']);
         return $json;

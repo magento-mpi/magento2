@@ -30,10 +30,19 @@
     <?if($this->getPagerVisibility()):?>
         <td class="pager">
             <?=__('Page')?>
-            <form name="pageForm" onsubmit="<?=$this->getId()?>JsObject.loadByElement($('pageNumberInput'))">
-                <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$this->getCollection()->getCurPage()?>" id="pageNumberInput" class="input-text page"/>&nbsp;
-                <input type="submit" style="display:none;" />
-            </form>
+            <?$_curPage  = $this->getCollection()->getCurPage()?>
+            <?$_lastPage = $this->getCollection()->getLastPageNumber()?>
+            <?if($_curPage>1):?>
+                <a href="#" title="<?=__('Previus page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>')">&laquo;</a>
+            <?else:?>
+                &laquo;
+            <?endif;?>
+            <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$_curPage?>" class="input-text page" onkeypress="<?=$this->getId()?>JsObject.inputPage(event, '<?=$_lastPage?>')"/>&nbsp;
+            <?if($_curPage < $_lastPage):?>
+                <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>')">&raquo;</a>
+            <?else:?>
+                &raquo;
+            <?endif;?>
             <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong><span class="spacer">|</span><?=__('View')?>
             <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
                 <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
@@ -98,7 +107,7 @@
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
-    <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
+    <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNamePage()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
 </script>
 <?endif;?>

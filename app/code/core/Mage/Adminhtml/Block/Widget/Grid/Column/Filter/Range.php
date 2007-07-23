@@ -24,10 +24,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range extends Mage_Adminhtm
             return $this->getData('value', $index);
         }
         $value = $this->getData('value');
-        if (!empty($value['from']) 
-        	|| !empty($value['to'])
-        	|| (isset($value['from']) && strlen($value['from']) > 0)
-        	|| (isset($value['to']) && strlen($value['to']) > 0)) {
+        if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
             return $value;
         }
         return null;

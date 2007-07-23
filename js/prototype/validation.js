@@ -222,8 +222,8 @@ Object.extend(Validation, {
 });
 
 Validation.add('IsEmpty', '', function(v) {
-                return  ((v == null) || (v.length == 0)); // || /^\s+$/.test(v));
-            });
+    return  ((v == null) || (v.length == 0) || /^\s+$/.test(v)); // || /^\s+$/.test(v));
+});
 
 Validation.addAllThese([
     ['validate-select', 'Please select an option.', function(v) {

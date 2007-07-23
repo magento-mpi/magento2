@@ -1,9 +1,10 @@
 var varienGrid = new Class.create();
 
 varienGrid.prototype = {
-    initialize : function(containerId, url, sortVar, dirVar, filterVar){
+    initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar){
         this.containerId = containerId;
         this.url = url;
+        this.pageVar = pageVar || false;
         this.sortVar = sortVar || false;
         this.dirVar  = dirVar || false;
         this.filterVar  = filterVar || false;
@@ -134,5 +135,21 @@ varienGrid.prototype = {
         for(var i in elements){
             elements[i].checked = element.checked;
         }
+    },
+    inputPage : function(event, maxNum){
+        var element = Event.element(event);
+        var keyCode = event.keyCode || event.which;
+        if(keyCode==Event.KEY_RETURN){
+            this.setPage(element.value);
+        }
+        if(keyCode>47 && keyCode<58){
+            
+        }
+        else{
+             Event.stop(event);
+        }
+    },
+    setPage : function(pageNumber){
+        this.reload(this.addVarToUrl(this.pageVar, pageNumber));
     }
 };

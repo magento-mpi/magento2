@@ -189,11 +189,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected function _getConditionSql($fieldName, $condition) {
         $sql = '';
         if (is_array($condition)) {
-            if (isset($condition['from']) && isset($condition['to'])) {
-                if (!empty($condition['from'])) {
+            if (isset($condition['from']) || isset($condition['to'])) {
+                if (isset($condition['from'])) {
                     $sql.= $this->getConnection()->quoteInto("$fieldName >= ?", $condition['from']);
                 }
-                if (!empty($condition['to'])) {
+                if (isset($condition['to'])) {
                     $sql.= empty($sql) ? '' : ' and ';
                     $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $condition['to']);
                 }
@@ -246,12 +246,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected function _renderLimit()
     {
-        if ($this->_curPage<1) {
-            $this->_curPage=1;
-        }
-
         if($this->_pageSize){
-            $this->_sqlSelect->limitPage($this->_curPage, $this->_pageSize);
+            $this->_sqlSelect->limitPage($this->getCurPage(), $this->_pageSize);
         }
 
         return $this;

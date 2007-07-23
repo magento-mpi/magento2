@@ -71,7 +71,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      *
      * @var integer
      */
-    protected $_pageStart;
+    protected $_pageStart = 1;
 
     /**
      * Number of records on the page
@@ -276,6 +276,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         $this->getSelect()->where($conditionSql);
         return $this;
+    }
+    
+    /**
+     * Wrapper for compatibility with Varien_Data_Collection_Db
+     *
+     * @param mixed $attribute
+     * @param array $condition
+     */
+    public function addFieldToFilter($attribute, $condition=null){
+        return $this->addAttributeToFilter($attribute, $collection);
     }
 
     /**
@@ -639,8 +649,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
 
-        if ($this->_pageStart && $this->_pageSize) {
-            $this->getSelect()->limitPage($this->_pageStart, $this->_pageSize);
+        if ($this->_pageSize) {
+            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
         }
 
         $this->printLogQuery($printQuery, $logQuery);
@@ -844,11 +854,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $sql = $this->_read->quoteInto("$sql and ?", $condition['to']);
             } */
             if (isset($condition['from']) || isset($condition['to'])) {
-                if (!empty($condition['from'])) {
+                if (isset($condition['from'])) {
                     $from = empty($condition['date']) ? $condition['from'] : $this->_read->convertDate($condition['from']);
                     $sql.= $this->_read->quoteInto("$fieldName >= ?", $from);
                 }
-                if (!empty($condition['to'])) {
+                if (isset($condition['to'])) {
                     $sql.= empty($sql) ? '' : ' and ';
                     $to = empty($condition['date']) ? $condition['to'] : $this->_read->convertDate($condition['to']);
                     $sql.= $this->_read->quoteInto("$fieldName <= ?", $to);
@@ -941,7 +951,19 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
     public function getCurPage()
     {
-        return $this->_pageStart;
+        return $this->_getPageStart();
+    }
+    
+    protected function _getPageStart()
+    {
+        $this->_pageStart = (int) $this->_pageStart;
+        if ($this->_pageStart>0 && $this->_pageStart<=$this->getLastPageNumber()) {
+            return $this->_pageStart;
+        }
+        elseif ($this->_pageStart>$this->getLastPageNumber()) {
+        	return $this->getLastPageNumber();
+        }
+        return 1;
     }
 
     public function getPageSize()
