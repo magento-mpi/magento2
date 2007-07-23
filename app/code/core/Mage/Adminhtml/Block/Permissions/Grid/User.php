@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
         $this->addColumn('email', array(
             'header'    =>__('Email'),
             'width'     =>40,
-            'align'     =>'center',
+            'align'     =>'left',
             'index'     =>'email'
         ));
         $this->addColumn('action', array(

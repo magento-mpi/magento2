@@ -23,6 +23,11 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->renderLayout();
     }
 
+    public function gridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/cms_grid')->toHtml());
+    }
+
     public function newpageAction()
     {
         $this->loadLayout('baseframe');

@@ -164,7 +164,7 @@ class Mage_Permissions_Model_Mysql4_Users {
     {
         $select = $this->_read->select();
         $select->from($this->_usersTable);
-        $select->where("{$this->_usersTable}.username = '{$model->getUsername()}' OR {$this->_usersTable}.email = '{$model->getEmail()}' AND {$this->_usersTable}.user_id != '{$model->getId()}'");
+        $select->where("({$this->_usersTable}.username = '{$model->getUsername()}' OR {$this->_usersTable}.email = '{$model->getEmail()}') AND {$this->_usersTable}.user_id != '{$model->getId()}'");
         return $this->_read->fetchRow($select);
     }
 }

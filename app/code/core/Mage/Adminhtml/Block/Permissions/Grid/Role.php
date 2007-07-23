@@ -39,11 +39,10 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
             'format'    =>'<a href="'.Mage::getUrl('*/*/editrole/rid/$role_id').'">'.__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
+            'width'     =>'50px',
             'is_system' =>true
         ));
 
-        //$this->addExportType('*/*/exportCsv', __('CSV'));
-        //$this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
     }
 

@@ -42,6 +42,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
             )
         );
 
+        /*
         $roles = Mage::getResourceModel('permissions/roles_collection')
             ->load();
 
@@ -79,6 +80,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'values'=> $opt,
             )
         );
+        */
 
         $form->setValues($this->getRole()->getData());
         $this->setForm($form);

@@ -27,4 +27,62 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
         $this->assign('header', __('Manage Page'));
         return $this;
     }
+
+    protected function _initChildren()
+    {
+        $this->setChild('back_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Back'),
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                ))
+        );
+
+        $this->setChild('save_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save Page'),
+                    'onclick'   => 'tinyMCE.triggerSave();pageForm.submit();'
+                ))
+        );
+
+        $this->setChild('toggle_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Toggle Editor'),
+                    'onclick'   => 'toggleEditor()'
+                ))
+        );
+
+        $this->setChild('delete_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Delete Page'),
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/page/'. $this->getRequest()->getParam('page') .'').'\')'
+                ))
+        );
+    }
+
+    public function getBackButtonHtml()
+    {
+        return $this->getChildHtml('back_button');
+    }
+
+    public function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('save_button');
+    }
+
+    public function getToggleButtonHtml()
+    {
+        return $this->getChildHtml('toggle_button');
+    }
+
+    public function getDeleteButtonHtml()
+    {
+        if( intval($this->getRequest()->getParam('page')) == 0 ) {
+            return;
+        }
+        return $this->getChildHtml('delete_button');
+    }
 }

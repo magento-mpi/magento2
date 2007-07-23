@@ -4,7 +4,7 @@
             <td style="width:50%;">
                 <h3>
                   <?if($this->getUserId()):?>
-                  <?=__('Edit User &laquo;' . $userData->getFirstname() . ' ' . $userData->getLastname()) . '&raquo;'?>
+                  <?=__('Edit User \'' . $userData->getFirstname() . ' ' . $userData->getLastname()) . '\''?>
                   <?else:?>
                   <?=__('Add New User')?>
                   <?endif;?>
@@ -20,7 +20,7 @@
                         <td class="tr"></td>
                     </tr>
                     <tr>
-                        <td class="ml"><?=__('Save')?></td>
+                        <td class="ml"><?=__('Save User')?></td>
                         <td class="mr"></td>
                     </tr>
                     <tr>
@@ -37,7 +37,7 @@
                         <td class="tr"></td>
                     </tr>
                     <tr>
-                        <td class="ml"><?=__('Delete')?></td>
+                        <td class="ml"><?=__('Delete User')?></td>
                         <td class="mr"></td>
                     </tr>
                     <tr>

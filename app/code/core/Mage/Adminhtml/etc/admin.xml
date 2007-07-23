@@ -80,10 +80,12 @@
                     <title>Product Attributes</title>
                     <action>adminhtml/catalog_product_attribute/</action>
                 </attributes>
+                <!--
                 <attributes>
                     <title>Product Sets</title>
                     <action>adminhtml/catalog_product_set/</action>
                 </attributes>
+                -->
                 <reviews>
                     <title>Reviews</title>
                     <action>adminhtml/catalog_product_review/</action>
@@ -209,7 +211,16 @@
                 </template>
                 <acl>
                     <title>Permissions</title>
-                    <action>adminhtml/permissions</action>
+                    <children>
+                        <users>
+                            <title>Users</title>
+                            <action>adminhtml/permission_user</action>
+                        </users>
+                        <roles>
+                            <title>Roles</title>
+                            <action>adminhtml/permission_role</action>
+                        </roles>
+                    </children>
                 </acl>
                 <config>
                     <title>Configuration</title>

@@ -54,48 +54,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                         )
             );
 
-        $this->addColumn('attribute_model', array(
-                            'header'=>__('Attribute Model'),
-                            'sortable'=>true,
-                            'index'=>'attribute_model'
-                        )
-            );
-
-        $this->addColumn('backend_model', array(
-                            'header'=>__('Backend Model'),
-                            'sortable'=>true,
-                            'index'=>'backend_model'
-                        )
-            );
-
-        $this->addColumn('backend_type', array(
-                            'header'=>__('Backend Type'),
-                            'sortable'=>true,
-                            'index'=>'backend_type'
-                        )
-            );
-
-        $this->addColumn('backend_table', array(
-                            'header'=>__('Backend Table'),
-                            'sortable'=>true,
-                            'index'=>'backend_table'
-                        )
-            );
-
-        $this->addColumn('frontend_model', array(
-                            'header'=>__('Frontend Table'),
-                            'sortable'=>true,
-                            'index'=>'frontend_model'
-                        )
-            );
-
-        $this->addColumn('frontend_input', array(
-                            'header'=>__('Frontend Input'),
-                            'sortable'=>true,
-                            'index'=>'frontend_input'
-                        )
-            );
-
         $this->addColumn('frontend_label', array(
                             'header'=>__('Frontend Label'),
                             'sortable'=>true,
@@ -103,25 +61,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                         )
             );
 
-        $this->addColumn('frontend_class', array(
-                            'header'=>__('Frontend Class'),
-                            'sortable'=>true,
-                            'index'=>'frontend_class'
-                        )
-            );
-
-        $this->addColumn('source_model', array(
-                            'header'=>__('Source Model'),
-                            'sortable'=>true,
-                            'index'=>'source_model'
-                        )
-            );
-
         $this->addColumn('is_global', array(
                             'header'=>__('Global'),
                             'sortable'=>true,
                             'index'=>'is_global',
-                            'type' => 'boolean'
+                            'type' => 'boolean',
+                            'align' => 'center',
                         )
             );
 
@@ -137,7 +82,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'header'=>__('Required'),
                             'sortable'=>true,
                             'index'=>'is_required',
-                            'type' => 'boolean'
+                            'type' => 'boolean',
+                            'align' => 'center',
                         )
             );
 
@@ -146,15 +92,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_user_defined',
                             'type' => 'boolean',
+                            'align' => 'center',
                             'values' => array(__('Yes'), __('No'))
-                        )
-            );
-
-        $this->addColumn('default_value', array(
-                            'header'=>__('Default Value'),
-                            'sortable'=>true,
-                            'index'=>'default_value',
-                            'default' => 'N/A'
                         )
             );
 
@@ -163,6 +102,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_searchable',
                             'type' => 'boolean',
+                            'align' => 'center',
                         )
             );
 
@@ -171,6 +111,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_filterable',
                             'type' => 'boolean',
+                            'align' => 'center',
                         )
             );
 
@@ -179,6 +120,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_comparable',
                             'type' => 'boolean',
+                            'align' => 'center',
                         )
             );
 
@@ -187,6 +129,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>false,
                             'filter'=>false,
                             'type' => 'action',
+                            'align' => 'center',
                             'actions' => array(
                                 array(
                                     'url' => Mage::getUrl('*/*/edit/attributeId/$attribute_id'),
