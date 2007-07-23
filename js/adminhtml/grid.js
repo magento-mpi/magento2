@@ -163,6 +163,10 @@ varienGrid.prototype = {
 
 function openGridRow(grid, event){
     var element = Event.findElement(event, 'tr');
+    var link = element = Event.findElement(event, 'a');
+    if(link){
+        return;
+    }
     if(element.id){
         setLocation(element.id);
     }
