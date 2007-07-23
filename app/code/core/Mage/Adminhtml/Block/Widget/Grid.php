@@ -84,6 +84,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('widget/grid.phtml');
+        $this->setRowClickCallback('openGridRow');
     }
 
     protected function _initChildren()
@@ -544,5 +545,17 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getJsObjectName()
     {
         return $this->getId().'JsObject';
+    }
+    
+    /**
+     * Retrieve row identifier
+     * 
+     * By default we retrieve row edit url
+     *
+     * @return string
+     */
+    public function getRowId($row)
+    {
+        return $this->getRowUrl($row);
     }
 }

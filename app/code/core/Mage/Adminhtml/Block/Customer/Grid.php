@@ -94,19 +94,15 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             #'format'    => 'Y.m.d',
             'index'     =>'store_name',
         ));
-        $this->addColumn('action', array(
-            'header'    =>__('Action'),
-            'align'     =>'center',
-            'width'     => '60px',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/edit/id/$entity_id').'" class="edit-url">'.__('Edit').'</a>',
-            'filter'    =>false,
-            'sortable'  =>false,
-            'is_system' =>true
-        ));
 
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
+    }
+    
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
     }
 
     protected function _addColumnFilterToCollection($column)

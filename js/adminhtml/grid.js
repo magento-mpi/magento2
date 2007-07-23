@@ -10,6 +10,7 @@ varienGrid.prototype = {
         this.filterVar  = filterVar || false;
         this.tableSufix = '_table';
         this.useAjax = false;
+        this.rowClickCallback = false;
 
         this.trOnMouseOver  = this.rowMouseOver.bindAsEventListener(this);
         this.trOnMouseOut   = this.rowMouseOut.bindAsEventListener(this);
@@ -58,6 +59,12 @@ varienGrid.prototype = {
         Element.removeClassName(element, 'on-mouse');
     },
     rowMouseClick : function(event){
+        if(this.rowClickCallback){
+            try{
+                eval(this.rowClickCallback+'(this, event)');
+            }
+            catch(e){}
+        }
         varienGlobalEvents.fireEvent('gridRowClick', event);
     },
     rowMouseDblClick : function(event){
@@ -153,3 +160,10 @@ varienGrid.prototype = {
         this.reload(this.addVarToUrl(this.pageVar, pageNumber));
     }
 };
+
+function openGridRow(grid, event){
+    var element = Event.findElement(event, 'tr');
+    if(element.id){
+        setLocation(element.id);
+    }
+}

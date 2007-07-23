@@ -102,7 +102,7 @@
     </thead>
     <tbody>
     <?foreach ($this->getCollection() as $_index=>$_item):?>
-        <tr>
+        <tr id="<?=$this->getRowId($_item)?>">
         <?foreach ($this->getColumns() as $_column):?>
             <td class="<?=$_column->getCssClass()?>"><?=$_column->getRowField($_item)?></td>
         <?endforeach;?>
@@ -116,6 +116,7 @@
 <script type="text/javascript" language="javascript">
     <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNamePage()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
+    <?=$this->getJsObjectName()?>.rowClickCallback = '<?=$this->getRowClickCallback()?>';
 </script>
 <?endif;?>
 <?endif?>
