@@ -3,13 +3,28 @@
 class Mage_Core_Model_Design_Package
 {
 	protected $_area;
+	
 	protected $_name;
+	
 	protected $_theme;
+	
 	protected $_rootDir;
+	
+	protected $_config = null;
 	
 	public function __construct()
 	{
 		
+	}
+	
+	public function getConfig($path=null)
+	{
+		if (is_null($this->_config)) {
+			$filename = $this->getEtcFilename('config.xml');
+			$this->_config = Mage::getModel('core/config_base');
+			$this->_config->loadFile($filename);
+		}
+		return (string)$this->_config->getNode($path);
 	}
 	
 	public function setArea($area)
@@ -77,15 +92,16 @@ class Mage_Core_Model_Design_Package
 			$params['_area'].DS.$params['_package'].DS.$params['_type'].DS.$params['_theme'];
 		return $baseDir;
 	}
-	
+
 	public function getTranslateBaseDir(array $params)
 	{
 		$this->updateParamDefaults($params);
 		if (empty($params['_language'])) {
 			$params['_language'] = Mage::getStoreConfig('general/local/language');
 		}
-		$fileName = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
+		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
 			$params['_area'].DS.$params['_package'].DS.'translate'.DS.$params['_language'];
+		return $baseDir;
 	}
 	
 	public function getSkinBaseDir(array $params=array())
@@ -176,6 +192,11 @@ class Mage_Core_Model_Design_Package
 		}
 		Varien_Profiler::stop(__METHOD__);
 		return $filename;
+    }
+    
+    public function getEtcFilename($file, array $params=array())
+    {
+    	return $this->getBaseDir($params).DS.'etc'.DS.$file;
     }
     
     public function getLayoutFilename($file, array $params=array())
