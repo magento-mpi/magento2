@@ -24,50 +24,6 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
 
-        if( $this->getLayout()->getBlock('taxClassGrid') ) {
-            $gridCollection = $this->getLayout()->getBlock('taxClassGrid')->getCollection();
-        } else {
-            $gridCollection = false;
-        }
-
-        if( $gridCollection ) {
-            $indexes = array();
-            foreach($gridCollection->getItems() as $item) {
-                $indexes[] = $item->getClassGroupId();
-            }
-
-            $productGroups = Mage::getResourceModel('customer/group_collection')
-                ->setIgnoreIdFilter($indexes)
-                ->load()
-                ->toOptionArray();
-                #->joinAttribute('name')
-                #->load(1)
-                #->getNodes();
-
-            if( count($productGroups) == 0 ) {
-                $this->setForm($form);
-                return parent::_prepareForm();
-            }
-        } else {
-            $productGroups = Mage::getResourceModel('customer/group_collection')
-                ->load()
-                ->toOptionArray();
-                #->joinAttribute('name')
-                #->load(1)
-                #->getNodes();
-        }
-
-        /*
-        $tmpArr = array();
-        foreach ($productGroups as $group) {
-            $tmpArr[] = array(
-                'value' => $group->getId(),
-                'label' => $group->getName()
-            );
-        }
-        $productGroups = $tmpArr;
-        */
-
         if( intval($classId) <= 0 ) {
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Product Tax Class Information')));
             $fieldset->addField('class_name', 'text',
@@ -89,17 +45,6 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
         } else {
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Add New Category')));
         }
-
-        $fieldset->addField('class_group', 'select',
-                            array(
-                                'name' => 'class_group',
-                                'label' => __('Product Category'),
-                                'title' => __('Product Category Title'),
-                                'class' => 'required-entry',
-                                'required' => true,
-                                'values' => $productGroups
-                            )
-        );
 
         if( intval($classId) > 0 ) {
             $fieldset->addField('submit', 'submit',

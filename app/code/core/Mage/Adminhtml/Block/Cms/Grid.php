@@ -67,6 +67,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'header'=>__('Status'),
                 'index'=>'page_active',
                 'type' => 'boolean',
+                'filter'    => false,
                 'values' => array(__('Disabled'), __('Enabled'))
             )
         );
@@ -97,7 +98,6 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'format'=>'<a href="'.Mage::getUrl('*/*/edit/page/$page_id').'" class="edit-url"></a>',
             )
         );
-        $this->setFilterVisibility(false);
 
         return parent::_prepareColumns();
     }
