@@ -32,7 +32,9 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             
         } 
         
-        $html = '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" class="input-text"/> <img src="' . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />';
+        $this->addClass('input-text');
+        
+        $html = '<input type="text" name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" ' . $this->serialize($this->getHtmlAttributes()) . '/> ' .( !$this->getDisabled() ? '<img src="' . $this->getImage() . '" alt="" align="absmiddle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '" />' : '');
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$this->getHtmlId().'",

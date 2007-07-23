@@ -132,14 +132,8 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     {
     	$queue = Mage::getSingleton('newsletter/queue')
     		->load($this->getRequest()->getParam('id'));
-    	
-    	if(!in_array($queue->getQueueStatus(),
-    		 		 array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
-    		 		 	   Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
-   			$this->_redirect('*/*');
-    		return;
-    	}
-    	
+    	    	    	
+    	    	    	
     	$this->loadLayout('baseframe');
     	
     	$this->_setActiveMenu('newsletter/queue');
@@ -172,6 +166,8 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 	    		$queue->setQueueStartAt(
 	    			date('Y-m-d H:i:s', strtotime($this->getRequest()->getParam('start_at')))
 	    		);
+	    	} else {
+	    		$queue->setQueueStartAt(null);
 	    	}
     	}
     	    	

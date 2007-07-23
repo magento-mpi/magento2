@@ -27,10 +27,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
     	
         
         if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
-        	$actions[] = array(
-	    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-	    		'#'	=>	__('Edit')
-	    	);
+        	
         	        	
         	if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
         		$actions[] = array(
@@ -53,11 +50,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 		    
         	
         } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_PAUSE) {
-			$actions[] = array(
-		    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-		    		'#'	=>	__('Edit')
-		    );
-		    
+			
 		    $actions[] = array(
 		    		'@'	=>	array('href' => Mage::getUrl('*/*/resume', array('id'=>$row->getId()))),
 		    		'#'	=>	__('Resume')

@@ -3,7 +3,11 @@
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
             <td class="form-buttons">
+            	  <?=$this->getBackButtonHtml()?>
+            	  <?if(!$this->getIsPreview()):?>
+            	  <?=$this->getResetButtonHtml()?>
                   <?=$this->getSaveButtonHtml()?>
+				  <?endif?>
             </td>
         </tr>
     </table>

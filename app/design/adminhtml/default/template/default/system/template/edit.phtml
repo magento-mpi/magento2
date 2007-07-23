@@ -4,6 +4,7 @@
             <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
             <td class="form-buttons">
                 <?=$this->getBackButtonHtml();?>
+                <?=$this->getResetButtonHtml();?>
                 <?if(!$this->isTextType()):?>
                 <?=$this->getToPlainButtonHtml();?>
                 <?=$this->getToHtmlButtonHtml();?>

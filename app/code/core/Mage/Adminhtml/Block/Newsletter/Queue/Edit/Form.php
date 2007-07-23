@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 		$queue->addTemplateData($queue);
 		$form = new Varien_Data_Form();
 		
-		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue General')));
+		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue Information')));
 		
 		if($queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
 			$fieldset->addField('date','date',array(
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
 				'value'	  => 	$queue->getQueueStartAt(),
 				'title'	  =>	__('Queue Start Date')
-			));			
+			));
 			
 			$fieldset->addField('stores','multiselect',array(
 				'name'	  =>	'stores[]',
@@ -42,6 +42,28 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'select_all' => __('Select All Stores'),
 				'deselect_all' => __('Deselect All Stores'),
 			));			
+		} else {
+			$fieldset->addField('date','date',array(
+				'name'	  =>	'start_at',
+				'time'	  =>	true,
+				'disabled'=> 	'true',
+				'label'	  =>	__('Start This Queue At'),
+				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
+				'value'	  => 	$queue->getQueueStartAt(),
+				'title'	  =>	__('Queue Start Date')
+			));
+			
+			$fieldset->addField('stores','multiselect',array(
+				'name'	  =>	'stores[]',
+				'time'	  =>	true,
+				'disabled'=> 	'true',
+				'label'	  =>	__('Subscribers From'),
+				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
+				'value'	  => 	$queue->getQueueStores(),
+				'title'	  =>	__('Subscribers From'),
+				'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
+				'value'	  =>	$queue->getStores()
+			));		
 		}
 		
 		$fieldset->addField('subject', 'text', array(
@@ -71,15 +93,28 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'value' => $queue->getTemplate()->getTemplateSenderEmail()   
         )); 
 		
-		$fieldset->addField('text','editor', array(
-			'name'	  =>	'text',
-			'wysiwyg' =>    !$queue->getTemplate()->isPlain(),
-			'label'	  =>	__('Message'),
-			'title'	  =>	__('Message'),
-			'theme'	  => 	'advanced',
-			'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
-		));
-		
+        if(in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_NEVER, Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+			$fieldset->addField('text','editor', array(
+				'name'	  =>	'text',
+				'wysiwyg' =>    !$queue->getTemplate()->isPlain(),
+				'label'	  =>	__('Message'),
+				'title'	  =>	__('Message'),
+				'theme'	  => 	'advanced',
+				'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
+			));
+        } else {
+        	$fieldset->addField('text','text', array(
+				'name'	  =>	'text',
+				'label'	  =>	__('Message'),
+				'title'	  =>	__('Message'),
+				'value'	  =>    $this->getUrl('*/newsletter_template/preview', array('_current'=>true))
+			));
+			
+			$form->getElement('text')->setRenderer(Mage::getModel('adminhtml/newsletter_renderer_text'));
+			$form->getElement('subject')->setDisabled('true');
+			$form->getElement('sender_name')->setDisabled('true');
+			$form->getElement('sender_email')->setDisabled('true');
+        }
 		
 	/*	
 		$form->getElement('template')->setRenderer(

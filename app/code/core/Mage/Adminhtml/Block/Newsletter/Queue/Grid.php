@@ -85,6 +85,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'header'    =>	__('Action'),
             'filter'	=>	false,
             'sortable'	=>	false,
+            'width'		=> '170px',
             'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'
         ));
                 
@@ -92,4 +93,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         return parent::_prepareColumns();
     }
 
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
 }

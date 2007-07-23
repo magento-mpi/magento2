@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Template_Edit_Form extends Mage_Adminhtml_Bloc
             $template->addData($post);
         }
         
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Template General')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Template Information')));
         
         $fieldset->addField('code', 'text', array(
             'name'=>'code',

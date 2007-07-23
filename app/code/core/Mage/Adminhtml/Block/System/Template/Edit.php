@@ -25,17 +25,28 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     
     protected function _initChildren() 
     {
-    	$this->setChild('backButton', 
+    	$this->setChild('back_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
     					'label'   => __('Back'),
-    					'onclick' => 'history.back()'
+    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'"
     				)
     			)
     	);
     	
-    	$this->setChild('toPlainButton', 
+    	
+    	$this->setChild('reset_button', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('Reset'),
+    					'onclick' => 'window.location.href = window.location.href'
+    				)
+    			)
+    	);
+    	
+    	$this->setChild('to_plain_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
@@ -46,7 +57,8 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     			)
     	);
     	
-    	$this->setChild('toHtmlButton', 
+    	
+    	$this->setChild('to_html_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
@@ -58,7 +70,7 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     			)
     	);
     	
-    	$this->setChild('saveButton', 
+    	$this->setChild('save_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
@@ -68,7 +80,7 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     			)
     	);
     	
-    	$this->setChild('previewButton', 
+    	$this->setChild('preview_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
@@ -78,7 +90,7 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     			)
     	);
     	
-    	$this->setChild('deleteButton', 
+    	$this->setChild('delete_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
@@ -91,32 +103,38 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getBackButtonHtml()
     {
-    	return $this->getChildHtml('backButton');
+    	return $this->getChildHtml('back_button');
+    }
+    
+    
+    public function getResetButtonHtml()
+    {
+    	return $this->getChildHtml('reset_button');
     }
     
     public function getToPlainButtonHtml()
     {
-    	return $this->getChildHtml('toPlainButton');
+    	return $this->getChildHtml('to_plain_button');
     }
     
     public function getToHtmlButtonHtml()
     {
-    	return $this->getChildHtml('toHtmlButton');
+    	return $this->getChildHtml('to_html_button');
     }
     
     public function getSaveButtonHtml()
     {
-    	return $this->getChildHtml('saveButton');
+    	return $this->getChildHtml('save_button');
     }
     
     public function getPreviewButtonHtml()
     {
-    	return $this->getChildHtml('previewButton');
+    	return $this->getChildHtml('preview_button');
     }
     
     public function getDeleteButtonHtml()
     {
-    	return $this->getChildHtml('deleteButton');
+    	return $this->getChildHtml('delete_button');
     }
     
     /**
