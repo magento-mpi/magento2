@@ -110,19 +110,19 @@ table.actions td {
 
 /* Headings aka Sort By */
 .grid tr.headings th {
-    padding-top:1px;
-    padding-bottom:1px;
+    padding-top:3px;
+    padding-bottom:3px;
     background:#d7d8d9;
     }
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */
-    padding-top:4px;
-    padding-bottom:4px;
+    padding-top:6px;
+    padding-bottom:5px;
     }
 .grid tr.headings th a, .grid tr.headings th a:hover {
     display:block;
     color:#2f2f2f;
     text-decoration:underline;
-    padding:3px 4px 2px 0;
+    padding:3px 4px 1px 0;
     }
 .grid th a.sort-arrow-desc, .grid th a.sort-arrow-asc {
     background:url(images/grid_th_onclick_bg.gif) no-repeat;
