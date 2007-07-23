@@ -16,11 +16,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage
         
     	$actions = array();
     	
-    	$actions[] = array(
-    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-    		'#'	=>	__('Edit')
-    	);
-    	
     	if($row->isValidForSend()) {
     		$actions[] = array(
 	    		'@'	=>	array('href' => Mage::getUrl('*/*/toqueue', array('id'=>$row->getId()))),

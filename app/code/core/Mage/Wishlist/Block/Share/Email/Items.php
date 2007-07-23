@@ -27,6 +27,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
 	            ->addAttributeToSelect('small_image')
+	            ->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
 				->load();
 		}
 		

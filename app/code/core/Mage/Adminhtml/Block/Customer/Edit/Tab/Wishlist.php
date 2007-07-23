@@ -10,15 +10,18 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Block_Widget_Grid
 {
+	protected $_parentTemplate = '';
+	
     public function __construct()
     {
         parent::__construct();
         $this->setId('wishlistGrid');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
-        
+  		$this->_parentTemplate = $this->getTemplateName();
+  		$this->setTemplate('customer/tab/wishlist.phtml');
     }
-
+  
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('customer'))->getItemCollection()
@@ -31,8 +34,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         
         return parent::_prepareCollection();
     }
-    
-    
     
     protected function _prepareColumns()
     {
@@ -82,13 +83,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         ));
         
         $this->addColumn('days', array(
-        	'header'	=> __('In wishlist'),
+        	'header'	=> __('Days in Wishlist'),
         	'index'		=> 'days_in_wishlist',
         	'type'		=> 'number'
         ));
-
-
         
+        $this->addColumn('action', array(
+        	'header'	=> __('Action'),
+        	'index'		=> 'wishlist_item_id',
+        	'type'		=> 'action',
+        	'filter'	=> false,
+        	'sortable'	=> false,
+        	'actions'	=> array(
+        		array(
+        			'caption' =>  __('Delete'),
+        			'url'	  =>  '#',
+        			'onclick' =>  'return wishlistControl.removeItem($wishlist_item_id);'
+        		)
+        	)
+        ));
+        
+                
         return parent::_prepareColumns();
     }
 
@@ -106,5 +121,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         
         return $this;
     }
-
+    
+    public function getGridParentHtml()
+    {
+    	$templateName = Mage::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
+    	return $this->fetchView($templateName);
+    }
 }

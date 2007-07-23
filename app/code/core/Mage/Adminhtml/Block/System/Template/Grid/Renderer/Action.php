@@ -15,11 +15,7 @@ class Mage_Adminhtml_Block_System_Template_Grid_Renderer_Action extends Mage_Adm
     {
         
     	$actions = array();
-    	
-    	$actions[] = array(
-    		'@'	=>	array('href' => Mage::getUrl('*/*/edit', array('id'=>$row->getId()))),
-    		'#'	=>	__('Edit')
-    	);
+    	    	
     	    	    	
     	$actions[] = array(
     		

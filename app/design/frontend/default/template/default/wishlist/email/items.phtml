@@ -14,9 +14,8 @@
             <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
           
             <td class="align-center">
-            	<a href="<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>" ><?=__('Add to cart')?></a><br/><br/>
-            	<a href="<?=$item->getProductUrl()?>" ><?=__('See info')?></a><br/><br/>
-            	<a href="<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>"><?=__('Remove')?></a>
+            	<a href="<?=$this->getUrl('checkout/cart/add',array('product_id'=>$item->getProductId()))?>" ><?=__('Add to cart')?></a><br/>
+            	<a href="<?=$item->getProductUrl()?>" ><?=__('See info')?></a><br/>
             </td>
         </tr>
         <?endforeach?>

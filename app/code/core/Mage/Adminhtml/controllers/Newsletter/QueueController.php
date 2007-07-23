@@ -165,13 +165,16 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
    			$this->_redirect('*/*');
     		return;
     	}
-    	
-    	if($this->getRequest()->getParam('start_at') && $queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
-    		$queue->setQueueStartAt(
-    			date('Y-m-d H:i:s', strtotime($this->getRequest()->getParam('start_at')))
-    		);
-    	} 
-    	
+    	    	   	
+    	if($queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
+    		$queue->setStores($this->getRequest()->getParam('stores', array()));
+    		if($this->getRequest()->getParam('start_at')) {
+	    		$queue->setQueueStartAt(
+	    			date('Y-m-d H:i:s', strtotime($this->getRequest()->getParam('start_at')))
+	    		);
+	    	}
+    	}
+    	    	
     	$queue->addTemplateData($queue);
     	$queue->getTemplate()
     		->setTemplateSubject($this->getRequest()->getParam('subject'))
@@ -179,7 +182,12 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     		->setTemplateSenderEmail($this->getRequest()->getParam('sender_email'))
     		->setTemplateTextPreprocessed($this->getRequest()->getParam('text'));
     	$queue->setSaveTemplateFlag(true);
-    	$queue->save();
+    	try {
+    		$queue->save();
+    	} 
+    	catch (Exception $e) {
+    		echo $e->getMessage();//	
+    	}    	
     	
     	$this->_redirect('*/*');
     }

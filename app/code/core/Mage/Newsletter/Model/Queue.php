@@ -18,6 +18,10 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     
     protected $_saveTemplateFlag = false;
     
+    protected $_saveStoresFlag = false;
+    
+    protected $_stores = false;
+    
     const STATUS_NEVER = 0;
     const STATUS_SENDING = 1;
     const STATUS_CANCEL = 2;
@@ -125,5 +129,32 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function getSaveTemplateFlag() 
     {
     	return $this->_saveTemplateFlag;
+    }
+    
+    public function setSaveStoresFlag($value) 
+    {
+    	$this->_saveStoresFlag = (boolean)$value;
+    	return $this;
+    }
+    
+    public function getSaveStoresFlag() 
+    {
+    	return $this->_saveStoresFlag;
+    }
+    
+    public function setStores(array $storesIds) 
+    {
+    	$this->setSaveStoresFlag(true);
+    	$this->_stores = $storesIds;
+    	return $this;
+    }
+    
+    public function getStores() 
+    {
+    	if(!$this->_stores) {
+    		$this->_stores = $this->getResource()->getStores($this);
+    	}
+    	
+    	return $this->_stores;
     }
 }

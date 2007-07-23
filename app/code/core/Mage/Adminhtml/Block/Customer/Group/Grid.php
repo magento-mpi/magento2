@@ -39,28 +39,15 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
             'header' => __('Group Name'),
             'index' => 'customer_group_code',
         ));
-        $this->addColumn('action', array(
-            'header' => __('Action'),
-            'type'	 => 'action',
-            'actions' => array(
-            				array(
-            					'url' 	  => Mage::getUrl('adminhtml/customer_group/edit/id/$customer_group_id'),
-            					'caption' => __('Edit'),
-  								'class'	  => 'edit-url'
-            				),
-            				array(
-            					'url' 	  => Mage::getUrl('adminhtml/customer_group/delete/id/$customer_group_id'),
-            					'caption' => __('Delete'),
-            					'confirm' => __('Are you sure you want to do this?')
-            				)
-            			),        
-            'index' => 'type',
-            'filter'=> false,
-            'sortable' => false
-        ));
-        
+       
         $this->_initCollection();
         return parent::_beforeToHtml();
+    }
+    
+     
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
     }
 
 }

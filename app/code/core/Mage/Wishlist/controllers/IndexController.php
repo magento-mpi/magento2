@@ -159,11 +159,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			if(!$this->getRequest()->getParam('email')) {
 				Mage::throwException('E-mail Addresses required', 'wishlist/session');
 			}
-			
-			if(!$this->getRequest()->getParam('message')) {
-				Mage::throwException('Message required', 'wishlist/session');
-			}
-			
+								
 			$emails = explode(',', $this->getRequest()->getParam('email'));
 			
 			$template = Mage::getModel('newsletter/template')
@@ -187,6 +183,8 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				);
 			}
 			
+			$wishlist->setShared(1);
+			$wishlist->save();			
 			Mage::getSingleton('wishlist/session')->addSuccess('Your Wishlist successfully shared');
 			$this->_redirect('*/*');
 		} 

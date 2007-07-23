@@ -57,6 +57,79 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     	
     }
     
+    public function removeSubscribersFromQueue(Mage_Newsletter_Model_Queue $queue)
+    {
+    	try {
+	    	$this->getConnection('write')->delete(
+	    		$this->getTable('queue_link'), 
+	    		$this->getConnection('write')->quoteInto('queue_id = ?', $queue->getId())
+	    	);
+	    	
+	    	$this->getConnection('write')->commit();
+    	} 
+    	catch (Exception $e) {
+    		$this->getConnection('write')->rollBack();
+    	}
+    	
+    }
+    
+    public function setStores(Mage_Newsletter_Model_Queue $queue) 
+    {
+    	$this->getConnection('write')
+    		->delete(
+    			$this->getTable('queue_store_link'), 
+    			$this->getConnection('write')->quoteInto('queue_id = ?', $queue->getId())
+    		);
+    	
+    	if (!is_array($queue->getStores()))	{ 
+    		$stores = array(); 
+    	} else {
+    		$stores = $queue->getStores();
+    	}
+    	
+    	foreach ($stores as $storeId) {
+    		$data = array();
+    		$data['store_id'] = $storeId;
+    		$data['queue_id'] = $queue->getId();
+    		$this->getConnection('write')->insert($this->getTable('queue_store_link'), $data);
+    	}
+    	 
+		$this->removeSubscribersFromQueue($queue);
+
+		if(count($stores)==0) {
+			return $this;
+		}
+		$subscribers = Mage::getResourceSingleton('newsletter/subscriber_collection')
+			->addFieldToFilter('store_id', array('in'=>$stores))
+			->useOnlySubscribed()
+			->load();
+		 
+		$subscriberIds = array();
+		
+		foreach ($subscribers as $subscriber) {
+			$subscriberIds[] = $subscriber->getId();
+		}
+		
+		if (count($subscriberIds) > 0) {
+			$this->addSubscribersToQueue($queue, $subscriberIds);
+		}
+		
+    	return $this;
+    }
+    
+    public function getStores(Mage_Newsletter_Model_Queue $queue) 
+    {
+    	$select = $this->getConnection('read')->select()
+    		->from($this->getTable('queue_store_link'), 'store_id')
+    		->where('queue_id = ?', $queue->getId());
+    	
+    	if(!($result = $this->getConnection('read')->fetchCol($select))) {
+    		$result = array();
+    	}
+    	
+    	return $result;
+    }
+    
     /**
      * Saving template after saving queue action
      *
@@ -67,6 +140,10 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     {
     	if($queue->getSaveTemplateFlag()) {
     		$queue->getTemplate()->save();
+    	}
+    	
+    	if($queue->getSaveStoresFlag()) {
+    		$this->setStores($queue);    		
     	}
     	
     	return $this;

@@ -31,6 +31,17 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 		return $this;
 	}
 	
+	public function loadByCode($code) 
+	{
+		$this->getResource()->load($this, 
+								   $code, 
+								   'sharing_code');
+		if(!$this->getShared()) {
+			$this->setId(null);
+		}
+		return $this;
+	}
+	
 	protected function _getSharingRandomCode() 
 	{
 		return md5(microtime() . rand());

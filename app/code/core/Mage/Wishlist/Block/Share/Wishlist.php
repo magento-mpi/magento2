@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist block customer items
+ * Wishlist block shared items
  *
  * @package    Mage
  * @subpackage Wishlist
@@ -9,22 +9,21 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template 
+class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template 
 {
 	
 	
 	public function __construct() 
 	{
 		parent::__construct();
-		$this->setTemplate('wishlist/view.phtml');
+		$this->setTemplate('wishlist/shared.phtml');
 	}
 	
 	public function getWishlist()
 	{
 		if(is_null($this->_wishlist)) {
-			Mage::registry('wishlist')
-				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
-			Mage::registry('wishlist')->getItemCollection()
+			
+			Mage::registry('shared_wishlist')->getItemCollection()
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
@@ -33,7 +32,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 				->load();
 		}
 		
-		return Mage::registry('wishlist')->getItemCollection();
+		return Mage::registry('shared_wishlist')->getItemCollection();
 	}
 	
 	public function getEscapedDescription(Mage_Wishlist_Model_Item $item) 

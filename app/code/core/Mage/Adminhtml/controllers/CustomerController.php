@@ -263,6 +263,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);
+            if($itemId = (int) $this->getRequest()->getParam('delete')) {
+            	try {
+	            	Mage::getModel('wishlist/item')->load($itemId)
+	            		->delete();
+            	} 
+            	catch (Exception $e) {
+            		//
+            	}
+            }
         }  
         Mage::register('customer', $customer);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());

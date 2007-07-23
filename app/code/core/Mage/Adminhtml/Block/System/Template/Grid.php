@@ -83,4 +83,9 @@ class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Wid
         
         return $this;
     }
+    
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
 }

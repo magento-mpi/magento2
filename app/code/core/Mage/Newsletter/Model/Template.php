@@ -183,7 +183,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         } else {
             $mail->setBodyHTML($text);
         }
-        
+                    
         $mail->setSubject($this->getTemplateSubject());
         $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
         try {

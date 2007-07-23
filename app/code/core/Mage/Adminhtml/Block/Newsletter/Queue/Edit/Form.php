@@ -29,6 +29,19 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'value'	  => 	$queue->getQueueStartAt(),
 				'title'	  =>	__('Queue Start Date')
 			));			
+			
+			$fieldset->addField('stores','multiselect',array(
+				'name'	  =>	'stores[]',
+				'time'	  =>	true,
+				'label'	  =>	__('Subscribers From'),
+				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
+				'value'	  => 	$queue->getQueueStores(),
+				'title'	  =>	__('Subscribers From'),
+				'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
+				'value'	  =>	$queue->getStores(),
+				'select_all' => __('Select All Stores'),
+				'deselect_all' => __('Deselect All Stores'),
+			));			
 		}
 		
 		$fieldset->addField('subject', 'text', array(

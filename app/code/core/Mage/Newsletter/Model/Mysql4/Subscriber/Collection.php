@@ -205,7 +205,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useOnlySubscribed() 
     {
-        $this->_sqlSelect->where("main_table.status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        $this->_sqlSelect->where("main_table.subscriber_status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
         
         return $this;
     }
