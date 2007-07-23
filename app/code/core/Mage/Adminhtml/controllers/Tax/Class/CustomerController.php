@@ -47,7 +47,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             ->_setActiveMenu('sales/tax/tax_classes_customer')
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_customer'))
+//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_customer'))
         ;
         return $this;
     }

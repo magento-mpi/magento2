@@ -121,10 +121,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             ->_setActiveMenu('sales/tax/tax_classes_' . $classType)
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
-            ->_addLeft(
-                $this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')
-                    ->setActiveTab('tax_class_' . $classType)
-            )
+//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_' . $classType))
         ;
 
         return $this;

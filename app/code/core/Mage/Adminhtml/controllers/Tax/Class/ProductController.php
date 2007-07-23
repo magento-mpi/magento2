@@ -47,7 +47,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             ->_setActiveMenu('sales/tax/tax_classes_product')
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
+//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
         ;
 
         $this->getLayout()->getMessagesBlock()->setMessages(

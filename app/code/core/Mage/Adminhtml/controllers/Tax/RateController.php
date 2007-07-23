@@ -95,7 +95,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             ->_setActiveMenu('sales/tax/tax_rates')
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
             ->_addBreadcrumb(__('Tax'), __('Tax Title'))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rate'))
+//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rate'))
         ;
         return $this;
     }
