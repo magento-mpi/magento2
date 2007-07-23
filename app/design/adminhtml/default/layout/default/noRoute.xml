@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="content">
+        <block type="core/text" name="content.noRoute">
+            <action method="setText"><text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text></action>
+        </block>
+    </reference>
+</layoutUpdate>

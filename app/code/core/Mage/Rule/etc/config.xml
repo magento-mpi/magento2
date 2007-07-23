@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_Rule>
+            <version>0.1.0</version>
+        </Mage_Rule>
+    </modules>
+    <global>
+        <models>
+            <rule>
+                <class>Mage_Rule_Model</class>
+                <resourceModel>rule_mysql4</resourceModel>
+            </rule>
+            <rule_mysql4>
+            	<class>Mage_Rule_Model_Mysql4</class>
+            </rule_mysql4>
+        </models>
+    </global>
+    <block>
+    	<groups>
+    		<rule>
+    			<class>Mage_Rule_Block</class>
+    		</rule>
+    	</groups>
+    </block>
+</config>

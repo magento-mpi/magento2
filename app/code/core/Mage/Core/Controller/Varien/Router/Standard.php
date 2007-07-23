@@ -34,20 +34,25 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
         $controllerFileName = $this->getControllerFileName($realModule, $controller);
         if (!$controllerFileName || !is_readable($controllerFileName)) {
-            return false;
+        	$controller = 'index';
+            $action = 'noroute';
+            $controllerFileName = $this->getControllerFileName($realModule, $controller);
         }
         $controllerClassName = $this->getControllerClassName($realModule, $controller);
         if (!$controllerClassName) {
-            return false;
+        	$controller = 'index';
+            $action = 'noroute';
+            $controllerFileName = $this->getControllerFileName($realModule, $controller);
         }
         
         // get action name
-        if ($request->getActionName()) {
-            $action = $request->getActionName();
-        } else {
-            $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
+        if (empty($action)) {
+	        if ($request->getActionName()) {
+	            $action = $request->getActionName();
+	        } else {
+	            $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
+	        }
         }
-        $actionMethodName = $this->getActionMethodName($action);
         
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
@@ -55,10 +60,6 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
         // instantiate controller class
         $controllerInstance = new $controllerClassName($request, $front->getResponse());
-        
-        if (!is_callable(array($controllerInstance, $actionMethodName))) {
-            return false;
-        }
 
         // set values only after all the checks are done
         $request->setModuleName($module);
@@ -72,7 +73,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         // dispatch action
         $request->setDispatched(true);
-        $controllerInstance->dispatch($actionMethodName);
+        $controllerInstance->dispatch($action);
         
         return true;
     }
@@ -102,12 +103,6 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     {
         $class = $realModule.'_'.uc_words($controller).'Controller';
         return $class;
-    }
-    
-    public function getActionMethodName($action)
-    {
-        $method = $action.'Action';
-        return $method;
     }
     
     public function getUrl($routeName, $params=array())

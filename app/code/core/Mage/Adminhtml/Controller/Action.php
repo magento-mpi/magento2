@@ -41,4 +41,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->_initLayoutMessages('adminhtml/session');
         return $this;
     }
+    
+    function norouteAction($coreRoute = null)
+    {
+        $this->loadLayout(array('baseframe', 'admin_noroute'), 'admin_noroute');
+        $this->renderLayout();
+    }
 }

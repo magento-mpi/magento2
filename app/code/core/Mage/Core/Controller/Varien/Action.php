@@ -120,7 +120,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         if (''===$key) {
             if (is_array($ids)) {
-                Mage::exception('Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
+                Mage::exception('Mage_Core', 'Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
             }
             $key = $area.'_'.$ids;
         }
@@ -176,6 +176,12 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function dispatch($action)
     {
+    	$actionMethodName = $this->getActionMethodName($action);
+    	
+        if (!is_callable(array($this, $actionMethodName))) {
+            $actionMethodName = 'norouteAction';
+        }
+        
         Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
         Mage::log('Request Params:');
         Mage::log($this->getRequest()->getParams());
@@ -187,13 +193,19 @@ abstract class Mage_Core_Controller_Varien_Action
             if (!$this->getFlag('', 'no-dispatch')) {
                 $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
                 Varien_Profiler::start($_profilerKey);
-                $this->$action();
+                $this->$actionMethodName();
                 Varien_Profiler::stop($_profilerKey);
             }
 
             $this->postDispatch();
 
         }
+    }
+    
+    public function getActionMethodName($action)
+    {
+        $method = $action.'Action';
+        return $method;
     }
 
     /**

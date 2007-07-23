@@ -118,6 +118,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Admin>
+        <Mage_Rule>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Rule>
         <Mage_Adminhtml>
             <active>true</active>
             <codePool>core</codePool>

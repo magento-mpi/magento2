@@ -39,6 +39,13 @@
                </baseframe>
             </updates>
          </baseframe>
+         <admin_noroute>
+         	<updates>
+               <admin_noroute>
+                  <file>noRoute.xml</file>
+               </admin_noroute>
+            </updates>
+         </admin_noroute>
          <preview>
             <updates>
                <baseframe>

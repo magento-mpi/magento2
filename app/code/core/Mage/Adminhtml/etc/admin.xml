@@ -150,13 +150,13 @@
             <children>
                 <catalog>
                     <title>Catalog Price Rules</title>
-                    <action>adminhtml/promo_catalogPriceRules/</action>
+                    <action>adminhtml/promo_rules_catalog/</action>
                     <resource>promo/catalog</resource>
                     <depends><module>Mage_Catalog</module></depends>
                 </catalog>
                 <quote>
                     <title>Shopping Cart Price Rules</title>
-                    <action>adminhtml/promo_quotePriceRules/</action>
+                    <action>adminhtml/promo_rules_quote/</action>
                     <resource>promo/quote</resource>
                     <depends><module>Mage_Sales</module></depends>
                 </quote>
