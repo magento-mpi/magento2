@@ -78,6 +78,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
 
             $tree->moveNodeTo($node, $parentNode, $prevNode);
+            $category = Mage::getModel('catalog/category')
+                ->load($nodeId)
+                ->setParentId($parentNode->getId())
+                ->save();
         }
         catch (Exception $e){
             $this->getResponse()->setBody(__('Category move error'));

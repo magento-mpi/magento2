@@ -24,7 +24,6 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<span class="field-row">'."\n";
-        $html.= $element->getLabelHtml();
         
         $countryId = false;
         if ($country = $element->getForm()->getElement('country_id')) {
@@ -44,6 +43,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
         $regionId = $element->getForm()->getElement('region_id')->getValue();
 
         if ($regionCollection && $regionCollection->getSize()) {
+            $html.= $element->getLabelHtml();
             $html.= '<select id="'.$element->getHtmlId().'" name="'.$element->getName().'" '
                  .$element->serialize($element->getHtmlAttributes()).'>'."\n";
             foreach ($regionCollection as $region) {
@@ -53,6 +53,10 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
             $html.= '</select>';
         }
         else {
+            $element->setClass('input-text');
+            $element->setRequired(false);
+            
+            $html.= $element->getLabelHtml();
             $html.= '<input id="'.$element->getHtmlId().'" name="'.$element->getName()
                  .'" value="'.$element->getEscapedValue().'"'.$element->serialize($element->getHtmlAttributes()).'/>'."\n";
         }
