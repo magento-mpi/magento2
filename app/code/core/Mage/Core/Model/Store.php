@@ -41,18 +41,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return parent::getId();
     }
     
-    public function findByid($id)
-    {
-        $storesConfig = Mage::getConfig()->getNode('global/stores');
-        foreach ($storesConfig->children() as $code=>$store) {
-            if ((int)$store->descend('system/store/id')===$id) {
-                $this->setCode($code);
-                break;
-            }
-        }
-        return $this;
-    }
-
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 

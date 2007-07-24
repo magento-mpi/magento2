@@ -79,7 +79,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         
 
         $this->setScriptPath(Mage::getBaseDir('design'));
-        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), array('_relative'=>true));       
+        $params = array('_relative'=>true);
+        if ($area = $this->getArea()) {
+            $params['_area'] = $area;
+        }
+        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);       
         $html = $this->fetchView($templateName);
         Varien_Profiler::stop(__METHOD__);
         

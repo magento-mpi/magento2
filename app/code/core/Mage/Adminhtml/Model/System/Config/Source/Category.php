@@ -14,7 +14,9 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $tree->getCategoryCollection()
-                ->addAttributeToSelect('name');
+                ->addAttributeToSelect('name')
+                ->getEntity()
+                    ->setStore(0); // Default store id by categories
         $nodes = $tree->load(1, 1)
             ->getRoot()
             ->getChildren();

@@ -32,13 +32,16 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         }
         
         if ($customer->getId()) {
-            $fieldset->addField('reset_password', 'checkbox',
+            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>__('Password Management')));
+            // New customer password
+            $field = $newFieldset->addField('new_password', 'text',
                 array(
-                    'label' => __('Reset Password'),
-                    'name'  => 'reset_password',
-                    'value' => '1'
+                    'label' => __('New Password'),
+                    'name'  => 'new_password',
+                    'class' => 'validate-password'
                 )
-            );            
+            );
+            $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
         }
         else {
             $fieldset->addField('password', 'password',

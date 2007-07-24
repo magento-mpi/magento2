@@ -98,9 +98,9 @@ class Mage_Customer_Model_Customer extends Varien_Object
      * @param   bool $checkCurrent
      * @return  this
      */
-    public function changePassword($data, $checkCurrent=true)
+    public function changePassword($newPassword, $checkCurrent=true)
     {
-        $this->getResource()->changePassword($this, $data, $checkCurrent);
+        $this->getResource()->changePassword($this, $newPassword, $checkCurrent);
         return $this;
     }
     
@@ -330,5 +330,10 @@ class Mage_Customer_Model_Customer extends Varien_Object
             return false;
         }
         return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
+    }
+    
+    public function generatePassword($length=6)
+    {
+        return substr(md5(uniqid(rand(), true)), 0, $length);
     }
 }

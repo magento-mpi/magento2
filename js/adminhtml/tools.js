@@ -8,3 +8,9 @@ function deleteConfirm(message, url) {
     }
     return false;
 }
+
+function setElementDisable(element, disable){
+    if($(element)){
+        $(element).disabled = disable;
+    }
+}

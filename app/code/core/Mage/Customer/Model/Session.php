@@ -89,6 +89,13 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         return false;
     }
     
+    public function setCustomerAsLoggedIn($customer)
+    {
+        $this->setCustomer($customer);
+        Mage::dispatchEvent('customerLogin');
+        return $this;
+    }
+    
     /**
      * Authorization customer by identifier
      *

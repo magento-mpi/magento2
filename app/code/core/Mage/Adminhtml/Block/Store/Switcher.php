@@ -24,6 +24,9 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
     
     public function getSwitchUrl()
     {
+        if ($url = $this->getData('switch_url')) {
+            return $url;
+        }
         return Mage::getUrl('*/*/*', array('_current'=>true, 'store'=>null));
     }
     

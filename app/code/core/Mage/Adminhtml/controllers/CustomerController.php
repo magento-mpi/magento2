@@ -147,6 +147,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            
+            // Prepare customer saving data
             if (isset($data['account'])) {
                 $customer = Mage::getModel('customer/customer')
                     ->addData($data['account']);
@@ -184,8 +186,29 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->setIsSubscribed(false);
             }
             
+            $isNewCustomer = empty($customerId);
             try {
                 $customer->save();
+                if ($isNewCustomer) {
+                    $mailer = Mage::getModel('customer/email')
+                        ->setTemplate('email/welcome.phtml')
+                        ->setType('html')
+                        ->setCustomer($customer)
+                        ->send();
+                }
+                
+                if ($newPassword = $customer->getNewPassword()) {
+                    if ($newPassword == 'auto') {
+                        $newPassword = $customer->generatePassword();
+                    }
+                    $customer->changePassword($newPassword, false);
+                    $mailer = Mage::getModel('customer/email')
+                        ->setTemplate('email/forgot_password.phtml')
+                        ->setType('text')
+                        ->setCustomer($customer)
+                        ->send();
+                }
+                
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');
             }
             catch (Exception $e){

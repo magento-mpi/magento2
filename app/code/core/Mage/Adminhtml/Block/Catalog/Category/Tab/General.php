@@ -10,9 +10,19 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_Block_Widget_Form
 {
+    protected $_category;
+    
     public function __construct() 
     {
         parent::__construct();
+    }
+    
+    public function getCategory()
+    {
+        if (!$this->_category) {
+            $this->_category = Mage::registry('category');
+        }
+        return $this->_category;
     }
     
     public function _initChildren()
@@ -21,9 +31,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $form->setHtmlIdPrefix('_general');
         
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
-        $category = Mage::registry('category');
         
-        $this->_setFieldset($category->getAttributes(), $fieldset);
+        $this->_setFieldset($this->getCategory()->getAttributes(), $fieldset);
         
         $fieldset->addField('parent_id', 'select', array(
             'name'  => 'parent_id',
@@ -36,16 +45,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
             'name'
         );
 
-        $form->addValues($category->getData());
+        $form->addValues($this->getCategory()->getData());
         
         $fieldset->addField('is_active', 'checkbox', array(
             'name'      => 'is_active',
             'label'     => __('Is Active'),
             'value'     => 1,
-            'checked'   => $category->getIsActive()
+            'checked'   => $this->getCategory()->getIsActive()
             )
         );
         
+        $form->addFieldNameSuffix('general');        
         $this->setForm($form);
         
         return $this;
@@ -53,8 +63,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     
     protected function _getParentCategoryOptions()
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
-        $tree->getCategoryCollection()->addAttributeToSelect('name');
+        $tree = $this->getCategory()->getTreeModel();
+        $tree->getCategoryCollection()
+            ->addAttributeToSelect('name')
+            ->getEntity()
+                ->setStore(0);
+        $storeId = $this->getRequest()->getParam('store');
+        if ($storeId) {
+            
+        }
+        
         $nodes = $tree->load(1, 5)
             ->getTree()
                 ->getNodes();

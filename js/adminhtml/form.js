@@ -3,7 +3,9 @@ var varienForm = new Class.create();
 varienForm.prototype = {
     initialize : function(formId){
         this.formId = formId;
-        this.validator  = new Validation(this.formId, {onElementValidate : this.checkErrors.bind(this)});
+        if($(this.formId)){
+            this.validator  = new Validation(this.formId, {onElementValidate : this.checkErrors.bind(this)});
+        }
         this.errorSections = new Hash();
     },
     
@@ -31,6 +33,7 @@ varienForm.prototype = {
  */
 Validation.isVisible = function(elm){
     while(elm && elm.tagName != 'BODY') {
+        if(elm.disabled) return false;
         if(Element.hasClassName(elm, 'template') && Element.hasClassName(elm, 'no-display')){
             return false;
         }

@@ -37,7 +37,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         Mage::register('category', Mage::getModel('catalog/category'));
         if ($id = (int) $this->getRequest()->getParam('id')) {
-            Mage::registry('category')->load($id);
+            Mage::registry('category')->setStoreId((int)$this->getRequest()->getParam('store'))
+                ->load($id);
+        }
+        $data = Mage::getSingleton('adminhtml/session')->getCategoryData(true);
+        if (isset($data['general'])) {
+            Mage::registry('category')->addData($data['general']);
         }
 
         //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
@@ -104,24 +109,27 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function saveAction()
     {
+        $storeId = (int) $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category = Mage::getModel('catalog/category')
-                ->setData($data)
+                ->setData($data['general'])
                 ->setId($this->getRequest()->getParam('id'))
-                ->setStoreId(1)
+                ->setStoreId($storeId)
                 ->setAttributeSetId(12);
             try {
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')
+                    ->addError($e->getMessage())
+                    ->setCategoryData($data);
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
         }
 
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId())));
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
     }
 
     public function gridAction()

@@ -2,11 +2,12 @@
     <table cellspacing="0" class="grid-header"> 
         <tr>
             <td><h3><?=__('Categories')?></h3></td>
-            <td class="a-right"><?=$this->getAddButtonHtml()?></td>
+            <td class="a-right"><?if($this->getRootNode()->getId()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
         </tr>
     </table>
 </div>
 <?=$this->getStoreSwitcherHtml()?>
+<?if($this->getRootNode()->getId()):?>
 <div id="tree-div" style="width:190px;height:400px"></div>
 <script type="text/javascript">
 Ext.onReady(function(){
@@ -15,14 +16,14 @@ Ext.onReady(function(){
         loader: false,
         enableDD:true,
         containerScroll: true,
-        rootVisible: false
+        rootVisible: '<?=$this->getRootNode()->getIsVisible()?>'
     });
 
     // set the root node
     var root = new Ext.tree.TreeNode({
-        text: 'ROOT',
+        text: '<?=$this->getRootNode()->getName()?>',
         draggable:false,
-        id:'1'
+        id:'<?=$this->getRootNode()->getId()?>'
     });
     tree.setRootNode(root);
     bildCategoryTree(root, <?=$this->getTreeJson()?>);
@@ -111,3 +112,7 @@ categoryMove = function(obj){
     var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
 }
 </script>
+<?else:?>
+<br/><br/>
+<strong><?=__('Set root category in configuration')?></strong>
+<?endif;?>

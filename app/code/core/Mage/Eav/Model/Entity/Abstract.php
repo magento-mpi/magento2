@@ -241,18 +241,16 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         $current = Mage::getSingleton('core/store');
 
-        if (empty($storeId)) {
-
+        if (is_null($storeId)) {
             $store = $current;
             $this->_storeId = $store->getId();
-
         } elseif (is_numeric($storeId)) {
 
             $this->_storeId = $storeId;
             if ($storeId===$current->getId()) {
                 $store = $current;
             } else {
-                $store = Mage::getModel('core/store')->findById($store);
+                $store = Mage::getModel('core/store')->load($storeId);
             }
 
         } elseif (is_string($storeId)) {
@@ -288,7 +286,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function getStoreId()
     {
-        if (empty($this->_storeId)) {
+        if (is_null($this->_storeId)) {
             $this->setStore();
         }
         return $this->_storeId;
@@ -632,8 +630,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
 
-        #$object = $this->getObject();
-
         $select = $this->_read->select()->from($this->getEntityTable());
         $select->where($this->getEntityIdField()."=?", $entityId);
 
@@ -660,7 +656,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
             $entityIdField = current($attributes)->getBackend()->getEntityIdField();
             #$sql = "select attribute_id, value from $table where $entityIdField=".(int)$entityId." and store_id=".$storeId;
-            $select = $this->_read->select()->from($table)->where("$entityIdField=?", $entityId)->where("store_id=?", $storeId);
+            $select = $this->_read->select()
+                ->from($table)
+                ->where("$entityIdField=?", $entityId)
+                ->where("store_id=?", $storeId);
+                
             $values = $this->_read->fetchAll($select);
             if (empty($values)) {
                 continue;
@@ -694,7 +694,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object->setEntityTypeId($this->getTypeId());
         }
 
-        if ($this->getUseDataSharing() && !$object->getStoreId()) {
+        if ($this->getUseDataSharing() && is_null($object->getStoreId())) {
             $object->setStoreId($this->getStoreId());
         }
 
@@ -871,6 +871,15 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     protected function _processSaveData($saveData)
     {
+        /**
+         * $saveData = array(
+         *  'newObject', 
+         *  'entityRow', 
+         *  'insert', 
+         *  'update', 
+         *  'delete'
+         * )
+         */
         extract($saveData);
         
         $insertEntity = true;
@@ -891,7 +900,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             // insert entity table row
             $this->_write->insert($this->getEntityTable(), $entityRow);
             $entityId = $this->_write->lastInsertId();
-            $newObject->setData($entityIdField, $entityId);
+            $newObject->setId($entityId);
         } else {
             // update entity table row
             $this->_write->update($this->getEntityTable(), $entityRow, $condition);
@@ -901,15 +910,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if (!empty($insert)) {
             foreach ($insert as $attrId=>$value) {
                 $attribute = $this->getAttribute($attrId);
-                $entityIdField = $attribute->getBackend()->getEntityIdField();
-                $valueRow = array(
-                    $entityIdField => $entityId,
-                    'entity_type_id' => $newObject->getEntityTypeId(),
-                    'store_id' => $newObject->getStoreId(),
-                    'attribute_id'=>$attrId,
-                    'value'=>$value,
-                );
-                $this->_write->insert($attribute->getBackend()->getTable(), $valueRow);
+                $this->_insertAttribute($newObject, $attribute, $value);
             }
         }
 
@@ -917,11 +918,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if (!empty($update)) {
             foreach ($update as $attrId=>$v) {
                 $attribute = $this->getAttribute($attrId);
-                $this->_write->update(
-                    $attribute->getBackend()->getTable(),
-                    array('value'=>$v['value']),
-                    "value_id=".(int)$v['value_id']
-                );
+                $this->_updateAttribute($newObject, $attribute, $v['value_id'], $v['value']);
             }
         }
 
@@ -933,6 +930,60 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         return $this;
+    }
+    
+    protected function _insertAttribute($object, $attribute, $value, $storeIds = array())
+    {
+        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $row = array(
+            $entityIdField  => $object->getId(),
+            'entity_type_id'=> $object->getEntityTypeId(),
+            'store_id'      => $object->getStoreId(),
+            'attribute_id'  => $attribute->getId(),
+            'value'         => $value,
+        );
+        // If we need seve attribute in multiple store
+        if (empty($storeIds)) {
+            $this->_write->insert($attribute->getBackend()->getTable(), $row);
+        }
+        else {
+            foreach ($storeIds as $storeId) {
+            	$row['store_id'] = $storeId;
+            	$this->_write->insert($attribute->getBackend()->getTable(), $row);
+            }
+        }
+        return $this;
+    }
+    
+    public function _updateAttribute($object, $attribute, $valueId, $value, $stores = array())
+    {
+        if ((bool)$attribute->getIsGlobal()) {
+            $this->_write->update($attribute->getBackend()->getTable(),
+                array('value'=>$value), 
+                'entity_type_id='.(int)$object->getEntityTypeId() . ' AND 
+                 entity_id='.(int)$object->getId().' AND 
+                 attribute_id='.(int)$attribute->getId()
+            );
+
+        }
+        else {
+            $this->_write->update($attribute->getBackend()->getTable(),
+                array('value'=>$value), 
+                'value_id='.(int)$valueId
+            );
+        }
+        return $this;
+        /*if (empty($stores)) {
+            $this->_write->update($attribute->getBackend()->getTable(),
+                array('value'=>$value), 
+                "value_id=".(int)$valueId
+            );
+        }
+        else {
+            if ($attribute->getIsGlobal()) {
+                
+            }
+        }*/
     }
 
     protected function _afterLoad(Varien_Object $object)

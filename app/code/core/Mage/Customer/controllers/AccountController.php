@@ -126,7 +126,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             try {
                 $customer->save();
                 Mage::getSingleton('customer/session')
-                    ->setCustomer($customer)
+                    ->setCustomerAsLoggedIn($customer)
                     // _('customer is registered')
                     ->addSuccess('Customer is registered');
 
@@ -174,14 +174,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             $customer = Mage::getModel('customer/customer')->loadByEmail($email);
             if ($customer->getId()) {
                 try {
-                    $newPassword = Mage::getModel('core/cookie')->randomSequence(8);
-                    $data = array(
-                        'password'      => $newPassword,
-                        'confirmation'  => $newPassword
-                    );
+                    $newPassword = $customer->generatePassword();
                     
-                    $customer->changePassword($data, false)
-                        ->setPassword($newPassword);
+                    $customer->changePassword($newPassword, false);
                         
                     $mailer = Mage::getModel('customer/email')
                         ->setTemplate('email/forgot_password.phtml')
@@ -201,9 +196,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             else {
                 Mage::getSingleton('customer/session')
                     ->addWarning('email address was not found in our records');
-               $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
             }
         }
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
     }
 
 

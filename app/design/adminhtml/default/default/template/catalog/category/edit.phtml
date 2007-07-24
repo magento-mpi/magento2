@@ -7,24 +7,24 @@
         <td>
             <div class="content-header">
                 <table cellspacing="0" class="grid-header"> 
-                        <tr>
-                                <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
-                                <td class="a-right">
-                                <?=$this->getResetButtonHtml()?>
-                                <?if($this->getCategoryId()):?>
-                                        <?=$this->getDeleteButtonHtml()?>
-                                <?endif;?>
-                                <?=$this->getSaveButtonHtml()?>
-                                </td>
-                        </tr>
-                    </table>
-                </div>
+                    <tr>
+                        <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
+                        <td class="a-right">
+                            <?=$this->getResetButtonHtml()?>
+                            <?if($this->getCategoryId()):?>
+                                    <?=$this->getDeleteButtonHtml()?>
+                            <?endif;?>
+                            <?=$this->getSaveButtonHtml()?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <form id="category_edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
             <div id="category_tab_content"></div>
+            </form>
         </td>
     </tr>
 </table>
-
-</form>
 <script type="text/javascript" language="javascript">
     var categoryForm = new varienForm('category_edit_form');
     

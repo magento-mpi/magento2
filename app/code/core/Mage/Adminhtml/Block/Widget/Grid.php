@@ -483,20 +483,19 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $data = array();
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
-                $data[] = $column->getHeader();
+                $data[] = '"'.$column->getHeader().'"';
             }
         }
-        $csv.= implode(';', $data)."\n";
+        $csv.= implode(',', $data)."\n";
 
         foreach ($this->getCollection() as $item) {
             $data = array();
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = $column->getRowField($item);
-
+                    $data[] = '"'.str_replace('"', '""', $column->getRowField($item)).'"';
                 }
             }
-            $csv.= implode(';', $data)."\n";
+            $csv.= implode(',', $data)."\n";
         }
         return $csv;
     }

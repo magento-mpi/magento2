@@ -95,10 +95,12 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 if (!isset($wConfig[$path]) || $wConfig[$path]['inherit']==1) {
                     $config['website'][$wId][$path]['value'] = $data['value'];
                 }
-                foreach ($websites[$wId]['stores'] as $sId=>$dummy) {
-                    $sConfig = $config['store'][$sId];
-                    if (!isset($sConfig[$path]) || $sConfig[$path]['inherit']==1) {
-                        $config['store'][$sId][$path]['value'] = $config['website'][$wId][$path]['value'];
+                if (!empty($websites[$wId]['stores'])) {
+                    foreach ($websites[$wId]['stores'] as $sId=>$dummy) {
+                        $sConfig = $config['store'][$sId];
+                        if (!isset($sConfig[$path]) || $sConfig[$path]['inherit']==1) {
+                            $config['store'][$sId][$path]['value'] = $config['website'][$wId][$path]['value'];
+                        }
                     }
                 }
             }

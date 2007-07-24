@@ -24,9 +24,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<span class="field-row">'."\n";
-        if ($element->getLabel()) {
-            $html.= '<label for="'.$element->getHtmlId().'">'.$element->getLabel().'</label>'."\n";
-        }
+        $html.= $element->getLabelHtml();
         
         $countryId = false;
         if ($country = $element->getForm()->getElement('country_id')) {

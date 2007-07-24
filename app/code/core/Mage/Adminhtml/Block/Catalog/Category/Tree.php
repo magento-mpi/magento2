@@ -32,7 +32,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
                 ))
         );
         
-        $this->setChild('store_switcher', $this->getLayout()->createBlock('adminhtml/store_switcher'));
+        $this->setChild('store_switcher', 
+            $this->getLayout()->createBlock('adminhtml/store_switcher')
+                ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
+        );
     }
     
     public function getAddButtonHtml()
@@ -45,9 +48,14 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         return $this->getChildHtml('store_switcher');
     }
     
+    public function getCategory()
+    {
+        return Mage::registry('category');
+    }
+    
     public function getCategoryId()
     {
-        return Mage::registry('category')->getId();
+        return $this->getCategory()->getId();
     }
     
     public function getNodesUrl()
@@ -68,8 +76,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     public function getRootNode()
     {
         if (!$this->_rootNode) {
-            $tree = Mage::getResourceModel('catalog/category_tree');
-            $storeId      = (int) $this->getRequest()->getParam('store');
+            $tree = $this->getCategory()->getTreeModel();
+            $storeId = (int) $this->getRequest()->getParam('store');
             
             if ($storeId) {
                 $store = Mage::getModel('core/store')->load($storeId);
@@ -79,11 +87,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
                 $parentNodeId = 1;
             }
             
-            
-            
-            $tree->getCategoryCollection()->addAttributeToSelect('name');
+            $tree->getCategoryCollection()->addAttributeToSelect('name')
+                ->getEntity()
+                    ->setStore(0);
             $this->_rootNode = $tree->load($parentNodeId, 5)
-                        ->getRoot();
+                ->getRoot()
+                ->setIsVisible($parentNodeId!=1);
         }
         return $this->_rootNode;
     }
@@ -92,8 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     {
                         
         $rootArray = $this->_getNodeJson($this->getRootNode());
-
-        $json = Zend_Json::encode($rootArray['children']);
+        $json = Zend_Json::encode(isset($rootArray['children']) ? $rootArray['children'] : array());
         return $json;
     }
     

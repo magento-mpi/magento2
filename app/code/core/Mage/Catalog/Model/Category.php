@@ -24,6 +24,18 @@ class Mage_Catalog_Model_Category extends Varien_Object
     {
         return Mage::getResourceSingleton('catalog/category');
     }
+    
+    public function getTreeModel()
+    {
+        return Mage::getResourceModel('catalog/category_tree');
+    }
+    
+    public function setStoreId($storeId)
+    {
+        $this->getResource()->setStore($storeId);
+        $this->setData('store_id', $storeId);
+        return $this;
+    }
 
     /**
      * Load category data
@@ -72,19 +84,6 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
     
     /**
-     * Get category filters
-     *
-     * @return Varien_Data_Collection_Db
-     */
-    public function getFilters()
-    {
-        $collection = Mage::getResourceModel('catalog/category_filter_collection')
-            ->addCategoryFilter($this->getId())
-            ->load();
-        return $collection;
-    }
-    
-    /**
      * Get stores collection for category
      *
      * @return Varien_Data_Collection_Db
@@ -117,5 +116,4 @@ class Mage_Catalog_Model_Category extends Varien_Object
             ->loadAllAttributes()
             ->getAttributesByName();
     }
-
 }
