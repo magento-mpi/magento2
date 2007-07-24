@@ -16,6 +16,8 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->setId('onlineGrid');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
+        $this->setDefaultSort('last_activity');
+        $this->setDefaultDir('DESC');
     }
 
     protected function _prepareCollection()
@@ -31,12 +33,15 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _initCollection()
     {
-        $filterOnlineOnly = $this->getRequest()->getParam('filterOnline', false);
-        $filterCustomersOnly = $this->getRequest()->getParam('filterCustomers', true);
-        $filterGuestsOnly = $this->getRequest()->getParam('filterGuests', false);
+        $filter = $this->getRequest()->getParam('filter_value', false);
+
+        $filterOnlineOnly = ($filter == 'filterOnline') ? false : true;
+        $filterCustomersOnly = ($filter == 'filterCustomers') ? true : false;
+        $filterGuestsOnly = ($filter == 'filterGuests') ? true : false;
 
         $collection = Mage::getResourceSingleton('log/visitor_collection');
-
+        $collection->useOnlineFilter();
+        /*
         if( $filterCustomersOnly ) {
             $collection->showCustomersOnly();
         }
@@ -44,11 +49,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         if( $filterGuestsOnly ) {
             $collection->showGuestsOnly();
         }
-
-        if( $filterOnlineOnly === false ) {
-            $collection->useOnlineFilter();
-        }
-
+        */
         $this->setCollection($collection);
     }
 
@@ -57,9 +58,10 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('id', array(
                             'header'=>__('ID'),
                             'width'=>'40px',
-                            'align'=>'center',
+                            'align'=>'right',
                             'filter' => false,
                             'sortable' => false,
+                            'default' => __('n/a'),
                             'index'=>'customer_id')
                         );
 
@@ -67,6 +69,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                             'header'=>__('First Name'),
                             'filter' => false,
                             'sortable' => false,
+                            'default' => __('Guest'),
                             'index'=>'customer_firstname')
                         );
 
@@ -74,69 +77,55 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                             'header'=>__('Last Name'),
                             'filter' => false,
                             'sortable' => false,
+                            'default' => __('n/a'),
                             'index'=>'customer_lastname')
                         );
 
         $this->addColumn('email', array(
                             'header'=>__('Email'),
-                            'align'=>'center',
                             'filter' => false,
                             'sortable' => false,
+                            'default' => __('n/a'),
                             'index'=>'customer_email')
                         );
 
         $this->addColumn('ip_address', array(
                             'header'=>__('IP Address'),
-                            'align'=>'center',
                             'index'=>'remote_addr',
+                            'default' => __('n/a'),
         	                'renderer'=>'adminhtml/customer_online_grid_renderer_ip')
         	            );
 
         $this->addColumn('session_start_time', array(
                             'header'=>__('Session Start Time'),
-                            'align'=>'center',
+                            'align'=>'left',
                             'type' => 'datetime',
+                            'default' => __('n/a'),
+                            'width' => '200px',
                             'index'=>'first_visit_at')
                         );
 
         $this->addColumn('last_activity', array(
                             'header'=>__('Last Activity'),
-                            'align'=>'center',
+                            'align'=>'left',
                             'type' => 'datetime',
+                            'default' => __('n/a'),
+                            'width' => '20s0px',
                             'index'=>'last_visit_at')
                         );
 
         $this->addColumn('last_url', array(
                             'header'=>__('Last Url'),
-                            'align'=>'center',
+                            'default' => __('n/a'),
                             'index'=>'url')
-                        );
-        /*
-        $this->addColumn('cart_items', array(
-                            'header'=>__('Cart Items'),
-                            'align'=>'center',
-                            'sortable' => false,
-                            'default' => __('Empty'),
-                            'index'=>'quote_data')
-                        );
-        */
-        $this->addColumn('actions', array(
-                         'header' => __('Actions'),
-                         'align' => 'center',
-                         'type' => 'action',
-                         'sortable' => false,
-                         'filter' => false,
-                         'actions' => array(
-                            array(
-                                'url' => Mage::getUrl('*/customer/edit/id/$customer_id'),
-                                'caption' => 'View / Edit',
-                                'title' => __('Click Here to View or Edit this Customer')
-                            )
-                         ))
-
                         );
 
         $this->_initCollection();
         return parent::_beforeToHtml();
+    }
+
+    public function getRowUrl($row)
+    {
+        return ( intval($row->getCustomerId()) > 0 ) ? Mage::getUrl('*/customer/edit', array('id' => $row->getCustomerId())) : '#';
     }
 }

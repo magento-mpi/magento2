@@ -35,7 +35,6 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
             array(
                 'header'=>__('Role User'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'role_name'
             )
         );
@@ -49,13 +48,12 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
                 'type' => 'action',
                 'actions'   => array(
                                     array(
-                                        'caption' => __('Delete'),
+                                        'caption' => __('Remove'),
                                         'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )
             )
         );
-        $this->setFilterVisibility(false);
 
         return parent::_prepareColumns();
     }

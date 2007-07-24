@@ -4,34 +4,40 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
     public function __construct()
     {
         parent::__construct();
+        $this->setDefaultSort('rule_id');
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('tax/rule_collection');
-
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
 
     protected function _prepareColumns()
     {
-        $this->addColumn('customer_tax_class',
+        $this->addColumn('tax_rule_id',
+            array(
+                'header'=>__('ID'),
+                'align' =>'right',
+                'width' => '50px',
+                'index' => 'tax_rule_id'
+            )
+        );
+
+        $this->addColumn('customer_class',
             array(
                 'header'=>__('Customer Tax Class'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'customer_class'
             )
         );
 
-        $this->addColumn('product_tax_class',
+        $this->addColumn('product_class',
             array(
                 'header'=>__('Product Tax Class'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'product_class'
             )
         );
@@ -40,14 +46,12 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>__('Tax Rate'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'rate_name'
             )
         );
 
         $actionsUrl = Mage::getUrl('*/*/');
 
-        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 

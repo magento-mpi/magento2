@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
         $this->addColumn('id', array(
             'header'    =>__('ID'),
             'width'     =>5,
-            'align'     =>'center',
+            'align'     =>'right',
             'sortable'  =>true,
             'index'     =>'user_id'
         ));

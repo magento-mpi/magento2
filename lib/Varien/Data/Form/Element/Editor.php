@@ -13,29 +13,31 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
-        if( $this->getWysiwyg() === true ) 
+        if( $this->getWysiwyg() === true )
         {
             $this->setType('wysiwyg');
             $this->setExtType('wysiwyg');
-        } 
-        else 
+        }
+        else
         {
             $this->setType('textarea');
             $this->setExtType('textarea');
         }
     }
-    
+
     public function getElementHtml()
     {
-        if( $this->getWysiwyg() === true ) 
+        if( $this->getWysiwyg() === true )
         {
+            $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
+
             $html = '
         		<script language="javascript" type="text/javascript" src="'.$this->getForm()->getBaseUrl().'js/tiny_mce/tiny_mce.js"></script>
         		<script language="javascript" type="text/javascript">
                     tinyMCE.init({
                         mode : "exact",
                         theme : "'.$this->getTheme().'",
-                        elements : "'.$this->getHtmlId().'",
+                        elements : "' . $element . '",
                         theme_advanced_toolbar_location : "top",
                         theme_advanced_toolbar_align : "left",
                         theme_advanced_path_location : "bottom",
@@ -55,21 +57,21 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
                 theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
                 theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking"*/
-            
-            return $html;            
+
+            return $html;
         }
-        else 
+        else
         {
             return parent::getElementHtml();
         }
     }
-    
-    public function getTheme() 
+
+    public function getTheme()
     {
         if(!$this->hasData('theme')) {
             return 'simple';
         }
-        
+
         return $this->getData('theme');
     }
 }

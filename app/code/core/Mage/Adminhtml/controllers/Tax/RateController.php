@@ -85,6 +85,30 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
+     * Export rates grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        $fileName   = 'rates.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/tax_rate_grid')
+            ->getCsv();
+
+        $this->_sendUploadResponce($fileName, $content);
+    }
+
+    /**
+     * Export rates grid to XML format
+     */
+    public function exportXmlAction()
+    {
+        $fileName   = 'rates.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/tax_rate_grid')
+            ->getXml();
+
+        $this->_sendUploadResponce($fileName, $content);
+    }
+
+    /**
      * Initialize action
      *
      * @return Mage_Adminhtml_Controller_Action
@@ -100,4 +124,15 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
+
+    protected function _sendUploadResponce($fileName, $content)
+    {
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;
+    }
 }

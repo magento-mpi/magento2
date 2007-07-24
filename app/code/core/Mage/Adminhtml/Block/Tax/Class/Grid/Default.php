@@ -37,12 +37,10 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
             array(
                 'header'=>__('Class Name'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'class_name'
             )
         );
 
-        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 

@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Cms_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'header'=>__('Status'),
                 'index'=>'page_active',
                 'type' => 'boolean',
-                'filter'    => false,
+                'filter'    => 'adminhtml/cms_grid_filter_status',
                 'values' => array(__('Disabled'), __('Enabled'))
             )
         );

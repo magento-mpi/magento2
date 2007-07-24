@@ -21,7 +21,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>__('State'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'region_name'
             )
         );
@@ -30,7 +29,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>__('County'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'county_name',
                 'default' => __('*')
             )
@@ -40,7 +38,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>__('Zip/Post Code'),
                 'align' =>'left',
-                'filter'    =>false,
                 'index' => 'tax_zip_code',
                 'default' => __('*')
             )
@@ -54,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 array(
                     'header'=>$type->getTypeName(),
                     'align' =>'left',
-                    'filter'    =>false,
+                    'filter' => false,
                     'index' => "rate_value{$index}",
                     'default' => __('N/A')
                 )
@@ -62,7 +59,9 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             $index++;
         }
 
-        $this->setFilterVisibility(false);
+        $this->addExportType('*/*/exportCsv', __('CSV'));
+        $this->addExportType('*/*/exportXml', __('XML'));
+
         return parent::_prepareColumns();
     }
 

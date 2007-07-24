@@ -69,8 +69,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     public function disableAction()
     {
         $pageId = intval( $this->getRequest()->getParam('page') );
-        Mage::getModel('cms/page')->disablePage($pageId);
-        $this->_redirect('adminhtml/cms');
+        try {
+            Mage::getModel('cms/page')->disablePage($pageId);
+            $this->_redirect('adminhtml/cms');
+        } catch (Exception $e) {
+            /* FIXME!!! */
+            $this->_redirect('adminhtml/cms');
+        }
     }
 
     public function saveAction()
