@@ -1,6 +1,11 @@
-<div class="head">
-<h3><?=__('Online Customers')?></h3>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="width:30%;"><h3><?=__('Online Visitors')?></h3></td>
+            <td class="a-right">
+                <?=$this->getFilterFormHtml()?>
+            </td>
+        </tr>
+    </table>
 </div>
-<div>
 <?=$this->getChildHtml('grid')?>
-</div>
