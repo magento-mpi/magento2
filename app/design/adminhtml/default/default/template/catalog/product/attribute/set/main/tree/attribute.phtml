@@ -1,1 +1,133 @@
-attribute.phtml
+<div id="tree-div2" style="width:190px;height:400px"></div>
+<script type="text/javascript">
+var TreePanels = function() {
+    // shorthand
+    var Tree = Ext.tree;
+
+    return {
+        init : function(){
+            // yui-ext tree
+
+            var tree = new Ext.tree.TreePanel('tree-div1', {
+                animate:false,
+                loader: false,
+                enableDD:true,
+                containerScroll: true,
+                rootVisible: false
+            });
+
+            // set the root node
+            var root = new Ext.tree.TreeNode({
+                text: 'ROOT',
+                draggable:false,
+                id:'1'
+            });
+            tree.setRootNode(root);
+            buildCategoryTree(root, <?=$this->getGroupTreeJson()?>);
+            // set handlers
+            tree.addListener('beforenodedrop', attributeMove.createDelegate(this));
+
+            // render the tree
+            tree.render();
+            root.expand(false, false);
+            tree.expandAll();
+            //-------------------------------------------------------------
+
+            var tree2 = new Ext.tree.TreePanel('tree-div2', {
+                animate:false,
+                loader: false,
+                enableDD:true,
+                containerScroll: true,
+                rootVisible: false
+            });
+
+            // set the root node
+            var root2 = new Ext.tree.TreeNode({
+                text: 'ROOT',
+                draggable:false,
+                id:'free'
+            });
+            tree2.setRootNode(root2);
+            buildCategoryTree(root2, <?=$this->getAttributeTreeJson()?>);
+            // set handlers
+            tree2.addListener('beforenodedrop', attributeMove.createDelegate(this));
+
+            // render the tree
+            tree2.render();
+            root2.expand(false, false);
+            tree2.expandAll();
+        }
+    };
+}();
+
+function buildCategoryTree(parent, config){
+    if (!config) return null;
+	if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if( config[i].children ) {
+                for( j in config[i].children ) {
+                    if(config[i].children[j].id) {
+                        node.appendChild(new Ext.tree.TreeNode(config[i].children[j]));
+                    }
+                }
+            }
+        }
+    }
+}
+
+attributeMove = function(obj){
+    var data = {id: obj.dropNode.id}
+
+    data.point = obj.point;
+    switch (obj.point) {
+        case 'above' :
+            data.pid = obj.target.parentNode.id;
+            if (obj.target.previousSibling) {
+                data.aid = obj.target.previousSibling.id;
+            } else {
+                data.aid = 0;
+            }
+            break;
+        case 'below' :
+            data.pid = obj.target.parentNode.id;
+            data.aid = obj.target.id;
+        break;
+        case 'append' :
+            data.pid = obj.target.id;
+            if (obj.target.lastChild) {
+                data.aid = obj.target.lastChild.id;
+            } else {
+                data.aid = 0;
+            }
+        break;
+        default :
+            obj.cancel = true;
+            return obj;
+    }
+
+    var success = function(o) {
+        try {
+            if(o.responseText){
+                alert(o.responseText);
+            }
+        }
+        catch(e) {
+
+        }
+    };
+    var failure = function(o) {
+        Ext.dump(o.statusText);
+    };
+
+    var pd = [];
+    for(var key in data) {
+        pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
+    }
+    pd.splice(pd.length-1,1);
+    var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
+}
+
+Ext.EventManager.onDocumentReady(TreePanels.init, TreePanels, true);
+</script>

@@ -10,7 +10,7 @@
  * @subpackage  Core
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Core_Model_Abstract extends Varien_Object 
+abstract class Mage_Core_Model_Abstract extends Varien_Object
 {
     /**
      * Name of the resource model
@@ -18,28 +18,28 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @var string
      */
     protected $_resourceName;
-    
+
     /**
      * Resource model instance
      *
      * @var Mage_Core_Model_Mysql4_Abstract
      */
     protected $_resource;
-    
+
     /**
      * Name of the resource collection model
      *
      * @var string
      */
     protected $_resourceCollectionName;
-    
+
     /**
      * Collection instance
      *
      * @var object
      */
     protected $_resourceCollection;
-    
+
     /**
      * Standard model initialization
      *
@@ -51,7 +51,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $this->setResourceModel($resourceModel);
     }
-    
+
     public function getIdFieldName()
     {
         if (!parent::getIdFieldName()) {
@@ -59,12 +59,12 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return parent::getIdFieldName();
     }
-    
+
     /**
      * Set resource names
      *
      * If collection name is ommited, resource name will be used with _collection appended
-     * 
+     *
      * @param string $resourceName
      * @param string|null $resourceCollectionName
      */
@@ -76,7 +76,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         $this->_resourceCollectionName = $resourceCollectionName;
     }
-    
+
     /**
      * Get resource instance
      *
@@ -92,7 +92,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $this->_resource;
     }
-    
+
     /**
      * Get collection instance
      *
@@ -105,13 +105,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
                 throw Mage::exception('Mage_Core', 'Resource is not set');
             }
             $this->_resourceCollection = Mage::getResourceModel(
-                $this->_resourceCollectionName, 
+                $this->_resourceCollectionName,
                 $this->getResource()
             );
         }
         return $this->_resourceCollection;
     }
-    
+
     /**
      * Load object data
      *
@@ -123,7 +123,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->getResource()->load($this, $id, $field);
         return $this;
     }
-    
+
     /**
      * Save object data
      *
@@ -134,7 +134,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     /**
      * Delete object from database
      *
@@ -145,9 +145,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     /**
-     * Retrieve data for object saving 
+     * Retrieve data for object saving
      *
      * @return array
      */

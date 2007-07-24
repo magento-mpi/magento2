@@ -26,8 +26,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter ext
     	$form->addField('set_switcher', 'select',
             array(
                 'name' => 'set_switcher',
-                'title' => __('Please Choose Set'),
                 'required' => true,
+                'class' => 'left-col-block',
                 'no_span' => true,
                 'values' => $collection,
                 'onchange' => 'this.form.submit()',
