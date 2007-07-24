@@ -34,10 +34,23 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_output = array();
     
+    protected $_area;
+    
     public function __construct($data=array())
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
         parent::__construct($data);
+    }
+    
+    public function setArea($area)
+    {
+    	$this->_area = $area;
+    	return $this;
+    }
+    
+    public function getArea()
+    {
+    	return $this->_area;
     }
     
     public function getCache()
@@ -50,7 +63,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->_cache;
     }
     
-    public function setBlockCache($frontend='Core', $backend='File', array $frontendOptions=array(), array $backendOptions=array())
+    public function setBlockCache($frontend='Core', $backend='File', 
+    	array $frontendOptions=array(), array $backendOptions=array())
     {
         if (empty($frontendOptions['lifetime'])) {
             $frontendOptions['lifetime'] = 7200;
@@ -104,10 +118,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function loadUpdateFile($fileName)
     {
-        $this->updateCacheChecksum(filemtime($fileName));
         $mergeLayout = Mage::getModel('core/layout');
         $mergeLayout->loadFile($fileName);
-        $this->mergeUpdate($mergeLayout->getNode());
+        if ($mergeLayout) {
+        	$this->updateCacheChecksum(filemtime($fileName));
+        	$this->mergeUpdate($mergeLayout->getNode());
+        }
 
         return $this;
     }

@@ -64,7 +64,7 @@
             </newsletter_read>
         </resources>
     </global>
-    <front>
+    <frontend>
        <routers>
          <newsletter>
             <use>standard</use>
@@ -74,5 +74,5 @@
             </args>
          </newsletter>
       </routers>
-    </front>
+    </frontend>
 </config>

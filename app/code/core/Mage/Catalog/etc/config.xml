@@ -242,7 +242,7 @@
          <groups><catalog><class>Mage_Catalog_Block</class></catalog></groups>
       </block>
    </global>
-   <front>
+   <frontend>
       <layouts>
          <default>
             <updates>
@@ -264,5 +264,5 @@
       <default>
          <router>catalog</router>
       </default>
-   </front>
+   </frontend>
 </config>

@@ -80,7 +80,7 @@ class Mage_Core_Controller_Varien_Front
         $this->addRouter('standard', $standard);
         
         // init modules
-        $routers = Mage::getConfig()->getNode('front/routers')->children();
+        $routers = Mage::getConfig()->getNode('frontend/routers')->children();
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
             

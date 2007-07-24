@@ -67,7 +67,7 @@
         </resources>
     </global>
    
-    <front>
+    <frontend>
         <layouts>
             <default>
                 <updates>
@@ -115,6 +115,6 @@
                 </args>
             </directory>
         </routers>
-    </front>
+    </frontend>
 </config>
 

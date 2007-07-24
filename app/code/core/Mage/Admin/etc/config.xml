@@ -46,7 +46,7 @@
             <groups><admin><class>Mage_Admin_Block</class></admin></groups>
         </block>
    </global>
-   <front>
+   <frontend>
       <layouts>
          <admin>
             <updates>
@@ -76,5 +76,5 @@
             </args>
          </admin>
       </routers>
-   </front>
+   </frontend>
 </config>

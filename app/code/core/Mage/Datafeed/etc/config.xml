@@ -7,7 +7,7 @@
             </datafeed>
         </models>
     </global>
-    <front>
+    <frontend>
         <routers>
             <datafeed>
                 <use>standard</use>
@@ -17,5 +17,5 @@
                 </args>
             </datafeed>
         </routers>
-    </front> 
+    </frontend> 
 </config>

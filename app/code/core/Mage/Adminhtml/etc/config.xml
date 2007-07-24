@@ -23,7 +23,20 @@
             <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
         </block>
    </global>
-   <front>
+   
+   <frontend>
+      <routers>
+         <adminhtml>
+            <use>standard</use>
+            <args>
+               <module>Mage_Adminhtml</module>
+               <frontName>adminhtml</frontName>
+            </args>
+         </adminhtml>
+      </routers>
+   </frontend>
+   
+   <adminhtml>
       <layouts>
          <adminhtml>
             <updates>
@@ -72,14 +85,5 @@
             </observers>
          </action_preDispatch_adminhtml>
       </events>
-      <routers>
-         <adminhtml>
-            <use>standard</use>
-            <args>
-               <module>Mage_Adminhtml</module>
-               <frontName>adminhtml</frontName>
-            </args>
-         </adminhtml>
-      </routers>
-   </front>
+   </adminhtml>
 </config>

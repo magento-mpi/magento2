@@ -60,7 +60,7 @@
             </groups>
         </block>
     </global>
-    <front>
+    <frontend>
       <routers>
          <review>
             <use>standard</use>
@@ -70,5 +70,5 @@
             </args>
          </review>
       </routers>
-    </front>
+    </frontend>
 </config>

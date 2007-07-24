@@ -10,7 +10,7 @@
 		 <groups><searchlucene><class>Mage_SearchLucene_Block</class></searchlucene></groups>
       </block>
   </global>
-  <front>
+  <frontend>
     <routers>
       <searchlucene>
         <use>standard</use>
@@ -20,5 +20,5 @@
         </args>
       </searchlucene>
     </routers>
-  </front>
+  </frontend>
 </config>

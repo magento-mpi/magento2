@@ -30,7 +30,7 @@
             <groups><core><class>Mage_Core_Block</class></core></groups>
         </block>
     </global>
-    <front>
+    <frontend>
         <layouts>
             <noRoute>
                 <updates>
@@ -56,5 +56,5 @@
             </args>
          </core>
         </routers>
-    </front>
+    </frontend>
 </config>

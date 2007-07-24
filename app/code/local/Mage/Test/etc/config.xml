@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-    <front>
+    <frontend>
         <routers>
             <test>
                 <use>standard</use>
@@ -10,5 +10,5 @@
                 </args>
             </test>
         </routers>
-    </front> 
+    </frontend> 
 </config>

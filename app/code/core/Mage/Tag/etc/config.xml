@@ -57,7 +57,7 @@
          <groups><tag><class>Mage_Tag_Block</class></tag></groups>
       </block>
    </global>
-   <front>
+   <frontend>
       <routers>
          <tag>
             <default>true</default>
@@ -68,5 +68,5 @@
             </args>
          </tag>
       </routers>
-   </front>
+   </frontend>
 </config>

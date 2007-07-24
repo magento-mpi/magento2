@@ -43,6 +43,8 @@ abstract class Mage_Core_Controller_Varien_Action
          if (!Mage::registry('action')) {
              Mage::register('action', $this);
          }
+         
+         $this->getLayout()->setArea('frontend');
 
          $this->_construct();
      }
@@ -114,7 +116,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
      function loadLayout($ids=null, $key='', $generateBlocks=true)
      {
-        $area = 'front';
+        $area = $this->getLayout()->getArea();
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         Varien_Profiler::start("$_profilerKey/load");
 

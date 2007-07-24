@@ -51,7 +51,7 @@
             </wishlist_read>
         </resources>
     </global>
-    <front>
+    <frontend>
     	<layouts>
             <default>
                 <updates>
@@ -70,5 +70,5 @@
             </args>
          </wishlist>
       </routers>
-    </front>
+    </frontend>
 </config>

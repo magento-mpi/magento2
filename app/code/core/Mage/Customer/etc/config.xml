@@ -103,7 +103,7 @@
         </resources>
     </global>
     
-    <front>
+    <frontend>
         <layouts>
             <default>
                 <updates>
@@ -143,12 +143,5 @@
                 </args>
             </customer>
         </routers>
-    </front>
-    <domains>
-        <base>
-            <defaultCountry>223</defaultCountry>
-            <allowCountries>223,220</allowCountries>
-            <currency>1</currency>
-        </base>
-    </domains>
+    </frontend>
 </config>
