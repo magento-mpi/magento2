@@ -8,13 +8,11 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceSingleton('newsletter/template_collection')
-            ->useOnlyActual()
-            ->useSystemTemplates(true);
+        $collection = Mage::getResourceSingleton('core/email_template_collection');
 
         $this->setCollection($collection);
         
@@ -60,15 +58,15 @@ class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header'=>__('Sender'),
                 'index'=>'template_sender_email',
-                'renderer' => 'adminhtml/system_template_grid_renderer_sender'
+                'renderer' => 'adminhtml/system_email_template_grid_renderer_sender'
         ));
         
         $this->addColumn('type',
             array(
                 'header'=>__('Template Type'),
                 'index'=>'template_type',
-                'filter' => 'adminhtml/system_template_grid_filter_type',
-                'renderer' => 'adminhtml/system_template_grid_renderer_type'
+                'filter' => 'adminhtml/system_email_template_grid_filter_type',
+                'renderer' => 'adminhtml/system_email_template_grid_renderer_type'
         ));
         
         $this->addColumn('action',
@@ -78,7 +76,7 @@ class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Wid
                 'sortable'  => false,
                 'filter' 	=> false,
                 'width'		=> '100px',
-                'renderer'  => 'adminhtml/system_template_grid_renderer_action'
+                'renderer'  => 'adminhtml/system_email_template_grid_renderer_action'
         ));
         
         return $this;

@@ -9,16 +9,15 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Model_Newsletter_Config_Source_Template
+class Mage_Adminhtml_Model_System_Config_Source_Email_Template
 {
 	public function toOptionArray()
 	{
-		if(!$collection = Mage::registry('config_system_template')) {
-			$collection = Mage::getResourceModel('newsletter/template_collection')
-				->useSystemTemplates(true)
+		if(!$collection = Mage::registry('config_system_email_template')) {
+			$collection = Mage::getResourceModel('core/email_template_collection')
 				->load();
 						
-			Mage::register('config_system_template', $collection);
+			Mage::register('config_system_email_template', $collection);
 		}
 		
 		return $collection->toOptionArray();

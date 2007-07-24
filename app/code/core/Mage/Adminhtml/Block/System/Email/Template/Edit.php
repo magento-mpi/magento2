@@ -9,15 +9,15 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
     protected $_template;
     
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('system/template/edit.phtml');
-        $this->_template = Mage::getModel('newsletter/template');
+        $this->setTemplate('system/email/template/edit.phtml');
+        $this->_template = Mage::getModel('core/email_template');
         if ($templateId = (int) $this->_request->getParam('id')) {
             $this->_template->load($templateId);
         }
@@ -181,7 +181,7 @@ class Mage_Adminhtml_Block_System_Template_Edit extends Mage_Adminhtml_Block_Wid
      */
     public function getForm() 
     {
-        return $this->getLayout()->createBlock('adminhtml/system_template_edit_form')
+        return $this->getLayout()->createBlock('adminhtml/system_email_template_edit_form')
             ->renderPrepare($this->_template)
             ->toHtml();
     }

@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     {
     	
         $this->addColumn('id', array(
-        	'header'	=> __('Id'),
+        	'header'	=> __('ID'),
         	'index'		=> 'product_id',
         	'type'		=> 'number',
         	'width'		=> '15px'
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         ));
         
         $this->addColumn('added_at', array(
-        	'header'	=> __('Added At'),
+        	'header'	=> __('Date Added'),
         	'index'		=> 'added_at',
         	'type'		=> 'date'
         ));

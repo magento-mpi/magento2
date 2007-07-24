@@ -9,7 +9,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_System_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
      /** 
      * Constructor
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_System_Template_Edit_Form extends Mage_Adminhtml_Bloc
             'value' => $template->getTemplateSenderEmail()   
         ));       
         
-        $txtType = constant(Mage::getConfig()->getModelClassName('newsletter/template') . '::TYPE_TEXT');
+        $txtType = constant(Mage::getConfig()->getModelClassName('core/email_template') . '::TYPE_TEXT');
         
         $fieldset->addField('text', 'editor', array(
             'name'=>'text',
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_System_Template_Edit_Form extends Mage_Adminhtml_Bloc
             );
         }
         
-        if($values = Mage::getSingleton('adminhtml/session')->getData('newsletter_template_form_data', true)) {
+        if($values = Mage::getSingleton('adminhtml/session')->getData('email_template_form_data', true)) {
         	$form->setValues($values);
         }
         

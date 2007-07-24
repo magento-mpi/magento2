@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
@@ -18,23 +18,23 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
         }
         
     	$this->loadLayout('baseframe');
-        $this->_setActiveMenu('system/template');
+        $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_template', 'template'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template', 'template'));
         $this->renderLayout();
     }
     
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_template_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_email_template_grid')->toHtml());
     }
     
 
     public function newAction()
     {
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('system/template');
+        $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), Mage::getUrl('adminhtml/*'));
 
         if ($this->getRequest()->getParam('id')) {
@@ -43,7 +43,7 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
             $this->_addBreadcrumb(__('New Template'), __('New System Template'));
         }
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_template_edit', 'template_edit')
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template_edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
@@ -56,7 +56,7 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
     public function saveAction()
     {
         $request = $this->getRequest();
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('core/email_template');
         if ($id = (int)$request->getParam('id')) {
             $template->load($id);
         }
@@ -67,16 +67,15 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
-				->setIsSystem(1)
 				->setModifiedAt(now());
 				
             if (!$template->getId()) {
-                $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_HTML");
+                $type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_HTML");
                 $template->setTemplateType($type);
             }
 
             if($this->getRequest()->getParam('_change_type_flag')) {
-                $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_TEXT");
+                $type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_TEXT");
                 $template->setTemplateType($type);
             }
 
@@ -84,7 +83,7 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
             $this->_redirect('*/*');
         }
         catch (Exception $e) {
-        	Mage::getSingleton('adminhtml/session')->setData('newsletter_template_form_data', $this->getRequest()->getParams());
+        	Mage::getSingleton('adminhtml/session')->setData('email_template_form_data', $this->getRequest()->getParams());
         	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         	$this->_forward('new');
         }
@@ -93,7 +92,7 @@ class Mage_Adminhtml_System_TemplateController extends Mage_Adminhtml_Controller
 
     public function deleteAction() {
 
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('core/email_template');
         $id = (int)$this->getRequest()->getParam('id');
         $template->load($id);
         if($template->getId()) {

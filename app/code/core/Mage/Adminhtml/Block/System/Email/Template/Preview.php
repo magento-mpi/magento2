@@ -9,11 +9,11 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  
-class Mage_Adminhtml_Block_System_Template_Preview extends Mage_Adminhtml_Block_Widget 
+class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_Block_Widget 
 {
     public function toHtml() 
     {
-        $template = Mage::getModel('newsletter/template');
+        $template = Mage::getModel('core/email_template');
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
         } else { 

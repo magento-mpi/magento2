@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Newsletter_Model_Template extends Varien_Object
+class Mage_Core_Model_Email_Template extends Varien_Object
 {
     /**
      * Types of template
@@ -26,7 +26,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('newsletter/template');
+        return Mage::getResourceSingleton('core/email_template');
     }
   
     /**
@@ -99,22 +99,9 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
+  
     
-    public function isPreprocessed()
-    {
-    	return strlen($this->getTemplateTextPreprocessed()) > 0;
-    }
-    
-    public function getTemplateTextPreprocessed()
-    {
-    	if($this->_preprocessFlag) {
-    		$this->setTemplateTextPreprocessed($this->getProcessedTemplate());
-    	}
-    	    	
-    	return $this->getData('template_text_preprocessed');
-    }
-    
-    public function getProcessedTemplate(array $variables = array(), $usePreprocess=false)
+    public function getProcessedTemplate(array $variables = array())
     {
         $processor = new Varien_Filter_Template();
         
@@ -125,10 +112,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $processor
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
-        
-        if($usePreprocess && $this->isPreprocessed()) {
-        	return $processor->filter($this->getTemplateTextPreprocessed());
-        }
+       
         
         return $processor->filter($this->getTemplateText());
     }
@@ -146,33 +130,25 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     }
     
     /**
-     * Send mail to subscriber
+     * Send mail to recipient
      *
-     * @param   Mage_Newsletter_Model_Subscriber|string   $subscriber   subscriber Model or E-mail
-     * @param   array                                     $variables    template variables
-     * @param   string|null                               $name         receiver name (if subscriber model not specified)
-     * @param   Mage_Newsletter_Model_Queue|null          $queue        queue model, used for problems reporting.
+     * @param   string      $email		  E-mail
+     * @param   string|null $name         receiver name
+     * @param   array       $variables    template variables
      * @return boolean 
      **/
-    public function send($subscriber, array $variables = array(), $name=null, Mage_Newsletter_Model_Queue $queue=null)
+    public function send($email, $name=null, array $variables = array())
     {
         if(!$this->isValidForSend()) {
             return false;
         }
         
-        $email = '';
-        if($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
-            $email = $subscriber->getSubscriberEmail();
-            if (is_null($name) && ($subscriber->hasCustomerFirstname() || $subscriber->hasCustomerLastname()) ) {
-                $name = $subscriber->getCustomerFirstname() . ' ' . $subscriber->getCustomerLastname();
-            }
-        } else {
-            $email = (string) $subscriber;
-        }
-        
         if (is_null($name)) {
-            $name = $email;
+            $name = substr($email, 0, strpos($email, '@'));
         }
+                
+        $variables['email'] = $email;
+        $variables['name'] = $email;
         
         $mail = new Zend_Mail('utf-8');
         $mail->addTo($email, $name);
@@ -188,28 +164,8 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
         try {
             $mail->send();
-         	if(!is_null($queue)) { 
-            	$subscriber->received($queue);
-            }
         }
         catch (Exception $e) {
-            if($subscriber instanceof Mage_Newsletter_Model_Subscriber) { 
-                // If letter sent for subscriber, we create a problem report entry
-                $problem = Mage::getModel('newsletter/problem');
-                $problem->addSubscriberData($subscriber);
-                if(!is_null($queue)) { 
-                	$problem->addQueueData($queue);
-                }
-                $problem->addErrorData($e);
-                $problem->save();
-                
-                if(!is_null($queue)) { 
-                  $subscriber->received($queue);
-                }
-            } else {
-                // Otherwise throw error to upper level
-                throw $e;
-            }
             return false;
         }
         
@@ -225,13 +181,5 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         $this->setId(null);
         return $this;
     }
-    
-    public function preprocess()
-    {
-    	$this->_preprocessFlag = true;
-    	$this->save();
-    	$this->_preprocessFlag = false;
-    	return $this;
-    }
-    
+        
 }

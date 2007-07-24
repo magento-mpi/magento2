@@ -222,10 +222,10 @@
                         </backup>
                     </children>
                 </tools>
-                <template>
+                <email_template>
                     <title>Transactional Emails</title>
-                    <action>adminhtml/system_template</action>
-                </template>
+                    <action>adminhtml/system_email_template</action>
+                </email_template>
                 <acl>
                     <title>Permissions</title>
                     <children>

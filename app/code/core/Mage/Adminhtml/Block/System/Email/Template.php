@@ -9,17 +9,17 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Template extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Email_Template extends Mage_Core_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('system/template/list.phtml');
+        $this->setTemplate('system/email/template/list.phtml');
     }
 
     protected function _initChildren()
     {
-    	$this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_template_grid', 'newsletter.template.grid'));
+    	$this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_email_template_grid', 'email.template.grid'));
         return $this;
     }
     

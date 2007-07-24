@@ -13,6 +13,9 @@
                     <config_field>
                         <table>core_config_field</table>
                     </config_field>
+                    <email_template>
+                        <table>core_email_template</table>
+                    </email_template>
                     <resource>
                         <table>core_resource</table>
                     </resource>
