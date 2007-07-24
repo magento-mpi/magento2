@@ -22,8 +22,11 @@ class Mage_Core_Model_Translate
         $this->_language = Mage::getSingleton('core/store')->getLanguageCode();
         $this->_sections = (array) Mage::getConfig()->getNode('translate');
 		$this->_adapter  = 'csv';
-        $this->_baseDir = Mage::getSingleton('core/store')->getDir('translate').DS.$this->_language.DS;
-        $this->_translate = new Zend_Translate($this->_adapter, $this->_baseDir.'base.csv', $this->_language);
+        $this->_translate = new Zend_Translate($this->_adapter, 
+        	Mage::getDesign()->getTranslateFilename('base.csv', array(
+        		'_language' => $this->getLanguage(),
+        	)), $this->getLanguage()
+       	);
         
         // TODO: dynamic load
         foreach ($this->_sections as $section=>$sectionFile) {
@@ -35,7 +38,12 @@ class Mage_Core_Model_Translate
     
     public function loadTranslationFile($file)
     {
-        $this->_translate->addTranslation($this->_baseDir.$file, $this->_language);
+        $this->_translate->addTranslation(	
+        	Mage::getDesign()->getTranslateFilename($file, array(
+    		'_language' => $this->getLanguage(),
+    		)), $this->getLanguage()
+    	);
+    	return $this;
     }
     
     public function setLanguage($language)

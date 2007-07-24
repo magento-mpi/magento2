@@ -53,7 +53,7 @@ class Mage_Core_Model_Design_Package
 	public function getArea()
 	{
 		if (empty($this->_area)) {
-			$this->_area = $tihs->getDefaultArea();
+			$this->_area = $this->getDefaultArea();
 		}
 		return $this->_area;
 	}
@@ -120,7 +120,7 @@ class Mage_Core_Model_Design_Package
 	{
 		$this->updateParamDefaults($params);
 		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-			$params['_area'].DS.$params['_package'].DS.$params['_type'].DS.$params['_theme'];
+			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'];
 		return $baseDir;
 	}
 
@@ -131,7 +131,7 @@ class Mage_Core_Model_Design_Package
 			$params['_language'] = Mage::getStoreConfig('general/local/language');
 		}
 		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-			$params['_area'].DS.$params['_package'].DS.'translate'.DS.$params['_language'];
+			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'].DS.$params['_language'];
 		return $baseDir;
 	}
 	
