@@ -18,7 +18,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
 		$this->setChild('form',
 			$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form','form')
 		);
-		
+		$queue = Mage::getSingleton('newsletter/queue');
+		$queue->addTemplateData($queue);
 		return parent::_beforeToHtml();
 	}
 	
@@ -63,9 +64,22 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
     			)
     	);
     	
+    	$this->setChild('toggle_button', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('Toggle Editor'),
+    					'onclick' => 'queueControl.toggleEditor();'
+    				)
+    			)
+    	);
+    	
     }
     
-    
+    public function getToggleButtonHtml()
+    {
+    	return $this->getChildHtml('toggle_button');
+    }
     
     public function getSaveButtonHtml()
     {
@@ -93,6 +107,12 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
     	return !in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_NEVER, Mage_Newsletter_Model_Queue::STATUS_PAUSE));
     }
     
+    public function getIsTextType()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue');
+    	return $queue->getTemplate()->isPlain();
+    }
+    
     public function getCanResume()
     {
     	$queue = Mage::getSingleton('newsletter/queue');
@@ -101,7 +121,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
     
     public function getHeaderText() 
     {
-    	return ( $this->getIsPreview() ? __('Edit Newsletter Queue') : __('Newsletter Queue'));
+    	return ( $this->getIsPreview() ? __('View Newsletter Queue') : __('Edit Newsletter Queue'));
     }
 
 	

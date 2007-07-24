@@ -56,7 +56,7 @@
                     <resource>admin/newsletter/queue</resource>
                 </queue>
                 <problem>
-                    <title>Problem Reports</title>
+                    <title>Newsletter Problem Reports</title>
                     <action>adminhtml/newsletter_problem/</action>
                     <resource>admin/newsletter/problem</resource>
                 </problem>

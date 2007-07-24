@@ -48,7 +48,7 @@
             }
             this.unconvertedText = $('text').value; 
             $('convert_button').hide();
-            $('toogle_button').hide();
+            $('toggle_button').hide();
             $('text').value =  $('text').value.stripScripts().stripTags();
             $('convert_button_back').show();
             this.typeChange = true;
@@ -56,7 +56,7 @@
         },
         unStripTags: function () {
             $('convert_button').show();
-            $('toogle_button').show();
+            $('toggle_button').show();
             $('convert_button_back').hide();
             $('text').value =  this.unconvertedText;
             if(this.isEditor) {

@@ -15,7 +15,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 	{
 		$queue = Mage::getSingleton('newsletter/queue');
 			
-		$queue->addTemplateData($queue);
 		$form = new Varien_Data_Form();
 		
 		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue Information')));
@@ -102,6 +101,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'label'	  =>	__('Message'),
 				'title'	  =>	__('Message'),
 				'state'   =>    'html',
+				'theme'	  =>    'advanced',
+				'class'   =>    'required-entry',
            		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
 			));
         } else {

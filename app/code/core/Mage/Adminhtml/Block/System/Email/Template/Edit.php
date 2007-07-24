@@ -70,6 +70,17 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     			)
     	);
     	
+    	$this->setChild('toggle_button', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('Toggle Editor'),
+    					'onclick' => 'templateControl.toggleEditor();',
+    					'id'	  => 'toggle_button'
+    				)
+    			)
+    	);
+    	
     	$this->setChild('save_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
@@ -99,11 +110,18 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     				)
     			)
     	);
+    	
+    	
     }
     
     public function getBackButtonHtml()
     {
     	return $this->getChildHtml('back_button');
+    }
+    
+    public function getToggleButtonHtml()
+    {
+    	return $this->getChildHtml('toggle_button');
     }
     
     
@@ -167,10 +185,10 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     public function getHeaderText() 
     {
         if($this->getEditMode()) {
-          return __('Edit Template');
+          return __('Edit Email Template');
         }
         
-        return  __('New Template');
+        return  __('New Email Template');
     }
     
        

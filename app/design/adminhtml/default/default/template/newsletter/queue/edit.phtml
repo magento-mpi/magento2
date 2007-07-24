@@ -6,6 +6,9 @@
             	  <?=$this->getBackButtonHtml()?>
             	  <?if(!$this->getIsPreview()):?>
             	  <?=$this->getResetButtonHtml()?>
+            	  <?if(!$this->getIsTextType()):?>
+            	  <?=$this->getToggleButtonHtml()?>
+            	  <?endif?>
                   <?=$this->getSaveButtonHtml()?>
 				  <?endif?>
 				  <?if($this->getCanResume()):?>
@@ -24,6 +27,7 @@
 var queueForm = new varienForm('queue_edit_form');
 
 var queueControl = {
+	isEditor: false,
 	save: function() {
 		$('_resume_flag').value = '';
 		queueForm.submit();
@@ -31,7 +35,15 @@ var queueControl = {
 	resume: function() {
 		$('_resume_flag').value = '1';
 		queueForm.submit();
-	}
+	},
+	toggleEditor: function () {
+        	if(this.isEditor) {
+        		tinyMCE.execCommand('mceRemoveControl', false, 'text');
+        	} else {
+        		tinyMCE.execCommand('mceAddControl', false, 'text');
+        	}        	
+        	this.isEditor = !this.isEditor;
+    }
 };
 //-->
 </script>

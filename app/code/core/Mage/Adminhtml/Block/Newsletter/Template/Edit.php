@@ -70,6 +70,17 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     			)
     	);
     	
+    	$this->setChild('toggle_button', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('Toggle Editor'),
+    					'onclick' => 'templateControl.toggleEditor();',
+    					'id'	  => 'toggle_button'
+    				)
+    			)
+    	);
+    	
     	$this->setChild('save_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
@@ -106,7 +117,11 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     	return $this->getChildHtml('back_button');
     }
     
-    
+    public function getToggleButtonHtml()
+    {
+    	return $this->getChildHtml('toggle_button');
+    }
+        
     public function getResetButtonHtml()
     {
     	return $this->getChildHtml('reset_button');
@@ -167,10 +182,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getHeaderText() 
     {
         if($this->getEditMode()) {
-          return __('Edit Template');
+          return __('Edit Newsletter Template');
         }
         
-        return  __('New Template');
+        return  __('New Newsletter Template');
     }
     
        
