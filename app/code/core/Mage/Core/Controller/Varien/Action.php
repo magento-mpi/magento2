@@ -47,6 +47,8 @@ abstract class Mage_Core_Controller_Varien_Action
          $this->getLayout()->setArea('frontend');
 
          $this->_construct();
+         
+		 Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
      }
 
      protected function _construct()
