@@ -1,0 +1,104 @@
+<div id="tree-div" style="width:190px;height:400px"></div>
+<script type="text/javascript">
+Ext.onReady(function(){
+    var tree = new Ext.tree.TreePanel('tree-div', {
+        animate:false,
+        loader: false,
+        enableDD:true,
+        containerScroll: true,
+        rootVisible: false
+    });
+
+    // set the root node
+    var root = new Ext.tree.TreeNode({
+        text: 'ROOT',
+        draggable:false,
+        id:'1'
+    });
+    tree.setRootNode(root);
+    bildCategoryTree(root, <?=$this->getTreeJson()?>);
+    // set handlers
+    tree.addListener('click', categoryClick.createDelegate(this));
+    tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
+
+    // render the tree
+    tree.render();
+    root.expand();
+    tree.expandAll();
+
+    var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
+    if(selectedNode){
+        tree.getSelectionModel().select(selectedNode);
+    }
+});
+
+function bildCategoryTree(parent, config){
+    if (!config) return null;
+
+	if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                bildCategoryTree(node, config[i].children);
+            }
+        }
+    }
+}
+
+categoryClick = function(node, e){
+    setLocation('<?=$this->getEditUrl()?>'+'id/'+node.id+'/');
+};
+
+categoryMove = function(obj){
+    var data = {id: obj.dropNode.id}
+
+    data.point = obj.point;
+    switch (obj.point) {
+        case 'above' :
+            data.pid = obj.target.parentNode.id;
+            if (obj.target.previousSibling) {
+                data.aid = obj.target.previousSibling.id;
+            } else {
+                data.aid = 0;
+            }
+            break;
+        case 'below' :
+            data.pid = obj.target.parentNode.id;
+            data.aid = obj.target.id;
+        break;
+        case 'append' :
+            data.pid = obj.target.id;
+            if (obj.target.lastChild) {
+                data.aid = obj.target.lastChild.id;
+            } else {
+                data.aid = 0;
+            }
+        break;
+        default :
+            obj.cancel = true;
+            return obj;
+    }
+
+    var success = function(o) {
+        try {
+            if(o.responseText){
+                alert(o.responseText);
+            }
+        }
+        catch(e) {
+
+        }
+    };
+    var failure = function(o) {
+        Ext.dump(o.statusText);
+    };
+
+    var pd = [];
+    for(var key in data) {
+        pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
+    }
+    pd.splice(pd.length-1,1);
+    var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
+}
+</script>

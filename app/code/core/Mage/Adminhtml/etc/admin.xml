@@ -80,12 +80,10 @@
                     <title>Product Attributes</title>
                     <action>adminhtml/catalog_product_attribute/</action>
                 </attributes>
-                <!--
-                <attributes>
+                <sets>
                     <title>Product Sets</title>
                     <action>adminhtml/catalog_product_set/</action>
-                </attributes>
-                -->
+                </sets>
                 <reviews>
                     <title>Reviews</title>
                     <action>adminhtml/catalog_product_review/</action>

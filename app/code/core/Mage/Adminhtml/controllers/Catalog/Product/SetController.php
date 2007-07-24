@@ -20,9 +20,19 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets Title'));
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_set_toolbar_main'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_set_main'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_main'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main'));
 
         $this->renderLayout();
+    }
+
+    public function moveAction()
+    {
+        #
+    }
+
+    public function removeAction()
+    {
+        #
     }
 }
