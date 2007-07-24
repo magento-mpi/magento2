@@ -1,7 +1,0 @@
-<?if(!empty($collection) && $collection->getSize()):?>
-    <?foreach ($collection as $_rating):?>
-    <?if($_rating->getSummary()):?>
-        <div><?=__($_rating->getRatingCode())?>:<?=$_rating->getSummary()?></div>
-    <?endif;?>
-    <?endforeach;?>
-<?endif;?>

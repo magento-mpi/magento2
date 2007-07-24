@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<layoutUpdate>
-    <reference name="left">
-        <block type="wishlist/customer_sidebar" name="left.wishlist">
-            <action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
-        </block>
-    </reference>    
-</layoutUpdate>
