@@ -1,2 +1,51 @@
-.input-button { padding:2px 4px; }
-.buttons-container, fieldset.group-select li, .container, .home-callout, .header, .middle { height:1%; }
+
+.clear, 
+.account-access,
+#nav,
+.header-sub,
+#main,
+.pager,
+.view-by,
+.widget-selection-list li,
+.listing-type-list .listing-item,
+.listing-type-list .product-info .product-reviews,
+.box .head,
+.box .actions,
+.mini-cart .sales-value,
+#nav ul a,
+.col2-set,
+.col3-set {
+ zoom:1;
+}
+
+.clear {
+	display:block;
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0;
+	}
+
+.form-button, .form-button-alt {
+	margin-left:4px;
+	padding-left:4px;
+	background-image:url(../images/form_button_left.gif);
+	background-position:0 0; 
+	}
+.form-button span, .form-button-alt span {
+	background-image:url(../images/form_button_right.gif);
+	}
+
+
+#nav iframe {
+	position: absolute;
+	left: -1px;
+	top: 0;
+	z-index: -1;
+	filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
+}
+
+.quick-access li {
+	padding-right:4px;
+	padding-left:6px;
+	}
