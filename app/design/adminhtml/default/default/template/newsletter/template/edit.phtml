@@ -8,6 +8,7 @@
                 <?if(!$this->isTextType()):?>
                 <?=$this->getToPlainButtonHtml();?>
                 <?=$this->getToHtmlButtonHtml();?>
+ 				<?=$this->getToggleButtonHtml();?>
                 <?endif?>
                 <?=$this->getSaveButtonHtml();?>
                 <?=$this->getPreviewButtonHtml();?>
@@ -32,18 +33,22 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
+        isEditor: false,
         init: function () {
         	if ($('convert_button_back')) { 
         		$('convert_button_back').hide();
         	}
         },
         stripTags: function () {
-            if(!window.confirm("<?=__('Are yuo sure?')?>")) { 
+            if(!window.confirm("<?=__('Are you sure?')?>")) { 
                 return false;
             }
-            tinyMCE.execCommand('mceRemoveControl', false, 'text');
+            if(this.isEditor) {
+            	tinyMCE.execCommand('mceRemoveControl', false, 'text');
+            }
             this.unconvertedText = $('text').value; 
             $('convert_button').hide();
+            $('toogle_button').hide();
             $('text').value =  $('text').value.stripScripts().stripTags();
             $('convert_button_back').show();
             this.typeChange = true;
@@ -51,11 +56,22 @@
         },
         unStripTags: function () {
             $('convert_button').show();
+            $('toogle_button').show();
             $('convert_button_back').hide();
             $('text').value =  this.unconvertedText;
-            tinyMCE.execCommand('mceAddControl', false, 'text');
+            if(this.isEditor) {
+            	tinyMCE.execCommand('mceAddControl', false, 'text');
+            }
             this.typeChange = false;
             return false;
+        },
+        toggleEditor: function () {
+        	if(this.isEditor) {
+        		tinyMCE.execCommand('mceRemoveControl', false, 'text');
+        	} else {
+        		tinyMCE.execCommand('mceAddControl', false, 'text');
+        	}        	
+        	this.isEditor = !this.isEditor;
         },
         save: function() {
             if (this.typeChange) {
@@ -78,7 +94,7 @@
         },
         
         deleteTemplate: function() {
-            if(window.confirm("<?=__('Are yuo sure?')?>")) { 
+            if(window.confirm("<?=__('Are you sure?')?>")) { 
                	window.location.href = '<?=$this->getDeleteUrl()?>';
             }
         }

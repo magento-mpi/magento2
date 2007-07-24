@@ -88,9 +88,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'wysiwyg' => ($template->getTemplateType() != $txtType),
             'label' => __('Template Content'),
             'title' => __('Template Content'),
-            'cols' => 20,
-            'rows' => 15,
             'theme' => 'advanced',
+            'state' => 'html',
             'value' => $template->getTemplateText()
         ));
         

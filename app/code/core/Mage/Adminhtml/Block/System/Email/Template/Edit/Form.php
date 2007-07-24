@@ -88,9 +88,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'wysiwyg' => ($template->getTemplateType() != $txtType),
             'label' => __('Template Content'),
             'title' => __('Template Content'),
-            'cols' => 20,
-            'rows' => 15,
             'theme' => 'advanced',
+            'state' => 'html',
             'value' => $template->getTemplateText()
         ));
         

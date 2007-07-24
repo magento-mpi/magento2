@@ -101,8 +101,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'wysiwyg' =>    !$queue->getTemplate()->isPlain(),
 				'label'	  =>	__('Message'),
 				'title'	  =>	__('Message'),
-				'theme'	  => 	'advanced',
-				'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
+				'state'   =>    'html',
+           		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
 			));
         } else {
         	$fieldset->addField('text','text', array(

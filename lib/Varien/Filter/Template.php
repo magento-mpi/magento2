@@ -14,7 +14,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     /** 
      * Cunstruction regular expression
      */
-    const CONSTRUCTION_PATTERN = '/{([a-z]{0,10})(.*?)}/si';
+    const CONSTRUCTION_PATTERN = '/{{([a-z]{0,10})(.*?)}}/si';
     
     /**
      * Assigned template variables

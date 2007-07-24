@@ -160,7 +160,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $mail->setBodyHTML($text);
         }
                     
-        $mail->setSubject($this->getTemplateSubject());
+        $mail->setSubject($this->getProcessedTemplateSubject($variables));
         $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
         try {
             $mail->send();
@@ -181,5 +181,18 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $this->setId(null);
         return $this;
     }
+    
+    
+    public function getProcessedTemplateSubject(array $variables) 
+    {
+    	$processor = new Varien_Filter_Template();
         
+        if(!$this->_preprocessFlag) {
+        	$variables['this'] = $this;
+        }
+        
+        $processor->setVariables($variables);
+        
+        return $processor->filter($this->getTemplateSubject());
+    }
 }
