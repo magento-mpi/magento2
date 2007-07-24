@@ -1,18 +1,16 @@
 <?php
 
-abstract class Mage_Rule_Model_Abstract extends Varien_Object
+class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+    	$this->_init('rule/rule');
         $this->setStopProcessingRules(false);
         $this->resetConditions();
         $this->resetActions();
         $this->setForm(new Varien_Data_Form());
     }
-    
-    abstract public function getResource();
-    
+
     public function resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
         if (is_null($conditions)) {
@@ -24,20 +22,26 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
         return $this;
     }
     
-    abstract public function getConditionInstance($type);
+    public function getConditionInstance($type)
+    {
+    	throw Mage::exception('Please overload getConditionInstance');
+    }
     
     public function resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
         if (is_null($actions)) {
             $actions = Mage::getModel('rule/action_collection');
         }
-        $actions->setRule($this);
+        $actions->setRule($this)->setId('1');
         $this->setActions($actions);
         
         return $this;
     }
 
-    abstract public function getActionInstance($type);
+    public function getActionInstance($type)
+    {
+    	throw Mage::exception('Please overload getActionInstance');
+    }
     
     public function asString($format='')
     {
@@ -100,46 +104,21 @@ abstract class Mage_Rule_Model_Abstract extends Varien_Object
         return $this->getConditions()->validate();
     }
     
-    public function load($ruleId)
+    protected function _afterLoad()
     {
-        $data = $this->getResource()->load($ruleId);
-        if (empty($data)) {
-            return $this;
-        }
-        $this->addData($data);
-        
-        $conditionsArr = unserialize($this->getConditionsSerialized());
+		$conditionsArr = unserialize($this->getConditionsSerialized());
         $this->getConditions()->loadArray($conditionsArr);
         
         $actionsArr = unserialize($this->getActionsSerialized());
         $this->getActions()->loadArray($actionsArr);
-        
-        return $this;
     }
-    
-    public function save()
+
+    protected function _beforeSave()
     {
         $conditions = serialize($this->getConditions()->asArray());
         $this->setConditionsSerialized($conditions);
 
         $actions = serialize($this->getActions()->asArray());
         $this->setActionsSerialized($actions);
-        
-        $this->getResource()->save($this);
-        
-        return $this;
     }
-    
-    public function delete($ruleId=null)
-    {
-        if (is_null($ruleId)) {
-            $ruleId = $this->getId();
-        }
-        
-        if ($ruleId) {
-            $this->getResource()->delete($ruleId);
-        }
-        return $this;
-    }
-
 }

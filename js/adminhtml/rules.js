@@ -26,7 +26,7 @@ function hideRuleParamInputField(event) {
 
 	elem = Element.down(this, 'input.input-text');
 	if (elem) {
-		label.innerHTML = "'"+elem.value+"'";
+		label.innerHTML = elem.value;
 	}
 }
 

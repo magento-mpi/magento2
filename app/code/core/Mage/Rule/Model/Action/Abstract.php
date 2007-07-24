@@ -21,7 +21,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return array();
     }
     
-    public function loadArray($arr)
+    public function loadArray(array $arr)
     {
         $this->setType($arr['type']);
         return $this;
@@ -29,7 +29,17 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     
     public function loadAttributeOptions()
     {
+    	$this->setAttributeOption(array());
         return $this;
+    }
+    
+    public function getAttributeSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getAttributeOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
     }
     
     public function getAttributeName()
@@ -46,6 +56,15 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return $this;
     }
     
+    public function getOperatorSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getOperatorOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
+    }
+    
     public function getOperatorName()
     {
         return $this->getOperatorOption($this->getOperator());
@@ -53,7 +72,17 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     
     public function loadValueOptions()
     {
+    	$this->setValueOption(array());
         return $this;
+    }
+    
+    public function getValueSelectOptions()
+    {
+    	$opt = array();
+    	foreach ($this->getValueOption() as $k=>$v) {
+    		$opt[] = array('value'=>$k, 'label'=>$v);
+    	}
+    	return $opt;
     }
     
     public function getValueName()
@@ -61,14 +90,14 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return $this->getValue();
     }
     
-    public function asHtml($format='')
+    public function asHtml()
     {
         return "";
     }
     
     public function asHtmlRecursive($level=0)
     {
-        $str = str_pad('', $level*3, ' ', STR_PAD_LEFT).$this->asHtml();
+        $str = str_pad('', $level*3*6, '&nbsp;', STR_PAD_LEFT).$this->asHtml();
         return $str;
     }    
     public function asString($format='')

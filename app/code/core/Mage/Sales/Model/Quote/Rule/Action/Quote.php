@@ -2,12 +2,10 @@
 
 class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Abstract
 {
-    public function loadAttributes()
+    public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'coupon_code'=>'Coupon code',
             'subtotal'=>'Subtotal',
-            'currency_code'=>'Currency',
             'shipping_amount'=>'Shipping amount',
             'shipping_method'=>'Shipping method',
             'discount_amount'=>'Discount amount',
@@ -17,7 +15,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Ab
         return $this;
     }
     
-    public function loadArray($arr)
+    public function loadArray(array $arr)
     {
         $this->addData(array(
             'attribute'=>$arr['attribute'],
@@ -36,6 +34,32 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Ab
             'value'=>$this->getValue(),
         );
         return $arr;
+    }
+    
+    public function asHtml()
+    {
+    	$form = $this->getRule()->getForm();
+    	$renderer = new Mage_Rule_Block_Editable();
+    	
+    	$attrEl = $form->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'values'=>$this->getAttributeSelectOptions(),
+    		'value'=>$this->getAttribute(),
+    		'value_name'=>$this->getAttributeName(),
+    	))->setRenderer($renderer);
+    	
+    	$operEl = $form->addField('action:'.$this->getId().':operator', 'select', array(
+    		'values'=>$this->getOperatorSelectOptions(),
+    		'value'=>$this->getOperator(),
+    		'value_name'=>$this->getOperatorName(),
+    	))->setRenderer($renderer);
+    	
+    	$valueEl = $form->addField('action:'.$this->getId().':value', 'text', array(
+    		'value'=>$this->getValue(),
+    		'value_name'=>$this->getValueName(),
+    	))->setRenderer($renderer);
+    	
+        $str = "Update cart ".$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
+        return $str;
     }
     
     public function asString($format='')

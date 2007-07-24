@@ -27,11 +27,10 @@ class Mage_Adminhtml_Block_Rule_Test extends Mage_Core_Block_Abstract
             $rule->getConditions()->loadArray($conditionsArr);
             $actionsArr = array(
                 array('type'=>'quote', 'attribute'=>'discount_percent', 'operator'=>'+=', 'value'=>10),
-                array('type'=>'quote_item_add', 'value'=>'efg456', 'item_qty'=>1),
-                array('type'=>'quote_item', 'attribute'=>'price', 'operator'=>'=', 'value'=>0, 'item_number'=>3, 'item_qty'=>1),
+                array('type'=>'quote_item', 'attribute'=>'price', 'operator'=>'=', 'value'=>0, 'item_number'=>1, 'item_qty'=>1),
                 array('type'=>'stop'),
             );
-            #$rule->getActions()->loadArray($actionsArr);
+            $rule->getActions()->loadArray($actionsArr);
             #$rule->save(); echo "SAVING...<hr>";
         }
 

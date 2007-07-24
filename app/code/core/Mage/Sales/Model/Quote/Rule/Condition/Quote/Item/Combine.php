@@ -51,7 +51,8 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Rule
     	))->setRenderer($renderer);
     	
        	$html = "If an item is ".$valueEl->getHtml()
-            .' in the cart with '.$attrEl->getHtml()." of these conditions true (# ".$this->getItemNumber().")";
+            .' in the cart with '.$attrEl->getHtml()
+            ." of these conditions true (<strong># ".$this->getItemNumber()."</strong>)";
             
     	return $html;
     }

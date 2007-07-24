@@ -1,7 +1,12 @@
 <?php
 
-class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
+class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Rule
 {
+	protected function _construct()
+	{
+		parent::_construct();
+	}
+	
     public function getId()
     {
         return $this->getQuoteRuleId();
@@ -102,10 +107,5 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Abstract
         }
 
         return parent::validate();
-    }
-    
-    public function getResource()
-    {
-        return Mage::getResourceModel('sales/quote_rule');
     }
 }

@@ -30,7 +30,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
         return $out;
     }
     
-    public function loadArray($arr)
+    public function loadArray(array $arr)
     {
         $salesConfig = Mage::getSingleton('sales/config');
         
@@ -50,11 +50,26 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 
         $actions[] = $action;
         if (!$action->getId()) {
-            $action->setId($this->getId().'.'.sizeof($action));
+            $action->setId($this->getId().'.'.sizeof($actions));
         }
         
         $this->setActions($actions);
         return $this;
+    }
+    
+    public function asHtml()
+    {
+    	$html = "Perform following actions";
+        return $html;	
+    }
+    
+    public function asHtmlRecursive($level=0)
+    {
+        $html = parent::asHtmlRecursive($level);
+        foreach ($this->getActions() as $cond) {
+            $html .= "<br>".$cond->asHtmlRecursive($level+1);
+        }
+        return $html;
     }
     
     public function asString($format='')

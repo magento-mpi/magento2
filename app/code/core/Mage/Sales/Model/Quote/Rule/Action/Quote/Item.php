@@ -15,17 +15,22 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
      *
      * @return Mage_Sales_Model_Quote_Rule_Action_Quote_Item
      */
-    public function loadAttributes()
+    public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'product_id'=>'Product ID',
-            'sku'=>'SKU',
-            'qty'=>'Quantity',
-            'brand'=>'Brand',
-            'weight'=>'Weight',
             'price'=>'Price',
+            'discount_percent'=>'Discount percent',
         ));
         return $this;
+    }
+    
+    public function getItemNumSelectOptions()
+    {
+    	$opt = array();
+    	for ($i=1, $l=$this->getRule()->getFoundQuoteItemNumber(); $i<$l-1; $i++) {
+    		$opt[] = array('value'=>$i, 'label'=>$i);
+    	}
+    	return $opt;
     }
     
     /**
@@ -63,6 +68,50 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
             'item_qty'=>$this->getItemQty(),
         );
         return $arr;
+    }
+    
+    public function asHtml()
+    {
+    	$form = $this->getRule()->getForm();
+    	$renderer = new Mage_Rule_Block_Editable();
+    	
+    	$attrEl = $form->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'values'=>$this->getAttributeSelectOptions(),
+    		'value'=>$this->getAttribute(),
+    		'value_name'=>$this->getAttributeName(),
+    	))->setRenderer($renderer);
+    	
+    	$operEl = $form->addField('action:'.$this->getId().':operator', 'select', array(
+    		'values'=>$this->getOperatorSelectOptions(),
+    		'value'=>$this->getOperator(),
+    		'value_name'=>$this->getOperatorName(),
+    	))->setRenderer($renderer);
+    	
+    	$valueEl = $form->addField('action:'.$this->getId().':value', 'text', array(
+    		'value'=>$this->getValue(),
+    		'value_name'=>$this->getValueName(),
+    	))->setRenderer($renderer);
+    	
+    	$itemNumEl = $form->addField('action:'.$this->getId().':item', 'select', array(
+    		'values'=>$this->getItemNumSelectOptions(),
+    		'value'=>$this->getItemNumber(),
+    		'value_name'=>$this->getItemNumber(),
+    	))->setRenderer($renderer);
+    	
+    	$itemQtyEl = $form->addField('action:'.$this->getId().':qty', 'text', array(
+    		'value'=>$this->getItemQty(),
+    		'value_name'=>$this->getItemQty(),
+    	))->setRenderer($renderer);
+    	
+    	$html = __("Update Item # %s %s %s %s for %s item(s)",
+            $itemNumEl->getHtml(),
+            $attrEl->getHtml(),
+            $operEl->getHtml(),
+            $valueEl->getHtml(),
+            $itemQtyEl->getHtml()
+        );
+    	
+    	return $html;
     }
     
     /**

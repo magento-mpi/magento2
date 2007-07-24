@@ -7,7 +7,7 @@
  * @author     Moshe Gurvich (moshe@varien.com)
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-abstract class Mage_Rule_Model_Mysql4_Rule_Collection extends Varien_Data_Collection_Db
+class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
 {
     /**
      * Quote rule environment
@@ -15,6 +15,11 @@ abstract class Mage_Rule_Model_Mysql4_Rule_Collection extends Varien_Data_Collec
      * @var Mage_Rule_Model_Environment
      */
     protected $_env;
+    
+    protected function _construct()
+    {
+    	$this->_init('rule/rule')
+    }
     
     /**
      * Initialize resource collection variables

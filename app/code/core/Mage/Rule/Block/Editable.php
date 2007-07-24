@@ -5,12 +5,12 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
 {
 	public function render(Varien_Data_Form_Element_Abstract $element)
 	{
-		$html = '<span class="rule-param" id="'.$element->getParamId().'">';
+		$html = '&nbsp;<span class="rule-param" id="'.$element->getParamId().'">';
 		$html.= '<a href="javascript:void(0)" class="label">';
 		$html.= $element->getValueName();
 		$html.= '</a><span class="element">';
 		$html.= $element->getElementHtml();
-		$html.= '</span></span>';
+		$html.= '</span></span>&nbsp;';
 		return $html;
 	}
 }
