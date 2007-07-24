@@ -11,7 +11,8 @@
 
 class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template 
 {
-	
+	protected $_wishlistLoaded = false;
+	protected $_customer = null;
 	
 	public function __construct() 
 	{
@@ -21,7 +22,8 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 	
 	public function getWishlist()
 	{
-		if(is_null($this->_wishlist)) {
+		if(!$this->_wishlistLoaded) {
+			
 			
 			Mage::registry('shared_wishlist')->getItemCollection()
 				->addAttributeToSelect('name')
@@ -30,14 +32,33 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 	            ->addAttributeToSelect('small_image')
 	            ->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
 				->load();
+				
+			$this->_wishlistLoaded = true;
 		}
 		
 		return Mage::registry('shared_wishlist')->getItemCollection();
 	}
 	
+	public function getWishlistCustomer()
+	{
+		if(is_null($this->_customer)) {
+			$this->_customer = Mage::getModel('customer/customer')
+				->load(Mage::registry('shared_wishlist')->getCustomerId());	
+				
+		}
+		
+		return $this->_customer;
+	}
+	
+	
 	public function getEscapedDescription(Mage_Wishlist_Model_Item $item) 
 	{
 		return htmlspecialchars($item->getDescription());
+	}
+	
+	public function getHeader() 
+	{
+		return __("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
 	}
 	
 	public function getFormatedDate($date) 

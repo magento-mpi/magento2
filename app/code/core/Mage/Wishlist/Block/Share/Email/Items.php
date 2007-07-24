@@ -11,7 +11,7 @@
 
 class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template 
 {
-	
+	protected $_wishlistLoaded = false;
 	
 	public function __construct() 
 	{
@@ -21,7 +21,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 	
 	public function getWishlist()
 	{
-		if(is_null($this->_wishlist)) {
+		if(!$this->_wishlistLoaded) {
 			Mage::registry('wishlist')->getItemCollection()
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
@@ -29,6 +29,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 	            ->addAttributeToSelect('small_image')
 	            ->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
 				->load();
+			$this->_wishlistLoaded = true;
 		}
 		
 		return Mage::registry('wishlist')->getItemCollection();

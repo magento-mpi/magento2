@@ -21,7 +21,7 @@
             <td class="align-center"><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
             <td class="align-center"><?=$this->getFormatedDate($item->getAddedAt())?></td>
             <td class="align-center">
-            	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="input-button" /><br/><br/>
+            	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="input-button" /><br/>
             	<input type="button" value="<?=__('Remove')?>" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>')" class="input-button" />
             </td>
         </tr>
