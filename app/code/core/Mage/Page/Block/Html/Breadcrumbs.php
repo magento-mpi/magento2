@@ -12,19 +12,20 @@
 class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
 {
     /**
-     * Array of bread crumbs
+     * Array of breadcrumbs
      * 
      * array(
      *  [$index] => array(
      *                  ['label']
      *                  ['title']
      *                  ['link']
+     *                  ['last']
      *              )
      * )
      *
      * @var array
      */
-    protected $_crumbs=null;
+    protected $_crumbs = null;
     
     function __construct()
     {
@@ -34,12 +35,17 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
     
     function addCrumb($crumbName, $crumbInfo, $after = false)
     {
-        $this->_prepareArray($crumbInfo, array('label', 'title', 'link'));
+        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'last'));
     	$this->_crumbs[$crumbName]=$crumbInfo;
     }
     
     function toHtml()
     {
+        if (is_array($this->_crumbs)) {
+            $last_crumb = array_pop($this->_crumbs);
+            $last_crumb['last'] = true;
+            array_push($this->_crumbs, $last_crumb);
+        }
     	$this->assign('crumbs', $this->_crumbs);
     	return parent::toHtml();
     }

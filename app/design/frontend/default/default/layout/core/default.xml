@@ -15,11 +15,10 @@
                 </block>
             </block>
             <block type="core/text_list" name="top.menu" as="topMenu"/>
+            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
         </block>
 
         <block type="core/text_list" name="left" as="left"/>
-
-        <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
         <block type="core/messages" name="messages" as="messages"/>
 

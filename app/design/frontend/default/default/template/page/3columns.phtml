@@ -47,33 +47,28 @@
         <!-- [end] header -->
 
         <!-- [start] middle -->
-        <div class="middle">
+		<div id="main" class="col-3-layout">
+		    <h2 class="page-head">Home Page</h2>
 
             <!-- [start] left -->
-            <div class="left">
+            <div class="col-left">
                 <?=$this->getChildHtml('store')?>
                 <?=$this->getChildHtml('left')?>
             </div>
             <!-- [end] left -->
 
             <!-- [start] center -->
-            <div class="center">
-
-                <!-- [start] breadcrumbs -->
-                    <?=$this->getChildHtml('breadcrumbs')?>
-                <!-- [end] breadcrumbs -->
+            <div class="col-main">
 
                 <!-- [start] content -->
-                <div class="content">
                     <?=$this->getChildHtml('content')?>
-                </div>
                 <!-- [end] content -->
 
             </div>
             <!-- [end] center -->
 
             <!-- [start] right -->
-            <div class="right">
+            <div class="col-right">
                 <?=$this->getChildHtml('right')?>
             </div>
             <!-- [end] right -->

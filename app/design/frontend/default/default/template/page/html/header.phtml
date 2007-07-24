@@ -135,11 +135,9 @@
 						</ul></li>
 				</ul>
 				<div class="header-sub">
-					<h4 class="no-show">You're currently on:</h4>
-					<ul class="breadcrumbs">
-						<li><a href="#">Home</a> &raquo;</li>
-						<li><strong>Electronics</strong></li>
-					</ul>
+                <!-- [start] breadcrumbs -->
+                    <?=$this->getChildHtml('breadcrumbs')?>
+                <!-- [end] breadcrumbs -->
 					<form action="" method="post">
 						<fieldset class="mini-search">
 <!--
