@@ -41,6 +41,11 @@ function uc_words($str, $destSep='_', $srcSep='_')
     return str_replace(' ', $destSep, ucwords(str_replace($srcSep, ' ', $str)));
 }
 
+function round_to_even($value, $digits=0)
+{
+	
+}
+
 /**
  * Simple sql format date
  *

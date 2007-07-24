@@ -47,4 +47,19 @@ class Mage_Customer_Model_Observer
 */
         }
     }
+    
+    public function beforeGenerateLayoutBlocks($observer)
+    {
+    	$layout = $observer->getEvent()->getLayout();
+    	if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+    		$layout->loadUpdateFile(
+    			Mage::getDesign()->getLayoutFilename('customer/loggedIn.xml')
+    		);
+    	} else  {
+    		$layout->loadUpdateFile(
+    			Mage::getDesign()->getLayoutFilename('customer/loggedOut.xml')
+    		);
+
+    	}
+    }
 }

@@ -55,7 +55,7 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Rule
         return Mage::getSingleton('sales/config')->getQuoteRuleActionInstance($type);
     }
 
-    public function toString($format='')
+    public function asString($format='')
     {
         $str = "Name: ".$this->getName()."\n"
             ."Start at: ".$this->getStartAt()."\n"
@@ -81,9 +81,9 @@ class Mage_Sales_Model_Quote_Rule extends Mage_Rule_Model_Rule
      * 
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = array())
     {
-        $out = parent::toArray($arrAttributes);
+        $out = parent::asArray($arrAttributes);
         $out['coupon_code'] = $this->getCouponCode();
         $out['customer_registered'] = $this->getCustomerRegistered();
         $out['customer_new_buyer'] = $this->getCustomerNewBuyer();

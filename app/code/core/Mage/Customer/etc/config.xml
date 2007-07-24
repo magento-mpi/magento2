@@ -123,6 +123,16 @@
                     </auth>
                 </observers>
             </beforeRenderLayout>
+            
+            <beforeGenerateLayoutBlocks>
+            	<observers>
+            		<accountIsLoggedIn>
+            			<type>singleton</type>
+            			<class>customer/observer</class>
+            			<method>beforeGenerateLayoutBlocks</method>
+            		</accountIsLoggedIn>
+            	</observers>
+            </beforeGenerateLayoutBlocks>
         </events>
         <routers>
             <customer>

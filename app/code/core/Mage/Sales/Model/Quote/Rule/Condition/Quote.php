@@ -16,6 +16,11 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote extends Mage_Rule_Model_Condit
         ));
         return $this;
     }
+
+    public function asHtml()
+    {
+        return 'Cart '.parent::asHtml();
+    }
     
     public function asString($format='')
     {
