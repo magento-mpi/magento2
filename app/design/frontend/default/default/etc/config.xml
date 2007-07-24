@@ -9,13 +9,13 @@
             <keywords>Magento, Varien, E-commerce</keywords>
             <robots>*</robots>
         </head>
-		<header>
-			<logo_src></logo_src>
-			<logo_alt>Magento Commerce</logo_alt>
+        <header>
+            <logo_src>images/logo.gif</logo_src>
+            <logo_alt>Magento Commerce</logo_alt>
             <welcome>Welcome to our site, dear visitor! (default welcome message for guests)</welcome>
-		</header>
+        </header>
         <footer>
-            <copyright>Copyright goes here</copyright>
+            <copyright><![CDATA[&copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
         </footer>
 	</page>
 </config>

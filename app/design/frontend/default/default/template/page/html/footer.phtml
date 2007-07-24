@@ -1,18 +1,5 @@
-            <!-- [start] bottom-links -->
-            <div class="bottom-links">
-                <ul>
-                    <?=$this->getChildHtml('bottomLinks')?>
-                </ul>
-            </div>
-            <!-- [end] bottom-links -->
-
-            <!-- [start] footer-center -->
-            <div class="footer-center">
-            </div>
-            <!-- [end] footer-center -->
-
-            <!-- [start] copyright -->
-            <div class="copyright">
-                <?=$this->getCopyright()?>
-            </div>
-            <!-- [end] copyright -->
+			<div class="footer">
+				<div class="informational">
+                        <?=$this->getChildHtml('bottomLinks')?>
+				</div>
+				<p class="legality"><?=$this->getCopyright()?></p>

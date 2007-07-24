@@ -7,6 +7,7 @@
         <block type="page/html_head" name="head" as="head"/>
 
         <block type="page/html_header" name="header" as="header">
+            <block type="core/text_list" name="top.account.links" as="topAccountLinks"/>
             <block type="core/text_list" name="top.links" as="topLinks"/>
             <block type="core/text_list" name="top.forms" as="topForms">
                 <block type="core/template" name="search.form.mini">

@@ -1,54 +1,153 @@
-            <!-- [start] header1 -->
-            <div class="header1">
-
-                <!-- [start] logo -->
-                <div class="logo">
-                    <h1 id="logo"><a href="<?=$baseUrl?>"><span><?=$this->getLogoAlt()?></span></a></h1>
-                </div>
-                <!-- [end] logo -->
-
-                <!-- [start] header1-center -->
-                <div class="header1-center">
-                </div>
-                <!-- [end] header1-center -->
-
-                <!-- [start] top-links -->
-                <div class="top-links">
-                    <ul class="links">
-                        <?=$this->getChildHtml('topLinks')?>
-                    </ul>
-                </div>
-                <!-- [end] top-links -->
-
-            </div>
-            <!-- [end] header1 -->
-
-            <!-- [start] header2 -->
-            <div class="header2">
-
-                <!-- [start] search -->
-                <div class="search">
-                    <?=$this->getChildHtml('topForms')?>
-                </div>
-                <!-- [end] search -->
-
-                <!-- [start] header2-center -->
-                <div class="header2-center">
-                </div>
-                <!-- [end] header2-center -->
-
-                <!-- [start] welcome -->
-                <div class="welcome">
-                    <?=$this->getWelcome()?>
-                </div>
-                <!-- [end] welcome -->
-
-            </div>
-            <!-- [end] header2 -->
-
-            <!-- [start] menu-horizontal -->
-            <div class="menu-horizontal">
-                <p><?=$this->getChildHtml('topMenu')?></p>
-            </div>
-            <!-- [end] menu-horizontal -->
+				<h1 id="logo"><a href="<?=$baseUrl?>"><img src="<?=$this->getLogoSrc()?>" alt="<?=$this->getLogoAlt()?>"/></a></h1>
+				<p class="no-show"><a href="#main"><strong>Skip to main content &raquo;</strong></a></p>
+<!-- // .quick-access -->
+				<div class="quick-access">
+					<div class="account-access">
+						<p><strong><?=$this->getWelcome()?></strong></p>
+						<ul>
+                            <?=$this->getChildHtml('topAccountLinks')?>
+						</ul>
+					</div>
+					<div class="shop-access">
+						<p class="cart-count">These are currently <strong>3 items</strong> in your cart.</p>
+						<ul>
+                            <?=$this->getChildHtml('topLinks')?>
+						</ul>
+					</div>
+				</div>
+				<div class="clear"></div>
+<!-- [ends] .quick-access // -->
+<!--
+                <?=$this->getChildHtml('topMenu')?>
+-->
+				<h4 class="no-show">Category Navigation:</h4>
+				<ul id="nav">
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Apparel</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul>
+					</li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Books</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Electronics</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Entertainment</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Garden</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Kitchen</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Furniture</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Pharmacy</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Photo</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Sports</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+					<li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"><a href="#"><span>Toys</span></a>
+						<ul>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+							<li><a href="#">Secondary</a></li>
+						</ul></li>
+				</ul>
+				<div class="header-sub">
+					<h4 class="no-show">You're currently on:</h4>
+					<ul class="breadcrumbs">
+						<li><a href="#">Home</a> &raquo;</li>
+						<li><strong>Electronics</strong></li>
+					</ul>
+					<form action="" method="post">
+						<fieldset class="mini-search">
+<!--
+							<legend>Search Site</legend>
+							<input type="text" class="input-text" name="" value="Search entire store here..." onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> <button class="form-button"><span>Search</span></button>
+-->
+                            <?=$this->getChildHtml('topForms')?>
+						</fieldset>
+					</form>
+				</div>
 

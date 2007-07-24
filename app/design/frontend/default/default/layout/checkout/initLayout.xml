@@ -8,10 +8,13 @@
     
     <reference name="top.links">
         <block type="core/text_list_link" name="top.links.cart">
-            <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>Cart</label></action>
+            <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>My Cart</label></action>
+        </block>
+        <block type="core/text_list_link" name="top.links.wishlist">
+            <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}wishlist"</a><label>My Wishlist</label></action>
         </block>
         <block type="core/text_list_link" name="top.links.checkout">
-            <action method="setLink" translate="label"><li/><a>href="{{baseSecureUrl}}checkout/"</a><label>Checkout</label></action>
+            <action method="setLink" translate="label"><li/><a>href="{{baseSecureUrl}}checkout/" class="checkout"</a><label>Checkout</label></action>
         </block>
     </reference>
 </layoutUpdate>

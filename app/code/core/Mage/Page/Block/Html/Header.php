@@ -28,7 +28,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
         if (!$this->_logo_src) {
             $this->_logo_src = $this->getDesignConfig('page/header/logo_src');
         }
-        return $this->_logo_src;
+        return $this->getSkinUrl($this->_logo_src);
     }
 
     public function getLogoAlt()
@@ -48,7 +48,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     public function getWelcome()
     {
         if (!$this->_welcome && Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_welcome = __('Welcome, ' . Mage::getSingleton('customer/session')->getCustomer()->getName() . '! (<a class="links" href="' . Mage::getUrl('customer/account/logout') . '">Logout</a>)');
+            $this->_welcome = __('Welcome, ' . Mage::getSingleton('customer/session')->getCustomer()->getName() . '!');
         }
         elseif (!$this->_welcome) {
             $this->_welcome = $this->getDesignConfig('page/header/welcome');

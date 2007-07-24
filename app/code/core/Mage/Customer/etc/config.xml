@@ -114,16 +114,6 @@
             </default>
         </layouts>
         <events>
-            <beforeRenderLayout>
-                <observers>
-                    <auth>
-                        <type>singleton</type>
-                        <class>customer/observer</class>
-                        <method>beforeRenderLayout</method>
-                    </auth>
-                </observers>
-            </beforeRenderLayout>
-            
             <beforeGenerateLayoutBlocks>
             	<observers>
             		<accountIsLoggedIn>

@@ -3,26 +3,40 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon" ></link>
     <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon" ></link>
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js" ></script>
+    <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/iehover-fix.js" ></script>
+	<!--[if lt IE 7]> <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js" ></script> <![endif]-->
+
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js" ></script>
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js" ></script>
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>varien/js.js" ></script>
     <script language="javascript" type="text/javascript" src="<?=$baseJsUrl?>varien/form.js" ></script>
-    <link rel="stylesheet" type="text/css" media="all" href="<?=$this->getSkinUrl('css/styles.css')?>" ></link>
-    <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
+
+    <link rel="stylesheet" href="<?=$this->getSkinUrl('css/styles.css')?>" type="text/css" media="all" />
+	<!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
+	<!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7.css')?>" type="text/css" media="all" /> <![endif]-->
+	<script type="text/javascript">
+	    function toggleMenu(el, over)
+        {
+		    if (over) {
+			    Element.addClassName(el, 'over');
+			}
+            else {
+			    Element.removeClassName(el, 'over');
+			}
+		}
+	</script>
+
     <?=$this->getChildHtml('head')?>
 </head>
-<body>
-    <div class="loading-process" id="loading-process" style="display:none">
-        <img src="<?=$this->getSkinUrl('images/loading.gif')?>" alt="Loading..." width="32" height="32" border="0"/>
-    </div>
 
+<body>
     <!-- [start] container -->
     <div class="container">
     

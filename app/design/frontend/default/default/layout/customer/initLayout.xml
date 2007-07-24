@@ -6,9 +6,9 @@
         </block>
     </reference>
     
-    <reference name="top.links">
-        <block type="core/text_list_link" name="top.links.myaccount">
-            <action method="setLink" translate="label"><li>style="padding:0"</li><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
+    <reference name="top.account.links">
+        <block type="core/text_list_link" name="top.account.links.myaccount">
+            <action method="setLink" translate="label"><li/><a>href="{{baseUrl}}customer/account"</a><label>My Account</label></action>
         </block>
     </reference>
 </layoutUpdate>
