@@ -1,0 +1,19 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+    	<tr>
+    		<td style="width:50%;"><h2><?=$header?></h2></td>
+        	<td class="form-buttons">
+                <?=$this->getBackButtonHtml();?>
+                <?=$this->getResetButtonHtml();?>
+                <?=$this->getSaveButtonHtml();?>
+                <?=$this->getDeleteButtonHtml();?>
+        	</td>
+    	</tr>
+    </table>
+</div>
+<?if( $form ):?>
+<?=$form->toHtml();?>
+<script type="text/javascript" language="javascript">
+    var wigetForm = new varienForm('<?=$form->getForm()->getId()?>');
+</script>
+<?endif;?>

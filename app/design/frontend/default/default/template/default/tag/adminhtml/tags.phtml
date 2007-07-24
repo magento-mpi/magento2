@@ -1,0 +1,24 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
+        <tr>
+            <td style="width:50%;"><h3></h3></td>
+            <td class="form-buttons">
+			<table cellspacing="0" class="form-button">
+				<tr>
+					<td class="form-button-left"></td>
+					<td class="form-button-right"><a href="#" onclick="customerForm.submit();return false;"><?=__('Save')?></a></td>
+				</tr>
+			</table>
+			<table cellspacing="0" class="form-button">
+				<tr>
+					<td class="form-button-left"></td>
+					<td class="form-button-right"><a href="#"><?=__('Delete')?></a></td>
+				</tr>
+			</table>
+    </table>
+</div>
+<form action="<?=$this->getUrl('*/*/')?>" method="POST" id="tag_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var customerForm = new varienForm('tag_form');
+</script>

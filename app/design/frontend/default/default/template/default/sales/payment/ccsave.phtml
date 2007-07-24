@@ -1,0 +1,47 @@
+<input type="radio" title="<?=__("Credit Card")?>" id="payment_method_<?=$method?>" name="payment[method]" value="<?=$method?>" <?if($payment->getMethod()==$method):?>checked<?endif?> onclick="payment.switchMethod('<?=$method?>')" />
+<label for="payment_method_<?=$method?>">Pay by Credit Card (<?=$method?>)</label><br/>
+<fieldset>
+    <div id="payment_form_<?=$method?>" style="display:none">
+        <ul>
+            <li>
+                <div class="left">
+                    <label for="cc_type">Credit Card Type <span class="required">*</span></label><br/>
+                    <select id="cc_type" name="payment[cc_type]" class="required-entry">
+                    <?foreach ($ccTypesArr as $k=>$v):?>
+                        <option value="<?=$k?>" <?if($k==$payment->getCcType()):?>selected<?endif?>><?=$v?></option>
+                    <?endforeach?>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div class="left">
+                    <label for="cc_number">Card Number <span class="required">*</span></label><br/>
+                    <input type="text" id="cc_number" name="payment[cc_number]" title="Card Number" class="required-entry input-text" value="<?=$payment->getCcNumber()?>"/>
+                </div>
+            </li>
+            <li>
+                <div class="left">
+                    <label for="cc_owner">Name on Card <span class="required">*</span></label><br/>
+                    <input type="text" title="Name on Card" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]" value="<?=$payment->getCcOwner()?>"/>
+                </div>
+            </li>
+            <li>
+                <label for="expiration">Expiration Date <span class="required">*</span></label><br/>
+                <select id="expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
+                <?foreach ($monthsArr as $k=>$v):?>
+                    <option value="<?=$k?>" <?if($k==$payment->getCcExpMonth()):?>selected<?endif?>><?=$v?></option>
+                <?endforeach?>
+                </select> 
+                <select id="expiration_yr" style="width:103px;" name="payment[cc_exp_year]" class="required-entry">
+                <?foreach ($yearsArr as $k=>$v):?>
+                    <option value="<?=$k?>" <?if($k==$payment->getCcExpYear()):?>selected<?endif?>><?=$v?></option>
+                <?endforeach?>
+                </select>
+            </li>
+            <li>
+                <label for="cvn">Card Verification Number <span class="required">*</span> | <a href="">What is this?</a></label><br/>
+                <input type="text" title="Card Verification Number" class="required-entry input-text" id="cc_cid" name="payment[cc_cid]" style="width:3em;" value="<?=$payment->getCcCid()?>"/>
+            </li>
+        </ul>
+    </div>
+</fieldset>

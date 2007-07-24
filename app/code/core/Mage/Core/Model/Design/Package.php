@@ -53,7 +53,7 @@ class Mage_Core_Model_Design_Package
 	public function getArea()
 	{
 		if (empty($this->_area)) {
-			$this->_area = 'frontend';
+			$this->_area = $tihs->getDefaultArea();
 		}
 		return $this->_area;
 	}
@@ -85,6 +85,11 @@ class Mage_Core_Model_Design_Package
 			$this->_theme = $this->getDefaultTheme();
 		}
 		return $this->_theme;
+	}
+	
+	public function getDefaultArea()
+	{
+		return 'frontend';
 	}
 	
 	public function getDefaultPackage()

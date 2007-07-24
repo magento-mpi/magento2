@@ -1,0 +1,31 @@
+<div class="head">
+    <table cellspacing="0"> 
+        <tr>
+            <td style="width:30%;"><h2><?=$header?></h2></td>
+            <td class="buttons">
+                <strong class="button"><span><a href="#" onclick="pageForm.submit();return false;"><?=__('Save Page')?></a></span></strong>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="POST" id="page_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var customerForm = new varienForm('customer_edit_form');
+    
+    function customerEditShowButtons(data){
+        customerForm.initFormElements();
+        if(data.tab.id && data.tab.id=='customer_info_tabs_addresses'){
+            Element.show($('add_address_button'));
+        }
+    }
+    
+    function customerEditHideButtons(data){
+        if(data.tab && data.tab.id=='customer_info_tabs_addresses'){
+            Element.hide($('add_address_button'));
+        }
+    }
+    
+    varienGlobalEvents.attachEventHandler('showTab', customerEditShowButtons);
+    varienGlobalEvents.attachEventHandler('hideTab', customerEditHideButtons);
+</script>

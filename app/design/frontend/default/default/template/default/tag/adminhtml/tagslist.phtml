@@ -1,0 +1,12 @@
+<h1><?=__('Tags List')?></h1>
+<input type="text" name="t" value="<?=@$query;?>" /> <input type="submit" value="<?=__('Search')?>" />
+
+<ul>
+<?php foreach ($tags->getItems() as $tag) { ?>
+	<li>
+		<a href="<?=$this->getUrl("*/*/", array('t' => $tag->getTagname()))?>">
+			<?=$tag->getTagname();?> (<?=$tag->getTotal();?>)
+		</a>
+	</li>
+<?php } ?>
+</ul>

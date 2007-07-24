@@ -1,0 +1,122 @@
+<?
+/**
+ * Template for Mage_Block_Adminhtml_Widget_Grid
+ *
+ *  getId()
+ *  getCollection()
+ *  getColumns()
+ *  getPagerVisibility()
+ *  getVarNamePage()
+ */
+?>
+<?if($this->getCollection()):?>
+    <?if($this->canDisplayContainer()):?>
+        <?if($this->getGridHeader()):?>
+        <div class="content-header">
+            <table cellspacing="0" class="grid-header">
+                <tr>
+                    <td style="width:50%;"><h2><?=$this->getGridHeader();?></h2></td>
+                </tr>
+            </table>
+        </div>
+        <?endif?>
+        <div id="<?=$this->getId()?>">
+    <?else:?>
+        <?=$this->getMessagesBlock()->getHtml();?>
+    <?endif;?>
+<?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
+    <table cellspacing="0" class="actions">
+        <tr>
+        <?if($this->getPagerVisibility()):?>
+            <td class="pager">
+            <?=__('Page')?>
+            <?$_curPage  = $this->getCollection()->getCurPage()?>
+            <?$_lastPage = $this->getCollection()->getLastPageNumber()?>
+            <?if($_curPage>1):?>
+                <a href="#" title="<?=__('Previus page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>');return false;">&laquo;</a>
+            <?else:?>
+                &laquo;
+            <?endif;?>
+            
+            <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$_curPage?>" class="input-text page" onkeypress="<?=$this->getId()?>JsObject.inputPage(event, '<?=$_lastPage?>')"/>&nbsp;
+            
+            <?if($_curPage < $_lastPage):?>
+                <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>');return false;">&raquo;</a>
+            <?else:?>
+                &raquo;
+            <?endif;?>
+            
+            <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong>
+            <span class="spacer">|</span>
+            <?=__('View')?>
+            <select name="<?=$this->getVarNameLimit()?>" onchange="<?=$this->getId()?>JsObject.loadByElement(this)">
+                <option value="20"<?if($this->getCollection()->getPageSize()==20):?> selected<?endif;?>>20</option>
+                <option value="30"<?if($this->getCollection()->getPageSize()==30):?> selected<?endif;?>>30</option>
+                <option value="50"<?if($this->getCollection()->getPageSize()==50):?> selected<?endif;?>>50</option>
+                <option value="100"<?if($this->getCollection()->getPageSize()==100):?> selected<?endif;?>>100</option>
+                <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
+            </select>
+            <?=__('per page')?><span class="spacer">|</span>
+            <?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> 
+            <?=__('records found')?>
+        </td>
+    <?endif?>
+    <?if($this->getExportTypes()):?>
+        <td class="export a-right">
+            <img src="<?=$this->getSkinUrl('images/icon_export.gif')?>" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
+            <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
+            <?foreach ($this->getExportTypes() as $_type):?>
+                <option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
+            <?endforeach;?>
+            </select>
+            <?=$this->getExportButtonHtml()?>
+        </td>
+    <?endif;?>
+    <?if($this->getFilterVisibility()):?>
+        <td class="filter-actions a-right">
+            <?=$this->getResetFilterButtonHtml()?>
+            <?=$this->getSearchButtonHtml()?>
+        </td>
+    <?endif;?>
+        </tr>
+    </table>
+<?endif;?>
+<div class="grid">
+<table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
+    <?foreach ($this->getColumns() as $_column):?>
+    <col <?=$_column->getHtmlProperty()?>></col>
+    <?endforeach;?>
+    <thead>
+        <tr class="headings">
+        <?foreach ($this->getColumns() as $_column):?>
+            <th class="<?=$_column->getHeaderCssClass()?>"><?=$_column->getHeaderHtml()?></th>
+        <?endforeach;?>
+        </tr>
+        <?if ($this->getFilterVisibility()):?>
+        <tr class="filter">
+        <?foreach ($this->getColumns() as $_column):?>
+            <th><?=$_column->getFilterHtml()?></th>
+        <?endforeach;?>
+        </tr>
+        <?endif?>
+    </thead>
+    <tbody>
+    <?foreach ($this->getCollection() as $_index=>$_item):?>
+        <tr id="<?=$this->getRowId($_item)?>">
+        <?foreach ($this->getColumns() as $_column):?>
+            <td class="<?=$_column->getCssClass()?>"><?=$_column->getRowField($_item)?></td>
+        <?endforeach;?>
+        </tr>
+    <?endforeach;?>
+    </tbody>
+</table>
+</div>
+<?if($this->canDisplayContainer()):?>
+</div>
+<script type="text/javascript" language="javascript">
+    <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNamePage()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
+    <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
+    <?=$this->getJsObjectName()?>.rowClickCallback = '<?=$this->getRowClickCallback()?>';
+</script>
+<?endif;?>
+<?endif?>

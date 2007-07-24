@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="content">
+        <block type="catalog/product_view" name="product.info">
+            <action method="loadData"></action>
+        </block>
+    </reference>
+</layoutUpdate>

@@ -1,0 +1,54 @@
+            <!-- [start] header1 -->
+            <div class="header1">
+
+                <!-- [start] logo -->
+                <div class="logo">
+                    <h1 id="logo"><a href="<?=$baseUrl?>"><span><?=$this->getLogoAlt()?></span></a></h1>
+                </div>
+                <!-- [end] logo -->
+
+                <!-- [start] header1-center -->
+                <div class="header1-center">
+                </div>
+                <!-- [end] header1-center -->
+
+                <!-- [start] top-links -->
+                <div class="top-links">
+                    <ul class="links">
+                        <?=$this->getChildHtml('topLinks')?>
+                    </ul>
+                </div>
+                <!-- [end] top-links -->
+
+            </div>
+            <!-- [end] header1 -->
+
+            <!-- [start] header2 -->
+            <div class="header2">
+
+                <!-- [start] search -->
+                <div class="search">
+                    <?=$this->getChildHtml('topForms')?>
+                </div>
+                <!-- [end] search -->
+
+                <!-- [start] header2-center -->
+                <div class="header2-center">
+                </div>
+                <!-- [end] header2-center -->
+
+                <!-- [start] welcome -->
+                <div class="welcome">
+                    <?=$this->getWelcome()?>
+                </div>
+                <!-- [end] welcome -->
+
+            </div>
+            <!-- [end] header2 -->
+
+            <!-- [start] menu-horizontal -->
+            <div class="menu-horizontal">
+                <p><?=$this->getChildHtml('topMenu')?></p>
+            </div>
+            <!-- [end] menu-horizontal -->
+

@@ -1,0 +1,53 @@
+<div class="step-body">
+    <h4 class="login">Login</h4>
+    <div class="note-box">
+    <?=$messages->toHtml()?>
+    <form action="<?=$postAction?>" method="post">
+        <fieldset class="group-select">
+        <p>
+            <strong>Already Registered?</strong><br/>
+            Log in below to take advantage of Express Checkout:
+        </p>
+        <ul>
+            <li>
+                <div class="input-left">
+                    <label for="email">Email Address</label></br>
+                    <input type="text" class="input-text" id="email" name="login[username]"/>
+                </div>
+            </li>
+            <li>
+                <div class="input-left">
+                    <label for="password">Password</label></br>
+                    <input type="password" class="input-text" id="password" name="login[password]" />
+                </div>
+                <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=$this->getUrl('customer/account/forgotpassword')?>">Forgot your 
+                                password?</a></div>
+            </li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="submit" class="input-button" value="Login"/></div>
+    </form>
+    </div>
+
+    <h4 class="login">Checkout as a Guest or Register</h4>
+    <div class="note-box">
+    <form id="checkout_method">
+        <fieldset>
+        <p>You may check out as a guest or register with us for future convenience:</p>
+        <p>
+            <input type="radio" name="checkout_method" id="checkout_method:guest" value="1"<?if($method=='guest'):?> checked<?endif?>/> 
+            <label for="checkout_method:guest"><strong>Checkout as Guest</strong></label><br/>
+            <input type="radio" name="checkout_method" id="checkout_method:register" value="2"<?if($method=='register'):?> checked<?endif?>/> 
+            <label for="checkout_method:register"><strong>Register</strong></label>
+        </p>
+        <strong>Register and save time!</strong><br/>
+        <ul class="disc">
+            <li>Fast and easy check out</li>
+            <li>Easy access to your order history and status</li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="button" class="input-button" value="Continue" onclick="checkout.setMethod();"/></div>
+    </form>
+    </div>
+
+</div>

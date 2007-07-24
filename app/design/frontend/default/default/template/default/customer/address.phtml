@@ -1,0 +1,66 @@
+<h2>Address Book</h2>
+<?=$this->getMessagesBlock()->getHtml()?>
+<table cellspacing="0" width="100%">
+    <tr>
+        <td style="width:50%;"><h3>Primary</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if(!empty($primaryAddresses)):?>    
+                <?foreach($primaryAddresses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no primary entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+        <td style="width:50%;"><h3>Additional Entries</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if(!empty($alternativeAddresses)):?>    
+                <?foreach($alternativeAddresses as $_address):?>
+                <tr>
+                    <td>
+                    <address>
+                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
+                    </p>
+                    </td>
+                </tr>
+                <?endforeach;?>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no additional entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+    </tr>
+</table>
+<div class="buttons-container">
+    <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+    <input type="button" onclick="window.location='<?=$baseUrl?>customer/address/form/';" value="New Address" class="input-button">
+</div>
+<script type="text/javascript">
+    function deleteAddress(addressId) {
+        if(confirm('Do you whant delete address?')) {
+            window.location='<?=$baseUrl?>customer/address/delete/address/'+addressId;
+        }
+        return false;
+    }
+</script>

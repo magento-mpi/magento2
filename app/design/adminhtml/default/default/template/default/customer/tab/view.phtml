@@ -1,0 +1,53 @@
+<?
+/**
+ * Template for block Mage_Adminhtml_Block_Customer_Edit_Tab_View
+ */
+?>
+<div class="box-left">
+	<h4 class="icon-head head-customer-view"><?=__('Personal Information')?></h4>
+	<div class="box customer-personal-brief">
+		<p><strong><?=__('Last Logged in:')?></strong> <?=$this->getLastLoginDate()?> ( <?=__('Currently')?> <strong><?=$this->getCurrentStatus()?></strong> )<br/>
+		<strong><?=__('Account Created on:')?></strong> <?=$this->getCreateDate()?><br/>
+		<strong><?=__('Account Created in:')?></strong> <?=$this->getCreatedInStore()?></p>
+		<address>
+		<strong><?=__('Primary Billing Address')?></strong><br/>
+		<?=$this->getBillingAddressHtml()?>
+	</div>
+</div>
+<div class="box-right">
+    <div class="data-defination">Sales Statistics</div>
+    <div class="grid">
+        <table cellspacing="0" class="data">
+			<thead>
+				<tr class="headings">
+					<th>Store</th>
+					<th>Lifetime Sale</th>
+					<th>Average Sale</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td class="label"><strong><big>Total</big></strong></td>
+					<td class="emph"><strong><big>$2076.97</big></strong></td>
+					<td class="emph"><strong><big>$116.74</big></strong></td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr>
+					<td class="label">Magento Store (EN)</td>
+					<td>$1875.99</td>
+					<td>$89.99</td>
+				</tr>
+				<tr class="even">
+					<td class="label">Varien Store (EN)</td>
+					<td>$200.98</td>
+					<td>$26.75</td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+    <?//=$this->getSalesAccordionHtml()?>
+</div>
+<div class="clear"></div>
+<br/>
+<?=$this->getAccordionHtml()?>

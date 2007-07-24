@@ -1,0 +1,62 @@
+<div class="content">
+    <h1 class="page-heading">Advanced Search</h1>
+    <form action="<?=$action?>" method="get" id="form-validate">
+    <fieldset class="group-single">
+        <legend>Change Account Password</legend>
+        <ul class="input-list">
+            <li>
+                <label for="attribute_name">Search for:</label><br/>
+                <input type="text" class="input-text width100" name="search[query]" id="attribute_name"/>
+            </li>
+            <li>
+                <div class="input-left">
+                    <label for="price_from">Price from:</label><br/>
+                    <input type="text" class="input-text validate-number" name="search[price][from]" id="price_from"/>
+                </div>
+                <div class="input-right">
+                    <label for="price_to">Price to:</label><br/>
+                    <input type="text" class="input-text validate-number" name="search[price][to]" id="price_to"/>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            <li>
+                <div class="input-left">
+                    <label for="categories">Categories:</label><br/>
+                    <select name="search[category][]" multiple size="5" id="categories">
+                        <option value=''>All categories</option>
+                        <?foreach ($categories as $_node):?>
+                            <option value="<?=$_node->getId()?>"><?=$_node->getName()?></option>
+                        <?endforeach?>
+                    </select>
+                </div>
+                <div class="input-right">
+                    <label for="attribute_type">Type:</label><br/>
+                    <select name="search[type]" id="attribute_type">
+                        <option value="">All types</option>
+                        <?foreach($types as $_item):?>
+                            <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
+                        <?endforeach?>
+                    </select>
+                    <label for="attribute_manufacturer">Brand:</label><br/>
+                    <select name="search[manufacturer]" id="attribute_manufacturer">
+                        <option value="">All brands</option>
+                        <?foreach($manufacturers as $_item):?>
+                            <option value="<?=$_item['value']?>"><?=$_item['label']?></option>
+                        <?endforeach?>
+                    </select>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+    </fieldset>
+    <div class="clearfix"></div>
+    <div class="buttons-container">
+        <input type="button" onclick="window.location='<?=$baseUrl?>/';" value="Back" class="input-button float-left"/>
+        <input type="submit" class="input-button float-right" value="Continue"/>
+        <div class="clearfix"></div>
+    </div>
+    </form>
+    <script type="text/javascript">
+        var dataForm = new VarienForm('form-validate');
+    </script>
+</div>

@@ -1,0 +1,21 @@
+<?if (empty($methods)):?>
+	<b>Sorry, no quotes are available for this order at this time.</b>
+<?else:?>
+    <form id="co-shipping-method-form">
+    	<fieldset>
+            <?$_first=true?>
+	        <?foreach ($methods as $method):?>
+	           <?if (isset($method['error_message'])):?>
+        		    <strong><?=$method['vendor']?>: <?=$method['error_message']?></strong>
+	           <?else:?>
+        		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$selectedMethod)echo"checked"?><?if($_first):?> class="validate-one-required"<?endif?>/>
+        		    <label for="shipping_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
+        		    <strong><?=$method['amount']?></strong><br/>
+        	   <?endif?>
+            <?$_first=false?>
+    		<?endforeach?>
+    	</fieldset>
+	</form>
+<?endif?>
+
+

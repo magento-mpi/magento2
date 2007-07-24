@@ -1,0 +1,25 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="width:30%;"><h2><?=$header?></h2></td>
+            <td class="a-right">
+                <?=$this->getBackButtonHtml()?>
+                <?=$this->getToggleButtonHtml()?>
+                <?=$this->getSaveButtonHtml()?>
+                <?=$this->getDeleteButtonHtml()?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="POST" id="page_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var pageForm = new varienForm('page_form');
+
+    function toggleEditor() {
+    	if (tinyMCE.getInstanceById('page_content_main') == null)
+    		tinyMCE.execCommand('mceAddControl', false, 'page_content_main');
+    	else
+    		tinyMCE.execCommand('mceRemoveControl', false, 'page_content_main');
+    }
+</script>

@@ -1,0 +1,50 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="width:50%;"><h3><?=($this->getRoleId() > 0 ) ? __('Edit Role') : __('Add New Role')?></h3></td>
+            <td class="form-buttons">
+			<?=$this->getBackButtonHtml()?>
+			<?=$this->getResetButtonHtml()?>
+            <button class="scalable" onclick="roleForm.submit();">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Save Role')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?if($this->getRoleId()):?>
+            <button class="scalable" onclick="deleteConfirm('<?=__('Are you sure you want to do this?')?>', '<?=$this->getUrl('*/*/deleteRole', array('id'=>$this->getRoleId()))?>')">
+                <table cellspacing="0">
+                    <tr>
+                        <td class="tl"></td>
+                        <td class="tr"></td>
+                    </tr>
+                    <tr>
+                        <td class="ml"><?=__('Delete Role')?></td>
+                        <td class="mr"></td>
+                    </tr>
+                    <tr>
+                        <td class="bl"></td>
+                        <td class="br"></td>
+                    </tr>
+                </table>
+            </button>
+            <?endif;?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getUrl('*/*/saverole')?>" method="POST" id="role_edit_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var roleForm = new varienForm('role_edit_form');
+</script>

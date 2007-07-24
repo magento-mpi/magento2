@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <script type="text/javascript" src="<?=$baseJsUrl?>prototype/prototype.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>prototype/validation.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/grid.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tabs.js"></script>
+    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/form.js"></script>
+
+    <script type="text/javascript">
+        var BASE_URL = '<?=$baseUrl?>adminhtml/';
+        var SKIN_URL = '<?=$this->getSkinUrl()?>';
+    </script>
+ 
+	<style type="text/css" media="all">
+		/*<![CDATA[*/ @import "<?=$this->getSkinUrl('styles.css')?>"; /*]]>*/
+	</style>
+	<!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
+	<!--[if lt IE 7]><script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script><![endif]-->
+
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>" />
+	<script type="text/javascript" src="<?=$baseJsUrl?>listmenu/menu.js"></script>
+</head>
+<body>
+    <?=$content?>
+</body>
+</html>
