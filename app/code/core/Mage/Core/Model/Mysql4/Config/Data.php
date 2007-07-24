@@ -14,10 +14,6 @@ class Mage_Core_Model_Mysql4_Config_Data extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        echo '<pre>';
-        print_r($object);
-        echo '</pre>';
-        die('123');
         return $this;
     }
     
