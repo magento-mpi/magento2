@@ -36,26 +36,26 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $query = $this->getQuery();
         $queryEscaped = htmlspecialchars($query);
 
-        Mage::registry('action')->getLayout()->getBlock('head.meta')->setTitle('Search results for: '.$queryEscaped);
+        Mage::registry('action')->getLayout()->getBlock('head')->setTitle('Search results for: '.$queryEscaped);
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
-            ->distinct(true)
-            ->addCategoryFilter($this->getArrCategoriesId())
+//            ->distinct(true)
+//            ->addCategoryFilter($this->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
-            ->addSearchFilter($query)
+//            ->addSearchFilter($query)
             ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($page)
             ->setPageSize(9)
-            ->loadData();
+            ->load();
             
         $numResults = $prodCollection->getSize();
         if ($numResults>0) {
-            Mage::getModel('catalog/search')->updateSearch($query, $numResults);
+//            Mage::getModel('catalog/search')->updateSearch($query, $numResults);
         }
 
         $this->assign('query', $queryEscaped);

@@ -1,13 +1,7 @@
-<form id="search_mini_form" action="<?=$this->getUrl('catalog/search/result')?>" method="get" onsubmit="if (getElementById('search').value == 'Enter your search term' || getElementById('search').value == '') return
-false;">
-    <fieldset class="search">
-    <legend><span>Search Site</span></legend>
-    <input name="q" type="text" id="search" 
-        value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Enter your search term')?><?endif?>" 
-        class="input-text" 
-        onfocus="if(this.value=='<?=__('Enter your search term')?>')this.value=''; " 
-        onblur="if(this.value=='')this.value='<?=__('Enter your search term')?>';"
-    />
+<form action="<?=$this->getUrl('catalog/search/result')?>" method="get" onsubmit="if (getElementById('search').value == '<?=__('Search entire store here...')?>' || getElementById('search').value == '') return false;">
+    <fieldset class="mini-search">
+	<legend><?=__('Search Site')?></legend>
+	<input id="search" type="text" class="input-text" name="q" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search entire store here...')?><?endif?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> <button class="form-button"><span><?=__('Search')?></span></button>
     <div id="search_autocomplete" class="search-autocomplete"></div>
     <script type="text/javascript">
         new Ajax.Autocompleter(
@@ -27,6 +21,5 @@ false;">
             $('search_mini_form').submit();
         }
     </script>
-    <input type="submit" value="<?=__('Search')?>" alt="Search" class="input-button"/>
-    </fieldset>
+	</fieldset>
 </form>

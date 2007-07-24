@@ -3,7 +3,7 @@
     <p>Search Results for : "<?=$query?>"</p>
 <?if($productCollection->getSize()):?>
     <div class="catalog-spacer">&nbsp;</div>
-    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
     <div class="catalog-spacer">&nbsp;</div>
     <table cellspacing="0" class="catalog-collection"><tr>
         <?$i=0; foreach ($productCollection as $product):?>
@@ -21,7 +21,7 @@
         </tr>
 		</table>
     <div class="catalog-spacer">&nbsp;</div>
-    <?include $templatesDir.'/catalog/product/pager.phtml'?>
+    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
     <div class="catalog-spacer">&nbsp;</div>
 <?else:?>
     <p>There are no products under search term "<?=$query?>"</p>
