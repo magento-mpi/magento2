@@ -15,15 +15,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
     {
     	$actions = array();
     	
-    	$actions[] = array(
-    		'@'	=>	array(
-    				'href'		=>	Mage::getUrl('*/newsletter_template/preview',
-    											 array('id'=>$row->getTemplateId())	
-    								),
-    				'target'	=>	'_blank'
-    		),
-    		'#'	=>	__('Preview')
-    	);
+    	
     	
         
         if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
@@ -57,6 +49,17 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 		    );
 		    
         }
+        
+        $actions[] = array(
+    		'@'	=>	array(
+    				'href'		=>	Mage::getUrl('*/newsletter_template/preview',
+    											 array('id'=>$row->getTemplateId())	
+    								),
+    				'target'	=>	'_blank'
+    		),
+    		'#'	=>	__('Preview'),
+    		'brake' => true
+    	);
                          
         return $this->_actionsToHtml($actions);
     }
@@ -70,10 +73,19 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
     {
     	$html = array();
     	$attributesObject = new Varien_Object();
+    	$result = "";
     	foreach ($actions as $action) {
     		$attributesObject->setData($action['@']);
+    		if((isset($action['brake']) &&  count($html) > 0)) {
+    			$result.= implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
+    			$result.= '<br />';
+    			$html = array();
+    		}
+    		
     		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
+    		
+    		
     	}    	
-    	return implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
+    	return $result . implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
     }
 }

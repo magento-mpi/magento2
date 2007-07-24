@@ -18,13 +18,17 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
 		$this->setSaveParametersInSession(true);
         $this->setMessageBlockVisibility(true);
         $this->setUseAjax(true);
+        $this->setEmptyText(__('No problems found'));
 	}
 	
 	protected function _prepareCollection() 
 	{
-		$collection = Mage::getResourceSingleton('newsletter/problem_collection');
+		$collection = Mage::getResourceModel('newsletter/problem_collection')
+			->addSubscriberInfo()
+			->addQueueInfo();
 		
 		$this->setCollection($collection);
+		
 		return parent::_prepareCollection();
 	}
 	
@@ -51,15 +55,19 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
 			'format' => '#$subscriber_id $customer_name ($subscriber_email)'
 		));
 		
-		$this->addColumn('queue_id', array(
-			'header' => __('Queue ID'),
-			'index'  => 'queue_id'
+		
+		$this->addColumn('queue_start', array(
+			'header' => __('Queue Date Start'),
+			'index'  => 'queue_start_at',
+			'type'	 => 'datetime'
 		));
 		
 		$this->addColumn('queue', array(
 			'header' => __('Queue Subject'),
 			'index'  => 'template_subject'
 		));
+		
+		
 		
 		$this->addColumn('problem_code', array(
 			'header' => __('Error Code'),

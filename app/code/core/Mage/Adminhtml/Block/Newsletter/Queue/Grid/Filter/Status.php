@@ -14,8 +14,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Filter_Status extends Mage_Admi
 	protected static $_statuses = array(
 		null										=>	null,
 		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> 'Sent',
-		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> 'Cancel',
-		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> 'Never send',
+		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> 'Cancelled',
+		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> 'Not Sending',
 		Mage_Newsletter_Model_Queue::STATUS_SENDING => 'Sending',
 		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> 'Paused'
 	);

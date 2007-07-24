@@ -24,10 +24,10 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 			$fieldset->addField('date','date',array(
 				'name'	  =>	'start_at',
 				'time'	  =>	true,
-				'label'	  =>	__('Start This Queue At'),
+				'label'	  =>	__('Queue Date Start'),
 				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
 				'value'	  => 	$queue->getQueueStartAt(),
-				'title'	  =>	__('Queue Start Date')
+				'title'	  =>	__('Queue Date Start')
 			));
 			
 			$fieldset->addField('stores','multiselect',array(
@@ -47,22 +47,24 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'name'	  =>	'start_at',
 				'time'	  =>	true,
 				'disabled'=> 	'true',
-				'label'	  =>	__('Start This Queue At'),
+				'label'	  =>	__('Queue Date Start'),
 				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
 				'value'	  => 	$queue->getQueueStartAt(),
-				'title'	  =>	__('Queue Start Date')
+				'title'	  =>	__('Queue Date Start')
 			));
 			
 			$fieldset->addField('stores','multiselect',array(
 				'name'	  =>	'stores[]',
 				'time'	  =>	true,
-				'disabled'=> 	'true',
 				'label'	  =>	__('Subscribers From'),
 				'image'	  =>	$this->getSkinUrl('images/grid-cal.gif'),
 				'value'	  => 	$queue->getQueueStores(),
 				'title'	  =>	__('Subscribers From'),
+				'class'   =>  'required-entry',
 				'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
-				'value'	  =>	$queue->getStores()
+				'value'	  =>	$queue->getStores(),
+				'select_all' => __('Select All Stores'),
+				'deselect_all' => __('Deselect All Stores')
 			));		
 		}
 		
@@ -114,6 +116,9 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 			$form->getElement('subject')->setDisabled('true');
 			$form->getElement('sender_name')->setDisabled('true');
 			$form->getElement('sender_email')->setDisabled('true');
+			$form->getElement('stores')->setDisabled('true');
+			$form->getElement('stores')->setSelectAll();
+			$form->getElement('stores')->setDeselectAll();
         }
 		
 	/*	

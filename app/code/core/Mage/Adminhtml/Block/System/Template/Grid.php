@@ -38,14 +38,14 @@ class Mage_Adminhtml_Block_System_Template_Grid extends Mage_Adminhtml_Block_Wid
         
         $this->addColumn('added_at',
             array(
-                'header'=>__('Added At'),
+                'header'=>__('Date Added'),
                 'index'=>'added_at',
                 'type'=>'datetime'
         ));
         
         $this->addColumn('modified_at',
             array(
-                'header'=>__('Modified At'),
+                'header'=>__('Date Updated'),
                 'index'=>'modified_at',
                 'type'=>'datetime'
         ));

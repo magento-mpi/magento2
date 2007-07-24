@@ -62,7 +62,10 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     	try {
 	    	$this->getConnection('write')->delete(
 	    		$this->getTable('queue_link'), 
-	    		$this->getConnection('write')->quoteInto('queue_id = ?', $queue->getId())
+	    		array(
+	    			$this->getConnection('write')->quoteInto('queue_id = ?', $queue->getId()),
+	    			'letter_sent_at IS NULL'
+	    		)
 	    	);
 	    	
 	    	$this->getConnection('write')->commit();

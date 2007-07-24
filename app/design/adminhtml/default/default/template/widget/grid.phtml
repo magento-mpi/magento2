@@ -101,6 +101,7 @@
         <?endif?>
     </thead>
     <tbody>
+    <?if ($this->getCollection()->getSize()>0):?>
     <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr id="<?=$this->getRowId($_item)?>">
         <?foreach ($this->getColumns() as $_column):?>
@@ -108,6 +109,11 @@
         <?endforeach;?>
         </tr>
     <?endforeach;?>
+    <?elseif ($this->getEmptyText()):?>
+    	<tr>
+    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=count($this->getColumns())?>"><?=$this->getEmptyText()?></td>
+    	</tr>
+    <?endif;?>
     </tbody>
 </table>
 </div>

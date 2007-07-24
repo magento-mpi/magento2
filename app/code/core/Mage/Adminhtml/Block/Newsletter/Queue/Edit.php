@@ -33,7 +33,15 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Queue'),
-                    'onclick'   => 'queueForm.submit()'
+                    'onclick'   => 'queueControl.save()'
+                ))
+        );
+        
+        $this->setChild('save_and_resume', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save And Resume'),
+                    'onclick'   => 'queueControl.resume()'
                 ))
         );
         
@@ -74,10 +82,21 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
         return $this->getChildHtml('back_button');
     }
     
+    public function getResumeButtonHtml()
+    {
+        return $this->getChildHtml('save_and_resume');
+    }
+    
     public function getIsPreview()
     {
     	$queue = Mage::getSingleton('newsletter/queue');
     	return !in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_NEVER, Mage_Newsletter_Model_Queue::STATUS_PAUSE));
+    }
+    
+    public function getCanResume()
+    {
+    	$queue = Mage::getSingleton('newsletter/queue');
+    	return in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_PAUSE));
     }
     
     public function getHeaderText() 

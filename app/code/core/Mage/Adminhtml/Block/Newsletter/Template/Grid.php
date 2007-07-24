@@ -33,14 +33,14 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
         
         $this->addColumn('added_at',
             array(
-                'header'=>__('Added At'),
+                'header'=>__('Date Added'),
                 'index'=>'added_at',
                 'type'=>'datetime'
         ));
         
         $this->addColumn('modified_at',
             array(
-                'header'=>__('Modified At'),
+                'header'=>__('Date Updated'),
                 'index'=>'modified_at',
                 'type'=>'datetime'
         ));
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'index'=>'template_id',
                 'sortable'=>false,
                 'filter' => false,
-                'width'	   => '200px',
+                'width'	   => '170px',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
         
