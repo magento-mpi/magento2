@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<layoutUpdate> 
-    <block type="core/template" name="root" output="toHtml">
-        <action method="setTemplate"><template>layout.phtml</template></action>
-        <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
-    </block>
-</layoutUpdate>
