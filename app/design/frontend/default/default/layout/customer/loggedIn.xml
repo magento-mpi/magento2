@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="top.account.links">
-        <block type="core/text_list_link" name="top.account.links.logout">
-            <action method="setLink">   
-                <li></li>
-                <a>href="{{baseUrl}}customer/account/logout"</a>
-                <label>Logout</label>
-            </action>
-        </block>
+    <reference name="top.left.links">
+        <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
     </reference>
 </layoutUpdate>

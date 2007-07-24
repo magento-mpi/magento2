@@ -4,15 +4,11 @@
 				<div class="quick-access">
 					<div class="account-access">
 						<p><strong><?=$this->getWelcome()?></strong></p>
-						<ul>
-                            <?=$this->getChildHtml('topAccountLinks')?>
-						</ul>
+                        <?=$this->getChildHtml('topLeftLinks')?>
 					</div>
 					<div class="shop-access">
 						<p class="cart-count">These are currently <strong>3 items</strong> in your cart.</p>
-						<ul>
-                            <?=$this->getChildHtml('topLinks')?>
-						</ul>
+                        <?=$this->getChildHtml('topRightLinks')?>
 					</div>
 				</div>
 				<div class="clear"></div>

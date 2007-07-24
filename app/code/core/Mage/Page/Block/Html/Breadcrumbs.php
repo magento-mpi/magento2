@@ -19,6 +19,7 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
      *                  ['label']
      *                  ['title']
      *                  ['link']
+     *                  ['first']
      *                  ['last']
      *              )
      * )
@@ -35,16 +36,17 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
     
     function addCrumb($crumbName, $crumbInfo, $after = false)
     {
-        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'last'));
-    	$this->_crumbs[$crumbName]=$crumbInfo;
+        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'first', 'last'));
+    	$this->_crumbs[$crumbName] = $crumbInfo;
     }
     
     function toHtml()
     {
         if (is_array($this->_crumbs)) {
-            $last_crumb = array_pop($this->_crumbs);
-            $last_crumb['last'] = true;
-            array_push($this->_crumbs, $last_crumb);
+            reset($this->_crumbs);
+            $this->_crumbs[key($this->_crumbs)]['first'] = true;
+            end($this->_crumbs);
+            $this->_crumbs[key($this->_crumbs)]['last'] = true;
         }
     	$this->assign('crumbs', $this->_crumbs);
     	return parent::toHtml();
