@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     const ONLINE_INTERVAL = 900; // 15 min
     protected $_customer;
     protected $_customerLog;
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             'open'      => true
         ));
         $this->setChild('salesAccordion', $salesAccordion);*/
-        
+
         $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('customerViewAccordion')
             //->setShowOnlyOne(0)
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
-            'title'     => __('Last %s Orders', 5),
+            'title'     => __('Recent Orders'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders')->setId('last5orders'),
             'open'      => true
         ));
@@ -48,12 +48,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             'title'         => __('Shopping Cart'),
             //'content_url'   => Mage::getBaseUrl(),
             //'ajax'          => true,
-            'content'       => 'cart'
+            'content'       => '<p class="empty-text a-center">There are no items in customer\'s shopping cart at the moment</p>',
         ));
 
         $accordion->addItem('wishlist', array(
             'title'     => __('Wishlist'),
-            'content'   => 'Wishlist'
+            'content'   => '<p class="empty-text a-center">There are no items in customer\'s wishlist at the moment</p>',
         ));
         $this->setChild('accordion', $accordion);
     }
@@ -65,17 +65,17 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         }
         return $this->_customer;
     }
-    
+
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
             $this->_customerLog = Mage::getModel('log/customer')
                 ->load($this->getCustomer()->getId());
-            
+
         }
         return $this->_customerLog;
     }
-    
+
     public function getFormat()
     {
     	return $this->_dateTimeFormat;
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         }
         return __('Online');
     }
-    
+
     public function getCreatedInStore()
     {
         return Mage::getModel('core/store')->load($this->getCustomer()->getStoreId())->getName();
