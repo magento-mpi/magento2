@@ -187,7 +187,7 @@
             <!-- action>adminhtml/cms</action -->
             <children>
                 <control>
-                    <title>Control</title>
+                    <title>Manage Pages</title>
                     <action>adminhtml/cms</action>
                     <resource>cms/control</resource>
                 </control>
