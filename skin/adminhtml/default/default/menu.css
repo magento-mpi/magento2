@@ -1,7 +1,6 @@
 #nav {
-	height:28px;
+	height:29px;
 	border-top:1px solid #2d444f;
-	border-bottom:1px solid #4d5255;
 	background:url(images/nav1_bg.gif) repeat-x 0 100% #666e73;
 	padding-left:20px;
 	}
@@ -85,11 +84,12 @@
 #nav ul {
 	position: absolute;
 	width:189px;
-	top:36px;
+	top:35px;
 	left:0;
 	margin-top:-7px;
 	margin-left: -1000em; /* for usability no display:none */
 	padding-bottom:3px;
+	padding-top:1px;
 }
 
 /* Show menu */
