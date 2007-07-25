@@ -37,6 +37,8 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         
         //$this->setChild('breadcrumbs', $breadcrumbs);
         
+        $this->getLayout()->getBlock('root')->setHeaderTitle($product->getName());
+        
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
         

@@ -12,7 +12,7 @@
         <header>
             <logo_src>images/logo.gif</logo_src>
             <logo_alt>Magento Commerce</logo_alt>
-            <welcome>Welcome to our site, dear visitor! (default welcome message for guests)</welcome>
+            <welcome>Default welcome msg!</welcome>
         </header>
         <footer>
             <copyright><![CDATA[&copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>

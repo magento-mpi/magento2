@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate> 
+
     <block type="page/html" name="root" output="toHtml">
 
         <block type="core/store" name="store" as="store"/>

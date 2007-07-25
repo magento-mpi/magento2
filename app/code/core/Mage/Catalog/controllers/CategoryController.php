@@ -17,9 +17,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
         $action = 'catalog_category_'.$this->getRequest()->getParam('id', false);
         $this->loadLayout(null, '', false);
 
-        $category = Mage::getModel('catalog/category')
+        $category = Mage::getSingleton('catalog/category')
             ->load($this->getRequest()->getParam('id', false));
-            
+
         // Valid category id
         if (!$category->isEmpty()) {
             if ($category->getCustomLayout()) {
@@ -33,6 +33,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             $this->_forward('noRoute');
             return ;
         }
+
+        $this->getLayout()->getBlock('root')->setHeaderTitle($category->getName());            
         
         $this->renderLayout();
 
