@@ -6,7 +6,8 @@ ieHover = function() {
 		var ieMat = ieULs[j].firstChild;
 		ieMat.style.width=ieULs[j].offsetWidth+"px";
 		ieMat.style.height=ieULs[j].offsetHeight+"px";
-		ieULs[j].style.zIndex="99";
+		ieULs[j].style.zIndex="1";
+		alert ('
 	}
 }
 
