@@ -1,0 +1,52 @@
+<?=$this->getAddButtonHtml()?>
+<span class="field-row" id="<?=$this->getElement()->getHtmlId()?>_container"></span>
+<span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none">
+<?=$this->getDeleteButtonHtml()?>
+</span>
+<script type="text/javascript">
+<!--
+	var tierPriceControl = {
+		template : new Template(
+			'<'+'div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row_#{index}"'
+			+'> <?=__('Price')?> <'
+			+'input class="<?=$this->getElement()->getClass()?> price validate-number" type="text" name="'
+			+'<?=$this->getElement()->getName()?>[#{index}][price]" value="#{price}"'
+			+'> <?=__('Qty')?>'+' <'
+			+'input class="<?=$this->getElement()->getClass()?> qty validate-number" type="text" name="<?=$this->getElement()->getName()?>[#{index}][qty]" value="#{qty}"'
+			+'>#{delete_button}<'
+			+'/div>'),
+		itemsCount : 0,
+		deleteButton: false,
+		addItem	 : function () {
+			var data = {};
+			data.qty = '';
+			data.price = '';
+			data.index = this.itemsCount++;
+			if(arguments.length == 2) {
+				data.price = arguments[1];
+				data.qty   = arguments[0];
+			}
+			
+			if(!this.deleteButton) {
+				this.deleteButton = new Template(
+					$('<?=$this->getElement()->getHtmlId()?>_delete_button').innerHTML
+				);
+			}
+			
+			data.delete_button = this.deleteButton.evaluate(data);
+			
+			new Insertion.Bottom(
+				$('<?=$this->getElement()->getHtmlId()?>_container'),
+				this.template.evaluate(data)
+			);
+		},
+		deleteItem : function(item) {
+			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).remove();
+		}
+	}
+	
+	<?foreach ($this->getValues() as $_item):?>
+	tierPriceControl.addItem('<?=$_item['price_qty']?>','<?=$_item['price']?>');
+	<?endforeach;?>
+//-->
+</script>

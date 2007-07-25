@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
         $this->addTab('price', array(
             'label'     => __('Price'),
-            'content'   => 'price',
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price')->toHtml(),
         ));
 
         $this->addTab('images', array(

@@ -36,12 +36,8 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 	
 	public function afterLoad($object)
     {
-    	if ($object->getUseDataSharing()) {
-            $storeId = $object->getData('store_id');
-        } else {
-            $storeId = $object->getStoreId();
-        }
-        
+    	$storeId = $object->getStoreId();
+                
         $attributeId   = $this->getAttribute()->getId();
         $entityId	   = $object->getId();
         $entityIdField = $this->getEntityIdField();
@@ -62,12 +58,8 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
     
     public function afterSave($object) 
     {
-    	if ($object->getUseDataSharing()) {
-            $storeId = $object->getData('store_id');
-        } else {
-            $storeId = $object->getStoreId();
-        }
-        
+    	$storeId = $object->getStoreId();
+                
         $attributeId   = $this->getAttribute()->getId();
         $entityId	   = $object->getId();
         $entityTypeId  = $object->getTypeId();

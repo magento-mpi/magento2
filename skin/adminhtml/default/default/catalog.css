@@ -1,0 +1,12 @@
+.tier-price-input 
+{
+    font-weight: bold;
+}
+.tier-price-input INPUT.price
+{
+    width: 70px;
+}
+.tier-price-input INPUT.qty
+{
+    width: 50px;
+}
