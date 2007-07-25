@@ -70,7 +70,7 @@ button.scalable td.br {
 table.content_table { width:100%; }
 
 /* Data */
-.data { border-width:1px; border-style:solid; }
+.data { border-width:1px; border-style:solid; table-layout: fixed;}
 .data th, .data td { padding:2px 5px; }
 .data td { border-width:0 0 1px 0border-style:solid; }
 
