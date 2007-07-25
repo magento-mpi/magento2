@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Mage_Adminhtml
 		$fieldset->addField('tier_price', 'text', array(
 				'name'=>'tier_price',
 				'class'=>'requried-entry',
-				'value'=>$product->getTierPrice()
+				'value'=>$product->getData('tier_price')
 		));
 		
 				
