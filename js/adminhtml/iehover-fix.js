@@ -5,7 +5,7 @@ ieHover = function() {
 		iframe = document.createElement('IFRAME');
 		iframe.src = "about:blank";
 		iframe.scrolling = 'no';
-		iframe.frameBorder = 2;
+		iframe.frameBorder = 0;
 		iframe.style.width = ieULs[j].offsetWidth+"px";
 		iframe.style.height = ieULs[j].offsetHeight+"px";
 		ieULs[j].insertBefore(iframe, ieULs[j].firstChild);
