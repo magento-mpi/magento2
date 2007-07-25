@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Widget_Button extends Mage_Adminhtml_Block_Widget
 
     public function toHtml()
     {
-        $html = '<button id="'.$this->getId().'" name="'.$this->getName().'" type="'.$this->getType().'" class="scalable" onclick="'.$this->getOnClick().'">';
+        $html = '<button id="'.$this->getId().'" name="'.$this->getName().'" type="'.$this->getType().'" class="scalable '.$this->getClass().'" onclick="'.$this->getOnClick().'">';
         $html.= '<table cellspacing="0"><tr><td class="tl"></td><td class="tr"></td></tr>';
         $html.= '<tr><td class="ml">'.$this->getLabel().'</td><td class="mr"></td></tr>';
         $html.= '<tr><td class="bl"></td><td class="br"></td></tr></table></button>';

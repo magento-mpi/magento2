@@ -148,12 +148,12 @@
 
 /******* IE fixes ********/ /* IE rids all png due to it's inheritant png problem */
 * html #nav ul li { background:none; padding:0; }
-* html #nav ul { top:36px; background:none; border:1px solid #b6b6b6; border-top:none; padding-top:0;}
-* html #nav ul ul { border:1px solid #b6b6b6;}
+* html #nav ul { top:36px; background:#e5edef; border:1px solid #b6b6b6; border-top:none; padding-top:0; padding-bottom:0; }
+* html #nav ul ul { top:13px; border:1px solid #b6b6b6;}
 * html #nav ul li a { background:#e5edef;}
 * html #nav ul li a:hover  { background:#d0dfe2;}
 * html #nav ul a { zoom:1; }
-* html #nav ul li.last { padding-bottom:0; }
+* html #nav ul li.last { margin-bottom:-3px; }
 
 
 /* Fix for the IE fix bug */

@@ -19,13 +19,11 @@ function toggleMenu(el, over) {
 <?endif?>
 
 <?foreach ($menu as $_item):?>
-    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>">
-       <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?>">
+    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>"><a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?>">
             <span><?=$_item['label']?>
             <?if(empty($_level)):?><em></em><?endif?></span>
        </a>
-       <?if(!empty($_item['children'])):?>
-        <ul>
+<?if(!empty($_item['children'])):?><ul>
         <?
             $_menuData[$_level] = array('menu'=>$menu);
             $menu = $_item['children'];
@@ -34,9 +32,7 @@ function toggleMenu(el, over) {
             $_level--; 
             extract($_menuData[$_level]);
         ?>
-        </ul>
-    <?endif;?>
-    </li>
+        </ul><?endif;?></li>
 <?endforeach;?>
 
 <?if (empty($_level)):?>
