@@ -152,7 +152,7 @@ final class Mage {
      */
     public static function getDesign()
     {
-    	return Mage::getSingleton('core/design_package');
+        return Mage::getSingleton('core/design_package');
     }
 
     /**

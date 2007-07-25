@@ -285,7 +285,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @param array $condition
      */
     public function addFieldToFilter($attribute, $condition=null){
-        return $this->addAttributeToFilter($attribute, $collection);
+        return $this->addAttributeToFilter($attribute, $condition);
     }
 
     /**

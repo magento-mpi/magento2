@@ -95,7 +95,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrunb items
          */
-        $this->_addBreadcrumb(__('Customers'), __('Customers Title'));
+        /*$this->_addBreadcrumb(__('Customers'), __('Customers Title'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers Title'), Mage::getUrl('adminhtml/customer'));
 
         if ($customerId) {
@@ -103,12 +103,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
         else {
             $this->_addBreadcrumb(__('New Customer'), __('New Customer Title'));
-        }
+        }*/
 
         /**
          * Append customer edit tabs to left block
          */
-        $this->getLayout()->getBlock('left')->append($this->getLayout()->createBlock('adminhtml/customer_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/customer_edit_tabs'));
 
         $this->renderLayout();
     }

@@ -108,7 +108,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
      * @param   int $recursionLevel recursion level
      * @return  this
      */
-    public function load($parentNode=null, $recursionLevel=0)
+    public function load($parentNode=null, $recursionLevel=100)
     {
         if (is_null($parentNode)) {
             $this->_loadFullTree();

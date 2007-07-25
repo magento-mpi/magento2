@@ -19,10 +19,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('catalog/product_collection')
-//            ->addAttributeToSelect('product_id')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
-        ;
+            ->addAttributeToSelect('qty')
+            ->addAttributeToSelect('price');
 
         if ($this->getCategoryId()) {
             $collection->addCategoryFilter($this->getCategoryId());
@@ -35,11 +35,70 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array('header'=>__('ID'), 'align'=>'center', 'sortable'=>false, 'index'=>'product_id'));
-        $this->addColumn('sku', array('header'=>__('SKU'), 'align'=>'center', 'index'=>'sku'));
-        $this->addColumn('name', array('header'=>__('Name'), 'index'=>'name'));
-        $this->addColumn('action', array('header'=>__('Action'), 'index' => 'product_id', 'sortable' => false, 'filter' => false));
+        $this->addColumn('id', 
+            array(
+                'header'=> __('ID'), 
+                'width' => '50px', 
+                'index' => 'entity_id',
+        ));
+        $this->addColumn('name', 
+            array(
+                'header'=> __('Name'), 
+                'index' => 'name',
+        ));
+        $this->addColumn('sku', 
+            array(
+                'header'=> __('SKU'),
+                'width' => '80px',
+                'index' => 'sku',
+        ));
+        $this->addColumn('price', 
+            array(
+                'header'=> __('Price'),
+                'type'  => 'currency',
+                'index' => 'price',
+        ));
+        $this->addColumn('qty', 
+            array(
+                'header'=> __('Qty'),
+                'width' => '50px',
+                'index' => 'qty',
+        ));
+        $this->addColumn('status', 
+            array(
+                'header'=> __('Status'),
+                'width' => '50px',
+                'index' => 'status',
+        ));
+        $this->addColumn('rating', 
+            array(
+                'header'=> __('Rating'),
+                'width' => '100px',
+                'index' => 'rating',
+        ));
+        $this->addColumn('category', 
+            array(
+                'header'=> __('Categories'),
+                'width' => '150px',
+                'filter'=> false,
+                'index' => 'category',
+        ));
+        $this->addColumn('stores', 
+            array(
+                'header'=> __('Stores'),
+                'width' => '100px',
+                'filter'=> false,
+                'index' => 'stores',
+        ));
+        
+        $this->addExportType('*/*/exportCsv', __('CSV'));
+        $this->addExportType('*/*/exportXml', __('XML'));
 
         return parent::_prepareColumns();
+    }
+    
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
     }
 }

@@ -104,13 +104,4 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
     }
-
-    protected function _addColumnFilterToCollection($column)
-    {
-        if ($this->getCollection() && $column->getFilter()->getValue()) {
-            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
-        }
-        return $this;
-    }
-
 }
