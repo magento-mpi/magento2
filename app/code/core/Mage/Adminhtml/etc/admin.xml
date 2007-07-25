@@ -2,11 +2,11 @@
 <config>
     <admin>
       <menu>
-         <dashboard>
+         <!--<dashboard>
             <title>Dashboard</title>
             <action>adminhtml/dashboard/</action>
-            <!--<acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>-->
-         </dashboard>
+            <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
+         </dashboard>-->
          <customer>
             <title>Customers</title>
             <!-- action>adminhtml/customer/</action -->
