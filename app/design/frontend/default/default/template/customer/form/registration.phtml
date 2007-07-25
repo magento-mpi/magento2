@@ -1,4 +1,3 @@
-
 <h1 class="page-heading">Create account</h1>
     <?=$this->getMessagesBlock()->getHtml()?>
     <form action="<?=$action?>" method="post" id="form-validate">
@@ -36,8 +35,13 @@
                     <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text"/>
                 </div>
             </li>
+            <li>
+                <label for="is_subscribed"><?=__('Sign up for newsletter')?></label><br/>
+                <input type="checkbox" name="is_subscribed" title="Sign up for newsletter" value="1" id="is_subscribed" <?if($data->getIsSubscribed()):?> checked<?endif?>/>
+            </li>
         </ul>
     </fieldset>
+    
         <div class="buttons-container">
             <p class="required">* Required Fields</p>
             <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
