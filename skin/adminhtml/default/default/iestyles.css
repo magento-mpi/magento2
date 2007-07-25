@@ -14,6 +14,7 @@ dl.accordion dt,
 .grid thead th a,
 .content,
 .box-head,
+.header-top,
 ul.tabs,
 ul.tabs li span,
 ul.tabs li a,
@@ -30,7 +31,7 @@ ul.tabs li { height:1%; } /* IE version of clearing */
 /* Set min-height */
 .icon-head { height:18px;}
 .footer .powered-by { height:19px;}
-.simple-container { height:500px; }
+.simple-container { height:350px; }
 
 
 /* Scalable Button Override */

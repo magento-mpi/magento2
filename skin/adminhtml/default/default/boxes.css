@@ -32,20 +32,26 @@
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
 .header {
-    background:url(images/header_bg.gif) repeat-x #516f78;
     text-align:right;
     }
+.header-top {
+	border-width:1px;
+	border-style:solid;
+	border-color:#5f767f #6e8891 #6e8891 #657d86;
+	background:url(images/header_top_bg.gif) repeat-x #496670;
+	}
 .middle {
-    background:#fff;
-    padding:0 0 3em 0;
-    }
+	border-bottom:5px solid #fff;
+	background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
+	padding:0 0 3em 0;
+	}
 .container { /* created to browser-compatible liquid-layout */
     border-left:17.48em solid #fff;
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
 .simple-container { /* Main area below the breadcrumb and above the footer */
-    min-height:500px;
+    min-height:350px;
     padding:1.8em 2.3em;
     }
 /*.main {
@@ -185,7 +191,7 @@
 /* Content Header */
 .content-header {
     margin-bottom:1em;
-    border-bottom:3px solid #dfdfdf;
+    border-bottom:4px solid #dfdfdf;
     padding-bottom:.25em;
     }
 .content-header h3 {
@@ -227,7 +233,11 @@
     background-image:url(images/fam_status_online.gif);
     padding-left:18px;
     }
-
+.head-manage-customers {
+    background-image:url(images/fam_group.gif);
+    padding-left:22px;
+    }
+	}
 
 
 
@@ -394,6 +404,7 @@ div.tree_line {
 
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.header-top:after,
 dl.accordion dt:after,
 .entry-edit fieldset li:after,
 .entry-edit fieldset span:after,

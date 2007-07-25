@@ -89,7 +89,7 @@
     <thead>
         <tr class="headings">
         <?foreach ($this->getColumns() as $_column):?>
-            <th class="<?=$_column->getHeaderCssClass()?>"><?=$_column->getHeaderHtml()?></th>
+            <th class="<?=$_column->getHeaderCssClass()?>"><nobr><?=$_column->getHeaderHtml()?></nobr></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
