@@ -27,6 +27,9 @@
               <category_tree>
                 <table>catalog_category_tree</table>
               </category_tree>
+              <product_attribute_tier_price>
+                  <table>catalog_product_attribute_tier_price</table>
+               </product_attribute_tier_price>
             </entities>
          </catalog_entity>
          <catalog_mysql4>
@@ -92,9 +95,7 @@
                <product_attribute_option>
                   <table>catalog_product_attribute_option</table>
                </product_attribute_option>
-               <product_attribute_tier_price>
-                  <table>catalog_product_attribute_tier_price</table>
-               </product_attribute_tier_price>
+               
                <product_link>
                   <table>catalog_product_link</table>
                </product_link>
