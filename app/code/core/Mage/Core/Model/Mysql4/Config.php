@@ -29,7 +29,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             return false;
         }
         $checksumArr = $this->getConnection('read')
-            ->fetchAll('checksum table '.join(',', $tables));
+        	->fetchAll('checksum table '.join(',', $tables));
         $checksum = 0;
         foreach ($checksumArr as $r) {
             $checksum += $r['Checksum'];

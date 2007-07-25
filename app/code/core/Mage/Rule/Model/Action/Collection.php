@@ -59,16 +59,17 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     
     public function asHtml()
     {
-    	$html = "Perform following actions";
+    	$html = 'Perform following actions';
         return $html;	
     }
     
-    public function asHtmlRecursive($level=0)
+    public function asHtmlRecursive()
     {
-        $html = parent::asHtmlRecursive($level);
+        $html = '<li>'.$this->asHtml().'<ul>';
         foreach ($this->getActions() as $cond) {
-            $html .= "<br>".$cond->asHtmlRecursive($level+1);
+            $html .= $cond->asHtmlRecursive();
         }
+        $html .= '</ul></li>';
         return $html;
     }
     

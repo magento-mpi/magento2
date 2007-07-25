@@ -42,30 +42,40 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Address extends Mage_Rule_Model_A
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('action:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[actions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	    	
     	$attrEl = $form->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$operEl = $form->addField('action:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('action:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[actions]['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-    	$addressNumEl = $form->addField('action:'.$this->getId().':address', 'select', array(
+    	$addressNumEl = $form->addField('action:'.$this->getId().':address_number', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][address]',
     		'values'=>$this->getAddressNumSelectOptions(),
     		'value'=>$this->getAddressNumber(),
     		'value_name'=>$this->getAddressNumber(),
     	))->setRenderer($renderer);
     	
-    	$html = __("Update address # %s %s %s %s",
+    	$html = $typeEl->getHtml().__("Update address # %s %s %s %s",
             $addressNumEl->getHtml(),
             $attrEl->getHtml(),
             $operEl->getHtml(),

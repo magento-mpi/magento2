@@ -5,6 +5,10 @@ class Mage_Adminhtml_Block_Rule_Test extends Mage_Core_Block_Abstract
 	public function toHtml()
 	{
         $rule = Mage::getModel('sales/quote_rule');
+		if ($_POST) {
+			$rule->loadPost($_POST['rule']);			
+			echo '<pre>'.print_r($_POST,1).'</pre>';
+		} else
         #$rule->load(1);
         if (!$rule->getId()) {
             $rule->setName('Rule 1')->setIsActive(1);
@@ -33,7 +37,13 @@ class Mage_Adminhtml_Block_Rule_Test extends Mage_Core_Block_Abstract
             $rule->getActions()->loadArray($actionsArr);
             #$rule->save(); echo "SAVING...<hr>";
         }
-
-        return $rule->asHtml();
+echo '<pre>'.print_r($rule->asArray(),1).'</pre>';
+echo '<xmp>'.print_r($rule->getConditions()->asXml(),1).'</xmp>';
+#echo '<xmp>'.print_r($rule->getActions()->asXml(),1).'</xmp>';
+        $html = '<form method="post">';
+        $html.= $rule->asHtml();
+        $html.= '<input type="submit"/></form>';
+        
+        return $html;
 	}
 }

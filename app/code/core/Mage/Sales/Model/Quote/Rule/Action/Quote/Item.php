@@ -27,7 +27,7 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
     public function getItemNumSelectOptions()
     {
     	$opt = array();
-    	for ($i=1, $l=$this->getRule()->getFoundQuoteItemNumber(); $i<$l-1; $i++) {
+    	for ($i=1, $l=$this->getRule()->getFoundQuoteItemNumber(); $i<$l; $i++) {
     		$opt[] = array('value'=>$i, 'label'=>$i);
     	}
     	return $opt;
@@ -75,35 +75,46 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote_Item extends Mage_Rule_Model_Acti
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('action:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[actions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	    	
     	$attrEl = $form->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$operEl = $form->addField('action:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('action:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[actions]['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-    	$itemNumEl = $form->addField('action:'.$this->getId().':item', 'select', array(
+    	$itemNumEl = $form->addField('action:'.$this->getId().':item_number', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][item]',
     		'values'=>$this->getItemNumSelectOptions(),
     		'value'=>$this->getItemNumber(),
     		'value_name'=>$this->getItemNumber(),
     	))->setRenderer($renderer);
     	
-    	$itemQtyEl = $form->addField('action:'.$this->getId().':qty', 'text', array(
+    	$itemQtyEl = $form->addField('action:'.$this->getId().':item_qty', 'text', array(
+    		'name'=>'rule[actions]['.$this->getId().'][qty]',
     		'value'=>$this->getItemQty(),
     		'value_name'=>$this->getItemQty(),
     	))->setRenderer($renderer);
     	
-    	$html = __("Update Item # %s %s %s %s for %s item(s)",
+    	$html = $typeEl->getHtml().__("Update Item # %s %s %s %s for %s item(s)",
             $itemNumEl->getHtml(),
             $attrEl->getHtml(),
             $operEl->getHtml(),

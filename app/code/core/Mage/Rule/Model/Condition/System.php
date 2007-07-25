@@ -13,6 +13,11 @@ class Mage_Rule_Model_Condition_System extends Mage_Rule_Model_Condition_Abstrac
         return $this;
     }
     
+    public function asHtml()
+    {
+    	return 'System '.parent::asHtml();
+    }
+    
     public function asString($format='')
     {
         return 'System '.parent::asString();

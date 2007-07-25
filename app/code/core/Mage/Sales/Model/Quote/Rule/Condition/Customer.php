@@ -15,6 +15,11 @@ class Mage_Sales_Model_Quote_Rule_Condition_Customer extends Mage_Rule_Model_Con
     public function asString($format='')
     {
         return 'Customer '.parent::asString();
+    }    
+    
+    public function asHtml()
+    {
+        return 'Customer '.parent::asHtml();
     }
     
     /**

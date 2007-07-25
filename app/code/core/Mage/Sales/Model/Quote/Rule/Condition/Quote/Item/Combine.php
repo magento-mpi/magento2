@@ -38,19 +38,27 @@ class Mage_Sales_Model_Quote_Rule_Condition_Quote_Item_Combine extends Mage_Rule
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	    	
     	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('cond:'.$this->getId().':value', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][value]',
     		'values'=>$this->getValueSelectOptions(),
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-       	$html = "If an item is ".$valueEl->getHtml()
+       	$html = $typeEl->getHtml()."If an item is ".$valueEl->getHtml()
             .' in the cart with '.$attrEl->getHtml()
             ." of these conditions true (<strong># ".$this->getItemNumber()."</strong>)";
             

@@ -68,6 +68,7 @@ class Mage_Core_Model_Translate
      */
     public function translate($args)
     {
+    	Varien_Profiler::start('translate');
         $text = array_shift($args);
         if (isset($this->_cache[$text])) {
             $translated = $this->_cache[$text];
@@ -76,6 +77,8 @@ class Mage_Core_Model_Translate
             $this->_cache[$text] = $translated;
         }
         array_unshift($args, $translated);
-        return call_user_func_array('sprintf', $args);
+        $result = call_user_func_array('sprintf', $args);
+        Varien_Profiler::stop('translate');
+        return $result;
     }
 }

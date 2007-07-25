@@ -3,7 +3,8 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
+
 
 SET NAMES utf8;
 
@@ -91,7 +92,7 @@ DROP TABLE IF EXISTS `eav_entity`;
 
 CREATE TABLE `eav_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment,
-  `entity_type_id` mediumint(8) unsigned NOT NULL default '0',
+  `entity_type_id` smallint(8) unsigned NOT NULL default '0',
   `store_id` smallint(5) unsigned NOT NULL default '0',
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',

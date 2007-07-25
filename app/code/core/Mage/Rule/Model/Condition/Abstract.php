@@ -132,7 +132,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         $value = $this->getValue();
         if (is_string($value)) {
-            return "'$value'";
+            return $value;
         }
         if (is_bool($value)) {
             return $this->getValueOption($value);
@@ -145,31 +145,40 @@ abstract class Mage_Rule_Model_Condition_Abstract
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	    	
     	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$operEl = $form->addField('cond:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('cond:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-    	$html = $attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
+    	$html = $typeEl->getHtml().$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
     	return $html;
     }
     
-    public function asHtmlRecursive($level=0)
+    public function asHtmlRecursive()
     {
-        $str = str_pad('', $level*3*6, '&nbsp;', STR_PAD_LEFT).$this->asHtml();
-        return $str;
+        $html = '<li>'.$this->asHtml().'</li>';
+        return $html;
     }
     
     public function asString($format='')

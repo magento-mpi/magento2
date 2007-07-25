@@ -172,6 +172,7 @@ class Mage_Core_Model_Design_Package
      */
     public function validateFile($file, array $params)
     {
+    	Varien_Profiler::start(__METHOD__);
     	switch ($params['_type']) {
     		case 'skin':
     			$fileName = $this->getSkinBaseDir($params);
@@ -188,9 +189,11 @@ class Mage_Core_Model_Design_Package
     	$fileName.= DS.$file;
 
 		$testFile = (empty($params['_relative']) ? '' : Mage::getBaseDir('design').DS) . $fileName;
-    	if ($this->getDefaultTheme()!==$params['_theme'] && !file_exists($testFile)) {
+
+		if ($this->getDefaultTheme()!==$params['_theme'] && !file_exists($testFile)) {
     		return false;
     	}
+    	Varien_Profiler::stop(__METHOD__);
     	return $fileName;
     }
     

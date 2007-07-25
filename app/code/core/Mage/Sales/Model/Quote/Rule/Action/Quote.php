@@ -41,24 +41,33 @@ class Mage_Sales_Model_Quote_Rule_Action_Quote extends Mage_Rule_Model_Action_Ab
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('action:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[actions]['.$this->getId().'][action]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	    	
     	$attrEl = $form->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$operEl = $form->addField('action:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('action:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[actions]['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-        $str = "Update cart ".$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
+        $str = $typeEl->getHtml()."Update cart ".$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
         return $str;
     }
     

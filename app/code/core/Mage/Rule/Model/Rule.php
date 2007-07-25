@@ -54,15 +54,39 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $str;
     }    
     
-    public function asHtml($format='')
+    public function asHtml()
     {
         $str = "Name: ".$this->getName()."<br>"
             ."Start at: ".$this->getStartAt()."<br>"
             ."Expire at: ".$this->getExpireAt()."<br>"
-            ."Description: ".$this->getDescription()."<br><br>"
-            .$this->getConditions()->asHtmlRecursive()."<br><br>"
-            .$this->getActions()->asHtmlRecursive()."<br><br>";
+            ."Description: ".$this->getDescription().'<br>'
+            .'<ul class="rule-conditions">'.$this->getConditions()->asHtmlRecursive().'</ul>'
+            .'<ul class="rule-actions">'.$this->getActions()->asHtmlRecursive()."</ul>";
         return $str;
+    }
+    
+    public function loadPost(array $rule)
+    {
+    	$arr = array();
+    	foreach (array('conditions', 'actions') as $component) {
+	    	foreach ($rule[$component] as $id=>$data) {
+	    		$path = explode('.', $id);
+	    		$node =& $arr;
+	    		for ($i=0, $l=sizeof($path); $i<$l; $i++) {
+	    			if (!isset($node[$component][$path[$i]])) {
+	    				$node[$component][$path[$i]] = array();
+	    			}
+	    			$node =& $node[$component][$path[$i]];
+	    		}
+	    		foreach ($data as $k=>$v) {
+	    			$node[$k] = $v;
+	    		}
+	    	}
+    	}
+echo '<pre>'.print_r($arr,1).'</pre>';
+    	$this->getConditions()->loadArray($arr['conditions'][1]);
+    	$this->getActions()->loadArray($arr['actions'][1]);
+    	return $this;
     }
     
     /**

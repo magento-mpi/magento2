@@ -21,6 +21,11 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return array();
     }
     
+    public function asXml()
+    {
+    	return '';
+    }
+    
     public function loadArray(array $arr)
     {
         $this->setType($arr['type']);
@@ -92,12 +97,12 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     
     public function asHtml()
     {
-        return "";
+        return '';
     }
     
-    public function asHtmlRecursive($level=0)
+    public function asHtmlRecursive()
     {
-        $str = str_pad('', $level*3*6, '&nbsp;', STR_PAD_LEFT).$this->asHtml();
+        $str = '<li>'.$this->asHtml().'</li>';
         return $str;
     }    
     public function asString($format='')

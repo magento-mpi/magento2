@@ -320,6 +320,7 @@ input.validation-failed, textarea.validation-failed {
 .left-col-block { width:190px; }
 select.countries optio { background-repeat:no-repeat; }
 
+.rule-conditions li, .rule-actions li { margin-left:16px; }
 
 .rule-param .label { font-weight:bold; color:black; }
 .rule-param .element { display:none; }

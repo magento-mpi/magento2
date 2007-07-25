@@ -142,7 +142,7 @@ class Mage_Core_Model_Resource_Setup
         $arrAvailableFiles = array();
         $sqlDir = dir($sqlFilesDir);
         while (false !== ($sqlFile = $sqlDir->read())) {
-            if (preg_match('#^'.$resModel.'-'.$actionType.'-(.*)\.sql$#i', $sqlFile, $matches)) {
+            if (preg_match('#^'.$resModel.'-'.$actionType.'-(.*)\.(sql|php)$#i', $sqlFile, $matches)) {
                 $arrAvailableFiles[$matches[1]] = $sqlFile;
             }
         }
@@ -159,18 +159,37 @@ class Mage_Core_Model_Resource_Setup
 
         foreach ($arrModifyFiles as $resourceFile) {
             $sqlFile = $sqlFilesDir.DS.$resourceFile['fileName'];
-            $sql = file_get_contents($sqlFile);
+            $fileType = pathinfo($resourceFile['fileName'], PATHINFO_EXTENSION);
+            $conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
 
             // Execute SQL
-            if (Mage::getSingleton('core/resource')->getConnection($this->_resourceName)) {
+            if ($conn) {
                 try {
-                    $result = Mage::getSingleton('core/resource')->getConnection($this->_resourceName)->multi_query($sql);
+                	switch ($fileType) {
+                		case 'sql':
+                			$sql = file_get_contents($sqlFile);
+                			$result = $conn->multi_query($sql);
+                			break;
+                			
+                		case 'php':
+		                    /**
+		                     * useful variables: 
+		                     * - $conn: setup db connection 
+		                     * - $sqlFilesDir: root dir for sql update files
+		                     */
+                            $result = include($sqlFile);
+                			break;
+                			
+                		default:
+                			$result = false;
+                	}
                     if ($result) {
-                        Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+                        Mage::getResourceModel('core/resource')->setDbVersion(
+                        	$this->_resourceName, $resourceFile['toVersion']);
                     }
                 }
                 catch (Exception $e){
-                    throw new Exception('SQL error in file:"'.$sqlFile.'" - '.$e->getMessage());
+                    throw new Exception('Error in file:"'.$sqlFile.'" - '.$e->getMessage());
                 }
             }
             $toVersion = $resourceFile['toVersion'];

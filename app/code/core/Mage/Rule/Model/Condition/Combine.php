@@ -113,28 +113,37 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     	$form = $this->getRule()->getForm();
     	$renderer = new Mage_Rule_Block_Editable();
     	
+    	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    	
     	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
     	))->setRenderer($renderer);
     	
     	$valueEl = $form->addField('cond:'.$this->getId().':value', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][value]',
     		'values'=>$this->getValueSelectOptions(),
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-       	$html = "If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml();
+       	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml();
     	return $html;
     }
     
-    public function asHtmlRecursive($level=0)
+    public function asHtmlRecursive()
     {
-        $html = parent::asHtmlRecursive($level);
+        $html = '<li>'.$this->asHtml().'<ul>';
         foreach ($this->getConditions() as $cond) {
-            $html .= "<br>".$cond->asHtmlRecursive($level+1);
+            $html .= $cond->asHtmlRecursive();
         }
+        $html .= '</ul></li>';
         return $html;
     }
         

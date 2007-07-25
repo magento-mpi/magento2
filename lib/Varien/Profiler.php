@@ -23,7 +23,13 @@ class Varien_Profiler
     
     public static function reset($timerName)
     {
-        self::$_timers[$timerName] = array('start'=>false, 'count'=>0, 'sum'=>0);
+        self::$_timers[$timerName] = array(
+        	'start'=>false, 
+        	'count'=>0, 
+        	'sum'=>0,
+        	'realmem'=>0,
+        	'emalloc'=>0,
+        );
     }
     
     public static function resume($timerName)
@@ -35,6 +41,8 @@ class Varien_Profiler
         if (empty(self::$_timers[$timerName])) {
             self::reset($timerName);
         }
+        self::$_timers[$timerName]['realmem_start'] = memory_get_usage(true);
+        self::$_timers[$timerName]['emalloc_start'] = memory_get_usage();
         self::$_timers[$timerName]['start'] = microtime(true);
         self::$_timers[$timerName]['count'] ++;
     }
@@ -56,6 +64,8 @@ class Varien_Profiler
         if (false!==self::$_timers[$timerName]['start']) {
             self::$_timers[$timerName]['sum'] += microtime(true)-self::$_timers[$timerName]['start'];
             self::$_timers[$timerName]['start'] = false;
+            self::$_timers[$timerName]['realmem'] += memory_get_usage(true)-self::$_timers[$timerName]['realmem_start'];
+            self::$_timers[$timerName]['emalloc'] += memory_get_usage()-self::$_timers[$timerName]['emalloc_start'];
         }
     }
     
@@ -82,7 +92,19 @@ class Varien_Profiler
             case 'count':
                 $count = self::$_timers[$timerName]['count'];
                 return $count;
-                
+             
+            case 'realmem':
+            	if (!isset(self::$_timers[$timerName]['realmem'])) {
+            		self::$_timers[$timerName]['realmem'] = -1;
+            	}
+            	return self::$_timers[$timerName]['realmem'];
+            	
+            case 'emalloc':
+            	if (!isset(self::$_timers[$timerName]['emalloc'])) {
+            		self::$_timers[$timerName]['emalloc'] = -1;
+            	}
+            	return self::$_timers[$timerName]['emalloc'];
+           
             default:
                 if (!empty(self::$_timers[$timerName][$key])) {
                     return self::$_timers[$timerName][$key];
