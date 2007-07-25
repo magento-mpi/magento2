@@ -8,6 +8,7 @@
  *  getPagerVisibility()
  *  getVarNamePage()
  */
+$numColumns = sizeof($this->getColumns());
 ?>
 <?if($this->getCollection()):?>
     <?if($this->canDisplayContainer()):?>
@@ -88,14 +89,14 @@
     <?endforeach;?>
     <thead>
         <tr class="headings">
-        <?foreach ($this->getColumns() as $_column):?>
-            <th class="<?=$_column->getHeaderCssClass()?>"><nobr><?=$_column->getHeaderHtml()?></nobr></th>
+        <?$i=0;foreach ($this->getColumns() as $_column):?>
+            <th class="<?=$_column->getHeaderCssClass()?> <?=++$i==$numColumns?'last':''?>"><nobr><?=$_column->getHeaderHtml()?></nobr></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
         <tr class="filter">
-        <?foreach ($this->getColumns() as $_column):?>
-            <th><?=$_column->getFilterHtml()?></th>
+        <?$i=0;foreach ($this->getColumns() as $_column):?>
+            <th class="<?=++$i==$numColumns?'last':''?>"><?=$_column->getFilterHtml()?></th>
         <?endforeach;?>
         </tr>
         <?endif?>
@@ -104,14 +105,14 @@
     <?if ($this->getCollection()->getSize()>0):?>
     <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr id="<?=$this->getRowId($_item)?>">
-        <?foreach ($this->getColumns() as $_column):?>
-            <td class="<?=$_column->getCssClass()?>"><?=$_column->getRowField($_item)?></td>
+        <?$i=0;foreach ($this->getColumns() as $_column):?>
+            <td class="<?=$_column->getCssClass()?> <?=++$i==$numColumns?'last':''?>"><?=$_column->getRowField($_item)?></td>
         <?endforeach;?>
         </tr>
     <?endforeach;?>
     <?elseif ($this->getEmptyText()):?>
     	<tr>
-    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=count($this->getColumns())?>"><?=$this->getEmptyText()?></td>
+    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=$numColumns?>"><?=$this->getEmptyText()?></td>
     	</tr>
     <?endif;?>
     </tbody>
