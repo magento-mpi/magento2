@@ -82,7 +82,7 @@ table.content_table { width:100%; }
 
 .grid { /* Accomodates resizable grid table */
     position:relative;
-		border:1px solid #c6c6c6;
+		border:1px solid #d1cfcf;
 		border-bottom:0;
     margin-bottom:.5em;
     }
@@ -116,7 +116,7 @@ table.actions td {
 	}
 .grid tr.headings th {
 		border-width:1px;
-		border-color:#f9f9f9 #bdbdbd #f9f9f9 #f9f9f9 ;
+		border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9 ;
 		border-style:solid;
     padding-top:1px;
     padding-bottom:0;
