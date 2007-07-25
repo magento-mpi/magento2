@@ -27,7 +27,7 @@
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/form.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/accordion.js"></script>
     <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tools.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/iehover-fix.js"></script>
+    
 
     <script type="text/javascript">
         var BASE_URL = '<?=$baseUrl?>adminhtml/';
@@ -39,7 +39,10 @@
     </style>
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all" /> <![endif]-->
-    <!--[if lt IE 7]><script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script><![endif]-->
+    <!--[if lt IE 7]>
+    	<script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script>
+    	<script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/iehover-fix.js"></script>
+    <![endif]-->
 
     <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>"/>
 <?//if($this->getCanLoadCalendarJs()):?>

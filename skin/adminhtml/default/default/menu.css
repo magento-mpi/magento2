@@ -77,20 +77,21 @@
 
 /************ 2ND LEVEL ************/
 #nav ul {
-	display:none;
+	/*display:none;*/
+	
 	position: absolute;
 	width:189px;
 	top:35px;
-	left:0;
+	left:-10000px;
 	margin-top:-7px;
 	padding-bottom:3px;
 	padding-top:1px;
 }
 
 /* Show menu */
-#nav li.over ul { display:block; }
-#nav li.over ul ul { display:none; }
-#nav li.over ul li.over ul { display:block; }
+#nav li.over ul { /*display:block;*/ left:0px; }
+#nav li.over ul ul { /*display:none;*/ left:-10000px; }
+#nav li.over ul li.over ul { /*display:block;*/left:100px; }
 
 #nav ul li {
 	background:url(images/nav2_li_bg.png) repeat-y;
