@@ -1,33 +1,29 @@
 <?if($productCollection->getSize()):?>
-<div class="category-pager">
-    <ul>
-        <li><strong><?=__("Page")?></strong></li>
-        <?if ($productCollection->getCurPage() != 1):?>
-        <li>
-            <a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">&laquo;</a>
-        </li>
-        <?endif?>
-        <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
-            <?if ($i == $productCollection->getCurPage()):?>
-                <li><strong><?=$i?></strong>&nbsp;|</li>
-            <?else:?>
-                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
+    <div class="pager">
+	    <div class="pages">
+		    Skip to Page:
+			<ol>
+            <?if ($productCollection->getCurPage() != 1):?>
+                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">Previous Page</a></li>
             <?endif?>
-        <?endfor?>
-        <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
-        <li>
-            <a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">&raquo;</a>
-        </li>
-        <?endif?>
-        <li style="padding-left:10px;">
-         <?=__("Total: <strong>%s items</strong>", $productCollection->getSize())?>
-        </li>
-    </ul>
-    <span class="sort-by">
-        <?=__("Sort by:")?>
-        <a href="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>"><?=__("Name")?></a> | 
-        <a href="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->getParams())?>"><?=__("Price")?></a>
-    </span>
-    <div class="clearfix"></div>
-</div>
+            <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
+                <?if ($i == $productCollection->getCurPage()):?>
+				    <li><span class="on"><?=$i?></span></li>
+                <?else:?>
+				    <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a></li>
+                <?endif?>
+            <?endfor?>
+            <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
+                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">Next Page</a></li>
+            <?endif?>
+			</ol>
+		</div>
+		<p class="currently-viewing">Items <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+1)?></strong> to <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+count($productCollection->getItems()))?></strong> of <strong><?=$productCollection->getSize()?> total</strong></p>
+	</div>
+	<div class="view-by">
+	    <p class="listing-type">View products as <a href="#"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a> <a href="#"><img 
+		    src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a></p>
+		<p class="data-per-page">Show <select name=""><option value="9">9</option></select> per page</p>
+		<p class="sort-by">Sort by <select name="" onChange="location.href=this.value"><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>">Name</option><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->setParam('dir', 'asc')->getParams())?>">Price</option></select></p>
+	</div>
 <?endif?>

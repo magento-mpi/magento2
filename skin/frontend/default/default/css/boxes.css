@@ -394,6 +394,7 @@ h1#logo {
 .generic-product-grid tr.last td { border-bottom:0; }
 .generic-product-grid td.last { border-right:0; }
 
+
 /**************** [ LIST TYPES] *******************/
 
 /* Bare List */
@@ -473,6 +474,8 @@ h1#logo {
 	margin-right:5px;
 	}
 .listing-type-grid .actions { margin:10px 0;text-align:center; }
+.listing-type-grid td.empty-product { background:#f5f6f6 }
+
 
 
 /* Mini Cart */

@@ -1,40 +1,34 @@
-<?=$this->getChildHtml('breadcrumbs')?>
-    <h2><?=$category->getData('name')?></h2>
+    <!--<h2 class="page-head"><?=$category->getData('name')?></h2>-->
     <!--<p><?=$category->getData('description')?></p>-->
-    <div class="catalog-spacer">&nbsp;</div>
+
     <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
-    <div class="catalog-spacer">&nbsp;</div>
-    <div class="catalog">
-        <div class="catalog-filters">
-         <?/*foreach($filters as $_filter):?>
-            <?$_arrLinks = $_filter->getLinks()?>
-            <?if(!empty($_arrLinks)):?>
-                <h3><?=$_filter->getLabel()?></h3>
-                <ul>
-                <?foreach($_arrLinks as $_link):?>
-                    <li><a href="<?=$_link['url']?>"><?=$_link['label']?></a><?if(!empty($_link['count'])):?>(<?=$_link['count']?>)<?endif;?></li>
-                <?endforeach?>
-                </ul>
-            <?endif?>
-         <?endforeach;*/?>&nbsp;
-        </div>
-        <table cellspacing="0" class="catalog-collection"><tr>
-					<?$i=0; foreach ($productCollection as $product):?>
-					<td class="item">
-							<div class="item-image">
-									<a href="<?=$product->getProductUrl()?>"><img src="<?=$product->getSmallImageUrl()?>" alt="product name" width="113"/></a>
-							</div>
-							<div class="item-info">
-									<div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
-									<div class="product-price"><?=$product->getFormatedPrice()?></div>
-							</div>
+
+<!-- [starts] .listing-type-grid // -->
+	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+	    <table cellspacing="0" class="generic-product-grid">
+		    <?$i=0; foreach ($productCollection as $product):?>
+			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
+                <td<?if ($i%3==0):?> class="last"<?endif?>>
+				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
+					<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a><br/>
+					<span class="regular-price"><?=$product->getFormatedPrice()?></span>
+					<div class="ratings">
+					    <div class="rating-box">
+						    <div class="rating" style="width:75%;"></div>
+						</div>
+						<a href="#"><small>(3)</small></a>
 					</div>
-					<?if (++$i%3==0):?></tr><tr><?endif?>
-					<?endforeach?>
-					</tr>
-				</table>
-        <div class="clearfix"></div>
-    </div>
-    <div class="catalog-spacer">&nbsp;</div>
+					<a href="#" class="add-to-compare">Add to Compare</a>
+					<p class="actions"><button class="form-button"><span>Add to Cart</span></button><br/><a href="#"><small>Add to Wishlist</small></a></p>
+				</td>
+			<?if ($i%3==0):?></tr><?endif?>
+			<?endforeach?>
+            <?for($i;$i%3!=0;$i++):?>
+            <td class="empty-product"></td>
+            <?endfor?>
+		</table>
+	</div>
+<!-- [ends] .listing-type-grid // -->
+
     <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
-    <div class="catalog-spacer">&nbsp;</div>
+
