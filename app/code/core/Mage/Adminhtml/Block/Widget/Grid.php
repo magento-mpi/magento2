@@ -49,14 +49,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_defaultSort     = false;
     protected $_defaultDir      = 'desc';
     protected $_defaultFilter   = array();
-    
+
     /**
      * Empty grid text
      *
      * @var sting|null
      */
     protected $_emptyText		= null;
-    
+
      /**
      * Empty grid text CSS class
      *
@@ -559,10 +559,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->getId().'JsObject';
     }
-    
+
     /**
      * Retrieve row identifier
-     * 
+     *
      * By default we retrieve row edit url
      *
      * @return string
@@ -571,47 +571,47 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->getRowUrl($row);
     }
-    
+
     /**
      * Set empty text for grid
      *
      * @param string $text
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
-    public function setEmptyText($text) 
+    public function setEmptyText($text)
     {
     	$this->_emptyText = $text;
     	return $this;
     }
-    
+
    	/**
    	 * Return empty text for grid
    	 *
    	 * @return string
    	 */
-    public function getEmptyText() 
+    public function getEmptyText()
     {
     	return $this->_emptyText;
     }
-    
+
     /**
      * Set empty text CSS class
      *
      * @param string $text
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
-    public function setEmptyTextClass($cssClass) 
+    public function setEmptyTextClass($cssClass)
     {
     	$this->_emptyTextCss = $text;
     	return $this;
     }
-    
+
    	/**
    	 * Return empty text CSS class
    	 *
    	 * @return string
    	 */
-    public function getEmptyTextClass() 
+    public function getEmptyTextClass()
     {
     	return $this->_emptyTextCss;
     }

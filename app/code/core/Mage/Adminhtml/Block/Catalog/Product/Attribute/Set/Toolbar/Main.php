@@ -19,6 +19,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
 
     protected function _getHeader()
     {
-        return __("Sets of Product Attributes");
+        return __('Product Attribute Sets');
     }
 }

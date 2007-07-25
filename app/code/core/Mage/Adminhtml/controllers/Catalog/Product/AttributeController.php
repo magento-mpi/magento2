@@ -13,6 +13,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 {
     public function indexAction()
     {
+        $this->_setTypeId();
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
@@ -43,6 +44,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     public function saveAction()
     {
+        $this->_setTypeId();
         $model = Mage::getModel('eav/entity_attribute');
         $model->setAttributeName($this->getRequest()->getParam('attribute_name'))
             ->setDefaultValue($this->getRequest()->getParam('default_value'))
@@ -62,7 +64,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->setIsFilterable($this->getRequest()->getParam('is_filterable'))
             ->setIsComparable($this->getRequest()->getParam('is_comparable'))
             ->setIsUserDefined($this->getRequest()->getParam('is_user_defined'))
-            ->setEntityTypeId(10);
+            ->setEntityTypeId(Mage::registry('entityType'));
 
         if( $this->getRequest()->getParam('attribute_id') > 0 ) {
             $model->setId($this->getRequest()->getParam('attribute_id') );
@@ -108,6 +110,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     public function attributeGridAction()
     {
+        $this->_setTypeId();
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_grid')->toHtml());
     }
 
@@ -116,5 +119,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
             $this->getResponse()->setRedirect($referer);
         }
+    }
+
+    protected function _setTypeId()
+    {
+        Mage::register('entityType', 10);
     }
 }

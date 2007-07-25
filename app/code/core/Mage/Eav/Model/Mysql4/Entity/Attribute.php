@@ -41,11 +41,36 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return true;
     }
 
-    public function save(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        echo "debug: <pre>";
-        print_r($object);
-        echo "</pre>";
-        die();
+        $data = array(
+            'entity_type_id' => ( $object->getEntityTypeId() > 0 ) ? $object->getEntityTypeId() : 0,
+            'attribute_set_id' => ( $object->getAttributeSetId() > 0 ) ? $object->getAttributeSetId() : 0,
+            'attribute_group_id' => ( $object->getAttributeGroupId() > 0 ) ? $object->getAttributeGroupId() : 0,
+            'attribute_id' => $object->getId(),
+            'sort_order' => ( $this->_getMaxSortOrder($object) + 1 ),
+        );
+
+        if( intval($object->getEntityAttributeId()) == 0 ) {
+            $write = $this->getConnection('write');
+            $write->insert($this->getTable('entity_attribute'), $data);
+        } else {
+            $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.{$this->getIdFieldName()} = ?", $object->getId());
+            $write->update($this->getTable('entity_attribute'), $data, $condition);
+        }
+    }
+
+    private function _getMaxSortOrder($object)
+    {
+        if( intval($object->getAttributeGroupId()) > 0 ) {
+            $read = $this->getConnection('read');
+            $select = $read->select()
+                ->from($this->getTable('entity_attribute'), new Zend_Db_Expr("MAX(`sort_order`)"))
+                ->where("$this->getTable('entity_attribute').attribute_group_id = ?", $object->getAttributeGroupId());
+            $maxOrder = $select->fetchOne($select);
+            return $maxOrder;
+        }
+
+        return 0;
     }
 }

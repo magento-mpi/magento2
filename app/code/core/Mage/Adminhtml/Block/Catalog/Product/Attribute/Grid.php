@@ -15,10 +15,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
     {
         parent::__construct();
         $this->setId('attributeGrid');
-        $this->setTypeId(10);
+        $this->setTypeId(Mage::registry('entityType'));
         $this->setDefaultSort('attribute_code');
         $this->setDefaultDir('ASC');
-        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -36,6 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'header'=>__('ID'),
                             'align'=>'right',
                             'sortable'=>true,
+                            'width' => '50px',
                             'index'=>'attribute_id'
                         )
             );
@@ -66,6 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_global',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
                             'align' => 'center',
                         )
             );
@@ -74,7 +75,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'header'=>__('Visible'),
                             'sortable'=>true,
                             'index'=>'is_visible',
-                            'type' => 'boolean'
+                            'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
+                            'align' => 'center',
                         )
             );
 
@@ -83,6 +86,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_required',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
                             'align' => 'center',
                         )
             );
@@ -92,6 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_user_defined',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_noyes',
                             'align' => 'center',
                             'values' => array(__('Yes'), __('No'))
                         )
@@ -102,6 +107,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_searchable',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
                             'align' => 'center',
                         )
             );
@@ -111,6 +117,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_filterable',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
                             'align' => 'center',
                         )
             );
@@ -120,30 +127,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'sortable'=>true,
                             'index'=>'is_comparable',
                             'type' => 'boolean',
+                            'filter' => 'adminhtml/widget_grid_column_filter_yesno',
                             'align' => 'center',
-                        )
-            );
-
-        $this->addColumn('actions', array(
-                            'header'=>__('Actions'),
-                            'sortable'=>false,
-                            'filter'=>false,
-                            'type' => 'action',
-                            'align' => 'center',
-                            'actions' => array(
-                                array(
-                                    'url' => Mage::getUrl('*/*/edit/attributeId/$attribute_id'),
-                                    'caption' => __('Edit')
-                                )
-                            )
                         )
             );
 
         return parent::_prepareColumns();
     }
 
-    public function getGridUrl()
+    public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/attributeGrid', array('_current'=>true));
+        return Mage::getUrl('*/*/edit', array('attributeId' => $row->getAttributeId()));
     }
 }

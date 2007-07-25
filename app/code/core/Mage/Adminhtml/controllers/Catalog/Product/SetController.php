@@ -13,17 +13,40 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 {
     public function indexAction()
     {
+        $this->_setTypeId();
+
         $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog/categories');
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        $this->_setActiveMenu('catalog/sets');
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets Title'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_main'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid'));
+
+        $this->renderLayout();
+    }
+
+    public function editAction()
+    {
+        $this->_setTypeId();
+
+        $this->loadLayout('baseframe');
+        $this->_setActiveMenu('catalog/sets');
+        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
+        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets Title'));
+
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main'));
 
         $this->renderLayout();
+    }
+
+    public function setGridAction()
+    {
+        $this->_setTypeId();
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid')->toHtml());
     }
 
     public function moveAction()
@@ -34,5 +57,10 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     public function removeAction()
     {
         #
+    }
+
+    protected function _setTypeId()
+    {
+        Mage::register('entityType', 10);
     }
 }

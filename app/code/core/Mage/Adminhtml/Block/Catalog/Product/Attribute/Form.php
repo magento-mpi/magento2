@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('is_global', 'radios',
+        $fieldset->addField('is_global', 'select',
                             array(
                                 'name' => 'is_global',
                                 'label' => __('Global'),
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('is_visible', 'radios',
+        $fieldset->addField('is_visible', 'select',
                             array(
                                 'name' => 'is_visible',
                                 'label' => __('Visible'),
@@ -140,7 +140,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('is_required', 'radios',
+        $fieldset->addField('is_required', 'select',
                             array(
                                 'name' => 'is_required',
                                 'label' => __('Required'),
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('is_searchable', 'radios',
+        $fieldset->addField('is_searchable', 'select',
                             array(
                                 'name' => 'is_searchable',
                                 'label' => __('Searchable'),
@@ -158,16 +158,31 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('is_filterable', 'radios',
+        $fieldset->addField('is_filterable', 'select',
                             array(
                                 'name' => 'is_filterable',
                                 'label' => __('Filterable'),
                                 'title' => __('Filterable Title'),
-                                'values' => $this->_addYesNoOptions()
+                                'values' => array(
+                                    array(
+                                        'value' => '0',
+                                        'label' => __('No')
+                                    ),
+
+                                    array(
+                                        'value' => '1',
+                                        'label' => __('Fiterable (with results)')
+                                    ),
+
+                                    array(
+                                        'value' => '2',
+                                        'label' => __('Fiterable (no results)')
+                                    ),
+                                )
                             )
         );
 
-        $fieldset->addField('is_comparable', 'radios',
+        $fieldset->addField('is_comparable', 'select',
                             array(
                                 'name' => 'is_comparable',
                                 'label' => __('Comparable'),
@@ -204,6 +219,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             $this->setAttributeData($attributeObject);
 
             $this->assign('header', __('Edit Attribute'));
+
+            if( $attributeObject->getIsGlobal() >= 0 ) {
+                $form->getElement('is_global')->setDisabled('true');
+            }
         } else {
             $form->getElement('is_user_defined')->setValue(1);
             $this->assign('header', __('Add new Attribute'));
@@ -223,13 +242,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
         return array(
             array(
                 'value' => 0,
-                'label' => 'No',
-                'title' => 'Yes Title'
+                'label' => __('No'),
+                'title' => __('No Title'),
             ),
+
             array(
                 'value' => 1,
-                'label' => 'Yes',
-                'title' => 'No Title'
+                'label' => __('Yes'),
+                'title' => __('Yes Title'),
             )
         );
     }
