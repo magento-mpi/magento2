@@ -17,14 +17,21 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 	 * @var array
 	 */
 	protected $_connections = array();
+	
+	/**
+	 * Attribute main table
+	 *
+	 * @var string
+	 */
+	protected $_mainTable = null;
 		
 	public function getMainTable() 
 	{
-		if (empty($this->_table)) {
-			$this->_table = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_tier_price');
+		if (is_null($this->_mainTable)) {
+			$this->_mainTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_attribute_tier_price');
 		}
 		
-		return $this->_table;
+		return $this->_mainTable;
 	}
 	
 	public function afterLoad($object)
