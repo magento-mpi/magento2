@@ -25,6 +25,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Core_Block_Template
                 ->setData(array(
                     'label' => __('Save'),
                     'onclick' => 'tagForm.submit();return false;',
+					'class' => 'save'
                 ))
         );
         $this->setChild('deleteButton',
@@ -32,6 +33,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Core_Block_Template
                 ->setData(array(
                     'label' => __('Delete'),
                     'onclick' => "window.location.href='" . $this->getDeleteUrl() . "'",
+					'class' => 'delete'
                 ))
         );
         $this->setChild('tagForm',

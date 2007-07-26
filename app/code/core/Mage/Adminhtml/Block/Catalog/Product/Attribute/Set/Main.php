@@ -31,6 +31,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                                                         ->setData(array(
                                                             'label'     => __('Delete Selected Group'),
                                                             'onclick'   => 'deleteGroup();',
+																								'class' => 'delete'
                                                         ))
         );
 
@@ -54,7 +55,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Product Set'),
-                    'onclick'   => 'setForm.submit();return false;'
+                    'onclick'   => 'setForm.submit();return false;',
+																								'class' => 'save'
                 ))
         );
 
@@ -63,7 +65,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                 ->setData(array(
                     'label'     => __('Delete Attribute Set'),
                     #'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')'
-                    'onclick'   => 'setLocation(\'#\')'
+                    'onclick'   => 'setLocation(\'#\')',
+																								'class' => 'delete'
                 ))
         );
     }

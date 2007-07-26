@@ -21,7 +21,8 @@ class Mage_Adminhtml_Block_Tag_Products extends Mage_Core_Block_Template
         parent::_initChildren();
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array('label' => __('Add New Tag')))
+                ->setData(array('label' => __('Add New Tag'),
+					'class' => 'save'))
         );
         $this->setChild('tagsGrid',
             $this->getLayout()->createBlock('adminhtml/tag_grid_products')

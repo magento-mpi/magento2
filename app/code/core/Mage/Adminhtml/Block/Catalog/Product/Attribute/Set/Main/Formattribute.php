@@ -34,6 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
                                             ->setData(array(
                                                 'label'     => __('Add Attribute'),
                                                 'onclick'   => 'this.form.submit();',
+																								'class' => 'add'
                                             ))
                                             ->toHtml(),
                             )

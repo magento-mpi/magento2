@@ -24,6 +24,7 @@ class Mage_Adminhtml_Block_Tag_All extends Mage_Core_Block_Template
                 ->setData(array(
                     'label' => __('Add New Tag'),
                     'onclick' => "window.location.href='" . Mage::getUrl('*/*/edit') . "'",
+					'class' => 'add'
                 ))
         );
         $this->setChild('tagsGrid',
