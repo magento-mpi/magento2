@@ -39,7 +39,14 @@
             </li>
             <li>
                 <label for="city">City <span class="required">*</span></label><br/>
-                <input type="text" name="city" value="<?=$data->getCity()?>"  title="City" class="required-entry input-text" id="city"/></li>
+                <input type="text" name="city" value="<?=$data->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
+            </li>
+            <li>
+                <label for="country">Country <span class="required">*</span></label><br/>
+                <select name="country_id" id="country" title="Country" class="validate-select" onchange="">
+                    <?=$countries->toHtmlOptions($data->getCountryId())?>
+                </select>
+            </li>
             <li>
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
@@ -56,12 +63,6 @@
                     <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
-            </li>
-            <li>
-                <label for="country">Country <span class="required">*</span></label><br/>
-                <select name="country_id" id="country" title="Country" class="validate-select" onchange="">
-                    <?=$countries->toHtmlOptions($data->getCountryId())?>
-                </select>
             </li>
             <li>
                 <div class="input-left">
