@@ -6,4 +6,10 @@
             <action method="setCategoriesParentId"><parent>1</parent></action>
         </block>
     </reference>
+    <reference name="top.menu">
+        <block type="catalog/navigation" name="catalog.topnav">
+            <action method="setTemplate"><template>catalog/topnav.phtml</template></action>
+            <action method="setCategoriesParentId"><parent>1</parent></action>
+        </block>
+    </reference>
 </layoutUpdate>

@@ -1,0 +1,18 @@
+<h4 class="no-show">Category Navigation:</h4>
+<ul id="nav">
+<?$i=0; foreach ($categories as $_node):?>
+    <?if($i<8):?>
+        <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?>
+	        class="active"<?endif?>><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/"><span><?=$_node->getName()?></span></a>
+            <?$categories2 = $_node->getChildren(); if (@$categories2[0]):?>
+		        <ul>
+                    <?foreach ($categories2 as $_node2):?>
+			            <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node2->getId()?>/"><?=$_node2->getName()?></a></li>
+                    <?endforeach?>
+		        </ul>
+            <?endif?>
+	    </li>
+    <?endif;?>
+<?$i++; endforeach?>
+</ul>
+
