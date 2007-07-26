@@ -36,7 +36,12 @@
             </li>
             <li>
                 <label for="city">City <span class="required">*</span></label><br/>
-                <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="City" class="required-entry input-text" id="city"/></li>
+                <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
+            </li>
+            <li>
+                <label for="country">Country <span class="required">*</span></label><br/>
+                <?=$this->getCountryHtmlSelect()?>
+            </li>
             <li>
                 <div class="input-left">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
@@ -50,10 +55,6 @@
                     <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
-            </li>
-            <li>
-                <label for="country">Country <span class="required">*</span></label><br/>
-                <?=$this->getCountryHtmlSelect()?>
             </li>
             <li>
                 <div class="input-left">
