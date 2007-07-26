@@ -30,10 +30,7 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
      */
     protected function _getTree()
     {
-        if (!$this->_tree) {
-            $this->_tree = Mage::getResourceModel('catalog/category_tree')->getTree();
-        }
-        return $this->_tree;
+        return Mage::getResourceModel('catalog/category_tree')->getTree();
     }
     
     protected function _afterDelete(Varien_Object $object){
@@ -108,11 +105,9 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
             foreach ($nodePath as $node) {
             	$nodes[] = $node->getId();
             }
-            
             $stores = array_keys(Mage::getConfig()->getStoresByPath('catalog/category/root_id', $nodes));
             array_unshift($stores, 0);
         }
-        
         return $stores;
     }
     
