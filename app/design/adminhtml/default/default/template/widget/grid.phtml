@@ -73,12 +73,9 @@ $numColumns = sizeof($this->getColumns());
             <?=$this->getExportButtonHtml()?>
         </td>
     <?endif;?>
-    <?if($this->getFilterVisibility()):?>
         <td class="filter-actions a-right">
-            <?=$this->getResetFilterButtonHtml()?>
-            <?=$this->getSearchButtonHtml()?>
+            <?=$this->getMainButtonsHtml()?>
         </td>
-    <?endif;?>
         </tr>
     </table>
 <?endif;?>
@@ -123,7 +120,9 @@ $numColumns = sizeof($this->getColumns());
 <script type="text/javascript" language="javascript">
     <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNamePage()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
-    <?=$this->getJsObjectName()?>.rowClickCallback = '<?=$this->getRowClickCallback()?>';
+    <?if($this->getRowClickCallback()):?>
+    <?=$this->getJsObjectName()?>.rowClickCallback = <?=$this->getRowClickCallback()?>;
+    <?endif;?>
 </script>
 <?endif;?>
 <?endif?>

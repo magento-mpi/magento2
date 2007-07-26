@@ -28,8 +28,8 @@ button.scalable td {
     background-image:url(images/btn_bare_bg.gif);
     }
 button.scalable td span {
-		display:block;
-		}
+        display:block;
+        }
 button.scalable td.tl {
     height:4px;
     background-position:0 0;
@@ -48,7 +48,7 @@ button.scalable td.ml {
     color:#fff;
     vertical-align:middle;
     line-height:12px;
-		white-space:nowrap;
+        white-space:nowrap;
     }
 button.scalable td.mr {
     width:6px;
@@ -72,20 +72,20 @@ button.delete td.ml,
 button.save td.ml,
 button.add td.ml,
 button.task td.ml {
-	padding:1px 2px 2px 9px;
-	}
+    padding:1px 2px 2px 9px;
+    }
 button.back td.ml {
-	padding-left:8px;
-	}
+    padding-left:8px;
+    }
 button.delete td.ml {
-	padding-right:1px;
-	}
+    padding-right:1px;
+    }
 button.back td { background-image:url(images/btn_back_bg.gif); }
 button.save td,
 button.add td,
 button.task td { 
-	background-image:url(images/btn_task_bg.gif); 
-	}
+    background-image:url(images/btn_task_bg.gif); 
+    }
 button.back td.ml { color:#838383; }
 
 button.save td span { padding:0 17px 0 2px; }
@@ -93,8 +93,8 @@ button.delete td span { padding-right:19px; }
 button.back td span,
 button.add td span,
 button.delete td span {
-	padding:0 2px 0 18px;
-	}
+    padding:0 2px 0 18px;
+    }
 button.back td span { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 button.delete td span { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
 button.save td span { background:url(images/icon_btn_save.gif) no-repeat 100% 50%; }
@@ -120,8 +120,8 @@ table.content_table { width:100%; }
 
 .grid { /* Accomodates resizable grid table */
     position:relative;
-		border:1px solid #d1cfcf;
-		border-bottom:0;
+        border:1px solid #d1cfcf;
+        border-bottom:0;
     margin-bottom:.5em;
     }
 .grid table {
@@ -149,31 +149,31 @@ table.actions td {
 
 /* Headings aka Sort By */
 .grid tr.headings {
-		background:url(images/sort_row_bg.gif) repeat-x 0 50%;
-		zoom:1;
-	}
+        background:url(images/sort_row_bg.gif) repeat-x 0 50%;
+        zoom:1;
+    }
 .grid tr.headings th {
-		border-width:1px;
-		border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9 ;
-		border-style:solid;
+        border-width:1px;
+        border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9 ;
+        border-style:solid;
     padding-top:1px;
     padding-bottom:0;
-		font-size:.95em;
+        font-size:.95em;
     }
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */
     padding-top:2px;
     padding-bottom:1px;
-		color:#67767e;
+        color:#67767e;
     }
 .grid tr.headings th a, .grid tr.headings th a:hover {
     display:block;
     padding:2px 4px 1px 0;
-		color:#2d444f;
+        color:#2d444f;
     text-decoration:none;
     }
 .grid tr.headings th a:hover {
-	color:#d85909;
-	}
+    color:#d85909;
+    }
 .grid th a.sort-arrow-desc, .grid th a.sort-arrow-asc {
     background:url(images/sort_on_bg.gif) no-repeat;.grid tr.headings th
     border-bottom:1px solid #fff;
@@ -197,16 +197,16 @@ table.actions td {
 
 /* Filter */
 .grid tr.filter { 
-	background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
-	cursor: default; 
-	}
+    background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
+    cursor: default; 
+    }
 .grid .filter th {
     padding-top:5px;
     padding-bottom:5px;
     white-space:nowrap;
-		border-width:0 1px 1px 0;
-		border-style:solid;
-		border-color:#bdbdbd;
+        border-width:0 1px 1px 0;
+        border-style:solid;
+        border-color:#bdbdbd;
     }
 .grid tr.filter input { width: 95%; font:normal 12px Arial; }
 .grid tr.filter select { width:100%; font:normal 12px Arial; }
@@ -238,6 +238,7 @@ table.actions td {
 
 
 /* The REAL MEAT of Grid */
+.grid tr .input-text { width: 95%; font:normal 12px Arial; }
 .grid table td {
     border-width:0 1px 1px 0;
     border-color:#d9dbdc;
@@ -253,8 +254,8 @@ table.actions td {
     text-align:right;
     }
 .grid table td.empty-text {
-	padding:15px;
-	}
+    padding:15px;
+    }
 /* Grid Footer */
 .grid table tfoot tr { background:#D7E5EF; }
 .grid tfoot td {

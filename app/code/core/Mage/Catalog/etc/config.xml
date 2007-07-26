@@ -27,6 +27,9 @@
               <category_tree>
                 <table>catalog_category_tree</table>
               </category_tree>
+              <category_product>
+                <table>catalog_category_product</table>
+              </category_product>
               <product_attribute_tier_price>
                   <table>catalog_product_entity_tier_price</table>
                </product_attribute_tier_price>

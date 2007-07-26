@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     
     public function getHeaderCssClass()
     {
-        $class = '';//$this->getCssClass();
+        $class = $this->getData('header_css_class');
         if ($this->getSortable()===false) {
             $class.= ' no-link';
         }

@@ -11,6 +11,8 @@ varienGrid.prototype = {
         this.tableSufix = '_table';
         this.useAjax = false;
         this.rowClickCallback = false;
+        this.checkboxCheckCallback = false;
+        this.reloadParams = false;
 
         this.trOnMouseOver  = this.rowMouseOver.bindAsEventListener(this);
         this.trOnMouseOut   = this.rowMouseOut.bindAsEventListener(this);
@@ -61,7 +63,7 @@ varienGrid.prototype = {
     rowMouseClick : function(event){
         if(this.rowClickCallback){
             try{
-                eval(this.rowClickCallback+'(this, event)');
+                this.rowClickCallback(this, event);
             }
             catch(e){}
         }
@@ -95,19 +97,26 @@ varienGrid.prototype = {
             new Ajax.Updater(
                 this.containerId,
                 url+'?ajax=true',
-                {onComplete:this.initGrid.bind(this), evalScripts:true}
+                {
+                    onComplete:this.initGrid.bind(this), 
+                    evalScripts:true,
+                    parameters:this.reloadParams || {}
+                }
             );
             return;
         }
         else{
+            if(this.reloadParams){
+                url+= (this.reloadParams.indexOf('?') > -1 ? '&' : '?') + Hash.toQueryString(this.reloadParams);
+            }
             location.href = url;
         }
     },
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/.*?\/)');
         this.url = this.url.replace(re, '/');
-        this.url+= '/'+varName+'/'+varValue+'/';
-        this.url = this.url.replace(/([^:])\/{2,}/g, '$1/');
+        this.url+= varName+'/'+varValue+'/';
+        //this.url = this.url.replace(/([^:])\/{2,}/g, '$1/');
         return this.url;
     },
     doExport : function(){
@@ -139,8 +148,14 @@ varienGrid.prototype = {
     },
     checkCheckboxes : function(element){
         elements = Element.getElementsBySelector($(this.containerId), 'input[name="'+element.name+'"]');
-        for(var i in elements){
-            elements[i].checked = element.checked;
+        for(var i=0; i<elements.length;i++){
+            this.setCheckboxChecked(elements[i], element.checked);
+        }
+    },
+    setCheckboxChecked : function(element, checked){
+        element.checked = checked;
+        if(this.checkboxCheckCallback){
+            this.checkboxCheckCallback(this,element,checked);
         }
     },
     inputPage : function(event, maxNum){

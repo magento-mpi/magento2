@@ -84,28 +84,6 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
     
     /**
-     * Get stores collection for category
-     *
-     * @return Varien_Data_Collection_Db
-     */
-    public function getStores()
-    {
-        $arrNodes = Mage::getResourceModel('catalog/category_tree')
-            ->load()
-            ->getPath($this->getId());
-        $arrCategoryId = array();
-        
-        foreach ($arrNodes as $node) {
-            $arrCategoryId[] = $node->getId();
-        }
-        
-        $collection = Mage::getResourceModel('core/store_collection')
-            ->addCategoryFilter($arrCategoryId)
-            ->load();
-        return $collection;
-    }
-
-    /**
      * Retrieve all customer attributes
      *
      * @return array
@@ -115,5 +93,24 @@ class Mage_Catalog_Model_Category extends Varien_Object
         return $this->getResource()
             ->loadAllAttributes()
             ->getAttributesByName();
+    }
+    
+    /**
+     * Retrieve array of product id's for category
+     *
+     * @return array
+     */
+    public function getProductIds()
+    {
+        if (!$this->getId()) {
+            return array();
+        }
+        
+        $ids = $this->getData('product_ids');
+        if (is_null($ids)) {
+            $ids = $this->getResource()->getProductIds($this);
+            $this->setData('product_ids', $ids);
+        }
+        return $ids;
     }
 }

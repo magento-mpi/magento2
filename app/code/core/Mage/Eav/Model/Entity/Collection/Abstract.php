@@ -298,7 +298,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     public function addAttributeToSort($attribute, $dir='asc')
     {
         if (isset($this->_joinFields[$attribute])) {
-            $this->getSelect()->order($this->_getAttributeFieldName($attribute));
+            $this->getSelect()->order($this->_getAttributeFieldName($attribute).' '.$dir);
             return $this;
         }
         if (isset($this->_joinAttributes[$attribute])) {
@@ -877,6 +877,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             }
             elseif (!empty($condition['nin'])) {
                 $sql = $this->_read->quoteInto("$fieldName not in (?)", $condition['nin']);
+            }
+            elseif (!empty($condition['is'])) {
+                $sql = $this->_read->quoteInto("$fieldName is ?", $condition['is']);
             }
             else {
                 $orSql = array();

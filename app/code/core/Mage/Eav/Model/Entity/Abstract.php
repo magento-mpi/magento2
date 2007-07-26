@@ -108,12 +108,22 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write = $write ? $write : $read;
         return $this;
     }
-
+    
+    /**
+     * Retrieve read DB connection
+     *
+     * @return Zend_Db_Adapter_Abstract
+     */
     public function getReadConnection()
     {
         return $this->_read;
     }
 
+    /**
+     * Retrieve write DB connection
+     *
+     * @return Zend_Db_Adapter_Abstract
+     */
     public function getWriteConnection()
     {
         return $this->_write;

@@ -93,4 +93,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     {
         return Mage::getUrl('*/*/delete', array('_current'=>true));
     }
+    
+    public function getProductIdsString()
+    {
+        $ids = Mage::registry('category')->getProductIds();
+        if (is_array($ids)) {
+            return implode(',', $ids);
+        }
+        return '';
+    }
 }

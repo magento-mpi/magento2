@@ -545,4 +545,37 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         return $this->getNode("global/resource/connection/types/$type");
     }
+    
+    /**
+     * Retrieve store Ids for $path with checking
+     * 
+     * if empty $allowValues then retrieve all stores values
+     * 
+     * return array($storeId=>$pathValue)
+     * 
+     * @param   string $path
+     * @param   array  $allowValues
+     * @return  array
+     */
+    public function getStoresByPath($path, $allowValues = array())
+    {
+        $storeIds = array();
+        $stores = $this->getNode('stores');
+        foreach ($stores->children() as $core => $store) {
+        	$storeId   = (int) $store->descend('system/store/id');
+        	if ($storeId === false) {
+        	    continue;
+        	}
+        	
+        	$pathValue = (string) $store->descend($path);
+        	
+        	if (empty($allowValues)) {
+        	    $storeIds[$storeId] = $pathValue;
+        	}
+        	elseif(in_array($pathValue, $allowValues)) {
+        	    $storeIds[$storeId] = $pathValue;
+        	}
+        }
+        return $storeIds;
+    }
 }

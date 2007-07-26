@@ -27,14 +27,24 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox extends Mage_Adm
      */
     public function render(Varien_Object $row)
     {
-        $value = $row->getData($this->getColumn()->getIndex());
-        $checked = (in_array($value, $this->getValues())) ? ' checked="true"' : '';
-        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" value="' . $value . '" class="checkbox"'.$checked.'/>';
+        $values = $this->getColumn()->getValues();
+        $value  = $row->getData($this->getColumn()->getIndex());
+        if (is_array($values)) {
+            $checked = in_array($value, $values) ? ' checked="true"' : '';
+        }
+        else {
+            $checked = ($value === $this->getColumn()->getValue()) ? ' checked="true"' : '';
+        }
+        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" value="' . $row->getId() . '" class="checkbox"'.$checked.'/>';
     }
     
     public function renderHeader()
     {
-        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox"/>';
+        $checked = '';
+        if ($filter = $this->getColumn()->getFilter()) {
+            $checked = $filter->getValue() ? 'checked' : '';
+        }
+        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" '.$checked.'/>';
     }
     
     public function renderProperty()

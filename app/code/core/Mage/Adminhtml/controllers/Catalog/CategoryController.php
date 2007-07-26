@@ -11,6 +11,20 @@
 class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Initialization category object in registry
+     *
+     * @return this
+     */
+    protected function _initCategory()
+    {
+        Mage::register('category', Mage::getModel('catalog/category'));
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            Mage::registry('category')->setStoreId((int)$this->getRequest()->getParam('store'))
+                ->load($id);
+        }
+        return $this;
+    }
+    /**
      * Catalog categories index action
      */
     public function indexAction()
@@ -34,12 +48,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        
+        $this->_initCategory();
 
-        Mage::register('category', Mage::getModel('catalog/category'));
-        if ($id = (int) $this->getRequest()->getParam('id')) {
-            Mage::registry('category')->setStoreId((int)$this->getRequest()->getParam('store'))
-                ->load($id);
-        }
         $data = Mage::getSingleton('adminhtml/session')->getCategoryData(true);
         if (isset($data['general'])) {
             Mage::registry('category')->addData($data['general']);
@@ -49,7 +60,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories Title'));
 
         $this->_addLeft(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+            $this->getLayout()->createBlock('adminhtml/catalog_category_tree', 'category.tree')
         );
 
         $this->_addContent(
@@ -120,6 +131,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setId($this->getRequest()->getParam('id'))
                 ->setStoreId($storeId)
                 ->setAttributeSetId(12);
+            
+            if (isset($data['products'])) {
+                $products = explode(',', $data['products']);
+                $category->setPostedProducts(array_flip($products));
+            }
             try {
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');
@@ -128,7 +144,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setCategoryData($data);
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
                 return;
             }
         }
@@ -138,6 +154,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
     public function gridAction()
     {
+        $this->_initCategory();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product')->toHtml()
         );

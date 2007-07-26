@@ -63,26 +63,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     
     protected function _getParentCategoryOptions()
     {
-        $tree = $this->getCategory()->getTreeModel();
-        $tree->getCategoryCollection()
-            ->addAttributeToSelect('name')
-            ->getEntity()
-                ->setStore(0);
-        $storeId = $this->getRequest()->getParam('store');
-        if ($storeId) {
-            
-        }
-        
-        $nodes = $tree->load(1, 5)
-            ->getTree()
-                ->getNodes();
-
+        $root = $this->getLayout()->getBlock('category.tree')->getRootNode();
         $options = array();
-        foreach ($nodes as $node) {
+        foreach ($root->getTree()->getNodes() as $node) {
         	$options[] = array(
         	   'value' => $node->getId(),
         	   'label' => $node->getName(),
-        	   'style' => 'padding-left:'.(10*$node->getLevel()).'px',
+        	   'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
         	);
         }
         return $options;

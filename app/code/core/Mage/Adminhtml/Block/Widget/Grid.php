@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _initChildren()
     {
-        $this->setChild('exportButton',
+        $this->setChild('export_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Export'),
@@ -111,14 +111,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     'class'   => 'task'
                 ))
         );
-        $this->setChild('resetFilterButton',
+        $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
-        $this->setChild('searchButton',
+        $this->setChild('search_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Search'),
@@ -130,17 +130,27 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     public function getExportButtonHtml()
     {
-        return $this->getChildHtml('exportButton');
+        return $this->getChildHtml('export_button');
     }
 
     public function getResetFilterButtonHtml()
     {
-        return $this->getChildHtml('resetFilterButton');
+        return $this->getChildHtml('reset_filter_button');
     }
 
     public function getSearchButtonHtml()
     {
-        return $this->getChildHtml('searchButton');
+        return $this->getChildHtml('search_button');
+    }
+    
+    public function getMainButtonsHtml()
+    {
+        $html = '';
+        if($this->getFilterVisibility()){
+            $html.= $this->getResetFilterButtonHtml();
+            $html.= $this->getSearchButtonHtml();
+        }
+        return $html;
     }
 
     /**
@@ -245,9 +255,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
             $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
-            $filter   = $this->getParam($this->getVarNameFilter(), $this->_defaultFilter);
+            $filter   = $this->getParam($this->getVarNameFilter(), null);
+            
+            if (is_null($filter)) {
+                $filter = $this->_defaultFilter;
+            }
 
-            if ($filter && is_string($filter)) {
+            if (is_string($filter)) {
                 $data = array();
                 $filter = base64_decode($filter);
                 parse_str(urldecode($filter), $data);
