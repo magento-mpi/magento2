@@ -21,6 +21,17 @@
                     </p>
                     </td>
                 </tr>
+            <?elseif($_pAddsses = $this->getDefaultShipping()):?>    
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_pAddsses)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
             <?else:?>
                 <tr>
                     <td>
@@ -59,6 +70,17 @@
         <td style="width:50%;" valign="top"><h3>Default Shipping</h3>
             <table width="100%" cellspacing="0"> 
             <?if($_pAddsses = $this->getDefaultShipping()):?>    
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_pAddsses)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
+            <?elseif($_pAddsses = $this->getDefaultBilling()):?>    
                 <tr>
                     <td>
                     <address>
