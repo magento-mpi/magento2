@@ -1,6 +1,6 @@
 
 ieHover = function() {
-	var ieULs = $('nav').getElementsByTagName('ul'), iframe;
+	var ieULs = $('nav').getElementsByTagName('ul'), iframe, li;
 	for (var j=0; j<ieULs.length; j++) {
 		iframe = document.createElement('IFRAME');
 		iframe.src = "about:blank";
