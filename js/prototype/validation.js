@@ -307,7 +307,7 @@ Validation.addAllThese([
                     return $F(elm);
                 });
             }],
-    ['validate-not-negative-number', 'Please enter a valid $ amount. For example $100.00 .', function(v) {
-                return Validation.get('IsEmpty').test(v) || (!isNaN(v) && /^\d*$/.test(v));
+    ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v) {
+                return (!isNaN(v) && v>=0);
             }]
 ]);
