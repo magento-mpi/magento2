@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <layoutUpdate>
+<!--
     <reference name="head">
-       <block type="core/text_tag_css" name="head.css.opcheckout">
-           <action method="setHref"><href>css/opcheckout.css</href></action>
-       </block>
+        <action method="addCss"><name>opcheckout.css</name></action>
     </reference>
-    
+-->
     <reference name="top.right.links">
         <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>My Cart</label></action>
         <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}wishlist/"</a><label>My Wishlist</label></action>

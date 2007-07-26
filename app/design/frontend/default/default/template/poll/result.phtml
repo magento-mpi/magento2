@@ -1,14 +1,23 @@
 <?if($poll) :?>
 <?$_poll = $poll->getPoll();?>
-<div class="catalog-nav">
-        <h2>Active Poll</h2>
-        <ul>
-        <?=$_poll['poll_title'];?><br />
-        <?if( is_array($poll->getAnswers()) ):?>
-                <?foreach( $poll->getAnswers() as $answer ):?>
-                <li><?=$answer['answer_title']?> - <?=$answer['percent']?>% (<?=$answer['votes_count']?>)</li>
-                <?endforeach;?>
-        <?endif;?>
-        </ul>
+<div class="box mini-poll">
+	<div class="head"> <!-- Gives room for control buttons -->
+		<h3><span>Today's Poll</span></h3>
+	</div>
+	<h4><?=$_poll['poll_title'];?></h4>
+    <?if( is_array($poll->getAnswers()) ):?>
+	    <table cellspacing="0">
+		    <tbody>
+            <?foreach( $poll->getAnswers() as $answer ):?>
+                <tr>
+                    <td><?=$answer['answer_title']?></td>
+                    <td><?=$answer['votes_count']?> (<?=$answer['percent']?>%)</td>
+			    </tr>
+            <?endforeach;?>
+		    </tbody>
+	    </table>
+    <?endif;?>
 </div>
 <?endif;?>
+<!-- [ends] .mini-poll-results // -->
+
