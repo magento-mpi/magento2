@@ -286,22 +286,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));
     }
     
-    public function newsletterAction()
-    {
-        $this->loadLayout();
-        
-        $block = $this->getLayout()->createBlock('core/template')        	
-            ->setTemplate('customer/form/newsletter.phtml');
-        $this->getLayout()->getBlock('content')->append($block);
-        
-        $this->renderLayout();
-    }
-    
-    public function newsletterPostAction()
-    {
-        
-    }
-    
     public function mytagsAction() {
     	$this->loadLayout();
         

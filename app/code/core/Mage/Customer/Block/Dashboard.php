@@ -67,6 +67,11 @@ class Mage_Customer_Block_Dashboard extends Mage_Core_Block_Template
     	return $this->_subscription;
     }
     
+    public function getManageNewsletterUrl()
+    {
+    	return $this->getUrl('*/newsletter/manage');
+    }
+    
     public function getSubscriptionText() 
     {
     	if($this->getSubscriptionObject()->isSubscribed()) {
