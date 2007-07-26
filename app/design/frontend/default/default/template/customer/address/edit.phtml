@@ -48,7 +48,7 @@
                 <?if($this->getRegionCollection()->getSize()):?>
                     <?=$this->getRegionHtmlSelect()?>
                 <?else:?>
-                    <input type="text" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="State/Province" id="state" class="required-entry input-text"/>
+                    <input type="text" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="State/Province" id="state" class="input-text"/>
                 <?endif?>
                 </div>
                 <div class="input-right">
@@ -59,7 +59,7 @@
             <li>
                 <div class="input-left">
                     <label for="telephone">Telephone <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" value="<?=$this->getAddress()->getTelephone()?>" title="Telephone" class="required-entry validate-phoneStrict input-text" id="telephone"/>
+                    <input type="text" name="telephone" value="<?=$this->getAddress()->getTelephone()?>" title="Telephone" class="validate-phoneStrict input-text" id="telephone"/>
                 </div>
                 <div class="input-right">
                     <label for="fax">Fax</label><br/>
