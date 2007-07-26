@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                                     'label' => $rateType->getTypeName(),
                                     'title' => $rateType->getTypeName(),
                                     'value' => $rateObject->getData("rate_value{$rateType->getTypeId()}"),
-                                    'class' => 'validate-number'
+                                    'class' => 'validate-not-negative-number'
                                 )
             );
         }
