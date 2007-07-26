@@ -225,7 +225,10 @@ addressesModel.prototype = {
     },
     itemMouseClick : function(event){
         var element = Event.findElement(event, 'li'); // find top item
-        var elem = Event.element(event); // exact element clicked
+        //Safari bug fix
+        //var elem = Event.element(event); // exact element clicked
+        var elem = Event.findElement(event, 'button'); // exact element clicked
+        
         if ( (elem.tagName == 'BUTTON') && ( elem.name == 'delete_address') ) {
             this.deleteAddress(element);
             Event.stop(event);
