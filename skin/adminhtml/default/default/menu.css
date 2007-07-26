@@ -89,9 +89,9 @@
 }
 
 /* Show menu */
-#nav li.over ul { left:0px; }
-#nav li.over ul ul { left:-10000px; }
-#nav li.over ul li.over ul { left:100px; }
+#nav li.over ul { /*display:block;*/ left:0px; }
+#nav li.over ul ul { /*display:none;*/ left:-10000px; }
+#nav li.over ul li.over ul { /*display:block;*/left:100px; }
 
 #nav ul li {
 	background:url(images/nav2_li_bg.png) repeat-y;
@@ -145,6 +145,15 @@
 
 
 
+
+/******* IE fixes ********/ /* IE rids all png due to it's inheritant png problem */
+* html #nav ul li { background:none; padding:0; }
+* html #nav ul { top:36px; background:#e5edef; border:1px solid #b6b6b6; border-top:none; padding-top:0; padding-bottom:0; }
+* html #nav ul ul { top:13px; border:1px solid #b6b6b6;}
+* html #nav ul li a { background:#e5edef;}
+* html #nav ul li a:hover  { background:#d0dfe2;}
+* html #nav ul a { zoom:1; }
+* html #nav ul li.last { margin-bottom:-3px; }
 
 
 /* Fix for the IE fix bug */
