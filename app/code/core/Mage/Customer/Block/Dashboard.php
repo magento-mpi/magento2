@@ -10,6 +10,8 @@
  */
 class Mage_Customer_Block_Dashboard extends Mage_Core_Block_Template 
 {
+	protected $_subscription = null;
+	
     public function __construct() 
     {
         parent::__construct();
@@ -54,6 +56,24 @@ class Mage_Customer_Block_Dashboard extends Mage_Core_Block_Template
     public function getTagsUrl()
     {
         
+    }
+    
+    public function getSubscriptionObject() 
+    {
+    	if(is_null($this->_subscription)) { 
+			$this->_subscription = Mage::getModel('newsletter/subscriber')->loadByCustomer($this->getCustomer());
+    	}
+    	
+    	return $this->_subscription;
+    }
+    
+    public function getSubscriptionText() 
+    {
+    	if($this->getSubscriptionObject()->isSubscribed()) {
+    		return __('You are currently subscribed to our newsletter');
+    	}
+    	
+    	return _('You are currently not subscribed to our newsletter');
     }
     
     public function getPrimaryAddresses()

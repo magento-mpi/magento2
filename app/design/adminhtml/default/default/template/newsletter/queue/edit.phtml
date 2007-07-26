@@ -29,6 +29,9 @@ var queueForm = new varienForm('queue_edit_form');
 var queueControl = {
 	isEditor: false,
 	save: function() {
+		if(this.isEditor) {
+			tinyMCE.triggerSave();
+		}
 		$('_resume_flag').value = '';
 		queueForm.submit();
 	},
