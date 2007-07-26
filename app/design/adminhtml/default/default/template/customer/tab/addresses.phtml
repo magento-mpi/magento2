@@ -1,7 +1,4 @@
 <!-- Addresses list -->
-<table cellspacing="0" class="form-edit">
-<tr>
-<td class="address-list">
     <div class="box-head">
             <h4 class="icon-head head-customer-address-list" style="float:left"><?=__('Customer Addresses')?></h4>
             <button id="add_address_button" type="button" class="scalable add" onclick="customerAddresses.addNewAddress()">
@@ -21,6 +18,10 @@
         </table>
             </button>
         </div>
+
+<table cellspacing="0" class="form-edit">
+<tr>
+<td class="address-list">
     <ul id="address_list">
     <?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
