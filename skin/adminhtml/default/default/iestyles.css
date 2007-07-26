@@ -67,3 +67,15 @@ dl.accordion dt a {
     font-size: 3px;
     line-height: 3px;
     }
+
+
+
+
+/* IE .Nav fixes */
+#nav ul li { background:none !important; padding:0 !important; }
+#nav ul { top:36px; background:#e5edef; border:1px solid #b6b6b6; border-top:none; padding-top:0 !important; padding-bottom:0; }
+#nav ul ul { top:13px; border:1px solid #b6b6b6;}
+#nav ul li a { background:#e5edef;}
+#nav ul li a:hover  { background:#d0dfe2;}
+#nav ul, #nav li, #nav ul a,, #nav ul span { zoom:1; cursor:pointer; }
+#nav ul li.last { margin-bottom:-3px; }
