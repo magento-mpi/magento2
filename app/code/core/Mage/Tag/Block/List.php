@@ -2,7 +2,7 @@
 class Mage_Tag_Block_List extends Mage_Core_Block_Template {
 	protected $_collection;
     
-    public function __construct() {    	
+    public function __construct() {
         parent::__construct();
         $this->setTemplate('tag/list.phtml');
         $productId = Mage::registry('controller')->getRequest()->getParam('id', false);

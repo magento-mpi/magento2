@@ -16,6 +16,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->addAttributeToSelect('name');
             
         $parent = Mage::getSingleton('core/store')->getConfig('catalog/category/root_id');
+
         $nodes = $tree->load($parent, 10)
             ->getRoot()
                 ->getChildren();

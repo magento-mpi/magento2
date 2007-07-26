@@ -58,6 +58,15 @@
       </block>
    </global>
    <frontend>
+      <layouts>
+         <default>
+            <updates>
+               <tags>
+                  <file>tag/initLayout.xml</file>
+               </tags>
+            </updates>
+         </default>
+      </layouts>
       <routers>
          <tag>
             <default>true</default>

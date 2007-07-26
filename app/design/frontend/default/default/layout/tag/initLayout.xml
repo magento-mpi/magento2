@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="left">
+        <block type="tag/tags" name="left.tags">
+            <action method="setTemplate"><template>tag/tags.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>
