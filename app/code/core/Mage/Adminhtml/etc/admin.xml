@@ -200,7 +200,7 @@
          </cms>
          <report>
             <title>Reports</title>
-            <action>adminhtml/report</action>
+            <!-- <action>adminhtml/report</action> -->
             <children/>
          </report>
          <system>
