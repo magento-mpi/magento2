@@ -10,6 +10,11 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+	protected function _construct()
+	{
+		$this->setEmptyText(__('No Templates Found'));
+	}
+	
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/template_collection')

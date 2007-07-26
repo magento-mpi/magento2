@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         $this->setDefaultDir('desc');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
+        $this->setEmptyText(__('No Queue Found'));
     }
 
     protected function _prepareCollection()

@@ -8,11 +8,11 @@
 	var tierPriceControl = {
 		template : new Template(
 			'<'+'div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row_#{index}"'
-			+'> <?=__('Price')?> <'
-			+'input class="<?=$this->getElement()->getClass()?> price validate-number" type="text" name="'
-			+'<?=$this->getElement()->getName()?>[#{index}][price]" value="#{price}"'
 			+'> <?=__('Qty')?>'+' <'
 			+'input class="<?=$this->getElement()->getClass()?> qty validate-number" type="text" name="<?=$this->getElement()->getName()?>[#{index}][qty]" value="#{qty}"'
+			+'> <?=('and above. Price')?> <'
+			+'input class="<?=$this->getElement()->getClass()?> price validate-number" type="text" name="'
+			+'<?=$this->getElement()->getName()?>[#{index}][price]" value="#{price}"'
 			+'>#{delete_button}<'
 			+'/div>'),
 		itemsCount : 0,

@@ -20,6 +20,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
         
+    
+		$this->setEmptyText(__('No Newsletter Found'));
+	        
     }
     
     public function getGridUrl()

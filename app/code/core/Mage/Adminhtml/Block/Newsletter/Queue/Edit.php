@@ -34,7 +34,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Queue'),
-                    'onclick'   => 'queueControl.save()'
+                    'onclick'   => 'queueControl.save()',
+                    'class'		=> 'save'
                 ))
         );
         
@@ -42,7 +43,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save And Resume'),
-                    'onclick'   => 'queueControl.resume()'
+                    'onclick'   => 'queueControl.resume()',
+                    'class'		=> 'save'
                 ))
         );
         
@@ -59,7 +61,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
     			->setData(
     				array(
     					'label'   => __('Back'),
-    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'"
+    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+    					'class'		=> 'back'
     				)
     			)
     	);

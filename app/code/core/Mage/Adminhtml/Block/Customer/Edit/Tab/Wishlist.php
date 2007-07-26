@@ -20,6 +20,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->setSaveParametersInSession(true);
   		$this->_parentTemplate = $this->getTemplateName();
   		$this->setTemplate('customer/tab/wishlist.phtml');
+  		$this->setEmptyText(__('No Items Found'));
     }
   
     protected function _prepareCollection()

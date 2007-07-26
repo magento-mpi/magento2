@@ -18,6 +18,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Mage_Adminhtml
 		$form = new Varien_Data_Form();
 		$fieldset = $form->addFieldset('tiered_price', array('legend'=>__('Tier Pricing')));
 		
+		$fieldset->addField('default_price', 'label', array(
+				'label'=> __('Default price'),
+				'title'=> __('Default price'),
+				'name'=>'default_price',
+				'bold'=>true,
+				'value'=>$product->getPrice()
+		));
+		
 		$fieldset->addField('tier_price', 'text', array(
 				'name'=>'tier_price',
 				'class'=>'requried-entry',
