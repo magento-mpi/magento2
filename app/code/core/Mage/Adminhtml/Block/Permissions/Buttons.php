@@ -7,7 +7,8 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+					'class' => 'back'
                 ))
         );
 
