@@ -3,7 +3,7 @@
 /******************************************/
 
 /************* Messages ***********/
-.error { color:red !important; font-style:bold !important; }
+.error { color:#D40707f !important; font-style:bold !important; }
 .required { color:#ff0000; }
 .changed { color:#e26f03 !important; }
 
@@ -43,7 +43,7 @@
 .middle {
 	border-bottom:5px solid #fff;
 	background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-	padding:0 0 3em 0;
+	padding:0 0 85px 0;
 	}
 .container { /* created to browser-compatible liquid-layout */
     border-left:17.48em solid #fff;
@@ -170,21 +170,24 @@
     margin:10px 0;
     }
 
-
 /* Content-left Nav */
 .content-left-nav {
     width:15.08em;
     padding-right:2em;
     }
+.content-left-nav h3 {
+	margin-top:.25em;
+	margin-bottom:.35em;
+	}
 .content-left-nav ul.tabs {
-    background:#f6fdff;
+    background:#FEF8F4;
     }
 .content-left-nav a.default span {  }
 .content-left-nav a.website span { padding-left:32px;}
 .content-left-nav a.store span { padding-left:47px;}
 .content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
-
+.changed { font-style:italic; }
 
 
 /*************** All about headings **************/
@@ -208,6 +211,8 @@
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head {
     margin-bottom:.6em;
+		padding-bottom:3px;
+		border-bottom:1px solid #ccc;
     text-align:right;
     }
 .box-head h4 {
@@ -221,24 +226,17 @@
     min-height:18px;
     background-repeat:no-repeat;
     background-position:0 50%;
+		padding-left:22px;
     }
-.head-customer-address-list {
-    background-image:url(images/fam_house.gif);
-    padding-left:22px;
-    }
-.head-edit-form {
-    background-image:url(images/fam_page_white_edit.gif);
-    padding-left:22px;
-    }
-.head-customer-view {
-    background-image:url(images/fam_status_online.gif);
-    padding-left:18px;
-    }
-.head-manage-customers {
-    background-image:url(images/fam_group.gif);
-    padding-left:22px;
-    }
-	}
+.head-customer-address-list { background-image:url(images/fam_house.gif); }
+.head-edit-form { background-image:url(images/fam_page_white_edit.gif); }
+.head-customer-view { background-image:url(images/fam_status_online.gif); padding-left:18px; }
+.head-manage-customers, .head-customer-groups { background-image:url(images/fam_group.gif); }
+.head-online-visitors { background-image:url(images/fam_monitor.gif); }
+.head-products { background-image:url(images/fam_package.gif); }
+.head-newsletter-queue { background-image:url(images/fam_newspaper_go.gif); }
+.head-newsletter-list { background-image:url(images/fam_newspaper.gif); }
+.head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
 
 
 

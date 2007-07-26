@@ -87,21 +87,18 @@ button.task td {
 	background-image:url(images/btn_task_bg.gif); 
 	}
 button.back td.ml { color:#838383; }
-button.delete td span,
-button.save td span,
-button.add td span {
-	padding:0 17px 0 2px;
-	}
+
+button.save td span { padding:0 17px 0 2px; }
+button.delete td span { padding-right:19px; }
+button.back td span,
+button.add td span,
 button.delete td span {
-	padding-right:19px;
-	}
-button.back td span {
-	padding:0 2px 0 19px;
+	padding:0 2px 0 18px;
 	}
 button.back td span { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
-button.delete td span { background:url(images/icon_btn_delete.gif) no-repeat 100% 50%; }
+button.delete td span { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
 button.save td span { background:url(images/icon_btn_save.gif) no-repeat 100% 50%; }
-button.add td span { background:url(images/icon_btn_add.gif) no-repeat 100% 50%; }
+button.add td span { background:url(images/icon_btn_add.gif) no-repeat 0 50%; }
 
 
 
@@ -255,7 +252,9 @@ table.actions td {
 .grid table td.product {
     text-align:right;
     }
-
+.grid table td.empty-text {
+	padding:15px;
+	}
 /* Grid Footer */
 .grid table tfoot tr { background:#D7E5EF; }
 .grid tfoot td {
@@ -367,13 +366,13 @@ ul.tabs a.subitem{ padding-left:2.2em; }
 /************* FORMS ***************/
 .validation-advice {
     margin:2px 0 0 10em;
-    color:#d40707;
+    color:#d6340e;
     font-style:italic;
     margin-right:20px;
     }
 input.validation-failed, textarea.validation-failed { 
-    background:#fbf2f4;
-    border: 1px dashed #d40707;
+    background:#fef0ed;
+    border: 1px dashed #d6340e;
     }
 .left-col-block { width:190px; }
 select.countries optio { background-repeat:no-repeat; }

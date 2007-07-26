@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                             'align'=>'left',
                             'type' => 'datetime',
                             'default' => __('n/a'),
-                            'width' => '20s0px',
+                            'width' => '200px',
                             'index'=>'last_visit_at')
                         );
 

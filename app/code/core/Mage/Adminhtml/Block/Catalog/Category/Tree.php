@@ -27,8 +27,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
                     'onclick'   => "setLocation('".Mage::getUrl('*/*/add', array(
                         '_current'=>true, 
                         'parent'=>$this->getCategoryId(),
-                        'id'=>null
-                        ))."')"
+                        'id'=>null,
+                        ))."')",
+                    'class' => 'add'
                 ))
         );
         
