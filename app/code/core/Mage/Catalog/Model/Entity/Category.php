@@ -43,6 +43,11 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _beforeSave(Varien_Object $object)
     {
         parent::_beforeSave($object);
+        $isActive = $object->getIsActive();
+        if (is_null($isActive)) {
+            $object->setIsActive(0);
+        }
+        
         $parentNode = $this->_getTree()->loadNode($object->getParentId());
         if ($object->getId()) {
             

@@ -44,6 +44,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * @var integer
      */
     protected $_storeId;
+    
+    /**
+     * Current store to retrieve entity for
+     *
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store;
 
     /**
      * Store Ids that share data for this entity
@@ -252,36 +259,36 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $current = Mage::getSingleton('core/store');
 
         if (is_null($storeId)) {
-            $store = $current;
-            $this->_storeId = $store->getId();
+            $this->_store = $current;
+            $this->_storeId = $this->_store->getId();
         } elseif (is_numeric($storeId)) {
 
             $this->_storeId = $storeId;
             if ($storeId===$current->getId()) {
-                $store = $current;
+                $this->_store = $current;
             } else {
-                $store = Mage::getModel('core/store')->load($storeId);
+                $this->_store = Mage::getModel('core/store')->load($storeId);
             }
 
         } elseif (is_string($storeId)) {
 
             if ($storeId===$current->getCode()) {
-                $store = $current;
+                $this->_store = $current;
             } else {
-                $store = Mage::getModel('core/store')->setCode($storeId);
+                $this->_store = Mage::getModel('core/store')->setCode($storeId);
             }
-            $this->_storeId = $store->getId();
+            $this->_storeId = $this->_store->getId();
 
         } elseif ($storeId instanceof Mage_Core_Model_Store) {
 
-            $store = $storeId;
+            $this->_store = $storeId;
             $this->_storeId = $storeId->getId();
 
         } else {
             throw Mage::exception('Mage_Eav', 'Invalid store id supplied');
         }
 
-        $this->_sharedStoreIds = $this->getUseDataSharing() ? $store->getDatashareStores($this->getType()) : false;
+        $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getType()) : false;
         if (empty($this->_sharedStoreIds)) {
             $this->_sharedStoreIds = array($this->_storeId);
         }
@@ -300,6 +307,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->setStore();
         }
         return $this->_storeId;
+    }
+    
+    public function getStore()
+    {
+        if (is_null($this->_store)) {
+            $this->setStore();
+        }
+        return $this->_store;
     }
 
     public function getSharedStoreIds()

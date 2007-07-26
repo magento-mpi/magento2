@@ -15,11 +15,24 @@ class Varien_Data_Form_Abstract extends Varien_Object
      * @var Varien_Data_Form_Element_Collection
      */
     protected $_elements;
+    
+    /**
+     * Element type classes
+     *
+     * @var unknown_type
+     */
+    protected $_types = array();
 
     public function __construct($attributes = array()) 
     {
         parent::__construct($attributes);
         
+    }
+    
+    public function addType($type, $className)
+    {
+        $this->_types[$type] = $className;
+        return $this;
     }
 
     public function getElements()
@@ -57,7 +70,12 @@ class Varien_Data_Form_Abstract extends Varien_Object
      */
     public function addField($elementId, $type, $config, $after=false)
     {
-        $className = 'Varien_Data_Form_Element_'.ucfirst(strtolower($type));
+        if (isset($this->_types[$type])) {
+            $className = $this->_types[$type];
+        }
+        else {
+            $className = 'Varien_Data_Form_Element_'.ucfirst(strtolower($type));
+        }
         $element = new $className($config);
         $element->setId($elementId);
         $this->addElement($element, $after);

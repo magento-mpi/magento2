@@ -19,7 +19,7 @@
                     </tr>
                 </table>
             </div>
-            <form id="category_edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
+            <form id="category_edit_form" action="<?=$this->getSaveUrl()?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" id="in_category_products" name="products" value="<?=$this->getProductIdsString()?>"/>
             <div id="category_tab_content"></div>
             </form>
