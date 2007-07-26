@@ -8,9 +8,31 @@
 <?=$this->getMessagesBlock()->getHtml()?>
 <table cellspacing="0" width="100%">
     <tr>
-        <td style="width:50%;"><h3>Primary</h3>
+        <td style="width:50%;height:100%;"><h3>Default Billing</h3>
             <table width="100%" cellspacing="0"> 
-            <?if($_pAddsses = $this->getPrimaryAddresses()):?>    
+            <?if($_pAddsses = $this->getDefaultBilling()):?>    
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_pAddsses)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no default billing address in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+        <td style="width:50%;" rowspan="2"><h3>Additional Entries</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if($_pAddsses = $this->getAdditionalAddresses()):?>    
                 <?foreach($_pAddsses as $_address):?>
                 <tr>
                     <td>
@@ -18,31 +40,7 @@
                         <?=$this->getAddressHtml($_address)?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong>
-                    </p>
-                    </td>
-                </tr>
-                <?endforeach;?>
-            <?else:?>
-                <tr>
-                    <td>
-                        <p>You have no primary entries in your address book.</p>
-                    </td>
-                </tr>
-            <?endif?>
-            </table>
-        </td>
-        <td style="width:50%;"><h3>Additional Entries</h3>
-            <table width="100%" cellspacing="0"> 
-            <?if($_additionalAddresses = $this->getAdditionalAddresses()):?>    
-                <?foreach($_additionalAddresses as $_address):?>
-                <tr>
-                    <td>
-                    <address>
-                        <?=$this->getAddressHtml($_address)?>
-                    </address>
-                    <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_address)?>" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -51,6 +49,30 @@
                 <tr>
                     <td>
                         <p>You have no additional entries in your address book.</p>
+                    </td>
+                </tr>
+            <?endif?>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:50%;" valign="top"><h3>Default Shipping</h3>
+            <table width="100%" cellspacing="0"> 
+            <?if($_pAddsses = $this->getDefaultShipping()):?>    
+                <tr>
+                    <td>
+                    <address>
+                        <?=$this->getAddressHtml($_pAddsses)?>
+                    </address>
+                    <p>
+                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                    </p>
+                    </td>
+                </tr>
+            <?else:?>
+                <tr>
+                    <td>
+                        <p>You have no default shipping address in your address book.</p>
                     </td>
                 </tr>
             <?endif?>
