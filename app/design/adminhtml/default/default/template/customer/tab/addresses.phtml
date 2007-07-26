@@ -39,7 +39,7 @@
             </div>
         </li>
         <?endforeach;?>
-    <?else:?>
+    <?/*else:?>
         <li id="new_item">
             <div class="delete-address" style="display:none">
                 <?=$this->getDeleteButtonHtml()?>
@@ -55,7 +55,7 @@
                                 </span>
             </div>
         </li>
-    <?endif;?>
+    <?*/endif;?>
     </ul>
 </td>
 <td>
@@ -167,7 +167,7 @@ addressesModel.prototype = {
         this.itemCount= this.itemList.length;
     },
     initItem : function(item){
-        if($('form_'+item.id)){
+        if(item && $('form_'+item.id)){
             item.formBlock = $('form_'+item.id);
             Element.hide($('form_'+item.id));
             $('form_'+item.id).statusBar = item;
@@ -271,7 +271,7 @@ addressesModel.prototype = {
             }
         }
         Element.addClassName(item, 'on');
-        if($('form_'+item.id)){
+        if(item && $('form_'+item.id)){
             $('form_'+item.id).changeRelation = item;
             $('form_'+item.id).addressItem = item;
             Element.show($('form_'+item.id));
