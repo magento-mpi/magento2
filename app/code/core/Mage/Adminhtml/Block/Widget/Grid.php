@@ -107,21 +107,23 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Export'),
-                    'onclick'   => $this->getJsObjectName().'.doExport()'
+                    'onclick'   => $this->getJsObjectName().'.doExport()',
+                    'class'   => 'task'
                 ))
         );
         $this->setChild('resetFilterButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset Filter'),
-                    'onclick'   => $this->getJsObjectName().'.resetFilter()'
+                    'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('searchButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Search'),
-                    'onclick'   => $this->getJsObjectName().'.doFilter()'
+                    'onclick'   => $this->getJsObjectName().'.doFilter()',
+                    'class'   => 'task'
                 ))
         );
     }

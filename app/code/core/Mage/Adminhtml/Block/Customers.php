@@ -22,7 +22,8 @@ class Mage_Adminhtml_Block_Customers extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add Customer'),
-                    'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/customer/new').'\''
+                    'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/customer/new').'\'',
+                    'class'   => 'add'
                 ))
         );
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_grid', 'customer.grid'));

@@ -30,7 +30,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     			->setData(
     				array(
     					'label'   => __('Back'),
-    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'"
+    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+							'class' => 'back'
     				)
     			)
     	);
@@ -52,7 +53,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     				array(
     					'label'   => __('Convert to Plain Text'),
     					'onclick' => 'templateControl.stripTags();',
-    					'id'	  => 'convert_button'
+    					'id'	  => 'convert_button',
+							'class' => 'task'
     				)
     			)
     	);
@@ -65,7 +67,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     					'label'   => __('Return Html Version'),
     					'onclick' => 'templateControl.unStripTags();',
     					'id'	  => 'convert_button_back',
-    					'style'	  => 'display:none'
+    					'style'	  => 'display:none',
+							'class' => 'task'
     				)
     			)
     	);
@@ -76,7 +79,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     				array(
     					'label'   => __('Toggle Editor'),
     					'onclick' => 'templateControl.toggleEditor();',
-    					'id'	  => 'toggle_button'
+    					'id'	  => 'toggle_button',
+							'class' => 'task'
     				)
     			)
     	);
@@ -86,7 +90,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     			->setData(
     				array(
     					'label'   => __('Save Template'),
-    					'onclick' => 'templateControl.save();'    					
+    					'onclick' => 'templateControl.save();',
+							'class' => 'save'
     				)
     			)
     	);
@@ -96,7 +101,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     			->setData(
     				array(
     					'label'   => __('Preview Template'),
-    					'onclick' => 'templateControl.preview();'    					
+    					'onclick' => 'templateControl.preview();',
+							'class' => 'task'
     				)
     			)
     	);
@@ -106,7 +112,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     			->setData(
     				array(
     					'label'   => __('Delete Template'),
-    					'onclick' => 'templateControl.deleteTemplate();'    					
+    					'onclick' => 'templateControl.deleteTemplate();',
+							'class' => 'delete'
     				)
     			)
     	);

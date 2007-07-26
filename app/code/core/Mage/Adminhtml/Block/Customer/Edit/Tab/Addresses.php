@@ -27,7 +27,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'  => __('Delete Address'),
-                    'name'   => 'delete_address'
+                    'name'   => 'delete_address',
+                    'class'  => 'delete'
                 ))
         );
         return $this;

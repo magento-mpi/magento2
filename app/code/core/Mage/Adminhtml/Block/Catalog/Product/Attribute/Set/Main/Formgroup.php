@@ -33,7 +33,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
                                 'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
                                             ->setData(array(
                                                 'label'     => __('Add Group'),
-                                                'onclick'   => 'this.form.submit();'
+                                                'onclick'   => 'this.form.submit();',
+																								'class' => 'add'
                                             ))
                                             ->toHtml(),
                             )

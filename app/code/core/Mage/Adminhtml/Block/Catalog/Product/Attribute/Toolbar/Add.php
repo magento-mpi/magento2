@@ -28,7 +28,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Toolbar_Add extends Mage_Co
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add New Attribute'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/edit').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/edit').'\'',
+                    'class' => 'add'
                 ))
         );
 

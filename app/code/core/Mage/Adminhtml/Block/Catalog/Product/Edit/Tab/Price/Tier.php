@@ -50,14 +50,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
 			$this->getLayout()->createBlock('adminhtml/widget_button')
 				->setData(array(
 					'label'     => __('Delete Tier'),
-                    'onclick'   => "tierPriceControl.deleteItem('#{index}')"
+                    'onclick'   => "tierPriceControl.deleteItem('#{index}')",
+                    'class' => 'delete'
 				)));
 				
 		$this->setChild('add_button',
 			$this->getLayout()->createBlock('adminhtml/widget_button')
 				->setData(array(
 					'label'     => __('Add Tier'),
-                    'onclick'   => 'tierPriceControl.addItem()'
+                    'onclick'   => 'tierPriceControl.addItem()',
+                    'class' => 'add'
 				)));
 	}
 	

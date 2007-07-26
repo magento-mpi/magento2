@@ -20,9 +20,9 @@
 
 
 /* Box */ /* Sets the color for prominent box-elements */
-.box, .address-list li.on, .entry-edit fieldset {
-    border:1px solid #b0c1d0 !important;
-    background:#e5ecf2 !important;
+.box, .address-list li.on, .address-list li.on.over, .entry-edit fieldset {
+    border:1px solid #ccc !important;
+    background:url(images/box_bg.gif);
     }
 
 
@@ -78,6 +78,7 @@
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:1em 2.8em 1.2em 2.8em;
+		font-size:.95em;
     text-align:right;
     }
 
@@ -160,7 +161,7 @@
     }
 .section-menu ul.tabs {
     /* margin-top:.7em; */
-    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #e8f8fe;
+    background:url(images/section_menu_ul_bg.gif) repeat-y 100% 0 #fcede3;
     }
 .section-menu ul.tabs li a:hover span {
     background:url(images/section_menu_link_over_bg.gif) repeat-y 100% 100%;
@@ -197,7 +198,7 @@
 .content-header h3 {
     margin:0;
     margin-top:.3em;
-    color:#000;
+    color:#de7010;
     font-size:1.25em;
     line-height:1.2em;
     }

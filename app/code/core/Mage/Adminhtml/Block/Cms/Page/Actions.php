@@ -29,16 +29,19 @@ class Mage_Adminhtml_Block_Cms_Page_Actions extends Mage_Adminhtml_Block_Widget_
                     array(
                         'value' => $actionsUrl . 'edit/page/' . $row->getPageId(),
                         'label' => __('Edit Page'),
+										'class'  => 'task'
                     ),
 
                     array(
                         'value' => $actionsUrl . 'delete/page/' . $row->getPageId(),
                         'label' => __('Delete Page'),
+										'class'  => 'delete'
                     ),
 
                     array(
                         'value' => $actionsUrl . (( $row->getPageActive() == 0 ) ? 'enable/page/' : 'disable/page/') . $row->getPageId(),
                         'label' => __( (($row->getPageActive() == 0 ) ? 'enable' : 'disable') . ' page' ),
+										'class'  => 'task'
                     )
                 )
             )

@@ -25,6 +25,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Core_Block_Template
                 ->setData(array(
                     'label' => __('Create Backup'),
                     'onclick' => "window.location.href='" . Mage::getUrl('*/*/create') . "'",
+										'class'  => 'task'
                 ))
         );
         $this->setChild('backupsGrid',

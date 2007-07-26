@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         	'header'	=> __('ID'),
         	'index'		=> 'product_id',
         	'type'		=> 'number',
-        	'width'		=> '15px'
+        	'width'		=> '130px'
         ));
         
         $this->addColumn('product_name', array(

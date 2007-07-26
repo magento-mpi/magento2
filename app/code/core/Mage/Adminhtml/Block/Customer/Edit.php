@@ -23,7 +23,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+                    'class'   => 'back'
                 ))
         );
 
@@ -31,7 +32,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\'',
                 ))
         );
 
@@ -39,14 +40,16 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Customer'),
-                    'onclick'   => 'customerForm.submit()'
+                    'onclick'   => 'customerForm.submit()',
+                    'class'   => 'save'
                 ))
         );
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Customer'),
-                    'onclick'   => 'customerDelete()'
+                    'onclick'   => 'customerDelete()',
+                    'class'   => 'delete'
                 ))
         );
     }

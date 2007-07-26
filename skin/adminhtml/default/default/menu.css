@@ -157,10 +157,11 @@
 
 
 /* Fix for the IE fix bug */
+
 #nav iframe {
 position: absolute;
 left: -1px;
 top: 0; 
 z-index: -1;
 filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
-} 
+}

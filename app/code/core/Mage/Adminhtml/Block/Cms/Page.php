@@ -34,7 +34,8 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+										'class'  => 'back'
                 ))
         );
 
@@ -42,7 +43,8 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Page'),
-                    'onclick'   => 'tinyMCE.triggerSave();pageForm.submit();'
+                    'onclick'   => 'tinyMCE.triggerSave();pageForm.submit();',
+										'class'  => 'save'
                 ))
         );
 
@@ -50,7 +52,7 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Toggle Editor'),
-                    'onclick'   => 'toggleEditor()'
+                    'onclick'   => 'toggleEditor()',
                 ))
         );
 
@@ -58,7 +60,8 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Page'),
-                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/page/'. $this->getRequest()->getParam('page') .'').'\')'
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/page/'. $this->getRequest()->getParam('page') .'').'\')',
+										'class'  => 'delete'
                 ))
         );
     }
