@@ -75,12 +75,15 @@
             <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
             </div>
             <?endforeach;?>
+        <?else:?>
+            <div id="no_address_message"><?=__('Customer do not have any addresses')?></div>
+        <?endif;?>
         <?/*else:?>
             <div id="form_new_item" style="display:none">
             <?$this->getFormObject()->setFieldNameSuffix('address[new]')?>
             <?=$this->getFormObject()->getHtml()?>
             </div>
-        <?*/endif;?>
+        <?endif;*/?>
     </div>
 
 
@@ -185,6 +188,7 @@ addressesModel.prototype = {
     },
     addNewAddress : function(event){
         if(this.canCreateNewAddress){
+            $('no_address_message').hide();
             this.itemCount++;
             // create new form elements
             var newForm = document.createElement('div');

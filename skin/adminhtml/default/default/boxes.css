@@ -344,7 +344,7 @@ div.autocomplete ul li {
 
 
 /* Customer - Addresses */
-.address-list { width:30%; padding-right:1.75em; }
+.address-list { width:310px; padding-right:1.75em; }
 .address-list li {
     list-style:none;
     margin-bottom:.4em;
