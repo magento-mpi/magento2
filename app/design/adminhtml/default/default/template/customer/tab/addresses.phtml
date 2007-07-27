@@ -1,24 +1,23 @@
 <!-- Addresses list -->
-    <div class="box-head">
-            <h4 class="icon-head head-customer-address-list" style="float:left"><?=__('Customer Addresses')?></h4>
-            <button id="add_address_button" type="button" class="scalable add" onclick="customerAddresses.addNewAddress()">
-        <table cellspacing="0">
-            <tr>
-                <td class="tl"></td>
-                <td class="tr"></td>
-            </tr>
-            <tr>
-                <td class="ml"><span><?=__('Add New Address')?></span></td>
-                <td class="mr"></td>
-            </tr>
-            <tr>
-                <td class="bl"></td>
-                <td class="br"></td>
-            </tr>
-        </table>
-            </button>
-        </div>
-
+<div class="box-head">
+    <h4 class="icon-head head-customer-address-list" style="float:left"><?=__('Customer Addresses')?></h4>
+    <button id="add_address_button" type="button" class="scalable add" onclick="customerAddresses.addNewAddress()">
+    <table cellspacing="0">
+        <tr>
+            <td class="tl"></td>
+            <td class="tr"></td>
+        </tr>
+        <tr>
+            <td class="ml"><span><?=__('Add New Address')?></span></td>
+            <td class="mr"></td>
+        </tr>
+        <tr>
+            <td class="bl"></td>
+            <td class="br"></td>
+        </tr>
+    </table>
+    </button>
+</div>
 <table cellspacing="0" class="form-edit">
 <tr>
 <td class="address-list">
@@ -34,9 +33,11 @@
             </address>
             <div class="address-type">
                 <span class="address-type-line">
-                                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="account[default_billing]" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default Billing')?></label></span>
+                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="account[default_billing]" title="<?=__('Set as default billing address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default Billing')?></label>
+                </span>
                 <span class="address-type-line">
-                                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="account[default_shipping]" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default Shipping')?></label></span>
+                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="account[default_shipping]" title="<?=__('Set as default shipping address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default Shipping')?></label>
+                </span>
             </div>
         </li>
         <?endforeach;?>
@@ -63,23 +64,23 @@
 <!-- Addresses forms -->
     <div class="entry-edit" id="address_form_container">
         <?if($addressCollection->getSize()):?>
-                    <?foreach ($addressCollection as $_address):?>
-                    <div id="form_address_item_<?=$_address->getId()?>" style="display:none">
-                    <?
-                            $this->getFormObject()->setValues($_address->getData())
-                                    ->setHtmlIdPrefix($_address->getId())
-                                    ->setFieldNameSuffix('address['.$_address->getId().']')
-                    ?>
-                    <?=$this->getFormObject()->getHtml()?>
-                    <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
-                    </div>
-                    <?endforeach;?>
-            <?else:?>
+            <?foreach ($addressCollection as $_address):?>
+            <div id="form_address_item_<?=$_address->getId()?>" style="display:none">
+            <?
+                    $this->getFormObject()->setValues($_address->getData())
+                            ->setHtmlIdPrefix($_address->getId())
+                            ->setFieldNameSuffix('address['.$_address->getId().']')
+            ?>
+            <?=$this->getFormObject()->getHtml()?>
+            <input type="hidden" name="address[<?=$_address->getId()?>][_deleted]" id="deleted_address_item_<?=$_address->getId()?>">
+            </div>
+            <?endforeach;?>
+        <?/*else:?>
             <div id="form_new_item" style="display:none">
             <?$this->getFormObject()->setFieldNameSuffix('address[new]')?>
             <?=$this->getFormObject()->getHtml()?>
             </div>
-            <?endif;?>
+        <?*/endif;?>
     </div>
 
 
