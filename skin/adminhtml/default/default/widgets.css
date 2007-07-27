@@ -81,6 +81,7 @@ button.delete td.ml {
     padding-right:1px;
     }
 button.back td { background-image:url(images/btn_back_bg.gif); }
+button.delete td { background-image:url(images/btn_delete_bg.gif); }
 button.save td,
 button.add td {
 	background-image:url(images/btn_task_bg.gif); 

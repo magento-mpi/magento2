@@ -56,25 +56,27 @@
     text-align:right;
     }
 .header-top {
-    border-width:1px;
-    border-style:solid;
-    border-color:#5f767f #6e8891 #6e8891 #657d86;
-    background:url(images/header_top_bg.gif) repeat-x #496670;
-    }
+	border-width:1px;
+	border-style:solid;
+	border-color:#5f767f #6e8891 #6e8891 #657d86;
+	background:url(images/header_top_bg.gif) repeat-x #496670;
+	}
 .middle {
-    border-bottom:3px solid #fff;
-    background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-    padding:0 0 85px 0;
-    }
+	border-bottom:3px solid #fff;
+	background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
+	padding:0 0 85px 0;
+	}
 .container { /* created to browser-compatible liquid-layout */
     border-left:17.48em solid #fff;
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
-.simple-container { /* Main area below the breadcrumb and above the footer */
+.simple-container, .simple-container-left { /* Main area below the breadcrumb and above the footer */
     min-height:350px;
     padding:1.8em 2.3em 6em 2.3em;
+		background:url(images/simple_container_bg.gif) repeat-x;
     }
+.simple-container-left { padding:2em 0 0 0; }
 /*.main {
     float:left;
     width:100%;
@@ -94,12 +96,11 @@
     }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
     margin-left:2.5em;
-    padding-top:2em;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:1em 2.8em 1.2em 2.8em;
-        font-size:.95em;
+		font-size:.95em;
     text-align:right;
     }
 
@@ -173,9 +174,6 @@
 /*********** SECTIONAL MENUS ***********/ /* This is the category-basis navigational menu - further customization of ul.tabs */
 
 /* Section Menu */
-.section-menu {
-    padding-top:2em;
-    }
 .section-menu .bottom { /* Creates the gradient facade below the menu */
     height:417px;
     background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
@@ -183,10 +181,12 @@
 .section-menu ul.tabs {
     /* margin-top:.7em; */
     background:url(images/section_menu_ul_bg_alt.gif) repeat-y 100% 100% #e4f1f1;
+		border-top:4px solid #778182;
     }
 .section-menu ul.tabs li a:hover span {
     background:url(images/section_menu_link_bg_alt.gif) repeat-y 100% 100% #d8e6e6;
     }
+.section-menu ul.tabs li a.active:hover span { background:#fff; }
 .section-menu .x-tree {
     margin:10px 0;
     }
@@ -197,9 +197,9 @@
     padding-right:2em;
     }
 .content-left-nav h3 {
-    margin-top:.25em;
-    margin-bottom:.35em;
-    }
+	margin-top:.25em;
+	margin-bottom:.35em;
+	}
 .content-left-nav ul.tabs {
     background:#FEF8F4;
     }
@@ -232,8 +232,8 @@
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head {
     margin-bottom:.6em;
-        padding-bottom:3px;
-        border-bottom:1px solid #ccc;
+		padding-bottom:3px;
+		border-bottom:1px solid #ccc;
     text-align:right;
     }
 .box-head h4 {
@@ -247,7 +247,7 @@
     min-height:18px;
     background-repeat:no-repeat;
     background-position:0 50%;
-        padding-left:22px;
+		padding-left:22px;
     }
 .head-customer-address-list { background-image:url(images/fam_house.gif); }
 .head-edit-form { background-image:url(images/fam_page_white_edit.gif); }
@@ -273,12 +273,12 @@ table.form-edit {
     width:100%;
     }
 .entry-edit fieldset {
-    margin-bottom:.9em;
+    margin-bottom:1.5em;
     padding:1.2em 1.5em;
     }
 .entry-edit fieldset li {
     list-style:none;
-    /*margin:.7em 0; */ /*need specify parent ul class for this*/
+    margin:.7em 0;
     }
 .entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
     display:block;
@@ -298,7 +298,7 @@ label.inline{
     }
 .entry-edit fieldset .input-text,
 .entry-edit fieldset .textarea {
-    width:216px;
+    width:276px;
     }
 .entry-edit fieldset .textarea { height:6em; }
 .entry-edit fieldset .select { width:220px; }
@@ -344,7 +344,7 @@ div.autocomplete ul li {
 
 
 /* Customer - Addresses */
-.address-list { width:310px; padding-right:1.75em; }
+.address-list { width:30%; padding-right:1.75em; }
 .address-list li {
     list-style:none;
     margin-bottom:.4em;

@@ -81,20 +81,22 @@
         <td class="middle">
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
-                <div class="container">
-                    <div class="main">
-                        <div class="content-container">
-                            <div class="content" id="content">
-                                <?=$this->getMessagesBlock()->getHtml()?>
-                                <?=$this->getChildHtml('content')?>
-                            </div>
-                        </div>
-                        <div class="section-menu">
-                            <?=$this->getChildHtml('left')?>
-                            <div class="bottom"></div>
-                        </div>
-                    </div>
-                </div>
+                <div class="simple-container-left">
+									<div class="container">
+											<div class="main">
+													<div class="content-container">
+															<div class="content" id="content">
+																	<?=$this->getMessagesBlock()->getHtml()?>
+																	<?=$this->getChildHtml('content')?>
+															</div>
+													</div>
+													<div class="section-menu">
+															<?=$this->getChildHtml('left')?>
+															<div class="bottom"></div>
+													</div>
+											</div>
+									</div>
+								</div>
                 <?else:?>
                 <div class="simple-container">
                     <?=$this->getMessagesBlock()->getHtml()?>
