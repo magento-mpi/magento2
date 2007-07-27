@@ -108,7 +108,7 @@ button.add td span { background:url(images/icon_btn_add.gif) no-repeat 0 50%; }
 table.content_table { width:100%; }
 
 /* Data */
-.data { border-width:1px; border-style:solid; table-layout: fixed;}
+.data { border-width:1px; border-style:solid; }
 .data th, .data td { padding:2px 5px; }
 .data td { border-width:0 0 1px 0border-style:solid; }
 
@@ -120,13 +120,13 @@ table.content_table { width:100%; }
 
 .grid { /* Accomodates resizable grid table */
     position:relative;
-        border:1px solid #d1cfcf;
-        border-bottom:0;
+		border-bottom:0;
     margin-bottom:.5em;
     }
 .grid table {
     width:100%;
-    border:none;
+		border:1px solid #d1cfcf;
+		border-bottom:none;
     }
 .grid .separator { padding:0 4px; color:#b9b9b9;}
 
@@ -160,6 +160,7 @@ table.actions td {
     padding-bottom:0;
         font-size:.95em;
     }
+.grid tr.headings th.last { border-right:0; }
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */
     padding-top:2px;
     padding-bottom:1px;
@@ -194,13 +195,12 @@ table.actions td {
 .grid .sort-arrow-desc span.sort-title { background-image: url(images/grid_sort_desc.gif); }
 .grid .sort-arrow-asc span.sort-title { background-image: url(images/grid_sort_asc.gif); }
 
-
 /* Filter */
 .grid tr.filter { 
     background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
     cursor: default; 
     }
-.grid .filter th {
+.grid tr.filter th {
     padding-top:5px;
     padding-bottom:5px;
     white-space:nowrap;
@@ -208,6 +208,7 @@ table.actions td {
         border-style:solid;
         border-color:#bdbdbd;
     }
+.grid tr.filter th.last { border-right:0; }
 .grid tr.filter input { width: 95%; font:normal 12px Arial; }
 .grid tr.filter select { width:100%; font:normal 12px Arial; }
 .grid tr.filter .range div { width: 10em; float: left; }
@@ -236,7 +237,6 @@ table.actions td {
     line-height:1em;
     }
 
-
 /* The REAL MEAT of Grid */
 .grid tr .input-text { width: 95%; font:normal 12px Arial; }
 .grid table td {
@@ -244,6 +244,7 @@ table.actions td {
     border-color:#d9dbdc;
     border-style:solid;
     }
+.grid table td.last { border-right:0; }
 .grid table tr.even { /* Zebra rows */
     background:#f4f4f4;
     }

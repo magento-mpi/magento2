@@ -70,11 +70,11 @@ dl.accordion dt a {
 
 
 
+
 #nav ul li { background:none !important; padding:0 !important; }
-#nav ul { top:34px !important; margin-top:1px; border:1px solid #b6b6b6; border-top:none !imporant; padding-top:0 !important; padding-bottom:0; }
-#nav ul ul { top:13px !important; border:1px solid #b6b6b6;}
+#nav ul { border:1px solid #b6b6b6; border-top:1px solid #4d5255 !imporant; padding-top:0 !important; padding-bottom:0 !important; }
+#nav ul ul { border:1px solid #b6b6b6;}
 #nav ul li a { background:#e5edef;}
 #nav ul li a:hover  { background:#d0dfe2;}
 #nav ul, #nav ul li, #nav ul a, #nav ul a span { zoom:1; }
-#nav ul li.last { margin-bottom:-3px; }
 #nav ul li.parent { margin-bottom:-3px; }
