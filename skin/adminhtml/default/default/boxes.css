@@ -72,8 +72,8 @@
     margin-left:-1px;
     }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
-    margin-left:2em;
-    padding-top:1.6em;
+    margin-left:2.5em;
+    padding-top:2em;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -153,10 +153,10 @@
 
 /* Section Menu */
 .section-menu {
-    padding-top:1.6em;
+    padding-top:2em;
     }
 .section-menu .bottom { /* Creates the gradient facade below the menu */
-    height:217px;
+    height:417px;
     background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
     }
 .section-menu ul.tabs {
