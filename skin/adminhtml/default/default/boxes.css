@@ -181,7 +181,6 @@
 .section-menu ul.tabs {
     /* margin-top:.7em; */
     background:url(images/section_menu_ul_bg_alt.gif) repeat-y 100% 100% #e4f1f1;
-		border-top:4px solid #778182;
     }
 .section-menu ul.tabs li a:hover span {
     background:url(images/section_menu_link_bg_alt.gif) repeat-y 100% 100% #d8e6e6;
