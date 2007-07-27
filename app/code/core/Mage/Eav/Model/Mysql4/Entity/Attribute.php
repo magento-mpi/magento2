@@ -41,6 +41,38 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return true;
     }
 
+    public function saveAttributes($object)
+    {
+        $write = $this->getConnection('write');
+        $write->beginTransaction();
+
+        try {
+            if( is_array($object->getNotAttributesArray()) ) {
+                foreach( $object->getNotAttributesArray() as $attribute ) {
+                    $condition = "attribute_id = {$attribute} AND entity_type_id = {$object->getEntityTypeId()}";
+                    $write->update($this->getTable('entity_attribute'), array('attribute_set_id' => 0, 'attribute_group_id' => 0), $condition);
+                }
+            }
+
+            if( is_array($object->getAttributesArray()) ) {
+                foreach( $object->getAttributesArray() as $key => $attribute ) {
+                    $condition = "attribute_id = {$attribute[0]} AND entity_type_id = {$object->getEntityTypeId()}";
+                    $updateData = array(
+                        'entity_type_id' => $object->getEntityTypeId(),
+                        'attribute_set_id' => $object->getSetId(),
+                        'attribute_group_id' => $attribute[1],
+                        'sort_order' => $key,
+                    );
+                    $write->update($this->getTable('entity_attribute'), $updateData, $condition);
+                }
+            }
+
+            $write->commit();
+        } catch (Exception $e) {
+            $write->rollback();
+        }
+    }
+
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $data = array(

@@ -49,9 +49,37 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid')->toHtml());
     }
 
-    public function moveAction()
+    public function saveAction()
     {
-        #
+        $this->_setTypeId();
+        $data = Zend_Json_Decoder::decode($this->getRequest()->getPost('data'));
+        echo "debug: <pre>";
+        print_r($data);
+        echo "</pre>";
+        if( $data['attribute_set_name'] ) {
+            $model = Mage::getModel('eav/entity_attribute_set');
+            $model->setId($this->getRequest()->getParam('id'))
+                  ->setAttributeSetName($data['attribute_set_name'])
+                  ->setEntityTypeId(Mage::registry('entityType'))
+                  ->save();
+        }
+
+        if( $data['attributes'] || $data['not_attributes'] ) {
+            $model = Mage::getModel('eav/entity_attribute');
+            $model->setAttributesArray( ($data['attributes']) ? $data['attributes'] : false )
+              ->setNotAttributesArray( ($data['not_attributes']) ? $data['not_attributes'] : false )
+              ->setEntityTypeId(Mage::registry('entityType'))
+              ->setSetId($this->getRequest()->getParam('id'))
+              ->saveAttributes();
+        }
+
+        /*
+        if( $data['removeGroups'] ) {
+            $model = Mage::getModel('eav/entity_attribute_group');
+            $model->setGroupsArray($data['attribute_set_name'])
+                  ->deleteGroups();
+        }
+        */
     }
 
     public function removeAction()

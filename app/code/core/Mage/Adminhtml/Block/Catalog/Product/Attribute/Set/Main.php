@@ -30,8 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                                                         ->setData(array(
                                                             'label'     => __('Delete Selected Group'),
-                                                            'onclick'   => 'deleteGroup();',
-																								'class' => 'delete'
+                                                            'onclick'   => 'editSet.submit();',
                                                         ))
         );
 
@@ -55,8 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Product Set'),
-                    'onclick'   => 'setForm.submit();return false;',
-																								'class' => 'save'
+                    'onclick'   => 'editSet.save();'
                 ))
         );
 
@@ -64,9 +62,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute Set'),
-                    #'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')'
-                    'onclick'   => 'setLocation(\'#\')',
-																								'class' => 'delete'
+                    'onclick'   => 'setLocation(\'#\')'
+                ))
+        );
+
+        $this->setChild('renameButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('New Set Name'),
+                    'onclick'   => 'editSet.rename()'
                 ))
         );
     }
@@ -86,14 +90,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         return __("Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}'");
     }
 
-    public function getNodesUrl()
-    {
-        return $this->getUrl('*/catalog_product_set/jsonGroupTree');
-    }
-
     public function getMoveUrl()
     {
-        return $this->getUrl('*/catalog_product_set/move');
+        return $this->getUrl('*/catalog_product_set/save', array('id' => $this->_getSetId()));
     }
 
     public function getGroupTreeJson()
@@ -160,6 +159,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
             $items[] = $item;
         }
+        /*
+        if( count($items) == 0 ) {
+            $items[] = array(
+                'text' => __('Empty'),
+                'id' => 'empty',
+                'cls' => 'folder',
+                'allowDrop' => true,
+                'allowDrag' => false,
+            );
+        }
+        */
         return Zend_Json::encode($items);
     }
 
@@ -186,6 +196,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
     public function getDeleteGroupButton()
     {
         return $this->getChildHtml('delete_group_button');
+    }
+
+    public function getRenameButton()
+    {
+        return $this->getChildHtml('renameButton');
     }
 
     protected function _getSetId()

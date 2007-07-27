@@ -1,7 +1,7 @@
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
     	<tr>
-    		<td style="width:50%;"><h3><?=$this->_getHeader()?></h3></td>
+    		<td style="width:50%;"><h3><?=$this->_getHeader()?> <?=$this->getRenameButton()?></h3></td>
         	<td class="form-buttons">
                 <?=$this->getBackButtonHtml()?>
                 <?=$this->getResetButtonHtml()?>
@@ -13,7 +13,10 @@
 </div>
 <table cellspacing="0" width="100%">
     <tr>
-        <td style="border-right:2px solid #d5dbe1;padding-rigth:20px;width:300px;">
+        <td style="border-right:2px solid #d5dbe1;padding-right:20px;">
+            <?=$this->getGroupFormHtml()?>
+        </td>
+        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:300px;">
             <div class="content-header left-col-block" style="width:280px;height:30px;">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
@@ -27,7 +30,7 @@
             <?=$this->getSetsFilterHtml()?>
             <?=$this->getGroupTreeHtml()?>
         </td>
-        <td style="border-right:2px solid #d5dbe1;padding-left:20px;padding-rigth:20px;width:300px;">
+        <td style="padding-left:20px;width:300px;">
             <div class="content-header left-col-block" style="width:280px;height:30px;">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
@@ -37,7 +40,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="tree-div2" style="width:190px;height:400px"></div>
+            <div id="tree-div2" style="width:190px;height:400px;"></div>
             <script type="text/javascript">
             var TreePanels = function() {
                 // shorthand
@@ -65,7 +68,8 @@
                         tree.setRootNode(root);
                         buildCategoryTree(root, <?=$this->getGroupTreeJson()?>);
                         // set handlers
-                        tree.addListener('beforenodedrop', attributeMove.createDelegate(this));
+                        tree.addListener('insert', TreePanels.attributeMove.createDelegate(this));
+                        tree.addListener('remove', TreePanels.attributeMove.createDelegate(this));
 
                         // render the tree
                         tree.render();
@@ -79,7 +83,7 @@
                             enableDD:true,
                             containerScroll: true,
                             rootVisible: false,
-                            lines:false
+                            lines:false,
                         });
 
                         // set the root node
@@ -91,26 +95,77 @@
                         tree2.setRootNode(root2);
                         buildCategoryTree(root2, <?=$this->getAttributeTreeJson()?>);
                         // set handlers
-                        tree2.addListener('beforenodedrop', attributeMove.createDelegate(this));
+                        tree2.addListener('insert', TreePanels.attributeRemove.createDelegate(this));
+                        tree2.addListener('remove', TreePanels.attributeRemove.createDelegate(this));
 
                         // render the tree
                         tree2.render();
                         root2.expand(false, false);
                         tree2.expandAll();
+                    },
+
+                    attributeMove : function(obj){
+                        editSet.req.attributes = new Array();
+                        rootNode = obj.getRootNode();
+
+                        for( i in rootNode.childNodes ) {
+                            if(rootNode.childNodes[i].id) {
+                                var group = rootNode.childNodes[i];
+                                if(group.childNodes) {
+                                    for( j in group.childNodes ) {
+                                        if( group.childNodes[j].id > 0 ) {
+                                            editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    attributeRemove : function(obj){
+                        editSet.req.not_attributes = new Array();
+
+                        rootNode = obj.getRootNode();
+
+                        var iterator = 0;
+                        for( i in rootNode.childNodes ) {
+                            if(rootNode.childNodes[i].id) {
+                                if( rootNode.childNodes[i].id > 0 ) {
+                                    editSet.req.not_attributes[iterator] = rootNode.childNodes[i].id;
+                                }
+                                iterator ++;
+                            }
+                        }
+
+                        if( !obj.getRootNode().childNodes.length && obj.rootVisible == false ) {
+                            var newNode = new Ext.tree.TreeNode({
+                                    text : '<?=__('Empty')?>',
+                                    id : 'empty',
+                                    cls : 'folder',
+                                    allowDrop : false,
+                                    allowDrag : false
+                                });
+                            obj.getRootNode().appendChild(newNode);
+                            newNode.parentNode.addListener('append', editSet.rightAppend);
+                        }
                     }
+
                 };
             }();
 
             function buildCategoryTree(parent, config){
                 if (!config) return null;
             	if (parent && config && config.length){
-                    for (var i = 0; i < config.length; i++){
+                    for (var i = 0; i < config.length; i++) {
                         var node = new Ext.tree.TreeNode(config[i]);
                         parent.appendChild(node);
+                        node.addListener('click', editSet.register);
                         if( config[i].children ) {
                             for( j in config[i].children ) {
                                 if(config[i].children[j].id) {
-                                    node.appendChild(new Ext.tree.TreeNode(config[i].children[j]));
+                                    newNode = new Ext.tree.TreeNode(config[i].children[j]);
+                                    node.appendChild(newNode);
+                                    newNode.addListener('click', editSet.unregister);
                                 }
                             }
                         }
@@ -118,63 +173,59 @@
                 }
             }
 
-            attributeMove = function(obj){
-                var data = {id: obj.dropNode.id}
+            var editSet = function() {
+                return {
+                    register : function(node) {
+                        editSet.currentNode = node;
+                    },
 
-                data.point = obj.point;
-                switch (obj.point) {
-                    case 'above' :
-                        data.pid = obj.target.parentNode.id;
-                        if (obj.target.previousSibling) {
-                            data.aid = obj.target.previousSibling.id;
-                        } else {
-                            data.aid = 0;
-                        }
-                        break;
-                    case 'below' :
-                        data.pid = obj.target.parentNode.id;
-                        data.aid = obj.target.id;
-                    break;
-                    case 'append' :
-                        data.pid = obj.target.id;
-                        if (obj.target.lastChild) {
-                            data.aid = obj.target.lastChild.id;
-                        } else {
-                            data.aid = 0;
-                        }
-                    break;
-                    default :
-                        obj.cancel = true;
-                        return obj;
-                }
+                    unregister : function(node) {
+                        editSet.currentNode = null;
+                    },
 
-                var success = function(o) {
-                    try {
-                        if(o.responseText){
-                            alert(o.responseText);
+                    submit : function() {
+                        if( editSet.currentNode ) {
+                            editSet.currentNode.parentNode.removeChild(editSet.currentNode);
+                            editSet.req.removeGroups[editSet.currentNode.id] = editSet.currentNode.id;
                         }
+                    },
+
+                    rightAppend : function(node) {
+                        node.getRootNode().removeChild(node.getRootNode().findChild('id', 'empty'));
+                    },
+
+                    rename : function() {
+                        var attribute_set_name = prompt("<?=__('Please Enter New Set Name')?>","<?=$this->_getSetData()->getAttributeSetName()?>");
+                        if( attribute_set_name == '' ) {
+                            this.rename();
+                        } else if( attribute_set_name != false ) {
+                            editSet.req.attribute_set_name = attribute_set_name;
+                        }
+                    },
+
+                    save : function() {
+                        var req = {data : Ext.util.JSON.encode(editSet.req)};
+                        var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:editSet.success,failure:editSet.failure}, req);
+                    },
+
+                    success : function(o) {
+                        //window.location.reload();
+                    },
+
+                    failure : function(o) {
+                        //
                     }
-                    catch(e) {
-
-                    }
-                };
-                var failure = function(o) {
-                    Ext.dump(o.statusText);
-                };
-
-                var pd = [];
-                for(var key in data) {
-                    pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
                 }
-                pd.splice(pd.length-1,1);
-                var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
-            }
+            }();
+
+            editSet.req = {};
+            editSet.req.attributes = false;
+            editSet.req.not_attributes = false;
+            editSet.req.attribute_set_name = false;
+            editSet.req.removeGroups = new Array();
 
             Ext.EventManager.onDocumentReady(TreePanels.init, TreePanels, true);
             </script>
-        </td>
-        <td style="padding-left:20px;padding-rigth:20px;">
-            &nbsp;
         </td>
     </tr>
 </table>

@@ -36,4 +36,9 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         return $this->getResource()->itemExists($this);
     }
+
+    public function saveAttributes()
+    {
+        return $this->getResource()->saveAttributes($this);
+    }
 }
