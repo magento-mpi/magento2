@@ -38,6 +38,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function editAction()
     {
         $this->loadLayout('baseframe');
+        $this->_setActiveMenu('catalog/products');
+        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         
         $productId  = (int) $this->getRequest()->getParam('id');
         $product    = Mage::getModel('catalog/product');
@@ -56,7 +58,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function saveAction()
     {
-        
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';
     }
     
     public function deleteAction()

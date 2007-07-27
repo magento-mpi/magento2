@@ -20,36 +20,40 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
     protected function _initChildren()
     {
-        $this->addTab('attributes', array(
-            'label'     => __('Attributes'),
-            'content'   => 'info',
-            'active'    => true
-        ));
-
-        $this->addTab('price', array(
-            'label'     => __('Price'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price')->toHtml(),
-        ));
-
-        $this->addTab('images', array(
-            'label'     => __('Images'),
-            'content'   => 'images',
-        ));
-
-        $this->addTab('categories', array(
-            'label'     => __('Categories'),
-            'content'   => 'Categories',
-        ));
-
-        $this->addTab('stores', array(
-            'label'     => __('Stores'),
-            'content'   => 'stores',
-        ));
-
-        $this->addTab('superproduct', array(
-            'label'     => __('Super Product'),
-            'content'   => 'Super Product',
-        ));
-
+        if (!($setId = Mage::registry('product')->getAttributeSetId())) {
+            $setId = $this->getRequest()->getParam('set', null);
+        }
+        
+        if ($setId) {
+            $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
+                ->setAttributeSetFilter($setId)
+                ->load();
+                
+            foreach ($groupCollection as $group) {
+                $this->addTab($group->getAttributeGroupName().'_group', array(
+                    'label'     => __($group->getAttributeGroupName()),
+                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_attributes')
+                        ->setGroup($group)
+                        ->toHtml(),
+                ));
+            }
+            
+            $this->addTab('categories', array(
+                'label'     => __('Categories'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_categories')->toHtml(),
+            ));
+    
+            $this->addTab('stores', array(
+                'label'     => __('Stores'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_stores')->toHtml(),
+            ));
+        }
+        else {
+            $this->addTab('set', array(
+                'label'     => __('Settings'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_settings')->toHtml(),
+                'active'    => true
+            ));
+        }
     }
 }

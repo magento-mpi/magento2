@@ -56,7 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     
     public function getCategoryId()
     {
-        return $this->getCategory()->getId();
+        if ($this->getCategory()) {
+            return $this->getCategory()->getId();
+        }
+        return 1;
     }
     
     public function getNodesUrl()
@@ -77,7 +80,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     public function getRootNode()
     {
         if (!$this->_rootNode) {
-            $tree = $this->getCategory()->getTreeModel();
+            $tree = Mage::getResourceModel('catalog/category_tree');
             $storeId = (int) $this->getRequest()->getParam('store');
             
             if ($storeId) {
@@ -121,10 +124,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
             	$item['children'][] = $this->_getNodeJson($child, $level+1);
             }
         }
-        else {
-            $item['leaf'] = 'true';
-        }
-        $items[] = $item;
         return $item;
     }
 }

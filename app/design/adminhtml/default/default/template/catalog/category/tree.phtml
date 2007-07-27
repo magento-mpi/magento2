@@ -25,6 +25,7 @@ Ext.onReady(function(){
         draggable:false,
         id:'<?=$this->getRootNode()->getId()?>'
     });
+    
     tree.setRootNode(root);
     bildCategoryTree(root, <?=$this->getTreeJson()?>);
     // set handlers

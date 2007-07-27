@@ -22,11 +22,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('qty')
-            ->addAttributeToSelect('price');
-
-        if ($this->getCategoryId()) {
-            $collection->addCategoryFilter($this->getCategoryId());
-        }
+            ->addAttributeToSelect('price')
+            ->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
 
         $this->setCollection($collection);
 

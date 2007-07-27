@@ -1,0 +1,15 @@
+<div class="entry-edit">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product In Stores')?></h4>
+    <fieldset id="grop_fields">
+    <?foreach ($this->getWebsiteCollection() as $_website):?>
+        <h3><?=$_website->getName()?></h3>
+        <?foreach ($_website->getStoreCollection() as $_store):?>
+            <span class="field-row">
+                <input name="stores[]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>"/>
+                <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+            </span>
+        <?endforeach;?>
+        </optgroup>
+    <?endforeach;?>
+    </fieldset>
+</div>

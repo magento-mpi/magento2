@@ -195,4 +195,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
             
         return $categories;
     }
+    
+    public function getAttributes()
+    {
+        return $this->getResource()
+            ->loadAllAttributes()
+            ->getAttributesByName();
+    }
 }

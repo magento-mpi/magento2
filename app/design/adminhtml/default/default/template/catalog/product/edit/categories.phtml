@@ -1,0 +1,65 @@
+<div class="entry-edit">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product Categories')?></h4>
+    <fieldset id="grop_fields">
+        <div id="tree-div"></div>
+    </fieldset>
+</div>
+<script type="text/javascript">
+Ext.EventManager.onDocumentReady(function() {
+	var tree = new Ext.tree.TreePanel('tree-div', {
+        animate:false, 
+        loader: false,
+        enableDD:false,
+        containerScroll: true,
+		rootUIProvider: Ext.tree.CheckboxNodeUI,
+		selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+		rootVisible:false
+	});
+	
+	tree.on('check', function() {
+		//Ext.get('cn').dom.value = this.getChecked().join(',');
+	}, tree);
+
+	// set the root node
+    var root = new Ext.tree.TreeNode({
+        text: '<?=$this->getRootNode()->getName()?>',
+        draggable:false,
+        id:'<?=$this->getRootNode()->getId()?>'
+        //uiProvider: Ext.tree.CheckboxNodeUI
+    });
+
+	tree.setRootNode(root);
+	bildCategoryTree(root, <?=$this->getTreeJson()?>);
+    tree.addListener('click', categoryClick.createDelegate(this));
+	
+    // render the tree
+    tree.render();
+    root.expand();
+    tree.expandAll();
+
+    /*root.expand(false, false, function() {
+		//root.firstChild.expand(false);
+		//Ext.get('cn').dom.value = tree.getChecked().join(',');
+		//ser();
+	});*/
+	
+});
+
+function bildCategoryTree(parent, config){
+    if (!config) return null;
+	if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                bildCategoryTree(node, config[i].children);
+            }
+        }
+    }	    
+}
+
+function categoryClick(node, e){
+    alert(node.id);
+};
+</script>
