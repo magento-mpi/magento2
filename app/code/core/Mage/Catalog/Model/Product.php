@@ -11,6 +11,7 @@
 class Mage_Catalog_Model_Product extends Varien_Object 
 {
 	protected $_cachedLinkedProductsByType = array();
+	protected $_attributes;
 	
     public function __construct() 
     {
@@ -196,10 +197,24 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $categories;
     }
     
-    public function getAttributes()
+    public function getAttributes($groupId = null)
     {
-        return $this->getResource()
-            ->loadAllAttributes()
-            ->getAttributesByName();
+        if (!$this->_attributes) {
+            $this->_attributes = $this->getResource()
+                ->loadAllAttributes()
+                ->getAttributesByName();
+        }
+        
+        if (is_null($groupId)) {
+            return $this->_attributes;
+        }
+        
+        $attributes = array();
+        foreach ($this->_attributes as $attribute) {
+        	if ($attribute->getAttributeGroupId() == $groupId) {
+        	    $attributes[] = $attribute;
+        	}
+        }
+        return $attributes;
     }
 }

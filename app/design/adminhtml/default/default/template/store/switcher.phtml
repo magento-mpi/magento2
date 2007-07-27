@@ -11,8 +11,9 @@
 </select>
 <script type="text/javascript">
     function switchStore(obj){
+        var storeParam = obj.value ? 'store/'+obj.value : '';
+    <?if($this->getUseConfirm()):?>
         if(confirm('<?=__('Please, confirm site switching...')?>')){
-            var storeParam = obj.value ? 'store/'+obj.value : '';
             setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
             return true;
         }
@@ -20,5 +21,8 @@
             obj.value = '<?=$this->getStoreId()?>';
         }
         return false;
+    <?else:?>
+        setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
+    <?endif;?>
     }
 </script>

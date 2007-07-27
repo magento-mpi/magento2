@@ -175,13 +175,13 @@ Ext.extend(Ext.tree.CheckboxNodeUI, Ext.tree.TreeNodeUI, {
         if( parentNode !== null && state ) {
             // if we're checking the box, check it all the way up
             if( parentNode.getUI().check ) {
-                parentNode.getUI().check(state, false, true);
+                //parentNode.getUI().check(state, false, true);
             }
         }
         if( descend && !n.isLeaf() ) {
             var cs = n.childNodes;
       for(var i = 0; i < cs.length; i++) {
-        cs[i].getUI().check(state, true, true);
+        //cs[i].getUI().check(state, true, true);
       }
         }
         if( !bulk ) {

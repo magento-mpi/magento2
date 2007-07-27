@@ -66,6 +66,9 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     public function _setFieldset($attributes, $fieldset)
     {
         foreach ($attributes as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             if ($inputType = $attribute->getFrontend()->getInputType()) {
                 $element = $fieldset->addField($attribute->getName(), $inputType,
                     array(

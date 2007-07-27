@@ -29,6 +29,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
 				
         $this->setChild('store_switcher', 
             $this->getLayout()->createBlock('adminhtml/store_switcher')
+                ->setUseConfirm(false)
                 ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
         );
 				
