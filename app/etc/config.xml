@@ -92,6 +92,9 @@
                     <store>
                         <table>core_store</table>
                     </store>
+                    <resource>
+                        <table>core_resource</table>
+                    </resource>
                 </entities>
             </core_mysql4>
         </models>

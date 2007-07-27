@@ -61,10 +61,11 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      */
     public function getHtml($type=null)
     {
-        $html = '';
+        $html = '<ul>';
         foreach ($this->getMessages($type) as $message) {
-        	$html.= '<div class="'.$message->getType().'">'.$message->getText().'</div>';
+        	$html.= '<li class="'.$message->getType().'-message">'.$message->getText().'</li>';
         }
+        $html .= '</ul>';
         return $html;
     }
 }
