@@ -1,6 +1,7 @@
 <div class="entry-edit">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product Categories')?></h4>
     <fieldset id="grop_fields">
+        <input type="hidden" name="categories" id="product_categories" value="">
         <div id="tree-div"></div>
     </fieldset>
 </div>
@@ -17,7 +18,7 @@ Ext.EventManager.onDocumentReady(function() {
 	});
 	
 	tree.on('check', function() {
-		//Ext.get('cn').dom.value = this.getChecked().join(',');
+		$('product_categories').value = this.getChecked().join(',');
 	}, tree);
 
 	// set the root node
@@ -60,6 +61,7 @@ function bildCategoryTree(parent, config){
 }
 
 function categoryClick(node, e){
-    alert(node.id);
+    node.getUI().check(!node.getUI().checked())
+    varienElementMethods.setHasChanges(Event.element(e), e);
 };
 </script>

@@ -35,16 +35,16 @@
     text-align:right;
     }
 .header-top {
-	border-width:1px;
-	border-style:solid;
-	border-color:#5f767f #6e8891 #6e8891 #657d86;
-	background:url(images/header_top_bg.gif) repeat-x #496670;
-	}
+    border-width:1px;
+    border-style:solid;
+    border-color:#5f767f #6e8891 #6e8891 #657d86;
+    background:url(images/header_top_bg.gif) repeat-x #496670;
+    }
 .middle {
-	border-bottom:3px solid #fff;
-	background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-	padding:0 0 85px 0;
-	}
+    border-bottom:3px solid #fff;
+    background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
+    padding:0 0 85px 0;
+    }
 .container { /* created to browser-compatible liquid-layout */
     border-left:17.48em solid #fff;
     padding:1.8em 2.2em 1.8em 2em;
@@ -78,7 +78,7 @@
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:1em 2.8em 1.2em 2.8em;
-		font-size:.95em;
+        font-size:.95em;
     text-align:right;
     }
 
@@ -176,9 +176,9 @@
     padding-right:2em;
     }
 .content-left-nav h3 {
-	margin-top:.25em;
-	margin-bottom:.35em;
-	}
+    margin-top:.25em;
+    margin-bottom:.35em;
+    }
 .content-left-nav ul.tabs {
     background:#FEF8F4;
     }
@@ -211,8 +211,8 @@
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head {
     margin-bottom:.6em;
-		padding-bottom:3px;
-		border-bottom:1px solid #ccc;
+        padding-bottom:3px;
+        border-bottom:1px solid #ccc;
     text-align:right;
     }
 .box-head h4 {
@@ -226,7 +226,7 @@
     min-height:18px;
     background-repeat:no-repeat;
     background-position:0 50%;
-		padding-left:22px;
+        padding-left:22px;
     }
 .head-customer-address-list { background-image:url(images/fam_house.gif); }
 .head-edit-form { background-image:url(images/fam_page_white_edit.gif); }
@@ -257,7 +257,7 @@ table.form-edit {
     }
 .entry-edit fieldset li {
     list-style:none;
-    margin:.7em 0;
+    /*margin:.7em 0; */ /*need specify parent ul class for this*/
     }
 .entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
     display:block;

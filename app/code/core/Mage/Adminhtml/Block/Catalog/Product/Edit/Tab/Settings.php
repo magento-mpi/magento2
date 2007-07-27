@@ -10,7 +10,19 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminhtml_Block_Widget_Form 
 {
-	protected function _prepareForm()
+    protected function _initChildren()
+    {
+        $this->setChild('continue_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Continue'),
+                    //'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
+                    'class'   => 'save'
+					))
+				);
+    }
+    
+    protected function _prepareForm()
 	{
 		$form = new Varien_Data_Form();
 		$fieldset = $form->addFieldset('settings', array('legend'=>__('Create Product Settings')));
@@ -32,7 +44,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
             'label' => __('Product Type'),
             'title' => __('Product Type'),
             'name'  => 'type',
-            'value' => ''
+            'value' => '',
+            'values'=> Mage::getResourceModel('catalog/product_type_collection')
+                ->load()
+                ->toOptionArray()
+		));
+		
+		$fieldset->addField('continue_button', 'note', array(
+            'text' => $this->getChildHtml('continue_button'),
 		));
 		
 		$this->setForm($form);
