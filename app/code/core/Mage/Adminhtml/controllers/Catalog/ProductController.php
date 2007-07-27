@@ -56,6 +56,26 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->renderLayout();
     }
     
+    public function relatedAction()
+    {
+        $this->_initProduct();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')->toHtml()
+        );       
+    }
+    
+    protected function _initProduct()
+    {
+    	$productId  = (int) $this->getRequest()->getParam('id');
+        $product    = Mage::getModel('catalog/product');
+        
+        if ($productId) {
+            $product->load($productId);
+        }
+        
+        Mage::register('product', $product);
+    }
+    
     public function saveAction()
     {
         echo '<pre>';

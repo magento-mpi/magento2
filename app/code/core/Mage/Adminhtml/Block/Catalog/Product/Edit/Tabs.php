@@ -47,6 +47,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'label'     => __('Stores'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_stores')->toHtml(),
             ));
+            
+            $this->addTab('related', array(
+                'label'     => __('Related Products'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related', 'admin.related.products')->toHtml(),
+            ));
         }
         else {
             $this->addTab('set', array(

@@ -8,12 +8,12 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminhtml_Block_Widget_Grid 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setId('catalog_category_products');
+        $this->setId('related_product_grid');
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
     }
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in category flag
-        if ($column->getId() == 'in_category') {
+        if ($column->getId() == 'in_relation_link') {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
                 $productIds = 0;
@@ -60,22 +60,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     
     protected function _prepareCollection()
     {
-        $this->setDefaultFilter(array('in_category'=>1));
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $this->setDefaultFilter(array('in_relation_link'=>1));
+        $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->joinField('store_id', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
-                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0))
-            ->joinField('position', 
-                'catalog/category_product', 
-                'position', 
-                'product_id=entity_id', 
-                'category_id='.(int) $this->getRequest()->getParam('id', 0), 
-                'left');
+            ->addLinkAttributeToSelect('position');
 
         $this->setCollection($collection);
 
@@ -84,14 +74,15 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     
     protected function _prepareColumns()
     {
-        $this->addColumn('in_category', array(
+        $this->addColumn('in_relation_link', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_category',
+            'name'      => 'in_relation_link',
             'values'    => $this->_getSelectedProducts(),
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
+        
         $this->addColumn('id', array(
             'header'    => __('ID'),
             'sortable'  => true,
@@ -118,8 +109,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'width'     => '140px',
             'align'     => 'center',
             'type'      => 'number',
-            'index'     => 'position',
-            'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
+            'index'     => 'position'
         ));
         
         return parent::_prepareColumns();
@@ -127,18 +117,19 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/grid', array('_current'=>true));
+        return Mage::getUrl('*/*/related', array('_current'=>true));
     }
     
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('selected_proudcts');
+        $products = $this->getRequest()->getPost('link_related_product');
+        
         if (is_null($products)) {
-            $products = Mage::registry('category')->getProductIds();
-        }
-        else {
+            $products = Mage::registry('product')->getRelatedProducts()->load()->getColumnValues('entity_id');
+        }  else {
             $products = explode(',', $products);
         }
+        
         return $products;
     }
 }

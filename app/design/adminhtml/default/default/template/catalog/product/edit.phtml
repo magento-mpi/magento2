@@ -19,6 +19,7 @@
     </table>
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="POST" id="product_edit_form">
+<input type="hidden" name="_related_products" id="_related_products" value="<?=$this->getRelatedProductsIds()?>">
 </form>
 <script type="text/javascript" language="javascript">
     var productForm = new varienForm('product_edit_form');
@@ -27,4 +28,36 @@
             location.href = '<?=$this->getDeleteUrl()?>'
         }
     }
+    <?if($_gridJsObject=$this->getLayout()->getBlock('admin.related.products')->getJsObjectName()):?>
+    function registerRelatedProduct(grid, element, checked){
+        var products = $F('in_category_products');
+        if(checked){
+            products+=','+element.value;
+        }
+        else{
+            var re = new RegExp('(^|,)'+element.value+'(,|$)', 'g');
+            products = products.replace(re, ',')
+        }
+        products = products.replace(/(^,+|,+$)/, '');
+        $('in_category_products').value = products;
+        grid.reloadParams = {selected_proudcts:products};
+    }
+    function relatedProductRowClick(grid, event){
+        var trElement = Event.findElement(event, 'tr');
+        var isInput   = Event.element(event).tagName == 'INPUT';
+        if(trElement){
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if(checkbox[0]){
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                <?=$_gridJsObject?>.setCheckboxChecked(checkbox[0], checked);
+            }
+        }
+    }
+    
+	Event.observe(window, 'load', function() {
+	   	<?=$_gridJsObject?>.rowClickCallback = relatedProductRowClick;
+    	<?=$_gridJsObject?>.checkboxCheckCallback = registerRelatedProduct;
+	});
+   
+<?endif;?>
 </script>
