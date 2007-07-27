@@ -25,7 +25,7 @@ button.scalable {
     overflow:visible;
     }
 button.scalable td {
-    background-image:url(images/btn_bare_bg.gif);
+    background-image:url(images/btn_task_bg.gif);
     }
 button.scalable td span {
         display:block;
@@ -82,14 +82,12 @@ button.delete td.ml {
     }
 button.back td { background-image:url(images/btn_back_bg.gif); }
 button.save td,
-button.add td,
-button.task td { 
-    background-image:url(images/btn_task_bg.gif); 
+button.add td {
+	background-image:url(images/btn_task_bg.gif); 
     }
 button.back td.ml { color:#838383; }
 
-button.save td span { padding:0 17px 0 2px; }
-button.delete td span { padding-right:19px; }
+button.save td span,
 button.back td span,
 button.add td span,
 button.delete td span {
@@ -97,7 +95,7 @@ button.delete td span {
     }
 button.back td span { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 button.delete td span { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
-button.save td span { background:url(images/icon_btn_save.gif) no-repeat 100% 50%; }
+button.save td span { background:url(images/icon_btn_save.gif) no-repeat 0 50%; }
 button.add td span { background:url(images/icon_btn_add.gif) no-repeat 0 50%; }
 
 
@@ -145,7 +143,7 @@ table.actions td {
 .pager .spacer { padding:0 .6em; color:#cfcfcf; }
 .pager select { width:4em; margin:0 4px; }
 .pager input.page { width:2em; }
-
+.pager .arrow { margin: 0 3px; vertical-align:middle; }
 
 /* Headings aka Sort By */
 .grid tr.headings {

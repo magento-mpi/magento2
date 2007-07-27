@@ -51,7 +51,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      * Customer edit action
      */
     public function editAction()
-    {
+    {   
         $this->loadLayout('baseframe');
         
         $customerId = (int) $this->getRequest()->getParam('id');

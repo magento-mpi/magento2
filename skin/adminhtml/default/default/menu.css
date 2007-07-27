@@ -5,7 +5,7 @@
 	height:28px;
 	border-top:1px solid #2d444f;
 	background:url(images/nav1_bg.gif) repeat-x 0 100% #666e73;
-	padding-left:20px;
+	padding-left:30px;
 	}
 
 
@@ -88,7 +88,7 @@
 }
 
 /* Show menu */
-#nav li.over ul { /*display:block;*/ left:0px; }
+#nav li.over ul { /*display:block;*/ left:-1px; }
 #nav li.over ul ul { /*display:none;*/ left:-10000px; }
 #nav li.over ul li.over ul { /*display:block;*/left:100px; }
 
