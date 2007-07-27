@@ -2,11 +2,11 @@
 <config>
     <admin>
       <menu>
-         <!--<dashboard>
+         <dashboard>
             <title>Dashboard</title>
             <action>adminhtml/dashboard/</action>
-            <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
-         </dashboard>-->
+            <!--<acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>-->
+         </dashboard>
          <customer>
             <title>Customers</title>
             <!-- action>adminhtml/customer/</action -->
@@ -191,17 +191,61 @@
                     <action>adminhtml/cms</action>
                     <resource>cms/control</resource>
                 </control>
-            	<config>
+            	<!--<config>
                     <title>Configuration</title>
                     <action>adminhtml/cms_config/</action>
                     <resource>cms/config</resource>
-                </config>
+                </config>-->
             </children>
          </cms>
          <report>
             <title>Reports</title>
-            <!-- <action>adminhtml/report</action> -->
-            <children/>
+            <children>
+                <sales>
+                    <title>Sales Report</title>
+                    <action>adminhtml/report/sales</action>
+                </sales>
+                <shopcart>
+                    <title>Shopping Cart Report</title>
+                    <action>adminhtml/report/shopcart</action>
+                </shopcart>
+                <products>
+                    <title>Products Report</title>
+                    <action>adminhtml/report/products</action>
+                </products>
+                <coupons>
+                    <title>Coupons Reports</title>
+                    <action>adminhtml/report/coupons</action>
+                </coupons>
+                <wishlist>
+                    <title>Wishlist Report</title>
+                    <action>adminhtml/report/wishlist</action>
+                </wishlist>
+                <reviews>
+                    <title>Reviews Report</title>
+                    <action>adminhtml/report/reviews</action>
+                </reviews>
+                <tags>
+                    <title>Tags Report</title>
+                    <action>adminhtml/report/tags</action>
+                </tags>
+                <search>
+                    <title>Search Report</title>
+                    <action>adminhtml/report/search</action>
+                </search>
+                <customers>
+                    <title>Best Customers</title>
+                    <action>adminhtml/report/customers</action>
+                </customers>
+                <orders>
+                    <title>Recent Orders</title>
+                    <action>adminhtml/report/orders</action>
+                </orders>
+                <totals>
+                    <title>Order Totals</title>
+                    <action>adminhtml/report/totals</action>
+                </totals>
+            </children>
          </report>
          <system>
             <title>System</title>
