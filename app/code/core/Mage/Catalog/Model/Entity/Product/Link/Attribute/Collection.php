@@ -30,11 +30,11 @@ class Mage_Catalog_Model_Entity_Product_Link_Attribute_Collection extends Mage_C
 		foreach ($this->getItems() as $item) {
 			if ($item->getCode() == $code && is_null($linkType)) {
 				return $item;
-			} elseif($item->getCode() == $code && $item->getLinkType()==$linkType) {
+			} elseif($item->getCode() == $code && $item->getLinkType() == $linkType) {
 				return $item;
 			}
 		}
-		
+						
 		return false;
 	}
 	

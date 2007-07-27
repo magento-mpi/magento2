@@ -16,4 +16,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Attribute extends Mage_Core_Model_M
 		$this->_init('catalog/product_link_attribute', 'product_link_attribute_id');
 	}
 	
+	public function getTypeTable(Mage_Catalog_Model_Product_Link_Attribute $attribute)
+	{
+		return $this->getTable($this->_mainTable . "_" . $attribute->getDataType());
+	}
 }// Class Mage_Catalog_Model_Entity_Product_Link_Attribute END

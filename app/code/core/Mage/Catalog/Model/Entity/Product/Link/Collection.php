@@ -26,6 +26,7 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	$result = parent::resetSelect();
     	$this->joinField('link_id', 'catalog/product_link', 'link_id', 'linked_product_id=entity_id')
         	->joinField('product_id', 'catalog/product_link', 'product_id', 'linked_product_id=entity_id')
+        	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'linked_product_id=entity_id')
         	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'linked_product_id=entity_id')
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id');
         return $result;
@@ -35,9 +36,9 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     public function addLinkAttributeToSelect($code, $linkType=null)
     {
     	 $attribute = $this->_getLinkAttribute($code, $linkType);
-   		 $this->joinField($code,  $this->_getLinkAttributeTable($attribute), 
+   		 $this->joinField($code,  $this->_getLinkAttributeTable($attribute),
    		 				  'value', 'link_id=link_id', 
-   		 				  array('product_link_attribute_id'=>$attribute->getId()));
+   		 				  array('product_link_attribute_id'=>$attribute->getId()), 'left');
    		 return $this;
     }
     
@@ -93,5 +94,14 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     {
     	$this->setObject('catalog/product');
     	return $this;
+    }
+    
+    public function load($printQuery=false, $logQuery=false)
+    {
+    	$result = parent::load($printQuery, $logQuery);
+    	if($this->getObject() instanceof Mage_Catalog_Product_Link) {
+    		$this->walk('setAttributeCollection', array($this->getLinkAttributeCollection()));
+    	}
+    	return $result;
     }
 }// Class Mage_Catalog_Model_Entity_Product_Link_Collection END

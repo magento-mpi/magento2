@@ -11,6 +11,8 @@
 
 class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 {
+	protected $_attributeCollection = null;
+	
 	protected function _construct()
 	{
 		$this->_init('catalog/product_link');
@@ -23,6 +25,25 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 		$data['linked_product_id'] = $this->getLinkedProductId();
 		$data['link_type_id'] = $this->getLinkTypeId();
 		return $data;
+	}
+	
+	public function getAttributeCollection()
+	{
+		if(is_null($this->_attributeCollection)) {
+			$this->setAttibuteCollection(
+				Mage::getResourceModel('catalog/product_link_attribute_collection')
+					->addFieldToFilter('link_type_id', $this->getLinkTypeId())
+					->load()
+			);
+		}
+		
+		return $this->_attributeCollection;
+	}
+	
+	public function setAttributeCollection($collection)
+	{
+		$this->_attributeCollection = $collection;
+		return $this;
 	}
 		
 }// Class Mage_Catalog_Model_Product_Link END
