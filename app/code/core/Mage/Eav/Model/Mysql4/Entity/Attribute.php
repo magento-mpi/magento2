@@ -61,7 +61,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                         'entity_type_id' => $object->getEntityTypeId(),
                         'attribute_set_id' => $object->getSetId(),
                         'attribute_group_id' => $attribute[1],
-                        'sort_order' => $key,
+                        'sort_order' => $attribute[2],
                     );
                     $write->update($this->getTable('entity_attribute'), $updateData, $condition);
                 }

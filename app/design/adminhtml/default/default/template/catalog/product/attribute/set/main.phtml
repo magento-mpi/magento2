@@ -1,7 +1,7 @@
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
     	<tr>
-    		<td style="width:50%;"><h3><?=$this->_getHeader()?> <?=$this->getRenameButton()?></h3></td>
+    		<td style="width:50%;"><h3><?=$this->_getHeader()?></h3></td>
         	<td class="form-buttons">
                 <?=$this->getBackButtonHtml()?>
                 <?=$this->getResetButtonHtml()?>
@@ -13,16 +13,16 @@
 </div>
 <table cellspacing="0" width="100%">
     <tr>
-        <td style="border-right:2px solid #d5dbe1;padding-right:20px;">
-            <?=$this->getGroupFormHtml()?>
+        <td style="border-right:2px solid #d5dbe1;padding-right:20px;width:300px;">
+            <?=$this->getSetFormHtml()?>
         </td>
-        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:300px;">
-            <div class="content-header left-col-block" style="width:280px;height:30px;">
+        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:320px;">
+            <div class="content-header left-col-block" style="width:300px;height:30px;">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
                         <tr>
                             <td><h3><?=__('Groups')?></h3></td>
-                            <td class="a-right"><?=$this->getDeleteGroupButton()?></td>
+                            <td class="a-right">&nbsp;<?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -30,7 +30,7 @@
             <?=$this->getSetsFilterHtml()?>
             <?=$this->getGroupTreeHtml()?>
         </td>
-        <td style="padding-left:20px;width:300px;">
+        <td style="padding-left:20px;">
             <div class="content-header left-col-block" style="width:280px;height:30px;">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
@@ -59,21 +59,22 @@
                         });
 
                         // set the root node
-                        var root = new Ext.tree.TreeNode({
+                        this.root = new Ext.tree.TreeNode({
                             text: 'ROOT',
                             allowDrug:false,
                             allowDrop:false,
                             id:'1'
                         });
-                        tree.setRootNode(root);
-                        buildCategoryTree(root, <?=$this->getGroupTreeJson()?>);
+                        tree.setRootNode(this.root);
+                        buildCategoryTree(this.root, <?=$this->getGroupTreeJson()?>);
                         // set handlers
                         tree.addListener('insert', TreePanels.attributeMove.createDelegate(this));
+                        tree.addListener('append', TreePanels.attributeMove.createDelegate(this));
                         tree.addListener('remove', TreePanels.attributeMove.createDelegate(this));
 
                         // render the tree
                         tree.render();
-                        root.expand(false, false);
+                        this.root.expand(false, false);
                         tree.expandAll();
                         //-------------------------------------------------------------
 
@@ -87,20 +88,21 @@
                         });
 
                         // set the root node
-                        var root2 = new Ext.tree.TreeNode({
+                        this.root2 = new Ext.tree.TreeNode({
                             text: 'ROOT',
                             draggable:false,
                             id:'free'
                         });
-                        tree2.setRootNode(root2);
-                        buildCategoryTree(root2, <?=$this->getAttributeTreeJson()?>);
+                        tree2.setRootNode(this.root2);
+                        buildCategoryTree(this.root2, <?=$this->getAttributeTreeJson()?>);
                         // set handlers
+                        tree2.addListener('append', editSet.rightAppend.createDelegate(this));
                         tree2.addListener('insert', TreePanels.attributeRemove.createDelegate(this));
                         tree2.addListener('remove', TreePanels.attributeRemove.createDelegate(this));
 
                         // render the tree
                         tree2.render();
-                        root2.expand(false, false);
+                        this.root2.expand(false, false);
                         tree2.expandAll();
                     },
 
@@ -112,11 +114,14 @@
                             if(rootNode.childNodes[i].id) {
                                 var group = rootNode.childNodes[i];
                                 if(group.childNodes) {
+                                    var iterator = 0
                                     for( j in group.childNodes ) {
+                                        iterator ++;
                                         if( group.childNodes[j].id > 0 ) {
-                                            editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id);
+                                            editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id, iterator);
                                         }
                                     }
+                                    iterator = 0;
                                 }
                             }
                         }
@@ -124,7 +129,6 @@
 
                     attributeRemove : function(obj){
                         editSet.req.not_attributes = new Array();
-
                         rootNode = obj.getRootNode();
 
                         var iterator = 0;
@@ -137,7 +141,7 @@
                             }
                         }
 
-                        if( !obj.getRootNode().childNodes.length && obj.rootVisible == false ) {
+                        if( !rootNode.childNodes.length && obj.rootVisible == false ) {
                             var newNode = new Ext.tree.TreeNode({
                                     text : '<?=__('Empty')?>',
                                     id : 'empty',
@@ -146,7 +150,6 @@
                                     allowDrag : false
                                 });
                             obj.getRootNode().appendChild(newNode);
-                            newNode.parentNode.addListener('append', editSet.rightAppend);
                         }
                     }
 
@@ -191,25 +194,36 @@
                     },
 
                     rightAppend : function(node) {
-                        node.getRootNode().removeChild(node.getRootNode().findChild('id', 'empty'));
+                        //TreePanels.root2.removeChild(TreePanels.root2.findChild('id', 'empty'));
                     },
 
-                    rename : function() {
-                        var attribute_set_name = prompt("<?=__('Please Enter New Set Name')?>","<?=$this->_getSetData()->getAttributeSetName()?>");
-                        if( attribute_set_name == '' ) {
-                            this.rename();
-                        } else if( attribute_set_name != false ) {
-                            editSet.req.attribute_set_name = attribute_set_name;
+                    addGroup : function() {
+                        var group_name = prompt("<?=__('Please Enter New Group Name')?>","");
+
+                        if( group_name == '' ) {
+                            this.addGroup();
+                        } else if( group_name != false && group_name != null && group_name != '' ) {
+                            var newNode = new Ext.tree.TreeNode({
+                                    text : group_name,
+                                    cls : 'folder',
+                                    allowDrop : true,
+                                    allowDrag : false
+                                });
+                            TreePanels.root.appendChild(newNode);
+                            newNode.addListener('click', editSet.register);
+                            editSet.req.addGroups.push( new Array(newNode.id, group_name) );
                         }
                     },
 
                     save : function() {
+                        editSet.req.attribute_set_name = $('attribute_set_name').value;
                         var req = {data : Ext.util.JSON.encode(editSet.req)};
                         var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:editSet.success,failure:editSet.failure}, req);
                     },
 
                     success : function(o) {
-                        //window.location.reload();
+                        initVars();
+                        window.location.reload();
                     },
 
                     failure : function(o) {
@@ -218,12 +232,17 @@
                 }
             }();
 
-            editSet.req = {};
-            editSet.req.attributes = false;
-            editSet.req.not_attributes = false;
-            editSet.req.attribute_set_name = false;
-            editSet.req.removeGroups = new Array();
+            function initVars() {
+                editSet.req = {};
+                editSet.req.attributes = false;
+                editSet.req.not_attributes = false;
+                editSet.req.attribute_set_name = false;
+                editSet.req.removeGroups = new Array();
+                editSet.req.addGroups = new Array();
+            }
 
+
+            initVars();
             Ext.EventManager.onDocumentReady(TreePanels.init, TreePanels, true);
             </script>
         </td>

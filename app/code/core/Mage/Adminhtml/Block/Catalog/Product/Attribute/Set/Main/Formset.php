@@ -16,46 +16,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
 
     protected function _prepareForm()
     {
+        $data = Mage::getModel('eav/entity_attribute_set')
+            ->load($this->getRequest()->getParam('id'));
+
         $form = new Varien_Data_Form();
-
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Set')));
-
-        $fieldset->addField('new_set', 'text',
+        $fieldset = $form->addFieldset('set_name', array('legend'=>__('Edit Set Name')));
+        $fieldset->addField('attribute_set_name', 'text',
                             array(
                                 'label' => __('Name'),
-                                'name' => 'new_set',
+                                'name' => 'attribute_set_name',
                                 'required' => true,
+                                'value' => $data->getAttributeSetName()
                             )
         );
 
-        $collection = Mage::getModel('eav/entity_attribute_set')
-            ->getResourceCollection()
-            ->load()
-            ->toOptionArray();
-
-    	$fieldset->addField('set_base', 'select',
-                            array(
-                                'label' => __('Based on'),
-                                'name' => 'set_switcher',
-                                'title' => __('Please Choose Set'),
-                                'values' => $collection,
-                            )
-        );
-
-    	$fieldset->addField('submit', 'note',
-                            array(
-                                'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
-                                            ->setData(array(
-                                                'label'     => __('Add Set'),
-                                                'onclick'   => 'this.form.submit();',
-																								'class' => 'add'
-                                            ))
-                                            ->toHtml(),
-                            )
-        );
-
-        $form->setUseContainer(true);
-        $form->setMethod('POST');
         $this->setForm($form);
     }
 }

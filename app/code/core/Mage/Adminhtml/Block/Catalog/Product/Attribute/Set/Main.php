@@ -22,8 +22,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main_tree_group')
         );
 
-        $this->setChild('new_group_form',
-            $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main_formgroup')
+        $this->setChild('edit_set_form',
+            $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main_formset')
         );
 
         $this->setChild('delete_group_button',
@@ -31,6 +31,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                                                         ->setData(array(
                                                             'label'     => __('Delete Selected Group'),
                                                             'onclick'   => 'editSet.submit();',
+                                                        ))
+        );
+
+        $this->setChild('add_group_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                                                        ->setData(array(
+                                                            'label'     => __('Add New'),
+                                                            'onclick'   => 'editSet.addGroup();',
                                                         ))
         );
 
@@ -80,9 +88,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         return $this->getChildHtml('group_tree');
     }
 
-    public function getGroupFormHtml()
+    public function getSetFormHtml()
     {
-        return $this->getChildHtml('new_group_form');
+        return $this->getChildHtml('edit_set_form');
     }
 
     protected function _getHeader()
@@ -93,6 +101,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
     public function getMoveUrl()
     {
         return $this->getUrl('*/catalog_product_set/save', array('id' => $this->_getSetId()));
+    }
+
+    public function getGroupUrl()
+    {
+        return $this->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
     }
 
     public function getGroupTreeJson()
@@ -159,17 +172,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
             $items[] = $item;
         }
-        /*
+
         if( count($items) == 0 ) {
             $items[] = array(
                 'text' => __('Empty'),
                 'id' => 'empty',
                 'cls' => 'folder',
-                'allowDrop' => true,
+                'allowDrop' => false,
                 'allowDrag' => false,
             );
         }
-        */
+
         return Zend_Json::encode($items);
     }
 
@@ -196,6 +209,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
     public function getDeleteGroupButton()
     {
         return $this->getChildHtml('delete_group_button');
+    }
+
+    public function getAddGroupButton()
+    {
+        return $this->getChildHtml('add_group_button');
     }
 
     public function getRenameButton()

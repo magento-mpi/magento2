@@ -27,6 +27,5 @@ class Mage_Adminhtml_Catalog_Product_GroupController extends Mage_Adminhtml_Cont
                 Mage::getSingleton('adminhtml/session')->addError('Error while saving this group. Please try again later.');
             }
         }
-        $this->getResponse()->setRedirect((Mage::getUrl('*/catalog_product_set/edit', array('id' => $this->getRequest()->getParam('attribute_set_id')))));
     }
 }

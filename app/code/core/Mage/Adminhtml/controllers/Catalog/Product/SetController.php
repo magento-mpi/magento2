@@ -53,9 +53,24 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     {
         $this->_setTypeId();
         $data = Zend_Json_Decoder::decode($this->getRequest()->getPost('data'));
-        echo "debug: <pre>";
-        print_r($data);
-        echo "</pre>";
+
+        if( $data['addGroups'] ) {
+            foreach( $data['addGroups'] as $group ) {
+                $model = Mage::getModel('eav/entity_attribute_group');
+                $groupData = $model->setAttributeGroupName($group[1])
+                    ->setAttributeSetId($this->getRequest()->getParam('id'))
+                    ->save();
+
+                if( $data['attributes'] ) {
+                    foreach( $data['attributes'] as $key => $attribute ) {
+                        if( $attribute[1] == $group[0] ) {
+                            $data['attributes'][$key][1] = $groupData->getAttributeGroupId();
+                        }
+                    }
+                }
+            }
+        }
+
         if( $data['attribute_set_name'] ) {
             $model = Mage::getModel('eav/entity_attribute_set');
             $model->setId($this->getRequest()->getParam('id'))
@@ -73,13 +88,12 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
               ->saveAttributes();
         }
 
-        /*
         if( $data['removeGroups'] ) {
             $model = Mage::getModel('eav/entity_attribute_group');
-            $model->setGroupsArray($data['attribute_set_name'])
+            $model->setGroupsArray($data['removeGroups'])
+                  ->setSetId($this->getRequest()->getParam('id'))
                   ->deleteGroups();
         }
-        */
     }
 
     public function removeAction()
