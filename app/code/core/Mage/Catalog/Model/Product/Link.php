@@ -24,6 +24,5 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 		$data['link_type_id'] = $this->getLinkTypeId();
 		return $data;
 	}
-	
-	
+		
 }// Class Mage_Catalog_Model_Product_Link END

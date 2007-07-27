@@ -5,10 +5,13 @@
  * @package    Mage
  * @subpackage Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
 class Mage_Catalog_Model_Product extends Varien_Object 
 {
+	protected $_cachedLinkedProductsByType = array();
+	
     public function __construct() 
     {
         parent::__construct();
@@ -127,8 +130,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         
         if ($qty) {
-            $prevQty = 0;
-            $prevPrice = $prices[0]['price'];
+            $prevQty = 1;
+            $prevPrice = $this->getPrice();
             foreach ($prices as $price) {
                 if (($prevQty <= $qty) && ($qty < $price['price_qty'])) {
                     return $prevPrice;
@@ -171,24 +174,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getLinkedProducts($linkType)
     {
-        /*$linkedProducts = Mage::getResourceModel('catalog/product_link_collection');
-        $linkedProducts->getProductCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('description');
-        
-
-        $linkedProducts->addProductFilter($this->getProductId())
-            ->addTypeFilter($linkType)
-            ->loadData();
-            
-        return $linkedProducts;*/
-        return array();
+        $linkedProducts = Mage::getResourceModel('catalog/product_link_collection');
+        $linkedProducts
+           	->addLinkTypeFilter($linkType)
+      		->addFieldToFilter('product_id', $this->getId());
+        return $linkedProducts;
     }
     
     public function getRelatedProducts()
     {
-        return $this->getLinkedProducts(1);
+        return $this->getLinkedProducts('relation')
+        	->addLinkAttributeToSelect('position');
     }
     
     public function getCategories()
