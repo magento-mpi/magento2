@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add Product'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
+                    'onclick'   => "setLocation('".Mage::getUrl('*/*/new', array('store'=>$this->getRequest()->getParam('store', 0)))."')",
                     'class'   => 'add'
 					))
 				);

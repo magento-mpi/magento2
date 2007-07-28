@@ -81,9 +81,28 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function saveAction()
     {
-        echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';
+        $storeId = (int) $this->getRequest()->getParam('store');
+        if ($data = $this->getRequest()->getPost()) {
+            $product = Mage::getModel('catalog/product')
+                ->setData($data['product'])
+                ->setId($this->getRequest()->getParam('id'))
+                ->setStoreId($storeId)
+                ->setAttributeSetId(9);
+            
+            try {
+                $product->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')
+                    ->addError($e->getMessage())
+                    ->setCategoryData($data);
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId)));
+                return;
+            }
+        }
+
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('store'=>$storeId)));
         
         if($this->getRequest()->getParam('_related_products')) {
 	        $relatedProducts = $this->_decodeInput($this->getRequest()->getParam('_related_products'));

@@ -226,6 +226,9 @@ class Varien_File_Uploader
 
     private function _setUploadFileId($fileId)
     {
+        if (empty($_FILES)) {
+            throw new Exception('$_FILES array is empty');
+        }
         preg_match("/^(.*?)\[(.*?)\]$/", $fileId, $file);
 
         if( count($file) > 0 && (count($file[0]) > 0) && (count($file[1]) > 0) ) {

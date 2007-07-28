@@ -100,6 +100,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId(), 'store'=>$this->getRequest()->getParam('store',0)));
     }
 }
