@@ -41,7 +41,7 @@
                 </table>
             </div>
             <div id="tree-div2" style="width:190px;height:400px;"></div>
-            <script type="text/javascript">
+            <script type="text/javascript" language="javascript">
             var TreePanels = function() {
                 // shorthand
                 var Tree = Ext.tree;
@@ -80,7 +80,7 @@
                             enableDD:true,
                             containerScroll: true,
                             rootVisible: false,
-                            lines:false,
+                            lines:false
                         });
 
                         // set the root node
@@ -132,20 +132,8 @@
                                 iterator ++;
                             }
                         }
-                        /*
-                        if( !rootNode.childNodes.length ) {
-                            var newNode = new Ext.tree.TreeNode({
-                                    text : '<?=__('Empty')?>',
-                                    id : 'empty',
-                                    cls : 'folder',
-                                    allowDrop : false,
-                                    allowDrag : false
-                                });
-                            rootNode.appendChild(newNode);
-                        }
-                        */
-                    },
-                };
+                    }
+                };       
             }();
 
             function buildCategoryTree(parent, config){
@@ -228,7 +216,9 @@
                 }
             }();
 
+
             function initVars() {
+                
                 editSet.req = {};
                 editSet.req.attributes = false;
                 editSet.req.groups = new Array();
