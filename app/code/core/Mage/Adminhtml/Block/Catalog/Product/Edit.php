@@ -88,7 +88,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     	$result = array();
     	
         foreach (Mage::registry('product')->getRelatedProducts() as $product) {
-        	$result[$result->getEntityId()] = $result->toArray($product->getRelatedProducts()->getLinkAttributeCollection()->getColumnValues('code'));
+        	$result[$product->getEntityId()] = $product->toArray(
+        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        	);
+        }
+        
+        if(!empty($result)) {
+        	return Zend_Json_Encoder::encode($result);
+        }
+        
+        return '{}';
+    }
+    
+    
+    public function getUpSellProductsJSON()
+    {
+    	$result = array();
+    	
+        foreach (Mage::registry('product')->getUpSellProducts() as $product) {
+        	$result[$product->getEntityId()] = $product->toArray(
+        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        	);
         }
         
         if(!empty($result)) {
@@ -98,6 +118,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return '{}';
     }
 
+    public function getCrossSellProductsJSON()
+    {
+    	$result = array();
+    	
+        foreach (Mage::registry('product')->getCrossSellProducts() as $product) {
+        	$result[$product->getEntityId()] = $product->toArray(
+        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        	);
+        }
+        
+        if(!empty($result)) {
+        	return Zend_Json_Encoder::encode($result);
+        }
+        
+        return '{}';
+    }
+    
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('_current'=>true));

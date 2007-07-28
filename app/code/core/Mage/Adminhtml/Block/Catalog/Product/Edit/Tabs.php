@@ -52,6 +52,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'label'     => __('Related Products'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related', 'admin.related.products')->toHtml(),
             ));
+            
+            $this->addTab('upsell', array(
+                'label'     => __('Up-sells'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell', 'admin.upsell.products')->toHtml(),
+            ));
+            
+            $this->addTab('crosssell', array(
+                'label'     => __('Cross-sells'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
+            ));
         }
         else {
             $this->addTab('set', array(

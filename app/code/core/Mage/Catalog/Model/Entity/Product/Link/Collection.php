@@ -31,24 +31,26 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     public function setProductId($productId) 
     {
     	$this->_productId = $productId;
+    	
+    	$this->_joinLinkTable();
     	return $this;
     }
     
       
     public function getProductId() 
-    {    	
+    {    
     	return $this->_productId;
     }
        
-    public function resetSelect()
+    protected function _joinLinkTable()
     {
-    	$result = parent::resetSelect();
+    	$this->resetSelect();
     	$this->joinField('link_id', 'catalog/product_link', 'link_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
-        	->joinField('product_id', 'catalog/product_link', 'product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
-        	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
-        	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
+        	->joinField('product_id', 'catalog/product_link', 'product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
+        	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
+        	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id', null,'left');
-        return $result;
+        
     }
     
    
@@ -136,12 +138,20 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	return $this;
     }
     
+    public function getSize()
+    {
+    	
+    	return parent::getSize();
+    }
+            
     public function load($printQuery=false, $logQuery=false)
     {
     	$result = parent::load($printQuery, $logQuery);
-    	if($this->getObject() instanceof Mage_Catalog_Product_Link) {
+    	
+    	if($this->getObject() instanceof Mage_Catalog_Model_Product_Link) {
     		$this->walk('setAttributeCollection', array($this->getLinkAttributeCollection()));
-    	}
+    	}    	
+    	
     	return $result;
     }
     

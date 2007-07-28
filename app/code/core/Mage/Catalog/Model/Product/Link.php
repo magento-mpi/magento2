@@ -29,8 +29,9 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 	
 	public function getAttributeCollection()
 	{
-		if(is_null($this->_attributeCollection)) {
-			$this->setAttibuteCollection(
+		if(is_null($this->_attributeCollection))
+		{
+			$this->setAttributeCollection(
 				Mage::getResourceModel('catalog/product_link_attribute_collection')
 					->addFieldToFilter('link_type_id', $this->getLinkTypeId())
 					->load()

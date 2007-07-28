@@ -19,4 +19,38 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 $resource->getConnection('catalog_write')
             );        
     }
+    
+    protected function _afterSave(Varien_Object $object)
+    {
+    	foreach($object->getLinkedProductsForSave() as $linkType=>$data) {
+    		
+	    	$linkedProducts = $object->getLinkedProducts($linkType)->load();
+	      	
+	       	foreach($data['linkIds'] as $index=>$linkId) {
+	       		if(!$linkedProduct = $linkedProducts->getItemByColumnValue('product_id', $linkId)) {
+	       			$linkedProduct = clone $linkedProducts->getObject();
+	       			$linkedProduct->setAttributeCollection($linkedProducts->getLinkAttributeCollection());
+	       			$linkedProduct->addLinkData($linkedProducts->getLinkTypeId(), $object, $linkId);
+	       		}
+	       		
+	   			foreach ($linkedProducts->getLinkAttributeCollection() as $attribute) {
+	   				if(isset($data['linkAttributes'][$index][$attribute->getCode()])) {
+	   					$linkedProduct->setData($attribute->getCode(), $data['linkAttributes'][$index][$attribute->getCode()]);
+	   				}
+	   			}
+	   					
+	   			$linkedProduct->save();
+	       	}
+	       	
+	       	// Now delete unselected items
+	       	
+	       	foreach($linkedProducts as $linkedProduct) {
+				if(!in_array($linkedProduct->getId(), $data['linkIds'])) {
+					$linkedProduct->delete();
+				}
+	       	}
+    	}
+    	
+    	return parent::_afterSave($object);
+    }
 }

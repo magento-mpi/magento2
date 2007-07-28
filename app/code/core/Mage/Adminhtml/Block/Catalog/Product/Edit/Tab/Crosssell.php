@@ -8,12 +8,12 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Adminhtml_Block_Widget_Grid 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setId('related_product_grid');
+        $this->setId('cross_sell_product_grid');
         $this->setDefaultFilter(array('in_products'=>1));
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
@@ -90,17 +90,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'index'     => 'price'
         ));
         
-        $this->addColumn('qty', array(
-            'header'    => __('Qty'),
-            'name'    	=> 'qty',
-            'width'     => '70px',
-            'align'     => 'center',
-            'type'      => 'number',
-            'validate_class' => 'validate-number',
-            'index'     => 'qty',
-            'editable'  => true
-        ));
-        
+                
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
@@ -119,7 +109,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/related', array('_current'=>true));
+        return Mage::getUrl('*/*/crosssell', array('_current'=>true));
     }
     
     protected function _getSelectedProducts()
@@ -127,7 +117,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $products = $this->getRequest()->getPost('products', null);
         
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getRelatedProducts()->getColumnValues('entity_id');
+            $products = Mage::registry('product')->getCrossSellProducts()->getColumnValues('entity_id');
         }
         
         return $products;

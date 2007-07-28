@@ -18,16 +18,16 @@ class Mage_Catalog_Model_Entity_Product_Link extends Mage_Core_Model_Mysql4_Abst
 	
 	protected function _afterLoad(Mage_Core_Model_Abstract $object)
 	{
-		foreach(array_unique($object->getAttributesCollection()->getColumnValues('data_type')) as $table) {
+		foreach(array_unique($object->getAttributeCollection()->getColumnValues('data_type')) as $table) {
 			// Loading of link attributes from unique data tables.
-			$attributeFirst = $object->getAttributesCollection()->getItemByColumnValue('data_type', $table);
+			$attributeFirst = $object->getAttributeCollection()->getItemByColumnValue('data_type', $table);
 			$select = $this->getConnection('read')->select()
 				->from($attributeFirst->getTypeTable())
 				->where('link_id = ?', $object->getId());
 			
 			$attributesValues = $this->getConnection('read')->fetchAll($select);
 			foreach ($attributesValues as $attributeValue) {
-				$attribute = $object->getAttributesCollection()->getItemById($attributeValue['product_link_attribute_id']);
+				$attribute = $object->getAttributeCollection()->getItemById($attributeValue['product_link_attribute_id']);
 				if($attribute) {
 					$object->setData($attribute->getCode(), $attributeValue['value']);
 				}
@@ -40,30 +40,30 @@ class Mage_Catalog_Model_Entity_Product_Link extends Mage_Core_Model_Mysql4_Abst
 	protected function _afterSave(Mage_Core_Model_Abstract $object)
 	{
 		$originAttributes = array();
-		
-		foreach (array_unique($object->getAttributesCollection()->getColumnValues('data_type')) as $table) {
+		foreach (array_unique($object->getAttributeCollection()->getColumnValues('data_type')) as $table) {
 			// Loading of link attributes ids from unique data tables.
-			$attributeFirst = $object->getAttributesCollection()->getItemByColumnValue('data_type', $table);
+			$attributeFirst = $object->getAttributeCollection()->getItemByColumnValue('data_type', $table);
 			$select = $this->getConnection('read')->select()
 				->from($attributeFirst->getTypeTable(), array('value_id', 'product_link_attribute_id'))
 				->where('link_id = ?', $object->getId());
 			
 			$attributesValues = $this->getConnection('read')->fetchAll($select);
-			
+	
 			foreach ($attributesValues as $attributeValue) {
-				$attribute = $object->getAttributesCollection()->getItemById($attributeValue['product_link_attribute_id']);
+				$attribute = $object->getAttributeCollection()->getItemById($attributeValue['product_link_attribute_id']);
 				
 				if($attribute) {
 					$originAttributes[$attribute->getId()] = $attributeValue;
 				}
 			}
 		}
-		
+	
 		$this->getConnection('write')->beginTransaction();
 		try {
 			
-			foreach ($object->getAttributesCollection() as $attribute)
+			foreach ($object->getAttributeCollection() as $attribute)
 			{
+				
 				if(isset($originAttributes[$attribute->getId()])) {
 					// If attribute value exists update existing record
 					$data = array();
@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Entity_Product_Link extends Mage_Core_Model_Mysql4_Abst
 					$data['value'] = $object->getData($attribute->getCode());
 					$data['product_link_attribute_id'] = $attribute->getId();
 					$data['link_id'] = $object->getId();
-					$this->getConnection('write')->insert($attribute->getTypeTable());
+					$this->getConnection('write')->insert($attribute->getTypeTable(), $data);
 				}
 			}
 			
