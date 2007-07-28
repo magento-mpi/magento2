@@ -31,6 +31,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                                                         ->setData(array(
                                                             'label'     => __('Delete Selected Group'),
                                                             'onclick'   => 'editSet.submit();',
+									'class' => 'delete'
                                                         ))
         );
 
@@ -39,6 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                                                         ->setData(array(
                                                             'label'     => __('Add New'),
                                                             'onclick'   => 'editSet.addGroup();',
+									'class' => 'add'
                                                         ))
         );
 
@@ -46,7 +48,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+									'class' => 'back'
                 ))
         );
 
@@ -62,7 +65,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Product Set'),
-                    'onclick'   => 'editSet.save();'
+                    'onclick'   => 'editSet.save();',
+									'class' => 'save'
                 ))
         );
 
@@ -70,7 +74,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute Set'),
-                    'onclick'   => 'setLocation(\'#\')'
+                    'onclick'   => 'setLocation(\'#\')',
+									'class' => 'delete'
                 ))
         );
 

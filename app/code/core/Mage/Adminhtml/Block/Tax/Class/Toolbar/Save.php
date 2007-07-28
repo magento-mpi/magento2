@@ -26,7 +26,8 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+					'class' => 'back'
                 ))
         );
 
@@ -42,7 +43,8 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save class'),
-                    'onclick'   => 'wigetForm.submit();return false;'
+                    'onclick'   => 'wigetForm.submit();return false;',
+					'class' => 'save'
                 ))
         );
     }

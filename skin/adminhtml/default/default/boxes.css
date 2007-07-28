@@ -95,7 +95,7 @@
     margin-left:-1px;
     }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
-    margin-left:2.5em;
+    margin-left:2em;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -175,7 +175,7 @@
 
 /* Section Menu */
 .section-menu .bottom { /* Creates the gradient facade below the menu */
-    height:417px;
+    height:157px;
     background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
     }
 .section-menu ul.tabs {
@@ -259,7 +259,11 @@
 .head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
 .head-tag { background-image:url(images/fam_tag_orange.gif); }
 .head-orders { background-image:url(images/fam_folder_table.gif); }
-
+.head-categories { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
+.head-product-attributes { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
+.head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
+.head-tax { background-image:url(images/fam_money_add.gif); }
+.head-cms { background-image:url(images/fam_money_add.gif); }
 
 
 /************* DATA MANIPULATION ************/

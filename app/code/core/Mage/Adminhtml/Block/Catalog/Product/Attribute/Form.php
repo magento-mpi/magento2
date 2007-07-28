@@ -260,7 +260,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\''
+                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+									'class' => 'back'
                 ))
         );
 
@@ -268,7 +269,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save Attribute'),
-                    'onclick'   => 'attribute_form.submit()'
+                    'onclick'   => 'attribute_form.submit()',
+									'class' => 'save'
                 ))
         );
 
@@ -276,7 +278,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute'),
-                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/attributeId/'. $this->getRequest()->getParam('attributeId') .'').'\')'
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/attributeId/'. $this->getRequest()->getParam('attributeId') .'').'\')',
+									'class' => 'delete'
                 ))
         );
     }
