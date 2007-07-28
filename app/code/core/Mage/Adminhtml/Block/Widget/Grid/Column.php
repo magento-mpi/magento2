@@ -33,6 +33,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     {
         return $this->_grid;
     }
+    
+    public function isLast()
+    {
+        return $this->getId() == $this->getGrid()->getLastColumnId();
+    }
 
     public function getHtmlProperty()
     {
@@ -60,7 +65,23 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         if ($this->getSortable()===false) {
             $class.= ' no-link';
         }
+        if ($this->isLast()) {
+            $class = ' last';
+        }
         return $class;
+    }
+    
+    public function getHeaderHtmlProperty()
+    {
+        $str = '';
+        if ($class = $this->getHeaderCssClass()) {
+            $str.= ' class="'.$class.'"';
+        }
+        if ($this->getEditable()) {
+            $str.= ' colspan="2"';
+        }
+        
+        return $str;
     }
 
     /**
@@ -76,7 +97,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
     public function setRenderer($renderer)
     {
-
+        $this->_renderer = $renderer;
+        return $this;
     }
 
     protected function _getRendererByType()

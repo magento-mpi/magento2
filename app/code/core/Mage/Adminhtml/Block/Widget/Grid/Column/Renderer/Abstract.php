@@ -32,7 +32,25 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
      */
     public function render(Varien_Object $row)
     {
+        if ($this->getColumn()->getEditable()) {
+            return $this->_getValue($row).'</td><td>'.$this->_getInputValueElement($row);
+        }
+        return $this->_getValue($row);
+    }
+    
+    protected function _getValue(Varien_Object $row)
+    {
         return $row->getData($this->getColumn()->getIndex());
+    }
+    
+    public function _getInputValueElement(Varien_Object $row)
+    {
+        return '<input type="text" class="input-text" name="'.$this->getColumn()->getId().'[]" value="'.$this->_getInputValue($row).'"/>';
+    }
+    
+    protected function _getInputValue(Varien_Object $row)
+    {
+        return $this->_getValue($row);
     }
     
     public function renderHeader()
@@ -58,6 +76,10 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     public function renderProperty()
     {
         $out = ' ';
+        if ($this->getColumn()->getEditable()) {
+            $out .=' span="2"';
+        }
+
         if ($this->getColumn()->getWidth()) {
             $out .='width="'.$this->getColumn()->getWidth(). (is_numeric($this->getColumn()->getWidth()) ? '%' : '') . '" ';
         } 

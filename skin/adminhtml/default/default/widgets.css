@@ -84,7 +84,7 @@ button.back td { background-image:url(images/btn_back_bg.gif); }
 button.delete td { background-image:url(images/btn_delete_bg.gif); }
 button.save td,
 button.add td {
-	background-image:url(images/btn_task_bg.gif); 
+    background-image:url(images/btn_task_bg.gif); 
     }
 button.back td.ml { color:#838383; }
 
@@ -119,13 +119,13 @@ table.content_table { width:100%; }
 
 .grid { /* Accomodates resizable grid table */
     position:relative;
-		border-bottom:0;
+        border-bottom:0;
     margin-bottom:.5em;
     }
 .grid table {
     width:100%;
-		border:1px solid #d1cfcf;
-		border-bottom:none;
+        border:1px solid #d1cfcf;
+        border-bottom:none;
     }
 .grid .separator { padding:0 4px; color:#b9b9b9;}
 
@@ -361,9 +361,15 @@ ul.tabs a.subitem{ padding-left:2.2em; }
 
 
 p.switcher { 
-	background:#eee; 
-	padding:10px; 
-	}
+    background:#eee; 
+    padding:10px; 
+    }
+.section-menu p.switcher {
+    width:170px;
+    }
+.section-menu p.switcher select{
+    width:150px;
+    }
 
 /************* FORMS ***************/
 .validation-advice {

@@ -25,6 +25,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var array
      */
     protected $_columns = array();
+    
+    protected $_lastColumnId;
 
     /**
      * Collection object
@@ -196,7 +198,18 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
 
         $this->_columns[$columnId]->setId($columnId);
+        $this->_lastColumnId = $columnId;
         return $this;
+    }
+    
+    public function getLastColumnId()
+    {
+        return $this->_lastColumnId;
+    }
+    
+    public function getColumnCount()
+    {
+        return count($this->getColumns());
     }
 
     /**

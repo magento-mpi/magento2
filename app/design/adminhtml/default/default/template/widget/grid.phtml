@@ -84,16 +84,17 @@ $numColumns = sizeof($this->getColumns());
     <?foreach ($this->getColumns() as $_column):?>
     <col <?=$_column->getHtmlProperty()?>></col>
     <?endforeach;?>
+    <col/>
     <thead>
         <tr class="headings">
-        <?$i=0;foreach ($this->getColumns() as $_column):?>
-            <th class="<?=$_column->getHeaderCssClass()?> <?=++$i==$numColumns?'last':''?>"><nobr><?=$_column->getHeaderHtml()?></nobr></th>
+        <?foreach ($this->getColumns() as $_column):?>
+            <th <?=$_column->getHeaderHtmlProperty()?>><nobr><?=$_column->getHeaderHtml()?></nobr></th>
         <?endforeach;?>
         </tr>
         <?if ($this->getFilterVisibility()):?>
         <tr class="filter">
         <?$i=0;foreach ($this->getColumns() as $_column):?>
-            <th class="<?=++$i==$numColumns?'last':''?>"><?=$_column->getFilterHtml()?></th>
+            <th <?=$_column->getHeaderHtmlProperty()?>><?=$_column->getFilterHtml()?></th>
         <?endforeach;?>
         </tr>
         <?endif?>
@@ -109,7 +110,7 @@ $numColumns = sizeof($this->getColumns());
     <?endforeach;?>
     <?elseif ($this->getEmptyText()):?>
     	<tr>
-    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=$numColumns?>"><?=$this->getEmptyText()?></td>
+    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=$this->getColumnCount()?>"><?=$this->getEmptyText()?></td>
     	</tr>
     <?endif;?>
     </tbody>

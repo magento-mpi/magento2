@@ -94,12 +94,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         return Mage::getUrl('*/*/delete', array('_current'=>true));
     }
     
-    public function getProductIdsString()
+    public function getProductsJson()
     {
-        $ids = Mage::registry('category')->getProductIds();
-        if (is_array($ids)) {
-            return implode(',', $ids);
+        $products = Mage::registry('category')->getProductsPosition();
+        if (!empty($products)) {
+            return Zend_Json::encode($products);
         }
-        return '';
+        return '{}';
     }
 }

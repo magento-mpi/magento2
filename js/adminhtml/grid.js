@@ -12,6 +12,9 @@ varienGrid.prototype = {
         this.useAjax = false;
         this.rowClickCallback = false;
         this.checkboxCheckCallback = false;
+        this.initCallback = false;
+        this.initRowCallback = false;
+        
         this.reloadParams = false;
 
         this.trOnMouseOver  = this.rowMouseOver.bindAsEventListener(this);
@@ -25,29 +28,36 @@ varienGrid.prototype = {
     },
     initGrid : function(){
         if($(this.containerId+this.tableSufix)){
-            var rows = $$('#'+this.containerId+this.tableSufix+' tbody tr');
-            for (var row in rows) {
+            this.rows = $$('#'+this.containerId+this.tableSufix+' tbody tr');
+            for (var row=0; row<this.rows.length; row++) {
                 if(row%2==0){
-                    Element.addClassName(rows[row], 'even');
+                    Element.addClassName(this.rows[row], 'even');
                 }
-                if(rows[row].tagName) {
-                    Element.addClassName(rows[row], 'pointer');
+                if(this.rows[row].tagName) {
+                    Element.addClassName(this.rows[row], 'pointer');
                 }
                 
-                Event.observe(rows[row],'mouseover',this.trOnMouseOver);
-                Event.observe(rows[row],'mouseout',this.trOnMouseOut);
-                Event.observe(rows[row],'click',this.trOnClick);
-                Event.observe(rows[row],'dblclick',this.trOnDblClick);
+                Event.observe(this.rows[row],'mouseover',this.trOnMouseOver);
+                Event.observe(this.rows[row],'mouseout',this.trOnMouseOut);
+                Event.observe(this.rows[row],'click',this.trOnClick);
+                Event.observe(this.rows[row],'dblclick',this.trOnDblClick);
+                
+                if(this.initRowCallback){
+                    this.initRowCallback(this, this.rows[row]);
+                }
             }
         }
         if(this.sortVar && this.dirVar){
             var columns = $$('#'+this.containerId+this.tableSufix+' thead a');
 
-            for(var col in columns){
+            for(var col=0; col<columns.length; col++){
                 Event.observe(columns[col],'click',this.thLinkOnClick);
             }
         }
         this.bindFilterFields();
+        if(this.initCallback){
+            this.initCallback(this)
+        }
     },
     getContainerId : function(){
         return this.containerId;

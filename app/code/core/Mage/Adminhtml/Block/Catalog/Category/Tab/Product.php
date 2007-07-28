@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         $this->setUseAjax(true);
     }
     
-    protected function _initChildren()
+    /*protected function _initChildren()
     {
         parent::_initChildren();
         $this->setChild('switch_button',
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         $html = $this->getChildHtml('switch_button');
         $html.= parent::getMainButtonsHtml();
         return $html;
-    }
+    }*/
 
     protected function _addColumnFilterToCollection($column)
     {
@@ -115,11 +115,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         ));
         $this->addColumn('position', array(
             'header'    => __('Position'),
-            'width'     => '140px',
+            'width'     => '70px',
             'align'     => 'center',
             'type'      => 'number',
             'index'     => 'position',
-            'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
+            'editable'  => true
+            //'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
         ));
         
         return parent::_prepareColumns();
@@ -134,11 +135,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     {
         $products = $this->getRequest()->getPost('selected_proudcts');
         if (is_null($products)) {
-            $products = Mage::registry('category')->getProductIds();
+            $products = Mage::registry('category')->getProductsPosition();
+            return array_keys($products);
         }
-        else {
+        /*else {
             $products = explode(',', $products);
-        }
+        }*/
         return $products;
     }
 }

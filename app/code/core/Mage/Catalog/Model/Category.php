@@ -97,20 +97,22 @@ class Mage_Catalog_Model_Category extends Varien_Object
     
     /**
      * Retrieve array of product id's for category
-     *
+     * 
+     * array($productId => $position)
+     * 
      * @return array
      */
-    public function getProductIds()
+    public function getProductsPosition()
     {
         if (!$this->getId()) {
             return array();
         }
         
-        $ids = $this->getData('product_ids');
-        if (is_null($ids)) {
-            $ids = $this->getResource()->getProductIds($this);
-            $this->setData('product_ids', $ids);
+        $arr = $this->getData('products_position');
+        if (is_null($arr)) {
+            $arr = $this->getResource()->getProductsPosition($this);
+            $this->setData('products_position', $arr);
         }
-        return $ids;
+        return $arr;
     }
 }

@@ -12,7 +12,13 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
 {
     public function afterSave($object)
     {
-        $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
+        try {
+            $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
+        }
+        catch (Exception $e){
+            return;
+        }
+        
         //$uploader->save($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload'));
         $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload'));
         

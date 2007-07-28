@@ -64,10 +64,10 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         parent::_afterSave($object);
         $products = $object->getPostedProducts();
         if (!is_null($products)) {
-            $oldProducts = $object->getProductIds();
+            $oldProducts = $object->getProductsPosition();
             if (!empty($oldProducts)) {
                 $this->getWriteConnection()->delete($this->_categoryProductTable, 
-                    $this->getWriteConnection()->quoteInto('product_id in(?)', $oldProducts) . ' AND ' .
+                    $this->getWriteConnection()->quoteInto('product_id in(?)', array_keys($oldProducts)) . ' AND ' .
                     $this->getWriteConnection()->quoteInto('category_id=?', $object->getId())
                 );
             }
@@ -122,20 +122,31 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
      * @param   Mage_Catalog_Model_Category $category
      * @return  array
      */
-    public function getProductIds($category)
+    public function getProductsPosition($category)
     {
         $collection = Mage::getResourceModel('catalog/product_collection')
+            ->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                '{{table}}.store_id='.(int) $category->getStoreId())
             ->joinField('category_id', 
                 'catalog/category_product', 
                 'category_id', 
                 'product_id=entity_id', 
-                null, 
+                null)
+            ->joinField('position', 
+                'catalog/category_product', 
+                'position', 
+                'product_id=entity_id', 
+                '{{table}}.category_id='.(int) $category->getId(),
                 'left')
             ->addFieldToFilter('category_id', $category->getId())
             ->load();
+        
         $products = array();
         foreach ($collection as $product) {
-        	$products[] = $product->getId();
+        	$products[$product->getId()] = $product->getPosition();
         }
         return $products;
     }

@@ -132,10 +132,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setStoreId($storeId)
                 ->setAttributeSetId(12);
             
-            if (isset($data['products'])) {
-                $products = explode(',', $data['products']);
-                $category->setPostedProducts(array_flip($products));
+            if (isset($data['category_products'])) {
+                $products = array();
+                parse_str($data['category_products'], $products);
+                $category->setPostedProducts($products);
             }
+            
             try {
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');

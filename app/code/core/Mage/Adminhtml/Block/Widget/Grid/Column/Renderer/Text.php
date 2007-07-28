@@ -25,11 +25,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
      * @param string $index
      * @param string $format
      */
-    public function render(Varien_Object $row)
+    public function _getValue(Varien_Object $row)
     {
         $index  = $this->getColumn()->getIndex();
         $format = ( $this->getColumn()->getFormat() ) ? $this->getColumn()->getFormat() : $row->getFormat();
         $defaultValue = $this->getColumn()->getDefault();
+        
         if (is_null($format)) {
             // If no format and it column not filtered specified return data as is.
             $string = is_null($row->getData($index)) ? $defaultValue : $row->getData($index);
