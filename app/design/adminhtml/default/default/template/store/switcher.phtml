@@ -1,4 +1,4 @@
-<label for="store_switcher"><?=__('Choose Store')?>:</label>
+<p class="switcher"><label for="store_switcher"><?=__('Choose Store')?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
     <option value=""><?=__('All stores')?></option>
     <?foreach ($this->getWebsiteCollection() as $_website):?>
@@ -9,6 +9,7 @@
         </optgroup>
     <?endforeach;?>
 </select>
+</p>
 <script type="text/javascript">
     function switchStore(obj){
         var storeParam = obj.value ? 'store/'+obj.value : '';

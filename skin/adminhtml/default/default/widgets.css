@@ -268,25 +268,23 @@ table.actions td {
 /*********//* GRID ENDS HERE*//************/
 /******************************************/
 
+
+
 /* Data defination div */
 .data-defination{
-    border-left:1px solid #C6C5C3;
-    border-bottom:1px solid #C6C5C3;
-    background:#797674;
-    color:#fff;
     padding:3px 0 3px 10px;
     font-weight:bold;
 }
 
 
 /*************** Accordion ***************/
-dl.accordion dt {
+.data-defination, dl.accordion dt {
     border-left:1px solid #C6C5C3;
-    border-bottom:1px solid #C6C5C3;
+    border-top:1px solid #C6C5C3;
     background:#797674;
     color:#fff;
     }
-
+dl.accordion .grid { margin-bottom:0; }
 dl.accordion dt a {
     color:#fff;
     text-decoration:none;
@@ -362,7 +360,10 @@ ul.tabs li a.active span, ul.tabs li a:hover.active span {
 ul.tabs a.subitem{ padding-left:2.2em; }
 
 
-
+p.switcher { 
+	background:#eee; 
+	padding:10px; 
+	}
 
 /************* FORMS ***************/
 .validation-advice {
