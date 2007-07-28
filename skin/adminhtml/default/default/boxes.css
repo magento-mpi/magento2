@@ -179,17 +179,19 @@
     background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
     }
 .section-menu ul.tabs {
-    /* margin-top:.7em; */
-    background:url(images/section_menu_ul_bg_alt.gif) repeat-y 100% 100% #e4f1f1;
+	margin-top:.8em;
+    background:url(images/section_menu_bg.gif) repeat-y 100% 0;
     }
+.section-menu ul.tabs li a span {
+	 background:url(images/section_menu_span_bg.gif) repeat-y 100% 100% #E4F1F1;
+	  }
 .section-menu ul.tabs li a:hover span {
-    background:url(images/section_menu_link_bg_alt.gif) repeat-y 100% 100% #d8e6e6;
+    background:url(images/section_menu_over_span_bg.gif) repeat-y 100% 100% #d8e6e6;
     }
-.section-menu ul.tabs li a.active:hover span { background:#fff; }
+.section-menu ul.tabs li a.active span { background:#fff !important; }
 .section-menu .x-tree {
     margin:10px 0;
     }
-
 /* Content-left Nav */
 .content-left-nav {
     width:15.08em;
@@ -263,8 +265,8 @@
 .head-product-attributes { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
 .head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
 .head-tax { background-image:url(images/fam_money_add.gif); }
-.head-cms { background-image:url(images/fam_money_add.gif); }
-
+.head-cms { background-image:url(images/application_view_tile.gif); }
+.head-backups-control { background-image:url(images/fam_server_database.gif); }
 
 /************* DATA MANIPULATION ************/
 
