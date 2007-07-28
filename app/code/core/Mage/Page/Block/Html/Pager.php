@@ -1,0 +1,144 @@
+<?php
+/**
+ * Html page block
+ *
+ * @package     Mage
+ * @subpackage  Page
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Sergiy Lysak <sergey@varien.com>
+ */
+class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
+{
+    protected $_collection = null;
+    protected $_urlPrefix = null;
+    protected $_viewBy = null;
+    
+    public function __construct() 
+    {
+        parent::__construct();
+        $this->setTemplate('page/html/pager.phtml');
+    }
+    
+    public function setCollection($collection)
+    {
+        $this->_collection = $collection;
+        return $this;
+    }
+    
+    public function getCollection()
+    {
+        return $this->_collection;
+    }
+    
+    public function setParam($key, $value)
+    {
+        $this->assign($key, $value);
+        return $this;
+    }
+    
+    public function setUrlPrefix($prefix)
+    {
+        $this->_urlPrefix = $prefix;
+        return $this;
+    }
+    
+    public function getUrlPrefix()
+    {
+        return $this->_urlPrefix;
+    }
+    
+    public function getRequest()
+    {
+        return Mage::registry('controller')->getRequest();
+    }
+    
+    public function getFirstItemNum()
+    {
+        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+1;
+    }
+    
+    public function getLastItemNum()
+    {
+        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+count($this->getCollection()->getItems());
+    }
+    
+    public function getFirstPageUrl()
+    {
+        return $this->getPageUrl(1);
+    }
+    
+    public function getPreviousPageUrl()
+    {
+        return $this->getPageUrl($this->getCollection()->getCurPage(-1));
+    }
+    
+    public function getNextPageUrl()
+    {
+        return $this->getPageUrl($this->getCollection()->getCurPage(+1));
+    }
+    
+    public function getLastPageUrl()
+    {
+        return $this->getPageUrl($this->getCollection()->getLastPageNumber());
+    }
+    
+    public function getPageUrl($page)
+    {
+        return $this->getFeaturedPagerUrl(array('p'=>$page));
+    }
+
+    public function getFeaturedPagerUrl($params=array())
+    {
+        $origParams = $this->getRequest()->getParams(); // save original params
+        foreach($params as $key=>$val) {
+            $this->getRequest()->setParam($key, $val)->getParams();
+        }
+        $url = $this->getUrl($this->getUrlPrefix() . '/*/*', $this->getRequest()->getParams());
+        // restore original params:
+        foreach ($origParams as $key=>$val) {
+            $this->getRequest()->setParam($key, $val)->getParams();
+        }
+        return $url;
+    }
+
+    public function setViewBy($key, $values=array())
+    {
+        $this->_viewBy[$key] = $values;
+        return $this;
+    }
+
+    public function getViewBy($key='')
+    {
+        if(is_array($this->_viewBy)) {
+            if($key != '') {
+                if(isset($this->_viewBy[$key])) {
+                    return $this->_viewBy[$key];
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return $this->_viewBy;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function getIsViewBy($key, $value)
+    {                            
+        if(in_array($value, $this->_viewBy[$key])) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function toHtml()
+    {
+        return parent::toHtml();
+    }
+}
+

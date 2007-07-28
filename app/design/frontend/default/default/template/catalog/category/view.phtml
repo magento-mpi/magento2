@@ -5,8 +5,9 @@
 */
 ?>
 
-    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
+<?=$this->getChildHtml('pager')?>
 
+<?if($this->getRequest()->getParam('listing_type')=='grid'):?>
 <!-- [starts] .listing-type-grid // -->
 	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 	    <table cellspacing="0" class="generic-product-grid">
@@ -33,6 +34,38 @@
 		</table>
 	</div>
 <!-- [ends] .listing-type-grid // -->
+<?endif;?>
 
-    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
+<?if($this->getRequest()->getParam('listing_type')=='list'):?>
+<!-- [starts] .listing-type-list // -->
+<div class="listing-type-list"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+
+    <?$i=0; foreach ($productCollection as $product):?>
+	    <div class="listing-item">
+		    <div class="product-image">
+			    <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
+		    </div>
+		    <div class="product-info">
+			    <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
+			    <p><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></p>
+			    <div class="product-reviews">
+				    <a href="" class="add-to-compare">Add to Compare</a>
+			    </div>
+			    <div class="actions">
+				    <p class="price-box">
+					    <span class="old-price"><span class="label">Price:</span> <?=$product->getFormatedPrice()?></span><br/>
+					    <span class="special-price"><span class="label">Special:</span> <?=$product->getFormatedPrice()?></span>
+				    </p>
+				    <p><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to My Wishlist</small></a>
+					    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button></p>
+			    </div>
+		    </div>
+	    </div>
+    <?endforeach;?>
+
+</div>
+<!-- [ends] .listing-type-list // -->
+<?endif;?>
+
+<?=$this->getChildHtml('pager')?>
 

@@ -951,18 +951,25 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
     }
 
-    public function getCurPage()
+    public function getCurPage($curPageIncrement = 0)
     {
-        return $this->_getPageStart();
+        return $this->_getPageStart($curPageIncrement);
     }
     
-    protected function _getPageStart()
+    protected function _getPageStart($curPageIncrement = 0)
     {
         $this->_pageStart = (int) $this->_pageStart;
-        if ($this->_pageStart>0 && $this->_pageStart<=$this->getLastPageNumber()) {
-            return $this->_pageStart;
+        if ($this->_pageStart < 1) {
+            $this->_pageStart = 1;
         }
-        elseif ($this->_pageStart>$this->getLastPageNumber()) {
+        elseif ($this->_pageStart > $this->getLastPageNumber()) {
+        	$this->_pageStart = $this->getLastPageNumber();
+        }
+        $pageStart = $this->_pageStart + $curPageIncrement;
+        if ($pageStart > 0 && $pageStart <= $this->getLastPageNumber()) {
+            return $pageStart;
+        }
+        elseif ($pageStart > $this->getLastPageNumber()) {
         	return $this->getLastPageNumber();
         }
         return 1;

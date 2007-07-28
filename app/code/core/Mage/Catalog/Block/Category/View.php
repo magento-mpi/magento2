@@ -32,7 +32,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         //$this->setChild('breadcrumbs', $breadcrumbs);
         
         $this->getLayout()->getBlock('root')->setHeaderTitle($category->getName());            
-
+                                                                 
         // get category filters
         //$filters = $category->getFilters();
         // get filter values from request
@@ -48,6 +48,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('description')
             // add filters
             //->addFrontFilters($filters->getItemsById(array_keys($filterValues)))
             ->setPageSize(9);
@@ -62,8 +63,10 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         Mage::registry('action')->getLayout()->getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
         $page = $request->getParam('p',1);
+        $pageSize = $request->getParam('per_page',1);
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
         $prodCollection->setCurPage($page);
+        $prodCollection->setPageSize($pageSize);
         $prodCollection->load();
         //$prodCollection->walk('setCategoryId', $category->getId());
 
@@ -81,6 +84,15 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         
         $this->assign('sortUrl', $sortUrl);
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
+            ->setCollection($prodCollection)
+            ->setUrlPrefix('catalog')
+            ->setViewBy('listing_type', array('grid', 'list'))
+            ->setViewBy('per_page')
+            ->setViewBy('order', array('name', 'price'))
+            ;
+        $this->setChild('pager', $pager);
 
         return $this;
     }
