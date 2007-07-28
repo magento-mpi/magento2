@@ -18,6 +18,7 @@ varienForm.prototype = {
     
     submit : function(){
         this.errorSections = new Hash();
+        this.canShowError = true;
         if(this.validator.validate()){
             $(this.formId).submit();
             return true;
@@ -63,18 +64,16 @@ var varienElementMethods = {
                     form.errorSections[elm.statusBar.id] = flag;
                 if(flag){
                     Element.addClassName($(elm.statusBar), 'error');
+                    if(form.canShowError && $(elm.statusBar).show){
+                        form.canShowError = false;
+                        $(elm.statusBar).show();
+                    }
                     form.errorSections[elm.statusBar.id] = flag;
                 }
                 else if(!form.errorSections[elm.statusBar.id]){
                     Element.removeClassName($(elm.statusBar), 'error')
                 }
             }
-                
-                //flag ? Element.addClassName($(elm.statusBar), 'error') : Element.removeClassName($(elm.statusBar), 'error')
-
-            /*if(!elm.visible() && elm.container)
-                elm.container.show(elm);*/
-
             elm = elm.parentNode;
         }
         this.canShowElement = false;
@@ -86,7 +85,7 @@ Element.addMethods(varienElementMethods);
 // Global bind changes
 function varienWindowOnload(){
     var dataElements = $$('input', 'select', 'textarea');
-    for(var i in dataElements){
+    for(var i=0; i<dataElements.length;i++){
         if(dataElements[i] && dataElements[i].id){
             Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
         }

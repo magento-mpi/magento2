@@ -22,6 +22,10 @@ varienTabs.prototype = {
                     tabContentElement.statusBar = this.tabs[tab];
                     tabContentElement.tabObject  = this.tabs[tab];
                     this.tabs[tab].contentMoved = true;
+                    this.tabs[tab].container = this;
+                    this.tabs[tab].show = function(){
+                        this.container.showTabContent(this);
+                    }
                 }
             }
         }
@@ -38,6 +42,10 @@ varienTabs.prototype = {
                     tabContentElement.container = this;
                     tabContentElement.statusBar = this.tabs[tab];
                     tabContentElement.tabObject  = this.tabs[tab];
+                    this.tabs[tab].container = this;
+                    this.tabs[tab].show = function(){
+                        this.container.showTabContent(this);
+                    }
                 }
             }
         }
