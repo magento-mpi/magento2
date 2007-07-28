@@ -109,6 +109,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             ->assign('action',      Mage::getUrl('*/*/createPost', array('_secure'=>true)))
             ->assign('data',        $data);
             
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Registration'));
+
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
     }
@@ -160,7 +162,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/forgotpassword.phtml')
-            ->assign('action',      Mage::getUrl('*/*/forgotpasswordpost'));
+            ->assign('action', Mage::getUrl('*/*/forgotpasswordpost'));
+
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Password forgotten'));
             
         $this->getLayout()->getBlock('content')->append($block);
         
@@ -218,6 +222,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             ->assign('action',      Mage::getUrl('customer/account/editPost'))
             ->assign('customer',    $customer);
            
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Edit Account Info'));
+
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
     }
@@ -259,6 +265,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             ->setTemplate('customer/form/changepassword.phtml')
             ->assign('action', Mage::getUrl('*/*/changePasswordPost', array('_secure'=>true)));
             
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Change Account Password'));
+
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
@@ -298,6 +306,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
         	->assign('collection', $collection->getItems())
             ->setTemplate('tag/mytags.phtml');
+
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Tags'));
+
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
@@ -310,6 +321,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
             ->setTemplate('customer/balance.phtml')
             ->assign('customer', Mage::getSingleton('customer/session')->getCustomer());
+
+        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Balance'));
+
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();

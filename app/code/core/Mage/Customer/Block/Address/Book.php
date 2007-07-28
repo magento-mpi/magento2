@@ -14,6 +14,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('customer/address/book.phtml');
+        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Address Book'));
     }
     
     public function getAddAddressUrl()

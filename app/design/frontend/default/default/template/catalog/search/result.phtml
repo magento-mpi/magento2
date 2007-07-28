@@ -1,28 +1,5 @@
-
-    <h1 class="page-head">Search Results</h1>
-    <p>Search Results for : "<?=$query?>"</p>
 <?if($productCollection->getSize()):?>
-    <div class="catalog-spacer">&nbsp;</div>
-    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
-    <div class="catalog-spacer">&nbsp;</div>
-    <table cellspacing="0" class="catalog-collection"><tr>
-        <?$i=0; foreach ($productCollection as $product):?>
-        <td class="item">
-            <div class="item-image">
-                <a href="<?=$product->getProductUrl()?>"><img src="<?=$product->getSmallImageUrl()?>" alt="product name" width="115"/></a>
-            </div>
-            <div class="item-info">
-                <div class="product-name"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></div>
-                <div class="product-price"><?=$product->getFormatedPrice()?></div>
-            </div>
-        </td>
-	    <?if (++$i%3==0):?></tr><tr><?endif?>
-        <?endforeach?>
-        </tr>
-		</table>
-    <div class="catalog-spacer">&nbsp;</div>
-    <?include Mage::getDesign()->getTemplateFilename('catalog/product/pager.phtml')?>
-    <div class="catalog-spacer">&nbsp;</div>
+    <?include Mage::getDesign()->getTemplateFilename('catalog/category/view.phtml')?>
 <?else:?>
     <p>There are no products under search term "<?=$query?>"</p>
 <?endif;?>

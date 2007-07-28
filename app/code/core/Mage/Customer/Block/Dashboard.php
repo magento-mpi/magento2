@@ -16,6 +16,7 @@ class Mage_Customer_Block_Dashboard extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('customer/dashboard.phtml');
+        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
     }
     
     public function getCustomer()

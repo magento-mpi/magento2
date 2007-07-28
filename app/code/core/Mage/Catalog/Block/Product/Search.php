@@ -36,7 +36,8 @@ class Mage_Catalog_Block_Product_Search extends Mage_Core_Block_Template
         $query = $this->getQuery();
         $queryEscaped = htmlspecialchars($query);
 
-        Mage::registry('action')->getLayout()->getBlock('head')->setTitle('Search results for: '.$queryEscaped);
+        $this->getLayout()->getBlock('head')->setTitle('Search results for: '.$queryEscaped);
+        $this->getLayout()->getBlock('root')->setHeaderTitle('Search results for: '.$queryEscaped);            
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getResourceModel('catalog/product_collection')

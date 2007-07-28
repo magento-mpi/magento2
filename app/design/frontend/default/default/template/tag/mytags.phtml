@@ -36,7 +36,6 @@ function deleteTag(id) {
 }
 </script>
 
-<h1 class="page-heading">My Tags</h1>
 <?php foreach ($collection->getItems() as $tag) { /* $tag = $tag->getData();*/ ?> 
 	<span>
 		<a style="font-size:<?=$collection->getFSize($tag->getTag_id());?>" href="/tag/index/show?tag=<?=$tag->getTagname();?>">

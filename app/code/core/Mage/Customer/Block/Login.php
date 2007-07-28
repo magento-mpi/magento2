@@ -13,6 +13,6 @@ class Mage_Customer_Block_Login extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('customer/form/login.phtml');
-        
+        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Login'));
     }
 }

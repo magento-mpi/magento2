@@ -12,6 +12,7 @@ class Mage_Customer_Block_Regform extends Mage_Core_Block_Form
     public function __construct() 
     {
         $this->setTemplate('customer/form/registration.phtml');
+        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Create account'));
         
         $this->setAttribute('method', 'post');
         $this->setAttribute('action', Mage::getUrl('customer/account/register'));
