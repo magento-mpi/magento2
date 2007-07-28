@@ -113,6 +113,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         return $this->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
     }
 
+    public function getRedirectUrl()
+    {
+        return $this->getUrl('*/*/');
+    }
+
     public function getGroupTreeJson()
     {
         $setId = $this->_getSetId();

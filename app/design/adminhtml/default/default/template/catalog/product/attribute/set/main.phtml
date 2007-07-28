@@ -16,8 +16,8 @@
         <td style="border-right:2px solid #d5dbe1;padding-right:20px;width:300px;">
             <?=$this->getSetFormHtml()?>
         </td>
-        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:320px;">
-            <div class="content-header left-col-block" style="width:300px;">
+        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:340px;">
+            <div class="content-header left-col-block" style="width:320px;">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
                         <tr>
@@ -67,10 +67,6 @@
                         });
                         tree.setRootNode(this.root);
                         buildCategoryTree(this.root, <?=$this->getGroupTreeJson()?>);
-                        // set handlers
-                        tree.addListener('insert', TreePanels.rebuildTrees.createDelegate(this));
-                        tree.addListener('append', TreePanels.rebuildTrees.createDelegate(this));
-                        tree.addListener('remove', TreePanels.rebuildTrees.createDelegate(this));
 
                         // render the tree
                         tree.render();
@@ -107,21 +103,21 @@
                     rebuildTrees : function(){
                         editSet.req.attributes = new Array();
                         rootNode = TreePanels.root;
-
+                        var gIterator = 0;
                         for( i in rootNode.childNodes ) {
                             if(rootNode.childNodes[i].id) {
                                 var group = rootNode.childNodes[i];
-                                if(group.childNodes) {
-                                    var iterator = 0
-                                    for( j in group.childNodes ) {
-                                        iterator ++;
-                                        if( group.childNodes[j].id > 0 ) {
-                                            editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id, iterator);
-                                        }
+                                editSet.req.groups[gIterator] = new Array(group.id, group.text);
+                                var iterator = 0
+                                for( j in group.childNodes ) {
+                                    iterator ++;
+                                    if( group.childNodes[j].id > 0 ) {
+                                        editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id, iterator);
                                     }
-                                    iterator = 0;
                                 }
+                                iterator = 0;
                             }
+                            gIterator ++;
                         }
 
                         editSet.req.not_attributes = new Array();
@@ -136,7 +132,7 @@
                                 iterator ++;
                             }
                         }
-
+                        /*
                         if( !rootNode.childNodes.length ) {
                             var newNode = new Ext.tree.TreeNode({
                                     text : '<?=__('Empty')?>',
@@ -147,6 +143,7 @@
                                 });
                             rootNode.appendChild(newNode);
                         }
+                        */
                     },
                 };
             }();
@@ -206,11 +203,15 @@
                                 });
                             TreePanels.root.appendChild(newNode);
                             newNode.addListener('click', editSet.register);
-                            editSet.req.addGroups.push( new Array(newNode.id, group_name) );
                         }
                     },
 
                     save : function() {
+                        TreePanels.rebuildTrees();
+                        var _validator = new Validation('set_prop_form', {onSubmit:false});
+                        if( !_validator.validate() ) {
+                            return;
+                        }
                         editSet.req.attribute_set_name = $('attribute_set_name').value;
                         var req = {data : Ext.util.JSON.encode(editSet.req)};
                         var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:editSet.success,failure:editSet.failure}, req);
@@ -218,7 +219,7 @@
 
                     success : function(o) {
                         initVars();
-                        window.location.reload();
+                        setLocation('<?=$this->getRedirectUrl()?>');
                     },
 
                     failure : function(o) {
@@ -230,10 +231,10 @@
             function initVars() {
                 editSet.req = {};
                 editSet.req.attributes = false;
+                editSet.req.groups = new Array();
                 editSet.req.not_attributes = false;
                 editSet.req.attribute_set_name = false;
                 editSet.req.removeGroups = new Array();
-                editSet.req.addGroups = new Array();
             }
 
 

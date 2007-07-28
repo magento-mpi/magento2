@@ -54,45 +54,68 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->_setTypeId();
         $data = Zend_Json_Decoder::decode($this->getRequest()->getPost('data'));
 
-        if( $data['addGroups'] ) {
-            foreach( $data['addGroups'] as $group ) {
-                $model = Mage::getModel('eav/entity_attribute_group');
-                $groupData = $model->setAttributeGroupName($group[1])
-                    ->setAttributeSetId($this->getRequest()->getParam('id'))
-                    ->save();
+        $modelSet = Mage::getModel('eav/entity_attribute_set');
+
+        $modelGroupArray = array();
+        $modelAttributeArray = array();
+
+        if( $data['groups'] ) {
+            foreach( $data['groups'] as $group ) {
+                $modelGroup = Mage::getModel('eav/entity_attribute_group');
+                $modelGroup->setId($group[0])
+                           ->setAttributeGroupName($group[1])
+                           ->setAttributeSetId($this->getRequest()->getParam('id'));
 
                 if( $data['attributes'] ) {
                     foreach( $data['attributes'] as $key => $attribute ) {
                         if( $attribute[1] == $group[0] ) {
-                            $data['attributes'][$key][1] = $groupData->getAttributeGroupId();
+                            $modelAttribute = Mage::getModel('eav/entity_attribute');
+                            $modelAttribute->setId($attribute[0])
+                                           ->setAttributeGroupId($attribute[1])
+                                           ->setAttributeSetId($this->getRequest()->getParam('id'))
+                                           ->setEntityTypeId(Mage::registry('entityType'))
+                                           ->setSortOrder($attribute[2]);
+                            $modelAttributeArray[] = $modelAttribute;
                         }
                     }
+                    $modelGroup->setAttributes($modelAttributeArray);
+                    $modelAttributeArray = array();
                 }
+                $modelGroupArray[] = $modelGroup;
             }
+            $modelSet->setGroups($modelGroupArray);
         }
 
-        if( $data['attribute_set_name'] ) {
-            $model = Mage::getModel('eav/entity_attribute_set');
-            $model->setId($this->getRequest()->getParam('id'))
-                  ->setAttributeSetName($data['attribute_set_name'])
-                  ->setEntityTypeId(Mage::registry('entityType'))
-                  ->save();
-        }
-
-        if( $data['attributes'] || $data['not_attributes'] ) {
-            $model = Mage::getModel('eav/entity_attribute');
-            $model->setAttributesArray( ($data['attributes']) ? $data['attributes'] : false )
-              ->setNotAttributesArray( ($data['not_attributes']) ? $data['not_attributes'] : false )
-              ->setEntityTypeId(Mage::registry('entityType'))
-              ->setSetId($this->getRequest()->getParam('id'))
-              ->saveAttributes();
+        if( $data['not_attributes'] ) {
+            $modelAttributeArray = array();
+            foreach( $data['not_attributes'] as $key => $attributeId ) {
+                $modelAttribute = Mage::getModel('eav/entity_attribute');
+                $modelAttribute->setId($attributeId)
+                               ->setEntityTypeId(Mage::registry('entityType'));
+                $modelAttributeArray[] = $modelAttribute;
+            }
+            $modelSet->setRemoveAttributes($modelAttributeArray);
         }
 
         if( $data['removeGroups'] ) {
-            $model = Mage::getModel('eav/entity_attribute_group');
-            $model->setGroupsArray($data['removeGroups'])
-                  ->setSetId($this->getRequest()->getParam('id'))
-                  ->deleteGroups();
+            $modelGroupArray = array();
+            foreach( $data['removeGroups'] as $key => $groupId ) {
+                $modelGroup = Mage::getModel('eav/entity_attribute_group');
+                $modelGroup->setId($groupId);
+
+                $modelGroupArray[] = $modelGroup;
+            }
+            $modelSet->setRemoveGroups($modelGroupArray);
+        }
+
+        $modelSet->setId($this->getRequest()->getParam('id'))
+            ->setAttributeSetName($data['attribute_set_name'])
+            ->setEntityTypeId(Mage::registry('entityType'));
+
+        try {
+            $modelSet->save();
+        } catch (Exception $e) {
+            die($e);
         }
     }
 

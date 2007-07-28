@@ -26,10 +26,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                                 'label' => __('Name'),
                                 'name' => 'attribute_set_name',
                                 'required' => true,
+                                'class' => 'required-entry',
                                 'value' => $data->getAttributeSetName()
                             )
         );
 
+        $form->setUseContainer(true);
+        $form->setId('set_prop_form');
         $this->setForm($form);
     }
 }
