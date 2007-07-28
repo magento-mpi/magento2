@@ -392,3 +392,4 @@ select.countries optio { background-repeat:no-repeat; }
 
 .rule-param-edit .label { display:none; }
 .rule-param-edit .element { display:inline; }
+.image-preview{position:absolute;cursor:pointer}

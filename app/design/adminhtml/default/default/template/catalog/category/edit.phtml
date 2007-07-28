@@ -36,6 +36,8 @@
     }
 <?if($_gridJsObject=$this->getLayout()->getBlock('category.product.grid')->getJsObjectName()):?>
     var categoryProducts = $H(<?=$this->getProductsJson()?>);
+    $('in_category_products').value = categoryProducts.toQueryString();
+    
     function registerCategoryProduct(grid, element, checked){
         if(checked){
             if(element.positionElement){
@@ -70,6 +72,8 @@
             $('in_category_products').value = categoryProducts.toQueryString();
         }
     }
+    
+    var tabIndex = 1000;
     function categoryProductRowInit(grid, row){
         var checkbox = $(row).getElementsByClassName('checkbox')[0];
         var position = $(row).getElementsByClassName('input-text')[0];
@@ -77,6 +81,7 @@
             checkbox.positionElement = position;
             position.checkboxElement = checkbox;
             position.disabled = !checkbox.checked;
+            position.tabIndex = tabIndex++;
             Event.observe(position,'keyup',positionChange);
         }
     }

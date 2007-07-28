@@ -12,6 +12,15 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
 {
     public function afterSave($object)
     {
+        
+        $value = $object->getData($this->getAttribute()->getName());
+        if (!empty($value['delete'])) {
+            $object->setData($this->getAttribute()->getName(), '');
+            $this->getAttribute()->getEntity()
+                ->saveAttribute($object, $this->getAttribute()->getName());
+            return;
+        }
+        
         try {
             $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
         }

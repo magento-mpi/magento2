@@ -14,3 +14,13 @@ function setElementDisable(element, disable){
         $(element).disabled = disable;
     }
 }
+
+function imagePreview(element){
+    Effect.SlideDown(element);
+    if(!$(element).observerAdded){
+        Event.observe(element,'click',function(event){
+            Effect.SlideUp(Event.element(event).parentNode);
+        });
+    }
+    $(element).observerAdded = true;
+}

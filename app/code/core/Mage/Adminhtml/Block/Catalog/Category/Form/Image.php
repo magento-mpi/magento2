@@ -18,11 +18,23 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
     
     public function getElementHtml()
     {
-        $html = parent::getElementHtml();
+        $html = '';
+        
         if ($this->getValue()) {
-            // need web/url/upload !!!
-            $url = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').$this->getValue();
-            $html.= '(<a href="'.$url.'">'.$this->getValue().'</a>)';
+            $url = Mage::getSingleton('core/store')->getConfig('web/url/upload').$this->getValue();
+            $html.= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
+            <img src="'.$url.'" alt="'.$this->getValue().'" height="22" align="absmiddle" class="small-image-preview">
+            </a>
+            <div id="'.$this->getHtmlId().'_image" style="display:none" class="image-preview">
+            <img src="'.$url.'" alt="'.$this->getValue().'">
+            </div>';
+        }
+
+        $html.= parent::getElementHtml();
+        
+        if ($this->getValue()) {
+            $html.= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" id="'.$this->getHtmlId().'_delete"/>';
+            $html.= '<label class="normal" for="'.$this->getHtmlId().'_delete">'.__('Delete Image').'</label>';
         }
         return $html;
     }
