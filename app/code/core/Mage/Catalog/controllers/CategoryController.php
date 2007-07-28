@@ -34,8 +34,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action 
             return ;
         }
 
-        $this->getLayout()->getBlock('root')->setHeaderTitle($category->getName());            
-        
         $this->renderLayout();
 
     }

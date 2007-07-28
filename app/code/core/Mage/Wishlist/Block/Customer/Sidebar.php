@@ -26,8 +26,11 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 			
 			$this->_wishlist->getItemCollection()
 				->addAttributeToSelect('name')
+				->addAttributeToSelect('price')
+                ->addAttributeToSelect('small_image')
 				->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
-				->setCurPage(1)
+				->addAttributeToSort('added_at', 'desc') 
+                ->setCurPage(1)
 				->setPageSize(3)
 				->load();
 		}

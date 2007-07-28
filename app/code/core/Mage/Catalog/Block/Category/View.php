@@ -31,6 +31,8 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         );
         //$this->setChild('breadcrumbs', $breadcrumbs);
         
+        $this->getLayout()->getBlock('root')->setHeaderTitle($category->getName());            
+
         // get category filters
         //$filters = $category->getFilters();
         // get filter values from request

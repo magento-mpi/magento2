@@ -17,6 +17,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 	{
 		parent::__construct();
 		$this->setTemplate('wishlist/view.phtml');
+        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('My Wishlist'));
 	}
 	
 	public function getWishlist()
