@@ -112,6 +112,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => '140px',
             'align'     => 'center',
             'type'      => 'number',
+            'validate_class' => 'validate-number',
             'index'     => 'position',
             'editable'  => true
         ));
