@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $item = array();
             $item['text']= $node->getAttributeGroupName();
             $item['id']  = $node->getAttributeGroupId();
-            $item['cls'] = 'folder active-category';
+            $item['cls'] = 'folder';
             $item['allowDrop'] = true;
             $item['allowDrag'] = false;
 
@@ -176,7 +176,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $item = array();
             $item['text']= $node->getAttributeName() . ' (' . $node->getAttributeCode() . ')';
             $item['id']  = $node->getAttributeId();
-            $item['cls'] = 'leav';
+            $item['cls'] = 'leaf';
             $item['allowDrop'] = false;
             $item['allowDrag'] = true;
 

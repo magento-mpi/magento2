@@ -65,6 +65,7 @@
                             allowDrop:false,
                             id:'1'
                         });
+
                         tree.setRootNode(this.root);
                         buildCategoryTree(this.root, <?=$this->getGroupTreeJson()?>);
 
@@ -72,6 +73,15 @@
                         tree.render();
                         this.root.expand(false, false);
                         tree.expandAll();
+
+                        var ge = new Ext.tree.TreeEditor(tree, {
+                            allowBlank:false,
+                            blankText:'<?=__('A name is required')?>',
+                            selectOnFocus:true,
+                            cls:'folder'
+                        });
+
+                        ge.addListener('beforeshow', editSet.editGroup);
                         //-------------------------------------------------------------
 
                         var tree2 = new Ext.tree.TreePanel('tree-div2', {
@@ -107,7 +117,7 @@
                         for( i in rootNode.childNodes ) {
                             if(rootNode.childNodes[i].id) {
                                 var group = rootNode.childNodes[i];
-                                editSet.req.groups[gIterator] = new Array(group.id, group.text);
+                                editSet.req.groups[gIterator] = new Array(group.id, group.attributes.text);
                                 var iterator = 0
                                 for( j in group.childNodes ) {
                                     iterator ++;
@@ -133,7 +143,7 @@
                             }
                         }
                     }
-                };       
+                };
             }();
 
             function buildCategoryTree(parent, config){
@@ -142,7 +152,6 @@
                     for (var i = 0; i < config.length; i++) {
                         var node = new Ext.tree.TreeNode(config[i]);
                         parent.appendChild(node);
-                        node.addListener('click', editSet.register);
                         if( config[i].children ) {
                             for( j in config[i].children ) {
                                 if(config[i].children[j].id) {
@@ -167,8 +176,12 @@
                     },
 
                     submit : function() {
+                        if( TreePanels.root.firstChild == TreePanels.root.lastChild ) {
+                            return;
+                        }
+
                         if( editSet.currentNode ) {
-                            editSet.currentNode.parentNode.removeChild(editSet.currentNode);
+                            TreePanels.root.removeChild(editSet.currentNode);
                             editSet.req.removeGroups[editSet.currentNode.id] = editSet.currentNode.id;
                         }
                     },
@@ -191,6 +204,12 @@
                                 });
                             TreePanels.root.appendChild(newNode);
                             newNode.addListener('click', editSet.register);
+                        }
+                    },
+
+                    editGroup : function(obj) {
+                        if( obj.editNode.attributes.cls == 'leaf' ) {
+                            return false;
                         }
                     },
 
@@ -218,7 +237,7 @@
 
 
             function initVars() {
-                
+
                 editSet.req = {};
                 editSet.req.attributes = false;
                 editSet.req.groups = new Array();
