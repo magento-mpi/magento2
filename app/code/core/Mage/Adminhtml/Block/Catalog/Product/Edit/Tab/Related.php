@@ -17,30 +17,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
     }
-    
-    protected function _initChildren()
-    {
-        parent::_initChildren();
-        $this->setChild('switch_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Edit Sorting'),
-                    'onclick'   => ''
-                ))
-        );
-    }
-
-    public function getMainButtonsHtml()
-    {
-        $html = $this->getChildHtml('switch_button');
-        $html.= parent::getMainButtonsHtml();
-        return $html;
-    }
 
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in category flag
-        if ($column->getId() == 'in_relation_link') {
+        if ($column->getId() == 'in_products') {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
                 $productIds = 0;
@@ -60,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     
     protected function _prepareCollection()
     {
-        $this->setDefaultFilter(array('in_relation_link'=>1));
+        $this->setDefaultFilter(array('in_products'=>1));
         $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -75,10 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     
     protected function _prepareColumns()
     {
-        $this->addColumn('products', array(
+        $this->addColumn('in_products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'products',
+            'name'      => 'in_products',
             'values'    => $this->_getSelectedProducts(),
             'align'     => 'center',
             'index'     => 'entity_id'
@@ -127,9 +108,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products');
+        $products = $this->getRequest()->getPost('products', null);
         
-        if (is_null($products)) {
+        if (!is_array($products)) {
             $products = Mage::registry('product')->getRelatedProducts()->load()->getColumnValues('entity_id');
         }
         
