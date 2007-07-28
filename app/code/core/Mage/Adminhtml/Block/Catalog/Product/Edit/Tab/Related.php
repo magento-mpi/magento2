@@ -45,9 +45,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
        
         $collection = Mage::getResourceModel('catalog/product_link_collection')
         	->setProductId(Mage::registry('product')->getId())
-            ->addAttributeToSelect('name')
+            ->setLinkType('relation')
+        	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
+            ->addLinkAttributeToSelect('position')
+            ->addLinkAttributeToSelect('qty')
             ->useProductItem();
 
         $this->setCollection($collection);

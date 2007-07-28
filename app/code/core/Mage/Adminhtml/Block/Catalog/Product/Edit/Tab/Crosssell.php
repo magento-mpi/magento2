@@ -41,13 +41,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
     }
     
     protected function _prepareCollection()
-    {
-       
+    {       
         $collection = Mage::getResourceModel('catalog/product_link_collection')
         	->setProductId(Mage::registry('product')->getId())
+        	->setLinkType('cross_sell')
+        	->addLinkAttributeToSelect('position')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('price')            
             ->useProductItem();
 
         $this->setCollection($collection);

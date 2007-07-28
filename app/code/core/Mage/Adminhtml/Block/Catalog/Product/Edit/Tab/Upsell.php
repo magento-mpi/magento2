@@ -45,9 +45,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
        
         $collection = Mage::getResourceModel('catalog/product_link_collection')
         	->setProductId(Mage::registry('product')->getId())
+        	->setLinkType('up_sell')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
+            ->addLinkAttributeToSelect('position')
             ->useProductItem();
 
         $this->setCollection($collection);

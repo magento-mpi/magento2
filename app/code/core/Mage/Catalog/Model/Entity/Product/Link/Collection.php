@@ -95,6 +95,15 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	$this->addFieldToFilter('link_type_id', $this->getLinkTypeId());
     	return $this;
     }
+    
+    public function setLinkType($type)
+    {
+    	
+    	$this->_loadLinkAttributes($type);
+    	$this->_loadLinkTypeId($type);
+    	
+    	return $this;
+    }
         
     protected function _loadLinkAttributes($type=null)
     {
@@ -126,6 +135,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	$this->_linkTypeId = $this->_read->fetchOne($select);
     	return $this;
     }
+    
+    
     
     public function getLinkTypeId() 
     {
