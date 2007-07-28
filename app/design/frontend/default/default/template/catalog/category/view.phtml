@@ -23,7 +23,7 @@
 						<a href="#"><small>(3)</small></a>
 					</div>
 					<a href="#" class="add-to-compare">Add to Compare</a>
-					<p class="actions"><button class="form-button"><span>Add to Cart</span></button><br/><a href="#"><small>Add to Wishlist</small></a></p>
+					<p class="actions"><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
 				</td>
 			<?if ($i%3==0):?></tr><?endif?>
 			<?endforeach?>

@@ -16,7 +16,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
         $contentBlock->setTemplate('cms/content.phtml');
         $contentBlock->assign('pageData', $page);
 
-        $metaBlock = $this->getLayout()->getBlock('head.meta');
+        $metaBlock = $this->getLayout()->getBlock('head');
         $metaBlock->setKeywords($page->getPageMetaKeywords());
         $metaBlock->setDescription($page->getPageMetaDescription());
         $metaBlock->setTitle($page->getPageTitle());

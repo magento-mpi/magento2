@@ -16,7 +16,6 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->_setActiveMenu('cms/control');
         $this->_addBreadcrumb(__('CMS'), __('CMS Title'));
 
-
         $block = $this->getLayout()->createBlock('adminhtml/cms', 'cms');
         $this->_addContent($block);
 
