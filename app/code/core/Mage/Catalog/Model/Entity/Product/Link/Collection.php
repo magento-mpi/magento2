@@ -13,6 +13,7 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
 {
 	protected $_linkAttributeCollection = null;
 	protected $_linkAttributeCollectionLoaded = false;
+	protected $_linkTypeId = 0;
 	protected $_productId = 0;
 		
 	public function __construct() 
@@ -88,7 +89,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     public function addLinkTypeFilter($type)
     {
     	$this->_loadLinkAttributes($type);
-    	$this->addFieldToFilter('link_type', $type);
+    	$this->_loadLinkTypeId($type);
+    	$this->addFieldToFilter('link_type_id', $this->getLinkTypeId());
     	return $this;
     }
         
@@ -106,6 +108,26 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	}
     	    	
     	return $this;
+    }
+    
+    protected function _loadLinkTypeId($type)
+    {
+    	if($this->_linkAttributeCollectionLoaded && sizeof($this->getLinkAttributeCollection()->getItems()) > 0) {    	
+    	   $this->_linkTypeId = current($this->getLinkAttributeCollection()->getItems())->getLinkTypeId();
+    	   return $this;
+    	}
+    	
+    	$select = $this->_read->select()
+    		->from($this->getLinkAttributeCollection()->getResource()->getTable('product_link_type'),'link_type_id')
+    		->where('code = ?', $type);
+    	
+    	$this->_linkTypeId = $this->_read->fetchOne($select);
+    	return $this;
+    }
+    
+    public function getLinkTypeId() 
+    {
+    	return $this->_linkTypeId;
     }
     
     public function useProductItem()
@@ -131,4 +153,36 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         }
         return $col;
     }
+    
+    public function getItemById($idValue)
+    {
+        foreach ($this as $item) {
+        	if ($item->getId()==$idValue) {
+        	    return $item;
+        	}
+        }
+        return false;
+    }
+    
+    public function getItemsByColumnValue($column, $value)
+    {
+        $res = array();
+        foreach ($this as $item) {
+        	if ($item->getData($column)==$value) {
+        	    $res[] = $item;
+        	}
+        }
+        return $res;
+    }
+    
+    public function getItemByColumnValue($column, $value)
+    {
+        foreach ($this as $item) {
+        	if ($item->getData($column)==$value) {
+        	    return $item;
+        	}
+        }
+        return null;
+    }
+    
 }// Class Mage_Catalog_Model_Entity_Product_Link_Collection END

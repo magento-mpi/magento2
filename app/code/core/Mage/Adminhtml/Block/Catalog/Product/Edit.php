@@ -82,6 +82,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         return Mage::registry('product')->getId();
     }
+    
+    public function getRelatedProductsJSON()
+    {
+    	$result = array();
+    	
+        foreach (Mage::registry('product')->getRelatedProducts() as $product) {
+        	$result[$result->getEntityId()] = $result->toArray($product->getRelatedProducts()->getLinkAttributeCollection()->getColumnValues('code'));
+        }
+        
+        if(!empty($result)) {
+        	return Zend_Json_Encoder::encode($result);
+        }
+        
+        return '{}';
+    }
 
     public function getDeleteUrl()
     {

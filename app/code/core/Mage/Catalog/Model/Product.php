@@ -175,17 +175,58 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getLinkedProducts($linkType)
     {
-        $linkedProducts = Mage::getResourceModel('catalog/product_link_collection');
-        $linkedProducts
-           	->addLinkTypeFilter($linkType)
-      		->addFieldToFilter('product_id', $this->getId());
-        return $linkedProducts;
+        if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
+	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
+	        $this->_cachedLinkedProductsByType[$linkType]
+	           	->addLinkTypeFilter($linkType)
+	      		->addFieldToFilter('product_id', $this->getId());
+		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
+			foreach ($attibutes as $attibute) {
+				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
+			}
+        } 
+       
+        return $this->_cachedLinkedProductsByType[$linkType];
+    }
+    
+    public function setLinkedProducts($linkType, array $linkIds,  array $linkAttibutes)
+    {
+       	$linkedProducts = $this->getLinkedProducts($linkType)->load();
+      	
+       	foreach($linkIds as $index=>$linkId) {
+       		if(!$linkedProduct = $linkedProducts->getItemByColumnValue('product_id', $linkId)) {
+       			$linkedProduct = clone $linkedProducts->getObject();
+       			$linkedProduct->addLinkData($linkedProducts->getLikTypeId(), $this, $linkId);
+       		}
+       		
+   			foreach ($linkedProducts->getLinkAttributeCollection() as $attribute) {
+   				if(isset($linkAttibutes[$index][$attribute->getCode()])) {
+   					$linkedProduct->setData($attribute->getCode(), $linkAttibutes[$attribute->getCode()]);
+   				}
+   			}
+   					
+   			$linkedProduct->save();
+       	}
+       	
+       	// Now delete unselected items
+       	
+       	foreach($linkedProducts as $linkedProduct) {
+			if(!in_array($linkedProduct->getId(), $linkIds)) {
+				$linkedProduct->delete();
+			}   			
+       	}
+       	
+        return $this;
+    }
+    
+    public function setRelatedProducts(array $linkIds,  array $linkAttibutes)
+    {
+        return $this->setLinkedProducts('relation', $linkIds, $linkAttibutes);
     }
     
     public function getRelatedProducts()
     {
-        return $this->getLinkedProducts('relation')
-        	->addLinkAttributeToSelect('position');
+        return $this->getLinkedProducts('relation');
     }
     
     public function getCategories()

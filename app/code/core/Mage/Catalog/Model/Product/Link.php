@@ -45,5 +45,14 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 		$this->_attributeCollection = $collection;
 		return $this;
 	}
+	
+	public function addLinkData($linkTypeId, $product, $linkedProductId) 
+	{
+		$this->setLinkTypeId($linkTypeId)
+			->setProductId($product->getId())
+			->setLinkedProductId($linkedProductId);
+		
+		return $this;
+	}
 		
 }// Class Mage_Catalog_Model_Product_Link END

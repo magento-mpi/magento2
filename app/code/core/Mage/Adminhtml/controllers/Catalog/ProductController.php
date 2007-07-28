@@ -71,8 +71,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         
         if ($productId) {
             $product->load($productId);
+            $product->getRelatedProducts()->load();
         }
+
         
+               
         Mage::register('product', $product);
     }
     
@@ -81,7 +84,30 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         echo '<pre>';
         print_r($_POST);
         echo '</pre>';
+        
+        if($this->getRequest()->getParam('_related_products')) {
+	        $relatedProducts = $this->_decodeInput($this->getRequest()->getParam('_related_products'));
+	    }
+	    
+        
     }
+    
+    /**
+     * Decode strings for linked products
+     *
+     * @param 	string $encoded
+     * @return 	array
+     */
+    protected function _decodeInput($encoded)
+    {
+    	parse_str($encoded, $data);
+        foreach($data as $key=>$value) {
+        	parse_str(base64_decode($value), $data[$key]);
+        }
+        
+        return $data;
+    }
+        
     
     public function deleteAction()
     {

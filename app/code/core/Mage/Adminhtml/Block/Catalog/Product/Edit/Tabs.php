@@ -48,10 +48,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_categories')->toHtml(),
             ));
     
-            /*$this->addTab('related', array(
+            $this->addTab('related', array(
                 'label'     => __('Related Products'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related', 'admin.related.products')->toHtml(),
-            ));*/
+            ));
         }
         else {
             $this->addTab('set', array(

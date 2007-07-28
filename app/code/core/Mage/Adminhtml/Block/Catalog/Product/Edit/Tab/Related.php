@@ -65,7 +65,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addLinkAttributeToSelect('position');
+            ->addLinkAttributeToSelect('position')
+            ->useProductItem();
 
         $this->setCollection($collection);
 
@@ -74,10 +75,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     
     protected function _prepareColumns()
     {
-        $this->addColumn('in_relation_link', array(
+        $this->addColumn('products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_relation_link',
+            'name'      => 'products',
             'values'    => $this->_getSelectedProducts(),
             'align'     => 'center',
             'index'     => 'entity_id'
@@ -104,12 +105,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'type'      => 'currency',
             'index'     => 'price'
         ));
+        
         $this->addColumn('position', array(
             'header'    => __('Position'),
+            'name'    	=> 'position',
             'width'     => '140px',
             'align'     => 'center',
             'type'      => 'number',
-            'index'     => 'position'
+            'index'     => 'position',
+            'editable'  => true
         ));
         
         return parent::_prepareColumns();
@@ -122,12 +126,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('link_related_product');
+        $products = $this->getRequest()->getPost('products');
         
         if (is_null($products)) {
             $products = Mage::registry('product')->getRelatedProducts()->load()->getColumnValues('entity_id');
-        }  else {
-            $products = explode(',', $products);
         }
         
         return $products;
