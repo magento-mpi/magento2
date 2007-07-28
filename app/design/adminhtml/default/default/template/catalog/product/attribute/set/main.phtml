@@ -68,9 +68,9 @@
                         tree.setRootNode(this.root);
                         buildCategoryTree(this.root, <?=$this->getGroupTreeJson()?>);
                         // set handlers
-                        tree.addListener('insert', TreePanels.attributeMove.createDelegate(this));
-                        tree.addListener('append', TreePanels.attributeMove.createDelegate(this));
-                        tree.addListener('remove', TreePanels.attributeMove.createDelegate(this));
+                        tree.addListener('insert', TreePanels.rebuildTrees.createDelegate(this));
+                        tree.addListener('append', TreePanels.rebuildTrees.createDelegate(this));
+                        tree.addListener('remove', TreePanels.rebuildTrees.createDelegate(this));
 
                         // render the tree
                         tree.render();
@@ -95,10 +95,8 @@
                         });
                         tree2.setRootNode(this.root2);
                         buildCategoryTree(this.root2, <?=$this->getAttributeTreeJson()?>);
-                        // set handlers
-                        tree2.addListener('append', editSet.rightAppend.createDelegate(this));
-                        tree2.addListener('insert', TreePanels.attributeRemove.createDelegate(this));
-                        tree2.addListener('remove', TreePanels.attributeRemove.createDelegate(this));
+
+                        //tree2.addListener('insert',editSet.rightAppend);
 
                         // render the tree
                         tree2.render();
@@ -106,9 +104,9 @@
                         tree2.expandAll();
                     },
 
-                    attributeMove : function(obj){
+                    rebuildTrees : function(){
                         editSet.req.attributes = new Array();
-                        rootNode = obj.getRootNode();
+                        rootNode = TreePanels.root;
 
                         for( i in rootNode.childNodes ) {
                             if(rootNode.childNodes[i].id) {
@@ -125,11 +123,9 @@
                                 }
                             }
                         }
-                    },
 
-                    attributeRemove : function(obj){
                         editSet.req.not_attributes = new Array();
-                        rootNode = obj.getRootNode();
+                        rootNode = TreePanels.root2;
 
                         var iterator = 0;
                         for( i in rootNode.childNodes ) {
@@ -141,7 +137,7 @@
                             }
                         }
 
-                        if( !rootNode.childNodes.length && obj.rootVisible == false ) {
+                        if( !rootNode.childNodes.length ) {
                             var newNode = new Ext.tree.TreeNode({
                                     text : '<?=__('Empty')?>',
                                     id : 'empty',
@@ -149,10 +145,9 @@
                                     allowDrop : false,
                                     allowDrag : false
                                 });
-                            obj.getRootNode().appendChild(newNode);
+                            rootNode.appendChild(newNode);
                         }
-                    }
-
+                    },
                 };
             }();
 
@@ -194,7 +189,7 @@
                     },
 
                     rightAppend : function(node) {
-                        //TreePanels.root2.removeChild(TreePanels.root2.findChild('id', 'empty'));
+                        return;
                     },
 
                     addGroup : function() {
