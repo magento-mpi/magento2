@@ -48,7 +48,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     public function getWelcome()
     {
         if (!$this->_welcome && Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_welcome = __('Welcome, ' . Mage::getSingleton('customer/session')->getCustomer()->getName() . '!');
+            $this->_welcome = __('Welcome, %s!', Mage::getSingleton('customer/session')->getCustomer()->getName());
         }
         elseif (!$this->_welcome) {
             $this->_welcome = $this->getDesignConfig('page/header/welcome');

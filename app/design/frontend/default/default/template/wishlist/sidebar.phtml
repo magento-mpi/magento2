@@ -1,23 +1,32 @@
 <?if($this->getCanDisplayWishlist()):?>
-<script type="text/javascript">
-<!--
-	var wishlistLeftControl = {
-		navigateToUrl: function (url) {
-			window.location.href = url;
-		}
-	};	
-//-->
-</script>
-<div class="catalog-nav">
-    <h2><?=__('Wishlist')?></h2>
+<div class="box mini-wishlist">
+	<div class="head"> <!-- Gives room for control buttons -->
+		<h3><span>Wishlist</span></h3>
+		<a href="#"><img src="<?=$this->getSkinUrl('images/widget_close_btn.gif')?>" alt="Close box" class="widget-btn"/></a>
+	</div>
+	<h4>Last Added Items</h4>
   	<?if($this->getWishlistItems()->getSize()):?>
+	<table cellspacing="0">
+		<tbody>
     <?foreach($this->getWishlistItems() as $_item):?>
-    		<a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br />
-    		<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistLeftControl.navigateToUrl('<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>')" class="input-button" /><br />
-    	
+			<tr>
+				<td><a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailImageUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32" class="image-link"/></a></td>
+				<td><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+					<p class="sales-value">
+						Price: <?=$_item->getFormatedPrice()?><br/>
+						<span class="action"><a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>">Add to Cart</a></span></p>
+				</td>
+			</tr>
     <?endforeach?>
+		</tbody>
+	</table>
  	<?else:?>
  	<?=__('You have not placed any product yet.')?>
  	<?endif?>
+	<div class="actions">
+		<a href="<?=$this->getUrl('wishlist')?>">View My Wishlist</a>
+	</div>
 </div>
 <?endif?>
+<!-- [ends] .mini-wishlist // -->
+

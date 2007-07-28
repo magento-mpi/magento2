@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <layoutUpdate>
+<!--
     <reference name="left">
         <block type="directory/currency" name="left.currency">
             <action method="setTemplate"><template>directory/currency.phtml</template></action>
         </block>
     </reference>
+-->
 </layoutUpdate>
