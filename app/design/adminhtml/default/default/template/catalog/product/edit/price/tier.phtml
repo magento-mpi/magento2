@@ -9,7 +9,7 @@
 		template : new Template(
 			'<'+'div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row_#{index}"'
 			+'> <?=__('Qty')?>'+' <'
-			+'input class="<?=$this->getElement()->getClass()?> qty validate-number" type="text" name="<?=$this->getElement()->getName()?>[#{index}][qty]" value="#{qty}"'
+			+'input class="<?=$this->getElement()->getClass()?> qty validate-number" type="text" name="<?=$this->getElement()->getName()?>[#{index}][price_qty]" value="#{qty}"'
 			+'> <?=('and above. Price')?> <'
 			+'input class="<?=$this->getElement()->getClass()?> price validate-number" type="text" name="'
 			+'<?=$this->getElement()->getName()?>[#{index}][price]" value="#{price}"'
