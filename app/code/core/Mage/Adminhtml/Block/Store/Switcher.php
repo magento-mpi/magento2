@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
     
     public function getWebsiteCollection()
     {
-        return Mage::getSingleton('core/website')->getResourceCollection()
+        return Mage::getModel('core/website')->getResourceCollection()
             ->load();
     }
     

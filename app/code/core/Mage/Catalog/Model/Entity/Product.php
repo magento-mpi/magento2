@@ -10,6 +10,8 @@
  */
 class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 {
+    protected $_productStoreTable;
+    
     public function __construct() 
     {
         $resource = Mage::getSingleton('core/resource');
@@ -17,13 +19,32 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             ->setConnection(
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
-            );        
+            );
+        $this->_productStoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
     }
     
     protected function _afterSave(Varien_Object $object)
     {
-    	foreach($object->getLinkedProductsForSave() as $linkType=>$data) {
-    		
+        $this->_saveStores($object)
+            ->_saveCategories()
+            ->_saveLinkedProducts($object);
+            
+    	return parent::_afterSave($object);
+    }
+    
+    protected function _saveStores(Varien_Object $object)
+    {
+        return $this;
+    }
+    
+    protected function _saveCategories(Varien_Object $object)
+    {
+        return $this;
+    }
+    
+    protected function _saveLinkedProducts(Varien_Object $object)
+    {
+        foreach($object->getLinkedProductsForSave() as $linkType=>$data) {
 	    	$linkedProducts = $object->getLinkedProducts($linkType)->load();
 	      	
 	       	foreach($data['linkIds'] as $index=>$linkId) {
@@ -50,8 +71,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 				}
 	       	}
     	}
-    	
-    	return parent::_afterSave($object);
+    	return $this;
     }
     
     public function getCategoryCollection($product)
@@ -64,6 +84,19 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 null)
             ->addFieldToFilter('product_id', (int) $product->getId())
             ->load();
+        return $collection;
+    }
+
+    public function getStoreCollection($product)
+    {
+        $collection = Mage::getResourceModel('core/store_collection');
+        /* @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
+        
+        $collection->getSelect()
+            ->join($this->_productStoreTable, $this->_productStoreTable.'.store_id=main_table.store_id')
+            ->where($this->_productStoreTable.'.product_id='.(int)$product->getId());
+
+        $collection->load(true);
         return $collection;
     }
 }

@@ -10,12 +10,13 @@ Ext.tree.TreePanel.prototype.getChecked = function(node){
 
     if( node.attributes.checked ) {
         checked.push(node.id);
-        if( !node.isLeaf() ) {
-            for( i = 0; i < node.childNodes.length; i++ ) {
-                checked = checked.concat( this.getChecked(node.childNodes[i]) );
-            }
+    }
+    if( !node.isLeaf() ) {
+        for( i = 0; i < node.childNodes.length; i++ ) {
+            checked = checked.concat( this.getChecked(node.childNodes[i]) );
         }
     }
+
     return checked;
 };
 

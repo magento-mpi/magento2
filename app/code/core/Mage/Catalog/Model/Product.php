@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     }
     
     /**
-     * Get product category id
+     * Retrieve product category id
      *
      * @return int
      */
@@ -32,7 +32,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     }
     
     /**
-     * Get product resource model
+     * Retrieve product resource model
      *
      * @return mixed
      */
@@ -64,54 +64,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this;
     }
     
-    /**
-     * Get product url
-     *
-     * @return string
-     */
-    public function getProductUrl()
+    public function setStoreId($storeId)
     {
-        $url = Mage::getUrl('catalog/product/view', 
-            array(
-                'id'=>$this->getId(),
-                'category'=>$this->getCategoryId()
-            ));
-        return $url;
-    }
-    
-    /**
-     * Get product category url
-     *
-     * @return string
-     */
-    public function getCategoryUrl()
-    {
-        $url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
-        return $url;
-    }
-    
-    public function getImageUrl()
-    {
-        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
-        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
-        return $url;
-    }
         
-    public function getSmallImageUrl()
-    {
-        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
-        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
-        return $url;
-    }
-    
-    /**
-     * Get product category name
-     *
-     * @return unknown
-     */
-    public function getCategoryName()
-    {
-        return 'node';//Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
     
     /**
@@ -258,10 +213,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
      *
      * @return unknown
      */
-    public function getStores()
+    public function getStoreCollection()
     {
-        $stores = array();
-        return $stores;
+        $collection = $this->getResource()->getStoreCollection($this);
+        return $collection;
     }
     
     /**
@@ -292,4 +247,58 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $attributes;
     }
+    
+    ///////////////////////////////////////////////////
+    /// need remove
+    ////////////////////
+    /**
+     * Get product url
+     *
+     * @return string
+     */
+    public function getProductUrl()
+    {
+        $url = Mage::getUrl('catalog/product/view', 
+            array(
+                'id'=>$this->getId(),
+                'category'=>$this->getCategoryId()
+            ));
+        return $url;
+    }
+    
+    /**
+     * Get product category url
+     *
+     * @return string
+     */
+    public function getCategoryUrl()
+    {
+        $url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
+        return $url;
+    }
+    
+    public function getImageUrl()
+    {
+        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
+        return $url;
+    }
+        
+    public function getSmallImageUrl()
+    {
+        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
+        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
+        return $url;
+    }
+    
+    /**
+     * Get product category name
+     *
+     * @return unknown
+     */
+    public function getCategoryName()
+    {
+        return 'node';//Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
+    }
+    
 }

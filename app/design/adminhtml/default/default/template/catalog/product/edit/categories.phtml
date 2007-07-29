@@ -37,13 +37,8 @@ Ext.EventManager.onDocumentReady(function() {
     tree.render();
     root.expand();
     tree.expandAll();
-
-    /*root.expand(false, false, function() {
-		//root.firstChild.expand(false);
-		//Ext.get('cn').dom.value = tree.getChecked().join(',');
-		//ser();
-	});*/
-	
+    
+    $('product_categories').value = tree.getChecked().join(',');
 });
 
 function bildCategoryTree(parent, config){

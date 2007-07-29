@@ -78,6 +78,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 		                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
             }
             $product->getCrossSellProducts()->load();
+            $this->_addLeft(
+                $this->getLayout()->createBlock('adminhtml/store_switcher')
+                    ->setStores($product->getStoreIds())
+            );
         }
         
         Mage::register('product', $product);
@@ -137,12 +141,21 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function saveAction()
     {
-        $storeId = (int) $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
+            $categories = array();
+            $stores     = array();
             $relatedProducts = array();
             $upSellProducts = array();
             $crossSellProducts = array();
-                
+            
+            if(isset($data['categories'])) {
+                $categories = explode(',', $data['categories']);
+            }
+            
+            if (isset($data['stores'])) {
+                $stores = $data['stores'];
+            }
+
             if($this->getRequest()->getPost('_related_products')) {
             	$relatedProducts = $this->_decodeInput($this->getRequest()->getPost('_related_products'));
             } 
@@ -154,17 +167,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if($this->getRequest()->getPost('_cross_sell_products')) {
             	$crossSellProducts = $this->_decodeInput($this->getRequest()->getPost('_cross_sell_products'));
             } 
-           	        	
+            
         	$product = Mage::getModel('catalog/product')
                 ->setData($data['product'])
-                ->setId($this->getRequest()->getParam('id'))
-                ->setStoreId($storeId)
-                ->setAttributeSetId(9)
+                ->setId((int) $this->getRequest()->getParam('id'))
+                ->setStoreId((int) $this->getRequest()->getParam('store'))
+                ->setAttributeSetId((int) $this->getRequest()->getParam('set'))
+                ->setTypeId((int) $this->getRequest()->getParam('type'))
+                ->setPostedStores($stores)
+                ->setPostedCategories($categories)
                 ->setRelatedProducts(array_keys($relatedProducts), array_values($relatedProducts))
                 ->setUpSellProducts(array_keys($upSellProducts), array_values($upSellProducts))
                 ->setCrossSellProducts(array_keys($crossSellProducts), array_values($crossSellProducts));
-                        
-                            
+                
             try {
                 $product->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');
@@ -172,7 +187,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
-                    ->setCategoryData($data);
+                    ->setProductData($data);
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId)));
                 return;
             }
