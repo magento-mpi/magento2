@@ -46,10 +46,38 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         
         if ($productId) {
             $product->load($productId);
+            
+            if($this->getRequest()->getParam('store')) {
+            	$product->getRelatedProducts()
+	            	->joinField('store_id', 
+	                'catalog/product_store', 
+	                'store_id', 
+	                'product_id=entity_id', 
+	                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
+            		
+            }
             $product->getRelatedProducts()->load();
+            
+            if($this->getRequest()->getParam('store')) {
+            	$product->getUpSellProducts()
+            		->joinField('store_id', 
+		                'catalog/product_store', 
+		                'store_id', 
+		                'product_id=entity_id', 
+		                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
+            		
+            }
             $product->getUpSellProducts()->load();
+            
+        	if($this->getRequest()->getParam('store')) {
+            	$product->getCrossSellProducts()
+            		->joinField('store_id', 
+		                'catalog/product_store', 
+		                'store_id', 
+		                'product_id=entity_id', 
+		                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
+            }
             $product->getCrossSellProducts()->load();
-         
         }
         
         Mage::register('product', $product);
@@ -91,6 +119,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         
         if ($productId) {
             $product->load($productId);
+            if($this->getRequest()->getParam('store')) {
+            	$product->getLinkedProducts($type)
+            		->joinField('store_id', 
+		                'catalog/product_store', 
+		                'store_id', 
+		                'product_id=entity_id', 
+		                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
+            }
             $product->getLinkedProducts($type)->load();
         }
 

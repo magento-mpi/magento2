@@ -15,6 +15,11 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Core_Block_Template
 	{
 		Mage::registry('product')->getCrossSellProducts()
 			->addAttributeToSelect('name')
+			->joinField('store_id', 
+	                'catalog/product_store', 
+	                'store_id', 
+	                'product_id=entity_id', 
+	                array('store_id'=>Mage::getSingleton('core/store')->getId()))
 			->load();
 	}
 	

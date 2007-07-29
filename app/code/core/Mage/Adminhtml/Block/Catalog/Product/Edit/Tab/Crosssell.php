@@ -48,7 +48,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         	->addLinkAttributeToSelect('position')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')            
+            ->addAttributeToSelect('price')     
+            ->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0))       
             ->useProductItem();
 
         $this->setCollection($collection);
