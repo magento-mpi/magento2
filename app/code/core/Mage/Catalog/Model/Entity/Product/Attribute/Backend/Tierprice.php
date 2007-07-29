@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
                 
         $attributeId   = $this->getAttribute()->getId();
         $entityId	   = $object->getId();
-        $entityTypeId  = $object->getTypeId();
+        $entityTypeId  = $this->getAttribute()->getEntity()->getTypeId();
         $entityIdField = $this->getEntityIdField();
         
         $connection = $this->getConnection('write');

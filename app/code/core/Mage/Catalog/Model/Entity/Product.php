@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             if (empty($postedStores)) {
                 $this->getWriteConnection()->delete(
                     $this->_productStoreTable,
-                    $this->getWriteConnection()->quoteInto('product_id=? AND', $object->getId()).
+                    $this->getWriteConnection()->quoteInto('product_id=? AND ', $object->getId()).
                     $this->getWriteConnection()->quoteInto('store_id=?', $object->getStoreId())
                 );
             }

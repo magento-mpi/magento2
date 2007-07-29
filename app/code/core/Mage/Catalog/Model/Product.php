@@ -141,21 +141,18 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
 	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
-	    	if ($this->getId()) {
-    	        $this->_cachedLinkedProductsByType[$linkType]
+	    	$this->_cachedLinkedProductsByType[$linkType]
     	           	->setLinkType($linkType)
     	           	->setProductId($this->getId())
     	           	->setStoreId($this->getStoreId())
     	        	->addLinkTypeFilter()
     	            ->addProductFilter()
     	            ->addStoreFilter();
-    	           
+    	        
     		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
     			foreach ($attibutes as $attibute) {
     				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
     			}
-    			
-	    	}
         }
        
         return $this->_cachedLinkedProductsByType[$linkType];

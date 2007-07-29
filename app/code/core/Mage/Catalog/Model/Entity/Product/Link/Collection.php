@@ -41,6 +41,9 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
       
     public function getProductId() 
     {    
+    	if(empty($this->_productId)){
+    		return 0;
+    	}
     	return $this->_productId;
     }
     
