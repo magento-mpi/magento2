@@ -102,7 +102,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'title'	  =>	__('Message'),
 				'state'   =>    'html',
 				'theme'	  =>    'advanced',
-				'class'   =>    'required-entry',
+				'class'	  =>    'required-entry',
+            	'required'=>    true,
            		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
 			));
         } else {

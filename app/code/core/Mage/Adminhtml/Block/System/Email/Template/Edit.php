@@ -30,7 +30,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     			->setData(
     				array(
     					'label'   => __('Back'),
-    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'"
+    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+    					'class'   => 'back'
     				)
     			)
     	);
@@ -86,7 +87,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     			->setData(
     				array(
     					'label'   => __('Save Template'),
-    					'onclick' => 'templateControl.save();'    					
+    					'onclick' => 'templateControl.save();',
+    					'class'	  => 'save'					
     				)
     			)
     	);
@@ -106,7 +108,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     			->setData(
     				array(
     					'label'   => __('Delete Template'),
-    					'onclick' => 'templateControl.deleteTemplate();'    					
+    					'onclick' => 'templateControl.deleteTemplate();',
+    					'class'	  => 'delete'
     				)
     			)
     	);

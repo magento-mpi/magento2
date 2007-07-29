@@ -89,6 +89,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'label' => __('Template Content'),
             'title' => __('Template Content'),
             'theme' => 'advanced',
+            'class'	=> 'required-entry',
+            'required' => true,
             'state' => 'html',
             'value' => $template->getTemplateText()
         ));

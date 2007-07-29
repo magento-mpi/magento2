@@ -77,6 +77,9 @@
             if (this.typeChange) {
                 $('change_flag_element').value = '1';
             }
+            if(this.isEditor) {
+            	tinyMCE.triggerSave();
+            }
             templateForm.submit();
             return false;
         },        
