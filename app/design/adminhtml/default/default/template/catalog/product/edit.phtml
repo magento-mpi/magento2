@@ -70,7 +70,7 @@
 	        }
 	        
 	        this.saveField.value = this.serializeObject(this.products);
-	        grid.reloadParams = {'products[]':this.products.keys()};
+	        this.grid.reloadParams = {'products[]':this.products.keys()};
 		},
 		serializeObject: function(object) {
 			var myObject = Object.clone(object);

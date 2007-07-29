@@ -28,10 +28,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('linked_product_id', array('in'=>$productIds));
+            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-                $this->getCollection()->addFieldToFilter('linked_product_id', array('nin'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
             }
         }
         else {
@@ -43,8 +43,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
     protected function _prepareCollection()
     {       
         $collection = Mage::getResourceModel('catalog/product_link_collection')
-        	->setProductId(Mage::registry('product')->getId())
         	->setLinkType('cross_sell')
+        	->setProductId(Mage::registry('product')->getId())
         	->addLinkAttributeToSelect('position')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -95,8 +95,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
-            'width'     => '70px',
             'align'     => 'center',
+            'width'     => '60px',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',

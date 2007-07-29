@@ -28,10 +28,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('linked_product_id', array('in'=>$productIds));
+            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-                $this->getCollection()->addFieldToFilter('linked_product_id', array('nin'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
             }
         }
         else {
@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
        
         $collection = Mage::getResourceModel('catalog/product_link_collection')
-        	->setProductId(Mage::registry('product')->getId())
         	->setLinkType('up_sell')
+        	->setProductId(Mage::registry('product')->getId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -96,9 +96,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
-            'width'     => '70px',
             'align'     => 'center',
             'type'      => 'number',
+            'width'     => '60px',
             'validate_class' => 'validate-number',
             'index'     => 'position',
             'editable'  => true

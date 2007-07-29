@@ -28,10 +28,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('linked_product_id', array('in'=>$productIds));
+            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-                $this->getCollection()->addFieldToFilter('linked_product_id', array('nin'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
             }
         }
         else {
@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     {
        
         $collection = Mage::getResourceModel('catalog/product_link_collection')
-        	->setProductId(Mage::registry('product')->getId())
             ->setLinkType('relation')
+            ->setProductId(Mage::registry('product')->getId())
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -95,23 +95,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         
         $this->addColumn('qty', array(
             'header'    => __('Qty'),
-            'name'    	=> 'qty',
-            'width'     => '70px',
+            'name'    	=> 'qty',            
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'qty',
+            'width'     => '60px',
             'editable'  => true
         ));
         
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
-            'width'     => '70px',
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',
+            'width'     => '60px',
             'editable'  => true
         ));
         
@@ -129,6 +129,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     {
         $products = $this->getRequest()->getPost('products', null);
         
+                
         if (!is_array($products)) {
             $products = Mage::registry('product')->getRelatedProducts()->getColumnValues('entity_id');
         }

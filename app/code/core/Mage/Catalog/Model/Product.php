@@ -179,8 +179,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
 	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
 	        $this->_cachedLinkedProductsByType[$linkType]
+	           	->setLinkType($linkType)
 	           	->setProductId($this->getId())
-	        	->addLinkTypeFilter($linkType)
+	        	->addLinkTypeFilter()
 	            ->addFieldToFilter('product_id', $this->getId());
 		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
 			foreach ($attibutes as $attibute) {

@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     
     public function getConditionForProduct() 
     {
-    	return array('product_id'=>$this->getProductId());
+    	return array('product_id'=>$this->getProductId(),'link_type_id'=>$this->getLinkTypeId());
     }
     
     public function setProductId($productId) 
@@ -46,9 +46,9 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     {
     	$this->resetSelect();
     	$this->joinField('link_id', 'catalog/product_link', 'link_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
-        	->joinField('product_id', 'catalog/product_link', 'product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
-        	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
-        	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'linked_product_id=entity_id', $this->getConditionForProduct(),'left')
+        	->joinField('product_id', 'catalog/product_link', 'product_id', 'link_id=link_id', null,'left')
+        	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'link_id=link_id', null,'left')
+        	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'link_id=link_id', null,'left')
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id', null,'left');
         
     }
@@ -88,10 +88,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	return 'catalog/product_link_attribute_' . $attribute->getDataType();
     }
     
-    public function addLinkTypeFilter($type)
+    public function addLinkTypeFilter()
     {
-    	$this->_loadLinkAttributes($type);
-    	$this->_loadLinkTypeId($type);
     	$this->addFieldToFilter('link_type_id', $this->getLinkTypeId());
     	return $this;
     }
