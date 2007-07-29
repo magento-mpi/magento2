@@ -14,17 +14,17 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
 	{
 		$this->setEmptyText(__('No Templates Found'));
 	}
-	
+
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/template_collection')
             ->useOnlyActual();
 
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('id',
@@ -34,42 +34,45 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'header'=>__('Template Name'),
                	'index'=>'template_code'
         ));
-        
+
         $this->addColumn('added_at',
             array(
                 'header'=>__('Date Added'),
                 'index'=>'added_at',
                 'type'=>'datetime'
         ));
-        
+
         $this->addColumn('modified_at',
             array(
                 'header'=>__('Date Updated'),
                 'index'=>'modified_at',
                 'type'=>'datetime'
         ));
-        
+
         $this->addColumn('subject',
             array(
                 'header'=>__('Subject'),
                 'index'=>'template_subject'
         ));
-        
+
         $this->addColumn('sender',
             array(
                 'header'=>__('Sender'),
                 'index'=>'template_sender_email',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_sender'
         ));
-        
+
         $this->addColumn('type',
             array(
                 'header'=>__('Template Type'),
                 'index'=>'template_type',
-                'filter' => 'adminhtml/newsletter_template_grid_filter_type',
-                'renderer' => 'adminhtml/newsletter_template_grid_renderer_type'
+                'type' => 'options',
+                'options' => array(
+            		Mage_Newsletter_Model_Template::TYPE_HTML   => 'html',
+            		Mage_Newsletter_Model_Template::TYPE_TEXT 	=> 'text'
+                ),
         ));
-        
+
         $this->addColumn('action',
             array(
                 'header'=>__('Action'),
@@ -79,10 +82,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
                 'width'	   => '170px',
                 'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
         ));
-        
+
         return $this;
     }
-    
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));

@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	/**
 	 * Constructor
@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
 	public function __construct()
     {
         parent::__construct();
-        
+
         $this->setId('subscriberGrid');
         $this->setDefaultSort('id', 'desc');
         $this->setSaveParametersInSession(true);
@@ -30,31 +30,31 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     /**
      * Prepare collection for grid
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid 
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/subscriber_collection')
 			->showCustomerInfo(true)
 			->showStoreInfo();
-			
+
 		if($this->getRequest()->getParam('queue', false)) {
 			$collection->useQueue(Mage::getModel('newsletter/queue')
 				->load($this->getRequest()->getParam('queue')));
 		}
-		
+
         $this->setCollection($collection);
-		
+
         return parent::_prepareCollection();
     }
-    
-    public function getShowQueueAdd() 
+
+    public function getShowQueueAdd()
     {
     	return $this->getCollection()->getSize() > 0;
     }
-    
-    
-    
+
+
+
     protected function _prepareColumns()
     {
     	/*if($this->getShowQueueAdd()) {*/
@@ -66,17 +66,17 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'width'		=> '20px'
     	));
     	/*}*/
-    	
+
     	$this->addColumn('id', array(
     		'header'	=> __('ID'),
 	   		'index'		=> 'subscriber_id'
     	));
-    	
+
     	$this->addColumn('email', array(
     		'header'	=> __('Email'),
     		'index'		=> 'subscriber_email'
     	));
-    	
+
     	$this->addColumn('name', array(
     		'header'	=> __('Name'),
     		'index'		=> 'customer_name',
@@ -84,25 +84,29 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'filter'	=> false,
     		'default'	=>	'----'
     	));
-    	
-    	$this->addColumn('status', array(
+
+        $this->addColumn('status', array(
     		'header'	=> __('Status'),
-    		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_status',
-    		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_status',
-    		'index'		=> 'subscriber_status'
-    	));     	
-    	
+    		'index'		=> 'subscriber_status',
+    		'type'      => 'options',
+    		'options'   => array(
+        		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => __('Not activated'),
+        		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => __('Subcribed'),
+        		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => __('Unsubcribed'),
+    		),
+    	));
+
     	$this->addColumn('website', array(
     		'sortable' 	=> false,
     		'header'	=> __('Website'),
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_website',
     		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_website',
     		'index'		=> 'store_id'
-    	)); 
-    	
-    	
-    	
+    	));
+
+
+
     	return parent::_prepareColumns();
     }
-	
+
 }// Class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid END
