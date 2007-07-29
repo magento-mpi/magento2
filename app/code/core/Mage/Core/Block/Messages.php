@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract 
+class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
 {
     /**
      * Messages collection
@@ -16,7 +16,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      * @var Mage_Core_Model_Message_Collection
      */
     protected $_messages;
-    
+
     /**
      * Set messages collection
      *
@@ -28,7 +28,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         $this->_messages = $messages;
         return $this;
     }
-    
+
     /**
      * Retrieve messages collection
      *
@@ -41,7 +41,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         }
         return $this->_messages;
     }
-    
+
     /**
      * Retrieve messages array by message type
      *
@@ -52,7 +52,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
     {
         return $this->getMessageCollection()->getItems($type);
     }
-    
+
     /**
      * Retrieve messages in HTML format
      *
@@ -68,4 +68,38 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         $html .= '</ul>';
         return $html;
     }
+
+    /**
+     * Retrieve messages in HTML format grouped by type
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getGroupedHtml()
+    {
+        $types = array(
+            Mage_Core_Model_Message::ERROR,
+            Mage_Core_Model_Message::WARNING,
+            Mage_Core_Model_Message::NOTICE,
+            Mage_Core_Model_Message::SUCCESS
+        );
+        $html = '';
+        foreach ($types as $type) {
+            if ( $messages = $this->getMessages($type) ) {
+                if ( !$html ) {
+                    $html .= '<ul class="messages">';
+                }
+                $html .= '<li class="' . $type . '-msg"><ul>';
+                foreach ( $messages as $message ) {
+                	$html.= '<li>' . $message->getText() . '</li>';
+                }
+                $html .= '</ul></li>';
+            }
+        }
+        if ( $html ) {
+            $html .= '</ul';
+        }
+        return $html;
+    }
+
 }

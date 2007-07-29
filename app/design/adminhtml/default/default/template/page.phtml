@@ -86,7 +86,7 @@
 											<div class="main">
 													<div class="content-container">
 															<div class="content" id="content">
-																	<?=$this->getMessagesBlock()->getHtml()?>
+																	<?=$this->getMessagesBlock()->getGroupedHtml()?>
 																	<?=$this->getChildHtml('content')?>
 															</div>
 													</div>
@@ -99,7 +99,7 @@
 								</div>
                 <?else:?>
                 <div class="simple-container">
-                    <?=$this->getMessagesBlock()->getHtml()?>
+                    <?=$this->getMessagesBlock()->getGroupedHtml()?>
                     <?=$this->getChildHtml('content')?>
                 </div>
                 <?endif;?>

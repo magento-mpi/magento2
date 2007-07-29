@@ -6,25 +6,14 @@
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
 .required { color:#ff0000; }
 .changed { color:#e26f03 !important; }
-.success-msg, 
-.warning-msg, 
-.error-msg, 
-.notice-msg {
-    list-style:none;
-    margin:10px 0;
-    padding:13px; 
-    }
-.success-msg li,
-.warning-msg li,
-.error-msg li,
-.notice-msg li {
-    list-style:none;
-    }
 
-.success-msg { border:1px solid #507477; color:#507577; background:#f2fafb; }
-.error-msg { border:1px solid #e13422; color:#e13422; background:#fdf9f8; }
-.warning-msg { border:1px solid #e13422; color:#e13422; background:#fdf9f8; }
-.notice-msg { border:1px solid #e5b82c; color:#5c594f; background:#fbf7e9; }
+.messages li { list-style:none; padding: 13px 13px 13px 52px; margin-bottom: 10px; }
+.messages ul li { margin-bottom: 0; padding: 0; }
+
+.success-msg { border:1px solid #507477; color:#507577; background:#f2fafb url(images/success-msg.png) no-repeat 12px 50%; }
+.error-msg { border:1px solid #e13422; color:#e13422; background:#fdf9f8 url(images/error-msg.png) no-repeat 12px 50%; }
+.warning-msg { border:1px solid #e13422; color:#e13422; background:#fdf9f8 url(images/error-msg.png) no-repeat 12px 50%; }
+.notice-msg { border:1px solid #e5b82c; color:#5c594f; background:#fbf7e9 url(images/notice-msg.png) no-repeat 12px 50%; }
 
 .separator { padding:0 .6em; }
 .box-left, .box-right { width:49.25%; }
