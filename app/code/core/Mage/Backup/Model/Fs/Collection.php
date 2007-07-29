@@ -151,10 +151,10 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
 	            if (isset($condition['from']) || isset($condition['to'])) {
 	            	if($field == 'time_formated') {
 	            		if(isset($condition['from'])) {
-	            			$condition['from'] = strtotime($condition['from'])-24*60*60;
+	            			$condition['from'] = strtotime($condition['from']);
 	            		} 
 	            		if(isset($condition['to'])) {
-	            			$condition['to'] = strtotime($condition['to'])+24*60*60;
+	            			$condition['to'] = strtotime($condition['to'])+24*60*60-1;
 	            		} 
 	            		$field = 'time';
 	            	}
