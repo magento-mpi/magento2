@@ -64,9 +64,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this;
     }
     
+    public function delete()
+    {
+        $this->getResource()->delete($this);
+        return $this;
+    }
+    
     public function setStoreId($storeId)
     {
-        
+        $this->getResource()->setStore($storeId);
+        $this->setData('store_id', $storeId);
+        return $this;
     }
     
     /**

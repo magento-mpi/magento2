@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Entity_Category_Tree
      * @param int $recursionLevel
      * @return Mage_Catalog_Model_Entity_Category_Tree
      */
-    public function load($parentNode, $recursionLevel=0)
+    public function load($parentNode, $recursionLevel=100)
     {
         $this->_root = $this->getTree()->loadNode($parentNode)
             ->loadChildren($recursionLevel);

@@ -89,30 +89,26 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     
     protected function _insertAttribute($object, $attribute, $value, $storeIds = array())
     {
-        return parent::_insertAttribute($object, $attribute, $value, $this->_getStoresForInsertAttribute($object));
+        return parent::_insertAttribute($object, $attribute, $value, $object->getStoreIds());
     }
     
-    /**
-     * Retrieve stores for category attributes insert
-     *
-     * @param   Varien_Object $object
-     * @return  array
-     */
-    protected function _getStoresForInsertAttribute($object)
+    public function getStoreIds($category)
     {
-        static $stores;
-        if (is_null($stores)) {
-            $nodePath = $this->_getTree()
-                ->load()
-                ->getNodeById($object->getId())
-                    ->getPath();
-            $nodes = array();
-            foreach ($nodePath as $node) {
-            	$nodes[] = $node->getId();
-            }
-            $stores = array_keys(Mage::getConfig()->getStoresByPath('catalog/category/root_id', $nodes));
-            array_unshift($stores, 0);
+        if (!$category->getId()) {
+            return array();
         }
+        
+        $nodePath = $this->_getTree()
+            ->load()
+            ->getNodeById($category->getId())
+                ->getPath();
+        $nodes = array();
+        foreach ($nodePath as $node) {
+        	$nodes[] = $node->getId();
+        }
+        
+        $stores = array_keys(Mage::getConfig()->getStoresByPath('catalog/category/root_id', $nodes));
+        array_unshift($stores, 0);
         return $stores;
     }
     

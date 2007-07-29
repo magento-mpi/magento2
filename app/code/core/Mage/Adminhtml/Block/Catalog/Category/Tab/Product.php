@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
                 'product_id=entity_id', 
                 'category_id='.(int) $this->getRequest()->getParam('id', 0), 
                 'left');
-
+        $collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

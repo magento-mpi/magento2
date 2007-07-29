@@ -110,7 +110,7 @@ $numColumns = sizeof($this->getColumns());
     <?endforeach;?>
     <?elseif ($this->getEmptyText()):?>
     	<tr>
-    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="<?=$this->getColumnCount()?>"><?=$this->getEmptyText()?></td>
+    		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="100"><?=$this->getEmptyText()?></td>
     	</tr>
     <?endif;?>
     </tbody>

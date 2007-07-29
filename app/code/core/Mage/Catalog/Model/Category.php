@@ -115,4 +115,14 @@ class Mage_Catalog_Model_Category extends Varien_Object
         }
         return $arr;
     }
+    
+    public function getStoreIds()
+    {
+        if ($storeIds = $this->getData('store_ids')) {
+            return $storeIds;
+        }
+        $storeIds = $this->getResource()->getStoreIds($this);
+        $this->setData('store_ids', $storeIds);
+        return $storeIds;
+    }
 }

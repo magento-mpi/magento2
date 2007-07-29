@@ -22,7 +22,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
     {
         if (is_null($this->_categoryIds)) {
             $this->_categoryIds = array();
-            $collection = Mage::registry('product')->getCategoryCollection();
+            $collection = Mage::registry('product')->getCategoryCollection()
+                ->load();
             foreach ($collection as $category) {
             	$this->_categoryIds[] = $category->getId();
             }

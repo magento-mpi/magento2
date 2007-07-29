@@ -43,6 +43,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         
         $productId  = (int) $this->getRequest()->getParam('id');
         $product    = Mage::getModel('catalog/product');
+        $product->setStoreId($this->getRequest()->getParam('store', 0));
         
         if ($productId) {
             $product->load($productId);
@@ -141,6 +142,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function saveAction()
     {
+        $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $categories = array();
             $stores     = array();
@@ -171,7 +173,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         	$product = Mage::getModel('catalog/product')
                 ->setData($data['product'])
                 ->setId((int) $this->getRequest()->getParam('id'))
-                ->setStoreId((int) $this->getRequest()->getParam('store'))
+                ->setStoreId((int) $storeId)
                 ->setAttributeSetId((int) $this->getRequest()->getParam('set'))
                 ->setTypeId((int) $this->getRequest()->getParam('type'))
                 ->setPostedStores($stores)
@@ -188,16 +190,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 Mage::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setProductData($data);
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId)));
+                $this->_redirect(Mage::getUrl('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId)));
                 return;
             }
         }
 
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('store'=>$storeId)));
-        
-        
-	    
-        
     }
     
     /**
@@ -219,7 +217,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function deleteAction()
     {
-        
+        if ($id = $this->getRequest()->getParam('id')) {
+            $product = Mage::getModel('catalog/product')
+                ->setId($id);
+            try {
+                $product->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess('Product deleted');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')
+                    ->addError($e->getMessage());
+            }
+        }
+        $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));        
     }
     
     public function exportCsvAction()

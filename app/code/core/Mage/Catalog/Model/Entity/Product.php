@@ -11,6 +11,7 @@
 class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 {
     protected $_productStoreTable;
+    protected $_categoryProductTable;
     
     public function __construct() 
     {
@@ -20,13 +21,20 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
             );
-        $this->_productStoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
+            
+        $this->_productStoreTable   = $resource->getTableName('catalog/product_store');
+        $this->_categoryProductTable= $resource->getTableName('catalog/category_product');
+    }
+    
+    protected function _beforeSave(Varien_Object $object)
+    {
+        return $this;
     }
     
     protected function _afterSave(Varien_Object $object)
     {
         $this->_saveStores($object)
-            ->_saveCategories()
+            ->_saveCategories($object)
             ->_saveLinkedProducts($object);
             
     	return parent::_afterSave($object);
@@ -34,11 +42,75 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     
     protected function _saveStores(Varien_Object $object)
     {
+        $postedStores = $object->getPostedStores();
+        if ($object->getStoreId()) {
+            if (empty($postedStores)) {
+                $this->getWriteConnection()->delete(
+                    $this->_productStoreTable,
+                    $this->getWriteConnection()->quoteInto('product_id=? AND', $object->getId()).
+                    $this->getWriteConnection()->quoteInto('store_id=?', $object->getStoreId())
+                );
+            }
+        }
+        else {
+            $this->getWriteConnection()->delete(
+                $this->_productStoreTable,
+                $this->getWriteConnection()->quoteInto('product_id=?', $object->getId())
+            );
+            if (!in_array(0, $postedStores)) {
+                $postedStores[] = 0;
+            }
+            foreach ($postedStores as $storeId) {
+            	$data = array(
+            	   'product_id' => $object->getId(),
+            	   'store_id'   => (int) $storeId
+            	);
+            	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
+            }
+        }
         return $this;
     }
     
     protected function _saveCategories(Varien_Object $object)
     {
+        $postedCategories = $object->getPostedCategories();
+        $oldCategories    = $this->getCategoryCollection($object)
+            ->load();
+        
+        $delete = array();
+        $insert = is_array($postedCategories) ? $postedCategories : array($postedCategories);
+        
+        foreach ($oldCategories as $category) {
+            if ($object->getStoreId()) {
+                $stores = $category->getStoreIds();
+                if (!in_array($object->getStoreId(), $stores)) {
+                    continue;
+                }
+            }
+            
+            $key = array_search($category->getId(), $insert);
+        	if ($key !== false) {
+        	    $delete[] = $category->getId();
+        	    unset($insert[$key]);
+        	}
+        }
+        
+        // Delete unselected category
+        if (!empty($delete)) {
+            $this->getWriteConnection()->delete(
+                $this->_categoryProductTable,
+                $this->getWriteConnection()->quoteInto('product_id=? AND ', (int)$object->getId()) .
+                $this->getWriteConnection()->quoteInto('category_id in(?)', $delete)
+            );                
+        }
+        foreach ($insert as $categoryId) {
+        	$data = array(
+        	   'product_id'    => $object->getId(),
+        	   'category_id'   => $categoryId,
+        	   'position'      => '0'
+        	);
+        	$this->getWriteConnection()->insert($this->_categoryProductTable, $data);
+        }
         return $this;
     }
     
@@ -82,8 +154,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 'product_id', 
                 'category_id=entity_id', 
                 null)
-            ->addFieldToFilter('product_id', (int) $product->getId())
-            ->load();
+            ->addFieldToFilter('product_id', (int) $product->getId());
         return $collection;
     }
 

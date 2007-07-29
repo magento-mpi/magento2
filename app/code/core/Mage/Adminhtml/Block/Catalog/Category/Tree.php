@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
             $tree->getCategoryCollection()->addAttributeToSelect('name')
                 ->getEntity()
                     ->setStore(0);
-            $this->_rootNode = $tree->load($parentNodeId, 5)
+            $this->_rootNode = $tree->load($parentNodeId)
                 ->getRoot()
                 ->setIsVisible($parentNodeId!=1);
         }
