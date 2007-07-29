@@ -20,9 +20,12 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $categoryId = $this->getRequest()->getParam('category', false);
         $productId  = $this->getRequest()->getParam('id');
         
-        $product = Mage::getModel('catalog/product')
-            ->load($productId)
-            ->setCategoryId($categoryId);
+        if(!$product = Mage::registry('product')) {
+        	$product = Mage::getModel('catalog/product')
+            	->load($productId)
+            	->setCategoryId($categoryId);
+           	Mage::register('product', $product);
+        }
         
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home', 

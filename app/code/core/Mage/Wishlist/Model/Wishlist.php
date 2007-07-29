@@ -63,7 +63,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 		$item->loadByProductWishlist($this->getId(), $productId, Mage::getSingleton('core/store')->getDatashareStores('wishlist'));
 		
 		if($item->getId()) {
-			Mage::throwException('Product already added to wishlist');
+			return $item;
 		}
 		
 		$item->setProductId($productId)

@@ -5,4 +5,9 @@
             <action method="loadData"></action>
         </block>
     </reference>
+    <reference name="right">
+        <block type="catalog/product_link_upsell" name="catalog.product.upsell" before="-">
+            <action method="setTemplate"><template>catalog/product/upsell.phtml</template></action>
+        </block>
+    </reference>
 </layoutUpdate>

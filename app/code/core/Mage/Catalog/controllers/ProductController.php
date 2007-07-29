@@ -10,10 +10,18 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
     public function viewAction()
     {
-        $id = $this->getRequest()->getParam('id', false);
         $this->loadLayout(null, '', false);
+        $categoryId = $this->getRequest()->getParam('category', false);
+        $productId  = $this->getRequest()->getParam('id');
         
-        $product = Mage::getModel('catalog/product')->load($id);
+        $product = Mage::getModel('catalog/product')
+            ->load($productId)
+            ->setCategoryId($categoryId); 
+            
+       
+        
+        Mage::register('product', $product);
+        
         if ($product->getCustomLayout()) {
             $this->getLayout()->loadString($product->getCustomLayout());
         } else {
@@ -32,4 +40,5 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             ->assign('product', $product);
         
     }
+    
 }
