@@ -14,6 +14,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('productGrid');
+        $this->setDefaultSort('id');
+        $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
@@ -29,7 +31,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'product_id=entity_id', 
                 '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
                 
-        $collection->getEntity()->setStore($this->getRequest()->getParam('store', 0));
+        //$collection->getEntity()->setStore($this->getRequest()->getParam('store', 0));
+        $collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

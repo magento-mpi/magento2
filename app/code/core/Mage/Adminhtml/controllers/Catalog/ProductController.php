@@ -131,14 +131,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setData($data['product'])
                 ->setId((int) $this->getRequest()->getParam('id'))
                 ->setStoreId((int) $storeId)
-                ->setAttributeSetId((int) $this->getRequest()->getParam('set'))
                 ->setTypeId((int) $this->getRequest()->getParam('type'))
                 ->setPostedStores($stores)
                 ->setPostedCategories($categories)
                 ->setRelatedProducts($relatedProducts)
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
-                
+            
+            if ($set = (int) $this->getRequest()->getParam('set')) {
+                $product->setAttributeSetId($set);
+            }
             try {
                 $product->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');

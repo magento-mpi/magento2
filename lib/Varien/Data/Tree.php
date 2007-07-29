@@ -33,6 +33,7 @@ class Varien_Data_Tree
     public function addNode($node, $parent=null)
     {
         $this->_nodes->add($node);
+        $node->setParent($parent);
         if (!is_null($parent) && ($parent instanceof Varien_Data_Tree_Node) ) {
             $parent->addChild($node);
         }
