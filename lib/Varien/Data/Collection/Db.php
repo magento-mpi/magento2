@@ -191,11 +191,13 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (is_array($condition)) {
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
-                    $sql.= $this->getConnection()->quoteInto("$fieldName >= ?", $condition['from']);
+                    $from = empty($condition['date']) ? ( empty($condition['datetime']) ? $condition['from'] : $this->getConnection()->convertDateTime($condition['from']) ) : $this->getConnection()->convertDate($condition['from']);
+                    $sql.= $this->getConnection()->quoteInto("$fieldName >= ?", $from);
                 }
                 if (isset($condition['to'])) {
                     $sql.= empty($sql) ? '' : ' and ';
-                    $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $condition['to']);
+                    $to = empty($condition['date']) ? ( empty($condition['datetime']) ? $condition['to'] : $this->getConnection()->convertDateTime($condition['to']) ) : $this->getConnection()->convertDate($condition['to']);
+                    $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $to);
                 }
             }
             elseif (!empty($condition['neq'])) {

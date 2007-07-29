@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     {
         return $this->getRenderer()->renderHeader();
     }
-    
+
     public function getCssClass()
     {
         if (!$this->_cssClass) {
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         }
         return $this->_cssClass;
     }
-    
+
     public function getHeaderCssClass()
     {
         $class = $this->getData('header_css_class');
@@ -122,8 +122,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'boolean':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_boolean';
                 break;
-            case 'yesno':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_yesno';
+            case 'options':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_options';
                 break;
             case 'checkbox':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_checkbox';
@@ -155,7 +155,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     protected function _getFilterByType()
     {
         switch (strtolower($this->getType())) {
-            case 'datetime': // TODO
+            case 'datetime':
+                $filterClass = 'adminhtml/widget_grid_column_filter_datetime';
+                break;
             case 'date':
                 $filterClass = 'adminhtml/widget_grid_column_filter_date';
                 break;
@@ -163,8 +165,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'currency':
                 $filterClass = 'adminhtml/widget_grid_column_filter_range';
                 break;
-            case 'yesno':
-                $filterClass = 'adminhtml/widget_grid_column_filter_yesno';
+            case 'options':
+                $filterClass = 'adminhtml/widget_grid_column_filter_select';
                 break;
             case 'checkbox':
                 $filterClass = 'adminhtml/widget_grid_column_filter_checkbox';

@@ -1,9 +1,9 @@
 <?php
 
-class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql 
+class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 {
     protected $_transactionLevel=0;
-    
+
     public function beginTransaction()
     {
         if ($this->_transactionLevel===0) {
@@ -12,7 +12,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_transactionLevel++;
         return $this;
     }
-    
+
     public function commit()
     {
         if ($this->_transactionLevel===1) {
@@ -21,7 +21,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_transactionLevel--;
         return $this;
     }
-    
+
     public function rollback()
     {
         if ($this->_transactionLevel===1) {
@@ -30,14 +30,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_transactionLevel--;
         return $this;
     }
-    
+
     public function convertDate($date)
     {
         return strftime('%Y-%m-%d', strtotime($date));
     }
-    
+
     public function convertDateTime($datetime)
     {
-        return strftime('%Y-%m-%d %H:%M:%S', strtotime($date));
+        return strftime('%Y-%m-%d %H:%M:%S', strtotime($datetime));
     }
 }
