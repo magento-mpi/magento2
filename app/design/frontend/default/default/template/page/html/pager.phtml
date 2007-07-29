@@ -23,24 +23,24 @@
 	</div>
     <?if($this->getViewBy()):?>
 	<div class="view-by">
-        <?if($this->getViewBy('listing_type')!==false):?>
+        <?if($this->getIsViewBy('listing_type')):?>
 	    <p class="listing-type">View products as 
-            <?if($this->getIsViewBy('listing_type','grid')!==false):?>
+            <?if($this->getIsViewBy('listing_type','grid')):?>
                 <a href="<?=$this->getFeaturedPagerUrl(array('listing_type'=>'grid'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a>
             <?endif?>
-            <?if($this->getIsViewBy('listing_type','list')!==false):?>
+            <?if($this->getIsViewBy('listing_type','list')):?>
                 <a href="<?=$this->getFeaturedPagerUrl(array('listing_type'=>'list'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a>
             <?endif?>
         </p>
         <?endif?>
-        <?if($this->getViewBy('per_page')!==false):?>
+        <?if($this->getIsViewBy('per_page')):?>
 		<p class="data-per-page">Show <select name="" onChange="location.href=this.value">
             <?for($i=3; $i <= 27; $i+=3):?>
                 <option value="<?=$this->getFeaturedPagerUrl(array('per_page'=>$i))?>"<?if($i == $this->getCollection()->getPageSize()):?> selected<?endif?>><?=$i?></option>
             <?endfor?>
             </select> per page</p>
         <?endif?>
-        <?if($this->getViewBy('order')!==false):?>
+        <?if($this->getIsViewBy('order')):?>
 		<p class="sort-by">Sort by <select name="" onChange="location.href=this.value">
             <?foreach($this->getViewBy('order') as $val):?>
                 <option value="<?=$this->getFeaturedPagerUrl(array('order'=>$val,'dir'=>'asc'))?>"<?if($val == $this->getRequest()->getParam('order')):?> selected<?endif;?>><?=ucfirst($val)?></option>

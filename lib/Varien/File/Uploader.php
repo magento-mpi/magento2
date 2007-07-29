@@ -86,6 +86,8 @@ class Varien_File_Uploader
 
     protected $_fileExists = false;
 
+    protected $_allowedExtensions = null;
+
     const SINGLE_STYLE = 0;
     const MULTIPLE_STYLE = 1;
     
@@ -121,6 +123,11 @@ class Varien_File_Uploader
 
         $destFile = $destinationFolder;
         $fileName = ( isset($newFileName) ) ? $newFileName : $this->_file['name'];
+        $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
+        
+        if( !$this->chechAllowedExtension($fileExtension) ) {
+            throw new Exception('Disallowed file type.');
+        }
 
         if( $this->_enableFilesDispersion ) {
             $this->setAllowCreateFolders(true);
@@ -193,6 +200,7 @@ class Varien_File_Uploader
     public function setAllowCreateFolders($flag)
     {
         $this->_allowCreateFolders = $flag;
+        return $this;
     }
     
     /**
@@ -205,6 +213,7 @@ class Varien_File_Uploader
     public function setAllowRenameFiles($flag)
     {
         $this->_allowRenameFiles = $flag;
+        return $this;
     }
 
     /**
@@ -217,6 +226,25 @@ class Varien_File_Uploader
     public function setFilesDispersion($flag)
     {
         $this->_enableFilesDispersion = $flag;
+    }
+    
+    public function setAllowedExtensions($extensions=array())
+    {
+        foreach ((array)$extensions as $extension) {
+            $this->_allowedExtensions[] = strtolower($extension);
+        }
+        return $this;
+    }
+    
+    public function chechAllowedExtension($extension)
+    {
+        if (is_null($this->_allowedExtensions)) {
+            return true;
+        }
+        elseif (in_array(strtolower($extension), $this->_allowedExtensions)) {
+            return true;
+        }
+        return false;
     }
 
     private function _getMimeType()

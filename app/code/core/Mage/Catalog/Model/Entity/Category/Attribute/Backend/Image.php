@@ -12,8 +12,8 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
 {
     public function afterSave($object)
     {
-        
         $value = $object->getData($this->getAttribute()->getName());
+
         if (!empty($value['delete'])) {
             $object->setData($this->getAttribute()->getName(), '');
             $this->getAttribute()->getEntity()
@@ -23,6 +23,7 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
         
         try {
             $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
+            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
         }
         catch (Exception $e){
             return;

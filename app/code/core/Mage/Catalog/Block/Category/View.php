@@ -63,7 +63,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         Mage::registry('action')->getLayout()->getBlock('catalog.leftnav')->assign('currentCategoryId',$category->getId());
 
         $page = $request->getParam('p',1);
-        $pageSize = $request->getParam('per_page',1);
+        $pageSize = $request->getParam('per_page',9);
         $prodCollection->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'));
         $prodCollection->setCurPage($page);
         $prodCollection->setPageSize($pageSize);

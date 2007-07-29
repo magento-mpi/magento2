@@ -5,9 +5,13 @@
 */
 ?>
 
+<?if($category->getImage()):?>
+<p><img src="/media/upload/<?=$category->getImage()?>" alt="<?=$category->getName()?>" width="512"/></p>
+<?endif;?>
+
 <?=$this->getChildHtml('pager')?>
 
-<?if($this->getRequest()->getParam('listing_type')=='grid'):?>
+<?if($this->getRequest()->getParam('listing_type')!='list'):?>
 <!-- [starts] .listing-type-grid // -->
 	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 	    <table cellspacing="0" class="generic-product-grid">

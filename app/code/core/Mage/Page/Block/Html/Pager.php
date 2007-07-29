@@ -90,16 +90,11 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
 
     public function getFeaturedPagerUrl($params=array())
     {
-        $origParams = $this->getRequest()->getParams(); // save original params
+        $request = clone $this->getRequest();
         foreach($params as $key=>$val) {
-            $this->getRequest()->setParam($key, $val)->getParams();
+            $request->setParam($key, $val)->getParams();
         }
-        $url = $this->getUrl($this->getUrlPrefix() . '/*/*', $this->getRequest()->getParams());
-        // restore original params:
-        foreach ($origParams as $key=>$val) {
-            $this->getRequest()->setParam($key, $val)->getParams();
-        }
-        return $url;
+        return $this->getUrl($this->getUrlPrefix() . '/*/*', $request->getParams());
     }
 
     public function setViewBy($key, $values=array())
@@ -112,25 +107,21 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     {
         if(is_array($this->_viewBy)) {
             if($key != '') {
-                if(isset($this->_viewBy[$key])) {
-                    return $this->_viewBy[$key];
-                }
-                else {
-                    return false;
-                }
+                return $this->_viewBy[$key];
             }
             else {
                 return $this->_viewBy;
             }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
-    public function getIsViewBy($key, $value)
+    public function getIsViewBy($key, $value='')
     {                            
-        if(in_array($value, $this->_viewBy[$key])) {
+        if($value == '' && isset($this->_viewBy[$key])) {
+            return true;
+        }
+        elseif($value != '' && in_array($value, $this->_viewBy[$key])) {
             return true;
         }
         return false;
