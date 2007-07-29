@@ -368,7 +368,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @param string $joinType inner|left
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function joinAttribute($alias, $attribute, $bind, $filter=null, $joinType='inner')
+    public function joinAttribute($alias, $attribute, $bind, $filter=null, $joinType='inner', $storeId=null)
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
@@ -405,6 +405,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         if (!$entity || !$entity->getTypeId()) {
             throw Mage::exception('Mage_Eav', 'Invalid entity type');
+        }
+        
+        if ($storeId) {
+            $entity->setStore($storeId);
         }
         // cache entity
         if (!isset($this->_joinEntities[$entity->getType()])) {

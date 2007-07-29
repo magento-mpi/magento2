@@ -20,6 +20,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _prepareCollection()
     {
+        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
@@ -29,9 +31,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'catalog/product_store', 
                 'store_id', 
                 'product_id=entity_id', 
-                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0));
+                '{{table}}.store_id='.$storeId);
                 
-        //$collection->getEntity()->setStore($this->getRequest()->getParam('store', 0));
+        if ($storeId) {
+            $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
+        }
+        
         $collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
@@ -51,6 +56,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'header'=> __('Name'), 
                 'index' => 'name',
         ));
+        
+        if ((int) $this->getRequest()->getParam('store', 0)) {
+            $this->addColumn('custom_name', 
+                array(
+                    'header'=> __('Name In Store'), 
+                    'index' => 'custom_name',
+            ));
+        }
+        
         $this->addColumn('sku', 
             array(
                 'header'=> __('SKU'),
@@ -75,19 +89,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'width' => '50px',
                 'index' => 'status',
         ));
-        $this->addColumn('rating', 
+        /*$this->addColumn('rating', 
             array(
                 'header'=> __('Rating'),
                 'width' => '100px',
                 'index' => 'rating',
-        ));
-        $this->addColumn('category', 
+        ));*/
+        /*$this->addColumn('category', 
             array(
                 'header'=> __('Categories'),
                 'width' => '150px',
                 'filter'=> false,
                 'index' => 'category',
-        ));
+        ));*/
         $this->addColumn('stores', 
             array(
                 'header'=> __('Stores'),
