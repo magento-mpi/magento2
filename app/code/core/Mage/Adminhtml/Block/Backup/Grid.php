@@ -10,32 +10,31 @@
  */
 class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    private $_gzInstalled = false;
-
-    public function __construct()
+    
+    protected function _construct()
     {
-        $this->_gzInstalled = extension_loaded('zlib');
-        parent::__construct();
+        $this->setUseAjax(true);
+        $this->setId('backupsGrid');
+		$this->setDefaultSort('time', 'desc');       
     }
 
     /**
      * Init backups collection
-     * @return void
      */
-    protected function _initCollection()
+    protected function _prepareCollection()
     {
         $collection = Mage::getSingleton('backup/fs_collection');
         $this->setCollection($collection);
+        return parent::_prepareCollection();
     }
 
     /**
      * Configuration of grid
      */
-    protected function _beforeToHtml()
+    protected function _prepareColumns()
     {
         $gridUrl = Mage::getUrl('*/*/');
-        $this->setPagerVisibility(false);
-        $this->setFilterVisibility(true);
+        
         $this->addColumn('time', array(
                                 'header'=>__('Time'),
                                 'index'=>'time_formated',
@@ -54,6 +53,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
                                 'type' => 'action',
                                 'width' => '80px',
                                 'filter' => false,
+                                'sortable' => false,
                                 'actions' => array(
                                     array(
                                         'url' => $gridUrl .'delete/time/$time/type/$type/',
@@ -62,8 +62,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
                                     )
                                 ),
                                 'index'=>'type', 'sortable'=>false));
-        $this->_initCollection();
-        return parent::_beforeToHtml();
+        return $this;
     }
 
 }

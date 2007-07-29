@@ -19,9 +19,14 @@ class Mage_Adminhtml_Block_Backup_Grid_Filter_Type extends Mage_Adminhtml_Block_
                 ),
                 array(
                     'value'=>'db',
-                    'label'=>__('DB')
+                    'label'=>__('db')
                 ),
             );
         return $options;
+    }
+    
+    public function getCondition()
+    {
+    	return $this->getValue();
     }
 }

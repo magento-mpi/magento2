@@ -15,6 +15,11 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function indexAction()
     {
+    	if($this->getRequest()->getParam('ajax')) {
+    		$this->_forward('grid');
+    		return;
+    	}
+    	
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system');
         $this->_addBreadcrumb(__('System'), __('System Title'));
@@ -24,6 +29,14 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $this->_addContent($this->getLayout()->createBlock('adminhtml/backup', 'backup'));
 
         $this->renderLayout();
+    }
+    
+    /**
+     * Backup list action
+     */
+    public function gridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/backup_grid')->toHtml());
     }
 
     /**
