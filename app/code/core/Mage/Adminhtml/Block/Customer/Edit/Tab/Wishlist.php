@@ -17,7 +17,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         parent::__construct();
         $this->setId('wishlistGrid');
         $this->setUseAjax(true);
-        $this->setSaveParametersInSession(true);
   		$this->_parentTemplate = $this->getTemplateName();
   		$this->setTemplate('customer/tab/wishlist.phtml');
   		$this->setEmptyText(__('No Items Found'));
@@ -36,6 +35,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         return parent::_prepareCollection();
     }
     
+   
     protected function _prepareColumns()
     {
     	
@@ -116,6 +116,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     
     protected function _addColumnFilterToCollection($column)
     {
+    	if($column->getId()=='store') {
+    		$this->getCollection()->addFieldToFilter('store_id', $column->getFilter()->getCondition());
+    		return $this;
+    	}
+    	
         if ($this->getCollection() && $column->getFilter()->getValue()) {
             $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
         }

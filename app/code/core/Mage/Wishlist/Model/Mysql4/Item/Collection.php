@@ -54,5 +54,5 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Enti
     	
     	return parent::_getAttributeFieldName($attributeName);
     }
-	
+    	
 }// Class Mage_Wishlist_Model_Mysql_Item_Collection END

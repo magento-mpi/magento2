@@ -17,4 +17,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Filter_Store extends 
 		array_unshift($options, array('label'=>'','value'=>''));
 		return $options;
 	}
+	
+	public function getCondition()
+	{	
+		return $this->getValue();
+	}
 }// Class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Filter_Store END

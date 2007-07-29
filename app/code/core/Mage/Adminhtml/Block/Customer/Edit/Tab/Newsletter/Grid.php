@@ -16,8 +16,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         $this->setId('queueGrid');
         $this->setDefaultSort('start_at');
         $this->setDefaultDir('desc');
-        
-        $this->setSaveParametersInSession(true);
+       
         $this->setUseAjax(true);
         
     
