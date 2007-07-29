@@ -178,15 +178,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
 	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
-	        $this->_cachedLinkedProductsByType[$linkType]
-	           	->setLinkType($linkType)
-	           	->setProductId($this->getId())
-	        	->addLinkTypeFilter()
-	            ->addFieldToFilter('product_id', $this->getId());
-		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
-			foreach ($attibutes as $attibute) {
-				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
-			}
+	    	if ($this->getId()) {
+    	        $this->_cachedLinkedProductsByType[$linkType]
+    	           	->setLinkType($linkType)
+    	           	->setProductId($this->getId())
+    	        	->addLinkTypeFilter()
+    	            ->addFieldToFilter('product_id', $this->getId());
+    		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
+    			foreach ($attibutes as $attibute) {
+    				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
+    			}
+	    	}
         } 
        
         return $this->_cachedLinkedProductsByType[$linkType];
@@ -240,15 +242,36 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getLinkedProducts('cross_sell');
     }
     
-    public function getCategories()
+    /**
+     * Retrieve product categories
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getCategoryCollection()
     {
-        $categories = Mage::getResourceModel('catalog/category_collection')
-            ->addProductFilter($this->getProductId())
-            ->loadData();
-            
-        return $categories;
+        $collection = $this->getResource()->getCategoryCollection($this);
+        return $collection;
     }
     
+    /**
+     * Retrieve product stores
+     *
+     * @return unknown
+     */
+    public function getStores()
+    {
+        $stores = array();
+        return $stores;
+    }
+    
+    /**
+     * Retrieve product attributes
+     * 
+     * if $groupId is null - retrieve all product attributes
+     * 
+     * @param   int $groupId
+     * @return  array
+     */
     public function getAttributes($groupId = null)
     {
         if (!$this->_attributes) {

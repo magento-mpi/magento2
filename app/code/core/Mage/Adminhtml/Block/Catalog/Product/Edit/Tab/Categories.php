@@ -10,15 +10,34 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Adminhtml_Block_Catalog_Category_Tree
 {
+    protected $_categoryIds;
+    
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/edit/categories.phtml');
     }
     
+    protected function getCategoryIds()
+    {
+        if (is_null($this->_categoryIds)) {
+            $this->_categoryIds = array();
+            $collection = Mage::registry('product')->getCategoryCollection();
+            foreach ($collection as $category) {
+            	$this->_categoryIds[] = $category->getId();
+            }
+        }
+        return $this->_categoryIds;
+    }
+    
+    
+    
     protected function _getNodeJson($node, $level=1)
     {
         $item = parent::_getNodeJson($node, $level);
+        if (in_array($node->getId(), $this->getCategoryIds())) {
+            $item['checked'] = true;
+        }
         return $item;
     }
 }

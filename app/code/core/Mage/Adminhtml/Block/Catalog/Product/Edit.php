@@ -12,6 +12,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 {
     public function __construct() 
     {
+        parent::__construct();
         $this->setTemplate('catalog/product/edit.phtml');
         $this->setId('product_edit');
     }
@@ -22,12 +23,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
-                    'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/').'\')',
+                    'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
         );
 
-        $this->setChild('cancel_button',
+        $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Reset'),
@@ -47,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Product'),
-                    'onclick'   => 'customerDelete()',
+                    'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
         );
@@ -60,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getCancelButtonHtml()
     {
-        return $this->getChildHtml('cancel_button');
+        return $this->getChildHtml('reset_button');
     }
 
     public function getSaveButtonHtml()
@@ -81,6 +82,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getProductId()
     {
         return Mage::registry('product')->getId();
+    }
+    
+    public function getProductSetId()
+    {
+        $setId = false;
+        if (!($setId = Mage::registry('product')->getAttributeSetId()) && $this->getRequest()) {
+            $setId = $this->getRequest()->getParam('set', null);
+        }
+        return $setId;
     }
     
     public function getRelatedProductsJSON()

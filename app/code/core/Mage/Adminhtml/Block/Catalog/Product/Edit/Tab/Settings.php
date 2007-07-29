@@ -16,8 +16,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Continue'),
-                    //'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
-                    'class'   => 'save'
+                    'onclick'   => "setSettings('".$this->getContinueUrl()."','attribute_set_id','product_type')",
+                    'class'     => 'save'
 					))
 				);
     }
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
                 ->toOptionArray()
 		));
 		
-		$fieldset->addField('attribute_type', 'select', array(
+		$fieldset->addField('product_type', 'select', array(
             'label' => __('Product Type'),
             'title' => __('Product Type'),
             'name'  => 'type',
@@ -55,5 +55,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
 		));
 		
 		$this->setForm($form);
+	}
+	
+	public function getContinueUrl()
+	{
+	    return Mage::getUrl('*/*/new', array('_current'=>true));
 	}
 }

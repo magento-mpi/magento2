@@ -53,4 +53,17 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     	
     	return parent::_afterSave($object);
     }
+    
+    public function getCategoryCollection($product)
+    {
+        $collection = Mage::getResourceModel('catalog/category_collection')
+            ->joinField('product_id', 
+                'catalog/category_product', 
+                'product_id', 
+                'category_id=entity_id', 
+                null)
+            ->addFieldToFilter('product_id', (int) $product->getId())
+            ->load();
+        return $collection;
+    }
 }

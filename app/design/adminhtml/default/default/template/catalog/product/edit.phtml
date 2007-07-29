@@ -25,11 +25,12 @@
 </form>
 <script type="text/javascript" language="javascript">
     var productForm = new varienForm('product_edit_form');
-    function productDelete(){
-        if(confirm('<?=__('Are you sure?')?>')){
-            location.href = '<?=$this->getDeleteUrl()?>'
-        }
+    function setSettings(baseUrl, setElement, typeElement){
+        var url = baseUrl+'set/'+$F(setElement)+'/type/'+$F(typeElement)+'/';
+        setLocation(url);
     }
+    
+<?if($this->getProductSetId()):?>
 	var productLinksController = Class.create();
     
 	productLinksController.prototype = {
@@ -131,4 +132,5 @@
 	 	 var controller = new productLinksController('_cross_sell_products', <?=$this->getCrossSellProductsJSON()?>, <?=$_crosssellGridJsObject?>);
 	});   
 	<?endif;?>
+<?endif;?>
 </script>

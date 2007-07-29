@@ -2,11 +2,15 @@ function setLocation(url){
     window.location.href = url;
 }
 
-function deleteConfirm(message, url) {
+function confirmSetLocation(message, url){
     if( confirm(message) ) {
         setLocation(url);
     }
     return false;
+}
+
+function deleteConfirm(message, url) {
+    confirmSetLocation(message, url);
 }
 
 function setElementDisable(element, disable){
