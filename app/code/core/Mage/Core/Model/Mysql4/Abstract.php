@@ -61,6 +61,18 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      */
     protected $_idFieldName;
 
+    /**
+     * Main table unique keys field names
+     * could be array(
+     *   'db_field_name1' => 'Field Name 1 for error message'
+     *   'db_field_name2' => 'Field Name 2 for error message'
+     * )
+     * or string 'db_field_name' - will be autoconverted to array( array( 'db_field_name' => 'db_field_name' ) )
+     *
+     * @var array
+     */
+    protected $_uniqueFields = array();
+
     public function __construct()
     {
         $this->_construct();
@@ -257,6 +269,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         try {
             $this->_beforeSave($object);
 
+            $this->_checkUnique($object);
+
             if ($object->getId()) {
                 $condition = $write->quoteInto($this->getIdFieldName().'=?', $object->getId());
                 $write->update($table, $object->getDataForSave(), $condition);
@@ -267,11 +281,50 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
             $this->_afterSave($object);
             $write->commit();
-        } catch (Exception $e) {
+        }
+        catch (Mage_Core_Exception $e) {
+            $write->rollBack();
+            Mage::throwException($e->getMessage());
+        }
+        catch (Exception $e) {
             $write->rollBack();
             Mage::throwException('Exception while saving the object');
         }
 
+        return $this;
+    }
+
+    /**
+     * Check for unique values existence
+     *
+     * @param Varien_Object $object
+     * @return Mage_Core_Model_Mysql4_Abstract
+     * @throws Mage_Core_Exception
+     */
+    protected function _checkUnique(Mage_Core_Model_Abstract $object)
+    {
+        $existent = array();
+        if (! empty( $this->_uniqueFields ) ) {
+            $read = $this->getConnection('read');
+            $select = $read->select();
+            $data = new Varien_Object( $object->getDataForSave() );
+            if (! is_array( $this->_uniqueFields) ) {
+                $this->_uniqueFields = array( $this->_uniqueFields => $this->_uniqueFields );
+            }
+            $select->from( $this->getMainTable() );
+            foreach ( $this->_uniqueFields as $unique => $title ) {
+                $select->reset( Zend_Db_Select::WHERE )->where( $unique . ' like ?', $data->getData($unique) );
+                if ( $object->getId() ) {
+                    $select->where( $this->getIdFieldName() . ' != ?', $object->getId() );
+                }
+                if ( $data = $read->fetchRow($select) ) {
+                    $existent[] = $title;
+                }
+            }
+        }
+        if ( !empty($existent) ) {
+            throw Mage::exception( 'Mage_Core', implode(',', $existent) . ' already exist' . (count($existent) == 1 ? 's' : '') );
+        }
         return $this;
     }
 
