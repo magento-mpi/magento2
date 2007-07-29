@@ -10,32 +10,33 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
+
     public function render(Varien_Object $row)
     {
 		$actions = $this->getColumn()->getActions();
-		if( !is_array($actions) ) {
-		    return;
+		if ( empty($actions) || !is_array($actions) ) {
+		    return '&nbsp';
 		}
-
-		echo '<span class="nowrap">';
+		$out = '<span class="nowrap">';
 		$i = 0;
-        foreach($actions as $action){
+        foreach ($actions as $action){
             $i++;
-        	if( is_array($action) ) {
-                $this->_toHtml($action, $row);
+        	if ( is_array($action) ) {
+                $out .= $this->_toHtml($action, $row);
         	}
-        	if( $i < count($actions) ) {
-        	    $this->_showDelimiter();
+        	if ( $i < count($actions) ) {
+        	    $out .= $this->_showDelimiter();
         	}
         }
-		echo '</span>';
+		$out .= '</span>';
+		return $out;
     }
 
     protected function _toHtml($action, $row)
     {
         $actionAttributes = new Varien_Object();
 
-        foreach( $action as $attibute => $value ) {
+        foreach ( $action as $attibute => $value ) {
     	    $row->setFormat($action[$attibute]);
     	    $action[$attibute] = parent::render($row);
             switch ($attibute) {
@@ -57,11 +58,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
         }
 
         $actionAttributes->setData($action);
-        echo '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a>';
+        return '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a>';
     }
 
     protected function _showDelimiter()
     {
-        echo '<span class="separator">&nbsp;|&nbsp;</span>';
+        return '<span class="separator">&nbsp;|&nbsp;</span>';
     }
+
 }

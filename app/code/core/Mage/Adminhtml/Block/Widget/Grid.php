@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @var sting|null
      */
-    protected $_emptyText		= null;
+    protected $_emptyText;
 
      /**
      * Empty grid text CSS class
@@ -101,6 +101,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
+        $this->_emptyText = __('No records found.');
     }
 
     protected function _initChildren()
@@ -144,7 +145,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->getChildHtml('search_button');
     }
-    
+
     public function getMainButtonsHtml()
     {
         $html = '';
@@ -269,7 +270,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
             $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
             $filter   = $this->getParam($this->getVarNameFilter(), null);
-            
+
             if (is_null($filter)) {
                 $filter = $this->_defaultFilter;
             }
