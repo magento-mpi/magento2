@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Backup_Grid_Filter_Type extends Mage_Adminhtml_Block_
                 ),
                 array(
                     'value'=>'db',
-                    'label'=>__('db')
+                    'label'=>__('DB')
                 ),
             );
         return $options;

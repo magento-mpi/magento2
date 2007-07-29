@@ -43,6 +43,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('type', array(
                                 'header'=>__('Type'),
                                 'filter'    => 'adminhtml/backup_grid_filter_type',
+                                'renderer'    => 'adminhtml/backup_grid_renderer_type',
                                 'index'=>'type')
                                 );
         $this->addColumn('download', array('header'=>__('Download'),
