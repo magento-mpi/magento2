@@ -15,6 +15,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
 	protected $_linkAttributeCollectionLoaded = false;
 	protected $_linkTypeId = 0;
 	protected $_productId = 0;
+	protected $_storeId = 0;
+	protected $_isLoaded = false;
 		
 	public function __construct() 
     {
@@ -40,6 +42,24 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     public function getProductId() 
     {    
     	return $this->_productId;
+    }
+    
+    public function setStoreId($storeId) 
+    {
+    	$this->_storeId = $storeId;
+    	
+       	return $this;
+    }
+    
+      
+    public function getStoreId() 
+    {    
+    	return $this->_storeId;
+    }
+    
+    public function getIsLoaded() 
+    {
+    	return $this->_isLoaded;
     }
        
     protected function _joinLinkTable()
@@ -91,6 +111,23 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     public function addLinkTypeFilter()
     {
     	$this->addFieldToFilter('link_type_id', $this->getLinkTypeId());
+    	return $this;
+    }
+    
+    public function addProductFilter()
+    {
+    	$this->addFieldToFilter('product_id', $this->getProductId());
+    	return $this;
+    }
+    
+    
+    public function addStoreFilter()
+    {
+    	$this->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                array('store_id'=>$this->getStoreId()));
     	return $this;
     }
     
@@ -160,6 +197,8 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	if($this->getObject() instanceof Mage_Catalog_Model_Product_Link) {
     		$this->walk('setAttributeCollection', array($this->getLinkAttributeCollection()));
     	}    	
+    	
+    	$this->_isLoaded = true;
     	
     	return $result;
     }

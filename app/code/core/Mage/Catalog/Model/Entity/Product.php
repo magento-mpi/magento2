@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         foreach($object->getLinkedProductsForSave() as $linkType=>$data) {
 	    	$linkedProducts = $object->getLinkedProducts($linkType)->load();
 	      	
-	       	foreach($data['linkIds'] as $index=>$linkId) {
+	       	foreach($data as $linkId=>$linkAttributes) {
 	       		if(!$linkedProduct = $linkedProducts->getItemByColumnValue('product_id', $linkId)) {
 	       			$linkedProduct = clone $linkedProducts->getObject();
 	       			$linkedProduct->setAttributeCollection($linkedProducts->getLinkAttributeCollection());
@@ -127,18 +127,18 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 	       		}
 	       		
 	   			foreach ($linkedProducts->getLinkAttributeCollection() as $attribute) {
-	   				if(isset($data['linkAttributes'][$index][$attribute->getCode()])) {
-	   					$linkedProduct->setData($attribute->getCode(), $data['linkAttributes'][$index][$attribute->getCode()]);
+	   				if(isset($linkAttributes[$attribute->getCode()])) {
+	   					$linkedProduct->setData($attribute->getCode(), $linkAttributes[$attribute->getCode()]);
 	   				}
 	   			}
-	   					
+	   			
 	   			$linkedProduct->save();
 	       	}
 	       	
 	       	// Now delete unselected items
 	       	
 	       	foreach($linkedProducts as $linkedProduct) {
-				if(!in_array($linkedProduct->getId(), $data['linkIds'])) {
+				if(!isset($data[$linkedProduct->getId()])) {
 					$linkedProduct->delete();
 				}
 	       	}

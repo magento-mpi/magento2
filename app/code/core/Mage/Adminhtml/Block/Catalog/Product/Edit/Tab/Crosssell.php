@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
     protected function _addColumnFilterToCollection($column)
     {
-        // Set custom filter for in category flag
+        // Set custom filter for in product flag
         if ($column->getId() == 'in_products') {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
@@ -45,21 +45,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         $collection = Mage::getResourceModel('catalog/product_link_collection')
         	->setLinkType('cross_sell')
         	->setProductId(Mage::registry('product')->getId())
+        	->setStoreId(Mage::registry('product')->getStoreId())
         	->addLinkAttributeToSelect('position')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')     
-            ->joinField('store_id', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
-                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0))       
+            ->addAttributeToSelect('price')  
             ->useProductItem();
 
         $this->setCollection($collection);
         
-        
-
         return parent::_prepareCollection();
     }
     
@@ -123,7 +117,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         $products = $this->getRequest()->getPost('products', null);
         
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getCrossSellProducts()->getColumnValues('entity_id');
+            $products = Mage::registry('product')->getCrossSellProductsLoaded()->getColumnValues('entity_id');
         }
         
         return $products;

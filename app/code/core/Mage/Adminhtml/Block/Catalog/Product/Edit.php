@@ -97,9 +97,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
     	$result = array();
     	
-        foreach (Mage::registry('product')->getRelatedProducts() as $product) {
+        foreach (Mage::registry('product')->getRelatedProductsLoaded() as $product) {
         	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        		$product->getAttributeCollection()->getAttributeCodes()
         	);
         }
         
@@ -115,9 +115,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
     	$result = array();
     	
-        foreach (Mage::registry('product')->getUpSellProducts() as $product) {
+        foreach (Mage::registry('product')->getUpSellProductsLoaded() as $product) {
         	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        		$product->getAttributeCollection()->getAttributeCodes()
         	);
         }
         
@@ -132,9 +132,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
     	$result = array();
     	
-        foreach (Mage::registry('product')->getCrossSellProducts() as $product) {
+        foreach (Mage::registry('product')->getCrossSellProductsLoaded() as $product) {
         	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getColumnValues('product_link_attribute_code')
+        		$product->getAttributeCollection()->getAttributeCodes()
         	);
         }
         

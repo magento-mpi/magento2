@@ -145,26 +145,39 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	        $this->_cachedLinkedProductsByType[$linkType]
     	           	->setLinkType($linkType)
     	           	->setProductId($this->getId())
+    	           	->setStoreId($this->getStoreId())
     	        	->addLinkTypeFilter()
-    	            ->addFieldToFilter('product_id', $this->getId());
+    	            ->addProductFilter()
+    	            ->addStoreFilter();
+    	           
     		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
     			foreach ($attibutes as $attibute) {
     				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
     			}
+    			
 	    	}
-        } 
+        }
        
         return $this->_cachedLinkedProductsByType[$linkType];
     }
     
-    public function setLinkedProducts($linkType, array $linkIds,  array $linkAttibutes)
+    public function getLinkedProductsLoaded($linkType)
     {
-    	$this->addLinkedProductsForSave($linkType, array('linkIds'=>&$linkIds, 'linkAttributes'=>&$linkAttibutes));
+    	if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
+    		$this->getLinkedProducts($linkType)->load();
+    	}
+    	
+    	return $this->getLinkedProducts($linkType);
+    }
+    
+    public function setLinkedProducts($linkType, array $linkAttibutes)
+    {
+    	$this->addLinkedProductsForSave($linkType, $linkAttibutes);
     	      	
         return $this;
     }
     
-    public function addLinkedProductsForSave($linkType, $data) 
+    public function addLinkedProductsForSave($linkType, array $data) 
     {
     	$this->_linkedProductsForSave[$linkType] = $data;
     	return $this;
@@ -175,9 +188,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	return $this->_linkedProductsForSave;
     }
     
-    public function setRelatedProducts(array $linkIds,  array $linkAttibutes)
+    public function setRelatedProducts(array $linkAttibutes)
     {
-        return $this->setLinkedProducts('relation', $linkIds, $linkAttibutes);
+        return $this->setLinkedProducts('relation', $linkAttibutes);
     }
     
     public function getRelatedProducts()
@@ -185,9 +198,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getLinkedProducts('relation');
     }
     
-    public function setUpSellProducts(array $linkIds,  array $linkAttibutes)
+    public function getRelatedProductsLoaded()
     {
-        return $this->setLinkedProducts('up_sell', $linkIds, $linkAttibutes);
+        return $this->getLinkedProductsLoaded('relation');
+    }
+    
+    public function setUpSellProducts(array $linkAttibutes)
+    {
+        return $this->setLinkedProducts('up_sell', $linkAttibutes);
     }
     
     public function getUpSellProducts()
@@ -195,14 +213,24 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getLinkedProducts('up_sell');
     }
     
-    public function setCrossSellProducts(array $linkIds,  array $linkAttibutes)
+    public function getUpSellProductsLoaded()
     {
-        return $this->setLinkedProducts('cross_sell', $linkIds, $linkAttibutes);
+        return $this->getLinkedProductsLoaded('up_sell');
+    }
+    
+    public function setCrossSellProducts(array $linkAttibutes)
+    {
+        return $this->setLinkedProducts('cross_sell', $linkAttibutes);
     }
     
     public function getCrossSellProducts()
     {
         return $this->getLinkedProducts('cross_sell');
+    }
+     
+    public function getCrossSellProductsLoaded()
+    {
+        return $this->getLinkedProductsLoaded('cross_sell');
     }
     
     /**

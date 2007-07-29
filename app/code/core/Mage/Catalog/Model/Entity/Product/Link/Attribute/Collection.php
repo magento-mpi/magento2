@@ -38,6 +38,11 @@ class Mage_Catalog_Model_Entity_Product_Link_Attribute_Collection extends Mage_C
 		return false;
 	}
 	
+	public function getAttributeCodes() 
+	{
+		return $this->getColumnValues('product_link_attribute_code');
+	}
+	
 	public function addFieldToFilter($field, $condition) {
 		if(isset($this->_filterAlias[$field])) {
 			$field = $this->_filterAlias[$field];

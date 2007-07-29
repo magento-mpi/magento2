@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     protected function _addColumnFilterToCollection($column)
     {
-        // Set custom filter for in category flag
+        // Set custom filter for in product flag
         if ($column->getId() == 'in_products') {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
@@ -46,6 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $collection = Mage::getResourceModel('catalog/product_link_collection')
         	->setLinkType('up_sell')
         	->setProductId(Mage::registry('product')->getId())
+        	->setStoreId(Mage::registry('product')->getStoreId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -119,7 +120,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $products = $this->getRequest()->getPost('products', null);
         
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getUpSellProducts()->getColumnValues('entity_id');
+            $products = Mage::registry('product')->getUpSellProductsLoaded()->getColumnValues('entity_id');
         }
         
         return $products;

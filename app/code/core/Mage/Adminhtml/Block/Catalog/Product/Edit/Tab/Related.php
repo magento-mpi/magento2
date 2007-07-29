@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
     protected function _addColumnFilterToCollection($column)
     {
-        // Set custom filter for in category flag
+        // Set custom filter for in product flag
         if ($column->getId() == 'in_products') {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
@@ -46,6 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->setLinkType('relation')
             ->setProductId(Mage::registry('product')->getId())
+            ->setStoreId(Mage::registry('product')->getStoreId())
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -131,7 +132,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         
                 
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getRelatedProducts()->getColumnValues('entity_id');
+            $products = Mage::registry('product')->getRelatedProductsLoaded()->getColumnValues('entity_id');
         }
         
         return $products;
