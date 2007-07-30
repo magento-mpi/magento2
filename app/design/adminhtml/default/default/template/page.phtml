@@ -70,16 +70,12 @@
 <?endif?>
 </head>
 <body>
-<table cellspacing="0" width="100%">
-    <tr>
-        <td class="header">
+        <div class="header">
         <?=$this->getChildHtml('header')?>
         <div class="clear"></div>
         <?=$this->getChildHtml('menu')?>
-        </td>
-    </tr>
-    <tr>
-        <td class="middle">
+        </div>
+        <div class="middle">
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left">
@@ -104,14 +100,10 @@
                     <?=$this->getChildHtml('content')?>
                 </div>
                 <?endif;?>
-        </td>
-    </tr>
-    <tr>
-        <td class="footer">
+        </div>
+        <div class="footer">
             <?=$this->getChildHtml('footer')?>
-        </td>
-    </tr>
-<table>
+        </div>
 <?//=$this->getChildHtml('profiler')?>
 <div id="loading-process" style="display:none"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..." align="absmiddle" height="16"/></div>
 </body>
