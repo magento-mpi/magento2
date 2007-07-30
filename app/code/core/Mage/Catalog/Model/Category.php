@@ -37,6 +37,11 @@ class Mage_Catalog_Model_Category extends Varien_Object
         return $this;
     }
 
+    public function getStoreId()
+    {
+        return $this->getResource()->getStoreId();
+    }
+
     /**
      * Load category data
      *

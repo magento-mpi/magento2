@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Sergiy Lysak <sergey@varien.com>
  */
 
 class Varien_File_Uploader
@@ -94,11 +95,13 @@ class Varien_File_Uploader
     function __construct($fileId)
     {
         $this->_setUploadFileId($fileId);
-        if( !file_exists($this->_file['tmp_name']) ) {
-            throw new Exception('File was not uploaded.');
-            return;
-        } else {
-            $this->_fileExists = true;
+        foreach((array)$this->_file['tmp_name'] as $file) {
+            if( $file!='' && !file_exists($file) ) {
+                throw new Exception('File was not uploaded.');
+                return;
+            } else {
+                $this->_fileExists = true;
+            }
         }
     }
 
@@ -120,40 +123,58 @@ class Varien_File_Uploader
         if( !is_writable($destinationFolder) ) {
             throw new Exception('Destination folder is not writable or does not exists.');
         }
-
-        $destFile = $destinationFolder;
-        $fileName = ( isset($newFileName) ) ? $newFileName : $this->_file['name'];
-        $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
         
-        if( !$this->chechAllowedExtension($fileExtension) ) {
-            throw new Exception('Disallowed file type.');
-        }
+        $result = false;
 
-        if( $this->_enableFilesDispersion ) {
-            $this->setAllowCreateFolders(true);
-            $char = 0;
-            while( ($char < 2) && ($char < strlen($fileName)) ) {
-                $this->_dispretionPath.= DIRECTORY_SEPARATOR . $fileName[$char];
-                $char ++;
+        foreach((array)$this->_file['name'] as $key=>$fileName) {
+            if ($fileName != '') {
+                $destFile = $destinationFolder;
+                $fileName = ( isset($newFileName) ) ? $newFileName : $fileName;
+                $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
+                
+                if( !$this->chechAllowedExtension($fileExtension) ) {
+                    throw new Exception('Disallowed file type.');
+                }
+
+                if( $this->_enableFilesDispersion ) {
+                    $this->setAllowCreateFolders(true);
+                    $char = 0;
+                    while( ($char < 2) && ($char < strlen($fileName)) ) {
+                        $this->_dispretionPath.= DIRECTORY_SEPARATOR . $fileName[$char];
+                        $char ++;
+                    }
+                    $destFile.= $this->_dispretionPath;
+                }
+
+                if( $this->_allowRenameFiles ) {
+                    $fileName = $this->_renameDestinationFile($destFile.DIRECTORY_SEPARATOR.$fileName);
+                }
+
+                if( $this->_allowCreateFolders ) {
+                    $this->_createDestinationFolder($destFile);
+                }
+
+                $destFile.= DIRECTORY_SEPARATOR . $fileName;
+
+                if(is_array($this->_file['tmp_name'])) {
+                    $result = move_uploaded_file($this->_file['tmp_name'][$key], $destFile);
+                }
+                else {
+                    $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
+                }
+                if( $result ) {
+                    chmod($destFile, 0777);
+                    $this->_uploadedFileName[] = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
+                    $this->_uploadedFileDir[] = $destinationFolder;
+                }
             }
-            $destFile.= $this->_dispretionPath;
         }
-
-        if( $this->_allowRenameFiles ) {
-            $fileName = $this->_renameDestinationFile($destFile.DIRECTORY_SEPARATOR.$fileName);
-        }
-
-        if( $this->_allowCreateFolders ) {
-            $this->_createDestinationFolder($destFile);
-        }
-
-        $destFile.= DIRECTORY_SEPARATOR . $fileName;
-
-        $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
         if( $result ) {
+        /*
             chmod($destFile, 0777);
-            $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
-            $this->_uploadedFileDir = $destinationFolder;
+            $this->_uploadedFileName[] = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
+            $this->_uploadedFileDir[] = $destinationFolder;
+        */
             $result = $this->_file;
             $result['path'] = $destinationFolder;
             return $result;

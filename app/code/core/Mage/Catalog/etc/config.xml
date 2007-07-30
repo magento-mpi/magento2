@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.5.7</version> 
+         <version>0.5.8</version> 
          <depends>
             <Mage_Customer />
          </depends>
@@ -34,6 +34,10 @@
                 <table>catalog_category_product</table>
               </category_product>
               
+              <category_attribute_image>
+                  <table>catalog_category_entity_gallery</table>
+              </category_attribute_image>
+
               <product_store>
                 <table>catalog_product_store</table>
               </product_store>

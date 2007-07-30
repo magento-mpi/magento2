@@ -48,14 +48,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
-        
-        $this->_initCategory();
 
+        $this->_initCategory();
         $data = Mage::getSingleton('adminhtml/session')->getCategoryData(true);
         if (isset($data['general'])) {
             Mage::registry('category')->addData($data['general']);
         }
-
         //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories Title'));
 

@@ -6,7 +6,9 @@
 ?>
 
 <?if($category->getImage()):?>
-<p><img src="/media/upload/<?=$category->getImage()?>" alt="<?=$category->getName()?>" width="512"/></p>
+    <?foreach($category->getImage() as $image):?>
+        <p><img src="<?=Mage::getSingleton('core/store')->getConfig('web/url/upload').$image['image']?>" alt="<?=$category->getName()?>" width="512"/></p>
+    <?endforeach;?>
 <?endif;?>
 
 <?=$this->getChildHtml('pager')?>
