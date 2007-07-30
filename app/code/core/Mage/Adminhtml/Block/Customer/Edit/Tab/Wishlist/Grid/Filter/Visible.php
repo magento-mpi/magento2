@@ -20,6 +20,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Filter_Visible extend
 	
 	public function getCondition()
 	{
+		
 		$item =  Mage::registry('stores_select_collection')->getItemById($this->getValue());
 		return array('in'=>$item->getDatashareStores('wishlist'));
 	}

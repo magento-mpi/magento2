@@ -34,6 +34,10 @@
                 <table>catalog_category_product</table>
               </category_product>
               
+              <compare_item>
+                <table>catalog_compare_item</table>
+              </compare_item>
+              
               <category_attribute_image>
                   <table>catalog_category_entity_gallery</table>
               </category_attribute_image>

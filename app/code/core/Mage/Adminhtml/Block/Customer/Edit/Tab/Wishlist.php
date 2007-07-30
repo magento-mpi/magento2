@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     	}
     	
         if ($this->getCollection() && $column->getFilter()->getValue()) {
-            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+            $this->getCollection()->addFieldToFilter($column->getIndex(), $column->getFilter()->getCondition());
         }
         
         return $this;
