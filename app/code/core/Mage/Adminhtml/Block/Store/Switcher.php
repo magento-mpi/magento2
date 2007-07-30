@@ -10,6 +10,8 @@
  */
 class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
 {
+    protected $_storeIds;
+    
     public function __construct() 
     {
         parent::__construct();
@@ -23,6 +25,15 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
             ->load();
     }
     
+    public function getStores($website)
+    {
+        $stores = $website->getStoreCollection();
+        if (!empty($this->_storeIds)) {
+            $stores->addIdFilter($this->_storeIds);
+        }
+        return $stores->load();
+    }
+    
     public function getSwitchUrl()
     {
         if ($url = $this->getData('switch_url')) {
@@ -34,5 +45,11 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Core_Block_Template
     public function getStoreId()
     {
         return $this->getRequest()->getParam('store');
+    }
+    
+    public function setStoreIds($storeIds)
+    {
+        $this->_storeIds = $storeIds;
+        return $this;
     }
 }

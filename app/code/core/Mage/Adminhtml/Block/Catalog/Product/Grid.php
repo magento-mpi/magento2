@@ -80,7 +80,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('qty', 
             array(
                 'header'=> __('Qty'),
-                'width' => '50px',
+                'width' => '130px',
+                'type'  => 'number',
                 'index' => 'qty',
         ));
         $this->addColumn('status', 

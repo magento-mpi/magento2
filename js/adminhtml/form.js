@@ -16,10 +16,13 @@ varienForm.prototype = {
             elm.setHasError(false, this);
     },
     
-    submit : function(){
+    submit : function(url){
         this.errorSections = new Hash();
         this.canShowError = true;
         if(this.validator.validate()){
+            if(url){
+                $(this.formId).action = url;
+            }
             $(this.formId).submit();
             return true;
         }

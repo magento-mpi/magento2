@@ -242,7 +242,22 @@ class Mage_Catalog_Model_Product extends Varien_Object
     }
     
     /**
-     * Retrieve product stores
+     * Retrieve product store Ids array
+     *
+     * @return array
+     */
+    public function getStoreIds()
+    {
+        $storeIds = $this->getData('store_ids');
+        if (is_null($storeIds)) {
+            $storeIds = $this->getResource()->getStoreIds($this);
+            $this->setData('store_ids', $storeIds);
+        }
+        return $storeIds;
+    }
+    
+    /**
+     * Retrieve product stores collection
      *
      * @return unknown
      */

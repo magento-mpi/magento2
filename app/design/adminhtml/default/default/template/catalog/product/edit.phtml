@@ -13,7 +13,10 @@
             <?if($this->getProductId()):?>
                 <?=$this->getDeleteButtonHtml()?>
             <?endif;?>
+            <?if($this->getProductSetId()):?>
                 <?=$this->getSaveButtonHtml()?>
+                <?=$this->getSaveAndEditButtonHtml()?>
+            <?endif;?>
             </td>
         </tr>
     </table>
@@ -25,6 +28,9 @@
 </form>
 <script type="text/javascript" language="javascript">
     var productForm = new varienForm('product_edit_form');
+    function saveAndContinueEdit(){
+        productForm.submit($('product_edit_form').action+'back/edit/');
+    }
     function setSettings(baseUrl, setElement, typeElement){
         var url = baseUrl+'set/'+$F(setElement)+'/type/'+$F(typeElement)+'/';
         setLocation(url);

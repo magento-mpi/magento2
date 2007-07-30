@@ -39,15 +39,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Product'),
+                    'label'     => __('Save'),
                     'onclick'   => 'productForm.submit()',
                     'class' => 'save'
                 ))
         );
+
+        
+        $this->setChild('save_and_edit_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save And Continue Edit'),
+                    'onclick'   => 'saveAndContinueEdit()',
+                    'class' => 'save'
+                ))
+        );
+
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Product'),
+                    'label'     => __('Delete'),
                     'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
@@ -67,6 +78,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
+    }
+
+    public function getSaveAndEditButtonHtml()
+    {
+        return $this->getChildHtml('save_and_edit_button');
     }
 
     public function getDeleteButtonHtml()

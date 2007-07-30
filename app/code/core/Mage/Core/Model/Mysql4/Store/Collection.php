@@ -20,6 +20,19 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
         $this->_init('core/store');
     }
     
+    public function addIdFilter($store)
+    {
+        if (is_array($store)) {
+            $condition = $this->getConnection()->quoteInto("store_id IN (?)", $store);
+        }
+        else {
+            $condition = $this->getConnection()->quoteInto("store_id=?",$store);
+        }
+
+        $this->addFilter('store_id', $condition, 'string');
+        return $this;
+    }
+    
     public function addWebsiteFilter($website)
     {
         if (is_array($website)) {

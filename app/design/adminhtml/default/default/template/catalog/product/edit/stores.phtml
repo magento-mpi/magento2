@@ -1,15 +1,24 @@
 <div class="entry-edit">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product In Stores')?></h4>
     <fieldset id="grop_fields">
-    <?foreach ($this->getWebsiteCollection() as $_website):?>
-        <h3><?=$_website->getName()?></h3>
-        <?foreach ($_website->getStoreCollection() as $_store):?>
-            <span class="field-row">
-                <input name="stores[]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>"/>
-                <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
-            </span>
+    <div class="messages warning-msg"><?=__('Remove from store warning')?></div>
+    <?if($this->getStoreId()):?>
+        <span class="field-row">
+            <input name="stores[]" type="checkbox" value="<?=$this->getStoreId()?>" id="store_<?=$this->getStoreId()?>"/>
+            <label for="store_<?=$this->getStoreId()?>" class="normal">asdasd</label>
+        </span>        
+    <?else:?>
+        <?foreach ($this->getWebsiteCollection() as $_website):?>
+            <h3><?=$_website->getName()?></h3>
+            <?$_storesCollection=$_website->getStoreCollection()->load()?>
+            <?foreach ($_storesCollection as $_store):?>
+                <span class="field-row">
+                    <input name="stores[]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>"/>
+                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+                </span>
+            <?endforeach;?>
+            </optgroup>
         <?endforeach;?>
-        </optgroup>
-    <?endforeach;?>
+    <?endif;?>
     </fieldset>
 </div>

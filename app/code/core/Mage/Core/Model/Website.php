@@ -10,7 +10,6 @@
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     protected $_configCache = array();
-    protected $_storesCollection = null;
     
     public function _construct()
     {
@@ -66,13 +65,8 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     
     public function getStoreCollection() 
     {
-    	if(is_null($this->_storesCollection)) {
-    		$this->_storesCollection = Mage::getResourceModel('core/store_collection')
-    			->addWebsiteFilter($this->getId())
-    			->load();
-    	}
-    	
-    	return $this->_storesCollection;
+		return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
+			->addWebsiteFilter($this->getId());
     }
     
     public function getStoresIds($notEmpty=false) 

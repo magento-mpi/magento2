@@ -2,11 +2,14 @@
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
     <option value=""><?=__('All stores')?></option>
     <?foreach ($this->getWebsiteCollection() as $_website):?>
+    <?$_storesCollection = $this->getStores($_website)?>
+    <?if($_storesCollection->getSize()):?>
         <optgroup label="<?=$_website->getName()?>">
-        <?foreach ($_website->getStoreCollection() as $_store):?>
+        <?foreach ($_storesCollection as $_store):?>
             <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
         <?endforeach;?>
         </optgroup>
+    <?endif;?>
     <?endforeach;?>
 </select>
 </p>

@@ -68,6 +68,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
             }
         }
+        
         return $this;
     }
     
@@ -79,7 +80,6 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         
         $delete = array();
         $insert = is_array($postedCategories) ? $postedCategories : array($postedCategories);
-        
         foreach ($oldCategories as $category) {
             if ($object->getStoreId()) {
                 $stores = $category->getStoreIds();
@@ -104,6 +104,9 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             );                
         }
         foreach ($insert as $categoryId) {
+            if (empty($categoryId)) {
+                continue;
+            }
         	$data = array(
         	   'product_id'    => $object->getId(),
         	   'category_id'   => $categoryId,
@@ -167,7 +170,17 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             ->join($this->_productStoreTable, $this->_productStoreTable.'.store_id=main_table.store_id')
             ->where($this->_productStoreTable.'.product_id='.(int)$product->getId());
 
-        $collection->load(true);
         return $collection;
+    }
+    
+    public function getStoreIds($product)
+    {
+        $stores = array(0);
+        $collection = $this->getStoreCollection($product)
+            ->load();
+        foreach ($collection as $store) {
+        	$stores[] = $store->getId();
+        }
+        return $stores;
     }
 }

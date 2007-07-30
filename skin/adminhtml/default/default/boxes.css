@@ -7,7 +7,7 @@
 .required { color:#ff0000; }
 .changed { color:#e26f03 !important; }
 
-.messages li { list-style:none; padding: 13px 13px 13px 52px; margin-bottom: 10px; }
+.messages li, div.messages { list-style:none; padding: 13px 13px 13px 52px; margin-bottom: 10px; }
 .messages ul li { margin-bottom: 0; padding: 0; }
 
 .success-msg { border:1px solid #507477; color:#507577; background:#f2fafb url(images/success-msg.png) no-repeat 12px 50%; }

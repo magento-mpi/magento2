@@ -15,4 +15,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtm
         parent::__construct();
         $this->setTemplate('catalog/product/edit/stores.phtml');
     }
+    
+    public function getStoreId()
+    {
+        return $this->getRequest()->getParam('store',0);
+    }
 }

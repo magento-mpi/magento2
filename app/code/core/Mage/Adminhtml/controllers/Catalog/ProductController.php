@@ -49,7 +49,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->load($productId);            
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
-                    ->setStores($product->getStoreIds())
+                    ->setStoreIds($product->getStoreIds())
             );
         }
         
@@ -149,12 +149,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 Mage::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setProductData($data);
-                $this->_redirect(Mage::getUrl('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId)));
+                $this->_redirect('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId));
                 return;
             }
         }
-
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array('store'=>$storeId)));
+        if ($return = $this->getRequest()->getParam('back')) {
+            $this->_redirect('*/*/edit', array('id'=>$this->getRequest()->getParam('id'), 'store'=>$storeId));
+            return;
+        }
+        else {
+            $this->_redirect('*/*/', array('store'=>$storeId));
+        }
     }
     
     /**
