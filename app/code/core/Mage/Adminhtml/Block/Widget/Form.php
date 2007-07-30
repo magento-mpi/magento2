@@ -87,6 +87,13 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                         'required' => $attribute->getIsRequired(),
                     )
                 );
+                
+                if ($attribute->getIsGlobal()) {
+                    $element->setAfterElementHtml(
+                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('Global Attribute').'" width="16" height="16" class="attribute-global" allign="top"/>'
+                    );
+                }
+                
                 if ($inputType == 'select') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 }
