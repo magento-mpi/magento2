@@ -19,6 +19,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     protected $_urlCache = array();
     
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     protected function _construct()
     {
         $this->_init('core/store');
@@ -35,7 +40,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     
     public function getId()
     {
-        if (!parent::getId()) {
+        if (is_null(parent::getId())) {
             $this->setId($this->getConfig('system/store/id'));
         }
         return parent::getId();

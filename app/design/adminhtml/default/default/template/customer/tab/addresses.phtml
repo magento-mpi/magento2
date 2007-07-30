@@ -188,7 +188,9 @@ addressesModel.prototype = {
     },
     addNewAddress : function(event){
         if(this.canCreateNewAddress){
-            $('no_address_message').hide();
+            if($('no_address_message')){
+                $('no_address_message').hide();
+            }
             this.itemCount++;
             // create new form elements
             var newForm = document.createElement('div');

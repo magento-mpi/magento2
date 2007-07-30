@@ -42,11 +42,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         
         $productId  = (int) $this->getRequest()->getParam('id');
-        $product    = Mage::getModel('catalog/product');
-        $product->setStoreId($this->getRequest()->getParam('store', 0));
+        $product    = Mage::getModel('catalog/product')
+            ->setStoreId($this->getRequest()->getParam('store', 0));
         
         if ($productId) {
-            $product->load($productId);            
+            $product->load($productId);
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
                     ->setStoreIds($product->getStoreIds())
@@ -141,6 +141,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($set = (int) $this->getRequest()->getParam('set')) {
                 $product->setAttributeSetId($set);
             }
+            
             try {
                 $product->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');
@@ -154,7 +155,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
         if ($return = $this->getRequest()->getParam('back')) {
-            $this->_redirect('*/*/edit', array('id'=>$this->getRequest()->getParam('id'), 'store'=>$storeId));
+            $this->_redirect('*/*/edit', array('id'=>$this->getRequest()->getParam('id'), 'store'=>$product->getStoreId()));
             return;
         }
         else {

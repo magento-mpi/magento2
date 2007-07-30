@@ -670,6 +670,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         } else {
             $storeId = $this->getStoreId();
         }
+        $object->setData('store_id', $storeId);
 
         if (empty($attributes)) {
             $this->loadAllAttributes($object);

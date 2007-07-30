@@ -28,7 +28,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     
     protected function _beforeSave(Varien_Object $object)
     {
-        return $this;
+        return parent::_beforeSave($object);
     }
     
     protected function _afterSave(Varien_Object $object)
@@ -40,36 +40,104 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     	return parent::_afterSave($object);
     }
     
+    /**
+     * Save product stores configuration
+     *
+     * @param   Varien_Object $object
+     * @return  this
+     */
     protected function _saveStores(Varien_Object $object)
     {
         $postedStores = $object->getPostedStores();
+        
+        // If product saving from some store
         if ($object->getStoreId()) {
-            if (empty($postedStores)) {
-                $this->getWriteConnection()->delete(
-                    $this->_productStoreTable,
-                    $this->getWriteConnection()->quoteInto('product_id=? AND ', $object->getId()).
-                    $this->getWriteConnection()->quoteInto('store_id=?', $object->getStoreId())
-                );
+            if (!is_null($postedStores) && empty($postedStores)) {
+                $this->_removeFromStore($object, $object->getStoreId());
+                $object->setData('store_id', null);
             }
         }
+        // If product saving from default store
         else {
+            // Retrieve current stores collection of product
+            $storeIds = $this->getStoreIds($object);
+            
+            if (!isset($postedStores[0])) {
+                $postedStores[0] = false;
+            }
+            
+            $postedStoresIds = array_keys($postedStores);
+
+            $insertStoreIds = array_diff($postedStoresIds, $storeIds);
+            $deleteStoreIds = array_diff($storeIds, $postedStoresIds);
+            
+            // Insert in stores
+            foreach ($insertStoreIds as $storeId) {
+            	$this->_insertToStore($object, $storeId, $postedStores[$storeId]);
+            }
+            
+            // Delete product from stores
+            foreach ($deleteStoreIds as $storeId) {
+            	$this->_removeFromStore($object, $storeId);
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * Remove product data from some store
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @param   int $storeId
+     * @return  this
+     */
+    protected function _removeFromStore($product, $storeId)
+    {
+        $attributes = $this->getAttributesByTable();
+        $tables = array_keys($attributes);
+        foreach ($tables as $tableName) {
             $this->getWriteConnection()->delete(
-                $this->_productStoreTable,
-                $this->getWriteConnection()->quoteInto('product_id=?', $object->getId())
-            );
-            if (!in_array(0, $postedStores)) {
-                $postedStores[] = 0;
-            }
-            foreach ($postedStores as $storeId) {
-            	$data = array(
-            	   'product_id' => $object->getId(),
-            	   'store_id'   => (int) $storeId
-            	);
-            	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
-            }
+                $tableName,
+                $this->getWriteConnection()->quoteInto('store_id=? AND ', $storeId).
+                $this->getWriteConnection()->quoteInto($this->getEntityIdField().'=? ', $product->getData($this->getEntityIdField()))
+            );        
         }
         
+        $this->getWriteConnection()->delete(
+            $this->_productStoreTable,
+            $this->getWriteConnection()->quoteInto('product_id=? AND ', $product->getId()).
+            $this->getWriteConnection()->quoteInto('store_id=?', $storeId)
+        );        
         return $this;
+    }
+    
+    /**
+     * Insert product from $baseStoreId to $storeId
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param int $storeId
+     * @param int $baseStoreId
+     * @return this
+     */
+    public function _insertToStore($product, $storeId, $baseStoreId = 0)
+    {
+    	$data = array(
+    	   'store_id'   => (int) $storeId,
+    	   'product_id' => $product->getId(),
+    	);
+    	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
+    	
+    	if ($storeId && ($storeId != $baseStoreId)) {
+    	    $newProduct = Mage::getModel('catalog/product')
+    	       ->setStoreId($baseStoreId)
+    	       ->load($product->getId());
+            if ($newProduct->getId()) {
+                $newProduct
+                    ->setStoreId($storeId)
+                    ->save();
+            }
+    	}
+    	return $this;
     }
     
     protected function _saveCategories(Varien_Object $object)
@@ -175,7 +243,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     
     public function getStoreIds($product)
     {
-        $stores = array(0);
+        $stores = array();
         $collection = $this->getStoreCollection($product)
             ->load();
         foreach ($collection as $store) {

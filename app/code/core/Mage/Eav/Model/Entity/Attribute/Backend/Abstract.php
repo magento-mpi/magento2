@@ -165,7 +165,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function beforeSave($object)
     {
         $attrName = $this->getAttribute()->getName();
-        if (!$object->hasData($attrName)) {
+        if (!$object->hasData($attrName) && $this->getDefaultValue()) {
             $object->setData($attrName, $this->getDefaultValue());
         }
     }
