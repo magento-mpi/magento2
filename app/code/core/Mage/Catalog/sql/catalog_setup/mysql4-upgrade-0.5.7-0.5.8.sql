@@ -11,7 +11,7 @@ CREATE TABLE `catalog_category_entity_gallery` (
   `position` int(11) NOT NULL default '0',
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`value_id`),
-  UNIQUE KEY `IDX_BASE` USING BTREE (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  INDEX KEY `IDX_BASE` USING BTREE (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `FK_ATTRIBUTE_GALLERY_ENTITY` (`entity_id`),
   KEY `FK_CATALOG_CATEGORY_ENTITY_GALLERY_ATTRIBUTE` (`attribute_id`),
   KEY `FK_CATALOG_CATEGORY_ENTITY_GALLERY_STORE` (`store_id`),
