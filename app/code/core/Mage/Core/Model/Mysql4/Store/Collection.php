@@ -12,12 +12,17 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     public function __construct()
     {
         parent::__construct();
-        //$this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
     }
 
     protected function _construct()
     {
         $this->_init('core/store');
+    }
+    
+    public function setWithoutDefaultFilter()
+    {
+        $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
+        return $this;
     }
 
     public function addIdFilter($store)

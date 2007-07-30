@@ -31,7 +31,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'catalog/product_store', 
                 'store_id', 
                 'product_id=entity_id', 
-                '{{table}}.store_id='.$storeId);
+                '{{table}}.store_id='.$storeId)
+            ->joinField('stores', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                null,
+                'left');
                 
         if ($storeId) {
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
@@ -40,6 +46,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
+        $filter = $this->getRequest()->getParam($this->getVarNameFilter());
+        if (empty($filter)) {
+            $this->_setFilterValues(array('stores'=>$this->getParam('store', 0)));
+        }
+        
         return parent::_prepareCollection();
     }
 
@@ -107,7 +118,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header'=> __('Stores'),
                 'width' => '100px',
-                'filter'=> false,
+                'filter'    => 'adminhtml/catalog_product_grid_filter_store',
+                //'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_visible',
                 'index' => 'stores',
         ));
         
