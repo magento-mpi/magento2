@@ -50,7 +50,7 @@
                         <?=$this->getAddressHtml($_address)?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
