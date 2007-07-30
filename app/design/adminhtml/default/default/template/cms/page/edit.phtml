@@ -1,0 +1,28 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
+            <td class="a-right">
+                <?=$this->getBackButtonHtml()?>
+                <?=$this->getResetButtonHtml()?>
+                <?=$this->getToggleButtonHtml()?>
+                <?if($this->getPageId()):?>
+                    <?=$this->getDeleteButtonHtml()?>
+                <?endif;?>
+                <?=$this->getSaveButtonHtml()?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="POST" id="page_edit_form">
+</form>
+<script type="text/javascript" language="javascript">
+    var pageForm = new varienForm('page_edit_form');
+    function toggleEditor() {
+        if (tinyMCE.getInstanceById('page_content') == null) {
+            tinyMCE.execCommand('mceAddControl', false, 'page_content');
+        } else {
+            tinyMCE.execCommand('mceRemoveControl', false, 'page_content');
+        }
+    }
+</script>

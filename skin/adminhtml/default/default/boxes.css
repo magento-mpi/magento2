@@ -254,7 +254,7 @@
 .head-product-attributes { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
 .head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
 .head-tax { background-image:url(images/fam_money_add.gif); }
-.head-cms { background-image:url(images/application_view_tile.gif); }
+.head-cms-page, .head-cms-block { background-image:url(images/application_view_tile.gif); }
 .head-backups-control { background-image:url(images/fam_server_database.gif); }
 
 /************* DATA MANIPULATION ************/

@@ -9,72 +9,28 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Cms_Model_Page extends Varien_Object
+class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
 {
 
     const NOROUTE_PAGE_ID = 'no-route';
 
-    public function load($pageId=null)
+    protected function _construct()
     {
-        if( is_null($pageId) ) {
-            return $this->noRoutePage();
-        }
-
-        $this->setData( $this->getResource()->load($pageId) );
-        return $this;
+        $this->_init('cms/page');
     }
 
-    public function loadById($pageId=null)
+    public function load($id, $field=null)
     {
-        if( is_null($pageId) ) {
+        if (is_null($id)) {
             return $this->noRoutePage();
         }
-
-        $this->setData( $this->getResource()->loadById($pageId) );
-        return $this;
+        return parent::load($id, $field);
     }
 
     public function noRoutePage()
     {
-        if( !$this->isDisabled(self::NOROUTE_PAGE_ID) ) {
-            $this->setData( $this->getResource()->load(self::NOROUTE_PAGE_ID) );
-        } else {
-            return false;
-        }
+        $this->setData($this->load(self::NOROUTE_PAGE_ID, $this->getIdFieldName()));
         return $this;
     }
 
-    public function getResource()
-    {
-        return Mage::getResourceModel('cms/page');
-    }
-
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    public function enablePage($pageId)
-    {
-        $this->getResource()->enablePage($pageId);
-        return $this;
-    }
-
-    public function disablePage($pageId)
-    {
-        $this->getResource()->disablePage($pageId);
-        return $this;
-    }
-
-    public function delete($pageId)
-    {
-        $this->getResource()->delete($pageId);
-        return $this;
-    }
-
-    public function itemExists()
-    {
-        return $this->getResource()->itemExists($this);
-    }
 }

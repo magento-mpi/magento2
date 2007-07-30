@@ -17,63 +17,63 @@ class Varien_Data_Collection implements IteratorAggregate
      * @var array
      */
     protected $_items = array();
-    
+
     /**
      * Item object class name
      *
      * @var string
      */
     protected $_itemObjectClass = 'Varien_Object';
-    
+
     /**
      * Order configuration
      *
      * @var array
      */
     protected $_orders      = array();
-    
+
     /**
      * Filters configuration
      *
      * @var array
      */
     protected $_filters     = array();
-    
+
     /**
      * Filter rendered flag
      *
      * @var bool
      */
     protected $_isFiltersRendered = false;
-    
+
     /**
      * Current page number for items pager
      *
      * @var int
      */
     protected $_curPage     = 1;
-    
+
     /**
      * Pager page size
-     * 
+     *
      * if page size is false, then we works with all items
      *
      * @var int || false
      */
     protected $_pageSize    = false;
-    
+
     /**
      * Total items number
      *
      * @var unknown_type
      */
     protected $_totalRecords= null;
-    
-    public function __construct() 
+
+    public function __construct()
     {
 
     }
-    
+
     /**
      * Add collection filter
      *
@@ -87,12 +87,12 @@ class Varien_Data_Collection implements IteratorAggregate
         $filter['field']   = $field;
         $filter['value']   = $value;
         $filter['type']    = strtolower($type);
-        
+
         $this->_filters[] = $filter;
         $this->_isFiltersRendered = false;
         return $this;
     }
-    
+
     /**
      * Get current collection page
      *
@@ -110,7 +110,7 @@ class Varien_Data_Collection implements IteratorAggregate
             return $this->_curPage + $displacement;
         }
     }
-    
+
     /**
      * Get last page number
      *
@@ -121,7 +121,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $collectionSize = (int) $this->getSize();
         if (0 === $collectionSize) {
             return 1;
-        } 
+        }
         elseif($this->_pageSize) {
             return ceil($collectionSize/$this->_pageSize);
         }
@@ -129,12 +129,12 @@ class Varien_Data_Collection implements IteratorAggregate
             return 1;
         }
     }
-    
+
     public function getPageSize()
     {
         return $this->_pageSize;
     }
-    
+
     /**
      * Get collection size
      *
@@ -159,7 +159,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this->_items;
     }
-    
+
     public function getColumnValues($colName)
     {
         $col = array();
@@ -168,7 +168,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $col;
     }
-    
+
     public function getItemsByColumnValue($column, $value)
     {
         $res = array();
@@ -179,7 +179,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $res;
     }
-    
+
     public function getItemByColumnValue($column, $value)
     {
         foreach ($this as $item) {
@@ -189,24 +189,24 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return null;
     }
-    
+
     public function addItem(Varien_Object $item)
     {
         $this->_items[] = $item;
     }
-    
+
     public function removeItemByKey($key)
     {
         if (isset($this->_items[$key])) {
             unset($this->_items[$key]);
         }
     }
-    
+
     public function clear()
     {
         $this->_items = array();
     }
-        
+
     public function walk($method, $args=array())
     {
         foreach ($this->getItems() as $item) {
@@ -234,11 +234,11 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $this;
     }
-    
+
     /**
      * Set current page
      *
-     * @param   int $page 
+     * @param   int $page
      * @return  Varien_Data_Collection
      */
     public function setCurPage($page)
@@ -250,10 +250,10 @@ class Varien_Data_Collection implements IteratorAggregate
         else {
             $this->_curPage = 1;
         }*/
-        
+
         return $this;
     }
-    
+
     /**
      * Set collection page size
      *
@@ -265,7 +265,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_pageSize = $size;
         return $this;
     }
-    
+
     /**
      * Set select order
      *
@@ -279,7 +279,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
         return $this;
     }
-    
+
     /**
      * Set collection item class name
      *
@@ -294,7 +294,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_itemObjectClass = $className;
         return $this;
     }
-    
+
     /**
      * Render sql select conditions
      *
@@ -304,7 +304,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this;
     }
-    
+
     /**
      * Render sql select orders
      *
@@ -314,7 +314,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this;
     }
-    
+
     /**
      * Render sql select limit
      *
@@ -324,7 +324,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this;
     }
-    
+
     /**
      * Set select distinct
      *
@@ -334,7 +334,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this;
     }
-    
+
     /**
      * Load data
      *
@@ -344,7 +344,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this;
     }
-    
+
     /**
      * Load data
      *
@@ -354,7 +354,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this->loadData($printQuery, $logQuery);
     }
-    
+
     /**
      * Convert collection to XML
      *
@@ -366,7 +366,7 @@ class Varien_Data_Collection implements IteratorAggregate
         <collection>
            <totalRecords>'.$this->_totalRecords.'</totalRecords>
            <items>';
-        
+
         foreach ($this->_items as $index => $item) {
             $xml.=$item->toXml();
         }
@@ -374,7 +374,7 @@ class Varien_Data_Collection implements IteratorAggregate
         </collection>';
         return $xml;
     }
-    
+
     /**
      * Convert collection to array
      *
@@ -384,17 +384,17 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         $arrItems = array();
         $arrItems['totalRecords'] = $this->getSize();
-        
-        $arrItems['items'] = array();       
+
+        $arrItems['items'] = array();
         foreach ($this->_items as $index => $item) {
             $arrItems['items'][] = $item->toArray($arrRequiredFields);
         }
         return $arrItems;
     }
-    
+
     /**
      * Convert items array to array for select options
-     * 
+     *
      * return items array
      * array(
      *      $index => array(
@@ -402,7 +402,7 @@ class Varien_Data_Collection implements IteratorAggregate
      *          'label' => mixed
      *      )
      * )
-     * 
+     *
      * @param   string $valueField
      * @param   string $labelField
      * @return  array
@@ -412,7 +412,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $res = array();
         $additional['value'] = $valueField;
         $additional['label'] = $labelField;
-        
+
         foreach ($this as $item) {
             foreach ($additional as $code => $field) {
                 $data[$code] = $item->getData($field);
@@ -421,12 +421,39 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $res;
     }
-    
+
     public function toOptionArray()
     {
         return $this->_toOptionArray();
     }
-    
+
+    public function toOptionHash()
+    {
+        return $this->_toOptionHash();
+    }
+
+    /**
+     * Convert items array to hash for select options
+     *
+     * return items hash
+     * array(
+     *      $value => $label,
+     *      $value => $label,
+     * )
+     *
+     * @param   string $valueField
+     * @param   string $labelField
+     * @return  array
+     */
+    protected function _toOptionHash($valueField='id', $labelField='name')
+    {
+        $res = array();
+        foreach ($this as $item) {
+            $res[ $item->getData($valueField) ] = $item->getData($labelField);
+        }
+        return $res;
+    }
+
     public function getItemById($idValue)
     {
         foreach ($this as $item) {
@@ -436,7 +463,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return false;
     }
-    
+
     /**
      * Implementation of IteratorAggregate::getIterator()
      */

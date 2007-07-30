@@ -2,10 +2,11 @@
 /**
  * CMS Observer
  *
- * @file        Page.php
+ * @package     Mage
+ * @subpackage  Cms
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Cms_Model_Observer
@@ -21,8 +22,3 @@ class Mage_Cms_Model_Observer
     }
 
 }
-
-// ft:php
-// fileformat:unix
-// tabstop:4
-?>

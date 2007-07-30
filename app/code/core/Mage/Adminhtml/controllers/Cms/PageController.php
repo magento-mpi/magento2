@@ -7,103 +7,104 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Michael Bessolov <michael@varien.com>
  */
 class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 {
+
+    protected function _initAction()
+    {
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('cms/page')
+            ->_addBreadcrumb(__('CMS'), __('CMS'))
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
+        ;
+        return $this;
+    }
+
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('cms/control');
-        $this->_addBreadcrumb(__('CMS'), __('CMS Title'));
-
-        $block = $this->getLayout()->createBlock('adminhtml/cms', 'cms');
-        $this->_addContent($block);
-
-        $this->renderLayout();
+        $this->_initAction()
+            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page'))
+            ->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/cms_grid')->toHtml());
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/cms_page')->toHtml());
+//        $this->_initAction()
+//            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page'))
+//            ->renderLayout();
     }
 
-    public function newpageAction()
+    public function newAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('cms/control');
-        $this->_addBreadcrumb(__('CMS'), __('CMS Title'));
-        $this->_addBreadcrumb(__(( $this->getRequest()->getParam('breadcrumb') ) ? $this->getRequest()->getParam('breadcrumb') : 'New Page'),
-                      __(( $this->getRequest()->getParam('breadcrumb_title') ) ? $this->getRequest()->getParam('breadcrumb_title') : 'New Page Title'));
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/cms_page')
-        );
-
-        $this->getLayout()->getBlock('left')
-            //->append($this->getLayout()->createBlock('adminhtml/store_switcher'))
-            ->append($this->getLayout()->createBlock('adminhtml/cms_page_tabs'));
-
-        $this->renderLayout();
+        $this->_forward('edit');
     }
 
     public function editAction()
     {
-        $this->_forward('newpage', null, null, array('breadcrumb' => __('Edit Page'), 'breadcrumb_title' => __('Edit Page Title')));
-    }
+        $id = $this->getRequest()->getParam('page_id');
+        $model = Mage::getModel('cms/page');
 
-    public function deleteAction()
-    {
-        $pageId = intval( $this->getRequest()->getParam('page') );
-        Mage::getModel('cms/page')->delete($pageId);
-        $this->_redirect('adminhtml/cms');
-    }
-
-    public function enableAction()
-    {
-        $pageId = intval( $this->getRequest()->getParam('page') );
-        Mage::getModel('cms/page')->enablePage($pageId);
-        $this->_redirect('adminhtml/cms');
-    }
-
-    public function disableAction()
-    {
-        $pageId = intval( $this->getRequest()->getParam('page') );
-        try {
-            Mage::getModel('cms/page')->disablePage($pageId);
-            $this->_redirect('adminhtml/cms');
-        } catch (Exception $e) {
-            /* FIXME!!! */
-            $this->_redirect('adminhtml/cms');
+        if ($id) {
+            $model->load($id);
         }
+
+        // set entered data if was error when we do save
+        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        if (! empty($data)) {
+            $model->setData($data);
+        }
+
+        Mage::register('cms_page', $model);
+
+        $this->_initAction()
+            ->_addBreadcrumb($id ? __('Edit Page') : __('New Page'), $id ? __('Edit Page') : __('New Page'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', Mage::getUrl('adminhtml', array('controller' => 'cms_page', 'action' => 'save'))))
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'))
+            ->renderLayout();
     }
 
     public function saveAction()
     {
-        $pageData = array(
-                'page_id' => $this->getRequest()->getParam('page_id', null),
-                'page_title' => $this->getRequest()->getParam('page_title'),
-                'page_identifier' => $this->getRequest()->getParam('page_identifier'),
-                'page_active' => intval( $this->getRequest()->getParam('page_active') ),
-                'page_content' => $this->getRequest()->getParam('page_content'),
-                'page_meta_keywords' => $this->getRequest()->getParam('page_meta_keywords'),
-                'page_meta_description' => $this->getRequest()->getParam('page_meta_description'),
-                'page_store_id' => $this->getRequest()->getParam('page_store_id', 0) /* FIXME!!! */
-            );
-
-        $model = Mage::getModel('cms/page')->setData($pageData);
-        if( $model->itemExists() === false ) {
-            $model->save();
-            $this->_redirect('adminhtml/cms');
-        } else {
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this page. Page with the same identifier already exists.');
-            $this->_returnLocation();
+        if ($data = $this->getRequest()->getPost()) {
+            $model = Mage::getModel('cms/page');
+            $model->setData($data);
+            try {
+                $model->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->setPageData(false);
+                $this->_redirect('*/*/');
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                return;
+            }
         }
     }
 
-    protected function _returnLocation()
+    public function deleteAction()
     {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
+        if ($id = $this->getRequest()->getParam('page_id')) {
+            try {
+                $model = Mage::getModel('cms/page');
+                $model->setId($id);
+                $model->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was deleted succesfully'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                return;
+            }
         }
+        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a page to delete'));
+        $this->_redirect('*/*/');
     }
+
 }

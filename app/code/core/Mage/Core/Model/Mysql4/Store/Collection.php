@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
+class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     public function __construct()
     {
@@ -15,11 +15,11 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
         $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
     }
 
-    protected function _construct() 
+    protected function _construct()
     {
         $this->_init('core/store');
     }
-    
+
     public function addIdFilter($store)
     {
         if (is_array($store)) {
@@ -63,4 +63,10 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     {
         return $this->_toOptionArray('store_id', 'name');
     }
+
+    public function toOptionHash()
+    {
+        return $this->_toOptionHash('store_id', 'name');
+    }
+
 }

@@ -184,13 +184,15 @@
          </promo>
          <cms>
             <title>CMS</title>
-            <!-- action>adminhtml/cms</action -->
             <children>
-                <control>
+                <page>
                     <title>Manage Pages</title>
-                    <action>adminhtml/cms</action>
-                    <resource>cms/control</resource>
-                </control>
+                    <action>adminhtml/cms_page</action>
+                </page>
+                <block>
+                    <title>Static Blocks</title>
+                    <action>adminhtml/cms_block</action>
+                </block>
             	<!--<config>
                     <title>Configuration</title>
                     <action>adminhtml/cms_config/</action>
