@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $websiteId = (int)Mage::getConfig()->getNode("websites/$website/system/website/id");
             $websiteConfig = $read->fetchAssoc(
                 $read->select()->from($table, array('path', 'value', 'inherit', 'old_value'))
-                    ->where("scope='website' and scope_id=?", $websiteId)
+                    ->where("scope='websites' and scope_id=?", $websiteId)
                     ->where("path like ?", $section.'/%')
             );
             foreach ($websiteConfig as $path=>$data) {
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $storeId = (int)Mage::getConfig()->getNode("stores/$store/system/store/id");
             $storeConfig = $read->fetchAssoc(
                 $read->select()->from($table, array('path', 'value', 'inherit', 'old_value'))
-                    ->where("scope='store' and scope_id=?", $storeId)
+                    ->where("scope='stores' and scope_id=?", $storeId)
                     ->where("path like ?", $section.'/%')
             );
             foreach ($storeConfig as $path=>$data) {
@@ -76,10 +76,10 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($store) {
-            $scope = 'store';
+            $scope = 'stores';
             $scopeId = Mage::getStoreConfig('system/store/id', $store);
         } elseif ($website) {
-            $scope = 'website';
+            $scope = 'websites';
             $scopeId = Mage::getModel('core/website')->setCode($website)->getConfig('system/website/id');
         } else {
             $scope = 'default';

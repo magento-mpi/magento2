@@ -77,7 +77,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
             $customer->setLoadedAddressCollection($collection);
         }
-
+        
         Mage::register('customer', $customer);
 
         /**

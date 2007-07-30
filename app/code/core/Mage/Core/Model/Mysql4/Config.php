@@ -54,23 +54,23 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $config = array();
 
         // load websites and stores from db
-        $websites = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
-        $stores = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store'));
+        $d['websites'] = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website')." where website_id>0");
+        $d['stores'] = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store')." where store_id>0");
 #print_r($websites);
         // initialize websites config
-        foreach ($websites as $wId=>$wData) {
-            $config['website'][$wId]['system/website/id']['value'] = $wId;
-            $config['website'][$wId]['system/website/name']['value'] = $wData['name'];
+        foreach ($d['websites'] as $wId=>$wData) {
+            $config['websites'][$wId]['system/website/id']['value'] = $wId;
+            $config['websites'][$wId]['system/website/name']['value'] = $wData['name'];
         }
 
         //initialize stores config
-        foreach ($stores as $sId=>$sData) {
+        foreach ($d['stores'] as $sId=>$sData) {
             $wId = $sData['website_id'];
-            $websites[$wId]['stores'][$sId] = $sData['website_id'];
-            $config['website'][$wId]['system/stores/'.$stores[$sId]['code']]['value'] = $sId;
-            $config['store'][$sId]['system/store/id']['value'] = $sId;
-            $config['store'][$sId]['system/store/name']['value'] = $sData['name'];
-            $config['store'][$sId]['system/website/id']['value'] = $sData['website_id'];
+            $d['websites'][$wId]['stores'][$sId] = $sData['website_id'];
+            $config['websites'][$wId]['system/stores/'.$d['stores'][$sId]['code']]['value'] = $sId;
+            $config['stores'][$sId]['system/store/id']['value'] = $sId;
+            $config['stores'][$sId]['system/store/name']['value'] = $sData['name'];
+            $config['stores'][$sId]['system/website/id']['value'] = $sData['website_id'];
         }
 
         // get default distribution config vars
@@ -91,15 +91,15 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
         // inherit global -> website -> store configuration values
         foreach ($config['default'][0] as $path=>$data) {
-            foreach ($config['website'] as $wId=>$wConfig) {
+            foreach ($config['websites'] as $wId=>$wConfig) {
                 if (!isset($wConfig[$path]) || $wConfig[$path]['inherit']==1) {
-                    $config['website'][$wId][$path]['value'] = $data['value'];
+                    $config['websites'][$wId][$path]['value'] = $data['value'];
                 }
-                if (!empty($websites[$wId]['stores'])) {
-                    foreach ($websites[$wId]['stores'] as $sId=>$dummy) {
-                        $sConfig = $config['store'][$sId];
+                if (!empty($d['websites'][$wId]['stores'])) {
+                    foreach ($d['websites'][$wId]['stores'] as $sId=>$dummy) {
+                        $sConfig = $config['stores'][$sId];
                         if (!isset($sConfig[$path]) || $sConfig[$path]['inherit']==1) {
-                            $config['store'][$sId][$path]['value'] = $config['website'][$wId][$path]['value'];
+                            $config['stores'][$sId][$path]['value'] = $config['websites'][$wId][$path]['value'];
                         }
                     }
                 }
@@ -111,7 +111,9 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             foreach ($scopeConfig as $sId=>$sConfig) {
                 foreach ($sConfig as $path=>$data) {
                     // get config prefix: 'global' or 'websites/{code}' or 'stores/{code}'
-                    $prefix = $scope.($sId!==0 ? 's/'.${$scope.'s'}[$sId]['code'] : '');
+                    $prefix = $scope.($sId!==0 ? '/'.$d[$scope][$sId]['code'] : '');
+#echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
+
                     $xmlConfig->setNode($prefix.'/'.$path, $data['value']);
                 }
             }
