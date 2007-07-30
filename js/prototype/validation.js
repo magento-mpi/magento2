@@ -311,6 +311,6 @@ Validation.addAllThese([
                 return (!isNaN(v) && v>=0);
             }],
     ['validate-state', 'Please select State/Province.', function(v) {
-                return (v!=0);
+                return (v!=0 || v == '');
             }]
 ]);
