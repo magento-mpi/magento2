@@ -5,7 +5,7 @@
 /************* Messages ***********/
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
 .required { color:#ff0000; }
-.changed { color:#e26f03 !important; }
+/*.changed { color:#e26f03 !important; }*/
 
 .messages li, div.messages { list-style:none; padding: 13px 13px 13px 52px; margin-bottom: 10px; }
 .messages ul li { margin-bottom: 0; padding: 0; }
@@ -198,7 +198,7 @@
 .content-left-nav a.store span { padding-left:47px;}
 .content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
-.changed { font-style:italic; }
+/*.changed { font-style:italic; }*/
 
 
 /*************** All about headings **************/

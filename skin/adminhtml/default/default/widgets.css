@@ -28,8 +28,8 @@ button.scalable td {
     background-image:url(images/btn_task_bg.gif);
     }
 button.scalable td span {
-        display:block;
-        }
+    display:block;
+    }
 button.scalable td.tl {
     height:4px;
     background-position:0 0;
@@ -350,7 +350,7 @@ ul.tabs li a:hover.active {
     }
 ul.tabs li span {
     display:block;
-    padding:.3em 1.5em .28em 1.5em;
+    padding:.3em 0.5em .28em 1.5em;
     cursor:pointer;
     }
 ul.tabs li a.active span, ul.tabs li a:hover.active span {
@@ -359,7 +359,23 @@ ul.tabs li a.active span, ul.tabs li a:hover.active span {
     }
 ul.tabs a.subitem{ padding-left:2.2em; }
 
+ul.tabs div.changed, ul.tabs div.error {
+    float:right;
+    }
 
+ul.tabs a.changed div.changed {
+    background:url(images/fam_bullet_disk.gif);
+    width:16px;
+    height:16px;
+    }
+ul.tabs a.error div.error {
+    background:url(images/fam_bullet_error.gif);
+    width:16px;
+    height:16px;
+    }
+
+
+/************* SWITCHER **************/
 p.switcher { 
     background:#eee; 
     padding:10px; 
@@ -370,6 +386,7 @@ p.switcher {
 .section-menu p.switcher select{
     width:150px;
     }
+    
 
 /************* FORMS ***************/
 .validation-advice {
@@ -377,13 +394,17 @@ p.switcher {
     color:#d6340e;
     font-style:italic;
     margin-right:20px;
+    padding-left:16px;
+    background:url(images/fam_bullet_error.gif) no-repeat;
     }
 input.validation-failed, textarea.validation-failed { 
     background:#fef0ed;
     border: 1px dashed #d6340e;
     }
 .left-col-block { width:190px; }
-select.countries optio { background-repeat:no-repeat; }
+select.countries option { background-repeat:no-repeat; }
+
+/************* RULES ***************/
 
 .rule-conditions li, .rule-actions li { margin-left:16px; }
 
