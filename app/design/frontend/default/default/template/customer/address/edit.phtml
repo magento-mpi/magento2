@@ -65,18 +65,24 @@
                     <input type="text" name="fax" value="<?=$this->getAddress()->getFax()?>" title="Fax" class="validate-fax input-text" id="fax"/>
                 </div>
             </li>
-            <?if($this->canSetAsDefaultBilling()):?>
             <li>
-                <input type="checkbox" id="primary_billing" name="default_billing" value="1"/>&nbsp;
-                <label for="primary_billing">Use as my primary <strong>billing</strong> address</label>
+                <?if($this->canSetAsDefaultBilling()):?>
+                    <input type="checkbox" id="primary_billing" name="default_billing" value="1"/>&nbsp;
+                    <label for="primary_billing">Use as my primary <strong>billing</strong> address</label>
+                <?else:?>
+                    Primary billing address<br />
+                    <input type="hidden" id="primary_billing" name="default_billing" value="1"/>
+                <?endif;?>
             </li>
-            <?endif;?>
-            <?if($this->canSetAsDefaultShipping()):?>
             <li>
-                <input type="checkbox" id="primary_billing" name="default_shipping" value="1"/>&nbsp;
-                <label for="primary_shipping">Use as my primary <strong>shipping</strong> address</label>
+                <?if($this->canSetAsDefaultShipping()):?>
+                    <input type="checkbox" id="primary_billing" name="default_shipping" value="1"/>&nbsp;
+                    <label for="primary_shipping">Use as my primary <strong>shipping</strong> address</label>
+                <?else:?>
+                    Primary shipping address<br />
+                    <input type="hidden" id="primary_billing" name="default_shipping" value="1"/>
+                <?endif;?>
             </li>
-            <?endif;?>
         </ul>
     </fieldset>
     <div class="buttons-container">

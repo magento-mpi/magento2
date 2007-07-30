@@ -95,6 +95,8 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
     
     public function canSetAsDefaultBilling()
     {
+        if (!Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
+            return false;
         if (!$this->getAddress()->getId()) {
             return true;
         }
@@ -103,6 +105,8 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
     
     public function canSetAsDefaultShipping()
     {
+        if (!Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
+            return false;
         if (!$this->getAddress()->getId()) {
             return true;
         }
