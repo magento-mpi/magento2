@@ -17,6 +17,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('widget/form.phtml');
+        $this->setDestElementId('edit_form');
     }
 
     public function getForm()
@@ -27,6 +28,14 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     public function getFormObject()
     {
         return $this->getForm();
+    }
+
+    public function getFormHtml()
+    {
+        if (is_object($this->getForm())) {
+            return $this->getForm()->getHtml();
+        }
+        return '';
     }
 
     public function setForm(Varien_Data_Form $form)
