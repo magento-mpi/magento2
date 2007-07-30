@@ -231,9 +231,11 @@ addressesModel.prototype = {
     },
     itemMouseClick : function(event){
         var element = Event.findElement(event, 'li'); // find top item
-        //Safari bug fix
-        //var elem = Event.element(event); // exact element clicked
-        var elem = Event.findElement(event, 'button'); // exact element clicked
+        
+        var elem = Event.element(event); // exact element clicked
+                                                 
+        if (elem.tagName != 'BUTTON' && elem.tagName != 'INPUT')
+            elem = Event.findElement(event, 'button'); //Safari bug fix
         
         if ( (elem.tagName == 'BUTTON') && ( elem.name == 'delete_address') ) {
             this.deleteAddress(element);
@@ -252,7 +254,7 @@ addressesModel.prototype = {
                 var inputs = $(this.itemList[i].id).getElementsBySelector('input');
                 var isActive = false;
                 for(var j in inputs){
-                    if(inputs[j].type=='radio' && inputs[j].checked){
+                    if(inputs[j].type=='radio' && inputs[j].checked && this.itemCount > 1){
                         isActive = true;
                     }
                 }
@@ -334,7 +336,8 @@ addressesModel.prototype = {
             }
             if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
             this.itemContainer.removeChild(item);  
-            this.reloadItemList();          
+            this.reloadItemList();
+            this.setAddressAsDefault();
         }
     },
     cancelAdd : function(button){
