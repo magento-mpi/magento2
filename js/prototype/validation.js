@@ -309,5 +309,8 @@ Validation.addAllThese([
             }],
     ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v) {
                 return (!isNaN(v) && v>=0);
+            }],
+    ['validate-state', 'Please select State/Province.', function(v) {
+                return (v!=0);
             }]
 ]);

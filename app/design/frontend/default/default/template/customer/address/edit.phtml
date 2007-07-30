@@ -47,7 +47,7 @@
                 <?if($this->getRegionCollection()->getSize()):?>
                     <?=$this->getRegionHtmlSelect()?>
                 <?else:?>
-                    <input type="text" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="State/Province" id="state" class="input-text"/>
+                    <input type="text" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="State/Province" id="state" class="validate-state input-text"/>
                 <?endif?>
                 </div>
                 <div class="input-right">
