@@ -97,7 +97,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
             }
         }
         if ( $html ) {
-            $html .= '</ul';
+            $html .= '</ul>';
         }
         return $html;
     }
