@@ -22,14 +22,17 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      * Customer addresses list
      */
     public function indexAction() 
-    {
-        $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
-        
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('customer/address_book')
-        );
-        $this->renderLayout();
+    {   
+        if (Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
+        {
+            $this->loadLayout();
+            $this->_initLayoutMessages('customer/session');
+                 
+            $this->getLayout()->getBlock('content')->append(
+                $this->getLayout()->createBlock('customer/address_book')
+            );
+            $this->renderLayout(); 
+        } else $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
     }
     
     public function editAction()
