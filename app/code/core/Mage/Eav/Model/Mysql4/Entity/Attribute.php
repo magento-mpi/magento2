@@ -32,45 +32,16 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $read = $this->getConnection('read');
 
         $select = $read->select()->from($this->getMainTable())
-            ->where("attribute_name='{$object->getAttributeName()}' OR attribute_code='{$object->getAttributeCode()}'")
-            ->where('attribute_id!=?', $object->getAttributeId());
+            ->where("attribute_name='{$object->getAttributeName()}'")
+            ->where('attribute_id != ?', $object->getAttributeId())
+            ->where('entity_type_id = ?', $object->getEntityTypeId());
+
         $data = $read->fetchRow($select);
+
         if (!$data) {
             return false;
         }
         return true;
-    }
-
-    public function saveAttributes($object)
-    {
-        $write = $this->getConnection('write');
-        $write->beginTransaction();
-
-        try {
-            if( is_array($object->getNotAttributesArray()) ) {
-                foreach( $object->getNotAttributesArray() as $attribute ) {
-                    $condition = "attribute_id = {$attribute} AND entity_type_id = {$object->getEntityTypeId()}";
-                    $write->update($this->getTable('entity_attribute'), array('attribute_set_id' => 0, 'attribute_group_id' => 0), $condition);
-                }
-            }
-
-            if( is_array($object->getAttributesArray()) ) {
-                foreach( $object->getAttributesArray() as $key => $attribute ) {
-                    $condition = "attribute_id = {$attribute[0]} AND entity_type_id = {$object->getEntityTypeId()}";
-                    $updateData = array(
-                        'entity_type_id' => $object->getEntityTypeId(),
-                        'attribute_set_id' => $object->getSetId(),
-                        'attribute_group_id' => $attribute[1],
-                        'sort_order' => $attribute[2],
-                    );
-                    $write->update($this->getTable('entity_attribute'), $updateData, $condition);
-                }
-            }
-
-            $write->commit();
-        } catch (Exception $e) {
-            $write->rollback();
-        }
     }
 
     public function save(Mage_Core_Model_Abstract $object)
@@ -86,54 +57,39 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
         $write->beginTransaction();
         try {
-            if( $attributeId > 0 ) {
-                $condition = $write->quoteInto("{$this->getMainTable()}.{$this->getIdFieldName()} = ?", $attributeId);
-                $write->update($this->getMainTable(), $data, $condition);
-            } else {
-                $write->insert($this->getMainTable(), $data);
+
+            if( !$object->getSortOrder() ) {
+                if( $attributeId > 0 ) {
+                    $condition = $write->quoteInto("{$this->getMainTable()}.{$this->getIdFieldName()} = ?", $attributeId);
+                    $write->update($this->getMainTable(), $data, $condition);
+                } else {
+                    $write->insert($this->getMainTable(), $data);
+                }
             }
 
             $data = array(
                 'entity_type_id' => ( $object->getEntityTypeId() > 0 ) ? $object->getEntityTypeId() : 0,
-                'attribute_set_id' => ( $object->getAttributeSetId() > 0 ) ? $object->getAttributeSetId() : 0,
+                'attribute_set_id' => ( $object->getAttributeSetId() > 0 && $object->getAttributeGroupId() > 0 ) ? $object->getAttributeSetId() : 0,
                 'attribute_group_id' => ( $object->getAttributeGroupId() > 0 ) ? $object->getAttributeGroupId() : 0,
                 'attribute_id' => ( $object->getId() ) ? $object->getId() : $write->lastInsertId(),
                 'sort_order' => ( ( $object->getSortOrder() ) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1 ),
             );
 
-            if( $this->_getEntityAttributeId($object) || $object->getForceUpdate() ) {
-                $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.{$this->getIdFieldName()} = ?", $object->getId());
-                $write->update($this->getTable('entity_attribute'), $data, $condition);
-            } else {
+            $condition = "({$this->getTable('entity_attribute')}.attribute_set_id = '{$object->getAttributeSetId()}' AND {$this->getTable('entity_attribute')}.attribute_id = '{$object->getId()}')";
+            $condition.= "OR ({$this->getTable('entity_attribute')}.attribute_group_id = '0' AND {$this->getTable('entity_attribute')}.attribute_id = '{$object->getId()}')";
+            $write->delete($this->getTable('entity_attribute'), $condition);
+
+            if( $this->_attributeInZeroSet($object) == false ) {
                 $write->insert($this->getTable('entity_attribute'), $data);
             }
+
             $write->commit();
         } catch (Exception $e) {
             $write->rollback();
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
 
-    /*
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
-    {
-        $write = $this->getConnection('write');
-        $data = array(
-            'entity_type_id' => ( $object->getEntityTypeId() > 0 ) ? $object->getEntityTypeId() : 0,
-            'attribute_set_id' => ( $object->getAttributeSetId() > 0 ) ? $object->getAttributeSetId() : 0,
-            'attribute_group_id' => ( $object->getAttributeGroupId() > 0 ) ? $object->getAttributeGroupId() : 0,
-            'attribute_id' => $object->getId(),
-            'sort_order' => ( ( $object->getSortOrder() ) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1 ),
-        );
-
-        if( $this->_getEntityAttributeId($object) || $object->forceUpdate() ) {
-            $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.{$this->getIdFieldName()} = ?", $object->getId());
-            $write->update($this->getTable('entity_attribute'), $data, $condition);
-        } else {
-            $write->insert($this->getTable('entity_attribute'), $data);
-        }
-    }
-    */
     private function _getMaxSortOrder($object)
     {
         if( intval($object->getAttributeGroupId()) > 0 ) {
@@ -149,14 +105,19 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return 0;
     }
 
-    private function _getEntityAttributeId($object)
+    protected function _attributeInZeroSet($object)
     {
         $read = $this->getConnection('read');
-        $select = $read->select()
-            ->from($this->getTable('entity_attribute'), 'entity_attribute_id')
-            ->where("{$this->getTable('entity_attribute')}.attribute_set_id = ?", $object->getAttributeSetId())
-            ->where("{$this->getTable('entity_attribute')}.attribute_id = ?", $object->getId());
-        $id = $read->fetchOne($select);
-        return $id;
+
+        $select = $read->select()->from($this->getTable('entity_attribute'))
+            ->where("attribute_set_id=0")
+            ->where('attribute_id = ?', $object->getId());
+
+        $data = $read->fetchRow($select);
+
+        if (!$data) {
+            return false;
+        }
+        return true;
     }
 }

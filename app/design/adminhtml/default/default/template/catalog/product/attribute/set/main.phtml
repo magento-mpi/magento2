@@ -68,7 +68,6 @@
 
                         tree.setRootNode(this.root);
                         buildCategoryTree(this.root, <?=$this->getGroupTreeJson()?>);
-
                         // render the tree
                         tree.render();
                         this.root.expand(false, false);
@@ -102,8 +101,6 @@
                         tree2.setRootNode(this.root2);
                         buildCategoryTree(this.root2, <?=$this->getAttributeTreeJson()?>);
 
-                        //tree2.addListener('insert',editSet.rightAppend);
-
                         // render the tree
                         tree2.render();
                         this.root2.expand(false, false);
@@ -122,7 +119,7 @@
                                 for( j in group.childNodes ) {
                                     iterator ++;
                                     if( group.childNodes[j].id > 0 ) {
-                                        editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id, iterator);
+                                        editSet.req.attributes[group.childNodes[j].id] = new Array(group.childNodes[j].id, group.id, iterator, group.childNodes[j].attributes.entity_id);
                                     }
                                 }
                                 iterator = 0;
@@ -152,6 +149,7 @@
                     for (var i = 0; i < config.length; i++) {
                         var node = new Ext.tree.TreeNode(config[i]);
                         parent.appendChild(node);
+                        node.addListener('click', editSet.register);
                         if( config[i].children ) {
                             for( j in config[i].children ) {
                                 if(config[i].children[j].id) {
@@ -171,8 +169,8 @@
                         editSet.currentNode = node;
                     },
 
-                    unregister : function(node) {
-                        editSet.currentNode = null;
+                    unregister : function() {
+                        editSet.currentNode = false;
                     },
 
                     submit : function() {
@@ -182,6 +180,15 @@
 
                         if( editSet.currentNode ) {
                             TreePanels.root.removeChild(editSet.currentNode);
+
+                            for( i in editSet.currentNode.childNodes ) {
+                                if( editSet.currentNode.childNodes[i].id ) {
+                                    child = editSet.currentNode.childNodes[i];
+                                    newNode = new Ext.tree.TreeNode(child.attributes);
+                                    TreePanels.root2.appendChild(newNode);
+                                }
+                            }
+
                             editSet.req.removeGroups[editSet.currentNode.id] = editSet.currentNode.id;
                         }
                     },
@@ -203,7 +210,6 @@
                                     allowDrag : false
                                 });
                             TreePanels.root.appendChild(newNode);
-                            newNode.addListener('click', editSet.register);
                         }
                     },
 

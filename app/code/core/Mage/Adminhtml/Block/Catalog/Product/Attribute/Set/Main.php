@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute Set'),
-                    'onclick'   => 'setLocation(\'#\')',
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')',
 									'class' => 'delete'
                 ))
         );
@@ -147,6 +147,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                     $tmpArr = array();
                     $tmpArr['text'] = $child->getAttributeName() . ' (' . $child->getAttributeCode() . ')';
                     $tmpArr['id']  = $child->getAttributeId();
+                    $tmpArr['entity_id'] = $child->getEntityAttributeId();
                     $tmpArr['cls'] = 'leaf';
                     $tmpArr['allowDrop'] = false;
                     $tmpArr['allowDrag'] = true;
@@ -166,10 +167,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
     {
         $setId = $this->_getSetId();
 
+        $attributesIdsObj = Mage::getModel('eav/entity_attribute')
+                            ->getResourceCollection()
+                            ->setAttributeSetFilter($setId)
+                            ->load();
+        $attributesIds = array('0');
+        foreach( $attributesIdsObj->getItems() as $item ) {
+            $attributesIds[] = $item->getAttributeId();
+        }
         $attributes = Mage::getModel('eav/entity_attribute')
                             ->getResourceCollection()
                             ->setEntityTypeFilter(Mage::registry('entityType'))
-                            ->setAttributeSetExcludeFilter($setId)
+                            ->setAttributesExcludeFilter($attributesIds)
+                            ->addAttributeGrouping()
                             ->load();
         $items = array();
         foreach( $attributes as $node ) {

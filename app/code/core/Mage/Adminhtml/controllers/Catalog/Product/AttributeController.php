@@ -45,38 +45,27 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function saveAction()
     {
         $this->_setTypeId();
-        $model = Mage::getModel('eav/entity_attribute');
-        $model->setAttributeName($this->getRequest()->getParam('attribute_name'))
-            ->setDefaultValue($this->getRequest()->getParam('default_value'))
-            ->setAttributeModel($this->getRequest()->getParam('attribute_model'))
-            ->setBackendModel($this->getRequest()->getParam('backend_model'))
-            ->setBackendType($this->getRequest()->getParam('backend_type'))
-            ->setBackendTable($this->getRequest()->getParam('backend_table'))
-            ->setFrontendModel($this->getRequest()->getParam('frontend_model'))
-            ->setFrontendInput($this->getRequest()->getParam('frontend_input'))
-            ->setFrontendLabel($this->getRequest()->getParam('frontend_label'))
-            ->setFrontendClass($this->getRequest()->getParam('frontend_class'))
-            ->setSourceModel($this->getRequest()->getParam('source_model'))
-            ->setIsGlobal($this->getRequest()->getParam('is_global'))
-            ->setIsVisible($this->getRequest()->getParam('is_visible'))
-            ->setIsRequired($this->getRequest()->getParam('is_required'))
-            ->setIsSearchable($this->getRequest()->getParam('is_searchable'))
-            ->setIsFilterable($this->getRequest()->getParam('is_filterable'))
-            ->setIsComparable($this->getRequest()->getParam('is_comparable'))
-            ->setIsUserDefined($this->getRequest()->getParam('is_user_defined'))
+
+        $data = $this->getRequest()->getPost();
+        foreach( $data as $key => $value ) {
+            if( !$value ) {
+                unset($data[$key]);
+            }
+        }
+
+        $model = Mage::getModel('eav/entity_attribute')
+            ->setData($data)
             ->setEntityTypeId(Mage::registry('entityType'));
 
         if( $this->getRequest()->getParam('attribute_id') > 0 ) {
             $model->setId($this->getRequest()->getParam('attribute_id') );
         }
 
-        if( $this->getRequest()->getParam('attribute_code', false) ) {
-            $model->setAttributeCode($this->getRequest()->getParam('attribute_code') );
-        }
-
         if( $model->itemExists() === false ) {
             try {
                 $model->save();
+
+                Mage::getSingleton('adminhtml/session')->addSuccess('Product attribute successfully saved.');
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
@@ -86,7 +75,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $this->_returnLocation();
             }
         } else {
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Attribute with the same Code or Name already exists.');
+            Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Attribute with the same Name already exists.');
             $this->_returnLocation();
         }
     }

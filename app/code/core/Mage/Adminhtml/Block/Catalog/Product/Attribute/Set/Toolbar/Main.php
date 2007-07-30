@@ -17,6 +17,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
         $this->setTemplate('catalog/product/attribute/set/toolbar/main.phtml');
     }
 
+    protected function _initChildren()
+    {
+        $this->setChild('addButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Add New Set'),
+                    'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/add') . '\')',
+                    'class' => 'add',
+                ))
+        );
+    }
+
+    protected function getNewButtonHtml()
+    {
+        return $this->getChildHtml('addButton');
+    }
+
     protected function _getHeader()
     {
         return __('Product Attribute Sets');

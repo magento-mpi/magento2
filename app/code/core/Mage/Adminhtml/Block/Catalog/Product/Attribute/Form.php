@@ -220,8 +220,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
             $this->assign('header', __('Edit Attribute'));
 
-            if( $attributeObject->getIsGlobal() >= 0 ) {
-                $form->getElement('is_global')->setDisabled('true');
+            if( $attributeObject->getBackendType() ) {
+                $form->getElement('backend_type')->setDisabled('true');
+            }
+
+            if( $attributeObject->getBackendTable() ) {
+                $form->getElement('backend_table')->setDisabled('true');
             }
         } else {
             $form->getElement('is_user_defined')->setValue(1);

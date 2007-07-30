@@ -38,18 +38,18 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_
                 if( $object->getRemoveAttributes() ) {
                     foreach( $object->getRemoveAttributes() as $attribute ) {
                         $attribute->setAttributeGroupId(0)
-                                  ->setForceUpdate(true)
                                   ->save();
                     }
                 }
 
             } else {
-                $this->write->insert($this->getMainTable(), $data);
+                $write->insert($this->getMainTable(), $data);
+                $object->setId($write->lastInsertId());
             }
             $write->commit();
         } catch (Exception $e) {
             $write->rollback();
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
 
