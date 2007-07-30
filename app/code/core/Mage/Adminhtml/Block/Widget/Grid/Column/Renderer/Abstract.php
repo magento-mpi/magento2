@@ -62,7 +62,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
             $dir = strtolower($this->getColumn()->getDir());
             $nDir= ($dir=='asc') ? 'desc' : 'asc';
             if ($this->getColumn()->getDir()) {
-                $className = 'sort-arrow-' . $dir;
+                $className = 'sort-arrow-' . $nDir;
             }
             $out = '<a href="" name="'.$this->getColumn()->getId().'" target="'.$nDir
                    .'" class="' . $className . '"><span class="sort-title">'.$this->getColumn()->getHeader().'</span></a>';

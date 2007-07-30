@@ -10,4 +10,14 @@
             <action method="setTemplate"><template>catalog/product/upsell.phtml</template></action>
         </block>
     </reference>
+    <reference name="right">
+        <block type="catalog/product_link_crosssell" name="catalog.product.crosssell" before="-">
+            <action method="setTemplate"><template>catalog/product/crosssell.phtml</template></action>
+        </block>
+    </reference>
+    <reference name="right">
+    	<block type="catalog/product_link_related" name="catalog.product.related" before="-">
+            <action method="setTemplate"><template>catalog/product/related.phtml</template></action>
+        </block>
+    </reference>
 </layoutUpdate>

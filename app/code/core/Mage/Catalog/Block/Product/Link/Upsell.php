@@ -15,8 +15,10 @@ class Mage_Catalog_Block_Product_Link_Upsell extends Mage_Core_Block_Template
 	{
 		Mage::registry('product')->getUpSellProducts()
 			->addAttributeToSelect('name')
-			->addAttributeToSelect('price')
-			->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
+			->addAttributeToSort('position', 'asc')
 			->useProductItem()
 			->load();
 	}

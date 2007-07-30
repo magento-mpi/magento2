@@ -15,8 +15,10 @@ class Mage_Catalog_Block_Product_Link_Related extends Mage_Core_Block_Template
 	{
 		Mage::registry('product')->getRelatedProducts()
 			->addAttributeToSelect('name')
-			->addAttributeToSelect('price')
-			->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
+			->addAttributeToSort('position', 'asc')
 			->useProductItem()
 			->load();
 	}

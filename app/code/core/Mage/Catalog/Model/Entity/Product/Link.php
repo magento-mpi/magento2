@@ -64,13 +64,16 @@ class Mage_Catalog_Model_Entity_Product_Link extends Mage_Core_Model_Mysql4_Abst
 			foreach ($object->getAttributeCollection() as $attribute)
 			{
 				
-				if(isset($originAttributes[$attribute->getId()])) {
+				if(isset($originAttributes[$attribute->getId()]) && trim($object->getData($attribute->getCode()))!='') {
 					// If attribute value exists update existing record
 					$data = array();
 					$data['value'] = $object->getData($attribute->getCode());
 					$condition = $this->getConnection('write')->quoteInto('value_id = ?', $originAttributes[$attribute->getId()]['value_id']);				
 					$this->getConnection('write')->update($attribute->getTypeTable(), $data, $condition);
-				} else if($object->getData($attribute->getCode()) !== null) {
+				} elseif (isset($originAttributes[$attribute->getId()])) {
+					$condition = $this->getConnection('write')->quoteInto('value_id = ?', $originAttributes[$attribute->getId()]['value_id']);				
+					$this->getConnection('write')->delete($attribute->getTypeTable(), $condition);
+				} elseif (trim($object->getData($attribute->getCode()))!='') {
 					// If attribute value not empty and not exists insert new record
 					$data = array();
 					$data['value'] = $object->getData($attribute->getCode());

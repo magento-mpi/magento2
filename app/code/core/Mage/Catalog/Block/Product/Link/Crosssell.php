@@ -15,8 +15,10 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Core_Block_Template
 	{
 		Mage::registry('product')->getCrossSellProducts()
 			->addAttributeToSelect('name')
-			->addAttributeToSelect('price')
-			->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
+			->addAttributeToSort('position', 'asc')
 			->useProductItem()
 			->load();
 	}
