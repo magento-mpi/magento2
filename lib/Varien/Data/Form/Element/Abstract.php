@@ -61,7 +61,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 
     public function getHtmlId()
     {
-        return $this->getData('html_id').$this->getForm()->getHtmlIdPrefix();
+        return $this->getForm()->getHtmlIdPrefix() . $this->getData('html_id') . $this->getForm()->getHtmlIdSuffix();
     }
 
     public function getName()

@@ -15,7 +15,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
      * @var Varien_Data_Form_Element_Collection
      */
     protected $_elements;
-    
+
     /**
      * Element type classes
      *
@@ -23,12 +23,12 @@ class Varien_Data_Form_Abstract extends Varien_Object
      */
     protected $_types = array();
 
-    public function __construct($attributes = array()) 
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
-        
+
     }
-    
+
     public function addType($type, $className)
     {
         $this->_types[$type] = $className;
@@ -54,14 +54,14 @@ class Varien_Data_Form_Abstract extends Varien_Object
         $this->getElements()->add($element, $after);
         return $this;
     }
-    
+
     /**
      * Add child element
-     * 
+     *
      * if $after parameter is false - then element adds to end of collection
      * if $after parameter is null - then element adds to befin of collection
      * if $after parameter is string - then element adds after of the element with some id
-     * 
+     *
      * @param   string $elementId
      * @param   string $type
      * @param   array  $config
@@ -78,10 +78,13 @@ class Varien_Data_Form_Abstract extends Varien_Object
         }
         $element = new $className($config);
         $element->setId($elementId);
+        if ($element->getRequired()) {
+            $element->addClass('required-entry');
+        }
         $this->addElement($element, $after);
         return $element;
     }
-    
+
     public function removeField($elementId)
     {
         $this->getElements()->remove($elementId);
@@ -96,7 +99,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
         $this->addElement($element, $after);
         return $element;
     }
-    
+
     public function addColumn($elementId, $config)
     {
         $element = new Varien_Data_Form_Element_Column($config);

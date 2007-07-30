@@ -32,6 +32,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
 
             $html = '
+                <table style="width: 100%; border-collapse: collapse;"><tr><td><textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" style="width:100%; height:300px">'.$this->getEscapedValue().'</textarea></td></tr></table>
         		<script language="javascript" type="text/javascript" src="'.$this->getForm()->getBaseUrl().'js/tiny_mce/tiny_mce.js"></script>
         		<script language="javascript" type="text/javascript">
                     tinyMCE.init({
@@ -49,8 +50,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                         force_br_newlines : "true",
                         doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\'
                     });
-                </script>
-                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" style="width:100%;height:300px">'.$this->getEscapedValue().'</textarea>';
+                </script>';
 
                 /*plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
                 theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
