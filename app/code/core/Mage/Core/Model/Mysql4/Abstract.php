@@ -63,11 +63,12 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
     /**
      * Main table unique keys field names
-     * could be array(
-     *   'db_field_name1' => 'Field Name 1 for error message'
-     *   'db_field_name2' => 'Field Name 2 for error message'
+     * could array(
+     *   array('field' => 'db_field_name1', 'title' => 'Field 1 should be unique')
+     *   array('field' => 'db_field_name2', 'title' => 'Field 2 should be unique')
+     *   array('field' => array('db_field_name3', 'db_field_name3'), 'title' => 'Field 3 and Field 4 combination should be unique')
      * )
-     * or string 'db_field_name' - will be autoconverted to array( array( 'db_field_name' => 'db_field_name' ) )
+     * or string 'my_field_name' - will be autoconverted to array( array( 'field' => 'my_field_name', 'title' => 'my_field_name' ) )
      *
      * @var array
      */
@@ -273,9 +274,9 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
             if ($object->getId()) {
                 $condition = $write->quoteInto($this->getIdFieldName().'=?', $object->getId());
-                $write->update($table, $object->getDataForSave(), $condition);
+                $write->update($table, $this->_prepareDataForSave($object), $condition);
             } else {
-                $write->insert($table, $object->getDataForSave());
+                $write->insert($table, $this->_prepareDataForSave($object));
                 $object->setId($write->lastInsertId($table));
             }
 
@@ -288,10 +289,21 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         catch (Exception $e) {
             $write->rollBack();
-            Mage::throwException('Exception while saving the object');
+            Mage::throwException('Exception while saving the object:' . $e->getMessage());
         }
 
         return $this;
+    }
+
+    /**
+     * Prepare data for saving
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return array
+     */
+    protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
+    {
+        return $object->getDataForSave();
     }
 
     /**
@@ -309,16 +321,23 @@ abstract class Mage_Core_Model_Mysql4_Abstract
             $select = $read->select();
             $data = new Varien_Object( $object->getDataForSave() );
             if (! is_array( $this->_uniqueFields) ) {
-                $this->_uniqueFields = array( $this->_uniqueFields => $this->_uniqueFields );
+                $this->_uniqueFields = array( array('field' => $this->_uniqueFields, 'title' => $this->_uniqueFields) );
             }
             $select->from( $this->getMainTable() );
-            foreach ( $this->_uniqueFields as $unique => $title ) {
-                $select->reset( Zend_Db_Select::WHERE )->where( $unique . ' like ?', $data->getData($unique) );
+            foreach ( $this->_uniqueFields as $unique ) {
+                $select->reset( Zend_Db_Select::WHERE );
+                if (is_array($unique['field'])) {
+                    foreach ($unique['field'] as $field) {
+                    $select->where( $field . ' like ?', $data->getData($field) );
+                    }
+                } else {
+                    $select->where( $unique['field'] . ' like ?', $data->getData($unique['field']) );
+                }
                 if ( $object->getId() ) {
                     $select->where( $this->getIdFieldName() . ' != ?', $object->getId() );
                 }
                 if ( $data = $read->fetchRow($select) ) {
-                    $existent[] = $title;
+                    $existent[] = $unique['title'];
                 }
             }
         }
