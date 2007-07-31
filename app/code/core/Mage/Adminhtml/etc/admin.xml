@@ -77,13 +77,18 @@
                     <action>adminhtml/catalog_category/</action>
                 </categories>
                 <attributes>
-                    <title>Product Attributes</title>
-                    <action>adminhtml/catalog_product_attribute/</action>
+                    <title>Attributes</title>
+                    <children>
+                        <attributes>
+                            <title>Manage Attributes</title>
+                            <action>adminhtml/catalog_product_attribute/</action>
+                        </attributes>
+                        <sets>
+                            <title>Manage Attribute Sets</title>
+                            <action>adminhtml/catalog_product_set/</action>
+                        </sets>
+                    </children>
                 </attributes>
-                <sets>
-                    <title>Product Sets</title>
-                    <action>adminhtml/catalog_product_set/</action>
-                </sets>
                 <reviews>
                     <title>Reviews</title>
                     <action>adminhtml/catalog_product_review/</action>
