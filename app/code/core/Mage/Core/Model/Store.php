@@ -181,6 +181,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         } else {
             $basePath = $this->getConfig('web/url/'.$params['_type']);
         }
+        if (strpos($basePath, '{{base_path}}')!==false) {
+            $base = dirname($_SERVER['SCRIPT_NAME']);
+            if (empty($base) || "\\"==$base || "/"==$base) {
+                $base = '/';
+            } else {
+                $base .= '/';
+            }
+            
+            $basePath = str_replace('{{base_path}}', $base, $basePath);
+        }
         
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;

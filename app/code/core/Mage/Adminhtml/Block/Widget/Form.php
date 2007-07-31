@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 
                 if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
                     $element->setAfterElementHtml(
-                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('Global Attribute').'" class="attribute-global"/>'
+                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('This attribute shares the same value in all the stores').'" class="attribute-global"/>'
                     );
                 }
                 

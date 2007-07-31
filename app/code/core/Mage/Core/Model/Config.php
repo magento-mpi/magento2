@@ -182,7 +182,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             'protocol'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
             'host'      => $serverName,
             'port'      => $serverPort,
-            'base_path' => $basePath,
+            #'base_path' => $basePath,
         );
         return $arr;
     }

@@ -74,7 +74,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         }
 
         // get default distribution config vars
-        $vars = Mage::getModel('core/config')->getDistroServerVars();
+        $vars = Mage::getConfig()->getDistroServerVars();
         foreach ($vars as $k=>$v) {
             $subst_from[] = '{{'.$k.'}}';
             $subst_to[] = $v;

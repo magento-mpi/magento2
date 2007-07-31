@@ -61,7 +61,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      */
     public function getHtml($type=null)
     {
-        $html = '<ul>';
+        $html = '<ul id="admin_messages">';
         foreach ($this->getMessages($type) as $message) {
         	$html.= '<li class="'.$message->getType().'-msg">'.$message->getText().'</li>';
         }

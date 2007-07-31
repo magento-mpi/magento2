@@ -357,8 +357,9 @@ ul.tabs li a.active span, ul.tabs li a:hover.active span {
     background:#fff;
     font-weight:bold;
     }
-ul.tabs a.subitem{ padding-left:2.2em; }
-
+ul.tabs a.subitem { 
+    padding-left:2.2em; 
+    }
 ul.tabs div.changed, ul.tabs div.error {
     float:right;
     }
@@ -372,6 +373,9 @@ ul.tabs a.error div.error {
     background:url(images/fam_bullet_error.gif);
     width:16px;
     height:16px;
+    }
+ul.tabs a.changed {
+    font-style:italic;
     }
 
 
