@@ -32,7 +32,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
 
             $html = '
-                <table style="width: 100%; border-collapse: collapse;"><tr><td><textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" style="width:100%; height:300px">'.$this->getEscapedValue().'</textarea></td></tr></table>
+                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
         		<script language="javascript" type="text/javascript" src="'.$this->getForm()->getBaseUrl().'js/tiny_mce/tiny_mce.js"></script>
         		<script language="javascript" type="text/javascript">
                     tinyMCE.init({

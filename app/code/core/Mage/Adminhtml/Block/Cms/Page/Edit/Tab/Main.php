@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'name' => 'content',
             'label' => __('Content'),
             'title' => __('Content'),
-            'style' => 'width: 100%; height: 300px;',
+            'style' => 'width: 520px; height: 300px;',
             'wysiwyg' => true,
             'required' => true,
             'theme' => 'advanced',
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
         $this->setForm($form);
 
-        return $this;
+        return parent::_prepareForm();
     }
 
 }

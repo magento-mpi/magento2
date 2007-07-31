@@ -11,14 +11,14 @@
 
 class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-	protected function _prepareForm() 
+	protected function _prepareForm()
 	{
 		$queue = Mage::getSingleton('newsletter/queue');
-			
+
 		$form = new Varien_Data_Form();
-		
+
 		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue Information')));
-		
+
 		if($queue->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
 			$fieldset->addField('date','date',array(
 				'name'	  =>	'start_at',
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'value'	  => 	$queue->getQueueStartAt(),
 				'title'	  =>	__('Queue Date Start')
 			));
-			
+
 			$fieldset->addField('stores','multiselect',array(
 				'name'	  =>	'stores[]',
 				'time'	  =>	true,
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'value'	  =>	$queue->getStores(),
 				'select_all' => __('Select All Stores'),
 				'deselect_all' => __('Deselect All Stores'),
-			));			
+			));
 		} else {
 			$fieldset->addField('date','date',array(
 				'name'	  =>	'start_at',
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'value'	  => 	$queue->getQueueStartAt(),
 				'title'	  =>	__('Queue Date Start')
 			));
-			
+
 			$fieldset->addField('stores','multiselect',array(
 				'name'	  =>	'stores[]',
 				'time'	  =>	true,
@@ -64,18 +64,18 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'value'	  =>	$queue->getStores(),
 				'select_all' => __('Select All Stores'),
 				'deselect_all' => __('Deselect All Stores')
-			));		
+			));
 		}
-		
+
 		$fieldset->addField('subject', 'text', array(
             'name'=>'subject',
             'label' => __('Subject'),
             'title' => __('Subject'),
             'class'	=> 'required-entry',
             'required' => true,
-            'value' => $queue->getTemplate()->getTemplateSubject() 
+            'value' => $queue->getTemplate()->getTemplateSubject()
         ));
-		
+
 		$fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
             'label' => __('Sender Name'),
@@ -84,16 +84,16 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
             'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderName()
         ));
-        
+
         $fieldset->addField('sender_email', 'text', array(
             'name'=>'sender_email',
             'label' => __('Sender Email'),
             'title' => __('Sender Email'),
             'class' => 'validate-email required-entry',
             'required' => true,
-            'value' => $queue->getTemplate()->getTemplateSenderEmail()   
-        )); 
-		
+            'value' => $queue->getTemplate()->getTemplateSenderEmail()
+        ));
+
         if(in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_NEVER, Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
 			$fieldset->addField('text','editor', array(
 				'name'	  =>	'text',
@@ -104,7 +104,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'theme'	  =>    'advanced',
 				'class'	  =>    'required-entry',
             	'required'=>    true,
-           		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed()
+           		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed(),
+           		'style'   => 'width: 720px; height: 300px;',
 			));
         } else {
         	$fieldset->addField('text','text', array(
@@ -113,7 +114,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'title'	  =>	__('Message'),
 				'value'	  =>    $this->getUrl('*/newsletter_template/preview', array('_current'=>true))
 			));
-			
+
 			$form->getElement('text')->setRenderer(Mage::getModel('adminhtml/newsletter_renderer_text'));
 			$form->getElement('subject')->setDisabled('true');
 			$form->getElement('sender_name')->setDisabled('true');
@@ -122,14 +123,14 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 			$form->getElement('stores')->setSelectAll();
 			$form->getElement('stores')->setDeselectAll();
         }
-		
-	/*	
+
+	/*
 		$form->getElement('template')->setRenderer(
 			$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form_renderer_template')
 		);
 		*/
-		
-		
+
+
 		$this->setForm($form);
 		return parent::_prepareForm();
 	}

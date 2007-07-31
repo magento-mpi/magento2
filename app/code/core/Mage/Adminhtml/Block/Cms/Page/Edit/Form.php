@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Form extends Mage_Adminhtml_Block_Widge
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
         $form->setUseContainer(true);
         $this->setForm($form);
-        return $this;
+        return parent::_prepareForm();
     }
 
 }

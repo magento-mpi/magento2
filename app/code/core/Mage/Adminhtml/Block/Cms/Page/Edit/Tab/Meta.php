@@ -29,21 +29,21 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta extends Mage_Adminhtml_Block_W
             'name' => 'meta_keywords',
             'label' => __('Keywords'),
             'title' => __('Meta Keywords'),
-            'style' => 'width: 100%',
+            'style' => 'width: 520px;',
         ));
 
     	$fieldset->addField('meta_description', 'editor', array(
             'name' => 'meta_description',
             'label' => __('Description'),
             'title' => __('Meta Description'),
-            'style' => 'width: 100%',
+            'style' => 'width: 520px;',
         ));
 
         $form->setValues($page->getData());
 
         $this->setForm($form);
 
-        return $this;
+        return parent::_prepareForm();
     }
 
 }
