@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('widget/form.phtml');
         $this->setDestElementId('edit_form');
+        $this->setShowGlobalIcon(false);
     }
 
     public function getForm()
@@ -88,9 +89,9 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                     )
                 );
                 
-                if ($attribute->getIsGlobal()) {
+                if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
                     $element->setAfterElementHtml(
-                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('Global Attribute').'" width="16" height="16" class="attribute-global" allign="top"/>'
+                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('Global Attribute').'" class="attribute-global"/>'
                     );
                 }
                 

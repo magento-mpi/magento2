@@ -15,6 +15,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     public function __construct() 
     {
         parent::__construct();
+        $this->setShowGlobalIcon(true);
     }
     
     public function getCategory()
@@ -67,11 +68,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $root = $this->getLayout()->getBlock('category.tree')->getRootNode();
         $options = array();
         foreach ($root->getTree()->getNodes() as $node) {
-        	$options[] = array(
-        	   'value' => $node->getId(),
-        	   'label' => $node->getName(),
-        	   'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
-        	);
+            $options[] = array(
+               'value' => $node->getId(),
+               'label' => $node->getName(),
+               'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
+            );
         }
         return $options;
     }
