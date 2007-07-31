@@ -1,6 +1,6 @@
 <?php
 /**
- * Customer account form block
+ * Cms page edit form main tab
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,6 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
+
 class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_Widget_Form
 {
 
@@ -39,6 +40,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'label' => __('Identifier'),
             'title' => __('Identifier'),
             'required' => true,
+        ));
+
+        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
+        $stores[0] = __('All stores');
+
+    	$fieldset->addField('store_id', 'select', array(
+            'name'      => 'store_id',
+            'label'     => __('Store'),
+            'title'     => __('Store'),
+            'required'  => true,
+            'options'    => $stores,
         ));
 
     	$fieldset->addField('is_active', 'select', array(

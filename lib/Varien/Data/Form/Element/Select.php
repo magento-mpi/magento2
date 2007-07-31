@@ -14,6 +14,7 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         parent::__construct($attributes);
         $this->setType('select');
         $this->setExtType('combobox');
+        $this->_prepareOptions();
     }
 
     public function getElementHtml()
@@ -45,7 +46,7 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         $html.= $this->getAfterElementHtml();
         return $html;
     }
-    
+
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';
@@ -57,4 +58,22 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         $html.= '>'.$option['label']. '</option>'."\n";
         return $html;
     }
+
+    protected function _prepareOptions()
+    {
+        $values = $this->getValues();
+        if (empty($values)) {
+            $options = $this->getOptions();
+            if (is_array($options)) {
+                $values = array();
+                foreach ($options as  $value => $label) {
+                    $values[] = array('value' => $value, 'label' => $label);
+                }
+            } elseif (is_string($options)) {
+                $values = array( array('value' => $options, 'label' => $options) );
+            }
+            $this->setValues($values);
+        }
+    }
+
 }

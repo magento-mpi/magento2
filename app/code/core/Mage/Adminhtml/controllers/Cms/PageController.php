@@ -1,6 +1,6 @@
 <?php
 /**
- * sales admin controller
+ * Cms manage pages controller
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -10,6 +10,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
+
 class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 {
 
@@ -28,14 +29,6 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page'))
             ->renderLayout();
-    }
-
-    public function gridAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/cms_page')->toHtml());
-//        $this->_initAction()
-//            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page'))
-//            ->renderLayout();
     }
 
     public function newAction()

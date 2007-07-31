@@ -26,11 +26,6 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
 
     public function indexAction()
     {
-        $this->_forward('grid');
-    }
-
-    public function gridAction()
-    {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/cms_block'))
             ->renderLayout();

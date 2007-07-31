@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Adminhtml cms blocks content block
  *

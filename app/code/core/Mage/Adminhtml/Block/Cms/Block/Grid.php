@@ -9,6 +9,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
+
 class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
@@ -21,8 +22,8 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     protected function _prepareCollection()
     {
-        $pageCollection = Mage::getResourceModel('cms/block_collection');
-        $this->setCollection($pageCollection);
+        $collection = Mage::getResourceModel('cms/block_collection');
+        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
@@ -42,16 +43,14 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
             'index' =>'identifier'
         ));
 
-        $this->addColumn('creation_time', array(
-            'header'=>__('Date Created'),
-            'index' =>'creation_time',
-            'type' => 'datetime',
-        ));
+        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
+        $stores[0] = __('All stores');
 
-        $this->addColumn('update_time', array(
-            'header'=>__('Last Modified'),
-            'index'=>'update_time',
-            'type' => 'datetime',
+        $this->addColumn('store_id', array(
+            'header'=>__('Store'),
+            'index'=>'store_id',
+            'type' => 'options',
+            'options' => $stores,
         ));
 
         $this->addColumn('is_active', array(
@@ -64,11 +63,16 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
             ),
         ));
 
-        $this->addColumn('store_id', array(
-            'header'=>__('Store'),
-            'index'=>'store_id',
-            'type' => 'options',
-            'options' => array_merge(array(0 => __('All Stores')), Mage::getResourceModel('core/store_collection')->load()->toOptionHash()),
+        $this->addColumn('creation_time', array(
+            'header'=>__('Date Created'),
+            'index' =>'creation_time',
+            'type' => 'datetime',
+        ));
+
+        $this->addColumn('update_time', array(
+            'header'=>__('Last Modified'),
+            'index'=>'update_time',
+            'type' => 'datetime',
         ));
 
 //        $this->addColumn('block_actions', array(
@@ -93,4 +97,5 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
     {
         return Mage::getUrl('*/*/edit', array('block_id' => $row->getId()));
     }
+
 }

@@ -22,8 +22,8 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $pageCollection = Mage::getResourceModel('cms/page_collection');
-        $this->setCollection($pageCollection);
+        $collection = Mage::getResourceModel('cms/page_collection');
+        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
@@ -43,16 +43,14 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index' =>'identifier'
         ));
 
-        $this->addColumn('creation_time', array(
-            'header'=>__('Date Created'),
-            'index' =>'creation_time',
-            'type' => 'datetime',
-        ));
+        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
+        $stores[0] = __('All stores');
 
-        $this->addColumn('update_time', array(
-            'header'=>__('Last Modified'),
-            'index'=>'update_time',
-            'type' => 'datetime',
+        $this->addColumn('store_id', array(
+            'header'=>__('Store'),
+            'index'=>'store_id',
+            'type' => 'options',
+            'options' => $stores,
         ));
 
         $this->addColumn('is_active', array(
@@ -63,6 +61,18 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 0 => __('Disabled'),
                 1 => __('Enabled')
             ),
+        ));
+
+        $this->addColumn('creation_time', array(
+            'header'=>__('Date Created'),
+            'index' =>'creation_time',
+            'type' => 'datetime',
+        ));
+
+        $this->addColumn('update_time', array(
+            'header'=>__('Last Modified'),
+            'index'=>'update_time',
+            'type' => 'datetime',
         ));
 
         $this->addColumn('page_actions', array(
